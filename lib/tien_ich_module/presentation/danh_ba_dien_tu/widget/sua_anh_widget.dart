@@ -81,7 +81,7 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
           gravity: ToastGravity.BOTTOM,
         );
       } else {
-        widget.cubit.anhDanhBaCaNhan.sink.add(_path);
+        widget.cubit.suaAnhDanhBaCaNhan.sink.add(_path);
         await widget.cubit.uploadFiles(_path.path);
       }
     } else {}
@@ -115,10 +115,10 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
                     ),
                   ],
                 ),
-                child: StreamBuilder<ModelAnh>(
-                  stream: widget.cubit.anhDanhBaCaNhan,
+                child: StreamBuilder<ModelAnh?>(
+                  stream: widget.cubit.suaAnhDanhBaCaNhan,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                    if (snapshot.data == null) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: CachedNetworkImage(
@@ -187,10 +187,10 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
                   ),
                 ],
               ),
-              child: StreamBuilder<ModelAnh>(
-                stream: widget.cubit.anhDanhBaCaNhan,
+              child: StreamBuilder<ModelAnh?>(
+                stream: widget.cubit.suaAnhDanhBaCaNhan,
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+                  if (snapshot.data == null) {
                     return ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Column(

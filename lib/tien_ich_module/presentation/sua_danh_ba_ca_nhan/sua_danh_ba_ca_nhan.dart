@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/sua_anh_widget.dart';
@@ -59,6 +60,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
     sdtRiengController.text = widget.item.phoneNhaRieng ?? '';
     ngaySinh = widget.item.ngaySinh ?? '';
     widget.cubit.pathAnh = widget.item.anhDaiDienFilePath ?? '';
+
     toast.init(context);
   }
 

@@ -100,28 +100,28 @@ class DateTimeCupertinoCustomCubit
       return;
     }
 
-    // switch (typePicker) {
-    //   case TypePickerDateTime.TIME_START:
-    //     timeBeginSubject.sink.add(
-    //       timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-    //     );
-    //     break;
-    //   case TypePickerDateTime.TIME_END:
-    //     timeEndSubject.sink.add(
-    //       timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-    //     );
-    //     break;
-    //   case TypePickerDateTime.DATE_START:
-    //     dateBeginSubject.sink.add(
-    //       timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-    //     );
-    //     break;
-    //   case TypePickerDateTime.DATE_END:
-    //     dateEndSubject.sink.add(
-    //       timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-    //     );
-    //     break;
-    // }
+    switch (typePicker) {
+      case TypePickerDateTime.TIME_START:
+        timeBeginSubject.sink.add(
+          timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+        );
+        break;
+      case TypePickerDateTime.TIME_END:
+        timeEndSubject.sink.add(
+          timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+        );
+        break;
+      case TypePickerDateTime.DATE_START:
+        dateBeginSubject.sink.add(
+          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
+        );
+        break;
+      case TypePickerDateTime.DATE_END:
+        dateEndSubject.sink.add(
+          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
+        );
+        break;
+    }
   }
 
     /// handle datetime begin greater than datetime end

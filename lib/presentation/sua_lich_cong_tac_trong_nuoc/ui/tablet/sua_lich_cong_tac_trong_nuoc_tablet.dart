@@ -213,12 +213,10 @@ class _SuaLichCongTacTrongNuocTabletState
                               if (_formKey.currentState!.validate()) {
                                 if (!data) {
                                   await taoLichLamViecCubit.suaLichLamViec(
-                                    true,
-                                    context,
                                   );
                                 } else {
                                   await taoLichLamViecCubit
-                                      .suaLichLamViecNuocNgoai(true, context);
+                                      .suaLichLamViecNuocNgoai();
                                 }
                               }
                             },

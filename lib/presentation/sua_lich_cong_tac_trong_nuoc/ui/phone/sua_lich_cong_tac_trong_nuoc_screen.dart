@@ -57,6 +57,9 @@ class _SuaLichCongTacTrongNuocPhoneState
   TextEditingController noiDungController = TextEditingController();
   TextEditingController diaDiemController = TextEditingController();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+  String dateTimeReceive = 'yyyy-MM-ddTHH:mm:ss';
+  String dateTimePicker = 'yyyy-MM-ddTHH:mm:ss';
+  String dateTimePut = 'yyyy-MM-dd hh:mm:ss.ms';
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -64,18 +67,18 @@ class _SuaLichCongTacTrongNuocPhoneState
     taoLichLamViecCubit.listeningEndDataTime(
       DateTime.parse(
         timeFormat(
-          '${widget.event.dateTo} ${widget.event.timeFrom}',
-          'yyyy-MM-ddTHH:mm:ss',
-          'yyyy-MM-dd hh:mm:ss.ms',
+          '${widget.event.dateTimeTo}',
+          dateTimeReceive,
+          dateTimePut,
         ),
       ),
     );
     taoLichLamViecCubit.listeningStartDataTime(
       DateTime.parse(
         timeFormat(
-          '${widget.event.dateFrom} ${widget.event.timeFrom}',
-          'yyyy-MM-ddTHH:mm:ss',
-          'yyyy-MM-dd hh:mm:ss.ms',
+          '${widget.event.dateTimeFrom}',
+          dateTimeReceive,
+          dateTimeReceive,
         ),
       ),
     );
@@ -84,10 +87,6 @@ class _SuaLichCongTacTrongNuocPhoneState
     taoLichLamViecCubit.selectedCountryID = widget.event.countryId ?? '';
     taoLichLamViecCubit.datNuocSelectModel?.id = widget.event.countryId;
     taoLichLamViecCubit.typeScheduleId = widget.event.typeScheduleId;
-    taoLichLamViecCubit.dateEnd = widget.event.dateTo;
-    taoLichLamViecCubit.timeFrom = widget.event.timeFrom;
-    taoLichLamViecCubit.timeEnd = widget.event.timeTo;
-    taoLichLamViecCubit.dateFrom = widget.event.dateFrom;
     taoLichLamViecCubit.dateTimeFrom = widget.event.dateTimeFrom;
     taoLichLamViecCubit.dateTimeTo = widget.event.dateTimeTo;
     taoLichLamViecCubit.linhVucString = widget.event.linhVuc;
@@ -217,14 +216,14 @@ class _SuaLichCongTacTrongNuocPhoneState
                                 ?.convertStringToDate(),
                             initTimeStart: taoLichLamViecCubit.dateTimeFrom
                                 ?.convertStringToDate(
-                                    formatPattern:
-                                        DateFormatApp.dateTimeBackEnd),
+                              formatPattern: DateFormatApp.dateTimeBackEnd,
+                            ),
                             initDateEnd: taoLichLamViecCubit.dateTimeTo
                                 ?.convertStringToDate(),
                             initTimeEnd: taoLichLamViecCubit.dateTimeTo
                                 ?.convertStringToDate(
-                                    formatPattern:
-                                        DateFormatApp.dateTimeBackEnd),
+                              formatPattern: DateFormatApp.dateTimeBackEnd,
+                            ),
                             onDateTimeChanged: (
                               String timeStart,
                               String timeEnd,
@@ -235,8 +234,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                 DateTime.parse(
                                   timeFormat(
                                     '$dateEnd $timeEnd',
-                                    'dd/MM/yyyy hh:mm',
-                                    'yyyy-MM-dd hh:mm:ss.ms',
+                                    dateTimePicker,
+                                    dateTimeReceive,
                                   ),
                                 ),
                               );
@@ -244,8 +243,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                 DateTime.parse(
                                   timeFormat(
                                     '$dateStart $timeStart',
-                                    'dd/MM/yyyy hh:mm',
-                                    'yyyy-MM-dd hh:mm:ss.ms',
+                                    dateTimePicker,
+                                    dateTimePut,
                                   ),
                                 ),
                               );
@@ -393,63 +392,62 @@ class _SuaLichCongTacTrongNuocPhoneState
                             },
                           ),
                           StreamBuilder<List<LichLapModel>>(
-                              stream: taoLichLamViecCubit.lichLap,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ?? [];
-                                if (taoLichLamViecCubit.typeRepeat == 7) {
-                                  taoLichLamViecCubit
-                                      .lichLapTuyChinhSubject.sink
-                                      .add(true);
-                                } else {
-                                  taoLichLamViecCubit
-                                      .lichLapTuyChinhSubject.sink
-                                      .add(false);
-                                }
-                                if (taoLichLamViecCubit.typeRepeat != 1) {
-                                  taoLichLamViecCubit
-                                      .lichLapKhongLapLaiSubject.sink
-                                      .add(true);
-                                } else {
-                                  taoLichLamViecCubit
-                                      .lichLapKhongLapLaiSubject.sink
-                                      .add(false);
-                                }
-                                return SelectOnlyExpand(
-                                  urlIcon: ImageAssets.icNhacLai,
-                                  title: S.current.lich_lap,
-                                  value: taoLichLamViecCubit
-                                      .chiTietLichLamViecModel
-                                      .lichLap(),
-                                  listSelect: data
-                                      .map<String>((e) => e.name ?? '')
-                                      .toList(),
-                                  onChange: (value) {
-                                    taoLichLamViecCubit.chiTietLichLamViecModel
-                                        .typeRepeat = data[value].id;
-                                    // taoLichLamViecCubit.typeRepeat=data[value].id;
-                                    if (data[value].id == 7) {
-                                      taoLichLamViecCubit
-                                          .lichLapTuyChinhSubject.sink
-                                          .add(true);
-                                    } else {
-                                      taoLichLamViecCubit
-                                          .lichLapTuyChinhSubject.sink
-                                          .add(false);
-                                    }
-                                    if (data[value].id != 1) {
-                                      taoLichLamViecCubit
-                                          .lichLapKhongLapLaiSubject.sink
-                                          .add(true);
-                                    } else {
-                                      taoLichLamViecCubit
-                                          .lichLapKhongLapLaiSubject.sink
-                                          .add(false);
-                                    }
-                                    taoLichLamViecCubit.selectLichLap.id =
-                                        data[value].id;
-                                  },
-                                );
-                              }),
+                            stream: taoLichLamViecCubit.lichLap,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? [];
+                              if (taoLichLamViecCubit.typeRepeat == 7) {
+                                taoLichLamViecCubit.lichLapTuyChinhSubject.sink
+                                    .add(true);
+                              } else {
+                                taoLichLamViecCubit.lichLapTuyChinhSubject.sink
+                                    .add(false);
+                              }
+                              if (taoLichLamViecCubit.typeRepeat != 1) {
+                                taoLichLamViecCubit
+                                    .lichLapKhongLapLaiSubject.sink
+                                    .add(true);
+                              } else {
+                                taoLichLamViecCubit
+                                    .lichLapKhongLapLaiSubject.sink
+                                    .add(false);
+                              }
+                              return SelectOnlyExpand(
+                                urlIcon: ImageAssets.icNhacLai,
+                                title: S.current.lich_lap,
+                                value: taoLichLamViecCubit
+                                    .chiTietLichLamViecModel
+                                    .lichLap(),
+                                listSelect: data
+                                    .map<String>((e) => e.name ?? '')
+                                    .toList(),
+                                onChange: (value) {
+                                  taoLichLamViecCubit.chiTietLichLamViecModel
+                                      .typeRepeat = data[value].id;
+                                  // taoLichLamViecCubit.typeRepeat=data[value].id;
+                                  if (data[value].id == 7) {
+                                    taoLichLamViecCubit
+                                        .lichLapTuyChinhSubject.sink
+                                        .add(true);
+                                  } else {
+                                    taoLichLamViecCubit
+                                        .lichLapTuyChinhSubject.sink
+                                        .add(false);
+                                  }
+                                  if (data[value].id != 1) {
+                                    taoLichLamViecCubit
+                                        .lichLapKhongLapLaiSubject.sink
+                                        .add(true);
+                                  } else {
+                                    taoLichLamViecCubit
+                                        .lichLapKhongLapLaiSubject.sink
+                                        .add(false);
+                                  }
+                                  taoLichLamViecCubit.selectLichLap.id =
+                                      data[value].id;
+                                },
+                              );
+                            },
+                          ),
                           StreamBuilder<bool>(
                             stream: taoLichLamViecCubit
                                 .lichLapTuyChinhSubject.stream,
@@ -502,44 +500,45 @@ class _SuaLichCongTacTrongNuocPhoneState
                                 .map((e) => File(e.path ?? ''))
                                 .toList(),
                           ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: btnSuaLich(
+                                  name: S.current.dong,
+                                  bgr: buttonColor.withOpacity(0.1),
+                                  colorName: textDefault,
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              StreamBuilder<bool>(
+                                stream: taoLichLamViecCubit.checkTrongNuoc,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ?? false;
+                                  return Expanded(
+                                    child: btnSuaLich(
+                                      name: S.current.luu,
+                                      bgr: labelColor,
+                                      colorName: Colors.white,
+                                      onTap: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          checkInside(data);
+                                        }
+                                      },
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                          spaceH24,
                         ],
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: btnSuaLich(
-                          name: S.current.dong,
-                          bgr: buttonColor.withOpacity(0.1),
-                          colorName: textDefault,
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      StreamBuilder<bool>(
-                        stream: taoLichLamViecCubit.checkTrongNuoc,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? false;
-                          return Expanded(
-                            child: btnSuaLich(
-                              name: S.current.luu,
-                              bgr: labelColor,
-                              colorName: Colors.white,
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  checkInside(data);
-                                }
-                              },
-                            ),
-                          );
-                        },
-                      )
-                    ],
                   ),
                 ],
               ),
@@ -564,17 +563,10 @@ class _SuaLichCongTacTrongNuocPhoneState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          final flag = !value;
-          taoLichLamViecCubit.suaLichLamViec(
-            flag,
-            context,
-          );
+          taoLichLamViecCubit.suaLichLamViec(only: !value);
         });
       } else {
-        taoLichLamViecCubit.suaLichLamViec(
-          false,
-          context,
-        );
+        taoLichLamViecCubit.suaLichLamViec();
       }
     } else {
       if (widget.event.isLichLap ?? false) {
@@ -589,17 +581,10 @@ class _SuaLichCongTacTrongNuocPhoneState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          final flag = !value;
-          taoLichLamViecCubit.suaLichLamViecNuocNgoai(
-            flag,
-            context,
-          );
+          taoLichLamViecCubit.suaLichLamViecNuocNgoai(only: !value);
         });
       } else {
-        taoLichLamViecCubit.suaLichLamViecNuocNgoai(
-          false,
-          context,
-        );
+        taoLichLamViecCubit.suaLichLamViecNuocNgoai();
       }
     }
   }

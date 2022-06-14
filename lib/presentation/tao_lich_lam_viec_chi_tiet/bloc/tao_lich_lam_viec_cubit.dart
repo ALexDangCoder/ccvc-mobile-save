@@ -424,7 +424,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViec(bool isMulti, BuildContext context) async {
+  Future<void> suaLichLamViec({bool only = true}) async {
+    showLoading();
     final result = await _lichLamViec.suaLichLamViec(
       title ?? '',
       selectLoaiLich?.id ?? '',
@@ -462,7 +463,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       dateTimeLapDenNgay.formatApi,
       true,
       lichLapItem1,
-      isMulti,
     );
     result.when(
       success: (res) {
@@ -475,10 +475,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViecNuocNgoai(
-    bool isMulti,
-    BuildContext context,
-  ) async {
+  Future<void> suaLichLamViecNuocNgoai({bool only = true}) async {
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
       title ?? '',
       selectLoaiLich?.id ?? '',
@@ -514,14 +511,12 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       selectLichLap.id ?? 0,
       dateFrom ?? DateTime.now().formatApi,
       dateTimeLapDenNgay.formatApi,
-      true,
+      only,
       lichLapItem1,
-      isMulti,
     );
     result.when(
       success: (res) {
         emit(CreateSuccess());
-        Navigator.pop(context, true);
         showContent();
       },
       error: (error) {

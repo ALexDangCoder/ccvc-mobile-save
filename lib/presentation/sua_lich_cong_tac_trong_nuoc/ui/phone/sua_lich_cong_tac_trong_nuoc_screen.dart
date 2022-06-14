@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/nhac_lai_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
@@ -25,7 +26,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/ta
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
@@ -65,6 +65,24 @@ class _SuaLichCongTacTrongNuocPhoneState
 
   @override
   void initState() {
+    taoLichLamViecCubit.listeningEndDataTime(
+      DateTime.parse(
+        timeFormat(
+          '${widget.event.dateTo} ${widget.event.timeFrom}',
+          'yyyy-MM-ddTHH:mm:ss',
+          'yyyy-MM-dd hh:mm:ss.ms',
+        ),
+      ),
+    );
+    taoLichLamViecCubit.listeningStartDataTime(
+      DateTime.parse(
+        timeFormat(
+          '${widget.event.dateFrom} ${widget.event.timeFrom}',
+          'yyyy-MM-ddTHH:mm:ss',
+          'yyyy-MM-dd hh:mm:ss.ms',
+        ),
+      ),
+    );
     taoLichLamViecCubit.chiTietLichLamViecModel = widget.event;
     taoLichLamViecCubit.selectedCountry = widget.event.country ?? '';
     taoLichLamViecCubit.selectedCountryID = widget.event.countryId ?? '';
@@ -112,11 +130,12 @@ class _SuaLichCongTacTrongNuocPhoneState
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => NotifyWidget(
-                content: S.current.ban_da_sua_lich_lam_viec_thanh_cong,
-                image: ImageAssets.icTaoLichLamViecThanhCong,
-                textButtom: S.current.quay_lai,
-              ),
+              builder: (BuildContext context) =>
+                  NotifyWidget(
+                    content: S.current.ban_da_sua_lich_lam_viec_thanh_cong,
+                    image: ImageAssets.icTaoLichLamViecThanhCong,
+                    textButtom: S.current.quay_lai,
+                  ),
             ),
           ).then((value) {
             if (value == null) {
@@ -131,7 +150,10 @@ class _SuaLichCongTacTrongNuocPhoneState
         } else {}
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.85,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height * 0.85,
         decoration: const BoxDecoration(
           color: backgroundColorApp,
         ),
@@ -149,7 +171,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                         final data = snapshot.data ?? '';
                         return Text(
                           '${S.current.sua} $data',
-                          style: textNormalCustom(fontSize: 18, color: textTitle),
+                          style: textNormalCustom(
+                              fontSize: 18, color: textTitle),
                         );
                       }),
                   Expanded(
@@ -170,7 +193,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                               Form(
                                 key: _formKey,
                                 child: StreamBuilder<String>(
-                                    initialData: taoLichLamViecCubit.typeScheduleName,
+                                    initialData: taoLichLamViecCubit
+                                        .typeScheduleName,
                                     stream: taoLichLamViecCubit.changeOption,
                                     builder: (context, snapshot) {
                                       final data = snapshot.data ?? '';
@@ -209,7 +233,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                       }
                                       if (taoLichLamViecCubit.typeScheduleId ==
                                           data[value].id) {
-                                        taoLichLamViecCubit.selectLoaiLich?.id ==
+                                        taoLichLamViecCubit.selectLoaiLich
+                                            ?.id ==
                                             taoLichLamViecCubit.typeScheduleId;
                                       } else {
                                         taoLichLamViecCubit.selectLoaiLich?.id =
@@ -217,8 +242,10 @@ class _SuaLichCongTacTrongNuocPhoneState
                                       }
                                     },
                                     urlIcon: ImageAssets.icCalendarUnFocus,
-                                    value: taoLichLamViecCubit.typeScheduleName ?? '',
-                                    listSelect: data.map((e) => e.name).toList(),
+                                    value: taoLichLamViecCubit
+                                        .typeScheduleName ?? '',
+                                    listSelect: data.map((e) => e.name)
+                                        .toList(),
                                     title: S.current.loai_lich,
                                   );
                                 },
@@ -228,18 +255,18 @@ class _SuaLichCongTacTrongNuocPhoneState
                                     ?.convertStringToDate(),
                                 initTimeStart: taoLichLamViecCubit.dateTimeFrom
                                     ?.convertStringToDate(
-                                        formatPattern: DateFormatApp.dateTimeBackEnd),
+                                    formatPattern: DateFormatApp
+                                        .dateTimeBackEnd),
                                 initDateEnd: taoLichLamViecCubit.dateTimeTo
                                     ?.convertStringToDate(),
                                 initTimeEnd: taoLichLamViecCubit.dateTimeTo
                                     ?.convertStringToDate(
-                                        formatPattern: DateFormatApp.dateTimeBackEnd),
-                                onDateTimeChanged: (
-                                  String timeStart,
-                                  String timeEnd,
-                                  String dateStart,
-                                  String dateEnd,
-                                ) {
+                                    formatPattern: DateFormatApp
+                                        .dateTimeBackEnd),
+                                onDateTimeChanged: (String timeStart,
+                                    String timeEnd,
+                                    String dateStart,
+                                    String dateEnd,) {
                                   taoLichLamViecCubit.checkValidateTime();
                                   taoLichLamViecCubit.listeningEndDataTime(
                                     DateTime.parse(
@@ -261,7 +288,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                   );
                                 },
                                 onSwitchPressed: (value) {
-                                  taoLichLamViecCubit.isCheckAllDaySubject.add(value);
+                                  taoLichLamViecCubit.isCheckAllDaySubject.add(
+                                      value);
                                 },
                                 validateTime: (bool value) {},
                               ),
@@ -272,16 +300,19 @@ class _SuaLichCongTacTrongNuocPhoneState
                                     return SelectOnlyExpand(
                                       urlIcon: ImageAssets.icNotify,
                                       title: S.current.nhac_lich,
-                                      value: taoLichLamViecCubit.scheduleReminder
-                                              ?.nhacLai() ??
+                                      value: taoLichLamViecCubit
+                                          .scheduleReminder
+                                          ?.nhacLai() ??
                                           '',
                                       listSelect: data
                                           .map<String>((e) => e.title ?? '')
                                           .toList(),
                                       onChange: (value) {
-                                        taoLichLamViecCubit.selectNhacLai.title =
+                                        taoLichLamViecCubit.selectNhacLai
+                                            .title =
                                             data[value].title;
-                                        taoLichLamViecCubit.selectNhacLai.value =
+                                        taoLichLamViecCubit.selectNhacLai
+                                            .value =
                                             data[value].value;
                                         taoLichLamViecCubit.scheduleReminder
                                             ?.typeReminder = data[value].value;
@@ -302,12 +333,14 @@ class _SuaLichCongTacTrongNuocPhoneState
                                         taoLichLamViecCubit.selectNguoiChuTri
                                             ?.donViId = data[value].donViId;
                                         taoLichLamViecCubit.selectNguoiChuTri =
-                                            data[value];
+                                        data[value];
                                       },
                                       urlIcon: ImageAssets.icPeople,
-                                      listSelect: data.map((e) => e.title()).toList(),
-                                      value: taoLichLamViecCubit.selectNguoiChuTri
-                                              ?.title() ??
+                                      listSelect: data.map((e) => e.title())
+                                          .toList(),
+                                      value: taoLichLamViecCubit
+                                          .selectNguoiChuTri
+                                          ?.title() ??
                                           '',
                                       title: S.current.nguoi_chu_tri,
                                     );
@@ -315,7 +348,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                               StreamBuilder<List<LoaiSelectModel>>(
                                 stream: taoLichLamViecCubit.linhVuc,
                                 builder: (context, snapshot) {
-                                  final data = snapshot.data ?? <LoaiSelectModel>[];
+                                  final data = snapshot.data ??
+                                      <LoaiSelectModel>[];
                                   return SelectOnlyExpand(
                                     onChange: (value) {
                                       taoLichLamViecCubit.selectLinhVuc?.id =
@@ -324,8 +358,10 @@ class _SuaLichCongTacTrongNuocPhoneState
                                           data[value].name;
                                     },
                                     urlIcon: ImageAssets.icWork,
-                                    listSelect: data.map((e) => e.name).toList(),
-                                    value: taoLichLamViecCubit.linhVucString ?? '',
+                                    listSelect: data.map((e) => e.name)
+                                        .toList(),
+                                    value: taoLichLamViecCubit.linhVucString ??
+                                        '',
                                     title: S.current.linh_vuc,
                                   );
                                 },
@@ -337,7 +373,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                   onToggle: (value) {
                                     taoLichLamViecCubit.publishSchedule = value;
                                   },
-                                  value: taoLichLamViecCubit.publishSchedule??false,
+                                  value: taoLichLamViecCubit.publishSchedule ??
+                                      false,
                                 ),
                               ),
                               StreamBuilder<bool>(
@@ -359,26 +396,32 @@ class _SuaLichCongTacTrongNuocPhoneState
                                         ],
                                       );
                                     } else {
-                                      return StreamBuilder<List<DatNuocSelectModel>>(
-                                        stream: taoLichLamViecCubit.datNuocSelect,
+                                      return StreamBuilder<
+                                          List<DatNuocSelectModel>>(
+                                        stream: taoLichLamViecCubit
+                                            .datNuocSelect,
                                         builder: (context, snapshot) {
                                           final data = snapshot.data ?? [];
                                           return SelectOnlyExpand(
                                             urlIcon: ImageAssets.icViTri,
                                             title: S.current.quoc_gia,
                                             value:
-                                                taoLichLamViecCubit.selectedCountry,
+                                            taoLichLamViecCubit.selectedCountry,
                                             listSelect: data
                                                 .map((e) => e.name ?? '')
                                                 .toList(),
                                             onChange: (value) {
-                                              taoLichLamViecCubit.datNuocSelectModel
+                                              taoLichLamViecCubit
+                                                  .datNuocSelectModel
                                                   ?.name = data[value].name;
-                                              taoLichLamViecCubit.selectedCountry =
+                                              taoLichLamViecCubit
+                                                  .selectedCountry =
                                                   data[value].name ?? '';
-                                              taoLichLamViecCubit.selectedCountryID =
+                                              taoLichLamViecCubit
+                                                  .selectedCountryID =
                                                   data[value].id ?? '';
-                                              taoLichLamViecCubit.datNuocSelectModel
+                                              taoLichLamViecCubit
+                                                  .datNuocSelectModel
                                                   ?.id = data[value].id;
                                             },
                                           );
@@ -399,10 +442,12 @@ class _SuaLichCongTacTrongNuocPhoneState
                                   builder: (context, snapshot) {
                                     final data = snapshot.data ?? [];
                                     if (taoLichLamViecCubit.typeRepeat == 7) {
-                                      taoLichLamViecCubit.lichLapTuyChinhSubject.sink
+                                      taoLichLamViecCubit.lichLapTuyChinhSubject
+                                          .sink
                                           .add(true);
                                     } else {
-                                      taoLichLamViecCubit.lichLapTuyChinhSubject.sink
+                                      taoLichLamViecCubit.lichLapTuyChinhSubject
+                                          .sink
                                           .add(false);
                                     }
                                     if (taoLichLamViecCubit.typeRepeat != 1) {
@@ -424,7 +469,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                           .map<String>((e) => e.name ?? '')
                                           .toList(),
                                       onChange: (value) {
-                                        taoLichLamViecCubit.chiTietLichLamViecModel
+                                        taoLichLamViecCubit
+                                            .chiTietLichLamViecModel
                                             .typeRepeat = data[value].id;
                                         // taoLichLamViecCubit.typeRepeat=data[value].id;
                                         if (data[value].id == 7) {
@@ -452,16 +498,17 @@ class _SuaLichCongTacTrongNuocPhoneState
                                   }),
                               StreamBuilder<bool>(
                                 stream:
-                                    taoLichLamViecCubit.lichLapTuyChinhSubject.stream,
+                                taoLichLamViecCubit.lichLapTuyChinhSubject
+                                    .stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data ?? false;
                                   return data
                                       ? SuaLichLapTuyChinh(
-                                          taoLichLamViecCubit: taoLichLamViecCubit,
-                                          initDataTuyChinh:
-                                              taoLichLamViecCubit.listNgayChonTuan(
-                                                  taoLichLamViecCubit.days ?? ''),
-                                        )
+                                    taoLichLamViecCubit: taoLichLamViecCubit,
+                                    initDataTuyChinh:
+                                    taoLichLamViecCubit.listNgayChonTuan(
+                                        taoLichLamViecCubit.days ?? ''),
+                                  )
                                       : Container();
                                 },
                               ),
@@ -472,12 +519,12 @@ class _SuaLichCongTacTrongNuocPhoneState
                                   final data = snapshot.data ?? false;
                                   return data
                                       ? ItemLapDenNgayWidget(
-                                          taoLichLamViecCubit: taoLichLamViecCubit,
-                                          isThem: false,
-                                          initDate: DateTime.parse(
-                                              taoLichLamViecCubit.dateRepeat ??
-                                                  DateTime.now().toString()),
-                                        )
+                                    taoLichLamViecCubit: taoLichLamViecCubit,
+                                    isThem: false,
+                                    initDate: DateTime.parse(
+                                        taoLichLamViecCubit.dateRepeat ??
+                                            DateTime.now().toString()),
+                                  )
                                       : Container();
                                 },
                               ),
@@ -495,7 +542,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                               ThanhPhanThamGiaTLWidget(
                                 taoLichLamViecCubit: taoLichLamViecCubit,
                                 listPeopleInit: taoLichLamViecCubit
-                                    .chiTietLichLamViecModel.scheduleCoperatives,
+                                    .chiTietLichLamViecModel
+                                    .scheduleCoperatives,
                               ),
                               TaiLieuWidget(
                                 files: (taoLichLamViecCubit.files ?? [])
@@ -526,29 +574,23 @@ class _SuaLichCongTacTrongNuocPhoneState
                           width: 16,
                         ),
                         StreamBuilder<bool>(
-                            stream: taoLichLamViecCubit.checkTrongNuoc,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ?? false;
-                              return Expanded(
-                                child: btnSuaLich(
-                                  name: S.current.luu,
-                                  bgr: labelColor,
-                                  colorName: Colors.white,
-                                  onTap: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      if (!data) {
-                                        await taoLichLamViecCubit.suaLichLamViec(context);
-
-                                      } else {
-                                        await taoLichLamViecCubit
-                                            .suaLichLamViecNuocNgoai(context);
-
-                                      }
-                                    }
-                                  },
-                                ),
-                              );
-                            })
+                          stream: taoLichLamViecCubit.checkTrongNuoc,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            return Expanded(
+                              child: btnSuaLich(
+                                name: S.current.luu,
+                                bgr: labelColor,
+                                colorName: Colors.white,
+                                onTap: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    checkInside(data);
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -560,7 +602,58 @@ class _SuaLichCongTacTrongNuocPhoneState
       ),
     );
   }
+
+  void checkInside(bool data) {
+    if (!data) {
+      if (widget.event.isLichLap ?? false) {
+        showDialog(
+          context: context,
+          builder: (context) => ThemLinkHopDialog(
+            title: S.current.sua_lich_lam_viec,
+            isConfirm: false,
+            imageUrl: ImageAssets.ic_edit_cal,
+            textConfirm: S.current.ban_co_chac_chan_sua_lich,
+            textRadioAbove: S.current.chi_lich_nay,
+            textRadioBelow: S.current.tu_lich_nay,
+          ),
+        ).then((value) {
+          final flag = !value;
+          taoLichLamViecCubit.suaLichLamViec(
+            flag,
+          );
+        });
+      } else {
+        taoLichLamViecCubit.suaLichLamViec(
+          false,
+        );
+      }
+    } else {
+      if (widget.event.isLichLap ?? false) {
+        showDialog(
+          context: context,
+          builder: (context) => ThemLinkHopDialog(
+            title: S.current.sua_lich_lam_viec,
+            isConfirm: false,
+            imageUrl: ImageAssets.ic_edit_cal,
+            textConfirm: S.current.ban_co_chac_chan_sua_lich,
+            textRadioAbove: S.current.chi_lich_nay,
+            textRadioBelow: S.current.tu_lich_nay,
+          ),
+        ).then((value) {
+          final flag = !value;
+          taoLichLamViecCubit.suaLichLamViecNuocNgoai(
+            flag,
+          );
+        });
+      } else {
+        taoLichLamViecCubit.suaLichLamViecNuocNgoai(
+          false,
+        );
+      }
+    }
+  }
 }
+
 
 Widget btnSuaLich({
   required String name,

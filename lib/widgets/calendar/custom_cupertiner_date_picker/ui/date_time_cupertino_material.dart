@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -27,7 +25,8 @@ class CupertinoMaterialPicker extends StatefulWidget {
     this.initTimeEnd,
     this.initDateStart,
     this.initDateEnd,
-    required this.onDateTimeChanged, required this.validateTime,
+    required this.onDateTimeChanged,
+    required this.validateTime,
   }) : super(key: key);
 
   final bool isAddMargin;
@@ -44,6 +43,7 @@ class CupertinoMaterialPicker extends StatefulWidget {
     String dateEnd,
   ) onDateTimeChanged;
   final Function(bool value) validateTime;
+
   @override
   _CupertinoMaterialPickerState createState() =>
       _CupertinoMaterialPickerState();
@@ -130,7 +130,6 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           onToggle: (bool value) {
                             cubit.handleSwitchButtonPressed(isChecked: value);
                             widget.onSwitchPressed?.call(value);
-
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,
                               cubit.timeEndSubject.value,
@@ -368,7 +367,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     },
                   ),
                   StreamBuilder<String>(
-                    stream: cubit.dateEndSubject,
+                    stream: cubit.dateEndSubject.stream,
                     builder: (context, snapshot) {
                       final String date = snapshot.data ?? S.current.ddmmyy;
                       return GestureDetector(
@@ -397,7 +396,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                 ],
               ),
               child: StreamBuilder<TypePickerDateTime>(
-                stream: cubit.typePickerSubjectEnd,
+                stream: cubit.typePickerSubjectEnd.stream,
                 initialData: TypePickerDateTime.TIME_END,
                 builder: (context, snapshot) {
                   final typePicker =
@@ -458,6 +457,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                 cubit.dateBeginSubject.value,
                                 cubit.dateEndSubject.value,
                               );
+                              cubit.checkTime();
                             },
                             initialDate: widget.initDateEnd ?? DateTime.now(),
                           ),
@@ -467,20 +467,21 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         ),
         spaceH12,
         StreamBuilder<bool>(
-            stream: cubit.validateTime.stream,
-            builder: (context, snapshot) {
-              widget.validateTime(snapshot.data ?? false);
-              return Visibility(
-                visible: snapshot.data ?? false,
-                child: Text(
-                  S.current.thoi_gian_bat_dau,
-                  style: textNormalCustom(
-                    color: Colors.red,
-                    fontSize: 14,
-                  ),
+          stream: cubit.validateTime.stream,
+          builder: (context, snapshot) {
+            widget.validateTime(snapshot.data ?? false);
+            return Visibility(
+              visible: snapshot.data ?? false,
+              child: Text(
+                S.current.thoi_gian_bat_dau,
+                style: textNormalCustom(
+                  color: Colors.red,
+                  fontSize: 14,
                 ),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ],
     );
   }

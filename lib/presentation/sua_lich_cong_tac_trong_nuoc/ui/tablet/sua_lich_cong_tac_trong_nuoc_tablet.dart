@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/nhac_lai_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
@@ -174,462 +175,501 @@ class _SuaLichCongTacTrongNuocTabletState
             child: ProviderWidget<TaoLichLamViecCubit>(
               cubit: taoLichLamViecCubit,
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      margin:
-                          const EdgeInsets.symmetric(vertical: 28, horizontal: 30),
-                      decoration: BoxDecoration(
+                  child: Column(children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 28, horizontal: 30),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: borderColor.withOpacity(0.5)),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: const [
+                      BoxShadow(
                         color: Colors.white,
-                        border: Border.all(color: borderColor.withOpacity(0.5)),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.white,
-                            offset: Offset(0, 4),
-                            blurRadius: 10,
-                          )
-                        ],
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.only(right: 14),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    S.current.thong_tin_lich,
-                                    style: textNormalCustom(
-                                      color: textTitle,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  spaceH10,
-                                  Form(
-                                    key: _formKey,
-                                    child: StreamBuilder<String>(
-                                        initialData:
-                                            taoLichLamViecCubit.typeScheduleName,
-                                        stream: taoLichLamViecCubit.changeOption,
-                                        builder: (context, snapshot) {
-                                          final data = snapshot.data ?? '';
-                                          return TextFieldStyle(
-                                            controller: tieuDeController,
-                                            urlIcon: ImageAssets.icEdit,
-                                            hintText: '${S.current.tieu_de} $data',
-                                            onChange: (vl) {
-                                              taoLichLamViecCubit.title = vl;
-                                            },
-                                            validate: (value) {
-                                              return value.checkNull();
-                                            },
-                                          );
-                                        }),
-                                  ),
-                                  StreamBuilder<List<LoaiSelectModel>>(
-                                    stream: taoLichLamViecCubit.loaiLich,
-                                    builder: (context, snapshot) {
-                                      final data = snapshot.data ?? [];
-                                      return SelectOnlyExpand(
-                                        onChange: (value) {
-                                          taoLichLamViecCubit.selectLoaiLich?.id ==
-                                              taoLichLamViecCubit.typeScheduleId;
-                                          taoLichLamViecCubit.changeOption.sink
-                                              .add(data[value].name);
-                                          taoLichLamViecCubit.typeScheduleName =
-                                              data[value].name;
-                                          if (data[value].id ==
-                                              '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
-                                            taoLichLamViecCubit.checkTrongNuoc.sink
-                                                .add(true);
-                                          } else {
-                                            taoLichLamViecCubit.checkTrongNuoc.sink
-                                                .add(false);
-                                          }
-                                          if (taoLichLamViecCubit.typeScheduleId ==
-                                              data[value].id) {
-                                            taoLichLamViecCubit
-                                                    .selectLoaiLich?.id ==
-                                                taoLichLamViecCubit.typeScheduleId;
-                                          } else {
-                                            taoLichLamViecCubit.selectLoaiLich?.id =
-                                                data[value].id;
-                                          }
-                                        },
-                                        urlIcon: ImageAssets.icCalendarUnFocus,
-                                        value:
-                                            taoLichLamViecCubit.typeScheduleName ??
-                                                '',
-                                        listSelect:
-                                            data.map((e) => e.name).toList(),
-                                        title: S.current.loai_lich,
-                                      );
-                                    },
-                                  ),
-                                  CupertinoMaterialPicker(
-                                    initDateStart: taoLichLamViecCubit.dateTimeFrom
-                                        ?.convertStringToDate(),
-                                    initTimeStart: taoLichLamViecCubit.dateTimeFrom
-                                        ?.convertStringToDate(
-                                            formatPattern:
-                                                DateFormatApp.dateTimeBackEnd),
-                                    initDateEnd: taoLichLamViecCubit.dateTimeTo
-                                        ?.convertStringToDate(),
-                                    initTimeEnd: taoLichLamViecCubit.dateTimeTo
-                                        ?.convertStringToDate(
-                                            formatPattern:
-                                                DateFormatApp.dateTimeBackEnd),
-                                    onDateTimeChanged: (
-                                      String timeStart,
-                                      String timeEnd,
-                                      String dateStart,
-                                      String dateEnd,
-                                    ) {
-                                      taoLichLamViecCubit.checkValidateTime();
-                                      taoLichLamViecCubit.listeningEndDataTime(
-                                        DateTime.parse(
-                                          timeFormat(
-                                            '$dateEnd $timeEnd',
-                                            'dd/MM/yyyy hh:mm',
-                                            'yyyy-MM-dd hh:mm:ss.ms',
-                                          ),
-                                        ),
-                                      );
-                                      taoLichLamViecCubit.listeningStartDataTime(
-                                        DateTime.parse(
-                                          timeFormat(
-                                            '$dateStart $timeStart',
-                                            'dd/MM/yyyy hh:mm',
-                                            'yyyy-MM-dd hh:mm:ss.ms',
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    onSwitchPressed: (value) {
-                                      taoLichLamViecCubit.isCheckAllDaySubject
-                                          .add(value);
-                                    },
-                                    validateTime: (bool value) {},
-                                  ),
-                                  StreamBuilder<List<NhacLaiModel>>(
-                                      stream: taoLichLamViecCubit.nhacLai,
-                                      builder: (context, snapshot) {
-                                        final data = snapshot.data ?? [];
-                                        return SelectOnlyExpand(
-                                          urlIcon: ImageAssets.icNotify,
-                                          title: S.current.nhac_lich,
-                                          value: taoLichLamViecCubit
-                                                  .scheduleReminder
-                                                  ?.nhacLai() ??
-                                              '',
-                                          listSelect: data
-                                              .map<String>((e) => e.title ?? '')
-                                              .toList(),
-                                          onChange: (value) {
-                                            taoLichLamViecCubit.selectNhacLai
-                                                .title = data[value].title;
-                                            taoLichLamViecCubit.selectNhacLai
-                                                .value = data[value].value;
-                                            taoLichLamViecCubit.scheduleReminder
-                                                ?.typeReminder = data[value].value;
-                                          },
-                                        );
-                                      }),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  StreamBuilder<List<NguoiChutriModel>>(
-                                      stream: taoLichLamViecCubit.nguoiChuTri,
-                                      builder: (context, snapshot) {
-                                        final data = snapshot.data ?? [];
-                                        return SelectOnlyExpand(
-                                          onChange: (value) {
-                                            taoLichLamViecCubit.selectNguoiChuTri
-                                                ?.userId = data[value].userId;
-                                            taoLichLamViecCubit.selectNguoiChuTri
-                                                ?.donViId = data[value].donViId;
-                                            taoLichLamViecCubit.selectNguoiChuTri =
-                                                data[value];
-                                          },
-                                          urlIcon: ImageAssets.icPeople,
-                                          listSelect:
-                                              data.map((e) => e.title()).toList(),
-                                          value: taoLichLamViecCubit
-                                                  .selectNguoiChuTri
-                                                  ?.title() ??
-                                              '',
-                                          title: S.current.nguoi_chu_tri,
-                                        );
-                                      }),
-                                  StreamBuilder<List<LoaiSelectModel>>(
-                                    stream: taoLichLamViecCubit.linhVuc,
-                                    builder: (context, snapshot) {
-                                      final data =
-                                          snapshot.data ?? <LoaiSelectModel>[];
-                                      return SelectOnlyExpand(
-                                        onChange: (value) {
-                                          taoLichLamViecCubit.selectLinhVuc?.id =
-                                              data[value].id;
-                                          taoLichLamViecCubit.linhVucString =
-                                              data[value].name;
-                                        },
-                                        urlIcon: ImageAssets.icWork,
-                                        listSelect:
-                                            data.map((e) => e.name).toList(),
-                                        value:
-                                            taoLichLamViecCubit.linhVucString ?? '',
-                                        title: S.current.linh_vuc,
-                                      );
-                                    },
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 10.0, left: 30.0),
-                                    child: CustomSwitchWidget(
-                                      onToggle: (value) {
-                                        taoLichLamViecCubit.publishSchedule = value;
-                                      },
-                                      value: taoLichLamViecCubit.publishSchedule ??
-                                          false,
-                                    ),
-                                  ),
-                                  StreamBuilder<bool>(
-                                      stream: taoLichLamViecCubit.checkTrongNuoc,
-                                      builder: (context, snapshot) {
-                                        final data = snapshot.data ?? false;
-                                        if (!data) {
-                                          return Column(
-                                            children: [
-                                              ItemTinhWidget(
-                                                taoLichLamViecCubit:
-                                                    taoLichLamViecCubit,
-                                              ),
-                                              ItemHuyenWidget(
-                                                taoLichLamViecCubit:
-                                                    taoLichLamViecCubit,
-                                              ),
-                                              ItemXaWidget(
-                                                taoLichLamViecCubit:
-                                                    taoLichLamViecCubit,
-                                              ),
-                                            ],
-                                          );
-                                        } else {
-                                          return StreamBuilder<
-                                              List<DatNuocSelectModel>>(
-                                            stream:
-                                                taoLichLamViecCubit.datNuocSelect,
-                                            builder: (context, snapshot) {
-                                              final data = snapshot.data ?? [];
-                                              return SelectOnlyExpand(
-                                                urlIcon: ImageAssets.icViTri,
-                                                title: S.current.quoc_gia,
-                                                value: taoLichLamViecCubit
-                                                    .selectedCountry,
-                                                listSelect: data
-                                                    .map((e) => e.name ?? '')
-                                                    .toList(),
-                                                onChange: (value) {
-                                                  taoLichLamViecCubit
-                                                      .datNuocSelectModel
-                                                      ?.name = data[value].name;
-                                                  taoLichLamViecCubit
-                                                          .selectedCountry =
-                                                      data[value].name ?? '';
-                                                  taoLichLamViecCubit
-                                                          .selectedCountryID =
-                                                      data[value].id ?? '';
-                                                  taoLichLamViecCubit
-                                                      .datNuocSelectModel
-                                                      ?.id = data[value].id;
-                                                },
-                                              );
-                                            },
-                                          );
-                                        }
-                                      }),
-                                  StreamBuilder<List<LichLapModel>>(
-                                      stream: taoLichLamViecCubit.lichLap,
-                                      builder: (context, snapshot) {
-                                        final data = snapshot.data ?? [];
-                                        if (taoLichLamViecCubit.typeRepeat == 7) {
-                                          taoLichLamViecCubit
-                                              .lichLapTuyChinhSubject.sink
-                                              .add(true);
-                                        } else {
-                                          taoLichLamViecCubit
-                                              .lichLapTuyChinhSubject.sink
-                                              .add(false);
-                                        }
-                                        if (taoLichLamViecCubit.typeRepeat != 1) {
-                                          taoLichLamViecCubit
-                                              .lichLapKhongLapLaiSubject.sink
-                                              .add(true);
-                                        } else {
-                                          taoLichLamViecCubit
-                                              .lichLapKhongLapLaiSubject.sink
-                                              .add(false);
-                                        }
-                                        return SelectOnlyExpand(
-                                          urlIcon: ImageAssets.icNhacLai,
-                                          title: S.current.lich_lap,
-                                          value: taoLichLamViecCubit
-                                              .chiTietLichLamViecModel
-                                              .lichLap(),
-                                          listSelect: data
-                                              .map<String>((e) => e.name ?? '')
-                                              .toList(),
-                                          onChange: (value) {
-                                            taoLichLamViecCubit
-                                                .chiTietLichLamViecModel
-                                                .typeRepeat = data[value].id;
-                                            // taoLichLamViecCubit.typeRepeat=data[value].id;
-                                            if (data[value].id == 7) {
-                                              taoLichLamViecCubit
-                                                  .lichLapTuyChinhSubject.sink
-                                                  .add(true);
-                                            } else {
-                                              taoLichLamViecCubit
-                                                  .lichLapTuyChinhSubject.sink
-                                                  .add(false);
-                                            }
-                                            if (data[value].id != 1) {
-                                              taoLichLamViecCubit
-                                                  .lichLapKhongLapLaiSubject.sink
-                                                  .add(true);
-                                            } else {
-                                              taoLichLamViecCubit
-                                                  .lichLapKhongLapLaiSubject.sink
-                                                  .add(false);
-                                            }
-                                            taoLichLamViecCubit.selectLichLap.id =
-                                                data[value].id;
-                                          },
-                                        );
-                                      }),
-                                  StreamBuilder<bool>(
-                                    stream: taoLichLamViecCubit
-                                        .lichLapTuyChinhSubject.stream,
-                                    builder: (context, snapshot) {
-                                      final data = snapshot.data ?? false;
-                                      return data
-                                          ? SuaLichLapTuyChinh(
-                                              taoLichLamViecCubit:
-                                                  taoLichLamViecCubit,
-                                              initDataTuyChinh: taoLichLamViecCubit
-                                                  .listNgayChonTuan(
-                                                      taoLichLamViecCubit.days ??
-                                                          ''),
-                                            )
-                                          : Container();
-                                    },
-                                  ),
-                                  StreamBuilder<bool>(
-                                    stream: taoLichLamViecCubit
-                                        .lichLapKhongLapLaiSubject.stream,
-                                    builder: (context, snapshot) {
-                                      final data = snapshot.data ?? false;
-                                      return data
-                                          ? ItemLapDenNgayWidget(
-                                              taoLichLamViecCubit:
-                                                  taoLichLamViecCubit,
-                                              isThem: false,
-                                              initDate: DateTime.parse(
-                                                  taoLichLamViecCubit.dateRepeat ??
-                                                      DateTime.now().toString()),
-                                            )
-                                          : Container();
-                                    },
-                                  ),
-                                  TextFieldStyle(
-                                    controller: noiDungController,
-                                    urlIcon: ImageAssets.icDocument,
-                                    hintText: S.current.noi_dung,
-                                    onChange: (vl) {
-                                      taoLichLamViecCubit.content = vl;
-                                    },
-                                  ),
-                                ],
+                        offset: Offset(0, 4),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.only(right: 14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                S.current.thong_tin_lich,
+                                style: textNormalCustom(
+                                  color: textTitle,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.only(left: 14),
-                              child: Column(
-                                children: [
-                                  ThanhPhanThamGiaTLWidget(
-                                    taoLichLamViecCubit: taoLichLamViecCubit,
-                                    listPeopleInit: taoLichLamViecCubit
-                                        .chiTietLichLamViecModel
-                                        .scheduleCoperatives,
-                                  ),
-                                  TaiLieuWidget(
-                                    files: (taoLichLamViecCubit.files ?? [])
-                                        .map((e) => File(e.path ?? ''))
-                                        .toList(),
-                                  ),
-                                ],
+                              spaceH10,
+                              Form(
+                                key: _formKey,
+                                child: StreamBuilder<String>(
+                                    initialData:
+                                        taoLichLamViecCubit.typeScheduleName,
+                                    stream: taoLichLamViecCubit.changeOption,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? '';
+                                      return TextFieldStyle(
+                                        controller: tieuDeController,
+                                        urlIcon: ImageAssets.icEdit,
+                                        hintText: '${S.current.tieu_de} $data',
+                                        onChange: (vl) {
+                                          taoLichLamViecCubit.title = vl;
+                                        },
+                                        validate: (value) {
+                                          return value.checkNull();
+                                        },
+                                      );
+                                    }),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                          left: 30.0, right: 30.0, bottom: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          buttomWidget(
-                            title: S.current.dong,
-                            background: bgTag,
-                            textColor: labelColor,
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          StreamBuilder<bool>(
-                              stream: taoLichLamViecCubit.checkTrongNuoc,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ?? false;
-                                return buttomWidget(
-                                  title: S.current.luu,
-                                  background: textDefault,
-                                  textColor: Colors.white,
-                                  onTap: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      if (!data) {
-                                        await taoLichLamViecCubit
-                                            .suaLichLamViec(context);
+                              StreamBuilder<List<LoaiSelectModel>>(
+                                stream: taoLichLamViecCubit.loaiLich,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ?? [];
+                                  return SelectOnlyExpand(
+                                    onChange: (value) {
+                                      taoLichLamViecCubit.selectLoaiLich?.id ==
+                                          taoLichLamViecCubit.typeScheduleId;
+                                      taoLichLamViecCubit.changeOption.sink
+                                          .add(data[value].name);
+                                      taoLichLamViecCubit.typeScheduleName =
+                                          data[value].name;
+                                      if (data[value].id ==
+                                          '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
+                                        taoLichLamViecCubit.checkTrongNuoc.sink
+                                            .add(true);
                                       } else {
-                                        await taoLichLamViecCubit
-                                            .suaLichLamViecNuocNgoai(context);
+                                        taoLichLamViecCubit.checkTrongNuoc.sink
+                                            .add(false);
                                       }
-                                    }
+                                      if (taoLichLamViecCubit.typeScheduleId ==
+                                          data[value].id) {
+                                        taoLichLamViecCubit
+                                                .selectLoaiLich?.id ==
+                                            taoLichLamViecCubit.typeScheduleId;
+                                      } else {
+                                        taoLichLamViecCubit.selectLoaiLich?.id =
+                                            data[value].id;
+                                      }
+                                    },
+                                    urlIcon: ImageAssets.icCalendarUnFocus,
+                                    value:
+                                        taoLichLamViecCubit.typeScheduleName ??
+                                            '',
+                                    listSelect:
+                                        data.map((e) => e.name).toList(),
+                                    title: S.current.loai_lich,
+                                  );
+                                },
+                              ),
+                              CupertinoMaterialPicker(
+                                initDateStart: taoLichLamViecCubit.dateTimeFrom
+                                    ?.convertStringToDate(),
+                                initTimeStart: taoLichLamViecCubit.dateTimeFrom
+                                    ?.convertStringToDate(
+                                        formatPattern:
+                                            DateFormatApp.dateTimeBackEnd),
+                                initDateEnd: taoLichLamViecCubit.dateTimeTo
+                                    ?.convertStringToDate(),
+                                initTimeEnd: taoLichLamViecCubit.dateTimeTo
+                                    ?.convertStringToDate(
+                                        formatPattern:
+                                            DateFormatApp.dateTimeBackEnd),
+                                onDateTimeChanged: (
+                                  String timeStart,
+                                  String timeEnd,
+                                  String dateStart,
+                                  String dateEnd,
+                                ) {
+                                  taoLichLamViecCubit.checkValidateTime();
+                                  taoLichLamViecCubit.listeningEndDataTime(
+                                    DateTime.parse(
+                                      timeFormat(
+                                        '$dateEnd $timeEnd',
+                                        'dd/MM/yyyy hh:mm',
+                                        'yyyy-MM-dd hh:mm:ss.ms',
+                                      ),
+                                    ),
+                                  );
+                                  taoLichLamViecCubit.listeningStartDataTime(
+                                    DateTime.parse(
+                                      timeFormat(
+                                        '$dateStart $timeStart',
+                                        'dd/MM/yyyy hh:mm',
+                                        'yyyy-MM-dd hh:mm:ss.ms',
+                                      ),
+                                    ),
+                                  );
+                                },
+                                onSwitchPressed: (value) {
+                                  taoLichLamViecCubit.isCheckAllDaySubject
+                                      .add(value);
+                                },
+                                validateTime: (bool value) {},
+                              ),
+                              StreamBuilder<List<NhacLaiModel>>(
+                                  stream: taoLichLamViecCubit.nhacLai,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? [];
+                                    return SelectOnlyExpand(
+                                      urlIcon: ImageAssets.icNotify,
+                                      title: S.current.nhac_lich,
+                                      value: taoLichLamViecCubit
+                                              .scheduleReminder
+                                              ?.nhacLai() ??
+                                          '',
+                                      listSelect: data
+                                          .map<String>((e) => e.title ?? '')
+                                          .toList(),
+                                      onChange: (value) {
+                                        taoLichLamViecCubit.selectNhacLai
+                                            .title = data[value].title;
+                                        taoLichLamViecCubit.selectNhacLai
+                                            .value = data[value].value;
+                                        taoLichLamViecCubit.scheduleReminder
+                                            ?.typeReminder = data[value].value;
+                                      },
+                                    );
+                                  }),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              StreamBuilder<List<NguoiChutriModel>>(
+                                  stream: taoLichLamViecCubit.nguoiChuTri,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? [];
+                                    return SelectOnlyExpand(
+                                      onChange: (value) {
+                                        taoLichLamViecCubit.selectNguoiChuTri
+                                            ?.userId = data[value].userId;
+                                        taoLichLamViecCubit.selectNguoiChuTri
+                                            ?.donViId = data[value].donViId;
+                                        taoLichLamViecCubit.selectNguoiChuTri =
+                                            data[value];
+                                      },
+                                      urlIcon: ImageAssets.icPeople,
+                                      listSelect:
+                                          data.map((e) => e.title()).toList(),
+                                      value: taoLichLamViecCubit
+                                              .selectNguoiChuTri
+                                              ?.title() ??
+                                          '',
+                                      title: S.current.nguoi_chu_tri,
+                                    );
+                                  }),
+                              StreamBuilder<List<LoaiSelectModel>>(
+                                stream: taoLichLamViecCubit.linhVuc,
+                                builder: (context, snapshot) {
+                                  final data =
+                                      snapshot.data ?? <LoaiSelectModel>[];
+                                  return SelectOnlyExpand(
+                                    onChange: (value) {
+                                      taoLichLamViecCubit.selectLinhVuc?.id =
+                                          data[value].id;
+                                      taoLichLamViecCubit.linhVucString =
+                                          data[value].name;
+                                    },
+                                    urlIcon: ImageAssets.icWork,
+                                    listSelect:
+                                        data.map((e) => e.name).toList(),
+                                    value:
+                                        taoLichLamViecCubit.linhVucString ?? '',
+                                    title: S.current.linh_vuc,
+                                  );
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, left: 30.0),
+                                child: CustomSwitchWidget(
+                                  onToggle: (value) {
+                                    taoLichLamViecCubit.publishSchedule = value;
                                   },
-                                );
-                              }),
-                        ],
+                                  value: taoLichLamViecCubit.publishSchedule ??
+                                      false,
+                                ),
+                              ),
+                              StreamBuilder<bool>(
+                                  stream: taoLichLamViecCubit.checkTrongNuoc,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? false;
+                                    if (!data) {
+                                      return Column(
+                                        children: [
+                                          ItemTinhWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
+                                          ),
+                                          ItemHuyenWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
+                                          ),
+                                          ItemXaWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
+                                          ),
+                                        ],
+                                      );
+                                    } else {
+                                      return StreamBuilder<
+                                          List<DatNuocSelectModel>>(
+                                        stream:
+                                            taoLichLamViecCubit.datNuocSelect,
+                                        builder: (context, snapshot) {
+                                          final data = snapshot.data ?? [];
+                                          return SelectOnlyExpand(
+                                            urlIcon: ImageAssets.icViTri,
+                                            title: S.current.quoc_gia,
+                                            value: taoLichLamViecCubit
+                                                .selectedCountry,
+                                            listSelect: data
+                                                .map((e) => e.name ?? '')
+                                                .toList(),
+                                            onChange: (value) {
+                                              taoLichLamViecCubit
+                                                  .datNuocSelectModel
+                                                  ?.name = data[value].name;
+                                              taoLichLamViecCubit
+                                                      .selectedCountry =
+                                                  data[value].name ?? '';
+                                              taoLichLamViecCubit
+                                                      .selectedCountryID =
+                                                  data[value].id ?? '';
+                                              taoLichLamViecCubit
+                                                  .datNuocSelectModel
+                                                  ?.id = data[value].id;
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }
+                                  }),
+                              StreamBuilder<List<LichLapModel>>(
+                                  stream: taoLichLamViecCubit.lichLap,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? [];
+                                    if (taoLichLamViecCubit.typeRepeat == 7) {
+                                      taoLichLamViecCubit
+                                          .lichLapTuyChinhSubject.sink
+                                          .add(true);
+                                    } else {
+                                      taoLichLamViecCubit
+                                          .lichLapTuyChinhSubject.sink
+                                          .add(false);
+                                    }
+                                    if (taoLichLamViecCubit.typeRepeat != 1) {
+                                      taoLichLamViecCubit
+                                          .lichLapKhongLapLaiSubject.sink
+                                          .add(true);
+                                    } else {
+                                      taoLichLamViecCubit
+                                          .lichLapKhongLapLaiSubject.sink
+                                          .add(false);
+                                    }
+                                    return SelectOnlyExpand(
+                                      urlIcon: ImageAssets.icNhacLai,
+                                      title: S.current.lich_lap,
+                                      value: taoLichLamViecCubit
+                                          .chiTietLichLamViecModel
+                                          .lichLap(),
+                                      listSelect: data
+                                          .map<String>((e) => e.name ?? '')
+                                          .toList(),
+                                      onChange: (value) {
+                                        taoLichLamViecCubit
+                                            .chiTietLichLamViecModel
+                                            .typeRepeat = data[value].id;
+                                        // taoLichLamViecCubit.typeRepeat=data[value].id;
+                                        if (data[value].id == 7) {
+                                          taoLichLamViecCubit
+                                              .lichLapTuyChinhSubject.sink
+                                              .add(true);
+                                        } else {
+                                          taoLichLamViecCubit
+                                              .lichLapTuyChinhSubject.sink
+                                              .add(false);
+                                        }
+                                        if (data[value].id != 1) {
+                                          taoLichLamViecCubit
+                                              .lichLapKhongLapLaiSubject.sink
+                                              .add(true);
+                                        } else {
+                                          taoLichLamViecCubit
+                                              .lichLapKhongLapLaiSubject.sink
+                                              .add(false);
+                                        }
+                                        taoLichLamViecCubit.selectLichLap.id =
+                                            data[value].id;
+                                      },
+                                    );
+                                  }),
+                              StreamBuilder<bool>(
+                                stream: taoLichLamViecCubit
+                                    .lichLapTuyChinhSubject.stream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ?? false;
+                                  return data
+                                      ? SuaLichLapTuyChinh(
+                                          taoLichLamViecCubit:
+                                              taoLichLamViecCubit,
+                                          initDataTuyChinh: taoLichLamViecCubit
+                                              .listNgayChonTuan(
+                                                  taoLichLamViecCubit.days ??
+                                                      ''),
+                                        )
+                                      : Container();
+                                },
+                              ),
+                              StreamBuilder<bool>(
+                                stream: taoLichLamViecCubit
+                                    .lichLapKhongLapLaiSubject.stream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ?? false;
+                                  return data
+                                      ? ItemLapDenNgayWidget(
+                                          taoLichLamViecCubit:
+                                              taoLichLamViecCubit,
+                                          isThem: false,
+                                          initDate: DateTime.parse(
+                                              taoLichLamViecCubit.dateRepeat ??
+                                                  DateTime.now().toString()),
+                                        )
+                                      : Container();
+                                },
+                              ),
+                              TextFieldStyle(
+                                controller: noiDungController,
+                                urlIcon: ImageAssets.icDocument,
+                                hintText: S.current.noi_dung,
+                                onChange: (vl) {
+                                  taoLichLamViecCubit.content = vl;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    )
-                  ],
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 14),
+                          child: Column(
+                            children: [
+                              ThanhPhanThamGiaTLWidget(
+                                taoLichLamViecCubit: taoLichLamViecCubit,
+                                listPeopleInit: taoLichLamViecCubit
+                                    .chiTietLichLamViecModel
+                                    .scheduleCoperatives,
+                              ),
+                              TaiLieuWidget(
+                                files: (taoLichLamViecCubit.files ?? [])
+                                    .map((e) => File(e.path ?? ''))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      buttomWidget(
+                        title: S.current.dong,
+                        background: bgTag,
+                        textColor: labelColor,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      StreamBuilder<bool>(
+                          stream: taoLichLamViecCubit.checkTrongNuoc,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            return buttomWidget(
+                              title: S.current.luu,
+                              background: textDefault,
+                              textColor: Colors.white,
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  checkInside(data);
+                                }
+                              },
+                            );
+                          }),
+                    ],
+                  ),
+                )
+              ])),
             ),
           ),
         ),
       ),
     );
+  }
+  void checkInside(bool data) {
+    if (!data) {
+      if (widget.event.isLichLap ?? false) {
+        showDialog(
+          context: context,
+          builder: (context) => ThemLinkHopDialog(
+            title: S.current.sua_lich_lam_viec,
+            isConfirm: false,
+            imageUrl: ImageAssets.ic_edit_cal,
+            textConfirm: S.current.ban_co_chac_chan_sua_lich,
+            textRadioAbove: S.current.chi_lich_nay,
+            textRadioBelow: S.current.tu_lich_nay,
+          ),
+        ).then((value) {
+          final flag = !value;
+          taoLichLamViecCubit.suaLichLamViec(
+            flag,
+          );
+        });
+      } else {
+        taoLichLamViecCubit.suaLichLamViec(
+          false,
+        );
+      }
+    } else {
+      if (widget.event.isLichLap ?? false) {
+        showDialog(
+          context: context,
+          builder: (context) => ThemLinkHopDialog(
+            title: S.current.sua_lich_lam_viec,
+            isConfirm: false,
+            imageUrl: ImageAssets.ic_edit_cal,
+            textConfirm: S.current.ban_co_chac_chan_sua_lich,
+            textRadioAbove: S.current.chi_lich_nay,
+            textRadioBelow: S.current.tu_lich_nay,
+          ),
+        ).then((value) {
+          final flag = !value;
+          taoLichLamViecCubit.suaLichLamViecNuocNgoai(
+            flag,
+          );
+        });
+      } else {
+        taoLichLamViecCubit.suaLichLamViecNuocNgoai(
+          false,
+        );
+      }
+    }
   }
 }
 

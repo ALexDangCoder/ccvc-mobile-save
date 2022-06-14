@@ -99,7 +99,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       BehaviorSubject();
   final BehaviorSubject<List<DatNuocSelectModel>> datNuocSelectSubject =
       BehaviorSubject();
-  final BehaviorSubject<bool> showButton=BehaviorSubject();
+  final BehaviorSubject<bool> showButton = BehaviorSubject();
 
   Stream<List<TinhSelectModel>> get tinhSelect => tinhSelectSubject.stream;
 
@@ -315,8 +315,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     showLoading();
     final result =
         await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
-      dateFrom: DateTime.parse(dateFrom?? DateTime.now().formatApi).formatApi ,
-      dateTo: DateTime.parse(dateEnd?? DateTime.now().formatApi).formatApi,
+      dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
       timeFrom: timeFrom ??
           '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
       timeTo: timeEnd ??
@@ -383,10 +383,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       xaSelectModel?.tenXaPhuong ?? '',
       datNuocSelectModel?.name ?? '',
       datNuocSelectModel?.id ?? '',
-     DateTime.parse(dateFrom?? DateTime.now().formatApi).formatApi ,
+      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
       timeFrom ??
           '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-       DateTime.parse(dateEnd?? DateTime.now().formatApi).formatApi,
+      DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
       timeEnd ??
           '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
       content,
@@ -409,7 +409,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       donviModel ?? [],
       selectNhacLai.value ?? 1,
       selectLichLap.id ?? 0,
-       DateTime.parse(dateFrom?? DateTime.now().formatApi).formatApi,
+      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
       dateTimeLapDenNgay.formatApi,
       true,
       lichLapItem1,
@@ -426,8 +426,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   Future<void> suaLichLamViec(
-      BuildContext context
-      ) async {
+    bool isMulti,
+  ) async {
     showLoading();
     final result = await _lichLamViec.suaLichLamViec(
         title ?? '',
@@ -436,10 +436,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         tinhSelectModel?.tenTinhThanh ?? '',
         huyenSelectModel?.tenQuanHuyen ?? '',
         xaSelectModel?.tenXaPhuong ?? '',
-        DateTime.parse(dateFrom?? DateTime.now().formatApi).formatApi ,
+        DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
         timeFrom ??
             '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        DateTime.parse(dateEnd?? DateTime.now().formatApi).formatApi,
+        DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
         timeEnd ??
             '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
         content ?? '',
@@ -456,16 +456,17 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         selectNguoiChuTri?.userId ?? '',
         selectNguoiChuTri?.donViId ?? '',
         '',
-        id??'',
+        id ?? '',
         isCheckAllDaySubject.value,
         true,
         donviModel ?? [],
         selectNhacLai.value ?? 1,
         selectLichLap.id ?? 0,
-        DateTime.parse(dateFrom?? DateTime.now().formatApi).formatApi ,
+        DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
         dateTimeLapDenNgay.formatApi,
         true,
-        lichLapItem1);
+        lichLapItem1,
+        isMulti);
     result.when(success: (res) {
       emit(CreateSuccess());
       showContent();
@@ -474,9 +475,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     });
   }
 
-  Future<void> suaLichLamViecNuocNgoai(
-      BuildContext context
-      ) async {
+  Future<void> suaLichLamViecNuocNgoai(bool isMulti) async {
     showLoading();
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
         title ?? '',
@@ -486,10 +485,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         huyenSelectModel?.tenQuanHuyen ?? '',
         xaSelectModel?.tenXaPhuong ?? '',
         selectedCountryID,
-        DateTime.parse(dateFrom?? DateTime.now().formatApi).formatApi ,
+        DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
         timeFrom ??
             '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        DateTime.parse(dateEnd?? DateTime.now().formatApi).formatApi ,
+        DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
         timeEnd ??
             '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
         content ?? '',
@@ -505,16 +504,17 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         selectNguoiChuTri?.userId ?? '',
         selectNguoiChuTri?.donViId ?? '',
         '',
-        id??'',
+        id ?? '',
         isCheckAllDaySubject.value,
         true,
         donviModel ?? [],
         selectNhacLai.value ?? 1,
         selectLichLap.id ?? 0,
-        DateTime.parse(dateFrom?? DateTime.now().formatApi).formatApi ,
+        DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
         dateTimeLapDenNgay.formatApi,
         true,
-        lichLapItem1);
+        lichLapItem1,
+        isMulti);
     result.when(success: (res) {
       emit(CreateSuccess());
       showContent();

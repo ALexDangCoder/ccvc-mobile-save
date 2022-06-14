@@ -314,12 +314,12 @@ class ManagerPersonalInformationCubit
             title: S.current.thay_doi_that_bai,
             messState: MessState.error,
           );
-          isCheck = false;
         }
+        isCheck = false;
       },
     );
     showContent();
-    return false;
+    return isCheck;
   }
 
   //

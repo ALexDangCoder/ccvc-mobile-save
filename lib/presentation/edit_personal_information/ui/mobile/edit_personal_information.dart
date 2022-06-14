@@ -532,7 +532,6 @@ class _EditPersonalInformationScreen
                             )
                                 .then((value) {
                               if (value) {
-                                log("message");
                                 Navigator.pop(context, true);
                               }
                             });

@@ -74,7 +74,6 @@ class _ManagerPersonalInformationState
                     ),
                   ),
                 ).then((value) {
-                  log('<???????????????????????:::::${value}');
                   if (value == true) {
 
                     _cubit.loadApi(id: widget.id);

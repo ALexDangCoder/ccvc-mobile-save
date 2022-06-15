@@ -91,6 +91,9 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                                       .nodeId,
                                 ),
                               );
+                              widget.cubit.titleSubject.sink.add(
+                                widget.cubit.listTitleItemMenu[index].title,
+                              );
                               widget.onChange();
                               Navigator.pop(context);
                             },
@@ -103,6 +106,9 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                                 FireTopic(
                                   widget.cubit.listTitleItemMenu[index].nodeId,
                                 ),
+                              );
+                              widget.cubit.titleSubject.sink.add(
+                                widget.cubit.listTitleItemMenu[index].title,
                               );
                               widget.onChange();
                               Navigator.pop(context);

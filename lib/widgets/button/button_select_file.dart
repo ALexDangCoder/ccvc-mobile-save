@@ -67,9 +67,9 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
 
             if (result != null) {
               if (widget.hasMultipleFile) {
-                final listSelect = result.paths.map((path) => File(path!)).toList();
-                widget.files
-                    ?.addAll(listSelect);
+                final listSelect =
+                    result.paths.map((path) => File(path!)).toList();
+                widget.files?.addAll(listSelect);
               } else {
                 widget.files = result.paths.map((path) => File(path!)).toList();
               }

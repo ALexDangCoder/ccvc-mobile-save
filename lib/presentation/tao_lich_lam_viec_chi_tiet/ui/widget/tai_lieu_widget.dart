@@ -9,7 +9,8 @@ import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/material.dart';
 
 class TaiLieuWidget extends StatefulWidget {
-  const TaiLieuWidget({Key? key}) : super(key: key);
+  List<File>? files;
+   TaiLieuWidget({Key? key,   this.files}) : super(key: key);
 
   @override
   _TaiLieuWidgetState createState() => _TaiLieuWidgetState();
@@ -61,7 +62,8 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             child: ButtonSelectFile(
               title: S.current.tai_lieu_dinh_kem,
               onChange: (List<File> files) {},
-              files: [],
+              files:
+              widget.files,
             ),
           )
         ],

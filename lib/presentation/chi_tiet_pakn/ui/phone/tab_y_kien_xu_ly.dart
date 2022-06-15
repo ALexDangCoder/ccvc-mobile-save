@@ -343,20 +343,12 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                             await Permission.manageExternalStorage.request();
                           }
                           await saveFile(
-                            dataSnb.ten.toString(),
-                            dataSnb.duongDan.toString(),
-                            http: true,
-                          )
-                              .then(
-                                (value) => MessageConfig.show(
-                                    title: S.current.tai_file_thanh_cong),
-                              )
-                              .onError(
-                                (error, stackTrace) => MessageConfig.show(
-                                  title: S.current.tai_file_that_bai,
-                                  messState: MessState.error,
-                                ),
-                              );
+                            fileName: dataSnb.ten.toString(),
+                            url: dataSnb.duongDan.toString()
+                            // dataSnb.ten.toString(),
+                            // dataSnb.duongDan.toString(),
+                            // http: true,
+                          );
                         },
                         child: Text(
                           dataSnb.ten ?? '',

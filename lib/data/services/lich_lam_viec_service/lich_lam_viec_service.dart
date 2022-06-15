@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_y_kien_respons
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_right_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/sua_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response.dart';
@@ -144,7 +145,7 @@ abstract class LichLamViecService {
   );
 
   @PUT(ApiConstants.TAO_LICH_LAM_VIEC)
-  Future<TaoLichLamViecResponse> suaLichLamviec(
+  Future<SuaLichLamViecResponse> suaLichLamviec(
     @Body() FormData data,
   );
 

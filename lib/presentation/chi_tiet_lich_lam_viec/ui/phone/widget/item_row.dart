@@ -26,9 +26,10 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
       children: [
         rowData(
           icon: ImageAssets.icNhacLai,
-          value:
-              '${DateTime.parse(widget.data.dateTimeFrom ?? '').toStringWithAMPM}-'
-              '${DateTime.parse(widget.data.dateTimeTo ?? '').toStringWithAMPM}',
+          value: getDateTime(
+            widget.data.dateTimeFrom ?? '',
+            widget.data.dateTimeTo ?? '',
+          ),
         ),
         rowData(
           icon: ImageAssets.icCalendarUnFocus,
@@ -78,5 +79,17 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
         ],
       ),
     );
+  }
+
+  String getDateTime(String timeFrom, String timeTo) {
+    String time = '';
+    try {
+      time =
+          '${DateTime.parse(widget.data.dateTimeFrom ?? '').toStringWithAMPM}-'
+          '${DateTime.parse(widget.data.dateTimeTo ?? '').toStringWithAMPM}';
+    } on FormatException catch (_) {
+      return '';
+    }
+    return time;
   }
 }

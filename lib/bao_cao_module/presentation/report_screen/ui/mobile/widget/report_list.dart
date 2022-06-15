@@ -1,5 +1,5 @@
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/grid_view/widget/item_gridview.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/grid_view/widget/item_list.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/detail_item_mobile.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class ReportList extends StatelessWidget {
   final bool isCheckList;
   final List<ReportItem> listReport;
+  final ScrollPhysics? scrollPhysics;
 
   const ReportList({
     Key? key,
     required this.isCheckList,
     required this.listReport,
+    this.scrollPhysics,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,7 @@ class ReportList extends StatelessWidget {
               bottom: 16,
             ),
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            physics: scrollPhysics,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 17,
@@ -34,8 +36,18 @@ class ReportList extends StatelessWidget {
             ),
             itemCount: listReport.length,
             itemBuilder: (context, index) {
-              return ItemGridView(
-                item: listReport[index],
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const DetailItemMobile(),
+                    ),
+                  );
+                },
+                child: ItemGridView(
+                  item: listReport[index],
+                ),
               );
             },
           )
@@ -46,7 +58,7 @@ class ReportList extends StatelessWidget {
             ),
             child: ListView.builder(
               itemCount: listReport.length,
-              physics: const NeverScrollableScrollPhysics(),
+              physics: scrollPhysics,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return GestureDetector(

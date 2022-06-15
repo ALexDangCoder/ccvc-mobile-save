@@ -36,6 +36,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
     toast.init(context);
     widget.cubit.dateDanhSach = '';
     widget.cubit.isCheckValidate.add(' ');
+    widget.cubit.pathAnh = '';
   }
 
   @override
@@ -106,6 +107,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                     maxLenght: 255,
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validatorPaste: (value) {
                       if (value.trim().validateCopyPaste() != null) {
                         return true;
@@ -308,6 +310,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     urlIcon: ImageAssets.icCmt,
                     hintText: S.current.so_cmt,
                     maxLenght: 255,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
@@ -434,8 +437,8 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.dateDanhSach = '';
                       Navigator.pop(context);
                     },
-                    title2: S.current.xac_nhan,
-                    title1: S.current.dong,
+                    title2: S.current.luu_danh_ba,
+                    title1: S.current.huy,
                   )
                 ],
               ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
@@ -198,7 +200,9 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                 child: FollowKeyBoardWidget(
                   child: SingleChildScrollView(
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: Platform.isIOS
+                          ? MediaQuery.of(context).size.height * 0.3
+                          : MediaQuery.of(context).size.height * 0.4,
                       decoration: const BoxDecoration(
                         color: backgroundColorApp,
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -286,7 +290,6 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                               },
                             ),
                           ),
-                          spaceH10
                         ],
                       ),
                     ),

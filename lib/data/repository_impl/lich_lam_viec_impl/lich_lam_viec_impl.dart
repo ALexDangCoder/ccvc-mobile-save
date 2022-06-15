@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_y_kien_respons
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_right_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/sua_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response.dart';
@@ -161,17 +162,22 @@ class LichLamViecImlp implements LichLamViecRepository {
 
   @override
   Future<Result<DeleteTietLichLamViecModel>> deleteCalenderWork(
-      String id, bool only, bool isLichLap) {
+    String id,
+    bool only,
+  ) {
     return runCatchingAsync<DeleteCalenderWorkResponse,
         DeleteTietLichLamViecModel>(
-      () => lichLamViecService.deleteCalenderWork(id, only, isLichLap),
+      () => lichLamViecService.deleteCalenderWork(id, only),
       (response) => response.toDelete(),
     );
   }
 
   @override
   Future<Result<CancelLichLamViecModel>> cancelCalenderWork(
-      String id, int statusId, bool isMulti) {
+    String id,
+    int statusId,
+    bool isMulti,
+  ) {
     return runCatchingAsync<CancelCalenderWorkResponse, CancelLichLamViecModel>(
       () => lichLamViecService.cancelCalenderWork(id, statusId, isMulti),
       (response) => response.toSucceeded(),
@@ -379,6 +385,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -412,6 +419,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
     _data.fields.add(MapEntry('donViId', donViId));
     _data.fields.add(MapEntry('note', note));
+    _data.fields.add(MapEntry('id', id));
     _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
     _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
 
@@ -450,8 +458,8 @@ class LichLamViecImlp implements LichLamViecRepository {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
 
-    return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-      () => lichLamViecService.taoLichLamviec(_data),
+    return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
+      () => lichLamViecService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );
   }
@@ -482,6 +490,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -516,6 +525,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
     _data.fields.add(MapEntry('donViId', donViId));
     _data.fields.add(MapEntry('note', note));
+    _data.fields.add(MapEntry('id', id));
     _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
     _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
 
@@ -554,8 +564,8 @@ class LichLamViecImlp implements LichLamViecRepository {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
 
-    return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-      () => lichLamViecService.taoLichLamviec(_data),
+    return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
+      () => lichLamViecService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );
   }

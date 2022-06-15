@@ -259,52 +259,28 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     timeEnd = timerEn.timerToString;
                   },
                 ),
-                InputInfoUserWidget(
+                spaceH20,
+                DropDownSearch(
                   title: S.current.nguoi_chu_tri,
-                  child: StreamBuilder<List<DonViModel>>(
-                    stream: widget.cubit.listThanhPhanThamGiaSubject,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      if (widget.cubit.chuTri.id.isNotEmpty) {
-                        if (!data.contains(widget.cubit.chuTri)) {
-                          data.firstWhere((element) => element.type == 0);
-                          data.insert(0, widget.cubit.chuTri);
-                        }
-                      }
-                      return DropDownSearch(
-                        title: S.current.nguoi_chu_tri,
-                        hintText: S.current.chon_nguoi_chu_tri,
-                        initSelected: taoPhienHopRequest.hoTen,
-                        onChange: (index) {
-                          taoPhienHopRequest.canBoId =
-                              data[index].canBoId.isNotEmpty
-                                  ? data[index].canBoId
-                                  : null;
-                          taoPhienHopRequest.donViId =
-                              data[index].donViId.isNotEmpty
-                                  ? data[index].donViId
-                                  : data[index].id.isNotEmpty
-                                      ? data[index].id
-                                      : null;
-                          taoPhienHopRequest.hoTen =
-                              data[index].tenCanBo.isNotEmpty
-                                  ? data[index].tenCanBo
-                                  : data[index].name.isNotEmpty
-                                      ? data[index].name
-                                      : '';
-                        },
-                        listSelect: data
-                            .map(
-                              (e) => e.tenCanBo.isNotEmpty
-                                  ? e.tenCanBo
-                                  : e.name.isNotEmpty
-                                      ? e.name
-                                      : e.tenDonVi,
-                            )
-                            .toList(),
-                      );
-                    },
-                  ),
+                  hintText: S.current.chon_nguoi_chu_tri,
+                  initSelected: taoPhienHopRequest.hoTen,
+                  onChange: (index) {
+                    final DonViModel donVi =
+                        widget.cubit.listThanhPhanThamGia.toList()[index];
+                    taoPhienHopRequest.canBoId =
+                        donVi.canBoId.isNotEmpty ? donVi.canBoId : null;
+                    taoPhienHopRequest.donViId = donVi.donViId.isNotEmpty
+                        ? donVi.donViId
+                        : donVi.id.isNotEmpty
+                            ? donVi.id
+                            : null;
+                    taoPhienHopRequest.hoTen = donVi.tenCanBo.isNotEmpty
+                        ? donVi.tenCanBo
+                        : donVi.name.isNotEmpty
+                            ? donVi.name
+                            : '';
+                  },
+                  listSelect: widget.cubit.getListTenCanBo(),
                 ),
                 InputInfoUserWidget(
                   title: S.current.noi_dung_phien_hop,
@@ -380,7 +356,8 @@ class ItemPhienHop extends StatelessWidget {
               ),
               rowInfo(
                 value: '${phienHop.thoiGian_BatDau}'
-                    '${phienHop.timeEnd?.isNotEmpty ?? false ? ' - ${phienHop.timeEnd}' : ''}',
+                    '${phienHop.timeEnd?.isNotEmpty ?? false ?
+                ' - ${phienHop.timeEnd}' : ''}',
                 key: S.current.thoi_gian,
               ),
               SizedBox(

@@ -138,10 +138,10 @@ class AccountImpl implements AccountRepository {
   }
 
   @override
-  Future<Result<ForgotPasswordModel>> forgotPassword(String email) {
+  Future<Result<ForgotPasswordModel>> forgotPassword(String email, String userName) {
     return runCatchingAsync<ForgotPasswordResponse, ForgotPasswordModel>(
         () => _accountServiceCommon
-            .forgotPassword(ForgotPasswordRequest(email: email)),
+            .forgotPassword(ForgotPasswordRequest(email: email,userName: userName)),
         (response) => response.toModel());
   }
 

@@ -167,8 +167,30 @@ class DateFormatApp {
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
 
-const String north_female_lien = 'north_female_lien';
-const String north_male_hieu = 'north_male_hieu';
-const String north_female_hongha = 'north_female_hongha';
-const String south_female_aihoa = 'south_female_aihoa';
-const String south_female_minhnguyet = 'south_female_minhnguyet';
+class KieuGiongNoi {
+  static const String north_female_lien = 'north_female_lien';
+  static const String north_male_hieu = 'north_male_hieu';
+  static const String north_female_hongha = 'north_female_hongha';
+  static const String south_female_aihoa = 'south_female_aihoa';
+  static const String south_female_minhnguyet = 'south_female_minhnguyet';
+}
+
+class DSCVScreen {
+  static const int CVCB = 0;
+  static const int CVQT = 1;
+  static const int DHT = 2;
+  static const int GCT = 3;
+  static const int DBX = 4;
+  static const int NCVM = 5;
+}
+
+class IconDSCV {
+  static const int icEdit = 0;
+  static const int icImportant = 1;
+  static const int icHoanTac = 2;
+  static const int icXoaVinhVien = 3;
+  static const int icClose = 4;
+  static const int icCheckBox = 6;
+}
+
+Null Function() get onTapNull => () {};

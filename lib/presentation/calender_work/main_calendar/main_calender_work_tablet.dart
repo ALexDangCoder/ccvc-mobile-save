@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/widget/custom_item_calender_work_tablet.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/lich_lv_extension.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.d
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/tao_lich_lam_viec_chi_tiet_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_calendar_cubit.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -41,8 +43,13 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
     super.initState();
     cubit.chooseTypeListLv(Type_Choose_Option_List.DANG_LICH);
     cubit.callApi();
+    _handleEventBus();
   }
-
+  void _handleEventBus() {
+    eventBus.on<RefreshCalendar>().listen((event) {
+      cubit.callApi();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<TypeCalendarMenu>(
@@ -84,6 +91,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                                   );
                                   cubit.modeLLV =
                                       Type_Choose_Option_List.DANG_LICH;
+                                  cubit.isSearchBar.add(false);
                                 }
 
                                 if (value == S.current.theo_dang_danh_sach) {
@@ -93,6 +101,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                                 }
                                 cubit.modeLLV =
                                     Type_Choose_Option_List.DANG_LIST;
+                                cubit.isSearchBar.add(true);
                               },
                               listItem: listThongBao,
                               onTapLanhDao: (value) {
@@ -186,6 +195,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                       stream: cubit.eventsStream,
                       builder: (context, snapshot) {
                         return TableCandarTablet(
+
                           eventsLoader: snapshot.data,
                           type: state.type,
                           onChangeRange: (

@@ -23,20 +23,41 @@ class TabbarNewspaperTablet extends StatefulWidget {
   State<TabbarNewspaperTablet> createState() => _TabbarNewspaperTabletState();
 }
 
-class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> with SingleTickerProviderStateMixin {
+class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet>
+    with SingleTickerProviderStateMixin {
   late TabController _controller;
   BaoChiMangXaHoiBloc cubit = BaoChiMangXaHoiBloc();
+  late final TinTucThoiSuBloc blocTinTuc;
   int topic = 848;
+
   @override
   void initState() {
     super.initState();
+    initData();
+    handleEventBus();
+  }
+
+  void initData() {
+    blocTinTuc = TinTucThoiSuBloc();
+    cubit = BaoChiMangXaHoiBloc();
     _controller = TabController(vsync: this, length: 3)..addListener(_onListen);
     cubit.getMenu();
   }
+
   void _onListen() {
     eventBus.on<FireTopic>().listen((event) {
       _controller.animateTo(0, duration: const Duration(milliseconds: 500));
-      topic = event.topic;
+      setState(() {
+        topic = event.topic;
+      });
+    });
+  }
+
+  void handleEventBus() {
+    eventBus.on<FireTopic>().listen((event) {
+      setState(() {
+        topic = event.topic;
+      });
     });
   }
 
@@ -45,9 +66,14 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> with Sing
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text(
-          S.current.tin_tong_hop,
-          style: titleAppbar(fontSize: 24),
+        title: StreamBuilder<String>(
+          stream: cubit.titleSubject.stream,
+          builder: (context, snapshot) {
+            return Text(
+              snapshot.data ?? S.current.tin_tong_hop,
+              style: titleAppbar(fontSize: 24),
+            );
+          },
         ),
         centerTitle: true,
         leading: Container(
@@ -109,7 +135,7 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> with Sing
             key: UniqueKey(),
           ),
           TinTucThoiSuScreenTablet(
-            tinTucThoiSuBloc: TinTucThoiSuBloc(),
+            tinTucThoiSuBloc: blocTinTuc,
             pContext: context,
           ),
         ],

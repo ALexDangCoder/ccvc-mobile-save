@@ -44,9 +44,8 @@ extension TypeData on TypeDataNV {
                         await Permission.manageExternalStorage.request();
                       }
                       await saveFile(
-                        e.ten ?? '',
-                        '${Get.find<AppConstants>().baseUrlQLNV}${e.duongDan}',
-                        http: true,
+                        fileName: e.ten ?? '',
+                        url: e.duongDan ?? ''
                       ).then(
                         (value) {
                           if (value == true) {

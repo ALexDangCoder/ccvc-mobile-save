@@ -342,9 +342,11 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                             await Permission.manageExternalStorage.request();
                           }
                           await saveFile(
-                            dataSnb.ten.toString(),
-                            dataSnb.duongDan.toString(),
-                            http: true,
+                            fileName: dataSnb.ten.toString(),
+                            url: dataSnb.duongDan.toString()
+                            // dataSnb.ten.toString(),
+                            // dataSnb.duongDan.toString(),
+                            // http: true,
                           )
                               .then(
                                 (value) => MessageConfig.show(

@@ -61,7 +61,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res.succeeded ?? false) {
-          initData(boolGetChiTietLichHop: true);
+          initDataChiTiet();
         }
       },
       error: (err) {
@@ -84,7 +84,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res.succeeded ?? false) {
-          initData(boolGetChiTietLichHop: true);
+          initDataChiTiet();
         }
       },
       error: (err) {
@@ -125,6 +125,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   }) async {
     showLoading();
     final List<bool> checkAllFinal = [];
+
     for (int i = 0; i <= listTHietBiDuocChon.length; i++) {
       await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
         (vl) => checkAllFinal.add(vl),
@@ -149,7 +150,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res.succeeded ?? false) {
-          initData(boolGetChiTietLichHop: true);
+          initDataChiTiet();
         }
       },
       error: (err) {

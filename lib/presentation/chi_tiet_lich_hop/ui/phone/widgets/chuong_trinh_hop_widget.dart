@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_phien_hop.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -44,11 +45,20 @@ class ChuongTrinhHopWidget extends StatefulWidget {
 
 class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (!isMobile()) {
+      widget.cubit.callApiChuongTrinhHop();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: ExpandOnlyWidget(
         onchange: (vl) {
-          if (vl) {
+          if (vl && isMobile()) {
             widget.cubit.callApiChuongTrinhHop();
           }
         },
@@ -103,7 +113,6 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                       listPhienHopModel: data[index],
                       context: context,
                       id: widget.cubit.idCuocHop,
-                      isCheckTap: false,
                     );
                   },
                 );
@@ -150,7 +159,6 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                       listPhienHopModel: data[index],
                       context: context,
                       id: widget.cubit.idCuocHop,
-                      isCheckTap: true,
                     );
                   },
                 );
@@ -166,388 +174,356 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
     required ListPhienHopModel listPhienHopModel,
     required BuildContext context,
     required String id,
-    required bool isCheckTap,
   }) {
-    return isCheckTap
-        ? Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(6)),
-              border: Border.all(color: borderItemCalender),
-            ),
-            child: Column(
+    return screenDevice(
+      mobileScreen: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
+          border: Border.all(color: borderItemCalender),
+        ),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      listPhienHopModel.tieuDe ?? '',
-                      style: titleAppbar(
-                        fontSize: 16.0.textScale(),
+                Text(
+                  listPhienHopModel.tieuDe ?? '',
+                  style: titleAppbar(
+                    fontSize: 16.0.textScale(),
+                  ),
+                ),
+                const Expanded(child: SizedBox()),
+                GestureDetector(
+                  onTap: () {
+                    showDiaLogTablet(
+                      context,
+                      title: S.current.sua_phien_hop,
+                      child: SuaPhienHopScreen(
+                        id: listPhienHopModel.id ?? '',
+                        cubit: widget.cubit,
+                        phienHopModel: listPhienHopModel,
+                        lichHopId: id,
                       ),
-                    ),
-                    const Expanded(child: SizedBox()),
-                    GestureDetector(
-                      onTap: () {
-                        showDiaLogTablet(
-                          context,
-                          title: S.current.sua_phien_hop,
-                          child: SuaPhienHopScreen(
-                            id: listPhienHopModel.id ?? '',
-                            cubit: widget.cubit,
-                            phienHopModel: listPhienHopModel,
-                            lichHopId: id,
-                          ),
-                          isBottomShow: false,
-                          funcBtnOk: () {
-                            Navigator.pop(context);
-                          },
-                        ).then((value) {
-                          if (value == true) {
-                            widget.cubit.initData();
-                          } else if (value == null) {
-                            return;
-                          }
-                        });
+                      isBottomShow: false,
+                      funcBtnOk: () {
+                        Navigator.pop(context);
                       },
-                      child: SvgPicture.asset(ImageAssets.icEditBlue),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showDiaLog(
-                          context,
-                          title: S.current.xoa_chuong_trinh_hop,
-                          icon: SvgPicture.asset(
-                            ImageAssets.deleteChuongTrinhHop,
-                          ),
-                          btnLeftTxt: S.current.khong,
-                          btnRightTxt: S.current.dong_y,
-                          funcBtnRight: () {
-                            widget.cubit
-                                .xoaChuongTrinhHop(
-                                    id: listPhienHopModel.id ?? '')
-                                .then((value) {
-                              MessageConfig.show(
-                                title: S.current.xoa_thanh_cong,
-                              );
-                              widget.cubit.initData();
-                            }).onError((error, stackTrace) {
-                              MessageConfig.show(
-                                title: S.current.xoa_that_bai,
-                                messState: MessState.error,
-                              );
-                            });
-                          },
-                          showTablet: true,
-                          textContent: S.current.conten_xoa_chuong_trinh,
-                        ).then((value) {});
-                      },
-                      child: SvgPicture.asset(ImageAssets.ic_delete_do),
-                    )
-                  ],
+                    ).then((value) {
+                      if (value == true) {
+                        widget.cubit.initDataChiTiet();
+                      } else if (value == null) {
+                        return;
+                      }
+                    });
+                  },
+                  child: SvgPicture.asset(ImageAssets.icEditBlue),
                 ),
                 const SizedBox(
-                  height: 10,
+                  width: 20,
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              S.current.thoi_gian,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              'Người phụ trách',
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              S.current.noi_dung,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                        ],
+                GestureDetector(
+                  onTap: () {
+                    showDiaLog(
+                      context,
+                      title: S.current.xoa_chuong_trinh_hop,
+                      icon: SvgPicture.asset(
+                        ImageAssets.deleteChuongTrinhHop,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.thoiGianBatDau ?? '',
-                            style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.hoTen ?? '',
-                            style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.noiDung ?? '',
-                            style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                      btnLeftTxt: S.current.khong,
+                      btnRightTxt: S.current.dong_y,
+                      funcBtnRight: () {
+                        widget.cubit
+                            .xoaChuongTrinhHop(id: listPhienHopModel.id ?? '')
+                            .then((value) {
+                          MessageConfig.show(
+                            title: S.current.xoa_thanh_cong,
+                          );
+                          widget.cubit.initDataChiTiet();
+                        }).onError((error, stackTrace) {
+                          MessageConfig.show(
+                            title: S.current.xoa_that_bai,
+                            messState: MessState.error,
+                          );
+                        });
+                      },
+                      showTablet: true,
+                      textContent: S.current.conten_xoa_chuong_trinh,
+                    ).then((value) {});
+                  },
+                  child: SvgPicture.asset(ImageAssets.ic_delete_do),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            RowDataWidget(
+              keyTxt: S.current.thoi_gian,
+              value: listPhienHopModel.dateTimeView(),
+            ),
+            RowDataWidget(
+              keyTxt: 'Người phụ trách',
+              value: listPhienHopModel.hoTen ?? '',
+            ),
+            RowDataWidget(
+              keyTxt: S.current.noi_dung,
+              value: listPhienHopModel.noiDung ?? '',
+            ),
+            listFileDinhKem(
+              keyTxt: S.current.file_dinh_kem,
+              listPhienHopModel: listPhienHopModel,
+            ),
+          ],
+        ),
+      ),
+      tabletScreen: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
+          border: Border.all(color: borderItemCalender),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  listPhienHopModel.tieuDe ?? '',
+                  style: titleAppbar(
+                    fontSize: 16.0.textScale(),
+                  ),
                 ),
-                Row(
+                const Expanded(child: SizedBox()),
+                GestureDetector(
+                  onTap: () {},
+                  child: SvgPicture.asset(ImageAssets.icEditBlue),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showDiaLog(
+                      context,
+                      title: S.current.xoa_chuong_trinh_hop,
+                      icon: SvgPicture.asset(ImageAssets.deleteChuongTrinhHop),
+                      btnLeftTxt: S.current.khong,
+                      btnRightTxt: S.current.dong_y,
+                      funcBtnRight: () {
+                        widget.cubit
+                            .xoaChuongTrinhHop(id: listPhienHopModel.id ?? '')
+                            .then((value) {
+                          MessageConfig.show(
+                            title: S.current.xoa_thanh_cong,
+                          );
+                          widget.cubit.initDataChiTiet();
+                        }).onError((error, stackTrace) {
+                          MessageConfig.show(
+                            title: S.current.xoa_that_bai,
+                          );
+                        });
+                      },
+                      showTablet: false,
+                      textContent: S.current.conten_xoa_chuong_trinh,
+                    ).then((value) {});
+                  },
+                  child: SvgPicture.asset(ImageAssets.ic_delete_do),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          S.current.thoi_gian,
+                          style: textDetailHDSD(
+                            fontSize: 14.0.textScale(),
+                            color: infoColor,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          'Người phụ trách',
+                          style: textDetailHDSD(
+                            fontSize: 14.0.textScale(),
+                            color: infoColor,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          S.current.noi_dung,
+                          style: textDetailHDSD(
+                            fontSize: 14.0.textScale(),
+                            color: infoColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 14,
+                ),
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${S.current.file}                      ',
-                      style: textDetailHDSD(
-                        fontSize: 14.0.textScale(),
-                        color: infoColor,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        listPhienHopModel.thoiGianBatDau ?? '',
+                        style: textDetailHDSD(
+                            fontSize: 14.0.textScale(), color: textTitle),
                       ),
                     ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: listPhienHopModel.files.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final data = listPhienHopModel.files
-                              .map((e) => e.name)
-                              .toList();
-                          return Text(
-                            data[index] ?? S.current.khong_co_tep_nao,
-                            style: textDetailHDSD(
-                              fontSize: 14.0.textScale(),
-                              color: color5A8DEE,
-                            ),
-                          );
-                        },
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        listPhienHopModel.hoTen ?? '',
+                        style: textDetailHDSD(
+                            fontSize: 14.0.textScale(), color: textTitle),
                       ),
-                    )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        listPhienHopModel.noiDung ?? '',
+                        style: textDetailHDSD(
+                            fontSize: 14.0.textScale(), color: textTitle),
+                      ),
+                    ),
                   ],
                 )
               ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${S.current.file}                      ',
+                  style: textDetailHDSD(
+                    fontSize: 14.0.textScale(),
+                    color: infoColor,
+                  ),
+                ),
+                const SizedBox(
+                  width: 14,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: listPhienHopModel.files.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final data =
+                          listPhienHopModel.files.map((e) => e.name).toList();
+                      return Text(
+                        data[index] ?? S.current.khong_co_tep_nao,
+                        style: textDetailHDSD(
+                          fontSize: 14.0.textScale(),
+                          color: color5A8DEE,
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showSuaWidget(
+      {required ListPhienHopModel listPhienHopModel, required String id}) {
+    if (isMobile()) {
+      showBottomSheetCustom(
+        context,
+        child: SuaPhienHopScreen(
+          id: listPhienHopModel.id ?? '',
+          cubit: widget.cubit,
+          phienHopModel: listPhienHopModel,
+          lichHopId: id,
+        ),
+        title: S.current.sua_phien_hop,
+      ).then((value) {
+        if (value == true) {
+          widget.cubit.initDataChiTiet();
+        } else if (value == null) {
+          return;
+        }
+      });
+    } else {
+      showDiaLogTablet(
+        context,
+        title: S.current.sua_phien_hop,
+        child: SuaPhienHopScreen(
+          id: listPhienHopModel.id ?? '',
+          cubit: widget.cubit,
+          phienHopModel: listPhienHopModel,
+          lichHopId: id,
+        ),
+        isBottomShow: false,
+        funcBtnOk: () {
+          Navigator.pop(context);
+        },
+      ).then((value) {
+        if (value == true) {
+          widget.cubit.initDataChiTiet();
+        } else if (value == null) {
+          return;
+        }
+      });
+    }
+  }
+
+  Widget listFileDinhKem(
+          {required String keyTxt,
+          required ListPhienHopModel listPhienHopModel}) =>
+      Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              keyTxt,
+              style: textNormal(infoColor, 14.0.textScale()),
+            ),
+          ),
+          const SizedBox(
+            width: 14,
+          ),
+          Expanded(
+            flex: 6,
+            child: ListView.builder(
+              itemCount: listPhienHopModel.files.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final data =
+                    listPhienHopModel.files.map((e) => e.name).toList();
+                return Text(
+                  data[index] ?? S.current.khong_co_tep_nao,
+                  style: textDetailHDSD(
+                    fontSize: 14.0.textScale(),
+                    color: color5A8DEE,
+                  ),
+                );
+              },
             ),
           )
-        : Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(6)),
-              border: Border.all(color: borderItemCalender),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      listPhienHopModel.tieuDe ?? '',
-                      style: titleAppbar(
-                        fontSize: 16.0.textScale(),
-                      ),
-                    ),
-                    const Expanded(child: SizedBox()),
-                    GestureDetector(
-                      onTap: () {
-                        showBottomSheetCustom(
-                          context,
-                          child: SuaPhienHopScreen(
-                            id: listPhienHopModel.id ?? '',
-                            cubit: widget.cubit,
-                            phienHopModel: listPhienHopModel,
-                            lichHopId: id,
-                          ),
-                          title: S.current.sua_phien_hop,
-                        ).then((value) {
-                          if (value == true) {
-                            widget.cubit.initData();
-                          } else if (value == null) {
-                            return;
-                          }
-                        });
-                      },
-                      child: SvgPicture.asset(ImageAssets.icEditBlue),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showDiaLog(
-                          context,
-                          title: S.current.xoa_chuong_trinh_hop,
-                          icon: SvgPicture.asset(
-                              ImageAssets.deleteChuongTrinhHop),
-                          btnLeftTxt: S.current.khong,
-                          btnRightTxt: S.current.dong_y,
-                          funcBtnRight: () {
-                            widget.cubit
-                                .xoaChuongTrinhHop(
-                                    id: listPhienHopModel.id ?? '')
-                                .then((value) {
-                              MessageConfig.show(
-                                title: S.current.xoa_thanh_cong,
-                              );
-                              widget.cubit.initData();
-                            }).onError((error, stackTrace) {
-                              MessageConfig.show(
-                                title: S.current.xoa_that_bai,
-                              );
-                            });
-                          },
-                          showTablet: false,
-                          textContent: S.current.conten_xoa_chuong_trinh,
-                        ).then((value) {});
-                      },
-                      child: SvgPicture.asset(ImageAssets.ic_delete_do),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              S.current.thoi_gian,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              'Người phụ trách',
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              S.current.noi_dung,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.thoiGianBatDau ?? '',
-                            style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.hoTen ?? '',
-                            style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.noiDung ?? '',
-                            style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${S.current.file}                      ',
-                      style: textDetailHDSD(
-                        fontSize: 14.0.textScale(),
-                        color: infoColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: listPhienHopModel.files.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final data = listPhienHopModel.files
-                              .map((e) => e.name)
-                              .toList();
-                          return Text(
-                            data[index] ?? S.current.khong_co_tep_nao,
-                            style: textDetailHDSD(
-                              fontSize: 14.0.textScale(),
-                              color: color5A8DEE,
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
-          );
-  }
+        ],
+      );
 }
 
 class ThemPhienHopScreen extends StatefulWidget {

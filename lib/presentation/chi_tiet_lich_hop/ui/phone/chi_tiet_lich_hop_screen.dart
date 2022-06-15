@@ -45,10 +45,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = DetailMeetCalenderCubit();
     cubit.idCuocHop = widget.id;
-    cubit.initData(boolGetChiTietLichHop: true);
-    cubit.initDataButton();
+    cubit.initDataChiTiet();
   }
 
   @override
@@ -98,7 +96,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
           child: ExpandGroup(
             child: RefreshIndicator(
               onRefresh: () async {
-                await cubit.initData();
+                await cubit.initDataChiTiet();
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -177,18 +175,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     ),
                     PhatBieuWidget(
                       cubit: cubit,
-                      id: widget.id,
                     ),
                     BieuQuyetWidget(
-                      id: widget.id,
                       cubit: cubit,
                     ),
                     KetLuanHopWidget(
                       cubit: cubit,
-                      id: widget.id,
                     ),
                     YKienCuocHopWidget(
-                      id: widget.id,
                       cubit: cubit,
                     ),
                     BocBangWidget(

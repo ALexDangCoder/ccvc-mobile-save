@@ -4,8 +4,10 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/bieu_quyet_widget_tablet.dart';
@@ -16,6 +18,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/sua
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/thong_tin_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_widget.dart';
@@ -43,14 +46,13 @@ class DetailMeetCalenderTablet extends StatefulWidget {
 }
 
 class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
-  late DetailMeetCalenderCubit cubit;
+  late DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
   final _controller = TabController(vsync: AnimatedListState(), length: 9);
 
   @override
   void initState() {
-    cubit = DetailMeetCalenderCubit();
     cubit.idCuocHop = widget.id;
-    cubit.initData(boolGetChiTietLichHop: true);
+    cubit.initDataChiTiet();
     super.initState();
   }
 
@@ -314,26 +316,26 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     content: TabBarView(
                       controller: _controller,
                       children: [
-                        CongTacChuanBiWidgetTablet(
+                        CongTacChuanBiWidget(
                           cubit: cubit,
                         ),
                         ChuongTrinhHopWidget(
                           cubit: cubit,
                         ),
-                        ThanhPhanThamGiaWidgetTablet(
+                        ThanhPhanThamGiaWidget(
                           cubit: cubit,
                         ),
                         TaiLieuWidget(
                           cubit: cubit,
                         ),
-                        PhatBieuWidgetTablet(id: widget.id, cubit: cubit),
-                        BieuQuyetWidgetTablet(
-                          id: widget.id,
+                        PhatBieuWidget(
                           cubit: cubit,
                         ),
-                        KetLuanHopWidget(id: widget.id, cubit: cubit),
+                        BieuQuyetWidget(
+                          cubit: cubit,
+                        ),
+                        KetLuanHopWidget(cubit: cubit),
                         YKienCuocHopWidget(
-                          id: widget.id,
                           cubit: cubit,
                         ),
                         BocBangWidget(

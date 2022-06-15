@@ -228,71 +228,15 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     return result;
   }
 
-  Future<void> initData({
-    bool? boolGetChiTietLichHop,
-    bool? boolGetDanhSachNguoiChuTriPhienHop,
-    bool? boolGetListPhienHop,
-  }) async {
-    if (boolGetChiTietLichHop ?? false) {
-      await getChiTietLichHop(idCuocHop);
-    }
+  Future<void> initDataChiTiet() async {
+    await getChiTietLichHop(idCuocHop);
 
-    final queue = Queue(parallel: 15);
-    // unawaited(queue.add(() => getDanhSachThuHoiLichHop(id)));
+    await getDanhSachThuHoiLichHop(idCuocHop);
 
-    ///Chương trình họp
-    if (boolGetDanhSachNguoiChuTriPhienHop ?? false) {
-      await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-    }
-    if (boolGetListPhienHop ?? false) {
-      await getListPhienHop(idCuocHop);
-    }
-
-    ///Phát biểu
-    // unawaited(
-    //     queue.add(() => getDanhSachPhatBieuLichHop(status: 0, lichHopId: id)));
-    // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
-
-    ///Biểu quyết
-    // unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: idCuocHop)));
-    // unawaited(queue.add(() => callApi(idCuocHop)));
-
-    ///Thành phần tham gia
-    // unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));
-    // unawaited(queue.add(() => themThanhPhanThamGia()));
-
-    ///kết luận họp
-    // unawaited(queue.add(() => getDanhSachNhiemVu(id)));
-    // unawaited(queue.add(() => getXemKetLuanHop(id)));
-    // unawaited(queue.add(() => getDanhSachLoaiNhiemVu()));
-    // unawaited(queue.add(() => ListStatusKetLuanHop()));
-    // unawaited(queue.add(() => postChonMauHop()));
-
-    ///ý kiến
-    // unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
-    // unawaited(queue.add(() => getDanhSachPhienHop(id)));
-
-    ///nguoi theo doi
-    // unawaited(queue.add(() => getNguoiChuTri(id)));
+    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
 
     ///check permission button
     initDataButton();
-    await queue.onComplete.catchError((er) {});
-    queue.dispose();
-  }
-
-  String plusTaoBieuQuyet(String date, TimerData time) {
-    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-    final dateTime = dateFormat.parse(date);
-
-    final times = DateTime(
-      dateTime.year,
-      dateTime.month,
-      dateTime.day,
-      time.hour,
-      time.minutes,
-    );
-    return times.formatApiTaoBieuQuyet;
   }
 
   Future<void> getDanhSachNTGChuongTrinhHop({
@@ -314,14 +258,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<DanhSachNguoiThamGiaModel> listDanhSach = [];
   List<String> listLuaChon = [];
-
-  Future<void> callApi(String id) async {
-    await getDanhSachBieuQuyetLichHop(
-      idLichHop: id,
-      canBoId: HiveLocal.getDataUser()?.userId ?? '',
-      idPhienHop: '',
-    );
-  }
 
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
       BehaviorSubject<List<CanBoModel>>();
@@ -354,21 +290,10 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
-  void dispose() {}
-
   String dateTimeCovert(int time) {
     if (time < 10) {
       return '0$time';
     }
     return '$time';
-  }
-
-  ///handle timer
-  bool isNotStartYet({required DateTime startTime}) {
-    if (DateTime.now().isBefore(startTime)) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

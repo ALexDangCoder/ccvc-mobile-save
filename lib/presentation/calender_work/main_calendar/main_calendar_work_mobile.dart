@@ -101,6 +101,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               );
                               cubit.modeLLV =
                                   Type_Choose_Option_List.DANG_LICH;
+                              cubit.isSearchBar.add(false);
                             }
 
                             if (value == S.current.theo_dang_danh_sach) {
@@ -109,6 +110,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               );
                               cubit.modeLLV =
                                   Type_Choose_Option_List.DANG_LIST;
+                              cubit.isSearchBar.add(true);
                             }
                           },
                           listItem: listThongBao,

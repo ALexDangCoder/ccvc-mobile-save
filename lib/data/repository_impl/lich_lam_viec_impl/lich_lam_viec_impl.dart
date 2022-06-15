@@ -569,11 +569,12 @@ class LichLamViecImlp implements LichLamViecRepository {
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
     String scheduleId,
+    String content,
     List<File> files,
   ) {
     return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
       () =>
-          lichLamViecService.taoBaoCaoKetQua(reportStatusId, scheduleId, files),
+          lichLamViecService.taoBaoCaoKetQua(reportStatusId, scheduleId, content,files),
       (res) => res.toDomain(),
     );
   }

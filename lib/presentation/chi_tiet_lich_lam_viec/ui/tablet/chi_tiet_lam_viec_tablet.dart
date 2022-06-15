@@ -81,8 +81,10 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                 context,
                                 title: S.current.bao_cao_ket_qua,
                                 child: BaoCaoBottomSheet(
-                                  listBaoCao:
-                                      chiTietLichLamViecCubit.listBaoCao,
+                                  listTinhTrangBaoCao:
+                                      chiTietLichLamViecCubit.listTinhTrang,
+                                  cubit: BaoCaoKetQuaCubit(),
+                                  scheduleId: widget.id,
                                 ),
                               );
                             },

@@ -14,6 +14,8 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
@@ -97,8 +99,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   // huy lich lam viec
   LichLamViecRepository get cancelLichLamViec => Get.find();
 
-  Future<void> cancel(String id, {int statusId = 8, bool isMulti = false }) async {
-    final rs = await detailLichLamViec.cancelCalenderWork(id,statusId, isMulti );
+  Future<void> cancel(String id,
+      {int statusId = 8, bool isMulti = false}) async {
+    final rs =
+        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
     rs.when(success: (data) {}, error: (error) {});
   }
 
@@ -221,5 +225,33 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     _listBaoCaoKetQua.close();
     chiTietLichLamViecSubject.close();
     _listYKien.close();
+  }
+}
+
+///Báo cáo kết quả
+class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
+  String reportStatusId = '';
+  List<File> files = [];
+  TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
+  final OverlayState? overlayState = Overlay.of(MessageConfig.contextConfig!);
+  void init(List<TinhTrangBaoCaoModel> list){
+    if(list.isNotEmpty){
+      reportStatusId = list.first.id ?? '';
+      tinhTrangBaoCaoModel = list.first;
+    }
+  }
+  Future<void> createScheduleReport(String scheduleId, String content) async {
+    ShowLoadingScreen.show();
+    final result = await detailLichLamViec.taoBaoCaoKetQua(
+        reportStatusId, scheduleId, content, files);
+    ShowLoadingScreen.dismiss();
+    result.when(success: (res) {
+      MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
+      emit(SuccessChiTietLichLamViecState());
+    }, error: (err) {
+      MessageConfig.show(
+          title: S.current.bao_cao_ket_qua_that_bai,
+          messState: MessState.error);
+    });
   }
 }

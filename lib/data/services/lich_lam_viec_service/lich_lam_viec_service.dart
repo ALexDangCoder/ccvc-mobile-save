@@ -153,6 +153,7 @@ abstract class LichLamViecService {
   Future<TaoBaoCaoKetQuaResponse> taoBaoCaoKetQua(
     @Part() String ReportStatusId,
     @Part() String ScheduleId,
+    @Part() String Content,
     @Part() List<File> Files,
   );
 

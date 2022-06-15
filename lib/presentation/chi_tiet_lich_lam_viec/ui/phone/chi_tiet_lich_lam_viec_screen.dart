@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/bottom_sheet_bao_cao.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/btn_show_chinh_sua_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/show_bottom_sheet_ds_y_Kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
@@ -86,9 +85,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 showBottomSheetCustom(
                                   context,
                                   title: S.current.bao_cao_ket_qua,
-                                  child:  BaoCaoBottomSheet(
-                                    listBaoCao:
-                                        chiTietLichLamViecCubit.listBaoCao,
+                                  child: BaoCaoBottomSheet(
+                                    listTinhTrangBaoCao:
+                                        chiTietLichLamViecCubit.listTinhTrang,
+                                    cubit: BaoCaoKetQuaCubit(),
+                                    scheduleId: widget.id,
                                   ),
                                 );
                               },
@@ -205,13 +206,13 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
                               ],
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 24),
-                              child: BtnShowChinhSuaBaoCao(
-                                chiTietLichLamViecCubit:
-                                    chiTietLichLamViecCubit,
-                              ),
-                            ),
+                            // Container(
+                            //   margin: const EdgeInsets.symmetric(vertical: 24),
+                            //   child: BtnShowChinhSuaBaoCao(
+                            //     chiTietLichLamViecCubit:
+                            //         chiTietLichLamViecCubit,
+                            //   ),
+                            // ),
                             DanhSachYKienButtom(
                               cubit: chiTietLichLamViecCubit,
                             ),

@@ -59,64 +59,65 @@ class _SuaLichCongTacTrongNuocTabletState
   TextEditingController noiDungController = TextEditingController();
   TextEditingController diaDiemController = TextEditingController();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
-  String dateTimeReceive = 'yyyy-MM-ddTHH:mm:ss';
-  String dateTimePicker = 'yyyy-MM-dd hh:mm';
-  String dateTimePut = 'yyyy-MM-dd hh:mm:ss.ms';
+  bool timeValue = false;
 
   @override
   void initState() {
+    assignData(widget.event);
+    taoLichLamViecCubit.loadData();
+    super.initState();
+  }
+  void assignData(ChiTietLichLamViecModel event) {
     taoLichLamViecCubit.listeningEndDataTime(
       DateTime.parse(
         timeFormat(
-          '${widget.event.dateTimeTo}',
-          dateTimeReceive,
-          dateTimePut,
+          '${event.dateTimeTo}',
+          DateTimeFormat.DATE_TIME_RECEIVE,
+          DateTimeFormat.DATE_TIME_PUT,
         ),
       ),
     );
     taoLichLamViecCubit.listeningStartDataTime(
       DateTime.parse(
         timeFormat(
-          '${widget.event.dateTimeFrom}',
-          dateTimeReceive,
-          dateTimePut,
+          '${event.dateTimeFrom}',
+          DateTimeFormat.DATE_TIME_RECEIVE,
+          DateTimeFormat.DATE_TIME_PUT,
         ),
       ),
     );
-    taoLichLamViecCubit.chiTietLichLamViecModel = widget.event;
-    taoLichLamViecCubit.selectedCountry = widget.event.country ?? '';
-    taoLichLamViecCubit.selectedCountryID = widget.event.countryId ?? '';
-    taoLichLamViecCubit.datNuocSelectModel?.id = widget.event.countryId;
-    taoLichLamViecCubit.typeScheduleId = widget.event.typeScheduleId;
-    taoLichLamViecCubit.dateTimeFrom = widget.event.dateTimeFrom;
-    taoLichLamViecCubit.dateTimeTo = widget.event.dateTimeTo;
-    taoLichLamViecCubit.linhVucString = widget.event.linhVuc;
-    taoLichLamViecCubit.days = widget.event.days;
-    taoLichLamViecCubit.typeRepeat = widget.event.typeRepeat;
-    taoLichLamViecCubit.typeScheduleName = widget.event.typeScheduleName;
-    taoLichLamViecCubit.changeOption.sink
-        .add(widget.event.typeScheduleName ?? '');
-    taoLichLamViecCubit.publishSchedule = widget.event.publishSchedule;
 
-    taoLichLamViecCubit.dateRepeat = widget.event.dateRepeat;
+    taoLichLamViecCubit.chiTietLichLamViecModel = event;
+    taoLichLamViecCubit.selectedCountry = event.country ?? '';
+    taoLichLamViecCubit.selectedCountryID = event.countryId ?? '';
+    taoLichLamViecCubit.datNuocSelectModel?.id = event.countryId;
+    taoLichLamViecCubit.typeScheduleId = event.typeScheduleId;
+    taoLichLamViecCubit.dateTimeFrom = event.dateTimeFrom;
+    taoLichLamViecCubit.dateTimeTo = event.dateTimeTo;
+    taoLichLamViecCubit.linhVucString = event.linhVuc;
+    taoLichLamViecCubit.days = event.days;
+    taoLichLamViecCubit.typeRepeat = event.typeRepeat;
+    taoLichLamViecCubit.typeScheduleName = event.typeScheduleName;
+    taoLichLamViecCubit.changeOption.sink.add(event.typeScheduleName ?? '');
+    taoLichLamViecCubit.publishSchedule = event.publishSchedule;
 
-    taoLichLamViecCubit.scheduleReminder = widget.event.scheduleReminder;
+    taoLichLamViecCubit.dateRepeat = event.dateRepeat;
+
+    taoLichLamViecCubit.scheduleReminder = event.scheduleReminder;
     taoLichLamViecCubit.chiTietLichLamViecModel.scheduleCoperatives =
-        widget.event.scheduleCoperatives;
-    tieuDeController.text = widget.event.title ?? '';
-    noiDungController.text = widget.event.content ?? '';
-    diaDiemController.text = widget.event.location ?? '';
-    if (widget.event.typeScheduleId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
+        event.scheduleCoperatives;
+    tieuDeController.text = event.title ?? '';
+    noiDungController.text = event.content ?? '';
+    diaDiemController.text = event.location ?? '';
+    if (event.typeScheduleId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
       taoLichLamViecCubit.checkTrongNuoc.sink.add(true);
     } else {
       taoLichLamViecCubit.checkTrongNuoc.sink.add(false);
     }
-    taoLichLamViecCubit.files = widget.event.files;
-    taoLichLamViecCubit.id = widget.event.id;
-    taoLichLamViecCubit.loadData();
-    super.initState();
+    taoLichLamViecCubit.files = event.files;
+    taoLichLamViecCubit.id = event.id;
+    taoLichLamViecCubit.title = event.title;
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<TaoLichLamViecCubit, TaoLichLamViecState>(
@@ -313,8 +314,8 @@ class _SuaLichCongTacTrongNuocTabletState
                                     DateTime.parse(
                                       timeFormat(
                                         '$dateEnd $timeEnd',
-                                        dateTimePicker,
-                                        dateTimePut,
+                                        DateTimeFormat.DATE_TIME_PICKER,
+                                        DateTimeFormat.DATE_TIME_PUT,
                                       ),
                                     ),
                                   );
@@ -322,8 +323,8 @@ class _SuaLichCongTacTrongNuocTabletState
                                     DateTime.parse(
                                       timeFormat(
                                         '$dateStart $timeStart',
-                                        dateTimePicker,
-                                        dateTimePut,
+                                        DateTimeFormat.DATE_TIME_PICKER,
+                                        DateTimeFormat.DATE_TIME_PUT,
                                       ),
                                     ),
                                   );
@@ -332,7 +333,9 @@ class _SuaLichCongTacTrongNuocTabletState
                                   taoLichLamViecCubit.isCheckAllDaySubject
                                       .add(value);
                                 },
-                                validateTime: (bool value) {},
+                                validateTime: (bool value) {
+                                  timeValue = value;
+                                },
                               ),
                               StreamBuilder<List<NhacLaiModel>>(
                                   stream: taoLichLamViecCubit.nhacLai,
@@ -624,7 +627,7 @@ class _SuaLichCongTacTrongNuocTabletState
                               background: textDefault,
                               textColor: Colors.white,
                               onTap: () async {
-                                if (_formKey.currentState!.validate()) {
+                                if (_formKey.currentState!.validate() && !timeValue) {
                                   checkInside(data);
                                 }
                               },

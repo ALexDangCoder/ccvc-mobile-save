@@ -2,18 +2,21 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
+import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
 
 class BaoCaoBottomSheet extends StatefulWidget {
-  const BaoCaoBottomSheet({
-    Key? key,
-  }) : super(key: key);
+  final List<BaoCaoModel> listBaoCao;
+  const BaoCaoBottomSheet({Key? key, required this.listBaoCao})
+      : super(key: key);
 
   @override
   _ChinhSuaBaoCaoBottomSheetState createState() =>
@@ -27,45 +30,22 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
       padding: const EdgeInsets.only(top: 20),
-      child: Scaffold(
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: ButtonCustomBottom(
-                    title: S.current.dong,
-                    isColorBlue: false,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: ButtonCustomBottom(
-                    title: S.current.them,
-                    isColorBlue: true,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 32,
-            )
-          ],
+      child: FollowKeyBoardWidget(
+        bottomWidget: DoubleButtonBottom(
+          onPressed2: () {},
+          title2: S.current.them,
+          title1: S.current.dong,
+          onPressed1: () {
+            Navigator.pop(context);
+          },
         ),
-        body: SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
@@ -87,11 +67,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               ),
               CustomDropDown(
                 value: S.current.trung_binh,
-                items: [
-                  S.current.trung_binh,
-                  S.current.dat,
-                  S.current.khong_dat,
-                ],
+                items: widget.listBaoCao.map((e) => e.content).toList(),
               ),
               const SizedBox(
                 height: 20,
@@ -118,12 +94,4 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
       ),
     );
   }
-}
-
-void showBaoCaoKetQua(BuildContext context) {
-  showBottomSheetCustom(
-    context,
-    child: const BaoCaoBottomSheet(),
-    title: S.current.bao_cao_ket_qua,
-  );
 }

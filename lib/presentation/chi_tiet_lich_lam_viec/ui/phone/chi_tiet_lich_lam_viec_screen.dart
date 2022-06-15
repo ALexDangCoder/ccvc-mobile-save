@@ -34,7 +34,6 @@ class ChiTietLichLamViecScreen extends StatefulWidget {
 class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit =
       ChiTietLichLamViecCubit();
-  final TaoLichLamViecCubit cubit = TaoLichLamViecCubit();
 
   @override
   void initState() {
@@ -87,7 +86,10 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 showBottomSheetCustom(
                                   context,
                                   title: S.current.bao_cao_ket_qua,
-                                  child: const BaoCaoBottomSheet(),
+                                  child:  BaoCaoBottomSheet(
+                                    listBaoCao:
+                                        chiTietLichLamViecCubit.listBaoCao,
+                                  ),
                                 );
                               },
                             ),
@@ -143,9 +145,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     cubit: chiTietLichLamViecCubit,
                                     event: data,
                                   ),
-                                ).then((value){
+                                ).then((value) {
                                   if (value == true) {
-                                    Navigator.pop(context,true);
+                                    Navigator.pop(context, true);
                                   } else if (value == null) {
                                     return;
                                   }

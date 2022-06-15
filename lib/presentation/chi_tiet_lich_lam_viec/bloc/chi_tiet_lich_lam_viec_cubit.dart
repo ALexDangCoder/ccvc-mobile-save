@@ -43,6 +43,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
 
   LichLamViecRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
+  List<BaoCaoModel> listBaoCao = [];
 
   Future<void> dataChiTietLichLamViec(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
@@ -128,6 +129,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     final result = await detailLichLamViec.getDanhSachBaoCao(id);
     result.when(
         success: (res) {
+          listBaoCao = res;
           _listBaoCaoKetQua.sink.add(res);
         },
         error: (err) {});

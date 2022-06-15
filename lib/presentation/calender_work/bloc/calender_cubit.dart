@@ -25,7 +25,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalenderCubit extends BaseCubit<CalenderState> {
 
-  bool changeDateByClick = true;
+  bool changeDateByClick = false ;
 
 
   CalenderCubit() : super(const CalenderStateIntial());
@@ -124,7 +124,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
 
   Future<void> getListLichLV() async {
     showLoading();
-    print('');
     final DanhSachLichLamViecRequest data = DanhSachLichLamViecRequest(
       DateFrom: startDates.formatApi,
       DateTo: endDates.formatApi,
@@ -292,7 +291,7 @@ class DataSource extends CalendarDataSource {
 
 extension HandleDataCalendar on CalenderCubit {
   Future<void> updateDataSlideCalendar(DateTime timeSlide) async {
-    if (!changeDateByClick){
+    if (changeDateByClick ){
       showLoading();
       selectDay = timeSlide;
       await postEventsCalendar();

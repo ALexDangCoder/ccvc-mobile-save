@@ -25,6 +25,7 @@ class TableCalendarWidget extends StatefulWidget {
   final Type_Choose_Option_Day type;
   final List<DateTime>? eventsLoader;
   final DateTime? initTime;
+  final bool isSearchBar;
 
   const TableCalendarWidget({
     Key? key,
@@ -36,6 +37,7 @@ class TableCalendarWidget extends StatefulWidget {
     this.eventsLoader,
     required this.onChangeText,
     this.initTime,
+    this.isSearchBar = true,
   }) : super(key: key);
 
   @override
@@ -176,7 +178,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (isSearch)
+                    if (isSearch && widget.isSearchBar)
                       Expanded(
                         child: TextField(
                           onChanged: (value) {
@@ -217,14 +219,15 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           ],
                         ),
                       ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isSearch = !isSearch;
-                        });
-                      },
-                      child: SvgPicture.asset(ImageAssets.ic_search_calendar),
-                    ),
+                    if (widget.isSearchBar) GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isSearch = !isSearch;
+                              });
+                            },
+                            child: SvgPicture.asset(
+                                ImageAssets.ic_search_calendar),
+                          ) else Container(),
                   ],
                 ),
               ),

@@ -91,6 +91,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                                   );
                                   cubit.modeLLV =
                                       Type_Choose_Option_List.DANG_LICH;
+                                  cubit.isSearchBar.add(false);
                                 }
 
                                 if (value == S.current.theo_dang_danh_sach) {
@@ -100,6 +101,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                                 }
                                 cubit.modeLLV =
                                     Type_Choose_Option_List.DANG_LIST;
+                                cubit.isSearchBar.add(true);
                               },
                               listItem: listThongBao,
                               onTapLanhDao: (value) {
@@ -193,6 +195,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                       stream: cubit.eventsStream,
                       builder: (context, snapshot) {
                         return TableCandarTablet(
+
                           eventsLoader: snapshot.data,
                           type: state.type,
                           onChangeRange: (

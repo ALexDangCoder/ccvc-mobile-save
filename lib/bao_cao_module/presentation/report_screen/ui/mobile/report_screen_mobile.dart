@@ -152,6 +152,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                     isTitle: false,
                     shrinkWap: true,
                     checkRatio: 1.5,
+                    mainAxisExtent: 130,
                     crossAxisSpacing: 17,
                     childrenView: [
                       Column(

@@ -107,14 +107,18 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.chooseTypeListLv(
                                 Type_Choose_Option_List.DANG_LICH,
                               );
-                              cubit.modeLLV = Type_Choose_Option_List.DANG_LICH;
+                              cubit.modeLLV =
+                                  Type_Choose_Option_List.DANG_LICH;
+                              cubit.isSearchBar.add(false);
                             }
 
                             if (value == S.current.theo_dang_danh_sach) {
                               cubit.chooseTypeListLv(
                                 Type_Choose_Option_List.DANG_LIST,
                               );
-                              cubit.modeLLV = Type_Choose_Option_List.DANG_LIST;
+                              cubit.modeLLV =
+                                  Type_Choose_Option_List.DANG_LIST;
+                              cubit.isSearchBar.add(true);
                             }
                           },
                           listItem: listThongBao,

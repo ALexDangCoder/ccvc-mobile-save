@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_s
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -73,9 +74,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     S.current.ban_chan_chan_huy_lich_nay,
                                 btnLeftTxt: S.current.khong,
                                 funcBtnRight: () async {
-                                  await chiTietLichLamViecCubit
-                                      .cancel(widget.id);
-                                  Navigator.pop(context, true);
+                                  checkCancelDuplicateCal(
+                                    dataModel.isLichLap ?? false,
+                                  );
                                 },
                                 title: S.current.huy_lich,
                                 btnRightTxt: S.current.dong_y,
@@ -117,20 +118,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                             urlImage: ImageAssets.icDelete,
                             text: S.current.xoa_lich,
                             onTap: () {
-                              showDiaLog(
-                                context,
-                                textContent:
-                                    S.current.ban_co_muon_xoa_lich_lam_viec,
-                                btnLeftTxt: S.current.khong,
-                                funcBtnRight: () async {
-                                  await chiTietLichLamViecCubit
-                                      .dataDelete(widget.id);
-                                  Navigator.pop(context, true);
-                                },
-                                title: S.current.xoa_lich_lam_viec,
-                                btnRightTxt: S.current.dong_y,
-                                icon: SvgPicture.asset(
-                                    ImageAssets.icDeleteLichHop),
+                              checkDeleteDuplicateCal(
+                                dataModel.isLichLap ?? false,
                               );
                             },
                           ),
@@ -144,7 +133,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 textOption: false,
                                 child: SuaLichCongTacTrongNuocPhone(
                                   cubit: chiTietLichLamViecCubit,
-                                  event: data,
+                                  event: dataModel,
                                 ),
                               ).then((value) {
                                 if (value == true) {
@@ -226,7 +215,14 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     ),
                   ),
                 )
-              : const Scaffold();
+              : Scaffold(
+            body: Center(
+              child: Text(
+                S.current.khong_co_du_lieu,
+                style: textNormalCustom(fontSize: 14),
+              ),
+            ),
+          );
         },
       ),
     );
@@ -244,6 +240,78 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         return itemScheduleCooperatives(listCooperatives[index]);
       },
     );
+  }
+
+  void checkDeleteDuplicateCal(bool isDup) {
+    if (isDup) {
+      showDialog(
+        context: context,
+        builder: (context) => ThemLinkHopDialog(
+          title: S.current.xoa_lich_lam_viec,
+          isConfirm: false,
+          imageUrl: ImageAssets.icDeleteLichHop,
+          textConfirm: S.current.ban_co_muon_xoa_lich_lam_viec,
+          textRadioAbove: S.current.chi_lich_nay,
+          textRadioBelow: S.current.tu_lich_nay,
+        ),
+      ).then(
+        (value) => chiTietLichLamViecCubit
+            .deleteCalendarWork(widget.id, only: value)
+            .then((_) => Navigator.pop(context, true)),
+      );
+    } else {
+      showDiaLog(
+        context,
+        textContent: S.current.ban_co_muon_xoa_lich_lam_viec,
+        btnLeftTxt: S.current.khong,
+        funcBtnRight: () async {
+          await chiTietLichLamViecCubit.deleteCalendarWork(widget.id).then(
+                (_) => Navigator.pop(context, true),
+              );
+        },
+        title: S.current.xoa_lich_lam_viec,
+        btnRightTxt: S.current.dong_y,
+        icon: SvgPicture.asset(
+          ImageAssets.icDeleteLichHop,
+        ),
+      );
+    }
+  }
+
+  void checkCancelDuplicateCal(bool isDup) {
+    if (isDup) {
+      showDialog(
+        context: context,
+        builder: (context) => ThemLinkHopDialog(
+          title: S.current.huy_lich,
+          isConfirm: false,
+          imageUrl: ImageAssets.icHuyLich,
+          textConfirm: S.current.ban_co_chac_muon_huy_lich,
+          textRadioAbove: S.current.chi_lich_nay,
+          textRadioBelow: S.current.tu_lich_nay,
+        ),
+      ).then(
+        (value) => chiTietLichLamViecCubit
+            .cancelCalendarWork(widget.id, isMulti: !value)
+            .then((_) => Navigator.pop(context, true)),
+      );
+    } else {
+      showDiaLog(
+        context,
+        textContent: S.current.ban_co_chac_muon_huy_lich,
+        btnLeftTxt: S.current.khong,
+        funcBtnRight: () async {
+          await chiTietLichLamViecCubit.cancelCalendarWork(widget.id).then(
+                (_) => Navigator.pop(context, true),
+              );
+        },
+        title: S.current.huy_lich,
+        btnRightTxt: S.current.dong_y,
+        icon: SvgPicture.asset(
+          ImageAssets.icHuyLich,
+        ),
+      );
+    }
   }
 
   Widget itemScheduleCooperatives(DonViModel data) {

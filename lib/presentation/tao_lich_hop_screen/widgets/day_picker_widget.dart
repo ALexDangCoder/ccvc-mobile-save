@@ -9,23 +9,29 @@ class DayPickerWidget extends StatefulWidget {
     Key? key,
     required this.onChange,
     this.initDate,
-    this.initDayPicked = 1,
+    this.initDayPicked,
+    this.isUpdate = false,
   }) : super(key: key);
-  final Function(String, int) onChange;
+  final Function(List<int>) onChange;
   final DateTime? initDate;
-  final int initDayPicked;
+  final List<int>? initDayPicked;
+  final bool isUpdate;
 
   @override
   _DayPickerWidgetState createState() => _DayPickerWidgetState();
 }
 
 class _DayPickerWidgetState extends State<DayPickerWidget> {
-  late int selectedIndex;
+  List<int> selectedIndex = [];
 
   @override
   void initState() {
     super.initState();
-    selectedIndex = widget.initDayPicked;
+    if (!widget.isUpdate) {
+      selectedIndex.add(daysOfWeek[1].id);
+    } else {
+      selectedIndex.addAll(widget.initDayPicked ?? []);
+    }
   }
 
   @override
@@ -39,15 +45,19 @@ class _DayPickerWidgetState extends State<DayPickerWidget> {
             daysOfWeek.length,
             (index) => GestureDetector(
               onTap: () {
-                widget.onChange(daysOfWeek[index].label, daysOfWeek[index].id);
-                selectedIndex = index;
+                if (selectedIndex.contains(daysOfWeek[index].id)) {
+                  selectedIndex.removeAt(index);
+                } else {
+                  selectedIndex.add(daysOfWeek[index].id);
+                }
+                widget.onChange(selectedIndex);
                 setState(() {});
               },
               child: Container(
                 padding: const EdgeInsets.all(9),
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
-                  color: selectedIndex == index
+                  color: selectedIndex.contains(index)
                       ? textDefault
                       : textDefault.withOpacity(
                           0.1,
@@ -57,7 +67,9 @@ class _DayPickerWidgetState extends State<DayPickerWidget> {
                 child: Text(
                   daysOfWeek[index].label,
                   style: textNormal(
-                    selectedIndex == index ? backgroundColorApp : textDefault,
+                    selectedIndex.contains(index)
+                        ? backgroundColorApp
+                        : textDefault,
                     12,
                   ).copyWith(
                     fontWeight: FontWeight.w600,

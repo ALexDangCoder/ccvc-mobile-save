@@ -16,33 +16,29 @@ class DanhSachYKienScreen extends StatefulWidget {
 class _DanhSachYKienScreenState extends State<DanhSachYKienScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
-      margin: const EdgeInsets.only(top: 20),
-      child: SingleChildScrollView(
-        child: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: StreamBuilder<List<YKienModel>>(
-            stream: widget.cubit.listYKien,
-            builder: (context, snapshot) {
-              final listData = snapshot.data ?? [];
-              if (listData.isNotEmpty) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: listData.length,
-                  itemBuilder: (context, index) {
-                    return ItemYKien(
-                      yKienModel: listData[index],
-                    );
-                  },
-                );
-              } else {
-                return const NodataWidget();
-              }
-            },
-          ),
+    return SingleChildScrollView(
+      child: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: StreamBuilder<List<YKienModel>>(
+          stream: widget.cubit.listYKien,
+          builder: (context, snapshot) {
+            final listData = snapshot.data ?? [];
+            if (listData.isNotEmpty) {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: listData.length,
+                itemBuilder: (context, index) {
+                  return ItemYKien(
+                    yKienModel: listData[index],
+                  );
+                },
+              );
+            } else {
+              return const  NodataWidget( height: 100,);
+            }
+          },
         ),
       ),
     );

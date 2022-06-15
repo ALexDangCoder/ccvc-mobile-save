@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/checkbox/checkbox.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -23,11 +24,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
   final bool isTaoHop;
+  final bool isCheckedEmail;
 
   const ThemDonViPhoiHopKhacWidget({
     Key? key,
     required this.onChange,
     this.isTaoHop = false,
+    this.isCheckedEmail = false,
   }) : super(key: key);
 
   @override
@@ -70,8 +73,9 @@ class _ThemDonViPhoiHopKhacWidgetState
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isTaoHop
                       ? ItemDonViPhoiHopWidget(
-                          data: data[index],
+                    data: data[index],
                           cubit: cubit,
+                          isCheckedEmail: widget.isCheckedEmail,
                         )
                       : ItemThanhPhanWidget(
                           data: data[index],
@@ -203,15 +207,36 @@ class ItemThanhPhanWidget extends StatelessWidget {
   }
 }
 
-class ItemDonViPhoiHopWidget extends StatelessWidget {
+class ItemDonViPhoiHopWidget extends StatefulWidget {
   final DonViModel data;
   final ThanhPhanThamGiaCubit cubit;
+  final bool isCheckedEmail;
 
   const ItemDonViPhoiHopWidget({
     Key? key,
     required this.data,
     required this.cubit,
+    required this.isCheckedEmail,
   }) : super(key: key);
+
+  @override
+  State<ItemDonViPhoiHopWidget> createState() => _ItemDonViPhoiHopWidgetState();
+}
+
+class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
+  bool isChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.isCheckedEmail;
+  }
+
+  @override
+  void didUpdateWidget(covariant ItemDonViPhoiHopWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    isChecked = widget.isCheckedEmail;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,20 +252,26 @@ class ItemDonViPhoiHopWidget extends StatelessWidget {
           Column(
             children: [
               rowInfo(
-                value: data.tenDonVi,
+                value: widget.data.tenDonVi,
                 key: S.current.dv_phoi_hop,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: data.dauMoiLienHe, key: S.current.nguoi_pho_hop),
+              rowInfo(
+                value: widget.data.dauMoiLienHe,
+                key: S.current.nguoi_pho_hop,
+              ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
               Row(
+                crossAxisAlignment: isMobile()
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 3.0.textScale().toInt(),
+                    flex: 3,
                     child: Text(
                       S.current.noi_dung,
                       style: textNormal(infoColor, 14),
@@ -251,9 +282,9 @@ class ItemDonViPhoiHopWidget extends StatelessWidget {
                     flex: 7,
                     child: textField(
                       onChange: (value) {
-                        data.noidung = value;
+                        widget.data.noidung = value;
                       },
-                      initValue: data.noidung,
+                      initValue: widget.data.noidung,
                     ),
                   )
                 ],
@@ -263,11 +294,27 @@ class ItemDonViPhoiHopWidget extends StatelessWidget {
           Positioned(
             top: 0,
             right: 0,
-            child: GestureDetector(
-              onTap: () {
-                cubit.removeDonViPhoiHop(data);
-              },
-              child: SvgPicture.asset(ImageAssets.icDeleteRed),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    widget.cubit.removeDonViPhoiHop(widget.data);
+                  },
+                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                ),
+                spaceW12,
+                StreamBuilder<bool>(
+                  stream: widget.cubit.phuongThucNhanStream,
+                  builder: (context, snapshot) {
+                    // final bool isChecked = snapshot.data ?? false;
+                    return CusCheckBox(
+                      isChecked: isChecked,
+                      // enable: false,
+                      onChange: (value) {},
+                    );
+                  },
+                ),
+              ],
             ),
           )
         ],
@@ -286,6 +333,7 @@ class ItemDonViPhoiHopWidget extends StatelessWidget {
       },
       initialValue: initValue,
       style: textNormal(color3D5586, 16),
+      maxLines: isMobile() ? 1 : 3,
       decoration: InputDecoration(
         hintText: hintText ?? S.current.nhap_noi_dung_cong_viec,
         hintStyle: textNormal(textBodyTime, 16),

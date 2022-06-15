@@ -23,6 +23,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   ChangePasswordCubit cubit = ChangePasswordCubit();
   TextEditingController emailController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
 
   @override
@@ -90,6 +91,27 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           }
                         },
                       ),
+                      const SizedBox(height: 16.0),
+                      TextFieldValidator(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(' '),
+                        ],
+                        controller: userNameController,
+                        hintText:
+                        S.current.ten_tai_khoan,
+                        prefixIcon: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Center(
+                            child: SvgPicture.asset(ImageAssets.imgAcount),
+                          ),
+                        ),
+                        validator: (value) {
+                            return (value ?? '').checkTruongNull(
+                              '${S.current.ten_tai_khoan}!',
+                            );
+                        },
+                      ),
                       const SizedBox(height: 20.0),
                       ButtonCustomBottom(
                         isColorBlue: false,
@@ -98,6 +120,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           if (keyGroup.currentState!.validator()) {
                             await cubit.forgotPassword(
                               email: emailController.text.trim(),
+                              userName: userNameController.text.trim(),
                               context: context,
                             );
                           }

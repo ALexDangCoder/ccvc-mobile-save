@@ -72,7 +72,6 @@ mixin LichLamViecRepository {
   Future<Result<DeleteTietLichLamViecModel>> deleteCalenderWork(
     String id,
     bool only,
-    bool isLichLap,
   );
 
   Future<Result<CancelLichLamViecModel>> cancelCalenderWork(
@@ -166,6 +165,7 @@ mixin LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -202,6 +202,7 @@ mixin LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,

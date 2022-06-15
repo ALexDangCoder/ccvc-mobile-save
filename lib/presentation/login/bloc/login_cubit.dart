@@ -91,7 +91,7 @@ class LoginCubit extends BaseCubit<LoginState> {
       },
       error: (err) {
         thongBao.sink.add('');
-        if (err is NoNetworkException) {
+        if (err is NoNetworkException || err is TimeoutException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,

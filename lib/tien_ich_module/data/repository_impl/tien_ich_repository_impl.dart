@@ -114,7 +114,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
   @override
   Future<Result<LichAmDuong>> getLichAmDuong(String date) {
     return runCatchingAsync<DataLichAmDuongResponse, LichAmDuong>(
-      () => _tienIchServiceUAT.getLichAmDuong(date),
+      () => _tienIchService.getLichAmDuong(date),
       (response) => response.data?.toModel() ?? LichAmDuong(),
     );
   }

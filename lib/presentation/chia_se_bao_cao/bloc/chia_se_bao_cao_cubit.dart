@@ -1,11 +1,13 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
+import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart'as get_dart;
 import 'package:meta/meta.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/subjects.dart';
 
 part 'chia_se_bao_cao_state.dart';
 
@@ -14,7 +16,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     showContent();
   }
 
-  ReportRepository get _repo => Get.find();
+  ReportRepository get _repo => get_dart.Get.find();
 
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
@@ -25,6 +27,25 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   Stream<bool> get isDuocTruyCapStream => _isDuocTruyCapSubject.stream;
 
   Sink<bool> get isDuocTruyCapSink => _isDuocTruyCapSubject.sink;
+
+
+  final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
+  BehaviorSubject<List<Node<DonViModel>>>();
+
+  Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
+
+
+  ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
+  void getTree() {
+    hopRp.getTreeDonVi().then((value) {
+      value.when(
+        success: (res) {
+          _getTreeDonVi.sink.add(res);
+        },
+        error: (err) {},
+      );
+    });
+  }
 
   Future<void> getGroup() async {
     listResponse.clear();
@@ -88,16 +109,5 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   List<String> listDropDown = [];
 
   List<NhomCungHeThong> listCheck = [];
-
-// void getTree() {
-//   hopRp.getTreeDonVi().then((value) {
-//     value.when(
-//       success: (res) {
-//         _getTreeDonVi.sink.add(res);
-//       },
-//       error: (err) {},
-//     );
-//   });
-// }
 
 }

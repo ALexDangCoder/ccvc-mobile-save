@@ -160,7 +160,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
                         cubit.setTypePickerStart(TypePickerDateTime.TIME_START);
-                        cubit.handleDateTimePressed();
+                        //cubit.handleDateTimePressed();
                         cubit.lastedType = TypePickerDateTime.TIME_START;
                       },
                       child: StreamBuilder<String>(
@@ -189,7 +189,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   return GestureDetector(
                     onTap: () {
                       cubit.setTypePickerStart(TypePickerDateTime.DATE_START);
-                      cubit.handleDateTimePressed();
+                      //cubit.handleDateTimePressed();
                       cubit.lastedType = TypePickerDateTime.DATE_START;
                     },
                     child: Text(
@@ -276,9 +276,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
                         cubit.setTypePickerStart(TypePickerDateTime.TIME_END);
-                        cubit.handleDateTimePressed(
-                          isBegin: false,
-                        );
+                        //cubit.handleDateTimePressed(isBegin: false);
                         cubit.lastedType = TypePickerDateTime.TIME_END;
                       },
                       child: StreamBuilder<String>(
@@ -307,9 +305,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   return GestureDetector(
                     onTap: () {
                       cubit.setTypePickerStart(TypePickerDateTime.DATE_END);
-                      cubit.handleDateTimePressed(
-                        isBegin: false,
-                      );
+                      //cubit.handleDateTimePressed(isBegin: false);
                       cubit.lastedType = TypePickerDateTime.DATE_END;
                     },
                     child: Text(

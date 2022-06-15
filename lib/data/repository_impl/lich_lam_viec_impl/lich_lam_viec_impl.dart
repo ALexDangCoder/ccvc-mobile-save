@@ -162,10 +162,12 @@ class LichLamViecImlp implements LichLamViecRepository {
 
   @override
   Future<Result<DeleteTietLichLamViecModel>> deleteCalenderWork(
-      String id, bool only, bool isLichLap) {
+    String id,
+    bool only,
+  ) {
     return runCatchingAsync<DeleteCalenderWorkResponse,
         DeleteTietLichLamViecModel>(
-      () => lichLamViecService.deleteCalenderWork(id, only, isLichLap),
+      () => lichLamViecService.deleteCalenderWork(id, only),
       (response) => response.toDelete(),
     );
   }

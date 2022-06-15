@@ -84,20 +84,21 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   // xoa lich lam viec
   LichLamViecRepository get deleteLichLamViec => Get.find();
 
-  Future dataDelete(
+  Future<void> deleteCalendarWork(
     String id, {
     bool only = true,
-    bool isLichLap = true,
   }) async {
-    final rs = await detailLichLamViec.deleteCalenderWork(id, only, isLichLap);
+    final rs = await detailLichLamViec.deleteCalenderWork(id, only);
     rs.when(success: (data) {}, error: (error) {});
   }
 
   // huy lich lam viec
   LichLamViecRepository get cancelLichLamViec => Get.find();
 
-  Future<void> cancel(String id, {int statusId = 8, bool isMulti = false }) async {
-    final rs = await detailLichLamViec.cancelCalenderWork(id,statusId, isMulti );
+  Future<void> cancel(String id,
+      {int statusId = 8, bool isMulti = false}) async {
+    final rs =
+        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
     rs.when(success: (data) {}, error: (error) {});
   }
 

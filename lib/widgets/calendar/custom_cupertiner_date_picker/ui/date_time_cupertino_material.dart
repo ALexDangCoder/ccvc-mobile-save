@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -26,10 +27,13 @@ class CupertinoMaterialPicker extends StatefulWidget {
     this.initTimeEnd,
     this.initDateStart,
     this.initDateEnd,
-    required this.onDateTimeChanged, required this.validateTime,
+    required this.onDateTimeChanged,
+    required this.validateTime,
+    this.isAllDay = false,
   }) : super(key: key);
 
   final bool isAddMargin;
+  final bool isAllDay;
   final bool isSwitchButtonChecked;
   final Function(bool)? onSwitchPressed;
   final DateTime? initTimeStart;
@@ -43,6 +47,7 @@ class CupertinoMaterialPicker extends StatefulWidget {
     String dateEnd,
   ) onDateTimeChanged;
   final Function(bool value) validateTime;
+
   @override
   _CupertinoMaterialPickerState createState() =>
       _CupertinoMaterialPickerState();
@@ -129,13 +134,18 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           onToggle: (bool value) {
                             cubit.handleSwitchButtonPressed(isChecked: value);
                             widget.onSwitchPressed?.call(value);
+                            log(
+                              cubit.timeBeginSubject.value +
+                                  cubit.timeEndSubject.value +
+                                  cubit.dateBeginSubject.value +
+                                  cubit.dateEndSubject.value,
+                            );
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,
                               cubit.timeEndSubject.value,
                               cubit.dateBeginSubject.value,
                               cubit.dateEndSubject.value,
                             );
-                            cubit.checkTime();
                           },
                         );
                       },
@@ -188,7 +198,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           }
                           cubit.setTypePickerStart(
                               TypePickerDateTime.TIME_START);
-                          cubit.handleDateTimePressed();
+                          //cubit.handleDateTimePressed();
                           cubit.lastedType = TypePickerDateTime.TIME_START;
                         },
                         child: StreamBuilder<String>(
@@ -224,7 +234,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           keyExpandedBegin.currentState?.expandGesture();
                         }
                         cubit.setTypePickerStart(TypePickerDateTime.DATE_START);
-                        cubit.handleDateTimePressed();
+                        //cubit.handleDateTimePressed();
                         cubit.lastedType = TypePickerDateTime.DATE_START;
                       },
                       child: Text(
@@ -265,13 +275,13 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                   timeSelected: value,
                                   typePicker: typePicker,
                                 );
+                                cubit.checkTime();
                                 widget.onDateTimeChanged(
                                   cubit.timeBeginSubject.value,
                                   cubit.timeEndSubject.value,
                                   cubit.dateBeginSubject.value,
                                   cubit.dateEndSubject.value,
                                 );
-                                cubit.checkTime();
                               },
                             );
                           },
@@ -287,13 +297,13 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                               DateTimeFormat.DAY_MONTH_YEAR,
                             );
                             cubit.dateBeginSubject.sink.add(convertDate);
+                            cubit.checkTime();
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,
                               cubit.timeEndSubject.value,
                               cubit.dateBeginSubject.value,
                               cubit.dateEndSubject.value,
                             );
-                            cubit.checkTime();
                           },
                           initialDate: widget.initDateStart ?? DateTime.now(),
                         ),
@@ -341,9 +351,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                               keyExpandedEnd.currentState?.expandGesture();
                             }
                             cubit.setTypePickerEnd(TypePickerDateTime.TIME_END);
-                            cubit.handleDateTimePressed(
-                              isBegin: false,
-                            );
+                            //cubit.handleDateTimePressed(isBegin: false);
                             cubit.lastedType = TypePickerDateTime.TIME_END;
                           },
                           child: StreamBuilder<String>(
@@ -380,9 +388,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             keyExpandedEnd.currentState?.expandGesture();
                           }
                           cubit.setTypePickerEnd(TypePickerDateTime.DATE_END);
-                          cubit.handleDateTimePressed(
-                            isBegin: false,
-                          );
+                          //cubit.handleDateTimePressed(isBegin: false);
                           cubit.lastedType = TypePickerDateTime.DATE_END;
                         },
                         child: Text(
@@ -406,11 +412,6 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           child: CupertinoDatePicker(
                             key: UniqueKey(),
                             maximumDate: DateTime(2099, 12, 30),
-                            minimumDate: '${cubit.dateBeginSubject.value} '
-                                    '${cubit.timeBeginSubject.value}'
-                                .convertStringToDate(
-                              formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                            ),
                             maximumYear: 2099,
                             minimumYear: cubit.getYearNumber(),
                             backgroundColor: backgroundColorApp,
@@ -428,13 +429,13 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                     timeSelected: value,
                                     typePicker: typePicker,
                                   );
+                                  cubit.checkTime();
                                   widget.onDateTimeChanged(
                                     cubit.timeBeginSubject.value,
                                     cubit.timeEndSubject.value,
                                     cubit.dateBeginSubject.value,
                                     cubit.dateEndSubject.value,
                                   );
-                                  cubit.checkTime();
                                 },
                               );
                             },
@@ -450,6 +451,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                 DateTimeFormat.DAY_MONTH_YEAR,
                               );
                               cubit.dateEndSubject.sink.add(convertDate);
+                              cubit.checkTime();
                               widget.onDateTimeChanged(
                                 cubit.timeBeginSubject.value,
                                 cubit.timeEndSubject.value,
@@ -465,20 +467,21 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         ),
         spaceH12,
         StreamBuilder<bool>(
-            stream: cubit.validateTime.stream,
-            builder: (context, snapshot) {
-              widget.validateTime(snapshot.data ?? false);
-              return Visibility(
-                visible: snapshot.data ?? false,
-                child: Text(
-                  S.current.thoi_gian_bat_dau,
-                  style: textNormalCustom(
-                    color: Colors.red,
-                    fontSize: 14,
-                  ),
+          stream: cubit.validateTime.stream,
+          builder: (context, snapshot) {
+            widget.validateTime(snapshot.data ?? false);
+            return Visibility(
+              visible: snapshot.data ?? false,
+              child: Text(
+                S.current.thoi_gian_bat_dau,
+                style: textNormalCustom(
+                  color: Colors.red,
+                  fontSize: 14,
                 ),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ],
     );
   }

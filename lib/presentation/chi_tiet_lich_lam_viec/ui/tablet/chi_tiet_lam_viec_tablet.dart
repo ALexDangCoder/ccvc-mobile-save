@@ -117,7 +117,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                         textContent: S.current.ban_co_muon_xoa_lich_lam_viec,
                         btnLeftTxt: S.current.khong,
                         funcBtnRight: () {
-                          chiTietLichLamViecCubit.dataDelete(widget.id);
+                          chiTietLichLamViecCubit.deleteCalendarWork(widget.id);
                         },
                         title: S.current.xoa_lich_lam_viec,
                         btnRightTxt: S.current.dong_y,

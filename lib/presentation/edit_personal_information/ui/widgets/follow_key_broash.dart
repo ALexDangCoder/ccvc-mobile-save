@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -70,9 +71,6 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
   }
 
   double viewInsertPaddingIos() {
-    if (_viewInsert.bottom > mouseRegion) {
-      return (_viewInsert.bottom - mouseRegion) + 0.h;
-    }
-    return 0;
+    return _viewInsert.bottom;
   }
 }

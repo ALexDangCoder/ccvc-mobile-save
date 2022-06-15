@@ -136,6 +136,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.cmtnd = value;
                     },
                     maxLenght: 255,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     textInputType: TextInputType.number,
                     validatorPaste: (value) {
                       if (value.trim().validateCopyPaste() != null) {
@@ -348,7 +349,9 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    maxLenght: 255,
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validatorPaste: (value) {
                       if (value.trim().validateCopyPaste() != null) {
                         return true;

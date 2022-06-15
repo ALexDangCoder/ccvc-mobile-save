@@ -237,6 +237,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         loaiNhiemVuSuject.sink.add(res.data?.trangThaiXuLy ?? []);
+        chartDataTheoLoai.clear();
+        chartData.clear();
         for (final LoaiNhiemVuComomModel value in res.data?.loaiNhiemVu ?? []) {
           chartDataTheoLoai.add(
             ChartData(
@@ -281,6 +283,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     ));
     result.when(
       success: (res) {
+        listData.clear();
+        listStatusData.clear();
+        titleNhiemVu.clear();
         for (final NhiemVuDonViModel value in res.nhiemVuDonVi ?? []) {
           titleNhiemVu.add(value.tenDonVi ?? '');
           listData.add(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
@@ -185,13 +187,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   }
 
   Future<void> searchLichHop(String? query) async {
-    const Duration(milliseconds: 2);
-    listDSLH.clear();
-    if (query == null || query.isEmpty) {
-      await postDanhSachLichHop();
-    } else {
-      await postDanhSachLichHop(query);
-    }
+    Timer(const Duration(microseconds: 500), () {
+      listDSLH.clear();
+      if (query == null || query.isEmpty) {
+        postDanhSachLichHop();
+      } else {
+        postDanhSachLichHop(query);
+      }
+    });
   }
 
   Future<void> postCoCauLichHop() async {

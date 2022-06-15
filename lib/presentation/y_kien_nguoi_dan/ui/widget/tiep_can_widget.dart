@@ -49,28 +49,28 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
             ),
             statusWidget([
               ChartData(
-                S.current.cho_trinh_ky,
-                widget.model.soLuongChoTrinhKy.toDouble(),
+                S.current.cho_tiep_nhan,
+                widget.model.soLuongChoTiepNhan.toDouble(),
                 choTrinhKyColor,
               ),
               ChartData(
-                S.current.cho_xu_ly,
-                widget.model.soLuongChoXuLy.toDouble(),
+                S.current.phan_xu_ly,
+                widget.model.soLuongPhanXuLy.toDouble(),
                 color5A8DEE,
               ),
               ChartData(
-                S.current.da_xu_ly,
-                widget.model.soLuongDaXuLy.toDouble(),
+                S.current.dang_xu_ly,
+                widget.model.soLuongDangXuLy.toDouble(),
                 daXuLyColor,
               ),
               ChartData(
-                S.current.cho_cap_so,
-                widget.model.soLuongChoCapSo.toDouble(),
+                S.current.cho_duyet,
+                widget.model.soLuongChoDuyet.toDouble(),
                 choCapSoColor,
               ),
               ChartData(
-                S.current.cho_ban_hanh,
-                widget.model.soLuongChoBanHanh.toDouble(),
+                S.current.cho_bo_sung_thong_tin,
+                widget.model.soLuongChoBoSungThongTin.toDouble(),
                 choBanHanhColor,
               )
             ]),

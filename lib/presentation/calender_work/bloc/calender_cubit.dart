@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -27,7 +29,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
 
   bool changeDateByClick = false ;
 
-
   CalenderCubit() : super(const CalenderStateIntial());
   int page = 1;
   int totalPage = 1;
@@ -47,6 +48,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   BehaviorSubject<List<MenuModel>> menuModelSubject = BehaviorSubject();
   BehaviorSubject<DateTime> initTime = BehaviorSubject();
   DateTime? initTimes;
+  BehaviorSubject<bool> isSearchBar = BehaviorSubject.seeded(true);
   BehaviorSubject<DateTime> initTimeSubject = BehaviorSubject();
 
   Stream<DateTime> get streamInitTime => initTimeSubject.stream;
@@ -65,7 +67,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   final CalendarController stateCalendarControllerDay = CalendarController();
   final CalendarController stateCalendarControllerWeek = CalendarController();
   final CalendarController stateCalendarControllerMonth = CalendarController();
-
 
   BehaviorSubject<DateTime> moveTimeSubject = BehaviorSubject();
 
@@ -105,6 +106,16 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     moveTimeSubject.add(selectDay);
   }
 
+  Future<void> searchLichHop(String? query) async {
+    Timer(const Duration(microseconds: 500), () {
+      (dataLichLvModel.listLichLVModel ?? []).clear();
+      if (query == null || query.isEmpty) {
+        getListLichLV();
+      } else {
+        getListLichLV(query);
+      }
+    });
+  }
 
   void callApiTuan() {
     final day = selectDay;
@@ -122,9 +133,10 @@ class CalenderCubit extends BaseCubit<CalenderState> {
 
   List<ListLichLVModel> listDSLV = [];
 
-  Future<void> getListLichLV() async {
+  Future<void> getListLichLV([String? search]) async {
     showLoading();
     final DanhSachLichLamViecRequest data = DanhSachLichLamViecRequest(
+      Title: search,
       DateFrom: startDates.formatApi,
       DateTo: endDates.formatApi,
       DonViId: changeItemMenuSubject.value == TypeCalendarMenu.LichTheoLanhDao
@@ -230,8 +242,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
 
   String textDay = '';
 
-
-
   //tong dashbroad
 
   BehaviorSubject<DashBoardLichHopModel> lichLamViecDashBroadSubject =
@@ -244,8 +254,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   DashBoardLichHopModel lichLamViecDashBroads = DashBoardLichHopModel.empty();
 
   LichLamViecRepository get lichLamViec => Get.find();
-
-
 
   BehaviorSubject<List<LichLamViecDashBroadItem>>
       lichLamViecDashBroadRightSubject = BehaviorSubject.seeded([
@@ -279,8 +287,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   Stream<List<LichLamViecDashBroadItem>> get streamLichLamViecRight =>
       lichLamViecDashBroadRightSubject.stream;
   List<LichLamViecDashBroadItem> lichLamViecDashBroadRight = [];
-
-
 }
 
 class DataSource extends CalendarDataSource {
@@ -307,10 +313,7 @@ extension HandleDataCalendar on CalenderCubit {
       }
       showContent();
     }
-
   }
-
-
 
   Future<void> callApi() async {
     showLoading();

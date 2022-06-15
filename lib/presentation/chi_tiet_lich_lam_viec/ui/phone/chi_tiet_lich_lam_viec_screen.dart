@@ -56,7 +56,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       child: StreamBuilder<ChiTietLichLamViecModel>(
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
-          final data = snapshot.data ?? ChiTietLichLamViecModel();
+          final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
           return snapshot.data != null
               ? Scaffold(
                   appBar: BaseAppBar(
@@ -182,7 +182,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   width: 16,
                                 ),
                                 Text(
-                                  data.title ?? '',
+                                  dataModel.title ?? '',
                                   style: textNormalCustom(
                                     color: textTitle,
                                     fontSize: 20,
@@ -192,12 +192,12 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               ],
                             ),
                             ItemRowChiTiet(
-                              data: data,
+                              data: dataModel,
                               cubit: chiTietLichLamViecCubit,
                             ),
-                            if ((data.scheduleCoperatives ?? []).isNotEmpty)
+                            if ((dataModel.scheduleCoperatives ?? []).isNotEmpty)
                               listScheduleCooperatives(
-                                data.scheduleCoperatives ?? [],
+                                dataModel.scheduleCoperatives ?? [],
                               )
                             else
                               const SizedBox.shrink(),

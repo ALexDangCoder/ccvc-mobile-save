@@ -21,7 +21,7 @@ import 'package:rxdart/rxdart.dart';
 
 class QLVBCCubit extends BaseCubit<QLVBState> {
   QLVBCCubit() : super(QLVbStateInitial()) {
-    showContent();
+    // showContent();
   }
 
   BehaviorSubject<List<bool>> selectTypeVanBanSubject =
@@ -79,7 +79,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Future<void> callAPi() async {
     final queue = Queue();
     showLoading();
-    initTimeRange();
     unawaited(queue.add(() =>  getDashBoardIncomeDocument()));
     unawaited(queue.add(() =>  getDashBoardOutcomeDocument()));
     unawaited(queue.add(() =>  getListIncomeDocument()));
@@ -248,9 +247,9 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         return error;
       },
     );
-    if (needLoading){
-      showContent();
-    }
+    // if (needLoading){
+    //   showContent();
+    // }
   }
 
   void initTimeRange() {

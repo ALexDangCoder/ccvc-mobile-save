@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -5,14 +8,18 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_in_page_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_out_page_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:queue/queue.dart';
 
 class QLVBScreenTablet extends StatefulWidget {
   const QLVBScreenTablet({Key? key}) : super(key: key);
@@ -39,7 +46,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF9FAFF),
+      backgroundColor: bgTabletColor,
       appBar: AppBarDefaultBack(
         S.current.thong_tin_chung,
       ),
@@ -51,21 +58,32 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
               child: Row(
                 children: [
                   FilterDateTimeWidget(
                     context: context,
                     isMobile: false,
                     initStartDate: DateTime.parse(qlvbCubit.startDate),
-                    onChooseDateFilter: (startDate, endDate) {
+                    onChooseDateFilter: (startDate, endDate) async {
                       qlvbCubit.startDate = startDate.formatApi;
                       qlvbCubit.endDate = endDate.formatApi;
+                      final queue = Queue();
                       qlvbCubit.showLoading();
-                      qlvbCubit.getDashBoardIncomeDocument();
-                      qlvbCubit.getDashBoardOutcomeDocument();
-                      qlvbCubit.getListIncomeDocument();
-                      qlvbCubit.getListOutcomeDocument();
+                      unawaited(
+                        queue.add(() => qlvbCubit.getDashBoardIncomeDocument()),
+                      );
+                      unawaited(
+                        queue
+                            .add(() => qlvbCubit.getDashBoardOutcomeDocument()),
+                      );
+                      unawaited(
+                        queue.add(() => qlvbCubit.getListIncomeDocument()),
+                      );
+                      unawaited(
+                        queue.add(() => qlvbCubit.getListOutcomeDocument()),
+                      );
+                      await queue.onComplete;
                       qlvbCubit.showContent();
                     },
                   ),
@@ -74,6 +92,21 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                       qlvbCubit: qlvbCubit,
                       isTablet: true,
                       initKeyWord: qlvbCubit.keySearch,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        //TODO: Show menu
+                        // DrawerSlide.navigatorSlide(
+                        //   context: context,
+                        //   screen: VanBanMenuMobile(
+                        //     cubit: qlvbCubit,
+                        //   ),
+                        // );
+                      },
+                      child: SvgPicture.asset(ImageAssets.icMenuCalender),
                     ),
                   ),
                 ],

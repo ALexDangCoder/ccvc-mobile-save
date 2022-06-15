@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -14,6 +16,7 @@ import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dar
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:queue/queue.dart';
 
 class QLVBMobileScreen extends StatefulWidget {
   const QLVBMobileScreen({Key? key}) : super(key: key);
@@ -114,14 +117,19 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
               FilterDateTimeWidget(
                 context: context,
                 initStartDate: DateTime.parse(qlvbCubit.startDate),
-                onChooseDateFilter: (startDate, endDate) {
+                onChooseDateFilter: (startDate, endDate) async {
                   qlvbCubit.startDate = startDate.formatApi;
                   qlvbCubit.endDate = endDate.formatApi;
+                  final queue = Queue();
                   qlvbCubit.showLoading();
-                  qlvbCubit.getDashBoardIncomeDocument();
-                  qlvbCubit.getDashBoardOutcomeDocument();
-                  qlvbCubit.getListIncomeDocument();
-                  qlvbCubit.getListOutcomeDocument();
+                  unawaited(
+                      queue.add(() => qlvbCubit.getDashBoardIncomeDocument()));
+                  unawaited(
+                      queue.add(() => qlvbCubit.getDashBoardOutcomeDocument()));
+                  unawaited(queue.add(() => qlvbCubit.getListIncomeDocument()));
+                  unawaited(
+                      queue.add(() => qlvbCubit.getListOutcomeDocument()));
+                  await queue.onComplete;
                   qlvbCubit.showContent();
                 },
               ),

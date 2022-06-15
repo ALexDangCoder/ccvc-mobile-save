@@ -8,7 +8,6 @@ import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +25,7 @@ class ComplexLoadMore extends StatefulWidget {
   final bool? shrinkWap;
   final bool isTitle;
   final String? titleNoData;
+  final double? mainAxisExtent;
 
   const ComplexLoadMore({
     Key? key,
@@ -39,6 +39,7 @@ class ComplexLoadMore extends StatefulWidget {
     this.shrinkWap,
     this.isTitle = true,
     this.titleNoData,
+    this.mainAxisExtent,
   }) : super(key: key);
 
   @override
@@ -243,6 +244,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 16,
+                                mainAxisExtent: widget.mainAxisExtent,
                                 crossAxisSpacing: widget.crossAxisSpacing ?? 28,
                                 childAspectRatio: widget.checkRatio ?? 2 / 3,
                               ),

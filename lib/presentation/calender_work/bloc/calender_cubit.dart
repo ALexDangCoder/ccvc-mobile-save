@@ -291,7 +291,7 @@ class DataSource extends CalendarDataSource {
 
 extension HandleDataCalendar on CalenderCubit {
   Future<void> updateDataSlideCalendar(DateTime timeSlide) async {
-    if (changeDateByClick ){
+    if (!changeDateByClick ){
       showLoading();
       selectDay = timeSlide;
       await postEventsCalendar();

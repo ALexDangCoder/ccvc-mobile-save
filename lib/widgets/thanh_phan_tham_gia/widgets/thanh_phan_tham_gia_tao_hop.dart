@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ItemPeopleThamGia extends StatelessWidget {
+class ItemPeopleThamGia extends StatefulWidget {
   final DonViModel donVi;
   final ThanhPhanThamGiaCubit cubit;
   final String noiDungCV;
@@ -26,8 +26,28 @@ class ItemPeopleThamGia extends StatelessWidget {
     this.noiDungCV = '',
     this.isChuTri = false,
     this.isSendEmail = false,
-    this.isKhachMoi = false, this.onDelete,
+    this.isKhachMoi = false,
+    this.onDelete,
   }) : super(key: key);
+
+  @override
+  State<ItemPeopleThamGia> createState() => _ItemPeopleThamGiaState();
+}
+
+class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
+  bool isSendEmail = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isSendEmail = widget.isSendEmail;
+  }
+
+  @override
+  void didUpdateWidget(covariant ItemPeopleThamGia oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    isSendEmail = widget.isSendEmail;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,47 +63,46 @@ class ItemPeopleThamGia extends StatelessWidget {
           Column(
             children: [
               rowInfo(
-                value: donVi.name,
+                value: widget.donVi.name,
                 key: S.current.ten_don_vi,
                 needShowPadding: true,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: donVi.tenCanBo, key: S.current.ten_can_bo),
+              rowInfo(value: widget.donVi.tenCanBo, key: S.current.ten_can_bo),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              if (!isKhachMoi) ...[
-                rowInfo(value: donVi.chucVu, key: S.current.chuc_vu),
+              if (!widget.isKhachMoi) ...[
+                rowInfo(value: widget.donVi.chucVu, key: S.current.chuc_vu),
                 SizedBox(
                   height: 10.0.textScale(space: 10),
                 ),
               ],
-              if (!isKhachMoi)
-                ...[
-                  rowInfo(
-                    value: isChuTri
-                        ? S.current.can_bo_chu_tri
-                        : S.current.can_bo_phoi_hop,
-                    key: S.current.vai_tro,
-                  ),
-                  SizedBox(
-                    height: 10.0.textScale(space: 10),
-                  ),
-                ],
-              if(isKhachMoi)
-                ...[
-                  rowInfo(
-                    value: donVi.soLuong.toString(),
-                    key: S.current.so_luong,
-                  ),
-                  SizedBox(
-                    height: 10.0.textScale(space: 10),
-                  ),
-                ],
+              if (!widget.isKhachMoi) ...[
+                rowInfo(
+                  value: widget.isChuTri
+                      ? S.current.can_bo_chu_tri
+                      : S.current.can_bo_phoi_hop,
+                  key: S.current.vai_tro,
+                ),
+                SizedBox(
+                  height: 10.0.textScale(space: 10),
+                ),
+              ],
+              if (widget.isKhachMoi) ...[
+                rowInfo(
+                  value: widget.donVi.soLuong.toString(),
+                  key: S.current.so_luong,
+                ),
+                SizedBox(
+                  height: 10.0.textScale(space: 10),
+                ),
+              ],
               rowInfo(
-                value: isKhachMoi ? donVi.noidung : noiDungCV,
+                value:
+                    widget.isKhachMoi ? widget.donVi.noidung : widget.noiDungCV,
                 key: S.current.nd_cong_viec,
               ),
               SizedBox(
@@ -98,24 +117,15 @@ class ItemPeopleThamGia extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    onDelete?.call();
-                    cubit.deletePeopleThamGia(donVi);
+                    widget.onDelete?.call();
+                    widget.cubit.deletePeopleThamGia(widget.donVi);
                   },
                   child: SvgPicture.asset(ImageAssets.icDeleteRed),
                 ),
                 spaceW12,
-                StreamBuilder<bool>(
-                  stream: cubit.phuongThucNhanStream,
-                  builder: (context, snapshot) {
-                    final bool isChecked = snapshot.data ?? false;
-                    return CusCheckBox(
-                      isChecked: isChecked,
-                      // enable: false,
-                      onChange: (value) {
-
-                      },
-                    );
-                  },
+                CusCheckBox(
+                  isChecked: isSendEmail,
+                  onChange: (value) {},
                 ),
               ],
             ),

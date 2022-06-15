@@ -10,13 +10,13 @@ import 'package:permission_handler/permission_handler.dart';
 enum MessState { error, success, customIcon }
 
 class MessageConfig {
-  static BuildContext? _context;
+  static BuildContext? contextConfig;
 
   static void init(BuildContext context) {
-    if (_context != null) {
+    if (contextConfig != null) {
       return;
     }
-    _context = context;
+    contextConfig = context;
   }
 
   static void show({
@@ -29,7 +29,7 @@ class MessageConfig {
     MessState messState = MessState.success,
     Function()? onDismiss,
   }) {
-    final OverlayState? overlayState = Overlay.of(_context!);
+    final OverlayState? overlayState = Overlay.of(contextConfig!);
     late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(
       builder: (context) {
@@ -74,7 +74,7 @@ class MessageConfig {
         style: textNormal(redChart, 14),
       ),
       onPressed: () {
-        Navigator.pop(_context!);
+        Navigator.pop(contextConfig!);
         openAppSettings();
       },
     );
@@ -85,7 +85,7 @@ class MessageConfig {
         style: textNormal(redChart, 14),
       ),
       onPressed: () {
-        Navigator.pop(_context!);
+        Navigator.pop(contextConfig!);
       },
     );
     // set up the AlertDialog
@@ -96,10 +96,11 @@ class MessageConfig {
     );
 
     return showDialog(
-      context: _context!,
+      context: contextConfig!,
       builder: (_) {
         return alert;
       },
     );
   }
+
 }

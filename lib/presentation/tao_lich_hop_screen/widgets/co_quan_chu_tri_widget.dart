@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_t
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -111,15 +112,48 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    indexSelected = index;
-                                    widget.cubit.taoLichHopRequest.chuTri
-                                      ?..tenCanBo = data[index].tenCanBo
-                                      ..tenCoQuan = data[index].tenDonVi
-                                      ..canBoId = data[index].userId
-                                      ..donViId = data[index].donViId;
-                                    widget.cubit.chuTri = data[index];
-                                    widget.cubit.danhSachCB.sink
-                                        .add(widget.cubit.danhSachCB.value);
+                                    widget.cubit
+                                        .checkLichTrung(
+                                      donViId: data[index].donViId,
+                                      canBoId: data[index].canBoId,
+                                    )
+                                        .then((value) {
+                                      if (value) {
+                                        showDiaLog(
+                                          context,
+                                          title: S.current.lich_trung,
+                                          textContent: S.current
+                                              .ban_co_muon_tiep_tuc_khong,
+                                          icon: ImageAssets.svgAssets(
+                                              ImageAssets.ic_trung_hop),
+                                          btnRightTxt: S.current.dong_y,
+                                          btnLeftTxt: S.current.khong,
+                                          isCenterTitle: true,
+                                          funcBtnRight: () {
+                                            indexSelected = index;
+                                            widget
+                                                .cubit.taoLichHopRequest.chuTri
+                                              ?..tenCanBo = data[index].tenCanBo
+                                              ..tenCoQuan = data[index].tenDonVi
+                                              ..canBoId = data[index].userId
+                                              ..donViId = data[index].donViId;
+                                            widget.cubit.chuTri = data[index];
+                                            widget.cubit.danhSachCB.sink.add(
+                                                widget.cubit.danhSachCB.value);
+                                          },
+                                        );
+                                      } else {
+                                        indexSelected = index;
+                                        widget.cubit.taoLichHopRequest.chuTri
+                                          ?..tenCanBo = data[index].tenCanBo
+                                          ..tenCoQuan = data[index].tenDonVi
+                                          ..canBoId = data[index].userId
+                                          ..donViId = data[index].donViId;
+                                        widget.cubit.chuTri = data[index];
+                                        widget.cubit.danhSachCB.sink
+                                            .add(widget.cubit.danhSachCB.value);
+                                      }
+                                    });
                                   },
                                   child: Container(
                                     color: Colors.transparent,

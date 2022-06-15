@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -130,7 +129,6 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           onToggle: (bool value) {
                             cubit.handleSwitchButtonPressed(isChecked: value);
                             widget.onSwitchPressed?.call(value);
-
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,
                               cubit.timeEndSubject.value,
@@ -368,7 +366,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     },
                   ),
                   StreamBuilder<String>(
-                    stream: cubit.dateEndSubject,
+                    stream: cubit.dateEndSubject.stream,
                     builder: (context, snapshot) {
                       final String date = snapshot.data ?? S.current.ddmmyy;
                       return GestureDetector(
@@ -397,7 +395,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                 ],
               ),
               child: StreamBuilder<TypePickerDateTime>(
-                stream: cubit.typePickerSubjectEnd,
+                stream: cubit.typePickerSubjectEnd.stream,
                 initialData: TypePickerDateTime.TIME_END,
                 builder: (context, snapshot) {
                   final typePicker =

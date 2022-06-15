@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -274,9 +275,10 @@ class _YKienXuLyExpandWidgetMobileState
               (e) => GestureDetector(
                 onTap: () {
                   final baseURL = Get.find<AppConstants>().baseUrlQLNV;
-                  handleSaveFile(
-                    url: '$baseURL${e.fileDinhKem?.duongDan ?? ''}',
-                    name: e.fileDinhKem?.ten ?? '',
+                  saveFile(
+                    url: e.fileDinhKem?.duongDan ?? '',
+                    fileName: e.fileDinhKem?.ten ?? '',
+                 downloadType: DomainDownloadType.QLNV
                   );
                 },
                 child: SizedBox(

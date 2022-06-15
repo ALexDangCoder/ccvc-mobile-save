@@ -21,100 +21,95 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarDaySubject.listen((value) {});
-    widget.cubit.stateCalendarDaySubject.value
-        .addPropertyChangedListener((value) {
-      widget.cubit.updateDataSlideCalendar(
-        widget.cubit.stateCalendarDaySubject.value.displayDate ??
-            widget.cubit.selectDay,
-      );
+    widget.cubit.stateCalendarControllerDay.
+        addPropertyChangedListener((value) {
+      if (value == 'displayDate'){
+        widget.cubit.updateDataSlideCalendar(
+          widget.cubit.stateCalendarControllerDay.displayDate ??
+              widget.cubit.selectDay,
+        );
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<CalendarController>(
-        stream: widget.cubit.stateCalendarWeekSubject.stream,
+    return Container(
+      margin: const EdgeInsets.only(right: 30, left: 30),
+      child: StreamBuilder<DataLichLvModel>(
+        stream: widget.cubit.streamListLich,
         builder: (context, snapshot) {
-          final data = snapshot.data ?? CalendarController();
-
-          return Container(
-            margin: const EdgeInsets.only(right: 30, left: 30),
-            child: StreamBuilder<DataLichLvModel>(
-              stream: widget.cubit.streamListLich,
-              builder: (context, snapshot) {
-                return SfCalendar(
-                  showCurrentTimeIndicator: false,
-                  showDatePickerButton: true,
-                  headerHeight: 0,
-                  controller: data,
-                  cellEndPadding: 5,
-                  view: CalendarView.week,
-                  selectionDecoration:
-                      const BoxDecoration(color: Colors.transparent),
-                  timeSlotViewSettings: const TimeSlotViewSettings(
-                    dayFormat: 'EEEE',
-                    timeIntervalHeight: 60.0,
-                    minimumAppointmentDuration: Duration(minutes: 30),
+          return SfCalendar(
+            showCurrentTimeIndicator: false,
+            showDatePickerButton: true,
+            headerHeight: 0,
+            controller: widget.cubit.stateCalendarControllerWeek,
+            cellEndPadding: 5,
+            view: CalendarView.week,
+            selectionDecoration:
+            const BoxDecoration(color: Colors.transparent),
+            timeSlotViewSettings: const TimeSlotViewSettings(
+              dayFormat: 'EEEE',
+              timeIntervalHeight: 60.0,
+              minimumAppointmentDuration: Duration(minutes: 30),
+            ),
+            viewHeaderStyle: ViewHeaderStyle(
+              dayTextStyle:
+              textNormalCustom(fontSize: 13, color: colorA2AEBD),
+            ),
+            monthViewSettings: const MonthViewSettings(
+              appointmentDisplayMode:
+              MonthAppointmentDisplayMode.appointment,
+            ),
+            appointmentTextStyle:
+            textNormalCustom(color: backgroundColorApp),
+            todayHighlightColor: AppTheme.getInstance().colorField(),
+            appointmentTimeTextFormat: 'hh:mm:ss a',
+            dataSource: widget.cubit.getCalenderDataSource(
+              snapshot.data ?? DataLichLvModel(),
+            ),
+            appointmentBuilder: (
+                BuildContext context,
+                CalendarAppointmentDetails calendarAppointmentDetails,
+                ) {
+              final Appointment appointment =
+                  calendarAppointmentDetails.appointments.first;
+              return Padding(
+                padding: const EdgeInsets.only(left: 4, bottom: 2),
+                child: Container(
+                  height: 18,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2.0),
+                    color: choTrinhKyColor,
                   ),
-                  viewHeaderStyle: ViewHeaderStyle(
-                    dayTextStyle:
-                        textNormalCustom(fontSize: 13, color: colorA2AEBD),
-                  ),
-                  monthViewSettings: const MonthViewSettings(
-                    appointmentDisplayMode:
-                        MonthAppointmentDisplayMode.appointment,
-                  ),
-                  appointmentTextStyle:
-                      textNormalCustom(color: backgroundColorApp),
-                  todayHighlightColor: AppTheme.getInstance().colorField(),
-                  appointmentTimeTextFormat: 'hh:mm:ss a',
-                  dataSource: widget.cubit.getCalenderDataSource(
-                    snapshot.data ?? DataLichLvModel(),
-                  ),
-                  appointmentBuilder: (
-                    BuildContext context,
-                    CalendarAppointmentDetails calendarAppointmentDetails,
-                  ) {
-                    final Appointment appointment =
-                        calendarAppointmentDetails.appointments.first;
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 4, bottom: 2),
-                      child: Container(
-                        height: 18,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2.0),
-                          color: choTrinhKyColor,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 4.0,
-                            vertical: 2.0,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ChiTietLamViecTablet(
-                                    id: appointment.id.toString(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              appointment.subject,
-                              style: textNormalCustom(fontSize: 12),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4.0,
+                      vertical: 2.0,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ChiTietLamViecTablet(
+                              id: appointment.id.toString(),
                             ),
                           ),
-                        ),
+                        );
+                      },
+                      child: Text(
+                        appointment.subject,
+                        style: textNormalCustom(fontSize: 12),
                       ),
-                    );
-                  },
-                );
-              },
-            ),
+                    ),
+                  ),
+                ),
+              );
+            },
           );
-        });
+        },
+      ),
+    );
   }
 }

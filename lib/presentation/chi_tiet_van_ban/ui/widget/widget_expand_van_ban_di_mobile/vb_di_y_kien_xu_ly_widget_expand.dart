@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_g
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -257,13 +258,15 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
               (e) => GestureDetector(
                 onTap: () {
                   final baseURL = Get.find<AppConstants>().baseUrlQLNV;
-                  handleSaveFile(
-                      url: baseURL + ApiConstants.DOWNLOAD_FILE,
-                      name: e.ten ?? '',
-                      query: {
-                        'token': PrefsService.getToken(),
-                        'fileId': e.id,
-                      });
+                  saveFile(
+                    downloadType: DomainDownloadType.QLNV,
+                    url: ApiConstants.DOWNLOAD_FILE,
+                    fileName: e.ten ?? '',
+                    query: {
+                      'token': PrefsService.getToken(),
+                      'fileId': e.id,
+                    },
+                  );
                 },
                 child: SizedBox(
                   child: Text(

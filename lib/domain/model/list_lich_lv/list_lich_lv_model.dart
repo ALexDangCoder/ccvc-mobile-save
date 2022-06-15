@@ -49,6 +49,8 @@ class ListLichLVModel {
 
   String? typeSchedule;
 
+  bool isTrung = false;
+
   // CreateBys? createBys;
   //
   // CreateBys? canBoChuTri;

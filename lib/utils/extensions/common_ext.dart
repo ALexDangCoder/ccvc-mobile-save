@@ -29,11 +29,7 @@ Future<void> handleSaveFile({
     await Permission.storage.request();
     await Permission.manageExternalStorage.request();
   }
-  await saveFile(
-    name,
-    url,
-    query: query,
-  )
+  await saveFile(fileName: name, url: url, query: query)
       .then(
         (value) => MessageConfig.show(
           title: S.current.tai_file_thanh_cong,

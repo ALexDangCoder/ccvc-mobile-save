@@ -22,8 +22,8 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
-import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
@@ -51,20 +51,6 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
     _cubit = ProviderWidget
         .of<TaoLichHopCubit>(context)
         .cubit;
-    _cubit.isLichTrung.listen((value) {
-      if (value) {
-        showDiaLog(context, title: S.current.lich_trung,
-          textContent: S.current.ban_co_muon_tiep_tuc_khong,
-          icon: ImageAssets.svgAssets(ImageAssets.ic_trung_hop),
-          btnRightTxt: S.current.dong_y,
-          btnLeftTxt: S.current.khong,
-          isCenterTitle: true,
-          funcBtnRight: (){
-            Navigator.pop(context);
-            _cubit.createMeeting(context);
-          },);
-      }
-    });
   }
 
   @override
@@ -136,7 +122,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                             );
                           },
                         ),
-                        CupertinoTimePickerCustom(
+                        CupertinoMaterialPicker(
                           initTimeEnd:
                               DateTime.now().add(const Duration(hours: 1)),
                           onDateTimeChanged: (
@@ -161,6 +147,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           onSwitchPressed: (value) {
                             _cubit.taoLichHopRequest.isAllDay = value;
                           },
+                          validateTime: (bool value) {},
                         ),
                         spaceH5,
                         NhacLichWidget(
@@ -199,8 +186,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                               _cubit.taoLichHopRequest.isLichLap = true;
                             }
                           },
-                          onDayPicked: (value, index) {
-                            _cubit.taoLichHopRequest.days = index.toString();
+                          onDayPicked: (listId) {
+                            _cubit.taoLichHopRequest.days = listId.join(',');
                           },
                           onDateChange: (value) {
                             _cubit.taoLichHopRequest.dateRepeat =
@@ -317,9 +304,22 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                       text: S.current.tao_lich_hop,
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          _cubit.checkLichTrung(context);
+                          _cubit.createMeeting().then((value){
+                            if(value){
+                              MessageConfig.show(
+                                title: S.current.tao_thanh_cong,
+                              );
+                              Navigator.pop(context, true);
+                            }else{
+                              MessageConfig.show(
+                                messState: MessState.error,
+                                title: S.current.tao_that_bai,
+                              );
+                            }
+                          });
                         }
                       },
+                      customColor: true,
                     ),
                   ),
                 ],

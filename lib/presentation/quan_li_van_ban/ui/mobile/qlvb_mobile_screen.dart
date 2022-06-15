@@ -113,15 +113,16 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             children: [
               FilterDateTimeWidget(
                 context: context,
-                isMobile: true,
                 initStartDate: DateTime.parse(qlvbCubit.startDate),
                 onChooseDateFilter: (startDate, endDate) {
                   qlvbCubit.startDate = startDate.formatApi;
                   qlvbCubit.endDate = endDate.formatApi;
+                  qlvbCubit.showLoading();
                   qlvbCubit.getDashBoardIncomeDocument();
                   qlvbCubit.getDashBoardOutcomeDocument();
                   qlvbCubit.getListIncomeDocument();
                   qlvbCubit.getListOutcomeDocument();
+                  qlvbCubit.showContent();
                 },
               ),
               spaceH20,

@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -184,7 +185,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Future<void> getListOutcomeDocument({
     String? startDate,
     String? endDate,
-    bool initCall = false,
   }) async {
     List<VanBanModel> listVbDi = [];
     final result = await _qLVBRepo.getDanhSachVbDi(
@@ -220,9 +220,9 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Future<void> getListIncomeDocument({
     String? startDate,
     String? endDate,
-    bool initCall = false,
+    bool needLoading = false,
   }) async {
-    if (!initCall) {
+    if (needLoading){
       showLoading();
     }
     List<VanBanModel> listVbDen = [];
@@ -248,6 +248,9 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         return error;
       },
     );
+    if (needLoading){
+      showContent();
+    }
   }
 
   void initTimeRange() {

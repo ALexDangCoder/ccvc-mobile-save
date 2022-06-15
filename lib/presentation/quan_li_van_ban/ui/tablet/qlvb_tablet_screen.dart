@@ -61,10 +61,12 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                     onChooseDateFilter: (startDate, endDate) {
                       qlvbCubit.startDate = startDate.formatApi;
                       qlvbCubit.endDate = endDate.formatApi;
+                      qlvbCubit.showLoading();
                       qlvbCubit.getDashBoardIncomeDocument();
                       qlvbCubit.getDashBoardOutcomeDocument();
                       qlvbCubit.getListIncomeDocument();
                       qlvbCubit.getListOutcomeDocument();
+                      qlvbCubit.showContent();
                     },
                   ),
                   Expanded(

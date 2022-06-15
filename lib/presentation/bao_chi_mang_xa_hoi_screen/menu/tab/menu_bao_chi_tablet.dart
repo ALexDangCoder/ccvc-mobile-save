@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -6,6 +8,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/bloc/
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/bloc/theo_doi_bai_viet_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -76,7 +79,9 @@ class _MenuBaoChiTabletState extends State<MenuBaoChiTablet> {
                             : false,
                         initExpand: initId ==
                             widget.cubit.listTitleItemMenu[index].nodeId,
-                        type: TypeContainer.expand,
+                        type: widget.cubit.listSubMenu[index].isEmpty
+                            ? TypeContainer.number
+                            : TypeContainer.expand,
                         childExpand: ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -86,26 +91,38 @@ class _MenuBaoChiTabletState extends State<MenuBaoChiTablet> {
                               selected: widget.topic ==
                                   widget.cubit.listSubMenu[index][indexItem]
                                       .nodeId,
-                              initExpand: widget.topic ==
-                                  widget.cubit.listSubMenu[index][indexItem]
-                                      .nodeId,
                               name: widget
                                   .cubit.listSubMenu[index][indexItem].title,
                               onTap: () {
-                                widget.cubit.topic = widget
-                                    .cubit.listSubMenu[index][indexItem].nodeId;
+                                eventBus.fire(
+                                  FireTopic(
+                                    widget.cubit.listSubMenu[index][indexItem]
+                                        .nodeId,
+                                  ),
+                                );
+                                widget.cubit.titleSubject.sink.add(
+                                  widget.cubit.listTitleItemMenu[index].title,
+                                );
                                 widget.onChange();
-                                widget.cubit.slectColorItem(indexItem);
                                 Navigator.pop(context);
                               },
                             );
                           },
                         ),
-                        onTap: () {
-                          widget.cubit.topic =
-                              widget.cubit.listTitleItemMenu[index].nodeId;
+                        onTap: widget.cubit.listSubMenu[index].isEmpty
+                            ? () {
+                          eventBus.fire(
+                            FireTopic(
+                              widget.cubit.listTitleItemMenu[index].nodeId,
+                            ),
+                          );
                           widget.onChange();
-                        },
+                          widget.cubit.titleSubject.sink.add(
+                            widget.cubit.listTitleItemMenu[index].title,
+                          );
+                          Navigator.pop(context);
+                        }
+                            : () {},
                       );
                     },
                   ),

@@ -223,7 +223,7 @@ mixin HopRepository {
     List<MoiHopRequest> body,
   );
 
-  Future<Result<ThongTinPhongHopModel?>> getListThongTinPhongHop(
+  Future<Result<ThongTinPhongHopModel>> getListThongTinPhongHop(
       String idLichHop);
 
   Future<Result<List<ThietBiPhongHopModel>>> getListThietBiPhongHop(

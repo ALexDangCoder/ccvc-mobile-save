@@ -102,7 +102,6 @@ class DateTimeCupertinoCustomCubit
 
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
-
         timeBeginSubject.sink.add(
           timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
         );

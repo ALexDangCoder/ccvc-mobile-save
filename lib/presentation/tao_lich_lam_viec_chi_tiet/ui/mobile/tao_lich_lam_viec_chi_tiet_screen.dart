@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -28,7 +26,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
-import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -147,29 +144,28 @@ class _TaoLichLamViecChiTietScreenState
                           Form(
                             key: _formKey,
                             child: StreamBuilder<String>(
-                                initialData: S.current.lich_cong_tac_trong_nuoc,
-                                stream: taoLichLamViecCubit.changeOption,
-                                builder: (context, snapshot) {
-                                  return TextFormWidget(
-                                    controller: tieuDeController,
-                                    image: ImageAssets.icEdit,
-                                    hint:
-                                        '${S.current.tieu_de} ${snapshot.data}',
-                                    validator: (value) {
-                                      return (value ?? '').checkNull();
-                                    },
-                                  );
-                                }),
+                              initialData: S.current.lich_cong_tac_trong_nuoc,
+                              stream: taoLichLamViecCubit.changeOption,
+                              builder: (context, snapshot) {
+                                return TextFormWidget(
+                                  controller: tieuDeController,
+                                  image: ImageAssets.icEdit,
+                                  hint: '${S.current.tieu_de} ${snapshot.data}',
+                                  validator: (value) {
+                                    return (value ?? '').checkNull();
+                                  },
+                                );
+                              },
+                            ),
                           ),
                           LoaiLichWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
                           CupertinoMaterialPicker(
-                            onSwitchPressed: (value){
+                            onSwitchPressed: (value) {
                               taoLichLamViecCubit.isCheckAllDaySubject
                                   .add(value);
                             },
-
                             onDateTimeChanged: (
                               String timeStart,
                               String timeEnd,
@@ -195,17 +191,13 @@ class _TaoLichLamViecChiTietScreenState
                                   ),
                                 ),
                               );
-                            }, validateTime: (bool value) {
-
-                          },
+                            },
+                            validateTime: (bool value) {
+                              taoLichLamViecCubit.isCheckAllDaySubject
+                                  .add(value);
+                            },
                           ),
                           NhacLaiWidget(
-                            taoLichLamViecCubit: taoLichLamViecCubit,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          MauMacDinhWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
                           const SizedBox(
@@ -307,14 +299,16 @@ class _TaoLichLamViecChiTietScreenState
                           ThanhPhanThamGiaTLWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
-                          const TaiLieuWidget(),
+                           TaiLieuWidget(),
                           Row(
                             children: [
                               Expanded(
                                 child: buttomWidget(
                                   background: buttonColor.withOpacity(0.1),
                                   title: S.current.dong,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
                                   textColor: buttonColor,
                                 ),
                               ),

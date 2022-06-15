@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/grid_view/list_report_girdview.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
@@ -66,8 +66,8 @@ extension TabbarEnum on TabBarType {
         );
       case TabBarType.report:
         return screenDevice(
-          mobileScreen: const ReportListGridviewMobile(),
-          tabletScreen: const ReportListGridviewMobile(),
+          mobileScreen: const ReportScreenMobile(),
+          tabletScreen: const ReportScreenMobile(),
         );
       case TabBarType.calendarWork:
         return screenDevice(

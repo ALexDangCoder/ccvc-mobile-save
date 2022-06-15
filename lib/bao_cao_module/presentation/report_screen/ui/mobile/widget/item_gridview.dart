@@ -63,7 +63,9 @@ class ItemGridView extends StatelessWidget {
                     context: context,
                     isScrollControlled: true,
                     backgroundColor: Colors.transparent,
-                    builder: (context) => XemThemBottomSheet(),
+                    builder: (context) => ShowMoreBottomSheet(
+                      reportItem: item,
+                    ),
                   );
                 },
                 child: Padding(
@@ -85,7 +87,7 @@ class ItemGridView extends StatelessWidget {
               children: [
                 ItemFolder(
                   type: item.type ?? 0,
-                  isShare: true,
+                  isShare: true,//todo
                   fileNumber: item.childrenTotal ?? 0,
                 ),
                 spaceH18,

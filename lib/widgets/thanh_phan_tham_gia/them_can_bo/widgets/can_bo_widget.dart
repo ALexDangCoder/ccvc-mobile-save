@@ -11,7 +11,6 @@ class CanBoWidget extends StatefulWidget {
   final DonViModel canBoModel;
   final Function(bool) onCheckBox;
   final ThemCanBoCubit themCanBoCubit;
-
   const CanBoWidget({
     Key? key,
     required this.canBoModel,
@@ -40,8 +39,9 @@ class _CanBoWidgetState extends State<CanBoWidget> {
               CustomCheckBox(
                 title: '',
                 onChange: (isCheck) {
-                  widget.onCheckBox(!isCheck);
                   setState(() {});
+                  widget.onCheckBox(!isCheck);
+
                 },
                 isCheck: widget.themCanBoCubit.listSelectCanBo
                     .contains(widget.canBoModel),

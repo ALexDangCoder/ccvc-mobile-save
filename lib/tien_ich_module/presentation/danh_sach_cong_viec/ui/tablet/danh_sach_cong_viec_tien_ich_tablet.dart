@@ -115,7 +115,7 @@ class _DanhSachCongViecTienIchTabletState
                               isOtherType: dataType == DSCVScreen.CVCB ||
                                   dataType == DSCVScreen.NCVM,
                               isCheck: isOpenWhenInit1,
-                              title: S.current.cong_viec_cua_ban,
+                              title: S.current.gan_cho_toi,
                               count: data.length,
                               child: data.isNotEmpty
                                   ? ListUpDSCV(

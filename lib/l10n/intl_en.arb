@@ -936,7 +936,7 @@
   "pham_vi": "Phạm vi",
   "thong_tin_pakn": "Thông tin PAKN",
   "tinh_hinh_xu_ly_pakn": "Tình hình xử lý PAKN",
-  "them_nhom_cong_viec": "Thêm nhóm công việc mới",
+  "them_nhom_cong_viec": "Thêm nhóm công việc",
   "doi_lai_ten": "Đổi lại tên",
   "viec_nay_se_xoa_cac_task_ben_trong_no": "Việc này sẽ xóa các task bên trong nó",
   "thong_tin_van_ban": "Thông tin văn bản",
@@ -1110,5 +1110,7 @@
   "ban_co_chac_chan_sua_lich": "Bạn có chắc chắn sửa lịch làm việc",
   "chi_lich_nay": "Chỉ sửa lịch này",
   "tu_lich_nay": "Từ lịch này trở đi",
-  "cho_chuyen_xu_ly": "Chờ chuyển xử lý"
+  "khong_co_bao_cao": "Không có báo cáo",
+  "cho_chuyen_xu_ly": "Chờ chuyển xử lý",
+  "ten_nhom": "Tên nhóm"
 }

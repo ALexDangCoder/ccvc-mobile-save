@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -5,13 +6,13 @@ import 'package:flutter/material.dart';
 class ButtonBottom extends StatelessWidget {
   final Function onPressed;
   final String text;
-  final Color? buttonColor;
+  final bool customColor;
 
   const ButtonBottom({
     Key? key,
     required this.onPressed,
     required this.text,
-    this.buttonColor,
+    this.customColor = false,
   }) : super(key: key);
 
   @override
@@ -24,7 +25,9 @@ class ButtonBottom extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: Material(
-        color:  buttonColor ?? AppTheme.getInstance().colorField().withOpacity(0.1),
+        color: customColor
+            ? AppTheme.getInstance().colorField()
+            : AppTheme.getInstance().colorField().withOpacity(0.1),
         child: InkWell(
           onTap: () {
             onPressed();
@@ -33,7 +36,9 @@ class ButtonBottom extends StatelessWidget {
             child: Text(
               text,
               style: textNormalCustom(
-                color: AppTheme.getInstance().colorField(),
+                color: customColor
+                    ? backgroundColorApp
+                    : AppTheme.getInstance().colorField(),
                 fontSize: 14,
               ),
             ),

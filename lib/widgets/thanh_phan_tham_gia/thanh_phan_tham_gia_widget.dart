@@ -1,8 +1,10 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
@@ -19,10 +21,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
   final bool isPhuongThucNhan;
   final bool isTaoHop;
   final String noiDungCV;
-  final String? dateStart;
-  final String? dateEnd;
-  final String? timeStart;
-  final String? timeEnd;
+  final TaoLichHopCubit? cubit;
 
   const ThanhPhanThamGiaWidget({
     Key? key,
@@ -32,10 +31,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     this.listPeopleInit,
     this.isTaoHop = false,
     this.noiDungCV = '',
-    this.dateStart,
-    this.dateEnd,
-    this.timeStart,
-    this.timeEnd,
+    this.cubit,
   }) : super(key: key);
 
   @override
@@ -52,10 +48,10 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     _cubit.listPeopleThamGia.listen((event) {
       widget.onChange(event);
     });
-    _cubit.timeStart = widget.timeStart ?? '';
-    _cubit.timeEnd = widget.timeEnd ?? '';
-    _cubit.dateStart = widget.dateStart ?? '';
-    _cubit.dateEnd = widget.dateEnd ?? '';
+    _cubit.timeStart = widget.cubit?.taoLichHopRequest.timeStart ?? '';
+    _cubit.timeEnd = widget.cubit?.taoLichHopRequest.timeTo ?? '';
+    _cubit.dateStart = widget.cubit?.taoLichHopRequest.ngayBatDau ?? '';
+    _cubit.dateEnd = widget.cubit?.taoLichHopRequest.ngayKetThuc ?? '';
     _cubit.phuongThucNhanStream.listen((event) {
       widget.phuongThucNhan(event);
     });
@@ -139,11 +135,21 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isTaoHop
-                      ? ItemPeopleThamGia(
-                          noiDungCV: widget.noiDungCV,
-                          cubit: _cubit,
-                          donVi: data[index],
-                        )
+                      ? StreamBuilder<bool>(
+                          stream: _cubit.phuongThucNhanStream,
+                          builder: (context, snapshot) {
+                            return ItemPeopleThamGia(
+                              noiDungCV: widget.noiDungCV,
+                              cubit: _cubit,
+                              donVi: data[index],
+                              onDelete: () {
+                                widget.cubit?.listThanhPhanThamGia.remove(
+                                  data[index],
+                                );
+                              },
+                              isSendEmail: snapshot.data ?? false,
+                            );
+                          })
                       : PeopleThamGiaWidget(
                           donVi: data[index],
                           cubit: _cubit,

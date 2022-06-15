@@ -88,158 +88,166 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   }
                   return true;
                 },
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      FilterDateTimeWidgetTablet(
-                        initStartDate: widget.cubit.initStartDate,
-                        context: context,
-                        onChooseDateFilter: (startDate, endDate) {
-                          widget.cubit.startDate =
-                              startDate.toStringWithListFormat;
-                          widget.cubit.endDate = endDate.toStringWithListFormat;
-                          //  widget.cubit.clearDSPAKN();
-                          widget.cubit.getDanhSachPAKN();
-                        },
-                        controller: textcontroller,
-                        onChange: (searchText) {
-                          if (searchText.isEmpty) {
-                            setState(() {});
-                            widget.cubit.showCleanText = false;
-                            widget.cubit.tuKhoa = '';
-                            widget.cubit.clearDSPAKN();
-                            widget.cubit.getDanhSachPAKN(isSearch: true);
-                          } else {
-                            widget.cubit.debouncer.run(() {
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    widget.cubit.resetBeforeRefresh();
+                    widget.cubit.initTimeRange();
+                    widget.cubit.getDashBoardPAKN();
+                    widget.cubit.getDanhSachPAKN();
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        FilterDateTimeWidgetTablet(
+                          initStartDate: widget.cubit.initStartDate,
+                          context: context,
+                          onChooseDateFilter: (startDate, endDate) {
+                            widget.cubit.startDate =
+                                startDate.toStringWithListFormat;
+                            widget.cubit.endDate = endDate.toStringWithListFormat;
+                            //  widget.cubit.clearDSPAKN();
+                            widget.cubit.getDanhSachPAKN();
+                          },
+                          controller: textcontroller,
+                          onChange: (searchText) {
+                            if (searchText.isEmpty) {
                               setState(() {});
-                              widget.cubit.tuKhoa = searchText;
+                              widget.cubit.showCleanText = false;
+                              widget.cubit.tuKhoa = '';
                               widget.cubit.clearDSPAKN();
                               widget.cubit.getDanhSachPAKN(isSearch: true);
-                              widget.cubit.showCleanText = true;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 22,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 66),
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: borderColor.withOpacity(0.5),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: shadowContainerColor.withOpacity(0.05),
-                              offset: const Offset(0, 4),
-                              blurRadius: 10,
-                            )
-                          ],
-                        ),
-                        ///hia
-                        child: StreamBuilder<DocumentDashboardModel>(
-                          stream: widget.cubit.getTinhHinhXuLy.stream,
-                          builder: (ctx, snapshot) {
-                            final data = snapshot.data ?? DocumentDashboardModel();
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children:  [
-                                Expanded(
-                                  child: TiepCanWidget(model: data,),
-                                ),
-                                SizedBox(
-                                  width: 115,
-                                ),
-                                Expanded(
-                                  child: XuLyWidget(model: data,),
-                                ),
-                              ],
-                            );
+                            } else {
+                              widget.cubit.debouncer.run(() {
+                                setState(() {});
+                                widget.cubit.tuKhoa = searchText;
+                                widget.cubit.clearDSPAKN();
+                                widget.cubit.getDanhSachPAKN(isSearch: true);
+                                widget.cubit.showCleanText = true;
+                              });
+                            }
                           },
                         ),
-                      ),
-                      spaceH20,
-                      StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
-                        stream: widget.cubit.listDanhSachKetQuaPakn.stream,
-                        initialData: const [],
-                        builder: (context, snapShot) {
-                          final data = snapShot.data ?? [];
-                          if (data.isEmpty) {
-                            widget.cubit.isEmptyData = true;
-                            return Center(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: Text(
+                        const SizedBox(
+                          height: 22,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(bottom: 66),
+                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: borderColor.withOpacity(0.5),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: shadowContainerColor.withOpacity(0.05),
+                                offset: const Offset(0, 4),
+                                blurRadius: 10,
+                              )
+                            ],
+                          ),
+                          ///hia
+                          child: StreamBuilder<DocumentDashboardModel>(
+                            stream: widget.cubit.getTinhHinhXuLy.stream,
+                            builder: (ctx, snapshot) {
+                              final data = snapshot.data ?? DocumentDashboardModel();
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children:  [
+                                  Expanded(
+                                    child: TiepCanWidget(model: data,),
+                                  ),
+                                  SizedBox(
+                                    width: 115,
+                                  ),
+                                  Expanded(
+                                    child: XuLyWidget(model: data,),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        spaceH20,
+                        StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
+                          stream: widget.cubit.listDanhSachKetQuaPakn.stream,
+                          initialData: const [],
+                          builder: (context, snapShot) {
+                            final data = snapShot.data ?? [];
+                            if (data.isEmpty) {
+                              widget.cubit.isEmptyData = true;
+                              return Center(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: Text(
+                                        S.current.danh_sach_pakn,
+                                        style: textNormalCustom(
+                                          color: textTitle,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30.0,
+                                    ),
+                                    SvgPicture.asset(
+                                      ImageAssets.icNoDataNhiemVu,
+                                    ),
+                                    const SizedBox(
+                                      height: 30.0,
+                                    ),
+                                    Text(
+                                      S.current.khong_co_thong_tin_pakn,
+                                      style: textNormalCustom(
+                                          fontSize: 16.0, color: grayChart),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       S.current.danh_sach_pakn,
                                       style: textNormalCustom(
                                         color: textTitle,
-                                        fontSize: 16,
+                                        fontSize: 20.0,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 30.0,
-                                  ),
-                                  SvgPicture.asset(
-                                    ImageAssets.icNoDataNhiemVu,
-                                  ),
-                                  const SizedBox(
-                                    height: 30.0,
-                                  ),
-                                  Text(
-                                    S.current.khong_co_thong_tin_pakn,
-                                    style: textNormalCustom(
-                                        fontSize: 16.0, color: grayChart),
-                                  ),
-                                  const SizedBox(
-                                    height: 10.0,
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    S.current.danh_sach_pakn,
-                                    style: textNormalCustom(
-                                      color: textTitle,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w500,
+                                    ListView.builder(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        return _itemDanhSachPAKN(
+                                            dsKetQuaPakn: data[index]);
+                                      },
                                     ),
-                                  ),
-                                  ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      return _itemDanhSachPAKN(
-                                          dsKetQuaPakn: data[index]);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ],
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

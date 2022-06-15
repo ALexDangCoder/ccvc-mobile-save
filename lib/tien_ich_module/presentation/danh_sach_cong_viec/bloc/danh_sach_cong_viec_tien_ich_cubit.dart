@@ -401,12 +401,11 @@ class DanhSachCongViecTienIchCubit
             : DateTime.parse(dateChange).formatApi,
         performer: toDoListRequest.performer ?? todo.performer,
         filePath:
-            checkData(changeData: filePathTodo, defaultData: nameFile.value),
+            checkData(changeData: filePathTodo, defaultData: todo.filePath),
       ),
     );
     result.when(
       success: (res) {
-        showContent();
         final data = listDSCV.value;
         if (isTicked != null) {
           data.insert(0, res);
@@ -431,6 +430,7 @@ class DanhSachCongViecTienIchCubit
         showError();
       },
     );
+    showContent();
   }
 
   ItemChonBienBanCuocHopModel dataListNguoiThucHienModelDefault =

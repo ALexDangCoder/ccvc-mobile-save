@@ -1,15 +1,11 @@
-import 'package:equatable/equatable.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
 
-abstract class ReportListState extends Equatable {
-  const ReportListState();
-}
-
-class ReportListStateInitial extends ReportListState {
+class ReportListStateInitial extends BaseState {
   @override
   List<Object> get props => [];
 }
 
-class Loading extends ReportListState {
+class Loading extends BaseState {
   @override
   List<Object> get props => [];
 }

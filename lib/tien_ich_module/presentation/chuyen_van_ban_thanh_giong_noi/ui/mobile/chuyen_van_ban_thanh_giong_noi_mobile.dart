@@ -34,7 +34,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
     data = cubit.dataDrop;
-    cubit.voidTone = north_female_lien;
+    cubit.voidTone = KieuGiongNoi.north_female_lien;
   }
 
   @override

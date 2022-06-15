@@ -123,64 +123,38 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                final appConstants =
-                                    Get
-                                        .find<AppConstants>()
-                                        .baseUrlQLNV;
+
                                 final status = await Permission.storage.status;
                                 if (!status.isGranted) {
                                   await Permission.storage.request();
                                   await Permission.manageExternalStorage
                                       .request();
                                 }
+
                                 if (widget.object.yKienXuLyFileDinhKem?[index]
                                     .fileDinhKem?.pathIOC ==
                                     null) {
                                   await saveFile(
-                                    widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.ten ??
-                                        '',
-                                    '$appConstants${widget.object
-                                        .yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.duongDan ?? ''}',
-                                    http: true,
-                                  )
-                                      .then(
-                                          (value) {
-                                        if (value == true) {
-                                          MessageConfig.show(
-                                            title: S.current
-                                                .tai_file_thanh_cong,
-                                          );
-                                        } else {
-                                          MessageConfig.show(
-                                            title: S.current.tai_file_that_bai,
-                                            messState: MessState.error,
-                                          );
-                                        }
-                                      }
+                                    fileName:
+                                      widget.object.yKienXuLyFileDinhKem?[index]
+                                          .fileDinhKem?.ten ??
+                                          '',
+                                    url:
+                                    widget.object
+                                          .yKienXuLyFileDinhKem?[index]
+                                          .fileDinhKem?.duongDan ?? '',
+                                    downloadType: DomainDownloadType.QLNV
                                   );
                                 } else {
                                   await saveFile(
+                                    fileName:
                                     widget.object.yKienXuLyFileDinhKem?[index]
                                         .fileDinhKem?.ten ??
                                         '',
+                                    url:
                                     widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.pathIOC,
-                                    http: true,
-                                  )
-                                      .then(
-                                        (value) =>
-                                        MessageConfig.show(
-                                          title: S.current.tai_file_thanh_cong,
-                                        ),
-                                  )
-                                      .onError(
-                                        (error, stackTrace) =>
-                                        MessageConfig.show(
-                                          title: S.current.tai_file_that_bai,
-                                          messState: MessState.error,
-                                        ),
+                                        .fileDinhKem?.pathIOC ?? '',
+                                    // http: true,
                                   );
                                 }
                               },

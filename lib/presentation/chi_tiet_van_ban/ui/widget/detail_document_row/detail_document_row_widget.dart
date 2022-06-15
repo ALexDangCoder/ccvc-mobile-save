@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/bloc/detail_row_cubit.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/checkbox/custom_checkbox.dart';
@@ -62,9 +63,9 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                             onTap: () async {
                               final baseURL =
                                   Get.find<AppConstants>().baseUrlQLNV;
-                              await handleSaveFile(
-                                name: e.ten ?? '',
-                                url: '$baseURL${e.duongDan}',
+                              await saveFile(
+                                url: e.duongDan ?? '', fileName: e.ten ?? '',
+                                downloadType: DomainDownloadType.QLNV
                               );
                             },
                             child: Text(

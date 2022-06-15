@@ -285,6 +285,8 @@ class ApiConstants {
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
+  static const LIST_GROUP_BAO_CAO = '/common/Group/search';
+  static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
 }
 
 class ImageConstants {

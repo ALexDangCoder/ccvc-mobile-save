@@ -85,7 +85,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   Future<void> postThemBieuQuyetHop(
-      String id, String noidung, String date) async {
+      String id, String noidung, String date, bool loaiBieuQuyet) async {
     await themBieuQuyetHopByLuc(
       dateStart: date,
       thoiGianBatDau: plusTaoBieuQuyet(
@@ -96,7 +96,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         date,
         end,
       ),
-      loaiBieuQuyet: loaiBieuQ,
+      loaiBieuQuyet: loaiBieuQuyet,
       danhSachLuaChon: listLuaChon
           .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))
           .toList(),

@@ -26,6 +26,10 @@
 	<array>
 		<string>_dartobservatory._tcp</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+    <true/>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Used to demonstrate image picker plugin</string>
 	<key>NSContactsUsageDescription</key>

@@ -11,10 +11,12 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_h
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -206,104 +208,117 @@ class _HinhThucHopState extends State<HinhThucHop> {
 
   void themDiemCauBTS() {
     final DsDiemCau diemCau = DsDiemCau();
-    showBottomSheetCustom(
+    if(isMobile()) {
+      showBottomSheetCustom(
       context,
-      child: FollowKeyBoardWidget(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _key,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.tenDiemCau = value;
-                  },
-                  validator: (value) {
-                    return value.isEmpty ? S.current.khong_duoc_de_trong : null;
-                  },
-                  isRequired: true,
-                  title: S.current.ten_don_vi,
-                  hint: S.current.ten_don_vi,
-                ),
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.canBoDauMoiHoTen = value;
-                  },
-                  validator: (value) {},
-                  title: S.current.can_bo_dau_moi,
-                  hint: S.current.can_bo_dau_moi,
-                ),
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.canBoDauMoiChucVu = value;
-                  },
-                  validator: (value) {},
-                  title: S.current.chuc_vu,
-                  hint: S.current.chuc_vu,
-                ),
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.canBoDauMoiSDT = value;
-                  },
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return null;
-                    }
-                    final phoneRegex = RegExp(VN_PHONE);
-                    final bool checkRegex = phoneRegex.hasMatch(value);
-                    return checkRegex ? null : S.current.nhap_sai_dinh_dang;
-                  },
-                  title: S.current.so_dien_thoai,
-                  hint: S.current.so_dien_thoai,
-                ),
-                spaceH20,
-                CoolDropDown(
-                  onChange: (index) {
-                    /// điểm chính = 1
-                    /// điểm phụ = 2
-                    /// => điểm cầu = index +1
-                    diemCau.loaiDiemCau = index + 1;
-                  },
-                  listData: [
-                    S.current.diem_chinh,
-                    S.current.diem_phu,
-                  ],
-                  initData: S.current.diem_chinh,
-                ),
-                spaceH20,
-                DoubleButtonBottom(
-                  title1: S.current.dong,
-                  title2: S.current.xac_nhan,
-                  onPressed1: () {
+      child: themDiemCau(diemCau),
+      title: S.current.them_diem_cau,
+    );
+    }else{
+      showDiaLogTablet(
+        context,
+        title: S.current.them_diem_cau,
+        child: themDiemCau(diemCau),
+        isBottomShow: false, funcBtnOk: () {  },
+      );
+    }
+  }
+
+  Widget themDiemCau(DsDiemCau diemCau){
+    return FollowKeyBoardWidget(
+      child: SingleChildScrollView(
+        child: Form(
+          key: _key,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.tenDiemCau = value;
+                },
+                validator: (value) {
+                  return value.isEmpty ? S.current.khong_duoc_de_trong : null;
+                },
+                isRequired: true,
+                title: S.current.ten_don_vi,
+                hint: S.current.ten_don_vi,
+              ),
+              spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.canBoDauMoiHoTen = value;
+                },
+                validator: (value) {},
+                title: S.current.can_bo_dau_moi,
+                hint: S.current.can_bo_dau_moi,
+              ),
+              spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.canBoDauMoiChucVu = value;
+                },
+                validator: (value) {},
+                title: S.current.chuc_vu,
+                hint: S.current.chuc_vu,
+              ),
+              spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.canBoDauMoiSDT = value;
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return null;
+                  }
+                  final phoneRegex = RegExp(VN_PHONE);
+                  final bool checkRegex = phoneRegex.hasMatch(value);
+                  return checkRegex ? null : S.current.nhap_sai_dinh_dang;
+                },
+                title: S.current.so_dien_thoai,
+                hint: S.current.so_dien_thoai,
+              ),
+              spaceH20,
+              CoolDropDown(
+                onChange: (index) {
+                  /// điểm chính = 1
+                  /// điểm phụ = 2
+                  /// => điểm cầu = index +1
+                  diemCau.loaiDiemCau = index + 1;
+                },
+                listData: [
+                  S.current.diem_chinh,
+                  S.current.diem_phu,
+                ],
+                initData: S.current.diem_chinh,
+              ),
+              spaceH20,
+              DoubleButtonBottom(
+                title1: S.current.dong,
+                title2: S.current.xac_nhan,
+                onPressed1: () {
+                  Navigator.pop(context);
+                },
+                onPressed2: () {
+                  if (_key.currentState?.validate() ?? false) {
+                    final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
+                    diemCau.loaiDiemCau ??= 1;
+                    dsDiemCau.add(diemCau);
+                    widget.cubit.dsDiemCauSubject.add(dsDiemCau);
+                    widget.cubit.taoLichHopRequest.dsDiemCau?.add(diemCau);
+                    MessageConfig.show(
+                      title: S.current.thay_doi_thanh_cong,
+                    );
                     Navigator.pop(context);
-                  },
-                  onPressed2: () {
-                    if (_key.currentState?.validate() ?? false) {
-                      final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
-                      diemCau.loaiDiemCau ??= 1;
-                      dsDiemCau.add(diemCau);
-                      widget.cubit.dsDiemCauSubject.add(dsDiemCau);
-                      widget.cubit.taoLichHopRequest.dsDiemCau?.add(diemCau);
-                      MessageConfig.show(
-                        title: S.current.thay_doi_thanh_cong,
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-                spaceH30,
-              ],
-            ),
+                  }
+                },
+              ),
+              spaceH30,
+            ],
           ),
         ),
       ),
-      title: S.current.them_diem_cau,
     );
   }
 

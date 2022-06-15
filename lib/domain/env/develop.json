@@ -5,5 +5,5 @@
   "base_url_CCVC": "http://api-mpi-ccvc-dev.edsolabs.vn",
   "base_url_NOTI": "http://mpi-noti-dev.edsolabs.vn",
   "base_url_DOWNLOAD_QLNV": "http://api-mpi-qlvb-dev.edsolabs.vn",
-  "base_url_DOWNLOAD_PANK": "https://api-mpi-pakn-dev.edsolabs.vn/"
+  "base_url_DOWNLOAD_PANK": "https://api-mpi-pakn-dev.edsolabs.vn"
 }

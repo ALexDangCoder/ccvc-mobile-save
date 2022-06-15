@@ -134,6 +134,9 @@ const _dtFormat8 = 'd/MM/yyyy';
 const _dtFormat9 = 'dd/MM/yyyy HH:mm';
 const _dtFormat10 = 'dd/MM/yyyy';
 const _dtFormat11 = 'dd-MM-yyyy';
+const _dtFormat12 = 'yyyy-MM-ddTHH:mm:ss';
+const _dtFormat13 = 'yyyy/MM/dd HH:mm';
+const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
 const HOUR_MINUTE_FORMAT = 'Hm';
 
 const START_TIME='8:00';
@@ -158,6 +161,9 @@ class DateTimeFormat {
   static const  DATE_DD_MM_HM = _dtFormat9;
   static const  DAY_MONTH_YEAR = _dtFormat10;
   static const  DAY_MONTH_YEAR_BETWEEN = _dtFormat11;
+  static const  DATE_TIME_RECEIVE = _dtFormat12;
+  static const  DATE_TIME_PICKER = _dtFormat13;
+  static const  DATE_TIME_PUT = _dtFormat14;
 }
 
 class ThongBaoTypeConstant {

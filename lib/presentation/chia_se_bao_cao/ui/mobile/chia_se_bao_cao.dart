@@ -28,6 +28,8 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     cubit = ChiaSeBaoCaoCubit();
+    cubit.getGroup();
+    cubit.getTree();
   }
 
   @override

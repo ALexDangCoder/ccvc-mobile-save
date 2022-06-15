@@ -8,7 +8,6 @@ import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +23,9 @@ class ComplexLoadMore extends StatefulWidget {
   final double? checkRatio;
   final double? crossAxisSpacing;
   final bool? shrinkWap;
+  final bool isTitle;
+  final String? titleNoData;
+  final double? mainAxisExtent;
 
   const ComplexLoadMore({
     Key? key,
@@ -35,6 +37,9 @@ class ComplexLoadMore extends StatefulWidget {
     required this.viewItem,
     this.crossAxisSpacing,
     this.shrinkWap,
+    this.isTitle = true,
+    this.titleNoData,
+    this.mainAxisExtent,
   }) : super(key: key);
 
   @override
@@ -136,30 +141,32 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                       child: Column(
                         children: [
                           ...widget.childrenView,
-                          Row(
-                            mainAxisAlignment: (snapshot.data?.length ?? 0) > 0
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20.0,
-                                    horizontal: 16.0.textScale(space: 14.0)),
-                                child: Text(
-                                  S.current.danh_sach_nhiem_vu,
-                                  style: textNormalCustom(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0.textScale(space: 4.0),
-                                    color: textDropDownColor,
+                          if (widget.isTitle)
+                            Row(
+                              mainAxisAlignment:
+                                  (snapshot.data?.length ?? 0) > 0
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 20.0,
+                                      horizontal: 16.0.textScale(space: 14.0)),
+                                  child: Text(
+                                    S.current.danh_sach_nhiem_vu,
+                                    style: textNormalCustom(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16.0.textScale(space: 4.0),
+                                      color: textDropDownColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
                           if ((snapshot.data?.length ?? 0) > 0)
                             ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
+                              shrinkWrap: widget.shrinkWap ?? true,
                               itemCount: snapshot.data?.length ?? 0,
                               itemBuilder: (ctx, index) {
                                 return widget.viewItem(
@@ -180,7 +187,8 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                                     height: 30.0,
                                   ),
                                   Text(
-                                    S.current.khong_co_thong_tin_nhiem_vu,
+                                    widget.titleNoData ??
+                                        S.current.khong_co_thong_tin_nhiem_vu,
                                     style: textNormalCustom(
                                         fontSize: 16.0.textScale(space: 4.0),
                                         color: grayChart),
@@ -195,23 +203,85 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                       ),
                     );
                   } else {
-                    return GridView.builder(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                        top: 16,
-                        bottom: 32,
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ...widget.childrenView,
+                          if (widget.isTitle)
+                            Row(
+                              mainAxisAlignment:
+                                  (snapshot.data?.length ?? 0) > 0
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 20.0,
+                                    horizontal: 16.0.textScale(space: 14.0),
+                                  ),
+                                  child: Text(
+                                    S.current.danh_sach_nhiem_vu,
+                                    style: textNormalCustom(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16.0.textScale(space: 4.0),
+                                      color: textDropDownColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          if ((snapshot.data?.length ?? 0) > 0)
+                            GridView.builder(
+                              shrinkWrap: widget.shrinkWap ?? true,
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                                top: 16,
+                                bottom: 32,
+                              ),
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 16,
+                                mainAxisExtent: widget.mainAxisExtent,
+                                crossAxisSpacing: widget.crossAxisSpacing ?? 28,
+                                childAspectRatio: widget.checkRatio ?? 2 / 3,
+                              ),
+                              itemCount: snapshot.data?.length ?? 0,
+                              itemBuilder: (_, index) {
+                                return widget.viewItem(
+                                    snapshot.data![index], index);
+                              },
+                            )
+                          else
+                            Center(
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 30.0,
+                                  ),
+                                  SvgPicture.asset(
+                                    ImageAssets.icNoDataNhiemVu,
+                                  ),
+                                  const SizedBox(
+                                    height: 30.0,
+                                  ),
+                                  Text(
+                                    widget.titleNoData ??
+                                        S.current.khong_co_thong_tin_nhiem_vu,
+                                    style: textNormalCustom(
+                                        fontSize: 16.0.textScale(space: 4.0),
+                                        color: grayChart),
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
                       ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 16,
-                        crossAxisSpacing: widget.crossAxisSpacing ?? 28,
-                        childAspectRatio: widget.checkRatio ?? 2 / 3,
-                      ),
-                      itemCount: snapshot.data?.length ?? 0,
-                      itemBuilder: (_, index) {
-                        return widget.viewItem(snapshot.data![index], index);
-                      },
                     );
                   }
                 },

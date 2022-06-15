@@ -1,6 +1,7 @@
+import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class TaoLichLamViecState extends Equatable {
+abstract class TaoLichLamViecState extends BaseState {
   const TaoLichLamViecState();
 }
 

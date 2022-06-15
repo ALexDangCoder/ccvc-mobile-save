@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/bloc/chuyen_van_ban_thanh_giong_noi_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/ui/mobile/chuyen_van_ban_thanh_giong_noi_mobile.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
@@ -29,6 +30,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
     data = cubit.dataDrop;
+    cubit.voidTone = KieuGiongNoi.north_female_lien;
   }
 
   @override
@@ -79,10 +81,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                     onChange: (vl) {
                       final List<String> dataSelect =
                           data.map((e) => e.code ?? '').toList();
-                      if (cubit.voidTone != dataSelect[vl]) {
-                        cubit.voidTone = dataSelect[vl];
-                        cubit.enableButton.sink.add(true);
-                      }
+                      cubit.voidTone = dataSelect[vl];
                     },
                   ),
                 ),
@@ -104,10 +103,8 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                     ),
                     child: TextField(
                       onChanged: (String value) {
-                        if (cubit.text != value) {
-                          cubit.text = value;
-                          cubit.enableButton.sink.add(true);
-                        }
+                        cubit.text = value;
+                        cubit.checkEnable();
                       },
                       decoration: const InputDecoration(
                         enabledBorder: OutlineInputBorder(

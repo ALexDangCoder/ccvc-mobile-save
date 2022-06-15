@@ -66,8 +66,7 @@ extension FormatAddressConfirm on String {
   String changeToNewPatternDate(String oldPattern, String newPattern) {
     try {
       return DateFormat(newPattern).format(DateFormat(oldPattern).parse(this));
-    }
-    catch (_){
+    } catch (_) {
       return '';
     }
   }
@@ -76,16 +75,16 @@ extension FormatAddressConfirm on String {
     return DateFormat(formatPattern).parse(this);
   }
 
-  TimerData? getTimeData({TimerData? timeReturnParseFail}){
-    if(isEmpty){
+  TimerData? getTimeData({TimerData? timeReturnParseFail}) {
+    if (isEmpty) {
       return timeReturnParseFail;
     }
-    try{
+    try {
       final List<String> timeSplit = split(':');
       final int hour = int.parse(timeSplit.first);
       final int minute = int.parse(timeSplit.last);
       return TimerData(hour: hour, minutes: minute);
-    }catch(e){
+    } catch (e) {
       return timeReturnParseFail;
     }
   }
@@ -217,7 +216,7 @@ extension CheckValidate on String {
     if (isCheckSdt) {
       return null;
     } else {
-      return '${S.current.sai_dinh_dang_truong}' '$text!';
+      return '${S.current.sai_dinh_dang_truong}' ' $text!';
     }
   }
 

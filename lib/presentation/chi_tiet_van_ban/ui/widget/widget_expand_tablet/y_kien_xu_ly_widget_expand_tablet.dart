@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -62,23 +63,22 @@ class _YKienSuLyWidgetExpandTabletState
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(
-                    bottom: 6,
-                    left: 42,
-                    right: 42,
-                    top: 30,
-                  ),
-                  child:WidgetComments(
-                    onSend: (comment, listData) {
-                      widget.cubit.comment(
-                        comment,
-                        listData,
-                        widget.processId,
-                        widget.taskId,
-                      );
-                    },
-                  )
-                ),
+                    margin: const EdgeInsets.only(
+                      bottom: 6,
+                      left: 42,
+                      right: 42,
+                      top: 30,
+                    ),
+                    child: WidgetComments(
+                      onSend: (comment, listData) {
+                        widget.cubit.comment(
+                          comment,
+                          listData,
+                          widget.processId,
+                          widget.taskId,
+                        );
+                      },
+                    )),
                 StreamBuilder<List<DanhSachYKienXuLy>>(
                   stream: widget.cubit.danhSachYKienXuLyStream,
                   builder: (context, snapshot) {
@@ -115,7 +115,7 @@ class _YKienSuLyWidgetExpandTabletState
                               ngayTao: data[index].ngayTao ?? '',
                               noiDung: data[index].noiDung ?? '',
                               fileDinhKem:
-                              data[index].yKienXuLyFileDinhKem ?? [],
+                                  data[index].yKienXuLyFileDinhKem ?? [],
                               listTraLoi: data[index].listTraloiYKien ?? [],
                               canRelay: data[index].canRelay,
                               index: index,
@@ -265,26 +265,26 @@ class _YKienSuLyWidgetExpandTabletState
         children: data
             .map(
               (e) => GestureDetector(
-            onTap: () {
-              final baseURL = Get.find<AppConstants>().baseUrlQLNV;
-              handleSaveFile(
-                url:
-                '$baseURL${e.fileDinhKem?.duongDan ?? ''}',
-                name: e.fileDinhKem?.ten ?? '',
-              );
-            },
-            child: SizedBox(
-              child: Text(
-                e.fileDinhKem?.ten ?? '',
-                style: textNormalCustom(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: textColorMangXaHoi,
-                ), //infoColor
+                onTap: () {
+                  final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+                  saveFile(
+                    fileName: e.fileDinhKem?.ten ?? '',
+                    url: e.fileDinhKem?.duongDan ?? '',
+                    downloadType: DomainDownloadType.QLNV
+                  );
+                },
+                child: SizedBox(
+                  child: Text(
+                    e.fileDinhKem?.ten ?? '',
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: textColorMangXaHoi,
+                    ), //infoColor
+                  ),
+                ),
               ),
-            ),
-          ),
-        )
+            )
             .toList(),
       );
     } else {

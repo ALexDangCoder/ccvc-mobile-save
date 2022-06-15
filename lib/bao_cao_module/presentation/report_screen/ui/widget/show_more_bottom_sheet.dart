@@ -3,21 +3,28 @@ import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/chia_se_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_ung_dung_mobile.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class XemThemBottomSheet extends StatefulWidget {
-  const XemThemBottomSheet({Key? key}) : super(key: key);
+class ShowMoreBottomSheet extends StatefulWidget {
+  const ShowMoreBottomSheet({
+    Key? key,
+    required this.reportItem,
+  }) : super(key: key);
+  final ReportItem reportItem;
 
   @override
-  State<XemThemBottomSheet> createState() => _XemThemBottomSheetState();
+  State<ShowMoreBottomSheet> createState() => _ShowMoreBottomSheetState();
 }
 
-class _XemThemBottomSheetState extends State<XemThemBottomSheet> {
+class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
   final bool isLove = false;
 
   @override
@@ -72,7 +79,7 @@ class _XemThemBottomSheetState extends State<XemThemBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'S.current.bac_caodfsadfsadfsadfsadfasdfsadf',
+                          widget.reportItem.name ?? '',
                           maxLines: 1,
                           style: textNormalCustom(
                             color: textTitle,
@@ -83,7 +90,11 @@ class _XemThemBottomSheetState extends State<XemThemBottomSheet> {
                         ),
                         spaceH4,
                         Text(
-                          '18/5/2022',
+                          (widget.reportItem.dateTime ?? '')
+                              .changeToNewPatternDate(
+                            DateFormatApp.dateTimeBackEnd,
+                            DateFormatApp.date,
+                          ),
                           style: textNormalCustom(
                             color: infoColor,
                             fontWeight: FontWeight.w400,
@@ -120,24 +131,28 @@ class _XemThemBottomSheetState extends State<XemThemBottomSheet> {
                   },
                 );
               },
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    ImageAssets.icUploadSvg,
-                    width: 20,
-                    height: 20,
-                    color: AppTheme.getInstance().unselectColor(),
-                  ),
-                  spaceW13,
-                  Text(
-                    S.current.chia_se,
-                    style: textNormalCustom(
-                      color: AppTheme.getInstance().unselectedColor(),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
+              child: Container(
+                color: Colors.transparent,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      ImageAssets.icUploadSvg,
+                      width: 20,
+                      height: 20,
+                      color: AppTheme.getInstance().unselectColor(),
                     ),
-                  ),
-                ],
+                    spaceW13,
+                    Text(
+                      S.current.chia_se,
+                      style: textNormalCustom(
+                        color: AppTheme.getInstance().unselectedColor(),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -2,17 +2,14 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
-import 'package:ccvc_mobile/home_module/utils/provider_widget.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/dialog_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/mobile/danh_sach_cong_viec_tien_ich_mobile.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_dscv_tien_tich.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/creat_todo_ver2_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -30,8 +27,8 @@ class DanhSachCongViecTienIchTablet extends StatefulWidget {
 class _DanhSachCongViecTienIchTabletState
     extends State<DanhSachCongViecTienIchTablet> {
   DanhSachCongViecTienIchCubit cubit = DanhSachCongViecTienIchCubit();
-  bool isCheck = true;
-  bool isCheck2 = true;
+  bool isOpenWhenInit1 = true;
+  bool isOpenWhenInit2 = true;
 
   @override
   void initState() {
@@ -44,7 +41,7 @@ class _DanhSachCongViecTienIchTabletState
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await cubit.initialData();
+        await cubit.callAndFillApiAutu();
       },
       child: Scaffold(
         backgroundColor: bgQLVBTablet,
@@ -60,9 +57,8 @@ class _DanhSachCongViecTienIchTabletState
                 child: CreatTodoOrUpdateWidget(
                   cubit: cubit,
                 ),
-                isBottomShow: true,
+                isBottomShow: false,
                 funcBtnOk: () {},
-                funcBtnPop: () {},
               );
             },
             backgroundColor: AppTheme.getInstance().colorField(),
@@ -83,114 +79,82 @@ class _DanhSachCongViecTienIchTabletState
             stream: cubit.statusDSCV.stream,
             builder: (context, snapshotbool) {
               final dataType = snapshotbool.data ?? 0;
-              return Column(
-                children: [
-                  spaceH28,
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 26),
-                    child: BaseSearchBar(
-                      hintText: S.current.tim_kiem_nhanh,
-                      onChange: (value) {
-                        cubit.search(value);
-                      },
-                    ),
-                  ),
-                  if (dataType == CVCB ||
-                      dataType == CVQT ||
-                      dataType == GCT ||
-                      dataType == NCVM ||
-                      dataType == DBX)
+              return SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 28),
+                child: Column(
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 28),
-                      child: StreamBuilder<List<TodoDSCVModel>>(
+                      padding: const EdgeInsets.only(bottom: 26),
+                      child: BaseSearchBar(
+                        hintText: S.current.tim_kiem_nhanh,
+                        onChange: (value) {
+                          cubit.search(value);
+                        },
+                      ),
+                    ),
+                    if (dataType == DSCVScreen.CVCB ||
+                        dataType == DSCVScreen.CVQT ||
+                        dataType == DSCVScreen.GCT ||
+                        dataType == DSCVScreen.NCVM ||
+                        dataType == DSCVScreen.DBX)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 28),
+                        child: StreamBuilder<List<TodoDSCVModel>>(
+                          stream: cubit.listDSCV.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data
+                                    ?.where(
+                                      (element) => dataType != DSCVScreen.DBX
+                                          ? element.isTicked == false
+                                          : element.inUsed == false,
+                                    )
+                                    .toList() ??
+                                [];
+                            return expanTablet(
+                              isOtherType: dataType == DSCVScreen.CVCB ||
+                                  dataType == DSCVScreen.NCVM,
+                              isCheck: isOpenWhenInit1,
+                              title: S.current.gan_cho_toi,
+                              count: data.length,
+                              child: data.isNotEmpty
+                                  ? ListUpDSCV(
+                                      data: data,
+                                      dataType: dataType,
+                                      cubit: cubit,
+                                    )
+                                  : const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 20),
+                                      child: NodataWidget(),
+                                    ),
+                            );
+                          },
+                        ),
+                      ),
+                    if (dataType == DSCVScreen.CVCB ||
+                        dataType == DSCVScreen.DHT ||
+                        dataType == DSCVScreen.NCVM)
+                      StreamBuilder<List<TodoDSCVModel>>(
                         stream: cubit.listDSCV.stream,
                         builder: (context, snapshot) {
                           final data = snapshot.data
                                   ?.where(
-                                    (element) => dataType != DBX
-                                        ? element.isTicked == false
-                                        : element.inUsed == false,
+                                    (element) => element.isTicked == true,
                                   )
                                   .toList() ??
                               [];
                           return expanTablet(
-                            isOtherType: dataType == CVCB || dataType == NCVM,
-                            isCheck: isCheck,
-                            title: S.current.cong_viec_cua_ban,
+                            isOtherType: dataType == DSCVScreen.CVCB ||
+                                dataType == DSCVScreen.NCVM,
+                            isCheck: isOpenWhenInit2,
+                            title: S.current.da_hoan_thanh,
                             count: data.length,
                             child: data.isNotEmpty
-                                ? ListView.builder(
-                                    key: UniqueKey(),
-                                    itemCount: data.length,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      final todo = data[index];
-                                      return CongViecCellTienIch(
-                                        isTheEdit: dataType != DBX,
-                                        text: todo.label ?? '',
-                                        todoModel: todo,
-                                        onCheckBox: (value) {
-                                          cubit.editWork(
-                                            todo: todo,
-                                            isTicked: !(todo.isTicked ?? false),
-                                          );
-                                        },
-                                        onStar: () {
-                                          cubit.editWork(
-                                            todo: todo,
-                                            important:
-                                                !(todo.important ?? false),
-                                          );
-                                        },
-                                        onClose: () {
-                                          showDiaLog(
-                                            context,
-                                            funcBtnRight: () {
-                                              cubit.editWork(
-                                                todo: todo,
-                                                inUsed: !(todo.inUsed ?? false),
-                                              );
-                                            },
-                                            icon: SvgPicture.asset(
-                                              ImageAssets.icDeleteLichHop,
-                                            ),
-                                            title: S.current.xoa_cong_viec,
-                                            textContent: S
-                                                .current.ban_chac_chan_muon_xoa,
-                                            btnLeftTxt: S.current.huy,
-                                            btnRightTxt: S.current.xoa,
-                                          );
-                                        },
-                                        onChange: (controller) {
-                                          cubit.editWork(
-                                            todo: todo,
-                                          );
-                                          cubit.titleChange = controller.text;
-                                        },
-                                        onEdit: () {
-                                          showDiaLogTablet(
-                                            context,
-                                            title: S.current.ban_co_chac_muon,
-                                            child: CreatTodoOrUpdateWidget(
-                                              cubit: cubit,
-                                              todo: todo,
-                                              isCreat: false,
-                                            ),
-                                            funcBtnOk: () {
-                                              cubit.editWork(todo: todo);
-                                            },
-                                            btnRightTxt: S.current.dong_y,
-                                            btnLeftTxt: S.current.khong,
-                                            funcBtnPop: () {},
-                                          );
-                                        },
-                                        enabled: !(todo.isTicked ?? true),
-                                        isDaBiXoa: dataType == DBX,
-                                        cubit: cubit,
-                                      );
-                                    },
+                                ? ListDownDSCV(
+                                    data: data,
+                                    dataType: dataType,
+                                    cubit: cubit,
                                   )
                                 : const Padding(
                                     padding: EdgeInsets.symmetric(vertical: 20),
@@ -199,73 +163,8 @@ class _DanhSachCongViecTienIchTabletState
                           );
                         },
                       ),
-                    ),
-                  if (dataType == CVCB || dataType == DHT || dataType == NCVM)
-                    StreamBuilder<List<TodoDSCVModel>>(
-                      stream: cubit.listDSCV.stream,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data
-                                ?.where(
-                                  (element) => element.isTicked == true,
-                                )
-                                .toList() ??
-                            [];
-                        return expanTablet(
-                          isOtherType: dataType == CVCB || dataType == NCVM,
-                          isCheck: isCheck2,
-                          title: S.current.da_hoan_thanh,
-                          count: data.length,
-                          child: data.isNotEmpty
-                              ? Column(
-                                  children: List.generate(data.length, (index) {
-                                    final todo = data[index];
-                                    return CongViecCellTienIch(
-                                      enabled: false,
-                                      todoModel: todo,
-                                      onCheckBox: (value) {
-                                        cubit.editWork(
-                                          todo: todo,
-                                          isTicked: !(todo.isTicked ?? true),
-                                        );
-                                      },
-                                      onClose: () {
-                                        showDiaLog(
-                                          context,
-                                          funcBtnRight: () {
-                                            cubit.editWork(
-                                              todo: todo,
-                                              inUsed: !(todo.inUsed ?? false),
-                                            );
-                                          },
-                                          icon: SvgPicture.asset(
-                                            ImageAssets.icDeleteLichHop,
-                                          ),
-                                          title: S.current.xoa_cong_viec,
-                                          textContent:
-                                              S.current.ban_chac_chan_muon_xoa,
-                                          btnLeftTxt: S.current.huy,
-                                          btnRightTxt: S.current.xoa,
-                                        );
-                                      },
-                                      onStar: () {
-                                        cubit.editWork(
-                                          todo: todo,
-                                          important: !(todo.important ?? false),
-                                        );
-                                      },
-                                      text: todo.label ?? '',
-                                      cubit: cubit,
-                                    );
-                                  }),
-                                )
-                              : const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 20),
-                                  child: NodataWidget(),
-                                ),
-                        );
-                      },
-                    ),
-                ],
+                  ],
+                ),
               );
             },
           ),

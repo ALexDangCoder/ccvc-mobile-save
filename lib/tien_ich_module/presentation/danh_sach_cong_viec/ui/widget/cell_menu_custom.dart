@@ -42,6 +42,7 @@ class CellMenuCustom extends StatelessWidget {
           onTap();
         },
         child: Container(
+          color: Colors.transparent,
           padding: EdgeInsets.symmetric(
             horizontal: 17.0.textScale(space: 13),
             vertical: 10.0.textScale(space: 4),

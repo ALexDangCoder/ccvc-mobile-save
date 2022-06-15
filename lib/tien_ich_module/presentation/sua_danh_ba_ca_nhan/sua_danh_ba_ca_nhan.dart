@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/sua_anh_widget.dart';
@@ -59,6 +60,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
     sdtRiengController.text = widget.item.phoneNhaRieng ?? '';
     ngaySinh = widget.item.ngaySinh ?? '';
     widget.cubit.pathAnh = widget.item.anhDaiDienFilePath ?? '';
+
     toast.init(context);
   }
 
@@ -134,6 +136,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.cmtnd = value;
                     },
                     maxLenght: 255,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     textInputType: TextInputType.number,
                     validatorPaste: (value) {
                       if (value.trim().validateCopyPaste() != null) {
@@ -346,7 +349,9 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    maxLenght: 255,
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validatorPaste: (value) {
                       if (value.trim().validateCopyPaste() != null) {
                         return true;

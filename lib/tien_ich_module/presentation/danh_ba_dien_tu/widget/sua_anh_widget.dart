@@ -38,7 +38,7 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.anhDanhBaCaNhan.sink.add(null);
+    widget.cubit.suaAnhDanhBaCaNhan.sink.add(null);
   }
 
   @override
@@ -66,7 +66,6 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
               await upLoadImg(context, 1, widget.toast);
             },
             '',
-            true,
           ),
         ],
       ),
@@ -85,7 +84,7 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.CENTER,
         );
       } else {
         widget.cubit.suaAnhDanhBaCaNhan.sink.add(_path);
@@ -169,8 +168,12 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
     );
   }
 
-  Widget pickAnhDaiDienTablet(BuildContext context, String text,
-      Function() onTap, String url, bool isAvatarUser) {
+  Widget pickAnhDaiDienTablet(
+    BuildContext context,
+    String text,
+    Function() onTap,
+    String url,
+  ) {
     return Column(
       children: [
         GestureDetector(
@@ -199,21 +202,28 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
                     return ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(ImageAssets.icImage),
-                            spaceH12,
-                            Text(
-                              S.current.them_anh,
-                              style: tokenDetailAmount(
-                                fontSize: 16,
-                                color: AqiColor,
+                      borderRadius: BorderRadius.circular(12),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.item.anhDaiDienFilePath ?? '',
+                        fit: BoxFit.cover,
+                        errorWidget: (_, __, ___) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(ImageAssets.icImage),
+                              spaceH12,
+                              Text(
+                                S.current.them_anh,
+                                style: tokenDetailAmount(
+                                  fontSize: 16,
+                                  color: AqiColor,
+                                ),
                               ),
-                            ),
-                          ],
-                        ));
+                            ],
+                          );
+                        },
+                      ),
+                    );
                   } else {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(12),

@@ -100,4 +100,11 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
 //   });
 // }
 
+  ///huy
+  final BehaviorSubject<bool> isCkcBox = BehaviorSubject();
+
+  void chooseCkcBox({required bool value}) {
+    isCkcBox.sink.add(value);
+  }
+
 }

@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:ccvc_mobile/bao_cao_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -190,7 +188,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FormGroup(
+                              Form(
                                 key: _formKey,
                                 child: StreamBuilder<String>(
                                     initialData:
@@ -297,7 +295,6 @@ class _SuaLichCongTacTrongNuocPhoneState
                                       .add(value);
                                 },
                                 validateTime: (bool value) {
-                                  log(timeValue.toString());
                                   timeValue = value;
                                 },
                               ),
@@ -600,8 +597,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                                       name: S.current.luu,
                                       bgr: labelColor,
                                       colorName: Colors.white,
-                                      onTap: () async {
-                                        log(timeValue.toString());
+                                      onTap: () {
                                         if (_formKey.currentState!.validate() &&
                                             !timeValue) {
                                           checkInside(data);

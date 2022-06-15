@@ -95,8 +95,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   // huy lich lam viec
   LichLamViecRepository get cancelLichLamViec => Get.find();
 
-  Future<void> cancel(String id,
-      {int statusId = 8, bool isMulti = false}) async {
+  Future<void> cancelCalendarWork(
+    String id, {
+    int statusId = 8,
+    bool isMulti = false,
+  }) async {
     final rs =
         await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
     rs.when(success: (data) {}, error: (error) {});

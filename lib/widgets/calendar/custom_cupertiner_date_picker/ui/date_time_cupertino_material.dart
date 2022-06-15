@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -134,12 +132,6 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           onToggle: (bool value) {
                             cubit.handleSwitchButtonPressed(isChecked: value);
                             widget.onSwitchPressed?.call(value);
-                            log(
-                              cubit.timeBeginSubject.value +
-                                  cubit.timeEndSubject.value +
-                                  cubit.dateBeginSubject.value +
-                                  cubit.dateEndSubject.value,
-                            );
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,
                               cubit.timeEndSubject.value,

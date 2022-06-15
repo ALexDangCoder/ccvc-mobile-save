@@ -71,9 +71,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     S.current.ban_chan_chan_huy_lich_nay,
                                 btnLeftTxt: S.current.khong,
                                 funcBtnRight: () async {
-                                  await chiTietLichLamViecCubit
-                                      .cancel(widget.id);
-                                  Navigator.pop(context, true);
+                                  checkCancelDuplicateCal(
+                                    dataModel.isLichLap ?? false,
+                                  );
                                 },
                                 title: S.current.huy_lich,
                                 btnRightTxt: S.current.dong_y,
@@ -252,6 +252,42 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         btnRightTxt: S.current.dong_y,
         icon: SvgPicture.asset(
           ImageAssets.icDeleteLichHop,
+        ),
+      );
+    }
+  }
+
+  void checkCancelDuplicateCal(bool isDup) {
+    if (isDup) {
+      showDialog(
+        context: context,
+        builder: (context) => ThemLinkHopDialog(
+          title: S.current.huy_lich,
+          isConfirm: false,
+          imageUrl: ImageAssets.icHuyLich,
+          textConfirm: S.current.ban_co_chac_muon_huy_lich,
+          textRadioAbove: S.current.chi_lich_nay,
+          textRadioBelow: S.current.tu_lich_nay,
+        ),
+      ).then(
+        (value) => chiTietLichLamViecCubit
+            .cancelCalendarWork(widget.id, isMulti: !value)
+            .then((_) => Navigator.pop(context, true)),
+      );
+    } else {
+      showDiaLog(
+        context,
+        textContent: S.current.ban_co_chac_muon_huy_lich,
+        btnLeftTxt: S.current.khong,
+        funcBtnRight: () async {
+          await chiTietLichLamViecCubit.cancelCalendarWork(widget.id).then(
+                (_) => Navigator.pop(context, true),
+              );
+        },
+        title: S.current.huy_lich,
+        btnRightTxt: S.current.dong_y,
+        icon: SvgPicture.asset(
+          ImageAssets.icHuyLich,
         ),
       );
     }

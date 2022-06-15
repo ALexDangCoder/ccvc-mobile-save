@@ -174,7 +174,10 @@ class LichLamViecImlp implements LichLamViecRepository {
 
   @override
   Future<Result<CancelLichLamViecModel>> cancelCalenderWork(
-      String id, int statusId, bool isMulti) {
+    String id,
+    int statusId,
+    bool isMulti,
+  ) {
     return runCatchingAsync<CancelCalenderWorkResponse, CancelLichLamViecModel>(
       () => lichLamViecService.cancelCalenderWork(id, statusId, isMulti),
       (response) => response.toSucceeded(),

@@ -398,6 +398,13 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     _linhVuc.close();
     _nguoiChuTri.close();
     danhSachCB.close();
+    danhSachCB.close();
+    isSendEmail.close();
+    listPhienHop.close();
+    isLichTrung.close();
+    dsDiemCauSubject.close();
+    loaiLichLap.close();
+    chuongTrinhHopSubject.close();
   }
 }
 

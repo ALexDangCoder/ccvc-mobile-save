@@ -8,6 +8,7 @@ class ExpandOnlyWidget extends StatefulWidget {
   final Widget child;
   final bool isShowIcon;
   final bool? isPadingIcon;
+  final double? padingSize;
   final AnimationController? initController;
   final Function(bool)? onchange;
 
@@ -19,6 +20,7 @@ class ExpandOnlyWidget extends StatefulWidget {
     this.isShowIcon = true,
     this.initController,
     this.isPadingIcon,
+    this.padingSize,
     this.onchange,
   }) : super(key: key);
 
@@ -134,7 +136,7 @@ class ExpandedSectionState extends State<ExpandOnlyWidget>
               if (widget.isShowIcon)
                 if (widget.isPadingIcon == true)
                   Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
+                    padding:  EdgeInsets.only(right: widget.padingSize ??16.0),
                     child: AnimatedBuilder(
                       animation: expandController,
                       builder: (context, _) {

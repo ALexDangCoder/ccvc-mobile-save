@@ -22,7 +22,7 @@ Future<String?> saveFile(
     required String url,
     Map<String, dynamic>? query,
     DomainDownloadType downloadType = DomainDownloadType.GATEWAY}) async {
-  late OverlayEntry overlayEntry = showLoading();
+  late OverlayEntry overlayEntry = _showLoading();
   try {
     final OverlayState? overlayState = Overlay.of(MessageConfig.contextConfig!);
     overlayState?.insert(overlayEntry);
@@ -145,7 +145,7 @@ PrettyDioLogger dioLogger() {
   );
 }
 
-OverlayEntry showLoading() {
+OverlayEntry _showLoading() {
   return OverlayEntry(
     builder: (context) {
       return  Scaffold(

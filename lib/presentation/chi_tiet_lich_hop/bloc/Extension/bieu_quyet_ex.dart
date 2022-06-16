@@ -16,6 +16,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     String? canBoId,
     String? idPhienHop,
   }) async {
+    showLoading();
     final result = await hopRp.getDanhSachBieuQuyetLichHop(
       idLichHop ?? '',
       canBoId ?? '',
@@ -24,6 +25,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         streamBieuQuyet.sink.add(res);
+        showContent();
       },
       error: (err) {},
     );
@@ -152,7 +154,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         );
       },
       error: (err) {
-        if (err is NoNetworkException) {
+        if (err is NoNetworkException || err is TimeoutException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,

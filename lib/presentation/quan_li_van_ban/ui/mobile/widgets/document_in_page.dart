@@ -60,12 +60,14 @@ class _DocumentInPageState extends State<DocumentInPage>
                           widget.qlvbCubit.documentInStatusCode == value
                               ? ''
                               : value;
-                      widget.qlvbCubit.getListIncomeDocument();
+                      widget.qlvbCubit.getListIncomeDocument(
+                        needLoading: true,
+                      );
                     },
                     onStatusTap: (key) {
                       widget.qlvbCubit.documentInStatusCode = '';
                       widget.qlvbCubit.documentInSubStatusCode = key;
-                      widget.qlvbCubit.getListIncomeDocument();
+                      widget.qlvbCubit.getListIncomeDocument(needLoading: true);
                     },
                   );
                 },

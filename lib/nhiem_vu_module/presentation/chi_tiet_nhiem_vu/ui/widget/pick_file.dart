@@ -24,6 +24,7 @@ Future<Map<String, dynamic>> pickFile() async {
       'jpg',
       'pdf',
       'doc',
+      'docx',
       'xls',
       'xlsx',
     ],

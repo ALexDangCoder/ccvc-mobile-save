@@ -55,7 +55,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                   },
                 ).then((value) {
                   if (value == true) {
-                    widget.cubit.initDataChiTiet();
+                    widget.cubit.callAPiBieuQuyet();
                   } else if (value == null) {
                     return;
                   }

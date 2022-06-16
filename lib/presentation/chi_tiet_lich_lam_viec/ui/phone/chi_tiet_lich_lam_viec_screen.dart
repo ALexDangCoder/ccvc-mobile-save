@@ -92,8 +92,18 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               showBottomSheetCustom(
                                 context,
                                 title: S.current.bao_cao_ket_qua,
-                                child: const BaoCaoBottomSheet(),
-                              );
+                                child: BaoCaoBottomSheet(
+                                  scheduleId: widget.id,
+                                  cubit: BaoCaoKetQuaCubit(),
+                                  listTinhTrangBaoCao:
+                                      chiTietLichLamViecCubit.listTinhTrang,
+                                ),
+                              ).then((value){
+                                if (value is bool && value) {
+                                  chiTietLichLamViecCubit.getDanhSachBaoCaoKetQua(
+                                      widget.id);
+                                }
+                              });
                             },
                           ),
                           CellPopPupMenu(

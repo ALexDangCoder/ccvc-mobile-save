@@ -91,8 +91,18 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               showBottomSheetCustom(
                                 context,
                                 title: S.current.bao_cao_ket_qua,
-                                child: const BaoCaoBottomSheet(),
-                              );
+                                child: BaoCaoBottomSheet(
+                                  scheduleId: widget.id,
+                                  cubit: BaoCaoKetQuaCubit(),
+                                  listTinhTrangBaoCao:
+                                      chiTietLichLamViecCubit.listTinhTrang,
+                                ),
+                              ).then((value){
+                                if (value is bool && value) {
+                                  chiTietLichLamViecCubit.getDanhSachBaoCaoKetQua(
+                                      widget.id);
+                                }
+                              });
                             },
                           ),
                           CellPopPupMenu(
@@ -195,7 +205,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               data: dataModel,
                               cubit: chiTietLichLamViecCubit,
                             ),
-                            if ((dataModel.scheduleCoperatives ?? []).isNotEmpty)
+                            if ((dataModel.scheduleCoperatives ?? [])
+                                .isNotEmpty)
                               listScheduleCooperatives(
                                 dataModel.scheduleCoperatives ?? [],
                               )
@@ -216,13 +227,13 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   ),
                 )
               : Scaffold(
-            body: Center(
-              child: Text(
-                S.current.khong_co_du_lieu,
-                style: textNormalCustom(fontSize: 14),
-              ),
-            ),
-          );
+                  body: Center(
+                    child: Text(
+                      S.current.khong_co_du_lieu,
+                      style: textNormalCustom(fontSize: 14),
+                    ),
+                  ),
+                );
         },
       ),
     );
@@ -367,7 +378,6 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       ),
     );
   }
-
 
   Row rowTextData(String value, String title) => Row(
         children: [

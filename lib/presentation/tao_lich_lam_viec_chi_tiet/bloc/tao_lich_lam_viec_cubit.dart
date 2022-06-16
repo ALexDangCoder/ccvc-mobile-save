@@ -531,24 +531,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> taoBaoCaoKetQua({
-    required String reportStatusId,
-    required String scheduleId,
-    required List<File> files,
-  }) async {
-    await _lichLamViec
-        .taoBaoCaoKetQua(
-      reportStatusId,
-      scheduleId,
-      files,
-    )
-        .then((value) {
-      value.when(
-        success: (res) {},
-        error: (err) {},
-      );
-    });
-  }
+
 
   Future<void> getDatatinh() async {
     final result = await _lichLamViec.tinhSelect(

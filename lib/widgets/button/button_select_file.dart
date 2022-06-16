@@ -26,21 +26,22 @@ class ButtonSelectFile extends StatefulWidget {
   List<File>? files;
   final double? spacingFile;
   final bool hasMultipleFile;
-
-  ButtonSelectFile({
-    Key? key,
-    this.background,
-    required this.title,
-    this.titleColor,
-    this.icon,
-    this.childDiffence = false,
-    this.isIcon = true,
-    required this.onChange,
-    this.builder,
-    this.files,
-    this.spacingFile,
-    this.hasMultipleFile = false,
-  }) : super(key: key);
+  final bool isShowFile;
+  ButtonSelectFile(
+      {Key? key,
+      this.background,
+      required this.title,
+      this.titleColor,
+      this.icon,
+      this.childDiffence = false,
+      this.isIcon = true,
+      required this.onChange,
+      this.builder,
+      this.files,
+      this.spacingFile,
+      this.hasMultipleFile = false,
+      this.isShowFile = true})
+      : super(key: key);
 
   @override
   State<ButtonSelectFile> createState() => _ButtonSelectFileState();
@@ -124,26 +125,26 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         SizedBox(
           height: widget.spacingFile == null ? 16.0.textScale() : 0,
         ),
-        Column(
-          children: widget.files?.isNotEmpty ?? false
-              ? widget.files!.map((e) {
-                  if (widget.builder == null) {
-                    return itemListFile(
-                      file: e,
-                      onTap: () {
-                        _cubit.deleteFile(e, widget.files ?? []);
-                        if (widget.hasMultipleFile) {
-                          widget.onChange(widget.files ?? []);
+        if (!widget.isShowFile) const SizedBox() else Column(
+                children: widget.files?.isNotEmpty ?? false
+                    ? widget.files!.map((e) {
+                        if (widget.builder == null) {
+                          return itemListFile(
+                            file: e,
+                            onTap: () {
+                              _cubit.deleteFile(e, widget.files ?? []);
+                              if (widget.hasMultipleFile) {
+                                widget.onChange(widget.files ?? []);
+                              }
+                              setState(() {});
+                            },
+                            spacingFile: widget.spacingFile,
+                          );
                         }
-                        setState(() {});
-                      },
-                      spacingFile: widget.spacingFile,
-                    );
-                  }
-                  return widget.builder!(context, e);
-                }).toList()
-              : [Container()],
-        )
+                        return widget.builder!(context, e);
+                      }).toList()
+                    : [Container()],
+              )
       ],
     );
   }

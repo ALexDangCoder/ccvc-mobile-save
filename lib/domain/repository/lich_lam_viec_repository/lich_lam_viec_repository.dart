@@ -217,8 +217,18 @@ mixin LichLamViecRepository {
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
     String scheduleId,
+    String content,
     List<File> files,
   );
+  Future<Result<MessageModel>> suaBaoCaoKetQua(
+  {required String id,
+   required String reportStatusId,
+   required String scheduleId,
+   required String content,
+   required List<File> files,
+   required List<String> idFileDelele}
+      );
+
 
   Future<Result<ThemYKienModel>> themYKien(ThemYKienRequest themYKienRequest);
 

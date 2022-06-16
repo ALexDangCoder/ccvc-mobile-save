@@ -128,4 +128,9 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
         dataThanhPhanThamGia.where((element) => element.showCheckBox()).length;
     checkBoxCheckAllTPTG.sink.add(check);
   }
+
+  Future<void> callApiThanhPhanThamGia() async {
+    await getDanhSachCuocHopTPTH();
+    await danhSachCanBoTPTG(id: idCuocHop);
+  }
 }

@@ -23,6 +23,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
       LoaiXeModel(ten: S.current.xe_o_to),
     ],
   );
+  BehaviorSubject<bool> nhanDienbienSoxe=BehaviorSubject.seeded(false);
 
   // List<String> loaiXeList = ['Xe máy', 'Ô tô'];
   BehaviorSubject<List<bool>> selectTypeDiemDanhSubject =

@@ -23,65 +23,59 @@ class BaoCaoScreen extends StatefulWidget {
 class _BaoCaoScreenState extends State<BaoCaoScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
-      padding: const EdgeInsets.only(top: 20),
-      child: LoadingOnly(
-        stream: widget.cubit.stateStream,
-        child: StreamBuilder<List<BaoCaoModel>>(
-          stream: widget.cubit.listBaoCaoKetQua,
-          builder: (context, snapshot) {
-            final listData = snapshot.data ?? [];
-            if (listData.isNotEmpty) {
-              return MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: ListView.builder(
-                  itemCount: listData.length,
-                  itemBuilder: (context, index) {
-                    return BaoCaoItem(
-                      statusColor: listData[index].status.getText().color,
-                      fileNames: listData[index]
-                          .listFile
-                          .map((e) => e.name ?? '')
-                          .toList(),
-                      status: listData[index].status.getText().text,
-                      content: listData[index].content,
-                      funcEdit: () {
-                        showBottomSheetCustom<BaoCaoModel>(
-                          context,
-                          child: ChinhSuaBaoCaoBottomSheet(
-                            baoCaoModel: listData[index],
-                            cubit: widget.cubit,
-                          ),
-                          title: S.current.chinh_sua_bao_cao_ket_qua,
-                        ).then((value) {});
+    return StreamBuilder<List<BaoCaoModel>>(
+      stream: widget.cubit.listBaoCaoKetQua,
+      builder: (context, snapshot) {
+        final listData = snapshot.data ?? [];
+        if (listData.isNotEmpty) {
+          return MediaQuery.removePadding(
+            removeTop: true,
+            context: context,
+            child: ListView.builder(
+              itemCount: listData.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return BaoCaoItem(
+                  statusColor: listData[index].status.getText().color,
+                  fileNames: listData[index]
+                      .listFile
+                      .map((e) => e.name ?? '')
+                      .toList(),
+                  status: listData[index].status.getText().text,
+                  content: listData[index].content,
+                  funcEdit: () {
+                    showBottomSheetCustom<BaoCaoModel>(
+                      context,
+                      child: ChinhSuaBaoCaoBottomSheet(
+                        baoCaoModel: listData[index],
+                        cubit: widget.cubit,
+                      ),
+                      title: S.current.chinh_sua_bao_cao_ket_qua,
+                    ).then((value) {});
+                  },
+                  funcDelete: () {
+                    showDiaLog(
+                      context,
+                      funcBtnRight: () {
+                        widget.cubit.xoaBaoCaoKetQua(listData[index].id);
                       },
-                      funcDelete: () {
-                        showDiaLog(
-                          context,
-                          funcBtnRight: () {
-                            widget.cubit.xoaBaoCaoKetQua(listData[index].id);
-                          },
-                          icon: SvgPicture.asset(
-                            ImageAssets.ic_delete_baocao,
-                          ),
-                          title: S.current.xoa_bao_cao_ket_qua,
-                          textContent: S.current.chan_chan_xoa_bao_cao_khong,
-                          btnLeftTxt: S.current.huy,
-                          btnRightTxt: S.current.xoa,
-                        );
-                      },
+                      icon: SvgPicture.asset(
+                        ImageAssets.ic_delete_baocao,
+                      ),
+                      title: S.current.xoa_bao_cao_ket_qua,
+                      textContent: S.current.chan_chan_xoa_bao_cao_khong,
+                      btnLeftTxt: S.current.huy,
+                      btnRightTxt: S.current.xoa,
                     );
                   },
-                ),
-              );
-            } else {
-              return const NodataWidget();
-            }
-          },
-        ),
-      ),
+                );
+              },
+            ),
+          );
+        } else {
+          return const  NodataWidget( height: 100,);
+        }
+      },
     );
   }
 }

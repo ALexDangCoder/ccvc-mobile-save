@@ -845,7 +845,7 @@
   "id_zoom": "ID Zoom",
   "ghi_chu": "Ghi chú",
   "cho_tiep_nha_xu_ly": "Chờ tiếp nhận xử lý",
-  "cho_bo_sung_thong_tin": "Chờ tiếp nhận xử lý",
+  "cho_bo_sung_thong_tin": "Chờ bổ sung thông tin",
   "cho_phan_cong_xu_ly": "Chờ phân công xử lý",
   "cho_cho_y_kien": "Chờ cho ý kiến",
   "tong_hop_yknd_da_nhan": "Tổng số YKND đã nhận",
@@ -922,7 +922,7 @@
   "thay_doi_that_bai": "Thay đổi không thành công",
   "tinh_hinh_pakn_ca_nhan": "Tình hình xử lý PAKN của cá nhân",
   "xu_ly": "Xử lý",
-  "da_phan_cong": "Đã phâm công",
+  "da_phan_cong": "Đã phân công",
   "tiep_nhan": "Tiếp nhận",
   "phan_anh_kien_nghi_don_vi": "Tình hình xử lý PAKN của đơn vị",
   "ban_muon_thoat": "Bạn có chắc muốn thoát ra không?",
@@ -1099,6 +1099,10 @@
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
   "ten_nhom": "Tên nhóm",
+  "ten_tai_khoan": "Tên tài khoản",
+  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
+  "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
+  "dang_ky_xe_moi": "Đăng ký xe mới",
   "validate_thoi_gian": "Thời gian kết thúc phải lớn hơn bắt đầu",
   "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công"
 }

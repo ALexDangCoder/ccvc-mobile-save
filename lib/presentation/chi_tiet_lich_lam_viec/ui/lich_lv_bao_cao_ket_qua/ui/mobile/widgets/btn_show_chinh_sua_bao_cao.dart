@@ -41,11 +41,21 @@ class BtnShowChinhSuaBaoCao extends StatelessWidget {
         children: [
           SolidButton(
             onTap: () {
-              // showBottomSheetCustom(
-              //   context,
-              //   title: S.current.bao_cao_ket_qua,
-              //   child: const BaoCaoBottomSheet(),
-              // );
+              showBottomSheetCustom(
+                context,
+                title: S.current.bao_cao_ket_qua,
+                child: BaoCaoBottomSheet(
+                  scheduleId: chiTietLichLamViecCubit.idLichLamViec,
+                  cubit: BaoCaoKetQuaCubit(),
+                  listTinhTrangBaoCao:
+                  chiTietLichLamViecCubit.listTinhTrang,
+                ),
+              ).then((value){
+                if (value is bool && value) {
+                  chiTietLichLamViecCubit.getDanhSachBaoCaoKetQua(
+                      chiTietLichLamViecCubit.idLichLamViec);
+                }
+              });
             },
             text: S.current.bao_cao_ket_qua,
             urlIcon: ImageAssets.ic_baocao,

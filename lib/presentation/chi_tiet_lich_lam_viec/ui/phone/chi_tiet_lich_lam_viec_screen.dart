@@ -97,7 +97,12 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   listTinhTrangBaoCao:
                                       chiTietLichLamViecCubit.listTinhTrang,
                                 ),
-                              );
+                              ).then((value){
+                                if (value is bool && value) {
+                                  chiTietLichLamViecCubit.getDanhSachBaoCaoKetQua(
+                                      widget.id);
+                                }
+                              });
                             },
                           ),
                           CellPopPupMenu(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -129,14 +130,21 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     showContent();
   }
 
-  Future<void> getDanhSachBaoCaoKetQua(String id) async {
+  Future<void> getDanhSachBaoCaoKetQua(String id,{bool isReload = false}) async {
+    if(isReload){
+      showLoading();
+    }
     final result = await detailLichLamViec.getDanhSachBaoCao(id);
+    if(isReload){
+      showContent();
+    }
     result.when(
         success: (res) {
           _listBaoCaoKetQua.sink.add(res);
         },
         error: (err) {});
   }
+
 
   Future<void> getDanhSachYKien(String id) async {
     final result = await detailLichLamViec.getDanhSachYKien(id);
@@ -230,18 +238,33 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
 ///Báo cáo kết quả
 class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   String reportStatusId = '';
-  List<File> files = [];
+  Set<File> files = {};
+  List<FileModel> fileInit = [];
+  List<FileModel> fileDelete = [];
+  String content = '';
   TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
-  void init(List<TinhTrangBaoCaoModel> list){
-    if(list.isNotEmpty){
+  final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
+  final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
+  BaoCaoKetQuaCubit(
+      {this.content = '',
+      this.tinhTrangBaoCaoModel,
+      this.fileInit = const []}) {
+
+   reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
+    log('${reportStatusId}');
+  }
+
+  void init(List<TinhTrangBaoCaoModel> list) {
+    if (list.isNotEmpty) {
       reportStatusId = list.first.id ?? '';
       tinhTrangBaoCaoModel = list.first;
     }
   }
+
   Future<void> createScheduleReport(String scheduleId, String content) async {
     ShowLoadingScreen.show();
     final result = await detailLichLamViec.taoBaoCaoKetQua(
-        reportStatusId, scheduleId, content, files);
+        reportStatusId, scheduleId, content, files.toList());
     ShowLoadingScreen.dismiss();
     result.when(success: (res) {
       MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
@@ -249,6 +272,30 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
     }, error: (err) {
       MessageConfig.show(
           title: S.current.bao_cao_ket_qua_that_bai,
+          messState: MessState.error);
+    });
+  }
+
+  Future<void> editScheduleReport(
+      {required String scheduleId,
+      required String content,
+      required String id}) async {
+    ShowLoadingScreen.show();
+    final result = await detailLichLamViec.suaBaoCaoKetQua(
+      id: id,
+      scheduleId: scheduleId,
+      content: content,
+      files: files.toList(),
+      idFileDelele: fileDelete.map((e) => e.id ?? '').toList(),
+      reportStatusId: reportStatusId,
+    );
+    ShowLoadingScreen.dismiss();
+    result.when(success: (res) {
+      MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
+      emit(SuccessChiTietLichLamViecState());
+    }, error: (err) {
+      MessageConfig.show(
+          title: S.current.sua_bao_cao_ket_qua_that_bai,
           messState: MessState.error);
     });
   }

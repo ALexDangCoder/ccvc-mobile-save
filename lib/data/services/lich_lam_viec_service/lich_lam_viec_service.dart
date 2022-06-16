@@ -155,6 +155,15 @@ abstract class LichLamViecService {
     @Part() String Content,
     @Part() List<File> Files,
   );
+  @PUT(ApiConstants.SUA_BAO_CAO_KET_QUA)
+  Future<TaoBaoCaoKetQuaResponse> suaBaoCaoKetQua(
+      @Part() String ReportStatusId,
+      @Part() String ScheduleId,
+      @Part() String Content,
+      @Part() List<File> Files,
+      @Part() List<String> FilesDelete,
+      @Part() String Id,
+      );
 
   @POST(ApiConstants.TAO_MOI_BAN_GHI)
   Future<TaoMoiBanGhiResponse> taoMoiBanGhi(

@@ -8,6 +8,7 @@ class ExpandOnlyWidget extends StatefulWidget {
   final Widget child;
   final bool isShowIcon;
   final bool? isPadingIcon;
+  final double? padingSize;
   final AnimationController? initController;
   final Function(bool)? onchange;
 
@@ -19,6 +20,7 @@ class ExpandOnlyWidget extends StatefulWidget {
     this.isShowIcon = true,
     this.initController,
     this.isPadingIcon,
+    this.padingSize,
     this.onchange,
   }) : super(key: key);
 

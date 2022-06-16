@@ -18,7 +18,7 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qu
 import 'package:ccvc_mobile/data/response/manager_personal_information/manager_personal_information_response.dart';
 import 'package:ccvc_mobile/data/response/up_load_anh/up_load_anh_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart'hide Headers;
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -62,8 +62,11 @@ abstract class AccountService {
       @Body() ChangePassRequest changePassRequest);
 
   @POST(ApiConstants.FORGOT_PASSWORD)
+  // @Headers(<String, dynamic>{
+  //   "Origin" :
+  // })
   Future<ForgotPasswordResponse> forgotPassword(
-      @Body() ForgotPasswordRequest forgotPasswordRequest);
+      @Body() ForgotPasswordRequest forgotPasswordRequest,@Header("Origin") String origin);
 }
 
 @RestApi()

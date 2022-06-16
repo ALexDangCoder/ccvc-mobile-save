@@ -1,9 +1,17 @@
 class ThongKeDiemDanhCaNhanModel {
-  String? title;
-  int? number;
+  int? soLanDiMuon;
+  int? soLanVeSom;
+  int? soNgayLamViec;
+  int? soLanChamCongThuCong;
+  int? soNgayVangMatKhongLyDo;
+  int? soNgayNghiCoLyDo;
 
   ThongKeDiemDanhCaNhanModel({
-    this.title,
-    this.number,
+    this.soLanDiMuon,
+    this.soLanVeSom,
+    this.soNgayLamViec,
+    this.soLanChamCongThuCong,
+    this.soNgayVangMatKhongLyDo,
+    this.soNgayNghiCoLyDo
   });
 }

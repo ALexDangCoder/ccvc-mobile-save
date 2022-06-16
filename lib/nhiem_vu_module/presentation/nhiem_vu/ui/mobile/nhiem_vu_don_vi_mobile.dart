@@ -262,7 +262,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
               onChooseDateFilter: (startDate, endDate) {
                 widget.danhSachCubit.ngayDauTien = startDate.formatApi;
                 widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-                widget.danhSachCubit.callApiDashBroash(true);
+                widget.danhSachCubit.callApiDashBroash(widget.isCheck);
               },
             ),
             ExpandOnlyWidget(

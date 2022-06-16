@@ -49,7 +49,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
   @override
   void initState() {
     super.initState();
-    _cubit.getDonViConPhong(widget.id ?? '');
+    // _cubit.getDonViConPhong(widget.id ?? '');
   }
 
   @override

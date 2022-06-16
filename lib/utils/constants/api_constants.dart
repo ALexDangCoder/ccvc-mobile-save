@@ -273,12 +273,12 @@ class ApiConstants {
       '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
   static const DS_PHONG_HOP = '/vpdt/api/PhongHop/lay-theo-don-vi';
   static const DUYET_HOAC_HUYDUYET_PHONG_HOP =
-      '/vpdt/MeetingSchedule/duyet-phong-hop';
+      '/vpdt/api/MeetingSchedule/duyet-phong-hop';
   static const DUYET_HOAC_HUYDUYET_THIET_BI =
-      '/vpdt/MeetingSchedule/duyet-thiet-bi';
-  static const CHON_PHONG_HOP = '/vpdt/CanBoThamGia/thay-doi-phong';
+      '/vpdt/api/MeetingSchedule/duyet-thiet-bi';
+  static const CHON_PHONG_HOP = '/vpdt/api/CanBoThamGia/thay-doi-phong';
   static const DUYET_HOAC_HUYDUYET_KY_THUAT =
-      '/vpdt/CanBoThamGia/duyet-ky-thuat';
+      '/vpdt/api/CanBoThamGia/duyet-ky-thuat';
 
   static const LIST_REPORT = '/htcs/api/Folder/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =

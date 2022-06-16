@@ -370,7 +370,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool checkThayDoiPhong() {
-    return trangThaiPhong() == 1 || trangThaiPhong() == 2;
+    return trangThaiPhong() == 0 || trangThaiPhong() == 2;
   }
 
   bool checkPermission() {

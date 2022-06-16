@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/data/request/bao_cao/users_ngoai_he_thong_truy_cap_request.dart';
+import 'package:ccvc_mobile/data/response/bao_cao/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
 import 'package:ccvc_mobile/data/response/bao_cao/group_response.dart';
 import 'package:ccvc_mobile/data/response/bao_cao/report_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -5,6 +7,7 @@ import 'package:ccvc_mobile/data/services/bao_cao/report_service.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
 
 class ReportImpl implements ReportRepository {
@@ -53,6 +56,16 @@ class ReportImpl implements ReportRepository {
         ApiConstants.DEFAULT_PAGE_SIZE.toString(),
       ),
           (res) => res.data?.toListThanhVien() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>> getUsersNgoaiHeThongTruyCap(String pageIndex, String pageSize, String keyword) {
+    return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse, List<UserNgoaiHeThongDuocTruyCapModel>>(
+          () => _reportService.getUsersNgoaiHeThongTruyCap(
+        UsersNgoaiHeThongRequest(pageIndex: pageIndex, pageSize: pageSize, keyword: keyword)
+      ),
+          (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 }

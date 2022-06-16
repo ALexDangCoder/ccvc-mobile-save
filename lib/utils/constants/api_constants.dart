@@ -281,12 +281,14 @@ class ApiConstants {
       '/vpdt/CanBoThamGia/duyet-ky-thuat';
 
   static const LIST_REPORT = '/htcs/api/Folder/list';
+  static const GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP = '/htcs/api/User/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
   static const LIST_GROUP_BAO_CAO = '/common/Group/search';
   static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
+
 }
 
 class ImageConstants {

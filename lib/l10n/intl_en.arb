@@ -1117,12 +1117,11 @@
   "sua_bao_cao_ket_qua_thanh_cong" : "Sửa báo cáo kết quả thành công",
   "bao_cao_ket_qua_that_bai" : "Báo cáo kết quả thất bại",
   "sua_bao_cao_ket_qua_that_bai" : "Sửa báo cáo kết quả thất bại",
+  "file_da_ton_tai" : "File đã tồn tại",
+  "thu_muc": "Thư mục",
   "ten_tai_khoan": "Tên tài khoản",
   "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
   "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
-  "dang_ky_xe_moi": "Đăng ký xe mới",
-  "file_da_ton_tai" : "File đã tồn tại"
-
-
+  "dang_ky_xe_moi": "Đăng ký xe mới"
 
 }

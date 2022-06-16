@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
@@ -255,6 +256,43 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         return error;
       },
     );
+    if (needLoading){
+      showContent();
+    }
+  }
+
+  Future<List<VanBanModel>> getListIncomeDocumentTest({
+    String? startDate,
+    String? endDate,
+    bool needLoading = false,
+    int? page,
+  }) async {
+    if (needLoading){
+      showLoading();
+    }
+    List<VanBanModel> listVbDen = [];
+    final result = await _qLVBRepo.getDanhSachVbDen(
+      DanhSachVBRequest(
+        maTrangThai: statusSearchDocumentInCode(documentInStatusCode),
+        index: page ?? ApiConstants.PAGE_BEGIN,
+        isSortByDoKhan: true,
+        thoiGianStartFilter: startDate ?? this.startDate,
+        thoiGianEndFilter: endDate ?? this.endDate,
+        size: ApiConstants.DEFAULT_PAGE_SIZE,
+        keySearch: keySearch,
+        trangThaiXuLy: statusSearchDocumentInSubCode(documentInSubStatusCode),
+        isDanhSachDaXuLy: documentInSubStatusCode.isNotEmpty ? false : null,
+      ),
+    );
+    result.when(
+      success: (res) {
+        listVbDen = res.pageData ?? [];
+      },
+      error: (error) {
+        return error;
+      },
+    );
+    return listVbDen;
     if (needLoading){
       showContent();
     }

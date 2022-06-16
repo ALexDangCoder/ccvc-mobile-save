@@ -95,6 +95,8 @@ dependencies:
   platform_device_id: ^1.0.1
   sound_mode: ^2.0.2
   transparent_pointer: ^1.0.0
+  #lazy load more
+  infinite_scroll_pagination: 3.2.0
 
 dev_dependencies:
   flutter_test:

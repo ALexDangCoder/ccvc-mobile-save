@@ -18,16 +18,23 @@ import 'cell_phat_bieu_widget.dart';
 
 class PhatBieuWidgetTablet extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
-  final String id;
 
-  const PhatBieuWidgetTablet({Key? key, required this.cubit, required this.id})
-      : super(key: key);
+  const PhatBieuWidgetTablet({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _PhatBieuWidgetTabletState createState() => _PhatBieuWidgetTabletState();
 }
 
 class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (!isMobile()) {
+      widget.cubit.callApiPhatBieu();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,7 +52,7 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                   title: S.current.dang_ky_phat_bieu,
                   child: DangKyPhatBieuWidget(
                     cubit: widget.cubit,
-                    id: widget.id,
+                    id: widget.cubit.idCuocHop,
                   ),
                   isBottomShow: false,
                   funcBtnOk: () {
@@ -96,7 +103,7 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                 }
               },
             ),
-            buttonPhatBieu(cubit: widget.cubit, id: widget.id)
+            buttonPhatBieu(cubit: widget.cubit, id: widget.cubit.idCuocHop)
           ],
         ),
       ),

@@ -368,53 +368,80 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
               ),
             ),
             width: MediaQuery.of(context).size.width,
-            child: TextFormField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                counterStyle: textNormalCustom(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-                border: InputBorder.none,
-                hintStyle: textNormalCustom(
-                  color: AppTheme.getInstance().unselectedLabelColor(),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-                hintText: S.current.nhap_tu_khoa_tim_kiem,
-                prefixIcon: GestureDetector(
-                  onTap: () {
-                    cubit.isStatusSearch.add(true);
-                  },
-                  child: SizedBox(
-                    width: 48,
-                    child: SvgPicture.asset(
-                      ImageAssets.icBack,
-                      color: AppTheme.getInstance().unselectedLabelColor(),
+            child: StreamBuilder<String>(
+                stream: cubit.textSearch,
+                builder: (context, snapshot) {
+                  return TextFormField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      cubit.textSearch.add(value.trim());
+                    },
+                    decoration: InputDecoration(
+                      counterStyle: textNormalCustom(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      border: InputBorder.none,
+                      hintStyle: textNormalCustom(
+                        color: AppTheme.getInstance().unselectedLabelColor(),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      hintText: S.current.nhap_tu_khoa_tim_kiem,
+                      prefixIcon: GestureDetector(
+                        onTap: () {
+                          cubit.isStatusSearch.add(true);
+                        },
+                        child: SizedBox(
+                          width: 48,
+                          child: SvgPicture.asset(
+                            ImageAssets.icBack,
+                            color:
+                                AppTheme.getInstance().unselectedLabelColor(),
+                          ),
+                        ),
+                      ),
+                      prefixIconConstraints: const BoxConstraints(
+                        minHeight: 20,
+                        minWidth: 20,
+                        maxHeight: 48,
+                        maxWidth: 48,
+                      ),
+                      suffixIconConstraints: BoxConstraints(
+                        minHeight: snapshot.data?.isNotEmpty ?? false ? 16 : 20,
+                        minWidth: snapshot.data?.isNotEmpty ?? false ? 16 : 20,
+                        maxHeight: 48,
+                        maxWidth: 48,
+                      ),
+                      suffixIcon: SizedBox(
+                        width: 48,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (snapshot.data?.isNotEmpty ?? false) {
+                              _searchController.text = '';
+                              cubit.textSearch.add('');
+                              cubit.getListReport(
+                                folderId:
+                                    'dd29de06-f950-48a5-af92-ec30e1153a00',
+                                //todo
+                                sort: 0,
+                                //
+                                keyWord: '',
+                              );
+                            }
+                          },
+                          child: SvgPicture.asset(
+                            snapshot.data?.isNotEmpty ?? false
+                                ? ImageAssets.icClose
+                                : ImageAssets.icSearchPAKN,
+                            color:
+                                AppTheme.getInstance().unselectedLabelColor(),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                prefixIconConstraints: const BoxConstraints(
-                  minHeight: 20,
-                  minWidth: 20,
-                  maxHeight: 48,
-                  maxWidth: 48,
-                ),
-                suffixIconConstraints: const BoxConstraints(
-                  minHeight: 20,
-                  minWidth: 20,
-                  maxHeight: 48,
-                  maxWidth: 48,
-                ),
-                suffixIcon: SizedBox(
-                  width: 48,
-                  child: SvgPicture.asset(
-                    ImageAssets.icSearchPAKN,
-                    color: AppTheme.getInstance().unselectedLabelColor(),
-                  ),
-                ),
-              ),
-            ),
+                  );
+                }),
           )
       ],
     );

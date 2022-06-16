@@ -6,7 +6,7 @@ part 'phan_cong_thu_ky_response.g.dart';
 @JsonSerializable()
 class PhanCongThuKyResponse {
   @JsonKey(name: 'data')
-  String? data;
+  dynamic data;
   @JsonKey(name: 'statusCode')
   int? statusCode;
   @JsonKey(name: 'succeeded')

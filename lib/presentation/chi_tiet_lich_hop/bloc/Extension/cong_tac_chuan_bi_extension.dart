@@ -21,12 +21,9 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     final result = await hopRp.getListThietBiPhongHop(idCuocHop);
     result.when(
       success: (res) {
-        showContent();
         getListThietBiPhongHop.sink.add(res);
       },
-      error: (err) {
-        showError();
-      },
+      error: (err) {},
     );
   }
 
@@ -64,7 +61,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res.succeeded ?? false) {
-          initData(boolGetChiTietLichHop: true);
+          initDataChiTiet();
         }
       },
       error: (err) {
@@ -87,7 +84,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res.succeeded ?? false) {
-          initData(boolGetChiTietLichHop: true);
+          initDataChiTiet();
         }
       },
       error: (err) {
@@ -128,13 +125,14 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   }) async {
     showLoading();
     final List<bool> checkAllFinal = [];
+
     for (int i = 0; i <= listTHietBiDuocChon.length; i++) {
       await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
         (vl) => checkAllFinal.add(vl),
       );
     }
     if (!checkAllFinal.contains(false)) {
-      await initData(boolGetDanhSachThietBi: true);
+      await getDanhSachThietBi();
     }
     showContent();
   }
@@ -152,7 +150,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res.succeeded ?? false) {
-          initData(boolGetChiTietLichHop: true);
+          initDataChiTiet();
         }
       },
       error: (err) {
@@ -193,5 +191,11 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       },
     );
     showContent();
+  }
+
+  Future<void> callApiCongTacChuanBi() async {
+    await getThongTinPhongHopApi();
+    await getDanhSachThietBi();
+    await getDanhSachPhongHop();
   }
 }

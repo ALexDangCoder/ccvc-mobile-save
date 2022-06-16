@@ -66,7 +66,7 @@ class _DocumentOutPageTabletState extends State<DocumentOutPageTablet>
                       onStatusTap: (key) {
                         widget.qlvbCubit.documentInStatusCode = '';
                         widget.qlvbCubit.documentInSubStatusCode = key;
-                        widget.qlvbCubit.getListIncomeDocument();
+                        widget.qlvbCubit.getListIncomeDocument(needLoading: true);
                       },
                     ),
                   );

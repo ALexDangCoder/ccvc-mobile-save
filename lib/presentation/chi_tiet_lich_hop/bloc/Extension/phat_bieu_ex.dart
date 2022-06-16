@@ -86,4 +86,9 @@ extension PhatBieu on DetailMeetCalenderCubit {
     }
     return backgroundColorApp;
   }
+
+  Future<void> callApiPhatBieu() async {
+    await getDanhSachPhatBieuLichHop(status: 0, lichHopId: idCuocHop);
+    await soLuongPhatBieuData(id: idCuocHop);
+  }
 }

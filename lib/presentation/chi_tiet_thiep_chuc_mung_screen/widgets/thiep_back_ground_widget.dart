@@ -1,15 +1,24 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 
 class ThiepBackgroundWidget extends StatefulWidget {
-  const ThiepBackgroundWidget({Key? key}) : super(key: key);
+  const ThiepBackgroundWidget(
+      {this.isTablet = false, required this.pathImage, Key? key,})
+      : super(key: key);
+  final bool isTablet;
+  final String pathImage;
 
   @override
   _ThiepBackgroundWidgetState createState() => _ThiepBackgroundWidgetState();
 }
 
 class _ThiepBackgroundWidgetState extends State<ThiepBackgroundWidget> {
+  final appConstants = Get.find<AppConstants>();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -25,13 +34,19 @@ class _ThiepBackgroundWidgetState extends State<ThiepBackgroundWidget> {
           child: Container(
             height: 500.0.textScale(space: 300),
             width: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.tealAccent,
-
+              border: widget.isTablet ? Border.all(
+                width: 6,
+                color: backgroundColorApp,
+              ) : null,
             ),
-            child: Image.network(
-              'https://hinhnen123.com/wp-content/uploads/2021/09/Dot-mat-999-anh-Ngoc-Trinh-bikini-sexy-nong-bong-khong-the-roi-mat-12.jpg',
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: widget.isTablet ? BorderRadius.circular(4) : null,
+              child: Image.network(
+                '${appConstants.baseUrlCCVC}/${widget.pathImage}',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

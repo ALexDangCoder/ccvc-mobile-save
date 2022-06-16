@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
@@ -12,10 +13,8 @@ import 'package:flutter/material.dart';
 
 class YKienCuocHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
-  final String id;
 
-  const YKienCuocHopWidget({Key? key, required this.id, required this.cubit})
-      : super(key: key);
+  const YKienCuocHopWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _YKienCuocHopWidgetState createState() => _YKienCuocHopWidgetState();
@@ -25,9 +24,23 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (!isMobile()) {
+      widget.cubit.callApiYkienCuocHop();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
+        onchange: (vl) {
+          if (vl) {
+            widget.cubit.callApiYkienCuocHop();
+          }
+        },
         title: S.current.y_kien_cuop_hop,
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
@@ -42,7 +55,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                     title: S.current.y_kien,
                     child: ThemYKienWidget(
                       cubit: cubit,
-                      id: widget.id,
+                      id: widget.cubit.idCuocHop,
                     ),
                   );
                 },
@@ -62,7 +75,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                       return CommentWidget(
                         object: data[index],
                         cubit: cubit,
-                        id: widget.id,
+                        id: widget.cubit.idCuocHop,
                       );
                     },
                   );
@@ -86,7 +99,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                     title: S.current.them_y_kien,
                     child: ThemYKienWidget(
                       cubit: cubit,
-                      id: widget.id,
+                      id: widget.cubit.idCuocHop,
                     ),
                   );
                 },
@@ -109,7 +122,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                       return CommentWidget(
                         object: data[index],
                         cubit: cubit,
-                        id: widget.id,
+                        id: widget.cubit.idCuocHop,
                       );
                     },
                   );

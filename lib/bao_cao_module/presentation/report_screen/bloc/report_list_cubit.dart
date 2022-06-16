@@ -12,6 +12,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
   ReportListCubit() : super(ReportListStateInitial());
 
   BehaviorSubject<String> textFilter = BehaviorSubject.seeded(S.current.tu_a_z);
+  BehaviorSubject<String> textSearch = BehaviorSubject.seeded('');
   BehaviorSubject<String> textFilterBox = BehaviorSubject.seeded(S.current.all);
   BehaviorSubject<bool> isCheckList = BehaviorSubject.seeded(true);
   BehaviorSubject<bool> isStatusSearch = BehaviorSubject.seeded(true);

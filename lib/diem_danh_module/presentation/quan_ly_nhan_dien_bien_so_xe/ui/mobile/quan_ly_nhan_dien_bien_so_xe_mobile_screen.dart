@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
@@ -157,7 +158,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
           } else {
             return Scaffold(
               appBar: BaseAppBar(
-                title: S.current.quan_ly_nhan_dien_bien_so_xe,
+                title: S.current.dang_ky_xe_ra_vao_bo,
                 leadingIcon: IconButton(
                   onPressed: () => {Navigator.pop(context)},
                   icon: SvgPicture.asset(
@@ -181,7 +182,37 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                 ],
               ),
               body: Center(
-                child: Text("man khong co data"),
+                child: Column(
+                  children: [
+                    spaceH60,
+                    Container(
+                      height: 250,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(ImageAssets.imgDangKyXe),
+                        )
+                      ),
+                    ),
+                    spaceH48,
+                    SizedBox(
+                      width: 163,
+                      child: ButtonCustomBottom(
+                        title: S.current.dang_ky_xe_moi,
+                        isColorBlue: true,
+                        onPressed: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DangKyThongTinXeMoi() ,
+                            ),
+                          );
+                          }
+
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }

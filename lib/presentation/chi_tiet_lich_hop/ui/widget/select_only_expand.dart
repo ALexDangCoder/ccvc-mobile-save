@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class SelectOnlyWidget extends StatefulWidget {
   final String title;
   final Widget child;
+  final Function(bool)? onchange;
 
   const SelectOnlyWidget({
     Key? key,
     required this.title,
     required this.child,
+    this.onchange,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,9 @@ class _SelectOnlyWidgetState extends State<SelectOnlyWidget>
     return Container(
       margin: EdgeInsets.only(bottom: 24.0.textScale()),
       child: ExpandOnlyWidget(
+        onchange: (vl) {
+          widget.onchange?.call(vl);
+        },
         header: headerWidget(),
         child: widget.child,
       ),

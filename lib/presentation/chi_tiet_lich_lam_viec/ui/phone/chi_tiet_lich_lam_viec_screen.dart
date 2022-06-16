@@ -2,9 +2,11 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/status_extention.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/bottom_sheet_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/btn_show_chinh_sua_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/show_bottom_sheet_ds_y_Kien.dart';
@@ -17,6 +19,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lic
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -163,61 +166,79 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                       vertical: 10,
                     ),
                     child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.circle,
-                                    size: 12,
-                                    color: statusCalenderRed,
+                      child: ExpandGroup(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.circle,
+                                  size: 12,
+                                  color: statusCalenderRed,
+                                ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Text(
+                                  dataModel.title ?? '',
+                                  style: textNormalCustom(
+                                    color: textTitle,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                  Text(
-                                    dataModel.title ?? '',
-                                    style: textNormalCustom(
-                                      color: textTitle,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              ItemRowChiTiet(
-                                data: dataModel,
-                                cubit: chiTietLichLamViecCubit,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 24),
-                            child: BtnShowChinhSuaBaoCao(
+                                ),
+                              ],
+                            ),
+                            ItemRowChiTiet(
+                              data: dataModel,
+                              cubit: chiTietLichLamViecCubit,
+                            ),
+                            if ((dataModel.scheduleCoperatives ?? []).isNotEmpty)
+                              listScheduleCooperatives(
+                                dataModel.scheduleCoperatives ?? [],
+                              )
+                            else
+                              const SizedBox.shrink(),
+                            spaceH8,
+                            BtnShowChinhSuaBaoCao(
                               chiTietLichLamViecCubit: chiTietLichLamViecCubit,
                             ),
-                          ),
-                          DanhSachYKienButtom(
-                            cubit: chiTietLichLamViecCubit,
-                          ),
-                        ],
+                            DanhSachYKienButtom(
+                              id: widget.id,
+                              cubit: chiTietLichLamViecCubit,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 )
               : Scaffold(
-                  body: Center(
-                    child: Text(
-                      S.current.khong_co_du_lieu,
-                      style: textNormalCustom(fontSize: 14),
-                    ),
-                  ),
-                );
+            body: Center(
+              child: Text(
+                S.current.khong_co_du_lieu,
+                style: textNormalCustom(fontSize: 14),
+              ),
+            ),
+          );
         },
       ),
+    );
+  }
+
+  Widget listScheduleCooperatives(List<DonViModel> listCooperatives) {
+    return ListView.builder(
+      padding: const EdgeInsets.only(
+        top: 24,
+      ),
+      shrinkWrap: true,
+      itemCount: listCooperatives.length,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (_, index) {
+        return itemScheduleCooperatives(listCooperatives[index]);
+      },
     );
   }
 
@@ -292,4 +313,90 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       );
     }
   }
+
+  Widget itemScheduleCooperatives(DonViModel data) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(
+          color: borderItemCalender,
+        ),
+      ),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          rowTextData(data.tenDonVi, S.current.don_vi_phoi_hop),
+          spaceH8,
+          rowTextData(data.tenCanBo, S.current.nguoi_pho_hop),
+          spaceH8,
+          rowTextData(data.noidung, S.current.nd_cong_viec),
+          spaceH8,
+          Row(
+            children: [
+              SizedBox(
+                width: 85,
+                child: Text(
+                  S.current.trang_thai,
+                  style: titleStyleText,
+                ),
+              ),
+              spaceW13,
+              Container(
+                decoration: BoxDecoration(
+                  color: data.getColorStatus,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 3,
+                ),
+                child: Text(
+                  data.getTextStatus,
+                  style: textNormalCustom(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: backgroundColorApp,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  Row rowTextData(String value, String title) => Row(
+        children: [
+          SizedBox(
+            width: 85,
+            child: Text(
+              title,
+              style: titleStyleText,
+            ),
+          ),
+          spaceW13,
+          Expanded(
+            child: Text(
+              value,
+              style: valueStyleText,
+            ),
+          )
+        ],
+      );
+
+  TextStyle get titleStyleText => textNormalCustom(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: infoColor,
+      );
+
+  TextStyle get valueStyleText => textNormalCustom(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: titleCalenderWork,
+      );
 }

@@ -91,115 +91,112 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
             )
           ],
         ),
-        body: ProviderWidget<DetailMeetCalenderCubit>(
-          cubit: cubit,
-          child: ExpandGroup(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                await cubit.initDataChiTiet();
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView(
-                  children: [
-                    StreamBuilder<ChiTietLichHopModel>(
-                      stream: cubit.chiTietLichHopSubject.stream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const SizedBox();
-                        }
-                        final data = snapshot.data ?? ChiTietLichHopModel();
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.circle,
-                                  size: 12,
-                                  color: statusCalenderRed,
+        body: ExpandGroup(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await cubit.initDataChiTiet();
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView(
+                children: [
+                  StreamBuilder<ChiTietLichHopModel>(
+                    stream: cubit.chiTietLichHopSubject.stream,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const SizedBox();
+                      }
+                      final data = snapshot.data ?? ChiTietLichHopModel();
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                size: 12,
+                                color: statusCalenderRed,
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              Text(
+                                data.title,
+                                style: textNormalCustom(
+                                  color: titleCalenderWork,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Text(
-                                  data.title,
-                                  style: textNormalCustom(
-                                    color: titleCalenderWork,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: data
+                                .valueData()
+                                .map(
+                                  (e) => Container(
+                                    margin: const EdgeInsets.only(top: 16),
+                                    child: RowDataWidget(
+                                      urlIcon: e.urlIcon,
+                                      text: e.text,
+                                    ),
                                   ),
                                 )
-                              ],
-                            ),
-                            Column(
-                              children: data
-                                  .valueData()
-                                  .map(
-                                    (e) => Container(
-                                      margin: const EdgeInsets.only(top: 16),
-                                      child: RowDataWidget(
-                                        urlIcon: e.urlIcon,
-                                        text: e.text,
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                            spaceH16,
-                            ThongTinLienHeWidget(
-                              thongTinTxt: data.chuTriModel.dauMoiLienHe,
-                              sdtTxt: data.chuTriModel.soDienThoai,
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 10),
-                      child: CongTacChuanBiWidget(
-                        cubit: cubit,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: ChuongTrinhHopWidget(
-                        cubit: cubit,
-                      ),
-                    ),
-                    ThanhPhanThamGiaWidget(
+                                .toList(),
+                          ),
+                          spaceH16,
+                          ThongTinLienHeWidget(
+                            thongTinTxt: data.chuTriModel.dauMoiLienHe,
+                            sdtTxt: data.chuTriModel.soDienThoai,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, bottom: 10),
+                    child: CongTacChuanBiWidget(
                       cubit: cubit,
                     ),
-                    TaiLieuWidget(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: ChuongTrinhHopWidget(
                       cubit: cubit,
                     ),
-                    PhatBieuWidget(
-                      cubit: cubit,
+                  ),
+                  ThanhPhanThamGiaWidget(
+                    cubit: cubit,
+                  ),
+                  TaiLieuWidget(
+                    cubit: cubit,
+                  ),
+                  PhatBieuWidget(
+                    cubit: cubit,
+                  ),
+                  BieuQuyetWidget(
+                    cubit: cubit,
+                  ),
+                  KetLuanHopWidget(
+                    cubit: cubit,
+                  ),
+                  YKienCuocHopWidget(
+                    cubit: cubit,
+                  ),
+                  BocBangWidget(
+                    cubit: cubit,
+                    context: context,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: DoubleButtonBottom(
+                      title1: S.current.tham_du,
+                      title2: S.current.tu_choi,
+                      onPressed1: () {},
+                      onPressed2: () {},
                     ),
-                    BieuQuyetWidget(
-                      cubit: cubit,
-                    ),
-                    KetLuanHopWidget(
-                      cubit: cubit,
-                    ),
-                    YKienCuocHopWidget(
-                      cubit: cubit,
-                    ),
-                    BocBangWidget(
-                      cubit: cubit,
-                      context: context,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: DoubleButtonBottom(
-                        title1: S.current.tham_du,
-                        title2: S.current.tu_choi,
-                        onPressed1: () {},
-                        onPressed2: () {},
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ),

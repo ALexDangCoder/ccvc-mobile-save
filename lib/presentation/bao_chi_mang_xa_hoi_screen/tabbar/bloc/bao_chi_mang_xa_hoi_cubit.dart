@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/data/request/bao_chi_mang_xa_hoi/dash_board_tat_ca_c
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/menu_bcmxh.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/list_chu_de.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/bloc/bao_chi_mang_xa_hoi_state.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -19,7 +20,9 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
   final BehaviorSubject<List<ListMenuItemModel>> _dataMenu =
       BehaviorSubject<List<ListMenuItemModel>>();
   final BehaviorSubject<bool> _changeItemMenu = BehaviorSubject.seeded(false);
-  final BehaviorSubject<int> topicSubject = BehaviorSubject.seeded(848);
+  final BehaviorSubject<String> titleSubject = BehaviorSubject.seeded(
+    S.current.tin_tong_hop,
+  );
 
   Stream<bool> get changeItemMenu => _changeItemMenu.stream;
 

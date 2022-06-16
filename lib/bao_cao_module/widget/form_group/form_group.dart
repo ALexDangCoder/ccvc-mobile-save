@@ -21,7 +21,7 @@ class FormGroupState extends State<FormGroup> {
   }
 
   bool validator() {
-    for (var vl in _validator.keys) {
+    for (final vl in _validator.keys) {
       _validator[vl] = vl.currentState!.validate();
     }
     final result = _validator.values.contains(false);

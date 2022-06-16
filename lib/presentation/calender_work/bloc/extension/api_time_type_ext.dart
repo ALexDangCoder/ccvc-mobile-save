@@ -1,29 +1,41 @@
+import 'dart:async';
+
+import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
+import 'package:queue/queue.dart';
 
-extension DayApi on CalenderCubit{
-  void callApiNgay() {
+extension DayApi on CalenderCubit {
+  Future<void> callApiNgay() async {
+    final Queue queue = Queue();
     changeDateByClick = true;
     listDSLV.clear();
     page = 1;
-    getListLichLV();
-    dataLichLamViec(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
+    unawaited(queue.add(() => getListLichLV()));
+    unawaited(
+      queue.add(
+        () => dataLichLamViec(
+          startDate: startDates.formatApi,
+          endDate: endDates.formatApi,
+        ),
+      ),
     );
-    dataLichLamViecRight(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
-      type: 0,
+    unawaited(
+      queue.add(
+        () => dataLichLamViecRight(
+          startDate: startDates.formatApi,
+          endDate: endDates.formatApi,
+          type: 0,
+        ),
+      ),
     );
-    menuCalendar();
-    postEventsCalendar();
+    unawaited(queue.add(() => menuCalendar()));
+    unawaited(queue.add(() => postEventsCalendar()));
     stateCalendarControllerDay.displayDate = selectDay;
     stateCalendarControllerWeek.displayDate = selectDay;
     stateCalendarControllerMonth.displayDate = selectDay;
     moveTimeSubject.add(selectDay);
+    await queue.onComplete;
     changeDateByClick = false;
   }
 
@@ -36,7 +48,6 @@ extension DayApi on CalenderCubit{
     moveTimeSubject.add(selectDay);
     showContent();
   }
-
 
   Future<void> callApiWeekCalendar() async {
     showLoading();
@@ -55,5 +66,4 @@ extension DayApi on CalenderCubit{
     await callApiWithAsync();
     showContent();
   }
-
 }

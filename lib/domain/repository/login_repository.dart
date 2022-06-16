@@ -55,7 +55,7 @@ mixin AccountRepository {
     String repeatPassword,
   );
 
-  Future<Result<ForgotPasswordModel>> forgotPassword(String email);
+  Future<Result<ForgotPasswordModel>> forgotPassword(String email,String userName);
 
   Future<Result<List<PermissionMenuModel>>> getPermissionMenu();
 

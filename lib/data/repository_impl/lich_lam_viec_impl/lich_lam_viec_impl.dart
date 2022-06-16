@@ -162,17 +162,22 @@ class LichLamViecImlp implements LichLamViecRepository {
 
   @override
   Future<Result<DeleteTietLichLamViecModel>> deleteCalenderWork(
-      String id, bool only, bool isLichLap) {
+    String id,
+    bool only,
+  ) {
     return runCatchingAsync<DeleteCalenderWorkResponse,
         DeleteTietLichLamViecModel>(
-      () => lichLamViecService.deleteCalenderWork(id, only, isLichLap),
+      () => lichLamViecService.deleteCalenderWork(id, only),
       (response) => response.toDelete(),
     );
   }
 
   @override
   Future<Result<CancelLichLamViecModel>> cancelCalenderWork(
-      String id, int statusId, bool isMulti) {
+    String id,
+    int statusId,
+    bool isMulti,
+  ) {
     return runCatchingAsync<CancelCalenderWorkResponse, CancelLichLamViecModel>(
       () => lichLamViecService.cancelCalenderWork(id, statusId, isMulti),
       (response) => response.toSucceeded(),
@@ -569,11 +574,12 @@ class LichLamViecImlp implements LichLamViecRepository {
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
     String scheduleId,
+    String content,
     List<File> files,
   ) {
     return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
-      () =>
-          lichLamViecService.taoBaoCaoKetQua(reportStatusId, scheduleId, files),
+      () => lichLamViecService.taoBaoCaoKetQua(
+          reportStatusId, scheduleId, content, files),
       (res) => res.toDomain(),
     );
   }
@@ -647,5 +653,20 @@ class LichLamViecImlp implements LichLamViecRepository {
     return runCatchingAsync<CheckTrungLichLamViecResponse, MessageModel>(
         () => lichLamViecService.checkTrungLichLamviec(body),
         (response) => response.toDomain());
+  }
+
+  @override
+  Future<Result<MessageModel>> suaBaoCaoKetQua(
+      {required String id,
+      required String reportStatusId,
+      required String scheduleId,
+      required String content,
+      required List<File> files,
+      required List<String> idFileDelele}) {
+    return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
+      () => lichLamViecService.suaBaoCaoKetQua(
+          reportStatusId, scheduleId, content, files, idFileDelele, id),
+      (res) => res.toDomain(),
+    );
   }
 }

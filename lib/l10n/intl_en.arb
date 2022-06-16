@@ -69,7 +69,7 @@
   "hello": "Xin chào",
   "chu_nhat": "Chủ nhật",
   "chon_ngay": "Chọn ngày",
-  "da_hoan_thanh": "Đã hoàn thành",
+  "da_hoan_thanh": "Đã thực hiện",
   "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cập",
   "them_moi_doi_tuong": "Thêm mới đối tượng",
   "them_cong_viec": "Thêm công việc",
@@ -524,7 +524,7 @@
   "huy_lich": "Hủy lịch",
   "dong_y": "Đồng ý",
   "xoa_lich_lam_viec": "Xóa lịch làm việc",
-  "ban_co_muon_xoa_lich_lam_viec": "Bạn có muốn xóa lịch làm việc?",
+  "ban_co_muon_xoa_lich_lam_viec": "Bạn có chắc muốn xóa lịch làm việc?",
   "xoa_thanh_cong": "Xóa thành công",
   "khong_co_file": "Không có file",
   "cac_van_ban_dinh_kem": "Các văn bản đính kèm",
@@ -1112,5 +1112,16 @@
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
   "cho_chuyen_xu_ly": "Chờ chuyển xử lý",
-  "ten_nhom": "Tên nhóm"
+  "ten_nhom": "Tên nhóm",
+  "bao_cao_ket_qua_thanh_cong" : "Báo cáo kết quả thành công",
+  "sua_bao_cao_ket_qua_thanh_cong" : "Sửa báo cáo kết quả thành công",
+  "bao_cao_ket_qua_that_bai" : "Báo cáo kết quả thất bại",
+  "sua_bao_cao_ket_qua_that_bai" : "Sửa báo cáo kết quả thất bại",
+  "file_da_ton_tai" : "File đã tồn tại",
+  "thu_muc": "Thư mục",
+  "ten_tai_khoan": "Tên tài khoản",
+  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
+  "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
+  "dang_ky_xe_moi": "Đăng ký xe mới"
+
 }

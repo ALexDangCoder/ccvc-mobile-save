@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart
 import 'package:ccvc_mobile/presentation/choose_time/ui/widgets/show_drop_down_button.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,23 +20,25 @@ class ChooseTimeScreen extends StatefulWidget {
   final Function(String text)? onSubmit;
   final Function()? onChangTime;
   final ChooseTimeCubit baseChooseTimeCubit;
-  final ChuDeCubit? chuDeCubit;
+  final ChuDeCubit chuDeCubit;
 
-  const ChooseTimeScreen(
-      {Key? key,
-      required this.today,
-      required this.baseChooseTimeCubit,
-      this.onChange,
-      this.onSubmit,
-      this.onChangTime,
-      this.chuDeCubit})
-      : super(key: key);
+  const ChooseTimeScreen({
+    Key? key,
+    required this.today,
+    required this.baseChooseTimeCubit,
+    this.onChange,
+    this.onSubmit,
+    this.onChangTime,
+    required this.chuDeCubit,
+  }) : super(key: key);
 
   @override
   _ChooseTimeScreenState createState() => _ChooseTimeScreenState();
 }
 
 class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
+  String defaultTime = ChuDeCubit.HOM_NAY;
+
   @override
   void initState() {
     widget.baseChooseTimeCubit.getState(widget.today);
@@ -53,110 +56,27 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
       child: Row(
         children: [
           Expanded(
-            flex: 6,
-            child: Row(
-              children: [
-                spaceW8,
-                Container(
-                  width: 90,
-                  height: 32,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppTheme.getInstance().colorField().withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      widget.baseChooseTimeCubit.ontoDay();
-                      widget.onChangTime != null ? widget.onChangTime!() : null;
-                    },
-                    child: Text(
-                      S.current.today,
-                      textAlign: TextAlign.center,
-                      style: textNormalCustom(
-                        color: AppTheme.getInstance().colorField(),
-                        fontSize: 14.0.textScale(),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 8,
-                  child: Center(
-                    child: SizedBox(
-                      height: 32,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              widget.baseChooseTimeCubit.checkToOptionBackDay(
-                                widget.baseChooseTimeCubit.changeOption,
-                              );
-                              widget.onChangTime != null
-                                  ? widget.onChangTime!()
-                                  : null;
-                            },
-                            child: SvgPicture.asset(ImageAssets.ic_prev_box),
-                          ),
-                          spaceW12,
-                          Expanded(
-                            child: StreamBuilder<Object>(
-                              stream:
-                                  widget.baseChooseTimeCubit.textDateTimeStream,
-                              builder: (context, snapshot) {
-                                return SizedBox(
-                                  height: 22,
-                                  child: FittedBox(
-                                    child: Text(
-                                      '${snapshot.data}',
-                                      style: textNormal(
-                                        textDropDownColor,
-                                        14.0.textScale(space: 4),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          spaceW12,
-                          GestureDetector(
-                            onTap: () {
-                              widget.baseChooseTimeCubit.checkToOption(
-                                widget.baseChooseTimeCubit.changeOption,
-                              );
-                              widget.onChangTime != null
-                                  ? widget.onChangTime!()
-                                  : null;
-                            },
-                            child: SvgPicture.asset(ImageAssets.ic_next_box),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 90,
-                  child: ShowDropDownButton(
-                    onChanged: (value) {
-                      widget.baseChooseTimeCubit.changeOption = value;
-                      widget.baseChooseTimeCubit.checkToOption(
-                        widget.baseChooseTimeCubit.changeOption,
-                      );
-                    },
-                    chooseTimeCubit: ChooseTimeCubit(),
-                  ),
-                ),
-                spaceW8,
-              ],
+            flex: 8,
+            child: CustomDropDown(
+              paddingTop: 0,
+              paddingLeft: 16,
+              value: defaultTime,
+              items: widget.chuDeCubit.dropDownItem,
+              onSelectItem: (index) {
+                widget.chuDeCubit.getOptionDate(
+                  widget.chuDeCubit.dropDownItem[index],
+                );
+                widget.chuDeCubit.getDashboard(
+                  widget.chuDeCubit.startDate,
+                  widget.chuDeCubit.endDate,
+                  isShow: true,
+                );
+                widget.chuDeCubit.getListTatCaCuDe(
+                  widget.chuDeCubit.startDate,
+                  widget.chuDeCubit.endDate,
+                  isShow: true,
+                );
+              },
             ),
           ),
           const SizedBox(
@@ -190,7 +110,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                   showBottomSheetCustom(
                     context,
                     child: SearchBanTinBtnSheet(
-                      cubit: widget.chuDeCubit ?? ChuDeCubit(),
+                      cubit: widget.chuDeCubit,
                     ),
                     title: S.current.tim_kiem,
                   );

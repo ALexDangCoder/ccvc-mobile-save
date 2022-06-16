@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
@@ -45,10 +44,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = DetailMeetCalenderCubit();
     cubit.idCuocHop = widget.id;
-    cubit.initData(boolGetChiTietLichHop: true);
-    cubit.initDataButton();
+    cubit.initDataChiTiet();
   }
 
   @override
@@ -98,7 +95,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
           child: ExpandGroup(
             child: RefreshIndicator(
               onRefresh: () async {
-                await cubit.initData();
+                await cubit.initDataChiTiet();
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -166,7 +163,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: ChuongTrinhHopWidget(
-                        id: widget.id,
                         cubit: cubit,
                       ),
                     ),
@@ -178,18 +174,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     ),
                     PhatBieuWidget(
                       cubit: cubit,
-                      id: widget.id,
                     ),
                     BieuQuyetWidget(
-                      id: widget.id,
                       cubit: cubit,
                     ),
                     KetLuanHopWidget(
                       cubit: cubit,
-                      id: widget.id,
                     ),
                     YKienCuocHopWidget(
-                      id: widget.id,
                       cubit: cubit,
                     ),
                     BocBangWidget(

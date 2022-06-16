@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -14,6 +15,7 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
@@ -84,20 +86,24 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   // xoa lich lam viec
   LichLamViecRepository get deleteLichLamViec => Get.find();
 
-  Future dataDelete(
+  Future<void> deleteCalendarWork(
     String id, {
     bool only = true,
-    bool isLichLap = true,
   }) async {
-    final rs = await detailLichLamViec.deleteCalenderWork(id, only, isLichLap);
+    final rs = await detailLichLamViec.deleteCalenderWork(id, only);
     rs.when(success: (data) {}, error: (error) {});
   }
 
   // huy lich lam viec
   LichLamViecRepository get cancelLichLamViec => Get.find();
 
-  Future<void> cancel(String id, {int statusId = 8, bool isMulti = false }) async {
-    final rs = await detailLichLamViec.cancelCalenderWork(id,statusId, isMulti );
+  Future<void> cancelCalendarWork(
+    String id, {
+    int statusId = 8,
+    bool isMulti = false,
+  }) async {
+    final rs =
+        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
     rs.when(success: (data) {}, error: (error) {});
   }
 
@@ -124,14 +130,21 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     showContent();
   }
 
-  Future<void> getDanhSachBaoCaoKetQua(String id) async {
+  Future<void> getDanhSachBaoCaoKetQua(String id,{bool isReload = false}) async {
+    if(isReload){
+      showLoading();
+    }
     final result = await detailLichLamViec.getDanhSachBaoCao(id);
+    if(isReload){
+      showContent();
+    }
     result.when(
         success: (res) {
           _listBaoCaoKetQua.sink.add(res);
         },
         error: (err) {});
   }
+
 
   Future<void> getDanhSachYKien(String id) async {
     final result = await detailLichLamViec.getDanhSachYKien(id);
@@ -219,5 +232,71 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     _listBaoCaoKetQua.close();
     chiTietLichLamViecSubject.close();
     _listYKien.close();
+  }
+}
+
+///Báo cáo kết quả
+class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
+  String reportStatusId = '';
+  Set<File> files = {};
+  List<FileModel> fileInit = [];
+  List<FileModel> fileDelete = [];
+  String content = '';
+  TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
+  final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
+  final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
+  BaoCaoKetQuaCubit(
+      {this.content = '',
+      this.tinhTrangBaoCaoModel,
+      this.fileInit = const []}) {
+
+   reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
+    log('${reportStatusId}');
+  }
+
+  void init(List<TinhTrangBaoCaoModel> list) {
+    if (list.isNotEmpty) {
+      reportStatusId = list.first.id ?? '';
+      tinhTrangBaoCaoModel = list.first;
+    }
+  }
+
+  Future<void> createScheduleReport(String scheduleId, String content) async {
+    ShowLoadingScreen.show();
+    final result = await detailLichLamViec.taoBaoCaoKetQua(
+        reportStatusId, scheduleId, content, files.toList());
+    ShowLoadingScreen.dismiss();
+    result.when(success: (res) {
+      MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
+      emit(SuccessChiTietLichLamViecState());
+    }, error: (err) {
+      MessageConfig.show(
+          title: S.current.bao_cao_ket_qua_that_bai,
+          messState: MessState.error);
+    });
+  }
+
+  Future<void> editScheduleReport(
+      {required String scheduleId,
+      required String content,
+      required String id}) async {
+    ShowLoadingScreen.show();
+    final result = await detailLichLamViec.suaBaoCaoKetQua(
+      id: id,
+      scheduleId: scheduleId,
+      content: content,
+      files: files.toList(),
+      idFileDelele: fileDelete.map((e) => e.id ?? '').toList(),
+      reportStatusId: reportStatusId,
+    );
+    ShowLoadingScreen.dismiss();
+    result.when(success: (res) {
+      MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
+      emit(SuccessChiTietLichLamViecState());
+    }, error: (err) {
+      MessageConfig.show(
+          title: S.current.sua_bao_cao_ket_qua_that_bai,
+          messState: MessState.error);
+    });
   }
 }

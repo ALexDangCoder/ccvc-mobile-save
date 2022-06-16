@@ -23,6 +23,7 @@ class StateStreamLayout extends StatelessWidget {
     return StreamBuilder<StateLayout>(
       stream: stream,
       builder: (context, snapshot) {
+
         return StateFullLayout(
           retry: retry,
           textEmpty: textEmpty,

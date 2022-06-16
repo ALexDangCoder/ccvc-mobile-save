@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/tab_cung_he_thong.dart';
@@ -46,123 +48,132 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
           topRight: Radius.circular(32.r),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          spaceH20,
-          Center(
-            child: Container(
-              height: 6.h,
-              width: 48.w,
-              decoration: BoxDecoration(
-                color: colorECEEF7,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20.r),
+      child: StateStreamLayout(
+        stream: cubit.stateStream,
+        textEmpty: '',
+        retry: () {
+          cubit.getGroup();
+          cubit.getTree();
+        },
+        error: AppException(S.current.something_went_wrong,''),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            spaceH20,
+            Center(
+              child: Container(
+                height: 6.h,
+                width: 48.w,
+                decoration: BoxDecoration(
+                  color: colorECEEF7,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20.r),
+                  ),
                 ),
               ),
             ),
-          ),
-          spaceH20,
-          spaceH2,
-          Padding(
-            padding: EdgeInsets.only(
-              left: 16.w,
-            ),
-            child: Text(
-              S.current.chia_se,
-              style: textNormalCustom(
-                color: color3D5586,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          spaceH32,
-          Padding(
-            padding: EdgeInsets.only(
-              left: 16.w,
-              right: 16.w,
-            ),
-            child: Container(
-              height: 40.h,
+            spaceH20,
+            spaceH2,
+            Padding(
               padding: EdgeInsets.only(
                 left: 16.w,
-                right: 10.w,
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(4.r),
+              child: Text(
+                S.current.chia_se,
+                style: textNormalCustom(
+                  color: color3D5586,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
-                border: Border.all(color: containerColorTab),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 9,
-                    child: Text(
-                      S.current.chia_se,
-                      style: textNormalCustom(
-                        color: labelColor,
-                        fontSize: 14,
+            ),
+            spaceH32,
+            Padding(
+              padding: EdgeInsets.only(
+                left: 16.w,
+                right: 16.w,
+              ),
+              child: Container(
+                height: 40.h,
+                padding: EdgeInsets.only(
+                  left: 16.w,
+                  right: 10.w,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(4.r),
+                  ),
+                  border: Border.all(color: containerColorTab),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 9,
+                      child: Text(
+                        S.current.chia_se,
+                        style: textNormalCustom(
+                          color: labelColor,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: SvgPicture.asset(
-                      ImageAssets.ic_copy,
-                      color: colorA2AEBD,
+                    Expanded(
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_copy,
+                        color: colorA2AEBD,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            spaceH12,
+            Container(
+              height: 40.h,
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: containerColorTab,
+                  ),
+                ),
+              ),
+              child: TabBar(
+                tabs: [
+                  Tab(
+                    text: S.current.chia_se_cung_he_thong,
+                  ),
+                  Tab(
+                    text: S.current.chia_se_ngoai_he_thong,
+                  ),
+                ],
+                controller: _tabController,
+                indicatorSize: TabBarIndicatorSize.tab,
+                isScrollable: true,
+                labelColor: textDefault,
+                unselectedLabelColor: infoColor,
+                indicatorColor: textDefault,
+                labelStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+                physics: const AlwaysScrollableScrollPhysics(),
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  TabCungHeThongMobile(
+                    cubit: cubit,
+                  ),
+                  TabNgoaiHeThongMobile(
+                    cubit: cubit,
                   ),
                 ],
               ),
             ),
-          ),
-          spaceH12,
-          Container(
-            height: 40.h,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: containerColorTab,
-                ),
-              ),
-            ),
-            child: TabBar(
-              tabs: [
-                Tab(
-                  text: S.current.chia_se_cung_he_thong,
-                ),
-                Tab(
-                  text: S.current.chia_se_ngoai_he_thong,
-                ),
-              ],
-              controller: _tabController,
-              indicatorSize: TabBarIndicatorSize.tab,
-              isScrollable: true,
-              labelColor: textDefault,
-              unselectedLabelColor: infoColor,
-              indicatorColor: textDefault,
-              labelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
-              physics: const AlwaysScrollableScrollPhysics(),
-            ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                TabCungHeThongMobile(
-                  cubit: cubit,
-                ),
-                TabNgoaiHeThongMobile(
-                  cubit: cubit,
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

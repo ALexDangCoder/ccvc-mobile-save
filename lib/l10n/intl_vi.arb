@@ -24,7 +24,7 @@
   "list_empty": "Danh sách trống",
   "tu_choi_tiep_nhan": "Từ chối tiếp nhận",
   "xem_luong_xu_ly": "Xem luồng xử lý",
-  "gui_thiep_mung" : "Gửi thiệp mừng",
+  "gui_thiep_mung": "Gửi thiệp mừng",
   "press_socialNetWord": "Báo chí - mạng xã hội",
   "word_processing_state": "Tình hình xử lý văn bản",
   "document": "Văn bản",
@@ -81,7 +81,7 @@
   "hello": "Xin chào",
   "chu_nhat": "Chủ nhật",
   "chon_ngay": "Chọn ngày",
-  "da_hoan_thanh": "Đã hoàn thành",
+  "da_hoan_thanh": "Đã thực hiện",
   "them_cong_viec": "Thêm công việc",
   "using": "Widgets đang sử dụng",
   "not_use": "Widgets chưa sử dụng",
@@ -1099,7 +1099,15 @@
   "chi_lich_nay": "Chỉ sửa lịch này",
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
-  "ten_nhom": "Tên nhóm"
+  "ten_nhom": "Tên nhóm",
+  "bao_cao_ket_qua_thanh_cong" : "Báo cáo kết quả thành công",
+  "bao_cao_ket_qua_that_bai" : "Báo cáo kết quả thất bại",
+  "thu_muc": "Thư mục",
+  "ten_tai_khoan": "Tên tài khoản",
+  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
+  "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
+  "dang_ky_xe_moi": "Đăng ký xe mới",
+  "file_da_ton_tai" : "File đã tồn tại"
 }
 
 

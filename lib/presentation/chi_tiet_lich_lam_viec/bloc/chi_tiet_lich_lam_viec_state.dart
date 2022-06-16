@@ -13,3 +13,7 @@ class Loading extends ChiTietLichLamViecState {
   @override
   List<Object> get props => [];
 }
+class SuccessChiTietLichLamViecState extends ChiTietLichLamViecState {
+  @override
+  List<Object> get props => [];
+}

@@ -1,9 +1,12 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
+import 'package:intl/intl.dart';
 
 ///Biẻu quyết
 extension BieuQuyet on DetailMeetCalenderCubit {
@@ -13,6 +16,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     String? canBoId,
     String? idPhienHop,
   }) async {
+    showLoading();
     final result = await hopRp.getDanhSachBieuQuyetLichHop(
       idLichHop ?? '',
       canBoId ?? '',
@@ -21,6 +25,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         streamBieuQuyet.sink.add(res);
+        showContent();
       },
       error: (err) {},
     );
@@ -149,7 +154,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         );
       },
       error: (err) {
-        if (err is NoNetworkException) {
+        if (err is NoNetworkException || err is TimeoutException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
@@ -163,5 +168,41 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       },
     );
     showContent();
+  }
+
+  Future<void> callApi(String id) async {
+    await getDanhSachBieuQuyetLichHop(
+      idLichHop: id,
+      canBoId: HiveLocal.getDataUser()?.userId ?? '',
+      idPhienHop: '',
+    );
+  }
+
+  String plusTaoBieuQuyet(String date, TimerData time) {
+    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    final dateTime = dateFormat.parse(date);
+
+    final times = DateTime(
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+      time.hour,
+      time.minutes,
+    );
+    return times.formatApiTaoBieuQuyet;
+  }
+
+  ///handle timer
+  bool isNotStartYet({required DateTime startTime}) {
+    if (DateTime.now().isBefore(startTime)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> callAPiBieuQuyet() async {
+    await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
+    await callApi(idCuocHop);
   }
 }

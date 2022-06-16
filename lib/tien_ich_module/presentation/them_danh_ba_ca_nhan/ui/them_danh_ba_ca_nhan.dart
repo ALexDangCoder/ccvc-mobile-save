@@ -36,6 +36,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
     toast.init(context);
     widget.cubit.dateDanhSach = '';
     widget.cubit.isCheckValidate.add(' ');
+    widget.cubit.pathAnh = '';
   }
 
   @override
@@ -436,8 +437,8 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.dateDanhSach = '';
                       Navigator.pop(context);
                     },
-                    title2: S.current.xac_nhan,
-                    title1: S.current.dong,
+                    title2: S.current.luu_danh_ba,
+                    title1: S.current.huy,
                   )
                 ],
               ),

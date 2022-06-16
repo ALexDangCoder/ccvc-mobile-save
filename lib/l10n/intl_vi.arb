@@ -1100,7 +1100,10 @@
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
   "ten_nhom": "Tên nhóm",
-  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch"
+  "ten_tai_khoan": "Tên tài khoản",
+  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
+  "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
+  "dang_ky_xe_moi": "Đăng ký xe mới"
 }
 
 

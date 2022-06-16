@@ -22,10 +22,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class KetLuanHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
-  final String id;
 
-  KetLuanHopWidget({Key? key, required this.cubit, required this.id})
-      : super(key: key);
+  KetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _KetLuanHopWidgetState createState() => _KetLuanHopWidgetState();
@@ -35,9 +33,24 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   bool isShow = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (!isMobile()) {
+      widget.cubit.callApiKetLuanHop();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
+        onchange: (vl) {
+          if (vl) {
+            widget.cubit.callApiKetLuanHop();
+          }
+        },
         title: S.current.ket_luan_hop,
         child: Stack(
           children: [
@@ -91,7 +104,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
               time: data?.thoiGian ?? '',
               trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
               tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-              id: widget.id,
+              id: widget.cubit.idCuocHop,
               cubit: widget.cubit,
               onTap: () {
                 isShow = !isShow;

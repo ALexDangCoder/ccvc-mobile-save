@@ -1112,5 +1112,7 @@
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
   "cho_chuyen_xu_ly": "Chờ chuyển xử lý",
-  "ten_nhom": "Tên nhóm"
+  "ten_nhom": "Tên nhóm",
+  "validate_thoi_gian": "Thời gian bắt đầu phải lớn hơn kết thúc",
+  "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công"
 }

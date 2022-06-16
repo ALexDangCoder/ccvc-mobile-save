@@ -133,6 +133,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   List<File> listTaiLieu = [];
   List<File> listTaiLieuPhienHop = [];
 
+  // Set<DonViModel> listThanhPhanThamGia = {};
   Set<DonViModel> listThanhPhanThamGia = {};
   BehaviorSubject<bool> isSendEmail = BehaviorSubject.seeded(false);
   DonViModel? chuTri;
@@ -219,12 +220,15 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     required String idHop,
     required bool isSendEmail,
   }) async {
-    final List<MoiThamGiaHopRequest> listMoiHop = listThanhPhanThamGia.map((e) {
-      return e.id.isNotEmpty || e.donViId.isNotEmpty
-          ? e.convertTrongHeThong(idHop)
-          : e.convertNgoaiHeThong(idHop);
-    }).toList();
-    await hopRp.moiHop(idHop, false, isSendEmail, listMoiHop);
+    if (listThanhPhanThamGia.isNotEmpty) {
+      final List<MoiThamGiaHopRequest> listMoiHop =
+          listThanhPhanThamGia.map((e) {
+        return e.id.isNotEmpty || e.donViId.isNotEmpty
+            ? e.convertTrongHeThong(idHop)
+            : e.convertNgoaiHeThong(idHop);
+      }).toList();
+      await hopRp.moiHop(idHop, false, isSendEmail, listMoiHop);
+    }
   }
 
   Future<void> themPhienHop(String lichHopId) async {
@@ -260,8 +264,10 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     showContent();
   }
 
-  Future<bool> checkLichTrung(
-      {required String donViId, required String canBoId}) async {
+  Future<bool> checkLichTrung({
+    required String donViId,
+    required String canBoId,
+  }) async {
     bool isTrung = false;
     showLoading();
     final rs = await hopRp.checkLichHopTrung(
@@ -322,6 +328,16 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   final BehaviorSubject<List<DonViModel>> danhSachCB = BehaviorSubject();
 
+  void addThanhPhanThamGia(List<DonViModel> listDonVi) {
+    listThanhPhanThamGia.addAll(listDonVi);
+  }
+
+  void removeThanhPhanThamGia(DonViModel donVi) {
+    listPhienHop.value.removeWhere((element) => element.uuid == donVi.uuid);
+    listPhienHop.sink.add(listPhienHop.value);
+    listThanhPhanThamGia.remove(donVi);
+  }
+
   Future<void> getCanBo() async {
     final result = await thanhPhanThamGiaRp.getSeachCanBo(
       SearchCanBoRequest(
@@ -378,20 +394,20 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     return '$BASE_URL_MEETING$tenDonVi-$randomRes';
   }
 
-  List<String> getListTenCanBo(){
+  List<String> getListTenCanBo() {
     listThanhPhanThamGia.removeWhere((element) => element.vaiTroThamGia == 0);
-    if(chuTri != null) {
-      listThanhPhanThamGia
-      .add(chuTri!);
+    if (chuTri != null) {
+      listThanhPhanThamGia.add(chuTri!);
     }
     return listThanhPhanThamGia
-      .map(
-            (e) => e.tenCanBo.isNotEmpty
-            ? e.tenCanBo
-            : e.name.isNotEmpty
-            ? e.name
-            : e.tenDonVi,
-      ).toList();
+        .map(
+          (e) => e.tenCanBo.isNotEmpty
+              ? e.tenCanBo
+              : e.name.isNotEmpty
+                  ? e.name
+                  : e.tenDonVi,
+        )
+        .toList();
   }
   void dispose() {
     _loaiLich.close();

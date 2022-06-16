@@ -20,8 +20,9 @@ class DonViModel {
   String tenCoQuan = '';
 
   //param sử dụng tại tạo lịch làm việc
-  bool? isSendEmail = false;
   int? soLuong = 0;
+  String uuid = DateTime.now().microsecondsSinceEpoch.toString();
+
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
 
@@ -45,22 +46,6 @@ class DonViModel {
     this.soLuong,
   });
 
-  // MoiThamGiaHopRequest convertTrongHeThong() {
-  //   return MoiThamGiaHopRequest(
-  //     VaiTroThamGia: vaiTroThamGia,
-  //     noiDungLamViec: noidung,
-  //     tenCanBo: tenCanBo,
-  //     tenDonVi:  vaiTroThamGia == 1 ? name : tenDonVi,
-  //     status: status,
-  //     type: type,
-  //     userId: userId,
-  //     donViId: vaiTroThamGia == 1
-  //         ? (id.isEmpty ? null : id)
-  //         : (donViId.isEmpty ? null : donViId),
-  //     CanBoId: canBoId.isEmpty ? null : canBoId,
-  //     chucVu: chucVu,
-  //   );
-  // }
   MoiThamGiaHopRequest convertTrongHeThong(String lichHopId){
     return MoiThamGiaHopRequest(
       canBoId: canBoId.isEmpty ? null : canBoId,
@@ -89,17 +74,6 @@ class DonViModel {
       lichHopId: lichHopId,
     );
   }
-
-  //MoiHopRequest(
-//       DauMoiLienHe: dauMoiLienHe,
-//       GhiChu: '',
-//       TenCoQuan: tenCoQuan,
-//       VaiTroThamGia: vaiTroThamGia,
-//       dauMoi: dauMoiLienHe,
-//       email: email,
-//       noiDungLamViec: noidung,
-//       soDienThoai: sdt,
-//       tenDonVi: tenDonVi,
 }
 
 class Node<T> {

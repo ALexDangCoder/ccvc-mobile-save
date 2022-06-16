@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_h
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tai_lieu_cuoc_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tao_hop_success.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/thanh_phan_tham_gia_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
@@ -288,7 +289,9 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                   ExpandGroup(
                     child: Column(
                       children: [
-                        ThanhPhanThamGiaExpandWidget(cubit: _cubit,),
+                        ThanhPhanThamGiaExpandWidget(
+                          cubit: _cubit,
+                        ),
                         ChuongTrinhHopWidget(
                           cubit: _cubit,
                         ),
@@ -304,13 +307,15 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                       text: S.current.tao_lich_hop,
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          _cubit.createMeeting().then((value){
-                            if(value){
-                              MessageConfig.show(
-                                title: S.current.tao_thanh_cong,
-                              );
-                              Navigator.pop(context, true);
-                            }else{
+                          _cubit.createMeeting().then((value) {
+                            if (value) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TaoHopSuccess(),
+                                ),
+                              ).then((value) => Navigator.pop(context, true));
+                            } else {
                               MessageConfig.show(
                                 messState: MessState.error,
                                 title: S.current.tao_that_bai,

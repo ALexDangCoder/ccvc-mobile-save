@@ -632,7 +632,6 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 BaseChooseTimerWidget(
                   key: _keyBaseTime,
-                  validator: () {},
                   onChange: (timeSt, timeEnd) {
                     widget.cubit.getTimeHour(startT: timeSt, endT: timeEnd);
                   },

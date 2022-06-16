@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:flutter/material.dart';
 
 class BaseChooseTimerWidget extends StatefulWidget {
-  final String? Function()? validator;
+  final String? Function(TimerData, TimerData)? validator;
   final Function(TimerData, TimerData)? onChange;
   final TimerData? timeBatDau;
   final TimerData? timeKetThuc;
@@ -24,15 +24,12 @@ class BaseChooseTimerWidget extends StatefulWidget {
 
 class BaseChooseTimerWidgetState extends State<BaseChooseTimerWidget> {
   bool validator() {
-    if (widget.validator != null) {
-      validatorString = widget.validator!();
-      setState(() {});
-      if (validatorString != null) {
-        return true;
-      }
+    validatorString = widget.validator?.call(startDate, endDate);
+    setState(() {});
+    if (validatorString != null) {
       return false;
     }
-    return false;
+    return true;
   }
 
   String? validatorString;
@@ -51,9 +48,7 @@ class BaseChooseTimerWidgetState extends State<BaseChooseTimerWidget> {
                 initTimerData: widget.timeBatDau,
                 onChange: (value) {
                   startDate = value;
-                  if (widget.onChange != null) {
-                    widget.onChange!(startDate, endDate);
-                  }
+                  widget.onChange?.call(startDate, endDate);
                 },
               ),
             ),

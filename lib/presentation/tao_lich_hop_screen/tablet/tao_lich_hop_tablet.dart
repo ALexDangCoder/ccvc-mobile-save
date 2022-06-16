@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_h
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tai_lieu_cuoc_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tao_hop_success.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/thanh_phan_tham_gia_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
@@ -22,6 +23,7 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/row_column_tablet.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
@@ -284,16 +286,18 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                   ExpandGroup(
                       child: Column(
                     children: [
-                      ThanhPhanThamGiaExpandWidget(cubit: _cubit,),
-                      spaceH10,
-                      ChuongTrinhHopWidget(
-                        cubit: _cubit,
-                      ),
-                      spaceH10,
-                      TaiLieuCuocHopWidget(
-                        cubit: _cubit,
-                      )
-                    ],
+                        ThanhPhanThamGiaExpandWidget(
+                          cubit: _cubit,
+                        ),
+                        spaceH10,
+                        ChuongTrinhHopWidget(
+                          cubit: _cubit,
+                        ),
+                        spaceH10,
+                        TaiLieuCuocHopWidget(
+                          cubit: _cubit,
+                        )
+                      ],
                   ),)
                 ],
               ),
@@ -308,7 +312,23 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                   rightTxt: S.current.tao_lich_hop,
                   funcBtnOk: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      _cubit.createMeeting();
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _cubit.createMeeting().then((value) {
+                          if (value) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const TaoHopSuccess(),
+                              ),
+                            ).then((value) => Navigator.pop(context, true));
+                          } else {
+                            MessageConfig.show(
+                              messState: MessState.error,
+                              title: S.current.tao_that_bai,
+                            );
+                          }
+                        });
+                      }
                     }
                   },
                 ),

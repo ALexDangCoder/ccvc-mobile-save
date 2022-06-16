@@ -605,7 +605,6 @@
   "tai_file_thanh_cong": "Tải file thành công",
   "tai_file_that_bai": "Tải file thất bại",
   "nguoi_giao_nhiem_vu": "Người giao nhiệm vụ",
-  "nguoi_giao_nhiem_vu": "Người giao nhiệm vụ",
   "can_bo_boc_bang": "Chọn cán bộ sử dụng bắc băng",
   "ban_da_tao_lich_lam_viec_thanh_cong": "Bạn đã tạo lịch làm việc thành công",
   "ban_da_sua_lich_lam_viec_thanh_cong": "Bạn đã sửa lịch làm việc thành công",
@@ -1099,7 +1098,9 @@
   "chi_lich_nay": "Chỉ sửa lịch này",
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
-  "ten_nhom": "Tên nhóm"
+  "ten_nhom": "Tên nhóm",
+  "validate_thoi_gian": "Thời gian kết thúc phải lớn hơn bắt đầu",
+  "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công"
 }
 
 

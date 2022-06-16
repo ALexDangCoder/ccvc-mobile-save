@@ -214,9 +214,9 @@ class CalenderCubit extends BaseCubit<CalenderState> {
           ),
         );
       }
+      getMatchDate(dataLichLvModels);
     }
 
-    getMatchDate(dataLichLvModels);
     // appointments.add(Appointment(startTime: DateTime(DateTime
     //     .now()
     //     .year, DateTime

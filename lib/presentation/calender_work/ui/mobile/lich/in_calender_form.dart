@@ -63,8 +63,10 @@ class _InCalenderFormState extends State<InCalenderForm> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16),
                     child: StreamBuilder<DataLichLvModel>(
+                      initialData: DataLichLvModel.empty(),
                       stream: widget.cubit.listLichSubject,
                       builder: (context, snapshot) {
+                        final data = snapshot.data ?? DataLichLvModel.empty();
                         return SfCalendar(
                           viewHeaderHeight: 0.0,
                           allowAppointmentResize: true,
@@ -80,7 +82,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
                               const BoxDecoration(color: Colors.transparent),
                           appointmentTimeTextFormat: 'hh:mm:ss a',
                           dataSource: widget.cubit.getCalenderDataSource(
-                            snapshot.data ?? DataLichLvModel(),
+                            data,
                           ),
                           appointmentBuilder: (
                             BuildContext context,

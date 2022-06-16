@@ -29,7 +29,6 @@ extension DayApi on CalenderCubit {
         ),
       ),
     );
-    unawaited(queue.add(() => menuCalendar()));
     unawaited(queue.add(() => postEventsCalendar()));
     stateCalendarControllerDay.displayDate = selectDay;
     stateCalendarControllerWeek.displayDate = selectDay;

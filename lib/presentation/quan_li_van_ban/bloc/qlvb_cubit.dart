@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/dowload_file.dart';
+
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -76,9 +76,11 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     showSearchSubject.sink.add(!showSearchSubject.value);
   }
 
-  Future<void> callAPi() async {
+  Future<void> callAPi({bool initTime = true}) async {
     final queue = Queue();
     showLoading();
+    // ignore: unnecessary_statements
+    initTime? initTimeRange() : null;
     unawaited(queue.add(() =>  getDashBoardIncomeDocument()));
     unawaited(queue.add(() =>  getDashBoardOutcomeDocument()));
     unawaited(queue.add(() =>  getListIncomeDocument()));
@@ -184,7 +186,11 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Future<void> getListOutcomeDocument({
     String? startDate,
     String? endDate,
+    bool needLoading = false,
   }) async {
+    if (needLoading){
+      showLoading();
+    }
     List<VanBanModel> listVbDi = [];
     final result = await _qLVBRepo.getDanhSachVbDi(
       startDate: startDate ?? this.startDate,
@@ -210,10 +216,12 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
       },
       error: (err) {
-
         return err;
       },
     );
+    if (needLoading){
+      showContent();
+    }
   }
 
   Future<void> getListIncomeDocument({
@@ -247,9 +255,9 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         return error;
       },
     );
-    // if (needLoading){
-    //   showContent();
-    // }
+    if (needLoading){
+      showContent();
+    }
   }
 
   void initTimeRange() {

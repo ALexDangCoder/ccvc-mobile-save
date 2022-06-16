@@ -117,20 +117,10 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
               FilterDateTimeWidget(
                 context: context,
                 initStartDate: DateTime.parse(qlvbCubit.startDate),
-                onChooseDateFilter: (startDate, endDate) async {
+                onChooseDateFilter: (startDate, endDate) {
                   qlvbCubit.startDate = startDate.formatApi;
                   qlvbCubit.endDate = endDate.formatApi;
-                  final queue = Queue();
-                  qlvbCubit.showLoading();
-                  unawaited(
-                      queue.add(() => qlvbCubit.getDashBoardIncomeDocument()));
-                  unawaited(
-                      queue.add(() => qlvbCubit.getDashBoardOutcomeDocument()));
-                  unawaited(queue.add(() => qlvbCubit.getListIncomeDocument()));
-                  unawaited(
-                      queue.add(() => qlvbCubit.getListOutcomeDocument()));
-                  await queue.onComplete;
-                  qlvbCubit.showContent();
+                  qlvbCubit.callAPi(initTime: false);
                 },
               ),
               spaceH20,

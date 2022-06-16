@@ -66,12 +66,10 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                         needLoading: true,
                       );
                     },
-                    onStatusTap: (key) async {
+                    onStatusTap: (key) {
                       widget.qlvbCubit.documentInStatusCode = '';
                       widget.qlvbCubit.documentInSubStatusCode = key;
-                      widget.qlvbCubit.showLoading();
-                      await widget.qlvbCubit.getListIncomeDocument();
-                      widget.qlvbCubit.showContent();
+                      widget.qlvbCubit.getListIncomeDocument(needLoading: true);
                     },
                   );
                 },

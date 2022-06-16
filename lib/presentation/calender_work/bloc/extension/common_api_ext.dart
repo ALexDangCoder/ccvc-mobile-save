@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/menu/item_state_lich_duoc_moi.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/container_menu_widget.dart';
@@ -9,6 +10,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/item_menu_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import '../calender_cubit.dart';
 
@@ -34,7 +36,14 @@ extension CommonApiExt on CalenderCubit{
         });
         menuModelSubject.add(value);
       },
-      error: (error) {},
+      error: (error) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
+      },
     );
     showContent();
   }
@@ -51,7 +60,12 @@ extension CommonApiExt on CalenderCubit{
         lichLamViecDashBroadSubject.sink.add(lichLamViecDashBroads);
       },
       error: (err) {
-        return;
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
       },
     );
     showContent();
@@ -84,7 +98,14 @@ extension CommonApiExt on CalenderCubit{
         totalPage = value.totalPage ?? 1;
         danhSachLichLamViecSubject.add(value);
       },
-      error: (error) {},
+      error: (error) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
+      },
     );
   }
 
@@ -118,7 +139,14 @@ extension CommonApiExt on CalenderCubit{
 
         eventsSubject.add(data);
       },
-      error: (error) {},
+      error: (error) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
+      },
     );
     showContent();
   }
@@ -142,7 +170,12 @@ extension CommonApiExt on CalenderCubit{
         lichLamViecDashBroadRightSubject.sink.add(lichLamViecDashBroadRight);
       },
       error: (err) {
-        return;
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
       },
     );
     showContent();
@@ -191,7 +224,14 @@ extension CommonApiExt on CalenderCubit{
         dataLichLvModel.listLichLVModel = listDSLV;
         listLichSubject.sink.add(dataLichLvModel);
       },
-      error: (error) {},
+      error: (error) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
+      },
     );
     showContent();
   }

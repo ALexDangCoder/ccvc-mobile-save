@@ -51,6 +51,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     listResponse.clear();
     listDropDown.clear();
     listCheck.clear();
+    showLoading();
     final rs = await _repo.getListGroup();
     rs.when(
       success: (res) {
@@ -76,6 +77,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
         );
         listDropDown.add(nhomCungHeThong.tenNhom ?? '');
         callAPI.add(SUCCESS);
+        showContent();
       },
       error: (error) {},
     );

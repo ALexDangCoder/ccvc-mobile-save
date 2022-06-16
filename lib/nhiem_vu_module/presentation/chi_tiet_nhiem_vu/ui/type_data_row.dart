@@ -12,7 +12,8 @@ import 'package:permission_handler/permission_handler.dart';
 enum TypeDataNV { file, status, text }
 
 extension TypeData on TypeDataNV {
-  Widget getWidget({
+  Widget
+  getWidget({
     required RowDataExpandModel row,
     ChiTietNVCubit? cubit,
   }) {

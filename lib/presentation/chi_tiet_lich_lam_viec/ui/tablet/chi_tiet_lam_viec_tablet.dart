@@ -69,11 +69,11 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                             urlImage: ImageAssets.icChartFocus,
                             text: S.current.bao_cao_ket_qua,
                             onTap: () {
-                              showBottomSheetCustom(
-                                context,
-                                title: S.current.bao_cao_ket_qua,
-                                child: const BaoCaoBottomSheet(),
-                              );
+                              // showBottomSheetCustom(
+                              //   context,
+                              //   title: S.current.bao_cao_ket_qua,
+                              //   child: const BaoCaoBottomSheet(),
+                              // );
                             },
                           ),
                           CellPopPupMenu(

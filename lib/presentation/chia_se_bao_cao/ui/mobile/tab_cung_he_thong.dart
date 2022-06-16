@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
+import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -49,91 +50,91 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
             children: [
               spaceH24,
               StreamBuilder<String>(
-                  stream: widget.cubit.callAPI,
-                  builder: (context, snapshot) {
-                    return Container(
-                      height: 40.h,
-                      width: double.infinity,
-                      padding: EdgeInsets.only(right: 15.w, left: 15.w),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(4.r)),
-                        border: Border.all(color: containerColorTab),
+                stream: widget.cubit.callAPI,
+                builder: (context, snapshot) {
+                  return Container(
+                    height: 40.h,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(right: 15.w, left: 15.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                      border: Border.all(color: containerColorTab),
+                    ),
+                    child: Theme(
+                      data: ThemeData(
+                        hintColor: Colors.white24,
+                        selectedRowColor: Colors.white24,
                       ),
-                      child: Theme(
-                        data: ThemeData(
-                          hintColor: Colors.white24,
-                          selectedRowColor: Colors.white24,
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            buttonDecoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.r)),
-                            ),
-                            items:
-                                widget.cubit.listDropDown.map((String model) {
-                              return DropdownMenuItem(
-                                value: model,
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 32.w,
-                                      height: 32.h,
-                                      decoration: BoxDecoration(
-                                        color: color4C6FFF.withOpacity(0.1),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.asset(
-                                        ImageAssets.img_company,
-                                        height: 5.h,
-                                        width: 5.w,
-                                        color: Colors.blue,
-                                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          buttonDecoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.r)),
+                          ),
+                          items: widget.cubit.listDropDown.map((String model) {
+                            return DropdownMenuItem(
+                              value: model,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 32.w,
+                                    height: 32.h,
+                                    decoration: BoxDecoration(
+                                      color: color4C6FFF.withOpacity(0.1),
+                                      shape: BoxShape.circle,
                                     ),
-                                    spaceW5,
-                                    Text(
-                                      model,
-                                      style: textNormal(
-                                        color3D5586,
-                                        14,
-                                      ),
+                                    child: Image.asset(
+                                      ImageAssets.img_company,
+                                      height: 5.h,
+                                      width: 5.w,
+                                      color: Colors.blue,
                                     ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              widget.cubit.themNhom(newValue ?? '');
-                            },
-                            dropdownMaxHeight: 200,
-                            dropdownWidth:
-                                MediaQuery.of(context).size.width - 32.w,
-                            dropdownDecoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4.r)),
-                            ),
-                            scrollbarThickness: 0,
-                            scrollbarAlwaysShow: false,
-                            offset: Offset(-16.w, 0),
-                            hint: Text(
-                              S.current.chon_nhom,
-                              style: textNormalCustom(
-                                color: color3D5586,
-                                fontSize: 14,
+                                  ),
+                                  spaceW5,
+                                  Text(
+                                    model,
+                                    style: textNormal(
+                                      color3D5586,
+                                      14,
+                                    ),
+                                  ),
+                                ],
                               ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            widget.cubit.themNhom(newValue ?? '');
+                          },
+                          dropdownMaxHeight: 200,
+                          dropdownWidth:
+                              MediaQuery.of(context).size.width - 32.w,
+                          dropdownDecoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.r)),
+                          ),
+                          scrollbarThickness: 0,
+                          scrollbarAlwaysShow: false,
+                          offset: Offset(-16.w, 0),
+                          hint: Text(
+                            S.current.chon_nhom,
+                            style: textNormalCustom(
+                              color: color3D5586,
+                              fontSize: 14,
                             ),
-                            icon: const Icon(
-                              Icons.arrow_drop_down,
-                              color: colorA2AEBD,
-                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: colorA2AEBD,
                           ),
                         ),
                       ),
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
               spaceH20,
               StreamBuilder<List<NhomCungHeThong>>(
                 stream: widget.cubit.themNhomStream,
@@ -168,13 +169,42 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
               ),
               spaceH24,
               Container(
-                height: 114,
+                width: 341.w,
+                padding: EdgeInsets.only(
+                  left: 12.w,
+                  bottom: 12.h,
+                  top: 12.h,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: containerColorTab),
                 ),
+                child: StreamBuilder<Object>(
+                  stream: _themDonViCubit.selectDonVi,
+                  builder: (context, snapshot) {
+                    return Wrap(
+                      spacing: 10.w, // gap between adjacent chips
+                      runSpacing: 10.h, // gap between lines
+                      children: _themDonViCubit.selectNode
+                          .map(
+                            (e) => ItemNguoiDung(
+                              name: e.value.name,
+                              hasFunction: true,
+                              delete: () {
+                                _themDonViCubit.addSelectNode(
+                                  e,
+                                  isCheck: false,
+                                );
+                                _themDonViCubit.removeTag(e);
+                              },
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
+                ),
               ), // Stream list nhóm
               Container(
-                height: 300,
+                height: 300.h,
                 decoration: BoxDecoration(
                   border: Border.all(color: containerColorTab),
                 ),
@@ -184,6 +214,12 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                     final data = snapshot.data ?? <Node<DonViModel>>[];
                     if (data.isNotEmpty) {
                       return ListView.builder(
+                        padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 6.w,
+                          bottom: 19.h,
+                          top: 16.h,
+                        ),
                         keyboardDismissBehavior: isMobile()
                             ? ScrollViewKeyboardDismissBehavior.onDrag
                             : ScrollViewKeyboardDismissBehavior.manual,
@@ -213,19 +249,20 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-              padding: EdgeInsets.only(
-                left: 16.w,
-                right: 16.w,
-              ),
-              height: 63.h,
-              color: Colors.white,
-              child: DoubleButtonBottom(
-                title1: 'Đóng',
-                title2: S.current.chia_se,
-                onPressed1: () {},
-                onPressed2: () {},
-                noPadding: true,
-              )),
+            padding: EdgeInsets.only(
+              left: 16.w,
+              right: 16.w,
+            ),
+            height: 63.h,
+            color: Colors.white,
+            child: DoubleButtonBottom(
+              title1: S.current.dong,
+              title2: S.current.chia_se,
+              onPressed1: () {},
+              onPressed2: () {},
+              noPadding: true,
+            ),
+          ),
         ),
       ],
     );

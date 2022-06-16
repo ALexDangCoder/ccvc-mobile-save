@@ -147,6 +147,7 @@ class ApiConstants {
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
+  static const SUA_BAO_CAO_KET_QUA = '/vpdt/api/ScheduleReport/update';
 
   static const DETAIL_MEETING_SCHEDULE = '/vpdt/api/MeetingSchedule/detail';
   static const MEETING_ROOM_DANH_SACH_PHONG_HOP =

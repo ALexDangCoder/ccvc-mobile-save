@@ -31,6 +31,7 @@ class ItemNguoiDung extends StatelessWidget {
         border: Border.all(color: containerColorTab),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             height: 32.h,
@@ -58,21 +59,28 @@ class ItemNguoiDung extends StatelessWidget {
             ),
           ),
           spaceW8,
-          Text(
-            name,
-            style: textNormalCustom(
-              color: color3D5586,
-              fontSize: 14,
+          SizedBox(
+            width: (name.characters.length * 8).w < 80.w
+                ? (name.characters.length * 8).w
+                : 80.w,
+            child: Text(
+              name,
+              style: textNormalCustom(
+                color: color3D5586,
+                fontSize: 14,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           if (hasFunction)
             InkWell(
               onTap: () {
-                delete!;
+                delete!();
               },
               child: Icon(
                 Icons.close,
-                size: 11.sp,
+                size: 18.sp,
+                color: colorA2AEBD,
               ),
             ),
         ],

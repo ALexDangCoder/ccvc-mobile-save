@@ -102,7 +102,6 @@ abstract class LichLamViecService {
   Future<DeleteCalenderWorkResponse> deleteCalenderWork(
     @Query('scheduleId') String id,
     @Query('only') bool only,
-    @Query('isLichLap') bool isLichLap,
   );
 
 //?scheduleId={id}&statusId=8&isMulti=false

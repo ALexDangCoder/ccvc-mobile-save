@@ -23,14 +23,14 @@ class _ChiTietThiepChucMobileScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgTabletColor,
       appBar: AppBarDefaultBack(S.current.thiep_danh_toi_ban),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               clipBehavior: Clip.hardEdge,
-              margin: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.all( 30),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -43,20 +43,24 @@ class _ChiTietThiepChucMobileScreenState
                 ],
               ),
               child: ThiepChucMungSinhNhatWidget(
+                isTablet: true,
                 data: widget.data,
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: ButtonBottom(
-            text: S.current.dong,
-            onPressed: () {
-              Navigator.pop(context);
-            },
+      bottomNavigationBar: SizedBox(
+        height: 70,
+        child: Center(
+          child: SizedBox (
+            width: 170,
+            child: ButtonBottom(
+              text: S.current.dong,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
         ),
       ),

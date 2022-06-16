@@ -25,6 +25,7 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -121,6 +122,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   DateTime dateTimeLapDenNgay = DateTime.now();
   BehaviorSubject<DateTime> changeDateTimeSubject = BehaviorSubject();
+  BehaviorSubject<bool> btnSubject = BehaviorSubject();
 
   Stream<List<LoaiSelectModel>> get linhVuc => _linhVuc.stream;
 
@@ -417,6 +419,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
+        eventBus.fire(RefreshCalendar());
         showContent();
       },
       error: (error) {
@@ -468,6 +471,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
+        eventBus.fire(RefreshCalendar());
         showContent();
       },
       error: (error) {
@@ -518,6 +522,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
+        eventBus.fire(RefreshCalendar());
         showContent();
       },
       error: (error) {

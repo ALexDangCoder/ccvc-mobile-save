@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
@@ -45,7 +44,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
 
   LichLamViecRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
-  List<BaoCaoModel> listBaoCao = [];
 
   Future<void> dataChiTietLichLamViec(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
@@ -87,20 +85,22 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   // xoa lich lam viec
   LichLamViecRepository get deleteLichLamViec => Get.find();
 
-  Future dataDelete(
+  Future<void> deleteCalendarWork(
     String id, {
     bool only = true,
-    bool isLichLap = true,
   }) async {
-    final rs = await detailLichLamViec.deleteCalenderWork(id, only, isLichLap);
+    final rs = await detailLichLamViec.deleteCalenderWork(id, only);
     rs.when(success: (data) {}, error: (error) {});
   }
 
   // huy lich lam viec
   LichLamViecRepository get cancelLichLamViec => Get.find();
 
-  Future<void> cancel(String id,
-      {int statusId = 8, bool isMulti = false}) async {
+  Future<void> cancelCalendarWork(
+    String id, {
+    int statusId = 8,
+    bool isMulti = false,
+  }) async {
     final rs =
         await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
     rs.when(success: (data) {}, error: (error) {});
@@ -133,7 +133,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     final result = await detailLichLamViec.getDanhSachBaoCao(id);
     result.when(
         success: (res) {
-          listBaoCao = res;
           _listBaoCaoKetQua.sink.add(res);
         },
         error: (err) {});
@@ -233,7 +232,6 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   String reportStatusId = '';
   List<File> files = [];
   TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
-  final OverlayState? overlayState = Overlay.of(MessageConfig.contextConfig!);
   void init(List<TinhTrangBaoCaoModel> list){
     if(list.isNotEmpty){
       reportStatusId = list.first.id ?? '';

@@ -1,15 +1,24 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/danh_sach_y_kien_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class DanhSachYKienButtom extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
+  final String id;
 
-  const DanhSachYKienButtom({Key? key, required this.cubit}) : super(key: key);
+  const DanhSachYKienButtom({
+    Key? key,
+    required this.id,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   _DanhSachYKienButtomState createState() => _DanhSachYKienButtomState();
@@ -18,18 +27,49 @@ class DanhSachYKienButtom extends StatefulWidget {
 class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
   @override
   Widget build(BuildContext context) {
-    return SolidButton(
-      text: S.current.danh_sach_y_kien,
-      urlIcon: ImageAssets.ic_danhsachykien,
-      onTap: () {
-        showBottomSheetCustom(
-          context,
-          child: DanhSachYKienScreen(
-            cubit: widget.cubit,
+    return ExpandOnlyWidget(
+      header: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Text(
+          S.current.danh_sach_y_kien,
+          style: textNormalCustom(
+            color: titleColumn,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
-          title: S.current.danh_sach_y_kien,
-        );
-      },
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SolidButton(
+            text: S.current.danh_sach_y_kien,
+            urlIcon: ImageAssets.ic_danhsachykien,
+            onTap: () {
+              showBottomSheetCustom(
+                context,
+                title: S.current.y_kien,
+                child: YKienBottomSheet(
+                  id: widget.id,
+                ),
+              ).then((value) {
+                if (value == true) {
+                  widget.cubit.getDanhSachYKien(widget.id);
+                } else if (value == null) {
+                  return;
+                }
+              });
+            },
+          ),
+          spaceH16,
+          DanhSachYKienScreen(
+            cubit: widget.cubit,
+          )
+        ],
+      ),
     );
   }
 }

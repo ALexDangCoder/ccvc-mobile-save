@@ -214,7 +214,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           title2: S.current.chia_se,
           onPressed2: () {
             if (_groupKey.currentState?.validator() ?? true) {
-              //sheare here
+              //share here
               Navigator.pop(context);
             } else {
               final toast = FToast();

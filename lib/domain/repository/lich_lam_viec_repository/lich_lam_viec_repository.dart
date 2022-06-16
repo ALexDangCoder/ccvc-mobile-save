@@ -72,7 +72,6 @@ mixin LichLamViecRepository {
   Future<Result<DeleteTietLichLamViecModel>> deleteCalenderWork(
     String id,
     bool only,
-    bool isLichLap,
   );
 
   Future<Result<CancelLichLamViecModel>> cancelCalenderWork(

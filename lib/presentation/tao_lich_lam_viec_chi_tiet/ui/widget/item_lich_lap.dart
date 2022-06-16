@@ -25,7 +25,7 @@ class _LichLapWidgetState extends State<LichLapWidget> {
           return SelectOnlyExpand(
             urlIcon: ImageAssets.icNhacLai,
             title: S.current.lich_lap,
-            value: widget.taoLichLamViecCubit.selectLichLap.name ?? '',
+            hintText: 'Chọn lịch lặp',
             listSelect: data.map<String>((e) => e.name ?? '').toList(),
             onChange: (value) {
               widget.taoLichLamViecCubit.selectLichLap.id = data[value].id;

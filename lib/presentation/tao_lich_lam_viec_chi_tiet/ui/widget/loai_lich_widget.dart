@@ -34,8 +34,9 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
             }
             widget.taoLichLamViecCubit.changeOption.sink.add(data[value].name);
           },
+          hintText: 'Chọn loại lịch',
           urlIcon: ImageAssets.icCalendarUnFocus,
-          value: widget.taoLichLamViecCubit.selectLoaiLich?.name ?? '',
+          //value: widget.taoLichLamViecCubit.selectLoaiLich?.name ?? '',
           listSelect: data.map((e) => e.name).toList(),
           title: S.current.loai_lich,
         );

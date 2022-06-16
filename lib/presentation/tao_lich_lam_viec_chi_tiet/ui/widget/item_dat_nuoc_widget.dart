@@ -30,7 +30,7 @@ class _ItemDatNuocWidgetState extends State<ItemDatNuocWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.name ?? '').toList(),
-          value: widget.taoLichLamViecCubit.datNuocSelectModel?.name ?? '',
+          hintText: 'Chọn nước',
           title: S.current.quoc_gia,
         );
       },

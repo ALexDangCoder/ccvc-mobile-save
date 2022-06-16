@@ -31,7 +31,7 @@ class _ItemTinhWidgetState extends State<ItemTinhWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenTinhThanh ?? '').toList(),
-          value: widget.taoLichLamViecCubit.tinhSelectModel?.tenTinhThanh ?? '',
+          hintText: 'Chọn tỉnh',
           title: S.current.tinh,
         );
       },

@@ -31,8 +31,7 @@ class _ItemHuyenWidgetState extends State<ItemHuyenWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenQuanHuyen ?? '').toList(),
-          value:
-              widget.taoLichLamViecCubit.huyenSelectModel?.tenQuanHuyen ?? '',
+          hintText: 'Chọn huyện',
           title: S.current.quan_huyen,
         );
       },

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -195,7 +196,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               data: dataModel,
                               cubit: chiTietLichLamViecCubit,
                             ),
-                            if ((dataModel.scheduleCoperatives ?? []).isNotEmpty)
+                            if ((dataModel.scheduleCoperatives ?? [])
+                                .isNotEmpty)
                               listScheduleCooperatives(
                                 dataModel.scheduleCoperatives ?? [],
                               )
@@ -216,13 +218,16 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   ),
                 )
               : Scaffold(
-            body: Center(
-              child: Text(
-                S.current.khong_co_du_lieu,
-                style: textNormalCustom(fontSize: 14),
-              ),
-            ),
-          );
+                  body: Center(
+                    child: Text(
+                      S.current.khong_co_du_lieu,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: AppTheme.getInstance().titleColor(),
+                      ),
+                    ),
+                  ),
+                );
         },
       ),
     );
@@ -367,7 +372,6 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       ),
     );
   }
-
 
   Row rowTextData(String value, String title) => Row(
         children: [

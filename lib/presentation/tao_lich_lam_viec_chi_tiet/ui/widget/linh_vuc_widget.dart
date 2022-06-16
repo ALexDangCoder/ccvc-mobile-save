@@ -25,10 +25,11 @@ class _LinhVucWidgetState extends State<LinhVucWidget> {
         return SelectOnlyExpand(
           onChange: (value) {
             widget.taoLichLamViecCubit.selectLinhVuc?.id = data[value].id;
+            widget.taoLichLamViecCubit.selectLinhVuc?.name = data[value].name;
           },
           urlIcon: ImageAssets.icWork,
           listSelect: data.map((e) => e.name).toList(),
-          value: widget.taoLichLamViecCubit.selectLinhVuc?.name ?? '',
+          hintText: 'Chọn lĩnh vực',
           title: S.current.linh_vuc,
         );
       },

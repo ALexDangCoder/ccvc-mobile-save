@@ -74,6 +74,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
             controller: _scrollController,
             child: Column(
               children: [
+                spaceH12,
                 ChooseTimeScreen(
                   baseChooseTimeCubit: chooseTimeCubit,
                   today: DateTime.now(),

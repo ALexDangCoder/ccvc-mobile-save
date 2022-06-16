@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -9,6 +10,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:queue/queue.dart';
 
 class SearchBarDocumentManagement extends StatefulWidget {
   final QLVBCCubit qlvbCubit;
@@ -32,7 +34,6 @@ class _SearchBarDocumentManagementState
   TextEditingController textController = TextEditingController();
 
   Debouncer debouncer = Debouncer();
-
 
   @override
   void initState() {
@@ -78,13 +79,19 @@ class _SearchBarDocumentManagementState
                     height: 20,
                     child: Center(
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           textController.clear();
                           setState(() {});
                           widget.qlvbCubit.keySearch =
                               textController.value.text;
-                          widget.qlvbCubit.getListIncomeDocument();
-                          widget.qlvbCubit.getListOutcomeDocument();
+                          widget.qlvbCubit.showLoading();
+                          final queue = Queue();
+                          unawaited(queue.add(
+                              () => widget.qlvbCubit.getListIncomeDocument()));
+                          unawaited(queue.add(
+                              () => widget.qlvbCubit.getListOutcomeDocument()));
+                          await queue.onComplete;
+                          widget.qlvbCubit.showContent();
                         },
                         child: const Icon(Icons.clear, color: coloriCon),
                       ),
@@ -106,10 +113,6 @@ class _SearchBarDocumentManagementState
                     onTap: () {
                       widget.qlvbCubit.setSelectSearch();
                     },
-                    // child: const Icon(
-                    //   Icons.search,
-                    //   color: coloriCon,
-                    // ),
                     child: ImageAssets.svgAssets(
                       ImageAssets.icBack,
                       color: coloriCon,
@@ -130,10 +133,16 @@ class _SearchBarDocumentManagementState
           ),
           onChanged: (text) {
             setState(() {});
-            debouncer.run(() {
+            debouncer.run(() async {
               widget.qlvbCubit.keySearch = text;
-              widget.qlvbCubit.getListIncomeDocument();
-              widget.qlvbCubit.getListOutcomeDocument();
+              widget.qlvbCubit.showLoading();
+              final queue = Queue();
+              unawaited(queue.add(
+                      () => widget.qlvbCubit.getListIncomeDocument()));
+              unawaited(queue.add(
+                      () => widget.qlvbCubit.getListOutcomeDocument()));
+              await queue.onComplete;
+              widget.qlvbCubit.showContent();
             });
           },
         ),

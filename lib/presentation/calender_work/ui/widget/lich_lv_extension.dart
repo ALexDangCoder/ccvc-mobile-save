@@ -170,24 +170,31 @@ extension LichLv on CalenderState {
         return StreamBuilder<List<DateTime>>(
           stream: cubit.eventsStream,
           builder: (context, snapshot) {
-            return TableCalendarWidget(
-              initTime: datas,
-              eventsLoader: snapshot.data,
-              type: type,
-              onChange: (DateTime start, DateTime end, selectDay) {
-                cubit.selectDay = selectDay;
-                if (type == Type_Choose_Option_Day.DAY) {
-                  cubit.callApi();
-                } else if (type == Type_Choose_Option_Day.WEEK) {
-                  cubit.callApiTuan();
-                } else {
-                  cubit.callApiMonth();
-                }
-              },
-              onChangeRange:
-                  (DateTime? start, DateTime? end, DateTime? focusedDay) {},
-              onChangeText: (String? value) {},
-            );
+            return StreamBuilder<bool>(
+                stream: cubit.isSearchBar.stream,
+                builder: (context, isSearch) {
+                  return TableCalendarWidget(
+                    isSearchBar: isSearch.data ?? true,
+                    initTime: datas,
+                    eventsLoader: snapshot.data,
+                    type: type,
+                    onChange: (DateTime start, DateTime end, selectDay) {
+                      cubit.selectDay = selectDay;
+                      if (type == Type_Choose_Option_Day.DAY) {
+                        cubit.callApi();
+                      } else if (type == Type_Choose_Option_Day.WEEK) {
+                        cubit.callApiTuan();
+                      } else {
+                        cubit.callApiMonth();
+                      }
+                    },
+                    onChangeRange: (DateTime? start, DateTime? end,
+                        DateTime? focusedDay) {},
+                    onChangeText: (String? value) {
+                      cubit.searchLichHop(value);
+                    },
+                  );
+                });
           },
         );
       },

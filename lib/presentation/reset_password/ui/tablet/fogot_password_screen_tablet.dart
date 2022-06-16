@@ -26,6 +26,7 @@ class _ForgotPasswordScreenTabletState
     extends State<ForgotPasswordScreenTablet> {
   final ChangePasswordCubit cubit = ChangePasswordCubit();
   final TextEditingController emailController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
 
   @override
@@ -93,6 +94,28 @@ class _ForgotPasswordScreenTabletState
                           }
                         },
                       ),
+                      const SizedBox(height: 24.0),
+                      TextFieldValidator(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(' '),
+                        ],
+                        controller: userNameController,
+                        hintText:
+                        S.current.ten_tai_khoan,
+                        fillColor: backgroundColorApp,
+                        prefixIcon: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Center(
+                            child: SvgPicture.asset(ImageAssets.imgAcount),
+                          ),
+                        ),
+                        validator: (value) {
+                          return (value ?? '').checkTruongNull(
+                            '${S.current.ten_tai_khoan}!',
+                          );
+                        },
+                      ),
                       const SizedBox(height: 36.0),
                       ButtonCustomBottom(
                         isColorBlue: false,
@@ -101,6 +124,7 @@ class _ForgotPasswordScreenTabletState
                           if (keyGroup.currentState!.validator()) {
                             await cubit.forgotPassword(
                               email: emailController.text.trim(),
+                              userName: userNameController.text.trim(),
                               context: context,
                             );
                           }

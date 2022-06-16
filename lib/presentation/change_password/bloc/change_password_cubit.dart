@@ -54,7 +54,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
       },
       error: (err) {
         thongBao.sink.add('');
-        if (err is NoNetworkException) {
+        if (err is NoNetworkException || err is TimeoutException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
@@ -82,10 +82,11 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
 
   Future<void> forgotPassword({
     required String email,
+    required String userName,
     required BuildContext context,
   }) async {
     showLoading();
-    final result = await _loginRepo.forgotPassword(email);
+    final result = await _loginRepo.forgotPassword(email, userName);
     result.when(
       success: (res) {
         showContent();
@@ -102,18 +103,20 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
       },
       error: (err) {
         showContent();
-        if (err is NoNetworkException) {
+        if (err is NoNetworkException || err is TimeoutException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
           );
-        } else if (err.code == StatusCodeConst.STATUS_NOT_FOUND) {
+        } else if (err.code == StatusCodeConst.STATUS_NOT_FOUND ||
+            err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
           MessageConfig.show(
-              messState: MessState.customIcon,
-              urlIcon: ImageAssets.icWarningPopUp,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w400,
-              title: S.current.email_ban_nhap_khong_khop_voi_email_da_dang_ky);
+            messState: MessState.customIcon,
+            urlIcon: ImageAssets.icWarningPopUp,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w400,
+            title: err.message.contains('!') ? err.message : '${err.message}!',
+          );
         }
         showContent();
       },

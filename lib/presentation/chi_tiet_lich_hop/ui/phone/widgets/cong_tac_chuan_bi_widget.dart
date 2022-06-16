@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
@@ -8,6 +9,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_t
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cong_tac_chuan_bi_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chon_phonghop_in_detail.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
@@ -29,30 +31,32 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpandOnlyWidget(
-      onchange: (vl) {
-        if (vl) {
-          widget.cubit.initData(
-            boolGetDanhSachThietBi: true,
-            boolGetThongTinPhongHopApi: true,
-          );
-        }
-      },
-      header: Row(
-        children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              color: Colors.transparent,
-              child: Text(
-                S.current.cong_tac_chuan_bi,
-                style: textNormalCustom(color: titleColumn, fontSize: 16),
+    return screenDevice(
+      mobileScreen: ExpandOnlyWidget(
+        onchange: (vl) {
+          if (vl && isMobile()) {
+            widget.cubit.callApiCongTacChuanBi();
+          }
+        },
+        header: Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                color: Colors.transparent,
+                child: Text(
+                  S.current.cong_tac_chuan_bi,
+                  style: textNormalCustom(color: titleColumn, fontSize: 16),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: body(),
       ),
-      child: body(),
+      tabletScreen: CongTacChuanBiWidgetTablet(
+        cubit: widget.cubit,
+      ),
     );
   }
 
@@ -62,7 +66,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
       children: [
         titleType(
           title: S.current.thong_tin_phong,
-          child: StreamBuilder<ThongTinPhongHopModel?>(
+          child: StreamBuilder<ThongTinPhongHopModel>(
             stream: widget.cubit.getThongTinPhongHop,
             builder: (context, snapshot) {
               final data = snapshot.data;
@@ -96,7 +100,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Row(
                           children: [
-                            /// check quyền hiển thị từ trạng thái phòng họp và quuyền của app
+                            /// check quyền hiển thị từ trạng thái phòng họp và quyền của app
                             if (widget.cubit.checkDuyetPhong())
                               ButtonOtherWidget(
                                 text: S.current.duyet,
@@ -226,49 +230,48 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   );
                 },
               ),
-              StreamBuilder<ThongTinPhongHopModel?>(
+              StreamBuilder<ThongTinPhongHopModel>(
                 stream: widget.cubit.getThongTinPhongHop,
                 builder: (context, snapshot) {
                   final data = snapshot.data;
-                  if (!snapshot.hasData &&
-                      data == null &&
-                      widget.cubit.checkPermissionDKT()) {
-                    return const SizedBox();
-                  }
-                  return StreamBuilder<ChiTietLichHopModel>(
-                    stream: widget.cubit.chiTietLichHopSubject.stream,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const SizedBox();
-                      }
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: Row(
-                          children: [
-                            if (widget.cubit.checkDuyetKyThuat())
-                              ButtonOtherWidget(
-                                text: S.current.duyet_ky_thuat,
-                                color: itemWidgetUsing,
-                                ontap: () {
-                                  widget.cubit.duyetOrHuyDuyetKyThuat(true);
-                                },
-                              )
-                            else
-                              Padding(
-                                padding: const EdgeInsets.only(left: 12),
-                                child: ButtonOtherWidget(
-                                  text: S.current.tu_choi_ky_thuat,
-                                  color: statusCalenderRed,
+                  if (data != null && widget.cubit.checkPermissionDKT()) {
+                    return StreamBuilder<ChiTietLichHopModel>(
+                      stream: widget.cubit.chiTietLichHopSubject.stream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const SizedBox();
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Row(
+                            children: [
+                              if (widget.cubit.checkDuyetKyThuat())
+                                ButtonOtherWidget(
+                                  text: S.current.duyet_ky_thuat,
+                                  color: itemWidgetUsing,
                                   ontap: () {
-                                    widget.cubit.duyetOrHuyDuyetKyThuat(false);
+                                    widget.cubit.duyetOrHuyDuyetKyThuat(true);
                                   },
+                                )
+                              else
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: ButtonOtherWidget(
+                                    text: S.current.tu_choi_ky_thuat,
+                                    color: statusCalenderRed,
+                                    ontap: () {
+                                      widget.cubit
+                                          .duyetOrHuyDuyetKyThuat(false);
+                                    },
+                                  ),
                                 ),
-                              ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  return const SizedBox();
                 },
               ),
             ],
@@ -362,19 +365,24 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
+          Stack(
             children: [
               RowDataWidget(
                 keyTxt: S.current.loai_thiet_bi,
                 value: model.loaiThietBi ?? '',
               ),
-              CustomCheckBox(
-                isOnlyCheckbox: true,
-                title: '',
-                isCheck: check,
-                onChange: (vl) {
-                  onChange(vl);
-                },
+              Row(
+                children: [
+                  const Expanded(child: SizedBox()),
+                  CustomCheckBox(
+                    isOnlyCheckbox: true,
+                    title: '',
+                    isCheck: check,
+                    onChange: (vl) {
+                      onChange(vl);
+                    },
+                  ),
+                ],
               )
             ],
           ),
@@ -399,7 +407,7 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
 class ButtonOtherWidget extends StatelessWidget {
   final String text;
   final Color color;
-  final Function ontap;
+  final Function() ontap;
 
   const ButtonOtherWidget(
       {Key? key, required this.text, required this.color, required this.ontap})
@@ -408,7 +416,7 @@ class ButtonOtherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ontap(),
+      onTap: ontap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(

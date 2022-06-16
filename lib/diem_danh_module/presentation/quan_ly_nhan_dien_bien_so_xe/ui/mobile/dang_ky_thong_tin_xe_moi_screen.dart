@@ -23,85 +23,94 @@ class DangKyThongTinXeMoi extends StatelessWidget {
       appBar: AppBarDefaultBack(
         S.current.dang_ky_thong_tin_xe_moi,
       ),
-      body:SingleChildScrollView(
+      body:Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  spaceH20,
-                  Column(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            ImageAssets.icUpAnh,
-                            color: color7966FF,
-                          ),
-                          spaceH14,
-                          Text(
-                            S.current.tai_anh_len,
-                            style: textNormal(
-                              color667793,
-                              14.0,
-                            ),
-                          ),
-                        ],
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: colorE2E8F0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: colorFFFFFF,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.05),
+                        blurRadius: 2,
+                        spreadRadius: 2,
                       ),
                     ],
                   ),
-                  spaceH12,
-                  Text(
-                    S.current.giay_dang_ky_xe,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        ImageAssets.icUpAnh,
+                        color: color7966FF,
+                      ),
+                      spaceH14,
+                      Text(
+                        S.current.tai_anh_len,
+                        style: textNormal(
+                          color667793,
+                          14.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                spaceH12,
+                Text(
+                  S.current.giay_dang_ky_xe,
+                  style: textNormalCustom(
+                    color: color3D5586,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                spaceH20,
+                ItemTextNote(title: S.current.loai_xe),
+                StreamBuilder<List<LoaiXeModel>>(
+                  initialData: [ LoaiXeModel(ten: S.current.xe_may),
+                    LoaiXeModel(ten: S.current.xe_o_to),],
+                  stream: cubit.loaiXeSubject,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? [];
+                    return CoolDropDown(
+                      initData: data.map((e) => e.ten??'').first,
+                      listData: data.map((e) => e.ten ?? '').toList(),
+                      onChange: (vl) {},
+                    );
+                  },),
+                spaceH20,
+                ItemTextNote(title: S.current.bien_kiem_soat),
+                TextFieldValidator(
+                  hintText: S.current.bien_kiem_soat,
+                  onChange: (value) {},
+                  validator: (value) {},
+                ),
+                spaceH20,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    S.current.loai_so_huu,
                     style: textNormalCustom(
                       color: color3D5586,
-                      fontSize: 16.0,
                       fontWeight: FontWeight.w400,
+                      fontSize: 14.0,
                     ),
                   ),
-                  spaceH20,
-                  ItemTextNote(title: S.current.loai_xe),
-                  StreamBuilder<List<LoaiXeModel>>(
-                    stream: cubit.loaiXeSubject,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-
-                      return CoolDropDown(
-                        initData: data.map((e) => e.ten??'').first,
-                        listData: data.map((e) => e.ten ?? '').toList(),
-                        onChange: (vl) {},
-                      );
-                    },),
-                  spaceH20,
-                  ItemTextNote(title: S.current.bien_kiem_soat),
-                  TextFieldValidator(
-                    initialValue: cubit.bienKiemSoat,
-                    hintText: S.current.bien_kiem_soat,
-                    onChange: (value) {},
-                    validator: (value) {},
-                  ),
-                  spaceH20,
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      S.current.loai_so_huu,
-                      style: textNormalCustom(
-                        color: color3D5586,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  CustomRadioLoaiSoHuu(onchange: (onchange) {}),
-                ],
-              ),
+                ),
+                CustomRadioLoaiSoHuu(onchange: (onchange) {}),
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
+              padding: const EdgeInsets.only(bottom: 32.0),
               child: DoubleButtonBottom(
                 title1: S.current.huy_bo,
                 title2: S.current.them_moi,

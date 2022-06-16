@@ -1114,5 +1114,8 @@
   "cho_chuyen_xu_ly": "Chờ chuyển xử lý",
   "ten_nhom": "Tên nhóm",
   "ten_tai_khoan": "Tên tài khoản",
-  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch"
+  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
+  "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
+  "dang_ky_xe_moi": "Đăng ký xe mới"
+
 }

@@ -202,7 +202,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                   return TableCalendarWidget(
                     isFomatMonth: isCheckOnTap,
                     onChange: (DateTime start, DateTime end, selectDay) {
-                      cubit.startDate = start.formatApi;
+                      cubit.startDate = start.formatApiDDMMYYYY;
                       cubit.getLichAmDuong(cubit.startDate);
                       cubit.selectTime = selectDay;
                     },

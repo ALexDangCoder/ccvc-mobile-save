@@ -3,7 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/bao_cao_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/bao_cao_mobile_screen.dart';
+
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
@@ -22,6 +23,8 @@ class BtnShowChinhSuaBaoCao extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpandOnlyWidget(
       header: Container(
+        width: double.infinity,
+        color: Colors.transparent,
         padding: const  EdgeInsets.symmetric(vertical: 12),
         child: Text(
           S.current.bao_cao_ket_qua,
@@ -41,8 +44,18 @@ class BtnShowChinhSuaBaoCao extends StatelessWidget {
               showBottomSheetCustom(
                 context,
                 title: S.current.bao_cao_ket_qua,
-                child: const BaoCaoBottomSheet(),
-              );
+                child: BaoCaoBottomSheet(
+                  scheduleId: chiTietLichLamViecCubit.idLichLamViec,
+                  cubit: BaoCaoKetQuaCubit(),
+                  listTinhTrangBaoCao:
+                  chiTietLichLamViecCubit.listTinhTrang,
+                ),
+              ).then((value){
+                if (value is bool && value) {
+                  chiTietLichLamViecCubit.getDanhSachBaoCaoKetQua(
+                      chiTietLichLamViecCubit.idLichLamViec);
+                }
+              });
             },
             text: S.current.bao_cao_ket_qua,
             urlIcon: ImageAssets.ic_baocao,

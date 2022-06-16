@@ -29,6 +29,8 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
   Widget build(BuildContext context) {
     return ExpandOnlyWidget(
       header: Container(
+        width: double.infinity,
+        color: Colors.transparent,
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Text(
           S.current.danh_sach_y_kien,

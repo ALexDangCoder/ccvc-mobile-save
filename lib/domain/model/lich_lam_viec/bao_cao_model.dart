@@ -34,6 +34,7 @@ class BaoCaoModel {
   List<FileModel> listFile = [];
   String reportStatusCode;
   String id;
+  String reportStatusId;
 
   BaoCaoModel({
     this.status = BaoCaoStatus.TRUNG_BINH,
@@ -41,6 +42,7 @@ class BaoCaoModel {
     required this.listFile,
     this.reportStatusCode = '',
     this.id = '',
+    this.reportStatusId = '',
   }) {
     status = fromEnum();
   }
@@ -63,6 +65,6 @@ class BaoCaoModel {
 class FileModel {
   String? id;
   String? name;
-
-  FileModel({this.id, this.name});
+  String? path;
+  FileModel({this.id, this.name,this.path});
 }

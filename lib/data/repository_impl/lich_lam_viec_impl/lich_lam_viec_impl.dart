@@ -574,11 +574,12 @@ class LichLamViecImlp implements LichLamViecRepository {
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
     String scheduleId,
+    String content,
     List<File> files,
   ) {
     return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
-      () =>
-          lichLamViecService.taoBaoCaoKetQua(reportStatusId, scheduleId, files),
+      () => lichLamViecService.taoBaoCaoKetQua(
+          reportStatusId, scheduleId, content, files),
       (res) => res.toDomain(),
     );
   }
@@ -652,5 +653,20 @@ class LichLamViecImlp implements LichLamViecRepository {
     return runCatchingAsync<CheckTrungLichLamViecResponse, MessageModel>(
         () => lichLamViecService.checkTrungLichLamviec(body),
         (response) => response.toDomain());
+  }
+
+  @override
+  Future<Result<MessageModel>> suaBaoCaoKetQua(
+      {required String id,
+      required String reportStatusId,
+      required String scheduleId,
+      required String content,
+      required List<File> files,
+      required List<String> idFileDelele}) {
+    return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
+      () => lichLamViecService.suaBaoCaoKetQua(
+          reportStatusId, scheduleId, content, files, idFileDelele, id),
+      (res) => res.toDomain(),
+    );
   }
 }

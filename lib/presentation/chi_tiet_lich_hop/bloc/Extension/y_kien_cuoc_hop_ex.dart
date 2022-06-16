@@ -56,4 +56,9 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
     }
     return TrangThaiNhiemVu.ChoPhanXuLy;
   }
+
+  Future<void> callApiYkienCuocHop() async {
+    await getDanhSachYKien(idCuocHop, ' ');
+    await getDanhSachPhienHop(idCuocHop);
+  }
 }

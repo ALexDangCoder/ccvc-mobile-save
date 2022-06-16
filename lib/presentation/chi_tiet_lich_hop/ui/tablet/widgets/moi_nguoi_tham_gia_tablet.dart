@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_t
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -35,6 +36,9 @@ class _ThanhPhanThamGiaWidgetTabletState
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (!isMobile()) {
+      widget.cubit.callApiThanhPhanThamGia();
+    }
   }
 
   @override

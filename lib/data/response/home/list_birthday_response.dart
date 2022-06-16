@@ -27,12 +27,13 @@ class Data {
   bool? hasPreviousPage;
   bool? hasNextPage;
 
-  Data({this.pageIndex,
-    this.totalPages,
-    this.totalItems,
-    this.pageData,
-    this.hasPreviousPage,
-    this.hasNextPage});
+  Data(
+      {this.pageIndex,
+      this.totalPages,
+      this.totalItems,
+      this.pageData,
+      this.hasPreviousPage,
+      this.hasNextPage});
 
   Data.fromJson(Map<String, dynamic> json) {
     pageIndex = json['pageIndex'];
@@ -54,21 +55,29 @@ class PageData {
   String? avatar;
   String? loiChuc;
   String? ngayGuiLoiChuc;
+  String? anhThiepChuc;
 
-  PageData({this.tenNguoiGui, this.avatar, this.loiChuc, this.ngayGuiLoiChuc});
+  PageData({
+    this.tenNguoiGui,
+    this.avatar,
+    this.loiChuc,
+    this.ngayGuiLoiChuc,
+    this.anhThiepChuc,
+  });
 
   PageData.fromJson(Map<String, dynamic> json) {
     tenNguoiGui = json['tenNguoiGui'];
     avatar = json['avatar'];
     loiChuc = json['loiChuc'];
     ngayGuiLoiChuc = json['ngayGuiLoiChuc'];
+    anhThiepChuc = json['anhThiepChuc'];
   }
 
-  BirthdayModel toModel() =>
-      BirthdayModel(
+  BirthdayModel toModel() => BirthdayModel(
         tenNguoiGui: tenNguoiGui ?? '',
         avatar: avatar ?? '',
         loiChuc: loiChuc ?? '',
         ngayGuiLoiChuc: ngayGuiLoiChuc ?? '',
+        anhThiepChuc: anhThiepChuc ?? '',
       );
 }

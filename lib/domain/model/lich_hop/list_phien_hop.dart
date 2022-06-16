@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+
 class ListPhienHopModel {
   String? id;
   String? lichHopId;
@@ -28,6 +30,10 @@ class ListPhienHopModel {
     required this.createBy,
     required this.files,
   });
+
+  String dateTimeView() {
+    return '${DateTime.parse(thoiGianBatDau ?? '').formatApiListBieuQuyetMobile} - ${DateTime.parse(thoiGianKetThuc ?? '').formatApiDetailSSAM}';
+  }
 }
 
 class Files {

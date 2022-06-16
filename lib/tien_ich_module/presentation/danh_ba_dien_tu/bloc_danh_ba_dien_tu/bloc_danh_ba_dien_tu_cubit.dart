@@ -167,8 +167,15 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         }
       },
       error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          emit(const CompletedLoadMore(CompleteType.ERROR));
+          showError();
+        }
       },
     );
   }

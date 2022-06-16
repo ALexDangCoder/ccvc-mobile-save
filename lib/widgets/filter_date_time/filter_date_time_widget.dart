@@ -107,12 +107,21 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  currentStartDate.toStringWithListFormat,
-                                  style: textNormal(textBodyTime, 14.0),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    currentStartDate.toStringWithListFormat,
+                                    style: textNormalCustom(
+                                      color: textBodyTime,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
-                                SvgPicture.asset(
-                                  ImageAssets.icCalendarUnFocus,
+                                Expanded(
+                                  child: SvgPicture.asset(
+                                    ImageAssets.icCalendarUnFocus,
+                                  ),
                                 ),
                               ],
                             ),
@@ -148,11 +157,14 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                currentEndDate.toStringWithListFormat,
-                                style: textNormal(color3D5586, 14.0),
+                              Expanded(
+                                flex: 4,
+                                child: Text(
+                                  currentEndDate.toStringWithListFormat,
+                                  style: textNormalCustom(color: color3D5586, fontSize: 14.0, fontWeight: FontWeight.w400,),
+                                ),
                               ),
-                              SvgPicture.asset(ImageAssets.icCalendarUnFocus),
+                              Expanded(child: SvgPicture.asset(ImageAssets.icCalendarUnFocus)),
                             ],
                           ),
                         )

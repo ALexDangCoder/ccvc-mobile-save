@@ -26,7 +26,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalenderCubit extends BaseCubit<CalenderState> {
-  bool changeDateByClick = true;
+
+  bool changeDateByClick = false ;
 
   CalenderCubit() : super(const CalenderStateIntial());
   int page = 1;

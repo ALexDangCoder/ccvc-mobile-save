@@ -88,6 +88,7 @@ class ExpandedSectionState extends State<ExpandOnlyWidget>
       }
     }
   }
+
   bool get isExpandedGroup => groupProvider!.validator[key] ?? false;
 
   @override
@@ -134,26 +135,11 @@ class ExpandedSectionState extends State<ExpandOnlyWidget>
             children: [
               Flexible(child: widget.header),
               if (widget.isShowIcon)
-                if (widget.isPadingIcon == true)
-                  Padding(
-                    padding:  EdgeInsets.only(right: widget.padingSize ??16.0),
-                    child: AnimatedBuilder(
-                      animation: expandController,
-                      builder: (context, _) {
-                        return expandController.value == 0
-                            ? const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AqiColor,
-                              )
-                            : const Icon(
-                                Icons.keyboard_arrow_up_rounded,
-                                color: AqiColor,
-                              );
-                      },
-                    ),
-                  )
-                else
-                  AnimatedBuilder(
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: widget.isPadingIcon == true ? 16.0 : 0,
+                  ),
+                  child: AnimatedBuilder(
                     animation: expandController,
                     builder: (context, _) {
                       return expandController.value == 0
@@ -166,7 +152,8 @@ class ExpandedSectionState extends State<ExpandOnlyWidget>
                               color: AqiColor,
                             );
                     },
-                  )
+                  ),
+                )
               else
                 const SizedBox()
             ],

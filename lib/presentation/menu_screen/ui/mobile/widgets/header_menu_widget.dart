@@ -42,6 +42,7 @@ class HeaderMenuMobileWidget extends StatelessWidget {
                             color: Colors.black,
                             child: Image.asset(ImageAssets.anhDaiDienMacDinh),
                           ),
+                          fit: BoxFit.cover,
                         ),
                 ),
                 const SizedBox(

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -44,6 +45,7 @@ class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
           );
         } else {
           return BaseSearchBar(
+            hintText: S.current.nhap_ten_don_vi_phong_ban,
             controller: controller,
             onChange: (value) {
               widget.themDonViCubit.onSearch(value);
@@ -125,43 +127,48 @@ class SelectDonViCell extends StatelessWidget {
   }
 
   Widget tag({required String title, required Function onDelete}) {
-    return Container(
-      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
-      decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE
-            ? AppTheme.getInstance().colorField().withOpacity(0.1)
-            : AppTheme.getInstance().colorField(),
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: textNormal(
-              APP_DEVICE == DeviceType.MOBILE
-                  ? AppTheme.getInstance().colorField()
-                  : backgroundColorApp,
-              12.0.textScale(),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              onDelete();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 9.25),
-              child: SvgPicture.asset(
-                ImageAssets.icClose,
-                width: 7.5,
-                height: 7.5,
-                color: APP_DEVICE == DeviceType.MOBILE
+    return GestureDetector(
+      onTap: (){
+        onDelete();
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+        decoration: BoxDecoration(
+          color: APP_DEVICE == DeviceType.MOBILE
+              ? AppTheme.getInstance().colorField().withOpacity(0.1)
+              : AppTheme.getInstance().colorField(),
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              title,
+              style: textNormal(
+                APP_DEVICE == DeviceType.MOBILE
                     ? AppTheme.getInstance().colorField()
                     : backgroundColorApp,
+                12.0.textScale(),
               ),
             ),
-          )
-        ],
+            GestureDetector(
+              onTap: () {
+                onDelete();
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 9.25),
+                child: SvgPicture.asset(
+                  ImageAssets.icClose,
+                  width: 7.5,
+                  height: 7.5,
+                  color: APP_DEVICE == DeviceType.MOBILE
+                      ? AppTheme.getInstance().colorField()
+                      : backgroundColorApp,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

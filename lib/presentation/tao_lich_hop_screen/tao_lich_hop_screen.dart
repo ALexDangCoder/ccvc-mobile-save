@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/mobile/tao_lich_hop_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/tablet/tao_lich_hop_tablet.dart';
@@ -19,9 +18,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
   @override
   void initState() {
     super.initState();
-    final dataUser = HiveLocal.getDataUser();
-    _cubit.donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
-    _cubit.loadData();
+   _cubit.loadData();
   }
 
   @override

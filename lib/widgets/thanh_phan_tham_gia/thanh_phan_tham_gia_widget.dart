@@ -94,6 +94,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
             });
             _cubit.addPeopleThamGia(value);
           },
+          needCheckTrung: widget.isTaoHop,
         ),
         SizedBox(
           height: 20.0.textScale(space: -2),

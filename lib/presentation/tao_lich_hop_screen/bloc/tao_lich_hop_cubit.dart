@@ -66,7 +66,7 @@ List<DropDownModel> mucDoHop = [
 class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   TaoLichHopCubit() : super(MainStateInitial()) {
     showContent();
-  }
+    }
 
   HopRepository get hopRp => Get.find();
   final BehaviorSubject<List<LoaiSelectModel>> _loaiLich = BehaviorSubject();
@@ -110,7 +110,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         .add(const Duration(hours: 1))
         .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
     isAllDay: false,
-    bitTrongDonVi: false,
     chuTri: ChuTri(),
     dsDiemCau: <DsDiemCau>[],
     lichDonVi: false,
@@ -139,8 +138,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   BehaviorSubject<bool> isSendEmail = BehaviorSubject.seeded(false);
   DonViModel? chuTri;
 
-  Future<bool> createMeeting() async {
-    bool isCreateSuccess = false;
+  void validateData() {
     taoLichHopRequest.dsDiemCau = dsDiemCauSubject.value;
 
     /// check hình thức họp
@@ -152,11 +150,12 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       }
     }
 
+    taoLichHopRequest.bitTrongDonVi ??= false;
+
     /// check cơ quan chủ trì
     if (!(taoLichHopRequest.bitTrongDonVi ?? true)) {
       taoLichHopRequest.chuTri?.donViId = null;
       taoLichHopRequest.chuTri?.canBoId = null;
-      taoLichHopRequest.chuTri?.tenCanBo = null;
     }
 
     /// check tùy chỉnh lịch lặp
@@ -172,6 +171,11 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         );
       }
     }
+  }
+
+  Future<bool> createMeeting() async {
+    bool isCreateSuccess = false;
+    validateData();
     showLoading();
     await postFileTaoLichHop(files: listThuMoi);
     taoLichHopRequest.thuMoiFiles = fileIds.join(',');
@@ -191,7 +195,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
           unawaited(
             queue.add(
-              () => themThanhPhanThamGia(
+                  () => themThanhPhanThamGia(
                 isSendEmail: isSendEmail.value,
                 idHop: res.id,
               ),
@@ -199,7 +203,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
           unawaited(
             queue.add(
-              () => themPhienHop(
+                  () => themPhienHop(
                 res.id,
               ),
             ),
@@ -217,6 +221,25 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       },
     );
     return isCreateSuccess;
+  }
+
+  Future<bool> editMeeting() async {
+    bool isUpdateSuccess = false;
+    validateData();
+    showLoading();
+    await postFileTaoLichHop(files: listThuMoi);
+    taoLichHopRequest.thuMoiFiles = fileIds.join(',');
+    final result = await hopRp.postSuaLichHop(taoLichHopRequest);
+    result.when(
+      success: (res) {
+        isUpdateSuccess = true;
+      },
+      error: (error) {
+        isUpdateSuccess = true;
+      },
+    );
+    showContent();
+    return isUpdateSuccess;
   }
 
   Future<void> themThanhPhanThamGia({
@@ -246,6 +269,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   }
 
   void loadData() {
+    final dataUser = HiveLocal.getDataUser();
+    donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
     _getLoaiLich();
     _getPhamVi();
     getCanBo();
@@ -390,6 +415,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         ?.donVi
         ?.vietNameseParse()
         .replaceAll(' ', '-')
+        .replaceAll(',', '')
         .toUpperCase();
     final random = Random();
     const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';

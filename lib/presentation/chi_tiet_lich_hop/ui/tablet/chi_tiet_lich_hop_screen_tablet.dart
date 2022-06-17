@@ -10,10 +10,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/bieu_quyet_widget_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cong_tac_chuan_bi_widget_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/moi_nguoi_tham_gia_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/phat_bieu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/sua_lich_hop_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/thong_tin_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/boc_bang_widget.dart';
@@ -120,9 +116,18 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const SuaLichHopTabletScreen(),
+                        builder: (_) => SuaLichHopTabletScreen(
+                          chiTietHop: cubit.getChiTietLichHopModel,
+                        ),
                       ),
-                    );
+                    ).then((value) {
+                      if (value == null) {
+                        return;
+                      }
+                      if (value) {
+                        cubit.initDataChiTiet();
+                      }
+                    });
                   },
                 ),
                 CellPopPupMenu(

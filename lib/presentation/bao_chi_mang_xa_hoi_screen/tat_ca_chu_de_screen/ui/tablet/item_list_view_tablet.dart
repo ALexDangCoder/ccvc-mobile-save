@@ -17,79 +17,77 @@ class ItemListNewsTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // margin: const EdgeInsets.only(bottom: 10.0),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: Container(
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: image.isNotEmpty
-                      ? NetworkImage(image)
-                      : const AssetImage(ImageAssets.icDongNai)
-                          as ImageProvider,
-                  fit: BoxFit.fill,
-                ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 2,
+          child: Container(
+            height: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: image.isNotEmpty
+                    ? NetworkImage(image)
+                    : const AssetImage(ImageAssets.icDongNai)
+                        as ImageProvider,
+                fit: BoxFit.fill,
               ),
             ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            flex: 7,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  child: Text(
-                    title,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          flex: 7,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                child: Text(
+                  title,
+                  style: textNormalCustom(
+                    color: color3D5586,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          WebViewScreen(url: url, title: ''),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(ImageAssets.icCalendar),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    date,
                     style: textNormalCustom(
-                      color: color3D5586,
-                      fontWeight: FontWeight.w500,
+                      color: color667793,
+                      fontWeight: FontWeight.w400,
                       fontSize: 14,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            WebViewScreen(url: url, title: ''),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset(ImageAssets.icCalendar),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      date,
-                      style: textNormalCustom(
-                        color: color667793,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

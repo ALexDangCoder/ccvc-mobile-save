@@ -67,9 +67,14 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text(
-          S.current.tin_tong_hop,
-          style: titleAppbar(),
+        title: StreamBuilder<String>(
+          stream: cubit.titleSubject.stream,
+          builder: (context, snapshot) {
+            return Text(
+              snapshot.data ?? S.current.tong_tin,
+              style: titleAppbar(),
+            );
+          },
         ),
         centerTitle: true,
         leading: IconButton(

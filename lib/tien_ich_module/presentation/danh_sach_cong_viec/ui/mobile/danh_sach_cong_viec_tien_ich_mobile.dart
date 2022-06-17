@@ -82,7 +82,7 @@ class _DanhSachCongViecTienIchMobileState
           cubit: cubit,
           child: RefreshIndicator(
             onRefresh: () async {
-              await cubit.callAndFillApiAutu();
+              await cubit.initialData();
             },
             child: SingleChildScrollView(
               child: StreamBuilder<int>(
@@ -106,6 +106,7 @@ class _DanhSachCongViecTienIchMobileState
                               dataType == DSCVScreen.NCVM ||
                               dataType == DSCVScreen.DBX)
                             StreamBuilder<List<TodoDSCVModel>>(
+                              key: UniqueKey(),
                               stream: cubit.listDSCV.stream,
                               builder: (context, snapshot) {
                                 final data = snapshot.data

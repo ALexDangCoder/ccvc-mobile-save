@@ -64,10 +64,11 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
             ),
             child: Row(
               children: [
-                const ItemFolder(
-                  type: FOLDER,
+                ItemFolder(
+                  type: widget.reportItem.type ?? 0,
                   isShare: true,
                   isListView: true,
+                  fileNumber: widget.reportItem.childrenTotal ?? 0,
                 ),
                 Expanded(
                   child: Padding(
@@ -157,43 +158,44 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
             ),
           ),
           reportLine,
-          spaceH18,
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 16,
-              left: 16,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      ImageAssets.icStarFocus,
-                      width: 16,
-                      height: 16,
-                      color: AppTheme.getInstance().unselectColor(),
-                    ),
-                    spaceW13,
-                    Text(
-                      S.current.yeu_thich,
-                      style: textNormalCustom(
-                        color: AppTheme.getInstance().unselectedColor(),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
+          if (widget.reportItem.type == REPORT) spaceH18,
+          if (widget.reportItem.type == REPORT)
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 16,
+                left: 16,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        ImageAssets.icStarFocus,
+                        width: 16,
+                        height: 16,
+                        color: AppTheme.getInstance().unselectColor(),
                       ),
-                    ),
-                  ],
-                ),
-                customSwitch(
-                  isLove,
-                  (value) {
-                    setState(() {});
-                  },
-                ),
-              ],
+                      spaceW13,
+                      Text(
+                        S.current.yeu_thich,
+                        style: textNormalCustom(
+                          color: AppTheme.getInstance().unselectedColor(),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  customSwitch(
+                    isLove,
+                    (value) {
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
           spaceH30,
         ],
       ),

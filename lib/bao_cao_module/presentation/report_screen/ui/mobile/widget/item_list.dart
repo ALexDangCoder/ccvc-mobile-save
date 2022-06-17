@@ -35,7 +35,7 @@ class ItemList extends StatelessWidget {
         children: [
           ItemFolder(
             type: item.type ?? 0,
-            isShare: true,//todo
+            isShare: true, //todo
             fileNumber: item.childrenTotal ?? 0,
             isListView: true,
           ),
@@ -74,11 +74,12 @@ class ItemList extends StatelessWidget {
               ),
             ),
           ),
-          SvgPicture.asset(
-            ImageAssets.icStarFocus,
-            width: 16,
-            height: 16,
-          ),
+          if (item.isPin ?? false)
+            SvgPicture.asset(
+              ImageAssets.icStarFocus,
+              width: 16,
+              height: 16,
+            ),
           InkWell(
             onTap: () {
               showModalBottomSheet(

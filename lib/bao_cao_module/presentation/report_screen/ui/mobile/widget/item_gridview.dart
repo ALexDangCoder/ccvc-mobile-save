@@ -45,15 +45,16 @@ class ItemGridView extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned(
-              top: 16,
-              left: 16,
-              child: SvgPicture.asset(
-                ImageAssets.icStarFocus,
-                width: 16,
-                height: 16,
+            if (item.isPin ?? false)
+              Positioned(
+                top: 16,
+                left: 16,
+                child: SvgPicture.asset(
+                  ImageAssets.icStarFocus,
+                  width: 16,
+                  height: 16,
+                ),
               ),
-            ),
             Positioned(
               top: 0,
               right: 0,
@@ -87,7 +88,7 @@ class ItemGridView extends StatelessWidget {
               children: [
                 ItemFolder(
                   type: item.type ?? 0,
-                  isShare: true,//todo
+                  isShare: true, //todo
                   fileNumber: item.childrenTotal ?? 0,
                 ),
                 spaceH18,

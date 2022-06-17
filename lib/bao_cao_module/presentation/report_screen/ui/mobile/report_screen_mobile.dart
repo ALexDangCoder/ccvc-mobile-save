@@ -32,11 +32,6 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
     _searchController = TextEditingController();
     // TODO: implement initState
     super.initState();
-    cubit.getListReport(
-      folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00', //todo
-      sort: 0, //
-      keyWord: '',
-    );
   }
 
   @override
@@ -55,11 +50,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
   Widget body() {
     return RefreshIndicator(
       onRefresh: () async {
-        await cubit.getListReport(
-          folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00', //todo
-          sort: 0, //
-          keyWord: '',
-        );
+        await cubit.getListReport();
       },
       child: Column(
         children: [
@@ -146,6 +137,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             builder: (context, snapshot) {
               return Expanded(
                 child: ComplexLoadMore(
+                  isCallApiInit: false,
                   mainAxisExtent: 130,
                   titleNoData: S.current.khong_co_bao_cao,
                   isTitle: false,
@@ -174,13 +166,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                     titleBaoCao(S.current.all),
                   ],
                   callApi: (page) {
-                    cubit.getListReport(
-                      folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00',
-                      //todo
-                      sort: 0,
-                      //
-                      keyWord: '',
-                    );
+                    cubit.getListReport();
                   },
                   isListView: !(snapshot.data ?? false),
                   cubit: cubit,
@@ -247,74 +233,49 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
       children: [
         spaceH16,
         StreamBuilder<String>(
-            stream: cubit.textFilterBox,
-            builder: (context, snapshot) {
-              final text = snapshot.data;
-              return Row(
-                children: [
-                  spaceW16,
-                  textBoxFilter(
-                    title: S.current.all,
-                    isChose: text == S.current.all,
-                    function: (value) {
-                      cubit.textFilterBox.add(value);
-                      cubit.getListReport(
-                        folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00',
-                        //todo
-                        sort: 0,
-                        //
-                        keyWord: '',
-                      );
-                    },
-                  ),
-                  spaceW16,
-                  textBoxFilter(
-                    title: S.current.bac_cao,
-                    isChose: text == S.current.bac_cao,
-                    function: (value) {
-                      cubit.textFilterBox.add(value);
-                      cubit.getListReport(
-                        folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00',
-                        //todo
-                        sort: 0,
-                        //
-                        keyWord: '',
-                      );
-                    },
-                  ),
-                  spaceW16,
-                  textBoxFilter(
-                    title: S.current.thu_muc,
-                    isChose: text == S.current.thu_muc,
-                    function: (value) {
-                      cubit.textFilterBox.add(value);
-                      cubit.getListReport(
-                        folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00',
-                        //todo
-                        sort: 0,
-                        //
-                        keyWord: '',
-                      );
-                    },
-                  ),
-                ],
-              );
-            }),
+          stream: cubit.textFilterBox,
+          builder: (context, snapshot) {
+            final text = snapshot.data;
+            return Row(
+              children: [
+                spaceW16,
+                textBoxFilter(
+                  title: S.current.all,
+                  isChose: text == S.current.all,
+                  function: (value) {
+                    cubit.filterBox(value);
+                  },
+                ),
+                spaceW16,
+                textBoxFilter(
+                  title: S.current.bac_cao,
+                  isChose: text == S.current.bac_cao,
+                  function: (value) {
+                    cubit.filterBox(value);
+                  },
+                ),
+                spaceW16,
+                textBoxFilter(
+                  title: S.current.thu_muc,
+                  isChose: text == S.current.thu_muc,
+                  function: (value) {
+                    cubit.filterBox(value);
+                  },
+                ),
+              ],
+            );
+          },
+        ),
         spaceH16,
         Expanded(
           child: ListViewLoadMore(
+            isLoadMoreBottom: false,
             cubit: cubit,
             isListView: !cubit.isCheckList.value,
             checkRatio: 1.5,
             crossAxisSpacing: 17,
             sinkWap: true,
-            callApi: (page) => {
-              cubit.getListReport(
-                folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00', //todo
-                sort: 0, //
-                keyWord: '',
-              )
-            },
+            callApi: (page) => {cubit.getListReport()},
             viewItem: (value, index) => !cubit.isCheckList.value
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
@@ -375,6 +336,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                     controller: _searchController,
                     onChanged: (value) {
                       cubit.textSearch.add(value.trim());
+                      cubit.getListReport();
                     },
                     decoration: InputDecoration(
                       counterStyle: textNormalCustom(
@@ -390,9 +352,8 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                       hintText: S.current.nhap_tu_khoa_tim_kiem,
                       prefixIcon: GestureDetector(
                         onTap: () {
-                          cubit.isStatusSearch.add(true);
                           _searchController.clear();
-                          cubit.textSearch.add('');
+                          cubit.clearSearch();
                         },
                         child: SizedBox(
                           width: 48,
@@ -422,19 +383,12 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                             if (snapshot.data?.isNotEmpty ?? false) {
                               _searchController.text = '';
                               cubit.textSearch.add('');
-                              cubit.getListReport(
-                                folderId:
-                                    'dd29de06-f950-48a5-af92-ec30e1153a00',
-                                //todo
-                                sort: 0,
-                                //
-                                keyWord: '',
-                              );
+                              cubit.getListReport();
                             }
                           },
                           child: SvgPicture.asset(
                             snapshot.data?.isNotEmpty ?? false
-                                ? ImageAssets.icClose
+                                ? ImageAssets.icSearchPAKN
                                 : ImageAssets.icSearchPAKN,
                             color:
                                 AppTheme.getInstance().unselectedLabelColor(),

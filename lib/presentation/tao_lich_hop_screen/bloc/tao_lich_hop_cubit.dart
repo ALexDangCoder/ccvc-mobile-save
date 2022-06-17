@@ -110,7 +110,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         .add(const Duration(hours: 1))
         .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
     isAllDay: false,
-    bitTrongDonVi: false,
     chuTri: ChuTri(),
     dsDiemCau: <DsDiemCau>[],
     lichDonVi: false,
@@ -150,6 +149,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         //
       }
     }
+
+    taoLichHopRequest.bitTrongDonVi ??= false;
 
     /// check cơ quan chủ trì
     if (!(taoLichHopRequest.bitTrongDonVi ?? true)) {

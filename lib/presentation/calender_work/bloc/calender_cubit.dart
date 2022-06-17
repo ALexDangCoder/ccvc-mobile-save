@@ -28,8 +28,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalenderCubit extends BaseCubit<CalenderState> {
-
-  bool changeDateByClick = false ;
+  bool changeDateByClick = false;
 
   CalenderCubit() : super(const CalenderStateIntial());
   int page = 1;
@@ -100,11 +99,11 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     listDataMenu[2].listWidget = listLanhDao;
   }
 
-  void callApi() {
+  Future<void> callApi() async {
     startDates = selectDay;
     endDates = selectDay;
     initDataMenu();
-    callApiNgay();
+    await callApiNgay();
     moveTimeSubject.add(selectDay);
   }
 
@@ -207,7 +206,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     recurrence.recurrenceRange = RecurrenceRange.noEndDate;
     recurrence.recurrenceCount = 10;
 
-    if((dataLichLvModels.listLichLVModel ?? []).isNotEmpty) {
+    if ((dataLichLvModels.listLichLVModel ?? []).isNotEmpty) {
       for (final i in dataLichLvModels.listLichLVModel ?? []) {
         appointments.add(
           Appointment(
@@ -314,6 +313,7 @@ extension HandleDataCalendar on CalenderCubit {
       selectDay = timeSlide;
       await postEventsCalendar();
       initTimeSubject.add(selectDay);
+      moveTimeSubject.add(selectDay);
       if (stateOptionDay == Type_Choose_Option_Day.DAY) {
         await callApiDayCalendar();
       }

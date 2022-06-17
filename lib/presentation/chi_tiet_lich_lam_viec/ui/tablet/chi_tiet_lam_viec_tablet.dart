@@ -4,10 +4,8 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/status_extention.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/bottom_sheet_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/tablet/widgets/btn_show_bao_cao_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/tablet/show_bottom_sheet_ds_y_Kien_tablet.dart';
@@ -19,6 +17,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -173,57 +172,57 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                         ],
                       ),
                       child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            StreamBuilder<ChiTietLichLamViecModel>(
-                              stream: chiTietLichLamViecCubit
-                                  .chiTietLichLamViecStream,
-                              builder: (context, snapshot) {
-                                final data =
-                                    snapshot.data ?? ChiTietLichLamViecModel();
-                                return snapshot.data != null
-                                    ? Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.circle,
-                                                size: 12,
-                                                color: statusCalenderRed,
-                                              ),
-                                              const SizedBox(
-                                                width: 16,
-                                              ),
-                                              Text(
-                                                data.title ?? '',
-                                                style: textNormalCustom(
-                                                  color: textTitle,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
+                        child: ExpandGroup(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              StreamBuilder<ChiTietLichLamViecModel>(
+                                stream: chiTietLichLamViecCubit
+                                    .chiTietLichLamViecStream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ??
+                                      ChiTietLichLamViecModel();
+                                  return snapshot.data != null
+                                      ? Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.circle,
+                                                  size: 12,
+                                                  color: statusCalenderRed,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          ItemRowChiTiet(
-                                            data: data,
-                                            cubit: chiTietLichLamViecCubit,
-                                          ),
-                                        ],
-                                      )
-                                    : const SizedBox.shrink();
-                              },
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 24),
-                              child: BtnShowBaoCaoTablet(
+                                                const SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text(
+                                                  data.title ?? '',
+                                                  style: textNormalCustom(
+                                                    color: textTitle,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            ItemRowChiTiet(
+                                              data: data,
+                                              cubit: chiTietLichLamViecCubit,
+                                            ),
+                                          ],
+                                        )
+                                      : const SizedBox.shrink();
+                                },
+                              ),
+                              BtnShowBaoCaoTablet(
                                 cubit: chiTietLichLamViecCubit,
                               ),
-                            ),
-                            DanhSachYKienButtomTablet(
-                              cubit: chiTietLichLamViecCubit,
-                            ),
-                          ],
+                              DanhSachYKienButtomTablet(
+                                id: widget.id,
+                                cubit: chiTietLichLamViecCubit,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -268,6 +267,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
       );
     }
   }
+
   void checkCancelDuplicateCal(bool isDup) {
     if (isDup) {
       showDialog(
@@ -281,7 +281,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
           textRadioBelow: S.current.tu_lich_nay,
         ),
       ).then(
-            (value) => chiTietLichLamViecCubit
+        (value) => chiTietLichLamViecCubit
             .cancelCalendarWork(widget.id, isMulti: !value)
             .then((_) => Navigator.pop(context, true)),
       );
@@ -293,7 +293,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         funcBtnRight: () async {
           await chiTietLichLamViecCubit.cancelCalendarWork(widget.id).then(
                 (_) => Navigator.pop(context, true),
-          );
+              );
         },
         title: S.current.huy_lich,
         btnRightTxt: S.current.dong_y,
@@ -303,7 +303,6 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
       );
     }
   }
-
 
   Widget listScheduleCooperatives(List<DonViModel> listCooperatives) {
     return ListView.builder(
@@ -318,7 +317,6 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
       },
     );
   }
-
 
   Widget itemScheduleCooperatives(DonViModel data) {
     return Container(
@@ -375,34 +373,33 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
   }
 
   Row rowTextData(String value, String title) => Row(
-    children: [
-      SizedBox(
-        width: 85,
-        child: Text(
-          title,
-          style: titleStyleText,
-        ),
-      ),
-      spaceW13,
-      Expanded(
-        child: Text(
-          value,
-          style: valueStyleText,
-        ),
-      )
-    ],
-  );
+        children: [
+          SizedBox(
+            width: 85,
+            child: Text(
+              title,
+              style: titleStyleText,
+            ),
+          ),
+          spaceW13,
+          Expanded(
+            child: Text(
+              value,
+              style: valueStyleText,
+            ),
+          )
+        ],
+      );
 
   TextStyle get titleStyleText => textNormalCustom(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: infoColor,
-  );
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: infoColor,
+      );
 
   TextStyle get valueStyleText => textNormalCustom(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    color: titleCalenderWork,
-  );
-
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: titleCalenderWork,
+      );
 }

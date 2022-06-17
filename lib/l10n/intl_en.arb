@@ -1132,5 +1132,8 @@
   "chon_nuoc": "Chọn nước",
   "chon_lich_lap": "Chọn lịch lặp",
   "validate_thoi_gian": "Thời gian bắt đầu phải lớn hơn kết thúc",
-  "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công"
+  "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công",
+  "chia_se_thu_muc":"Chia sẻ thư mục",
+  "chia_se_thu_muc_chac_chua": "Bạn có chắn chắn chia sẻ thư mục này không?",
+  "xac_nhan_dong_pop_up":"Bạn có chắn chắn chia sẻ thư mục này không?"
 }

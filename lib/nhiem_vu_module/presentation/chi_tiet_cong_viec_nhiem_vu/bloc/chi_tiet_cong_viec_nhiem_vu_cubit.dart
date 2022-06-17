@@ -42,24 +42,20 @@ class ChiTietCongViecNhiemVuCubit
   }
 
   Future<void> getLichSuGiaoViec(String congViecId) async {
-    showLoading();
     final result = await nhiemVuRepo.getLichSuGiaoViec(congViecId);
     result.when(
       success: (res) {
         lichSuGiaoViecStream.add(res);
-        showContent();
       },
       error: (error) {},
     );
   }
 
   Future<void> getLichSuThayDoiTrangThai(String congViecId) async {
-    showLoading();
     final result = await nhiemVuRepo.getLichSuThayDoiTrangThai(congViecId);
     result.when(
       success: (res) {
         lichSuTDTTStream.add(res);
-        showContent();
       },
       error: (error) {},
     );

@@ -10,9 +10,11 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/common_info.
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class DocumentInPageTablet extends StatefulWidget {
   final QLVBCCubit qlvbCubit;
@@ -26,6 +28,28 @@ class DocumentInPageTablet extends StatefulWidget {
 
 class _DocumentInPageTabletState extends State<DocumentInPageTablet>
     with AutomaticKeepAliveClientMixin {
+  final PagingController<int, VanBanModel> _documentPagingController =
+      PagingController(firstPageKey: 0);
+
+  @override
+  void initState() {
+    _documentPagingController.addPageRequestListener((pageKey) {
+      widget.qlvbCubit.fetchIncomeDocument(
+        pageKey: pageKey,
+        documentPagingController: _documentPagingController,
+      );
+    });
+    _handleEventBus();
+
+    super.initState();
+  }
+
+  void _handleEventBus() {
+    eventBus.on<RefreshList>().listen((event) {
+      _documentPagingController.refresh();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -62,14 +86,12 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                           widget.qlvbCubit.documentInStatusCode == value
                               ? ''
                               : value;
-                      widget.qlvbCubit.getListIncomeDocument(
-                        needLoading: true,
-                      );
+                      _documentPagingController.refresh();
                     },
                     onStatusTap: (key) {
                       widget.qlvbCubit.documentInStatusCode = '';
                       widget.qlvbCubit.documentInSubStatusCode = key;
-                      widget.qlvbCubit.getListIncomeDocument(needLoading: true);
+                      _documentPagingController.refresh();
                     },
                   );
                 },
@@ -92,65 +114,54 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                     ),
                   ],
                 ),
-                StreamBuilder<List<VanBanModel>>(
-                  stream: widget.qlvbCubit.getDanhSachVbDen,
-                  builder: (context, snapshot) {
-                    final List<VanBanModel> listData = snapshot.data ?? [];
-                    return listData.isNotEmpty
-                        ? ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: listData.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: 16,
-                                  top: (index == 0) ? 16 : 0,
-                                ),
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ChiTietVanBanDenTablet(
-                                          processId: listData[index].iD ?? '',
-                                          taskId: listData[index].taskId ?? '',
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: ContainerInfoWidget(
-                                    title:
-                                        listData[index].trichYeu?.parseHtml() ??
-                                            '',
-                                    listData: [
-                                      InfoData(
-                                        key: S.current.so_ky_hieu,
-                                        value: listData[index].number ?? '',
-                                        urlIcon: ImageAssets.icInfo,
-                                      ),
-                                      InfoData(
-                                        key: S.current.noi_gui,
-                                        value: listData[index].sender ?? '',
-                                        urlIcon: ImageAssets.icLocation,
-                                      ),
-                                    ],
-                                    status: getNameFromStatus(
-                                        listData[index].statusCode ?? -1),
-                                    colorStatus: getColorFromStatus(
-                                        listData[index].statusCode ?? -1),
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                        : const Padding(
-                            padding: EdgeInsets.all(16),
-                            child: NodataWidget(),
+                PagedListView<int, VanBanModel>(
+                  pagingController: _documentPagingController,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  builderDelegate: PagedChildBuilderDelegate<VanBanModel>(
+                    noItemsFoundIndicatorBuilder: (_) => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: NodataWidget(),
+                    ),
+                    itemBuilder: (context, item, index) => Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 16,
+                        top: (index == 0) ? 16 : 0,
+                      ),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChiTietVanBanDenTablet(
+                                processId: item.iD ?? '',
+                                taskId: item.taskId ?? '',
+                              ),
+                            ),
                           );
-                  },
+                        },
+                        child: ContainerInfoWidget(
+                          title: item.trichYeu?.parseHtml() ?? '',
+                          listData: [
+                            InfoData(
+                              key: S.current.so_ky_hieu,
+                              value: item.number ?? '',
+                              urlIcon: ImageAssets.icInfo,
+                            ),
+                            InfoData(
+                              key: S.current.noi_gui,
+                              value: item.sender ?? '',
+                              urlIcon: ImageAssets.icLocation,
+                            ),
+                          ],
+                          status: getNameFromStatus(item.statusCode ?? -1),
+                          colorStatus:
+                              getColorFromStatus(item.statusCode ?? -1),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

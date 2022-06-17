@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.d
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -64,6 +65,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                       qlvbCubit.startDate = startDate.formatApi;
                       qlvbCubit.endDate = endDate.formatApi;
                       qlvbCubit.callAPi(initTime: false);
+                      eventBus.fire(RefreshList());
                     },
                   ),
                   Expanded(

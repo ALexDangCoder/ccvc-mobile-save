@@ -7,10 +7,10 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/cont
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/common_info.dart';
-import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,80 +27,30 @@ class DocumentInPage extends StatefulWidget {
 
 class _DocumentInPageState extends State<DocumentInPage>
     with AutomaticKeepAliveClientMixin {
-  final PagingController<int, VanBanModel> _documentIntPagingController =
+  final PagingController<int, VanBanModel> _documentPagingController =
       PagingController(firstPageKey: 0);
 
   @override
   void initState() {
-    _documentIntPagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
+    _documentPagingController.addPageRequestListener((pageKey) {
+      widget.qlvbCubit.fetchIncomeDocument(
+        pageKey: pageKey,
+        documentPagingController: _documentPagingController,
+      );
     });
+    _handleEventBus();
     super.initState();
   }
 
-  Future<void> _fetchPage(int pageKey) async {
-    try {
-      final currentPage = pageKey ~/ ApiConstants.DEFAULT_PAGE_SIZE;
-      final newItems = await widget.qlvbCubit.getListIncomeDocumentTest(
-        page: currentPage + 1,
-      );
-      final isLastPage = newItems.length < ApiConstants.DEFAULT_PAGE_SIZE;
-      if (isLastPage) {
-        _documentIntPagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _documentIntPagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      _documentIntPagingController.error = error;
-    }
+  void _handleEventBus() {
+    eventBus.on<RefreshList>().listen((event) {
+      _documentPagingController.refresh();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return PagedListView<int, VanBanModel>(
-      pagingController: _documentIntPagingController,
-      builderDelegate: PagedChildBuilderDelegate<VanBanModel>(
-        itemBuilder: (context, item, index) => Padding(
-          padding: EdgeInsets.only(
-            bottom: 16,
-            top: (index == 0) ? 16 : 0,
-          ),
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChiTietVanBanDenMobile(
-                    processId: item.iD ?? '',
-                    taskId: item.taskId ?? '',
-                  ),
-                ),
-              );
-            },
-            child: ContainerInfoWidget(
-              title: item.trichYeu?.parseHtml() ?? '',
-              listData: [
-                InfoData(
-                  key: S.current.so_ky_hieu,
-                  value: item.number ?? '',
-                  urlIcon: ImageAssets.icInfo,
-                ),
-                InfoData(
-                  key: S.current.noi_gui,
-                  value: item.sender ?? '',
-                  urlIcon: ImageAssets.icLocation,
-                ),
-              ],
-              status: getNameFromStatus(item.statusCode ?? -1),
-              colorStatus: getColorFromStatus(item.statusCode ?? -1),
-            ),
-          ),
-        ),
-      ),
-    );
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -133,14 +83,12 @@ class _DocumentInPageState extends State<DocumentInPage>
                           widget.qlvbCubit.documentInStatusCode == value
                               ? ''
                               : value;
-                      widget.qlvbCubit.getListIncomeDocument(
-                        needLoading: true,
-                      );
+                      _documentPagingController.refresh();
                     },
                     onStatusTap: (key) {
                       widget.qlvbCubit.documentInStatusCode = '';
                       widget.qlvbCubit.documentInSubStatusCode = key;
-                      widget.qlvbCubit.getListIncomeDocument(needLoading: true);
+                      _documentPagingController.refresh();
                     },
                   );
                 },
@@ -163,106 +111,50 @@ class _DocumentInPageState extends State<DocumentInPage>
                     ),
                   ],
                 ),
-                // StreamBuilder<List<VanBanModel>>(
-                //   stream: widget.qlvbCubit.getDanhSachVbDen,
-                //   builder: (context, snapshot) {
-                //     final List<VanBanModel> listData = snapshot.data ?? [];
-                //     return listData.isNotEmpty
-                //         ? ListView.builder(
-                //             physics: const NeverScrollableScrollPhysics(),
-                //             shrinkWrap: true,
-                //             itemCount: listData.length,
-                //             itemBuilder: (context, index) {
-                //               return Padding(
-                //                 padding: EdgeInsets.only(
-                //                   bottom: 16,
-                //                   top: (index == 0) ? 16 : 0,
-                //                 ),
-                //                 child: GestureDetector(
-                //                   behavior: HitTestBehavior.translucent,
-                //                   onTap: () {
-                //                     Navigator.push(
-                //                       context,
-                //                       MaterialPageRoute(
-                //                         builder: (context) =>
-                //                             ChiTietVanBanDenMobile(
-                //                           processId: listData[index].iD ?? '',
-                //                           taskId: listData[index].taskId ?? '',
-                //                         ),
-                //                       ),
-                //                     );
-                //                   },
-                //                   child: ContainerInfoWidget(
-                //                     title:
-                //                         listData[index].trichYeu?.parseHtml() ??
-                //                             '',
-                //                     listData: [
-                //                       InfoData(
-                //                         key: S.current.so_ky_hieu,
-                //                         value: listData[index].number ?? '',
-                //                         urlIcon: ImageAssets.icInfo,
-                //                       ),
-                //                       InfoData(
-                //                         key: S.current.noi_gui,
-                //                         value: listData[index].sender ?? '',
-                //                         urlIcon: ImageAssets.icLocation,
-                //                       ),
-                //                     ],
-                //                     status: getNameFromStatus(
-                //                         listData[index].statusCode ?? -1),
-                //                     colorStatus: getColorFromStatus(
-                //                         listData[index].statusCode ?? -1),
-                //                   ),
-                //                 ),
-                //               );
-                //             },
-                //           )
-                //         : const Padding(
-                //             padding: EdgeInsets.all(16),
-                //             child: NodataWidget(),
-                //           );
-                //   },
-                // ),
-                Expanded(
-                  child: PagedListView<int, VanBanModel>(
-                    pagingController: _documentIntPagingController,
-                    builderDelegate: PagedChildBuilderDelegate<VanBanModel>(
-                      itemBuilder: (context, item, index) => Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 16,
-                          top: (index == 0) ? 16 : 0,
-                        ),
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChiTietVanBanDenMobile(
-                                  processId: item.iD ?? '',
-                                  taskId: item.taskId ?? '',
-                                ),
+                PagedListView<int, VanBanModel>(
+                  pagingController: _documentPagingController,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  builderDelegate: PagedChildBuilderDelegate<VanBanModel>(
+                    noItemsFoundIndicatorBuilder: (_) => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: NodataWidget(),
+                    ),
+                    itemBuilder: (context, item, index) => Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 16,
+                        top: (index == 0) ? 16 : 0,
+                      ),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChiTietVanBanDenMobile(
+                                processId: item.iD ?? '',
+                                taskId: item.taskId ?? '',
                               ),
-                            );
-                          },
-                          child: ContainerInfoWidget(
-                            title: item.trichYeu?.parseHtml() ?? '',
-                            listData: [
-                              InfoData(
-                                key: S.current.so_ky_hieu,
-                                value: item.number ?? '',
-                                urlIcon: ImageAssets.icInfo,
-                              ),
-                              InfoData(
-                                key: S.current.noi_gui,
-                                value: item.sender ?? '',
-                                urlIcon: ImageAssets.icLocation,
-                              ),
-                            ],
-                            status: getNameFromStatus(item.statusCode ?? -1),
-                            colorStatus:
-                                getColorFromStatus(item.statusCode ?? -1),
-                          ),
+                            ),
+                          );
+                        },
+                        child: ContainerInfoWidget(
+                          title: item.trichYeu?.parseHtml() ?? '',
+                          listData: [
+                            InfoData(
+                              key: S.current.so_ky_hieu,
+                              value: item.number ?? '',
+                              urlIcon: ImageAssets.icInfo,
+                            ),
+                            InfoData(
+                              key: S.current.noi_gui,
+                              value: item.sender ?? '',
+                              urlIcon: ImageAssets.icLocation,
+                            ),
+                          ],
+                          status: getNameFromStatus(item.statusCode ?? -1),
+                          colorStatus:
+                              getColorFromStatus(item.statusCode ?? -1),
                         ),
                       ),
                     ),

@@ -541,6 +541,7 @@ class ImageAssets {
   static const String icTimeBaoCaoSvg = '$baseImg/time_bao_cao_svg.svg';
   static const String ic_trung_hop = '$baseImg/ic_trung_hop.svg';
   static const String ic_edit_cal = '$baseImg/ic_edit_cal.svg';
+  static const String img_calendar = '$baseImg/img_calendar.svg';
 
 
   static SvgPicture svgAssets(

@@ -2,6 +2,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
@@ -24,8 +25,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HinhThucHop extends StatefulWidget {
-  const HinhThucHop({Key? key, required this.cubit}) : super(key: key);
+  const HinhThucHop({
+    Key? key,
+    required this.cubit,
+    this.chiTietHop,
+  }) : super(key: key);
   final TaoLichHopCubit cubit;
+  final ChiTietLichHopModel? chiTietHop;
 
   @override
   _HinhThucHopState createState() => _HinhThucHopState();
@@ -41,6 +47,24 @@ class _HinhThucHopState extends State<HinhThucHop> {
   ///  1 : ngoài hệ thống
   int kieuLinkHop = -1;
   final _key = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.chiTietHop != null) {
+      isHopTrucTiep = !widget.chiTietHop!.bit_HopTrucTuyen;
+      isHopTrucTuyen = widget.chiTietHop!.bit_HopTrucTuyen;
+      isDuyetKyThuat = widget.chiTietHop!.isDuyetKyThuat ?? false;
+      if(widget.chiTietHop!.bit_LinkTrongHeThong != null){
+        kieuLinkHop = widget.chiTietHop!.bit_LinkTrongHeThong! ?  0 : 1;
+      }
+      widget.cubit.taoLichHopRequest.linkTrucTuyen =
+      widget.chiTietHop!.linkTrucTuyen;
+      widget.cubit.dsDiemCauSubject.sink.add(
+        widget.chiTietHop!.dsDiemCau ?? [],
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +96,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
             ),
           if (isHopTrucTiep) ...[
             TextFieldStyle(
+              initValue: widget.chiTietHop?.diaDiemHop,
               urlIcon: ImageAssets.icLocation,
               hintText: S.current.dia_diem_hop,
               onChange: (value) {
@@ -133,6 +158,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                   left: 28.0,
                 ),
                 child: textField(
+                  initValue: widget.chiTietHop?.linkTrucTuyen,
                   title: S.current.link_ngoai_he_thong,
                   onChange: (value) {
                     widget.cubit.taoLichHopRequest.linkTrucTuyen = value;
@@ -306,7 +332,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
                     diemCau.loaiDiemCau ??= 1;
                     dsDiemCau.add(diemCau);
                     widget.cubit.dsDiemCauSubject.add(dsDiemCau);
-                    widget.cubit.taoLichHopRequest.dsDiemCau?.add(diemCau);
                     MessageConfig.show(
                       title: S.current.thay_doi_thanh_cong,
                     );
@@ -328,6 +353,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
     Function(String)? validator,
     bool isRequired = false,
     String hint = '',
+    String? initValue,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -355,6 +381,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
           onChanged: (value) {
             onChange(value);
           },
+          initialValue: initValue,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,

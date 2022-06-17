@@ -36,18 +36,21 @@ class _PageViewWidgetState extends State<PageViewWidget> {
         return Container(
           decoration: BoxDecoration(
             border: Border.all(
-                color: index == indexSelect ? linkColor : Colors.transparent,
-                width: 1.5),
+              color: index == indexSelect ? linkColor : Colors.transparent,
+              width: 1.5,
+            ),
             borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
           child: pageCell(data),
         );
       }),
       options: CarouselOptions(
+        enableInfiniteScroll: widget.listImage.length != 1,
         onPageChanged: (index, _) {
-          indexSelect = index;
+          setState(() {
+            indexSelect = index;
+          });
           widget.onSelect(index);
-          setState(() {});
         },
         enlargeCenterPage: true,
         viewportFraction: widget.viewportFraction,

@@ -1130,6 +1130,7 @@
   "chon_huyen": "Chọn Huyện",
   "chon_xa": "Chọn xã",
   "chon_nuoc": "Chọn nước",
-  "chon_lich_lap": "Chọn lịch lặp"
-
+  "chon_lich_lap": "Chọn lịch lặp",
+  "validate_thoi_gian": "Thời gian bắt đầu phải lớn hơn kết thúc",
+  "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công"
 }

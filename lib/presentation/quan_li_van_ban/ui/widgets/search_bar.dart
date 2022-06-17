@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -8,9 +6,9 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:queue/queue.dart';
 
 class SearchBarDocumentManagement extends StatefulWidget {
   final QLVBCCubit qlvbCubit;
@@ -84,14 +82,7 @@ class _SearchBarDocumentManagementState
                           setState(() {});
                           widget.qlvbCubit.keySearch =
                               textController.value.text;
-                          widget.qlvbCubit.showLoading();
-                          final queue = Queue();
-                          unawaited(queue.add(
-                              () => widget.qlvbCubit.getListIncomeDocument()));
-                          unawaited(queue.add(
-                              () => widget.qlvbCubit.getListOutcomeDocument()));
-                          await queue.onComplete;
-                          widget.qlvbCubit.showContent();
+                          eventBus.fire(RefreshList());
                         },
                         child: const Icon(Icons.clear, color: coloriCon),
                       ),
@@ -135,14 +126,7 @@ class _SearchBarDocumentManagementState
             setState(() {});
             debouncer.run(() async {
               widget.qlvbCubit.keySearch = text;
-              widget.qlvbCubit.showLoading();
-              final queue = Queue();
-              unawaited(queue.add(
-                      () => widget.qlvbCubit.getListIncomeDocument()));
-              unawaited(queue.add(
-                      () => widget.qlvbCubit.getListOutcomeDocument()));
-              await queue.onComplete;
-              widget.qlvbCubit.showContent();
+              eventBus.fire(RefreshList());
             });
           },
         ),

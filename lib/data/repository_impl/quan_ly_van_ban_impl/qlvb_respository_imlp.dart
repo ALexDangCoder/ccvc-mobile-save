@@ -102,6 +102,8 @@ class QLVBImlp implements QLVBRepository {
     bool? isDanhSachChoTrinhKy,
     bool? isDanhSachChoXuLy,
     bool? isDanhSachDaXuLy,
+    bool? isDanhSachChoCapSo,
+    bool? isDanhSachChoBanHanh,
     List<int>? trangThaiFilter,
     required int size,
     String keySearch = '',

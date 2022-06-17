@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -13,10 +11,10 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:queue/queue.dart';
 
 class QLVBMobileScreen extends StatefulWidget {
   const QLVBMobileScreen({Key? key}) : super(key: key);
@@ -121,6 +119,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                   qlvbCubit.startDate = startDate.formatApi;
                   qlvbCubit.endDate = endDate.formatApi;
                   qlvbCubit.callAPi(initTime: false);
+                  eventBus.fire(RefreshList());
                 },
               ),
               spaceH20,

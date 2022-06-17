@@ -12,7 +12,7 @@ class ChiTietCongViecNhiemVuModel {
   String? maTrangThai;
   String? trangThai;
   String? mucDoCongViec;
-  List<String>? danhSachCVLQ;
+  List<DanhSachCVLienQuan>? danhSachCVLQ;
 
   ChiTietCongViecNhiemVuModel({
     this.hanXuLy,
@@ -54,7 +54,10 @@ class ChiTietCongViecNhiemVuModel {
           S.current.muc_do_cong_viec, mucDoCongViec ?? ''),
       ChiTietCongViecNhiemVuRow(S.current.noi_dung, noiDung?.parseHtml() ?? ''),
       ChiTietCongViecNhiemVuRow(
-          S.current.cong_viec_lien_quan, danhSachCVLQ ?? ''),
+        S.current.cong_viec_lien_quan,
+        '',
+        list: danhSachCVLQ,
+      ),
     ];
     return list;
   }
@@ -63,6 +66,17 @@ class ChiTietCongViecNhiemVuModel {
 class ChiTietCongViecNhiemVuRow {
   String title = '';
   dynamic value;
+  List<DanhSachCVLienQuan>? list;
 
-  ChiTietCongViecNhiemVuRow(this.title, this.value);
+  ChiTietCongViecNhiemVuRow(this.title, this.value, {this.list});
+}
+
+class DanhSachCVLienQuan {
+  String? id;
+  String? sTT;
+
+  DanhSachCVLienQuan({
+    this.id,
+    this.sTT,
+  });
 }

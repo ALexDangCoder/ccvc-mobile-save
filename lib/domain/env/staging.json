@@ -5,5 +5,6 @@
   "base_url_CCVC": "https://api-mpi-ccvc-test.chinhquyendientu.vn",
   "base_url_NOTI": "http://mpi-noti-test.chinhquyendientu.vn",
   "base_url_DOWNLOAD_QLNV": "https://api-mpi-qlvb-test.chinhquyendientu.vn",
-  "base_url_DOWNLOAD_PANK": "https://api-mpi-pakn-test.chinhquyendientu.vn"
+  "base_url_DOWNLOAD_PANK": "https://api-mpi-pakn-test.chinhquyendientu.vn",
+  "header_origin": "https://mpi-ccvc-test.chinhquyendientu.vn"
 }

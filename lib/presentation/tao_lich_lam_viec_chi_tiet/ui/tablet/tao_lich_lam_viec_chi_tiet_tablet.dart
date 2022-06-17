@@ -104,15 +104,9 @@ class _TaoLichLamViecChiTietTabletState
             elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
             shadowColor: bgDropDown,
             automaticallyImplyLeading: false,
-            title: StreamBuilder<String>(
-              initialData: S.current.lich_cong_tac_trong_nuoc,
-              stream: taoLichLamViecCubit.changeOption,
-              builder: (context, snapshot) {
-                return Text(
-                  '${S.current.tao} ${snapshot.data}',
-                  style: titleAppbar(fontSize: 24.0),
-                );
-              },
+            title: Text(
+              S.current.tao_lich_lam_viec,
+              style: titleAppbar(fontSize: 24.0),
             ),
             centerTitle: true,
             leading: IconButton(
@@ -183,23 +177,15 @@ class _TaoLichLamViecChiTietTabletState
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
-                                        StreamBuilder<String>(
-                                            initialData: S.current
-                                                .lich_cong_tac_trong_nuoc,
-                                            stream: taoLichLamViecCubit
-                                                .changeOption,
-                                            builder: (context, snapshot) {
-                                              return TextFormWidget(
-                                                controller: tieuDeController,
-                                                image: ImageAssets.icEdit,
-                                                hint:
-                                                    '${S.current.tieu_de} ${snapshot.data}',
-                                                validator: (value) {
-                                                  return (value ?? '')
-                                                      .checkNull();
-                                                },
-                                              );
-                                            }),
+                                        TextFormWidget(
+                                          controller: tieuDeController,
+                                          image: ImageAssets.icEdit,
+                                          hint: S.current.tieu_de,
+                                          validator: (value) {
+                                            return (value ?? '')
+                                                .checkNull();
+                                          },
+                                        ),
                                         LoaiLichWidget(
                                           taoLichLamViecCubit:
                                               taoLichLamViecCubit,

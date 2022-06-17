@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-const baseImg = 'lib/nhiem_vu_module/assets/images';
+const baseImg = 'lib/bao_cao_module/assets/images';
 
 class ImageAssets {
   ///Svg path
@@ -16,6 +16,10 @@ class ImageAssets {
   static const String ic_chitet = '$baseImg/ic_chitiet.svg';
   static const String icThongKe = '$baseImg/ic_thong_ke.svg';
   static const String icNoDataNhiemVu = '$baseImg/ic_no_data_nhiem_vu.svg';
+  static const String ic_chia_se = '$baseImg/ic_chia_se_svg.svg';
+  static const String ic_star_bold= '$baseImg/ic_star_bold.svg';
+  static const String img_company = '$baseImg/img_companies.png';
+  static const String img_companies_svg = '$baseImg/img_company.svg';
 
   static SvgPicture svgAssets(
     String name, {

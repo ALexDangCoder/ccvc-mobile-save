@@ -9,11 +9,11 @@ TaoLichHopRequest taoHopFormChiTietHopModel(ChiTietLichHopModel chiTiet) {
     linhVucId: chiTiet.linhVucId,
     title: chiTiet.title,
     ngayBatDau: chiTiet.ngayBatDau.changeToNewPatternDate(
-      DateFormatApp.dateTime,
+      DateFormatApp.monthDayFormat,
       DateTimeFormat.DOB_FORMAT,
     ),
     ngayKetThuc: chiTiet.ngayBatDau.changeToNewPatternDate(
-      DateFormatApp.dateTime,
+      DateFormatApp.monthDayFormat,
       DateTimeFormat.DOB_FORMAT,
     ),
     timeStart: chiTiet.timeStart,
@@ -42,6 +42,7 @@ TaoLichHopRequest taoHopFormChiTietHopModel(ChiTietLichHopModel chiTiet) {
     days: chiTiet.days,
     bitLinkTrongHeThong: chiTiet.bit_LinkTrongHeThong,
     isDuyetKyThuat: chiTiet.isDuyetKyThuat,
+    id: chiTiet.id,
   );
 }
 class TaoLichHopRequest {
@@ -76,6 +77,7 @@ class TaoLichHopRequest {
   String? days;
   bool? bitLinkTrongHeThong;
   bool? isDuyetKyThuat;
+  String? id;
 
   TaoLichHopRequest({
     this.typeScheduleId,
@@ -109,6 +111,7 @@ class TaoLichHopRequest {
     this.days,
     this.bitLinkTrongHeThong,
     this.isDuyetKyThuat,
+    this.id,
   });
 
   Map<String, dynamic> toJson() {
@@ -153,6 +156,9 @@ class TaoLichHopRequest {
     data['days'] = days;
     data['bit_LinkTrongHeThong'] = bitLinkTrongHeThong;
     data['isDuyetKyThuat'] = isDuyetKyThuat;
+    if (id != null) {
+      data['id'] =id;
+    }
     return data;
   }
 

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -251,7 +251,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       this.fileInit = const []}) {
 
    reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
-    log('${reportStatusId}');
+
   }
 
   void init(List<TinhTrangBaoCaoModel> list) {

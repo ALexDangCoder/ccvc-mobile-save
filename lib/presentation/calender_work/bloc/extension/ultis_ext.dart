@@ -14,15 +14,14 @@ extension UltisCalender on CalenderCubit{
   void chooseTypeListLv(Type_Choose_Option_List type) {
     if (type == Type_Choose_Option_List.DANG_LICH) {
       pageSize = 100;
-      emit(const LichLVStateDangLich(Type_Choose_Option_Day.DAY));
+      emit( LichLVStateDangLich(stateOptionDay));
     } else if (type == Type_Choose_Option_List.DANG_LIST) {
       pageSize = 10;
-      emit(const LichLVStateDangList(Type_Choose_Option_Day.DAY));
+      emit( LichLVStateDangList(stateOptionDay));
     } else if (type == Type_Choose_Option_List.DANH_SACH) {
-      emit(const LichLVStateDangDanhSach(Type_Choose_Option_Day.DAY));
+      emit( LichLVStateDangDanhSach(stateOptionDay));
     }
   }
-
 
   void chooseTypeCalender(Type_Choose_Option_Day type) {
     if (state is LichLVStateDangLich) {

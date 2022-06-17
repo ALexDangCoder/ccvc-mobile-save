@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/bloc/chu_de_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/hot_new_tablet.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/item_infomation_tablet.dart';
-import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/item_list_view_tablet.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/item_tablet_topic_tablet.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
@@ -23,6 +22,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
+import 'item_list_view_tablet.dart';
 
 class TatCaChuDeScreenTablet extends StatefulWidget {
   const TatCaChuDeScreenTablet({Key? key}) : super(key: key);
@@ -43,11 +44,21 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {}
+          _scrollController.position.maxScrollExtent) {
+        if (chuDeCubit.page <= chuDeCubit.totalPage) {
+          chuDeCubit.page = chuDeCubit.page + 1;
+          chuDeCubit.getListTatCaCuDe(
+            chuDeCubit.startDate,
+            chuDeCubit.endDate,
+            pageIndex: chuDeCubit.page,
+          );
+        }
+      }
     });
     chuDeCubit.callApi();
     _handleEventBus();
   }
+
   void _handleEventBus() {
     eventBus.on<FireTopic>().listen((event) {
       chuDeCubit.callApi();
@@ -72,6 +83,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
           stream: chuDeCubit.stateStream,
           child: SingleChildScrollView(
             controller: _scrollController,
+            //physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 spaceH12,
@@ -124,17 +136,18 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
                             height: 270,
                             child: ListView.builder(
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: data.danhSachTuongtacThongKe.length,
                               itemBuilder: (context, index) {
-                                return index == 0 ? ItemTableTopicTablet(
-                                  chuDeCubit.listTitle[index],
-                                  '',
-                                  data
-                                      .danhSachTuongtacThongKe[index]
-                                      .dataTuongTacThongKeModel
-                                      .interactionStatistic,
-                                ) : const SizedBox.shrink();
+                                return index == 0
+                                    ? ItemTableTopicTablet(
+                                        chuDeCubit.listTitle[index],
+                                        '',
+                                        data
+                                            .danhSachTuongtacThongKe[index]
+                                            .dataTuongTacThongKeModel
+                                            .interactionStatistic,
+                                      )
+                                    : const SizedBox.shrink();
                               },
                             ),
                           );
@@ -159,65 +172,37 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             final listChuDe = snapshot.data ?? [];
-                            final ChuDeModel hotNew = listChuDe.removeAt(0);
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: HotNewsTablet(
-                                    hotNew.avartar ?? '',
-                                    hotNew.title ?? '',
-                                    DateTime.parse(
-                                      hotNew.publishedTime ?? '',
-                                    ).formatApiSSAM,
-                                    hotNew.contents ?? '',
-                                    hotNew.url ?? '',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 28,
-                                  child: Divider(
-                                    color: AppTheme.getInstance().lineColor(),
-                                    height: 1,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    // controller: _scrollController,
-                                    itemCount: listChuDe.length > 3
-                                        ? 3
-                                        : listChuDe.length,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          ItemListNewsTablet(
-                                            listChuDe[index].avartar ?? '',
-                                            listChuDe[index].title ?? '',
-                                            DateTime.parse(
-                                              listChuDe[index].publishedTime ??
-                                                  '',
-                                            ).formatApiSSAM,
-                                            listChuDe[index].url ?? '',
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Divider(
-                                              color: AppTheme.getInstance()
-                                                  .lineColor(),
-                                              height: 1,
-                                            ),
-                                          ),
-                                        ],
+                            return ListView.builder(
+                              // controller: _scrollController,
+                              itemCount: listChuDe.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return index == 0
+                                    ? HotNewsTablet(
+                                        listChuDe[index].avartar ?? '',
+                                        listChuDe[index].title ?? '',
+                                        DateTime.parse(
+                                          listChuDe[index].publishedTime ?? '',
+                                        ).formatApiSSAM,
+                                        listChuDe[index].contents ?? '',
+                                        listChuDe[index].url ?? '',
+                                      )
+                                    : Container(
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                        ),
+                                        child: ItemListNewsTablet(
+                                          listChuDe[index].avartar ?? '',
+                                          listChuDe[index].title ?? '',
+                                          DateTime.parse(
+                                            listChuDe[index].publishedTime ??
+                                                '',
+                                          ).formatApiSSAM,
+                                          listChuDe[index].url ?? '',
+                                        ),
                                       );
-                                    },
-                                  ),
-                                ),
-                              ],
+                              },
                             );
                           } else {
                             return const SizedBox();

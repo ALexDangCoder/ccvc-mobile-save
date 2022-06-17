@@ -8,8 +8,10 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -68,29 +70,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
             BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
         padding: const EdgeInsets.only(top: 20),
         child: FollowKeyBoardWidget(
-          bottomWidget: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: DoubleButtonBottom(
-                onPressed2: () {
-                  if (widget.isEdit) {
-                    widget.cubit.editScheduleReport(
-                        id: widget.id,
-                        scheduleId: widget.scheduleId,
-                        content: controller.text.trim());
-                  } else {
-                    widget.cubit.createScheduleReport(
-                        widget.scheduleId, controller.text);
-                  }
-                },
-                title2: S.current.them,
-                title1: S.current.dong,
-                onPressed1: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
+          bottomWidget: navigatorBar(),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +81,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                     Text(
                       S.current.trang_thai,
                       style: tokenDetailAmount(
-                        fontSize: 14,
+                        fontSize: 14.0.textScale(),
                         color: titleItemEdit,
                       ),
                     ),
@@ -129,7 +109,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   height: 20,
                 ),
                 BlockTextView(
-                  title: S.current.noi_dung,
+                  title: S.current.noidung,
                   contentController: controller,
                   formKey: globalKey,
                   isRequired: false,
@@ -222,6 +202,68 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               onTap();
             },
             child: SvgPicture.asset(ImageAssets.icDelete),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget navigatorBar(){
+    return isMobile()
+        ? SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: DoubleButtonBottom(
+          onPressed2: () {
+            if (widget.isEdit) {
+              widget.cubit.editScheduleReport(
+                  id: widget.id,
+                  scheduleId: widget.scheduleId,
+                  content: controller.text.trim());
+            } else {
+              widget.cubit.createScheduleReport(
+                  widget.scheduleId, controller.text);
+            }
+          },
+          title2: widget.isEdit ? S.current.luu : S.current.them,
+          title1: S.current.dong,
+          onPressed1: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    )
+        : Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 142,
+            child: ButtonBottom(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              text: S.current.dong,
+            ),
+          ),
+          spaceW20,
+          SizedBox(
+            width: 142,
+            child: ButtonBottom(
+              customColor: true,
+              onPressed: () {
+                if (widget.isEdit) {
+                  widget.cubit.editScheduleReport(
+                      id: widget.id,
+                      scheduleId: widget.scheduleId,
+                      content: controller.text.trim());
+                } else {
+                  widget.cubit.createScheduleReport(
+                      widget.scheduleId, controller.text);
+                }
+              },
+              text: widget.isEdit ? S.current.them : S.current.luu,
+            ),
           ),
         ],
       ),

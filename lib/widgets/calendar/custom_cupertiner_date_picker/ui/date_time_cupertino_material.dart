@@ -47,11 +47,11 @@ class CupertinoMaterialPicker extends StatefulWidget {
   final Function(bool value) validateTime;
 
   @override
-  _CupertinoMaterialPickerState createState() =>
-      _CupertinoMaterialPickerState();
+  CupertinoMaterialPickerState createState() =>
+      CupertinoMaterialPickerState();
 }
 
-class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
+class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   late final DateTimeCupertinoCustomCubit cubit;
   late final Debouncer debouncer;
   final keyExpandedEnd =
@@ -65,7 +65,10 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     cubit = DateTimeCupertinoCustomCubit();
     debouncer = Debouncer();
     cubit.onTimeChanged(
-      timeSelected: widget.initTimeEnd ?? DateTime.now(),
+      timeSelected: widget.initTimeEnd ??
+          DateTime.now().add(
+            const Duration(minutes: 30),
+          ),
       typePicker: TypePickerDateTime.TIME_END,
     );
     cubit.onTimeChanged(
@@ -81,6 +84,10 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       typePicker: TypePickerDateTime.DATE_START,
     );
     cubit.isSwitchBtnCheckedSubject.add(widget.isSwitchButtonChecked);
+  }
+
+  bool validator(){
+    return !cubit.validateTime.value;
   }
 
   @override

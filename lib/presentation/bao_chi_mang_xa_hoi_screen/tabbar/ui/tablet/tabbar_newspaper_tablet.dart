@@ -70,7 +70,7 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet>
           stream: cubit.titleSubject.stream,
           builder: (context, snapshot) {
             return Text(
-              snapshot.data ?? S.current.tin_tong_hop,
+              snapshot.data ?? S.current.tong_tin,
               style: titleAppbar(fontSize: 24),
             );
           },

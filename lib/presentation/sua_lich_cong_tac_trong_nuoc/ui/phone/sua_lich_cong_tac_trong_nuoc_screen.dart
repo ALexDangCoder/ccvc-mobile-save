@@ -185,12 +185,12 @@ class _SuaLichCongTacTrongNuocPhoneState
                       child: ProviderWidget<TaoLichLamViecCubit>(
                         cubit: taoLichLamViecCubit,
                         child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Form(
-                                key: _formKey,
-                                child: StreamBuilder<String>(
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                StreamBuilder<String>(
                                     initialData:
                                         taoLichLamViecCubit.typeScheduleName,
                                     stream: taoLichLamViecCubit.changeOption,
@@ -208,361 +208,364 @@ class _SuaLichCongTacTrongNuocPhoneState
                                         },
                                       );
                                     }),
-                              ),
-                              StreamBuilder<List<LoaiSelectModel>>(
-                                stream: taoLichLamViecCubit.loaiLich,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? [];
-                                  return SelectOnlyExpand(
-                                    onChange: (value) {
-                                      taoLichLamViecCubit.selectLoaiLich?.id ==
-                                          taoLichLamViecCubit.typeScheduleId;
-                                      taoLichLamViecCubit.changeOption.sink
-                                          .add(data[value].name);
-                                      taoLichLamViecCubit.typeScheduleName =
-                                          data[value].name;
-                                      if (data[value].id ==
-                                          '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
-                                        taoLichLamViecCubit.checkTrongNuoc.sink
-                                            .add(true);
-                                      } else {
-                                        taoLichLamViecCubit.checkTrongNuoc.sink
-                                            .add(false);
-                                      }
-                                      if (taoLichLamViecCubit.typeScheduleId ==
-                                          data[value].id) {
-                                        taoLichLamViecCubit
-                                                .selectLoaiLich?.id ==
-                                            taoLichLamViecCubit.typeScheduleId;
-                                      } else {
-                                        taoLichLamViecCubit.selectLoaiLich?.id =
-                                            data[value].id;
-                                      }
-                                    },
-                                    urlIcon: ImageAssets.icCalendarUnFocus,
-                                    value:
-                                        taoLichLamViecCubit.typeScheduleName ??
-                                            '',
-                                    listSelect:
-                                        data.map((e) => e.name).toList(),
-                                    title: S.current.loai_lich,
-                                  );
-                                },
-                              ),
-                              CupertinoMaterialPicker(
-                                isSwitchButtonChecked:
-                                    widget.event.isAllDay ?? false,
-                                initDateStart: taoLichLamViecCubit.dateTimeFrom
-                                    ?.convertStringToDate(),
-                                initTimeStart: taoLichLamViecCubit.dateTimeFrom
-                                    ?.convertStringToDate(
-                                  formatPattern: DateFormatApp.dateTimeBackEnd,
-                                ),
-                                initDateEnd: taoLichLamViecCubit.dateTimeTo
-                                    ?.convertStringToDate(),
-                                initTimeEnd: taoLichLamViecCubit.dateTimeTo
-                                    ?.convertStringToDate(
-                                  formatPattern: DateFormatApp.dateTimeBackEnd,
-                                ),
-                                onDateTimeChanged: (
-                                  String timeStart,
-                                  String timeEnd,
-                                  String dateStart,
-                                  String dateEnd,
-                                ) {
-                                  taoLichLamViecCubit.checkValidateTime();
-                                  taoLichLamViecCubit.listeningEndDataTime(
-                                    DateTime.parse(
-                                      timeFormat(
-                                        '$dateEnd $timeEnd',
-                                        DateTimeFormat.DATE_TIME_PICKER,
-                                        DateTimeFormat.DATE_TIME_PUT,
-                                      ),
-                                    ),
-                                  );
-                                  taoLichLamViecCubit.listeningStartDataTime(
-                                    DateTime.parse(
-                                      timeFormat(
-                                        '$dateStart $timeStart',
-                                        DateTimeFormat.DATE_TIME_PICKER,
-                                        DateTimeFormat.DATE_TIME_PUT,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                onSwitchPressed: (value) {
-                                  taoLichLamViecCubit.isCheckAllDaySubject
-                                      .add(value);
-                                },
-                                validateTime: (bool value) {
-                                  timeValue = value;
-                                },
-                              ),
-                              StreamBuilder<List<NhacLaiModel>>(
-                                stream: taoLichLamViecCubit.nhacLai,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? [];
-                                  return SelectOnlyExpand(
-                                    urlIcon: ImageAssets.icNotify,
-                                    title: S.current.nhac_lich,
-                                    value: taoLichLamViecCubit.scheduleReminder
-                                            ?.nhacLai() ??
-                                        '',
-                                    listSelect: data
-                                        .map<String>((e) => e.title ?? '')
-                                        .toList(),
-                                    onChange: (value) {
-                                      taoLichLamViecCubit.selectNhacLai.title =
-                                          data[value].title;
-                                      taoLichLamViecCubit.selectNhacLai.value =
-                                          data[value].value;
-                                      taoLichLamViecCubit.scheduleReminder
-                                          ?.typeReminder = data[value].value;
-                                    },
-                                  );
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              StreamBuilder<List<NguoiChutriModel>>(
-                                  stream: taoLichLamViecCubit.nguoiChuTri,
+                                StreamBuilder<List<LoaiSelectModel>>(
+                                  stream: taoLichLamViecCubit.loaiLich,
                                   builder: (context, snapshot) {
                                     final data = snapshot.data ?? [];
                                     return SelectOnlyExpand(
                                       onChange: (value) {
-                                        taoLichLamViecCubit.selectNguoiChuTri
-                                            ?.userId = data[value].userId;
-                                        taoLichLamViecCubit.selectNguoiChuTri
-                                            ?.donViId = data[value].donViId;
-                                        taoLichLamViecCubit.selectNguoiChuTri =
-                                            data[value];
+                                        taoLichLamViecCubit.selectLoaiLich?.id ==
+                                            taoLichLamViecCubit.typeScheduleId;
+                                        taoLichLamViecCubit.changeOption.sink
+                                            .add(data[value].name);
+                                        taoLichLamViecCubit.typeScheduleName =
+                                            data[value].name;
+                                        if (data[value].id ==
+                                            '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
+                                          taoLichLamViecCubit.checkTrongNuoc.sink
+                                              .add(true);
+                                        } else {
+                                          taoLichLamViecCubit.checkTrongNuoc.sink
+                                              .add(false);
+                                        }
+                                        if (taoLichLamViecCubit.typeScheduleId ==
+                                            data[value].id) {
+                                          taoLichLamViecCubit
+                                                  .selectLoaiLich?.id ==
+                                              taoLichLamViecCubit.typeScheduleId;
+                                        } else {
+                                          taoLichLamViecCubit.selectLoaiLich?.id =
+                                              data[value].id;
+                                        }
                                       },
-                                      urlIcon: ImageAssets.icPeople,
+                                      urlIcon: ImageAssets.icCalendarUnFocus,
+                                      value:
+                                          taoLichLamViecCubit.typeScheduleName ??
+                                              '',
                                       listSelect:
-                                          data.map((e) => e.title()).toList(),
-                                      value: taoLichLamViecCubit
-                                              .selectNguoiChuTri
-                                              ?.title() ??
-                                          '',
-                                      title: S.current.nguoi_chu_tri,
+                                          data.map((e) => e.name).toList(),
+                                      title: S.current.loai_lich,
                                     );
-                                  }),
-                              StreamBuilder<List<LoaiSelectModel>>(
-                                stream: taoLichLamViecCubit.linhVuc,
-                                builder: (context, snapshot) {
-                                  final data =
-                                      snapshot.data ?? <LoaiSelectModel>[];
-                                  return SelectOnlyExpand(
-                                    onChange: (value) {
-                                      taoLichLamViecCubit.selectLinhVuc?.id =
-                                          data[value].id;
-                                      taoLichLamViecCubit.linhVucString =
-                                          data[value].name;
-                                    },
-                                    urlIcon: ImageAssets.icWork,
-                                    listSelect:
-                                        data.map((e) => e.name).toList(),
-                                    value:
-                                        taoLichLamViecCubit.linhVucString ?? '',
-                                    title: S.current.linh_vuc,
-                                  );
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 16.0,
-                                  left: 30.0,
-                                ),
-                                child: CustomSwitchWidget(
-                                  onToggle: (value) {
-                                    taoLichLamViecCubit.publishSchedule = value;
                                   },
-                                  value: taoLichLamViecCubit.publishSchedule ??
-                                      false,
                                 ),
-                              ),
-                              StreamBuilder<bool>(
-                                stream: taoLichLamViecCubit.checkTrongNuoc,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? false;
-                                  if (!data) {
-                                    return Column(
-                                      children: [
-                                        ItemTinhWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
+                                CupertinoMaterialPicker(
+                                  isSwitchButtonChecked:
+                                      widget.event.isAllDay ?? false,
+                                  initDateStart: taoLichLamViecCubit.dateTimeFrom
+                                      ?.convertStringToDate(),
+                                  initTimeStart: taoLichLamViecCubit.dateTimeFrom
+                                      ?.convertStringToDate(
+                                    formatPattern: DateFormatApp.dateTimeBackEnd,
+                                  ),
+                                  initDateEnd: taoLichLamViecCubit.dateTimeTo
+                                      ?.convertStringToDate(),
+                                  initTimeEnd: taoLichLamViecCubit.dateTimeTo
+                                      ?.convertStringToDate(
+                                    formatPattern: DateFormatApp.dateTimeBackEnd,
+                                  ),
+                                  onDateTimeChanged: (
+                                    String timeStart,
+                                    String timeEnd,
+                                    String dateStart,
+                                    String dateEnd,
+                                  ) {
+                                    taoLichLamViecCubit.checkValidateTime();
+                                    taoLichLamViecCubit.listeningEndDataTime(
+                                      DateTime.parse(
+                                        timeFormat(
+                                          '$dateEnd $timeEnd',
+                                          DateTimeFormat.DATE_TIME_PICKER,
+                                          DateTimeFormat.DATE_TIME_PUT,
                                         ),
-                                        ItemHuyenWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
-                                        ),
-                                        ItemXaWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
-                                        ),
-                                      ],
+                                      ),
                                     );
-                                  } else {
-                                    return StreamBuilder<
-                                        List<DatNuocSelectModel>>(
-                                      stream: taoLichLamViecCubit.datNuocSelect,
-                                      builder: (context, snapshot) {
-                                        final data = snapshot.data ?? [];
-                                        return SelectOnlyExpand(
-                                          urlIcon: ImageAssets.icViTri,
-                                          title: S.current.quoc_gia,
-                                          value: taoLichLamViecCubit
-                                              .selectedCountry,
-                                          listSelect: data
-                                              .map((e) => e.name ?? '')
-                                              .toList(),
-                                          onChange: (value) {
-                                            taoLichLamViecCubit
-                                                .datNuocSelectModel
-                                                ?.name = data[value].name;
-                                            taoLichLamViecCubit
-                                                    .selectedCountry =
-                                                data[value].name ?? '';
-                                            taoLichLamViecCubit
-                                                    .selectedCountryID =
-                                                data[value].id ?? '';
-                                            taoLichLamViecCubit
-                                                .datNuocSelectModel
-                                                ?.id = data[value].id;
-                                          },
-                                        );
+                                    taoLichLamViecCubit.listeningStartDataTime(
+                                      DateTime.parse(
+                                        timeFormat(
+                                          '$dateStart $timeStart',
+                                          DateTimeFormat.DATE_TIME_PICKER,
+                                          DateTimeFormat.DATE_TIME_PUT,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  onSwitchPressed: (value) {
+                                    taoLichLamViecCubit.isCheckAllDaySubject
+                                        .add(value);
+                                  },
+                                  validateTime: (bool value) {
+                                    timeValue = value;
+                                  },
+                                ),
+                                StreamBuilder<List<NhacLaiModel>>(
+                                  stream: taoLichLamViecCubit.nhacLai,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? [];
+                                    return SelectOnlyExpand(
+                                      urlIcon: ImageAssets.icNotify,
+                                      title: S.current.nhac_lich,
+                                      value: taoLichLamViecCubit.scheduleReminder
+                                              ?.nhacLai() ??
+                                          '',
+                                      listSelect: data
+                                          .map<String>((e) => e.title ?? '')
+                                          .toList(),
+                                      onChange: (value) {
+                                        taoLichLamViecCubit.selectNhacLai.title =
+                                            data[value].title;
+                                        taoLichLamViecCubit.selectNhacLai.value =
+                                            data[value].value;
+                                        taoLichLamViecCubit.scheduleReminder
+                                            ?.typeReminder = data[value].value;
                                       },
                                     );
-                                  }
-                                },
-                              ),
-                              TextFieldStyle(
-                                controller: diaDiemController,
-                                urlIcon: ImageAssets.icViTri,
-                                hintText: S.current.dia_diem,
-                                onChange: (vl) {
-                                  taoLichLamViecCubit.location = vl;
-                                },
-                              ),
-                              StreamBuilder<List<LichLapModel>>(
-                                stream: taoLichLamViecCubit.lichLap,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? [];
-                                  if (taoLichLamViecCubit.typeRepeat == 7) {
-                                    taoLichLamViecCubit
-                                        .lichLapTuyChinhSubject.sink
-                                        .add(true);
-                                  } else {
-                                    taoLichLamViecCubit
-                                        .lichLapTuyChinhSubject.sink
-                                        .add(false);
-                                  }
-                                  if (taoLichLamViecCubit.typeRepeat != 1) {
-                                    taoLichLamViecCubit
-                                        .lichLapKhongLapLaiSubject.sink
-                                        .add(true);
-                                  } else {
-                                    taoLichLamViecCubit
-                                        .lichLapKhongLapLaiSubject.sink
-                                        .add(false);
-                                  }
-                                  return SelectOnlyExpand(
-                                    urlIcon: ImageAssets.icNhacLai,
-                                    title: S.current.lich_lap,
-                                    value: taoLichLamViecCubit
-                                        .chiTietLichLamViecModel
-                                        .lichLap(),
-                                    listSelect: data
-                                        .map<String>((e) => e.name ?? '')
-                                        .toList(),
-                                    onChange: (value) {
-                                      taoLichLamViecCubit
-                                          .chiTietLichLamViecModel
-                                          .typeRepeat = data[value].id;
-                                      // taoLichLamViecCubit.typeRepeat=data[value].id;
-                                      if (data[value].id == 7) {
-                                        taoLichLamViecCubit
-                                            .lichLapTuyChinhSubject.sink
-                                            .add(true);
-                                      } else {
-                                        taoLichLamViecCubit
-                                            .lichLapTuyChinhSubject.sink
-                                            .add(false);
-                                      }
-                                      if (data[value].id != 1) {
-                                        taoLichLamViecCubit
-                                            .lichLapKhongLapLaiSubject.sink
-                                            .add(true);
-                                      } else {
-                                        taoLichLamViecCubit
-                                            .lichLapKhongLapLaiSubject.sink
-                                            .add(false);
-                                      }
-                                      taoLichLamViecCubit.selectLichLap.id =
-                                          data[value].id;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                StreamBuilder<List<NguoiChutriModel>>(
+                                    stream: taoLichLamViecCubit.nguoiChuTri,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? [];
+                                      return SelectOnlyExpand(
+                                        onChange: (value) {
+                                          taoLichLamViecCubit.selectNguoiChuTri
+                                              ?.userId = data[value].userId;
+                                          taoLichLamViecCubit.selectNguoiChuTri
+                                              ?.donViId = data[value].donViId;
+                                          taoLichLamViecCubit.selectNguoiChuTri =
+                                              data[value];
+                                        },
+                                        urlIcon: ImageAssets.icPeople,
+                                        listSelect:
+                                            data.map((e) => e.title()).toList(),
+                                        value: taoLichLamViecCubit
+                                                .selectNguoiChuTri
+                                                ?.title() ??
+                                            '',
+                                        title: S.current.nguoi_chu_tri,
+                                      );
+                                    }),
+                                StreamBuilder<List<LoaiSelectModel>>(
+                                  stream: taoLichLamViecCubit.linhVuc,
+                                  builder: (context, snapshot) {
+                                    final data =
+                                        snapshot.data ?? <LoaiSelectModel>[];
+                                    return SelectOnlyExpand(
+                                      onChange: (value) {
+                                        taoLichLamViecCubit.selectLinhVuc?.id =
+                                            data[value].id;
+                                        taoLichLamViecCubit.linhVucString =
+                                            data[value].name;
+                                      },
+                                      urlIcon: ImageAssets.icWork,
+                                      listSelect:
+                                          data.map((e) => e.name).toList(),
+                                      value:
+                                          taoLichLamViecCubit.linhVucString ?? '',
+                                      title: S.current.linh_vuc,
+                                    );
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 16.0,
+                                    left: 30.0,
+                                  ),
+                                  child: CustomSwitchWidget(
+                                    onToggle: (value) {
+                                      taoLichLamViecCubit.publishSchedule = value;
                                     },
-                                  );
-                                },
-                              ),
-                              StreamBuilder<bool>(
-                                stream: taoLichLamViecCubit
-                                    .lichLapTuyChinhSubject.stream,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? false;
-                                  return data
-                                      ? SuaLichLapTuyChinh(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
-                                          initDataTuyChinh: taoLichLamViecCubit
-                                              .listNgayChonTuan(
-                                            taoLichLamViecCubit.days ?? '',
+                                    value: taoLichLamViecCubit.publishSchedule ??
+                                        false,
+                                  ),
+                                ),
+                                StreamBuilder<bool>(
+                                  stream: taoLichLamViecCubit.checkTrongNuoc,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? false;
+                                    if (!data) {
+                                      return Column(
+                                        children: [
+                                          ItemTinhWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
                                           ),
-                                        )
-                                      : Container();
-                                },
-                              ),
-                              StreamBuilder<bool>(
-                                stream: taoLichLamViecCubit
-                                    .lichLapKhongLapLaiSubject.stream,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? false;
-                                  return data
-                                      ? ItemLapDenNgayWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
-                                          isThem: false,
-                                          initDate: DateTime.parse(
-                                            taoLichLamViecCubit.dateRepeat ??
-                                                DateTime.now().toString(),
+                                          ItemHuyenWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
                                           ),
-                                        )
-                                      : Container();
-                                },
-                              ),
-                              TextFieldStyle(
-                                controller: noiDungController,
-                                urlIcon: ImageAssets.icDocument,
-                                hintText: S.current.noi_dung,
-                                onChange: (vl) {
-                                  taoLichLamViecCubit.content = vl;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              ThanhPhanThamGiaTLWidget(
-                                taoLichLamViecCubit: taoLichLamViecCubit,
-                                listPeopleInit: taoLichLamViecCubit
-                                    .chiTietLichLamViecModel
-                                    .scheduleCoperatives,
-                              ),
-                              TaiLieuWidget(
-                                files: (taoLichLamViecCubit.files ?? [])
-                                    .map((e) => File(e.path ?? ''))
-                                    .toList(),
-                              ),
-                            ],
+                                          ItemXaWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
+                                          ),
+                                        ],
+                                      );
+                                    } else {
+                                      return StreamBuilder<
+                                          List<DatNuocSelectModel>>(
+                                        stream: taoLichLamViecCubit.datNuocSelect,
+                                        builder: (context, snapshot) {
+                                          final data = snapshot.data ?? [];
+                                          return SelectOnlyExpand(
+                                            urlIcon: ImageAssets.icViTri,
+                                            title: S.current.quoc_gia,
+                                            value: taoLichLamViecCubit
+                                                .selectedCountry,
+                                            listSelect: data
+                                                .map((e) => e.name ?? '')
+                                                .toList(),
+                                            onChange: (value) {
+                                              taoLichLamViecCubit
+                                                  .datNuocSelectModel
+                                                  ?.name = data[value].name;
+                                              taoLichLamViecCubit
+                                                      .selectedCountry =
+                                                  data[value].name ?? '';
+                                              taoLichLamViecCubit
+                                                      .selectedCountryID =
+                                                  data[value].id ?? '';
+                                              taoLichLamViecCubit
+                                                  .datNuocSelectModel
+                                                  ?.id = data[value].id;
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                                TextFieldStyle(
+                                  controller: diaDiemController,
+                                  urlIcon: ImageAssets.icViTri,
+                                  hintText: S.current.dia_diem,
+                                  onChange: (vl) {
+                                    taoLichLamViecCubit.location = vl;
+                                  },
+                                  validate: (value) {
+                                    return value.checkNull();
+                                  },
+                                ),
+                                StreamBuilder<List<LichLapModel>>(
+                                  stream: taoLichLamViecCubit.lichLap,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? [];
+                                    if (taoLichLamViecCubit.typeRepeat == 7) {
+                                      taoLichLamViecCubit
+                                          .lichLapTuyChinhSubject.sink
+                                          .add(true);
+                                    } else {
+                                      taoLichLamViecCubit
+                                          .lichLapTuyChinhSubject.sink
+                                          .add(false);
+                                    }
+                                    if (taoLichLamViecCubit.typeRepeat != 1) {
+                                      taoLichLamViecCubit
+                                          .lichLapKhongLapLaiSubject.sink
+                                          .add(true);
+                                    } else {
+                                      taoLichLamViecCubit
+                                          .lichLapKhongLapLaiSubject.sink
+                                          .add(false);
+                                    }
+                                    return SelectOnlyExpand(
+                                      urlIcon: ImageAssets.icNhacLai,
+                                      title: S.current.lich_lap,
+                                      value: taoLichLamViecCubit
+                                          .chiTietLichLamViecModel
+                                          .lichLap(),
+                                      listSelect: data
+                                          .map<String>((e) => e.name ?? '')
+                                          .toList(),
+                                      onChange: (value) {
+                                        taoLichLamViecCubit
+                                            .chiTietLichLamViecModel
+                                            .typeRepeat = data[value].id;
+                                        // taoLichLamViecCubit.typeRepeat=data[value].id;
+                                        if (data[value].id == 7) {
+                                          taoLichLamViecCubit
+                                              .lichLapTuyChinhSubject.sink
+                                              .add(true);
+                                        } else {
+                                          taoLichLamViecCubit
+                                              .lichLapTuyChinhSubject.sink
+                                              .add(false);
+                                        }
+                                        if (data[value].id != 1) {
+                                          taoLichLamViecCubit
+                                              .lichLapKhongLapLaiSubject.sink
+                                              .add(true);
+                                        } else {
+                                          taoLichLamViecCubit
+                                              .lichLapKhongLapLaiSubject.sink
+                                              .add(false);
+                                        }
+                                        taoLichLamViecCubit.selectLichLap.id =
+                                            data[value].id;
+                                      },
+                                    );
+                                  },
+                                ),
+                                StreamBuilder<bool>(
+                                  stream: taoLichLamViecCubit
+                                      .lichLapTuyChinhSubject.stream,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? false;
+                                    return data
+                                        ? SuaLichLapTuyChinh(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
+                                            initDataTuyChinh: taoLichLamViecCubit
+                                                .listNgayChonTuan(
+                                              taoLichLamViecCubit.days ?? '',
+                                            ),
+                                          )
+                                        : Container();
+                                  },
+                                ),
+                                StreamBuilder<bool>(
+                                  stream: taoLichLamViecCubit
+                                      .lichLapKhongLapLaiSubject.stream,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? false;
+                                    return data
+                                        ? ItemLapDenNgayWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
+                                            isThem: false,
+                                            initDate: DateTime.parse(
+                                              taoLichLamViecCubit.dateRepeat ??
+                                                  DateTime.now().toString(),
+                                            ),
+                                          )
+                                        : Container();
+                                  },
+                                ),
+                                TextFieldStyle(
+                                  controller: noiDungController,
+                                  urlIcon: ImageAssets.icDocument,
+                                  hintText: S.current.noi_dung,
+                                  onChange: (vl) {
+                                    taoLichLamViecCubit.content = vl;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ThanhPhanThamGiaTLWidget(
+                                  taoLichLamViecCubit: taoLichLamViecCubit,
+                                  listPeopleInit: taoLichLamViecCubit
+                                      .chiTietLichLamViecModel
+                                      .scheduleCoperatives,
+                                ),
+                                TaiLieuWidget(
+                                  files: (taoLichLamViecCubit.files ?? [])
+                                      .map((e) => File(e.path ?? ''))
+                                      .toList(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

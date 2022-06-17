@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -34,7 +35,7 @@ class ChiTietLichHopModel {
   bool isTaoTaoBocBang;
   String canBoThamGiaStr;
   bool bit_HopTrucTuyen;
-  bool bit_TrongDonVi;
+  bool? bit_TrongDonVi;
   bool isAllDay;
   int? typeReminder;
   int? typeRepeat;
@@ -45,6 +46,17 @@ class ChiTietLichHopModel {
   int? trangThaiDuyetKyThuat = -1;
   String? lichHop_PhienHopStr = '';
   String? diaDiemHop;
+  bool? isCongKhai;
+  bool? isDuyetKyThuat;
+  String? linkTrucTuyen;
+  List<DsDiemCau>? dsDiemCau;
+  bool? bit_LinkTrongHeThong;
+  bool? isLichLap;
+  bool? lichDonVi;
+  List<PhongHopThietBi>? phongHopThietBi;
+  String? thuMoiFiles;
+  String? linhVucId;
+
 
   ChiTietLichHopModel({
     this.id = '',
@@ -66,7 +78,7 @@ class ChiTietLichHopModel {
     this.phongHopMode = const PhongHopMode(),
     this.typeScheduleId = '',
     this.bit_HopTrucTuyen = false,
-    this.bit_TrongDonVi = false,
+    this.bit_TrongDonVi,
     this.isAllDay = false,
     this.typeReminder,
     this.typeRepeat,
@@ -83,6 +95,16 @@ class ChiTietLichHopModel {
     this.nguoiTao_str = '',
     this.lichHop_PhienHopStr,
     this.diaDiemHop,
+    this.isCongKhai,
+    this.isDuyetKyThuat,
+    this.linkTrucTuyen,
+    this.dsDiemCau,
+    this.bit_LinkTrongHeThong,
+    this.isLichLap,
+    this.lichDonVi,
+    this.phongHopThietBi,
+    this.thuMoiFiles,
+    this.linhVucId,
   });
 
   String mucDoHopWithInt() {
@@ -93,6 +115,14 @@ class ChiTietLichHopModel {
         return 'Đột xuất';
     }
     return '';
+  }
+
+  List<int>? getDays() {
+    try {
+      return (days ?? '').split(',').map((e) => int.parse(e)).toList();
+    } catch (e) {
+      return null;
+    }
   }
 
   String nhacLai() {
@@ -158,7 +188,7 @@ class ChiTietLichHopModel {
     }
     if (mucDoHop != null) {
       data.add(
-          ChiTietDataRow(urlIcon: ImageAssets.icMucDoHop, text: _mucDoHop()));
+          ChiTietDataRow(urlIcon: ImageAssets.icMucDoHop, text: getMucDoHop()));
     }
     if (dateFormat.parse(ngayBatDau).toStringWithListFormat ==
         dateFormat.parse(ngayKetThuc).toStringWithListFormat) {
@@ -244,7 +274,7 @@ class ChiTietLichHopModel {
     }
     if (mucDoHop != null) {
       data.add(
-          ChiTietDataRow(urlIcon: ImageAssets.icMucDoHop, text: _mucDoHop()));
+          ChiTietDataRow(urlIcon: ImageAssets.icMucDoHop, text: getMucDoHop()));
     }
     if (phongHopMode.ten.isNotEmpty) {
       data.add(
@@ -262,7 +292,7 @@ class ChiTietLichHopModel {
     return data;
   }
 
-  String _mucDoHop() {
+  String getMucDoHop() {
     switch (mucDoHop) {
       case _BINH_THUONG:
         return S.current.binh_thuong;
@@ -294,6 +324,17 @@ class ChuTriModel {
     this.email = '',
   });
 
+  ChuTri toChuTriModel() {
+    return ChuTri(
+      canBoId: canBoId,
+      donViId: donViId,
+      tenCoQuan: tenCoQuan,
+      tenCanBo: tenCanBo,
+      soDienThoai: soDienThoai,
+      dauMoiLienHe: dauMoiLienHe,
+    );
+  }
+
   String data() {
     return '$tenCanBo - $tenCoQuan';
   }
@@ -303,8 +344,28 @@ class PhongHopMode {
   final String id;
   final String ten;
   final bool bit_TTDH;
+  final String? donViId;
+  final String? noiDungYeuCau;
+  final String? phongHopId;
 
-  const PhongHopMode({this.id = '', this.ten = '', this.bit_TTDH = false});
+  const PhongHopMode({
+    this.id = '',
+    this.ten = '',
+    this.bit_TTDH = false,
+    this.donViId,
+    this.noiDungYeuCau,
+    this.phongHopId,
+  });
+
+  PhongHop convertToPhongHopRequest() {
+    return PhongHop(
+      phongHopId: phongHopId,
+      noiDungYeuCau: noiDungYeuCau,
+      donViId: donViId,
+      bitTTDH: bit_TTDH,
+      ten: ten,
+    );
+  }
 }
 
 class ChiTietDataRow {
@@ -331,19 +392,18 @@ class file {
   final String? updatedAt;
   final String? updatedBy;
 
-  file(
-      {this.createdAt,
-      this.createdBy,
-      this.entityId,
-      this.entityId_DM,
-      this.entityName,
-      this.entityType,
-      this.extension,
-      this.id,
-      this.isPrivate,
-      this.name,
-      this.path,
-      this.size,
-      this.updatedAt,
-      this.updatedBy});
+  file({this.createdAt,
+    this.createdBy,
+    this.entityId,
+    this.entityId_DM,
+    this.entityName,
+    this.entityType,
+    this.extension,
+    this.id,
+    this.isPrivate,
+    this.name,
+    this.path,
+    this.size,
+    this.updatedAt,
+    this.updatedBy});
 }

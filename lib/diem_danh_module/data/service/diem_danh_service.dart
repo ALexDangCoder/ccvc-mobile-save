@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/diem_danh_module/data/request/bang_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_nhan_request.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/response/bang_diem_danh_ca_nhan_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/thong_ke_diem_danh_ca_nhan_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
@@ -16,4 +18,8 @@ abstract class DiemDanhService {
   Future<DataThongKeDiemDanhCaNhanResponse> thongKeDiemDanhCaNhan(
     @Body() ThongKeDiemDanhCaNhanRequest thongKeDiemDanhCaNhanRequest,
   );
+  @POST(ApiConstants.DIEM_DANH_CA_NHAN_BANG_DIEM_DANH)
+  Future<DataListItemThongKeDiemDanhCaNhanModelResponse> bangDiemDanhCaNhan(
+      @Body() BangDiemDanhCaNhanRequest thongKeDiemDanhCaNhanRequest,
+      );
 }

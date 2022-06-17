@@ -23,6 +23,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
+  final Function(DonViModel)? onDelete;
   final bool isTaoHop;
   final bool isCheckedEmail;
 
@@ -31,6 +32,7 @@ class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
     required this.onChange,
     this.isTaoHop = false,
     this.isCheckedEmail = false,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -76,6 +78,9 @@ class _ThemDonViPhoiHopKhacWidgetState
                     data: data[index],
                           cubit: cubit,
                           isCheckedEmail: widget.isCheckedEmail,
+                          onDelete: () {
+                            widget.onDelete?.call(data[index]);
+                          },
                         )
                       : ItemThanhPhanWidget(
                           data: data[index],
@@ -211,12 +216,14 @@ class ItemDonViPhoiHopWidget extends StatefulWidget {
   final DonViModel data;
   final ThanhPhanThamGiaCubit cubit;
   final bool isCheckedEmail;
+  final Function()? onDelete;
 
   const ItemDonViPhoiHopWidget({
     Key? key,
     required this.data,
     required this.cubit,
     required this.isCheckedEmail,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -299,6 +306,7 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
                 GestureDetector(
                   onTap: () {
                     widget.cubit.removeDonViPhoiHop(widget.data);
+                    widget.onDelete?.call();
                   },
                   child: SvgPicture.asset(ImageAssets.icDeleteRed),
                 ),
@@ -306,10 +314,8 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
                 StreamBuilder<bool>(
                   stream: widget.cubit.phuongThucNhanStream,
                   builder: (context, snapshot) {
-                    // final bool isChecked = snapshot.data ?? false;
                     return CusCheckBox(
                       isChecked: isChecked,
-                      // enable: false,
                       onChange: (value) {},
                     );
                   },

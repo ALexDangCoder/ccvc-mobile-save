@@ -30,6 +30,7 @@ class _DiemDanhCaNhanMobileScreenState
   @override
   void initState() {
    widget.cubit.postDiemDanhThongKe();
+   widget.cubit. postBangDiemDanhCaNhan();
     super.initState();
   }
   @override

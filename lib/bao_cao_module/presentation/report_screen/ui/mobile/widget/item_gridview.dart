@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/detail_item_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';
@@ -12,10 +13,12 @@ import 'package:flutter_svg/svg.dart';
 
 class ItemGridView extends StatelessWidget {
   final ReportItem item;
+  final ReportListCubit cubit;
 
   const ItemGridView({
     Key? key,
     required this.item,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -66,7 +69,11 @@ class ItemGridView extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     builder: (context) => ShowMoreBottomSheet(
                       reportItem: item,
+                      cubit: cubit,
+                      isFavorite: item.isPin ?? false,
                     ),
+                  ).whenComplete(
+                    () => cubit.getListReport(),
                   );
                 },
                 child: Padding(

@@ -157,6 +157,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                                         const NeverScrollableScrollPhysics(),
                                     isCheckList: cubit.isCheckList.value,
                                     listReport: snapshot.data ?? [],
+                                    cubit: cubit,
                                   )
                                 : const SizedBox.shrink();
                           },
@@ -179,10 +180,12 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                               ),
                               child: ItemList(
                                 item: value,
+                                cubit: cubit,
                               ),
                             )
                           : ItemGridView(
                               item: value,
+                              cubit: cubit,
                             );
                     } catch (e) {
                       return const SizedBox();
@@ -283,9 +286,11 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                     ),
                     child: ItemList(
                       item: value,
+                      cubit: cubit,
                     ),
                   )
                 : ItemGridView(
+                    cubit: cubit,
                     item: value,
                   ),
           ),

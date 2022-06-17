@@ -96,6 +96,50 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
   }
 
+  Future<bool> postFavorite({required List<String> idReport}) async {
+    showLoading();
+    bool isStatus = false;
+    final Result result = await _reportService.postLikeReportFavorite(
+      idReport,
+      appId,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        //todo success
+        isStatus = true;
+      },
+      error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+        isStatus = false;
+      },
+    );
+    return isStatus;
+  }
+
+  Future<bool> putDislikeFavorite({required List<String> idReport}) async {
+    showLoading();
+    bool isStatus = false;
+    final Result result = await _reportService.putDislikeReportFavorite(
+      idReport,
+      appId,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        //todo success
+        isStatus = true;
+      },
+      error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+        isStatus = false;
+      },
+    );
+    return isStatus;
+  }
+
   void clearSearch() {
     isStatusSearch.add(true);
     textSearch.add('');

@@ -72,9 +72,15 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<bool>> postLikeReportFavorite(List<String> idReport) {
+  Future<Result<bool>> postLikeReportFavorite(
+    List<String> idReport,
+    String appId,
+  ) {
     return runCatchingAsync<dynamic, bool>(
-      () => _reportService.postLikeReport(idReport),
+      () => _reportService.postLikeReport(
+        idReport,
+        appId,
+      ),
       (res) {
         try {
           return (res as Map<String, dynamic>)['succeeded'];
@@ -86,9 +92,15 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<bool>> putDislikeReportFavorite(List<String> idReport) {
+  Future<Result<bool>> putDislikeReportFavorite(
+    List<String> idReport,
+    String appId,
+  ) {
     return runCatchingAsync<dynamic, bool>(
-        () => _reportService.putDisLikeReport(idReport), (res) {
+        () => _reportService.putDisLikeReport(
+              idReport,
+              appId,
+            ), (res) {
       try {
         return (res as Map<String, dynamic>)['succeeded'];
       } catch (e) {

@@ -50,11 +50,13 @@ abstract class ReportService {
   @POST(ApiConstants.POST_LIKE_REPORT)
   Future<dynamic> postLikeReport(
     @Body() List<String> idReport,
+    @Header('AppId') String appId,
   );
 
   @PUT(ApiConstants.PUT_DISLIKE_REPORT)
   Future<dynamic> putDisLikeReport(
     @Body() List<String> idReport,
+    @Header('AppId') String appId,
   );
 
   @GET(ApiConstants.GET_LIST_REPORT_FAVORITE)

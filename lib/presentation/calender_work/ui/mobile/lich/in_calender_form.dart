@@ -68,6 +68,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? DataLichLvModel.empty();
                         return SfCalendar(
+
                           viewHeaderHeight: 0.0,
                           allowAppointmentResize: true,
                           headerHeight: 0.0,

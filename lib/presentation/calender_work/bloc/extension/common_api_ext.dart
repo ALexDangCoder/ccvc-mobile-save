@@ -43,7 +43,7 @@ extension CommonApiExt on CalenderCubit{
     required String startDate,
     required String endDate,
   }) async {
-    showLoading();
+    // showLoading();
     final result = await lichLamViec.getLichLv(startDate, endDate);
     result.when(
       success: (res) {
@@ -51,10 +51,11 @@ extension CommonApiExt on CalenderCubit{
         lichLamViecDashBroadSubject.sink.add(lichLamViecDashBroads);
       },
       error: (err) {
+        // showContent();
         return;
       },
     );
-    showContent();
+    // showContent();
   }
 
   Future<void> callApiWithAsync() async {

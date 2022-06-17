@@ -62,14 +62,14 @@ class LichSuCapNhatVanBanDi {
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-        S.current.file_dinh_kem,
-        files ?? [],
-        TypeDocumentDetailRow.fileVanBanDi,
-      ),
-      DocumentDetailRow(
         S.current.trang_thai,
         trangThaiDuyet(trangThai ?? 0),
         TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.file_dinh_kem,
+        files ?? [],
+        TypeDocumentDetailRow.fileVanBanDi,
       ),
     ];
     return list;

@@ -62,17 +62,25 @@ class CommonDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
   }
 
   void getListDinhKemWithType(List<FileDinhKemVanBanDiModel> list) {
+    final List<FileDinhKemVanBanDiModel> phieuTrinh = [];
+    final List<FileDinhKemVanBanDiModel> duThao = [];
+    final List<FileDinhKemVanBanDiModel> vBBHKemDuTHao = [];
+    final List<FileDinhKemVanBanDiModel> vBLienThong = [];
     for (final vl in list) {
       if (vl.loaiFileDinhKem == 1) {
-        listPhieuTrinh.sink.add([vl]);
+        phieuTrinh.add(vl);
       } else if (vl.loaiFileDinhKem == 2) {
-        listDuThao.sink.add([vl]);
+        duThao.add(vl);
       } else if (vl.loaiFileDinhKem == 3) {
-        listVBBHKemDuTHao.sink.add([vl]);
+        vBBHKemDuTHao.add(vl);
       } else {
-        listVBLienThong.sink.add([vl]);
+        vBLienThong.add(vl);
       }
     }
+    listPhieuTrinh.sink.add(phieuTrinh);
+    listDuThao.sink.add(duThao);
+    listVBBHKemDuTHao.sink.add(vBBHKemDuTHao);
+    listVBLienThong.sink.add(vBLienThong);
   }
 }
 
@@ -238,6 +246,7 @@ class CommentDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
       },
       error: (_) {},
     );
+    showContent();
   }
 
   Future<void> comment({
@@ -287,7 +296,9 @@ class CommentDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
       success: (isSuccess) {
         dataReturn = isSuccess;
       },
-      error: (e) {},
+      error: (e) {
+        dataReturn = false;
+      },
     );
     return dataReturn;
   }

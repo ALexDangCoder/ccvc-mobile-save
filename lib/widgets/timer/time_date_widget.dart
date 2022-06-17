@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,6 @@ class _TimeDatePickerWidgetState extends State<TimeDatePickerWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     selectDate = widget.initTimer;
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -381,7 +381,7 @@ class _TimeTextFieldWidgetState extends State<TimeTextFieldWidget> {
           widget.focusNode.hasFocus
               ? AppTheme.getInstance().colorField()
               : color3D5586,
-          15),
+          15,),
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       decoration: const InputDecoration(
@@ -411,4 +411,14 @@ class TimerData {
   int minutes;
 
   TimerData({required this.hour, required this.minutes});
+
+  String? equalTime(TimerData otherTime){
+    if(hour > otherTime.hour){
+      return S.current.validate_thoi_gian;
+    }
+    if(hour == otherTime.hour && minutes >= otherTime.minutes){
+      return S.current.validate_thoi_gian;
+    }
+    return null;
+  }
 }

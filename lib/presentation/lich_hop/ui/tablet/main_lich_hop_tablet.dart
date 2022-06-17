@@ -168,6 +168,9 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                                   const TaoLichHopScreen(),
                             ),
                           ).then((value) async {
+                            if(value == null){
+                              return;
+                            }
                             if(value){
                               await cubit.initData();
                             }

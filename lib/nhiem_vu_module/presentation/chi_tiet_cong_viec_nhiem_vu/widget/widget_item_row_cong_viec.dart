@@ -1,7 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/app_config.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_cong_viec_nhiem_vu/ui/mobile/chi_tiet_cong_viec_nhiem_vu.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_cong_viec_nhiem_vu/ui/tablet/chi_tiet_cong_viec_nhiem_vu_tablet.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +16,7 @@ class WidgetItemRowCongViec extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    addWidget();
+    addWidget(context);
     return Column(
       children: [
         spaceH10,
@@ -48,7 +52,7 @@ class WidgetItemRowCongViec extends StatelessWidget {
                       runSpacing: 10, // gap between lines
                       children: congViecLQ,
                     ),
-            )
+            ),
           ],
         )
       ],
@@ -57,12 +61,21 @@ class WidgetItemRowCongViec extends StatelessWidget {
 
   final List<Widget> congViecLQ = [];
 
-  void addWidget() {
+  void addWidget(BuildContext context) {
     row.list?.forEach((element) {
       congViecLQ.add(
         InkWell(
           onTap: () {
-
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => APP_DEVICE == DeviceType.MOBILE
+                    ? ChitietCongViecNhiemVuMobile(
+                        id: element.id ?? '',
+                      )
+                    : ChitietCongViecNhiemVuTablet(id: element.id ?? ''),
+              ),
+            );
           },
           child: Text(
             element.sTT ?? '',

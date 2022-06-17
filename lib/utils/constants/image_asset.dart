@@ -531,7 +531,6 @@ class ImageAssets {
       '$baseImg/item_baocao_menu_tablet.svg';
   static const String icLink = '$baseImg/icLink.svg';
   static const String icDiemDanhTopMenu = '$baseImg/ic_diem_danh_top_menu.svg';
-  static const String img_company = '$baseImg/img_companies.png';
   static const String icFileSvg = '$baseImg/file_svg.svg';
   static const String icBaoCaoSvg = '$baseImg/bao_cao_svg.svg';
   static const String icChiaSeSvg = '$baseImg/chia_se_svg.svg';
@@ -541,6 +540,7 @@ class ImageAssets {
   static const String icTimeBaoCaoSvg = '$baseImg/time_bao_cao_svg.svg';
   static const String ic_trung_hop = '$baseImg/ic_trung_hop.svg';
   static const String ic_edit_cal = '$baseImg/ic_edit_cal.svg';
+  static const String img_calendar = '$baseImg/img_calendar.svg';
 
 
   static SvgPicture svgAssets(

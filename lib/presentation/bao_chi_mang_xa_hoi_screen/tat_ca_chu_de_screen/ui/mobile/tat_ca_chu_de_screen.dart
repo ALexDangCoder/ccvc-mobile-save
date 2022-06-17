@@ -48,8 +48,8 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (chuDeCubit.pageIndex <= chuDeCubit.totalPage) {
-          chuDeCubit.pageIndex = chuDeCubit.pageIndex + 1;
+        if (chuDeCubit.page <= chuDeCubit.totalPage) {
+          chuDeCubit.page = chuDeCubit.page + 1;
           chuDeCubit.getListTatCaCuDe(chuDeCubit.startDate, chuDeCubit.endDate);
         }
       }
@@ -149,7 +149,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                 stream: chuDeCubit.stateStream,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    chuDeCubit.pageIndex = 1;
+                    chuDeCubit.page = 1;
                     chuDeCubit.totalPage = 1;
                     setState(() {
                       defaultTime = ChuDeCubit.HOM_NAY;

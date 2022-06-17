@@ -1,16 +1,23 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/tablet/danh_sach_y_kien_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/material.dart';
 
 class DanhSachYKienButtomTablet extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
+  final String id;
 
-  const DanhSachYKienButtomTablet({Key? key, required this.cubit})
-      : super(key: key);
+  const DanhSachYKienButtomTablet({
+    Key? key,
+    required this.id,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   _DanhSachYKienButtomTabletState createState() =>
@@ -20,22 +27,44 @@ class DanhSachYKienButtomTablet extends StatefulWidget {
 class _DanhSachYKienButtomTabletState extends State<DanhSachYKienButtomTablet> {
   @override
   Widget build(BuildContext context) {
-    return SolidButton(
-      text: S.current.danh_sach_y_kien,
-      urlIcon: ImageAssets.ic_danhsachykien,
-      onTap: () {
-        showDiaLogTablet(
-          context,
-          title: S.current.danh_sach_y_kien,
-          child: DanhSachYKienTabletScreen(
-            cubit: widget.cubit,
+    return ExpandOnlyWidget(
+      header: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Text(
+          S.current.danh_sach_y_kien,
+          style: textNormalCustom(
+            color: titleColumn,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
-          isBottomShow: false,
-          funcBtnOk: () {
-            Navigator.pop(context);
-          },
-        );
-      },
+        ),
+      ),
+      child: SolidButton(
+        text: S.current.danh_sach_y_kien,
+        urlIcon: ImageAssets.ic_danhsachykien,
+        onTap: () {
+          showDiaLogTablet(
+            context,
+            title: S.current.cho_y_kien,
+            child: YKienBottomSheet(
+              id: widget.id,
+              isCheck: false,
+            ),
+            isBottomShow: false,
+            funcBtnOk: () {
+              Navigator.pop(context);
+            },
+          ).then((value) {
+            if (value == true) {
+              widget.cubit.loadApi(widget.id);
+            } else if (value == null) {
+              return;
+            }
+          });
+        },
+      ),
     );
   }
 }

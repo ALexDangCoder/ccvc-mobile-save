@@ -53,7 +53,7 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI }
+enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI,HEAD_ORIGIN }
 
 void configureDependencies() {
   Get.put(
@@ -216,6 +216,9 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       break;
     case BaseURLOption.API_AND_UAT:
       baseUrl = DO_MAIN_LICH_AM_DUONG;
+      break;
+    case BaseURLOption.HEAD_ORIGIN:
+      baseUrl = appConstants.headerOrigin;
       break;
   }
   final options = BaseOptions(

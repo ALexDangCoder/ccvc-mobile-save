@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -53,8 +54,8 @@ class ChiTietCongViecNhiemVuModelResponse extends Equatable {
   String? trangThai;
   @JsonKey(name: 'MucDoCongViec')
   String? mucDoCongViec;
-  @JsonKey(name: 'DanhSachCVLQ')
-  List<String>? danhSachCVLQ;
+  @JsonKey(name: 'DsCongViecLienQuan')
+  List<DanhSachCVResponse>? danhSachCVLQ;
 
   ChiTietCongViecNhiemVuModelResponse({
     this.hanXuLy,
@@ -88,10 +89,35 @@ class ChiTietCongViecNhiemVuModelResponse extends Equatable {
         maTrangThai: maTrangThai,
         trangThai: trangThai,
         mucDoCongViec: mucDoCongViec,
-        danhSachCVLQ: danhSachCVLQ,
+        danhSachCVLQ: danhSachCVLQ?.map((e) => e.toDomain()).toList(),
       );
 
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
+}
+
+//NoiDungCongViec
+@JsonSerializable()
+class DanhSachCVResponse extends Equatable {
+  @JsonKey(name: 'Id')
+  String? id;
+  @JsonKey(name: 'Stt')
+  int? soTT;
+
+  factory DanhSachCVResponse.fromJson(Map<String, dynamic> json) =>
+      _$DanhSachCVResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DanhSachCVResponseToJson(this);
+
+  DanhSachCVResponse(this.id, this.soTT);
+
+  DanhSachCVLienQuan toDomain() => DanhSachCVLienQuan(
+        id: id,
+        sTT: S.current.cong_viec + soTT.toString(),
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 }

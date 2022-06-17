@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_i
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/api_time_type_ext.dart';
@@ -18,6 +19,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/item_menu_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -175,7 +177,14 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         dataLichLvModel.listLichLVModel = listDSLV;
         listLichSubject.sink.add(dataLichLvModel);
       },
-      error: (error) {},
+      error: (error) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
+      },
     );
     showContent();
   }

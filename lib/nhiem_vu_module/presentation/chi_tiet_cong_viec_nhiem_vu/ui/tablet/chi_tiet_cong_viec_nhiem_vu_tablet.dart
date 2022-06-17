@@ -33,7 +33,7 @@ class _ChitietCongViecNhiemVuTabletState
   void initState() {
     // TODO: implement initState
     super.initState();
-    cubit.getChiTietCongViecNhiemVu(widget.id);
+    cubit.callApi(widget.id);
     _tabController = TabController(length: 3, vsync: this);
   }
 

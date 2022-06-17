@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_i
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/api_time_type_ext.dart';
@@ -18,6 +19,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/item_menu_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -26,8 +28,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalenderCubit extends BaseCubit<CalenderState> {
-
-  bool changeDateByClick = false ;
+  bool changeDateByClick = false;
 
   CalenderCubit() : super(const CalenderStateIntial());
   int page = 1;
@@ -98,11 +99,11 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     listDataMenu[2].listWidget = listLanhDao;
   }
 
-  void callApi() {
+  Future<void> callApi() async {
     startDates = selectDay;
     endDates = selectDay;
     initDataMenu();
-    callApiNgay();
+    await callApiNgay();
     moveTimeSubject.add(selectDay);
   }
 
@@ -176,7 +177,14 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         dataLichLvModel.listLichLVModel = listDSLV;
         listLichSubject.sink.add(dataLichLvModel);
       },
-      error: (error) {},
+      error: (error) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.error,
+          title2:  S.current.no_internet,
+          showTitle2: true,
+        );
+      },
     );
     showContent();
   }
@@ -197,23 +205,26 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     recurrence.interval = 2;
     recurrence.recurrenceRange = RecurrenceRange.noEndDate;
     recurrence.recurrenceCount = 10;
-    for (final i in dataLichLvModels.listLichLVModel ?? []) {
-      appointments.add(
-        Appointment(
-          startTime: DateTime.parse(
-            i.dateTimeFrom ?? '',
+
+    if ((dataLichLvModels.listLichLVModel ?? []).isNotEmpty) {
+      for (final i in dataLichLvModels.listLichLVModel ?? []) {
+        appointments.add(
+          Appointment(
+            startTime: DateTime.parse(
+              i.dateTimeFrom ?? '',
+            ),
+            endTime: DateTime.parse(
+              i.dateTimeTo ?? '',
+            ),
+            subject: i.title ?? '',
+            color: Colors.blue,
+            id: i.id ?? '',
           ),
-          endTime: DateTime.parse(
-            i.dateTimeTo ?? '',
-          ),
-          subject: i.title ?? '',
-          color: Colors.blue,
-          id: i.id ?? '',
-        ),
-      );
+        );
+      }
+      getMatchDate(dataLichLvModels);
     }
 
-    getMatchDate(dataLichLvModels);
     // appointments.add(Appointment(startTime: DateTime(DateTime
     //     .now()
     //     .year, DateTime
@@ -302,6 +313,7 @@ extension HandleDataCalendar on CalenderCubit {
       selectDay = timeSlide;
       await postEventsCalendar();
       initTimeSubject.add(selectDay);
+      moveTimeSubject.add(selectDay);
       if (stateOptionDay == Type_Choose_Option_Day.DAY) {
         await callApiDayCalendar();
       }
@@ -346,7 +358,7 @@ extension HandleDataCalendar on CalenderCubit {
         ),
       ),
     );
-    for (final e in data.listLichLVModel ?? []) {
+    for (final ListLichLVModel e in data.listLichLVModel ?? []) {
       (data.listLichLVModel ?? [])
           .where(
             (i) =>
@@ -357,10 +369,9 @@ extension HandleDataCalendar on CalenderCubit {
                         i.dateTimeFrom ?? '',
                       ),
                     ) ||
-                    isMatch(
-                      DateTime.parse(
-                        e.dateTimeFrom ?? '',
-                      ),
+                    DateTime.parse(
+                      e.dateTimeFrom ?? '',
+                    ).isAtSameMomentAs(
                       DateTime.parse(
                         i.dateTimeFrom ?? '',
                       ),

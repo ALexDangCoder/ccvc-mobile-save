@@ -56,7 +56,8 @@ class ChonNhomWidget extends StatelessWidget {
           ],
         ),
         spaceH12,
-        Row(
+        if((item.listThanhVien?.length ?? 0) > 0)
+          Row(
           children: [
             if ((item.listThanhVien?.length ?? 0) > 2) ...[
               ItemNguoiDung(
@@ -68,7 +69,7 @@ class ChonNhomWidget extends StatelessWidget {
                 hasFunction: false,
                 name: item.listThanhVien?[1].tenThanhVien ?? '',
               ),
-              spaceW12,
+              spaceW10,
               Container(
                 width: 32.w,
                 height: 32.h,

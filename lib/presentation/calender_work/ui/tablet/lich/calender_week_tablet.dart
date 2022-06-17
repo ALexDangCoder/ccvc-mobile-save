@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/type_calendar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -74,35 +75,72 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                 ) {
               final Appointment appointment =
                   calendarAppointmentDetails.appointments.first;
-              return Padding(
-                padding: const EdgeInsets.only(left: 4, bottom: 2),
-                child: Container(
-                  height: 18,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(2.0),
-                    color: choTrinhKyColor,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 4.0,
-                      vertical: 2.0,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ChiTietLamViecTablet(
-                              id: appointment.id.toString(),
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        appointment.subject,
-                        style: textNormalCustom(fontSize: 12),
+              return GestureDetector(
+                onTap: () {
+                  final String typeCalendar = widget.cubit
+                      .getElementFromId(
+                    appointment.id.toString(),
+                  )
+                      .typeSchedule ??
+                      'Schedule';
+
+                  typeCalendar.getTypeCalendar.navigatorDetail(
+                    context,
+                    widget.cubit,
+                    (widget.cubit.dataLichLvModel
+                        .listLichLVModel ??
+                        [])
+                        .indexOf(
+                      widget.cubit.getElementFromId(
+                        appointment.id.toString(),
                       ),
                     ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5.0,
+                    vertical: 2.0,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.0),
+                    color: AppTheme.getInstance().colorField(),
+                  ),
+                  child: Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                appointment.subject,
+                                style: textNormalCustom(
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 4.0),
+                          ],
+                        ),
+                      ),
+                      if (widget.cubit
+                          .getElementFromId(
+                        appointment.id.toString(),
+                      )
+                          .isTrung)
+                        const Icon(
+                          Icons.circle,
+                          color: Colors.red,
+                          size: 10,
+                        )
+                      else
+                        Container()
+                    ],
                   ),
                 ),
               );

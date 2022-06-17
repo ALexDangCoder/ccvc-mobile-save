@@ -22,10 +22,10 @@ class ComplexLoadMore extends StatefulWidget {
   final bool isListView;
   final double? checkRatio;
   final double? crossAxisSpacing;
+  final double? mainAxisExtent;
   final bool? shrinkWap;
   final bool isTitle;
   final String? titleNoData;
-  final double? mainAxisExtent;
 
   const ComplexLoadMore({
     Key? key,
@@ -244,7 +244,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 16,
-                                mainAxisExtent: widget.mainAxisExtent,
+                                mainAxisExtent: widget.mainAxisExtent ?? 0,
                                 crossAxisSpacing: widget.crossAxisSpacing ?? 28,
                                 childAspectRatio: widget.checkRatio ?? 2 / 3,
                               ),

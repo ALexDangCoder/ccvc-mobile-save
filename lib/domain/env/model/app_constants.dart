@@ -23,6 +23,8 @@ class AppConstants {
   String baseUrlQLNV;
   @JsonKey(name: 'base_url_DOWNLOAD_PANK')
   String baseUrlPAKN;
+  @JsonKey(name: 'header_origin')
+  String headerOrigin;
 
   AppConstants(
     this.type,
@@ -32,6 +34,7 @@ class AppConstants {
     this.baseUrlNOTI,
     this.baseUrlQLNV,
     this.baseUrlPAKN,
+    this.headerOrigin,
   );
 
   factory AppConstants.fromJson(Map<String, dynamic> json) =>

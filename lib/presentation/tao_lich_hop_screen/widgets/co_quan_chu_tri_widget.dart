@@ -2,6 +2,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
@@ -16,8 +17,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CoQuanChuTri extends StatefulWidget {
-  const CoQuanChuTri({Key? key, required this.cubit}) : super(key: key);
+  const CoQuanChuTri({
+    Key? key,
+    required this.cubit,
+    this.isTrongDonVi,
+    this.chuTri,
+  }) : super(key: key);
   final TaoLichHopCubit cubit;
+  final bool? isTrongDonVi;
+  final ChuTriModel? chuTri;
 
   @override
   State<CoQuanChuTri> createState() => _CoQuanChuTriState();
@@ -32,6 +40,10 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
   void initState() {
     super.initState();
     widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
+    if (widget.isTrongDonVi != null) {
+      isTrongDonVi = widget.isTrongDonVi!;
+      isTrongDonVi = !widget.isTrongDonVi!;
+    }
   }
 
   @override
@@ -63,7 +75,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
           spaceH12,
           ContainerToggleWidget(
             initData: isTrongDonVi,
-            // key: UniqueKey(),
             showDivider: false,
             title: S.current.trong_don_vi,
             onChange: (value) {
@@ -100,6 +111,10 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   stream: widget.cubit.danhSachCB,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? <DonViModel>[];
+                    if(indexSelected == -1) {
+                      indexSelected = widget.cubit.danhSachCB.value
+                        .indexWhere((e) => e.userId == widget.chuTri?.canBoId);
+                    }
                     return data.isEmpty
                         ? const NodataWidget()
                         : Column(
@@ -125,7 +140,8 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                                           textContent: S.current
                                               .ban_co_muon_tiep_tuc_khong,
                                           icon: ImageAssets.svgAssets(
-                                              ImageAssets.ic_trung_hop),
+                                            ImageAssets.ic_trung_hop,
+                                          ),
                                           btnRightTxt: S.current.dong_y,
                                           btnLeftTxt: S.current.khong,
                                           isCenterTitle: true,

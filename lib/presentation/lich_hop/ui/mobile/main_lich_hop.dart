@@ -545,6 +545,9 @@ class _MainLichHopState extends State<MainLichHop> {
                                       const TaoLichHopScreen(),
                                 ),
                               ).then((value) async {
+                                if(value == null){
+                                  return;
+                                }
                                 if(value){
                                   await cubit.initData();
                                 }

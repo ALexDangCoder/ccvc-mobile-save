@@ -69,7 +69,7 @@ class _ThongTinGuiNhanWidgetExpandTabletState
                                     children: data
                                         .map(
                                           (e) => WidgetInExpandVanBan(
-                                            row: e.toListRow(),
+                                            row: e.toListRow(isTablet:  true),
                                             flexValue: 8,
                                           ),
                                         )

@@ -6,9 +6,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_i
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/tep_dinh_kem_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_don_vi_nhan_va_nguoi_deo_doi_van_ban_mobie.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_cap_nhat_widget_expand.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_huy_duyet_widget_expand.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_ky_duyet_widget_expand.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_thu_hoi_widget_expand.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_huy_duyet_widget_expand.dart';import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_thu_hoi_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_tra_lai_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_theo_doi_van_ban_ban_hanh_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_thong_tin_ky_duyet_widget_expand.dart';
@@ -41,7 +39,7 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban_di),
       body: DefaultTabController(
-        length: 11,
+        length: 10,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -64,7 +62,6 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                   Tab(text: S.current.lich_su_tra_lai),
                   Tab(text: S.current.lich_su_thu_hoi),
                   Tab(text: S.current.lich_su_huy_duyet),
-                  Tab(text: S.current.lich_su_ky_duyet),
                   Tab(text: S.current.theo_doi_van_ban_da_ban_hanh),
                 ],
                 isScrollable: true,
@@ -118,11 +115,6 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                   VBDiLichSuHuyDuyetExpandWidget(
                     isTablet: true,
                     cubit: UnsubscribeDetailDocumentGoCubit(),
-                    id: widget.id,
-                  ),
-                  VBDiLichSuKyDuyetExpandWidget(
-                    isTablet: true,
-                    cubit: SignForApprovalDetailDocumentGoCubit(),
                     id: widget.id,
                   ),
                   VBDiTheoDoiVanBanBanHanhExpandWidget(

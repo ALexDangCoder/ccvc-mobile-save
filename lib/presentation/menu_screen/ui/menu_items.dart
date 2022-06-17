@@ -265,6 +265,10 @@ extension GetScreen on MenuType {
           tabletScreen: const ChangePassWordScreenTablet(),
         );
       case MenuType.tuongTacNoiBo:
+        return const Scaffold(
+          backgroundColor: Colors.red,
+        );
+      case MenuType.lichLamViec:
         return screenDevice(
           mobileScreen: const CalenderWorkDayMobile(
             isBack: true,
@@ -272,10 +276,6 @@ extension GetScreen on MenuType {
           tabletScreen: const CalenderWorkDayTablet(
             isBack: true,
           ),
-        );
-      case MenuType.lichLamViec:
-        return const Scaffold(
-          backgroundColor: Colors.red,
         );
       case MenuType.baoCao:
         return const Scaffold(

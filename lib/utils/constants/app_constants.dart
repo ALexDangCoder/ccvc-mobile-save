@@ -106,10 +106,6 @@ const String ERASE_WALLET = 'earse_wallet';
 const String SUCCESS = 'success';
 const String FAIL = 'fail';
 
-const String CHO_TRINH_KY_STRING = 'CHO_TRINH_KY';
-const String CHO_XU_LY_STRING = 'CHO_XU_LY';
-const String DA_XU_LY_STRING = 'DA_XU_LY';
-
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
 const String TRANSACTION_NFT = '1';
@@ -197,6 +193,8 @@ class DocumentState {
   static const String CHO_VAO_SO = 'CHO_VAO_SO';
   static const String CHO_TRINH_KY = 'CHO_TRINH_KY';
   static const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+  static const String CHO_CAP_SO = 'CHO_CAP_SO';
+  static const String CHO_BAN_HANH = 'CHO_BAN_HANH';
   static const String DEN_HAN = 'DEN_HAN';
   static const String QUA_HAN = 'QUA_HAN';
   static const String TRONG_HAN = 'TRONG_HAN';

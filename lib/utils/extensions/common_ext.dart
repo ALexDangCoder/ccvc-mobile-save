@@ -126,6 +126,8 @@ List<int>? statusSearchDocumentOutCode(String code) {
   if (code == DocumentState.DA_XU_LY) return [];
   if (code == DocumentState.CHO_TRINH_KY) return [1];
   if (code == DocumentState.CHO_XU_LY) return [2];
+  if (code == DocumentState.CHO_CAP_SO) return [5];
+  if (code == DocumentState.CHO_BAN_HANH) return [6];
   return null;
 }
 

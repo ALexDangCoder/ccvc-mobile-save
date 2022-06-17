@@ -10,9 +10,11 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/common_info.
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class DocumentOutPage extends StatefulWidget {
   final QLVBCCubit qlvbCubit;
@@ -25,6 +27,28 @@ class DocumentOutPage extends StatefulWidget {
 
 class _DocumentInPageState extends State<DocumentOutPage>
     with AutomaticKeepAliveClientMixin {
+  final PagingController<int, VanBanModel> _documentPagingController =
+      PagingController(firstPageKey: 0);
+
+  @override
+  void initState() {
+    _documentPagingController.addPageRequestListener((pageKey) {
+      widget.qlvbCubit.fetchOutcomeDocument(
+        pageKey: pageKey,
+        documentPagingController: _documentPagingController,
+      );
+    });
+    _handleEventBus();
+
+    super.initState();
+  }
+
+  void _handleEventBus() {
+    eventBus.on<RefreshList>().listen((event) {
+      _documentPagingController.refresh();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -60,13 +84,12 @@ class _DocumentInPageState extends State<DocumentOutPage>
                             widget.qlvbCubit.documentOutStatusCode == value
                                 ? ''
                                 : value;
-                        widget.qlvbCubit.getListOutcomeDocument();
+                        _documentPagingController.refresh();
                       },
                       onStatusTap: (key) {
                         widget.qlvbCubit.documentInStatusCode = '';
                         widget.qlvbCubit.documentInSubStatusCode = key;
-                        widget.qlvbCubit
-                            .getListIncomeDocument(needLoading: true);
+                        _documentPagingController.refresh();
                       },
                     ),
                   );
@@ -90,65 +113,114 @@ class _DocumentInPageState extends State<DocumentOutPage>
                     ),
                   ],
                 ),
-                StreamBuilder<List<VanBanModel>>(
-                  stream: widget.qlvbCubit.getDanhSachVbDi,
-                  builder: (context, snapshot) {
-                    final List<VanBanModel> listData = snapshot.data ?? [];
-                    return listData.isNotEmpty
-                        ? ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: listData.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: 16,
-                                  top: (index == 0) ? 16 : 0,
-                                ),
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ChiTietVanBanDiMobile(
-                                          id: listData[index].iD ?? '',
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: ContainerInfoWidget(
-                                    title:
-                                        listData[index].trichYeu?.parseHtml() ??
-                                            '',
-                                    listData: [
-                                      InfoData(
-                                        key: S.current.dv_soan_thao,
-                                        value:
-                                            listData[index].donViSoanThao ?? '',
-                                        urlIcon: ImageAssets.icLocation,
-                                      ),
-                                      InfoData(
-                                        key: S.current.nguoi_soan_thao,
-                                        value:
-                                            listData[index].nguoiSoanThao ?? '',
-                                        urlIcon: ImageAssets.imgAcount,
-                                      ),
-                                    ],
-                                    status: listData[index].doKhan ?? '',
-                                    colorStatus: getColorFromPriorityCode(
-                                      listData[index].priorityCode ?? '',
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                        : const Padding(
-                            padding: EdgeInsets.all(16), child: NodataWidget());
-                  },
+                PagedListView<int, VanBanModel>(
+                  pagingController: _documentPagingController,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  builderDelegate: PagedChildBuilderDelegate<VanBanModel>(
+                    noItemsFoundIndicatorBuilder: (_) => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: NodataWidget(),
+                    ),
+                    itemBuilder: (context, item, index) => Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 16,
+                        top: (index == 0) ? 16 : 0,
+                      ),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChiTietVanBanDiMobile(
+                                id: item.iD ?? '',
+                              ),
+                            ),
+                          );
+                        },
+                        child: ContainerInfoWidget(
+                          title: item.trichYeu?.parseHtml() ?? '',
+                          listData: [
+                            InfoData(
+                              key: S.current.dv_soan_thao,
+                              value: item.donViSoanThao ?? '',
+                              urlIcon: ImageAssets.icLocation,
+                            ),
+                            InfoData(
+                              key: S.current.nguoi_soan_thao,
+                              value: item.nguoiSoanThao ?? '',
+                              urlIcon: ImageAssets.imgAcount,
+                            ),
+                          ],
+                          status: item.doKhan ?? '',
+                          colorStatus: getColorFromPriorityCode(
+                            item.priorityCode ?? '',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
+                // StreamBuilder<List<VanBanModel>>(
+                //   stream: widget.qlvbCubit.getDanhSachVbDi,
+                //   builder: (context, snapshot) {
+                //     final List<VanBanModel> listData = snapshot.data ?? [];
+                //     return listData.isNotEmpty
+                //         ? ListView.builder(
+                //             physics: const NeverScrollableScrollPhysics(),
+                //             shrinkWrap: true,
+                //             itemCount: listData.length,
+                //             itemBuilder: (context, index) {
+                //               return Padding(
+                //                 padding: EdgeInsets.only(
+                //                   bottom: 16,
+                //                   top: (index == 0) ? 16 : 0,
+                //                 ),
+                //                 child: GestureDetector(
+                //                   behavior: HitTestBehavior.translucent,
+                //                   onTap: () {
+                //                     Navigator.push(
+                //                       context,
+                //                       MaterialPageRoute(
+                //                         builder: (context) =>
+                //                             ChiTietVanBanDiMobile(
+                //                           id: listData[index].iD ?? '',
+                //                         ),
+                //                       ),
+                //                     );
+                //                   },
+                //                   child: ContainerInfoWidget(
+                //                     title:
+                //                         listData[index].trichYeu?.parseHtml() ??
+                //                             '',
+                //                     listData: [
+                //                       InfoData(
+                //                         key: S.current.dv_soan_thao,
+                //                         value:
+                //                             listData[index].donViSoanThao ?? '',
+                //                         urlIcon: ImageAssets.icLocation,
+                //                       ),
+                //                       InfoData(
+                //                         key: S.current.nguoi_soan_thao,
+                //                         value:
+                //                             listData[index].nguoiSoanThao ?? '',
+                //                         urlIcon: ImageAssets.imgAcount,
+                //                       ),
+                //                     ],
+                //                     status: listData[index].doKhan ?? '',
+                //                     colorStatus: getColorFromPriorityCode(
+                //                       listData[index].priorityCode ?? '',
+                //                     ),
+                //                   ),
+                //                 ),
+                //               );
+                //             },
+                //           )
+                //         : const Padding(
+                //             padding: EdgeInsets.all(16), child: NodataWidget());
+                //   },
+                // ),
               ],
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
@@ -255,26 +254,11 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                     HinhThucHop(cubit: _cubit),
                     spaceH24,
                     ChonPhongHopScreen(
-                      dateFrom: '${_cubit.taoLichHopRequest.ngayBatDau} '
-                          '${_cubit.taoLichHopRequest.timeStart}',
-                      dateTo: '${_cubit.taoLichHopRequest.ngayKetThuc} '
-                          '${_cubit.taoLichHopRequest.timeTo}',
+                      dateFrom: _cubit.getTime(),
+                      dateTo: _cubit.getTime(isGetDateStart: false),
                       id: _cubit.donViId,
                       onChange: (value) {
-                        if (value.phongHop?.phongHopId?.isNotEmpty ?? false) {
-                          _cubit.taoLichHopRequest.phongHop = value.phongHop;
-                        }
-                        _cubit.taoLichHopRequest.phongHop?.noiDungYeuCau =
-                            value.yeuCauKhac;
-                        _cubit.taoLichHopRequest.phongHopThietBi =
-                            value.listThietBi
-                                .map(
-                                  (e) => PhongHopThietBi(
-                                    tenThietBi: e.tenThietBi,
-                                    soLuong: e.soLuong.toString(),
-                                  ),
-                                )
-                                .toList();
+                        _cubit.handleChonPhongHop(value);
                       },
                     ),
                     spaceH15,

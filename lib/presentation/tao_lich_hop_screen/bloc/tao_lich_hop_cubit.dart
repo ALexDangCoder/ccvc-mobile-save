@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
@@ -40,7 +41,7 @@ List<DropDownModel> danhSachThoiGianNhacLich = [
 List<DropDownModel> danhSachLichLap = [
   DropDownModel(label: 'Không lặp lại', id: 1),
   DropDownModel(label: 'Lặp lại hàng ngày', id: 2),
-  DropDownModel(label: 'Thứ 2 đên thứ 6 hàng tuần', id: 3),
+  DropDownModel(label: 'Thứ 2 đến thứ 6 hàng tuần', id: 3),
   DropDownModel(label: 'Lặp lại hàng tuần', id: 4),
   DropDownModel(label: 'Lặp lại hàng tháng', id: 5),
   DropDownModel(label: 'Lặp lại hàng năm', id: 6),
@@ -140,12 +141,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   Future<bool> createMeeting() async {
     bool isCreateSuccess = false;
-
-    /// check cả ngày?
-    if (taoLichHopRequest.isAllDay ?? false) {
-      taoLichHopRequest.timeTo = '';
-      taoLichHopRequest.timeStart = '';
-    }
+    taoLichHopRequest.dsDiemCau = dsDiemCauSubject.value;
 
     /// check hình thức họp
     if (taoLichHopRequest.bitHopTrucTuyen != null) {
@@ -168,6 +164,13 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       taoLichHopRequest.days = '';
     } else {
       taoLichHopRequest.days ??= '1';
+    }
+    if (taoLichHopRequest.typeRepeat != danhSachLichLap.first.id) {
+      if (taoLichHopRequest.dateRepeat?.isEmpty ?? true) {
+        DateTime.now().dateTimeFormatter(
+          pattern: DateTimeFormat.DOB_FORMAT,
+        );
+      }
     }
     showLoading();
     await postFileTaoLichHop(files: listThuMoi);
@@ -326,7 +329,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
 
-  final BehaviorSubject<List<DonViModel>> danhSachCB = BehaviorSubject();
+  final BehaviorSubject<List<DonViModel>> danhSachCB =
+      BehaviorSubject.seeded([]);
 
   void addThanhPhanThamGia(List<DonViModel> listDonVi) {
     listThanhPhanThamGia.addAll(listDonVi);
@@ -341,7 +345,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   Future<void> getCanBo() async {
     final result = await thanhPhanThamGiaRp.getSeachCanBo(
       SearchCanBoRequest(
-        iDDonVi: donViId,
+        iDDonVi:
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
         pageIndex: 1,
         pageSize: 100,
       ),
@@ -409,6 +414,30 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         )
         .toList();
   }
+
+  String getTime({bool isGetDateStart = true}) {
+    return isGetDateStart
+        ? '${taoLichHopRequest.ngayBatDau} '
+            '${taoLichHopRequest.timeStart}'
+        : '${taoLichHopRequest.ngayKetThuc} '
+            '${taoLichHopRequest.timeTo}';
+  }
+
+  void handleChonPhongHop(ChonPhongHopModel value) {
+    if (value.phongHop?.phongHopId?.isNotEmpty ?? false) {
+      taoLichHopRequest.phongHop = value.phongHop;
+    }
+    taoLichHopRequest.phongHop?.noiDungYeuCau = value.yeuCauKhac;
+    taoLichHopRequest.phongHopThietBi = value.listThietBi
+        .map(
+          (e) => PhongHopThietBi(
+            tenThietBi: e.tenThietBi,
+            soLuong: e.soLuong.toString(),
+          ),
+        )
+        .toList();
+  }
+
   void dispose() {
     _loaiLich.close();
     _linhVuc.close();

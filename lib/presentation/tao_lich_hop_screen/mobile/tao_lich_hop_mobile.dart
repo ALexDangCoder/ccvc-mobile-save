@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
@@ -40,6 +39,7 @@ class TaoLichHopMobileScreen extends StatefulWidget {
 class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   late TaoLichHopCubit _cubit;
   final _formKey = GlobalKey<FormState>();
+  final _timerPickerKey = GlobalKey<CupertinoMaterialPickerState>();
 
   @override
   void initState() {
@@ -49,8 +49,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _cubit = ProviderWidget
-        .of<TaoLichHopCubit>(context)
+    _cubit = ProviderWidget.of<TaoLichHopCubit>(context)
         .cubit;
   }
 
@@ -124,6 +123,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           },
                         ),
                         CupertinoMaterialPicker(
+                          key: _timerPickerKey,
                           initTimeEnd:
                               DateTime.now().add(const Duration(hours: 1)),
                           onDateTimeChanged: (
@@ -136,13 +136,13 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                             _cubit.taoLichHopRequest.timeTo = timeEnd;
                             _cubit.taoLichHopRequest.ngayBatDau = dateStart
                                 .convertStringToDate(
-                                  formatPattern: DateFormatApp.date,
-                                )
+                              formatPattern: DateFormatApp.date,
+                            )
                                 .formatApi;
                             _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
                                 .convertStringToDate(
-                                  formatPattern: DateFormatApp.date,
-                                )
+                              formatPattern: DateFormatApp.date,
+                            )
                                 .formatApi;
                           },
                           onSwitchPressed: (value) {
@@ -263,26 +263,11 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                   HinhThucHop(cubit: _cubit),
                   spaceH24,
                   ChonPhongHopScreen(
-                    dateFrom: '${_cubit.taoLichHopRequest.ngayBatDau} '
-                        '${_cubit.taoLichHopRequest.timeStart}',
-                    dateTo: '${_cubit.taoLichHopRequest.ngayKetThuc} '
-                        '${_cubit.taoLichHopRequest.timeTo}',
+                    dateFrom: _cubit.getTime(),
+                    dateTo: _cubit.getTime(isGetDateStart: false),
                     id: _cubit.donViId,
                     onChange: (value) {
-                      if(value.phongHop?.phongHopId?.isNotEmpty ?? false) {
-                        _cubit.taoLichHopRequest.phongHop = value.phongHop;
-                      }
-                        _cubit.taoLichHopRequest.phongHop?.noiDungYeuCau =
-                            value.yeuCauKhac;
-                        _cubit.taoLichHopRequest.phongHopThietBi =
-                            value.listThietBi
-                                .map(
-                                  (e) => PhongHopThietBi(
-                                tenThietBi: e.tenThietBi,
-                                soLuong: e.soLuong.toString(),
-                              ),
-                            )
-                                .toList();
+                      _cubit.handleChonPhongHop(value);
                     },
                   ),
                   spaceH15,
@@ -306,7 +291,9 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
                       onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
+                        if ((_formKey.currentState?.validate() ?? false) &&
+                            (_timerPickerKey.currentState?.validator() ??
+                                false)) {
                           _cubit.createMeeting().then((value) {
                             if (value) {
                               Navigator.push(

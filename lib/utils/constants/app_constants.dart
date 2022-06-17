@@ -237,6 +237,7 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
   static String timeFormat = 'Hm';
+  static String monthDayFormat = 'MM/dd/yyyy HH:mm:ss';
 }
 
 class StatusYKND {

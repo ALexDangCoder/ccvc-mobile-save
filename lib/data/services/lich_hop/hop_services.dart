@@ -409,10 +409,9 @@ abstract class HopServices {
     @Query('Bit_TTDH') bool Bit_TTDH,
   );
 
-
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_PHONG_HOP)
   Future<PhanCongThuKyResponse> huyOrDuyetPhongHop(
-    @Field('hopId') String hopId,
+    @Field('lichHopId') String hopId,
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
   );
@@ -435,7 +434,7 @@ abstract class HopServices {
 
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_KY_THUAT)
   Future<PhanCongThuKyResponse> duyetOrHuyDuyetKyThuat(
-    @Field('hopId') String hopId,
+    @Field('lichHopId') String hopId,
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
   );
@@ -458,16 +457,15 @@ abstract class HopServices {
 
   @POST(ApiConstants.MOI_HOP)
   Future<ThanhPhanThamGiaResponse> moiHop(
-      @Query('lichHopId') String lichHopId,
-      @Query('IsMultipe') bool IsMultipe,
-      @Query('isSendMail') bool isSendMail,
-      @Body() List<MoiThamGiaHopRequest> body,
-      );
+    @Query('lichHopId') String lichHopId,
+    @Query('IsMultipe') bool IsMultipe,
+    @Query('isSendMail') bool isSendMail,
+    @Body() List<MoiThamGiaHopRequest> body,
+  );
 
   @POST(ApiConstants.THEM_PHIEN_HOP_CHI_TIET)
   Future<ThemPhienHopResponse> themPhienHop(
-      @Query('lichHopId') String lichHopId,
-      @Body() FormData data,
-      );
-
+    @Query('lichHopId') String lichHopId,
+    @Body() FormData data,
+  );
 }

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -86,7 +87,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
     required BuildContext context,
   }) async {
     showLoading();
-    final result = await _loginRepo.forgotPassword(email, userName);
+    final result = await _loginRepo.forgotPassword(email, userName,Get.find<AppConstants>().headerOrigin);
     result.when(
       success: (res) {
         showContent();
@@ -110,13 +111,20 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
           );
         } else if (err.code == StatusCodeConst.STATUS_NOT_FOUND ||
             err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
+          if(err.message.contains('tồn tại')){
+            MessageConfig.show(
+              messState: MessState.customIcon,
+              title: S.current.tai_khoan_hien_khong_ton_tai,
+              urlIcon: ImageAssets.icUserNotExits,
+            );
+          }else{
           MessageConfig.show(
             messState: MessState.customIcon,
             urlIcon: ImageAssets.icWarningPopUp,
             fontSize: 16.0,
             fontWeight: FontWeight.w400,
             title: err.message.contains('!') ? err.message : '${err.message}!',
-          );
+          );}
         }
         showContent();
       },

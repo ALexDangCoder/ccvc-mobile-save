@@ -329,11 +329,6 @@ class VanBanDenModel {
           TypeDocumentDetailRow.text,
         ),
         DocumentDetailRow(
-          S.current.ngay_ban_hanh,
-          '',
-          TypeDocumentDetailRow.text,
-        ),
-        DocumentDetailRow(
           S.current.ngay_han_xu_ly,
           hanXuLy ?? '',
           TypeDocumentDetailRow.text,

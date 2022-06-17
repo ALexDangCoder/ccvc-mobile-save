@@ -93,6 +93,7 @@ class InfoUserWidget extends StatelessWidget {
                   color: Colors.transparent,
                 ),
                 child: CachedNetworkImage(
+                  fit: BoxFit.cover,
                   imageUrl: data.anhDaiDienFilePath ?? '',
                   errorWidget: (context, url, error) => Container(
                       color: Colors.black,

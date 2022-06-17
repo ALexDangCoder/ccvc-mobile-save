@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_i
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
-import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -138,6 +137,113 @@ class _YKienSuLyWidgetExpandTabletState
     );
   }
 
+  List<Widget> commentView({
+    int? index,
+    required String avatar,
+    required String tenNhanVien,
+    required String ngayTao,
+    required String noiDung,
+    required List<YKienXuLyFileDinhKem> fileDinhKem,
+    required List<TraLoiYKien> listTraLoi,
+    bool canRelay = false,
+  }) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircleAvatar(
+            radius: 20,
+            backgroundImage: NetworkImage(
+              '$DO_MAIN_DOWLOAD_FILE$avatar',
+            ),
+          ),
+          spaceW13,
+          Text(
+            tenNhanVien,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: AppTheme.getInstance().titleColor(),
+            ), //infoColor
+          ),
+          spaceW30,
+          Expanded(
+            child: Text(
+              ngayTao,
+              style: textNormalCustom(
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                color: infoColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+      spaceH12,
+      Text(
+        noiDung,
+        style: textNormalCustom(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          color: AppTheme.getInstance().titleColor(),
+        ), //infoColor
+      ),
+      spaceH10,
+      Text(
+        S.current.van_ban_dinh_kem,
+        style: textNormalCustom(
+          fontWeight: FontWeight.w400,
+          fontSize: 12,
+          color: AppTheme.getInstance().titleColor(),
+        ), //infoColor
+      ),
+      spaceH6,
+      Row(
+        children: [
+          Expanded(child: _listFile(fileDinhKem)),
+          spaceW13,
+          _relayButton(canRelay, index)
+        ],
+      ),
+      _listRelayIcon(listTraLoi ,canRelay, index),
+      spaceH12,
+    ];
+  }
+
+  Widget commentRelay({
+    int? index,
+    String? id,
+    required String avatar,
+    required String tenNhanVien,
+    required String ngayTao,
+    required String noiDung,
+    required List<YKienXuLyFileDinhKem> fileDinhKem,
+    required List<TraLoiYKien> listTraLoi,
+    required bool canRelay,
+  }) {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ...commentView(
+            index: index,
+            listTraLoi: listTraLoi,
+            tenNhanVien: tenNhanVien,
+            fileDinhKem: fileDinhKem,
+            avatar: avatar,
+            ngayTao: ngayTao,
+            noiDung: noiDung,
+            canRelay: canRelay,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _itemCommend({
     int? index,
     String? id,
@@ -157,64 +263,16 @@ class _YKienSuLyWidgetExpandTabletState
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(
-                  '$DO_MAIN_DOWLOAD_FILE$avatar',
-                ),
-              ),
-              spaceW13,
-              Text(
-                tenNhanVien,
-                style: textNormalCustom(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: AppTheme.getInstance().titleColor(),
-                ), //infoColor
-              ),
-              Expanded(
-                child: Text(
-                  ngayTao,
-                  style: textNormalCustom(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    color: infoColor,
-                  ),
-                ),
-              ),
-            ],
+          ...commentView(
+            index: index,
+            listTraLoi: listTraLoi,
+            tenNhanVien: tenNhanVien,
+            fileDinhKem: fileDinhKem,
+            avatar: avatar,
+            ngayTao: ngayTao,
+            noiDung: noiDung,
+            canRelay: canRelay,
           ),
-          spaceH12,
-          Text(
-            noiDung,
-            style: textNormalCustom(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppTheme.getInstance().titleColor(),
-            ), //infoColor
-          ),
-          spaceH10,
-          Text(
-            S.current.van_ban_dinh_kem,
-            style: textNormalCustom(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: AppTheme.getInstance().titleColor(),
-            ), //infoColor
-          ),
-          spaceH6,
-          Row(
-            children: [
-              Expanded(child: _listFile(fileDinhKem)),
-              spaceW13,
-              _relayButton(canRelay, index)
-            ],
-          ),
-          _listRelayIcon(listTraLoi),
-          spaceH12,
           if (canRelay && indexActiveRelay == index)
             WidgetComments(
               focus: true,
@@ -233,7 +291,11 @@ class _YKienSuLyWidgetExpandTabletState
     );
   }
 
-  Widget _listRelayIcon(List<TraLoiYKien> listTraLoi) {
+  Widget _listRelayIcon(
+    List<TraLoiYKien> listTraLoi,
+    bool canRelay,
+    int? index,
+  ) {
     if (listTraLoi.isNotEmpty) {
       return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
@@ -242,7 +304,9 @@ class _YKienSuLyWidgetExpandTabletState
         itemBuilder: (context, i) {
           return Padding(
             padding: const EdgeInsets.only(left: 32, top: 12),
-            child: _itemCommend(
+            child: commentRelay(
+              index: index,
+              canRelay: canRelay,
               avatar: listTraLoi[i].avatar,
               tenNhanVien: listTraLoi[i].hoTenNguoiTraLoi,
               ngayTao: listTraLoi[i].thoiGianTraLoiStr,
@@ -268,10 +332,9 @@ class _YKienSuLyWidgetExpandTabletState
                 onTap: () {
                   final baseURL = Get.find<AppConstants>().baseUrlQLNV;
                   saveFile(
-                    fileName: e.fileDinhKem?.ten ?? '',
-                    url: e.fileDinhKem?.duongDan ?? '',
-                    downloadType: DomainDownloadType.QLNV
-                  );
+                      fileName: e.fileDinhKem?.ten ?? '',
+                      url: e.fileDinhKem?.duongDan ?? '',
+                      downloadType: DomainDownloadType.QLNV);
                 },
                 child: SizedBox(
                   child: Text(

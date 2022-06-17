@@ -329,8 +329,8 @@ class DanhSachCongViecCubit extends HomeCubit {
   int totalPage = 1;
   int totalItem = 1;
   bool isSearching = false;
-  final List<String> danhSachTenNguoiGan=[];
-  final List<TodoModel> danhSachNguoiGan=[];
+  final List<String> danhSachTenNguoiGan = [];
+  final List<TodoModel> danhSachNguoiGan = [];
 
   DanhSachCongViecCubit() {
     id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
@@ -375,17 +375,8 @@ class DanhSachCongViecCubit extends HomeCubit {
         () => getListNguoiGan(true, 5),
       ),
     );
-    // await queue.add(
-    //   () => getListNguoiGan(1, 9999, true),
-    // );
     await queue.add(
       () => getToDoList(),
-
-    );
-
-    await queue.add(
-          () => getToDoList(),
-
     );
     unawaited(queue.onComplete.then((_) => showContent()));
     queue.dispose();
@@ -429,20 +420,22 @@ class DanhSachCongViecCubit extends HomeCubit {
       ),
     );
     showContent();
-    result.when(
-      success: (res) {
+    await result.when(
+      success: (res) async {
+        final String nameInsert = await getName(res.performer ?? '');
         final data = _getTodoList.value;
         data.listTodoImportant.insert(
           0,
           res,
         );
+        danhSachTenNguoiGan.insert(0, nameInsert);
         _getTodoList.sink.add(data);
       },
       error: (err) {},
     );
   }
 
-  void _removeInsertImportant(TodoListModel data, TodoModel todo) {
+  void _removeInsertImportant(TodoListModel data, TodoModel todo) async{
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
@@ -456,6 +449,8 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   void _removeInsertDone(TodoListModel data, TodoModel todo) {
+    danhSachTenNguoiGan.removeAt(
+        data.listTodoImportant.indexWhere((element) => element.id == todo.id),);
     final result = data.listTodoImportant.removeAt(
       data.listTodoImportant.indexWhere((element) => element.id == todo.id),
     );
@@ -561,9 +556,11 @@ class DanhSachCongViecCubit extends HomeCubit {
     showLoading();
     final result = await homeRep.getListTodo();
     showContent();
-    result.when(
-      success: (res) {
+    await result.when(
+      success: (res) async {
+        danhSachNguoiGan.clear();
         danhSachNguoiGan.addAll(res.listTodoImportant);
+        await getListNameCanBo();
         _getTodoList.sink.add(res);
       },
       error: (err) {},
@@ -668,12 +665,12 @@ class DanhSachCongViecCubit extends HomeCubit {
     _danhSachNguoiGan.sink.add(resultSearch);
   }
 
-  Future<void> getListNameCanBo() async{
-    danhSachNguoiGan.forEach((element) {
-      String name='';
-      getName(element.performer??'').then((value) =>name=value);
-       danhSachTenNguoiGan.add(name);
-    });
+  Future<void> getListNameCanBo() async {
+    for (final element in danhSachNguoiGan) {
+      String name = '';
+      await getName(element.performer ?? '').then((value) => name = value);
+      danhSachTenNguoiGan.add(name);
+    }
   }
 
   Future<String> getName(String id) async {

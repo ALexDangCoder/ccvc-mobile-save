@@ -29,7 +29,7 @@ class _ItemXaWidgetState extends State<ItemXaWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenXaPhuong ?? '').toList(),
-          hintText: 'Chọn xã',
+          hintText: S.current.chon_xa,
           title: S.current.xa,
         );
       },

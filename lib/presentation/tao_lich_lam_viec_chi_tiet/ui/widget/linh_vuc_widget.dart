@@ -29,7 +29,7 @@ class _LinhVucWidgetState extends State<LinhVucWidget> {
           },
           urlIcon: ImageAssets.icWork,
           listSelect: data.map((e) => e.name).toList(),
-          hintText: 'Chọn lĩnh vực',
+          hintText: S.current.chon_linh_vuc,
           title: S.current.linh_vuc,
         );
       },

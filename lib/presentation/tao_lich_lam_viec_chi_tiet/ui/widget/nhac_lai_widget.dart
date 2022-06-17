@@ -27,7 +27,7 @@ class _NhacLaiWidgetState extends State<NhacLaiWidget> {
           return SelectOnlyExpand(
             urlIcon: ImageAssets.icNotify,
             listSelect: data.map<String>((e) => e.title ?? '').toList(),
-            hintText: 'Chọn nhắc lịch',
+            hintText: S.current.chon_nhac_lich,
             title: S.current.nhac_lich,
             onChange: (value) {
               widget.taoLichLamViecCubit.selectNhacLai.title =

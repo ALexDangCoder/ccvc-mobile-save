@@ -18,7 +18,6 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final dataUser = HiveLocal.getDataUser();
     _cubit.donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
@@ -27,7 +26,6 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _cubit.dispose();
   }
@@ -38,7 +36,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
       cubit: _cubit,
       child: screenDevice(
           mobileScreen: const TaoLichHopMobileScreen(),
-          tabletScreen: const TaoLichHopMobileTabletScreen()),
+          tabletScreen: const TaoLichHopMobileTabletScreen(),),
     );
   }
 }

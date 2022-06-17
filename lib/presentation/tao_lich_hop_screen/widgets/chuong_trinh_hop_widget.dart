@@ -178,8 +178,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           child: DoubleButtonBottom(
             isTablet: isMobile() == false,
             onPressed2: () {
-              _keyBaseTime.currentState?.validator();
-              if (_key.currentState?.validator() ?? false) {
+              if ((_key.currentState?.validator() ?? false) &&
+                  (_keyBaseTime.currentState?.validator() ?? false)) {
                 taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
                 taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
                 taoPhienHopRequest.timeEnd = timeEnd;
@@ -253,7 +253,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     ),
                   ),
                   key: _keyBaseTime,
-                  validator: () {},
+                  validator: (timeBegin, timerEn) {
+                    return timeBegin.equalTime(timerEn);
+                  },
                   onChange: (timeBegin, timerEn) {
                     timeStart = timeBegin.timerToString;
                     timeEnd = timerEn.timerToString;
@@ -279,6 +281,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                         : donVi.name.isNotEmpty
                             ? donVi.name
                             : '';
+                    taoPhienHopRequest.uuid = donVi.uuid;
                   },
                   listSelect: widget.cubit.getListTenCanBo(),
                 ),

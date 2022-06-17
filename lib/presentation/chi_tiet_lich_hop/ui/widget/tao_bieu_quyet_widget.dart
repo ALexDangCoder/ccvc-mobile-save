@@ -92,7 +92,6 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                   child: SizedBox(
                     child: BaseChooseTimerWidget(
                       key: _keyBaseTime,
-                      validator: () {},
                       timeBatDau: widget.cubit.dateTimeNowStart(),
                       timeKetThuc: widget.cubit.dateTimeNowEnd(),
                       onChange: (start, end) {

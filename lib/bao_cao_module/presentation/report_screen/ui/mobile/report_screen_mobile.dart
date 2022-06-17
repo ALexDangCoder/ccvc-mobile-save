@@ -391,6 +391,8 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                       prefixIcon: GestureDetector(
                         onTap: () {
                           cubit.isStatusSearch.add(true);
+                          _searchController.clear();
+                          cubit.textSearch.add('');
                         },
                         child: SizedBox(
                           width: 48,

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_state.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -27,7 +28,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
     required String keyWord,
   }) async {
     showLoading();
-    final result = await _reportService.getListReport(
+    final Result result = await _reportService.getListReport(
       folderId,
       sort,
       keyWord,

@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/type_calendar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,7 +65,6 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                   ),
                 ),
                 monthViewSettings: MonthViewSettings(
-                  showTrailingAndLeadingDates: false,
                   appointmentDisplayCount: 2,
                   monthCellStyle: MonthCellStyle(
                     backgroundColor: bgCalenderColor,
@@ -134,24 +135,71 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                   } else {
                     return GestureDetector(
                       onTap: () {
-                        widget.cubit.chooseTypeCalender(
-                          Type_Choose_Option_Day.DAY,
-                        );
-                        widget.cubit.stateOptionDay =
-                            Type_Choose_Option_Day.DAY;
-                        widget.cubit.index.sink.add(0);
-                        widget.cubit.callApi();
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            '...',
-                            style: textNormalCustom(
-                              color: textBodyTime,
-                              fontSize: 14,
+                        final String typeCalendar = widget.cubit
+                            .getElementFromId(
+                          appointment.id.toString(),
+                        )
+                            .typeSchedule ??
+                            'Schedule';
+
+                        typeCalendar.getTypeCalendar.navigatorDetail(
+                          context,
+                          widget.cubit,
+                          (widget.cubit.dataLichLvModel
+                              .listLichLVModel ??
+                              [])
+                              .indexOf(
+                            widget.cubit.getElementFromId(
+                              appointment.id.toString(),
                             ),
                           ),
-                        ],
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5.0,
+                          vertical: 2.0,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.0),
+                          color: AppTheme.getInstance().colorField(),
+                        ),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      appointment.subject,
+                                      style: textNormalCustom(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                ],
+                              ),
+                            ),
+                            if (widget.cubit
+                                .getElementFromId(
+                              appointment.id.toString(),
+                            )
+                                .isTrung)
+                              const Icon(
+                                Icons.circle,
+                                color: Colors.red,
+                                size: 10,
+                              )
+                            else
+                              Container()
+                          ],
+                        ),
                       ),
                     );
                   }

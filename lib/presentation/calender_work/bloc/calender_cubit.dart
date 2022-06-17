@@ -206,23 +206,26 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     recurrence.interval = 2;
     recurrence.recurrenceRange = RecurrenceRange.noEndDate;
     recurrence.recurrenceCount = 10;
-    for (final i in dataLichLvModels.listLichLVModel ?? []) {
-      appointments.add(
-        Appointment(
-          startTime: DateTime.parse(
-            i.dateTimeFrom ?? '',
+
+    if((dataLichLvModels.listLichLVModel ?? []).isNotEmpty) {
+      for (final i in dataLichLvModels.listLichLVModel ?? []) {
+        appointments.add(
+          Appointment(
+            startTime: DateTime.parse(
+              i.dateTimeFrom ?? '',
+            ),
+            endTime: DateTime.parse(
+              i.dateTimeTo ?? '',
+            ),
+            subject: i.title ?? '',
+            color: Colors.blue,
+            id: i.id ?? '',
           ),
-          endTime: DateTime.parse(
-            i.dateTimeTo ?? '',
-          ),
-          subject: i.title ?? '',
-          color: Colors.blue,
-          id: i.id ?? '',
-        ),
-      );
+        );
+      }
+      getMatchDate(dataLichLvModels);
     }
 
-    getMatchDate(dataLichLvModels);
     // appointments.add(Appointment(startTime: DateTime(DateTime
     //     .now()
     //     .year, DateTime
@@ -355,7 +358,7 @@ extension HandleDataCalendar on CalenderCubit {
         ),
       ),
     );
-    for (final e in data.listLichLVModel ?? []) {
+    for (final ListLichLVModel e in data.listLichLVModel ?? []) {
       (data.listLichLVModel ?? [])
           .where(
             (i) =>
@@ -366,10 +369,9 @@ extension HandleDataCalendar on CalenderCubit {
                         i.dateTimeFrom ?? '',
                       ),
                     ) ||
-                    isMatch(
-                      DateTime.parse(
-                        e.dateTimeFrom ?? '',
-                      ),
+                    DateTime.parse(
+                      e.dateTimeFrom ?? '',
+                    ).isAtSameMomentAs(
                       DateTime.parse(
                         i.dateTimeFrom ?? '',
                       ),

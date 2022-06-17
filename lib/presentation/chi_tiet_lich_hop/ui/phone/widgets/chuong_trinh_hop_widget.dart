@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_phien_hop.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -56,25 +57,13 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
   @override
   Widget build(BuildContext context) {
     return screenDevice(
-      mobileScreen: ExpandOnlyWidget(
+      mobileScreen: SelectOnlyWidget(
         onchange: (vl) {
           if (vl && isMobile()) {
             widget.cubit.callApiChuongTrinhHop();
           }
         },
-        header: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          color: Colors.transparent,
-          child: Row(
-            children: [
-              Text(
-                S.current.chuong_trinh_hop,
-                style: textNormalCustom(color: titleColumn, fontSize: 16),
-              ),
-              const Expanded(child: SizedBox())
-            ],
-          ),
-        ),
+        title: S.current.chuong_trinh_hop,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

@@ -89,7 +89,7 @@
   "noi_gui": "Nơi gửi",
   "da_qua_han": "Đã quá hạn",
   "nguoi_chu_tri": "Người chủ trì",
-  "dia_diem": "Địa điểm",
+  "dia_diem": "Chọn địa điểm",
   "tin_tuc_thoi_su": "Tin tức thời sự",
   "theo_doi_bai_viet": "Theo dõi bài viết",
   "tat_ca_chu_de": "Tất cả chủ đề",
@@ -214,7 +214,7 @@
   "ban_co_chac_chan_xoa": "Bạn có chắc muốn xóa HDSD này!",
   "xoa_hdsd": "Xoá HDSD",
   "danhSach": "Danh sách lịch sẽ được hiển thị những loại lịch nào?",
-  "noi_dung": "Nội dung",
+  "noi_dung": "Chọn nội dung",
   "chinh_sua_hdsd": "Chỉnh sửa hướng dẫn sử dụng",
   "xem_truoc": "Xem trước",
   "chu_de_hdsd": "Chủ đề HDSD",
@@ -1122,6 +1122,14 @@
   "ten_tai_khoan": "Tên tài khoản",
   "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
   "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
-  "dang_ky_xe_moi": "Đăng ký xe mới"
+  "dang_ky_xe_moi": "Đăng ký xe mới",
+  "chon_loai_lich": "Chọn loại lịch",
+  "chon_nhac_lich": "Chọn nhắc lịch",
+  "chon_linh_vuc": "Chọn lĩnh vực",
+  "chon_tinh": "Chọn Tỉnh",
+  "chon_huyen": "Chọn Huyện",
+  "chon_xa": "Chọn xã",
+  "chon_nuoc": "Chọn nước",
+  "chon_lich_lap": "Chọn lịch lặp"
 
 }

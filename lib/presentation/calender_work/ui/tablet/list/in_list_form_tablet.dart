@@ -98,8 +98,8 @@ class _InListFormTabletState extends State<InListFormTablet> {
                           );
                         },
                         isTrung: _cubit.dataLichLvModel.listLichLVModel?[index]
-                                .isLichLap ??
-                            true,
+                                .isTrung ??
+                            false,
                       ),
                     );
                   },

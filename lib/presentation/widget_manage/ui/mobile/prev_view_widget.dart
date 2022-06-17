@@ -38,6 +38,7 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: homeColor,
       appBar: AppBarDefaultBack(
         S.current.xem_truoc_widget,
       ),

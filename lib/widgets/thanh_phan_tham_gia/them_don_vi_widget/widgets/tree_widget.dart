@@ -68,8 +68,18 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          widget.node.expand = !widget.node.expand;
-                          setState(() {});
+                          if (widget.node.children.isEmpty) {
+                            widget.node.isCheck.isCheck =
+                                !widget.node.isCheck.isCheck;
+                            setState(() {});
+                            widget.themDonViCubit.addSelectNode(
+                              widget.node,
+                              isCheck: widget.node.isCheck.isCheck,
+                            );
+                          } else {
+                            widget.node.expand = !widget.node.expand;
+                            setState(() {});
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 9),

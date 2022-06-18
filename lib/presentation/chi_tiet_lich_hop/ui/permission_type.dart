@@ -225,10 +225,17 @@ extension GetDataPermission on PERMISSION_DETAIL {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: SuaLichHopWidget(
-                  cubit: cubit,
+                  chiTietHop: cubit.getChiTietLichHopModel,
                 ),
               ),
-            );
+            ).then((value) {
+              if(value == null){
+                return;
+              }
+              if(value){
+                cubit.initDataChiTiet();
+              }
+            });
           },
         );
       case PERMISSION_DETAIL.CU_CAN_BO:

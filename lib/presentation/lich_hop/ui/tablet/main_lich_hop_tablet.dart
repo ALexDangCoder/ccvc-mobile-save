@@ -168,7 +168,7 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                                   const TaoLichHopScreen(),
                             ),
                           ).then((value) async {
-                            if(value){
+                            if (value) {
                               await cubit.initData();
                             }
                           });
@@ -236,8 +236,37 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                           return BlocBuilder<LichHopCubit, LichHopState>(
                             bloc: cubit,
                             builder: (context, state) {
-                              if (state is LichHopStateDangDanhSach) {
-                                return const SizedBox();
+                              if (state is LichHopStateDangDanhSach ||
+                                  state is LichHopStateDangLich) {
+                                return StreamBuilder<
+                                    List<DashBoardThongKeModel>>(
+                                  stream: cubit.listDashBoardThongKe.stream,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? [];
+
+                                    return Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 30.0,
+                                        top: 15,
+                                      ),
+                                      height: 116,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: data.length,
+                                        itemBuilder: (context, index) {
+                                          return CustomItemCalenderWorkTablet(
+                                            image: cubit
+                                                .listImageLichHopThongKe[index],
+                                            typeName: data[index].name ?? '',
+                                            numberOfCalendars:
+                                                data[index].quantities ?? 0,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
                               } else {
                                 if (state is LichHopStateDangThongKe) {
                                   return StreamBuilder<

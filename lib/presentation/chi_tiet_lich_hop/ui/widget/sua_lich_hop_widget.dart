@@ -1,32 +1,36 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/fake_data_tao_lich.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/co_quan_chu_tri_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_hop.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'lich_lap_tuy_chinh_widget_hop_chi_tiet.dart';
-
 class SuaLichHopWidget extends StatefulWidget {
-  final DetailMeetCalenderCubit cubit;
+  final ChiTietLichHopModel chiTietHop;
 
-  const SuaLichHopWidget({Key? key, required this.cubit}) : super(key: key);
+  const SuaLichHopWidget({Key? key, required this.chiTietHop})
+      : super(key: key);
 
   @override
   _SuaLichHopWidgetState createState() => _SuaLichHopWidgetState();
@@ -34,240 +38,299 @@ class SuaLichHopWidget extends StatefulWidget {
 
 class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
   final TaoLichHopCubit _cubitTaoLichHop = TaoLichHopCubit();
+  final _formKey = GlobalKey<FormState>();
+  final _timerPickerKey = GlobalKey<CupertinoMaterialPickerState>();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _cubitTaoLichHop.loadData();
+    _cubitTaoLichHop.taoLichHopRequest =
+        taoHopFormChiTietHopModel(widget.chiTietHop);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        child: StreamBuilder<ChiTietLichHopModel>(
-            stream: widget.cubit.chiTietLichHopSubject,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const SizedBox();
-              }
-              final dataDetail = snapshot.data ?? ChiTietLichHopModel();
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ExpandGroup(
-                    child: Column(
-                      children: [
-                        TextFieldStyle(
-                          controller:
-                              TextEditingController(text: dataDetail.title),
-                          urlIcon: ImageAssets.icEdit,
-                          hintText: S.current.tieu_de,
-                          onChange: (vl) {
-                            widget.cubit.taoLichHopRequest.title = vl;
-                          },
+    return StateStreamLayout(
+      textEmpty: S.current.khong_co_du_lieu,
+      retry: () {},
+      error: AppException('', S.current.something_went_wrong),
+      stream: _cubitTaoLichHop.stateStream,
+      child: FollowKeyBoardWidget(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ExpandGroup(
+                  child: Column(
+                    children: [
+                      TextFieldStyle(
+                        initValue: widget.chiTietHop.title,
+                        urlIcon: ImageAssets.icEdit,
+                        hintText: S.current.tieu_de,
+                        onChange: (value) {
+                          _cubitTaoLichHop.taoLichHopRequest.title = value;
+                        },
+                        validate: (value) {
+                          return value.isEmpty
+                              ? S.current.khong_duoc_de_trong
+                              : null;
+                        },
+                        maxLength: 200,
+                      ),
+                      spaceH5,
+                      StreamBuilder<List<LoaiSelectModel>>(
+                        stream: _cubitTaoLichHop.loaiLich,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <LoaiSelectModel>[];
+                          return SelectOnlyExpand(
+                            urlIcon: ImageAssets.icCalendar,
+                            title: S.current.loai_hop,
+                            value: widget.chiTietHop.loaiHop,
+                            listSelect: data.map((e) => e.name).toList(),
+                            onChange: (index) {
+                              _cubitTaoLichHop.taoLichHopRequest
+                                  .typeScheduleId = data[index].id;
+                            },
+                          );
+                        },
+                      ),
+                      spaceH5,
+                      StreamBuilder<List<LoaiSelectModel>>(
+                        stream: _cubitTaoLichHop.linhVuc,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <LoaiSelectModel>[];
+                          return SelectOnlyExpand(
+                            urlIcon: ImageAssets.icWork,
+                            title: S.current.linh_vuc,
+                            value: widget.chiTietHop.linhVuc,
+                            listSelect: data.map((e) => e.name).toList(),
+                            onChange: (index) {
+                              _cubitTaoLichHop.taoLichHopRequest.linhVucId =
+                                  data[index].id;
+                            },
+                          );
+                        },
+                      ),
+                      CupertinoMaterialPicker(
+                        key: _timerPickerKey,
+                        isEdit : true,
+                        initDateStart:
+                            widget.chiTietHop.ngayBatDau.convertStringToDate(
+                          formatPattern: DateFormatApp.monthDayFormat,
                         ),
-                        spaceH5,
-                        ContainerToggleWidget(
-                          initData: dataDetail.bit_HopTrucTuyen,
-                          title: S.current.hop_truc_tuyen,
-                          onChange: (value) {
-                            widget.cubit.taoLichHopRequest.bitHopTrucTuyen =
-                                value;
-                          },
+                        initDateEnd:
+                            widget.chiTietHop.ngayKetThuc.convertStringToDate(
+                          formatPattern: DateFormatApp.monthDayFormat,
                         ),
-                        spaceH5,
-                        ContainerToggleWidget(
-                          initData: dataDetail.bit_TrongDonVi,
-                          title: S.current.trong_don_vi,
-                          onChange: (value) {
-                            widget.cubit.taoLichHopRequest.bitTrongDonVi =
-                                value;
-                          },
+                        initTimeEnd:
+                            widget.chiTietHop.timeTo.convertStringToDate(
+                          formatPattern: DateFormatApp.timeFormat,
                         ),
-                        spaceH5,
-                        StreamBuilder<List<LoaiSelectModel>>(
-                          stream: _cubitTaoLichHop.loaiLich,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? <LoaiSelectModel>[];
-                            return SelectOnlyExpand(
-                              urlIcon: ImageAssets.icCalendar,
-                              title: S.current.loai_hop,
-                              value: dataDetail.loaiHop,
-                              listSelect: data.map((e) => e.name).toList(),
-                              onChange: (vl) {},
-                            );
-                          },
+                        initTimeStart:
+                            widget.chiTietHop.timeStart.convertStringToDate(
+                          formatPattern: DateFormatApp.timeFormat,
                         ),
-                        spaceH5,
-                        StreamBuilder<List<LoaiSelectModel>>(
-                          stream: _cubitTaoLichHop.linhVuc,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? <LoaiSelectModel>[];
-                            return SelectOnlyExpand(
-                              urlIcon: ImageAssets.icWork,
-                              title: S.current.linh_vuc,
-                              value: dataDetail.linhVuc,
-                              listSelect: data.map((e) => e.name).toList(),
-                              onChange: (vl) {
-                                widget.cubit.taoLichHopRequest.linhVucId =
-                                    data[vl].id;
-                              },
-                            );
-                          },
-                        ),
-                        StartEndDateWidget(
-                          onEndDateTimeChanged: (DateTime value) {
-                            widget.cubit.taoLichHopRequest.ngayBatDau =
-                                value.toString();
-                          },
-                          onStartDateTimeChanged: (DateTime value) {
-                            widget.cubit.taoLichHopRequest.ngayKetThuc =
-                                value.toString();
-                          },
-                          isCheck: (bool value) {},
-                        ),
-                        spaceH5,
-                        SelectOnlyExpand(
-                          urlIcon: ImageAssets.icNhacLai,
-                          title: S.current.nhac_lai,
-                          value: dataDetail.nhacLai(),
-                          listSelect: FakeDataTaoLichHop.nhacLai,
-                          onChange: (vl) {
-                            widget.cubit.taoLichHopRequest.typeReminder =
-                                widget.cubit.nhacLai(vl);
-                          },
-                        ),
-                        spaceH5,
-                        SelectOnlyExpand(
-                          urlIcon: ImageAssets.icNhacLai,
-                          title: S.current.lich_lap,
-                          value: dataDetail.lichLap(),
-                          listSelect: FakeDataTaoLichHop.lichLap,
-                          onChange: (vl) {
-                            if (vl + 1 == FakeDataTaoLichHop.lichLap.length) {
-                              widget.cubit.checkTuyChinh.sink.add(true);
-                            } else {
-                              widget.cubit.checkTuyChinh.sink.add(false);
-                            }
-                            widget.cubit.taoLichHopRequest.typeRepeat = vl + 1;
-                          },
-                        ),
-                        StreamBuilder<bool>(
-                          stream: widget.cubit.checkTuyChinh,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? false;
-                            if (data && dataDetail.typeRepeat == 7) {
-                              return LichLapTuyChinhChiTietHopWidget(
-                                cubit: widget.cubit,
-                                onChange: (vl) {
-                                  final String vlChange = vl.join(',');
-                                  widget.cubit.taoLichHopRequest.days =
-                                      vlChange;
-                                },
-                                initData: widget.cubit
-                                    .listNgayChonTuan(dataDetail.days ?? ''),
-                                initDate: DateTime.parse(
-                                  dataDetail.dateRepeat ??
-                                      DateTime.now().toString(),
-                                ),
-                              );
-                            }
-                            return const SizedBox();
-                          },
-                        ),
-                        spaceH5,
-                        SelectOnlyExpand(
-                          urlIcon: ImageAssets.icMucDoHop,
-                          title: S.current.muc_do_hop,
-                          value: dataDetail.mucDoHopWithInt(),
-                          listSelect: FakeDataTaoLichHop.mucDoHop,
-                        ),
-                        spaceH5,
-                        StreamBuilder<List<NguoiChutriModel>>(
-                          stream: _cubitTaoLichHop.nguoiChuTri,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? <NguoiChutriModel>[];
-                            return SelectOnlyExpand(
-                              urlIcon: ImageAssets.icPeople,
-                              title: S.current.nguoi_chu_tri,
-                              value: dataDetail.chuTriModel.data(),
-                              listSelect: data.map((e) => e.title()).toList(),
-                              onChange: (vl) {
-                                final result = data[vl];
-                                widget.cubit.taoLichHopRequest.chuTri = ChuTri(
-                                  donViId: result.donViId,
-                                  canBoId: result.userId,
-                                  tenCanBo: result.hoTen,
-                                  tenCoQuan: result.tenDonVi,
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        spaceH24,
-                        TextFieldStyle(
-                          controller:
-                              TextEditingController(text: dataDetail.noiDung),
-                          urlIcon: ImageAssets.icDocument,
-                          hintText: S.current.noi_dung,
-                          maxLines: 4,
-                          onChange: (vl) {
-                            widget.cubit.taoLichHopRequest.title = vl;
-                          },
-                        ),
-                        spaceH24
-                      ],
-                    ),
+                        isAllDay: widget.chiTietHop.isAllDay,
+                        onDateTimeChanged: (
+                          String timeStart,
+                          String timeEnd,
+                          String dateStart,
+                          String dateEnd,
+                        ) {
+                          _cubitTaoLichHop.taoLichHopRequest.timeStart =
+                              timeStart;
+                          _cubitTaoLichHop.taoLichHopRequest.timeTo = timeEnd;
+                          _cubitTaoLichHop.taoLichHopRequest.ngayBatDau =
+                              dateStart
+                                  .convertStringToDate(
+                                    formatPattern: DateFormatApp.date,
+                                  )
+                                  .formatApi;
+                          _cubitTaoLichHop.taoLichHopRequest.ngayKetThuc =
+                              dateEnd
+                                  .convertStringToDate(
+                                    formatPattern: DateFormatApp.date,
+                                  )
+                                  .formatApi;
+                        },
+                        onSwitchPressed: (value) {
+                          _cubitTaoLichHop.taoLichHopRequest.isAllDay = value;
+                        },
+                        validateTime: (String value) {},
+                      ),
+                      spaceH5,
+                      NhacLichWidget(
+                        isSelectedBtn: widget.chiTietHop.isCongKhai ?? false,
+                        urlIcon: ImageAssets.icNhacLai,
+                        title: S.current.nhac_lai,
+                        value: widget.chiTietHop.nhacLai(),
+                        listSelect: danhSachThoiGianNhacLich
+                            .map((e) => e.label)
+                            .toList(),
+                        onChange: (index) {
+                          _cubitTaoLichHop.taoLichHopRequest.typeReminder =
+                              danhSachThoiGianNhacLich[index].id;
+                          if (index == 0) {
+                            _cubitTaoLichHop.taoLichHopRequest.isNhacLich =
+                                false;
+                          } else {
+                            _cubitTaoLichHop.taoLichHopRequest.isNhacLich =
+                                true;
+                          }
+                        },
+                        onTogglePressed: (value) {
+                          _cubitTaoLichHop.taoLichHopRequest.congKhai = value;
+                        },
+                      ),
+                      spaceH5,
+                      LichLapWidget(
+                        urlIcon: ImageAssets.icNhacLai,
+                        title: S.current.lich_lap,
+                        value: widget.chiTietHop.lichLap(),
+                        isUpdate: true,
+                        initDayPicked: widget.chiTietHop.getDays(),
+                        initDate:
+                            widget.chiTietHop.dateRepeat?.convertStringToDate(),
+                        listSelect:
+                            danhSachLichLap.map((e) => e.label).toList(),
+                        onChange: (index) {
+                          _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
+                              danhSachLichLap[index].id;
+                          if (index == 0) {
+                            _cubitTaoLichHop.taoLichHopRequest.isLichLap =
+                                false;
+                          } else {
+                            _cubitTaoLichHop.taoLichHopRequest.isLichLap = true;
+                          }
+                        },
+                        onDayPicked: (listId) {
+                          _cubitTaoLichHop.taoLichHopRequest.days =
+                              listId.join(',');
+                        },
+                        onDateChange: (value) {
+                          _cubitTaoLichHop.taoLichHopRequest.dateRepeat =
+                              value.changeToNewPatternDate(
+                            DateFormatApp.date,
+                            DateFormatApp.dateTimeBackEnd,
+                          );
+                        },
+                      ),
+                      spaceH5,
+                      SelectOnlyExpand(
+                        urlIcon: ImageAssets.icMucDoHop,
+                        title: S.current.muc_do_hop,
+                        value: widget.chiTietHop.getMucDoHop(),
+                        listSelect: mucDoHop.map((e) => e.label).toList(),
+                        onChange: (index) {
+                          _cubitTaoLichHop.taoLichHopRequest.mucDo =
+                              mucDoHop[index].id;
+                        },
+                      ),
+                      spaceH12,
+                      CoQuanChuTri(
+                        cubit: _cubitTaoLichHop,
+                      ),
+                      spaceH24,
+                      TextFieldStyle(
+                        initValue: widget.chiTietHop.noiDung,
+                        urlIcon: ImageAssets.icDocument,
+                        hintText: S.current.noi_dung,
+                        maxLines: 4,
+                        onChange: (value) {
+                          _cubitTaoLichHop.taoLichHopRequest.noiDung = value;
+                        },
+                      ),
+                      spaceH24
+                    ],
                   ),
-                  TitleChildWidget(
-                    title: S.current.dau_moi_lien_he,
-                    child: Column(
-                      children: [
-                        TextFieldStyle(
-                          controller: TextEditingController(
-                              text: dataDetail.chuTriModel.dauMoiLienHe),
-                          urlIcon: ImageAssets.icPeople,
-                          hintText: S.current.ho_ten,
-                          onChange: (vl) {
-                            widget.cubit.taoLichHopRequest.chuTri
-                                ?.dauMoiLienHe = vl;
-                          },
-                        ),
-                        TextFieldStyle(
-                          controller: TextEditingController(
-                              text: dataDetail.chuTriModel.soDienThoai),
-                          urlIcon: ImageAssets.icCuocGoi,
-                          hintText: S.current.so_dien_thoai,
-                          onChange: (vl) {
-                            widget.cubit.taoLichHopRequest.chuTri?.soDienThoai =
-                                vl;
-                          },
-                        ),
-                      ],
-                    ),
+                ),
+                TitleChildWidget(
+                  title: S.current.dau_moi_lien_he,
+                  child: Column(
+                    children: [
+                      TextFieldStyle(
+                        initValue: widget.chiTietHop.chuTriModel.dauMoiLienHe,
+                        urlIcon: ImageAssets.icPeople,
+                        hintText: S.current.ho_ten,
+                        onChange: (value) {
+                          _cubitTaoLichHop
+                              .taoLichHopRequest.chuTri?.dauMoiLienHe = value;
+                        },
+                      ),
+                      spaceH16,
+                      TextFieldStyle(
+                        initValue: widget.chiTietHop.chuTriModel.soDienThoai,
+                        urlIcon: ImageAssets.icCuocGoi,
+                        hintText: S.current.so_dien_thoai,
+                        validate: (value) {
+                          if (value.isEmpty) {
+                            return null;
+                          }
+                          final phoneRegex = RegExp(VN_PHONE);
+                          final bool checkRegex = phoneRegex.hasMatch(value);
+                          return checkRegex
+                              ? null
+                              : S.current.nhap_sai_dinh_dang;
+                        },
+                        onChange: (value) {
+                          _cubitTaoLichHop
+                              .taoLichHopRequest.chuTri?.soDienThoai = value;
+                        },
+                      ),
+                    ],
                   ),
-                  spaceH24,
-                  ChonPhongHopScreen(
-                    onChange: (value) {},
-                  ),
-                  spaceH24,
-                  DoubleButtonBottom(
-                    title1: S.current.dong,
-                    onPressed1: () {
-                      Navigator.pop(context);
-                    },
-                    title2: S.current.luu,
-                    onPressed2: () {
-                      Navigator.pop(context);
-                      widget.cubit.postSuaLichHop();
-                    },
-                  ),
-                ],
-              );
-            }),
+                ),
+                spaceH24,
+                HinhThucHop(
+                  cubit: _cubitTaoLichHop,
+                  chiTietHop: widget.chiTietHop,
+                ),
+                spaceH24,
+                ChonPhongHopScreen(
+                  dateFrom: _cubitTaoLichHop.getTime(),
+                  dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
+                  id: _cubitTaoLichHop.donViId,
+                  onChange: (value) {
+                    _cubitTaoLichHop.handleChonPhongHop(value);
+                  },
+                  initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
+                  initThietBi:
+                      _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
+                ),
+                spaceH15,
+                DoubleButtonBottom(
+                  title1: S.current.dong,
+                  onPressed1: () {
+                    Navigator.pop(context);
+                  },
+                  title2: S.current.luu,
+                  onPressed2: () {
+                    if ((_formKey.currentState?.validate() ?? false) &&
+                        (_timerPickerKey.currentState?.validator() ?? false)) {
+                      _cubitTaoLichHop.editMeeting().then((value) {
+                        if (value) {
+                          MessageConfig.show(
+                            title: S.current.sua_thanh_cong,
+                          );
+                          Navigator.pop(context,true);
+                        } else {
+                          MessageConfig.show(
+                            messState: MessState.error,
+                            title: S.current.sua_that_bai,
+                          );
+                        }
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

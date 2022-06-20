@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -113,7 +114,10 @@ class DanhSachYKienXuLyResponse {
         taskId: taskId,
         noiDung: noiDung?.parseHtml(),
         nguoiTaoId: nguoiTaoId,
-        ngayTao: ngayTao,
+        ngayTao: ngayTao?.changeToNewPatternDate(
+          DateTimeFormat.DATE_TIME_RECEIVE,
+          DateTimeFormat.DATE_DD_MM_HM,
+        ) ?? '',
         ngaySua: ngaySua,
         hashValue: hashValue,
         isSign: isSign,

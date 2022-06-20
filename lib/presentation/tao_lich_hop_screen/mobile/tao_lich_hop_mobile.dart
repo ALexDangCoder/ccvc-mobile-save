@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
@@ -12,6 +11,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_h
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tai_lieu_cuoc_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tao_hop_success.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/thanh_phan_tham_gia_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
@@ -39,6 +39,7 @@ class TaoLichHopMobileScreen extends StatefulWidget {
 class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   late TaoLichHopCubit _cubit;
   final _formKey = GlobalKey<FormState>();
+  final _timerPickerKey = GlobalKey<CupertinoMaterialPickerState>();
 
   @override
   void initState() {
@@ -48,8 +49,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _cubit = ProviderWidget
-        .of<TaoLichHopCubit>(context)
+    _cubit = ProviderWidget.of<TaoLichHopCubit>(context)
         .cubit;
   }
 
@@ -123,6 +123,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           },
                         ),
                         CupertinoMaterialPicker(
+                          key: _timerPickerKey,
                           initTimeEnd:
                               DateTime.now().add(const Duration(hours: 1)),
                           onDateTimeChanged: (
@@ -135,19 +136,19 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                             _cubit.taoLichHopRequest.timeTo = timeEnd;
                             _cubit.taoLichHopRequest.ngayBatDau = dateStart
                                 .convertStringToDate(
-                                  formatPattern: DateFormatApp.date,
-                                )
+                              formatPattern: DateFormatApp.date,
+                            )
                                 .formatApi;
                             _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
                                 .convertStringToDate(
-                                  formatPattern: DateFormatApp.date,
-                                )
+                              formatPattern: DateFormatApp.date,
+                            )
                                 .formatApi;
                           },
                           onSwitchPressed: (value) {
                             _cubit.taoLichHopRequest.isAllDay = value;
                           },
-                          validateTime: (bool value) {},
+                          validateTime: (String value) {},
                         ),
                         spaceH5,
                         NhacLichWidget(
@@ -262,33 +263,20 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                   HinhThucHop(cubit: _cubit),
                   spaceH24,
                   ChonPhongHopScreen(
-                    dateFrom: '${_cubit.taoLichHopRequest.ngayBatDau} '
-                        '${_cubit.taoLichHopRequest.timeStart}',
-                    dateTo: '${_cubit.taoLichHopRequest.ngayKetThuc} '
-                        '${_cubit.taoLichHopRequest.timeTo}',
+                    dateFrom: _cubit.getTime(),
+                    dateTo: _cubit.getTime(isGetDateStart: false),
                     id: _cubit.donViId,
                     onChange: (value) {
-                      if(value.phongHop?.phongHopId?.isNotEmpty ?? false) {
-                        _cubit.taoLichHopRequest.phongHop = value.phongHop;
-                      }
-                        _cubit.taoLichHopRequest.phongHop?.noiDungYeuCau =
-                            value.yeuCauKhac;
-                        _cubit.taoLichHopRequest.phongHopThietBi =
-                            value.listThietBi
-                                .map(
-                                  (e) => PhongHopThietBi(
-                                tenThietBi: e.tenThietBi,
-                                soLuong: e.soLuong.toString(),
-                              ),
-                            )
-                                .toList();
+                      _cubit.handleChonPhongHop(value);
                     },
                   ),
                   spaceH15,
                   ExpandGroup(
                     child: Column(
                       children: [
-                        ThanhPhanThamGiaExpandWidget(cubit: _cubit,),
+                        ThanhPhanThamGiaExpandWidget(
+                          cubit: _cubit,
+                        ),
                         ChuongTrinhHopWidget(
                           cubit: _cubit,
                         ),
@@ -303,14 +291,18 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
                       onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _cubit.createMeeting().then((value){
-                            if(value){
-                              MessageConfig.show(
-                                title: S.current.tao_thanh_cong,
-                              );
-                              Navigator.pop(context, true);
-                            }else{
+                        if ((_formKey.currentState?.validate() ?? false) &&
+                            (_timerPickerKey.currentState?.validator() ??
+                                false)) {
+                          _cubit.createMeeting().then((value) {
+                            if (value) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TaoHopSuccess(),
+                                ),
+                              ).then((value) => Navigator.pop(context, true));
+                            } else {
                               MessageConfig.show(
                                 messState: MessState.error,
                                 title: S.current.tao_that_bai,

@@ -1,6 +1,11 @@
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_common_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_common_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_common_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
-import 'package:ccvc_mobile/data/repository_impl/bao_cao_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/lich_hop/lich_hop_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/lich_lam_viec_impl/lich_lam_viec_impl.dart';
@@ -10,7 +15,6 @@ import 'package:ccvc_mobile/data/repository_impl/thanh_phan_tham_gia_impl/thanh_
 import 'package:ccvc_mobile/data/repository_impl/thong_bao_impl/thong_bao_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/y_kien_nguoi_dan_impl/y_kien_nguoi_dan_impl.dart';
 import 'package:ccvc_mobile/data/services/account_service.dart';
-import 'package:ccvc_mobile/data/services/bao_cao/report_service.dart';
 import 'package:ccvc_mobile/data/services/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_service.dart';
 import 'package:ccvc_mobile/data/services/lich_hop/hop_services.dart';
 import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_service.dart';
@@ -24,7 +28,6 @@ import 'package:ccvc_mobile/diem_danh_module/data/service/diem_danh_service.dart
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
-import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
@@ -53,7 +56,7 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI }
+enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI, HEAD_ORIGIN }
 
 void configureDependencies() {
   Get.put(
@@ -100,6 +103,11 @@ void configureDependencies() {
   Get.put(ReportService(provideDio(baseOption: BaseURLOption.GATE_WAY)));
   Get.put<ReportRepository>(
     ReportImpl(Get.find()),
+  );
+
+  Get.put(ReportCommonService(provideDio(baseOption: BaseURLOption.COMMON)));
+  Get.put<ReportCommonRepository>(
+    ReportCommonImpl(Get.find()),
   );
 
   Get.put(
@@ -216,6 +224,9 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       break;
     case BaseURLOption.API_AND_UAT:
       baseUrl = DO_MAIN_LICH_AM_DUONG;
+      break;
+    case BaseURLOption.HEAD_ORIGIN:
+      baseUrl = appConstants.headerOrigin;
       break;
   }
   final options = BaseOptions(

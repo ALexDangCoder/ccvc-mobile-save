@@ -24,6 +24,7 @@ Future<Map<String, dynamic>> pickFile() async {
       'jpg',
       'pdf',
       'doc',
+      'docx',
       'xls',
       'xlsx',
     ],
@@ -68,6 +69,6 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
     _resultMap[FILE_RESULT] = [File(newImage.path)];
     return _resultMap;
   } on PlatformException catch (e) {
-    throw 'Cant upload image $e';
+    throw 'Cant upload images $e';
   }
 }

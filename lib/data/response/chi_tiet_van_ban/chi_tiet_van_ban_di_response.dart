@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
-import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/tien_ich_module/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'chi_tiet_van_ban_den_response.dart';
@@ -728,7 +729,11 @@ class DanhSachChoYKienResponse {
         idDonVi: idDonVi,
         idParrent: idParrent,
         noiDung: noiDung?.parseHtml(),
-        ngayTao: ngayTao,
+        ngayTao: ngayTao?.changeToNewPatternDate(
+          DateTimeFormat.DATE_TIME_RECEIVE,
+          DateTimeFormat.DATE_DD_MM_HM,
+        ) ??
+            '',
         issuer: issuer,
         signerInfos: signerInfos,
         serialNumber: serialNumber,

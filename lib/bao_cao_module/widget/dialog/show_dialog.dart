@@ -16,6 +16,7 @@ Future<T?> showDiaLog<T>(
   bool showTablet = false,
   bool isBottomShow = true,
   bool isOneButton = true,
+  bool isClose = true,
   required Function funcBtnRight,
 }) {
   return showDialog(
@@ -42,23 +43,24 @@ Future<T?> showDiaLog<T>(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Visibility(
-                visible: showTablet,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      child: SvgPicture.asset(ImageAssets.icClose),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 14,
-                    ),
-                  ],
+              if (isClose)
+                Visibility(
+                  visible: showTablet,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        child: SvgPicture.asset(ImageAssets.icClose),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
               icon,
               SizedBox(
                 height: showTablet ? 20.0.textScale(space: -8) : 20,

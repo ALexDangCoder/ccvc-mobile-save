@@ -28,8 +28,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalenderCubit extends BaseCubit<CalenderState> {
-
-  bool changeDateByClick = false ;
+  bool changeDateByClick = false;
 
   CalenderCubit() : super(const CalenderStateIntial());
   int page = 1;
@@ -100,11 +99,11 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     listDataMenu[2].listWidget = listLanhDao;
   }
 
-  void callApi() {
+  Future<void> callApi() async {
     startDates = selectDay;
     endDates = selectDay;
     initDataMenu();
-    callApiNgay();
+    await callApiNgay();
     moveTimeSubject.add(selectDay);
   }
 
@@ -182,7 +181,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
@@ -206,23 +205,26 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     recurrence.interval = 2;
     recurrence.recurrenceRange = RecurrenceRange.noEndDate;
     recurrence.recurrenceCount = 10;
-    for (final i in dataLichLvModels.listLichLVModel ?? []) {
-      appointments.add(
-        Appointment(
-          startTime: DateTime.parse(
-            i.dateTimeFrom ?? '',
+
+    if ((dataLichLvModels.listLichLVModel ?? []).isNotEmpty) {
+      for (final i in dataLichLvModels.listLichLVModel ?? []) {
+        appointments.add(
+          Appointment(
+            startTime: DateTime.parse(
+              i.dateTimeFrom ?? '',
+            ),
+            endTime: DateTime.parse(
+              i.dateTimeTo ?? '',
+            ),
+            subject: i.title ?? '',
+            color: Colors.blue,
+            id: i.id ?? '',
           ),
-          endTime: DateTime.parse(
-            i.dateTimeTo ?? '',
-          ),
-          subject: i.title ?? '',
-          color: Colors.blue,
-          id: i.id ?? '',
-        ),
-      );
+        );
+      }
+      getMatchDate(dataLichLvModels);
     }
 
-    getMatchDate(dataLichLvModels);
     // appointments.add(Appointment(startTime: DateTime(DateTime
     //     .now()
     //     .year, DateTime
@@ -311,6 +313,8 @@ extension HandleDataCalendar on CalenderCubit {
       selectDay = timeSlide;
       await postEventsCalendar();
       initTimeSubject.add(selectDay);
+      moveTimeSubject.add(selectDay);
+
       if (stateOptionDay == Type_Choose_Option_Day.DAY) {
         await callApiDayCalendar();
       }
@@ -355,7 +359,7 @@ extension HandleDataCalendar on CalenderCubit {
         ),
       ),
     );
-    for (final e in data.listLichLVModel ?? []) {
+    for (final ListLichLVModel e in data.listLichLVModel ?? []) {
       (data.listLichLVModel ?? [])
           .where(
             (i) =>
@@ -366,10 +370,9 @@ extension HandleDataCalendar on CalenderCubit {
                         i.dateTimeFrom ?? '',
                       ),
                     ) ||
-                    isMatch(
-                      DateTime.parse(
-                        e.dateTimeFrom ?? '',
-                      ),
+                    DateTime.parse(
+                      e.dateTimeFrom ?? '',
+                    ).isAtSameMomentAs(
                       DateTime.parse(
                         i.dateTimeFrom ?? '',
                       ),

@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
@@ -16,6 +17,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -31,16 +33,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
   final BehaviorSubject<DocumentDashboardModel> _getVbDi =
       BehaviorSubject<DocumentDashboardModel>();
-
-  final BehaviorSubject<List<VanBanModel>> _getDanhSachVBDi =
-      BehaviorSubject<List<VanBanModel>>();
-
-  final BehaviorSubject<List<VanBanModel>> _getDanhSachVBDen =
-      BehaviorSubject<List<VanBanModel>>();
-
-  Stream<List<VanBanModel>> get getDanhSachVbDi => _getDanhSachVBDi.stream;
-
-  Stream<List<VanBanModel>> get getDanhSachVbDen => _getDanhSachVBDen.stream;
 
   final BehaviorSubject<ChartData> _dataChartVBDen =
       BehaviorSubject<ChartData>();
@@ -80,11 +72,11 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     final queue = Queue();
     showLoading();
     // ignore: unnecessary_statements
-    initTime? initTimeRange() : null;
-    unawaited(queue.add(() =>  getDashBoardIncomeDocument()));
-    unawaited(queue.add(() =>  getDashBoardOutcomeDocument()));
-    unawaited(queue.add(() =>  getListIncomeDocument()));
-    unawaited(queue.add(() =>  getListOutcomeDocument()));
+    initTime ? initTimeRange() : null;
+    unawaited(queue.add(() => getDashBoardIncomeDocument()));
+    unawaited(queue.add(() => getDashBoardOutcomeDocument()));
+    // unawaited(queue.add(() => getListIncomeDocument()));
+    // unawaited(queue.add(() => getListOutcomeDocument()));
     await queue.onComplete;
     showContent();
   }
@@ -125,6 +117,20 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
             S.current.da_xu_ly,
             dataVbDi.soLuongDaXuLy?.toDouble() ?? 0,
             daXuLyColor,
+          ),
+        );
+        chartDataVbDi.add(
+          ChartData(
+            S.current.cho_cap_so,
+            dataVbDi.soLuongChoCapSo?.toDouble() ?? 0,
+            choCapSoColor,
+          ),
+        );
+        chartDataVbDi.add(
+          ChartData(
+            S.current.cho_ban_hanh,
+            dataVbDi.soLuongChoBanHanh?.toDouble() ?? 0,
+            choBanHanhColor,
           ),
         );
         _getVbDi.sink.add(dataVbDi);
@@ -183,64 +189,22 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     );
   }
 
-  Future<void> getListOutcomeDocument({
+
+
+  Future<List<VanBanModel>> getListIncomeDocumentTest({
     String? startDate,
     String? endDate,
-    bool needLoading = false,
+    int? page,
   }) async {
-    if (needLoading){
-      showLoading();
-    }
-    List<VanBanModel> listVbDi = [];
-    final result = await _qLVBRepo.getDanhSachVbDi(
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      index: index,
-      size: size,
-      isDanhSachChoTrinhKy: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == CHO_TRINH_KY_STRING,
-      isDanhSachChoXuLy: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == CHO_XU_LY_STRING,
-      isDanhSachDaXuLy: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == DA_XU_LY_STRING,
-      trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode),
-      keySearch: keySearch,
-    );
-    result.when(
-      success: (res) {
-        listVbDi = res.pageData ?? [];
-        _getDanhSachVBDi.sink.add(listVbDi);
-
-      },
-      error: (err) {
-        return err;
-      },
-    );
-    if (needLoading){
-      showContent();
-    }
-  }
-
-  Future<void> getListIncomeDocument({
-    String? startDate,
-    String? endDate,
-    bool needLoading = false,
-  }) async {
-    if (needLoading){
-      showLoading();
-    }
     List<VanBanModel> listVbDen = [];
     final result = await _qLVBRepo.getDanhSachVbDen(
       DanhSachVBRequest(
         maTrangThai: statusSearchDocumentInCode(documentInStatusCode),
-        index: 1,
+        index: page ?? ApiConstants.PAGE_BEGIN,
         isSortByDoKhan: true,
         thoiGianStartFilter: startDate ?? this.startDate,
         thoiGianEndFilter: endDate ?? this.endDate,
-        size: 10,
+        size: ApiConstants.DEFAULT_PAGE_SIZE,
         keySearch: keySearch,
         trangThaiXuLy: statusSearchDocumentInSubCode(documentInSubStatusCode),
         isDanhSachDaXuLy: documentInSubStatusCode.isNotEmpty ? false : null,
@@ -249,14 +213,93 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     result.when(
       success: (res) {
         listVbDen = res.pageData ?? [];
-        _getDanhSachVBDen.sink.add(listVbDen);
       },
       error: (error) {
         return error;
       },
     );
-    if (needLoading){
-      showContent();
+    return listVbDen;
+  }
+
+  Future<void> fetchIncomeDocument({
+    required int pageKey,
+    required PagingController<int, VanBanModel> documentPagingController,
+  }) async {
+    try {
+      final currentPage = pageKey ~/ ApiConstants.DEFAULT_PAGE_SIZE;
+      final newItems = await getListIncomeDocumentTest(
+        page: currentPage + 1,
+      );
+      final isLastPage = newItems.length < ApiConstants.DEFAULT_PAGE_SIZE;
+      if (isLastPage) {
+        documentPagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        documentPagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      documentPagingController.error = error;
+    }
+  }
+
+  Future<List<VanBanModel>> getListOutcomeDocumentTest({
+    String? startDate,
+    String? endDate,
+    int? page,
+  }) async {
+    List<VanBanModel> listVbDi = [];
+    final result = await _qLVBRepo.getDanhSachVbDi(
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      index: page ?? ApiConstants.PAGE_BEGIN,
+      size: ApiConstants.DEFAULT_PAGE_SIZE,
+      isDanhSachChoTrinhKy: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == DocumentState.CHO_TRINH_KY,
+      isDanhSachChoXuLy: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == DocumentState.CHO_XU_LY,
+      isDanhSachDaXuLy: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == DocumentState.DA_XU_LY,
+      isDanhSachChoBanHanh: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == DocumentState.CHO_BAN_HANH,
+      isDanhSachChoCapSo: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == DocumentState.CHO_CAP_SO,
+      trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode),
+      keySearch: keySearch,
+    );
+    result.when(
+      success: (res) {
+        listVbDi = res.pageData ?? [];
+      },
+      error: (err) {
+        return err;
+      },
+    );
+    return listVbDi;
+  }
+
+  Future<void> fetchOutcomeDocument({
+    required int pageKey,
+    required PagingController<int, VanBanModel> documentPagingController,
+  }) async {
+    try {
+      final currentPage = pageKey ~/ ApiConstants.DEFAULT_PAGE_SIZE;
+      final newItems = await getListOutcomeDocumentTest(
+        page: currentPage + 1,
+      );
+      final isLastPage = newItems.length < ApiConstants.DEFAULT_PAGE_SIZE;
+      if (isLastPage) {
+        documentPagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        documentPagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      documentPagingController.error = error;
     }
   }
 

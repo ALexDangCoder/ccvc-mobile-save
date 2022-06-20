@@ -3,30 +3,34 @@ import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
-import 'package:ccvc_mobile/home_module/widgets/text/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 
 import 'nguoi_gan_row_widget.dart';
 
-class BottomSheetThemCongViec extends StatefulWidget {
+class DiaLogThemCongViec extends StatefulWidget {
   final DanhSachCongViecCubit danhSachCVCubit;
+  final TextEditingController controllerCongViec;
+  final  GlobalKey<FormGroupState> keyGroup;
 
-  const BottomSheetThemCongViec({Key? key, required this.danhSachCVCubit})
+  const DiaLogThemCongViec(
+      {Key? key,
+      required this.danhSachCVCubit,
+      required this.controllerCongViec,
+      required this.keyGroup,
+      })
       : super(key: key);
 
   @override
-  _BottomSheetThemCongViecState createState() =>
-      _BottomSheetThemCongViecState();
+  _DiaLogThemCongViecState createState() => _DiaLogThemCongViecState();
 }
 
-class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
+class _DiaLogThemCongViecState extends State<DiaLogThemCongViec> {
   TextEditingController controller = TextEditingController();
-  TextEditingController controllerCongViec = TextEditingController();
   ScrollController scrollController = ScrollController();
-  final keyGroup = GlobalKey<FormGroupState>();
   bool isSelected = false;
   String label = '';
   String? nguoiGanID;
@@ -56,7 +60,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
         ),
         child: SingleChildScrollView(
           child: FormGroup(
-            key: keyGroup,
+            key: widget.keyGroup,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -75,7 +79,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                   ),
                 ),
                 TextFieldValidator(
-                  controller: controllerCongViec,
+                  controller: widget.controllerCongViec,
                   hintText: S.current.nhap_cong_viec,
                   validator: (value) {
                     if ((value ?? '').isEmpty) {
@@ -164,6 +168,11 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                                       index,
                                       NguoiGanRowWidget(
                                         ontapItem: (String value) {
+                                          eventBus.fire(
+                                            CallBackNguoiGan(
+                                              data[index].id ?? '',
+                                            ),
+                                          );
                                           controller.text = value;
                                           nguoiGanID = data[index].id ?? '';
                                           isSelected = true;
@@ -186,42 +195,42 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                         ),
                       );
                     }),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: ButtonCustomBottom(
-                          title: S.current.dong,
-                          isColorBlue: false,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: ButtonCustomBottom(
-                          title: S.current.them,
-                          isColorBlue: true,
-                          onPressed: () {
-                            if (controllerCongViec.text.isEmpty) {
-                              keyGroup.currentState!.validator();
-                            } else {
-                              label = controllerCongViec.text;
-                              widget.danhSachCVCubit.addTodo(label, nguoiGanID);
-                              Navigator.pop(context, false);
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 33),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 20),
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       Expanded(
+                //         child: ButtonCustomBottom(
+                //           title: S.current.dong,
+                //           isColorBlue: false,
+                //           onPressed: () {
+                //             Navigator.pop(context);
+                //           },
+                //         ),
+                //       ),
+                //       const SizedBox(
+                //         width: 16,
+                //       ),
+                //       Expanded(
+                //         child: ButtonCustomBottom(
+                //           title: S.current.them,
+                //           isColorBlue: true,
+                //           onPressed: () {
+                //             if (controllerCongViec.text.isEmpty) {
+                //               keyGroup.currentState!.validator();
+                //             } else {
+                //               label = controllerCongViec.text;
+                //               widget.danhSachCVCubit.addTodo(label, nguoiGanID);
+                //               Navigator.pop(context, false);
+                //             }
+                //           },
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(height: 33),
               ],
             ),
           ),

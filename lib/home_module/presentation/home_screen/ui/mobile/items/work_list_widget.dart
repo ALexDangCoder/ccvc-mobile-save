@@ -89,7 +89,6 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                     children: List.generate(data.length, (index) {
                       final todo = data[index];
                       return CongViecCell(
-                        // nguoiGan: 'hoa duc',
                         nguoiGan:danhSachCVCubit.danhSachTenNguoiGan[index],
                         text: todo.label ?? '',
                         todoModel: todo,

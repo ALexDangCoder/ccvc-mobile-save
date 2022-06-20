@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart' as HiveLc;
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
@@ -394,7 +395,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         label: todo.label,
         updatedBy: id,
         updatedOn: DateTime.now().formatApi,
-        performer:todo.performer,
+        performer: todo.performer,
       ),
     );
     if (removeDone) {
@@ -434,7 +435,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     );
   }
 
-  void _removeInsertImportant(TodoListModel data, TodoModel todo) async{
+  void _removeInsertImportant(TodoListModel data, TodoModel todo) async {
     final String nameInsert = await getName(todo.performer ?? '');
     danhSachTenNguoiGan.insert(0, nameInsert);
     final result = data.listTodoDone.removeAt(
@@ -451,7 +452,8 @@ class DanhSachCongViecCubit extends HomeCubit {
 
   void _removeInsertDone(TodoListModel data, TodoModel todo) {
     danhSachTenNguoiGan.removeAt(
-        data.listTodoImportant.indexWhere((element) => element.id == todo.id),);
+      data.listTodoImportant.indexWhere((element) => element.id == todo.id),
+    );
     final result = data.listTodoImportant.removeAt(
       data.listTodoImportant.indexWhere((element) => element.id == todo.id),
     );
@@ -555,6 +557,30 @@ class DanhSachCongViecCubit extends HomeCubit {
     _getTodoList.sink.add(data);
   }
 
+  Widget setIconLoadMore(int index, Widget itemListView) {
+    if (index == inforCanBo.length - 1) {
+      if (inforCanBo.length + 1 ==totalItem) {
+        return const SizedBox();
+      } else {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            itemListView,
+            Center(
+              child: CircularProgressIndicator(
+                color: AppTheme.getInstance()
+                    .primaryColor(),
+              ),
+            ),
+          ],
+        );
+      }
+    }
+   else {
+      return itemListView;
+    }
+  }
+
   Future<void> getToDoList() async {
     showLoading();
     final result = await homeRep.getListTodo();
@@ -597,6 +623,20 @@ class DanhSachCongViecCubit extends HomeCubit {
             _isShowIcon.sink.add(IconListCanBo.DOWN);
           },
         );
+    }
+  }
+
+  Future<void> loadMoreListNguoiGan(String keySearch) async {
+    if (pageIndex <= totalPage) {
+      pageIndex = pageIndex + 1;
+      if (isSearching) {
+        await getListNguoiGan(
+          true,
+          5,
+          keySearch: keySearch,
+        );
+      }
+      await getListNguoiGan(true, 5);
     }
   }
 
@@ -1146,9 +1186,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
       success: (res) {
         _getDanhSachVb.sink.add(res);
       },
-      error: (err) {
-
-      },
+      error: (err) {},
     );
   }
 
@@ -1173,9 +1211,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
       success: (res) {
         _getDanhSachVb.sink.add(res);
       },
-      error: (err) {
-
-      },
+      error: (err) {},
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/ta
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/bloc/date_time_cupertino_custom_cubit.dart';
@@ -25,6 +26,7 @@ class CupertinoMaterialPicker extends StatefulWidget {
     this.initTimeEnd,
     this.initDateStart,
     this.initDateEnd,
+    this.isEdit = false,
     required this.onDateTimeChanged,
     required this.validateTime,
     this.isAllDay = false,
@@ -32,6 +34,7 @@ class CupertinoMaterialPicker extends StatefulWidget {
 
   final bool isAddMargin;
   final bool isAllDay;
+  final bool isEdit;
   final bool isSwitchButtonChecked;
   final Function(bool)? onSwitchPressed;
   final DateTime? initTimeStart;
@@ -44,11 +47,10 @@ class CupertinoMaterialPicker extends StatefulWidget {
     String dateStart,
     String dateEnd,
   ) onDateTimeChanged;
-  final Function(bool value) validateTime;
+  final Function(String value) validateTime;
 
   @override
-  CupertinoMaterialPickerState createState() =>
-      CupertinoMaterialPickerState();
+  CupertinoMaterialPickerState createState() => CupertinoMaterialPickerState();
 }
 
 class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
@@ -64,30 +66,32 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     super.initState();
     cubit = DateTimeCupertinoCustomCubit();
     debouncer = Debouncer();
-    cubit.onTimeChanged(
-      timeSelected: widget.initTimeEnd ??
-          DateTime.now().add(
-            const Duration(minutes: 30),
-          ),
-      typePicker: TypePickerDateTime.TIME_END,
-    );
-    cubit.onTimeChanged(
-      timeSelected: widget.initDateEnd ?? DateTime.now(),
-      typePicker: TypePickerDateTime.DATE_END,
-    );
-    cubit.onTimeChanged(
-      timeSelected: widget.initTimeStart ?? DateTime.now(),
-      typePicker: TypePickerDateTime.TIME_START,
-    );
-    cubit.onTimeChanged(
-      timeSelected: widget.initDateStart ?? DateTime.now(),
-      typePicker: TypePickerDateTime.DATE_START,
-    );
-    cubit.isSwitchBtnCheckedSubject.add(widget.isSwitchButtonChecked);
+    if (widget.isEdit) {
+      cubit.onTimeChanged(
+        timeSelected: widget.initTimeEnd ??
+            DateTime.now().add(
+              const Duration(minutes: 30),
+            ),
+        typePicker: TypePickerDateTime.TIME_END,
+      );
+      cubit.onTimeChanged(
+        timeSelected: widget.initDateEnd ?? DateTime.now(),
+        typePicker: TypePickerDateTime.DATE_END,
+      );
+      cubit.onTimeChanged(
+        timeSelected: widget.initTimeStart ?? DateTime.now(),
+        typePicker: TypePickerDateTime.TIME_START,
+      );
+      cubit.onTimeChanged(
+        timeSelected: widget.initDateStart ?? DateTime.now(),
+        typePicker: TypePickerDateTime.DATE_START,
+      );
+      cubit.isSwitchBtnCheckedSubject.add(widget.isSwitchButtonChecked);
+    }
   }
 
-  bool validator(){
-    return !cubit.validateTime.value;
+  bool validator() {
+    return !cubit.validateTime.value.isNotEmpty;
   }
 
   @override
@@ -140,8 +144,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             cubit.handleSwitchButtonPressed(isChecked: value);
                             widget.onSwitchPressed?.call(value);
                             widget.onDateTimeChanged(
-                              cubit.timeBeginSubject.value,
-                              cubit.timeEndSubject.value,
+                              cubit.timeBeginSubject.valueOrNull ?? '',
+                              cubit.timeEndSubject.valueOrNull ?? '',
                               cubit.dateBeginSubject.value,
                               cubit.dateEndSubject.value,
                             );
@@ -202,6 +206,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                         },
                         child: StreamBuilder<String>(
                           stream: cubit.timeBeginSubject,
+                          initialData: 'hh:mm',
                           builder: (context, snapshot) {
                             final String time = snapshot.data ?? '';
                             return Padding(
@@ -221,6 +226,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                 ),
                 StreamBuilder<String>(
                   stream: cubit.dateBeginSubject,
+                  initialData: 'DD/MM/YYYY',
                   builder: (context, snapshot) {
                     final String date = snapshot.data ?? S.current.ddmmyy;
                     return GestureDetector(
@@ -262,11 +268,13 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           backgroundColor: backgroundColorApp,
                           mode: cubit.getTypePicker(typePicker),
                           use24hFormat: true,
-                          initialDateTime: '${cubit.dateBeginSubject.value} '
-                                  '${cubit.timeBeginSubject.value}'
-                              .convertStringToDate(
-                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                          ),
+                          initialDateTime: widget.isEdit
+                              ? '${cubit.dateBeginSubject.value} '
+                                      '${cubit.timeBeginSubject.value}'
+                                  .convertStringToDate(
+                                  formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                                )
+                              : null,
                           onDateTimeChanged: (value) {
                             debouncer.run(
                               () {
@@ -276,10 +284,16 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                 );
                                 cubit.checkTime();
                                 widget.onDateTimeChanged(
-                                  cubit.timeBeginSubject.value,
-                                  cubit.timeEndSubject.value,
-                                  cubit.dateBeginSubject.value,
-                                  cubit.dateEndSubject.value,
+                                  cubit.timeBeginSubject.valueOrNull ?? '00:00',
+                                  cubit.timeEndSubject.valueOrNull ?? '00:00',
+                                  cubit.dateBeginSubject.valueOrNull ??
+                                      DateTime.now().dateTimeFormatter(
+                                        pattern: DateFormatApp.date,
+                                      ),
+                                  cubit.dateEndSubject.valueOrNull ??
+                                      DateTime.now().dateTimeFormatter(
+                                        pattern: DateFormatApp.date,
+                                      ),
                                 );
                               },
                             );
@@ -298,10 +312,16 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             cubit.dateBeginSubject.sink.add(convertDate);
                             cubit.checkTime();
                             widget.onDateTimeChanged(
-                              cubit.timeBeginSubject.value,
-                              cubit.timeEndSubject.value,
-                              cubit.dateBeginSubject.value,
-                              cubit.dateEndSubject.value,
+                              cubit.timeBeginSubject.valueOrNull ?? '00:00',
+                              cubit.timeEndSubject.valueOrNull ?? '00:00',
+                              cubit.dateBeginSubject.valueOrNull ??
+                                  DateTime.now().dateTimeFormatter(
+                                    pattern: DateFormatApp.date,
+                                  ),
+                              cubit.dateEndSubject.valueOrNull ??
+                                  DateTime.now().dateTimeFormatter(
+                                    pattern: DateFormatApp.date,
+                                  ),
                             );
                           },
                           initialDate: widget.initDateStart ?? DateTime.now(),
@@ -355,6 +375,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           },
                           child: StreamBuilder<String>(
                             stream: cubit.timeEndSubject,
+                            initialData: 'hh:mm',
                             builder: (context, snapshot) {
                               final String time = snapshot.data ?? '';
                               return Padding(
@@ -374,6 +395,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   ),
                   StreamBuilder<String>(
                     stream: cubit.dateEndSubject.stream,
+                    initialData: 'DD/MM/YYYY',
                     builder: (context, snapshot) {
                       final String date = snapshot.data ?? S.current.ddmmyy;
                       return GestureDetector(
@@ -416,11 +438,13 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             backgroundColor: backgroundColorApp,
                             mode: cubit.getTypePicker(typePicker),
                             use24hFormat: true,
-                            initialDateTime: '${cubit.dateEndSubject.value} '
-                                    '${cubit.timeEndSubject.value}'
-                                .convertStringToDate(
-                              formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                            ),
+                            initialDateTime: widget.isEdit
+                                ? '${cubit.dateEndSubject.value} '
+                                        '${cubit.timeEndSubject.value}'
+                                    .convertStringToDate(
+                                    formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                                  )
+                                : null,
                             onDateTimeChanged: (value) {
                               debouncer.run(
                                 () {
@@ -430,10 +454,15 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                   );
                                   cubit.checkTime();
                                   widget.onDateTimeChanged(
-                                    cubit.timeBeginSubject.value,
-                                    cubit.timeEndSubject.value,
-                                    cubit.dateBeginSubject.value,
-                                    cubit.dateEndSubject.value,
+                                    cubit.timeBeginSubject.valueOrNull ??
+                                        '00:00',
+                                    cubit.timeEndSubject.valueOrNull ?? '00:00',
+                                    cubit.dateBeginSubject.valueOrNull ??
+                                        DateTime.now().dateTimeFormatter(
+                                            pattern: DateFormatApp.date),
+                                    cubit.dateEndSubject.valueOrNull ??
+                                        DateTime.now().dateTimeFormatter(
+                                            pattern: DateFormatApp.date),
                                   );
                                 },
                               );
@@ -452,10 +481,14 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                               cubit.dateEndSubject.sink.add(convertDate);
                               cubit.checkTime();
                               widget.onDateTimeChanged(
-                                cubit.timeBeginSubject.value,
-                                cubit.timeEndSubject.value,
-                                cubit.dateBeginSubject.value,
-                                cubit.dateEndSubject.value,
+                                cubit.timeBeginSubject.valueOrNull ?? '00:00',
+                                cubit.timeEndSubject.valueOrNull ?? '00:00',
+                                cubit.dateBeginSubject.valueOrNull ??
+                                    DateTime.now().dateTimeFormatter(
+                                        pattern: DateFormatApp.date),
+                                cubit.dateEndSubject.valueOrNull ??
+                                    DateTime.now().dateTimeFormatter(
+                                        pattern: DateFormatApp.date),
                               );
                             },
                             initialDate: widget.initDateEnd ?? DateTime.now(),
@@ -465,14 +498,14 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
               )),
         ),
         spaceH12,
-        StreamBuilder<bool>(
+        StreamBuilder<String>(
           stream: cubit.validateTime.stream,
           builder: (context, snapshot) {
-            widget.validateTime(snapshot.data ?? false);
+            widget.validateTime(snapshot.data ?? '');
             return Visibility(
-              visible: snapshot.data ?? false,
+              visible: (snapshot.data?.isNotEmpty) ?? false,
               child: Text(
-                S.current.thoi_gian_bat_dau,
+                snapshot.data ?? '',
                 style: textNormalCustom(
                   color: Colors.red,
                   fontSize: 14,

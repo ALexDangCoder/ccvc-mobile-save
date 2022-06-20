@@ -167,7 +167,14 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                               pageBuilder: (_, __, ___) =>
                                   const TaoLichHopScreen(),
                             ),
-                          );
+                          ).then((value) async {
+                            if(value == null){
+                              return;
+                            }
+                            if(value){
+                              await cubit.initData();
+                            }
+                          });
                         },
                         onTapDay: () {
                           setState(() {});

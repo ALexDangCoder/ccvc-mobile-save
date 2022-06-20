@@ -1,13 +1,29 @@
 import 'dart:core';
 
 import 'package:ccvc_mobile/domain/model/add_file_model.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'add_file_tao_lich_hop.g.dart';
 
 @JsonSerializable()
-class AddFileTaoLichHopResponse extends Equatable {
+class UploadFileWithMeetingResponse {
+  @JsonKey(name: 'data')
+  List<AddFileTaoLichHopResponse>? data;
+
+  UploadFileWithMeetingResponse({
+    this.data,
+  });
+
+  factory UploadFileWithMeetingResponse.fromJson(Map<String, dynamic> json) =>
+      _$UploadFileWithMeetingResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UploadFileWithMeetingResponseToJson(this);
+
+  List<AddFileModel> toList() => data?.map((e) => e.toModel()).toList() ?? [];
+}
+
+@JsonSerializable()
+class AddFileTaoLichHopResponse {
   @JsonKey(name: 'entityType')
   int? entityType;
   @JsonKey(name: 'entityName')
@@ -16,12 +32,18 @@ class AddFileTaoLichHopResponse extends Equatable {
   String? entityId;
   @JsonKey(name: 'isMutil')
   bool? isMutil;
+  @JsonKey(name: 'id')
+  String? id;
+  @JsonKey(name: 'path')
+  String? path;
 
   AddFileTaoLichHopResponse({
     this.entityType,
     this.entityName,
     this.entityId,
     this.isMutil,
+    this.id,
+    this.path,
   });
 
   factory AddFileTaoLichHopResponse.fromJson(Map<String, dynamic> json) =>
@@ -34,9 +56,7 @@ class AddFileTaoLichHopResponse extends Equatable {
         entityName: entityName,
         entityId: entityId,
         isMutil: isMutil,
+        id: id ?? '',
+        path: path ?? '',
       );
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }

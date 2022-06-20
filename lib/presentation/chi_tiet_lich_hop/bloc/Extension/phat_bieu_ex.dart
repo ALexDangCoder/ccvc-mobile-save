@@ -24,7 +24,7 @@ extension PhatBieu on DetailMeetCalenderCubit {
 
   void getValueStatus(int value) {
     typeStatus.sink.add(value);
-    getDanhSachPhatBieuLichHop(status: value, lichHopId: id);
+    getDanhSachPhatBieuLichHop(status: value, lichHopId: idCuocHop);
   }
 
   Future<void> soLuongPhatBieuData({required String id}) async {
@@ -85,5 +85,10 @@ extension PhatBieu on DetailMeetCalenderCubit {
         return statusCalenderRed;
     }
     return backgroundColorApp;
+  }
+
+  Future<void> callApiPhatBieu() async {
+    await getDanhSachPhatBieuLichHop(status: 0, lichHopId: idCuocHop);
+    await soLuongPhatBieuData(id: idCuocHop);
   }
 }

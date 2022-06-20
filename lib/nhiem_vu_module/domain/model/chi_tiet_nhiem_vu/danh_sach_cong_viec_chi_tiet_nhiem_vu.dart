@@ -131,6 +131,11 @@ class DanhSachCongViecChiTietNhiemVuModel {
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
+        key: S.current.don_vi_giao_viec,
+        value: donViGiaoViec ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
         key: S.current.trang_thai,
         value: maTrangThai ?? '',
         type: TypeDataNV.status,

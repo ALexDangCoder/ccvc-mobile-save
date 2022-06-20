@@ -1,11 +1,18 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
 
 enum TimeRange { HOM_NAY, TUAN_NAY, THANG_NAY, NAM_NAY }
 
 extension DateFormatString on DateTime {
   String get toStringWithAMPM {
-    final dateString = DateFormat.jm('en').format(this);
+    var dateString = '';
+    try {
+      dateString = DateFormat.jm('en').format(this);
+    }
+     catch(e){
+      return '';
+     }
     return dateString;
   }
 
@@ -43,9 +50,16 @@ extension DateFormatString on DateTime {
   String get formatApiTaoBieuQuyet {
     return DateFormat('yyyy-MM-ddTHH:mm').format(this);
   }
+String get formatBE {
+    return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
+  }
 
   String get formatApiSuaPhienHop {
     return DateFormat('yyyy-MM-dd HH:mm').format(this);
+  }
+
+  String get formatHourMinute {
+    return DateFormat('HH:mm').format(this);
   }
 
   String get formatApiListBieuQuyet {
@@ -188,6 +202,19 @@ extension DateFormatString on DateTime {
   }
 
   DateTime _getDate(DateTime d) => DateTime(d.year, d.month, d.day);
+}
 
+extension TimeFormatString on TimerData {
+  String get timerToString {
+    String hour = this.hour.toString();
+    String minute = minutes.toString();
+    if (this.hour < 10) {
+      hour = '0${this.hour}';
+    }
+    if (minutes < 10) {
+      minute = '0$minutes';
+    }
+    return '$hour:$minute';
+  }
 
 }

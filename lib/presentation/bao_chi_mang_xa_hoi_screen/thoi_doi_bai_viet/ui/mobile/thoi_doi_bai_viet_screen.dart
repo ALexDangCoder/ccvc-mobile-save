@@ -6,14 +6,13 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/ui/mobile/widgets/bai_viet_item.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:flutter/material.dart';
 
 class TheoDoiBaiVietScreen extends StatefulWidget {
-  final int topic;
-
-  const TheoDoiBaiVietScreen({Key? key, required this.topic}) : super(key: key);
+  const TheoDoiBaiVietScreen({Key? key}) : super(key: key);
 
   @override
   _TheoDoiBaiVietScreenState createState() => _TheoDoiBaiVietScreenState();
@@ -21,9 +20,19 @@ class TheoDoiBaiVietScreen extends StatefulWidget {
 
 class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
     with AutomaticKeepAliveClientMixin {
-  TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
   final _debouncer = Debouncer(milliseconds: 2000);
+
+  void _handleEventBus() {
+    eventBus.on<FireTopic>().listen((event) {
+      callApi(ApiConstants.PAGE_BEGIN, topic: event.topic);
+    });
+  }
+  @override
+  void initState() {
+    _handleEventBus();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -49,15 +58,15 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: BaseSearchBar(
               hintText: S.current.nhap_link,
-              onSubmit: (value){
-                if(value.isNotEmpty){
+              onSubmit: (value) {
+                if (value.isNotEmpty) {
                   _debouncer.run(() {
                     theoDoiBaiVietCubit.followTopic(value);
                   });
                 }
               },
-              onChange: (value){
-                if(value.isNotEmpty){
+              onChange: (value) {
+                if (value.isNotEmpty) {
                   _debouncer.run(() {
                     theoDoiBaiVietCubit.followTopic(value);
                   });
@@ -98,13 +107,17 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
     );
   }
 
-  void callApi(int page) {
+  void callApi(
+    int page, {
+    int topic = 848,
+  }) {
     theoDoiBaiVietCubit.getListBaiVietTheoDoi(
-        theoDoiBaiVietCubit.endDate,
-        theoDoiBaiVietCubit.startDate,
-        widget.topic,
-        page,
-        ApiConstants.DEFAULT_PAGE_SIZE);
+      theoDoiBaiVietCubit.endDate,
+      theoDoiBaiVietCubit.startDate,
+      topic,
+      page,
+      ApiConstants.DEFAULT_PAGE_SIZE,
+    );
   }
 
   Widget itemBaiViet(BaiVietModel data) {

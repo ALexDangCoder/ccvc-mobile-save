@@ -5,6 +5,21 @@ part 'danh_sach_nhiem_vu_response.g.dart';
 
 @JsonSerializable()
 class DanhSachNhiemVuResponse {
+  @JsonKey(name: 'Data')
+  DataResponse? daTa;
+
+  DanhSachNhiemVuResponse(this.daTa);
+
+  factory DanhSachNhiemVuResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$DanhSachNhiemVuResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DanhSachNhiemVuResponseToJson(this);
+}
+
+@JsonSerializable()
+class DataResponse {
   @JsonKey(name: 'PageData')
   List<PageDataResponse>? pageData;
   @JsonKey(name: 'TotalRows')
@@ -16,14 +31,14 @@ class DanhSachNhiemVuResponse {
   @JsonKey(name: 'TotalPage')
   int? totalPage;
 
-  DanhSachNhiemVuResponse(this.pageData);
+  DataResponse(this.pageData);
 
-  factory DanhSachNhiemVuResponse.fromJson(
+  factory DataResponse.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$DanhSachNhiemVuResponseFromJson(json);
+      _$DataResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DanhSachNhiemVuResponseToJson(this);
+  Map<String, dynamic> toJson() => _$DataResponseToJson(this);
 
   DanhSachNhiemVuModel toDoMain() => DanhSachNhiemVuModel(
         pageData: pageData?.map((e) => e.toDomain()).toList() ?? [],
@@ -148,6 +163,8 @@ class PageDataResponse {
   bool? isHoanThanhQuaHan;
   @JsonKey(name: 'IdCuocHop')
   String? idCuocHop;
+  @JsonKey(name: 'OwnerTypeName')
+  String? ownerTypeName;
 
   PageDataResponse();
 
@@ -159,6 +176,7 @@ class PageDataResponse {
   Map<String, dynamic> toJson() => _$PageDataResponseToJson(this);
 
   PageData toDomain() => PageData(
+        ownerTypeName: ownerTypeName ?? '',
         id: id ?? '',
         soNhiemVu: soNhiemVu ?? '',
         noiDungTheoDoi: noiDungTheoDoi ?? '',

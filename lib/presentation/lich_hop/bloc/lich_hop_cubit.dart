@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -187,13 +187,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   }
 
   Future<void> searchLichHop(String? query) async {
-    const Duration(milliseconds: 2);
-    listDSLH.clear();
-    if (query == null || query.isEmpty) {
-      await postDanhSachLichHop();
-    } else {
-      await postDanhSachLichHop(query);
-    }
+    Timer(const Duration(microseconds: 500), () {
+      listDSLH.clear();
+      if (query == null || query.isEmpty) {
+        postDanhSachLichHop();
+      } else {
+        postDanhSachLichHop(query);
+      }
+    });
   }
 
   Future<void> postCoCauLichHop() async {
@@ -616,23 +617,23 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   ];
 
   // them tai lieu tao lich hop
-  Future<void> postFileTaoLichHop({
-    required int entityType,
-    required String entityName,
-    required String entityId,
-    required bool isMutil,
-    required List<File> files,
-  }) async {
-    showLoading();
-    await hopRepo
-        .postFileTaoLichHop(entityType, entityName, entityId, isMutil, files)
-        .then((value) {
-      value.when(
-        success: (res) {},
-        error: (err) {},
-      );
-    });
-  }
+  // Future<void> postFileTaoLichHop({
+  //   required int entityType,
+  //   required String entityName,
+  //   required String entityId,
+  //   required bool isMutil,
+  //   required List<File> files,
+  // }) async {
+  //   showLoading();
+  //   await hopRepo
+  //       .postFileTaoLichHop(entityType, entityName, entityId, isMutil, files)
+  //       .then((value) {
+  //     value.when(
+  //       success: (res) {},
+  //       error: (err) {},
+  //     );
+  //   });
+  // }
 
   dynamic currentTime = DateFormat.MMMMEEEEd().format(DateTime.now());
 

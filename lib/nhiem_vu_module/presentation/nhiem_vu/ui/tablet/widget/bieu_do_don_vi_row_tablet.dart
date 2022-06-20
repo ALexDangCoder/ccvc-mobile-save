@@ -44,12 +44,11 @@ class _BieuDoNhiemVuDonViRowTabletState
           Expanded(
             child: StreamBuilder<List<ChartData>>(
               stream: widget.cubit.statusSuject,
-              initialData: widget.cubit.chartDataNhiemVu,
+              initialData: widget.chartData,
               builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
                 return PieChart(
                   isSubjectInfo: false,
-                  chartData: data,
+                  chartData: widget.chartData,
                   onTap: (int value) {
                   },
                 );

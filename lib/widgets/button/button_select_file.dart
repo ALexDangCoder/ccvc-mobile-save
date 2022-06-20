@@ -23,22 +23,25 @@ class ButtonSelectFile extends StatefulWidget {
   final bool childDiffence;
   final Function(List<File>) onChange;
   final Widget Function(BuildContext, File)? builder;
-  List<File> files;
+  List<File>? files;
   final double? spacingFile;
-
-  ButtonSelectFile({
-    Key? key,
-    this.background,
-    required this.title,
-    this.titleColor,
-    this.icon,
-    this.childDiffence = false,
-    this.isIcon = true,
-    required this.onChange,
-    this.builder,
-    this.files = const [],
-    this.spacingFile,
-  }) : super(key: key);
+  final bool hasMultipleFile;
+  final bool isShowFile;
+  ButtonSelectFile(
+      {Key? key,
+      this.background,
+      required this.title,
+      this.titleColor,
+      this.icon,
+      this.childDiffence = false,
+      this.isIcon = true,
+      required this.onChange,
+      this.builder,
+      this.files,
+      this.spacingFile,
+      this.hasMultipleFile = false,
+      this.isShowFile = true})
+      : super(key: key);
 
   @override
   State<ButtonSelectFile> createState() => _ButtonSelectFileState();
@@ -46,6 +49,12 @@ class ButtonSelectFile extends StatefulWidget {
 
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
   final TaoLichLamViecCubit _cubit = TaoLichLamViecCubit();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.files ??= [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +67,18 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 await FilePicker.platform.pickFiles(allowMultiple: true);
 
             if (result != null) {
-              widget.files = result.paths.map((path) => File(path!)).toList();
+              if (widget.hasMultipleFile) {
+                final listSelect =
+                    result.paths.map((path) => File(path!)).toList();
+                widget.files?.addAll(listSelect);
+              } else {
+                widget.files = result.paths.map((path) => File(path!)).toList();
+              }
             } else {
               // User canceled the picker
             }
 
-            widget.onChange(widget.files);
+            widget.onChange(widget.files ?? []);
             setState(() {});
           },
           child: Container(
@@ -110,29 +125,36 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         SizedBox(
           height: widget.spacingFile == null ? 16.0.textScale() : 0,
         ),
-        Column(
-          children: widget.files.isNotEmpty
-              ? widget.files.map((e) {
-                  if (widget.builder == null) {
-                    return itemListFile(
-                        file: e,
-                        onTap: () {
-                          _cubit.deleteFile(e, widget.files);
-                          setState(() {});
-                        },
-                        spacingFile: widget.spacingFile);
-                  }
-                  return widget.builder!(context, e);
-                }).toList()
-              : [Container()],
-        )
+        if (!widget.isShowFile) const SizedBox() else Column(
+                children: widget.files?.isNotEmpty ?? false
+                    ? widget.files!.map((e) {
+                        if (widget.builder == null) {
+                          return itemListFile(
+                            file: e,
+                            onTap: () {
+                              _cubit.deleteFile(e, widget.files ?? []);
+                              if (widget.hasMultipleFile) {
+                                widget.onChange(widget.files ?? []);
+                              }
+                              setState(() {});
+                            },
+                            spacingFile: widget.spacingFile,
+                          );
+                        }
+                        return widget.builder!(context, e);
+                      }).toList()
+                    : [Container()],
+              )
       ],
     );
   }
 }
 
-Widget itemListFile(
-    {required File file, required Function onTap, double? spacingFile}) {
+Widget itemListFile({
+  required File file,
+  required Function onTap,
+  double? spacingFile,
+}) {
   return Container(
     margin: EdgeInsets.only(top: spacingFile ?? 16.0.textScale()),
     padding: EdgeInsets.all(16.0.textScale()),

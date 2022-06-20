@@ -41,11 +41,7 @@ class _BieuDoTrangThaiTheoLoaiMobileState
             isSubjectInfo: false,
             chartData: widget.chartData,
             onTap: (int value) {
-              widget.ontap(widget.chartData[value].title
-                  .split(' ')
-                  .join('_')
-                  .toUpperCase()
-                  .vietNameseParse());
+              widget.ontap(widget.chartData[value].id.toString());
             },
           ),
           Column(
@@ -53,15 +49,12 @@ class _BieuDoTrangThaiTheoLoaiMobileState
           ListView.builder(
             shrinkWrap: true,
             itemCount: widget.chartData.length,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               final result = widget.chartData[index];
               return GestureDetector(
                 onTap: () {
-                  widget.ontap(widget.chartData[index].title
-                      .split(' ')
-                      .join('_')
-                      .toUpperCase()
-                      .vietNameseParse());
+                  widget.ontap(widget.chartData[index].id.toString());
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),

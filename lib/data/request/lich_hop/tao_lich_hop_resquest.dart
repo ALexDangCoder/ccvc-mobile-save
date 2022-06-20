@@ -1,5 +1,50 @@
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
+TaoLichHopRequest taoHopFormChiTietHopModel(ChiTietLichHopModel chiTiet) {
+  return TaoLichHopRequest(
+    typeScheduleId: chiTiet.typeScheduleId,
+    linhVucId: chiTiet.linhVucId,
+    title: chiTiet.title,
+    ngayBatDau: chiTiet.ngayBatDau.changeToNewPatternDate(
+      DateFormatApp.monthDayFormat,
+      DateTimeFormat.DOB_FORMAT,
+    ),
+    ngayKetThuc: chiTiet.ngayBatDau.changeToNewPatternDate(
+      DateFormatApp.monthDayFormat,
+      DateTimeFormat.DOB_FORMAT,
+    ),
+    timeStart: chiTiet.timeStart,
+    timeTo: chiTiet.timeTo,
+    mucDo: chiTiet.mucDoHop,
+    isLichLap: chiTiet.isLichLap,
+    isNhacLich: chiTiet.typeReminder != 0,
+    isAllDay: chiTiet.isAllDay,
+    congKhai: chiTiet.isCongKhai,
+    lichDonVi: chiTiet.lichDonVi,
+    noiDung: chiTiet.noiDung,
+    bitHopTrucTuyen: chiTiet.bit_HopTrucTuyen,
+    chuTri: chiTiet.chuTriModel.toChuTriModel(),
+    diaDiemHop: chiTiet.diaDiemHop,
+    phongHop: chiTiet.phongHopMode.convertToPhongHopRequest(),
+    phongHopThietBi: chiTiet.phongHopThietBi,
+    status: chiTiet.status,
+    bitYeuCauDuyet: chiTiet.bit_YeuCauDuyet,
+    linkTrucTuyen: chiTiet.linkTrucTuyen,
+    bitTrongDonVi: chiTiet.bit_TrongDonVi,
+    dsDiemCau: chiTiet.dsDiemCau,
+    thuMoiFiles: chiTiet.thuMoiFiles,
+    typeReminder: chiTiet.typeReminder,
+    typeRepeat: chiTiet.typeRepeat,
+    dateRepeat: chiTiet.dateRepeat,
+    days: chiTiet.days,
+    bitLinkTrongHeThong: chiTiet.bit_LinkTrongHeThong,
+    isDuyetKyThuat: chiTiet.isDuyetKyThuat,
+    id: chiTiet.id,
+  );
+}
 class TaoLichHopRequest {
   String? typeScheduleId;
   String? linhVucId;
@@ -31,38 +76,43 @@ class TaoLichHopRequest {
   String? dateRepeat;
   String? days;
   bool? bitLinkTrongHeThong;
+  bool? isDuyetKyThuat;
+  String? id;
 
-  TaoLichHopRequest(
-      {this.typeScheduleId,
-      this.linhVucId,
-      this.title,
-      this.ngayBatDau,
-      this.ngayKetThuc,
-      this.timeStart,
-      this.timeTo,
-      this.mucDo,
-      this.isLichLap,
-      this.isNhacLich,
-      this.isAllDay,
-      this.congKhai,
-      this.lichDonVi,
-      this.noiDung,
-      this.bitHopTrucTuyen,
-      this.chuTri,
-      this.diaDiemHop,
-      this.phongHop,
-      this.phongHopThietBi,
-      this.status,
-      this.bitYeuCauDuyet,
-      this.linkTrucTuyen,
-      this.bitTrongDonVi,
-      this.dsDiemCau,
-      this.thuMoiFiles,
-      this.typeReminder,
-      this.typeRepeat,
-      this.dateRepeat,
-      this.days,
-      this.bitLinkTrongHeThong});
+  TaoLichHopRequest({
+    this.typeScheduleId,
+    this.linhVucId,
+    this.title,
+    this.ngayBatDau,
+    this.ngayKetThuc,
+    this.timeStart,
+    this.timeTo,
+    this.mucDo,
+    this.isLichLap,
+    this.isNhacLich,
+    this.isAllDay,
+    this.congKhai,
+    this.lichDonVi,
+    this.noiDung,
+    this.bitHopTrucTuyen,
+    this.chuTri,
+    this.diaDiemHop,
+    this.phongHop,
+    this.phongHopThietBi,
+    this.status,
+    this.bitYeuCauDuyet,
+    this.linkTrucTuyen,
+    this.bitTrongDonVi,
+    this.dsDiemCau,
+    this.thuMoiFiles,
+    this.typeReminder,
+    this.typeRepeat,
+    this.dateRepeat,
+    this.days,
+    this.bitLinkTrongHeThong,
+    this.isDuyetKyThuat,
+    this.id,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -105,8 +155,14 @@ class TaoLichHopRequest {
     data['dateRepeat'] = dateRepeat;
     data['days'] = days;
     data['bit_LinkTrongHeThong'] = bitLinkTrongHeThong;
+    data['isDuyetKyThuat'] = isDuyetKyThuat;
+    if (id != null) {
+      data['id'] =id;
+    }
     return data;
   }
+
+
 }
 
 class ChuTri {
@@ -117,13 +173,14 @@ class ChuTri {
   String? dauMoiLienHe;
   String? soDienThoai;
 
-  ChuTri(
-      {this.donViId,
-      this.canBoId,
-      this.tenCanBo,
-      this.tenCoQuan,
-      this.dauMoiLienHe,
-      this.soDienThoai});
+  ChuTri({
+    this.donViId,
+    this.canBoId,
+    this.tenCanBo,
+    this.tenCoQuan,
+    this.dauMoiLienHe,
+    this.soDienThoai,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -174,6 +231,11 @@ class PhongHopThietBi {
     data['soLuong'] = soLuong;
     return data;
   }
+
+  PhongHopThietBi.fromJson(Map<String, dynamic> json) {
+    tenThietBi = json['tenThietBi'];
+    soLuong = json['soLuong'];
+  }
 }
 
 class DsDiemCau {
@@ -182,13 +244,18 @@ class DsDiemCau {
   String? canBoDauMoiChucVu;
   String? canBoDauMoiSDT;
   int? loaiDiemCau;
+  String? id;
+  String? id_LichHop;
 
-  DsDiemCau(
-      {this.tenDiemCau,
-      this.canBoDauMoiHoTen,
-      this.canBoDauMoiChucVu,
-      this.canBoDauMoiSDT,
-      this.loaiDiemCau});
+  DsDiemCau({
+    this.tenDiemCau,
+    this.canBoDauMoiHoTen,
+    this.canBoDauMoiChucVu,
+    this.canBoDauMoiSDT,
+    this.loaiDiemCau,
+    this.id,
+    this.id_LichHop,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -197,6 +264,12 @@ class DsDiemCau {
     data['canBoDauMoi_ChucVu'] = canBoDauMoiChucVu;
     data['canBoDauMoi_SDT'] = canBoDauMoiSDT;
     data['loaiDiemCau'] = loaiDiemCau;
+    if (id != null) {
+      data['id'] = id;
+    }
+    if (id_LichHop != null) {
+      data['id_LichHop'] = id_LichHop;
+    }
     return data;
   }
 

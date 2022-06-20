@@ -1,9 +1,9 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +19,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final bool isShowValue;
   final Widget? customValue;
   final Function(int)? onChange;
+  final String hintText;
 
   const SelectOnlyExpand({
     Key? key,
@@ -30,6 +31,7 @@ class SelectOnlyExpand extends StatefulWidget {
     required this.urlIcon,
     this.customValue,
     this.onChange,
+    this.hintText = '',
   }) : super(key: key);
 
   @override
@@ -71,6 +73,9 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect = widget.listSelect[index];
+        if (widget.onChange != null) {
+          widget.onChange!(index);
+        }
       } else {
         valueSelect = '';
       }
@@ -198,22 +203,32 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                         StreamBuilder<int>(
                           stream: selectBloc.stream,
                           builder: (context, snapshot) {
-                            return screenDevice(
-                                mobileScreen: Text(
-                                  valueSelect,
-                                  style: textNormal(color3D5586, 16),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                tabletScreen: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 26),
-                                      child: Text(
-                                        valueSelect,
-                                        style: textNormal(color3D5586, 16),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    )));
+                            return valueSelect.isEmpty
+                                ? Text(
+                                    widget.hintText,
+                                    style: textNormalCustom(
+                                      color: colorA2AEBD,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0.textScale(),
+                                    ),
+                                  )
+                                : screenDevice(
+                                    mobileScreen: Text(
+                                      valueSelect,
+                                      style: textNormal(color3D5586, 16),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    tabletScreen: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 26),
+                                          child: Text(
+                                            valueSelect,
+                                            style: textNormal(color3D5586, 16),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )));
                           },
                         ),
                   ),

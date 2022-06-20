@@ -45,7 +45,6 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 
   Future<void> getChiTietLichHop(String id) async {
     showLoading();
-    this.id = id;
     final loaiHop = await hopRp
         .getLoaiHop(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     loaiHop.when(
@@ -54,17 +53,17 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       },
       error: (err) {},
     );
-    final result = await hopRp.getChiTietLichHop(id);
+    final result = await hopRp.getChiTietLichHop(idCuocHop);
     result.when(
       success: (res) {
-        showContent();
         res.loaiHop = _findLoaiHop(res.typeScheduleId)?.name ?? '';
-        chiTietLichLamViecSubject.add(res);
+        chiTietLichHopSubject.add(res);
       },
       error: (err) {
         showError();
       },
     );
+    showContent();
   }
 
   Future<void> postThuHoiHop(String scheduleId) async {

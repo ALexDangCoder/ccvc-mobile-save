@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -75,7 +74,6 @@ class HomeCubit extends BaseCubit<HomeState> {
     final result = await homeRep.getTinBuon();
     result.when(
       success: (res) {
-        log('${res}');
         _tinhHuongKhanCap.sink.add(res);
       },
       error: (err) {},
@@ -396,6 +394,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         label: todo.label,
         updatedBy: id,
         updatedOn: DateTime.now().formatApi,
+        performer:todo.performer,
       ),
     );
     if (removeDone) {
@@ -436,6 +435,8 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   void _removeInsertImportant(TodoListModel data, TodoModel todo) async{
+    final String nameInsert = await getName(todo.performer ?? '');
+    danhSachTenNguoiGan.insert(0, nameInsert);
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
@@ -478,6 +479,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         label: newLabel,
         updatedBy: id,
         updatedOn: DateTime.now().formatApi,
+        performer: todo.performer,
       ),
     );
     final index =
@@ -505,6 +507,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         label: todo.label,
         updatedBy: id,
         updatedOn: DateTime.now().formatApi,
+        performer: todo.performer,
       ),
     );
     if (removeDone) {
@@ -681,7 +684,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     final result = await homeRep.listNguoiGanCongViec(
       true,
       10,
-      pageIndex,
+      1,
       id,
     );
     result.when(
@@ -1143,7 +1146,9 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
       success: (res) {
         _getDanhSachVb.sink.add(res);
       },
-      error: (err) {},
+      error: (err) {
+
+      },
     );
   }
 
@@ -1168,7 +1173,9 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
       success: (res) {
         _getDanhSachVb.sink.add(res);
       },
-      error: (err) {},
+      error: (err) {
+
+      },
     );
   }
 

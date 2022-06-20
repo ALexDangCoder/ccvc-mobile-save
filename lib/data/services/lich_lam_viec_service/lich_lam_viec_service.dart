@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_y_kien_respons
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_right_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/sua_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response.dart';
@@ -96,11 +97,20 @@ abstract class LichLamViecService {
     @Body() DanhSachLichLamViecRequest danhSachLichLamViecRequest,
   );
 
+//?scheduleId={id}&only=true&isLichLap=true&?
   @DELETE(ApiConstants.XOA_LICH_LAM_VIEC)
-  Future<DeleteCalenderWorkResponse> deleteCalenderWork(@Path('id') String id);
+  Future<DeleteCalenderWorkResponse> deleteCalenderWork(
+    @Query('scheduleId') String id,
+    @Query('only') bool only,
+  );
 
+//?scheduleId={id}&statusId=8&isMulti=false
   @GET(ApiConstants.CANCEL_TIET_LICH_LAM_VIEC)
-  Future<CancelCalenderWorkResponse> cancelCalenderWork(@Path('id') String id);
+  Future<CancelCalenderWorkResponse> cancelCalenderWork(
+    @Query('scheduleId') String id,
+    @Query('statusId') int statusId,
+    @Query('isMulti') bool isMulti,
+  );
 
   @GET(ApiConstants.SCHEDULE_OPINION_LIST)
   Future<DanhSachYKienResponse> getDanhSachYKien(
@@ -134,7 +144,7 @@ abstract class LichLamViecService {
   );
 
   @PUT(ApiConstants.TAO_LICH_LAM_VIEC)
-  Future<TaoLichLamViecResponse> suaLichLamviec(
+  Future<SuaLichLamViecResponse> suaLichLamviec(
     @Body() FormData data,
   );
 
@@ -142,8 +152,18 @@ abstract class LichLamViecService {
   Future<TaoBaoCaoKetQuaResponse> taoBaoCaoKetQua(
     @Part() String ReportStatusId,
     @Part() String ScheduleId,
+    @Part() String Content,
     @Part() List<File> Files,
   );
+  @PUT(ApiConstants.SUA_BAO_CAO_KET_QUA)
+  Future<TaoBaoCaoKetQuaResponse> suaBaoCaoKetQua(
+      @Part() String ReportStatusId,
+      @Part() String ScheduleId,
+      @Part() String Content,
+      @Part() List<File> Files,
+      @Part() List<String> FilesDelete,
+      @Part() String Id,
+      );
 
   @POST(ApiConstants.TAO_MOI_BAN_GHI)
   Future<TaoMoiBanGhiResponse> taoMoiBanGhi(

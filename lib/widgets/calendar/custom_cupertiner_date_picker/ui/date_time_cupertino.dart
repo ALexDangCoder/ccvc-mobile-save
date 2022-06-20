@@ -159,8 +159,8 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        cubit.setTypePicker(TypePickerDateTime.TIME_START);
-                        cubit.handleDateTimePressed();
+                        cubit.setTypePickerStart(TypePickerDateTime.TIME_START);
+                        //cubit.handleDateTimePressed();
                         cubit.lastedType = TypePickerDateTime.TIME_START;
                       },
                       child: StreamBuilder<String>(
@@ -188,8 +188,8 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
                     onTap: () {
-                      cubit.setTypePicker(TypePickerDateTime.DATE_START);
-                      cubit.handleDateTimePressed();
+                      cubit.setTypePickerStart(TypePickerDateTime.DATE_START);
+                      //cubit.handleDateTimePressed();
                       cubit.lastedType = TypePickerDateTime.DATE_START;
                     },
                     child: Text(
@@ -207,7 +207,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
           builder: (context, snapshot) {
             final bool isShowPicker = snapshot.data ?? false;
             return StreamBuilder<TypePickerDateTime>(
-              stream: cubit.typePickerSubject,
+              stream: cubit.typePickerSubjectStart,
               builder: (context, typeSnapshot) {
                 final typePicker =
                     typeSnapshot.data ?? TypePickerDateTime.TIME_START;
@@ -275,10 +275,8 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        cubit.setTypePicker(TypePickerDateTime.TIME_END);
-                        cubit.handleDateTimePressed(
-                          isBegin: false,
-                        );
+                        cubit.setTypePickerStart(TypePickerDateTime.TIME_END);
+                        //cubit.handleDateTimePressed(isBegin: false);
                         cubit.lastedType = TypePickerDateTime.TIME_END;
                       },
                       child: StreamBuilder<String>(
@@ -306,10 +304,8 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
                     onTap: () {
-                      cubit.setTypePicker(TypePickerDateTime.DATE_END);
-                      cubit.handleDateTimePressed(
-                        isBegin: false,
-                      );
+                      cubit.setTypePickerStart(TypePickerDateTime.DATE_END);
+                      //cubit.handleDateTimePressed(isBegin: false);
                       cubit.lastedType = TypePickerDateTime.DATE_END;
                     },
                     child: Text(
@@ -327,7 +323,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
           builder: (context, snapshot) {
             final bool isShowPicker = snapshot.data ?? false;
             return StreamBuilder<TypePickerDateTime>(
-              stream: cubit.typePickerSubject,
+              stream: cubit.typePickerSubjectStart,
               builder: (context, typeSnapshot) {
                 final typePicker =
                     typeSnapshot.data ?? TypePickerDateTime.TIME_END;

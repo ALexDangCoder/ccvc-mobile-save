@@ -27,31 +27,37 @@ class AvatarAndSignature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        pickAnhDaiDien(
-          context,
-          S.current.anh_dai_dien,
-          () async {
-            await upLoadImg(context, 1, toast);
-          },
-          cubit.managerPersonalInformationModel.anhDaiDienFilePath ?? '',
+        Expanded(
+          child: pickAnhDaiDien(
+            context,
+            S.current.anh_dai_dien,
+            () async {
+              await upLoadImg(context, 1, toast);
+            },
+            cubit.managerPersonalInformationModel.anhDaiDienFilePath ?? '',
+          ),
         ),
-        pickChuKy(
-          context,
-          S.current.anh_chu_ky,
-          () async {
-            await upLoadChuKy(context, 2, toast);
-          },
-          cubit.managerPersonalInformationModel.anhChuKyFilePath ?? '',
+        Expanded(
+          child: pickChuKy(
+            context,
+            S.current.anh_chu_ky,
+            () async {
+              await upLoadChuKy(context, 2, toast);
+            },
+            cubit.managerPersonalInformationModel.anhChuKyFilePath ?? '',
+          ),
         ),
-        pickAnhKyNhay(
-          context,
-          S.current.anh_ky_nhay,
-          () async {
-            await upLoadKyNhay(context, 3, toast);
-          },
-          cubit.managerPersonalInformationModel.anhChuKyNhayFilePath ?? '',
+        Expanded(
+          child: pickAnhKyNhay(
+            context,
+            S.current.anh_ky_nhay,
+            () async {
+              await upLoadKyNhay(context, 3, toast);
+            },
+            cubit.managerPersonalInformationModel.anhChuKyNhayFilePath ?? '',
+          ),
         )
       ],
     );
@@ -154,6 +160,7 @@ class AvatarAndSignature extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhDaiDienFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
                           padding: const EdgeInsets.all(34.0),
@@ -227,6 +234,7 @@ class AvatarAndSignature extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhChuKyFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
                           padding: const EdgeInsets.all(34.0),
@@ -300,6 +308,7 @@ class AvatarAndSignature extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhChuKyNhayFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
                           padding: const EdgeInsets.all(34.0),

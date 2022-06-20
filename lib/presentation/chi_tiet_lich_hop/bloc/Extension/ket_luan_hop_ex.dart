@@ -198,4 +198,12 @@ extension KetLuanHop on DetailMeetCalenderCubit {
       },
     );
   }
+
+  Future<void> callApiKetLuanHop() async {
+    await getDanhSachNhiemVu(idCuocHop);
+    await getXemKetLuanHop(idCuocHop);
+    await getDanhSachLoaiNhiemVu();
+    await ListStatusKetLuanHop();
+    await postChonMauHop();
+  }
 }

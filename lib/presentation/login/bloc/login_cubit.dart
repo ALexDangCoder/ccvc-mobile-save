@@ -58,6 +58,11 @@ class LoginCubit extends BaseCubit<LoginState> {
     showContent();
   }
 
+  Future<String?> getTokken() async {
+    final fcmTokken = await FirebaseMessaging.instance.getToken();
+    return fcmTokken;
+  }
+
   Future<void> loginAndSaveinfo({
     required String userName,
     required String passWord,
@@ -86,7 +91,7 @@ class LoginCubit extends BaseCubit<LoginState> {
       },
       error: (err) {
         thongBao.sink.add('');
-        if (err is NoNetworkException) {
+        if (err is NoNetworkException || err is TimeoutException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,

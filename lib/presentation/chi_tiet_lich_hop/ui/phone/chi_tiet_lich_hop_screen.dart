@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
@@ -22,6 +21,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +44,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = DetailMeetCalenderCubit();
-    cubit.id = widget.id;
-    cubit.initData(id: widget.id);
-    cubit.initDataButton();
+    cubit.idCuocHop = widget.id;
+    cubit.initDataChiTiet();
   }
 
   @override
@@ -71,21 +69,22 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
           title: S.current.chi_tiet_lich_hop,
           actions: [
             StreamBuilder<List<PERMISSION_DETAIL>>(
-                stream: cubit.listButtonSubject.stream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return MenuSelectWidget(
-                    listSelect: data
-                        .map(
-                          (e) => e.getMenuLichHop(
-                            context,
-                            cubit,
-                            widget.id,
-                          ),
-                        )
-                        .toList(),
-                  );
-                }),
+              stream: cubit.listButtonSubject.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                return MenuSelectWidget(
+                  listSelect: data
+                      .map(
+                        (e) => e.getMenuLichHop(
+                          context,
+                          cubit,
+                          widget.id,
+                        ),
+                      )
+                      .toList(),
+                );
+              },
+            ),
             const SizedBox(
               width: 16,
             )
@@ -93,22 +92,21 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
         ),
         body: ProviderWidget<DetailMeetCalenderCubit>(
           cubit: cubit,
-          child: DetailMeetCalendarInherited(
-            cubit: cubit,
-            child: ExpandGroup(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  await cubit.initData(id: widget.id);
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: ListView(
+          child: ExpandGroup(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await cubit.initDataChiTiet();
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
                       StreamBuilder<ChiTietLichHopModel>(
-                        stream: cubit.chiTietLichLamViecSubject.stream,
+                        stream: cubit.chiTietLichHopSubject.stream,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Container();
+                            return const SizedBox();
                           }
                           final data = snapshot.data ?? ChiTietLichHopModel();
                           return Column(
@@ -157,18 +155,11 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           );
                         },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16, bottom: 10),
-                        child: CongTacChuanBiWidget(
-                          cubit: cubit,
-                        ),
+                      CongTacChuanBiWidget(
+                        cubit: cubit,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: ChuongTrinhHopWidget(
-                          id: widget.id,
-                          cubit: cubit,
-                        ),
+                      ChuongTrinhHopWidget(
+                        cubit: cubit,
                       ),
                       ThanhPhanThamGiaWidget(
                         cubit: cubit,
@@ -178,21 +169,25 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                       ),
                       PhatBieuWidget(
                         cubit: cubit,
-                        id: widget.id,
                       ),
                       BieuQuyetWidget(
-                        id: widget.id,
                         cubit: cubit,
                       ),
                       KetLuanHopWidget(
                         cubit: cubit,
-                        id: widget.id,
                       ),
                       YKienCuocHopWidget(
-                        id: widget.id,
                         cubit: cubit,
                       ),
-                      BocBangWidget(cubit: cubit,)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: DoubleButtonBottom(
+                          title1: S.current.tham_du,
+                          title2: S.current.tu_choi,
+                          onPressed1: () {},
+                          onPressed2: () {},
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -253,25 +248,5 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
         ),
       ),
     );
-  }
-}
-
-class DetailMeetCalendarInherited extends InheritedWidget {
-  DetailMeetCalenderCubit cubit;
-
-  DetailMeetCalendarInherited(
-      {Key? key, required this.cubit, required Widget child})
-      : super(key: key, child: child);
-
-  static DetailMeetCalendarInherited of(BuildContext context) {
-    final DetailMeetCalendarInherited? result = context
-        .dependOnInheritedWidgetOfExactType<DetailMeetCalendarInherited>();
-    assert(result != null, 'No element');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
   }
 }

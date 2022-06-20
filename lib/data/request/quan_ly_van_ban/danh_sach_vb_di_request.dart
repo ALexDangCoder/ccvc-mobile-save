@@ -16,6 +16,10 @@ class DanhSachVBDiRequest {
   final bool? isDanhSachChoXuLy;
   @JsonKey(name: 'IsDanhSachDaXuLy')
   final bool? isDanhSachDaXuLy;
+  @JsonKey(name: 'IsDanhSachChoCapSo')
+  final bool? isDanhSachChoCapSo;
+  @JsonKey(name: 'IsDanhSachChoBanHanh')
+  final bool? isDanhSachChoBanHanh;
   @JsonKey(name: 'TrangThaiFilter')
   final List<int>? trangThaiFilter;
   @JsonKey(name: 'Index')
@@ -32,6 +36,8 @@ class DanhSachVBDiRequest {
     this.isDanhSachChoTrinhKy,
     this.isDanhSachChoXuLy,
     this.isDanhSachDaXuLy,
+    this.isDanhSachChoCapSo,
+    this.isDanhSachChoBanHanh,
     this.trangThaiFilter,
     required this.index,
     required this.size,

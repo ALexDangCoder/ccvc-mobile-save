@@ -31,6 +31,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
     // TODO: implement initState
     super.initState();
     controller.text = widget.initData;
+    controller.text = '';
   }
 
   @override
@@ -46,7 +47,6 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                 border: Border(bottom: BorderSide(color: borderButtomColor)),
               ),
               child: TextFormField(
-                // initialValue: widget.initData ?? '',
                 controller: controller,
                 focusNode: focusNode,
                 onChanged: (value) {
@@ -92,7 +92,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
               },
               onPressed2: () {
                 widget.onTap(controller.text.trim());
-                controller.text = '';
+
                 focusNode.unfocus();
               },
             ),

@@ -71,9 +71,14 @@ mixin LichLamViecRepository {
 
   Future<Result<DeleteTietLichLamViecModel>> deleteCalenderWork(
     String id,
+    bool only,
   );
 
-  Future<Result<CancelLichLamViecModel>> cancelCalenderWork(String id);
+  Future<Result<CancelLichLamViecModel>> cancelCalenderWork(
+    String id,
+    int statusId,
+    bool isMulti,
+  );
 
   Future<Result<List<YKienModel>>> getDanhSachYKien(String id);
 
@@ -160,6 +165,7 @@ mixin LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -196,6 +202,7 @@ mixin LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -210,8 +217,18 @@ mixin LichLamViecRepository {
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
     String scheduleId,
+    String content,
     List<File> files,
   );
+  Future<Result<MessageModel>> suaBaoCaoKetQua(
+  {required String id,
+   required String reportStatusId,
+   required String scheduleId,
+   required String content,
+   required List<File> files,
+   required List<String> idFileDelele}
+      );
+
 
   Future<Result<ThemYKienModel>> themYKien(ThemYKienRequest themYKienRequest);
 

@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
 import 'package:ccvc_mobile/widgets/dialog/modal_progress_hud.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -25,11 +26,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final ThanhPhanThamGiaCubit cubit;
+  final bool needCheckTrung;
 
   const ThemCanBoWidget({
     Key? key,
     required this.onChange,
     required this.cubit,
+    this.needCheckTrung = false,
   }) : super(key: key);
 
   @override
@@ -57,6 +60,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
           height: MediaQuery.of(context).size.height * 0.8,
           child: ThemCanBoScreen(
             cubit: widget.cubit,
+            needCheckTrung: widget.needCheckTrung,
           ),
         ),
       ).then((value) {
@@ -70,6 +74,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         title: S.current.chon_thanh_phan_tham_gia,
         child: ThemCanBoScreen(
           cubit: widget.cubit,
+          needCheckTrung: widget.needCheckTrung,
         ),
         isBottomShow: false,
         funcBtnOk: () {},
@@ -85,8 +90,9 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
 
 class ThemCanBoScreen extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
+  final bool needCheckTrung;
 
-  const ThemCanBoScreen({Key? key, required this.cubit}) : super(key: key);
+  const ThemCanBoScreen({Key? key, required this.cubit, required this.needCheckTrung}) : super(key: key);
 
   @override
   _ThemCanBoScreenState createState() => _ThemCanBoScreenState();
@@ -97,13 +103,11 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _themCanBoCubit.dispose();
   }
@@ -165,7 +169,47 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                 padding:
                                     EdgeInsets.only(top: index == 0 ? 0 : 16),
                                 child: CanBoWidget(
-                                  onCheckBox: (value) {
+                                  onCheckBox: (value) async {
+                                    if(value && widget.needCheckTrung) {
+                                      await _themCanBoCubit
+                                          .checkLichTrung(
+                                        donViId: result.donViId,
+                                        canBoId: result.canBoId,
+                                        dateEnd: widget.cubit.dateEnd,
+                                        dateStart: widget.cubit.dateStart,
+                                        timeEnd: widget.cubit.timeEnd,
+                                        timeStart: widget.cubit.timeStart,
+                                      )
+                                          .then((res) {
+                                        if (res) {
+                                          showDiaLog(
+                                            context,
+                                            title: S.current.lich_trung,
+                                            textContent: S.current
+                                                .ban_co_muon_tiep_tuc_khong,
+                                            icon: ImageAssets.svgAssets(
+                                                ImageAssets.ic_trung_hop),
+                                            btnRightTxt: S.current.dong_y,
+                                            btnLeftTxt: S.current.khong,
+                                            isCenterTitle: true,
+                                            funcBtnRight: () {
+                                              _themCanBoCubit.selectCanBo(
+                                                result,
+                                                isCheck: value,
+                                              );
+                                              setState(() {});
+                                            },
+                                          );
+                                        } else {
+                                          _themCanBoCubit.selectCanBo(
+                                            result,
+                                            isCheck: value,
+                                          );
+                                          setState(() {});
+                                        }
+                                      });
+                                      return;
+                                    }
                                     _themCanBoCubit.selectCanBo(
                                       result,
                                       isCheck: value,

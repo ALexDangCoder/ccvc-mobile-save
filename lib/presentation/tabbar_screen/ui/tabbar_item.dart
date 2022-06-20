@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
@@ -5,8 +6,6 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_
 
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/danh_sach_bao_cao_dang_girdview.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/tablet/grid_view/danh_sach_bao_cao_dang_girdview.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_screen.dart';
@@ -67,8 +66,8 @@ extension TabbarEnum on TabBarType {
         );
       case TabBarType.report:
         return screenDevice(
-          mobileScreen: const DanhSachBaoCaoDangGirdviewMobile(),
-          tabletScreen: const DanhSachBaoCaoDangGirdviewTablet(),
+          mobileScreen: const ReportScreenMobile(),
+          tabletScreen: const ReportScreenMobile(),
         );
       case TabBarType.calendarWork:
         return screenDevice(

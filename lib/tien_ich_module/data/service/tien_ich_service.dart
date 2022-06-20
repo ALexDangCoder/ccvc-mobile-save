@@ -122,17 +122,23 @@ abstract class TienIchService {
   Future<PostAnhResponse> uploadFile(
     @Part() File fileUpload,
   );
+
+  @POST(ApiConstants.POST_FILE_DSCV)
+  @MultiPart()
+  Future<PostAnhResponse> uploadFileDSCV(
+    @Part() File fileUpload,
+  );
+
+  @GET(ApiConstants.GET_LICH_AM_DUONG)
+  Future<DataLichAmDuongResponse> getLichAmDuong(
+    @Query('dateStr') String date,
+  );
 }
 
 @RestApi()
 abstract class TienIchServiceUAT {
   @factoryMethod
   factory TienIchServiceUAT(Dio dio, {String baseUrl}) = _TienIchServiceUAT;
-
-  @GET(ApiConstants.GET_LICH_AM_DUONG)
-  Future<DataLichAmDuongResponse> getLichAmDuong(
-    @Query('dateStr') String date,
-  );
 }
 
 @RestApi()

@@ -94,9 +94,9 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                             false;
                                         widget.danhSachCubit.keySearch = '';
                                         widget.danhSachCubit.mangTrangThai = '';
+                                        widget.danhSachCubit.loadMoreList.clear();
                                         widget.danhSachCubit
                                             .postDanhSachNhiemVu(
-                                          index: 0,
                                           isNhiemVuCaNhan: widget.isCheck,
                                           isSortByHanXuLy: true,
                                           mangTrangThai: [
@@ -138,13 +138,13 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                           ),
                         ),
                         onChanged: (text) {
+                          widget.danhSachCubit.loadMoreList.clear();
                           if (text.isEmpty) {
                             setState(() {});
                             widget.danhSachCubit.isHideClearData = false;
                             widget.danhSachCubit.keySearch = text;
                             widget.danhSachCubit.mangTrangThai = '';
                             widget.danhSachCubit.postDanhSachNhiemVu(
-                              index: 0,
                               isNhiemVuCaNhan: widget.isCheck,
                               isSortByHanXuLy: true,
                               mangTrangThai: [
@@ -166,7 +166,6 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                               widget.danhSachCubit.mangTrangThai = '';
                               widget.danhSachCubit.isHideClearData = true;
                               widget.danhSachCubit.postDanhSachNhiemVu(
-                                index: 0,
                                 isNhiemVuCaNhan: widget.isCheck,
                                 isSortByHanXuLy: true,
                                 mangTrangThai: [
@@ -244,6 +243,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           }
         },
         child: ComplexLoadMore(
+
           childrenView: [
             FilterDateTimeWidget(
               context: context,
@@ -295,8 +295,8 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                             widget.danhSachCubit.mangTrangThai = value;
                             widget.danhSachCubit.trangThaiHanXuLy = null;
                             setState(() {
+                              widget.danhSachCubit.loadMoreList.clear();
                               widget.danhSachCubit.postDanhSachNhiemVu(
-                                index: 0,
                                 isNhiemVuCaNhan: widget.isCheck,
                                 isSortByHanXuLy: true,
                                 mangTrangThai: [
@@ -317,9 +317,9 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                             widget.danhSachCubit.mangTrangThai = '';
                             widget.danhSachCubit.trangThaiHanXuLy =
                                 value_status_box;
+                            widget.danhSachCubit.loadMoreList.clear();
                             setState(() {
                               widget.danhSachCubit.postDanhSachNhiemVu(
-                                index: 0,
                                 isNhiemVuCaNhan: widget.isCheck,
                                 isSortByHanXuLy: true,
                                 mangTrangThai: [

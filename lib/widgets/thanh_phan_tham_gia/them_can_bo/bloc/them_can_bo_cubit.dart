@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_state.dart';
@@ -33,6 +34,40 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
       },
       error: (err) {},
     );
+  }
+
+  HopRepository get hopRepo => Get.find();
+
+  Future<bool> checkLichTrung({
+    required String donViId,
+    required String canBoId,
+    required String timeStart,
+    required String timeEnd,
+    required String dateStart,
+    required String dateEnd,
+  }) async {
+    bool isDuplicate = false;
+    emit(Loading());
+    final rs = await hopRepo.checkLichHopTrung(
+      null,
+      donViId,
+      canBoId,
+      timeStart,
+      timeEnd,
+      dateStart,
+      dateEnd,
+    );
+    emit(MainStateInitial());
+    rs.when(
+      success: (res) {
+        isDuplicate = res.isNotEmpty;
+      },
+      error: (error) {
+        isDuplicate = false;
+      },
+    );
+    showContent();
+    return isDuplicate;
   }
 
   void selectCanBo(DonViModel canBoModel, {bool isCheck = false}) {

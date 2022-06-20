@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/button/button_bottom.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ Future<T?> showDiaLogTablet<T>(
   String? btnLeftTxt,
   bool isBottomShow = true,
   required Function() funcBtnOk,
+  required Function() funcBtnPop,
   double maxHeight = 878,
   double width = 592,
   double? setHeight,
@@ -35,6 +37,7 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: setHeight ?? maxHeight,
           width: width,
+          funcBtnPop: funcBtnPop,
           child: child,
         ),
       );
@@ -48,6 +51,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final String btnRightTxt;
   final String btnLeftTxt;
   final Function() funcBtnOk;
+  final Function() funcBtnPop;
   final bool isBottomShow;
   final double maxHeight;
   final double width;
@@ -62,6 +66,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
+    required this.funcBtnPop,
   }) : super(key: key);
 
   @override
@@ -85,6 +90,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
+                      funcBtnPop;
                       Navigator.pop(context);
                     },
                     child: SvgPicture.asset(ImageAssets.icClose),
@@ -106,6 +112,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                   children: [
                     button(
                       onTap: () {
+                        funcBtnPop;
                         Navigator.pop(context);
                       },
                       title: btnLeftTxt,
@@ -123,7 +130,20 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                 ),
               )
             else
-              const SizedBox()
+              Container(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  bottom: 30,
+                ),
+                child: ButtonBottom(
+                  onPressed: () {
+                    funcBtnOk();
+                    Navigator.pop(context);
+                  },
+                  text: btnRightTxt,
+                ),
+              )
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/sua_danh_sach_request.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get.dart';
@@ -30,13 +32,15 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   treeDanhBaDienTu dataTypeTree = treeDanhBaDienTu();
 
   List<TreeDonViDanhBA> listTreeDanhBa = [];
-
+  Debouncer debouncer = Debouncer();
   final List<String> _listId = [];
   final List<String> _listParent = [];
   int levelTree = 0;
   BehaviorSubject<String> tenDonVi =
       BehaviorSubject.seeded(S.current.UBND_tinh_dong_nai);
   BehaviorSubject<String> idDonVi = BehaviorSubject();
+  BehaviorSubject<String> isCheckValidate = BehaviorSubject.seeded('  ');
+  String searchValue = '';
 
   ////////////////////////////////////////////////////////////////////////
   DanhBaDienTuRepository get tienIchRep => Get.find();
@@ -54,7 +58,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   String email = '';
   bool gioiTinh = true;
   String ngaySinh = '';
-  String dateDanhSach = DateTime.now().formatApiDanhBa;
+  String dateDanhSach = '';
   String cmtnd = '';
   String anhDaiDienFilePath = '';
   String anhChuKyFilePath = '';
@@ -67,7 +71,8 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 
   String search = '';
   BehaviorSubject<File> saveFile = BehaviorSubject();
-  final BehaviorSubject<ModelAnh> anhDanhBaCaNhan = BehaviorSubject();
+  final BehaviorSubject<ModelAnh?> anhDanhBaCaNhan = BehaviorSubject();
+  final BehaviorSubject<ModelAnh?> suaAnhDanhBaCaNhan = BehaviorSubject();
 
   String subString(String? name) {
     if (name != null) {
@@ -103,8 +108,8 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     }
   }
 
-  void searchListDanhSach(String keyword) {
-    searchListDanhBaCaNhan(
+  Future<void> searchListDanhSach(String keyword) async {
+    await searchListDanhBaCaNhan(
       pageIndex: pageIndex,
       pageSize: pageSize,
       keyword: keyword,
@@ -162,8 +167,15 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         }
       },
       error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          emit(const CompletedLoadMore(CompleteType.ERROR));
+          showError();
+        }
       },
     );
   }
@@ -236,6 +248,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   String pathAnh = '';
 
   Future<void> uploadFiles(String path) async {
+    showLoading();
     final result = await tienIchRepTree.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -243,6 +256,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       },
       error: (error) {},
     );
+    showContent();
   }
 
   Future<bool> postDanhSach({
@@ -291,11 +305,18 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         isCheck = true;
       },
       error: (error) {
-        MessageConfig.show(
-          title: S.current.them_danh_ba_ca_nhan_khong_thanh_cong,
-          messState: MessState.error,
-        );
-        isCheck = false;
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.them_danh_ba_ca_nhan_khong_thanh_cong,
+            messState: MessState.error,
+          );
+          isCheck = false;
+        }
       },
     );
     return isCheck;
@@ -357,13 +378,23 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         isCheckSuccess = true;
       },
       error: (error) {
-        MessageConfig.show(
-          title: S.current.thay_doi_that_bai,
-          messState: MessState.error,
-        );
-        isCheckSuccess = false;
+        if (error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.thay_doi_that_bai,
+            messState: MessState.error,
+          );
+          isCheckSuccess = false;
+        }
       },
     );
+    if (isCheckSuccess) {
+      anhDanhBaCaNhan.sink.add(null);
+    }
     return isCheckSuccess;
   }
 
@@ -371,6 +402,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     required String id,
   }) async {
     bool isCheckSuccess = true;
+    showLoading();
     final result = await tienIchRep.xoaDanhBa(id);
     result.when(
       success: (res) {
@@ -388,6 +420,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         isCheckSuccess = false;
       },
     );
+    showContent();
     return isCheckSuccess;
   }
 

@@ -111,11 +111,13 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                               cubit.selectTime = dateTime;
                                               cubit.changeDateTimeSubject
                                                   .add(dateTime);
+                                              cubit.dateTimeSubject.sink
+                                                  .add(dateTime);
                                               Navigator.pop(context);
                                             },
                                             textStyle: tokenDetailAmount(
                                               color: titleCalenderWork,
-                                              fontSize: 16,
+                                              fontSize: 12,
                                             ),
                                           );
                                         },
@@ -127,6 +129,8 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                           cubit.startDate =
                                               start.formatApiDDMMYYYY;
                                           cubit.getLichAmDuong(cubit.startDate);
+                                          cubit.dateTimeSubject.sink
+                                              .add(start);
                                           cubit.selectTime = selectDay;
                                         },
                                         tablet: true,
@@ -141,71 +145,6 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                         isCheckLunar: true,
                                       ),
                                     ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(
-                                    //       top: 20.0,
-                                    //       bottom: 20.0,
-                                    //       left: 20.0,
-                                    //       right: 20.0),
-                                    //   child: Row(
-                                    //     children: [
-                                    //       Expanded(
-                                    //         child: Row(
-                                    //           mainAxisAlignment:
-                                    //               MainAxisAlignment.center,
-                                    //           children: [
-                                    //             Container(
-                                    //               height: 12.0,
-                                    //               width: 12.0,
-                                    //               decoration:
-                                    //                   const BoxDecoration(
-                                    //                 color: choVaoSoColor,
-                                    //                 shape: BoxShape.circle,
-                                    //               ),
-                                    //             ),
-                                    //             const SizedBox(
-                                    //               width: 10.0,
-                                    //             ),
-                                    //             Text(
-                                    //               S.current.ngay_hoang_dao,
-                                    //               style: textNormalCustom(
-                                    //                 fontSize: 16.0,
-                                    //                 color: titleColumn,
-                                    //               ),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //       Expanded(
-                                    //         child: Row(
-                                    //           mainAxisAlignment:
-                                    //               MainAxisAlignment.center,
-                                    //           children: [
-                                    //             Container(
-                                    //               height: 12.0,
-                                    //               width: 12.0,
-                                    //               decoration:
-                                    //                   const BoxDecoration(
-                                    //                 color: titleColor,
-                                    //                 shape: BoxShape.circle,
-                                    //               ),
-                                    //             ),
-                                    //             const SizedBox(
-                                    //               width: 10.0,
-                                    //             ),
-                                    //             Text(
-                                    //               S.current.ngay_hach_dao,
-                                    //               style: textNormalCustom(
-                                    //                 fontSize: 16.0,
-                                    //                 color: titleColumn,
-                                    //               ),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -499,114 +438,6 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                               ngayAmLichStr: snapshot.data?.ngayAmLicgStr ?? '',
                               tietKhi: snapshot.data?.tietKhi ?? '',
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(
-                            //     right: 24.0,
-                            //     left: 24.0,
-                            //   ),
-                            //   child: Column(
-                            //     children: [
-                            //       const Padding(
-                            //         padding: EdgeInsets.only(bottom: 12.0),
-                            //         child: Divider(
-                            //           thickness: 1,
-                            //           color: bgDropDown,
-                            //         ),
-                            //       ),
-                            //       // Row(
-                            //       //   crossAxisAlignment:
-                            //       //   CrossAxisAlignment.start,
-                            //       //   children: [
-                            //       //     Expanded(
-                            //       //       child: TuoiXungTheoNgayWidget(
-                            //       //         listTuoiXungTheoNgay:
-                            //       //         snapshot.data?.tuoiXungTheoNgay ??
-                            //       //             [],
-                            //       //       ),
-                            //       //     ),
-                            //       //     Expanded(
-                            //       //       child: TuoiXungTheoThangWidget(
-                            //       //         listTuoiXungTheoThang: snapshot
-                            //       //             .data?.tuoiXungTheoThang ??
-                            //       //             [],
-                            //       //       ),
-                            //       //     ),
-                            //       //   ],
-                            //       // ),
-                            //       // const Padding(
-                            //       //   padding: EdgeInsets.only(bottom: 12.0),
-                            //       //   child: Divider(
-                            //       //     thickness: 1,
-                            //       //     color: bgDropDown,
-                            //       //   ),
-                            //       // ),
-                            //       // Row(
-                            //       //   crossAxisAlignment:
-                            //       //   CrossAxisAlignment.start,
-                            //       //   children: [
-                            //       //     Expanded(
-                            //       //       child: ThapNhiKienTruWidget(
-                            //       //         thapNhiKienTru:
-                            //       //         snapshot.data?.thapNhiKienTru ??
-                            //       //             ThapNhiKienTru(),
-                            //       //       ),
-                            //       //     ),
-                            //       //     const SizedBox(
-                            //       //       width: 30.0,
-                            //       //     ),
-                            //       //     Expanded(
-                            //       //       child: NgayBachKyWidget(
-                            //       //         listNgayBachKy:
-                            //       //         snapshot.data?.ngayBachKy ?? [],
-                            //       //       ),
-                            //       //     ),
-                            //       //   ],
-                            //       // ),
-                            //       // const Padding(
-                            //       //   padding: EdgeInsets.only(bottom: 12.0),
-                            //       //   child: Divider(
-                            //       //     thickness: 1,
-                            //       //     color: bgDropDown,
-                            //       //   ),
-                            //       // ),
-                            //       // Row(
-                            //       //   crossAxisAlignment:
-                            //       //   CrossAxisAlignment.start,
-                            //       //   children: [
-                            //       //     Expanded(
-                            //       //       child: ThapNhiBatTuWidget(
-                            //       //         thapNhiBatTu:
-                            //       //         snapshot.data?.thapNhiBatTu ??
-                            //       //             ThapNhiBatTu(),
-                            //       //       ),
-                            //       //     ),
-                            //       //     const SizedBox(
-                            //       //       width: 30.0,
-                            //       //     ),
-                            //       //     Expanded(
-                            //       //       child: SaoTotSaoXauWidget(
-                            //       //         listSaoTot:
-                            //       //         snapshot.data?.saoTot ?? [],
-                            //       //         listSaoXau:
-                            //       //         snapshot.data?.saoXau ?? [],
-                            //       //       ),
-                            //       //     ),
-                            //       //   ],
-                            //       // ),
-                            //       // const Padding(
-                            //       //   padding: EdgeInsets.only(bottom: 12.0),
-                            //       //   child: Divider(
-                            //       //     thickness: 1,
-                            //       //     color: bgDropDown,
-                            //       //   ),
-                            //       // ),
-                            //       // GioLyThuanPhongWidget(
-                            //       //   listGioLyThuanPhong:
-                            //       //   snapshot.data?.gioLyThuanPhong ?? [],
-                            //       // ),
-                            //     ],
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),

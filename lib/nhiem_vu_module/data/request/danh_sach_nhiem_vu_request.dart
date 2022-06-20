@@ -20,6 +20,10 @@ class DanhSachNhiemVuRequest {
   int? size;
   @JsonKey(name: 'TrangThaiHanXuLy')
   int? trangThaiHanXuLy;
+  @JsonKey(name: 'LoaiNhiemVuId')
+  String? loaiNhiemVuId;
+  @JsonKey(name: 'IsNhiemVuDonViCon')
+  bool? isNhiemVuDonViCon;
 
   DanhSachNhiemVuRequest({
     this.index,
@@ -30,6 +34,8 @@ class DanhSachNhiemVuRequest {
     this.ngayTaoNhiemVu,
     this.size,
     this.trangThaiHanXuLy,
+    this.loaiNhiemVuId,
+    this.isNhiemVuDonViCon,
   });
 
   factory DanhSachNhiemVuRequest.fromJson(

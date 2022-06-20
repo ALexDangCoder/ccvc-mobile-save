@@ -30,8 +30,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   int pageSize = 5;
   int pageIndex = 1;
   bool isCaNhan = true;
+  bool isNhiemVuDonViCon = false;
   String keySearch = '';
-  BehaviorSubject<List<PageData>> dataSubject = BehaviorSubject();
   BehaviorSubject<List<PageDatas>> dataSubjects = BehaviorSubject();
   BehaviorSubject<String> searchSubjects = BehaviorSubject();
 
@@ -57,6 +57,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   String ngayDauTien = '';
   String ngayKetThuc = '';
   String mangTrangThai = '';
+  String loaiNhiemVuId = '';
   int? trangThaiHanXuLy;
   bool checkDataNhiemVu = false;
   List<String> titleNhiemVu = [];
@@ -132,7 +133,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   Debouncer debouncer = Debouncer();
 
   Future<void> postDanhSachNhiemVu({
-    required int? index,
+    int index = 1,
     required bool isNhiemVuCaNhan,
     required bool isSortByHanXuLy,
     required String keySearch,
@@ -144,6 +145,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
+      isNhiemVuDonViCon: isNhiemVuDonViCon,
       index: index,
       isNhiemVuCaNhan: isNhiemVuCaNhan,
       isSortByHanXuLy: isSortByHanXuLy,
@@ -152,13 +154,13 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayTaoNhiemVu: ngayTaoNhiemVu,
       size: size,
       trangThaiHanXuLy: trangThaiHanXuLy,
+      loaiNhiemVuId: loaiNhiemVuId,
     );
     showLoading();
-    loadMorePage = index ?? 1;
+    loadMorePage = index;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
       success: (res) {
-        dataSubject.sink.add(res.pageData ?? []);
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
             showContent();
@@ -235,12 +237,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         loaiNhiemVuSuject.sink.add(res.data?.trangThaiXuLy ?? []);
+        chartDataTheoLoai.clear();
+        chartData.clear();
         for (final LoaiNhiemVuComomModel value in res.data?.loaiNhiemVu ?? []) {
           chartDataTheoLoai.add(
             ChartData(
               value.text.toString(),
               (value.value ?? 0).toDouble(),
               value.giaTri.toString().statusCharLoaiDSNV(),
+              id: value.id,
             ),
           );
         }
@@ -278,6 +283,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     ));
     result.when(
       success: (res) {
+        listData.clear();
+        listStatusData.clear();
+        titleNhiemVu.clear();
         for (final NhiemVuDonViModel value in res.nhiemVuDonVi ?? []) {
           titleNhiemVu.add(value.tenDonVi ?? '');
           listData.add(

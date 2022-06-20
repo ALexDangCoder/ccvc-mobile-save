@@ -32,6 +32,7 @@ enum AppBackGround {
 enum SelectKey {
   CA_NHAN,
   DON_VI,
+  DA_XU_LY,
   HOM_NAY,
   TUAN_NAY,
   THANG_NAY,
@@ -105,10 +106,6 @@ const String ERASE_WALLET = 'earse_wallet';
 const String SUCCESS = 'success';
 const String FAIL = 'fail';
 
-const String CHO_TRINH_KY_STRING = 'CHO_TRINH_KY';
-const String CHO_XU_LY_STRING = 'CHO_XU_LY';
-const String DA_XU_LY_STRING = 'DA_XU_LY';
-
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
 const String TRANSACTION_NFT = '1';
@@ -131,14 +128,23 @@ const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
 const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
 const _dtFormat8 = 'd/MM/yyyy';
 const _dtFormat9 = 'dd/MM/yyyy HH:mm';
+const _dtFormat10 = 'dd/MM/yyyy';
+const _dtFormat11 = 'dd-MM-yyyy';
+const _dtFormat12 = 'yyyy-MM-ddTHH:mm:ss';
+const _dtFormat13 = 'yyyy/MM/dd HH:mm';
+const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
 const HOUR_MINUTE_FORMAT = 'Hm';
 
+const START_TIME='8:00';
+const END_TIME='18:00';
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
 const String AVATAR_DEFAULT =
     'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 const String BASE_URL_MEETING  = 'https://emeeting.vn/';
+const String ENTITY_THU_MOI_HOP  = 'ThuMoiHop';
+const String ENTITY_TAI_LIEU_HOP  = 'TaiLieuHop';
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
   static const HOUR_FORMAT = _dtFormat2;
@@ -149,6 +155,11 @@ class DateTimeFormat {
   static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
   static const DATE_DD_MM_YYYY = _dtFormat8;
   static const  DATE_DD_MM_HM = _dtFormat9;
+  static const  DAY_MONTH_YEAR = _dtFormat10;
+  static const  DAY_MONTH_YEAR_BETWEEN = _dtFormat11;
+  static const  DATE_TIME_RECEIVE = _dtFormat12;
+  static const  DATE_TIME_PICKER = _dtFormat13;
+  static const  DATE_TIME_PUT = _dtFormat14;
 }
 
 class ThongBaoTypeConstant {
@@ -172,6 +183,7 @@ class WidgetTypeConstant {
   static const String HANH_CHINH_CONG = 'HanhChinhCong';
   static const String LICH_LAM_VIEC_LICH_HOP = 'BoxLichVaHop';
   static const String TONG_HOP_HCC = 'TongHopHCC';
+  static const String TIN_BUON = 'TinBuon';
 }
 
 class DocumentState {
@@ -181,6 +193,8 @@ class DocumentState {
   static const String CHO_VAO_SO = 'CHO_VAO_SO';
   static const String CHO_TRINH_KY = 'CHO_TRINH_KY';
   static const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+  static const String CHO_CAP_SO = 'CHO_CAP_SO';
+  static const String CHO_BAN_HANH = 'CHO_BAN_HANH';
   static const String DEN_HAN = 'DEN_HAN';
   static const String QUA_HAN = 'QUA_HAN';
   static const String TRONG_HAN = 'TRONG_HAN';
@@ -221,6 +235,7 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
   static String timeFormat = 'Hm';
+  static String monthDayFormat = 'MM/dd/yyyy HH:mm:ss';
 }
 
 class StatusYKND {
@@ -245,6 +260,7 @@ class MenuItemConst {
   static const TUONG_TAC_NOI_BO = 'tuong-tac-noi-bo';
   static const LICH_LAM_VIEC = 'lichlamviec';
   static const BAO_CAO = 'bao-cao';
+  static const DIEM_DANH='dashboard';
 }
 
 class StatusCodeConst {
@@ -285,4 +301,8 @@ class StatusCodeConst {
   static int STATUS_SERVICE_UNAVAILABLE = 503;
   static int STATUS_GATEWAY_TIMEOUT = 504;
   static int STATUS_HTTP_VERSION_NOT_SUPPORTED = 505;
+}
+
+class PermissionConst {
+  static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }

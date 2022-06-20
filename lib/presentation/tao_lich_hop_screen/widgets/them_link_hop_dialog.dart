@@ -7,7 +7,21 @@ import 'package:ccvc_mobile/widgets/radio/radio_button.dart';
 import 'package:flutter/material.dart';
 
 class ThemLinkHopDialog extends StatefulWidget {
-  const ThemLinkHopDialog({Key? key}) : super(key: key);
+  const ThemLinkHopDialog({
+    Key? key,
+    this.title,
+    this.imageUrl,
+    this.textRadioAbove,
+    this.textRadioBelow,
+    this.isConfirm = true,
+    this.textConfirm,
+  }) : super(key: key);
+  final String? title;
+  final String? textConfirm;
+  final String? imageUrl;
+  final String? textRadioAbove;
+  final String? textRadioBelow;
+  final bool isConfirm;
 
   @override
   State<ThemLinkHopDialog> createState() => _ThemLinkHopDialogState();
@@ -22,7 +36,7 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width*0.8,
+          width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
             color: AppTheme.getInstance().dfBtnTxtColor(),
             borderRadius: BorderRadius.circular(20),
@@ -31,10 +45,10 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               spaceH40,
-              ImageAssets.svgAssets(ImageAssets.icLink),
+              ImageAssets.svgAssets(widget.imageUrl ?? ImageAssets.icLink),
               spaceH14,
               Text(
-                S.current.them_link_hop,
+                widget.title ?? S.current.them_link_hop,
                 style: textNormal(
                   AppTheme.getInstance().titleColor(),
                   18,
@@ -43,6 +57,18 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
                 ),
               ),
               spaceH20,
+              if (widget.textConfirm != null) ...[
+                Text(
+                  widget.textConfirm ?? '',
+                  style: textNormal(
+                    AppTheme.getInstance().titleColor(),
+                    14,
+                  ).copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                spaceH20,
+              ],
               Center(
                 child: RadioButton<bool>(
                   value: isLinkHeThong,
@@ -51,7 +77,7 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
                     isLinkHeThong = true;
                     setState(() {});
                   },
-                  title: S.current.link_trong_he_thong,
+                  title: widget.textRadioAbove ?? S.current.link_trong_he_thong,
                   mainAxisSize: MainAxisSize.min,
                 ),
               ),
@@ -63,7 +89,7 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
                   isLinkHeThong = false;
                   setState(() {});
                 },
-                title: S.current.link_ngoai_he_thong,
+                title: widget.textRadioBelow ?? S.current.link_ngoai_he_thong,
                 mainAxisSize: MainAxisSize.min,
               ),
               spaceH30,
@@ -77,7 +103,8 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
                     Navigator.pop(context);
                   },
                   title1: S.current.khong,
-                  title2: S.current.xac_nhan,
+                  title2:
+                      widget.isConfirm ? S.current.xac_nhan : S.current.dong_y,
                 ),
               ),
               spaceH40,

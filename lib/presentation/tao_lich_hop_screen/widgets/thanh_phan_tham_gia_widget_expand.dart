@@ -1,9 +1,10 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tong_so_luong_khach_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/thanh_phan_tham_gia_widget.dart';
@@ -12,7 +13,11 @@ import 'package:ccvc_mobile/widgets/thong_tin_khach_moi_widget/them_thong_tin_kh
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
-  const ThanhPhanThamGiaExpandWidget({Key? key}) : super(key: key);
+  const ThanhPhanThamGiaExpandWidget({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
+  final TaoLichHopCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -40,27 +45,59 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
           ),
           ThanhPhanThamGiaWidget(
             isPhuongThucNhan: true,
-            onChange: (value) {},
-            phuongThucNhan: (value) {},
+            onChange: (value) {
+              cubit.addThanhPhanThamGia(value);
+            },
+            phuongThucNhan: (value) {
+              cubit.isSendEmail.sink.add(value);
+            },
+            onDelete: (value){
+              cubit.removeThanhPhanThamGia(value);
+            },
+            isTaoHop: true,
+            cubit: cubit,
           ),
           spaceH16,
           TitleChildWidget(
             title: S.current.don_vi_phoi_hop_khac,
             sizeTitle: 14,
-            child: ThemDonViPhoiHopKhacWidget(
-              onChange: (List<DonViModel> value) {},
+            child: StreamBuilder<bool>(
+              stream: cubit.isSendEmail,
+              builder: (context, snapshot) {
+                return ThemDonViPhoiHopKhacWidget(
+                  isTaoHop: true,
+                  onChange: (List<DonViModel> value) {
+                    cubit.addThanhPhanThamGia(value);
+                  },
+                  isCheckedEmail: snapshot.data ?? false,
+                  onDelete: (value){
+                    cubit.removeThanhPhanThamGia(value);
+                  },
+                );
+              },
             ),
           ),
           spaceH24,
           TitleChildWidget(
             title: S.current.khach_moi,
             sizeTitle: 14,
-            child: ThemThongTinKhachMoiWidget(
-              onChange: (List<DonViModel> value) {},
+            child: StreamBuilder<bool>(
+              stream: cubit.isSendEmail,
+              builder: (context, snapshot) {
+                return ThemThongTinKhachMoiWidget(
+                  isMoiHop: true,
+                  onChange: (List<DonViModel> value) {
+                    cubit.addThanhPhanThamGia(value);
+                  },
+                  isCheckedEmail: snapshot.data ?? false,
+                  onDelete: (value){
+                    cubit.removeThanhPhanThamGia(value);
+                  },
+                );
+              },
             ),
           ),
           spaceH20,
-          const TongSoLuongKhachWidget()
         ],
       ),
     );

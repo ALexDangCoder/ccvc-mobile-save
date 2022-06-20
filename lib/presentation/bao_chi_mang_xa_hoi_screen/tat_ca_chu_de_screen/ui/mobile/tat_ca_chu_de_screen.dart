@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_d
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,14 +44,20 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     super.initState();
     chuDeCubit = ChuDeCubit();
     chuDeCubit.callApi();
+    _handleEventBus();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (chuDeCubit.pageIndex <= chuDeCubit.totalPage) {
-          chuDeCubit.pageIndex = chuDeCubit.pageIndex + 1;
+        if (chuDeCubit.page <= chuDeCubit.totalPage) {
+          chuDeCubit.page = chuDeCubit.page + 1;
           chuDeCubit.getListTatCaCuDe(chuDeCubit.startDate, chuDeCubit.endDate);
         }
       }
+    });
+  }
+  void _handleEventBus() {
+    eventBus.on<FireTopic>().listen((event) {
+      chuDeCubit.callApi();
     });
   }
 
@@ -142,7 +149,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                 stream: chuDeCubit.stateStream,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    chuDeCubit.pageIndex = 1;
+                    chuDeCubit.page = 1;
                     chuDeCubit.totalPage = 1;
                     setState(() {
                       defaultTime = ChuDeCubit.HOM_NAY;
@@ -192,6 +199,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                   const EdgeInsets.symmetric(horizontal: 16.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: data.danhSachTuongtacThongKe.length,
                                 itemBuilder: (context, index) {
                                   return index == 0

@@ -42,64 +42,57 @@ class _BieuDoTrangThaiTheoLoaiTabletState
               isSubjectInfo: false,
               chartData: widget.chartData,
               onTap: (int value) {
-                widget.ontap(widget.chartData[value].title
-                    .split(' ')
-                    .join('_')
-                    .toUpperCase()
-                    .vietNameseParse());
+                widget.ontap(widget.chartData[value].id.toString());
               },
             ),
           ),
           Expanded(
-              child: Column(
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.chartData.length,
-                itemBuilder: (context, index) {
-                  final result = widget.chartData[index];
-                  return GestureDetector(
-                    onTap: () {
-                      widget.ontap(widget.chartData[index].title
-                          .split(' ')
-                          .join('_')
-                          .toUpperCase()
-                          .vietNameseParse());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 14,
-                            width: 14,
-                            decoration: BoxDecoration(
-                              color: result.color,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Flexible(
-                            child: FittedBox(
-                              child: Text(
-                                '${result.title} (${result.value.toInt()})',
-                                style: textNormal(
-                                  infoColor,
-                                  14.0.textScale(),
-                                ),
+            child: Column(
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.chartData.length,
+                  itemBuilder: (context, index) {
+                    final result = widget.chartData[index];
+                    return GestureDetector(
+                      onTap: () {
+                        widget.ontap(widget.chartData[index].id.toString());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 14,
+                              width: 14,
+                              decoration: BoxDecoration(
+                                color: result.color,
+                                shape: BoxShape.circle,
                               ),
                             ),
-                          )
-                        ],
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Flexible(
+                              child: FittedBox(
+                                child: Text(
+                                  '${result.title} (${result.value.toInt()})',
+                                  style: textNormal(
+                                    infoColor,
+                                    14.0.textScale(),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          )),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
@@ -22,9 +23,8 @@ extension StringMoneyFormat on String {
 }
 
 extension VietNameseParse on String {
-
-  String get textToCode => this.split(' ').join('_').toUpperCase().vietNameseParse();
-
+  String get textToCode =>
+      this.split(' ').join('_').toUpperCase().vietNameseParse();
 
   String vietNameseParse() {
     var result = this;
@@ -64,11 +64,29 @@ extension FormatAddressConfirm on String {
   }
 
   String changeToNewPatternDate(String oldPattern, String newPattern) {
-    return DateFormat(newPattern).format(DateFormat(oldPattern).parse(this));
+    try {
+      return DateFormat(newPattern).format(DateFormat(oldPattern).parse(this));
+    } catch (_) {
+      return '';
+    }
   }
 
   DateTime convertStringToDate({String formatPattern = 'yyyy-MM-dd'}) {
     return DateFormat(formatPattern).parse(this);
+  }
+
+  TimerData? getTimeData({TimerData? timeReturnParseFail}) {
+    if (isEmpty) {
+      return timeReturnParseFail;
+    }
+    try {
+      final List<String> timeSplit = split(':');
+      final int hour = int.parse(timeSplit.first);
+      final int minute = int.parse(timeSplit.last);
+      return TimerData(hour: hour, minutes: minute);
+    } catch (e) {
+      return timeReturnParseFail;
+    }
   }
 }
 
@@ -96,6 +114,14 @@ extension StringParse on String {
 
     return fileName;
   }
+
+  int stringToInt() {
+    try {
+      return int.parse(this);
+    } catch (e) {
+      return 0;
+    }
+  }
 }
 
 extension CheckValidate on String {
@@ -122,6 +148,21 @@ extension CheckValidate on String {
       }
     } else {
       return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
+  String? checkEmailBoolean2(String text) {
+    final isCheck = RegExp(
+      r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$',
+    ).hasMatch(this);
+    if (isCheck) {
+      if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {
+        return '${S.current.sai_dinh_dang_truong} $text';
+      } else {
+        return null;
+      }
+    } else {
+      return '${S.current.sai_dinh_dang_truong} $text!';
     }
   }
 
@@ -175,6 +216,15 @@ extension CheckValidate on String {
       return null;
     } else {
       return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
+  String? checkSdtRequire2(String text) {
+    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    if (isCheckSdt) {
+      return null;
+    } else {
+      return '${S.current.sai_dinh_dang_truong}' ' $text!';
     }
   }
 

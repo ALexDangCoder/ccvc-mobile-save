@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/bao_cao_thong_ke_yknd_request/bao_cao_yknd_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/chi_tiet_kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/danh_sach_y_kien_pakn_request.dart';
+import 'package:ccvc_mobile/data/response/dashboard_pakn/dashboard_tinh_hinh_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/chart_don_vi_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/chart_linh_vuc_khac_response.dart';
@@ -16,6 +17,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_xy_ly_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/y_kien_xu_ly_response.dart';
@@ -53,6 +55,8 @@ abstract class YKienNguoiDanService {
     @Query('DenNgay') String DenNgay,
   );
 
+
+
   @GET(ApiConstants.DANH_SACH_Y_KIEN_NGUOI_DAN)
   Future<DanhSachYKienNguoiDanResponse> getDanhSachYKienNguoiDan(
     @Query('TuNgay') String tuNgay,
@@ -68,6 +72,12 @@ abstract class YKienNguoiDanService {
   Future<ChiTietKienNghiResponse> chiTietYKienNguoiDan(
     @Body() ChiTietKienNghiRequest chiTietKienNghiRequest,
   );
+  
+  
+  @POST(ApiConstants.THONG_TIN_XU_LY_PAKN)
+  Future<ThongTinXuLyTotalResponse> thongTinXuLyPAKN(
+      @Body() ChiTietKienNghiRequest chiTietKienNghi,
+      );
 
   @GET(ApiConstants.SEARCH_Y_KIEN_NGUOI_DAN)
   Future<SearchYKienNguoiDanResponse> searchDanhSachYKienNguoiDan(
@@ -155,4 +165,7 @@ abstract class YKienNguoiDanService {
     @Query('donViId') String? donViId,
     @Query('TuKhoa') String? tuKhoa,
   });
+
+  @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
+  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(@Query('isDonVi') bool isDonVi);
 }

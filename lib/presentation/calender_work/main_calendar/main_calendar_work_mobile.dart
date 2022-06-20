@@ -7,6 +7,8 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/drawer_slide/drawer_slide.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/select_option_header.dart';
@@ -16,6 +18,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.d
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_calendar_cubit.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -36,29 +39,36 @@ class CalenderWorkDayMobile extends StatefulWidget {
 class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
   MenuCalendarCubit cubitMenu = MenuCalendarCubit();
   CalenderCubit cubit = CalenderCubit();
-  double hegihtCalendar = 120;
 
   @override
   void initState() {
     super.initState();
     cubit.chooseTypeListLv(Type_Choose_Option_List.DANG_LICH);
+    cubit.menuCalendar();
     cubit.callApi();
+    _handleEventBus();
+  }
+
+  void _handleEventBus() {
+    eventBus.on<RefreshCalendar>().listen((event) {
+      cubit.callApi();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<TypeCalendarMenu>(
-      stream: cubit.changeItemMenuStream,
-      builder: (context, snapshot) {
-        return StateStreamLayout(
-          stream: cubit.stateStream,
-          retry: () {},
-          textEmpty: S.current.khong_co_du_lieu,
-          error: AppException(
-            S.current.error,
-            S.current.error,
-          ),
-          child: Scaffold(
+    return StateStreamLayout(
+      stream: cubit.stateStream,
+      retry: () {},
+      textEmpty: S.current.khong_co_du_lieu,
+      error: AppException(
+        S.current.error,
+        S.current.error,
+      ),
+      child: StreamBuilder<TypeCalendarMenu>(
+        stream: cubit.changeItemMenuStream,
+        builder: (context, snapshot) {
+          return Scaffold(
             appBar: AppBarWithTwoLeading(
               title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                   ? cubit.titleAppbar
@@ -108,6 +118,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                                 );
                                 cubit.modeLLV =
                                     Type_Choose_Option_List.DANG_LICH;
+                                cubit.isSearchBar.add(false);
                               }
 
                               if (value == S.current.theo_dang_danh_sach) {
@@ -116,6 +127,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                                 );
                                 cubit.modeLLV =
                                     Type_Choose_Option_List.DANG_LIST;
+                                cubit.isSearchBar.add(true);
                               }
                             },
                             listItem: listThongBao,
@@ -222,7 +234,6 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.callApiTuan();
                             },
                             onTapmonth: () {
-                              setState(() {});
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.MONTH,
                               );
@@ -266,9 +277,9 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
               backgroundColor: AppTheme.getInstance().colorField(),
               child: SvgPicture.asset(ImageAssets.icVectorCalender),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

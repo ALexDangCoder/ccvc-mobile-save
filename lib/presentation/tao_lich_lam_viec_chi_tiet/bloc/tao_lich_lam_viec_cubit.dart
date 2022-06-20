@@ -19,12 +19,13 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -99,6 +100,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       BehaviorSubject();
   final BehaviorSubject<List<DatNuocSelectModel>> datNuocSelectSubject =
       BehaviorSubject();
+  final BehaviorSubject<bool> showButton = BehaviorSubject();
 
   Stream<List<TinhSelectModel>> get tinhSelect => tinhSelectSubject.stream;
 
@@ -120,6 +122,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   DateTime dateTimeLapDenNgay = DateTime.now();
   BehaviorSubject<DateTime> changeDateTimeSubject = BehaviorSubject();
+  BehaviorSubject<bool> btnSubject = BehaviorSubject();
 
   Stream<List<LoaiSelectModel>> get linhVuc => _linhVuc.stream;
 
@@ -161,6 +164,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   String? dateRepeat;
   ScheduleReminder? scheduleReminder;
   bool? publishSchedule;
+  List<Files>? files;
+  String? id;
   ChiTietLichLamViecModel chiTietLichLamViecModel = ChiTietLichLamViecModel();
   final toast = FToast();
 
@@ -168,14 +173,21 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   void listeningStartDataTime(DateTime dateAndTime) {
     dateFrom = dateAndTime.formatApi;
-    timeFrom =
-        '${dateAndTime.hour.toString()}:${dateAndTime.minute.toString()}';
+    if (isCheckAllDaySubject.value == true) {
+      timeFrom = START_TIME;
+    } else {
+      timeFrom = dateAndTime.formatApiFixMeet;
+    }
     startDateSubject.add(dateAndTime);
   }
 
   void listeningEndDataTime(DateTime dateAndTime) {
     dateEnd = dateAndTime.formatApi;
-    timeEnd = '${dateAndTime.hour.toString()}:${dateAndTime.minute.toString()}';
+    if (isCheckAllDaySubject.value == true) {
+      timeEnd = END_TIME;
+    } else {
+      timeEnd = dateAndTime.formatApiFixMeet;
+    }
     endDateSubject.add(dateAndTime);
   }
 
@@ -302,19 +314,19 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String content,
     required String location,
   }) async {
+    showLoading();
     final result =
         await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
-      dateFrom: dateFrom ?? DateTime.now().formatApi,
-      dateTo: dateEnd ?? DateTime.now().formatApi,
-      timeFrom: timeFrom ??
-          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-      timeTo: timeEnd ??
-          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
+      timeFrom: timeFrom ??DateTime.now().formatApiFixMeet,
+      timeTo: timeEnd ??(DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       donViId: selectNguoiChuTri?.donViId,
       userId: selectNguoiChuTri?.userId,
     ));
     result.when(
         success: (res) {
+          showContent();
           if (res.data == true) {
             showDiaLog(
               context,
@@ -360,168 +372,158 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       datNuocSelectModel?.id = '';
     }
     final result = await _lichLamViec.taoLichLamViec(
-        title,
-        selectLoaiLichId ?? '',
-        selectLinhVuc?.id ?? '',
-        tinhSelectModel?.id ?? '',
-        tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.id ?? '',
-        huyenSelectModel?.tenQuanHuyen ?? '',
-        xaSelectModel?.id ?? '',
-        xaSelectModel?.tenXaPhuong ?? '',
-        datNuocSelectModel?.name ?? '',
-        datNuocSelectModel?.id ?? '',
-        dateFrom ?? DateTime.now().formatApi,
-        timeFrom ??
-            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        dateEnd ?? DateTime.now().formatApi,
-        timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute).toString()}',
-        content,
-        location,
-        '',
-        '',
-        '',
-        2,
-        '',
-        publishSchedule ?? false,
-        //cong khai lich
-        '',
-        false,
-        true,
-        selectNguoiChuTri?.userId ?? '',
-        selectNguoiChuTri?.donViId ?? '',
-        '',
-        isCheckAllDaySubject.value,
-        true,
-        donviModel ?? [],
-        selectNhacLai.value ?? 1,
-        selectLichLap.id ?? 0,
-        dateFrom ?? DateTime.now().formatApi,
-        dateTimeLapDenNgay.formatApi,
-        true,
-        lichLapItem1);
-    result.when(success: (res) {
-      emit(CreateSuccess());
-      showContent();
-    }, error: (error) {
-      toast.showToast(
-        child: ShowToast(
-          text: error.message,
-        ),
-        gravity: ToastGravity.BOTTOM,
-      );
-      showContent();
-    });
+      title,
+      selectLoaiLichId ?? '',
+      selectLinhVuc?.id ?? '',
+      tinhSelectModel?.id ?? '',
+      tinhSelectModel?.tenTinhThanh ?? '',
+      huyenSelectModel?.id ?? '',
+      huyenSelectModel?.tenQuanHuyen ?? '',
+      xaSelectModel?.id ?? '',
+      xaSelectModel?.tenXaPhuong ?? '',
+      datNuocSelectModel?.name ?? '',
+      datNuocSelectModel?.id ?? '',
+      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      timeFrom ?? timeFrom ??DateTime.now().formatApiFixMeet,
+      DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
+      timeEnd ??timeEnd ??(DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+      content,
+      location,
+      '',
+      '',
+      '',
+      2,
+      '',
+      publishSchedule ?? false,
+      //cong khai lich
+      '',
+      false,
+      true,
+      selectNguoiChuTri?.userId ?? '',
+      selectNguoiChuTri?.donViId ?? '',
+      '',
+      isCheckAllDaySubject.value,
+      true,
+      donviModel ?? [],
+      selectNhacLai.value ?? 1,
+      selectLichLap.id ?? 0,
+      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      dateTimeLapDenNgay.formatApi,
+      true,
+      lichLapItem1,
+    );
+    result.when(
+      success: (res) {
+        emit(CreateSuccess());
+        eventBus.fire(RefreshCalendar());
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
   }
 
-  Future<void> suaLichLamViec() async {
+  Future<void> suaLichLamViec({bool only = true}) async {
+    showLoading();
     final result = await _lichLamViec.suaLichLamViec(
-        title ?? '',
-        selectLoaiLich?.id ?? '',
-        selectLinhVuc?.id ?? '',
-        tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.tenQuanHuyen ?? '',
-        xaSelectModel?.tenXaPhuong ?? '',
-        dateFrom ?? DateTime.now().formatApi,
-        timeFrom ??
-            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        dateEnd ?? DateTime.now().formatApi,
-        timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
-        content ?? '',
-        location ?? '',
-        '',
-        '',
-        '',
-        2,
-        '',
-        false,
-        '',
-        false,
-        selectNguoiChuTri?.userId ?? '',
-        selectNguoiChuTri?.donViId ?? '',
-        '',
-        isCheckAllDaySubject.value,
-        true,
-        donviModel ?? [],
-        selectNhacLai.value ?? 1,
-        selectLichLap.id ?? 0,
-        dateFrom ?? DateTime.now().formatApi,
-        dateTimeLapDenNgay.formatApi,
-        true,
-        lichLapItem1);
-    result.when(success: (res) {
-      emit(CreateSuccess());
-      showContent();
-    }, error: (error) {
-      showContent();
-    });
+      title ?? '',
+      selectLoaiLich?.id ?? '',
+      selectLinhVuc?.id ?? '',
+      tinhSelectModel?.tenTinhThanh ?? '',
+      huyenSelectModel?.tenQuanHuyen ?? '',
+      xaSelectModel?.tenXaPhuong ?? '',
+      dateFrom ?? DateTime.now().formatApi,
+      timeFrom ??DateTime.now().formatApiFixMeet,
+      dateEnd ?? DateTime.now().formatApi,
+      timeEnd ?? (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+      content ?? '',
+      location ?? '',
+      '',
+      '',
+      '',
+      2,
+      '',
+      publishSchedule ?? false,
+      //cong khai lich
+      '',
+      false,
+      selectNguoiChuTri?.userId ?? '',
+      selectNguoiChuTri?.donViId ?? '',
+      '',
+      id ?? '',
+      isCheckAllDaySubject.value,
+      true,
+      donviModel ?? [],
+      selectNhacLai.value ?? 1,
+      selectLichLap.id ?? 0,
+      dateFrom ?? DateTime.now().formatApi,
+      dateTimeLapDenNgay.formatApi,
+      only,
+      lichLapItem1,
+    );
+    result.when(
+      success: (res) {
+        emit(CreateSuccess());
+        eventBus.fire(RefreshCalendar());
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
   }
 
-  Future<void> suaLichLamViecNuocNgoai() async {
+  Future<void> suaLichLamViecNuocNgoai({bool only = true}) async {
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
-        title ?? '',
-        selectLoaiLich?.id ?? '',
-        selectLinhVuc?.id ?? '',
-        tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.tenQuanHuyen ?? '',
-        xaSelectModel?.tenXaPhuong ?? '',
-        selectedCountryID,
-        dateFrom ?? DateTime.now().formatApi,
-        timeFrom ??
-            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        dateEnd ?? DateTime.now().formatApi,
-        timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
-        content ?? '',
-        location ?? '',
-        '',
-        '',
-        '',
-        2,
-        '',
-        false,
-        '',
-        false,
-        selectNguoiChuTri?.userId ?? '',
-        selectNguoiChuTri?.donViId ?? '',
-        '',
-        isCheckAllDaySubject.value,
-        true,
-        donviModel ?? [],
-        selectNhacLai.value ?? 1,
-        selectLichLap.id ?? 0,
-        dateFrom ?? DateTime.now().formatApi,
-        dateTimeLapDenNgay.formatApi,
-        true,
-        lichLapItem1);
-    result.when(success: (res) {
-      emit(CreateSuccess());
-      showContent();
-    }, error: (error) {
-      showContent();
-    });
+      title ?? '',
+      selectLoaiLich?.id ?? '',
+      selectLinhVuc?.id ?? '',
+      tinhSelectModel?.tenTinhThanh ?? '',
+      huyenSelectModel?.tenQuanHuyen ?? '',
+      xaSelectModel?.tenXaPhuong ?? '',
+      selectedCountryID,
+      dateFrom ?? DateTime.now().formatApi,
+      timeFrom ??DateTime.now().formatApiFixMeet,
+      dateEnd ?? DateTime.now().formatApi,
+      timeEnd ?? (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+      content ?? '',
+      location ?? '',
+      '',
+      '',
+      '',
+      2,
+      '',
+      false,
+      '',
+      false,
+      selectNguoiChuTri?.userId ?? '',
+      selectNguoiChuTri?.donViId ?? '',
+      '',
+      id ?? '',
+      isCheckAllDaySubject.value,
+      true,
+      donviModel ?? [],
+      selectNhacLai.value ?? 1,
+      selectLichLap.id ?? 0,
+      dateFrom ?? DateTime.now().formatApi,
+      dateTimeLapDenNgay.formatApi,
+      only,
+      lichLapItem1,
+    );
+    result.when(
+      success: (res) {
+        emit(CreateSuccess());
+        eventBus.fire(RefreshCalendar());
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
   }
 
-  Future<void> taoBaoCaoKetQua({
-    required String reportStatusId,
-    required String scheduleId,
-    required List<File> files,
-  }) async {
-    await _lichLamViec
-        .taoBaoCaoKetQua(
-      reportStatusId,
-      scheduleId,
-      files,
-    )
-        .then((value) {
-      value.when(
-        success: (res) {},
-        error: (err) {},
-      );
-    });
-  }
+
 
   Future<void> getDatatinh() async {
     final result = await _lichLamViec.tinhSelect(

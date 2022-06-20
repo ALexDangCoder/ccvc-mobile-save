@@ -57,7 +57,7 @@ class ListViewLoadMoreTablet extends StatelessWidget {
           if (state.completeType == CompleteType.SUCCESS) {
             if (cubit.loadMoreRefresh ||
                 cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
-              cubit.loadMoreList.clear();
+               cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
                 cubit.showEmpty();
               } else {

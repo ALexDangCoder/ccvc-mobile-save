@@ -1,3 +1,7 @@
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+
+
 class DonViModel {
   String id = '';
   String name = '';
@@ -15,6 +19,11 @@ class DonViModel {
   String donViId = '';
   String userId = '';
   String tenCoQuan = '';
+
+  //param sử dụng tại tạo lịch làm việc
+  int? soLuong = 0;
+  String uuid = DateTime.now().microsecondsSinceEpoch.toString();
+
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
 
@@ -35,7 +44,37 @@ class DonViModel {
     this.donViId = '',
     this.userId = '',
     this.tenCoQuan = '',
+    this.soLuong,
   });
+
+  MoiThamGiaHopRequest convertTrongHeThong(String lichHopId){
+    return MoiThamGiaHopRequest(
+      canBoId: canBoId.isEmpty ? null : canBoId,
+      donViId: vaiTroThamGia == 1
+              ? (id.isEmpty ? null : id)
+              : (donViId.isEmpty ? null : donViId),
+      email: email,
+      lichHopId: lichHopId,
+      tenCanBo: tenCanBo,
+       tenCoQuan: tenCoQuan,
+      vaiTroThamGia: vaiTroThamGia,
+      soDienThoai: sdt,
+      createAt: DateTime.now().formatApiTaoBieuQuyet,
+    );
+  }
+
+  MoiThamGiaHopRequest convertNgoaiHeThong(String lichHopId) {
+    return MoiThamGiaHopRequest(
+       dauMoiLienHe: dauMoiLienHe,
+      createAt: DateTime.now().formatApiTaoBieuQuyet,
+      soDienThoai: sdt,
+      vaiTroThamGia: vaiTroThamGia,
+      tenCoQuan: tenCoQuan,
+       tenCanBo: tenCanBo,
+      email: email,
+      lichHopId: lichHopId,
+    );
+  }
 }
 
 class Node<T> {

@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -113,15 +114,12 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             children: [
               FilterDateTimeWidget(
                 context: context,
-                isMobile: true,
                 initStartDate: DateTime.parse(qlvbCubit.startDate),
                 onChooseDateFilter: (startDate, endDate) {
                   qlvbCubit.startDate = startDate.formatApi;
                   qlvbCubit.endDate = endDate.formatApi;
-                  qlvbCubit.getDashBoardIncomeDocument();
-                  qlvbCubit.getDashBoardOutcomeDocument();
-                  qlvbCubit.getListIncomeDocument();
-                  qlvbCubit.getListOutcomeDocument();
+                  qlvbCubit.callAPi(initTime: false);
+                  eventBus.fire(RefreshList());
                 },
               ),
               spaceH20,

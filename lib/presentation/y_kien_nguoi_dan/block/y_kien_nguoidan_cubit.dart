@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
@@ -12,7 +13,6 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/yknd_dash_board_item.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_state.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -63,8 +63,21 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int QUAHAN = 3;
 
   final List<ChartData> listChartPhanLoai = [];
-  final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
-      BehaviorSubject<DashboardTinhHinhXuLuModel>();
+
+  void resetBeforeRefresh() {
+    pageSizeDSPAKN = 10;
+    pageNumberDSPAKN = 1;
+    initStartDate = DateTime.now();
+    tuKhoa = '';
+  }
+
+  // final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
+  //     BehaviorSubject<DashboardTinhHinhXuLuModel>();
+
+  ///dashboard
+
+  final BehaviorSubject<DocumentDashboardModel> getTinhHinhXuLy =
+      BehaviorSubject<DocumentDashboardModel>();
 
   final BehaviorSubject<List<ChartData>> _chartTinhHinhXuLy =
       BehaviorSubject<List<ChartData>>();
@@ -100,8 +113,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Stream<List<ChartData>> get chartPhanLoai => _chartPhanLoai.stream;
 
-  Stream<DashboardTinhHinhXuLuModel> get dashBoardTinhHinhXuLy =>
-      _dashBoardTinhHinhXuLy.stream;
+  // Stream<DashboardTinhHinhXuLuModel> get dashBoardTinhHinhXuLy =>
+  //     _dashBoardTinhHinhXuLy.stream;
 
   String search = '';
 
@@ -242,6 +255,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   void callApi() {
     getUserData();
+    // getDashBoardPAKNTest();
     getDashBoardTinhHinhXuLy(
       donViId,
       startDate,
@@ -401,16 +415,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       userId: userId,
       tuKhoa: tuKhoa,
     );
-
-    ///muốn test mở đoạn này ra
-    // final result = await _YKNDRepo.getDanhSachPAKN(
-    //   tuNgay: '05/04/2022',
-    //   donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
-    //   denNgay: '17/05/2022',
-    //   pageSize: '10',
-    //   pageNumber: '1',
-    //   userId: '19266143-feee-44d0-828a-e29df215f481',
-    // );
     result.when(
       success: (success) {
         if (listDanhSachKetQuaPakn.hasValue) {
@@ -427,6 +431,17 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       error: (error) {
         listDanhSachKetQuaPakn.sink.add([]);
       },
+    );
+  }
+
+
+  Future<void> getDashBoardPAKN() async {
+    final result = await _YKNDRepo.getDashboardTinhHinhXuLyPAKN(false);
+    result.when(
+      success: (success) {
+        getTinhHinhXuLy.sink.add(success);
+      },
+      error: (error) {},
     );
   }
 

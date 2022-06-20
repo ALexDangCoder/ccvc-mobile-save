@@ -26,7 +26,7 @@ class _YKienNguoiDanMenuState extends State<YKienNguoiDanMenu> {
           const SizedBox(
             height: 58,
           ),
-          headerWidget(menu: S.current.y_kien_nguoi_dan),
+          headerWidget(menu: S.current.phan_anh_kien_nghi),
           const SizedBox(
             height: 24,
           ),
@@ -65,6 +65,24 @@ class _YKienNguoiDanMenuState extends State<YKienNguoiDanMenu> {
                   ],
                 );
               },
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 24, left: 16, right: 16),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
+                ),
+                color: bgButtonDropDown,
+              ),
+              height: 40,
+              child: Center(
+                child: Text(
+                  S.current.phan_anh_kien_nghi,
+                  style: textNormalCustom(fontSize: 14, fontWeight: FontWeight.w500, ),
+                ),
+              ),
             ),
           ),
         ],

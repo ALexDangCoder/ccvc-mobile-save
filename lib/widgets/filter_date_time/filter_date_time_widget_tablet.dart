@@ -18,6 +18,8 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
   final DateTime? initStartDate;
   final DateTime? initEndDate;
   final Function(String)? onChange;
+  final Function(String)? onClose;
+  final bool isBtnClose;
   final String? hintText;
   final TextEditingController? controller;
   final Function(String)? onSubmit;
@@ -34,6 +36,8 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
     this.hintText,
     this.controller,
     this.onSubmit,
+    this.onClose,
+    this.isBtnClose = false,
   }) : super(key: key) {}
 
   @override
@@ -50,6 +54,11 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
   void initState() {
     currentStartDate = widget.initStartDate ?? DateTime.now();
     currentEndDate = widget.initEndDate ?? DateTime.now();
+    widget.controller?.addListener(() {
+      if (widget.controller?.text == '') {
+        setState(() {});
+      }
+    });
     super.initState();
   }
 
@@ -209,7 +218,7 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 9),
                       child: SvgPicture.asset(
                         ImageAssets.ic_KinhRong,
                         color: AppTheme.getInstance().colorField(),
@@ -221,7 +230,30 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                   minWidth: 26,
                   minHeight: 26,
                 ),
-                contentPadding: const EdgeInsets.only(left: 20, bottom: 10),
+                suffixIcon: widget.isBtnClose
+                    ? widget.controller?.text != ''
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  widget.controller?.text == '';
+                                  widget.onClose != null
+                                      ? widget.onClose!(
+                                          widget.controller?.text ?? '')!
+                                      : null;
+                                },
+                                child: const Icon(
+                                  Icons.clear,
+                                  color: coloriCon,
+                                ),
+                              ),
+                            ),
+                          )
+                        : const SizedBox()
+                    : const SizedBox(),
+                contentPadding: const EdgeInsets.only(left: 20, top: 4),
                 isCollapsed: true,
                 fillColor: bgDropDown.withOpacity(0.1),
                 filled: true,

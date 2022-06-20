@@ -1,9 +1,10 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/sua_anh_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/select_date.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/sua_danh_ba_ca_nhan/widget/select_date_sua.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/button/double_button_bottom.dart';
@@ -59,6 +60,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
     sdtRiengController.text = widget.item.phoneNhaRieng ?? '';
     ngaySinh = widget.item.ngaySinh ?? '';
     widget.cubit.pathAnh = widget.item.anhDaiDienFilePath ?? '';
+
     toast.init(context);
   }
 
@@ -104,7 +106,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.diaChi = value;
                     },
                   ),
-                  SelectDate(
+                  SelectDateSua(
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
                     value: widget.item.ngaySinh ?? '',
                     onSelectDate: (dateTime) {
@@ -119,7 +121,11 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmailBoolean();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.email}!';
+                      }
+                      return (value ?? '').checkEmailBoolean2(S.current.email);
                     },
                   ),
                   TextFieldStyle(
@@ -129,7 +135,15 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    maxLenght: 255,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     textInputType: TextInputType.number,
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     controller: sdtController,
@@ -139,7 +153,17 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.phoneDiDong = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_s}!';
+                      }
+                      return (value ?? '').checkSdtRequire2(S.current.sdt_s);
+                    },
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
                     },
                     textInputType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -153,21 +177,43 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     },
                     textInputType: TextInputType.number,
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_co_quan_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_co_quan_require);
                     },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     controller: sdtRiengController,
                     urlIcon: ImageAssets.icCallDb,
-                    hintText: S.current.sdt_co_quan_require,
+                    hintText: S.current.sdt_nha_rieng_require,
                     onChange: (value) {
                       widget.cubit.phoneNhaRieng = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_nha_rieng_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_nha_rieng_require);
                     },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   spaceH16,
                   CustomRadioButton(
@@ -259,7 +305,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       return null;
                     },
                   ),
-                  SelectDate(
+                  SelectDateSua(
                     isTablet: true,
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                     value: widget.item.ngaySinh,
@@ -289,7 +335,11 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmailBoolean();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.email}!';
+                      }
+                      return (value ?? '').checkEmailBoolean2(S.current.email);
                     },
                   ),
                   TextFieldStyle(
@@ -299,7 +349,15 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    maxLenght: 255,
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     controller: sdtController,
@@ -309,10 +367,20 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.phoneDiDong = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_s}!';
+                      }
+                      return (value ?? '').checkSdtRequire2(S.current.sdt_s);
                     },
                     textInputType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     controller: sdtCoquanController,
@@ -322,10 +390,21 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.phoneCoQuan = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_co_quan_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_co_quan_require);
                     },
                     textInputType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     controller: sdtRiengController,
@@ -335,10 +414,21 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.phoneNhaRieng = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_nha_rieng_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_nha_rieng_require);
                     },
                     textInputType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     controller: diaDiemController,

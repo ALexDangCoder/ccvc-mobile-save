@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
@@ -118,6 +119,7 @@ class ManagerPersonalInformationCubit
   }
 
   Future<void> uploadFile(String path) async {
+    showLoading();
     final result = await _managerRepo.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -125,8 +127,11 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+    showContent();
   }
+
   Future<void> uploadFileChuKi(String path) async {
+    showLoading();
     final result = await _managerRepo.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -134,8 +139,11 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+    showContent();
   }
+
   Future<void> uploadFileKiNhay(String path) async {
+    showLoading();
     final result = await _managerRepo.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -143,6 +151,7 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+    showContent();
   }
 
   Future<void> getInfo({
@@ -295,10 +304,17 @@ class ManagerPersonalInformationCubit
         isCheck = true;
       },
       error: (error) {
-        MessageConfig.show(
-          title: S.current.thay_doi_that_bai,
-          messState: MessState.error,
-        );
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.thay_doi_that_bai,
+            messState: MessState.error,
+          );
+        }
         isCheck = false;
       },
     );

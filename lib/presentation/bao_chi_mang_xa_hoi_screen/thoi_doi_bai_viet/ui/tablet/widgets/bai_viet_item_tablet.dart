@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/theo_doi_bai_viet/theo_doi_bai_viet_model.dart';
@@ -122,8 +123,10 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      WebViewScreen(url: widget.baiVietModel.url, title: ''),
+                  builder: (context) => WebViewScreen(
+                    url: widget.baiVietModel.url,
+                    title: widget.baiVietModel.title,
+                  ),
                 ),
               );
             },

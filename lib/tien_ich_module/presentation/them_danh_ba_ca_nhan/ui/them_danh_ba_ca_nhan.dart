@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_da
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/chon_anh.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/select_date.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/folow_key_broard/follow_key_broad.dart';
@@ -17,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 
 class ThemDanhBaCaNhan extends StatefulWidget {
   final DanhBaDienTuCubit cubit;
@@ -36,6 +34,9 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
   void initState() {
     super.initState();
     toast.init(context);
+    widget.cubit.dateDanhSach = '';
+    widget.cubit.isCheckValidate.add(' ');
+    widget.cubit.pathAnh = '';
   }
 
   @override
@@ -74,14 +75,15 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.diaChi = value;
                     },
                   ),
-                  SelectDate(
+                  SelectDateThem(
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
-                    value: DateFormat('yyyy-MM-dd HH:mm:ss')
-                        .parse(widget.cubit.times)
-                        .formatApiDanhBa,
+                    hintText: S.current.ngay_sinh_require,
                     onSelectDate: (dateTime) {
                       widget.cubit.dateDanhSach = dateTime;
+                      widget.cubit.isCheckValidate.sink
+                          .add(widget.cubit.dateDanhSach);
                     },
+                    cubit: widget.cubit,
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icMessage,
@@ -90,7 +92,11 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmailBoolean();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.email}!';
+                      }
+                      return (value ?? '').checkEmailBoolean2(S.current.email);
                     },
                   ),
                   TextFieldStyle(
@@ -99,7 +105,15 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    maxLenght: 255,
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCalling,
@@ -109,9 +123,19 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                     textInputType: TextInputType.number,
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_s}!';
+                      }
+                      return (value ?? '').checkSdtRequire2(S.current.sdt_s);
                     },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icPhoneCp,
@@ -121,9 +145,20 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                     textInputType: TextInputType.number,
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_co_quan_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_co_quan_require);
                     },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCallDb,
@@ -133,9 +168,20 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                     textInputType: TextInputType.number,
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_nha_rieng_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_nha_rieng_require);
                     },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   spaceH16,
                   CustomRadioButton(
@@ -150,7 +196,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   spaceH16,
                   DoubleButtonBottom(
                     onPressed2: () async {
-                      if (keyGroup.currentState!.validator()) {
+                      if (keyGroup.currentState!.validator() &&
+                          widget.cubit.dateDanhSach.isNotEmpty) {
+                        widget.cubit.isCheckValidate.sink
+                            .add(widget.cubit.dateDanhSach);
                         await widget.cubit
                             .postDanhSach(
                           hoTen: widget.cubit.hoTen,
@@ -164,7 +213,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                           anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
-                          widget.cubit.anhChuKyNhayFilePath,
+                              widget.cubit.anhChuKyNhayFilePath,
                           diaChi: widget.cubit.diaChi,
                           isDeleted: widget.cubit.isDeleted,
                           thuTu: widget.cubit.thuTu ?? 0,
@@ -175,9 +224,14 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                             Navigator.pop(context);
                           }
                         });
-                      } else {}
+                      } else {
+                        widget.cubit.isCheckValidate.sink.add(
+                          widget.cubit.dateDanhSach,
+                        );
+                      }
                     },
                     onPressed1: () {
+                      widget.cubit.dateDanhSach = '';
                       Navigator.pop(context);
                     },
                     title2: S.current.luu_danh_ba,
@@ -216,15 +270,17 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       return null;
                     },
                   ),
-                  SelectDate(
+                  SelectDateThem(
+                    //key: UniqueKey(),
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                    value: DateFormat('yyyy-MM-dd HH:mm:ss')
-                        .parse(widget.cubit.times)
-                        .formatApiDanhBa,
+                    hintText: S.current.ngay_sinh_require,
+                    isTablet: true,
                     onSelectDate: (dateTime) {
                       widget.cubit.dateDanhSach = dateTime;
+                      widget.cubit.isCheckValidate.sink
+                          .add(widget.cubit.dateDanhSach);
                     },
-                    isTablet: true,
+                    cubit: widget.cubit,
                   ),
                   spaceH14,
                   CustomRadioButton(
@@ -243,16 +299,28 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmailBoolean();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.email}!';
+                      }
+                      return (value ?? '').checkEmailBoolean2(S.current.email);
                     },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCmt,
                     hintText: S.current.so_cmt,
+                    maxLenght: 255,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
                     textInputType: TextInputType.number,
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCalling,
@@ -261,10 +329,20 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.phoneDiDong = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_s}!';
+                      }
+                      return (value ?? '').checkSdtRequire2(S.current.sdt_s);
                     },
                     textInputType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icPhoneCp,
@@ -273,10 +351,21 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.phoneCoQuan = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_co_quan_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_co_quan_require);
                     },
                     textInputType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCallDb,
@@ -285,10 +374,21 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.phoneNhaRieng = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdtRequire();
+                      if ((value ?? '').isEmpty) {
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.sdt_nha_rieng_require}!';
+                      }
+                      return (value ?? '')
+                          .checkSdtRequire2(S.current.sdt_nha_rieng_require);
                     },
                     textInputType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validatorPaste: (value) {
+                      if (value.trim().validateCopyPaste() != null) {
+                        return true;
+                      }
+                      return false;
+                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icLocation,
@@ -300,7 +400,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   DoubleButtonBottom(
                     isTablet: true,
                     onPressed2: () async {
-                      if (keyGroup.currentState!.validator()) {
+                      if (keyGroup.currentState!.validator() &&
+                          widget.cubit.dateDanhSach.isNotEmpty) {
+                        widget.cubit.isCheckValidate.sink
+                            .add(widget.cubit.dateDanhSach);
                         await widget.cubit
                             .postDanhSach(
                           hoTen: widget.cubit.hoTen,
@@ -314,7 +417,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                           anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
-                          widget.cubit.anhChuKyNhayFilePath,
+                              widget.cubit.anhChuKyNhayFilePath,
                           diaChi: widget.cubit.diaChi,
                           isDeleted: widget.cubit.isDeleted,
                           thuTu: widget.cubit.thuTu ?? 0,
@@ -325,13 +428,17 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                             Navigator.pop(context);
                           }
                         });
-                      } else {}
+                      } else {
+                        widget.cubit.isCheckValidate.sink
+                            .add(widget.cubit.dateDanhSach);
+                      }
                     },
                     onPressed1: () {
+                      widget.cubit.dateDanhSach = '';
                       Navigator.pop(context);
                     },
-                    title2: S.current.xac_nhan,
-                    title1: S.current.dong,
+                    title2: S.current.luu_danh_ba,
+                    title1: S.current.huy,
                   )
                 ],
               ),

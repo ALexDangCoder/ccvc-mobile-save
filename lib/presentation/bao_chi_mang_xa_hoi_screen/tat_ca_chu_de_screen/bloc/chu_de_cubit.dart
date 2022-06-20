@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/tin_t
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/bloc/chu_de_state.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -35,7 +36,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
   bool isFirstCall = true;
   ChuDeModel hotNewData = ChuDeModel();
 
-  int pageIndex = 1;
+  int page = 1;
   int pageSize = 10;
   int totalPage = 1;
   int totalItem = 1;
@@ -104,12 +105,13 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
   Future<void> getListTatCaCuDe(
     String startDate,
     String enDate, {
+    int pageIndex = ApiConstants.PAGE_BEGIN,
     bool isShow = false,
   }) async {
     if (isShow) showLoading();
     final result = await _BCMXHRepo.getDashListChuDe(
       pageIndex,
-      6,
+      5,
       0,
       true,
       startDate,
@@ -122,13 +124,13 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
         totalItem = res.totalItems ?? 1;
         final result = res.getlistChuDe ?? [];
         if (isFirstCall) {
-          hotNewData = result.removeAt(0);
           isFirstCall = false;
         }
         listChuDeLoadMore.addAll(result);
         _listYKienNguoiDan.sink.add(listChuDeLoadMore);
       },
       error: (err) {
+        page = 1;
         showEmpty();
       },
     );

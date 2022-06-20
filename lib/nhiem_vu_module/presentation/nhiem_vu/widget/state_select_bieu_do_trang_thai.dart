@@ -178,6 +178,26 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
         _animationController.reverse().whenComplete(() {
           widget.onDismis();
         });
+        if (data.bieuDo == stateBieuDo.TheoDonVi) {
+          widget.cubit.isNhiemVuDonViCon = true;
+        } else {
+          widget.cubit.isNhiemVuDonViCon = false;
+        }
+        widget.cubit.mangTrangThai = '';
+        widget.cubit.loadMoreList.clear();
+        widget.cubit.loaiNhiemVuId='';
+        widget.cubit.postDanhSachNhiemVu(
+          isNhiemVuCaNhan: false,
+          isSortByHanXuLy: true,
+          mangTrangThai: [],
+          ngayTaoNhiemVu: {
+            'FromDate': widget.cubit.ngayDauTien,
+            'ToDate': widget.cubit.ngayKetThuc
+          },
+          size: widget.cubit.pageSize,
+          keySearch: widget.cubit.keySearch,
+          trangThaiHanXuLy: widget.cubit.trangThaiHanXuLy,
+        );
       },
       child: data.bieuDo.getState(data.isCheck),
     );

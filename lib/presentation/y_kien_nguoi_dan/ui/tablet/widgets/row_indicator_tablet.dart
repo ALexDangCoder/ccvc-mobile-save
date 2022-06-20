@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/widget/item_chi_tiet.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/item_detail.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -155,7 +155,7 @@ Widget getGridView() {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => const ItemChiTiet(),
+              builder: (_) => const ItemDetail(),
             ),
           );
         },

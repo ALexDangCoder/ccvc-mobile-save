@@ -8,7 +8,9 @@ class ExpandOnlyWidget extends StatefulWidget {
   final Widget child;
   final bool isShowIcon;
   final bool? isPadingIcon;
+  final double? padingSize;
   final AnimationController? initController;
+  final Function(bool)? onchange;
 
   const ExpandOnlyWidget({
     Key? key,
@@ -18,13 +20,15 @@ class ExpandOnlyWidget extends StatefulWidget {
     this.isShowIcon = true,
     this.initController,
     this.isPadingIcon,
+    this.padingSize,
+    this.onchange,
   }) : super(key: key);
 
   @override
-  _ExpandedSectionState createState() => _ExpandedSectionState();
+  ExpandedSectionState createState() => ExpandedSectionState();
 }
 
-class _ExpandedSectionState extends State<ExpandOnlyWidget>
+class ExpandedSectionState extends State<ExpandOnlyWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<double> animation;
@@ -40,6 +44,8 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
       groupProvider = GroupProvider.of(context);
       findGroupExpanded();
     });
+
+    // widget.onchange?.call(isExpanded);
   }
 
   void findGroupExpanded() {
@@ -83,10 +89,26 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
     }
   }
 
+  bool get isExpandedGroup => groupProvider!.validator[key] ?? false;
+
   @override
   void didUpdateWidget(ExpandOnlyWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
+  }
+
+  void expandGesture() {
+    if (groupProvider != null) {
+      groupProvider!.validator[key] = true;
+      _runExpandCheck();
+    }
+  }
+
+  void collapseGesture() {
+    if (groupProvider != null) {
+      groupProvider!.validator[key] = false;
+      _runExpandCheck();
+    }
   }
 
   @override
@@ -95,6 +117,7 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             if (groupProvider != null) {
               groupProvider!.expand(key);
@@ -102,31 +125,21 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
               isExpanded = !isExpanded;
               _runExpandCheck();
             }
+            if (expandController.value == 0) {
+              widget.onchange?.call(true);
+            } else {
+              widget.onchange?.call(false);
+            }
           },
           child: Row(
             children: [
               Flexible(child: widget.header),
               if (widget.isShowIcon)
-                if (widget.isPadingIcon == true)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: AnimatedBuilder(
-                      animation: expandController,
-                      builder: (context, _) {
-                        return expandController.value == 0
-                            ? const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AqiColor,
-                              )
-                            : const Icon(
-                                Icons.keyboard_arrow_up_rounded,
-                                color: AqiColor,
-                              );
-                      },
-                    ),
-                  )
-                else
-                  AnimatedBuilder(
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: widget.isPadingIcon == true ? 16.0 : 0,
+                  ),
+                  child: AnimatedBuilder(
                     animation: expandController,
                     builder: (context, _) {
                       return expandController.value == 0
@@ -139,7 +152,8 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
                               color: AqiColor,
                             );
                     },
-                  )
+                  ),
+                )
               else
                 const SizedBox()
             ],

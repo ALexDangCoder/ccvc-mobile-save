@@ -1,16 +1,20 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/button/button_select_file.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chon_nguoi_thuc_hien_screen.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/select_date_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/customTextFieldVersion2.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -20,6 +24,7 @@ import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreatTodoOrUpdateWidget extends StatefulWidget {
   final bool? isCreat;
@@ -35,8 +40,7 @@ class CreatTodoOrUpdateWidget extends StatefulWidget {
       _CreatTodoOrUpdateWidgetState();
 }
 
-class _CreatTodoOrUpdateWidgetState
-    extends State<CreatTodoOrUpdateWidget> {
+class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController tieuDeController = TextEditingController();
   final TextEditingController noteControler = TextEditingController();
 
@@ -46,15 +50,14 @@ class _CreatTodoOrUpdateWidgetState
 
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
+    widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    widget.cubit.dateChange = '';
-    widget.cubit.noteChange = '';
-    widget.cubit.titleChange = '';
+    widget.cubit.disposs();
   }
 
   @override
@@ -81,7 +84,7 @@ class _CreatTodoOrUpdateWidgetState
                 ),
                 InputInfoUserWidget(
                   title: S.current.ngay_hoan_thanh,
-                  child: SelectDate(
+                  child: SelectDateDSCV(
                     leadingIcon: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: SvgPicture.asset(ImageAssets.icCalendar),
@@ -185,8 +188,44 @@ class _CreatTodoOrUpdateWidgetState
                 ),
                 ButtonSelectFile(
                   title: S.current.them_tai_lieu_dinh_kem,
-                  onChange: (files) {},
+                  onChange: (files) {
+                    if (files.isNotEmpty) {
+                      if (widget.isCreat ?? true) {
+                        widget.cubit.uploadFilesWithFile(files[0]);
+                      } else {
+                        widget.cubit.nameFile.sink.add('');
+                        widget.cubit.uploadFilesWithFile(files[0]).then(
+                              (value) => widget.cubit.editWork(
+                                filePathTodo:
+                                    widget.cubit.nameFile.valueOrNull ?? '',
+                                todo: widget.todo ?? TodoDSCVModel(),
+                              ),
+                            );
+                      }
+                    }
+                  },
                 ),
+                StreamBuilder<String>(
+                  stream: widget.cubit.nameFile,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data;
+                    if (snapshot.hasData &&
+                        (widget.todo?.showIconFile() ?? true) &&
+                        data != '') {
+                      return FileFromAPIWidget(
+                        data: data ?? '',
+                        onTapDelete: () {
+                          widget.cubit.editWork(
+                            todo: widget.todo ?? TodoDSCVModel(),
+                            filePathTodo: '',
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                const SizedBox(height: 20),
                 ItemTextFieldWidgetDSNV(
                   initialValue: widget.todo?.note ?? '',
                   title: S.current.ghi_chu,
@@ -197,9 +236,7 @@ class _CreatTodoOrUpdateWidgetState
                   maxLine: 8,
                   controller: noteControler,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE
                       ? EdgeInsets.zero

@@ -177,13 +177,13 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                                           widget.danhSachCVCubit.totalItem) {
                                         return const SizedBox();
                                       } else {
-                                        return const SizedBox();
-                                        // return Center(
-                                        //   child: CircularProgressIndicator(
-                                        //     color: AppTheme.getInstance()
-                                        //         .primaryColor(),
-                                        //   ),
-                                        // );
+                                        // return const SizedBox();
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            color: AppTheme.getInstance()
+                                                .primaryColor(),
+                                          ),
+                                        );
                                       }
                                     }
 

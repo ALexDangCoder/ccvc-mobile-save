@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import 'bao_cao_thong_ke/status_widget.dart';
 import 'status_pakn.dart';
 
 class TiepCanWidget extends StatefulWidget {
-  const TiepCanWidget({Key? key}) : super(key: key);
-
+  const TiepCanWidget({Key? key, required this.model}) : super(key: key);
+  final DocumentDashboardModel model;
   @override
   _TiepCanWidgetState createState() => _TiepCanWidgetState();
 }
@@ -48,28 +49,28 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
             ),
             statusWidget([
               ChartData(
-                S.current.cho_trinh_ky,
-                30,
+                S.current.cho_tiep_nhan,
+                widget.model.soLuongChoTiepNhan.toDouble(),
                 choTrinhKyColor,
               ),
               ChartData(
-                S.current.cho_xu_ly,
-                12,
+                S.current.phan_xu_ly,
+                widget.model.soLuongPhanXuLy.toDouble(),
                 color5A8DEE,
               ),
               ChartData(
-                S.current.da_xu_ly,
-                14,
+                S.current.dang_xu_ly,
+                widget.model.soLuongDangXuLy.toDouble(),
                 daXuLyColor,
               ),
               ChartData(
-                S.current.cho_cap_so,
-                14,
+                S.current.cho_duyet,
+                widget.model.soLuongChoDuyet.toDouble(),
                 choCapSoColor,
               ),
               ChartData(
-                S.current.cho_ban_hanh,
-                14,
+                S.current.cho_bo_sung_thong_tin,
+                widget.model.soLuongChoBoSungThongTin.toDouble(),
                 choBanHanhColor,
               )
             ]),
@@ -82,17 +83,17 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
           listData: [
             ChartData(
               S.current.qua_han,
-              14,
+              widget.model.soLuongQuaHan.toDouble(),
               statusCalenderRed,
             ),
             ChartData(
               S.current.den_han,
-              14,
+              widget.model.soLuongDenHan.toDouble(),
               yellowColor,
             ),
             ChartData(
               S.current.trong_han,
-              14,
+              widget.model.soLuongTrongHan.toDouble(),
               choTrinhKyColor,
             ),
           ],

@@ -34,7 +34,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
     data = cubit.dataDrop;
-    cubit.voidTone = north_female_lien;
+    cubit.voidTone = KieuGiongNoi.north_female_lien;
   }
 
   @override
@@ -90,8 +90,9 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
                     ),
                     child: TextField(
                       onChanged: (String value) {
-                        cubit.checkEnable(value);
-                        },
+                        cubit.text = value;
+                        cubit.checkEnable();
+                      },
                       decoration: const InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -123,10 +124,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
                   onChange: (vl) {
                     final List<String> dataSelect =
                         data.map((e) => e.code ?? '').toList();
-                    if (cubit.voidTone != dataSelect[vl]) {
-                      cubit.voidTone = dataSelect[vl];
-                      cubit.enableButton.sink.add(true);
-                    }
+                    cubit.voidTone = dataSelect[vl];
                   },
                 ),
                 const SizedBox(height: 24),
@@ -166,7 +164,7 @@ Widget btnListen({required Function onTap, required bool isEnable}) {
         vertical: 12,
       ),
       decoration: BoxDecoration(
-        color: isEnable ? AppTheme.getInstance().colorField() : textTitleColumn,
+        color: isEnable ? AppTheme.getInstance().colorField() : enableButton,
         borderRadius: BorderRadius.circular(isMobile() ? 4 : 8),
       ),
       child: Row(

@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/data/response/bao_cao/appid_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/appid_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';

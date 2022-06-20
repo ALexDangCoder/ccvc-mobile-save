@@ -147,17 +147,22 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                   childrenView: [
                     Column(
                       children: [
-                        titleBaoCao(S.current.yeu_thich),
                         StreamBuilder<List<ReportItem>>(
                           stream: cubit.listReportFavorite,
                           builder: (context, snapshot) {
+                            final listFavorite = snapshot.data ?? [];
                             return (cubit.listReportFavorite.value.isNotEmpty)
-                                ? ReportList(
-                                    scrollPhysics:
-                                        const NeverScrollableScrollPhysics(),
-                                    isCheckList: cubit.isCheckList.value,
-                                    listReport: snapshot.data ?? [],
-                                    cubit: cubit,
+                                ? Column(
+                                    children: [
+                                      titleBaoCao(S.current.yeu_thich),
+                                      ReportList(
+                                        scrollPhysics:
+                                            const NeverScrollableScrollPhysics(),
+                                        isCheckList: cubit.isCheckList.value,
+                                        listReport: listFavorite,
+                                        cubit: cubit,
+                                      ),
+                                    ],
                                   )
                                 : const SizedBox.shrink();
                           },

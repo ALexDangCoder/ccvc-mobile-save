@@ -23,20 +23,9 @@ mixin ReportRepository {
 
   Future<Result<bool>> postLikeReportFavorite(
     List<String> idReport,
-    String appID,
   );
 
   Future<Result<bool>> putDislikeReportFavorite(
     List<String> idReport,
-    String appID,
-  );
-
-  Future<Result<List<ReportItem>>> getListReportFavorite(
-    String appId,
-  );
-
-  Future<Result<List<FolderModel>>> getListReportTree(
-    String appId,
-    String folderId,
   );
 }

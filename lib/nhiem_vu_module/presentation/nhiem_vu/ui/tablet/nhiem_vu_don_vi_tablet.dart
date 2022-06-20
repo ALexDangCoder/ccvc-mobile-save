@@ -246,19 +246,24 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                         ),
                       );
                     } else {
-                      if (widget.danhSachCubit.listData.isNotEmpty) {
-                        return StatusWidgetTablet(
-                          listData: widget.danhSachCubit.listData,
-                          listStatusData: widget.danhSachCubit.listStatusData,
-                          title: widget.danhSachCubit.titleNhiemVu,
-                          danhSachCubit: widget.danhSachCubit,
-                          isCheck: widget.isCheck,
-                        );
-                      } else {
-                        return const NodataWidget(
-                          height: 250,
-                        );
-                      }
+                      return StreamBuilder<bool>(
+                        stream: widget.danhSachCubit.isCheckDataNVDV,
+                        builder: (context, snapshot) {
+                          final checkListData = snapshot.data ?? false;
+                          return checkListData
+                              ? StatusWidgetTablet(
+                                  listData: widget.danhSachCubit.listData,
+                                  listStatusData:
+                                      widget.danhSachCubit.listStatusData,
+                                  title: widget.danhSachCubit.titleNhiemVu,
+                                  danhSachCubit: widget.danhSachCubit,
+                                  isCheck: widget.isCheck,
+                                )
+                              : const NodataWidget(
+                                  height: 250,
+                                );
+                        },
+                      );
                     }
                   },
                 ),

@@ -121,7 +121,6 @@ class DanhSachCongViecTienIchCubit
 
   /// khoi tao data
   Future<void> initialData() async {
-    showLoading();
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
     unawaited(listNguoiThucHien());
@@ -134,7 +133,6 @@ class DanhSachCongViecTienIchCubit
   /// Cac danh Sach APi
   Future<void> getToDoListDSCV() async {
     final result = await tienIchRep.getListTodoDSCV();
-    showContent();
     result.when(
       success: (res) {
         toDoModelDefault = res;
@@ -277,8 +275,8 @@ class DanhSachCongViecTienIchCubit
           filePath: filePath,
         ),
       );
-      result.when(
-        success: (res) {
+      await result.when(
+        success: (res) async {
           showContent();
           final data = listDSCV.value;
           data.insert(
@@ -286,7 +284,7 @@ class DanhSachCongViecTienIchCubit
             res,
           );
           listDSCV.sink.add(data);
-          callAndFillApiAutu();
+          await callAndFillApiAutu();
           closeDialog();
         },
         error: (err) {
@@ -376,6 +374,7 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isDeleted,
     String? filePathTodo,
+    String? titleChange,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
@@ -414,24 +413,25 @@ class DanhSachCongViecTienIchCubit
     );
     result.when(
       success: (res) {
-        // final data = listDSCV.value;
-        // if (isTicked != null) {
-        //   data.insert(0, res);
-        //   data.remove(todo);
-        //   listDSCV.sink.add(data);
-        // }
-        // if (important != null) {
-        //   data.insert(data.indexOf(todo), res);
-        //   listDSCV.sink.add(data);
-        // }
-        // if (inUsed != null) {
-        //   data.remove(todo);
-        //   listDSCV.sink.add(data);
-        // }
-        // if (isDeleted != null) {}
-        // if (filePathTodo != null) {
-        //   nameFile.sink.add('');
-        // }
+        final data = listDSCV.value;
+        if (isTicked != null) {
+          data.remove(todo);
+          data.insert(0, res);
+          listDSCV.sink.add(data);
+        }
+        if (important != null) {
+          data.remove(todo);
+          data[0] = res;
+          listDSCV.sink.add(data);
+        }
+        if (inUsed != null) {
+          data.remove(todo);
+          listDSCV.sink.add(data);
+        }
+        if (isDeleted != null) {}
+        if (filePathTodo != null) {
+          nameFile.sink.add('');
+        }
         callAndFillApiAutu();
       },
       error: (err) {

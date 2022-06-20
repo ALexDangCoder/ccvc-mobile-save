@@ -20,7 +20,7 @@ class CongViecCellTienIch extends StatefulWidget {
   final Function()? onStar;
   final Function()? onClose;
   final TodoDSCVModel todoModel;
-  final Function(TextEditingController)? onChange;
+  final Function(String)? onChange;
   final Function()? onEdit;
   final Function()? onThuHoi;
   final Function()? onXoaVinhVien;
@@ -61,7 +61,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
     textEditingController.text = widget.text.trim();
     focusNode.addListener(() {
       if (!focusNode.hasFocus && widget.onChange != null) {
-        widget.onChange?.call(textEditingController);
+        // widget.onChange?.call(textEditingController);
       }
     });
   }
@@ -122,12 +122,18 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                         padding: const EdgeInsets.only(right: 6),
                         child: TextFormField(
                           focusNode: focusNode,
-                          controller: textEditingController,
+                          controller: TextEditingController(text: widget.text),
                           enabled: widget.enabled,
                           style: textNormal(infoColor, 14.0.textScale()),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (vl) {},
+                          onFieldSubmitted: (vl) {
+                            if (vl.isNotEmpty) {
+                              widget.onChange?.call(vl);
+                            }
+                          },
                         ),
                       ),
               ),

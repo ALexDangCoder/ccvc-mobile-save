@@ -42,14 +42,16 @@ class DetailMeetCalenderTablet extends StatefulWidget {
       _DetailMeetCalenderTabletState();
 }
 
-class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
+class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
+    with SingleTickerProviderStateMixin {
   late DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
-  final _controller = TabController(vsync: AnimatedListState(), length: 9);
+  late TabController _controller;
 
   @override
   void initState() {
     cubit.idCuocHop = widget.id;
     cubit.initDataChiTiet();
+    _controller = TabController(vsync: this, length: 9);
     super.initState();
   }
 

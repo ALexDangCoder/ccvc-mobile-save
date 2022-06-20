@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_report_respose.dart';
 import 'package:ccvc_mobile/data/response/bao_cao/appid_response.dart';
 import 'package:ccvc_mobile/data/response/bao_cao/folder_response.dart';
 import 'package:ccvc_mobile/data/response/bao_cao/group_response.dart';
@@ -20,7 +19,7 @@ abstract class ReportService {
     @Query('folderId') String folderId,
     @Query('sort') int sort,
     @Query('keyWord') String keyWord,
-    @Header('AppId') String appId,
+    @Header("AppId") String appId,
   );
 
   @POST(ApiConstants.LIST_GROUP_BAO_CAO)
@@ -44,29 +43,6 @@ abstract class ReportService {
 
   @GET(ApiConstants.GET_FOLDER_ID)
   Future<FolderResponse> getFolderID(
-    @Header('AppId') String appId,
-  );
-
-  @POST(ApiConstants.POST_LIKE_REPORT)
-  Future<dynamic> postLikeReport(
-    @Body() List<String> idReport,
-    @Header('AppId') String appId,
-  );
-
-  @PUT(ApiConstants.PUT_DISLIKE_REPORT)
-  Future<dynamic> putDisLikeReport(
-    @Body() List<String> idReport,
-    @Header('AppId') String appId,
-  );
-
-  @GET(ApiConstants.GET_LIST_REPORT_FAVORITE)
-  Future<ReportResponse> getListReportFavorite(
-    @Header('AppId') String appId,
-  );
-
-  @GET(ApiConstants.GET_LIST_TREE_REPORT)
-  Future<ListTreeReportResponse> getListReportTree(
-    @Header('AppId') String appId,
-    @Query('folderId') String folderId,
+    @Header("AppId") String appId,
   );
 }

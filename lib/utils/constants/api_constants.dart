@@ -25,7 +25,8 @@ class ApiConstants {
   static const String GET_DASHBOARD_VB_DEN =
       '/qlvb/api/danh-muc/dashboard-van-ban-den';
   static const String GET_VB_DI_SO_LUONG = '/qlvb/api/van-ban-di/so-luong?';
-  static const String GET_BIRTHDAY = '/appdieuhanh/api/CmsCard/lay-danhsach-chucmung';
+  static const String GET_BIRTHDAY =
+      '/appdieuhanh/api/CmsCard/lay-danhsach-chucmung';
   static const String GET_INFO = '/api/CanBo';
   static const String GET_TINH_HUYEN_XA = '/api/DanhMuc/tinh-thanh';
   static const String GET_TINH_HUYEN_XA_CHILD = '/api/DanhMuc/tinh-thanh';
@@ -288,6 +289,12 @@ class ApiConstants {
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
   static const LIST_GROUP_BAO_CAO = '/common/Group/search';
   static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
+  static const GET_APP_ID = '/api/App/search';
+  static const GET_FOLDER_ID = '/htcs/api/Folder/get-root';
+  static const POST_LIKE_REPORT = '/htcs/api/Report/like-many';
+  static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
+  static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
+  static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
 }
 
 class ImageConstants {

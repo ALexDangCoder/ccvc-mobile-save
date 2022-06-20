@@ -319,10 +319,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
       dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
       dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-      timeFrom: timeFrom ??
-          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-      timeTo: timeEnd ??
-          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      timeFrom: timeFrom ??DateTime.now().formatApiFixMeet,
+      timeTo: timeEnd ??(DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       donViId: selectNguoiChuTri?.donViId,
       userId: selectNguoiChuTri?.userId,
     ));
@@ -386,11 +384,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       datNuocSelectModel?.name ?? '',
       datNuocSelectModel?.id ?? '',
       DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      timeFrom ??
-          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      timeFrom ?? timeFrom ??DateTime.now().formatApiFixMeet,
       DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-      timeEnd ??
-          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      timeEnd ??timeEnd ??(DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content,
       location,
       '',
@@ -438,11 +434,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       huyenSelectModel?.tenQuanHuyen ?? '',
       xaSelectModel?.tenXaPhuong ?? '',
       dateFrom ?? DateTime.now().formatApi,
-      timeFrom ??
-          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      timeFrom ??DateTime.now().formatApiFixMeet,
       dateEnd ?? DateTime.now().formatApi,
-      timeEnd ??
-          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      timeEnd ?? (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content ?? '',
       location ?? '',
       '',
@@ -490,11 +484,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       xaSelectModel?.tenXaPhuong ?? '',
       selectedCountryID,
       dateFrom ?? DateTime.now().formatApi,
-      timeFrom ??
-          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      timeFrom ??DateTime.now().formatApiFixMeet,
       dateEnd ?? DateTime.now().formatApi,
-      timeEnd ??
-          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      timeEnd ?? (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content ?? '',
       location ?? '',
       '',

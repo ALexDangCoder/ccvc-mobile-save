@@ -1,12 +1,12 @@
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/folder_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/htcs_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_common_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_state.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/folder_model.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/htcs_model.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
-import 'package:ccvc_mobile/domain/repository/bao_cao/report_common_repository.dart';
-import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:get/get.dart';
@@ -106,8 +106,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         showContent();
-        //todo success
-        isStatus = true;
+        isStatus = res;
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));
@@ -128,8 +127,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         showContent();
-        //todo success
-        isStatus = true;
+        isStatus = res;
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));
@@ -149,6 +147,30 @@ class ReportListCubit extends BaseCubit<BaseState> {
     textFilterBox.add(value);
     getStatus(value);
     getListReport();
+  }
+
+  Future<void> getListTree({required String forderId}) async {
+    showLoading();
+    final Result<List<FolderModel>> result =
+        await _reportService.getListReportTree(
+      appId,
+      forderId,
+    );
+    result.when(
+      success: (res) {
+        if (!res.isNotEmpty) {
+          showEmpty();
+          emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
+        } else {
+          showContent();
+          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res));
+        }
+      },
+      error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+      },
+    );
   }
 
   Future<void> getListReport() async {

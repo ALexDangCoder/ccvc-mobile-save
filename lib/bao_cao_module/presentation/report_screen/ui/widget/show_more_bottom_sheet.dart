@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/chia_se_bao_cao.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
@@ -7,9 +9,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/chia_se_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_ung_dung_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -212,13 +212,13 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                           showDiaLog(
                             context,
                             title: S.current.yeu_thich_thu_muc,
+                            isClose: false,
                             btnLeftTxt: S.current.huy,
                             btnRightTxt: S.current.dong_y,
                             funcBtnRight: () {
                               widget.cubit.postFavorite(
                                 idReport: [widget.reportItem.id ?? ''],
                               ).then((value) {
-                                Navigator.of(context).pop();
                                 if (value) {
                                   MessageConfig.show(
                                     title: S.current.yeu_thich_thanh_cong,
@@ -233,11 +233,14 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                             },
                             showTablet: true,
                             textContent: S.current.ban_co_chac_chan_yeu_thich,
-                            icon: const SizedBox(),
+                            icon: SvgPicture.asset(
+                              bao_cao.ImageAssets.ic_star_bold,
+                            ),
                           ).then((value) {});
                         } else {
                           showDiaLog(
                             context,
+                            isClose: false,
                             title: S.current.yeu_thich_thu_muc,
                             btnLeftTxt: S.current.huy,
                             btnRightTxt: S.current.dong_y,
@@ -245,7 +248,6 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                               widget.cubit.putDislikeFavorite(
                                 idReport: [widget.reportItem.id ?? ''],
                               ).then((value) {
-                                Navigator.of(context).pop();
                                 if (value) {
                                   MessageConfig.show(
                                     title: S.current.huy_yeu_thich_thanh_cong,

@@ -227,7 +227,7 @@ class TableCalendarPhone<T> extends StatefulWidget {
     this.sixWeekMonthsEnforced = false,
     this.shouldFillViewport = false,
     this.rowHeight = 52.0,
-    this.daysOfWeekHeight = 16.0,
+    this.daysOfWeekHeight = 25.0,
     this.formatAnimationDuration = const Duration(milliseconds: 200),
     this.formatAnimationCurve = Curves.linear,
     this.pageAnimationDuration = const Duration(milliseconds: 300),

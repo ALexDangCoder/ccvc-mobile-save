@@ -1,4 +1,5 @@
-import 'package:ccvc_mobile/domain/model/bao_cao/folder_model.dart';
+
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/folder_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'folder_response.g.dart';

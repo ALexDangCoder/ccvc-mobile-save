@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
@@ -67,7 +68,7 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
           builder: (context, snapshot) {
             if(snapshot.hasData){
               final data = snapshot.data ??
-                  VanBanDonViModel(vbDen: VBDenDonVi(), vbDi: VBDiDonVi());
+                  VanBanDonViModel(vbDen: DocumentDashboardModel(), vbDi: DocumentDashboardModel());
               final dataVBDen=data.vbDen;
               final dataVBDi=data.vbDi;
               return Column(
@@ -82,19 +83,19 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
                           chartData: [
                             ChartData(
                               S.current.cho_vao_so,
-                              dataVBDen.choVaoSo.toDouble(),
+                              dataVBDen.soLuongChoVaoSo.toDouble(),
                               choVaoSoColor,
                               SelectKey.CHO_VAO_SO,
                             ),
                             ChartData(
                               S.current.dang_xu_ly,
-                              dataVBDen.dangXuLy.toDouble(),
+                              dataVBDen.soLuongDangXuLy.toDouble(),
                               dangXyLyColor,
                               SelectKey.DANG_XU_LY,
                             ),
                             ChartData(
                               S.current.da_xu_ly,
-                              dataVBDen.dangXuLy.toDouble(),
+                              dataVBDen.soLuongDaXuLy.toDouble(),
                               daXuLyColor,
                               SelectKey.DA_XU_LY,
                             ),
@@ -108,19 +109,19 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
                           [
                             ChartData(
                               S.current.qua_han,
-                              dataVBDen.quaHan.toDouble(),
+                              dataVBDen.soLuongQuaHan.toDouble(),
                               statusCalenderRed,
                               SelectKey.CHO_VAO_SO,
                             ),
                             ChartData(
                               S.current.den_han,
-                              dataVBDen.denHan.toDouble(),
+                              dataVBDen.soLuongDenHan.toDouble(),
                               yellowColor,
                               SelectKey.DANG_XU_LY,
                             ),
                             ChartData(
                               S.current.trong_han,
-                              dataVBDen.trongHan.toDouble(),
+                              dataVBDen.soLuongTrongHan.toDouble(),
                               choTrinhKyColor,
                               SelectKey.DA_XU_LY,
                             ),
@@ -138,31 +139,31 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
                       chartData: [
                         ChartData(
                           S.current.cho_trinh_ky,
-                          dataVBDi.choTrinhKy.toDouble(),
+                          dataVBDi.soLuongChoTrinhKy.toDouble(),
                           choTrinhKyColor,
                           SelectKey.CHO_TRINH_KY,
                         ),
                         ChartData(
                           S.current.cho_xu_ly,
-                          dataVBDi.choXuLy.toDouble(),
+                          dataVBDi.soLuongChoXuLy.toDouble(),
                           choXuLyColor,
                           SelectKey.CHO_XU_LY,
                         ),
                         ChartData(
                           S.current.da_xu_ly,
-                          dataVBDi.daXuLy.toDouble(),
+                          dataVBDi.soLuongDaXuLy.toDouble(),
                           daXuLyColor,
                           SelectKey.DA_XU_LY,
                         ),
                         ChartData(
                           S.current.cho_cap_so,
-                          dataVBDi.choCapSo.toDouble(),
+                          dataVBDi.soLuongChoCapSo.toDouble(),
                           choCapSoColor,
                           SelectKey.CHO_CAP_SO,
                         ),
                         ChartData(
                           S.current.cho_ban_hanh,
-                          dataVBDi.choBanHanh.toDouble(),
+                          dataVBDi.soLuongChoBanHanh.toDouble(),
                           choBanHanhColor,
                           SelectKey.CHO_BAN_HANH,
                         )

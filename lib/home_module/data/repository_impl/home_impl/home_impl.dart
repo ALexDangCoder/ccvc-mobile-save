@@ -328,7 +328,7 @@ class HomeImpl extends HomeRepository {
       ),
       (res) =>
           res.data?.toDomain() ??
-          VanBanDonViModel(vbDen: VBDenDonVi(), vbDi: VBDiDonVi()),
+          VanBanDonViModel(vbDen: DocumentDashboardModel(), vbDi: DocumentDashboardModel()),
     );
   }
 

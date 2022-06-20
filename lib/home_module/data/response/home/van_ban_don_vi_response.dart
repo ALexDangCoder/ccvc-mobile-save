@@ -1,4 +1,4 @@
-
+import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -32,9 +32,9 @@ class Data {
 
   Map<String, dynamic> toJson() => _$DataToJson(this);
 
-    VanBanDonViModel toDomain() => VanBanDonViModel(
-        vbDen: vbDen?.toDomain() ?? VBDen.empty().toDomain(),
-        vbDi: vbDi?.toDomain() ?? VBDi.empty().toDomain(),
+  VanBanDonViModel toDomain() => VanBanDonViModel(
+        vbDen: vbDen?.toDomain() ?? DocumentDashboardModel(),
+        vbDi: vbDi?.toDomain() ?? DocumentDashboardModel(),
       );
 }
 
@@ -64,19 +64,21 @@ class VBDen {
     this.trongHan,
     this.denHan,
   );
+
   VBDen.empty();
+
   factory VBDen.fromJson(Map<String, dynamic> json) => _$VBDenFromJson(json);
 
   Map<String, dynamic> toJson() => _$VBDenToJson(this);
 
-  VBDenDonVi toDomain() => VBDenDonVi(
-        choVaoSo: choVaoSo ?? 0,
-        choXuLy: choXuLy ?? 0,
-        dangXuLy: daXuLy ?? 0,
-        daXuLy: daXuLy ?? 0,
-        quaHan: quaHan ?? 0,
-        trongHan: trongHan ?? 0,
-        denHan: denHan ?? 0,
+  DocumentDashboardModel toDomain() => DocumentDashboardModel(
+        soLuongChoVaoSo: choVaoSo ?? 0,
+        soLuongChoXuLy: choXuLy ?? 0,
+        soLuongDangXuLy: dangXuLy ?? 0,
+        soLuongDaXuLy: daXuLy ?? 0,
+        soLuongQuaHan: quaHan ?? 0,
+        soLuongTrongHan: trongHan ?? 0,
+        soLuongDenHan: denHan ?? 0,
       );
 }
 
@@ -93,20 +95,25 @@ class VBDi {
   @JsonKey(name: 'ChoBanHanh')
   int? choBanHanh;
 
+  VBDi(
+    this.choTrinhKy,
+    this.choXuLy,
+    this.daXuLy,
+    this.choCapSo,
+    this.choBanHanh,
+  );
 
-  VBDi(this.choTrinhKy, this.choXuLy, this.daXuLy, this.choCapSo,
-      this.choBanHanh,);
   VBDi.empty();
 
   factory VBDi.fromJson(Map<String, dynamic> json) => _$VBDiFromJson(json);
 
   Map<String, dynamic> toJson() => _$VBDiToJson(this);
 
-  VBDiDonVi toDomain() => VBDiDonVi(
-        choTrinhKy: choTrinhKy ?? 0,
-        choXuLy: choXuLy ?? 0,
-        daXuLy: daXuLy ?? 0,
-        choCapSo: choCapSo ?? 0,
-        choBanHanh: choBanHanh ?? 0,
+  DocumentDashboardModel toDomain() => DocumentDashboardModel(
+        soLuongChoTrinhKy: choTrinhKy ?? 0,
+        soLuongChoXuLy: choXuLy ?? 0,
+        soLuongDaXuLy: daXuLy ?? 0,
+        soLuongChoCapSo: choCapSo ?? 0,
+        soLuongChoBanHanh: choBanHanh ?? 0,
       );
 }

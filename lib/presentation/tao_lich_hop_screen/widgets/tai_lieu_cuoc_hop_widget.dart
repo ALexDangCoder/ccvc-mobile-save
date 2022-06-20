@@ -41,6 +41,7 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
           ),
           ButtonSelectFile(
             files: [],
+            maxSize: 30000000,
             hasMultipleFile: true,
             spacingFile: 16,
             title: isMobile()

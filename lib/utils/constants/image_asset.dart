@@ -541,6 +541,7 @@ class ImageAssets {
   static const String ic_trung_hop = '$baseImg/ic_trung_hop.svg';
   static const String ic_edit_cal = '$baseImg/ic_edit_cal.svg';
   static const String img_calendar = '$baseImg/img_calendar.svg';
+  static const String img_sua_lich = '$baseImg/ic_sua_lich.svg';
 
 
   static SvgPicture svgAssets(

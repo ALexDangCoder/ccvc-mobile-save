@@ -75,11 +75,12 @@ extension CommonApiExt on CalenderCubit{
     showLoading();
     listDSLV.clear();
     page = 1;
-    await getListLichLV();
     await dataLichLamViec(
       startDate: startDates.formatApi,
       endDate: endDates.formatApi,
     );
+    await getListLichLV();
+
     await dataLichLamViecRight(
       startDate: startDates.formatApi,
       endDate: endDates.formatApi,

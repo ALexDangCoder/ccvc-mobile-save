@@ -136,7 +136,7 @@ class ApiConstants {
       '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA =
       '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
-  static const SUA_LICH_HOP = '/api/MeetingSchedule/edit-meeting';
+  static const SUA_LICH_HOP = '/vpdt/api/MeetingSchedule/edit-meeting';
 
   static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall?';
 

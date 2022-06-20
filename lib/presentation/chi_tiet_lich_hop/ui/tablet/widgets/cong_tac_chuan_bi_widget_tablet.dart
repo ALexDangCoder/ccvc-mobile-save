@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -25,7 +26,9 @@ class _CongTacChuanBiWidgetTabletState
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.callApiCongTacChuanBi();
+    if(!isMobile()) {
+      widget.cubit.callApiCongTacChuanBi();
+    }
   }
 
   @override

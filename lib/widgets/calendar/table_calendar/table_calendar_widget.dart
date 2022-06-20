@@ -132,6 +132,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
       _selectedDay = storeSelectDay;
     } else {
       _selectedDay = widget.initTime!;
+      storeSelectDay = widget.initTime!;
     }
     cubit.moveTimeSubject.add(_selectedDay);
   }

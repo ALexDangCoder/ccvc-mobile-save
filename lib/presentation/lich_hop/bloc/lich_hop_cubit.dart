@@ -43,7 +43,8 @@ class LichHopCubit extends BaseCubit<LichHopState> {
       donViId = user.userInformation?.donViTrucThuoc?.id ?? '';
     }
   }
-
+  BehaviorSubject<DateTime> initTimeSubject = BehaviorSubject();
+  bool changeDateByClick = false;
   Type_Choose_Option_Day stateOptionDay = Type_Choose_Option_Day.DAY;
   List<ItemThongBaoModelMyCalender> dataMenu = listThongBaoMyCalendar;
   List<ItemThongBaoModelMyCalender> listLanhDaoLichHop = [];
@@ -366,7 +367,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   Future<void> initData() async {
     page = 1;
     getDashboard();
-    postDanhSachLichHop();
+    postDanhSachLichHop(null, true);
     postEventsCalendar();
     menuCalendar();
     initDataMenu();
@@ -525,7 +526,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     showContent();
   }
 
-  Future<void> postDanhSachLichHop([String? search]) async {
+  Future<void> postDanhSachLichHop([String? search, bool isRefesh = false,]) async {
     showLoading();
     final result = await hopRepo.postDanhSachLichHop(
       DanhSachLichHopRequest(
@@ -577,6 +578,9 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     );
     result.when(
       success: (value) {
+        if(isRefesh) {
+          listDSLH.clear();
+        }
         totalPage = value.totalPage ?? 1;
 
         listDSLH.addAll(value.items ?? []);
@@ -690,5 +694,99 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 class DataSource extends CalendarDataSource {
   DataSource(List<Appointment> source) {
     appointments = source;
+  }
+}
+extension HandleDataCalendar on LichHopCubit {
+  // Future<void> updateDataSlideCalendar(DateTime timeSlide) async {
+  //   if (!changeDateByClick) {
+  //     showLoading();
+  //     selectDay = timeSlide;
+  //     await postEventsCalendar();
+  //     initTimeSubject.add(selectDay);
+  //     moveTimeSubject.add(selectDay);
+  //
+  //     if (stateOptionDay == Type_Choose_Option_Day.DAY) {
+  //       await callApiDayCalendar();
+  //     }
+  //     if (stateOptionDay == Type_Choose_Option_Day.WEEK) {
+  //       await callApiWeekCalendar();
+  //     }
+  //     if (stateOptionDay == Type_Choose_Option_Day.MONTH) {
+  //       await callApiMonthCalendar();
+  //     }
+  //     showContent();
+  //   }
+  // }
+  //
+  // Future<void> callApi() async {
+  //   showLoading();
+  //   listDSLH.clear();
+  //   page = 1;
+  //   await getListLichLV();
+  //   await dataLichLamViec(
+  //     startDate: startDates.formatApi,
+  //     endDate: endDates.formatApi,
+  //   );
+  //   await dataLichLamViecRight(
+  //     startDate: startDates.formatApi,
+  //     endDate: endDates.formatApi,
+  //     type: 0,
+  //   );
+  //   await menuCalendar();
+  //   showContent();
+  // }
+  //
+  // void getMatchDate(DataLichLvModel data) {
+  //   if ((data.listLichLVModel ?? []).isEmpty) {
+  //     return;
+  //   }
+  //   (data.listLichLVModel ?? []).sort(
+  //         (a, b) => DateTime.parse(
+  //       a.dateTimeFrom ?? '',
+  //     ).compareTo(
+  //       DateTime.parse(
+  //         b.dateTimeFrom ?? '',
+  //       ),
+  //     ),
+  //   );
+  //   for (final ListLichLVModel e in data.listLichLVModel ?? []) {
+  //     (data.listLichLVModel ?? [])
+  //         .where(
+  //           (i) =>
+  //       (DateTime.parse(
+  //         e.dateTimeTo ?? '',
+  //       ).isAfter(
+  //         DateTime.parse(
+  //           i.dateTimeFrom ?? '',
+  //         ),
+  //       ) ||
+  //           DateTime.parse(
+  //             e.dateTimeFrom ?? '',
+  //           ).isAtSameMomentAs(
+  //             DateTime.parse(
+  //               i.dateTimeFrom ?? '',
+  //             ),
+  //           )) &&
+  //           DateTime.parse(
+  //             e.dateTimeFrom ?? '',
+  //           ).isBefore(
+  //             DateTime.parse(
+  //               i.dateTimeFrom ?? '',
+  //             ),
+  //           ) &&
+  //           i.id != e.id,
+  //     )
+  //         .toList()
+  //         .forEach((element) {
+  //       element.isTrung = true;
+  //       e.isTrung = true;
+  //     });
+  //   }
+  // }
+
+  bool isMatch(DateTime? oldData, DateTime? newData) {
+    if (oldData == newData) return true;
+
+    return false;
   }
 }

@@ -62,11 +62,11 @@ class TextFieldStyle extends StatelessWidget {
   Widget textField({Function(String)? validate, String? initValue}) {
     return TextFormField(
       validator: (value) {
-        return validate?.call(value ?? '');
+        return validate?.call((value ?? '').trim());
       },
       controller: controller,
       onChanged: (value) {
-        onChange?.call(value);
+        onChange?.call(value.trim());
       },
       initialValue: initValue,
       maxLength: maxLength,

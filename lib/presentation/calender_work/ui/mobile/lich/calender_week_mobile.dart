@@ -29,11 +29,11 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay
+    widget.cubit.stateCalendarControllerWeek
         .addPropertyChangedListener((value) {
       if (value == 'displayDate'){
         widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
+          widget.cubit.stateCalendarControllerWeek.displayDate ??
               widget.cubit.selectDay,
         );
       }

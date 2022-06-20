@@ -237,7 +237,8 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                             bloc: cubit,
                             builder: (context, state) {
                               if (state is LichHopStateDangDanhSach ||
-                                  state is LichHopStateDangLich) {
+                                  state is LichHopStateDangLich ||
+                                  state is LichHopStateDangList) {
                                 return StreamBuilder<
                                     List<DashBoardThongKeModel>>(
                                   stream: cubit.listDashBoardThongKe.stream,

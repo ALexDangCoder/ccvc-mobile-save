@@ -249,6 +249,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                                   },
                                 ),
                                 CupertinoMaterialPicker(
+                                  isEdit: true,
                                   isSwitchButtonChecked:
                                       widget.event.isAllDay ?? false,
                                   initDateStart: taoLichLamViecCubit.dateTimeFrom
@@ -293,8 +294,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                     taoLichLamViecCubit.isCheckAllDaySubject
                                         .add(value);
                                   },
-                                  validateTime: (bool value) {
-                                    timeValue = value;
+                                  validateTime: (String value) {
+                                    timeValue = value.isNotEmpty;
                                   },
                                 ),
                                 StreamBuilder<List<NhacLaiModel>>(

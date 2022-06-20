@@ -243,10 +243,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                     HotNews(
                                       chuDeCubit.hotNewData.avartar ?? '',
                                       chuDeCubit.hotNewData.title ?? '',
-                                      DateTime.parse(
-                                        chuDeCubit.hotNewData.publishedTime ??
-                                            '',
-                                      ).formatApiSSAM,
+                                      chuDeCubit.hotNewData.formatTimePublished,
                                       chuDeCubit.hotNewData.contents ?? '',
                                       chuDeCubit.hotNewData.url ?? '',
                                     ),

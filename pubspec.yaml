@@ -119,5 +119,6 @@ flutter:
     - lib/ket_noi_module/assets/images/
     - lib/nhiem_vu_module/assets/images/
     - lib/diem_danh_module/assets/images/
+    - lib/bao_cao_module/assets/images/
 flutter_intl:
   enabled: true

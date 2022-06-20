@@ -294,6 +294,7 @@ class _SuaLichCongTacTrongNuocTabletState
                                     },
                                   ),
                                   CupertinoMaterialPicker(
+                                    isEdit: true,
                                     initDateStart: taoLichLamViecCubit.dateTimeFrom
                                         ?.convertStringToDate(),
                                     initTimeStart: taoLichLamViecCubit.dateTimeFrom
@@ -336,8 +337,8 @@ class _SuaLichCongTacTrongNuocTabletState
                                       taoLichLamViecCubit.isCheckAllDaySubject
                                           .add(value);
                                     },
-                                    validateTime: (bool value) {
-                                      timeValue = value;
+                                    validateTime: (String value) {
+                                      timeValue = value.isNotEmpty;
                                     },
                                   ),
                                   StreamBuilder<List<NhacLaiModel>>(

@@ -32,10 +32,11 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay.addPropertyChangedListener((value) {
+    widget.cubit.stateCalendarControllerMonth
+        .addPropertyChangedListener((value) {
       if (value == 'displayDate') {
         widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
+          widget.cubit.stateCalendarControllerMonth.displayDate ??
               widget.cubit.selectDay,
         );
       }

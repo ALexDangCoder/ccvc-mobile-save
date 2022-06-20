@@ -1135,12 +1135,18 @@
   "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công",
   "chia_se_thu_muc": "Chia sẻ thư mục",
   "chia_se_thu_muc_chac_chua": "Bạn có chắn chắn chia sẻ thư mục này không?",
-  "xac_nhan_dong_pop_up": "Bạn có chắn chắn chia sẻ thư mục này không?",
+  "xac_nhan_dong_pop_up": "Bạn có chắn chắn đóng thêm mới chia sẻ hay không?",
   "ban_co_chac_chan_yeu_thich": "Bạn có chắn chắn yêu thích thư mục, báo cáo này không?",
   "ban_co_bo_chac_chan_yeu_thich": "Bạn có chắn chắn bỏ yêu thích thư mục, báo cáo này không?",
   "yeu_thich_thu_muc": "Yêu thích thư mục, báo cáo",
   "yeu_thich_thanh_cong": "Yêu thích thành công",
   "yeu_thich_that_bai": "Yêu thích thất bại",
   "huy_yeu_thich_thanh_cong": "Hủy Yêu thích thành công",
-  "huy_yeu_thich_that_bai": "Hủy Yêu thích thất bại"
+  "huy_yeu_thich_that_bai": "Hủy Yêu thích thất bại",
+  "chi_lich_hien_tai": "Chỉ lịch hiện tại",
+  "tu_hien_tai_ve_sau": "Từ lịch hiện tại đến về sau",
+  "file_qua_30M": "File tải lên không vượt quá 30MB",
+  "ban_phai_chon_thoi_gian": "Vui lòng chọn thời gian",
+  "vui_long_chon_loai_lich": "Vui lòng chọn loại lịch"
+
 }

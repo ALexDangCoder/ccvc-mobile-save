@@ -20,6 +20,7 @@ class ImageAssets {
   static const String ic_star_bold = '$baseImg/star_bold_svg.svg';
   static const String img_company = '$baseImg/img_companies.png';
   static const String img_companies_svg = '$baseImg/img_company.svg';
+  static const String ic_copy = '$baseImg/ic_copy.svg';
 
   static SvgPicture svgAssets(
     String name, {

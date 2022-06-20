@@ -7,6 +7,7 @@ import 'package:queue/queue.dart';
 
 extension DayApi on CalenderCubit {
   Future<void> callApiNgay() async {
+    showLoading();
     final Queue queue = Queue();
     changeDateByClick = true;
     listDSLV.clear();
@@ -37,6 +38,7 @@ extension DayApi on CalenderCubit {
     moveTimeSubject.add(selectDay);
     await queue.onComplete;
     changeDateByClick = false;
+    showContent();
   }
 
   Future<void> callApiDayCalendar() async {

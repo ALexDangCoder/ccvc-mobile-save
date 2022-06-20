@@ -1,7 +1,7 @@
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_common_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_impl.dart';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
-import 'package:ccvc_mobile/data/repository_impl/bao_cao/report_common_impl.dart';
-import 'package:ccvc_mobile/data/repository_impl/bao_cao/report_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/lich_hop/lich_hop_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/lich_lam_viec_impl/lich_lam_viec_impl.dart';

@@ -27,7 +27,7 @@ class DateTimeCupertinoCustomCubit
   BehaviorSubject<bool> isShowBeginPickerSubject =
       BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isShowEndPickerSubject = BehaviorSubject.seeded(false);
-  BehaviorSubject<String> validateTime = BehaviorSubject.seeded('');
+  BehaviorSubject<String> validateTime = BehaviorSubject();
 
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;

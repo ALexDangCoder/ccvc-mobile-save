@@ -16,8 +16,8 @@ class ImageAssets {
   static const String ic_chitet = '$baseImg/ic_chitiet.svg';
   static const String icThongKe = '$baseImg/ic_thong_ke.svg';
   static const String icNoDataNhiemVu = '$baseImg/ic_no_data_nhiem_vu.svg';
-  static const String ic_chia_se = '$baseImg/ic_chia_se_svg.svg';
-  static const String ic_star_bold= '$baseImg/ic_star_bold.svg';
+  static const String ic_chia_se = '$baseImg/share_svg.svg';
+  static const String ic_star_bold = '$baseImg/star_bold_svg.svg';
   static const String img_company = '$baseImg/img_companies.png';
   static const String img_companies_svg = '$baseImg/img_company.svg';
 

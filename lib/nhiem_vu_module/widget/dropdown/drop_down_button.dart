@@ -36,7 +36,7 @@ class _DropdownMenuPainter extends CustomPainter {
     required this.resize,
     required this.getSelectedItemOffset,
   })  : _painter = BoxDecoration(
-          // If you add an image here, you must provide a real
+          // If you add an images here, you must provide a real
           // configuration in the paint() function and you must provide some sort
           // of onChanged callback here.
           color: color,

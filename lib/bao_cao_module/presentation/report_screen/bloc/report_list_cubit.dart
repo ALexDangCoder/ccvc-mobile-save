@@ -106,8 +106,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         showContent();
-        //todo success
-        isStatus = true;
+        isStatus = res;
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));
@@ -128,8 +127,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         showContent();
-        //todo success
-        isStatus = true;
+        isStatus = res;
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));

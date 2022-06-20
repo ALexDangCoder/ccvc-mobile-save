@@ -212,13 +212,13 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                           showDiaLog(
                             context,
                             title: S.current.yeu_thich_thu_muc,
+                            isClose: false,
                             btnLeftTxt: S.current.huy,
                             btnRightTxt: S.current.dong_y,
                             funcBtnRight: () {
                               widget.cubit.postFavorite(
                                 idReport: [widget.reportItem.id ?? ''],
                               ).then((value) {
-                                Navigator.of(context).pop();
                                 if (value) {
                                   MessageConfig.show(
                                     title: S.current.yeu_thich_thanh_cong,
@@ -233,11 +233,14 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                             },
                             showTablet: true,
                             textContent: S.current.ban_co_chac_chan_yeu_thich,
-                            icon: const SizedBox(),
+                            icon: SvgPicture.asset(
+                              bao_cao.ImageAssets.ic_star_bold,
+                            ),
                           ).then((value) {});
                         } else {
                           showDiaLog(
                             context,
+                            isClose: false,
                             title: S.current.yeu_thich_thu_muc,
                             btnLeftTxt: S.current.huy,
                             btnRightTxt: S.current.dong_y,
@@ -245,7 +248,6 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                               widget.cubit.putDislikeFavorite(
                                 idReport: [widget.reportItem.id ?? ''],
                               ).then((value) {
-                                Navigator.of(context).pop();
                                 if (value) {
                                   MessageConfig.show(
                                     title: S.current.huy_yeu_thich_thanh_cong,

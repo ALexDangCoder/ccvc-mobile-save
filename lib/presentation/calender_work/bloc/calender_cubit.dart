@@ -181,7 +181,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
@@ -314,6 +314,7 @@ extension HandleDataCalendar on CalenderCubit {
       await postEventsCalendar();
       initTimeSubject.add(selectDay);
       moveTimeSubject.add(selectDay);
+
       if (stateOptionDay == Type_Choose_Option_Day.DAY) {
         await callApiDayCalendar();
       }

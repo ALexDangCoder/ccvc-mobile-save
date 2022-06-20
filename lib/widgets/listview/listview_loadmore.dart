@@ -33,13 +33,11 @@ class ListViewLoadMore extends StatelessWidget {
   }) : super(key: key);
 
   Future<void> refreshPosts() async {
-    if (isLoadMoreBottom) {
-      if (!cubit.loadMoreLoading) {
-        cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
-        cubit.loadMoreRefresh = true;
-        cubit.loadMoreLoading = true;
-        await callApi(cubit.loadMorePage);
-      }
+    if (!cubit.loadMoreLoading) {
+      cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
+      cubit.loadMoreRefresh = true;
+      cubit.loadMoreLoading = true;
+      await callApi(cubit.loadMorePage);
     }
   }
 

@@ -144,6 +144,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                               ),
                               CupertinoMaterialPicker(
                                 key: _timerPickerKey,
+                                isEdit: true,
                                 initDateStart: widget.chiTietHop.ngayBatDau
                                     .convertStringToDate(
                                   formatPattern: DateFormatApp.monthDayFormat,
@@ -188,7 +189,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                   _cubitTaoLichHop.taoLichHopRequest.isAllDay =
                                       value;
                                 },
-                                validateTime: (bool value) {},
+                                validateTime: (String value) {},
                               ),
                               spaceH5,
                               NhacLichWidget(

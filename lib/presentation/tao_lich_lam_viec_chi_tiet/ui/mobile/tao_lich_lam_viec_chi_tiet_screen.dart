@@ -180,8 +180,8 @@ class _TaoLichLamViecChiTietScreenState
                                   ),
                                 );
                               },
-                              validateTime: (bool value) {
-                                timeValue = value;
+                              validateTime: (String value) {
+                                timeValue = value.isNotEmpty;
                               },
                             ),
                             NhacLaiWidget(

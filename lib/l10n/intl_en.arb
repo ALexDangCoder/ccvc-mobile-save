@@ -1144,5 +1144,6 @@
   "huy_yeu_thich_thanh_cong": "Hủy Yêu thích thành công",
   "huy_yeu_thich_that_bai": "Hủy Yêu thích thất bại",
   "chi_lich_hien_tai": "Chỉ lịch hiện tại",
-  "tu_hien_tai_ve_sau": "Từ lịch hiện tại đến về sau"
+  "tu_hien_tai_ve_sau": "Từ lịch hiện tại đến về sau",
+  "file_qua_30M": "File tải lên không vượt quá 30MB"
 }

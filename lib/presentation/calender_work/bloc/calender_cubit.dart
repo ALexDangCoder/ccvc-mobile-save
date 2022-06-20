@@ -181,7 +181,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
@@ -190,10 +190,9 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   }
 
   ListLichLVModel getElementFromId(String id) {
-    return (listLichSubject.value.listLichLVModel ?? [])
-        .where((element) => element.id == id)
-        .toList()
-        .first;
+    return (listLichSubject.value.listLichLVModel ?? []).firstWhere(
+        (element) => element.id == id,
+        orElse: () => ListLichLVModel.empty());
   }
 
   DataSource getCalenderDataSource(DataLichLvModel dataLichLvModels) {
@@ -222,7 +221,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
           ),
         );
       }
-      getMatchDate(dataLichLvModels);
+      // getMatchDate(dataLichLvModels);
     }
 
     // appointments.add(Appointment(startTime: DateTime(DateTime
@@ -314,6 +313,7 @@ extension HandleDataCalendar on CalenderCubit {
       await postEventsCalendar();
       initTimeSubject.add(selectDay);
       moveTimeSubject.add(selectDay);
+
       if (stateOptionDay == Type_Choose_Option_Day.DAY) {
         await callApiDayCalendar();
       }

@@ -7,10 +7,12 @@ import 'package:queue/queue.dart';
 
 extension DayApi on CalenderCubit {
   Future<void> callApiNgay() async {
+    showLoading();
     final Queue queue = Queue();
     changeDateByClick = true;
     listDSLV.clear();
     page = 1;
+    unawaited(queue.add(() => postEventsCalendar()));
     unawaited(queue.add(() => getListLichLV()));
     unawaited(
       queue.add(
@@ -29,40 +31,41 @@ extension DayApi on CalenderCubit {
         ),
       ),
     );
-    unawaited(queue.add(() => postEventsCalendar()));
+    unawaited(queue.add(() => menuCalendar()));
     stateCalendarControllerDay.displayDate = selectDay;
     stateCalendarControllerWeek.displayDate = selectDay;
     stateCalendarControllerMonth.displayDate = selectDay;
     moveTimeSubject.add(selectDay);
     await queue.onComplete;
     changeDateByClick = false;
+    showContent();
   }
 
   Future<void> callApiDayCalendar() async {
-    showLoading();
+    // showLoading();
     startDates = selectDay;
     endDates = selectDay;
     initDataMenu();
     await callApiWithAsync();
     moveTimeSubject.add(selectDay);
-    showContent();
+    // showContent();
   }
 
   Future<void> callApiWeekCalendar() async {
-    showLoading();
+    // showLoading();
     final day = selectDay;
     startDates = day.subtract(Duration(days: day.weekday - 1));
     endDates = day.add(Duration(days: DateTime.daysPerWeek - day.weekday));
     await callApiWithAsync();
-    showContent();
+    // showContent();
   }
 
   Future<void> callApiMonthCalendar() async {
-    showLoading();
+    // showLoading();
     final day = selectDay;
     startDates = DateTime(day.year, day.month, 1);
     endDates = DateTime(day.year, day.month + 1, 0);
     await callApiWithAsync();
-    showContent();
+    // showContent();
   }
 }

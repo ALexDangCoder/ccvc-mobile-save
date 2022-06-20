@@ -32,10 +32,6 @@ List<DropDownModel> danhSachThoiGianNhacLich = [
   DropDownModel(label: 'Trước 15 phút', id: 15),
   DropDownModel(label: 'Trước 30 phút', id: 30),
   DropDownModel(label: 'Trước 1 giờ', id: 60),
-  DropDownModel(label: 'Trước 2 giờ', id: 120),
-  DropDownModel(label: 'Trước 12 giờ', id: 720),
-  DropDownModel(label: 'Trước 1 ngày', id: 1140),
-  DropDownModel(label: 'Trước 1 tuần', id: 10080),
 ];
 
 List<DropDownModel> danhSachLichLap = [
@@ -156,6 +152,10 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     if (!(taoLichHopRequest.bitTrongDonVi ?? true)) {
       taoLichHopRequest.chuTri?.donViId = null;
       taoLichHopRequest.chuTri?.canBoId = null;
+    }
+
+    if(taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true){
+      taoLichHopRequest.phongHop = null;
     }
 
     /// check tùy chỉnh lịch lặp

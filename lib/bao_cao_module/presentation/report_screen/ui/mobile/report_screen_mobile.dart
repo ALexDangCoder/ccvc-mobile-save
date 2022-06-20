@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
@@ -6,7 +7,6 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/mobile/base_app_bar_mobile.dart';
@@ -137,7 +137,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             builder: (context, snapshot) {
               return Expanded(
                 child: ComplexLoadMore(
-                  isCallApiInit: false,
+                  isLoadmore: false,
                   mainAxisExtent: 130,
                   titleNoData: S.current.khong_co_bao_cao,
                   isTitle: false,
@@ -147,17 +147,22 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                   childrenView: [
                     Column(
                       children: [
-                        titleBaoCao(S.current.yeu_thich),
                         StreamBuilder<List<ReportItem>>(
                           stream: cubit.listReportFavorite,
                           builder: (context, snapshot) {
+                            final listFavorite = snapshot.data ?? [];
                             return (cubit.listReportFavorite.value.isNotEmpty)
-                                ? ReportList(
-                                    scrollPhysics:
-                                        const NeverScrollableScrollPhysics(),
-                                    isCheckList: cubit.isCheckList.value,
-                                    listReport: snapshot.data ?? [],
-                                    cubit: cubit,
+                                ? Column(
+                                    children: [
+                                      titleBaoCao(S.current.yeu_thich),
+                                      ReportList(
+                                        scrollPhysics:
+                                            const NeverScrollableScrollPhysics(),
+                                        isCheckList: cubit.isCheckList.value,
+                                        listReport: listFavorite,
+                                        cubit: cubit,
+                                      ),
+                                    ],
                                   )
                                 : const SizedBox.shrink();
                           },
@@ -278,7 +283,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             checkRatio: 1.5,
             crossAxisSpacing: 17,
             sinkWap: true,
-            callApi: (page) => {cubit.getListReport()},
+            callApi: (page) => cubit.getListReport(),
             viewItem: (value, index) => !cubit.isCheckList.value
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
@@ -340,8 +345,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                   return TextFormField(
                     controller: _searchController,
                     onChanged: (value) {
-                      cubit.textSearch.add(value.trim());
-                      cubit.getListReport();
+                      cubit.searchReport(value);
                     },
                     decoration: InputDecoration(
                       counterStyle: textNormalCustom(
@@ -393,7 +397,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                           },
                           child: SvgPicture.asset(
                             snapshot.data?.isNotEmpty ?? false
-                                ? ImageAssets.icSearchPAKN
+                                ? ImageAssets.icClose
                                 : ImageAssets.icSearchPAKN,
                             color:
                                 AppTheme.getInstance().unselectedLabelColor(),

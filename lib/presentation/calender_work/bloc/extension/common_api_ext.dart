@@ -16,7 +16,7 @@ import '../calender_cubit.dart';
 
 extension CommonApiExt on CalenderCubit{
   Future<void> menuCalendar() async {
-    showLoading();
+    // showLoading();
     final result = await lichLamViec.getDataMenu(
       startDates.formatApi,
       endDates.formatApi,
@@ -37,7 +37,7 @@ extension CommonApiExt on CalenderCubit{
         menuModelSubject.add(value);
       },
       error: (error) {
-        showContent();
+        // showContent();
         MessageConfig.show(
           title: S.current.error,
           title2:  S.current.no_internet,
@@ -45,7 +45,7 @@ extension CommonApiExt on CalenderCubit{
         );
       },
     );
-    showContent();
+    // showContent();
   }
 
   Future<void> dataLichLamViec({
@@ -75,11 +75,12 @@ extension CommonApiExt on CalenderCubit{
     showLoading();
     listDSLV.clear();
     page = 1;
-    await getListLichLV();
     await dataLichLamViec(
       startDate: startDates.formatApi,
       endDate: endDates.formatApi,
     );
+    await getListLichLV();
+
     await dataLichLamViecRight(
       startDate: startDates.formatApi,
       endDate: endDates.formatApi,
@@ -157,7 +158,7 @@ extension CommonApiExt on CalenderCubit{
     required String endDate,
     required int type,
   }) async {
-    showLoading();
+    // showLoading();
     final LichLamViecRightRequest request = LichLamViecRightRequest(
       dateFrom: startDate,
       dateTo: endDate,
@@ -170,7 +171,7 @@ extension CommonApiExt on CalenderCubit{
         lichLamViecDashBroadRightSubject.sink.add(lichLamViecDashBroadRight);
       },
       error: (err) {
-        showContent();
+        // showContent();
         MessageConfig.show(
           title: S.current.error,
           title2:  S.current.no_internet,
@@ -178,7 +179,7 @@ extension CommonApiExt on CalenderCubit{
         );
       },
     );
-    showContent();
+    // showContent();
   }
 
 

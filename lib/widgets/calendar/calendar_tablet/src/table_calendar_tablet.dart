@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/shared/utils.da
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_cubit.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'customization/calendar_style.dart';
@@ -35,6 +36,7 @@ class _TableCandarTabletState extends State<TableCandarTablet> {
   late final ValueNotifier<List<Event>> _selectedEvents;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
+  DateTime storeSelectDay = DateTime.now();
 
   @override
   void dispose() {
@@ -54,6 +56,18 @@ class _TableCandarTabletState extends State<TableCandarTablet> {
     return [
       for (final d in days) ..._getEventsForDay(d),
     ];
+  }
+
+
+  @override
+  void didUpdateWidget(TableCandarTablet oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (cubitCalendar.isMatchDay(oldWidget.initTime, widget.initTime)) {
+      cubitCalendar.selectedDay = storeSelectDay;
+    } else {
+      cubitCalendar.selectedDay = widget.initTime!;
+    }
+    cubitCalendar.moveTimeSubject.add(cubitCalendar.selectedDay);
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -94,6 +108,7 @@ class _TableCandarTabletState extends State<TableCandarTablet> {
           selectedDay,
         );
       }
+      storeSelectDay = cubitCalendar.selectedDay;
       _selectedEvents.value = _getEventsForDay(selectedDay);
     }
   }
@@ -136,6 +151,7 @@ class _TableCandarTabletState extends State<TableCandarTablet> {
           focusedDay: cubitCalendar.focusedDay,
           cubitCalendar: cubitCalendar,
           typeCalendar: widget.type,
+          startingDayOfWeek: StartingDayOfWeek.monday,
           selectedDayPredicate: (day) => cubitCalendar.selectDay(day),
           rangeStartDay: cubitCalendar.rangeStart,
           rangeEndDay: cubitCalendar.rangeEnd,

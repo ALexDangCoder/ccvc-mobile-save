@@ -144,7 +144,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               onSwitchPressed: (value) {
                                 _cubit.taoLichHopRequest.isAllDay = value;
                               },
-                              validateTime: (bool value) {},
+                              validateTime: (String value) {},
                             ),
                             spaceH5,
                             NhacLichWidget(

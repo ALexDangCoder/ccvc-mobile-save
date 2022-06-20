@@ -21,7 +21,7 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
       BehaviorSubject<List<ListMenuItemModel>>();
   final BehaviorSubject<bool> _changeItemMenu = BehaviorSubject.seeded(false);
   final BehaviorSubject<String> titleSubject = BehaviorSubject.seeded(
-    S.current.tin_tong_hop,
+    S.current.tong_tin,
   );
 
   Stream<bool> get changeItemMenu => _changeItemMenu.stream;

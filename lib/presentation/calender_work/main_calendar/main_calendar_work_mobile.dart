@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/drawer_slide/drawer_slide.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
@@ -38,7 +39,6 @@ class CalenderWorkDayMobile extends StatefulWidget {
 class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
   MenuCalendarCubit cubitMenu = MenuCalendarCubit();
   CalenderCubit cubit = CalenderCubit();
-  double hegihtCalendar = 120;
 
   @override
   void initState() {
@@ -56,114 +56,114 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<TypeCalendarMenu>(
-      stream: cubit.changeItemMenuStream,
-      builder: (context, snapshot) {
-        return Scaffold(
-          appBar: AppBarWithTwoLeading(
-            title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
-                ? cubit.titleAppbar
-                : snapshot.data?.getTitle() ??
-                    TypeCalendarMenu.LichCuaToi.getTitle(),
-            leadingIcon: Row(
-              children: [
-                if (widget.isBack)
+    return StateStreamLayout(
+      stream: cubit.stateStream,
+      retry: () {},
+      textEmpty: S.current.khong_co_du_lieu,
+      error: AppException(
+        S.current.error,
+        S.current.error,
+      ),
+      child: StreamBuilder<TypeCalendarMenu>(
+        stream: cubit.changeItemMenuStream,
+        builder: (context, snapshot) {
+          return Scaffold(
+            appBar: AppBarWithTwoLeading(
+              title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
+                  ? cubit.titleAppbar
+                  : snapshot.data?.getTitle() ??
+                      TypeCalendarMenu.LichCuaToi.getTitle(),
+              leadingIcon: Row(
+                children: [
+                  if (widget.isBack)
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: SvgPicture.asset(
+                        ImageAssets.icBack,
+                      ),
+                    )
+                  else
+                    const SizedBox(),
                   IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      setState(() {});
+                      cubit.isCheck = !cubit.isCheck;
                     },
-                    icon: SvgPicture.asset(
-                      ImageAssets.icBack,
+                    icon: BlocBuilder<CalenderCubit, CalenderState>(
+                      bloc: cubit,
+                      builder: (context, state) {
+                        return state.lichLamViecIconsMobile();
+                      },
                     ),
-                  )
-                else
-                  const SizedBox(),
-                IconButton(
-                  onPressed: () {
-                    setState(() {});
-                    cubit.isCheck = !cubit.isCheck;
-                  },
-                  icon: BlocBuilder<CalenderCubit, CalenderState>(
-                    bloc: cubit,
-                    builder: (context, state) {
-                      return state.lichLamViecIconsMobile();
-                    },
                   ),
-                ),
+                ],
+              ),
+              actions: [
+                BlocBuilder<CalenderCubit, CalenderState>(
+                  bloc: cubit,
+                  builder: (context, state) {
+                    return IconButton(
+                      onPressed: () {
+                        DrawerSlide.navigatorSlide(
+                          context: context,
+                          screen: MenuWidget(
+                            isBaoCaoThongKe: false,
+                            onTap: (value) {
+                              if (value == S.current.theo_dang_lich) {
+                                cubit.chooseTypeListLv(
+                                  Type_Choose_Option_List.DANG_LICH,
+                                );
+                                cubit.modeLLV =
+                                    Type_Choose_Option_List.DANG_LICH;
+                                cubit.isSearchBar.add(false);
+                              }
+
+                              if (value == S.current.theo_dang_danh_sach) {
+                                cubit.chooseTypeListLv(
+                                  Type_Choose_Option_List.DANG_LIST,
+                                );
+                                cubit.modeLLV =
+                                    Type_Choose_Option_List.DANG_LIST;
+                                cubit.isSearchBar.add(true);
+                              }
+                            },
+                            listItem: listThongBao,
+                            onTapLanhDao: (value) {
+                              cubit.titleAppbar = value.tenDonVi ?? '';
+                              cubit.idDonViLanhDao = value.id ?? '';
+                            },
+                            cubit: cubitMenu,
+                            streamDashBoard:
+                                cubit.lichLamViecDashBroadSubject.stream,
+                            title: S.current.lich_lam_viec,
+                          ),
+                          thenValue: (value) {
+                            final data = value as TypeCalendarMenu;
+                            cubit.chooseTypeCalender(
+                              cubit.stateOptionDay,
+                            );
+                            cubit.changeScreenMenu(data);
+                            if (data == TypeCalendarMenu.LichTheoLanhDao) {}
+                            if (state.type == Type_Choose_Option_Day.DAY) {
+                              cubit.callApi();
+                            } else if (state.type ==
+                                Type_Choose_Option_Day.WEEK) {
+                              cubit.callApiTuan();
+                            } else {
+                              cubit.callApiMonth();
+                            }
+                          },
+                        );
+                      },
+                      icon: SvgPicture.asset(ImageAssets.icMenuCalender),
+                    );
+                  },
+                )
               ],
             ),
-            actions: [
-              BlocBuilder<CalenderCubit, CalenderState>(
-                bloc: cubit,
-                builder: (context, state) {
-                  return IconButton(
-                    onPressed: () {
-                      DrawerSlide.navigatorSlide(
-                        context: context,
-                        screen: MenuWidget(
-                          isBaoCaoThongKe: false,
-                          onTap: (value) {
-                            if (value == S.current.theo_dang_lich) {
-                              cubit.chooseTypeListLv(
-                                Type_Choose_Option_List.DANG_LICH,
-                              );
-                              cubit.modeLLV =
-                                  Type_Choose_Option_List.DANG_LICH;
-                              cubit.isSearchBar.add(false);
-                            }
-
-                            if (value == S.current.theo_dang_danh_sach) {
-                              cubit.chooseTypeListLv(
-                                Type_Choose_Option_List.DANG_LIST,
-                              );
-                              cubit.modeLLV =
-                                  Type_Choose_Option_List.DANG_LIST;
-                              cubit.isSearchBar.add(true);
-                            }
-                          },
-                          listItem: listThongBao,
-                          onTapLanhDao: (value) {
-                            cubit.titleAppbar = value.tenDonVi ?? '';
-                            cubit.idDonViLanhDao = value.id ?? '';
-                          },
-                          cubit: cubitMenu,
-                          streamDashBoard:
-                              cubit.lichLamViecDashBroadSubject.stream,
-                          title: S.current.lich_lam_viec,
-                        ),
-                        thenValue: (value) {
-                          final data = value as TypeCalendarMenu;
-                          cubit.chooseTypeCalender(
-                            cubit.stateOptionDay,
-                          );
-                          cubit.changeScreenMenu(data);
-                          if (data == TypeCalendarMenu.LichTheoLanhDao) {}
-                          if (state.type == Type_Choose_Option_Day.DAY) {
-                            cubit.callApi();
-                          } else if (state.type ==
-                              Type_Choose_Option_Day.WEEK) {
-                            cubit.callApiTuan();
-                          } else {
-                            cubit.callApiMonth();
-                          }
-                        },
-                      );
-                    },
-                    icon: SvgPicture.asset(ImageAssets.icMenuCalender),
-                  );
-                },
-              )
-            ],
-          ),
-          body: StateStreamLayout(
-            stream: cubit.stateStream,
-            retry: () {},
-            textEmpty: S.current.khong_co_du_lieu,
-            error: AppException(
-              S.current.error,
-              S.current.error,
-            ),
-            child: Stack(
+            body: Stack(
               children: [
                 Column(
                   children: [
@@ -260,25 +260,25 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                 spaceH16,
               ],
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TaoLichLamViecChiTietScreen(),
-                ),
-              ).then((value) {
-                if (value) {
-                  cubit.callApi();
-                }
-              });
-            },
-            backgroundColor: AppTheme.getInstance().colorField(),
-            child: SvgPicture.asset(ImageAssets.icVectorCalender),
-          ),
-        );
-      },
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TaoLichLamViecChiTietScreen(),
+                  ),
+                ).then((value) {
+                  if (value) {
+                    cubit.callApi();
+                  }
+                });
+              },
+              backgroundColor: AppTheme.getInstance().colorField(),
+              child: SvgPicture.asset(ImageAssets.icVectorCalender),
+            ),
+          );
+        },
+      ),
     );
   }
 }

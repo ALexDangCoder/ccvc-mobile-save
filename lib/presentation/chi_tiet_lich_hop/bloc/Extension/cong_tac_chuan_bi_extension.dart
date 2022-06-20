@@ -39,11 +39,10 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     );
     result.when(
       success: (res) {
+        showContent();
         phongHopSubject.sink.add(res);
       },
-      error: (err) {
-        showError();
-      },
+      error: (err) {},
     );
     showContent();
   }
@@ -60,12 +59,18 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     );
     result.when(
       success: (res) {
+        showContent();
         if (res.succeeded ?? false) {
           initDataChiTiet();
+          MessageConfig.show(
+            title: S.current.tao_thanh_cong,
+          );
         }
       },
       error: (err) {
-        showError();
+        MessageConfig.show(
+          title: S.current.tao_that_bai,
+        );
       },
     );
     showContent();
@@ -74,7 +79,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   /// chọn phòng họp mới
   Future<void> thayDoiPhongHop() async {
     showLoading();
-    ChiTietLichHopModel chiTietLichHopModel = chiTietLichHopSubject.value;
+    final ChiTietLichHopModel chiTietLichHopModel = chiTietLichHopSubject.value;
     final result = await hopRp.thayDoiPhongHop(
       chiTietLichHopModel.phongHopMode.bit_TTDH,
       idCuocHop,
@@ -83,18 +88,21 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     );
     result.when(
       success: (res) {
+        showContent();
         if (res.succeeded ?? false) {
           initDataChiTiet();
         }
       },
       error: (err) {
-        showError();
+        MessageConfig.show(
+          title: S.current.tao_that_bai,
+        );
       },
     );
     showContent();
   }
 
-  /// duyệt hoặc hủy duyệt thiết bị TODO
+  /// duyệt hoặc hủy duyệt thiết bị
   Future<bool> duyetOrHuyDuyetThietBi(
     bool isDuyet,
     String thietBiId,
@@ -112,7 +120,6 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
         }
       },
       error: (err) {
-        showError();
         return false;
       },
     );
@@ -125,14 +132,19 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   }) async {
     showLoading();
     final List<bool> checkAllFinal = [];
-
-    for (int i = 0; i <= listTHietBiDuocChon.length; i++) {
-      await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
-        (vl) => checkAllFinal.add(vl),
-      );
+    if (listTHietBiDuocChon.isNotEmpty) {
+      for (int i = 0; i < listTHietBiDuocChon.length; i++) {
+        await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
+          (vl) => checkAllFinal.add(vl),
+        );
+      }
     }
+
     if (!checkAllFinal.contains(false)) {
       await getDanhSachThietBi();
+      MessageConfig.show(
+        title: S.current.tao_that_bai,
+      );
     }
     showContent();
   }
@@ -149,12 +161,18 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     );
     result.when(
       success: (res) {
+        showContent();
         if (res.succeeded ?? false) {
           initDataChiTiet();
+          MessageConfig.show(
+            title: S.current.tao_thanh_cong,
+          );
         }
       },
       error: (err) {
-        showError();
+        MessageConfig.show(
+          title: S.current.tao_that_bai,
+        );
       },
     );
     showContent();
@@ -179,13 +197,13 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     final result = await hopRp.taoLichHop(taoLichHopRequest);
     result.when(
       success: (res) {
+        showContent();
         MessageConfig.show(
           title: S.current.tao_thanh_cong,
         );
       },
       error: (error) {
         MessageConfig.show(
-          messState: MessState.error,
           title: S.current.tao_that_bai,
         );
       },

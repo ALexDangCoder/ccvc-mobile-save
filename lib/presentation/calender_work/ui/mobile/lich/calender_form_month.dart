@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/type_calendar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,9 +32,8 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay
-        .addPropertyChangedListener((value) {
-      if (value == 'displayDate'){
+    widget.cubit.stateCalendarControllerDay.addPropertyChangedListener((value) {
+      if (value == 'displayDate') {
         widget.cubit.updateDataSlideCalendar(
           widget.cubit.stateCalendarControllerDay.displayDate ??
               widget.cubit.selectDay,
@@ -41,15 +41,16 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.cubit.changeItemMenuSubject.value.getHeader(
-          cubit: widget.cubit,
-          type: widget.type,
-        ),
+        // widget.cubit.changeItemMenuSubject.value.getHeader(
+        //   cubit: widget.cubit,
+        //   type: widget.type,
+        // ),
         const SizedBox(
           height: 10,
         ),
@@ -80,7 +81,6 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                       ),
                     ),
                     monthViewSettings: MonthViewSettings(
-                      showTrailingAndLeadingDates: false,
                       appointmentDisplayCount: 2,
                       monthCellStyle: MonthCellStyle(
                         trailingDatesTextStyle: textNormalCustom(
@@ -104,43 +104,70 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                       final Appointment appointment =
                           calendarAppointmentDetails.appointments.first;
                       if (calendarAppointmentDetails.appointments.length <= 1) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 4, bottom: 2),
+                        return GestureDetector(
+                          onTap: () {
+                            final String typeCalendar = widget.cubit
+                                    .getElementFromId(
+                                      appointment.id.toString(),
+                                    )
+                                    .typeSchedule ??
+                                'Schedule';
+
+                            typeCalendar.getTypeCalendar.navigatorDetail(
+                              context,
+                              widget.cubit,
+                              (widget.cubit.dataLichLvModel.listLichLVModel ??
+                                      [])
+                                  .indexOf(
+                                widget.cubit.getElementFromId(
+                                  appointment.id.toString(),
+                                ),
+                              ),
+                            );
+                          },
                           child: Container(
-                            // height: 500,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 5.0,
+                              vertical: 2.0,
+                            ),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2.0),
+                              borderRadius: BorderRadius.circular(6.0),
                               color: AppTheme.getInstance().colorField(),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 2.0,
-                                vertical: 2.0,
-                              ),
-                              child: Column(
-                                children: [
-                                  Flexible(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) =>
-                                                ChiTietLichLamViecScreen(
-                                              id: appointment.id.toString(),
-                                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          appointment.subject,
+                                          style: textNormalCustom(
+                                            fontSize: 12.0,
                                           ),
-                                        );
-                                      },
-                                      child: Text(
-                                        appointment.subject,
-                                        style: textNormalCustom(fontSize: 8),
-                                        overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
+                                      const SizedBox(height: 4.0),
+                                    ],
+                                  ),
+                                ),
+                                if (widget.cubit
+                                    .getElementFromId(
+                                      appointment.id.toString(),
+                                    )
+                                    .isTrung)
+                                  const Icon(
+                                    Icons.circle,
+                                    color: Colors.red,
+                                    size: 10,
                                   )
-                                ],
-                              ),
+                                else
+                                  Container()
+                              ],
                             ),
                           ),
                         );

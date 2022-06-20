@@ -83,7 +83,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
             onChooseDateFilter: (startDate, endDate) {
               widget.danhSachCubit.ngayDauTien = startDate.formatApi;
               widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-              widget.danhSachCubit.callApiDashBroash(true);
+              widget.danhSachCubit.callApiDashBroash(widget.isCheck);
             },
             controller: textcontroller,
             onChange: (text) {

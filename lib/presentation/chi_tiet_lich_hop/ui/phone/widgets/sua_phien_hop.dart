@@ -156,7 +156,6 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   timeBatDau: widget.cubit.subStringTime(ngay.text),
                   key: _keyBaseTime,
                   timeKetThuc: widget.cubit.subStringTime(ngayKetThuc.text),
-                  validator: () {},
                   onChange: (start, end) {
                     widget.cubit.start = start;
                     widget.cubit.end = end;

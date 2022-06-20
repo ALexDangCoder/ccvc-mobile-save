@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/don_vi_con_phong_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
@@ -30,6 +31,8 @@ class ChonPhongHopScreen extends StatefulWidget {
   final String? id;
   final String? dateFrom;
   final String? dateTo;
+  final PhongHop? initPhongHop;
+  final List<PhongHopThietBi>? initThietBi;
 
   const ChonPhongHopScreen({
     Key? key,
@@ -37,6 +40,8 @@ class ChonPhongHopScreen extends StatefulWidget {
     this.id,
     this.dateFrom,
     this.dateTo,
+    this.initPhongHop,
+    this.initThietBi,
   }) : super(key: key);
 
   @override
@@ -49,7 +54,9 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
   @override
   void initState() {
     super.initState();
-    _cubit.getDonViConPhong(widget.id ?? '');
+    if (widget.id != null) {
+      _cubit.getDonViConPhong(widget.id!);
+    }
   }
 
   @override
@@ -71,6 +78,8 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
           chonPhongHopCubit: _cubit,
           from: widget.dateFrom ?? '',
           to: widget.dateTo ?? '',
+          initPhongHop: widget.initPhongHop,
+          initThietBi: widget.initThietBi,
         ),
         title: S.current.chon_phong_hop,
       ).then((value) {
@@ -86,6 +95,8 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
           chonPhongHopCubit: _cubit,
           from: widget.dateFrom ?? '',
           to: widget.dateTo ?? '',
+          initPhongHop: widget.initPhongHop,
+          initThietBi: widget.initThietBi,
         ),
         isBottomShow: false,
         funcBtnOk: () {},
@@ -102,12 +113,16 @@ class _ChonPhongHopScreen extends StatefulWidget {
   final ChonPhongHopCubit chonPhongHopCubit;
   final String from;
   final String to;
+  final PhongHop? initPhongHop;
+  final List<PhongHopThietBi>? initThietBi;
 
   const _ChonPhongHopScreen({
     Key? key,
     required this.chonPhongHopCubit,
     required this.from,
     required this.to,
+    this.initPhongHop,
+    this.initThietBi,
   }) : super(key: key);
 
   @override
@@ -124,6 +139,14 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   void initState() {
     super.initState();
     controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
+    if (widget.initPhongHop != null) {
+      controller.text = widget.initPhongHop?.noiDungYeuCau ?? '';
+      widget.chonPhongHopCubit.loaiPhongHopEnum =
+          widget.initPhongHop?.bitTTDH ?? false
+              ? LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH
+              : LoaiPhongHopEnum.PHONG_HOP_THUONG;
+      widget.chonPhongHopCubit.initListThietBi(widget.initThietBi ?? []);
+    }
   }
 
   @override
@@ -191,6 +214,23 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   stream: widget.chonPhongHopCubit.donViSubject,
                   builder: (context, snapshot) {
                     final listData = snapshot.data ?? [];
+                    if (widget.initPhongHop != null) {
+                      final int index = listData.indexWhere(
+                        (element) =>
+                            element.id == widget.initPhongHop!.donViId,
+                      );
+                      if (index >= 0) {
+                        widget.chonPhongHopCubit.donViSelected =
+                            listData[index].tenDonVi;
+                        widget.chonPhongHopCubit.getPhongHop(
+                          id: listData[index].id,
+                          from: widget.from,
+                          to: widget.to,
+                          isTTDH: widget.chonPhongHopCubit.loaiPhongHopEnum ==
+                              LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH,
+                        );
+                      }
+                    }
                     return CoolDropDown(
                       key: UniqueKey(),
                       onChange: (index) {
@@ -238,24 +278,34 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                         stream: widget.chonPhongHopCubit.phongHopSubject,
                         builder: (context, snapshot) {
                           final listData = snapshot.data ?? [];
-                          return listData.isNotEmpty ? ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: listData.length,
-                            itemBuilder: (_, index) => itemPhongHop(
-                                phongHop: listData[index],
-                                index: index,
-                                groupValue: groupValue,
-                                onChange: (index) {
-                                  widget.chonPhongHopCubit.phongHop
-                                    ..donViId = listData[index].donViDuyetId
-                                    ..ten = listData[index].ten
-                                    ..bitTTDH = listData[index].bit_TTDH
-                                    ..phongHopId = listData[index].id;
-                                  groupValue = index;
-                                  setState(() {});
-                                },),
-                          ) : const NodataWidget();
+                          if (widget.initPhongHop != null) {
+                            final indexSelect = listData.indexWhere(
+                              (element) =>
+                                  element.id == widget.initPhongHop?.phongHopId,
+                            );
+                            groupValue = indexSelect;
+                          }
+                          return listData.isNotEmpty
+                              ? ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: listData.length,
+                                  itemBuilder: (_, index) => itemPhongHop(
+                                    phongHop: listData[index],
+                                    index: index,
+                                    groupValue: groupValue,
+                                    onChange: (index) {
+                                      widget.chonPhongHopCubit.phongHop
+                                        ..donViId = listData[index].donViDuyetId
+                                        ..ten = listData[index].ten
+                                        ..bitTTDH = listData[index].bit_TTDH
+                                        ..phongHopId = listData[index].id;
+                                      groupValue = index;
+                                      setState(() {});
+                                    },
+                                  ),
+                                )
+                              : const NodataWidget();
                         },
                       ),
                     );

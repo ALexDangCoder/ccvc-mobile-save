@@ -17,3 +17,7 @@ class FireTopic {
 class RefreshCalendar {
   RefreshCalendar();
 }
+
+class RefreshList {
+  RefreshList();
+}

@@ -46,12 +46,14 @@ class TheoDangLichWidget extends StatelessWidget {
             SizedBox(
               width: 12.0.textScale(space: 6),
             ),
-            Text(
-              name,
-              style: textNormalCustom(
-                color: isSelect ? Colors.white : color3D5586,
-                fontWeight: FontWeight.w400,
-                fontSize: 16.0.textScale(space: 4),
+            Expanded(
+              child: Text(
+                name,
+                style: textNormalCustom(
+                  color: isSelect ? Colors.white : color3D5586,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.0.textScale(space: 4),
+                ),
               ),
             ),
           ],

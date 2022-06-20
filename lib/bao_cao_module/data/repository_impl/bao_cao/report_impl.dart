@@ -1,14 +1,14 @@
+import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/folder_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/group_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_report_respose.dart';
-import 'package:ccvc_mobile/data/response/bao_cao/folder_response.dart';
-import 'package:ccvc_mobile/data/response/bao_cao/group_response.dart';
-import 'package:ccvc_mobile/data/response/bao_cao/report_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/report_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/folder_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/data/services/bao_cao/report_service.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/folder_model.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
-import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
 
 class ReportImpl implements ReportRepository {
   final ReportService _reportService;

@@ -158,6 +158,10 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       taoLichHopRequest.chuTri?.canBoId = null;
     }
 
+    if(taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true){
+      taoLichHopRequest.phongHop = null;
+    }
+
     /// check tùy chỉnh lịch lặp
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.last.id) {
       taoLichHopRequest.days = '';

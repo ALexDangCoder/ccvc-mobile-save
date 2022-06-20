@@ -78,6 +78,7 @@ class TaoLichHopRequest {
   bool? bitLinkTrongHeThong;
   bool? isDuyetKyThuat;
   String? id;
+  bool? isMulti;
 
   TaoLichHopRequest({
     this.typeScheduleId,
@@ -112,6 +113,7 @@ class TaoLichHopRequest {
     this.bitLinkTrongHeThong,
     this.isDuyetKyThuat,
     this.id,
+    this.isMulti,
   });
 
   Map<String, dynamic> toJson() {
@@ -158,6 +160,9 @@ class TaoLichHopRequest {
     data['isDuyetKyThuat'] = isDuyetKyThuat;
     if (id != null) {
       data['id'] =id;
+    }
+    if (isMulti != null) {
+      data['isMulti'] = isMulti;
     }
     return data;
   }

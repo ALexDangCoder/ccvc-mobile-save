@@ -177,13 +177,15 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                       timeStart;
                                   _cubitTaoLichHop.taoLichHopRequest.timeTo =
                                       timeEnd;
-                                  _cubitTaoLichHop.taoLichHopRequest.ngayBatDau =
+                                  _cubitTaoLichHop.taoLichHopRequest
+                                      .ngayBatDau =
                                       dateStart
                                           .convertStringToDate(
                                             formatPattern: DateFormatApp.date,
                                           )
                                           .formatApi;
-                                  _cubitTaoLichHop.taoLichHopRequest.ngayKetThuc =
+                                  _cubitTaoLichHop.taoLichHopRequest
+                                      .ngayKetThuc =
                                       dateEnd
                                           .convertStringToDate(
                                             formatPattern: DateFormatApp.date,

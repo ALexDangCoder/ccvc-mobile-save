@@ -23,6 +23,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_s
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/dialog/radio_option_dialog.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
@@ -116,21 +117,54 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                   urlImage: ImageAssets.icEditBlue,
                   text: S.current.sua_lich,
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => SuaLichHopTabletScreen(
-                          chiTietHop: cubit.getChiTietLichHopModel,
+                    if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SuaLichHopTabletScreen(
+                            chiTietHop: cubit.getChiTietLichHopModel,
+                          ),
                         ),
+                      ).then((value) {
+                        if (value == null) {
+                          return;
+                        }
+                        if (value) {
+                          cubit.initDataChiTiet();
+                          cubit.callApiCongTacChuanBi();
+                        }
+                      });
+                      return;
+                    }
+                    showDialog(
+                      context: context,
+                      builder: (context) => RadioOptionDialog(
+                        title: S.current.sua_lich_hop,
+                        textRadioBelow: S.current.chi_lich_hien_tai,
+                        textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                        imageUrl: ImageAssets.img_sua_lich,
                       ),
                     ).then((value) {
                       if (value == null) {
                         return;
                       }
-                      if (value) {
-                        cubit.initDataChiTiet();
-                        cubit.callApiCongTacChuanBi();
-                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SuaLichHopTabletScreen(
+                            chiTietHop: cubit.getChiTietLichHopModel,
+                            isMulti: value,
+                          ),
+                        ),
+                      ).then((value) {
+                        if (value == null) {
+                          return;
+                        }
+                        if (value) {
+                          cubit.initDataChiTiet();
+                          cubit.callApiCongTacChuanBi();
+                        }
+                      });
                     });
                   },
                 ),

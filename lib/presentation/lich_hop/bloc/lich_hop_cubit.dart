@@ -366,7 +366,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   Future<void> initData() async {
     page = 1;
     getDashboard();
-    postDanhSachLichHop();
+    postDanhSachLichHop(null, true);
     postEventsCalendar();
     menuCalendar();
     initDataMenu();
@@ -525,7 +525,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     showContent();
   }
 
-  Future<void> postDanhSachLichHop([String? search]) async {
+  Future<void> postDanhSachLichHop([String? search, bool isRefesh = false,]) async {
     showLoading();
     final result = await hopRepo.postDanhSachLichHop(
       DanhSachLichHopRequest(
@@ -577,6 +577,9 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     );
     result.when(
       success: (value) {
+        if(isRefesh) {
+          listDSLH.clear();
+        }
         totalPage = value.totalPage ?? 1;
 
         listDSLH.addAll(value.items ?? []);

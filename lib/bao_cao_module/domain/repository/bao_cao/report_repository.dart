@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_c
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/folder_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 
 mixin ReportRepository {
   Future<Result<List<ReportItem>>> getListReport(
@@ -38,5 +39,11 @@ mixin ReportRepository {
   Future<Result<List<FolderModel>>> getListReportTree(
       String appId,
       String folderId,
+      );
+
+  Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>> getUsersNgoaiHeThongTruyCap(
+      String pageIndex,
+      String pageSize,
+      String keyword,
       );
 }

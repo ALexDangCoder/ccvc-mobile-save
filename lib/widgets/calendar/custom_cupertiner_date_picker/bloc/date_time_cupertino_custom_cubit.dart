@@ -54,23 +54,6 @@ class DateTimeCupertinoCustomCubit
     }
   }
 
-  // Future<void> handleDateTimePressed({
-  //   bool isBegin = true,
-  // }) async {
-  //   if (lastedType != typePickerSubjectStart.value) {
-  //     if (isShowBeginPickerSubject.value) {
-  //       isShowBeginPickerSubject.sink.add(false);
-  //     }
-  //     if (isShowEndPickerSubject.value) {
-  //       isShowEndPickerSubject.sink.add(false);
-  //     }
-  //   }
-  //   await Future.delayed(Duration(milliseconds: duration));
-  //   isBegin
-  //       ? isShowBeginPickerSubject.sink.add(!isShowBeginPickerSubject.value)
-  //       : isShowEndPickerSubject.sink.add(!isShowEndPickerSubject.value);
-  // }
-
   void setTypePickerStart(TypePickerDateTime type) {
     typePickerSubjectStart.sink.add(type);
   }

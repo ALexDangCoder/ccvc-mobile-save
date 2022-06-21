@@ -69,7 +69,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     return runCatchingAsync<LichLamViecDashBroadResponse,
         DashBoardLichHopModel>(
       () => lichLamViecService.getLichLamViec(startTime, endTime),
-      (response) => response.data.toDomain(),
+      (response) => response.data?.toDomain() ?? DashBoardLichHopModel.empty(),
     );
   }
 

@@ -215,6 +215,15 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                             isClose: false,
                             btnLeftTxt: S.current.huy,
                             btnRightTxt: S.current.dong_y,
+                            showTablet: true,
+                            textContent: S.current.ban_co_chac_chan_yeu_thich,
+                            icon: SvgPicture.asset(
+                              bao_cao.ImageAssets.ic_star_bold,
+                            ),
+                            funcBtnLeft: () {
+                              isLove = widget.isFavorite;
+                              setState(() {});
+                            },
                             funcBtnRight: () {
                               widget.cubit.postFavorite(
                                 idReport: [widget.reportItem.id ?? ''],
@@ -231,11 +240,6 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                                 }
                               });
                             },
-                            showTablet: true,
-                            textContent: S.current.ban_co_chac_chan_yeu_thich,
-                            icon: SvgPicture.asset(
-                              bao_cao.ImageAssets.ic_star_bold,
-                            ),
                           ).then((value) {});
                         } else {
                           showDiaLog(
@@ -244,6 +248,12 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                             title: S.current.yeu_thich_thu_muc,
                             btnLeftTxt: S.current.huy,
                             btnRightTxt: S.current.dong_y,
+                            showTablet: true,
+                            textContent:
+                                S.current.ban_co_bo_chac_chan_yeu_thich,
+                            icon: SvgPicture.asset(
+                              bao_cao.ImageAssets.ic_star_bold,
+                            ),
                             funcBtnRight: () {
                               widget.cubit.putDislikeFavorite(
                                 idReport: [widget.reportItem.id ?? ''],
@@ -260,12 +270,10 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                                 }
                               });
                             },
-                            showTablet: true,
-                            textContent:
-                                S.current.ban_co_bo_chac_chan_yeu_thich,
-                            icon: SvgPicture.asset(
-                              bao_cao.ImageAssets.ic_star_bold,
-                            ),
+                            funcBtnLeft: () {
+                              isLove = widget.isFavorite;
+                              setState(() {});
+                            },
                           ).then((value) {});
                         }
                       });

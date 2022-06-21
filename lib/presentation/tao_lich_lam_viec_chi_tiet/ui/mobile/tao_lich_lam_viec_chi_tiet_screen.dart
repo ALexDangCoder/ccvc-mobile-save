@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/bloc/date_time_cupertino_custom_cubit.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
@@ -49,10 +50,13 @@ class _TaoLichLamViecChiTietScreenState
   TextEditingController diaDiemController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool timeValue = true;
+  bool calValue = false;
+  late DateTimeCupertinoCustomCubit calCubit;
 
   @override
   void initState() {
     super.initState();
+    calCubit = DateTimeCupertinoCustomCubit();
     taoLichLamViecCubit.loadData();
     taoLichLamViecCubit.toast.init(context);
   }
@@ -148,8 +152,12 @@ class _TaoLichLamViecChiTietScreenState
                             ),
                             LoaiLichWidget(
                               taoLichLamViecCubit: taoLichLamViecCubit,
+                              callback: (bool value) {
+                                calValue = value;
+                              },
                             ),
                             CupertinoMaterialPicker(
+                              cubit: calCubit,
                               onSwitchPressed: (value) {
                                 taoLichLamViecCubit.isCheckAllDaySubject
                                     .add(value);
@@ -180,8 +188,8 @@ class _TaoLichLamViecChiTietScreenState
                                   ),
                                 );
                               },
-                              validateTime: (bool value) {
-                                timeValue = value;
+                              validateTime: (String value) {
+                                timeValue = value.isNotEmpty;
                               },
                             ),
                             NhacLaiWidget(
@@ -260,7 +268,8 @@ class _TaoLichLamViecChiTietScreenState
                                 final data = snapshot.data ?? false;
                                 return data
                                     ? LichLapTuyChinh(
-                                        taoLichLamViecCubit: taoLichLamViecCubit,
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
                                       )
                                     : Container();
                               },
@@ -272,7 +281,8 @@ class _TaoLichLamViecChiTietScreenState
                                 final data = snapshot.data ?? false;
                                 return data
                                     ? ItemLapDenNgayWidget(
-                                        taoLichLamViecCubit: taoLichLamViecCubit,
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
                                         isThem: true,
                                       )
                                     : Container();
@@ -310,18 +320,31 @@ class _TaoLichLamViecChiTietScreenState
                                     background: buttonColor,
                                     title: S.current.luu,
                                     onTap: () async {
-                                      if (_formKey.currentState!.validate() && !timeValue) {
-                                        // await taoLichLamViecCubit.taoLichLamViec(
-                                        //   title: tieuDeController.value.text,
-                                        //   content: noiDungController.value.text,
-                                        //   location: diaDiemController.value.text,
-                                        // );
-                                        await taoLichLamViecCubit.checkTrungLich(
+                                      if (_formKey.currentState!.validate() &&
+                                          !timeValue &&
+                                          !calValue) {
+                                        await taoLichLamViecCubit
+                                            .checkTrungLich(
                                           context: context,
-                                          title: tieuDeController.value.text,
-                                          content: noiDungController.value.text,
-                                          location: diaDiemController.value.text,
+                                          title: tieuDeController.value.text
+                                              .trim()
+                                              .replaceAll(' +', ' '),
+                                          content: noiDungController.value.text
+                                              .trim()
+                                              .replaceAll(' +', ' '),
+                                          location: diaDiemController.value.text
+                                              .trim()
+                                              .replaceAll(' +', ' '),
                                         );
+                                      }
+                                      if (timeValue) {
+                                        calCubit.validateTime.sink.add(
+                                          S.current.ban_phai_chon_thoi_gian,
+                                        );
+                                      }
+                                      if (!calValue) {
+                                        taoLichLamViecCubit.checkCal.sink
+                                            .add(true);
                                       }
                                     },
                                     textColor: Colors.white,

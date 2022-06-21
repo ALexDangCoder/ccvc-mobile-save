@@ -1,8 +1,9 @@
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/detail_item_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -25,12 +26,23 @@ class ItemGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const DetailItemMobile(),
-          ),
-        );
+        if (item.type == FOLDER) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ReportDetail(
+                cubit: cubit,
+                id: item.id ?? '',
+                title: item.name ?? '',
+                isListView: true,
+              ),
+            ),
+          ).whenComplete(() {
+            cubit.getListReport();
+          });
+        } else {
+          //todo report
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -72,8 +84,6 @@ class ItemGridView extends StatelessWidget {
                       cubit: cubit,
                       isFavorite: item.isPin ?? false,
                     ),
-                  ).whenComplete(
-                    () => cubit.getListReport(),
                   );
                 },
                 child: Padding(

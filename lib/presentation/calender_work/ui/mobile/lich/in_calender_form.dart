@@ -32,12 +32,10 @@ class _InCalenderFormState extends State<InCalenderForm> {
     // TODO: implement initState
     super.initState();
     widget.cubit.stateCalendarControllerDay.addPropertyChangedListener((value) {
-      if (value == 'displayDate') {
-        widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
-              widget.cubit.selectDay,
-        );
-      }
+      widget.cubit.updateDataSlideCalendar(
+        widget.cubit.stateCalendarControllerDay.displayDate ??
+            widget.cubit.selectDay,
+      );
     });
   }
 
@@ -64,11 +62,10 @@ class _InCalenderFormState extends State<InCalenderForm> {
                     padding: const EdgeInsets.only(right: 16),
                     child: StreamBuilder<DataLichLvModel>(
                       initialData: DataLichLvModel.empty(),
-                      stream: widget.cubit.listLichSubject,
+                      stream: widget.cubit.listLichSubject.stream,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? DataLichLvModel.empty();
                         return SfCalendar(
-
                           viewHeaderHeight: 0.0,
                           allowAppointmentResize: true,
                           headerHeight: 0.0,

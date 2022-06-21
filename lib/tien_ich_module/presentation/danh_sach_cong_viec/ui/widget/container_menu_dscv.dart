@@ -66,7 +66,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                                   width: 15.0.textScale(space: 8),
                                   child: SvgPicture.asset(
                                     widget.icon ?? '',
-                                    color: Colors.grey,
+                                    color: numberColorTablet,
                                   ),
                                 )
                               : SizedBox(

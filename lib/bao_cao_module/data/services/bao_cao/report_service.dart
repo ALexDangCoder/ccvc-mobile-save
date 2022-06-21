@@ -63,8 +63,9 @@ abstract class ReportService {
 
   @GET(ApiConstants.GET_LIST_REPORT_FAVORITE)
   Future<ReportResponse> getListReportFavorite(
-    @Header('AppId') String appId,
-  );
+      @Header('AppId') String appId,
+      @Query('folderId') String folderId,
+      );
 
   @GET(ApiConstants.GET_LIST_TREE_REPORT)
   Future<ListTreeReportResponse> getListReportTree(

@@ -295,6 +295,9 @@ class ApiConstants {
   static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
   static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
   static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
+  static const CREATE_NEW_USER = '/htcs/api/User/create';
+  static const SHARE_REPORT = '/htcs/api/User/share-many';
+
 }
 
 class ImageConstants {

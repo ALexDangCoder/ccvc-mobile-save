@@ -144,7 +144,9 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                   isScrollControlled: true,
                   context: context,
                   builder: (_) {
-                    return const ChiaSeBaoCaoMobile();
+                    return ChiaSeBaoCaoMobile(
+                      idReport: widget.reportItem.id ?? '',
+                    );
                   },
                 );
               },

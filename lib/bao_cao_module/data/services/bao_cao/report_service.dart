@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/folder_response
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/group_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_report_respose.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/report_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -68,5 +69,18 @@ abstract class ReportService {
   Future<ListTreeReportResponse> getListReportTree(
       @Header('AppId') String appId,
       @Query('folderId') String folderId,
+      );
+
+  @POST(ApiConstants.CREATE_NEW_USER)
+  Future<PostDataResponse> addNewUser(
+      @Body() Map<String,String> mapUser,
+      @Header('AppId') String appId,
+      );
+
+  @POST('${ApiConstants.SHARE_REPORT}/{idReport}')
+  Future<PostDataResponse> shareReport(
+      @Path() String idReport,
+      @Body() List<ShareReport> mapData,
+      @Header('AppId') String appId,
       );
 }

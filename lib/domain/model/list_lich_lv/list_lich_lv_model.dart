@@ -1,3 +1,6 @@
+import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
 class DataLichLvModel {
   List<ListLichLVModel>? listLichLVModel = [];
   int? pageIndex = 0;
@@ -14,6 +17,37 @@ class DataLichLvModel {
     this.totalCount,
     this.totalPage,
   });
+
+  DataSourceFCalendar toDataFCalenderSource  () {
+    final List<Appointment> appointments = [];
+    //
+    // final RecurrenceProperties recurrence =
+    // RecurrenceProperties(startDate: DateTime.now());
+    // recurrence.recurrenceType = RecurrenceType.daily;
+    // recurrence.interval = 2;
+    // recurrence.recurrenceRange = RecurrenceRange.noEndDate;
+    // recurrence.recurrenceCount = 10;
+    //
+    // if ((dataLichLvModels.listLichLVModel ?? []).isNotEmpty) {
+    //   for (final i in dataLichLvModels.listLichLVModel ?? []) {
+    //     appointments.add(
+    //       Appointment(
+    //         startTime: DateTime.parse(
+    //           i.dateTimeFrom ?? '',
+    //         ),
+    //         endTime: DateTime.parse(
+    //           i.dateTimeTo ?? '',
+    //         ),
+    //         subject: i.title ?? '',
+    //         color: Colors.blue,
+    //         id: i.id ?? '',
+    //       ),
+    //     );
+    //   }
+    //   // getMatchDate(dataLichLvModels);
+    // }
+    return DataSourceFCalendar(appointments);
+  }
 }
 
 class ListLichLVModel {

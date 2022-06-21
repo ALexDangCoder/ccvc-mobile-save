@@ -87,7 +87,7 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
                                 .getElementFromId(
                                   appointment.id.toString(),
                                 )
-                                ?.typeSchedule ??
+                                .typeSchedule ??
                             'Schedule';
                         final element =  widget.cubit.getElementFromId(
                           appointment.id.toString(),
@@ -134,7 +134,7 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
                             if (widget.cubit
                                 .getElementFromId(
                                   appointment.id.toString(),
-                                )?.isTrung ?? false)
+                                ).isTrung ?? false)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

@@ -94,7 +94,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                 final String typeCalendar = widget.cubit
                                         .getElementFromId(
                                           appointment.id.toString(),
-                                        )?.typeSchedule ??
+                                        ).typeSchedule ??
                                     'Schedule';
                                 final element =  widget.cubit.getElementFromId(
                                   appointment.id.toString(),
@@ -143,7 +143,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                     if (widget.cubit
                                         .getElementFromId(
                                           appointment.id.toString(),
-                                        )?.isTrung ?? false)
+                                        ).isTrung )
                                       const Icon(
                                         Icons.circle,
                                         color: Colors.red,

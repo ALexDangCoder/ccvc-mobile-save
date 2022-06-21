@@ -77,7 +77,7 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                         final String typeCalendar = widget.cubit
                             .getElementFromId(
                           appointment.id.toString(),
-                        )?.typeSchedule ??
+                        ).typeSchedule ??
                             'Schedule';
                         final element =  widget.cubit.getElementFromId(
                           appointment.id.toString(),
@@ -126,7 +126,7 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                             if (widget.cubit
                                 .getElementFromId(
                               appointment.id.toString(),
-                            )?.isTrung ?? false)
+                            ).isTrung ?? false)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

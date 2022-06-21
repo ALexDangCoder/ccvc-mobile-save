@@ -80,7 +80,7 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                   final String typeCalendar = widget.cubit
                       .getElementFromId(
                     appointment.id.toString(),
-                  )?.typeSchedule ??
+                  ).typeSchedule ??
                       'Schedule';
 
                   final element =  widget.cubit.getElementFromId(

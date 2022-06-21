@@ -138,20 +138,18 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                         final String typeCalendar = widget.cubit
                             .getElementFromId(
                           appointment.id.toString(),
-                        )?.typeSchedule ??
+                        ).typeSchedule ??
                             'Schedule';
                         final element =  widget.cubit.getElementFromId(
                           appointment.id.toString(),
                         );
-                        if (element != null){
-                          typeCalendar.getTypeCalendar.navigatorDetail(
-                            context,
-                            widget.cubit,
-                            (widget.cubit.dataLichLvModel.listLichLVModel ??
-                                [])
-                                .indexOf(element),
-                          );
-                        }
+                        typeCalendar.getTypeCalendar.navigatorDetail(
+                          context,
+                          widget.cubit,
+                          (widget.cubit.dataLichLvModel.listLichLVModel ??
+                              [])
+                              .indexOf(element),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -187,7 +185,7 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                             if (widget.cubit
                                 .getElementFromId(
                               appointment.id.toString(),
-                            )?.isTrung ?? false)
+                            ).isTrung ?? false)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

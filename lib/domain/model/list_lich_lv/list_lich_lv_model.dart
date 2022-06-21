@@ -81,7 +81,6 @@ class ListLichLVModel {
     // required this.canBoChuTri,
   });
 
-  ListLichLVModel.empty();
 }
 
 class CreateBys {

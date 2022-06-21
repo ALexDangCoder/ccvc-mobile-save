@@ -43,7 +43,6 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
               },
               hintText: S.current.chon_loai_lich,
               urlIcon: ImageAssets.icCalendarUnFocus,
-              //value: widget.taoLichLamViecCubit.selectLoaiLich?.name ?? '',
               listSelect: data.map((e) => e.name).toList(),
               title: S.current.loai_lich,
             ),
@@ -51,7 +50,7 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
             StreamBuilder<bool>(
               stream: widget.taoLichLamViecCubit.checkCal.stream,
               builder: (context, snapshot) {
-                widget.callback?.call(snapshot.data ?? false);
+                widget.callback?.call(snapshot.data ?? true);
                 return Visibility(
                   visible: snapshot.data ?? false,
                   child: Padding(

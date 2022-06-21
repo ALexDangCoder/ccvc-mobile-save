@@ -12,14 +12,16 @@ class UserNgoaiHeThongTruyCapTotalResponse {
   ListUserNgoaiHeThongTruyCapResponse? data;
 
   UserNgoaiHeThongTruyCapTotalResponse(
-      this.messageResponse,
-      this.data,
-      );
+    this.messageResponse,
+    this.data,
+  );
 
-  factory UserNgoaiHeThongTruyCapTotalResponse.fromJson(Map<String, dynamic> json) =>
+  factory UserNgoaiHeThongTruyCapTotalResponse.fromJson(
+          Map<String, dynamic> json) =>
       _$UserNgoaiHeThongTruyCapTotalResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserNgoaiHeThongTruyCapTotalResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$UserNgoaiHeThongTruyCapTotalResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -28,15 +30,16 @@ class ListUserNgoaiHeThongTruyCapResponse {
   List<UserNgoaiHeThongTruyCapResponse>? items;
 
   ListUserNgoaiHeThongTruyCapResponse(
-      this.items,
-      );
+    this.items,
+  );
 
-  factory ListUserNgoaiHeThongTruyCapResponse.fromJson(Map<String, dynamic> json) =>
+  factory ListUserNgoaiHeThongTruyCapResponse.fromJson(
+          Map<String, dynamic> json) =>
       _$ListUserNgoaiHeThongTruyCapResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ListUserNgoaiHeThongTruyCapResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ListUserNgoaiHeThongTruyCapResponseToJson(this);
 }
-
 
 @JsonSerializable()
 class UserNgoaiHeThongTruyCapResponse {
@@ -53,13 +56,28 @@ class UserNgoaiHeThongTruyCapResponse {
   @JsonKey(name: 'password')
   String? password;
 
-  UserNgoaiHeThongDuocTruyCapModel toModel() => UserNgoaiHeThongDuocTruyCapModel(id: id ?? '', email: email ?? '', fullName: fullName ?? '', chucVu: chucVu ?? '', donVi: donVi ?? '', passWord: password ?? '',);
+  UserNgoaiHeThongDuocTruyCapModel toModel() =>
+      UserNgoaiHeThongDuocTruyCapModel(
+        id: id ?? '',
+        email: email ?? '',
+        fullName: fullName ?? '',
+        chucVu: chucVu ?? '',
+        donVi: donVi ?? '',
+        passWord: password ?? '',
+      );
 
   UserNgoaiHeThongTruyCapResponse(
-      this.id, this.email, this.fullName, this.chucVu, this.donVi, this.password,);
+    this.id,
+    this.email,
+    this.fullName,
+    this.chucVu,
+    this.donVi,
+    this.password,
+  );
 
   factory UserNgoaiHeThongTruyCapResponse.fromJson(Map<String, dynamic> json) =>
       _$UserNgoaiHeThongTruyCapResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserNgoaiHeThongTruyCapResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$UserNgoaiHeThongTruyCapResponseToJson(this);
 }

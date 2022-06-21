@@ -48,9 +48,6 @@ class DanhSachCongViecTienIchCubit
   List<TodoDSCVModel> listDaBiXoa = [];
   List<TodoDSCVModel> nhomCongViecMoi = [];
 
-  ///Request
-  ToDoListRequest toDoListRequest = ToDoListRequest();
-
   ///Stream
   BehaviorSubject<List<TodoDSCVModel>> listDSCV = BehaviorSubject();
 
@@ -65,6 +62,15 @@ class DanhSachCongViecTienIchCubit
 
   BehaviorSubject<NguoiThucHienModel> nguoiThucHienSubject = BehaviorSubject();
 
+  NguoiThucHienModel get dataNguoiThucHienModel =>
+      nguoiThucHienSubject.valueOrNull ??
+      NguoiThucHienModel(
+        id: '',
+        hoten: '',
+        donVi: [],
+        chucVu: [],
+      );
+
   BehaviorSubject<List<NhomCVMoiModel>> nhomCVMoiSubject =
       BehaviorSubject<List<NhomCVMoiModel>>();
 
@@ -75,6 +81,7 @@ class DanhSachCongViecTienIchCubit
 
   ///init cac list
   void doDataTheoFilter() {
+    // data trả về phụ thuộc vào hai api
     listGop = [
       ...toDoModelGanChoToiDefault,
       ...toDoModelDefault,
@@ -114,7 +121,6 @@ class DanhSachCongViecTienIchCubit
 
   /// khoi tao data
   Future<void> initialData() async {
-    showLoading();
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
     unawaited(listNguoiThucHien());
@@ -127,7 +133,6 @@ class DanhSachCongViecTienIchCubit
   /// Cac danh Sach APi
   Future<void> getToDoListDSCV() async {
     final result = await tienIchRep.getListTodoDSCV();
-    showContent();
     result.when(
       success: (res) {
         toDoModelDefault = res;
@@ -264,15 +269,14 @@ class DanhSachCongViecTienIchCubit
           finishDay:
               dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
           note: noteChange == '' ? null : noteChange,
-          performer: toDoListRequest.performer == '' ||
-                  toDoListRequest.performer == null
+          performer: dataNguoiThucHienModel.id == ''
               ? null
               : nguoiThucHienSubject.value.id,
           filePath: filePath,
         ),
       );
-      result.when(
-        success: (res) {
+      await result.when(
+        success: (res) async {
           showContent();
           final data = listDSCV.value;
           data.insert(
@@ -280,7 +284,7 @@ class DanhSachCongViecTienIchCubit
             res,
           );
           listDSCV.sink.add(data);
-          callAndFillApiAutu();
+          await callAndFillApiAutu();
           closeDialog();
         },
         error: (err) {
@@ -370,14 +374,15 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isDeleted,
     String? filePathTodo,
+    String? titleChange,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
     dynamic checkData({dynamic changeData, dynamic defaultData}) {
       if (changeData == '' || changeData == null || changeData == defaultData) {
-        return defaultData ?? '';
+        return defaultData;
       } else {
-        return changeData ?? '';
+        return changeData;
       }
     }
 
@@ -391,15 +396,17 @@ class DanhSachCongViecTienIchCubit
             checkData(changeData: isDeleted, defaultData: todo.isDeleted),
         createdOn: todo.createdOn,
         createdBy: todo.createdBy,
-        isTicked: isTicked ?? todo.isTicked,
+        isTicked: checkData(changeData: isTicked, defaultData: todo.isTicked),
         label: checkData(changeData: titleChange, defaultData: todo.label),
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
-        note: noteChange ?? todo.note,
+        note: checkData(changeData: noteChange, defaultData: todo.note),
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatApi,
-        performer: toDoListRequest.performer ?? todo.performer,
+        performer: dataNguoiThucHienModel.id == ''
+            ? null
+            : nguoiThucHienSubject.value.id,
         filePath:
             checkData(changeData: filePathTodo, defaultData: todo.filePath),
       ),
@@ -408,12 +415,13 @@ class DanhSachCongViecTienIchCubit
       success: (res) {
         final data = listDSCV.value;
         if (isTicked != null) {
-          data.insert(0, res);
           data.remove(todo);
+          data.insert(0, res);
           listDSCV.sink.add(data);
         }
         if (important != null) {
-          data.insert(data.indexOf(todo), res);
+          data.remove(todo);
+          data[0] = res;
           listDSCV.sink.add(data);
         }
         if (inUsed != null) {
@@ -510,7 +518,6 @@ class DanhSachCongViecTienIchCubit
 
   ///xóa cong viec
   Future<void> xoaCongViecVinhVien(String idCv) async {
-    showLoading();
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
@@ -518,7 +525,6 @@ class DanhSachCongViecTienIchCubit
       },
       error: (error) {},
     );
-    showContent();
   }
 
   /// hiển thị icon theo từng màn hình
@@ -628,5 +634,13 @@ class DanhSachCongViecTienIchCubit
     dateChange = '';
     noteChange = '';
     titleChange = '';
+    nguoiThucHienSubject.sink.add(
+      NguoiThucHienModel(
+        id: '',
+        hoten: '',
+        donVi: [],
+        chucVu: [],
+      ),
+    );
   }
 }

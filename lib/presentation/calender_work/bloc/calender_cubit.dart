@@ -216,7 +216,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
             ),
             subject: i.title ?? '',
             color: Colors.blue,
-            id: i.id ?? '',
+            id: i.idFolder ?? '',
           ),
         );
       }

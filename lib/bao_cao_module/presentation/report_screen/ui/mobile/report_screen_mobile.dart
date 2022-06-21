@@ -155,6 +155,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                                 ? Column(
                                     children: [
                                       titleBaoCao(S.current.yeu_thich),
+                                      spaceH16,
                                       ReportList(
                                         scrollPhysics:
                                             const NeverScrollableScrollPhysics(),
@@ -420,7 +421,6 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
           right: 16,
           left: 16,
           top: 2,
-          bottom: 12,
         ),
         child: Text(
           title,

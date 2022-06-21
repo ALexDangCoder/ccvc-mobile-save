@@ -48,6 +48,10 @@ class DateTimeCupertinoCustomCubit
     //   );
     // }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
+    if (isChecked) {
+      timeBeginSubject.sink.add('08:00');
+      timeEndSubject.sink.add('18:00');
+    }
   }
 
   // Future<void> handleDateTimePressed({
@@ -151,6 +155,7 @@ class DateTimeCupertinoCustomCubit
           'yyyy-MM-dd HH:mm',
         ),
       );
+
       if (begin.isAtSameMomentAs(end) ||
           begin.isAfter(end) ||
           end.isAtSameMomentAs(begin) ||
@@ -160,7 +165,7 @@ class DateTimeCupertinoCustomCubit
         validateTime.sink.add('');
       }
     } else {
-       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+      validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
     }
   }
 

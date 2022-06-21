@@ -160,12 +160,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                         builder: (context) =>
                             const TaoLichLamViecChiTietTablet(),
                       ),
-                    ).then((value) {
-                      if (value == null) {}
-                      if (value == true) {
-                        cubit.callApi();
-                      }
-                    });
+                    );
                   },
                   onTapDay: () {
                     setState(() {});
@@ -178,14 +173,12 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.WEEK);
                     cubit.stateOptionDay = Type_Choose_Option_Day.WEEK;
-
                     cubit.callApiTuan();
                   },
                   onTapMonth: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.MONTH);
                     cubit.stateOptionDay = Type_Choose_Option_Day.MONTH;
-
                     cubit.callApiMonth();
                   },
                   cubit: cubit,
@@ -193,31 +186,38 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                 BlocBuilder<CalenderCubit, CalenderState>(
                   bloc: cubit,
                   builder: (context, state) {
-                    return StreamBuilder<List<DateTime>>(
-                      stream: cubit.eventsStream,
-                      builder: (context, snapshot) {
-                        return TableCandarTablet(
-                          eventsLoader: snapshot.data,
-                          type: state.type,
-                          onChangeRange: (
-                            DateTime? start,
-                            DateTime? end,
-                            DateTime? focusedDay,
-                          ) {},
-                          onChange: (
-                            DateTime startDate,
-                            DateTime endDate,
-                            DateTime selectDay,
-                          ) {
-                            cubit.selectDay = selectDay;
-                            if (state.type == Type_Choose_Option_Day.DAY) {
-                              cubit.callApi();
-                            } else if (state.type ==
-                                Type_Choose_Option_Day.WEEK) {
-                              cubit.callApiTuan();
-                            } else {
-                              cubit.callApiMonth();
-                            }
+                    return StreamBuilder(
+                      stream: cubit.streamInitTime,
+                      builder: (_, __) {
+                        return StreamBuilder<List<DateTime>>(
+                          stream: cubit.eventsStream,
+                          builder: (context, snapshot) {
+                            return TableCandarTablet(
+                              key:  UniqueKey(),
+                              initTime: cubit.selectDay,
+                              eventsLoader: snapshot.data,
+                              type: state.type,
+                              onChangeRange: (
+                                DateTime? start,
+                                DateTime? end,
+                                DateTime? focusedDay,
+                              ) {},
+                              onChange: (
+                                DateTime startDate,
+                                DateTime endDate,
+                                DateTime selectDay,
+                              ) {
+                                cubit.selectDay = selectDay;
+                                if (state.type == Type_Choose_Option_Day.DAY) {
+                                  cubit.callApi();
+                                } else if (state.type ==
+                                    Type_Choose_Option_Day.WEEK) {
+                                  cubit.callApiTuan();
+                                } else {
+                                  cubit.callApiMonth();
+                                }
+                              },
+                            );
                           },
                         );
                       },

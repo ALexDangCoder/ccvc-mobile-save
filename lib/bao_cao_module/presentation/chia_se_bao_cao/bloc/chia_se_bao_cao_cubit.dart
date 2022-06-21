@@ -12,27 +12,24 @@ import 'package:rxdart/subjects.dart';
 part 'chia_se_bao_cao_state.dart';
 
 class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
-  ChiaSeBaoCaoCubit() : super(ChiaSeBaoCaoInitial()) {
+  ChiaSeBaoCaoCubit(this.appId) : super(ChiaSeBaoCaoInitial()) {
     showContent();
   }
-
+  final String appId;
   ReportRepository get _repo => get_dart.Get.find();
-
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
   BehaviorSubject<String> callAPI =
   BehaviorSubject.seeded('');
   final BehaviorSubject<bool> _isDuocTruyCapSubject = BehaviorSubject<bool>();
-
   Stream<bool> get isDuocTruyCapStream => _isDuocTruyCapSubject.stream;
-
   Sink<bool> get isDuocTruyCapSink => _isDuocTruyCapSubject.sink;
-
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
   BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
+
 
 
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
@@ -111,5 +108,11 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   List<String> listDropDown = [];
 
   List<NhomCungHeThong> listCheck = [];
+
+
+  ///huy
+  Future<void> getUsersNgoaiHeThongDuocTruyCap({required String appId}) async {
+    final result = await _repo.getUsersNgoaiHeThongTruyCap(appId, '0', '10', '');
+  }
 
 }

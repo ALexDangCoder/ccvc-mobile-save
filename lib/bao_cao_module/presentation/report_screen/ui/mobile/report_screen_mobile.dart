@@ -137,7 +137,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             builder: (context, snapshot) {
               return Expanded(
                 child: ComplexLoadMore(
-                  isCallApiInit: false,
+                  isLoadmore: false,
                   mainAxisExtent: 130,
                   titleNoData: S.current.khong_co_bao_cao,
                   isTitle: false,
@@ -283,7 +283,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             checkRatio: 1.5,
             crossAxisSpacing: 17,
             sinkWap: true,
-            callApi: (page) => {cubit.getListReport()},
+            callApi: (page) => cubit.getListReport(),
             viewItem: (value, index) => !cubit.isCheckList.value
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
@@ -345,8 +345,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                   return TextFormField(
                     controller: _searchController,
                     onChanged: (value) {
-                      cubit.textSearch.add(value.trim());
-                      cubit.getListReport();
+                      cubit.searchReport(value);
                     },
                     decoration: InputDecoration(
                       counterStyle: textNormalCustom(
@@ -398,7 +397,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                           },
                           child: SvgPicture.asset(
                             snapshot.data?.isNotEmpty ?? false
-                                ? ImageAssets.icSearchPAKN
+                                ? ImageAssets.icClose
                                 : ImageAssets.icSearchPAKN,
                             color:
                                 AppTheme.getInstance().unselectedLabelColor(),

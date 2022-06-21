@@ -30,9 +30,13 @@ import 'package:flutter_svg/svg.dart';
 
 class SuaLichHopTabletScreen extends StatefulWidget {
   final ChiTietLichHopModel chiTietHop;
+  final bool isMulti;
 
-  const SuaLichHopTabletScreen({Key? key, required this.chiTietHop})
-      : super(key: key);
+  const SuaLichHopTabletScreen({
+    Key? key,
+    required this.chiTietHop,
+    this.isMulti = false,
+  }) : super(key: key);
 
   @override
   _SuaLichHopScreenState createState() => _SuaLichHopScreenState();
@@ -49,6 +53,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
     _cubitTaoLichHop.loadData();
     _cubitTaoLichHop.taoLichHopRequest =
         taoHopFormChiTietHopModel(widget.chiTietHop);
+    _cubitTaoLichHop.taoLichHopRequest.isMulti = widget.isMulti;
   }
 
   @override
@@ -144,6 +149,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                               ),
                               CupertinoMaterialPicker(
                                 key: _timerPickerKey,
+                                isEdit: true,
                                 initDateStart: widget.chiTietHop.ngayBatDau
                                     .convertStringToDate(
                                   formatPattern: DateFormatApp.monthDayFormat,
@@ -171,13 +177,15 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                       timeStart;
                                   _cubitTaoLichHop.taoLichHopRequest.timeTo =
                                       timeEnd;
-                                  _cubitTaoLichHop.taoLichHopRequest.ngayBatDau =
+                                  _cubitTaoLichHop.taoLichHopRequest
+                                      .ngayBatDau =
                                       dateStart
                                           .convertStringToDate(
                                             formatPattern: DateFormatApp.date,
                                           )
                                           .formatApi;
-                                  _cubitTaoLichHop.taoLichHopRequest.ngayKetThuc =
+                                  _cubitTaoLichHop.taoLichHopRequest
+                                      .ngayKetThuc =
                                       dateEnd
                                           .convertStringToDate(
                                             formatPattern: DateFormatApp.date,
@@ -188,7 +196,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                   _cubitTaoLichHop.taoLichHopRequest.isAllDay =
                                       value;
                                 },
-                                validateTime: (bool value) {},
+                                validateTime: (String value) {},
                               ),
                               spaceH5,
                               NhacLichWidget(

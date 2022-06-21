@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,10 +6,13 @@ part 'report_response.g.dart';
 @JsonSerializable()
 class ReportResponse {
   @JsonKey(name: 'data')
-  ReportDataResponse dataResponse;
+  ReportDataResponse? dataResponse;
+  @JsonKey(name: 'message')
+  String? message;
 
   ReportResponse(
     this.dataResponse,
+    this.message,
   );
 
   factory ReportResponse.fromJson(Map<String, dynamic> json) =>

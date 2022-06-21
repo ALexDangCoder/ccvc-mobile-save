@@ -9,7 +9,9 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_wid
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/radio_option_dialog.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 enum PERMISSION_DETAIL {
@@ -219,22 +221,56 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.SUA.getIcon(),
           text: PERMISSION_DETAIL.SUA.getString(),
           onTap: () {
-            showBottomSheetCustom(
-              context,
-              title: S.current.sua_lich_hop,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: SuaLichHopWidget(
-                  chiTietHop: cubit.getChiTietLichHopModel,
+            if(cubit.getChiTietLichHopModel.typeRepeat == 1){
+              showBottomSheetCustom(
+                context,
+                title: S.current.sua_lich_hop,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: SuaLichHopWidget(
+                    chiTietHop: cubit.getChiTietLichHopModel,
+                  ),
                 ),
+              ).then((value) {
+                if (value == null) {
+                  return;
+                }
+                if (value) {
+                  cubit.initDataChiTiet();
+                }
+              });
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => RadioOptionDialog(
+                title: S.current.sua_lich_hop,
+                textRadioBelow: S.current.chi_lich_hien_tai,
+                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                imageUrl: ImageAssets.img_sua_lich,
               ),
             ).then((value) {
-              if(value == null){
+              if (value == null) {
                 return;
               }
-              if(value){
-                cubit.initDataChiTiet();
-              }
+              showBottomSheetCustom(
+                context,
+                title: S.current.sua_lich_hop,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: SuaLichHopWidget(
+                    chiTietHop: cubit.getChiTietLichHopModel,
+                    isMulti: value,
+                  ),
+                ),
+              ).then((value) {
+                if (value == null) {
+                  return;
+                }
+                if (value) {
+                  cubit.initDataChiTiet();
+                }
+              });
             });
           },
         );

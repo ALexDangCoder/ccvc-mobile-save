@@ -62,6 +62,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   bool checkDataNhiemVu = false;
   List<String> titleNhiemVu = [];
   List<List<ChartData>> listData = [];
+  BehaviorSubject<bool> isCheckDataNVDV = BehaviorSubject.seeded(false);
   List<ChartData> listStatusData = [];
 
   void callApi(bool isCheckCaNhan) {
@@ -286,6 +287,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         listData.clear();
         listStatusData.clear();
         titleNhiemVu.clear();
+        isCheckDataNVDV.sink.add(false);
         for (final NhiemVuDonViModel value in res.nhiemVuDonVi ?? []) {
           titleNhiemVu.add(value.tenDonVi ?? '');
           listData.add(
@@ -335,6 +337,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
             daXuLyColor,
           ),
         ]);
+        if (res.nhiemVuDonVi?.isNotEmpty ?? false) {
+          isCheckDataNVDV.sink.add(true);
+        }
         showContent();
       },
       error: (error) {

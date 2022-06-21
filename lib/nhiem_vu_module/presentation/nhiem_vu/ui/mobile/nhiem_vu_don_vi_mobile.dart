@@ -309,7 +309,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               cubit: widget.danhSachCubit,
                               ontap: (value) {
                                 widget.danhSachCubit.trangThaiHanXuLy = null;
-                                widget.danhSachCubit.loaiNhiemVuId=value;
+                                widget.danhSachCubit.loaiNhiemVuId = value;
                                 widget.danhSachCubit.loadMoreList.clear();
                                 setState(() {
                                   widget.danhSachCubit.postDanhSachNhiemVu(
@@ -340,8 +340,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         cubit: widget.danhSachCubit,
                         ontap: (value) {
                           widget.danhSachCubit.trangThaiHanXuLy = null;
-                          widget.danhSachCubit.mangTrangThai =
-                              value;
+                          widget.danhSachCubit.mangTrangThai = value;
                           setState(() {
                             widget.danhSachCubit.loadMoreList.clear();
                             widget.danhSachCubit.postDanhSachNhiemVu(
@@ -385,19 +384,24 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                       ),
                     );
                   } else {
-                    if (widget.danhSachCubit.listData.isNotEmpty) {
-                      return StatusWidget(
-                        listData: widget.danhSachCubit.listData,
-                        listStatusData: widget.danhSachCubit.listStatusData,
-                        title: widget.danhSachCubit.titleNhiemVu,
-                        danhSachCubit: widget.danhSachCubit,
-                        isCheck: widget.isCheck,
-                      );
-                    } else {
-                      return const NodataWidget(
-                        height: 250,
-                      );
-                    }
+                    return StreamBuilder<bool>(
+                      stream: widget.danhSachCubit.isCheckDataNVDV,
+                      builder: (context, snapshot) {
+                        final checkListData = snapshot.data ?? false;
+                        return checkListData
+                            ? StatusWidget(
+                                listData: widget.danhSachCubit.listData,
+                                listStatusData:
+                                    widget.danhSachCubit.listStatusData,
+                                title: widget.danhSachCubit.titleNhiemVu,
+                                danhSachCubit: widget.danhSachCubit,
+                                isCheck: widget.isCheck,
+                              )
+                            : const NodataWidget(
+                                height: 250,
+                              );
+                      },
+                    );
                   }
                 },
               ),

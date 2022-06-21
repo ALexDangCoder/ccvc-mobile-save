@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_repor
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/report_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/folder_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -32,7 +31,7 @@ class ReportImpl implements ReportRepository {
         appId,
       ),
       (res) =>
-          res.dataResponse.listReportItem?.map((e) => e.toModel()).toList() ??
+          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
           [],
     );
   }
@@ -62,12 +61,12 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<FolderModel>> getFolderID(
+  Future<Result<ReportItem>> getFolderID(
     String appId,
   ) {
-    return runCatchingAsync<FolderResponse, FolderModel>(
+    return runCatchingAsync<FolderResponse, ReportItem>(
       () => _reportService.getFolderID(appId),
-      (res) => res.data?.toDomain() ?? FolderModel(),
+      (res) => res.data?.toDomain() ?? ReportItem(),
     );
   }
 
@@ -111,22 +110,23 @@ class ReportImpl implements ReportRepository {
 
   @override
   Future<Result<List<ReportItem>>> getListReportFavorite(
-    String appId,
+      String appId,
+      String folderId,
   ) {
     return runCatchingAsync<ReportResponse, List<ReportItem>>(
-      () => _reportService.getListReportFavorite(appId),
+      () => _reportService.getListReportFavorite(appId,folderId),
       (res) =>
-          res.dataResponse.listReportItem?.map((e) => e.toModel()).toList() ??
+          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
           [],
     );
   }
 
   @override
-  Future<Result<List<FolderModel>>> getListReportTree(
+  Future<Result<List<ReportItem>>> getListReportTree(
     String appId,
     String folderId,
   ) {
-    return runCatchingAsync<ListTreeReportResponse, List<FolderModel>>(
+    return runCatchingAsync<ListTreeReportResponse, List<ReportItem>>(
       () => _reportService.getListReportTree(
         appId,
         folderId,

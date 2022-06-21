@@ -188,14 +188,10 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     );
   }
 
-  ListLichLVModel? getElementFromId(String id) {
-    if ((listLichSubject.value.listLichLVModel ?? []).isEmpty) {
-      return null;
-    }
-    return (listLichSubject.value.listLichLVModel ?? [])
-        .where((element) => element.id == id)
-        .toList()
-        .first;
+  ListLichLVModel getElementFromId(String id) {
+    return (listLichSubject.value.listLichLVModel ?? []).firstWhere(
+        (element) => element.id == id,
+        orElse: () => ListLichLVModel.empty());
   }
 
   DataSource getCalenderDataSource(DataLichLvModel dataLichLvModels) {
@@ -224,7 +220,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
           ),
         );
       }
-      getMatchDate(dataLichLvModels);
+      // getMatchDate(dataLichLvModels);
     }
 
     // appointments.add(Appointment(startTime: DateTime(DateTime

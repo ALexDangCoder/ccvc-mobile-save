@@ -110,7 +110,7 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                                     .getElementFromId(
                                       appointment.id.toString(),
                                     )
-                                    ?.typeSchedule ??
+                                    .typeSchedule ??
                                 'Schedule';
                             final element =  widget.cubit.getElementFromId(
                               appointment.id.toString(),

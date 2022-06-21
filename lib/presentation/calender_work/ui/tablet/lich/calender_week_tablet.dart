@@ -22,11 +22,11 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay.
+    widget.cubit.stateCalendarControllerWeek.
         addPropertyChangedListener((value) {
       if (value == 'displayDate'){
         widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
+          widget.cubit.stateCalendarControllerWeek.displayDate ??
               widget.cubit.selectDay,
         );
       }
@@ -80,22 +80,22 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                   final String typeCalendar = widget.cubit
                       .getElementFromId(
                     appointment.id.toString(),
-                  )
-                      .typeSchedule ??
+                  )?.typeSchedule ??
                       'Schedule';
 
-                  typeCalendar.getTypeCalendar.navigatorDetail(
-                    context,
-                    widget.cubit,
-                    (widget.cubit.dataLichLvModel
-                        .listLichLVModel ??
-                        [])
-                        .indexOf(
-                      widget.cubit.getElementFromId(
-                        appointment.id.toString(),
-                      ),
-                    ),
+                  final element =  widget.cubit.getElementFromId(
+                    appointment.id.toString(),
                   );
+                  if (element != null){
+                    typeCalendar.getTypeCalendar.navigatorDetail(
+                      context,
+                      widget.cubit,
+                      (widget.cubit.dataLichLvModel.listLichLVModel ??
+                          [])
+                          .indexOf(element),
+                    );
+                  }
+
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -131,8 +131,7 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                       if (widget.cubit
                           .getElementFromId(
                         appointment.id.toString(),
-                      )
-                          .isTrung)
+                      )?.isTrung ?? false)
                         const Icon(
                           Icons.circle,
                           color: Colors.red,

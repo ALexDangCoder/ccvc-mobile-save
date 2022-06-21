@@ -8,6 +8,7 @@ import 'package:queue/queue.dart';
 extension DayApi on CalenderCubit {
   Future<void> callApiNgay() async {
     final Queue queue = Queue();
+    showLoading();
     changeDateByClick = true;
     listDSLV.clear();
     page = 1;
@@ -36,34 +37,29 @@ extension DayApi on CalenderCubit {
     stateCalendarControllerMonth.displayDate = selectDay;
     moveTimeSubject.add(selectDay);
     await queue.onComplete;
+    showContent();
     changeDateByClick = false;
   }
 
   Future<void> callApiDayCalendar() async {
-    // showLoading();
     startDates = selectDay;
     endDates = selectDay;
     initDataMenu();
     await callApiWithAsync();
     moveTimeSubject.add(selectDay);
-    // showContent();
   }
 
   Future<void> callApiWeekCalendar() async {
-    // showLoading();
     final day = selectDay;
     startDates = day.subtract(Duration(days: day.weekday - 1));
     endDates = day.add(Duration(days: DateTime.daysPerWeek - day.weekday));
     await callApiWithAsync();
-    // showContent();
   }
 
   Future<void> callApiMonthCalendar() async {
-    // showLoading();
     final day = selectDay;
     startDates = DateTime(day.year, day.month, 1);
     endDates = DateTime(day.year, day.month + 1, 0);
     await callApiWithAsync();
-    // showContent();
   }
 }

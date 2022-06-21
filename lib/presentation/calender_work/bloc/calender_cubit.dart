@@ -11,8 +11,8 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
-import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/api_time_type_ext.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/menu/item_state_lich_duoc_moi.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/item_menu_lich_hop.dart';
@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:intl/intl.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -100,6 +101,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   }
 
   Future<void> callApi() async {
+    listDSLV.clear();
     startDates = selectDay;
     endDates = selectDay;
     initDataMenu();
@@ -118,24 +120,23 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     });
   }
 
-  void callApiTuan() {
+  Future<void> callApiTuan() async {
     final day = selectDay;
     startDates = day.subtract(Duration(days: day.weekday - 1));
     endDates = day.add(Duration(days: DateTime.daysPerWeek - day.weekday));
-    callApiNgay();
+    await callApiNgay();
   }
 
-  void callApiMonth() {
+  Future<void> callApiMonth() async {
     final day = selectDay;
     startDates = DateTime(day.year, day.month, 1);
     endDates = DateTime(day.year, day.month + 1, 0);
-    callApiNgay();
+    await callApiNgay();
   }
 
   List<ListLichLVModel> listDSLV = [];
 
   Future<void> getListLichLV([String? search]) async {
-    showLoading();
     final DanhSachLichLamViecRequest data = DanhSachLichLamViecRequest(
       Title: search,
       DateFrom: startDates.formatApi,
@@ -178,7 +179,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         listLichSubject.sink.add(dataLichLvModel);
       },
       error: (error) {
-        showContent();
         MessageConfig.show(
           title: S.current.error,
           title2: S.current.no_internet,
@@ -186,10 +186,12 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         );
       },
     );
-    showContent();
   }
 
-  ListLichLVModel getElementFromId(String id) {
+  ListLichLVModel? getElementFromId(String id) {
+    if ((listLichSubject.value.listLichLVModel ?? []).isEmpty) {
+      return null;
+    }
     return (listLichSubject.value.listLichLVModel ?? [])
         .where((element) => element.id == id)
         .toList()
@@ -311,40 +313,26 @@ extension HandleDataCalendar on CalenderCubit {
     if (!changeDateByClick) {
       showLoading();
       selectDay = timeSlide;
-      await postEventsCalendar();
-      initTimeSubject.add(selectDay);
+      final Queue que = Queue();
+      unawaited(que.add(() => postEventsCalendar()));
+      initTimeSubject.sink.add(selectDay);
       moveTimeSubject.add(selectDay);
 
       if (stateOptionDay == Type_Choose_Option_Day.DAY) {
-        await callApiDayCalendar();
+        unawaited(que.add(() => callApiDayCalendar()));
       }
       if (stateOptionDay == Type_Choose_Option_Day.WEEK) {
-        await callApiWeekCalendar();
+        unawaited(que.add(() => callApiWeekCalendar()));
       }
       if (stateOptionDay == Type_Choose_Option_Day.MONTH) {
-        await callApiMonthCalendar();
+        unawaited(que.add(() => callApiMonthCalendar()));
       }
+      await que.onComplete;
       showContent();
     }
   }
 
-  Future<void> callApi() async {
-    showLoading();
-    listDSLV.clear();
-    page = 1;
-    await getListLichLV();
-    await dataLichLamViec(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
-    );
-    await dataLichLamViecRight(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
-      type: 0,
-    );
-    await menuCalendar();
-    showContent();
-  }
+
 
   void getMatchDate(DataLichLvModel data) {
     if ((data.listLichLVModel ?? []).isEmpty) {

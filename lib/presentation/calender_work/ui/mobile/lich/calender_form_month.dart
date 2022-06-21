@@ -32,10 +32,10 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay.addPropertyChangedListener((value) {
+    widget.cubit.stateCalendarControllerMonth.addPropertyChangedListener((value) {
       if (value == 'displayDate') {
         widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
+          widget.cubit.stateCalendarControllerMonth.displayDate ??
               widget.cubit.selectDay,
         );
       }
@@ -110,20 +110,21 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                                     .getElementFromId(
                                       appointment.id.toString(),
                                     )
-                                    .typeSchedule ??
+                                    ?.typeSchedule ??
                                 'Schedule';
-
-                            typeCalendar.getTypeCalendar.navigatorDetail(
-                              context,
-                              widget.cubit,
-                              (widget.cubit.dataLichLvModel.listLichLVModel ??
-                                      [])
-                                  .indexOf(
-                                widget.cubit.getElementFromId(
-                                  appointment.id.toString(),
-                                ),
-                              ),
+                            final element =  widget.cubit.getElementFromId(
+                              appointment.id.toString(),
                             );
+                            if (element != null){
+                              typeCalendar.getTypeCalendar.navigatorDetail(
+                                context,
+                                widget.cubit,
+                                (widget.cubit.dataLichLvModel.listLichLVModel ??
+                                    [])
+                                    .indexOf(element),
+                              );
+                            }
+
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -158,8 +159,7 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                                 if (widget.cubit
                                     .getElementFromId(
                                       appointment.id.toString(),
-                                    )
-                                    .isTrung)
+                                    )?.isTrung  ?? false)
                                   const Icon(
                                     Icons.circle,
                                     color: Colors.red,
@@ -177,13 +177,13 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                             widget.cubit.chooseTypeCalender(
                               Type_Choose_Option_Day.DAY,
                             );
+                            widget.cubit.selectDay =
+                                calendarAppointmentDetails.date;
                             widget.cubit.stateOptionDay =
                                 Type_Choose_Option_Day.DAY;
                             widget.cubit.index.sink.add(0);
                             widget.cubit.initTimeSubject.sink
                                 .add(calendarAppointmentDetails.date);
-                            widget.cubit.selectDay =
-                                calendarAppointmentDetails.date;
                             widget.cubit.callApi();
                           },
                           child: Column(

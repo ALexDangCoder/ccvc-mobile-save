@@ -40,7 +40,6 @@ class _InListFormState extends State<InListForm> {
           _scrollController.position.maxScrollExtent) {
         if (widget.cubit.page < widget.cubit.totalPage) {
           widget.cubit.page = widget.cubit.page + 1;
-          widget.cubit.getListLichLV();
         }
       }
     });

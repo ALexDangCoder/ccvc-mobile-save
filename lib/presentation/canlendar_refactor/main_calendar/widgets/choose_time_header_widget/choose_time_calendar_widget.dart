@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/header_tablet_calendar_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+
 import 'package:flutter/material.dart';
 
 import 'calendar_type_widget.dart';
@@ -9,8 +10,9 @@ import 'tablet_calendar_widget.dart';
 
 class ChooseTimeCalendarWidget extends StatefulWidget {
   final List<DateTime> calendarDays;
-
-  const ChooseTimeCalendarWidget({Key? key, this.calendarDays = const []})
+  final Function(DateTime, DateTime, CalendarType) onChange;
+  const ChooseTimeCalendarWidget(
+      {Key? key, this.calendarDays = const [], required this.onChange})
       : super(key: key);
 
   @override
@@ -21,7 +23,6 @@ class ChooseTimeCalendarWidget extends StatefulWidget {
 class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
   CalendarType calendarType = CalendarType.DAY;
   ValueNotifier<DateTime> selectDate = ValueNotifier(DateTime.now());
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,6 +32,8 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
           ChooseTypeCalendarWidget(
             onChange: (value) {
               calendarType = value;
+              final times = dateTimeRange(selectDate.value);
+              widget.onChange(times[0],times[1],calendarType);
               setState(() {});
             },
           ),
@@ -44,10 +47,9 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: shadowContainerColor.withOpacity(0.1),
-                  offset: const Offset(0, 4),
-                  blurRadius: 20,
-                )
+                    color: shadowContainerColor.withOpacity(0.1),
+                    offset: const Offset(0, 4),
+                    blurRadius: 20)
               ],
             ),
             child: Column(
@@ -61,9 +63,11 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                   },
                 ),
                 TabletCalendarWidget(
-                  calendarDays: [DateTime.now()],
+                  calendarDays: widget.calendarDays,
                   onSelect: (value) {
                     selectDate.value = value;
+                    final times = dateTimeRange(selectDate.value);
+                    widget.onChange(times[0],times[1],calendarType);
                   },
                 ),
               ],
@@ -87,6 +91,16 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
         final dataString =
             '${dateTimeFormRange[0].day} - ${dateTimeFormRange[1].formatDayCalendar}';
         return dataString;
+    }
+  }
+  List<DateTime> dateTimeRange(DateTime dateTime){
+    switch (calendarType) {
+      case CalendarType.DAY:
+        return [dateTime,dateTime];
+      case CalendarType.WEEK:
+        return dateTime.dateTimeFormRange(timeRange: TimeRange.TUAN_NAY);
+      case CalendarType.MONTH:
+        return dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
     }
   }
 }

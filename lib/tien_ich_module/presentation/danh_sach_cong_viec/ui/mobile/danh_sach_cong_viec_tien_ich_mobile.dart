@@ -85,7 +85,7 @@ class _DanhSachCongViecTienIchMobileState
             onRefresh: () async {
               await cubit.callAndFillApiAutu().then(
                     (value) => textSearch != '' ? cubit.search(textSearch) : '',
-              );
+                  );
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -114,13 +114,13 @@ class _DanhSachCongViecTienIchMobileState
                               stream: cubit.listDSCV.stream,
                               builder: (context, snapshot) {
                                 final data = snapshot.data
-                                    ?.where(
-                                      (element) =>
-                                  dataType != DSCVScreen.DBX
-                                      ? element.isTicked == false
-                                      : element.inUsed == false,
-                                )
-                                    .toList() ??
+                                        ?.where(
+                                          (element) =>
+                                              dataType != DSCVScreen.DBX
+                                                  ? element.isTicked == false
+                                                  : element.inUsed == false,
+                                        )
+                                        .toList() ??
                                     [];
                                 if (data.isNotEmpty) {
                                   return Column(
@@ -141,7 +141,7 @@ class _DanhSachCongViecTienIchMobileState
                                 }
                                 return Padding(
                                   padding:
-                                  const EdgeInsets.symmetric(vertical: 30),
+                                      const EdgeInsets.symmetric(vertical: 30),
                                   child: Column(
                                     children: [
                                       if (dataType == DSCVScreen.CVCB ||
@@ -165,10 +165,10 @@ class _DanhSachCongViecTienIchMobileState
                           stream: cubit.listDSCV.stream,
                           builder: (context, snapshot) {
                             final data = snapshot.data
-                                ?.where(
-                                  (element) => element.isTicked == true,
-                            )
-                                .toList() ??
+                                    ?.where(
+                                      (element) => element.isTicked == true,
+                                    )
+                                    .toList() ??
                                 [];
                             if (data.isNotEmpty) {
                               return Column(
@@ -215,8 +215,7 @@ class _DanhSachCongViecTienIchMobileState
     );
   }
 
-  Widget textTitle(String text, int count) =>
-      Padding(
+  Widget textTitle(String text, int count) => Padding(
         padding: const EdgeInsets.only(top: 16),
         child: Row(
           children: [
@@ -343,8 +342,8 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                           ImageAssets.icDeleteLichHop,
                         ),
                         title: '',
-                        textContent: S.current
-                            .ban_co_chan_chan_muon_xoa_nhom_cong_viec,
+                        textContent:
+                            S.current.ban_co_chan_chan_muon_xoa_nhom_cong_viec,
                         btnLeftTxt: S.current.huy,
                         btnRightTxt: S.current.xoa,
                       );
@@ -565,11 +564,10 @@ class ListDownDSCV extends StatelessWidget {
             );
           },
           onChange: (vl) {
-            // cubit.editWork(
-            //   todo: todo,
-            //   titleChange: controller,
-            // );
-            print(vl);
+            cubit.editWork(
+              todo: todo,
+              titleChange: vl,
+            );
           },
           onEdit: () {
             if (cubit.listNguoiThucHienSubject.hasValue) {

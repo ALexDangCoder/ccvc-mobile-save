@@ -39,6 +39,7 @@ class DanhSachCongViecTienIchMobile extends StatefulWidget {
 class _DanhSachCongViecTienIchMobileState
     extends State<DanhSachCongViecTienIchMobile> {
   DanhSachCongViecTienIchCubit cubit = DanhSachCongViecTienIchCubit();
+  String textSearch = '';
 
   @override
   void initState() {
@@ -82,9 +83,12 @@ class _DanhSachCongViecTienIchMobileState
           cubit: cubit,
           child: RefreshIndicator(
             onRefresh: () async {
-              await cubit.callAndFillApiAutu();
+              await cubit.callAndFillApiAutu().then(
+                    (value) => textSearch != '' ? cubit.search(textSearch) : '',
+                  );
             },
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: StreamBuilder<int>(
                 stream: cubit.statusDSCV.stream,
                 builder: (context, snapshotType) {
@@ -94,6 +98,7 @@ class _DanhSachCongViecTienIchMobileState
                       BaseSearchBar(
                         hintText: S.current.tim_kiem_nhanh,
                         onChange: (value) {
+                          textSearch = value;
                           cubit.search(value);
                         },
                       ),
@@ -294,17 +299,34 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                     urlImage: ImageAssets.icEditBlue,
                     text: S.current.doi_lai_ten,
                     onTap: () {
-                      showBottomSheetCustom(
-                        context,
-                        title: S.current.doi_lai_ten,
-                        child: AddToDoWidgetTienIch(
-                          initData: cubit.titleAppBar.value,
-                          onTap: (value) {
-                            cubit.updateLabelTodoList(value);
-                            Navigator.pop(context);
-                          },
-                        ),
-                      );
+                      if (isMobile()) {
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.doi_lai_ten,
+                          child: AddToDoWidgetTienIch(
+                            initData: cubit.titleAppBar.value,
+                            onTap: (value) {
+                              cubit.updateLabelTodoList(value);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        );
+                      } else {
+                        showDiaLogTablet(
+                          context,
+                          title: S.current.chon_thanh_phan_tham_gia,
+                          child: AddToDoWidgetTienIch(
+                            initData: cubit.titleAppBar.value,
+                            onTap: (value) {
+                              cubit.updateLabelTodoList(value);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          isBottomShow: false,
+                          funcBtnOk: () {},
+                          maxHeight: 300,
+                        );
+                      }
                     },
                   ),
                   CellPopPupMenu(
@@ -319,9 +341,9 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                         icon: SvgPicture.asset(
                           ImageAssets.icDeleteLichHop,
                         ),
-                        title: S.current.xoa_cong_viec,
+                        title: '',
                         textContent:
-                            S.current.viec_nay_se_xoa_cac_task_ben_trong_no,
+                            S.current.ban_co_chan_chan_muon_xoa_nhom_cong_viec,
                         btnLeftTxt: S.current.huy,
                         btnRightTxt: S.current.xoa,
                       );
@@ -408,11 +430,11 @@ class ListUpDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (controller) {
+          onChange: (vl) {
             cubit.editWork(
               todo: todo,
+              titleChange: vl,
             );
-            cubit.titleChange = controller.text;
           },
           onEdit: () {
             if (cubit.listNguoiThucHienSubject.hasValue) {
@@ -420,9 +442,21 @@ class ListUpDSCV extends StatelessWidget {
             }
           },
           onThuHoi: () {
-            cubit.editWork(
-              todo: todo,
-              inUsed: !(todo.inUsed ?? false),
+            showDiaLog(
+              context,
+              funcBtnRight: () {
+                cubit.editWork(
+                  todo: todo,
+                  inUsed: !(todo.inUsed ?? false),
+                );
+              },
+              icon: SvgPicture.asset(
+                ImageAssets.ic_hoan_tac_dscv,
+              ),
+              title: '',
+              textContent: S.current.ban_co_chan_chan_muon_hoan_tac,
+              btnLeftTxt: S.current.huy,
+              btnRightTxt: S.current.hoan_tac,
             );
           },
           onXoaVinhVien: () {
@@ -432,10 +466,10 @@ class ListUpDSCV extends StatelessWidget {
                 cubit.xoaCongViecVinhVien(todo.id ?? '');
               },
               icon: SvgPicture.asset(
-                ImageAssets.icDeleteLichHop,
+                ImageAssets.ic_xoa_vinh_viec_cv,
               ),
-              title: S.current.xoa_cong_viec,
-              textContent: S.current.ban_co_chac_chan_muon_gui_mai_nay,
+              title: '',
+              textContent: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
             );
@@ -529,11 +563,11 @@ class ListDownDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (controller) {
+          onChange: (vl) {
             cubit.editWork(
               todo: todo,
+              titleChange: vl,
             );
-            cubit.titleChange = controller.text;
           },
           onEdit: () {
             if (cubit.listNguoiThucHienSubject.hasValue) {

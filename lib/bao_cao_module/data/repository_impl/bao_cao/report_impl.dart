@@ -40,10 +40,10 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<List<NhomCungHeThong>>> getListGroup() {
+  Future<Result<List<NhomCungHeThong>>> getListGroup(String appId) {
     return runCatchingAsync<GroupImplResponse, List<NhomCungHeThong>>(
       () => _reportService.getListGroup(
-        'c3c5aba1-fb93-4ab1-a865-718001d47788',
+        appId,
         ApiConstants.PAGE_BEGIN.toString(),
         ApiConstants.DEFAULT_PAGE_SIZE.toString(),
       ),
@@ -113,11 +113,11 @@ class ReportImpl implements ReportRepository {
 
   @override
   Future<Result<List<ReportItem>>> getListReportFavorite(
-      String appId,
-      String folderId,
+    String appId,
+    String folderId,
   ) {
     return runCatchingAsync<ReportResponse, List<ReportItem>>(
-      () => _reportService.getListReportFavorite(appId,folderId),
+      () => _reportService.getListReportFavorite(appId, folderId),
       (res) =>
           res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
           [],
@@ -139,28 +139,29 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<String>> addNewMember(Map<String, String> mapMember) {
+  Future<Result<String>> addNewMember(
+      Map<String, String> mapMember, String appId) {
     return runCatchingAsync<PostDataResponse, String>(
       () => _reportService.addNewUser(
         mapMember,
-        'c3c5aba1-fb93-4ab1-a865-718001d47788',
+        appId,
       ),
       (res) => res.message ?? '',
     );
   }
 
   @override
-  Future<Result<String>> shareReport(List<ShareReport> mapMember, String idReport) {
+  Future<Result<String>> shareReport(
+      List<ShareReport> mapMember, String idReport, String appId,) {
     return runCatchingAsync<PostDataResponse, String>(
-          () => _reportService.shareReport(
+      () => _reportService.shareReport(
         idReport,
         mapMember,
-        'c3c5aba1-fb93-4ab1-a865-718001d47788',
+        appId,
       ),
-          (res) => res.message ?? '',
+      (res) => res.message ?? '',
     );
   }
-
 
   @override
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>

@@ -22,6 +22,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   ChiaSeBaoCaoCubit() : super(ChiaSeBaoCaoInitial()) {
     showContent();
   }
+
   String appId = '';
 
   static const int COMMON = 0;
@@ -35,15 +36,15 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
       BehaviorSubject.seeded([]);
   BehaviorSubject<String> callAPI = BehaviorSubject.seeded('');
   final BehaviorSubject<bool> _isDuocTruyCapSubject = BehaviorSubject<bool>();
+
   Stream<bool> get isDuocTruyCapStream => _isDuocTruyCapSubject.stream;
+
   Sink<bool> get isDuocTruyCapSink => _isDuocTruyCapSubject.sink;
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
       BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
-
-
 
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
 
@@ -63,7 +64,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     listDropDown.clear();
     listCheck.clear();
     showLoading();
-    final rs = await _repo.getListGroup();
+    final rs = await _repo.getListGroup(appId);
     rs.when(
       success: (res) {
         for (int i = 0; i < res.length; i++) {
@@ -75,7 +76,9 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   }
 
   Future<void> getMemberInGroup(
-      String idGroup, NhomCungHeThong nhomCungHeThong) async {
+    String idGroup,
+    NhomCungHeThong nhomCungHeThong,
+  ) async {
     final rs = await _repo.getListThanhVien(idGroup);
     rs.when(
       success: (res) {
@@ -105,7 +108,6 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     String? unit,
     String? description,
   }) async {
-    String message = '';
     final Map<String, String> mapData = {
       'email': email ?? '',
       'fullname': fullName ?? '',
@@ -115,19 +117,23 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
       'unit': unit ?? '',
       'description': description ?? '',
     };
-    final rs = await _repo.addNewMember(mapData);
-    rs.when(
-      success: (res) {
-        message = res;
-      },
-      error: (error) {
-        message = S.current.error;
-      },
-    );
-    return message;
+    final rs = await chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
+    // rs.when(
+    //   success: (res) {
+    //     message = res;
+    //     chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
+    //   },
+    //   error: (error) {
+    //     message = S.current.error;
+    //   },
+    // );
+    return rs;
   }
 
-  Future<String> chiaSeBaoCao(Share enumShare) async {
+  Future<String> chiaSeBaoCao(
+    Share enumShare, {
+    Map<String, String>? newUser,
+  }) async {
     String mes = '';
     showLoading();
     final List<ShareReport> mapData = [];
@@ -146,7 +152,12 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
         // TODO: Handle this case.
         break;
       case Share.NEW_USER:
-        // TODO: Handle this case.
+        final ShareReport map = ShareReport(
+          newUser: newUser,
+          type: NEW_USER,
+        );
+        mapData.add(map);
+        mes = await shareReport(mapData, idReport: idReport);
         break;
     }
     return mes;
@@ -157,7 +168,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     required String idReport,
   }) async {
     String message = '';
-    final rs = await _repo.shareReport(mapData, idReport);
+    final rs = await _repo.shareReport(mapData, idReport, appId);
     rs.when(
       success: (res) {
         message = res;
@@ -191,10 +202,9 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
 
   List<NhomCungHeThong> listCheck = [];
 
-
   ///huy
   Future<void> getUsersNgoaiHeThongDuocTruyCap({required String appId}) async {
-    final result = await _repo.getUsersNgoaiHeThongTruyCap(appId, '0', '10', '');
+    final result =
+        await _repo.getUsersNgoaiHeThongTruyCap(appId, '0', '10', '');
   }
-
 }

@@ -42,6 +42,7 @@ mixin ReportRepository {
       );
 
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>> getUsersNgoaiHeThongTruyCap(
+      String appId,
       String pageIndex,
       String pageSize,
       String keyword,

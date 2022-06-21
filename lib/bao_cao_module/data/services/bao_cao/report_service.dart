@@ -74,6 +74,7 @@ abstract class ReportService {
 
   @POST(ApiConstants.GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP)
   Future<UserNgoaiHeThongTruyCapTotalResponse> getUsersNgoaiHeThongDuocTruyCap(
-    @Body() UsersNgoaiHeThongTruyCapRequest request,
+      @Header('AppId') String appId,
+      @Body() UsersNgoaiHeThongTruyCapRequest request,
   );
 }

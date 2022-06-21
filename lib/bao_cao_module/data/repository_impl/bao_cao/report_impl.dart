@@ -141,10 +141,11 @@ class ReportImpl implements ReportRepository {
   @override
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(
-          String pageIndex, String pageSize, String keyword) {
+          String appId, String pageIndex, String pageSize, String keyword) {
     return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse,
         List<UserNgoaiHeThongDuocTruyCapModel>>(
       () => _reportService.getUsersNgoaiHeThongDuocTruyCap(
+        appId,
         UsersNgoaiHeThongTruyCapRequest(
           pageIndex: pageIndex,
           pageSize: pageSize,
@@ -154,5 +155,4 @@ class ReportImpl implements ReportRepository {
       (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],
     );
   }
-
 }

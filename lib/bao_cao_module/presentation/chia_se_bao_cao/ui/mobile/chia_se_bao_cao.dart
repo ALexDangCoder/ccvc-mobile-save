@@ -33,6 +33,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
     _tabController = TabController(length: 2, vsync: this);
     cubit = ChiaSeBaoCaoCubit();
     cubit.idReport = widget.idReport;
+    cubit.appId = widget.appId;
     cubit.getGroup();
     cubit.getTree();
   }

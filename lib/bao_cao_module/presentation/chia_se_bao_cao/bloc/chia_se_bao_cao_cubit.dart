@@ -19,10 +19,10 @@ enum Share {
 }
 
 class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
-  ChiaSeBaoCaoCubit(this.appId) : super(ChiaSeBaoCaoInitial()) {
+  ChiaSeBaoCaoCubit() : super(ChiaSeBaoCaoInitial()) {
     showContent();
   }
-  final String appId;
+  String appId = '';
 
   static const int COMMON = 0;
   static const int HAS_USER = 1;

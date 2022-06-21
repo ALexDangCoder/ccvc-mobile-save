@@ -146,6 +146,7 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
                   builder: (_) {
                     return ChiaSeBaoCaoMobile(
                       idReport: widget.reportItem.id ?? '',
+                      appId: widget.cubit.appId,
                     );
                   },
                 );

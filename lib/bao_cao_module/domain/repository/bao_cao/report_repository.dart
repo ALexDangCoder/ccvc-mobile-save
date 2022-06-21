@@ -16,8 +16,7 @@ mixin ReportRepository {
   Future<Result<List<ThanhVien>>> getListThanhVien(
     String groupId,
   );
-      String groupId,
-      );
+
   Future<Result<String>> addNewMember(
       Map<String,String> mapMember,
       );
@@ -41,7 +40,7 @@ mixin ReportRepository {
     String folderId,
   );
 
-  Future<Result<List<FolderModel>>> getListReportTree(
+  Future<Result<List<ReportItem>>> getListReportTree(
       String appId,
       String folderId,
       );
@@ -49,10 +48,6 @@ mixin ReportRepository {
       List<ShareReport> mapMember,
       String idReport,
       );
-  Future<Result<List<ReportItem>>> getListReportTree(
-    String appId,
-    String folderId,
-  );
 
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(

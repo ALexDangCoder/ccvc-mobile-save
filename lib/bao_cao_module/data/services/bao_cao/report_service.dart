@@ -85,9 +85,6 @@ abstract class ReportService {
       @Path() String idReport,
       @Body() List<ShareReport> mapData,
       @Header('AppId') String appId,
-      );
-    @Header('AppId') String appId,
-    @Query('folderId') String folderId,
   );
 
   @POST(ApiConstants.GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP)

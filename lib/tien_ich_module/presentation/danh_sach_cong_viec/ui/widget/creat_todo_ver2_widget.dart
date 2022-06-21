@@ -63,9 +63,32 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   @override
   Widget build(BuildContext context) {
     return FollowKeyBoardWidget(
+      bottomWidget: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: APP_DEVICE == DeviceType.MOBILE
+            ? EdgeInsets.zero
+            : const EdgeInsets.symmetric(horizontal: 100),
+        child: DoubleButtonBottom(
+          title1: S.current.dong,
+          title2: S.current.luu,
+          onPressed1: () {
+            Navigator.pop(context);
+          },
+          onPressed2: () {
+            if (widget.isCreat ?? true) {
+              widget.cubit.addTodo();
+            } else {
+              widget.cubit.editWork(
+                todo: widget.todo ?? TodoDSCVModel(),
+              );
+            }
+            Navigator.pop(context);
+          },
+        ),
+      ),
       child: Container(
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.8,
+          maxHeight: MediaQuery.of(context).size.height * 0.7,
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -230,39 +253,13 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   initialValue: widget.todo?.note ?? '',
                   title: S.current.ghi_chu,
                   validator: (String? value) {},
-                  onChange: (String value) {
+                  onChange: (value) {
                     widget.cubit.noteChange = value;
                   },
                   maxLine: 8,
                   controller: noteControler,
                 ),
                 const SizedBox(height: 20),
-                Padding(
-                  padding: APP_DEVICE == DeviceType.MOBILE
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.symmetric(horizontal: 100),
-                  child: DoubleButtonBottom(
-                    title1: S.current.dong,
-                    title2: S.current.luu,
-                    onPressed1: () {
-                      Navigator.pop(context);
-                    },
-                    onPressed2: () {
-                      if (widget.isCreat ?? true) {
-                        widget.cubit.addTodo();
-                      } else {
-                        widget.cubit.editWork(
-                          todo: widget.todo ?? TodoDSCVModel(),
-                        );
-                      }
-
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
               ],
             ),
           ),

@@ -139,6 +139,30 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
+  Future<Result<String>> addNewMember(Map<String, String> mapMember) {
+    return runCatchingAsync<PostDataResponse, String>(
+      () => _reportService.addNewUser(
+        mapMember,
+        'c3c5aba1-fb93-4ab1-a865-718001d47788',
+      ),
+      (res) => res.message ?? '',
+    );
+  }
+
+  @override
+  Future<Result<String>> shareReport(List<ShareReport> mapMember, String idReport) {
+    return runCatchingAsync<PostDataResponse, String>(
+          () => _reportService.shareReport(
+        idReport,
+        mapMember,
+        'c3c5aba1-fb93-4ab1-a865-718001d47788',
+      ),
+          (res) => res.message ?? '',
+    );
+  }
+
+
+  @override
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(
           String appId, String pageIndex, String pageSize, String keyword) {

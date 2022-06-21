@@ -1,14 +1,16 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/folder_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/group_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_report_respose.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/report_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/folder_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 
 class ReportImpl implements ReportRepository {
   final ReportService _reportService;
@@ -32,7 +34,7 @@ class ReportImpl implements ReportRepository {
         appId,
       ),
       (res) =>
-          res.dataResponse.listReportItem?.map((e) => e.toModel()).toList() ??
+          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
           [],
     );
   }
@@ -62,12 +64,12 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<FolderModel>> getFolderID(
+  Future<Result<ReportItem>> getFolderID(
     String appId,
   ) {
-    return runCatchingAsync<FolderResponse, FolderModel>(
+    return runCatchingAsync<FolderResponse, ReportItem>(
       () => _reportService.getFolderID(appId),
-      (res) => res.data?.toDomain() ?? FolderModel(),
+      (res) => res.data?.toDomain() ?? ReportItem(),
     );
   }
 
@@ -111,22 +113,23 @@ class ReportImpl implements ReportRepository {
 
   @override
   Future<Result<List<ReportItem>>> getListReportFavorite(
-    String appId,
+      String appId,
+      String folderId,
   ) {
     return runCatchingAsync<ReportResponse, List<ReportItem>>(
-      () => _reportService.getListReportFavorite(appId),
+      () => _reportService.getListReportFavorite(appId,folderId),
       (res) =>
-          res.dataResponse.listReportItem?.map((e) => e.toModel()).toList() ??
+          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
           [],
     );
   }
 
   @override
-  Future<Result<List<FolderModel>>> getListReportTree(
+  Future<Result<List<ReportItem>>> getListReportTree(
     String appId,
     String folderId,
   ) {
-    return runCatchingAsync<ListTreeReportResponse, List<FolderModel>>(
+    return runCatchingAsync<ListTreeReportResponse, List<ReportItem>>(
       () => _reportService.getListReportTree(
         appId,
         folderId,
@@ -158,4 +161,22 @@ class ReportImpl implements ReportRepository {
     );
   }
 
+
+  @override
+  Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
+      getUsersNgoaiHeThongTruyCap(
+          String appId, String pageIndex, String pageSize, String keyword) {
+    return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse,
+        List<UserNgoaiHeThongDuocTruyCapModel>>(
+      () => _reportService.getUsersNgoaiHeThongDuocTruyCap(
+        appId,
+        UsersNgoaiHeThongTruyCapRequest(
+          pageIndex: pageIndex,
+          pageSize: pageSize,
+          keyword: keyword,
+        ),
+      ),
+      (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
 }

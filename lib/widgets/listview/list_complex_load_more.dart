@@ -26,7 +26,7 @@ class ComplexLoadMore extends StatefulWidget {
   final bool? shrinkWap;
   final bool isTitle;
   final String? titleNoData;
-  final bool isCallApiInit;
+  final bool isLoadmore;
 
   const ComplexLoadMore({
     Key? key,
@@ -41,7 +41,7 @@ class ComplexLoadMore extends StatefulWidget {
     this.isTitle = true,
     this.titleNoData,
     this.mainAxisExtent,
-    this.isCallApiInit = true,
+    this.isLoadmore = true,
   }) : super(key: key);
 
   @override
@@ -72,16 +72,16 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
     widget.cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
     widget.cubit.loadMoreRefresh = true;
     widget.cubit.loadMoreLoading = true;
-    if (widget.isCallApiInit) {
-      await widget.callApi(widget.cubit.loadMorePage);
-    }
+    await widget.callApi(widget.cubit.loadMorePage);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    initData();
+    if (widget.isLoadmore) {
+      initData();
+    }
   }
 
   @override
@@ -124,10 +124,12 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
           stream: widget.cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (widget.cubit.canLoadMore &&
-                  scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
-                loadMorePosts();
+              if (widget.isLoadmore) {
+                if (widget.cubit.canLoadMore &&
+                    scrollInfo.metrics.pixels ==
+                        scrollInfo.metrics.maxScrollExtent) {
+                  loadMorePosts();
+                }
               }
               return true;
             },

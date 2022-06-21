@@ -21,3 +21,8 @@ class RefreshCalendar {
 class RefreshList {
   RefreshList();
 }
+
+class CallBackNguoiGan {
+  final String id;
+  CallBackNguoiGan(this.id);
+}

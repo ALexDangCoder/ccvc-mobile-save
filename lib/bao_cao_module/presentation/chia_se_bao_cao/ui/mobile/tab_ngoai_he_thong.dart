@@ -37,6 +37,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
 
   final Debouncer _debounce = Debouncer();
 
+
   String? name;
   String? birthday;
   String? email;
@@ -44,6 +45,13 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   String? position;
   String? unit;
   String? note;
+
+
+  @override
+  void initState() {
+    super.initState();
+    widget.cubit.getUsersNgoaiHeThongDuocTruyCap(appId: widget.cubit.appId);
+  }
 
   @override
   Widget build(BuildContext context) {

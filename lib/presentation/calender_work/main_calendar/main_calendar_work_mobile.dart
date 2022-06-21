@@ -267,11 +267,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                   MaterialPageRoute(
                     builder: (context) => const TaoLichLamViecChiTietScreen(),
                   ),
-                ).then((value) {
-                  if (value) {
-                    cubit.callApi();
-                  }
-                });
+                );
               },
               backgroundColor: AppTheme.getInstance().colorField(),
               child: SvgPicture.asset(ImageAssets.icVectorCalender),

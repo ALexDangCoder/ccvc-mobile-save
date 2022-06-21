@@ -59,14 +59,16 @@ class CreateToDoRequest {
   bool? isTicked;
   bool? important;
   bool? inUsed;
+  String? performer;
 
-  CreateToDoRequest({this.label, this.isTicked, this.important, this.inUsed});
+  CreateToDoRequest({this.label, this.isTicked, this.important, this.inUsed, this.performer,});
 
   CreateToDoRequest.fromJson(Map<String, dynamic> json) {
     label = json['label'];
     isTicked = json['isTicked'];
     important = json['important'];
     inUsed = json['inUsed'];
+    performer=json['performer'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +77,7 @@ class CreateToDoRequest {
     data['isTicked'] = isTicked;
     data['important'] = important;
     data['inUsed'] = inUsed;
+    data['performer']=performer;
     return data;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +11,7 @@ import '/home_module/utils/constants/image_asset.dart';
 class CongViecCell extends StatefulWidget {
   final String text;
   final bool enabled;
+  final String nguoiGan;
   final bool borderBottom;
   final Function(bool) onCheckBox;
   final Function onStar;
@@ -25,6 +27,7 @@ class CongViecCell extends StatefulWidget {
     required this.onClose,
     required this.todoModel,
     this.enabled = true,
+    required this.nguoiGan,
     this.borderBottom = true,
     this.onChange,
   }) : super(key: key);
@@ -94,16 +97,39 @@ class _CongViecCellState extends State<CongViecCell> {
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: TextFormField(
-                      focusNode: focusNode,
-                      controller: textEditingController,
-                      enabled: widget.enabled,
-                      style: textNormal(infoColor, 14),
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: 20),
-                      ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                          child: TextFormField(
+                            focusNode: focusNode,
+                            controller: textEditingController,
+                            enabled: widget.enabled,
+                            style: textNormal(infoColor, 14),
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              // contentPadding:
+                              //     EdgeInsets.only(top: 10, bottom: 10),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: widget.nguoiGan.isNotEmpty,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 8,),
+                              Text('${S.current.nguoi_gan} ${widget.nguoiGan}',
+                                style: textNormal(
+                                  infoColor,
+                                  12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
           ),

@@ -13,9 +13,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChiaSeBaoCaoMobile extends StatefulWidget {
-  const ChiaSeBaoCaoMobile({Key? key, required this.idReport})
+  const ChiaSeBaoCaoMobile({Key? key, required this.idReport,required this.appId,})
       : super(key: key);
   final String idReport;
+  final String appId;
 
   @override
   _ChiaSeBaoCaoMobileState createState() => _ChiaSeBaoCaoMobileState();

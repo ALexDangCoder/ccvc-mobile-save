@@ -142,7 +142,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
           tienTrinhXuLyRowData.sink.add(listData);
         }
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
   }
 
@@ -239,7 +241,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             ketQuaXuLyRowData.sink.add(listData);
           }
         },
-        error: (error) {});
+        error: (error) {
+          showError();
+        });
   }
 
   Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {

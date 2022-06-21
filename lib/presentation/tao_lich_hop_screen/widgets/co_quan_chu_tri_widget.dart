@@ -273,6 +273,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ButtonSelectFile(
                     files: [],
                     spacingFile: 16,
+                    maxSize: 30000000,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
                     onChange: (list) {

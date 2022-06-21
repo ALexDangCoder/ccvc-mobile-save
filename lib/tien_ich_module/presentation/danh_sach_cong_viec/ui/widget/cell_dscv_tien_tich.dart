@@ -20,7 +20,7 @@ class CongViecCellTienIch extends StatefulWidget {
   final Function()? onStar;
   final Function()? onClose;
   final TodoDSCVModel todoModel;
-  final Function(TextEditingController)? onChange;
+  final Function(String)? onChange;
   final Function()? onEdit;
   final Function()? onThuHoi;
   final Function()? onXoaVinhVien;
@@ -52,22 +52,10 @@ class CongViecCellTienIch extends StatefulWidget {
 
 class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
   final FocusNode focusNode = FocusNode();
-  final TextEditingController textEditingController = TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    textEditingController.text = widget.text.trim();
-    focusNode.addListener(() {
-      if (!focusNode.hasFocus && widget.onChange != null) {
-        widget.onChange?.call(textEditingController);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final double padingIcon = MediaQuery.of(context).size.width * 0.03;
     return Container(
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: borderButtomColor)),
@@ -121,18 +109,24 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                         padding: const EdgeInsets.only(right: 6),
                         child: TextFormField(
                           focusNode: focusNode,
-                          controller: textEditingController,
+                          controller: TextEditingController(text: widget.text),
                           enabled: widget.enabled,
                           style: textNormal(infoColor, 14.0.textScale()),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (vl) {},
+                          onFieldSubmitted: (vl) {
+                            if (vl.isNotEmpty) {
+                              widget.onChange?.call(vl);
+                            }
+                          },
                         ),
                       ),
               ),
               if (widget.showIcon?.contains(IconDSCV.icEdit) ?? false)
                 Padding(
-                  padding: const EdgeInsets.only(right: 20),
+                  padding: EdgeInsets.only(right: padingIcon),
                   child: GestureDetector(
                     onTap: !(widget.isEnableIcon?.contains(IconDSCV.icEdit) ??
                             false)
@@ -143,7 +137,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                 ),
               if (widget.showIcon?.contains(IconDSCV.icImportant) ?? false)
                 Padding(
-                  padding: const EdgeInsets.only(right: 20),
+                  padding: EdgeInsets.only(right: padingIcon),
                   child: GestureDetector(
                     onTap:
                         !(widget.isEnableIcon?.contains(IconDSCV.icImportant) ??
@@ -164,7 +158,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                       ? widget.onThuHoi
                       : onTapNull,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 20),
+                    padding: EdgeInsets.only(right: padingIcon),
                     child: SvgPicture.asset(
                       ImageAssets.ic_hoan_tac,
                     ),
@@ -178,7 +172,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                           ? widget.onXoaVinhVien
                           : onTapNull,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 20),
+                    padding: EdgeInsets.only(right: padingIcon),
                     child: SvgPicture.asset(
                       ImageAssets.ic_delete_dscv,
                     ),
@@ -209,7 +203,10 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   stream: widget.cubit.listNguoiThucHienSubject,
                   builder: (context, snapshot) {
                     if (snapshot.hasData && widget.todoModel.showDotOne()) {
-                      return Padding(
+                      return Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.3,
+                        ),
                         padding: const EdgeInsets.only(left: 8),
                         child: textUnder(
                           widget.cubit.convertIdToPerson(

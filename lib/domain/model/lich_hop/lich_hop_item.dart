@@ -7,8 +7,8 @@ class LichHopItem {
 }
 
 List<LichHopItem> listItemSchedule = [
-  LichHopItem(20, '22', 'Lịch chủ trì'),
-  LichHopItem(12, '22', 'Lịch cần KLCH'),
-  LichHopItem(9, '22', 'Lịch sắp tới'),
-  LichHopItem(26, '22', 'Lịch bị trùng'),
+  LichHopItem(0, '0', 'Lịch chủ trì'),
+  LichHopItem(0, '0', 'Lịch cần KLCH'),
+  LichHopItem(0, '0', 'Lịch sắp tới'),
+  LichHopItem(0, '0', 'Lịch bị trùng'),
 ];

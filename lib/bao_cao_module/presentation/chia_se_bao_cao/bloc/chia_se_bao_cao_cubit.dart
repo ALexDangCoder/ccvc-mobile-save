@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -40,6 +41,8 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   Stream<bool> get isDuocTruyCapStream => _isDuocTruyCapSubject.stream;
 
   Sink<bool> get isDuocTruyCapSink => _isDuocTruyCapSubject.sink;
+
+  bool get valueDuocTruyCap => _isDuocTruyCapSubject.value;
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
       BehaviorSubject<List<Node<DonViModel>>>();
@@ -202,9 +205,85 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
 
   List<NhomCungHeThong> listCheck = [];
 
+  final BehaviorSubject<List<UserNgoaiHeThongDuocTruyCapModel>>
+      usersNgoaiHeThongDuocTruyCapBHVSJ =
+      BehaviorSubject<List<UserNgoaiHeThongDuocTruyCapModel>>();
+
   ///huy
+  int pageSize = 10;
+  int pageNumber = 0;
+  bool loadMore = false;
+  String keySearch = '';
+  bool canLoadMoreList = true;
+  bool refresh = false;
+
+  final Set<String> idUsersNgoaiHeTHongDuocTruyCap = {};
+
+  void clearUsersNgoaiHeThongDuocTruyCap() {
+    if (usersNgoaiHeThongDuocTruyCapBHVSJ.hasValue) {
+      pageSize = 10;
+      refresh = false;
+      canLoadMoreList = true;
+      loadMore = false;
+      usersNgoaiHeThongDuocTruyCapBHVSJ.value.clear();
+    } else {}
+  }
+
+  Future<void> loadMoreUsersNgoaiHeThongTruyCap() async {
+    if (loadMore == false) {
+      pageNumber += 1;
+      canLoadMoreList = true;
+      loadMore = true;
+      await getUsersNgoaiHeThongDuocTruyCap();
+    } else {
+      //nothing
+    }
   Future<void> getUsersNgoaiHeThongDuocTruyCap({required String appId}) async {
     final result =
         await _repo.getUsersNgoaiHeThongTruyCap(appId, '0', '10', '');
+  }
+
+  Future<void> refreshGetUsersNgoaiHeThongTruyCap() async {
+    canLoadMoreList = true;
+    if (refresh == false) {
+      pageSize = 0;
+      refresh = true;
+      await getUsersNgoaiHeThongDuocTruyCap();
+    }
+  }
+
+  Future<void> getUsersNgoaiHeThongDuocTruyCap({
+    bool isSearch = false,
+  }) async {
+    if (isSearch) {
+      clearUsersNgoaiHeThongDuocTruyCap();
+    } else {
+      //nothing
+    }
+    showLoading();
+    final result = await _repo.getUsersNgoaiHeThongTruyCap(
+      appId,
+      pageNumber,
+      pageSize,
+      keySearch,
+    );
+    result.when(
+      success: (success) {
+        if (usersNgoaiHeThongDuocTruyCapBHVSJ.hasValue) {
+          usersNgoaiHeThongDuocTruyCapBHVSJ.sink
+              .add(usersNgoaiHeThongDuocTruyCapBHVSJ.value + success);
+          canLoadMoreList = success.length >= pageSize;
+          loadMore = false;
+          refresh = false;
+        } else {
+          usersNgoaiHeThongDuocTruyCapBHVSJ.sink.add(success);
+          canLoadMoreList = success.length >= pageSize;
+        }
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
+    );
   }
 }

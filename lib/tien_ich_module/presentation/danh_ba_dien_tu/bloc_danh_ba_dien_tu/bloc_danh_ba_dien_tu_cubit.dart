@@ -295,6 +295,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       thuTu: thuTu,
       groupIds: groupIds,
     );
+    showLoading();
     final result = await tienIchRep.postThemMoiDanhBa(themDanhBaCaNhanRequest);
     result.when(
       success: (res) {
@@ -319,6 +320,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         }
       },
     );
+    showContent();
     return isCheck;
   }
 
@@ -345,6 +347,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     required String id,
   }) async {
     bool isCheckSuccess = true;
+    showLoading();
     final SuaDanhBaCaNhanRequest suaDanhBaCaNhanRequest =
         SuaDanhBaCaNhanRequest(
       groups: groups,
@@ -392,9 +395,11 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         }
       },
     );
-    if (isCheckSuccess) {
-      anhDanhBaCaNhan.sink.add(null);
-    }
+    // if (isCheckSuccess) {
+    //   anhDanhBaCaNhan.sink.add(null);
+    // }
+    //
+    showContent();
     return isCheckSuccess;
   }
 

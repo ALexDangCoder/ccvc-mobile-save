@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/radio/group_radio_button.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -174,9 +175,14 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             spaceH16,
             textField(
               hintText: S.current.chuc_vu,
-              title: S.current.chuc_vu,
+              title: '${S.current.chuc_vu}(*)',
               onChange: (value) {
                 position = value;
+              },
+              validate: (value) {
+                if ((value ?? '').isEmpty) {
+                  return S.current.khong_duoc_de_trong;
+                }
               },
             ),
             spaceH16,
@@ -184,7 +190,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               title: '${S.current.don_vi}(*)',
               hintText: S.current.don_vi,
               onChange: (value) {
-                unit = unit;
+                unit = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -224,28 +230,54 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           right: 21,
           top: 24,
         ),
-        child: DoubleButtonBottom(
-          onPressed1: () {
-            Navigator.pop(context);
-          },
-          title1: S.current.dong,
-          title2: S.current.chia_se,
-          onPressed2: () {
-            if (_groupKey.currentState?.validator() ?? true) {
-              //share here
-              Navigator.pop(context);
-            } else {
-              final toast = FToast();
-              toast.init(context);
-              toast.showToast(
-                child: ShowToast(
-                  text: S.current.sai_dinh_dang_truong,
-                ),
-                gravity: ToastGravity.BOTTOM,
+        child: StreamBuilder<bool>(
+            stream: widget.cubit.isDuocTruyCapStream,
+            builder: (context, snapshot) {
+              return DoubleButtonBottom(
+                onPressed1: () {
+                  Navigator.pop(context);
+                },
+                title1: S.current.dong,
+                title2: S.current.chia_se,
+                onPressed2: () {
+                  if (_groupKey.currentState?.validator() ?? true) {
+                    if (snapshot.data == true) {
+                      /// share báo cáo
+                    } else {
+                      widget.cubit
+                          .themMoiDoiTuong(
+                        email: email,
+                        fullName: name,
+                        birthday: birthday,
+                        phone: phoneNumber,
+                        position: position,
+                        unit: unit,
+                        description: note,
+                      )
+                          .then((value) {
+                        if (value == 'Thành công') {
+                          MessageConfig.show(title: value);
+                        } else {
+                          MessageConfig.show(
+                            title: value,
+                            messState: MessState.error,
+                          );
+                        }
+                      });
+                    }
+                  } else {
+                    final toast = FToast();
+                    toast.init(context);
+                    toast.showToast(
+                      child: ShowToast(
+                        text: S.current.sai_dinh_dang_truong,
+                      ),
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
+                },
               );
-            }
-          },
-        ),
+            }),
       );
 
   Widget get listDoiTuongDaTruyCap =>

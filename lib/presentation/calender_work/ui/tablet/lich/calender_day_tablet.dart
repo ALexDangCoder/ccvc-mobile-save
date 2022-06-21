@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/type_calendar.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -126,7 +125,7 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                             if (widget.cubit
                                 .getElementFromId(
                               appointment.id.toString(),
-                            ).isTrung)
+                            ).isTrung )
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

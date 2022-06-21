@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:get/get.dart' as get_dart;
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,12 +13,23 @@ import 'package:rxdart/subjects.dart';
 
 part 'chia_se_bao_cao_state.dart';
 
+enum Share {
+  COMMON,
+  HAS_USER,
+  NEW_USER,
+}
+
 class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
-  ChiaSeBaoCaoCubit(this.appId) : super(ChiaSeBaoCaoInitial()) {
+  ChiaSeBaoCaoCubit() : super(ChiaSeBaoCaoInitial()) {
     showContent();
   }
+  String appId = '';
 
-  final String appId;
+  static const int COMMON = 0;
+  static const int HAS_USER = 1;
+  static const int NEW_USER = 2;
+
+  String idReport = '';
 
   ReportRepository get _repo => get_dart.Get.find();
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
@@ -87,11 +99,79 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
 
   Future<void> getDonVi() async {}
 
-  Future<void> getDoiTuongTruyCap() async {}
+  Future<String> themMoiDoiTuong({
+    String? email,
+    String? fullName,
+    String? birthday,
+    String? phone,
+    String? position,
+    String? unit,
+    String? description,
+  }) async {
+    String message = '';
+    final Map<String, String> mapData = {
+      'email': email ?? '',
+      'fullname': fullName ?? '',
+      'birthday': birthday ?? '',
+      'phone': phone ?? '',
+      'position': position ?? '',
+      'unit': unit ?? '',
+      'description': description ?? '',
+    };
+    final rs = await _repo.addNewMember(mapData);
+    rs.when(
+      success: (res) {
+        message = res;
+      },
+      error: (error) {
+        message = S.current.error;
+      },
+    );
+    return message;
+  }
 
-  Future<void> themMoiDoiTuong() async {}
+  Future<String> chiaSeBaoCao(Share enumShare) async {
+    String mes = '';
+    showLoading();
+    final List<ShareReport> mapData = [];
+    switch (enumShare) {
+      case Share.COMMON:
+        for (final element in listCheck) {
+          final ShareReport map = ShareReport(
+            groupId: element.idNhom,
+            type: COMMON,
+          );
+          mapData.add(map);
+        }
+        mes = await shareReport(mapData, idReport: idReport);
+        break;
+      case Share.HAS_USER:
+        // TODO: Handle this case.
+        break;
+      case Share.NEW_USER:
+        // TODO: Handle this case.
+        break;
+    }
+    return mes;
+  }
 
-  Future<void> chiaSeBaoCao() async {}
+  Future<String> shareReport(
+    List<ShareReport> mapData, {
+    required String idReport,
+  }) async {
+    String message = '';
+    final rs = await _repo.shareReport(mapData, idReport);
+    rs.when(
+      success: (res) {
+        message = res;
+        showContent();
+      },
+      error: (error) {
+        message = S.current.error;
+      },
+    );
+    return message;
+  }
 
   void themNhom(String tenNhom) {
     if (listCheck.where((element) => element.tenNhom == tenNhom).isEmpty) {

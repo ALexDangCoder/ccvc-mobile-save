@@ -162,8 +162,7 @@ extension LichLv on CalenderState {
   }) {
     return StreamBuilder<DateTime>(
       stream: cubit.streamInitTime,
-      builder: (context, snap) {
-        final datas = snap.data ?? cubit.selectDay;
+      builder: (context, _) {
         return StreamBuilder<List<DateTime>>(
           stream: cubit.eventsStream,
           builder: (context, snapshot) {
@@ -171,8 +170,9 @@ extension LichLv on CalenderState {
                 stream: cubit.isSearchBar.stream,
                 builder: (context, isSearch) {
                   return TableCalendarWidget(
+                    key:  UniqueKey(),
                     isSearchBar: isSearch.data ?? true,
-                    initTime: datas,
+                    initTime: cubit.selectDay,
                     eventsLoader: snapshot.data,
                     type: type,
                     onChange: (DateTime start, DateTime end, selectDay) {

@@ -160,12 +160,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                         builder: (context) =>
                             const TaoLichLamViecChiTietTablet(),
                       ),
-                    ).then((value) {
-                      if (value == null) {}
-                      if (value == true) {
-                        cubit.callApi();
-                      }
-                    });
+                    );
                   },
                   onTapDay: () {
                     setState(() {});

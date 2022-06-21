@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_c
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/main_data_view.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
@@ -30,15 +31,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
         title: 'Lịch của tôi',
         leadingIcon: Row(
           children: [
-            IconButton(
-              onPressed: () {
-                controller.isShowCalendarType.value =
-                    !controller.isShowCalendarType.value;
-              },
-              icon: SvgPicture.asset(
-                ImageAssets.icCalenderDayBig,
-              ),
-            ),
+            controller.getIcon(),
           ],
         ),
         actions: [

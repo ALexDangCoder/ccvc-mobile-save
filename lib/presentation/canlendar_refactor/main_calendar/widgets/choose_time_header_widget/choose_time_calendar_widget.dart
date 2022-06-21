@@ -37,7 +37,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
     }
     controller.selectDate.addListener(() {
       final times = dateTimeRange(controller.selectDate.value);
-      widget.onChange(times[0], times[1], controller.calendarType);
+      widget.onChange(times[0], times[1], controller.calendarType.value);
     });
   }
 
@@ -54,9 +54,9 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
               visible: value,
               child: ChooseTypeCalendarWidget(
                 onChange: (value) {
-                  controller.calendarType = value;
+                  controller.calendarType.value = value;
                   final times = dateTimeRange(controller.selectDate.value);
-                  widget.onChange(times[0], times[1], controller.calendarType);
+                  widget.onChange(times[0], times[1], controller.calendarType.value);
                   setState(() {});
                 },
               ),
@@ -109,7 +109,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
   }
 
   String dateFormat(DateTime dateTime) {
-    switch (controller.calendarType) {
+    switch (controller.calendarType.value) {
       case CalendarType.DAY:
         return dateTime.formatDayCalendar;
       case CalendarType.WEEK:
@@ -125,7 +125,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
   }
 
   List<DateTime> dateTimeRange(DateTime dateTime) {
-    switch (controller.calendarType) {
+    switch (controller.calendarType.value) {
       case CalendarType.DAY:
         return [dateTime, dateTime];
       case CalendarType.WEEK:

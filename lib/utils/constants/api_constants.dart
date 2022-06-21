@@ -90,6 +90,8 @@ class ApiConstants {
   static const CHI_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/{id}?';
 
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
+  static const HUY_AND_DUYET_LICH_HOP =
+      '/vpdt/api/MeetingSchedule/duyet-lich-hop';
   static const TRANG_THAI = '/vpdt/api/ReportStatus/list';
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
@@ -296,6 +298,9 @@ class ApiConstants {
   static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
   static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
   static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
+  static const CREATE_NEW_USER = '/htcs/api/User/create';
+  static const SHARE_REPORT = '/htcs/api/User/share-many';
+
 }
 
 class ImageConstants {

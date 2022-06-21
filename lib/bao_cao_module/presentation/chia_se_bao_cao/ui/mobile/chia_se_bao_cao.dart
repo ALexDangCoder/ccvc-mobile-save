@@ -13,10 +13,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChiaSeBaoCaoMobile extends StatefulWidget {
-  const ChiaSeBaoCaoMobile({
-    Key? key,
-    required this.appId,
-  }) : super(key: key);
+  const ChiaSeBaoCaoMobile({Key? key, required this.idReport,required this.appId,})
+      : super(key: key);
+  final String idReport;
   final String appId;
 
   @override
@@ -32,7 +31,9 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    cubit = ChiaSeBaoCaoCubit(widget.appId);
+    cubit = ChiaSeBaoCaoCubit();
+    cubit.idReport = widget.idReport;
+    cubit.appId = widget.appId;
     cubit.getGroup();
     cubit.getTree();
   }

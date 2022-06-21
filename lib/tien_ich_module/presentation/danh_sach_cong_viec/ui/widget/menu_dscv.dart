@@ -75,6 +75,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                               widget.cubit.statusDSCV.sink.add(index);
                               widget.cubit.addValueWithTypeToDSCV();
                               widget.cubit.groupId = '';
+                              widget.cubit.searchControler.text = '';
                               Navigator.pop(context);
                             },
                             isSelect: index == snapshot.data,
@@ -111,6 +112,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                         .add(DSCVScreen.NCVM);
                                     widget.cubit.addValueWithTypeToDSCV();
                                     widget.cubit.groupId = dataIndex.id;
+                                    widget.cubit.searchControler.text = '';
                                     Navigator.pop(context);
                                   },
                                   isSelect: false,
@@ -184,6 +186,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                     widget.cubit.titleAppBar.add(vl.title ?? '');
                     widget.cubit.statusDSCV.sink.add(index);
                     widget.cubit.addValueWithTypeToDSCV();
+                    widget.cubit.searchControler.text = '';
                     Navigator.pop(context);
                   },
                   isSelect: true,
@@ -228,6 +231,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                           .add(DSCVScreen.NCVM);
                                       widget.cubit.addValueWithTypeToDSCV();
                                       widget.cubit.groupId = dataIndex.id;
+                                      widget.cubit.searchControler.text = '';
                                       Navigator.pop(context);
                                     },
                                     isSelect: true,

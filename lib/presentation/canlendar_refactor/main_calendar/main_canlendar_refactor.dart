@@ -44,7 +44,9 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
         onRefresh: ()async{},
         child: Column(
           children: [
-            ChooseTimeCalendarWidget(),
+            ChooseTimeCalendarWidget(onChange: (startDate , endDate , type ) {
+
+            },),
             Expanded(child: MainDataView(cubit: cubit)),
           ],
         ),

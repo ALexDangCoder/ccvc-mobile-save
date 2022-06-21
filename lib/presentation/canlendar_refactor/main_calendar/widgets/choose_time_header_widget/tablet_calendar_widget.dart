@@ -11,11 +11,19 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/days_of_week_style_phone.dart';
 
+import 'controller/choose_time_calendar_controller.dart';
+
 class TabletCalendarWidget extends StatefulWidget {
   final List<DateTime> calendarDays;
   final Function(DateTime) onSelect;
+  final DateTime initDate;
+  final ChooseTimeController controller;
   const TabletCalendarWidget(
-      {Key? key, required this.calendarDays, required this.onSelect})
+      {Key? key,
+      required this.calendarDays,
+      required this.onSelect,
+      required this.initDate,
+      required this.controller})
       : super(key: key);
 
   @override
@@ -24,6 +32,19 @@ class TabletCalendarWidget extends StatefulWidget {
 
 class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
   DateTime selectDay = DateTime.now();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.controller.selectDate.addListener(() {
+      selectDay = widget.controller.selectDate.value;
+      setState(() {});
+    });
+    widget.controller.calendarFormat.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return TableCalendarPhone(
@@ -38,21 +59,11 @@ class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
         this.selectDay = selectDay;
         widget.onSelect(selectDay);
         setState(() {});
-
       },
       daysOfWeekVisible: true,
-
-      onFormatChanged: (CalendarFormat _format) {
-        // setState(() {
-        //   isFomat
-        //       ? _calendarFormatWeek = _format
-        //       : _calendarFormatMonth = _format;
-        // });
-      },
       selectedDayPredicate: (day) {
-        return isSameDay(this.selectDay, day);
+        return isSameDay(selectDay, day);
       },
-
       calendarStyle: CalendarStyle(
         // cellPadding: const EdgeInsets.all(8),
         weekendTextStyle: textNormalCustom(
@@ -84,9 +95,7 @@ class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
         ),
       ),
       headerVisible: false,
-      calendarFormat: CalendarFormat.week,
-      // calendarFormat:
-      //     isFomat ? _calendarFormatWeek : _calendarFormatMonth,
+      calendarFormat: widget.controller.calendarFormat.value,
       firstDay: DateTime.utc(2021, 8, 20),
       lastDay: DateTime.utc(2030, 8, 20),
       focusedDay: selectDay,

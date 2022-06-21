@@ -50,11 +50,16 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
           _scrollController.position.maxScrollExtent) {
         if (chuDeCubit.page <= chuDeCubit.totalPage) {
           chuDeCubit.page = chuDeCubit.page + 1;
-          chuDeCubit.getListTatCaCuDe(chuDeCubit.startDate, chuDeCubit.endDate);
+          chuDeCubit.getListTatCaCuDe(
+            chuDeCubit.startDate,
+            chuDeCubit.endDate,
+            pageIndex: chuDeCubit.page,
+          );
         }
       }
     });
   }
+
   void _handleEventBus() {
     eventBus.on<FireTopic>().listen((event) {
       chuDeCubit.callApi();

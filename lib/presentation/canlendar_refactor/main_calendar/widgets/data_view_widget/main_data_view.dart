@@ -42,9 +42,6 @@ class _MainDataViewState extends State<MainDataView> {
                 cubit: widget.cubit,
               );
           }
-          return DataViewTypeList(
-            cubit: widget.cubit,
-          );
         } else {
           return DataViewTypeList(
             cubit: widget.cubit,

@@ -14,10 +14,11 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 10,
+      itemCount: 20,
       itemBuilder: (_, index) {
         return Container(
-          padding: const  EdgeInsets.all(20),
+          height: 50,
+          margin: const  EdgeInsets.all(20),
           color: Colors.red,
         );
       },

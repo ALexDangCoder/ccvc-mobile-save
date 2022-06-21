@@ -16,12 +16,14 @@ const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
 
 
+
 //bottom navigation color
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);
 const tabUnselected = Color(0xFFA9B8BD);
 //sideTextInactiveColor
 //custom color
+const color_464646 = Color(0xFF464646);
 const signInRowColor = Color(0xFFA9B8BD);
 const signInTextColor = Color(0xff0ABAB5);
 const colorB9C4D0 = Color(0xFFB9C4D0);

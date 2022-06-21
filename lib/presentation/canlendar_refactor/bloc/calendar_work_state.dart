@@ -3,19 +3,22 @@ import 'package:equatable/equatable.dart';
 enum TypeCalendarList { DAY, WEEK, MONTH }
 
 abstract class CalendarWorkState extends Equatable {
-  const CalendarWorkState();
+  final TypeCalendarList typeView;
+  const CalendarWorkState( this.typeView);
 }
 
 class ListViewState extends CalendarWorkState {
+
+  const ListViewState({typeView = TypeCalendarList.DAY}) : super(typeView);
+
   @override
   // TODO: implement props
-  List<Object?> get props => [];
+  List<Object?> get props => [typeView];
 }
 
 class CalendarViewState extends CalendarWorkState {
-  final TypeCalendarList typeView;
 
-  const CalendarViewState({this.typeView = TypeCalendarList.DAY});
+  const CalendarViewState({typeView = TypeCalendarList.DAY}) : super(typeView);
 
   @override
   // TODO: implement props

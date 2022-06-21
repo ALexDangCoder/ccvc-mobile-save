@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/text/ellipsis_character_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -65,14 +66,13 @@ class NhiemVuItemMobile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      EllipsisDoubleLineText(
                         (data.noiDungTheoDoi ?? '').parseHtml(),
                         style: titleAppbar(
-                            fontSize: 16.0,
-                            color: data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
-                                textTitle),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                          fontSize: 16.0,
+                          color: data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
+                              textTitle,
+                        ),
                       ),
                       spaceH8,
                       Row(

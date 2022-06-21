@@ -286,8 +286,6 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                             );
                                           }
                                         }
-                                        final a = listChuDe[index];
-                                        a;
                                         return Column(
                                           children: [
                                             ItemListNews(

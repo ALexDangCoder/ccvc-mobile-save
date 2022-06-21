@@ -1,10 +1,12 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_phone.dart';
-import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/header_tablet_calendar_widget.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 
-import 'choose_time_item.dart';
-import 'choose_type_calendar_widget.dart';
+import 'package:flutter/material.dart';
+
+import 'calendar_type_widget.dart';
+import 'tablet_calendar_widget.dart';
 
 class ChooseTimeCalendarWidget extends StatefulWidget {
   final List<DateTime> calendarDays;
@@ -17,74 +19,72 @@ class ChooseTimeCalendarWidget extends StatefulWidget {
 }
 
 class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
+  CalendarType calendarType = CalendarType.DAY;
+  ValueNotifier<DateTime> selectDate = ValueNotifier(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Container(
       color: bgTabletColor,
       child: Column(
         children: [
-          const ChooseTypeCalendarWidget(),
+          ChooseTypeCalendarWidget(
+            onChange: (value) {
+              calendarType = value;
+              setState(() {});
+            },
+          ),
           Container(
             decoration: BoxDecoration(
-                color: Colors.white, border: Border.all(color: borderColor)),
-            child: TableCalendarPhone(
-              eventLoader: (day) => widget.calendarDays
-                  .where((element) => isSameDay(element, day))
-                  .toList(),
-              startingDayOfWeek: StartingDayOfWeek.monday,
-
-              daysOfWeekVisible: true,
-              onFormatChanged: (CalendarFormat _format) {
-                // setState(() {
-                //   isFomat
-                //       ? _calendarFormatWeek = _format
-                //       : _calendarFormatMonth = _format;
-                // });
-              },
-              // selectedDayPredicate: (day) {
-              //   return isSameDay(_selectedDay, day);
-              // },
-              // calendarStyle: CalendarStyle(
-              //   weekendTextStyle: textNormalCustom(
-              //     color: titleCalenderWork,
-              //     fontSize: 14.0.textScale(),
-              //     fontWeight: FontWeight.w500,
-              //   ),
-              //   defaultTextStyle: textNormalCustom(
-              //     color: color3D5586,
-              //     fontSize: 14.0.textScale(),
-              //     fontWeight: FontWeight.w500,
-              //   ),
-              //   selectedTextStyle: textNormalCustom(
-              //     fontWeight: FontWeight.w500,
-              //     fontSize: 14.0.textScale(),
-              //     color: Colors.white,
-              //   ),
-              //   selectedDecoration: BoxDecoration(
-              //     shape: BoxShape.circle,
-              //     color: AppTheme.getInstance().colorField(),
-              //   ),
-              //   todayDecoration: BoxDecoration(
-              //     shape: BoxShape.circle,
-              //     color: AppTheme.getInstance().colorField().withOpacity(0.2),
-              //   ),
-              //   todayTextStyle: textNormalCustom(
-              //     fontSize: 14.0.textScale(),
-              //     fontWeight: FontWeight.w500,
-              //     color: buttonColor,
-              //   ),
-              // ),
-              headerVisible: false,
-              calendarFormat: CalendarFormat.week,
-              // calendarFormat:
-              //     isFomat ? _calendarFormatWeek : _calendarFormatMonth,
-              firstDay: DateTime.utc(2021, 8, 20),
-              lastDay: DateTime.utc(2030, 8, 20),
-              focusedDay: DateTime.now(),
+              color: Colors.white,
+              border: Border.all(color: borderColor),
+              borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: shadowContainerColor.withOpacity(0.1),
+                    offset: const Offset(0, 4),
+                    blurRadius: 20)
+              ],
+            ),
+            child: Column(
+              children: [
+                ValueListenableBuilder<DateTime>(
+                  valueListenable: selectDate,
+                  builder: (context, value, _) {
+                    return HeaderTabletCalendarWidget(
+                      time: dateFormat(value),
+                    );
+                  },
+                ),
+                TabletCalendarWidget(
+                  calendarDays: [DateTime.now()],
+                  onSelect: (value) {
+                    selectDate.value = value;
+                  },
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  String dateFormat(DateTime dateTime) {
+    switch (calendarType) {
+      case CalendarType.DAY:
+        return dateTime.formatDayCalendar;
+      case CalendarType.WEEK:
+        return dateTime.startEndWeek;
+      case CalendarType.MONTH:
+        final dateTimeFormRange =
+            dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+
+        final dataString =
+            '${dateTimeFormRange[0].day} - ${dateTimeFormRange[1].formatDayCalendar}';
+        return dataString;
+    }
   }
 }

@@ -1,11 +1,13 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChooseTypeCalendarWidget extends StatefulWidget {
-  const ChooseTypeCalendarWidget({Key? key}) : super(key: key);
+  final Function(CalendarType) onChange;
+  const ChooseTypeCalendarWidget({Key? key,required this.onChange}) : super(key: key);
 
   @override
   _ChooseTypeCalendarWidgetState createState() =>
@@ -28,6 +30,7 @@ class _ChooseTypeCalendarWidgetState extends State<ChooseTypeCalendarWidget> {
           return GestureDetector(
             onTap: () {
               type = data[index];
+              widget.onChange(result);
               setState(() {});
             },
             child: Container(
@@ -36,14 +39,20 @@ class _ChooseTypeCalendarWidgetState extends State<ChooseTypeCalendarWidget> {
                 children: [
                   SvgPicture.asset(
                     icon.icon,
-                    color:  textBodyTime,
+                    color: type == result
+                        ? AppTheme.getInstance().colorField()
+                        : textBodyTime,
                   ),
                   const SizedBox(
                     width: 13,
                   ),
                   Text(
                     icon.title,
-                    style: textNormal(textBodyTime, 14),
+                    style: textNormal(
+                        type == result
+                            ? AppTheme.getInstance().colorField()
+                            : textBodyTime,
+                        14),
                   )
                 ],
               ),

@@ -6,7 +6,7 @@ part 'lich_lam_viec_dashbroad_response.g.dart';
 @JsonSerializable()
 class LichLamViecDashBroadResponse {
   @JsonKey(name: 'data')
-  DataLichLamViecResponse data;
+  DataLichLamViecResponse? data;
 
   LichLamViecDashBroadResponse(this.data);
 

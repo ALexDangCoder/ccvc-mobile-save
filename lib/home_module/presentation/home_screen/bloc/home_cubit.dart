@@ -1,14 +1,22 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart' as HiveLc;
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -19,7 +27,6 @@ import '/home_module/data/request/home/lich_hop_request.dart';
 import '/home_module/data/request/home/lich_lam_viec_request.dart';
 import '/home_module/data/request/home/nhiem_vu_request.dart';
 import '/home_module/data/request/home/to_do_list_request.dart';
-
 import '/home_module/domain/model/home/WidgetType.dart';
 import '/home_module/domain/model/home/calendar_metting_model.dart';
 import '/home_module/domain/model/home/date_model.dart';
@@ -317,12 +324,62 @@ class DanhSachCongViecCubit extends HomeCubit {
   final BehaviorSubject<TodoListModel> _getTodoList =
       BehaviorSubject<TodoListModel>();
   String id = '';
+  int pageIndex = 1;
+  int totalPage = 1;
+  int totalItem = 1;
+  bool isSearching = false;
+  final List<String> danhSachTenNguoiGan = [];
+  final List<TodoModel> danhSachNguoiGan = [];
 
   DanhSachCongViecCubit() {
     id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
   }
 
+  HomeRepository get homeRepCongViec => Get.find();
+  final BehaviorSubject<bool> _isShowListCanBo = BehaviorSubject.seeded(false);
+
+  Stream<bool> get isShowListCanBo => _isShowListCanBo.stream;
+
+  final BehaviorSubject<IconListCanBo> _isShowIcon =
+      BehaviorSubject.seeded(IconListCanBo.DOWN);
+
+  final BehaviorSubject<List<ItemRowData>> _danhSachNguoiGan =
+      BehaviorSubject.seeded([]);
+
+  Stream<List<ItemRowData>> get getDanhSachNguoiGan => _danhSachNguoiGan.stream;
+
+  Stream<IconListCanBo> get getIcon => _isShowIcon.stream;
+
   Stream<TodoListModel> get getTodoList => _getTodoList.stream;
+
+  final List<ItemRowData> inforCanBo = [];
+
+  List<ItemNguoiGanModel> listNguoiGan = [];
+
+  static List<ItemNguoiGanModel> listNguoiGanStatic = [];
+
+  void setDisplayListCanBo(bool isShow) {
+    _isShowListCanBo.sink.add(isShow);
+  }
+
+  void setDisplayIcon(IconListCanBo iconListCanBo) {
+    _isShowIcon.sink.add(iconListCanBo);
+  }
+
+  Future<void> callApi() async {
+    showLoading();
+    final queue = Queue(parallel: 2);
+    unawaited(
+      queue.add(
+        () => getListNguoiGan(true, 5),
+      ),
+    );
+    await queue.add(
+      () => getToDoList(),
+    );
+    unawaited(queue.onComplete.then((_) => showContent()));
+    queue.dispose();
+  }
 
   void tickerListWord({required TodoModel todo, bool removeDone = true}) {
     final data = _getTodoList.value;
@@ -338,6 +395,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         label: todo.label,
         updatedBy: id,
         updatedOn: DateTime.now().formatApi,
+        performer: todo.performer,
       ),
     );
     if (removeDone) {
@@ -347,7 +405,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     }
   }
 
-  Future<void> addTodo(String label) async {
+  Future<void> addTodo(String label, String? nguoiGanId) async {
     if (label.trim().isEmpty) {
       return;
     }
@@ -358,23 +416,28 @@ class DanhSachCongViecCubit extends HomeCubit {
         isTicked: false,
         important: false,
         inUsed: true,
+        performer: nguoiGanId,
       ),
     );
     showContent();
-    result.when(
-      success: (res) {
+    await result.when(
+      success: (res) async {
+        final String nameInsert = await getName(res.performer ?? '');
         final data = _getTodoList.value;
         data.listTodoImportant.insert(
           0,
           res,
         );
+        danhSachTenNguoiGan.insert(0, nameInsert);
         _getTodoList.sink.add(data);
       },
       error: (err) {},
     );
   }
 
-  void _removeInsertImportant(TodoListModel data, TodoModel todo) {
+  void _removeInsertImportant(TodoListModel data, TodoModel todo) async {
+    final String nameInsert = await getName(todo.performer ?? '');
+    danhSachTenNguoiGan.insert(0, nameInsert);
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
@@ -388,6 +451,9 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   void _removeInsertDone(TodoListModel data, TodoModel todo) {
+    danhSachTenNguoiGan.removeAt(
+      data.listTodoImportant.indexWhere((element) => element.id == todo.id),
+    );
     final result = data.listTodoImportant.removeAt(
       data.listTodoImportant.indexWhere((element) => element.id == todo.id),
     );
@@ -415,6 +481,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         label: newLabel,
         updatedBy: id,
         updatedOn: DateTime.now().formatApi,
+        performer: todo.performer,
       ),
     );
     final index =
@@ -442,6 +509,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         label: todo.label,
         updatedBy: id,
         updatedOn: DateTime.now().formatApi,
+        performer: todo.performer,
       ),
     );
     if (removeDone) {
@@ -489,16 +557,186 @@ class DanhSachCongViecCubit extends HomeCubit {
     _getTodoList.sink.add(data);
   }
 
+  Widget setIconLoadMore(int index, Widget itemListView) {
+    if (index == inforCanBo.length - 1) {
+      if (inforCanBo.length + 1 ==totalItem) {
+        return const SizedBox();
+      } else {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            itemListView,
+            Center(
+              child: CircularProgressIndicator(
+                color: AppTheme.getInstance()
+                    .primaryColor(),
+              ),
+            ),
+          ],
+        );
+      }
+    }
+   else {
+      return itemListView;
+    }
+  }
+
   Future<void> getToDoList() async {
     showLoading();
     final result = await homeRep.getListTodo();
     showContent();
-    result.when(
-      success: (res) {
+    await result.when(
+      success: (res) async {
+        danhSachNguoiGan.clear();
+        danhSachNguoiGan.addAll(res.listTodoImportant);
+        await getListNameCanBo();
         _getTodoList.sink.add(res);
       },
       error: (err) {},
     );
+  }
+
+  IconModdel getIconListCanBo(
+      IconListCanBo iconListCanBo, TextEditingController controller) {
+    switch (iconListCanBo) {
+      case IconListCanBo.UP:
+        return IconModdel(
+          icon: SvgPicture.asset(ImageAssets.ic_up),
+          onTapItem: () {
+            _isShowIcon.sink.add(IconListCanBo.DOWN);
+            _isShowListCanBo.sink.add(!_isShowListCanBo.value);
+          },
+        );
+      case IconListCanBo.DOWN:
+        return IconModdel(
+          icon: SvgPicture.asset(ImageAssets.ic_down),
+          onTapItem: () {
+            _isShowIcon.sink.add(IconListCanBo.UP);
+            _isShowListCanBo.sink.add(!_isShowListCanBo.value);
+          },
+        );
+      case IconListCanBo.CLOSE:
+        return IconModdel(
+          icon: SvgPicture.asset(ImageAssets.ic_close),
+          onTapItem: () {
+            controller.clear();
+            _isShowIcon.sink.add(IconListCanBo.DOWN);
+          },
+        );
+    }
+  }
+
+  Future<void> loadMoreListNguoiGan(String keySearch) async {
+    if (pageIndex <= totalPage) {
+      pageIndex = pageIndex + 1;
+      if (isSearching) {
+        await getListNguoiGan(
+          true,
+          5,
+          keySearch: keySearch,
+        );
+      }
+      await getListNguoiGan(true, 5);
+    }
+  }
+
+  Future<void> getListNguoiGan(
+    bool isGetAll,
+    int pageSize, {
+    String? keySearch,
+    bool notLoadMore = false,
+  }) async {
+    showLoading();
+    final result = await homeRep.listNguoiGanCongViec(
+      isGetAll,
+      pageSize,
+      pageIndex,
+      keySearch ?? '',
+    );
+    result.when(
+      success: (res) {
+        isSearching = false;
+        if (notLoadMore) {
+          listNguoiGan.clear();
+          inforCanBo.clear();
+          isSearching = true;
+        }
+        showContent();
+        totalPage = res.totalPage ?? 0;
+        totalItem = res.totalCount ?? 1;
+        listNguoiGan = res.items;
+        for (final element in listNguoiGan) {
+          final List<String> inforDisPlay = [];
+          final String chucVu = element.chucVu.join(',');
+          final String donVi = element.donVi.join(',');
+          inforDisPlay.add(element.hoTen);
+          inforDisPlay.add(donVi);
+          inforDisPlay.add(chucVu);
+          final String result = inforDisPlay.join('-');
+          inforCanBo.add(
+            ItemRowData(
+              infor: result,
+              id: element.id,
+            ),
+          );
+        }
+        _danhSachNguoiGan.sink.add(inforCanBo);
+      },
+      error: (err) {},
+    );
+  }
+
+  void initListDataCanBo() {
+    _danhSachNguoiGan.sink.add(inforCanBo);
+  }
+
+  void searchNguoiGan(String key) {
+    List<ItemRowData> listDataSearch;
+    if (inforCanBo.isEmpty) {
+      listDataSearch = [];
+    } else {
+      listDataSearch = inforCanBo;
+    }
+    final resultSearch = listDataSearch
+        .where(
+          (element) => element.infor
+              .toLowerCase()
+              .vietNameseParse()
+              .contains(key.toLowerCase().vietNameseParse()),
+        )
+        .toList();
+    _danhSachNguoiGan.sink.add(resultSearch);
+  }
+
+  Future<void> getListNameCanBo() async {
+    for (final element in danhSachNguoiGan) {
+      String name = '';
+      await getName(element.performer ?? '').then((value) => name = value);
+      danhSachTenNguoiGan.add(name);
+    }
+  }
+
+  Future<String> getName(String id) async {
+    String nameCanbo = '';
+    if (id.isEmpty) {
+      return nameCanbo;
+    }
+    final result = await homeRep.listNguoiGanCongViec(
+      true,
+      10,
+      1,
+      id,
+    );
+    result.when(
+      success: (res) {
+        if (res.items.isEmpty) {
+          return nameCanbo;
+        }
+        nameCanbo = res.items.first.hoTen;
+      },
+      error: (err) {},
+    );
+    return nameCanbo;
   }
 }
 
@@ -508,21 +746,22 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<DocumentDashboardModel>();
   List<String> mangTrangThai = [];
   int? trangThaiHanXuLy;
- String donViId = '';
+  String donViId = '';
   String userId = '';
- String canBoId = '';
+  String canBoId = '';
+
   TongHopNhiemVuCubit() {
     dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
       userId = dataUser?.userId ?? '';
-     canBoId =  dataUser?.userInformation?.canBoDepartmentId ?? '';
+      canBoId = dataUser?.userInformation?.canBoDepartmentId ?? '';
     }
   }
 
   Future<void> getDataTongHopNhiemVu() async {
     showLoading();
-    String  canBoIdDepartment = '';
+    String canBoIdDepartment = '';
     if (selectKeyDonVi == SelectKey.DON_VI) {
     } else {
       canBoIdDepartment = canBoId;
@@ -617,20 +856,28 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
 
 /// Văn bản đơn vị
 class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
-      BehaviorSubject<DocumentDashboardModel>();
-  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
-      BehaviorSubject<DocumentDashboardModel>();
+  final BehaviorSubject<VanBanDonViModel> _getVanBanDonVi =
+      BehaviorSubject<VanBanDonViModel>();
+  List<String> mangTrangThai = [];
+  int? trangThaiHanXuLy;
+  String donViId = '';
+  String canBoId = '';
 
-  VanBanDonViCubit() {}
-  bool isDanhSachDaXuLy = false;
-  bool isDanhSachChoTrinhKy = true;
-  bool isDanhSachChoXuLy = true;
-  List<String> maTrangThaiVBDen = [];
-  List<int> trangThaiFilter = [];
+  VanBanDonViCubit() {
+    dataUser = HiveLc.HiveLocal.getDataUser();
+    if (dataUser != null) {
+      donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
+      canBoId = dataUser?.userInformation?.canBoDepartmentId ?? '';
+    }
+  }
 
   void getDocument() {
-    callApi(startDate.toString(), endDate.toString());
+    callApi(
+      canBoId: canBoId,
+      donViId: donViId,
+      startDate: '',
+      endDate: '',
+    );
   }
 
   @override
@@ -643,55 +890,43 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
       selectKeyTime = selectKey;
       this.startDate = startDate;
       this.endDate = endDate;
-      callApi(startDate.toString(), endDate.toString());
+      // callApi(startDate.toString(), endDate.toString());
     }
     selectKeyDialog.sink.add(true);
   }
 
-  Future<void> callApi(String startDate, String endDate) async {
+  Future<void> callApi({
+    String canBoId = '',
+    required String donViId,
+    required String startDate,
+    required String endDate,
+  }) async {
     showLoading();
-    final queue = Queue(parallel: 2);
-    unawaited(
-      queue.add(
-        () => homeRep.getVBden(startDate, endDate).then(
-          (value) {
-            value.when(
-              success: (res) {
-                _getDocumentVBDen.sink.add(res);
-              },
-              error: (err) {},
-            );
-          },
-        ),
-      ),
+    String canBoIdDepartment = '';
+    if (selectKeyDonVi == SelectKey.DON_VI) {
+    } else {
+      canBoIdDepartment = canBoId;
+    }
+    final result = await homeRep.getTinhHinhXuLyVanBan(
+      canBoIdDepartment,
+      donViId,
+      startDate,
+      endDate,
     );
-    unawaited(
-      queue.add(
-        () => homeRep.getVBdi(startDate, endDate).then(
-          (value) {
-            value.when(
-              success: (res) {
-                _getDocumentVBDi.sink.add(res);
-              },
-              error: (err) {},
-            );
-          },
-        ),
-      ),
-    );
-    await queue.onComplete;
     showContent();
+    result.when(
+      success: (res) {
+        _getVanBanDonVi.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
-  Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
-
-  Stream<DocumentDashboardModel> get getDocumentVBDen =>
-      _getDocumentVBDen.stream;
+  Stream<VanBanDonViModel> get getVanBanDonVi => _getVanBanDonVi.stream;
 
   @override
   void dispose() {
-    _getDocumentVBDen.close();
-    _getDocumentVBDi.close();
+    _getVanBanDonVi.close();
   }
 }
 
@@ -951,9 +1186,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
       success: (res) {
         _getDanhSachVb.sink.add(res);
       },
-      error: (err) {
-
-      },
+      error: (err) {},
     );
   }
 
@@ -978,9 +1211,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
       success: (res) {
         _getDanhSachVb.sink.add(res);
       },
-      error: (err) {
-
-      },
+      error: (err) {},
     );
   }
 
@@ -1476,8 +1707,7 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<DocumentDashboardModel>();
   String donViId = '';
 
-  Stream<DocumentDashboardModel> get getTinhHinhXuLy =>
-      _getTinhHinhXuLy.stream;
+  Stream<DocumentDashboardModel> get getTinhHinhXuLy => _getTinhHinhXuLy.stream;
 
   TinhHinhXuLyPAKNCubit() {
     final dataUser = HiveLc.HiveLocal.getDataUser();
@@ -1497,8 +1727,6 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
       error: (err) {},
     );
   }
-
-
 }
 
 /// Nhiệm vụ

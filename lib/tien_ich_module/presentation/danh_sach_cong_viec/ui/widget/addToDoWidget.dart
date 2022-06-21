@@ -31,7 +31,6 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
     // TODO: implement initState
     super.initState();
     controller.text = widget.initData;
-    controller.text = '';
   }
 
   @override

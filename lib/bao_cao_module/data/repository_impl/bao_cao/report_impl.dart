@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/folder_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/group_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_report_respose.dart';
@@ -8,6 +10,7 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 
 class ReportImpl implements ReportRepository {
   final ReportService _reportService;
@@ -132,6 +135,48 @@ class ReportImpl implements ReportRepository {
         folderId,
       ),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<String>> addNewMember(Map<String, String> mapMember) {
+    return runCatchingAsync<PostDataResponse, String>(
+      () => _reportService.addNewUser(
+        mapMember,
+        'c3c5aba1-fb93-4ab1-a865-718001d47788',
+      ),
+      (res) => res.message ?? '',
+    );
+  }
+
+  @override
+  Future<Result<String>> shareReport(List<ShareReport> mapMember, String idReport) {
+    return runCatchingAsync<PostDataResponse, String>(
+          () => _reportService.shareReport(
+        idReport,
+        mapMember,
+        'c3c5aba1-fb93-4ab1-a865-718001d47788',
+      ),
+          (res) => res.message ?? '',
+    );
+  }
+
+
+  @override
+  Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
+      getUsersNgoaiHeThongTruyCap(
+          String appId, String pageIndex, String pageSize, String keyword) {
+    return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse,
+        List<UserNgoaiHeThongDuocTruyCapModel>>(
+      () => _reportService.getUsersNgoaiHeThongDuocTruyCap(
+        appId,
+        UsersNgoaiHeThongTruyCapRequest(
+          pageIndex: pageIndex,
+          pageSize: pageSize,
+          keyword: keyword,
+        ),
+      ),
+      (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 }

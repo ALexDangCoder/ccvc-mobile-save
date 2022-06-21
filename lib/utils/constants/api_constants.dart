@@ -285,6 +285,7 @@ class ApiConstants {
       '/vpdt/api/CanBoThamGia/duyet-ky-thuat';
 
   static const LIST_REPORT = '/htcs/api/Folder/list';
+  static const GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP = '/htcs/api/User/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const CHECK_LICH_HOP_TRUNG =
@@ -297,6 +298,9 @@ class ApiConstants {
   static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
   static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
   static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
+  static const CREATE_NEW_USER = '/htcs/api/User/create';
+  static const SHARE_REPORT = '/htcs/api/User/share-many';
+
 }
 
 class ImageConstants {

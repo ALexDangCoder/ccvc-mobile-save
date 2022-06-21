@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widgets/tree_widget.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -285,7 +286,16 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                   btnLeftTxt: S.current.huy,
                   btnRightTxt: S.current.dong_y,
                   funcBtnRight: () {
-                    /// chia sẽ cho thầy đi
+                    widget.cubit.chiaSeBaoCao(Share.COMMON).then((value) {
+                      if (value == 'Thành công') {
+                        MessageConfig.show(title: value);
+                      } else {
+                        MessageConfig.show(
+                          title: value,
+                          messState: MessState.error,
+                        );
+                      }
+                    });
                   },
                   showTablet: true,
                   textContent: S.current.chia_se_thu_muc_chac_chua,

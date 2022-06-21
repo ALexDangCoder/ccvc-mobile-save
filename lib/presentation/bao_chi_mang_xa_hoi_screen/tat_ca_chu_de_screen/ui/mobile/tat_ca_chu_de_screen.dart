@@ -195,7 +195,8 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                 );
                             return Container(
                               height: 240,
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -203,13 +204,13 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                 itemBuilder: (context, index) {
                                   return index == 0
                                       ? ItemTableTopic(
-                                        chuDeCubit.listTitle[index],
-                                        '',
-                                        data
-                                            .danhSachTuongtacThongKe[index]
-                                            .dataTuongTacThongKeModel
-                                            .interactionStatistic,
-                                      )
+                                          chuDeCubit.listTitle[index],
+                                          '',
+                                          data
+                                              .danhSachTuongtacThongKe[index]
+                                              .dataTuongTacThongKeModel
+                                              .interactionStatistic,
+                                        )
                                       : const SizedBox.shrink();
                                 },
                               ),
@@ -243,10 +244,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                     HotNews(
                                       chuDeCubit.hotNewData.avartar ?? '',
                                       chuDeCubit.hotNewData.title ?? '',
-                                      DateTime.parse(
-                                        chuDeCubit.hotNewData.publishedTime ??
-                                            '',
-                                      ).formatApiSSAM,
+                                      chuDeCubit.hotNewData.formatTimePublished,
                                       chuDeCubit.hotNewData.contents ?? '',
                                       chuDeCubit.hotNewData.url ?? '',
                                     ),
@@ -283,6 +281,8 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                             );
                                           }
                                         }
+                                        final a = listChuDe[index];
+                                        a;
                                         return Column(
                                           children: [
                                             ItemListNews(

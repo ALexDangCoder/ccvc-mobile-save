@@ -265,6 +265,10 @@ class ImageAssets {
   static const String ic_prev_box = '$baseImg/prev_box_ic.svg';
   static const String ic_next_box = '$baseImg/next_box_ic.svg';
   static const String ic_mennu_ykien = '$baseImg/ic_menu_y_kien.svg';
+  static const String ic_hoan_tac_dscv = '$baseImg/ic_hoan_tac_dscv.svg';
+  static const String ic_xoa_vinh_viec_cv = '$baseImg/ic_xoa_vinh_viec_cv.svg';
+
+
 
   static const String icCameraTablet = '$baseImg/ic_camera_tablet.svg';
   static const String ic_KinhRong = '$baseImg/ic_kinh_rong.svg';

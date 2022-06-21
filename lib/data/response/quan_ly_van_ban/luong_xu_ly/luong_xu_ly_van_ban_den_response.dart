@@ -100,8 +100,8 @@ class Item {
 
   DonViLuongModel toDomain() => DonViLuongModel(
       parentId: parentId,
-      ten: ten,
-      tenNguoiTao: tenNguoiTao,
+      ten: ten ?? '',
+      tenNguoiTao: tenNguoiTao ?? '',
       maTrangThai: maTrangThai,
       trangThai: trangThai,
       tenDonVi: tenDonVi,

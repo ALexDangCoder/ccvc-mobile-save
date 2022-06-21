@@ -26,11 +26,11 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay
+    widget.cubit.stateCalendarControllerMonth
         .addPropertyChangedListener((value) {
       if (value == 'displayDate'){
         widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
+          widget.cubit.stateCalendarControllerMonth.displayDate ??
               widget.cubit.selectDay,
         );
       }
@@ -138,21 +138,17 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                         final String typeCalendar = widget.cubit
                             .getElementFromId(
                           appointment.id.toString(),
-                        )
-                            .typeSchedule ??
+                        ).typeSchedule ??
                             'Schedule';
-
+                        final element =  widget.cubit.getElementFromId(
+                          appointment.id.toString(),
+                        );
                         typeCalendar.getTypeCalendar.navigatorDetail(
                           context,
                           widget.cubit,
-                          (widget.cubit.dataLichLvModel
-                              .listLichLVModel ??
+                          (widget.cubit.dataLichLvModel.listLichLVModel ??
                               [])
-                              .indexOf(
-                            widget.cubit.getElementFromId(
-                              appointment.id.toString(),
-                            ),
-                          ),
+                              .indexOf(element),
                         );
                       },
                       child: Container(
@@ -189,8 +185,7 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                             if (widget.cubit
                                 .getElementFromId(
                               appointment.id.toString(),
-                            )
-                                .isTrung)
+                            ).isTrung)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

@@ -61,13 +61,15 @@ Future<T?> showDiaLog<T>(
                 ),
               ),
               icon,
-              SizedBox(
-                height: showTablet ? 20.0.textScale(space: -8) : 20,
-              ),
-              Text(
-                title,
-                style: titleAppbar(),
-              ),
+              if (title != '')
+                SizedBox(
+                  height: showTablet ? 20.0.textScale(space: -8) : 20,
+                ),
+              if (title != '')
+                Text(
+                  title,
+                  style: titleAppbar(),
+                ),
               if (isOneButton)
                 Column(
                   children: [

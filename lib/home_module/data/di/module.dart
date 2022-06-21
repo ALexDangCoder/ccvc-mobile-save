@@ -8,5 +8,6 @@ import '/home_module/domain/repository/home_repository/home_repository.dart';
 void configureDependenciesHome() {
   Get.put(HomeServiceGateWay(provideDio(baseOption: BaseURLOption.GATE_WAY)));
   Get.put(HomeServiceCCVC(provideDio()));
-  Get.put<HomeRepository>(HomeImpl(Get.find(), Get.find()));
+  Get.put(HomeServiceCommon(provideDio(baseOption: BaseURLOption.COMMON)));
+  Get.put<HomeRepository>(HomeImpl(Get.find(), Get.find(),Get.find()));
 }

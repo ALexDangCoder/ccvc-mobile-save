@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/tien_ich_module/widget/button/button_custom_bottom.d
 import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -243,7 +244,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsets.only(left: 200, right: 8, top: 20),
+                        const EdgeInsets.only(left: 200, right: 8, top: 20),
                         child: ButtonCustomBottomDSCV(
                           size: 14,
                           title: S.current.them_nhom_cong_viec,
@@ -286,12 +287,16 @@ class _MenuDSCVState extends State<MenuDSCV> {
         const SizedBox(
           width: 12,
         ),
-        Text(
-          menu,
-          style: textNormalCustom(
-            color: color3D5586,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+        Expanded(
+          child: Text(
+            menu,
+            style: textNormalCustom(
+              color: color3D5586,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
           ),
         )
       ],

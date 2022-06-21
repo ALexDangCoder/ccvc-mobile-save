@@ -133,8 +133,7 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
                             if (widget.cubit
                                 .getElementFromId(
                                   appointment.id.toString(),
-                                )
-                                .isTrung)
+                                ).isTrung)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

@@ -52,19 +52,6 @@ class CongViecCellTienIch extends StatefulWidget {
 
 class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
   final FocusNode focusNode = FocusNode();
-  final TextEditingController textEditingController = TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    textEditingController.text = widget.text.trim();
-    focusNode.addListener(() {
-      if (!focusNode.hasFocus && widget.onChange != null) {
-        // widget.onChange?.call(textEditingController);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

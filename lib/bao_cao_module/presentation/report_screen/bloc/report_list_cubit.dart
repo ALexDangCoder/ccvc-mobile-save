@@ -189,27 +189,28 @@ class ReportListCubit extends BaseCubit<BaseState> {
   //   );
   // }
 
-  // Future<void> getListFavorite() async {
-  //   showLoading();
-  //   final Result<List<ReportItem>> result =
-  //       await _reportService.getListReportFavorite(
-  //     appId,
-  //     folderId,
-  //   );
-  //   result.when(
-  //     success: (res) {
-  //       // listReportFavorite.sink.add([]);
-  //       // listReportFavorite.sink.add(res);
-  //     },
-  //     error: (error) {
-  //       emit(const CompletedLoadMore(CompleteType.ERROR));
-  //       showError();
-  //     },
-  //   );
-  // }
+  Future<void> getListFavorite() async {
+    showLoading();
+    final Result<List<ReportItem>> result =
+        await _reportService.getListReportFavorite(
+      appId,
+      folderId,
+    );
+    result.when(
+      success: (res) {
+        listReportFavorite.sink.add([]);
+        listReportFavorite.sink.add(res);
+      },
+      error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+      },
+    );
+  }
 
   Future<void> getListReport({String folder = ''}) async {
-    showLoading();
+    //showLoading();
+    await getListFavorite();
     final Result<List<ReportItem>> result = await _reportService.getListReport(
       folder.isNotEmpty ? folder : folderId,
       sort,
@@ -218,26 +219,34 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        final List<ReportItem> listFavorite = [];
         final List<ReportItem> list = [];
         for (final value in res) {
-          if (value.isPin ?? false) {
-            listFavorite.add(value);
-          } else {
+          if (value.isPin == false) {
             list.add(value);
           }
         }
-        listReportFavorite.sink.add(listFavorite);
         if (!res.isNotEmpty) {
           showEmpty();
-          emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
+          emit(
+            const CompletedLoadMore(
+              CompleteType.SUCCESS,
+              posts: [],
+            ),
+          );
         } else {
           showContent();
-          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
+          emit(
+            CompletedLoadMore(
+              CompleteType.SUCCESS,
+              posts: list,
+            ),
+          );
         }
       },
       error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
+        emit(const CompletedLoadMore(
+          CompleteType.ERROR,
+        ));
         showError();
       },
     );

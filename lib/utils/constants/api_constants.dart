@@ -295,6 +295,7 @@ class ApiConstants {
   static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
   static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
   static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
+  static const CONFIRM_HOP = 'vpdt/api/CanBoThamGia/confirm-hop';
 }
 
 class ImageConstants {

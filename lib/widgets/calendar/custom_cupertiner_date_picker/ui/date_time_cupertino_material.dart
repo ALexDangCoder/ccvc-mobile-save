@@ -93,7 +93,11 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   }
 
   bool validator() {
-    return !_cubit.validateTime.value.isNotEmpty;
+    if (!_cubit.validateTime.hasValue) {
+      _cubit.validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+      return false;
+    }
+    return _cubit.validateTime.value.isEmpty;
   }
 
   @override

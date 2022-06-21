@@ -943,4 +943,12 @@ class HopRepositoryImpl implements HopRepository {
       (response) => response.isSucces,
     );
   }
+
+  @override
+  Future<Result<bool>> xacNhanThamGiaHop(String lichHopId, bool isThamGia) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+          () => _hopServices.xacNhanThamGiaHop(lichHopId, isThamGia),
+          (response) => response.isSucces,
+    );
+  }
 }

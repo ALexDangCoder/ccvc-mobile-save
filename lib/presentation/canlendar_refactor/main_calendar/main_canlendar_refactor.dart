@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/main_data_view.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -35,13 +37,15 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showMenu();
+            },
             icon: SvgPicture.asset(ImageAssets.icMenuCalender),
           )
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: ()async{},
+        onRefresh: () async {},
         child: Column(
           children: [
             ChooseTimeCalendarWidget(),
@@ -51,4 +55,26 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
       ),
     );
   }
+
+  void showMenu() {
+    DrawerSlide.navigatorSlide(
+      context: context,
+      screen: menuWidget,
+    );
+  }
+
+  Widget get menuWidget => Scaffold(
+    body: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        spaceH50,
+        Text("Title"),
+        spaceH24,
+        Expanded(
+          flex: 8,
+          child: Container(),
+        ),
+      ],
+    ),
+  );
 }

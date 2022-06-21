@@ -13,7 +13,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChiaSeBaoCaoMobile extends StatefulWidget {
-  const ChiaSeBaoCaoMobile({Key? key}) : super(key: key);
+  const ChiaSeBaoCaoMobile({
+    Key? key,
+    required this.appId,
+  }) : super(key: key);
+  final String appId;
 
   @override
   _ChiaSeBaoCaoMobileState createState() => _ChiaSeBaoCaoMobileState();
@@ -28,7 +32,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    cubit = ChiaSeBaoCaoCubit();
+    cubit = ChiaSeBaoCaoCubit(widget.appId);
     cubit.getGroup();
     cubit.getTree();
   }
@@ -54,7 +58,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
           cubit.getGroup();
           cubit.getTree();
         },
-        error: AppException(S.current.something_went_wrong,''),
+        error: AppException(S.current.something_went_wrong, ''),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

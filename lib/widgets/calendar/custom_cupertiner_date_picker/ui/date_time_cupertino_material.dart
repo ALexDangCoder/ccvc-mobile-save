@@ -93,11 +93,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   }
 
   bool validator() {
-    if (!_cubit.validateTime.hasValue) {
-      _cubit.validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
-      return false;
-    }
-    return _cubit.validateTime.value.isEmpty;
+    return _cubit.checkTime();
   }
 
   @override
@@ -508,7 +504,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         StreamBuilder<String>(
           stream: _cubit.validateTime.stream,
           builder: (context, snapshot) {
-            widget.validateTime(snapshot.data ?? S.current.ban_phai_chon_thoi_gian);
+            widget.validateTime(
+              snapshot.data ?? S.current.ban_phai_chon_thoi_gian,
+            );
             return Visibility(
               visible: (snapshot.data?.isNotEmpty) ?? false,
               child: Padding(
@@ -518,7 +516,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   style: textNormalCustom(
                     color: Colors.red,
                     fontSize: 12,
-                    fontWeight: FontWeight.w400
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),

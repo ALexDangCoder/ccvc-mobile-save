@@ -49,8 +49,8 @@ class _TaoLichLamViecChiTietScreenState
   TextEditingController noiDungController = TextEditingController();
   TextEditingController diaDiemController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool timeValue = true;
-  bool calValue = false;
+  bool compareTimeValue = true;
+  bool checkChooseTime = false;
   late DateTimeCupertinoCustomCubit calCubit;
 
   @override
@@ -153,7 +153,7 @@ class _TaoLichLamViecChiTietScreenState
                             LoaiLichWidget(
                               taoLichLamViecCubit: taoLichLamViecCubit,
                               callback: (bool value) {
-                                calValue = value;
+                                checkChooseTime = value;
                               },
                             ),
                             CupertinoMaterialPicker(
@@ -189,7 +189,7 @@ class _TaoLichLamViecChiTietScreenState
                                 );
                               },
                               validateTime: (String value) {
-                                timeValue = value.isNotEmpty;
+                                compareTimeValue = value.isNotEmpty;
                               },
                             ),
                             NhacLaiWidget(
@@ -321,8 +321,8 @@ class _TaoLichLamViecChiTietScreenState
                                     title: S.current.luu,
                                     onTap: () async {
                                       if (_formKey.currentState!.validate() &&
-                                          !timeValue &&
-                                          !calValue) {
+                                          !compareTimeValue &&
+                                          !checkChooseTime) {
                                         await taoLichLamViecCubit
                                             .checkTrungLich(
                                           context: context,
@@ -337,12 +337,12 @@ class _TaoLichLamViecChiTietScreenState
                                               .replaceAll(' +', ' '),
                                         );
                                       }
-                                      if (timeValue) {
+                                      if (compareTimeValue) {
                                         calCubit.validateTime.sink.add(
                                           S.current.ban_phai_chon_thoi_gian,
                                         );
                                       }
-                                      if (!calValue) {
+                                      if (!checkChooseTime) {
                                         taoLichLamViecCubit.checkCal.sink
                                             .add(true);
                                       }

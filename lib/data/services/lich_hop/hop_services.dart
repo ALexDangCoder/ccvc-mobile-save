@@ -468,4 +468,10 @@ abstract class HopServices {
     @Query('lichHopId') String lichHopId,
     @Body() FormData data,
   );
+
+  @POST(ApiConstants.CONFIRM_HOP)
+  Future<ThemPhienHopResponse> xacNhanThamGiaHop(
+    @Query('hopId') String hopId,
+    @Query('isThamGia') bool isThamGia,
+  );
 }

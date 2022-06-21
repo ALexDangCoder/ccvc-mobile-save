@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -31,13 +32,18 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
 
     final data = jsonDecode(jsonString);
-
-    return data.map((e) => CanBoThamGiaStr.fromJson(e)).toList();
+    final List<CanBoThamGiaStr> list = [];
+    (data as List<dynamic>).forEach((element) {
+      final cb = CanBoThamGiaStr.fromJson(element);
+      list.add(cb);
+    });
+    return list;
+    // return data.map((e) => CanBoThamGiaStr.fromJson(e)).toList();
   }
 
   List<CanBoThamGiaStr> canBoThamGia() {
     return scheduleCoperatives
-        .where((e) => e.id?.toUpperCase() == getIdCurrentUser())
+        .where((e) => e.CanBoId?.toUpperCase() == getIdCurrentUser())
         .toList();
   }
 
@@ -92,8 +98,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     value.addAll(
       scheduleCoperatives
           .where((e) =>
-              (e.id ?? '').isNotEmpty &&
-              e.id?.toUpperCase() == (dataUser?.userId ?? '').toUpperCase())
+              (e.CanBoId ?? '').isNotEmpty &&
+              e.CanBoId?.toUpperCase() == (dataUser?.userId ?? '').toUpperCase())
           .toList(),
     );
 
@@ -105,7 +111,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
                   permissionType: PermissionType.VPDT,
                   permissionTxt: 'quyen-cu-can-bo',
                 ) &&
-                (e.id ?? '').isEmpty &&
+                (e.CanBoId ?? '').isEmpty &&
                 e.donViId?.toUpperCase() ==
                     ((dataUser?.userInformation?.donViTrucThuoc?.id ?? '')
                         .replaceAll(
@@ -229,6 +235,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   void initDataButton() {
     listButton.clear();
     scheduleCoperatives = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
+    log('${getChiTietLichHopModel.canBoThamGiaStr} ?????????????????????????');
 
     ///check quyen sua lich
     if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
@@ -293,6 +300,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         getChiTietLichHopModel.bit_YeuCauDuyet) {
       listButton.add(PERMISSION_DETAIL.DUYET_LICH);
     }
+
 
     ///check quyen phan cong thu ky
     if (activeChuTri() && !trangThaiHuy()) {

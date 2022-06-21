@@ -1,6 +1,6 @@
 class UsersNgoaiHeThongTruyCapRequest {
-  String? pageIndex;
-  String? pageSize;
+  int? pageIndex;
+  int? pageSize;
   String? keyword;
 
   UsersNgoaiHeThongTruyCapRequest({

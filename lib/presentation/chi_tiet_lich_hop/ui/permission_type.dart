@@ -221,7 +221,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.SUA.getIcon(),
           text: PERMISSION_DETAIL.SUA.getString(),
           onTap: () {
-            if(cubit.getChiTietLichHopModel.typeRepeat == 1){
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
               showBottomSheetCustom(
                 context,
                 title: S.current.sua_lich_hop,
@@ -290,7 +290,20 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.DUYET_LICH.getIcon(),
           text: PERMISSION_DETAIL.DUYET_LICH.getString(),
-          onTap: () {},
+          onTap: () {
+            showDiaLog(
+              context,
+              textContent: S.current.duyet_lich,
+              btnLeftTxt: S.current.khong,
+              funcBtnRight: () {
+                cubit.huyAndDuyetLichHop(isDuyet: true);
+                Navigator.pop(context);
+              },
+              title: S.current.khong,
+              btnRightTxt: S.current.dong_y,
+              icon: SvgPicture.asset(ImageAssets.icDuyetLich),
+            );
+          },
         );
       case PERMISSION_DETAIL.PHAN_CONG_THU_KY:
         return CellPopPupMenu(

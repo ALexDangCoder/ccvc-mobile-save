@@ -36,6 +36,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dar
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/duyet_lich_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_response.dart';
@@ -467,5 +468,12 @@ abstract class HopServices {
   Future<ThemPhienHopResponse> themPhienHop(
     @Query('lichHopId') String lichHopId,
     @Body() FormData data,
+  );
+
+  @POST(ApiConstants.HUY_AND_DUYET_LICH_HOP)
+  Future<DuyetLichResponse> huyDuyetLichHop(
+    @Field('lichHopId') String lichHopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
   );
 }

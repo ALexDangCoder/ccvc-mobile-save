@@ -243,10 +243,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                     HotNews(
                                       chuDeCubit.hotNewData.avartar ?? '',
                                       chuDeCubit.hotNewData.title ?? '',
-                                      DateTime.parse(
-                                        chuDeCubit.hotNewData.publishedTime ??
-                                            '',
-                                      ).formatApiSSAM,
+                                      chuDeCubit.hotNewData.formatTimePublished,
                                       chuDeCubit.hotNewData.contents ?? '',
                                       chuDeCubit.hotNewData.url ?? '',
                                     ),
@@ -283,6 +280,8 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                             );
                                           }
                                         }
+                                        final a = listChuDe[index];
+                                        a;
                                         return Column(
                                           children: [
                                             ItemListNews(

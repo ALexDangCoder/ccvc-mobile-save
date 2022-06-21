@@ -56,17 +56,8 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
               onChange: (startDate, endDate, type) {},
               controller: controller,
             ),
-            GestureDetector(
-              onTap: () {
-                controller.nextTime();
-              },
-              child: Container(
-                width: 200,
-                height: 200,
-                color: Colors.red,
-              ),
-            )
-            // Expanded(child: MainDataView(cubit: cubit)),
+
+            Expanded(child: MainDataView(cubit: cubit)),
           ],
         ),
       ),

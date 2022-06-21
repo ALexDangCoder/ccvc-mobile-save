@@ -443,29 +443,35 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        statusTrangThai(dsKetQuaPakn.trangThai ?? 1).text,
-                        style: textNormalCustom(
-                          color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1)
-                              .color,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                      Expanded(
+                        child: Text(
+                          statusTrangThai(dsKetQuaPakn.trangThai ?? 1).text,
+                          style: textNormalCustom(
+                            color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1)
+                                .color,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 3,
-                          horizontal: 15,
-                        ),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          color: color5A8DEE,
-                        ),
-                        child: Text(
-                          dsKetQuaPakn.trangThaiText ?? '',
-                          style: textNormalCustom(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 3,
+                            horizontal: 15,
+                          ),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            color: color5A8DEE,
+                          ),
+                          child: Center(
+                            child: Text(
+                              dsKetQuaPakn.trangThaiText ?? '',
+                              style: textNormalCustom(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
                       )

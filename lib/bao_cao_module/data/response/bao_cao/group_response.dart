@@ -69,3 +69,18 @@ class GroupResponse {
         chucVu: chucVu,
       );
 }
+@JsonSerializable()
+class PostDataResponse {
+  @JsonKey(name: 'statusCode')
+  int? statusCode;
+  @JsonKey(name: 'message')
+  String? message;
+
+  PostDataResponse(this.statusCode, this.message);
+
+  factory PostDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$PostDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PostDataResponseToJson(this);
+
+}

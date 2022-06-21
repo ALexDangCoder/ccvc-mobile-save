@@ -17,6 +17,10 @@ mixin ReportRepository {
     String groupId,
   );
 
+  Future<Result<String>> addNewMember(
+      Map<String,String> mapMember,
+      );
+
   Future<Result<ReportItem>> getFolderID(
     String appID,
   );
@@ -37,15 +41,19 @@ mixin ReportRepository {
   );
 
   Future<Result<List<ReportItem>>> getListReportTree(
-    String appId,
-    String folderId,
-  );
+      String appId,
+      String folderId,
+      );
+  Future<Result<String>> shareReport(
+      List<ShareReport> mapMember,
+      String idReport,
+      );
 
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(
     String appId,
-    String pageIndex,
-    String pageSize,
+    int pageIndex,
+    int pageSize,
     String keyword,
   );
 }

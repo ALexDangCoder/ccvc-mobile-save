@@ -90,6 +90,8 @@ class ApiConstants {
   static const CHI_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/{id}?';
 
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
+  static const HUY_AND_DUYET_LICH_HOP =
+      '/vpdt/api/MeetingSchedule/duyet-lich-hop';
   static const TRANG_THAI = '/vpdt/api/ReportStatus/list';
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';

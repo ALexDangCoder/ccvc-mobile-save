@@ -141,6 +141,7 @@ const labelColor = Color(0xff7966FF);
 const color667793 = Color(0xff667793);
 const indicatorColor = Color(0xff7966FF);
 const color3D5586 = Color(0xFF3D5586);
+const color125DF2 = Color(0xFF125DF2);
 const colorBlack = Color(0xff000000);
 const errorBorderColor = Color(0xFF585782);
 

@@ -1,9 +1,11 @@
 class DataLichLvModel {
-  List<ListLichLVModel>? listLichLVModel;
-  int? pageIndex;
-  int? pageSize;
-  int? totalCount;
-  int? totalPage;
+  List<ListLichLVModel>? listLichLVModel = [];
+  int? pageIndex = 0;
+  int? pageSize = 0;
+  int? totalCount = 0;
+  int? totalPage = 0;
+
+  DataLichLvModel.empty();
 
   DataLichLvModel({
     this.listLichLVModel,
@@ -76,6 +78,8 @@ class ListLichLVModel {
     // required this.createBys,
     // required this.canBoChuTri,
   });
+
+  ListLichLVModel.empty();
 }
 
 class CreateBys {

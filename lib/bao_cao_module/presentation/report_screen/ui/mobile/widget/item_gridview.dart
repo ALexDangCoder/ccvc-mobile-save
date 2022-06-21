@@ -1,9 +1,11 @@
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/detail_item_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -12,22 +14,35 @@ import 'package:flutter_svg/svg.dart';
 
 class ItemGridView extends StatelessWidget {
   final ReportItem item;
+  final ReportListCubit cubit;
 
   const ItemGridView({
     Key? key,
     required this.item,
+    required this.cubit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const DetailItemMobile(),
-          ),
-        );
+        if (item.type == FOLDER) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ReportDetail(
+                cubit: cubit,
+                id: item.id ?? '',
+                title: item.name ?? '',
+                isListView: true,
+              ),
+            ),
+          ).whenComplete(() {
+            cubit.getListReport();
+          });
+        } else {
+          //todo report
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -45,15 +60,16 @@ class ItemGridView extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned(
-              top: 16,
-              left: 16,
-              child: SvgPicture.asset(
-                ImageAssets.icStarFocus,
-                width: 16,
-                height: 16,
+            if (item.isPin ?? false)
+              Positioned(
+                top: 16,
+                left: 16,
+                child: SvgPicture.asset(
+                  ImageAssets.icStarFocus,
+                  width: 16,
+                  height: 16,
+                ),
               ),
-            ),
             Positioned(
               top: 0,
               right: 0,
@@ -65,6 +81,8 @@ class ItemGridView extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     builder: (context) => ShowMoreBottomSheet(
                       reportItem: item,
+                      cubit: cubit,
+                      isFavorite: item.isPin ?? false,
                     ),
                   );
                 },
@@ -87,7 +105,7 @@ class ItemGridView extends StatelessWidget {
               children: [
                 ItemFolder(
                   type: item.type ?? 0,
-                  isShare: true,//todo
+                  isShare: true, //todo
                   fileNumber: item.childrenTotal ?? 0,
                 ),
                 spaceH18,

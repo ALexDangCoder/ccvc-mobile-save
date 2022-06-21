@@ -21,74 +21,78 @@ class HotNewsTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 241,
-          decoration: BoxDecoration(
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 241,
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 image: NetworkImage(image),
                 fit: BoxFit.cover,
-              )),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        GestureDetector(
-          child: Text(
-            title,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          GestureDetector(
+            child: Text(
+              title,
+              style: textNormalCustom(
+                fontSize: 14.0.textScale(),
+                fontWeight: FontWeight.w500,
+                color: titleCalenderWork,
+              ).copyWith(height: 1.3),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WebViewScreen(url: url, title: ''),
+                ),
+              );
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              SvgPicture.asset(ImageAssets.icCalendar),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                date,
+                style: textNormalCustom(
+                  color: color667793,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0.textScale(),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            content,
             style: textNormalCustom(
+              color: color667793,
+              fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
-              fontWeight: FontWeight.w500,
-              color: titleCalenderWork,
-            ).copyWith(height: 1.3),
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WebViewScreen(url: url, title: ''),
-              ),
-            );
-          },
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            SvgPicture.asset(ImageAssets.icCalendar),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              date,
-              style: textNormalCustom(
-                color: color667793,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.textScale(),
-              ),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          content,
-          style: textNormalCustom(
-            color: color667793,
-            fontWeight: FontWeight.w400,
-            fontSize: 14.0.textScale(),
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

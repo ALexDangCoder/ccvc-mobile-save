@@ -26,6 +26,7 @@ class ComplexLoadMore extends StatefulWidget {
   final bool? shrinkWap;
   final bool isTitle;
   final String? titleNoData;
+  final bool isLoadmore;
 
   const ComplexLoadMore({
     Key? key,
@@ -40,6 +41,7 @@ class ComplexLoadMore extends StatefulWidget {
     this.isTitle = true,
     this.titleNoData,
     this.mainAxisExtent,
+    this.isLoadmore = true,
   }) : super(key: key);
 
   @override
@@ -77,12 +79,13 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    initData();
+    if (widget.isLoadmore) {
+      initData();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // initData();
     return BlocConsumer(
       bloc: widget.cubit,
       listener: (ctx, state) {
@@ -121,10 +124,12 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
           stream: widget.cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (widget.cubit.canLoadMore &&
-                  scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
-                loadMorePosts();
+              if (widget.isLoadmore) {
+                if (widget.cubit.canLoadMore &&
+                    scrollInfo.metrics.pixels ==
+                        scrollInfo.metrics.maxScrollExtent) {
+                  loadMorePosts();
+                }
               }
               return true;
             },

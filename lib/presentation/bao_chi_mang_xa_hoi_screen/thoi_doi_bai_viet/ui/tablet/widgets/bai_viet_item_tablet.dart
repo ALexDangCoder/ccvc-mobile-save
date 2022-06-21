@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -121,7 +120,6 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
           ),
           GestureDetector(
             onTap: () {
-              log(widget.baiVietModel.url);
               Navigator.push(
                 context,
                 MaterialPageRoute(

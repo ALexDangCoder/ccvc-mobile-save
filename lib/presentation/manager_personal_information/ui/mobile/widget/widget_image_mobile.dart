@@ -25,6 +25,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
       children: [
         Expanded(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
                 height: 100,
@@ -57,11 +58,13 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 ),
               ),
               spaceH12,
-              Text(
-                S.current.anh_dai_dien,
-                style: tokenDetailAmount(
-                  fontSize: 12.0.textScale(),
-                  color: infoColor,
+              FittedBox(
+                child: Text(
+                  S.current.anh_dai_dien,
+                  style: tokenDetailAmount(
+                    fontSize: 12.0.textScale(),
+                    color: infoColor,
+                  ),
                 ),
               ),
             ],
@@ -70,6 +73,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
         spaceW16,
         Expanded(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
                 height: 100,
@@ -102,11 +106,13 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 ),
               ),
               spaceH12,
-              Text(
-                S.current.anh_chu_ky,
-                style: tokenDetailAmount(
-                  fontSize: 12.0.textScale(),
-                  color: infoColor,
+              FittedBox(
+                child: Text(
+                  S.current.anh_chu_ky,
+                  style: tokenDetailAmount(
+                    fontSize: 12.0.textScale(),
+                    color: infoColor,
+                  ),
                 ),
               ),
             ],
@@ -115,6 +121,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
         spaceW16,
         Expanded(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
                 height: 100,
@@ -147,11 +154,13 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 ),
               ),
               spaceH12,
-              Text(
-                S.current.anh_ky_nhay,
-                style: tokenDetailAmount(
-                  fontSize: 12.0.textScale(),
-                  color: infoColor,
+              FittedBox(
+                child: Text(
+                  S.current.anh_ky_nhay,
+                  style: tokenDetailAmount(
+                    fontSize: 12.0.textScale(),
+                    color: infoColor,
+                  ),
                 ),
               ),
             ],

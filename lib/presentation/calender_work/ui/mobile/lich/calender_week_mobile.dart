@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/type_calendar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,11 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay
+    widget.cubit.stateCalendarControllerWeek
         .addPropertyChangedListener((value) {
       if (value == 'displayDate'){
         widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
+          widget.cubit.stateCalendarControllerWeek.displayDate ??
               widget.cubit.selectDay,
         );
       }
@@ -44,10 +45,10 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.cubit.changeItemMenuSubject.value.getHeader(
-          cubit: widget.cubit,
-          type: widget.type,
-        ),
+        // widget.cubit.changeItemMenuSubject.value.getHeader(
+        //   cubit: widget.cubit,
+        //   type: widget.type,
+        // ),
         const SizedBox(
           height: 10,
         ),
@@ -81,38 +82,71 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
                     ) {
                   final Appointment appointment =
                       calendarAppointmentDetails.appointments.first;
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                      color: AppTheme.getInstance().colorField(),
-                    ),
-                    child: Padding(
+                  return GestureDetector(
+                    onTap: () {
+                      final String typeCalendar = widget.cubit
+                          .getElementFromId(
+                        appointment.id.toString(),
+                      )
+                          .typeSchedule ??
+                          'Schedule';
+
+                      typeCalendar.getTypeCalendar.navigatorDetail(
+                        context,
+                        widget.cubit,
+                        (widget.cubit.dataLichLvModel
+                            .listLichLVModel ??
+                            [])
+                            .indexOf(
+                          widget.cubit.getElementFromId(
+                            appointment.id.toString(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 5.0,
                         vertical: 2.0,
                       ),
-                      child: Column(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.0),
+                        color: AppTheme.getInstance().colorField(),
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        ChiTietLichLamViecScreen(
-                                          id: appointment.id.toString(),
-                                        ),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    appointment.subject,
+                                    style: textNormalCustom(
+                                      fontSize: 12.0,
+                                    ),
                                   ),
-                                );
-                              },
-                              child: Text(
-                                appointment.subject,
-                                style: textNormalCustom(),
-                              ),
+                                ),
+                                const SizedBox(height: 4.0),
+                              ],
                             ),
                           ),
+                          if (widget.cubit
+                              .getElementFromId(
+                            appointment.id.toString(),
+                          )
+                              .isTrung)
+                            const Icon(
+                              Icons.circle,
+                              color: Colors.red,
+                              size: 10,
+                            )
+                          else
+                            Container()
                         ],
                       ),
                     ),

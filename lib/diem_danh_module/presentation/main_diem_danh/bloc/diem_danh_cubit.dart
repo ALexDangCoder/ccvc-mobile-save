@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/request/bang_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_nhan_request.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/loai_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/thong_ke_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
@@ -30,6 +32,8 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
       BehaviorSubject.seeded([true, false, false]);
   BehaviorSubject<ThongKeDiemDanhCaNhanModel> thongKeSubject =
       BehaviorSubject();
+  BehaviorSubject<List<BangDiemDanhCaNhanModel>> listBangDiemDanh =
+      BehaviorSubject<List<BangDiemDanhCaNhanModel>>();
 
   Future<void> postDiemDanhThongKe() async {
     final thongKeDiemDanhCaNhanRequest = ThongKeDiemDanhCaNhanRequest(
@@ -38,13 +42,24 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
     showLoading();
     final result =
         await diemDanhRepo.thongKeDiemDanh(thongKeDiemDanhCaNhanRequest);
-    result.when(
-        success: (res) {
-          thongKeSubject.sink.add(res);
-          showContent();
-        },
-        error: (error) {
-          showContent();
-        });
+    result.when(success: (res) {
+      thongKeSubject.sink.add(res);
+      showContent();
+    }, error: (error) {
+      showContent();
+    });
+  }
+
+  Future<void> postBangDiemDanhCaNhan() async {
+    final bangDiemDanhCaNhanRequest = BangDiemDanhCaNhanRequest(
+        thoiGian: '2022-06-01T00:00:00.00Z',
+        userId: '93114dcb-dfe1-487b-8e15-9c378c168994');
+    showLoading();
+    final result = await diemDanhRepo.bangDiemDanh(bangDiemDanhCaNhanRequest);
+    result.when(success: (res) {
+      listBangDiemDanh.sink.add(res.items ?? []);
+    }, error: (err) {
+      showContent();
+    });
   }
 }

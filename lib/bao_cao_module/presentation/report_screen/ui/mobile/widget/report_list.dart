@@ -1,19 +1,23 @@
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/detail_item_mobile.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class ReportList extends StatelessWidget {
   final bool isCheckList;
   final List<ReportItem> listReport;
   final ScrollPhysics? scrollPhysics;
+  final ReportListCubit cubit;
 
   const ReportList({
     Key? key,
     required this.isCheckList,
     required this.listReport,
     this.scrollPhysics,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -36,18 +40,9 @@ class ReportList extends StatelessWidget {
             ),
             itemCount: listReport.length,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const DetailItemMobile(),
-                    ),
-                  );
-                },
-                child: ItemGridView(
-                  item: listReport[index],
-                ),
+              return ItemGridView(
+                item: listReport[index],
+                cubit: cubit,
               );
             },
           )
@@ -61,18 +56,9 @@ class ReportList extends StatelessWidget {
               physics: scrollPhysics,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const DetailItemMobile(),
-                      ),
-                    );
-                  },
-                  child: ItemList(
-                    item: listReport[index],
-                  ),
+                return ItemList(
+                  item: listReport[index],
+                  cubit: cubit,
                 );
               },
             ),

@@ -111,13 +111,20 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
           );
         } else if (err.code == StatusCodeConst.STATUS_NOT_FOUND ||
             err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
+          if(err.message.contains('tồn tại')){
+            MessageConfig.show(
+              messState: MessState.customIcon,
+              title: S.current.tai_khoan_hien_khong_ton_tai,
+              urlIcon: ImageAssets.icUserNotExits,
+            );
+          }else{
           MessageConfig.show(
             messState: MessState.customIcon,
             urlIcon: ImageAssets.icWarningPopUp,
             fontSize: 16.0,
             fontWeight: FontWeight.w400,
             title: err.message.contains('!') ? err.message : '${err.message}!',
-          );
+          );}
         }
         showContent();
       },

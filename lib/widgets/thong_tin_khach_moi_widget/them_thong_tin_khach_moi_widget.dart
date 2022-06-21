@@ -22,6 +22,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemThongTinKhachMoiWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
+  final Function(DonViModel)? onDelete;
   final bool isMoiHop;
   final bool isCheckedEmail;
 
@@ -30,6 +31,7 @@ class ThemThongTinKhachMoiWidget extends StatefulWidget {
     required this.onChange,
     this.isMoiHop = false,
     this.isCheckedEmail = false,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -78,6 +80,9 @@ class _ThemDonViPhoiHopKhacWidgetState
                           cubit: cubit,
                           isKhachMoi: widget.isMoiHop,
                           isSendEmail: widget.isCheckedEmail,
+                          onDelete: () {
+                            widget.onDelete?.call(data[index]);
+                          },
                         )
                       : ItemThanhPhanWidget(
                           data: data[index],

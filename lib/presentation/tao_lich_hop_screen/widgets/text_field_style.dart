@@ -12,6 +12,7 @@ class TextFieldStyle extends StatelessWidget {
   final Function(String)? validate;
   final TextEditingController? controller;
   final int? maxLength;
+  final String? initValue;
 
   const TextFieldStyle({
     Key? key,
@@ -22,6 +23,7 @@ class TextFieldStyle extends StatelessWidget {
     this.controller,
     this.maxLength,
     this.validate,
+    this.initValue,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,8 @@ class TextFieldStyle extends StatelessWidget {
               ),
             ),
             child: textField(
-              validate: validate,
+                validate: validate,
+                initValue: initValue,
             ),
           ),
         ),
@@ -56,15 +59,16 @@ class TextFieldStyle extends StatelessWidget {
     );
   }
 
-  Widget textField({Function(String)? validate}) {
+  Widget textField({Function(String)? validate, String? initValue}) {
     return TextFormField(
       validator: (value) {
-        return validate?.call(value ?? '');
+        return validate?.call((value ?? '').trim());
       },
       controller: controller,
       onChanged: (value) {
-        onChange?.call(value);
+        onChange?.call(value.trim());
       },
+      initialValue: initValue,
       maxLength: maxLength,
       maxLines: maxLines,
       style: textNormal(color3D5586, 16),

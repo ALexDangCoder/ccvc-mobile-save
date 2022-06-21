@@ -211,7 +211,7 @@ class ScheduleReminder {
       case 10080:
         return 'Trước 1 tuần';
     }
-    return 'Không bao giờ';
+    return '';
   }
 }
 

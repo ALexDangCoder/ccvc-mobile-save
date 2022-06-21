@@ -16,7 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CoQuanChuTri extends StatefulWidget {
-  const CoQuanChuTri({Key? key, required this.cubit}) : super(key: key);
+  const CoQuanChuTri({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
   final TaoLichHopCubit cubit;
 
   @override
@@ -31,7 +34,12 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
+    if (widget.cubit.taoLichHopRequest.bitTrongDonVi != null) {
+      isTrongDonVi = widget.cubit.taoLichHopRequest.bitTrongDonVi!;
+      isNgoaiDonVi = !widget.cubit.taoLichHopRequest.bitTrongDonVi!;
+    } else {
+      widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
+    }
   }
 
   @override
@@ -63,7 +71,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
           spaceH12,
           ContainerToggleWidget(
             initData: isTrongDonVi,
-            // key: UniqueKey(),
             showDivider: false,
             title: S.current.trong_don_vi,
             onChange: (value) {
@@ -100,6 +107,13 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   stream: widget.cubit.danhSachCB,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? <DonViModel>[];
+                    if(indexSelected == -1) {
+                      indexSelected = widget.cubit.danhSachCB.value.indexWhere(
+                        (e) =>
+                            e.userId ==
+                            widget.cubit.taoLichHopRequest.chuTri?.canBoId,
+                      );
+                    }
                     return data.isEmpty
                         ? const NodataWidget()
                         : Column(
@@ -125,7 +139,8 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                                           textContent: S.current
                                               .ban_co_muon_tiep_tuc_khong,
                                           icon: ImageAssets.svgAssets(
-                                              ImageAssets.ic_trung_hop),
+                                            ImageAssets.ic_trung_hop,
+                                          ),
                                           btnRightTxt: S.current.dong_y,
                                           btnLeftTxt: S.current.khong,
                                           isCenterTitle: true,
@@ -139,7 +154,8 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                                               ..donViId = data[index].donViId;
                                             widget.cubit.chuTri = data[index];
                                             widget.cubit.danhSachCB.sink.add(
-                                                widget.cubit.danhSachCB.value);
+                                              widget.cubit.danhSachCB.value,
+                                            );
                                           },
                                         );
                                       } else {
@@ -193,6 +209,8 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   },
                 ),
                 ContainerToggleWidget(
+                  initData:
+                      widget.cubit.taoLichHopRequest.bitYeuCauDuyet ?? false,
                   title: S.current.chu_tri_duyet,
                   onChange: (value) {
                     widget.cubit.taoLichHopRequest.bitYeuCauDuyet = value;
@@ -205,7 +223,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
           ContainerToggleWidget(
             showDivider: false,
             initData: isNgoaiDonVi,
-            // key: UniqueKey(),
             title: S.current.ngoai_don_vi,
             onChange: (value) {
               isNgoaiDonVi = value;
@@ -232,6 +249,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFieldStyle(
+                    initValue: widget.cubit.taoLichHopRequest.chuTri?.tenCoQuan,
                     urlIcon: ImageAssets.icWork,
                     hintText: S.current.ten_co_quan,
                     onChange: (value) {
@@ -240,6 +258,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ),
                   spaceH12,
                   TextFieldStyle(
+                    initValue: widget.cubit.taoLichHopRequest.chuTri?.tenCanBo,
                     urlIcon: ImageAssets.icPeople,
                     hintText: S.current.nguoi_chu_tri,
                     onChange: (value) {
@@ -254,6 +273,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ButtonSelectFile(
                     files: [],
                     spacingFile: 16,
+                    maxSize: 30000000,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
                     onChange: (list) {

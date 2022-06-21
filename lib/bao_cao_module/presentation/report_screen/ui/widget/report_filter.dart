@@ -134,6 +134,8 @@ class ReportFilter extends StatelessWidget {
     return InkWell(
       onTap: () {
         cubit.textFilter.add(title);
+        cubit.getStatus(title);
+        cubit.getListReport();
         Navigator.of(context).pop();
       },
       child: Row(

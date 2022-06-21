@@ -402,6 +402,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     required String id,
   }) async {
     bool isCheckSuccess = true;
+    showLoading();
     final result = await tienIchRep.xoaDanhBa(id);
     result.when(
       success: (res) {
@@ -419,6 +420,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         isCheckSuccess = false;
       },
     );
+    showContent();
     return isCheckSuccess;
   }
 

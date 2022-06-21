@@ -126,7 +126,7 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                             if (widget.cubit
                                 .getElementFromId(
                               appointment.id.toString(),
-                            ).isTrung ?? false)
+                            ).isTrung)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

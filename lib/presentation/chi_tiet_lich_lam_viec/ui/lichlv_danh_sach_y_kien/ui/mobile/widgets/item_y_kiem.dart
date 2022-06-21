@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -28,13 +29,14 @@ class ItemYKien extends StatelessWidget {
               Container(
                 width: 32,
                 height: 32,
+                clipBehavior: Clip.hardEdge,
                 decoration: const BoxDecoration(
-                  color: Colors.red,
                   shape: BoxShape.circle,
-                  // image: DecorationImage(
-                  //   image: NetworkImage(''),
-                  //   fit: BoxFit.cover,
-                  // ),
+                ),
+                child: Image.network(
+                  yKienModel.imgAvatar,
+                  errorBuilder: (_, __, ___) =>
+                      Image.asset(ImageAssets.anhDaiDienMacDinh),
                 ),
               ),
               const SizedBox(

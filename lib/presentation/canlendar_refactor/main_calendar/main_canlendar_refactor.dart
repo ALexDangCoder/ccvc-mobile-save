@@ -39,7 +39,11 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [ChooseTimeCalendarWidget()],
+          children: [
+            ChooseTimeCalendarWidget(
+              calendarDays: [DateTime.now()],
+            )
+          ],
         ),
       ),
     );

@@ -38,11 +38,14 @@ class MenuItemTienIch extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: textNormal(
-                      AppTheme.getInstance().titleColor(),
-                      14.0.textScale(),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: textNormal(
+                        AppTheme.getInstance().titleColor(),
+                        14.0.textScale(),
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const Icon(

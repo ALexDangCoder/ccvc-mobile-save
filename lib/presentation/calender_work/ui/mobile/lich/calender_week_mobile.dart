@@ -89,15 +89,14 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
                                 )
                                 .typeSchedule ??
                             'Schedule';
-                        final element =  widget.cubit.getElementFromId(
+                        final element = widget.cubit.getElementFromId(
                           appointment.id.toString(),
                         );
-                        if (element != null){
+                        if (element != null) {
                           typeCalendar.getTypeCalendar.navigatorDetail(
                             context,
                             widget.cubit,
-                            (widget.cubit.dataLichLvModel.listLichLVModel ??
-                                [])
+                            (widget.cubit.dataLichLvModel.listLichLVModel ?? [])
                                 .indexOf(element),
                           );
                         }
@@ -134,7 +133,8 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
                             if (widget.cubit
                                 .getElementFromId(
                                   appointment.id.toString(),
-                                ).isTrung ?? false)
+                                )
+                                .isTrung)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

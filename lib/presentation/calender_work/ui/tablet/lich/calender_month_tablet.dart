@@ -185,7 +185,7 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                             if (widget.cubit
                                 .getElementFromId(
                               appointment.id.toString(),
-                            ).isTrung ?? false)
+                            ).isTrung)
                               const Icon(
                                 Icons.circle,
                                 color: Colors.red,

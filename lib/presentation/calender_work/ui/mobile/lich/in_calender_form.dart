@@ -94,22 +94,20 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                 final String typeCalendar = widget.cubit
                                         .getElementFromId(
                                           appointment.id.toString(),
-                                        )
-                                        .typeSchedule ??
+                                        ).typeSchedule ??
                                     'Schedule';
-
-                                typeCalendar.getTypeCalendar.navigatorDetail(
-                                  context,
-                                  widget.cubit,
-                                  (widget.cubit.dataLichLvModel
-                                              .listLichLVModel ??
-                                          [])
-                                      .indexOf(
-                                    widget.cubit.getElementFromId(
-                                      appointment.id.toString(),
-                                    ),
-                                  ),
+                                final element =  widget.cubit.getElementFromId(
+                                  appointment.id.toString(),
                                 );
+                                if (element != null){
+                                  typeCalendar.getTypeCalendar.navigatorDetail(
+                                    context,
+                                    widget.cubit,
+                                    (widget.cubit.dataLichLvModel.listLichLVModel ??
+                                        [])
+                                        .indexOf(element),
+                                  );
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -145,8 +143,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                     if (widget.cubit
                                         .getElementFromId(
                                           appointment.id.toString(),
-                                        )
-                                        .isTrung)
+                                        ).isTrung )
                                       const Icon(
                                         Icons.circle,
                                         color: Colors.red,

@@ -75,6 +75,7 @@ class UserInformationResponse {
         hoTen: hoTen,
         anhDaiDienFilePath: anhDaiDienFilePath,
         chucVu: chucVu,
+        canBoDepartmentId: canBoDepartmentId,
         donVi: donVi,
         email: email,
         userName: userName,

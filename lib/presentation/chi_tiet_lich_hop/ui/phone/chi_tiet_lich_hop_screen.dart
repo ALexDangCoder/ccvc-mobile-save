@@ -250,14 +250,18 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                           .then((value) {
                                         if (value) {
                                           MessageConfig.show(
-                                            title: '${S.current.tu_choi_tham_gia} '
+                                            title:
+                                                '${S.current.tu_choi_tham_gia} '
                                                 '${S.current.thanh_cong.toLowerCase()}',
                                           );
-                                          cubit.initDataChiTiet(needCheckPermission: true);
+                                          cubit.initDataChiTiet(
+                                            needCheckPermission: true,
+                                          );
                                         } else {
                                           MessageConfig.show(
                                             messState: MessState.error,
-                                            title: '${S.current.tu_choi_tham_gia}'
+                                            title:
+                                                '${S.current.tu_choi_tham_gia}'
                                                 ' ${S.current.that_bai.toLowerCase()}',
                                           );
                                         }

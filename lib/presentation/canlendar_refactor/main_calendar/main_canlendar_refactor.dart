@@ -46,7 +46,9 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
         child: Column(
           children: [
             ChooseTimeCalendarWidget(
-              onChange: (startDate, endDate, type) {},
+              onChange: (startDate, endDate, type,keySearch) {
+
+              },
               controller: controller,
             ),
 

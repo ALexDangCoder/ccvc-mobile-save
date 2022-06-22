@@ -225,15 +225,17 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     return result;
   }
 
-  Future<void> initDataChiTiet() async {
+  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     await getChiTietLichHop(idCuocHop);
-
-    await getDanhSachThuHoiLichHop(idCuocHop);
-
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-
     ///check permission button
-    initDataButton();
+    if(needCheckPermission) {
+      initDataButton();
+    }
+
+     getDanhSachThuHoiLichHop(idCuocHop);
+
+     getDanhSachNguoiChuTriPhienHop(idCuocHop);
+
   }
 
   Future<void> getDanhSachNTGChuongTrinhHop({

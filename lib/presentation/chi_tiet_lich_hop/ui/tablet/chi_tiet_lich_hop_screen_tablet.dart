@@ -51,7 +51,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
   @override
   void initState() {
     cubit.idCuocHop = widget.id;
-    cubit.initDataChiTiet();
+    cubit.initDataChiTiet(needCheckPermission: true);
     _controller = TabController(vsync: this, length: 9);
     super.initState();
   }

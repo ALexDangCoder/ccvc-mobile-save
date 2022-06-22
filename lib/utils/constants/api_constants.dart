@@ -302,6 +302,8 @@ class ApiConstants {
   static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
   static const CREATE_NEW_USER = '/htcs/api/User/create';
   static const SHARE_REPORT = '/htcs/api/User/share-many';
+
+  static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';
 }
 
 class ImageConstants {

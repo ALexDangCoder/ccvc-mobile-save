@@ -483,4 +483,10 @@ abstract class HopServices {
   Future<CuCanBoDiThayResponse> cuCanBoDiThay(
     @Body() CuCanBoDiThayRequest cuCanBoDiThayRequest,
   );
+
+  @POST(ApiConstants.CONFIRM_HOP)
+  Future<ThemPhienHopResponse> xacNhanThamGiaHop(
+    @Field('hopId') String hopId,
+    @Field('isThamGia') bool isThamGia,
+  );
 }

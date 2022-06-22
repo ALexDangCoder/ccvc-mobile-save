@@ -141,8 +141,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                                 .formatApi;
                             _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
                                 .convertStringToDate(
-                              formatPattern: DateFormatApp.date,
-                            )
+                                  formatPattern: DateFormatApp.date,
+                                )
                                 .formatApi;
                           },
                           onSwitchPressed: (value) {

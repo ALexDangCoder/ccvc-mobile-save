@@ -35,7 +35,7 @@ class CongViecCellTienIch extends StatefulWidget {
     this.onStar,
     this.onClose,
     required this.todoModel,
-    this.enabled = true,
+    this.enabled = false,
     this.borderBottom = true,
     this.onChange,
     this.onEdit,

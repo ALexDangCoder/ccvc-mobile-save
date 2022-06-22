@@ -38,7 +38,9 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
   String startDate = DateTime.now().formatApiStartDay;
   String endDate = DateTime.now().formatApiEndDay;
   List<MenuData> listTitleItemMenu = [];
+  final menuSubject = BehaviorSubject<List<MenuData>>();
   List<List<MenuItemModel>> listSubMenu = [];
+  final menuItemSubject = BehaviorSubject<List<List<MenuItemModel>>>();
   List<ListMenuItemModel> tree = [];
   DashBoardTatCaChuDeRequest dashBoardTatCaChuDeRequest =
       DashBoardTatCaChuDeRequest(
@@ -87,9 +89,11 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
         tree = res;
         listTitleItemMenu =
             res.map((e) => MenuData(nodeId: e.nodeId, title: e.title)).toList();
+        menuSubject.sink.add(listTitleItemMenu);
         for (final element in res) {
           listSubMenu.add(element.subMenu);
         }
+        menuItemSubject.sink.add(listSubMenu);
       },
       error: (err) {
         return;

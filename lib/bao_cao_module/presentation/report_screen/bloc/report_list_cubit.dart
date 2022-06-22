@@ -33,10 +33,11 @@ class ReportListCubit extends BaseCubit<BaseState> {
   BehaviorSubject<String> textFilter = BehaviorSubject.seeded(S.current.tu_a_z);
   BehaviorSubject<String> textSearch = BehaviorSubject.seeded('');
   BehaviorSubject<String> textFilterBox = BehaviorSubject.seeded(S.current.all);
-  BehaviorSubject<bool> isCheckList = BehaviorSubject.seeded(true);
+  BehaviorSubject<bool> isListView = BehaviorSubject.seeded(true);
   BehaviorSubject<bool> isStatusSearch = BehaviorSubject.seeded(true);
-  BehaviorSubject<List<ReportItem>> listReportFavorite =
-      BehaviorSubject.seeded([]);
+  List<ReportItem> listReportFavorite = [];
+  BehaviorSubject<List<ReportItem>> listReportTree = BehaviorSubject.seeded([]);
+  List<ReportItem> listReport = [];
 
   ReportRepository get _reportService => Get.find();
 
@@ -81,9 +82,12 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        appId = res.first.id ?? '';
-        if (appId.isNotEmpty) {
+        if (res.isNotEmpty) {
+          appId = res.first.id ?? '';
           getFolderID();
+        } else {
+          emit(const CompletedLoadMore(CompleteType.ERROR));
+          showError();
         }
       },
       error: (error) {
@@ -100,6 +104,9 @@ class ReportListCubit extends BaseCubit<BaseState> {
         folderId = res.id ?? '';
         if (folderId.isNotEmpty) {
           getListReport();
+        } else {
+          emit(const CompletedLoadMore(CompleteType.ERROR));
+          showError();
         }
       },
       error: (error) {
@@ -109,10 +116,12 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
   }
 
-  Future<bool> postFavorite({required List<String> idReport}) async {
+  Future<bool> postFavorite({
+    required List<String> idReport,
+  }) async {
     showLoading();
     bool isStatus = false;
-    final Result result = await _reportService.postLikeReportFavorite(
+    final Result<bool> result = await _reportService.postLikeReportFavorite(
       idReport,
       appId,
     );
@@ -130,10 +139,12 @@ class ReportListCubit extends BaseCubit<BaseState> {
     return isStatus;
   }
 
-  Future<bool> putDislikeFavorite({required List<String> idReport}) async {
+  Future<bool> putDislikeFavorite({
+    required List<String> idReport,
+  }) async {
     showLoading();
     bool isStatus = false;
-    final Result result = await _reportService.putDislikeReportFavorite(
+    final Result<bool> result = await _reportService.putDislikeReportFavorite(
       idReport,
       appId,
     );
@@ -189,49 +200,58 @@ class ReportListCubit extends BaseCubit<BaseState> {
   //   );
   // }
 
-  // Future<void> getListFavorite() async {
-  //   showLoading();
-  //   final Result<List<ReportItem>> result =
-  //       await _reportService.getListReportFavorite(
-  //     appId,
-  //     folderId,
-  //   );
-  //   result.when(
-  //     success: (res) {
-  //       // listReportFavorite.sink.add([]);
-  //       // listReportFavorite.sink.add(res);
-  //     },
-  //     error: (error) {
-  //       emit(const CompletedLoadMore(CompleteType.ERROR));
-  //       showError();
-  //     },
-  //   );
-  // }
-
-  Future<void> getListReport({String folder = ''}) async {
+  Future<void> getListFavorite() async {
     showLoading();
+    listReportFavorite.clear();
+    final Result<List<ReportItem>> result =
+        await _reportService.getListReportFavorite(
+      appId,
+      folderId,
+    );
+    result.when(
+      success: (res) {
+        listReportFavorite.addAll(res);
+      },
+      error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+      },
+    );
+  }
+
+  Future<void> getListReport({
+    String idFolder = '',
+    bool isTree = false,
+  }) async {
+    if (!isTree) {
+      listReport.clear();
+      await getListFavorite();
+    } else {
+      listReportTree.add([]);
+      showLoading();
+    }
     final Result<List<ReportItem>> result = await _reportService.getListReport(
-      folder.isNotEmpty ? folder : folderId,
+      idFolder.isNotEmpty ? idFolder : folderId,
       sort,
       textSearch.value,
       appId,
     );
     result.when(
       success: (res) {
-        final List<ReportItem> listFavorite = [];
-        final List<ReportItem> list = [];
-        for (final value in res) {
-          if (value.isPin ?? false) {
-            listFavorite.add(value);
-          } else {
-            list.add(value);
-          }
-        }
-        listReportFavorite.sink.add(listFavorite);
         if (!res.isNotEmpty) {
           showEmpty();
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
         } else {
+          listReportTree.add(res);
+          final List<ReportItem> list = [];
+          if (!isTree) {
+            for (final value in res) {
+              if (value.isPin == false) {
+                list.add(value);
+              }
+            }
+            listReport.addAll(list);
+          }
           showContent();
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
         }

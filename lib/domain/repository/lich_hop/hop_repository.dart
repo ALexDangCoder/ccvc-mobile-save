@@ -386,4 +386,9 @@ mixin HopRepository {
   );
 
   Future<Result<bool>> cuCanBoDiThay(CuCanBoDiThayRequest cuCanBoDiThayRequest);
+
+  Future<Result<bool>> xacNhanThamGiaHop(
+    String lichHopId,
+    bool isThamGia,
+  );
 }

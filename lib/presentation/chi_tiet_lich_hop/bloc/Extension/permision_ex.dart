@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -43,7 +42,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   List<CanBoThamGiaStr> canBoThamGia() {
     return scheduleCoperatives
-        .where((e) => e.CanBoId?.toUpperCase() == getIdCurrentUser())
+        .where(
+          (e) => e.CanBoId?.toUpperCase() == getIdCurrentUser().toUpperCase(),
+        )
         .toList();
   }
 
@@ -145,19 +146,19 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   bool isDaCuCanBo() {
     String id = '';
-
     for (final i in thamGia()) {
       if ((i.id ?? '').isNotEmpty) {
         id = i.id ?? '';
         break;
       }
     }
-    return scheduleCoperatives
+    final bool i = scheduleCoperatives
         .where(
           (e) => (e.id ?? '').toUpperCase() == id.toUpperCase(),
         )
         .toList()
         .isNotEmpty;
+    return i;
   }
 
   int classThamDu() {
@@ -235,8 +236,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   void initDataButton() {
     listButton.clear();
     scheduleCoperatives = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
-    log('${getChiTietLichHopModel.canBoThamGiaStr} ?????????????????????????');
-
     ///check quyen sua lich
     if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
         (activeChuTri() || isNguoiTao() || isThuKy()) &&
@@ -319,10 +318,10 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       listButton.add(PERMISSION_DETAIL.CU_CAN_BO_DI_THAY);
     }
 
-    ///check quyen tao boc bang cuoc hop
-    if (getChiTietLichHopModel.isTaoTaoBocBang) {
-      listButton.add(PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP);
-    }
+    // ///check quyen tao boc bang cuoc hop
+    // if (getChiTietLichHopModel.isTaoTaoBocBang) {
+    //   listButton.add(PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP);
+    // }
 
     ///check quyen huy lich
     if ((isOwner() || isThuKy() && !trangThaiHuy()) && !trangThaiHuy()) {
@@ -331,7 +330,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
     ///check quyen xac nhan tham gia
     if (dataXacNhanThamGia().isNotEmpty) {
-      if (dataXacNhanThamGia()[0].trangThai == 0 || isDaCuCanBo()) {
+      if (dataXacNhanThamGia()[0].trangThai == 0 && isDaCuCanBo()) {
         listButton.add(PERMISSION_DETAIL.XAC_NHAN_THAM_GIA);
       }
 

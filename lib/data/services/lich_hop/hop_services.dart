@@ -479,7 +479,7 @@ abstract class HopServices {
 
   @POST(ApiConstants.CONFIRM_HOP)
   Future<ThemPhienHopResponse> xacNhanThamGiaHop(
-    @Query('hopId') String hopId,
-    @Query('isThamGia') bool isThamGia,
+    @Field('hopId') String hopId,
+    @Field('isThamGia') bool isThamGia,
   );
 }

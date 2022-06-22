@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
@@ -253,6 +254,22 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     required bool isDuyet,
   }) async {
     final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
+    result.when(
+      success: (res) {},
+      error: (error) {},
+    );
+  }
+
+  Future<void> cuCanBoDiThay({
+    required String id,
+    required List<CanBoDiThay>? canBoDiThay,
+  }) async {
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: id,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
     result.when(
       success: (res) {},
       error: (error) {},

@@ -37,7 +37,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       list.add(cb);
     });
     return list;
-    // return data.map((e) => CanBoThamGiaStr.fromJson(e)).toList();
   }
 
   List<CanBoThamGiaStr> canBoThamGia() {
@@ -318,6 +317,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       listButton.add(PERMISSION_DETAIL.CU_CAN_BO_DI_THAY);
     }
 
+    ///Tạm thời bỏ bóc băng
     // ///check quyen tao boc bang cuoc hop
     // if (getChiTietLichHopModel.isTaoTaoBocBang) {
     //   listButton.add(PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP);

@@ -1155,5 +1155,7 @@
   "tu_hien_tai_ve_sau": "Từ lịch hiện tại đến về sau",
   "file_qua_30M": "File tải lên không vượt quá 30MB",
   "ban_phai_chon_thoi_gian": "Vui lòng chọn thời gian",
-  "vui_long_chon_loai_lich": "Vui lòng chọn loại lịch"
+  "vui_long_chon_loai_lich": "Vui lòng chọn loại lịch",
+  "ban_phai_nhap_truong_tieu_de": "Bạn phải nhập trường Tiêu đề!",
+  "dinh_kem_tep_english": "Đính kèm file"
 }

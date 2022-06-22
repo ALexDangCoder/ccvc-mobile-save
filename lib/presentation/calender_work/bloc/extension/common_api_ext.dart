@@ -94,25 +94,7 @@ extension CommonApiExt on CalenderCubit {
     await que.onComplete;
   }
 
-  Future<void> postDanhSachLichlamViec({
-    required DanhSachLichLamViecRequest body,
-  }) async {
-    final result = await lichLamViec.postDanhSachLichLamViec(body);
-    result.when(
-      success: (value) {
-        totalPage = value.totalPage ?? 1;
-        danhSachLichLamViecSubject.add(value);
-      },
-      error: (error) {
-        showContent();
-        MessageConfig.show(
-          title: S.current.error,
-          title2: S.current.no_internet,
-          showTitle2: true,
-        );
-      },
-    );
-  }
+
 
   Future<void> postEventsCalendar({
     TypeCalendarMenu typeCalendar = TypeCalendarMenu.LichCuaToi,

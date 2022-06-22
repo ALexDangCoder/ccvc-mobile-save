@@ -1,6 +1,6 @@
-
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_month.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_week.dart';
@@ -22,30 +22,33 @@ class MainDataView extends StatefulWidget {
 
 class _MainDataViewState extends State<MainDataView> {
   @override
+  void initState() {
+    widget.cubit.setFCalendarListener();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder(
       bloc: widget.cubit,
-      builder: (context, state) {
-        if (state is CalendarViewState) {
-          final typeState = state.typeView;
-          switch (typeState) {
-            case TypeCalendarList.WEEK:
-              return DataViewCalendarWeek(
+      builder: (context,CalendarWorkState state) {
+        final typeState = state.typeView;
+        if (state is CalendarViewState){
+          return IndexedStack(
+            index: typeState.index,
+            children: [
+              DataViewCalendarDay(
                 cubit: widget.cubit,
-              );
-              case TypeCalendarList.MONTH:
-              return DataViewCalendarMonth(
+              ),
+              DataViewCalendarWeek(
                 cubit: widget.cubit,
-              );
-            default :
-              return DataViewCalendarDay(
+              ),
+              DataViewCalendarMonth(
                 cubit: widget.cubit,
-              );
-          }
-          return DataViewTypeList(
-            cubit: widget.cubit,
+              )
+            ],
           );
-        } else {
+        }else{
           return DataViewTypeList(
             cubit: widget.cubit,
           );

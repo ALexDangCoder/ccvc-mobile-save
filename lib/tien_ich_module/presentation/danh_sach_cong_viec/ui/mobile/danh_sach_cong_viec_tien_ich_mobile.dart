@@ -83,7 +83,7 @@ class _DanhSachCongViecTienIchMobileState
           cubit: cubit,
           child: RefreshIndicator(
             onRefresh: () async {
-              await cubit.callAndFillApiAutu().then(
+              await cubit.callAndFillApiAuto().then(
                     (value) => textSearch != '' ? cubit.search(textSearch) : '',
                   );
             },
@@ -486,7 +486,7 @@ class ListUpDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
       );
     } else {
@@ -496,7 +496,7 @@ class ListUpDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
         isBottomShow: false,
         funcBtnOk: () {},
@@ -604,7 +604,7 @@ class ListDownDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
       );
     } else {
@@ -614,7 +614,7 @@ class ListDownDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
         isBottomShow: false,
         funcBtnOk: () {},

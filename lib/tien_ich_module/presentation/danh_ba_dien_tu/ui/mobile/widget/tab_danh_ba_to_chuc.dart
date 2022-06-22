@@ -130,7 +130,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
             _debounce = Timer(const Duration(milliseconds: 1000), () {
               cubit.callApiDanhBaToChuc(
                 keyWork: value,
-                pageIndexTung: 1,
+                pageIndexApi: 1,
               );
             });
           }
@@ -141,7 +141,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         cubit: cubit,
         onChange: (value) {
           cubit.callApiDanhBaToChuc(
-            pageIndexTung: 1,
+            pageIndexApi: 1,
             id: value.id,
           );
           cubit.id = value.id;

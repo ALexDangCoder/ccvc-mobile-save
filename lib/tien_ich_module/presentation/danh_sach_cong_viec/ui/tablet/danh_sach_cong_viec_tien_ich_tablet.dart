@@ -41,7 +41,7 @@ class _DanhSachCongViecTienIchTabletState
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await cubit.callAndFillApiAutu();
+        await cubit.callAndFillApiAuto();
       },
       child: Scaffold(
         backgroundColor: bgQLVBTablet,

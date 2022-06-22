@@ -30,12 +30,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CreatTodoOrUpdateWidget extends StatefulWidget {
-  final bool? isCreat;
+  final bool? isCreate;
   final TodoDSCVModel? todo;
   final DanhSachCongViecTienIchCubit cubit;
 
   const CreatTodoOrUpdateWidget(
-      {Key? key, required this.cubit, this.todo, this.isCreat})
+      {Key? key, required this.cubit, this.todo, this.isCreate})
       : super(key: key);
 
   @override
@@ -101,7 +101,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
               );
               return;
             }
-            if (widget.isCreat ?? true) {
+            if (widget.isCreate ?? true) {
               widget.cubit.addTodo();
             } else {
               widget.cubit.editWork(

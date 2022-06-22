@@ -111,14 +111,14 @@ class DanhSachCongViecTienIchCubit
     listDaBiXoa = listGop
         .where((e) => e.inUsed == false && e.isDeleted == false)
         .toList();
-    vlMenuDf[DSCVScreen.CVCB].number = listCongViecCuaBan
+    dataMenuDefault[DSCVScreen.CVCB].number = listCongViecCuaBan
         .where((element) => element.isTicked == false)
         .toList()
         .length;
-    vlMenuDf[DSCVScreen.CVQT].number = listQuanTrong.length;
-    vlMenuDf[DSCVScreen.DHT].number = listDaHoanThanh.length;
-    vlMenuDf[DSCVScreen.GCT].number = listGanChoToi.length;
-    vlMenuDf[DSCVScreen.DBX].number = listDaBiXoa.length;
+    dataMenuDefault[DSCVScreen.CVQT].number = listQuanTrong.length;
+    dataMenuDefault[DSCVScreen.DHT].number = listDaHoanThanh.length;
+    dataMenuDefault[DSCVScreen.GCT].number = listGanChoToi.length;
+    dataMenuDefault[DSCVScreen.DBX].number = listDaBiXoa.length;
 
     switch (statusDSCV.value) {
       case DSCVScreen.CVCB:
@@ -220,7 +220,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// valueViewMenu
-  List<MenuDscvModel> vlMenuDf = [
+  List<MenuDscvModel> dataMenuDefault = [
     MenuDscvModel(
       icon: isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01,
       title: S.current.cong_viec_cua_ban,
@@ -303,7 +303,7 @@ class DanhSachCongViecTienIchCubit
             res,
           );
           listDSCV.sink.add(data);
-          await callAndFillApiAutu();
+          await callAndFillApiAuto();
           closeDialog();
         },
         error: (err) {
@@ -371,7 +371,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///call and fill api autu
-  Future<void> callAndFillApiAutu() async {
+  Future<void> callAndFillApiAuto() async {
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
     doDataTheoFilter();
@@ -404,7 +404,7 @@ class DanhSachCongViecTienIchCubit
       }
     }
 
-    dynamic checkDataV2({dynamic changeData, dynamic defaultData}) {
+    dynamic checkDataFile({dynamic changeData, dynamic defaultData}) {
       if (changeData == '') {
         return null;
       } else if (changeData == defaultData) {
@@ -436,7 +436,7 @@ class DanhSachCongViecTienIchCubit
             ? null
             : nguoiThucHienSubject.value.id,
         filePath: (filePathTodo ?? '').isNotEmpty
-            ? checkDataV2(changeData: filePathTodo, defaultData: todo.filePath)
+            ? checkDataFile(changeData: filePathTodo, defaultData: todo.filePath)
             : filePath,
       ),
     );
@@ -462,7 +462,7 @@ class DanhSachCongViecTienIchCubit
         if (filePathTodo != null) {
           nameFile.sink.add('');
         }
-        callAndFillApiAutu();
+        callAndFillApiAuto();
       },
       error: (err) {
         showError();
@@ -551,7 +551,7 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        callAndFillApiAutu();
+        callAndFillApiAuto();
       },
       error: (error) {},
     );

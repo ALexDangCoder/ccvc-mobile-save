@@ -62,11 +62,11 @@ class _MenuDSCVState extends State<MenuDSCV> {
                     builder: (context, snapshot) {
                       return ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: widget.cubit.vlMenuDf.length,
+                        itemCount: widget.cubit.dataMenuDefault.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          final vl = widget.cubit.vlMenuDf[index];
+                          final vl = widget.cubit.dataMenuDefault[index];
                           return TheoDangLichWidgetDSCV(
                             icon: vl.icon ?? '',
                             name: vl.title ?? '',
@@ -174,11 +174,11 @@ class _MenuDSCVState extends State<MenuDSCV> {
           children: [
             ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: widget.cubit.vlMenuDf.length,
+              itemCount: widget.cubit.dataMenuDefault.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final vl = widget.cubit.vlMenuDf[index];
+                final vl = widget.cubit.dataMenuDefault[index];
                 return CellMenuCustom(
                   icon: vl.icon ?? '',
                   name: vl.title ?? '',

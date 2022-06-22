@@ -79,39 +79,66 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                                   stream: widget.cubit.menuItemSubject.stream,
                                   builder: (context, snapshot) {
                                     final menuItem = snapshot.data ?? [];
-                                    return ContainerMenuBaoChiWidget(
-                                      name: menuData[index].title,
-                                      icon: ImageAssets.icMenuItemBCMXH,
-                                      selected: menuItem[index].isEmpty
-                                          ? initId == menuData[index].nodeId
-                                              ? true
-                                              : false
-                                          : false,
-                                      initExpand:
-                                          initId == menuData[index].nodeId,
-                                      type: menuItem[index].isEmpty
-                                          ? TypeContainer.number
-                                          : TypeContainer.expand,
-                                      childExpand: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: menuItem[index].length,
-                                        itemBuilder: (context, indexItem) {
-                                          return snapshot.data != null
-                                              ? ContainerMenuBaoChiWidget(
-                                                  selected: widget.topic ==
-                                                      menuItem[index][indexItem]
-                                                          .nodeId,
-                                                  name: menuItem[index]
-                                                          [indexItem]
-                                                      .title,
-                                                  onTap: () {
+                                    return snapshot.data != null
+                                        ? ContainerMenuBaoChiWidget(
+                                            name: menuData[index].title,
+                                            icon: ImageAssets.icMenuItemBCMXH,
+                                            selected: menuItem[index].isEmpty
+                                                ? initId ==
+                                                        menuData[index].nodeId
+                                                    ? true
+                                                    : false
+                                                : false,
+                                            initExpand: initId ==
+                                                menuData[index].nodeId,
+                                            type: menuItem[index].isEmpty
+                                                ? TypeContainer.number
+                                                : TypeContainer.expand,
+                                            childExpand: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: menuItem[index].length,
+                                              itemBuilder:
+                                                  (context, indexItem) {
+                                                return snapshot.data != null
+                                                    ? ContainerMenuBaoChiWidget(
+                                                        selected: widget
+                                                                .topic ==
+                                                            menuItem[index]
+                                                                    [indexItem]
+                                                                .nodeId,
+                                                        name: menuItem[index]
+                                                                [indexItem]
+                                                            .title,
+                                                        onTap: () {
+                                                          eventBus.fire(
+                                                            FireTopic(
+                                                              menuItem[index][
+                                                                      indexItem]
+                                                                  .nodeId,
+                                                            ),
+                                                          );
+                                                          widget.cubit
+                                                              .titleSubject.sink
+                                                              .add(
+                                                            menuData[index]
+                                                                .title,
+                                                          );
+                                                          widget.onChange();
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      )
+                                                    : const SizedBox.shrink();
+                                              },
+                                            ),
+                                            onTap: widget.cubit
+                                                    .listSubMenu[index].isEmpty
+                                                ? () {
                                                     eventBus.fire(
                                                       FireTopic(
-                                                        menuItem[index]
-                                                                [indexItem]
-                                                            .nodeId,
+                                                        menuData[index].nodeId,
                                                       ),
                                                     );
                                                     widget
@@ -121,33 +148,15 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                                                     );
                                                     widget.onChange();
                                                     Navigator.pop(context);
-                                                  },
-                                                )
-                                              : const SizedBox.shrink();
-                                        },
-                                      ),
-                                      onTap: widget
-                                              .cubit.listSubMenu[index].isEmpty
-                                          ? () {
-                                              eventBus.fire(
-                                                FireTopic(
-                                                  menuData[index].nodeId,
-                                                ),
-                                              );
-                                              widget.cubit.titleSubject.sink
-                                                  .add(
-                                                menuData[index].title,
-                                              );
-                                              widget.onChange();
-                                              Navigator.pop(context);
-                                            }
-                                          : () {},
-                                    );
+                                                  }
+                                                : () {},
+                                          )
+                                        : const SizedBox.shrink();
                                   },
                                 );
                               },
                             )
-                          : SizedBox.shrink();
+                          : const SizedBox.shrink();
                     },
                   ),
                 ),

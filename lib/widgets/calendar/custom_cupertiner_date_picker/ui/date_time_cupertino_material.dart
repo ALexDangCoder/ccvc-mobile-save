@@ -149,8 +149,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             widget.onDateTimeChanged(
                               _cubit.timeBeginSubject.valueOrNull ?? '',
                               _cubit.timeEndSubject.valueOrNull ?? '',
-                              _cubit.dateBeginSubject.value,
-                              _cubit.dateEndSubject.value,
+                              _cubit.dateBeginSubject.valueOrNull ?? '',
+                              _cubit.dateEndSubject.valueOrNull ?? '',
                             );
                           },
                         );

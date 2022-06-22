@@ -44,12 +44,12 @@ class EllipsisDoubleLineText extends StatelessWidget {
           strutStyle: strutStyle,
           maxLines: 2);
 
-      painter.layout(maxWidth: maxWidth);
+      painter.layout(maxWidth: maxWidth - 30);
       final metrics = painter.computeLineMetrics();
       if (metrics.length > maxLines) {
         return '${charater.trim()}...';
       }
-      if (metrics.length > 1 && metrics[1].width >= maxWidth) {
+      if (metrics.length > 1 && metrics[1].width >= maxWidth - 30) {
         return '${charater.trim()}...';
       }
       charater = charater + element + ' ';
@@ -77,8 +77,7 @@ class EllipsisDoubleLineText extends StatelessWidget {
     if (lineText[1].width < constraints.maxWidth && lineText.length <= 2)
       return data;
 
-    String newString =
-        _replaceString(2, textPainter, maxWidth: constraints.maxWidth);
+    String newString = _replaceString(2, textPainter, maxWidth: constraints.maxWidth);
     return newString;
   }
 

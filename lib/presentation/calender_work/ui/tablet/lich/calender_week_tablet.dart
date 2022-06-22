@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/type_calendar.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -22,11 +21,11 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay.
+    widget.cubit.stateCalendarControllerWeek.
         addPropertyChangedListener((value) {
       if (value == 'displayDate'){
         widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
+          widget.cubit.stateCalendarControllerWeek.displayDate ??
               widget.cubit.selectDay,
         );
       }
@@ -80,22 +79,22 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                   final String typeCalendar = widget.cubit
                       .getElementFromId(
                     appointment.id.toString(),
-                  )
-                      .typeSchedule ??
+                  ).typeSchedule ??
                       'Schedule';
 
-                  typeCalendar.getTypeCalendar.navigatorDetail(
-                    context,
-                    widget.cubit,
-                    (widget.cubit.dataLichLvModel
-                        .listLichLVModel ??
-                        [])
-                        .indexOf(
-                      widget.cubit.getElementFromId(
-                        appointment.id.toString(),
-                      ),
-                    ),
+                  final element =  widget.cubit.getElementFromId(
+                    appointment.id.toString(),
                   );
+                  if (element != null){
+                    typeCalendar.getTypeCalendar.navigatorDetail(
+                      context,
+                      widget.cubit,
+                      (widget.cubit.dataLichLvModel.listLichLVModel ??
+                          [])
+                          .indexOf(element),
+                    );
+                  }
+
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -131,8 +130,7 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                       if (widget.cubit
                           .getElementFromId(
                         appointment.id.toString(),
-                      )
-                          .isTrung)
+                      ).isTrung )
                         const Icon(
                           Icons.circle,
                           color: Colors.red,

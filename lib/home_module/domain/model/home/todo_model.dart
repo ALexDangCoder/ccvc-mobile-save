@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class TodoListModel {
   final List<TodoModel> listTodoImportant;
   final List<TodoModel> listTodoDone;
@@ -17,6 +19,7 @@ class TodoModel {
   String? updatedOn;
   String? updatedBy;
   String? note;
+  String? performer;
 
   TodoModel({
     this.id,
@@ -30,5 +33,22 @@ class TodoModel {
     this.updatedOn,
     this.updatedBy,
     this.note,
+    this.performer,
   });
+}
+
+enum IconListCanBo { UP, DOWN, CLOSE }
+
+class IconModdel {
+  Widget icon;
+  void Function() onTapItem;
+
+  IconModdel({required this.icon, required this.onTapItem});
+}
+
+class ItemRowData {
+  final String infor;
+  final String? id;
+
+  ItemRowData({required this.infor, this.id});
 }

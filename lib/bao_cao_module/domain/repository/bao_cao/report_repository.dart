@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 
 mixin ReportRepository {
   Future<Result<List<ReportItem>>> getListReport(
@@ -15,6 +16,10 @@ mixin ReportRepository {
   Future<Result<List<ThanhVien>>> getListThanhVien(
     String groupId,
   );
+
+  Future<Result<String>> addNewMember(
+      Map<String,String> mapMember,
+      );
 
   Future<Result<ReportItem>> getFolderID(
     String appID,
@@ -36,7 +41,19 @@ mixin ReportRepository {
   );
 
   Future<Result<List<ReportItem>>> getListReportTree(
+      String appId,
+      String folderId,
+      );
+  Future<Result<String>> shareReport(
+      List<ShareReport> mapMember,
+      String idReport,
+      );
+
+  Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
+      getUsersNgoaiHeThongTruyCap(
     String appId,
-    String folderId,
+    int pageIndex,
+    int pageSize,
+    String keyword,
   );
 }

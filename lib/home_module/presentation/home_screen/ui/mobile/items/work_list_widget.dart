@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/btn_them_cong_viec.dart';
+import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,7 +13,6 @@ import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/cong_viec_cell.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/widgets/text/dialog/show_dialog.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
@@ -42,7 +43,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    danhSachCVCubit.getToDoList();
+    danhSachCVCubit.callApi();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         danhSachCVCubit.getToDoList();
@@ -58,18 +59,21 @@ class _WorkListWidgetState extends State<WorkListWidget> {
       title: S.current.work_list,
       urlIcon: ImageAssets.icPlus,
       onTapIcon: () {
-        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        // HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        showBottomSheetCustom(
+          context,
+          child: BottomSheetThemCongViec(
+            danhSachCVCubit: danhSachCVCubit,
+          ),
+          title: S.current.them_cong_viec,
+        ).then((value) {
+          danhSachCVCubit.setDisplayIcon(
+            IconListCanBo.DOWN,
+          );
+          danhSachCVCubit.setDisplayListCanBo(false);
+        });
       },
       isCustomDialog: true,
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        customDialog: AddToDoWidget(
-          onTap: (value) {
-            cubit.closeDialog();
-            danhSachCVCubit.addTodo(value);
-          },
-        ),
-      ),
       child: LoadingOnly(
         stream: danhSachCVCubit.stateStream,
         child: Column(
@@ -85,6 +89,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                     children: List.generate(data.length, (index) {
                       final todo = data[index];
                       return CongViecCell(
+                        nguoiGan:danhSachCVCubit.danhSachTenNguoiGan[index],
                         text: todo.label ?? '',
                         todoModel: todo,
                         onCheckBox: (value) {
@@ -153,6 +158,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                         children: List.generate(data.length, (index) {
                           final todo = data[index];
                           return CongViecCell(
+                            nguoiGan: '',
                             enabled: false,
                             todoModel: todo,
                             onCheckBox: (value) {

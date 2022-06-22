@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+
 class ChuDeModel {
   String? id;
   String? title;
@@ -18,6 +20,17 @@ class ChuDeModel {
     this.publishedTime,
     this.contents,
   });
+  String get formatTimePublished{
+  try{
+
+  return DateTime.parse(
+  publishedTime ??
+  '',
+  ).formatApiSSAM;
+  }catch(e){
+    return '';
+  }
+}
 }
 
 class ListChuDeModel {

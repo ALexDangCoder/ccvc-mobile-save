@@ -61,7 +61,6 @@ class _DanhSachCongViecTienIchMobileState
                         return GestureDetector(
                           onTap: () {
                             widget.cubit.nguoiThucHienSubject.sink.add(todo);
-                            widget.cubit.toDoListRequest.performer = todo.id;
                             Navigator.pop(context);
                           },
                           child: Container(

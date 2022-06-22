@@ -14,7 +14,7 @@ const String NAME_OF_FILE = 'name';
 const String FILE_RESULT = 'file_result';
 
 const String MEDIA_VIDEO_FILE = 'video';
-const String MEDIA_IMAGE_FILE = 'image';
+const String MEDIA_IMAGE_FILE = 'images';
 const String MEDIA_AUDIO_FILE = 'audio';
 const String DOCUMENT_FILE = 'document';
 const String AVATAR_PHOTO = 'AVATAR';
@@ -72,6 +72,6 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
     _resultMap[FILE_RESULT] = [File(newImage.path)];
     return _resultMap;
   } on PlatformException catch (e) {
-    throw 'Cant upload image $e';
+    throw 'Cant upload images $e';
   }
 }

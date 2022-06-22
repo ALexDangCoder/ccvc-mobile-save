@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
@@ -11,12 +13,12 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.d
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:queue/queue.dart';
 
 import '../calender_cubit.dart';
 
-extension CommonApiExt on CalenderCubit{
+extension CommonApiExt on CalenderCubit {
   Future<void> menuCalendar() async {
-    showLoading();
     final result = await lichLamViec.getDataMenu(
       startDates.formatApi,
       endDates.formatApi,
@@ -37,22 +39,19 @@ extension CommonApiExt on CalenderCubit{
         menuModelSubject.add(value);
       },
       error: (error) {
-        showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
     );
-    showContent();
   }
 
   Future<void> dataLichLamViec({
     required String startDate,
     required String endDate,
   }) async {
-    // showLoading();
     final result = await lichLamViec.getLichLv(startDate, endDate);
     result.when(
       success: (res) {
@@ -60,33 +59,39 @@ extension CommonApiExt on CalenderCubit{
         lichLamViecDashBroadSubject.sink.add(lichLamViecDashBroads);
       },
       error: (err) {
-        showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
     );
-    // showContent();
   }
 
   Future<void> callApiWithAsync() async {
-    showLoading();
+    final Queue que = Queue();
     listDSLV.clear();
     page = 1;
-    await getListLichLV();
-    await dataLichLamViec(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
+    unawaited(que.add(() => getListLichLV()));
+    unawaited(
+      que.add(
+        () => dataLichLamViec(
+          startDate: startDates.formatApi,
+          endDate: endDates.formatApi,
+        ),
+      ),
     );
-    await dataLichLamViecRight(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
-      type: 0,
+    unawaited(
+      que.add(
+        () => dataLichLamViecRight(
+          startDate: startDates.formatApi,
+          endDate: endDates.formatApi,
+          type: 0,
+        ),
+      ),
     );
-    await menuCalendar();
-    showContent();
+    unawaited(que.add(() => menuCalendar()));
+    await que.onComplete;
   }
 
   Future<void> postDanhSachLichlamViec({
@@ -102,25 +107,22 @@ extension CommonApiExt on CalenderCubit{
         showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
     );
   }
 
-
-
   Future<void> postEventsCalendar({
     TypeCalendarMenu typeCalendar = TypeCalendarMenu.LichCuaToi,
   }) async {
-    showLoading();
     final result = await lichLamViec.postEventCalendar(
       EventCalendarRequest(
         DateFrom: startDates.formatApi,
         DateTo: endDates.formatApi,
         DonViId:
-        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
         isLichCuaToi: typeCalendar == TypeCalendarMenu.LichCuaToi,
         month: selectDay.month,
         PageIndex: page,
@@ -140,24 +142,20 @@ extension CommonApiExt on CalenderCubit{
         eventsSubject.add(data);
       },
       error: (error) {
-        showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
     );
-    showContent();
   }
-
 
   Future<void> dataLichLamViecRight({
     required String startDate,
     required String endDate,
     required int type,
   }) async {
-    showLoading();
     final LichLamViecRightRequest request = LichLamViecRightRequest(
       dateFrom: startDate,
       dateTo: endDate,
@@ -170,20 +168,16 @@ extension CommonApiExt on CalenderCubit{
         lichLamViecDashBroadRightSubject.sink.add(lichLamViecDashBroadRight);
       },
       error: (err) {
-        showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
     );
-    showContent();
   }
 
-
   Future<void> getListLichLV() async {
-    showLoading();
     final DanhSachLichLamViecRequest data = DanhSachLichLamViecRequest(
       DateFrom: startDates.formatApi,
       DateTo: endDates.formatApi,
@@ -191,9 +185,9 @@ extension CommonApiExt on CalenderCubit{
           ? idDonViLanhDao
           : HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
       IsLichLanhDao:
-      changeItemMenuSubject.value == TypeCalendarMenu.LichTheoLanhDao
-          ? true
-          : null,
+          changeItemMenuSubject.value == TypeCalendarMenu.LichTheoLanhDao
+              ? true
+              : null,
       isLichCuaToi: changeItemMenuSubject.value
           .getListLichHop(TypeCalendarMenu.LichCuaToi),
       isLichDuocMoi: changeItemMenuSubject.value
@@ -201,7 +195,7 @@ extension CommonApiExt on CalenderCubit{
       isLichTaoHo: changeItemMenuSubject.value
           .getListLichHop(TypeCalendarMenu.LichTaoHo),
       isLichHuyBo:
-      changeItemMenuSubject.value.getListLichHop(TypeCalendarMenu.LichHuy),
+          changeItemMenuSubject.value.getListLichHop(TypeCalendarMenu.LichHuy),
       isLichThuHoi: changeItemMenuSubject.value
           .getListLichHop(TypeCalendarMenu.LichThuHoi),
       isChuaCoBaoCao: changeItemMenuSubject.value
@@ -225,14 +219,12 @@ extension CommonApiExt on CalenderCubit{
         listLichSubject.sink.add(dataLichLvModel);
       },
       error: (error) {
-        showContent();
         MessageConfig.show(
           title: S.current.error,
-          title2:  S.current.no_internet,
+          title2: S.current.no_internet,
           showTitle2: true,
         );
       },
     );
-    showContent();
   }
 }

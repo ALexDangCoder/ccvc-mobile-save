@@ -29,24 +29,29 @@ class _ExpandPAKNWidgetState extends State<ExpandPAKNWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              widget.name,
-              style: textNormalCustom(
-                color: textTitle,
-                fontWeight: FontWeight.w500,
-                fontSize: 16.0.textScale(),
+            Expanded(
+              flex: 7,
+              child: Text(
+                widget.name,
+                style: textNormalCustom(
+                  color: textTitle,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16.0.textScale(),
+                ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                isExpand = !isExpand;
-                setState(() {});
-              },
-              child: Icon(
-                isExpand
-                    ? Icons.keyboard_arrow_up_rounded
-                    : Icons.keyboard_arrow_down_outlined,
-                color: AqiColor,
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  isExpand = !isExpand;
+                  setState(() {});
+                },
+                child: Icon(
+                  isExpand
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_outlined,
+                  color: AqiColor,
+                ),
               ),
             ),
           ],

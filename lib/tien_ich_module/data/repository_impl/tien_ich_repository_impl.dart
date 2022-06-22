@@ -164,8 +164,8 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> xoaCongViec(String id) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+  Future<Result<List<TodoDSCVModel>>> xoaCongViec(String id) {
+    return runCatchingAsync<ToDoListDSCVResponse, List<TodoDSCVModel>>(
       () => _tienIchService.xoaCongViec(id),
       (response) => response.toModel(),
     );

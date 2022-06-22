@@ -302,6 +302,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 ButtonSelectFile(
                   spacingFile: 16,
+                  maxSize: 30000000,
                   title: S.current.tai_lieu_dinh_kem,
                   icon: ImageAssets.icShareFile,
                   files: taoPhienHopRequest.Files ?? [],

@@ -62,6 +62,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     DateTime.now(),
   );
   BehaviorSubject<bool> isCheckAllDaySubject = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> checkCal = BehaviorSubject();
 
   Stream<bool> get isCheckAllDayStream => isCheckAllDaySubject.stream;
 
@@ -313,14 +314,18 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String title,
     required String content,
     required String location,
+    bool isEdit = false,
+    bool isInside = true,
+    bool isOnly = true,
   }) async {
     showLoading();
     final result =
         await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
       dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
       dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-      timeFrom: timeFrom ??DateTime.now().formatApiFixMeet,
-      timeTo: timeEnd ??(DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+      timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
+      timeTo: timeEnd ??
+          (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       donViId: selectNguoiChuTri?.donViId,
       userId: selectNguoiChuTri?.userId,
     ));
@@ -333,23 +338,35 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
               textContent: S.current.ban_co_muon_tiep_tuc_khong,
               btnLeftTxt: S.current.khong,
               funcBtnRight: () async {
-                await taoLichLamViec(
-                  title: title,
-                  content: content,
-                  location: location,
-                );
-                Navigator.pop(context, true);
+                if (!isEdit) {
+                  await taoLichLamViec(
+                    title: title,
+                    content: content,
+                    location: location,
+                  );
+                } else if (isInside) {
+                  await suaLichLamViec(only: isOnly);
+                } else {
+                  await suaLichLamViecNuocNgoai(only: isOnly);
+                }
+                Navigator.pop(context);
               },
               title: res.code ?? '',
               btnRightTxt: S.current.dong_y,
               icon: SvgPicture.asset(ImageAssets.icUserMeeting),
             );
           } else {
-            taoLichLamViec(
-              title: title,
-              content: content,
-              location: location,
-            );
+            if (!isEdit) {
+              taoLichLamViec(
+                title: title,
+                content: content,
+                location: location,
+              );
+            } else if (isEdit && isInside) {
+              suaLichLamViec();
+            } else {
+              suaLichLamViecNuocNgoai();
+            }
           }
         },
         error: (error) {});
@@ -360,6 +377,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String content,
     required String location,
   }) async {
+    showLoading();
     if (selectLoaiLichId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
       tinhSelectModel?.tenTinhThanh = '';
       tinhSelectModel?.id = '';
@@ -384,9 +402,11 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       datNuocSelectModel?.name ?? '',
       datNuocSelectModel?.id ?? '',
       DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      timeFrom ?? timeFrom ??DateTime.now().formatApiFixMeet,
+      timeFrom ?? timeFrom ?? DateTime.now().formatApiFixMeet,
       DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-      timeEnd ??timeEnd ??(DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+      timeEnd ??
+          timeEnd ??
+          (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content,
       location,
       '',
@@ -434,9 +454,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       huyenSelectModel?.tenQuanHuyen ?? '',
       xaSelectModel?.tenXaPhuong ?? '',
       dateFrom ?? DateTime.now().formatApi,
-      timeFrom ??DateTime.now().formatApiFixMeet,
+      timeFrom ?? DateTime.now().formatApiFixMeet,
       dateEnd ?? DateTime.now().formatApi,
-      timeEnd ?? (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+      timeEnd ??
+          (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content ?? '',
       location ?? '',
       '',
@@ -475,6 +496,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   Future<void> suaLichLamViecNuocNgoai({bool only = true}) async {
+    showLoading();
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
       title ?? '',
       selectLoaiLich?.id ?? '',
@@ -484,9 +506,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       xaSelectModel?.tenXaPhuong ?? '',
       selectedCountryID,
       dateFrom ?? DateTime.now().formatApi,
-      timeFrom ??DateTime.now().formatApiFixMeet,
+      timeFrom ?? DateTime.now().formatApiFixMeet,
       dateEnd ?? DateTime.now().formatApi,
-      timeEnd ?? (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+      timeEnd ??
+          (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content ?? '',
       location ?? '',
       '',
@@ -522,8 +545,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       },
     );
   }
-
-
 
   Future<void> getDatatinh() async {
     final result = await _lichLamViec.tinhSelect(

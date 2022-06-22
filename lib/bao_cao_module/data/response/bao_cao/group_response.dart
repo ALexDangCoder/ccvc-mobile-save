@@ -1,4 +1,5 @@
-import 'package:ccvc_mobile/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'group_response.g.dart';
@@ -67,4 +68,19 @@ class GroupResponse {
         tenThanhVien: name,
         chucVu: chucVu,
       );
+}
+@JsonSerializable()
+class PostDataResponse {
+  @JsonKey(name: 'statusCode')
+  int? statusCode;
+  @JsonKey(name: 'message')
+  String? message;
+
+  PostDataResponse(this.statusCode, this.message);
+
+  factory PostDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$PostDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PostDataResponseToJson(this);
+
 }

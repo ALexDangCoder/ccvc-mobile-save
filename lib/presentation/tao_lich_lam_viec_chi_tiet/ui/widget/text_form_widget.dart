@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TextFormWidget extends StatefulWidget {
@@ -9,13 +10,16 @@ class TextFormWidget extends StatefulWidget {
   final String hint;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Function(String)? onChange;
+  final List<TextInputFormatter> formatters;
 
   const TextFormWidget({
     Key? key,
     this.controller,
     required this.image,
     required this.hint,
-    this.validator,
+    this.formatters = const [],
+    this.validator, this.onChange,
   }) : super(key: key);
 
   @override
@@ -35,6 +39,10 @@ class _TextFormWidgetState extends State<TextFormWidget> {
           child: TextFormField(
             controller: widget.controller,
             validator: widget.validator,
+            onChanged: (value) {
+              widget.onChange?.call(value);
+            },
+            inputFormatters: widget.formatters,
             decoration: InputDecoration(
               labelStyle: textNormalCustom(
                 color: titleItemEdit,

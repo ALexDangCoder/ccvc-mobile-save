@@ -57,6 +57,8 @@ class ListLichLVModel {
   //
   // CreateBys? canBoChuTri;
 
+  ListLichLVModel.empty();
+
   ListLichLVModel({
     required this.id,
     required this.title,
@@ -78,6 +80,7 @@ class ListLichLVModel {
     // required this.createBys,
     // required this.canBoChuTri,
   });
+
 }
 
 class CreateBys {

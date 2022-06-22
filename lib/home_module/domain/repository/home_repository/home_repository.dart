@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
@@ -21,7 +24,6 @@ import '/home_module/domain/model/home/sinh_nhat_model.dart';
 import '/home_module/domain/model/home/su_kien_model.dart';
 import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
-import '/home_module/domain/model/home/todo_model.dart';
 import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
 
 abstract class HomeRepository {
@@ -46,9 +48,16 @@ abstract class HomeRepository {
       SearchVBRequest searchVBRequest);
 
   Future<Result<DocumentDashboardModel>> getTongHopNhiemVu(
-    String userId,
+    // String userId,
+     String canBoId,
+    // String donViId,
+  );
+
+  Future<Result<VanBanDonViModel>> getTinhHinhXuLyVanBan(
     String canBoId,
     String donViId,
+    String startDate,
+    String endDate,
   );
 
   Future<Result<List<CalendarMeetingModel>>> getNhiemVu(
@@ -96,7 +105,12 @@ abstract class HomeRepository {
       DanhSachCongViecRequest request);
 
   Future<Result<MessageModel>> guiLoiChuc(GuiLoiChucRequest guiLoiChucRequest);
+
   Future<Result<List<ThiepSinhNhatModel>>> listThiepMoi();
+
   Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
       bool isDonVi);
+
+  Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(
+      bool isGetAll,int pageSize, int pageIndex,String keySearch,);
 }

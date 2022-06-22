@@ -28,9 +28,13 @@ import 'package:flutter/material.dart';
 
 class SuaLichHopWidget extends StatefulWidget {
   final ChiTietLichHopModel chiTietHop;
+  final bool isMulti;
 
-  const SuaLichHopWidget({Key? key, required this.chiTietHop})
-      : super(key: key);
+  const SuaLichHopWidget({
+    Key? key,
+    required this.chiTietHop,
+    this.isMulti = false,
+  }) : super(key: key);
 
   @override
   _SuaLichHopWidgetState createState() => _SuaLichHopWidgetState();
@@ -47,6 +51,12 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
     _cubitTaoLichHop.loadData();
     _cubitTaoLichHop.taoLichHopRequest =
         taoHopFormChiTietHopModel(widget.chiTietHop);
+    _cubitTaoLichHop.taoLichHopRequest.isMulti = widget.isMulti;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -58,6 +68,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
       stream: _cubitTaoLichHop.stateStream,
       child: FollowKeyBoardWidget(
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Form(
             key: _formKey,
@@ -117,6 +128,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                       ),
                       CupertinoMaterialPicker(
                         key: _timerPickerKey,
+                        isEdit : true,
                         initDateStart:
                             widget.chiTietHop.ngayBatDau.convertStringToDate(
                           formatPattern: DateFormatApp.monthDayFormat,
@@ -159,7 +171,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         onSwitchPressed: (value) {
                           _cubitTaoLichHop.taoLichHopRequest.isAllDay = value;
                         },
-                        validateTime: (bool value) {},
+                        validateTime: (String value) {},
                       ),
                       spaceH5,
                       NhacLichWidget(

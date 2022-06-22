@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -130,12 +129,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     showContent();
   }
 
-  Future<void> getDanhSachBaoCaoKetQua(String id,{bool isReload = false}) async {
-    if(isReload){
+  Future<void> getDanhSachBaoCaoKetQua(String id,
+      {bool isReload = false}) async {
+    if (isReload) {
       showLoading();
     }
     final result = await detailLichLamViec.getDanhSachBaoCao(id);
-    if(isReload){
+    if (isReload) {
       showContent();
     }
     result.when(
@@ -144,7 +144,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
         },
         error: (err) {});
   }
-
 
   Future<void> getDanhSachYKien(String id) async {
     final result = await detailLichLamViec.getDanhSachYKien(id);
@@ -214,18 +213,15 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     required String scheduleId,
     required String? scheduleOpinionId,
   }) async {
-    showLoading();
+    ShowLoadingScreen.show();
     final ThemYKienRequest themYKienRequest = ThemYKienRequest(
       content: content,
       phienHopId: phienHopId,
       scheduleId: scheduleId,
       scheduleOpinionId: scheduleOpinionId,
     );
-    final result = await detailLichLamViec.themYKien(themYKienRequest);
-    result.when(
-      success: (res) {},
-      error: (err) {},
-    );
+    await detailLichLamViec.themYKien(themYKienRequest);
+    ShowLoadingScreen.dismiss();
   }
 
   void dispose() {
@@ -245,13 +241,12 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
   final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
+
   BaoCaoKetQuaCubit(
       {this.content = '',
       this.tinhTrangBaoCaoModel,
       this.fileInit = const []}) {
-
-   reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
-
+    reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
   }
 
   void init(List<TinhTrangBaoCaoModel> list) {

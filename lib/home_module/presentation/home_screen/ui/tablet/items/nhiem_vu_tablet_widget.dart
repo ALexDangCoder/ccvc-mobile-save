@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_tablet.dart';
 import 'package:flutter/material.dart';
 
@@ -111,18 +112,18 @@ class _NhiemVuTabletWidgetState extends State<NhiemVuTabletWidget> {
                   padding: const EdgeInsets.only(bottom: 16),
                   child: GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ChiTietNhiemVuTabletScreen(
-                      //       id: result.id,
-                      //       isCheck: _nhiemVuCubit.selectKeyDonVi ==
-                      //               SelectKey.CA_NHAN
-                      //           ? true
-                      //           : false,
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChiTietNhiemVuTabletScreen(
+                            id: result.id,
+                            isCheck: _nhiemVuCubit.selectKeyDonVi ==
+                                    SelectKey.CA_NHAN
+                                ? true
+                                : false,
+                          ),
+                        ),
+                      );
                     },
                     child: ContainerInfoWidget(
                       title: result.title,

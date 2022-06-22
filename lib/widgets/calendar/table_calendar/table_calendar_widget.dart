@@ -50,13 +50,15 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   @override
   void initState() {
     selectedEvents = {};
+    _selectedDay = widget.initTime ?? DateTime.now();
+    cubit.selectedDay = widget.initTime ?? DateTime.now();
     super.initState();
   }
 
-  DateTime storeSelectDay = DateTime.now();
+
   bool isSearch = false;
   bool isFomat = true;
-  DateTime _selectedDay = DateTime.now();
+  late DateTime _selectedDay ;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   late Map<DateTime, List<Event>> selectedEvents;
   CalendarFormat _calendarFormatWeek = CalendarFormat.week;
@@ -93,7 +95,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     }
 
     cubit.selectedDay = date;
-    cubit.moveTimeSubject.add(cubit.selectedDay);
+    cubit.moveTimeSubject.sink.add(cubit.selectedDay);
 
     if (widget.type == Type_Choose_Option_Day.DAY) {
       widget.onChange(date, date, date);
@@ -122,19 +124,8 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         date,
       );
     }
-    storeSelectDay = _selectedDay;
   }
 
-  @override
-  void didUpdateWidget(covariant TableCalendarWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (cubit.isMatchDay(oldWidget.initTime, widget.initTime)) {
-      _selectedDay = storeSelectDay;
-    } else {
-      _selectedDay = widget.initTime!;
-    }
-    cubit.moveTimeSubject.add(_selectedDay);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +286,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           isFomat ? _calendarFormatWeek : _calendarFormatMonth,
                       firstDay: DateTime.utc(2021, 8, 20),
                       lastDay: DateTime.utc(2030, 8, 20),
-                      focusedDay: _selectedDay,
+                      focusedDay:  _selectedDay,
                     ),
                   ],
                 )

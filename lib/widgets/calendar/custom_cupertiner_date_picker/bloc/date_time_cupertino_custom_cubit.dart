@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
@@ -26,7 +27,7 @@ class DateTimeCupertinoCustomCubit
   BehaviorSubject<bool> isShowBeginPickerSubject =
       BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isShowEndPickerSubject = BehaviorSubject.seeded(false);
-  BehaviorSubject<bool> validateTime = BehaviorSubject.seeded(false);
+  BehaviorSubject<String> validateTime = BehaviorSubject();
 
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;
@@ -47,24 +48,22 @@ class DateTimeCupertinoCustomCubit
     //   );
     // }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
+    if (isChecked) {
+      timeBeginSubject.sink.add('08:00');
+      timeEndSubject.sink.add('18:00');
+      dateBeginSubject.sink.add(
+        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+      );
+      dateEndSubject.sink.add(
+        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+      );
+      validateTime.sink.add('');
+    }
+    // else {
+    //   timeBeginSubject.sink.add('hh:mm');
+    //   timeEndSubject.sink.add('hh:mm');
+    // }
   }
-
-  // Future<void> handleDateTimePressed({
-  //   bool isBegin = true,
-  // }) async {
-  //   if (lastedType != typePickerSubjectStart.value) {
-  //     if (isShowBeginPickerSubject.value) {
-  //       isShowBeginPickerSubject.sink.add(false);
-  //     }
-  //     if (isShowEndPickerSubject.value) {
-  //       isShowEndPickerSubject.sink.add(false);
-  //     }
-  //   }
-  //   await Future.delayed(Duration(milliseconds: duration));
-  //   isBegin
-  //       ? isShowBeginPickerSubject.sink.add(!isShowBeginPickerSubject.value)
-  //       : isShowEndPickerSubject.sink.add(!isShowEndPickerSubject.value);
-  // }
 
   void setTypePickerStart(TypePickerDateTime type) {
     typePickerSubjectStart.sink.add(type);
@@ -124,35 +123,43 @@ class DateTimeCupertinoCustomCubit
     }
   }
 
-    /// handle datetime begin greater than datetime end
+  /// handle datetime begin greater than datetime end
 
-    /// Compares this DateTime object to [other],
-    /// returning zero if the values are equal.
-    /// Returns a negative value if this DateTime [isBefore] [other].
-    /// It returns 0 if it [isAtSameMomentAs] [other],
-    /// and returns a positive value otherwise (when this [isAfter] [other]).
+  /// Compares this DateTime object to [other],
+  /// returning zero if the values are equal.
+  /// Returns a negative value if this DateTime [isBefore] [other].
+  /// It returns 0 if it [isAtSameMomentAs] [other],
+  /// and returns a positive value otherwise (when this [isAfter] [other]).
   void checkTime() {
-    final begin = DateTime.parse(
-      timeFormat(
-        '${dateBeginSubject.value} ${timeBeginSubject.value}',
-        'dd/MM/yyyy HH:mm',
-        'yyyy-MM-dd HH:mm',
-      ),
-    );
-    final end = DateTime.parse(
-      timeFormat(
-        '${dateEndSubject.value} ${timeEndSubject.value}',
-        'dd/MM/yyyy HH:mm',
-        'yyyy-MM-dd HH:mm',
-      ),
-    );
-    if (begin.isAtSameMomentAs(end) ||
-        begin.isAfter(end) ||
-        end.isAtSameMomentAs(begin) ||
-        end.isBefore(begin)) {
-      validateTime.sink.add(true);
+    if (dateBeginSubject.hasValue &&
+        timeBeginSubject.hasValue &&
+        dateEndSubject.hasValue &&
+        timeEndSubject.hasValue) {
+      final begin = DateTime.parse(
+        timeFormat(
+          '${dateBeginSubject.value} ${timeBeginSubject.value}',
+          'dd/MM/yyyy HH:mm',
+          'yyyy-MM-dd HH:mm',
+        ),
+      );
+      final end = DateTime.parse(
+        timeFormat(
+          '${dateEndSubject.value} ${timeEndSubject.value}',
+          'dd/MM/yyyy HH:mm',
+          'yyyy-MM-dd HH:mm',
+        ),
+      );
+
+      if (begin.isAtSameMomentAs(end) ||
+          begin.isAfter(end) ||
+          end.isAtSameMomentAs(begin) ||
+          end.isBefore(begin)) {
+        validateTime.sink.add(S.current.thoi_gian_bat_dau);
+      } else {
+        validateTime.sink.add('');
+      }
     } else {
-      validateTime.sink.add(false);
+      validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
     }
   }
 

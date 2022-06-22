@@ -32,12 +32,10 @@ class _InCalenderFormState extends State<InCalenderForm> {
     // TODO: implement initState
     super.initState();
     widget.cubit.stateCalendarControllerDay.addPropertyChangedListener((value) {
-      if (value == 'displayDate') {
-        widget.cubit.updateDataSlideCalendar(
-          widget.cubit.stateCalendarControllerDay.displayDate ??
-              widget.cubit.selectDay,
-        );
-      }
+      widget.cubit.updateDataSlideCalendar(
+        widget.cubit.stateCalendarControllerDay.displayDate ??
+            widget.cubit.selectDay,
+      );
     });
   }
 
@@ -46,10 +44,10 @@ class _InCalenderFormState extends State<InCalenderForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.cubit.changeItemMenuSubject.value.getHeader(
-          cubit: widget.cubit,
-          type: widget.type,
-        ),
+        // widget.cubit.changeItemMenuSubject.value.getHeader(
+        //   cubit: widget.cubit,
+        //   type: widget.type,
+        // ),
         const SizedBox(
           height: 10,
         ),
@@ -64,11 +62,10 @@ class _InCalenderFormState extends State<InCalenderForm> {
                     padding: const EdgeInsets.only(right: 16),
                     child: StreamBuilder<DataLichLvModel>(
                       initialData: DataLichLvModel.empty(),
-                      stream: widget.cubit.listLichSubject,
+                      stream: widget.cubit.listLichSubject.stream,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? DataLichLvModel.empty();
                         return SfCalendar(
-
                           viewHeaderHeight: 0.0,
                           allowAppointmentResize: true,
                           headerHeight: 0.0,
@@ -97,22 +94,20 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                 final String typeCalendar = widget.cubit
                                         .getElementFromId(
                                           appointment.id.toString(),
-                                        )
-                                        .typeSchedule ??
+                                        ).typeSchedule ??
                                     'Schedule';
-
-                                typeCalendar.getTypeCalendar.navigatorDetail(
-                                  context,
-                                  widget.cubit,
-                                  (widget.cubit.dataLichLvModel
-                                              .listLichLVModel ??
-                                          [])
-                                      .indexOf(
-                                    widget.cubit.getElementFromId(
-                                      appointment.id.toString(),
-                                    ),
-                                  ),
+                                final element =  widget.cubit.getElementFromId(
+                                  appointment.id.toString(),
                                 );
+                                if (element != null){
+                                  typeCalendar.getTypeCalendar.navigatorDetail(
+                                    context,
+                                    widget.cubit,
+                                    (widget.cubit.dataLichLvModel.listLichLVModel ??
+                                        [])
+                                        .indexOf(element),
+                                  );
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -148,8 +143,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                     if (widget.cubit
                                         .getElementFromId(
                                           appointment.id.toString(),
-                                        )
-                                        .isTrung)
+                                        ).isTrung )
                                       const Icon(
                                         Icons.circle,
                                         color: Colors.red,

@@ -1,9 +1,9 @@
+import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -41,7 +41,7 @@ class ItemList extends StatelessWidget {
         children: [
           ItemFolder(
             type: item.type ?? 0,
-            isShare: true, //todo
+            isShare: true,
             fileNumber: item.childrenTotal ?? 0,
             isListView: true,
           ),
@@ -97,8 +97,6 @@ class ItemList extends StatelessWidget {
                   cubit: cubit,
                   isFavorite: item.isPin ?? false,
                 ),
-              ).whenComplete(
-                () => cubit.getListReport(),
               );
             },
             child: Padding(

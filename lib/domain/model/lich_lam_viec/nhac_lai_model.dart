@@ -15,7 +15,6 @@ class NhacLaiModel {
 
 List<NhacLaiModel> listNhacLai = [
   NhacLaiModel(title: 'Không bao giờ', value: 1),
-  NhacLaiModel(title: 'Sau khi tạo lịch', value: 0),
   NhacLaiModel(title: 'Trước 5 phút', value: 5),
   NhacLaiModel(title: 'Trước 10 phút', value: 10),
   NhacLaiModel(title: 'Trước 15 phút', value: 15),

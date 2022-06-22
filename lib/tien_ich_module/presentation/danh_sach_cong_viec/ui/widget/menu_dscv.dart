@@ -62,11 +62,11 @@ class _MenuDSCVState extends State<MenuDSCV> {
                     builder: (context, snapshot) {
                       return ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: widget.cubit.vlMenuDf.length,
+                        itemCount: widget.cubit.dataMenuDefault.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          final vl = widget.cubit.vlMenuDf[index];
+                          final vl = widget.cubit.dataMenuDefault[index];
                           return TheoDangLichWidgetDSCV(
                             icon: vl.icon ?? '',
                             name: vl.title ?? '',
@@ -75,6 +75,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                               widget.cubit.statusDSCV.sink.add(index);
                               widget.cubit.addValueWithTypeToDSCV();
                               widget.cubit.groupId = '';
+                              widget.cubit.searchControler.text = '';
                               Navigator.pop(context);
                             },
                             isSelect: index == snapshot.data,
@@ -111,6 +112,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                         .add(DSCVScreen.NCVM);
                                     widget.cubit.addValueWithTypeToDSCV();
                                     widget.cubit.groupId = dataIndex.id;
+                                    widget.cubit.searchControler.text = '';
                                     Navigator.pop(context);
                                   },
                                   isSelect: false,
@@ -172,11 +174,11 @@ class _MenuDSCVState extends State<MenuDSCV> {
           children: [
             ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: widget.cubit.vlMenuDf.length,
+              itemCount: widget.cubit.dataMenuDefault.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final vl = widget.cubit.vlMenuDf[index];
+                final vl = widget.cubit.dataMenuDefault[index];
                 return CellMenuCustom(
                   icon: vl.icon ?? '',
                   name: vl.title ?? '',
@@ -184,6 +186,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                     widget.cubit.titleAppBar.add(vl.title ?? '');
                     widget.cubit.statusDSCV.sink.add(index);
                     widget.cubit.addValueWithTypeToDSCV();
+                    widget.cubit.searchControler.text = '';
                     Navigator.pop(context);
                   },
                   isSelect: true,
@@ -228,6 +231,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                           .add(DSCVScreen.NCVM);
                                       widget.cubit.addValueWithTypeToDSCV();
                                       widget.cubit.groupId = dataIndex.id;
+                                      widget.cubit.searchControler.text = '';
                                       Navigator.pop(context);
                                     },
                                     isSelect: true,

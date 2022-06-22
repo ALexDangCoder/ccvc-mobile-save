@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -11,8 +12,13 @@ import 'package:flutter_svg/svg.dart';
 
 class ItemList extends StatelessWidget {
   final ReportItem item;
+  final ReportListCubit cubit;
 
-  const ItemList({Key? key, required this.item}) : super(key: key);
+  const ItemList({
+    Key? key,
+    required this.item,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,7 @@ class ItemList extends StatelessWidget {
         children: [
           ItemFolder(
             type: item.type ?? 0,
-            isShare: true,//todo
+            isShare: true, //todo
             fileNumber: item.childrenTotal ?? 0,
             isListView: true,
           ),
@@ -74,11 +80,12 @@ class ItemList extends StatelessWidget {
               ),
             ),
           ),
-          SvgPicture.asset(
-            ImageAssets.icStarFocus,
-            width: 16,
-            height: 16,
-          ),
+          if (item.isPin ?? false)
+            SvgPicture.asset(
+              ImageAssets.icStarFocus,
+              width: 16,
+              height: 16,
+            ),
           InkWell(
             onTap: () {
               showModalBottomSheet(
@@ -87,7 +94,11 @@ class ItemList extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 builder: (context) => ShowMoreBottomSheet(
                   reportItem: item,
+                  cubit: cubit,
+                  isFavorite: item.isPin ?? false,
                 ),
+              ).whenComplete(
+                () => cubit.getListReport(),
               );
             },
             child: Padding(

@@ -605,7 +605,6 @@
   "tai_file_thanh_cong": "Tải file thành công",
   "tai_file_that_bai": "Tải file thất bại",
   "nguoi_giao_nhiem_vu": "Người giao nhiệm vụ",
-  "nguoi_giao_nhiem_vu": "Người giao nhiệm vụ",
   "can_bo_boc_bang": "Chọn cán bộ sử dụng bắc băng",
   "ban_da_tao_lich_lam_viec_thanh_cong": "Bạn đã tạo lịch làm việc thành công",
   "ban_da_sua_lich_lam_viec_thanh_cong": "Bạn đã sửa lịch làm việc thành công",
@@ -1100,14 +1099,14 @@
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
   "ten_nhom": "Tên nhóm",
-  "bao_cao_ket_qua_thanh_cong" : "Báo cáo kết quả thành công",
-  "bao_cao_ket_qua_that_bai" : "Báo cáo kết quả thất bại",
+  "bao_cao_ket_qua_thanh_cong": "Báo cáo kết quả thành công",
+  "bao_cao_ket_qua_that_bai": "Báo cáo kết quả thất bại",
   "thu_muc": "Thư mục",
   "ten_tai_khoan": "Tên tài khoản",
   "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
   "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
   "dang_ky_xe_moi": "Đăng ký xe mới",
-  "file_da_ton_tai" : "File đã tồn tại",
+  "file_da_ton_tai": "File đã tồn tại",
   "chon_loai_lich": "Chọn loại lịch",
   "chon_nhac_lich": "Chọn nhắc lịch",
   "chon_linh_vuc": "Chọn lĩnh vực",
@@ -1115,7 +1114,16 @@
   "chon_huyen": "Chọn Huyện",
   "chon_xa": "Chọn xã",
   "chon_nuoc": "Chọn nước",
-  "chon_lich_lap": "Chọn lịch lặp"
+  "chon_lich_lap": "Chọn lịch lặp",
+  "validate_thoi_gian": "Thời gian kết thúc phải lớn hơn bắt đầu",
+  "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công",
+  "ban_co_chac_chan_yeu_thich": "Bạn có chắn chắn yêu thích thư mục, báo cáo\nnày không?",
+  "ban_co_bo_chac_chan_yeu_thich": "Bạn có chắn chắn bỏ yêu thích thư mục, báo cáo\nnày không?",
+  "yeu_thich_thu_muc": "Yêu thích thư mục, báo cáo",
+  "yeu_thich_thanh_cong": "Yêu thích thành công",
+  "yeu_thich_that_bai": "Yêu thích thất bại",
+  "huy_yeu_thich_thanh_cong": "Hủy Yêu thích thành công",
+  "huy_yeu_thich_that_bai": "Hủy Yêu thích thất bại"
 }
 
 

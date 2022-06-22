@@ -26,11 +26,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final ThanhPhanThamGiaCubit cubit;
+  final bool needCheckTrung;
 
   const ThemCanBoWidget({
     Key? key,
     required this.onChange,
     required this.cubit,
+    this.needCheckTrung = false,
   }) : super(key: key);
 
   @override
@@ -58,6 +60,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
           height: MediaQuery.of(context).size.height * 0.8,
           child: ThemCanBoScreen(
             cubit: widget.cubit,
+            needCheckTrung: widget.needCheckTrung,
           ),
         ),
       ).then((value) {
@@ -71,6 +74,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         title: S.current.chon_thanh_phan_tham_gia,
         child: ThemCanBoScreen(
           cubit: widget.cubit,
+          needCheckTrung: widget.needCheckTrung,
         ),
         isBottomShow: false,
         funcBtnOk: () {},
@@ -86,8 +90,9 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
 
 class ThemCanBoScreen extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
+  final bool needCheckTrung;
 
-  const ThemCanBoScreen({Key? key, required this.cubit}) : super(key: key);
+  const ThemCanBoScreen({Key? key, required this.cubit, required this.needCheckTrung}) : super(key: key);
 
   @override
   _ThemCanBoScreenState createState() => _ThemCanBoScreenState();
@@ -165,7 +170,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                     EdgeInsets.only(top: index == 0 ? 0 : 16),
                                 child: CanBoWidget(
                                   onCheckBox: (value) async {
-                                    if (value) {
+                                    if(value && widget.needCheckTrung) {
                                       await _themCanBoCubit
                                           .checkLichTrung(
                                         donViId: result.donViId,
@@ -203,12 +208,12 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                           setState(() {});
                                         }
                                       });
-                                    } else {
-                                      _themCanBoCubit.selectCanBo(
-                                        result,
-                                        isCheck: value,
-                                      );
+                                      return;
                                     }
+                                    _themCanBoCubit.selectCanBo(
+                                      result,
+                                      isCheck: value,
+                                    );
                                   },
                                   canBoModel: result,
                                   themCanBoCubit: _themCanBoCubit,

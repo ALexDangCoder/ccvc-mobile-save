@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/don_vi_con_phong_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/utils.dart';
 import 'package:rxdart/rxdart.dart';
@@ -67,6 +68,15 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
 
   void addThietBi(ThietBiValue value) {
     listThietBi.add(value);
+    _listThietBi.sink.add(listThietBi);
+  }
+
+  void initListThietBi(List<PhongHopThietBi> value) {
+    final listParsed = value.map((e) => ThietBiValue(
+          soLuong: e.soLuong?.stringToInt() ?? 0,
+          tenThietBi: e.tenThietBi ?? '',
+        ),);
+    listThietBi.addAll(listParsed);
     _listThietBi.sink.add(listThietBi);
   }
 

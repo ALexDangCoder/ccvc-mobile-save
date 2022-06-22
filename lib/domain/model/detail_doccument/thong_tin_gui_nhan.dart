@@ -40,7 +40,7 @@ class ThongTinGuiNhanModel {
 
   ThongTinGuiNhanModel.fromDetail();
 
-  List<DocumentDetailRow> toListRow() {
+  List<DocumentDetailRow> toListRow({bool isTablet = false}) {
     final List<DocumentDetailRow> list = [
       DocumentDetailRow(
         S.current.nguoi_gui,
@@ -76,10 +76,14 @@ class ThongTinGuiNhanModel {
         vaiTroXuLy ?? '',
         TypeDocumentDetailRow.text,
       ),
-      DocumentDetailRow(
+      if (!isTablet) DocumentDetailRow(
         S.current.trang_thai,
         trangThai ?? '',
         TypeDocumentDetailRow.text,
+      ) else DocumentDetailRow(
+        S.current.trang_thai,
+        trangThai ?? '',
+        TypeDocumentDetailRow.textStatus,
       ),
     ];
     return list;

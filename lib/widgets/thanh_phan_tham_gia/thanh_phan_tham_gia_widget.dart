@@ -16,8 +16,8 @@ import 'package:flutter/material.dart';
 class ThanhPhanThamGiaWidget extends StatefulWidget {
   final List<DonViModel>? listPeopleInit;
   final Function(List<DonViModel>) onChange;
+  final Function(DonViModel)? onDelete;
   final Function(bool) phuongThucNhan;
-
   final bool isPhuongThucNhan;
   final bool isTaoHop;
   final String noiDungCV;
@@ -32,6 +32,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     this.isTaoHop = false,
     this.noiDungCV = '',
     this.cubit,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -93,6 +94,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
             });
             _cubit.addPeopleThamGia(value);
           },
+          needCheckTrung: widget.isTaoHop,
         ),
         SizedBox(
           height: 20.0.textScale(space: -2),
@@ -143,13 +145,12 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                               cubit: _cubit,
                               donVi: data[index],
                               onDelete: () {
-                                widget.cubit?.listThanhPhanThamGia.remove(
-                                  data[index],
-                                );
+                                widget.onDelete?.call(data[index]);
                               },
                               isSendEmail: snapshot.data ?? false,
                             );
-                          })
+                          },
+                        )
                       : PeopleThamGiaWidget(
                           donVi: data[index],
                           cubit: _cubit,

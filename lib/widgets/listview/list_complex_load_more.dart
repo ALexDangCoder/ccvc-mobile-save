@@ -26,6 +26,7 @@ class ComplexLoadMore extends StatefulWidget {
   final bool? shrinkWap;
   final bool isTitle;
   final String? titleNoData;
+  final bool isCallApiInit;
 
   const ComplexLoadMore({
     Key? key,
@@ -40,6 +41,7 @@ class ComplexLoadMore extends StatefulWidget {
     this.isTitle = true,
     this.titleNoData,
     this.mainAxisExtent,
+    this.isCallApiInit = true,
   }) : super(key: key);
 
   @override
@@ -70,7 +72,9 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
     widget.cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
     widget.cubit.loadMoreRefresh = true;
     widget.cubit.loadMoreLoading = true;
-    await widget.callApi(widget.cubit.loadMorePage);
+    if (widget.isCallApiInit) {
+      await widget.callApi(widget.cubit.loadMorePage);
+    }
   }
 
   @override
@@ -82,7 +86,6 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
 
   @override
   Widget build(BuildContext context) {
-    // initData();
     return BlocConsumer(
       bloc: widget.cubit,
       listener: (ctx, state) {

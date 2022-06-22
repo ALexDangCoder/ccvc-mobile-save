@@ -32,9 +32,12 @@ class PeopleThamGiaWidget extends StatelessWidget {
         children: [
           Column(
             children: [
-              rowInfo(
-                value: donVi.name,
-                key: S.current.don_vi_phoi_hop,
+              Padding(
+                padding: const EdgeInsets.only(right: 25),
+                child: rowInfo(
+                  value: donVi.name,
+                  key: S.current.don_vi_phoi_hop,
+                ),
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
@@ -91,6 +94,9 @@ class PeopleThamGiaWidget extends StatelessWidget {
             key,
             style: textNormal(infoColor, 14.0.textScale()),
           ),
+        ),
+       const SizedBox(
+          width: 10,
         ),
         Expanded(
           flex: 6,

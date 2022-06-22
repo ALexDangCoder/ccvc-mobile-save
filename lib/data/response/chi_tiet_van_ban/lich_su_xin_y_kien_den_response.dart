@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/danh_sach_y_kien_xu_ly_response.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -120,7 +122,10 @@ class DanhSachXinYkienResponse {
         taskId: taskId,
         noiDung: noiDungXinYKien?.parseHtml(),
         nguoiTaoId: nguoiTaoXuLyId,
-        ngayTao: thoiGianTaoStr,
+        ngayTao: thoiGianTaoStr?.changeToNewPatternDate(
+          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+          DateTimeFormat.DATE_DD_MM_YYYY,
+        ) ?? '',
         isSign: isSign,
         issuer: issuer,
         canRelay: listTraLoiYKien
@@ -204,8 +209,11 @@ class ListTraLoiYKien {
         hoTenNguoiTraLoi: hoTenNguoiTraLoi ?? '',
         donViNguoiTraLoi: donViNguoiTraLoi ?? '',
         noiDungTraLoi: noiDungTraLoi?.parseHtml() ?? '',
-        thoiGianTraLoi: thoiGianTraLoi ?? '',
-        thoiGianTraLoiStr: thoiGianTraLoiStr ?? '',
+        thoiGianTraLoi: thoiGianTraLoi?? ''    ,
+        thoiGianTraLoiStr: thoiGianTraLoiStr?.changeToNewPatternDate(
+          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+          DateTimeFormat.DATE_DD_MM_HM,
+        ) ?? ''  ,
         isDaTraLoi: isDaTraLoi ?? false,
         lstFileDinhKemTraLoi:
             lstFileDinhKemTraLoi?.map((e) => e.toModel()).toList(),

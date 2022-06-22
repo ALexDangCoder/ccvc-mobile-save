@@ -15,6 +15,7 @@ class TaoPhienHopRequest {
   String? timeEnd;
   String? date;
   String? timeStart;
+  String? uuid;
 
   TaoPhienHopRequest({
     this.canBoId,

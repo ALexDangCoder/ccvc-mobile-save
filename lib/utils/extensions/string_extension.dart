@@ -114,6 +114,14 @@ extension StringParse on String {
 
     return fileName;
   }
+
+  int stringToInt() {
+    try {
+      return int.parse(this);
+    } catch (e) {
+      return 0;
+    }
+  }
 }
 
 extension CheckValidate on String {

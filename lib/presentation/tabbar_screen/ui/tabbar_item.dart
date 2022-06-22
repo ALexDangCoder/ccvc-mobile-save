@@ -72,7 +72,7 @@ extension TabbarEnum on TabBarType {
         );
       case TabBarType.calendarWork:
         return screenDevice(
-          mobileScreen: const MainCanlendanRefactor(),
+          mobileScreen: const CalenderWorkDayMobile(),
           tabletScreen: const CalenderWorkDayTablet(),
         );
 

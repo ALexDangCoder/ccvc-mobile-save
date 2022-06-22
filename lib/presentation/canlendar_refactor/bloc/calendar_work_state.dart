@@ -1,15 +1,15 @@
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:equatable/equatable.dart';
 
-enum TypeCalendarList { DAY, WEEK, MONTH }
 
 abstract class CalendarWorkState extends Equatable {
-  final TypeCalendarList typeView;
+  final CalendarType typeView;
   const CalendarWorkState( this.typeView);
 }
 
 class ListViewState extends CalendarWorkState {
 
-  const ListViewState({typeView = TypeCalendarList.DAY}) : super(typeView);
+  const ListViewState({typeView = CalendarType.DAY}) : super(typeView);
 
   @override
   // TODO: implement props
@@ -18,7 +18,7 @@ class ListViewState extends CalendarWorkState {
 
 class CalendarViewState extends CalendarWorkState {
 
-  const CalendarViewState({typeView = TypeCalendarList.DAY}) : super(typeView);
+  const CalendarViewState({typeView = CalendarType.DAY}) : super(typeView);
 
   @override
   // TODO: implement props

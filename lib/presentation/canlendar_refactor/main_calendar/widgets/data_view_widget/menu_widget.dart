@@ -21,7 +21,7 @@ class MenuWidget extends StatelessWidget {
       body: BlocBuilder(
         bloc: cubit,
         builder: (_, state) {
-          final isList = state is ListViewState;
+          final isCalendarView = state is CalendarViewState;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -35,7 +35,7 @@ class MenuWidget extends StatelessWidget {
                   Navigator.of(context).pop();
                   cubit.emitCalendar();
                 },
-                isSelect: !isList,
+                isSelect: isCalendarView,
               ),
               spaceH2,
               itemMenuView(
@@ -45,7 +45,7 @@ class MenuWidget extends StatelessWidget {
                   Navigator.of(context).pop();
                   cubit.emitList();
                 },
-                isSelect: isList,
+                isSelect: !isCalendarView,
               ),
               spaceH12,
               const Divider(

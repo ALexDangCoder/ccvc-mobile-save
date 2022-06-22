@@ -19,6 +19,7 @@ class DataViewCalendarWeek extends StatefulWidget {
 }
 
 class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DataLichLvModel>(
@@ -29,7 +30,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           showCurrentTimeIndicator: false,
           showDatePickerButton: true,
           headerHeight: 0,
-          controller: widget.cubit.calendarControllerWeek,
+          controller: widget.cubit.fCalendarController,
           cellEndPadding: 5,
           view: CalendarView.week,
           selectionDecoration: const BoxDecoration(color: Colors.transparent),

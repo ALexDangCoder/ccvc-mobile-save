@@ -474,14 +474,14 @@ extension GetDataPermission on PERMISSION_DETAIL {
                     .then((value) {
                   if (value) {
                     MessageConfig.show(
-                      title: ' ${S.current.xac_nhan_lai.toLowerCase()}'
+                      title: '${S.current.xac_nhan_lai}'
                           ' ${S.current.thanh_cong.toLowerCase()}',
                     );
                     cubit.initDataChiTiet(needCheckPermission: true);
                   } else {
                     MessageConfig.show(
                       messState: MessState.error,
-                      title: ' ${S.current.xac_nhan_lai.toLowerCase()}'
+                      title: ' ${S.current.xac_nhan_lai}'
                           ' ${S.current.that_bai.toLowerCase()}',
                     );
                   }

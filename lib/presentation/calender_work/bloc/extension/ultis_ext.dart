@@ -23,6 +23,17 @@ extension UltisCalender on CalenderCubit{
     }
   }
 
+  Future<void> refreshApi() async  {
+    if (state.type == Type_Choose_Option_Day.DAY) {
+      await callApi();
+    } else if (state.type ==
+        Type_Choose_Option_Day.WEEK) {
+      await callApiTuan();
+    } else {
+      await callApiMonth();
+    }
+  }
+
   void chooseTypeCalender(Type_Choose_Option_Day type) {
     if (state is LichLVStateDangLich) {
       emit(LichLVStateDangLich(type));

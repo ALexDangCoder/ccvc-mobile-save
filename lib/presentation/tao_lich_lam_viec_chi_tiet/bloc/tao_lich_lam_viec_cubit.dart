@@ -62,7 +62,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     DateTime.now(),
   );
   BehaviorSubject<bool> isCheckAllDaySubject = BehaviorSubject.seeded(false);
-  BehaviorSubject<bool> checkCal = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> checkCal = BehaviorSubject();
 
   Stream<bool> get isCheckAllDayStream => isCheckAllDaySubject.stream;
 
@@ -315,7 +315,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String content,
     required String location,
     bool isEdit = false,
-    bool isInside = false,
+    bool isInside = true,
     bool isOnly = true,
   }) async {
     showLoading();
@@ -338,7 +338,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
               textContent: S.current.ban_co_muon_tiep_tuc_khong,
               btnLeftTxt: S.current.khong,
               funcBtnRight: () async {
-                if (isEdit) {
+                if (!isEdit) {
                   await taoLichLamViec(
                     title: title,
                     content: content,
@@ -349,20 +349,20 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
                 } else {
                   await suaLichLamViecNuocNgoai(only: isOnly);
                 }
-                Navigator.pop(context, true);
+                Navigator.pop(context);
               },
               title: res.code ?? '',
               btnRightTxt: S.current.dong_y,
               icon: SvgPicture.asset(ImageAssets.icUserMeeting),
             );
           } else {
-            if (isEdit) {
+            if (!isEdit) {
               taoLichLamViec(
                 title: title,
                 content: content,
                 location: location,
               );
-            } else if (isInside) {
+            } else if (isEdit && isInside) {
               suaLichLamViec();
             } else {
               suaLichLamViecNuocNgoai();
@@ -377,6 +377,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String content,
     required String location,
   }) async {
+    showLoading();
     if (selectLoaiLichId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
       tinhSelectModel?.tenTinhThanh = '';
       tinhSelectModel?.id = '';
@@ -495,6 +496,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   Future<void> suaLichLamViecNuocNgoai({bool only = true}) async {
+    showLoading();
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
       title ?? '',
       selectLoaiLich?.id ?? '',

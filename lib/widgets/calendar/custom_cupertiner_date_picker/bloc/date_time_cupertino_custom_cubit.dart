@@ -48,24 +48,22 @@ class DateTimeCupertinoCustomCubit
     //   );
     // }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
+    if (isChecked) {
+      timeBeginSubject.sink.add('08:00');
+      timeEndSubject.sink.add('18:00');
+      dateBeginSubject.sink.add(
+        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+      );
+      dateEndSubject.sink.add(
+        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+      );
+      validateTime.sink.add('');
+    }
+    // else {
+    //   timeBeginSubject.sink.add('hh:mm');
+    //   timeEndSubject.sink.add('hh:mm');
+    // }
   }
-
-  // Future<void> handleDateTimePressed({
-  //   bool isBegin = true,
-  // }) async {
-  //   if (lastedType != typePickerSubjectStart.value) {
-  //     if (isShowBeginPickerSubject.value) {
-  //       isShowBeginPickerSubject.sink.add(false);
-  //     }
-  //     if (isShowEndPickerSubject.value) {
-  //       isShowEndPickerSubject.sink.add(false);
-  //     }
-  //   }
-  //   await Future.delayed(Duration(milliseconds: duration));
-  //   isBegin
-  //       ? isShowBeginPickerSubject.sink.add(!isShowBeginPickerSubject.value)
-  //       : isShowEndPickerSubject.sink.add(!isShowEndPickerSubject.value);
-  // }
 
   void setTypePickerStart(TypePickerDateTime type) {
     typePickerSubjectStart.sink.add(type);

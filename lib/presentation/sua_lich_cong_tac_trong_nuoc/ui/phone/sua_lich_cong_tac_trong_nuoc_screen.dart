@@ -691,7 +691,7 @@ class _SuaLichCongTacTrongNuocPhoneState
             location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
             isEdit: true,
             isOnly: !value,
-            isInside: true,
+            isInside: false,
           );
         });
       } else {
@@ -701,7 +701,7 @@ class _SuaLichCongTacTrongNuocPhoneState
           content: noiDungController.value.text.trim().replaceAll(' +', ' '),
           location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
           isEdit: true,
-          isInside: true,
+          isInside: false,
         );
       }
     }

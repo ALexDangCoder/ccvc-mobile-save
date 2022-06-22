@@ -34,6 +34,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
@@ -375,6 +376,12 @@ mixin HopRepository {
   Future<Result<bool>> themPhienHop(
     String lichHopId,
     List<TaoPhienHopRequest> phienHops,
+  );
+
+  Future<Result<DuyetLichModel>> huyAndDuyetLichHop(
+    String lichHopId,
+    bool isDuyet,
+    String lyDo,
   );
 
   Future<Result<bool>> xacNhanThamGiaHop(

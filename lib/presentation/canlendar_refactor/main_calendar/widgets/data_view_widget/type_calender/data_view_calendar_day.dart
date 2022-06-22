@@ -20,6 +20,14 @@ class DataViewCalendarDay extends StatefulWidget {
 
 class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
 
+
+  @override
+  void initState() {
+    widget.cubit.fCalendarControllerDay = CalendarController();
+    widget.cubit.setFCalendarListenerDay();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DataLichLvModel>(
@@ -29,7 +37,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
         return SfCalendar(
           viewHeaderHeight: 0.0,
           headerHeight: 0.0,
-          controller: widget.cubit.fCalendarController,
+          controller: widget.cubit.fCalendarControllerDay,
           timeSlotViewSettings: const TimeSlotViewSettings(
             timeIntervalHeight: 88,
           ),

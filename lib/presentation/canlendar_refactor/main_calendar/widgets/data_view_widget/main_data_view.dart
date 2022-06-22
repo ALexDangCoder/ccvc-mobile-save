@@ -23,7 +23,6 @@ class MainDataView extends StatefulWidget {
 class _MainDataViewState extends State<MainDataView> {
   @override
   void initState() {
-    widget.cubit.setFCalendarListener();
     super.initState();
   }
 
@@ -31,28 +30,30 @@ class _MainDataViewState extends State<MainDataView> {
   Widget build(BuildContext context) {
     return BlocBuilder(
       bloc: widget.cubit,
-      builder: (context,CalendarWorkState state) {
+      builder: (context, CalendarWorkState state) {
         final typeState = state.typeView;
-        if (state is CalendarViewState){
-          return IndexedStack(
-            index: typeState.index,
-            children: [
-              DataViewCalendarDay(
-                cubit: widget.cubit,
-              ),
-              DataViewCalendarWeek(
-                cubit: widget.cubit,
-              ),
-              DataViewCalendarMonth(
-                cubit: widget.cubit,
-              )
-            ],
-          );
-        }else{
-          return DataViewTypeList(
-            cubit: widget.cubit,
-          );
-        }
+        return IndexedStack(
+          index: state is CalendarViewState ? 0 : 1,
+          children: [
+            IndexedStack(
+              index: typeState.index,
+              children: [
+                DataViewCalendarDay(
+                  cubit: widget.cubit,
+                ),
+                DataViewCalendarWeek(
+                  cubit: widget.cubit,
+                ),
+                DataViewCalendarMonth(
+                  cubit: widget.cubit,
+                )
+              ],
+            ),
+            DataViewTypeList(
+              cubit: widget.cubit,
+            )
+          ],
+        );
       },
     );
   }

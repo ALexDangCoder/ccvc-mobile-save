@@ -5,18 +5,21 @@ import 'package:flutter/material.dart';
 
 enum StateType { CHO_XAC_NHAN, THAM_GIA, TU_CHOI }
 
+class ItemMenuData {
+  StateType type;
+  int value;
+
+  ItemMenuData(this.type, this.value);
+}
+
 class PopUpMenu extends StatefulWidget {
   final Function(StateType) onChange;
-  final int soLichTuChoi;
-  final int soLichThamGia;
-  final int soLichChoXacNhan;
+  final List<ItemMenuData> data;
 
   const PopUpMenu({
     Key? key,
     required this.onChange,
-    required this.soLichTuChoi,
-    required this.soLichThamGia,
-    required this.soLichChoXacNhan,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -26,7 +29,17 @@ class PopUpMenu extends StatefulWidget {
 class _PopUpMenuState extends State<PopUpMenu> {
   final GlobalKey _key = GlobalKey();
 
-  StateType stateType = StateType.CHO_XAC_NHAN;
+  late ItemMenuData currentItem;
+
+  @override
+  void initState() {
+    if (widget.data.isNotEmpty) {
+      currentItem = widget.data.first;
+    } else {
+      currentItem = ItemMenuData(StateType.CHO_XAC_NHAN, 0);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,24 +47,18 @@ class _PopUpMenuState extends State<PopUpMenu> {
       onTap: () {
         showSelect(
           context,
-          (type) {
-            setState(() {
-              stateType = type;
-            });
-            widget.onChange.call(type);
-          },
         );
       },
       child: Container(
+        width: 140,
         key: _key,
         color: Colors.transparent,
-        child: Container (),
+        child: getMenuView(currentItem),
       ),
     );
   }
 
-  void showSelect(BuildContext context, Function(StateType) onChange) {
-    // ignore: cast_nullable_to_non_nullable
+  void showSelect(BuildContext context) {
     final box = _key.currentContext?.findRenderObject() as RenderBox;
     final Offset position = box.localToGlobal(Offset.zero);
     late OverlayEntry overlayEntry;
@@ -59,9 +66,17 @@ class _PopUpMenuState extends State<PopUpMenu> {
       builder: (BuildContext overlayContext) {
         return DialogSelectWidget(
           offset: position,
-          onDismis: () {
+          onDismiss: (item) {
             overlayEntry.remove();
+            setState(() {
+              currentItem = item ?? currentItem;
+            });
+            if (item != null){
+              widget.onChange.call(item.type);
+            }
+
           },
+          data: widget.data,
         );
       },
     );
@@ -71,12 +86,14 @@ class _PopUpMenuState extends State<PopUpMenu> {
 
 class DialogSelectWidget extends StatefulWidget {
   final Offset offset;
-  final Function() onDismis;
+  final Function(ItemMenuData?) onDismiss;
+  final List<ItemMenuData> data;
 
   const DialogSelectWidget({
     Key? key,
     required this.offset,
-    required this.onDismis,
+    required this.onDismiss,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -102,78 +119,68 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          // GestureDetector(
-          //   onTap: () {
-          //     _animationController.reverse().whenComplete(() {
-          //       widget.onDismis();
-          //     });
-          //   },
-          //   child: SizedBox.expand(
-          //     child: Container(
-          //       color: Colors.transparent,
-          //     ),
-          //   ),
-          // ),
-          // Positioned(
-          //   right: MediaQuery.of(context).size.width - widget.offset.dx,
-          //   top: widget.offset.dy + 50,
-          //   child: AnimatedBuilder(
-          //     animation: _animationController,
-          //     builder: (context, _) => Opacity(
-          //       opacity: _animationController.value,
-          //       child: Transform(
-          //         transform: Matrix4.identity()
-          //           ..scale(
-          //             _animationController.value,
-          //             _animationController.value,
-          //           ),
-          //         alignment: Alignment.topRight,
-          //         child: Container(
-          //           width: isMobile() ? 200 : 230,
-          //           decoration: BoxDecoration(
-          //             color: backgroundColorApp,
-          //             borderRadius: const BorderRadius.all(Radius.circular(12)),
-          //             border: Border.all(color: borderColor.withOpacity(0.5)),
-          //             boxShadow: [
-          //               BoxShadow(
-          //                 color: shadowContainerColor.withOpacity(0.05),
-          //                 blurRadius: 10,
-          //                 offset: const Offset(0, 4),
-          //               )
-          //             ],
-          //           ),
-          //           padding: const EdgeInsets.only(
-          //             right: 20,
-          //             left: 20,
-          //             top: 20,
-          //           ),
-          //           child: StreamBuilder<DashBoardLichHopModel>(
-          //               stream: widget.cubit.lichLamViecDashBroadSubject.stream,
-          //               builder: (context, snapshot) {
-          //                 final data =
-          //                     snapshot.data ?? DashBoardLichHopModel.empty();
-          //                 return Column(
-          //                   children: [
-          //                     getState(
-          //                       state: stateLDM.ChoXacNhan,
-          //                       index: data.soLichChoXacNhan ?? 0,
-          //                     ),
-          //                     getState(
-          //                       state: stateLDM.ThamGia,
-          //                       index: data.soLichThamGia ?? 0,
-          //                     ),
-          //                     getState(
-          //                       state: stateLDM.TuChoi,
-          //                       index: data.soLichChuTriTuChoi ?? 0,
-          //                     ),
-          //                   ],
-          //                 );
-          //               }),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // )
+          GestureDetector(
+            onTap: () {
+              _animationController.reverse().whenComplete(() {
+                widget.onDismiss.call(null);
+              });
+            },
+            child: SizedBox.expand(
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+          Positioned(
+            right: MediaQuery.of(context).size.width - widget.offset.dx,
+            top: widget.offset.dy + 50,
+            child: AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, _) => Opacity(
+                opacity: _animationController.value,
+                child: Transform(
+                  transform: Matrix4.identity()
+                    ..scale(
+                      _animationController.value,
+                      _animationController.value,
+                    ),
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 210,
+                    decoration: BoxDecoration(
+                      color: backgroundColorApp,
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      border: Border.all(color: borderColor.withOpacity(0.5)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowContainerColor.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        )
+                      ],
+                    ),
+                    padding: const EdgeInsets.only(
+                      right: 20,
+                      left: 20,
+                      top: 20,
+                    ),
+                    child: Column(
+                      children: widget.data
+                          .map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                widget.onDismiss.call(e);
+                              },
+                              child: getMenuView(e),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -204,6 +211,31 @@ extension GetViewByTypeMenu on StateType {
           value: value,
         );
     }
+  }
+}
+
+Widget getMenuView(ItemMenuData dataItem) {
+  switch (dataItem.type) {
+    case StateType.CHO_XAC_NHAN:
+      return ItemMenuView(
+        title: S.current.cho_xac_nhan,
+        color: color02C5DD,
+        value: dataItem.value,
+      );
+
+    case StateType.THAM_GIA:
+      return ItemMenuView(
+        title: S.current.tham_gia,
+        color: itemWidgetUsing,
+        value: dataItem.value,
+      );
+
+    case StateType.TU_CHOI:
+      return ItemMenuView(
+        title: S.current.tu_choi,
+        color: statusCalenderRed,
+        value: dataItem.value,
+      );
   }
 }
 

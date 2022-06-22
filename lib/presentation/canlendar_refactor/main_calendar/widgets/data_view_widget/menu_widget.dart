@@ -1,8 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
@@ -44,6 +47,10 @@ class MenuWidget extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).pop();
                   cubit.emitList();
+                  if (cubit.statusType == StatusWorkCalendar.LICH_DUOC_MOI){
+                    cubit.stateType = StateType.CHO_XAC_NHAN;
+                    cubit.worksPagingController.refresh();
+                  }
                 },
                 isSelect: !isCalendarView,
               ),
@@ -54,25 +61,65 @@ class MenuWidget extends StatelessWidget {
               ),
               spaceH12,
               itemMenuView(
+                isMyWork: true,
                 icon: ImageAssets.icPerson,
                 title: S.current.lich_cua_toi,
                 onTap: () {
                   Navigator.of(context).pop();
+                  cubit.callApiByMenu(status: StatusWorkCalendar.LICH_CUA_TOI);
                 },
               ),
               spaceH2,
               ExpandOnlyWidget(
+                isPadingIcon: true,
                 header: itemMenuView(
                   icon: ImageAssets.icLichTheoTrangThai,
                   title: S.current.lich_theo_trang_thai,
                 ),
-                child: Container(
-                  height: 200,
-                  color: Colors.red,
+                child: StreamBuilder<DashBoardLichHopModel>(
+                  stream: cubit.totalWorkStream,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? DashBoardLichHopModel.empty();
+                    return Column(
+                      children: [
+                        childItemMenu(
+                          context,
+                          data.tongLichDuocMoi ?? 0,
+                          StatusWorkCalendar.LICH_DUOC_MOI,
+                        ),
+                        childItemMenu(
+                          context,
+                          data.soLichTaoHo ?? 0,
+                          StatusWorkCalendar.LICH_TAO_HO,
+                        ),
+                        childItemMenu(
+                          context,
+                          data.soLichHuyBo ?? 0,
+                          StatusWorkCalendar.LICH_HUY,
+                        ),
+                        childItemMenu(
+                          context,
+                          data.soLichThuHoi ?? 0,
+                          StatusWorkCalendar.LICH_THU_HOI,
+                        ),
+                        childItemMenu(
+                          context,
+                          data.soLichCoBaoCaoDaDuyet ?? 0,
+                          StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+                        ),
+                        childItemMenu(
+                          context,
+                          data.soLichChuaCoBaoCao ?? 0,
+                          StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
               spaceH2,
               ExpandOnlyWidget(
+                isPadingIcon: true,
                 header: itemMenuView(
                   icon: ImageAssets.icLichLanhDao,
                   title: S.current.lich_theo_lanh_dao,
@@ -86,6 +133,73 @@ class MenuWidget extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+
+  }
+
+  Widget childItemMenu(
+      BuildContext context,
+      int value,
+      StatusWorkCalendar type,
+      ) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).pop();
+        cubit.callApiByMenu(status: type);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 12,
+        ),
+        color: Colors.transparent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  spaceW30,
+                  Expanded(
+                    child: Text(
+                      type.getTitle(),
+                      style: tokenDetailAmount(
+                        color: backgroundColorApp,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            spaceW12,
+            countItemWidget(value),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget countItemWidget(int count) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 4,
+        horizontal: 5,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: AppTheme.getInstance().colorField(),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        count.toString(),
+        style: textNormalCustom(
+          color: backgroundColorApp,
+          fontWeight: FontWeight.w500,
+          fontSize: 12,
+        ),
       ),
     );
   }
@@ -111,6 +225,7 @@ class MenuWidget extends StatelessWidget {
       );
 
   Widget itemMenuView({
+    bool isMyWork = false,
     bool isSelect = false,
     required String icon,
     required String title,
@@ -144,6 +259,15 @@ class MenuWidget extends StatelessWidget {
                 ),
               ),
             ),
+            if (isMyWork) spaceW12,
+            if (isMyWork)
+              StreamBuilder<DashBoardLichHopModel>(
+                stream: cubit.totalWorkStream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? DashBoardLichHopModel.empty();
+                  return countItemWidget(data.countScheduleCaNhan ?? 0);
+                },
+              ),
           ],
         ),
       ),

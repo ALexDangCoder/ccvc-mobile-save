@@ -20,6 +20,14 @@ class DataViewCalendarMonth extends StatefulWidget {
 class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
 
   @override
+  void initState() {
+    widget.cubit.fCalendarControllerMonth = CalendarController();
+    widget.cubit.setFCalendarListenerMonth();
+    super.initState();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<DataLichLvModel>(
       stream: widget.cubit.listCalendarWorkStream,
@@ -28,7 +36,7 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
         return SfCalendar(
           firstDayOfWeek: 1,
           allowAppointmentResize: true,
-          controller: widget.cubit.fCalendarController,
+          controller: widget.cubit.fCalendarControllerMonth,
           headerHeight: 0.0,
           view: CalendarView.month,
           todayHighlightColor: labelColor,

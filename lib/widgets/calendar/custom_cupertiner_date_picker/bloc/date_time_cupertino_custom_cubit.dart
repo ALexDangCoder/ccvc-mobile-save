@@ -39,18 +39,17 @@ class DateTimeCupertinoCustomCubit
     if (isShowEndPickerSubject.value) {
       isShowEndPickerSubject.sink.add(false);
     }
-    // if (isChecked) {
-    //   dateBeginSubject.sink.add(
-    //     DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-    //   );
-    //   dateEndSubject.sink.add(
-    //     DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-    //   );
-    // }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
-      timeBeginSubject.sink.add('08:00');
-      timeEndSubject.sink.add('18:00');
+      final date = DateTime.now();
+      timeBeginSubject.sink.add(
+        DateTime(date.year, date.month, date.day, 08)
+            .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+      );
+      timeEndSubject.sink.add(
+        DateTime(date.year, date.month, date.day, 18)
+            .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+      );
       dateBeginSubject.sink.add(
         DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
       );
@@ -58,11 +57,12 @@ class DateTimeCupertinoCustomCubit
         DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
       );
       validateTime.sink.add('');
+    } else {
+      timeBeginSubject.sink
+          .add(DateTime.now().dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT));
+      timeEndSubject.sink
+          .add(DateTime.now().dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT));
     }
-    // else {
-    //   timeBeginSubject.sink.add('hh:mm');
-    //   timeEndSubject.sink.add('hh:mm');
-    // }
   }
 
   void setTypePickerStart(TypePickerDateTime type) {

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/main_data_view.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -30,15 +31,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
         title: S.current.lich_cua_toi,
         leadingIcon: Row(
           children: [
-            IconButton(
-              onPressed: () {
-                cubit.controller.isShowCalendarType.value =
-                    !cubit.controller.isShowCalendarType.value;
-              },
-              icon: SvgPicture.asset(
-                ImageAssets.icCalenderDayBig,
-              ),
-            ),
+            cubit.controller.getIcon(),
           ],
         ),
         actions: [
@@ -55,7 +48,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
         child: Column(
           children: [
             ChooseTimeCalendarWidget(
-              onChange: (startDate, endDate, type) {
+              onChange: (startDate, endDate, type,keySearch) {
                 if (cubit.state is CalendarViewState){
                   cubit.emitCalendar(type : type);
                 }else {

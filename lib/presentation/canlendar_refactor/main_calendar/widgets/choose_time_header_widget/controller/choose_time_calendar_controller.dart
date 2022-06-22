@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_pho
 class ChooseTimeController {
   ValueNotifier<DateTime> selectDate = ValueNotifier(DateTime.now());
   ValueNotifier<bool> isShowCalendarType = ValueNotifier(false);
+  ValueNotifier<CalendarType> calendarType = ValueNotifier(CalendarType.DAY);
   ValueNotifier<CalendarFormat> calendarFormat =
       ValueNotifier(CalendarFormat.week);
   void onExpandCalendar() {
@@ -22,9 +23,8 @@ class ChooseTimeController {
     }
   }
 
-  CalendarType calendarType = CalendarType.DAY;
   void nextTime() {
-    switch (calendarType) {
+    switch (calendarType.value) {
       case CalendarType.DAY:
         _nextDay();
         break;
@@ -38,7 +38,7 @@ class ChooseTimeController {
   }
 
   void backTime() {
-    switch (calendarType) {
+    switch (calendarType.value) {
       case CalendarType.DAY:
         _nextDay(isBack: true);
         break;

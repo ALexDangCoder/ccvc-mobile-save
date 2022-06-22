@@ -127,6 +127,7 @@ const color1CE2BF = Color(0xff1CE2BF);
 const chuaThucHienColor = Color(0xffF2994A);
 const color81B2DF = Color(0xff81B2DF);
 const colorF2994A = Color(0xffF2994A);
+const color5F63E8 = Color(0xff5F63E8);
 
 const bgTag = Color(0xffF2F0FF);
 

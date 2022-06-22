@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_wid
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/radio_option_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -221,7 +222,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.SUA.getIcon(),
           text: PERMISSION_DETAIL.SUA.getString(),
           onTap: () {
-            if(cubit.getChiTietLichHopModel.typeRepeat == 1){
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
               showBottomSheetCustom(
                 context,
                 title: S.current.sua_lich_hop,
@@ -284,13 +285,57 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.TU_CHOI_THAM_GIA.getIcon(),
           text: PERMISSION_DETAIL.TU_CHOI_THAM_GIA.getString(),
-          onTap: () {},
+          onTap: () {
+            showDiaLog(
+              context,
+              btnLeftTxt: S.current.khong,
+              funcBtnRight: () {
+                cubit
+                    .confirmThamGiaHop(
+                  lichHopId: cubit.getChiTietLichHopModel.id,
+                  isThamGia: false,
+                )
+                    .then((value) {
+                  if (value) {
+                    MessageConfig.show(
+                      title: '${S.current.tu_choi_tham_gia} '
+                          '${S.current.thanh_cong.toLowerCase()}',
+                    );
+                    cubit.initDataChiTiet(needCheckPermission: true);
+                  } else {
+                    MessageConfig.show(
+                      messState: MessState.error,
+                      title: '${S.current.tu_choi_tham_gia}'
+                          ' ${S.current.that_bai.toLowerCase()}',
+                    );
+                  }
+                });
+              },
+              title: S.current.tu_choi_tham_gia,
+              btnRightTxt: S.current.dong_y,
+              icon: SvgPicture.asset(ImageAssets.img_tu_choi_tham_gia),
+              textContent: S.current.confirm_tu_choi_tham_gia,
+            );
+          },
         );
       case PERMISSION_DETAIL.DUYET_LICH:
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.DUYET_LICH.getIcon(),
           text: PERMISSION_DETAIL.DUYET_LICH.getString(),
-          onTap: () {},
+          onTap: () {
+            showDiaLog(
+              context,
+              textContent: S.current.duyet_lich,
+              btnLeftTxt: S.current.khong,
+              funcBtnRight: () {
+                cubit.huyAndDuyetLichHop(isDuyet: true);
+                Navigator.pop(context);
+              },
+              title: S.current.khong,
+              btnRightTxt: S.current.dong_y,
+              icon: SvgPicture.asset(ImageAssets.icDuyetLich),
+            );
+          },
         );
       case PERMISSION_DETAIL.PHAN_CONG_THU_KY:
         return CellPopPupMenu(
@@ -339,19 +384,115 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.XAC_NHAN_THAM_GIA.getIcon(),
           text: PERMISSION_DETAIL.XAC_NHAN_THAM_GIA.getString(),
-          onTap: () {},
+          onTap: () {
+            showDiaLog(
+              context,
+              btnLeftTxt: S.current.khong,
+              funcBtnRight: () {
+                cubit
+                    .confirmThamGiaHop(
+                  lichHopId: cubit.getChiTietLichHopModel.id,
+                  isThamGia: true,
+                )
+                    .then((value) {
+                  if (value) {
+                    MessageConfig.show(
+                      title: '${S.current.xac_nhan_tham_gia}'
+                          ' ${S.current.thanh_cong.toLowerCase()}',
+                    );
+                    cubit.initDataChiTiet(needCheckPermission: true);
+                  } else {
+                    MessageConfig.show(
+                      messState: MessState.error,
+                      title: '${S.current.xac_nhan_tham_gia}'
+                          ' ${S.current.that_bai.toLowerCase()}',
+                    );
+                  }
+                });
+              },
+              title: S.current.xac_nhan_tham_gia,
+              btnRightTxt: S.current.dong_y,
+              icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+              textContent: S.current.confirm_tham_gia,
+            );
+          },
         );
       case PERMISSION_DETAIL.HUY_XAC_NHAN:
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.HUY_XAC_NHAN.getIcon(),
           text: PERMISSION_DETAIL.HUY_XAC_NHAN.getString(),
-          onTap: () {},
+          onTap: () {
+            showDiaLog(
+              context,
+              btnLeftTxt: S.current.khong,
+              funcBtnRight: () {
+                cubit
+                    .confirmThamGiaHop(
+                  lichHopId: cubit.getChiTietLichHopModel.id,
+                  isThamGia: false,
+                )
+                    .then((value) {
+                  if (value) {
+                    MessageConfig.show(
+                      title: '${S.current.huy}'
+                          ' ${S.current.xac_nhan.toLowerCase()}'
+                          ' ${S.current.thanh_cong.toLowerCase()}',
+                    );
+                    cubit.initDataChiTiet(needCheckPermission: true);
+                  } else {
+                    MessageConfig.show(
+                      messState: MessState.error,
+                      title: '${S.current.huy}'
+                          ' ${S.current.xac_nhan.toLowerCase()}'
+                          ' ${S.current.that_bai.toLowerCase()}',
+                    );
+                  }
+                });
+              },
+              title: '${S.current.huy}'
+                  ' ${S.current.xac_nhan.toLowerCase()}',
+              btnRightTxt: S.current.dong_y,
+              icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+              textContent: S.current.confirm_huy_tham_gia,
+            );
+          },
         );
       case PERMISSION_DETAIL.XAC_NHAN_LAI:
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.XAC_NHAN_LAI.getIcon(),
           text: PERMISSION_DETAIL.XAC_NHAN_LAI.getString(),
-          onTap: () {},
+          onTap: () {
+            showDiaLog(
+              context,
+              btnLeftTxt: S.current.khong,
+              funcBtnRight: () {
+                cubit
+                    .confirmThamGiaHop(
+                  lichHopId: cubit.getChiTietLichHopModel.id,
+                  isThamGia: true,
+                )
+                    .then((value) {
+                  if (value) {
+                    MessageConfig.show(
+                      title: ' ${S.current.xac_nhan_lai.toLowerCase()}'
+                          ' ${S.current.thanh_cong.toLowerCase()}',
+                    );
+                    cubit.initDataChiTiet(needCheckPermission: true);
+                  } else {
+                    MessageConfig.show(
+                      messState: MessState.error,
+                      title: ' ${S.current.xac_nhan_lai.toLowerCase()}'
+                          ' ${S.current.that_bai.toLowerCase()}',
+                    );
+                  }
+                });
+              },
+              title: S.current.xac_nhan_lai,
+              btnRightTxt: S.current.dong_y,
+              icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+              textContent: S.current.confirm_tham_gia,
+            );
+          },
         );
       case PERMISSION_DETAIL.TU_CHOI:
         return CellPopPupMenu(

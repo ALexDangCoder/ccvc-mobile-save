@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/tablet/chi_tiet_pakn_tablet.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -94,15 +95,15 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ChiTietVanBanTabletScreen(
-                        //       iD: result.id,
-                        //       taskID: result.taskId,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChiTietPKANTablet(
+                              iD: result.id,
+                              taskID: result.taskId,
+                            ),
+                          ),
+                        );
                       },
                       child: ContainerInfoWidget(
                         title: result.title,

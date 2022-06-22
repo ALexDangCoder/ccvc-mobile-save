@@ -755,10 +755,7 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   TongHopNhiemVuCubit() {
     dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
-      // donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
-      // userId = dataUser?.userId ?? '';
       canBoId = dataUser?.userInformation?.id ?? '';
-      print('--------------- id init ${dataUser?.userInformation?.id}');
     }
   }
 

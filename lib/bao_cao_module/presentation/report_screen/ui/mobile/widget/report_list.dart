@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
@@ -82,7 +83,7 @@ class ReportList extends StatelessWidget {
                   },
                 ),
               )
-        : const SizedBox.shrink();
+        : noData();
   }
 
   void clickItemDetail({
@@ -98,19 +99,12 @@ class ReportList extends StatelessWidget {
             return ReportDetail(
               title: value.name ?? '',
               cubit: cubit,
-              doanhId: value.id ?? '',
+              idFolder: value.id ?? '',
               isListView: isListView,
             );
           },
         ),
-      ).then((v) {
-        if (isTree) {
-          cubit.getListReport(
-            isTree: isTree,
-            idFolder: idFolder,
-          );
-        }
-      });
+      );
     } else {
       //todo report
     }

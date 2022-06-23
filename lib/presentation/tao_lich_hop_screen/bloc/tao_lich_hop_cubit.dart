@@ -34,6 +34,15 @@ List<DropDownModel> danhSachThoiGianNhacLich = [
   DropDownModel(label: 'Trước 1 giờ', id: 60),
 ];
 
+List<DropDownModel> danhSachSuaThoiGianNhacLich = [
+  DropDownModel(label: 'Không bao giờ', id: 1),
+  DropDownModel(label: 'Trước 5 phút', id: 5),
+  DropDownModel(label: 'Trước 10 phút', id: 10),
+  DropDownModel(label: 'Trước 15 phút', id: 15),
+  DropDownModel(label: 'Trước 30 phút', id: 30),
+  DropDownModel(label: 'Trước 1 giờ', id: 60),
+];
+
 List<DropDownModel> danhSachLichLap = [
   DropDownModel(label: 'Không lặp lại', id: 1),
   DropDownModel(label: 'Lặp lại hàng ngày', id: 2),
@@ -161,9 +170,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     /// check tùy chỉnh lịch lặp
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.last.id) {
       taoLichHopRequest.days = '';
-    } else {
-      taoLichHopRequest.days ??= '1';
     }
+
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.first.id) {
       if (taoLichHopRequest.dateRepeat?.isEmpty ?? true) {
         DateTime.now().dateTimeFormatter(

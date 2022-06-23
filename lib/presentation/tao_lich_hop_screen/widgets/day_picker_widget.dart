@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DayPickerWidget extends StatefulWidget {
   const DayPickerWidget({
@@ -28,7 +30,12 @@ class _DayPickerWidgetState extends State<DayPickerWidget> {
   void initState() {
     super.initState();
     if (!widget.isUpdate) {
-      selectedIndex.add(daysOfWeek[1].id);
+      final currentDay =
+          DateFormat('EEEE').format(DateTime.now()).dayToIdLichLap();
+      if (currentDay != null) {
+        selectedIndex.add(currentDay);
+        widget.onChange(selectedIndex);
+      }
     } else {
       selectedIndex.addAll(widget.initDayPicked ?? []);
     }
@@ -46,7 +53,7 @@ class _DayPickerWidgetState extends State<DayPickerWidget> {
             (index) => GestureDetector(
               onTap: () {
                 if (selectedIndex.contains(daysOfWeek[index].id)) {
-                  selectedIndex.removeAt(index);
+                  selectedIndex.remove(daysOfWeek[index].id);
                 } else {
                   selectedIndex.add(daysOfWeek[index].id);
                 }

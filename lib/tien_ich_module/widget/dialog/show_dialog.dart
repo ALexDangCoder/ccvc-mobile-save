@@ -15,7 +15,7 @@ Future<T?> showDiaLog<T>(
   required String btnLeftTxt,
   bool showTablet = false,
   bool isBottomShow = true,
-  bool isOneButton = true,
+  bool isTwoButton = true,
   required Function funcBtnRight,
 }) {
   return showDialog(
@@ -67,7 +67,7 @@ Future<T?> showDiaLog<T>(
                 title,
                 style: titleAppbar(),
               ),
-              if (isOneButton)
+              if (isTwoButton)
                 Column(
                   children: [
                     SizedBox(
@@ -87,7 +87,7 @@ Future<T?> showDiaLog<T>(
               SizedBox(
                 height: showTablet ? 24.0.textScale(space: 8) : 24,
               ),
-              if (isOneButton)
+              if (isTwoButton)
                 Row(
                   children: [
                     Expanded(

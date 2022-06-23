@@ -243,6 +243,12 @@ extension CheckValidate on String {
     }
     return null;
   }
+  String? validatorTitle() {
+    if (trim().isEmpty) {
+      return S.current.ban_phai_nhap_truong_tieu_de;
+    }
+    return null;
+  }
 
   String? checkTruongNull(String name) {
     if (trim().isEmpty) {

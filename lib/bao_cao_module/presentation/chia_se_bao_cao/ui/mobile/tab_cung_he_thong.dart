@@ -89,10 +89,11 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: SvgPicture.asset(
-                                      ImageAssets.img_company,
+                                      ImageAssets.img_companies_svg,
                                       height: 5.h,
                                       width: 5.w,
                                       color: Colors.blue,
+                                      fit: BoxFit.none,
                                     ),
                                   ),
                                   spaceW5,
@@ -289,6 +290,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                     widget.cubit.chiaSeBaoCao(Share.COMMON).then((value) {
                       if (value == 'Thành công') {
                         MessageConfig.show(title: value);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       } else {
                         MessageConfig.show(
                           title: value,

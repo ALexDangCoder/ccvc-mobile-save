@@ -10,14 +10,16 @@ class TextFormWidget extends StatefulWidget {
   final String hint;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Function(String)? onChange;
   final List<TextInputFormatter> formatters;
+
   const TextFormWidget({
     Key? key,
     this.controller,
     required this.image,
     required this.hint,
     this.formatters = const [],
-    this.validator,
+    this.validator, this.onChange,
   }) : super(key: key);
 
   @override
@@ -37,6 +39,9 @@ class _TextFormWidgetState extends State<TextFormWidget> {
           child: TextFormField(
             controller: widget.controller,
             validator: widget.validator,
+            onChanged: (value) {
+              widget.onChange?.call(value);
+            },
             inputFormatters: widget.formatters,
             decoration: InputDecoration(
               labelStyle: textNormalCustom(

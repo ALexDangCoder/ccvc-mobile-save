@@ -78,7 +78,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.CENTER,
         );
       } else {
         widget.cubit.anhDanhBaCaNhan.sink.add(_path);

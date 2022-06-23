@@ -37,6 +37,9 @@ class _MainDataViewState extends State<MainDataView> {
             cubit: widget.cubit,
           ),
         ),
+        // DashBroadCountRow(
+        //   cubit: widget.cubit,
+        // ),
         Expanded(
           child: BlocBuilder(
             bloc: widget.cubit,

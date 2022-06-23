@@ -14,7 +14,7 @@ class DashBroadCountRow extends StatelessWidget {
     required this.cubit,
   }) : super(key: key);
   final CalendarWorkCubit cubit;
-  final List<String> img =  [
+  final List<String> img = [
     ImageAssets.icLichCongTacTrongNuoc,
     ImageAssets.icLichLamViec,
     ImageAssets.icLichCongTacNuocNgoai,
@@ -25,7 +25,11 @@ class DashBroadCountRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16 , left: 16 , bottom: 16,),
+      padding: const EdgeInsets.only(
+        top: 16,
+        left: 16,
+        bottom: 16,
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -35,7 +39,7 @@ class DashBroadCountRow extends StatelessWidget {
             StreamBuilder<DashBoardLichHopModel>(
               stream: cubit.totalWorkStream,
               builder: (context, snapshot) {
-                final data = snapshot.data?.countScheduleCaNhan  ?? 0;
+                final data = snapshot.data?.countScheduleCaNhan ?? 0;
                 return itemDashBroad(
                   S.current.tong_so_lich_lam_viec,
                   ImageAssets.icTongSoLichLamviec,
@@ -48,17 +52,16 @@ class DashBroadCountRow extends StatelessWidget {
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
                 if (data.isNotEmpty) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return itemDashBroad(
-                        img[index],
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                      data.length,
+                      (index) => itemDashBroad(
                         data[index].typeName ?? '',
+                        img[index],
                         data[index].numberOfCalendars ?? 0,
-                      );
-                    },
+                      ),
+                    ),
                   );
                 } else {
                   return Container();
@@ -101,15 +104,19 @@ class DashBroadCountRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  name,
-                  softWrap: true,
-                  maxLines: 2,
-                  style: textNormalCustom(color: titleCalenderWork),
+                SizedBox(
+                  child: Text(
+                    name,
+                    softWrap: true,
+                    maxLines: 2,
+                    style: textNormalCustom(color: titleCalenderWork),
+                  ),
                 ),
-                Text(
-                  countDashBroad.toString(),
-                  style: titleText(color: numberOfCalenders, fontSize: 26.0),
+                SizedBox(
+                  child: Text(
+                    countDashBroad.toString(),
+                    style: titleText(color: numberOfCalenders, fontSize: 26.0),
+                  ),
                 ),
               ],
             )

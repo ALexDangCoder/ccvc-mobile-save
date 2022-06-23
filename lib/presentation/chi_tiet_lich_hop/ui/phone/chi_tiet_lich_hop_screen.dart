@@ -80,7 +80,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                         (e) => e.getMenuLichHop(
                           context,
                           cubit,
-                          widget.id,
                         ),
                       )
                       .toList(),

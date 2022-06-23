@@ -32,6 +32,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
+import '../permission_type.dart';
+
 class DetailMeetCalenderTablet extends StatefulWidget {
   final String id;
 
@@ -73,158 +75,23 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
-            child: MenuSelectWidget(
-              listSelect: [
-                CellPopPupMenu(
-                  urlImage: ImageAssets.icHuy,
-                  text: S.current.huy_lich_hop,
-                  onTap: () {
-                    showDiaLog(
-                      context,
-                      textContent: S.current.ban_chan_chan_huy_lich_nay,
-                      btnLeftTxt: S.current.khong,
-                      funcBtnRight: () {
-                        cubit.huyChiTietLichHop(widget.id);
-                        Navigator.pop(context);
-                      },
-                      title: S.current.huy_lich,
-                      btnRightTxt: S.current.dong_y,
-                      icon: SvgPicture.asset(ImageAssets.icHuyLich),
-                      showTablet: true,
-                    );
-                  },
-                ),
-                CellPopPupMenu(
-                  urlImage: ImageAssets.ic_delete_do,
-                  text: S.current.xoa_lich,
-                  onTap: () {
-                    showDiaLog(
-                      context,
-                      textContent: S.current.xoa_chi_tiet_lich_hop,
-                      btnLeftTxt: S.current.khong,
-                      funcBtnRight: () {
-                        cubit.deleteChiTietLichHop(widget.id);
-                        Navigator.pop(context);
-                      },
-                      title: S.current.khong,
-                      btnRightTxt: S.current.dong_y,
-                      icon: SvgPicture.asset(ImageAssets.icHuyLich),
-                      showTablet: true,
-                    );
-                  },
-                ),
-                CellPopPupMenu(
-                  urlImage: ImageAssets.icEditBlue,
-                  text: S.current.sua_lich,
-                  onTap: () {
-                    if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SuaLichHopTabletScreen(
-                            chiTietHop: cubit.getChiTietLichHopModel,
-                          ),
+            child: StreamBuilder<List<PERMISSION_DETAIL>>(
+              stream: cubit.listButtonSubject.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                return MenuSelectWidget(
+                  listSelect: data
+                      .map(
+                        (e) => e.getMenuLichHop(
+                          context,
+                          cubit,
                         ),
-                      ).then((value) {
-                        if (value == null) {
-                          return;
-                        }
-                        if (value) {
-                          cubit.initDataChiTiet();
-                          cubit.callApiCongTacChuanBi();
-                        }
-                      });
-                      return;
-                    }
-                    showDialog(
-                      context: context,
-                      builder: (context) => RadioOptionDialog(
-                        title: S.current.sua_lich_hop,
-                        textRadioBelow: S.current.chi_lich_hien_tai,
-                        textRadioAbove: S.current.tu_hien_tai_ve_sau,
-                        imageUrl: ImageAssets.img_sua_lich,
-                      ),
-                    ).then((value) {
-                      if (value == null) {
-                        return;
-                      }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SuaLichHopTabletScreen(
-                            chiTietHop: cubit.getChiTietLichHopModel,
-                            isMulti: value,
-                          ),
-                        ),
-                      ).then((value) {
-                        if (value == null) {
-                          return;
-                        }
-                        if (value) {
-                          cubit.initDataChiTiet();
-                          cubit.callApiCongTacChuanBi();
-                        }
-                      });
-                    });
-                  },
-                ),
-                CellPopPupMenu(
-                  urlImage: ImageAssets.icThuHoi,
-                  text: S.current.thu_hoi,
-                  onTap: () {
-                    showDiaLogTablet(
-                      context,
-                      maxHeight: 280,
-                      title: S.current.thu_hoi_lich,
-                      child: ThuHoiLichWidget(
-                        cubit: cubit,
-                        id: widget.id,
-                      ),
-                      isBottomShow: false,
-                      funcBtnOk: () {
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                ),
-                CellPopPupMenu(
-                  urlImage: ImageAssets.icPhanCongThuKy,
-                  text: S.current.phan_cong_thu_ky,
-                  onTap: () {
-                    showDiaLogTablet(
-                      context,
-                      maxHeight: 280,
-                      title: S.current.phan_cong_thu_ky,
-                      child: PhanCongThuKyWidget(
-                        cubit: cubit,
-                        id: widget.id,
-                      ),
-                      isBottomShow: false,
-                      funcBtnOk: () {
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                ),
-                CellPopPupMenu(
-                  urlImage: ImageAssets.icTaoBocBang,
-                  text: S.current.tao_boc_bang_cuoc_hop,
-                  onTap: () {
-                    showDiaLogTablet(
-                      context,
-                      maxHeight: 280,
-                      title: S.current.tao_boc_bang_cuoc_hop,
-                      child: const TaoBocBangWidget(),
-                      isBottomShow: false,
-                      funcBtnOk: () {
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                ),
-              ],
+                      )
+                      .toList(),
+                );
+              },
             ),
-          ),
+          )
         ],
       ),
       body: Padding(

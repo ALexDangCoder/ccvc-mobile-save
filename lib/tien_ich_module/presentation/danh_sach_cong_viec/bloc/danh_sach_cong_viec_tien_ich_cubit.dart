@@ -552,21 +552,18 @@ class DanhSachCongViecTienIchCubit
     String idCv,
     TodoDSCVModel todo,
   ) async {
-    showLoading();
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        showContent();
         final data = listDSCV.value;
         data.remove(todo);
         listDSCV.sink.add(data);
-        callAndFillApiAuto();
+        // callAndFillApiAuto();
       },
       error: (error) {
         showError();
       },
     );
-    showContent();
   }
 
   /// hiển thị icon theo từng màn hình

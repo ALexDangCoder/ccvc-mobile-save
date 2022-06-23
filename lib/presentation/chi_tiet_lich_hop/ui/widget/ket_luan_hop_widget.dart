@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/xem_luong_xu_ly_nhiem_vu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/extension_status.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -139,6 +140,16 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                   soNhiemVu: data[index].soNhiemVu,
                   tinhHinhThucHien: data[index].tinhHinhThucHienNoiBo,
                   trangThaiNhiemVu: data[index].trangThai,
+                  ontap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => XemLuongXuLyNhiemVu(
+                          id: data[index].id,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             );
@@ -249,8 +260,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       ),
                       CellPopPupMenu(
                         urlImage: ImageAssets.Group2,
-                        text:
-                            '${S.current.thu_hoi} (Không có thu hồi trên web)',
+                        text: S.current.thu_hoi,
                         onTap: () {
                           showDiaLog(
                             context,
@@ -344,6 +354,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
   final String hanXuLy;
   final String loaiNV;
   final TrangThaiNhiemVu trangThaiNhiemVu;
+  final Function ontap;
 
   const ItemDanhSachNhiemVu({
     Key? key,
@@ -353,6 +364,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
     required this.hanXuLy,
     required this.loaiNV,
     required this.trangThaiNhiemVu,
+    required this.ontap,
   }) : super(key: key);
 
   @override
@@ -374,34 +386,37 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                      child: Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Text(
-                          S.current.so_nhiem_vu,
-                          style: textNormalCustom(
-                            color: titleColumn,
-                            fontSize: 14.0.textScale(),
-                            fontWeight: FontWeight.w400,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            S.current.so_nhiem_vu,
+                            style: textNormalCustom(
+                              color: titleColumn,
+                              fontSize: 14.0.textScale(),
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Text(
-                          soNhiemVu,
-                          style: textNormalCustom(
-                            color: textTitle,
-                            fontSize: 14.0.textScale(),
-                            fontWeight: FontWeight.w400,
+                        Expanded(
+                          flex: 4,
+                          child: Text(
+                            soNhiemVu,
+                            style: textNormalCustom(
+                              color: textTitle,
+                              fontSize: 14.0.textScale(),
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  )),
+                      ],
+                    ),
+                  ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      ontap();
+                    },
                     child: SvgPicture.asset(ImageAssets.ic_luong),
                   )
                 ],

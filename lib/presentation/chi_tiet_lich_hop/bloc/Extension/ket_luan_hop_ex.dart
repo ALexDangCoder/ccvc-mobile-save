@@ -54,6 +54,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
               hanXuLy: e.hanXuLy,
               loaiNhiemVu: e.loaiNhiemVu,
               trangThai: trangThaiNhiemVu(e.maTrangThai),
+              id: e.id,
             ),
           );
           danhSachNhiemVuLichHopSubject.sink.add(danhSachNhiemVuLichHopModel);

@@ -98,7 +98,7 @@ class ReportList extends StatelessWidget {
             return ReportDetail(
               title: value.name ?? '',
               cubit: cubit,
-              idFolder: value.id ?? '',
+              doanhId: value.id ?? '',
               isListView: isListView,
             );
           },

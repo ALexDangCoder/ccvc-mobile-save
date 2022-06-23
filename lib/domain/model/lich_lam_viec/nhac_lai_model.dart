@@ -7,7 +7,10 @@ class NhacLaiModel {
     required this.value,
   });
 
-  NhacLaiModel.seeded();
+  NhacLaiModel.seeded({
+    this.title = 'Không bao giờ',
+    this.value = 1,
+  });
 }
 
 List<NhacLaiModel> listNhacLai = [

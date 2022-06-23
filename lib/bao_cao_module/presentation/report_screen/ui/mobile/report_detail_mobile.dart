@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 class ReportDetail extends StatefulWidget {
   final String title;
   final ReportListCubit cubit;
-  final String idFolder;
+  final String doanhId;
   final bool isListView;
 
   const ReportDetail({
     Key? key,
     required this.title,
     required this.cubit,
-    required this.idFolder,
+    required this.doanhId,
     required this.isListView,
   }) : super(key: key);
 
@@ -30,7 +30,7 @@ class _ReportDetailState extends State<ReportDetail> {
   @override
   void initState() {
     widget.cubit.getListReport(
-      idFolder: widget.idFolder,
+      idFolder: widget.doanhId,
       isTree: true,
     );
     super.initState();
@@ -59,7 +59,7 @@ class _ReportDetailState extends State<ReportDetail> {
             child: StateStreamLayout(
               retry: () {
                 widget.cubit.getListReport(
-                  idFolder: widget.idFolder,
+                  idFolder: widget.doanhId,
                   isTree: true,
                 );
               },
@@ -72,7 +72,7 @@ class _ReportDetailState extends State<ReportDetail> {
               child: RefreshIndicator(
                 onRefresh: () async {
                   await widget.cubit.getListReport(
-                    idFolder: widget.idFolder,
+                    idFolder: widget.doanhId,
                     isTree: true,
                   );
                 },
@@ -87,7 +87,7 @@ class _ReportDetailState extends State<ReportDetail> {
                           listReport: list,
                           cubit: widget.cubit,
                           isTree: true,
-                          idFolder: widget.idFolder,
+                          idFolder: widget.doanhId,
                         );
                       }),
                 ),

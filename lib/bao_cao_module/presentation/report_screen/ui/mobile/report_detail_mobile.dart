@@ -27,6 +27,11 @@ class ReportDetail extends StatefulWidget {
 }
 
 class _ReportDetailState extends State<ReportDetail> {
+  List<ReportItem> listReportDetail = [];
+  bool isCheckInit = true;
+  bool isCheckData = false;
+  bool isInit = false;
+
   @override
   void initState() {
     widget.cubit.getListReport(
@@ -34,6 +39,14 @@ class _ReportDetailState extends State<ReportDetail> {
       isTree: true,
     );
     super.initState();
+    isInit = true;
+    if (isCheckInit) {
+      widget.cubit.isCheckData.listen((value) {
+        if (value) {
+          isCheckData = true;
+        }
+      });
+    }
   }
 
   @override
@@ -71,6 +84,8 @@ class _ReportDetailState extends State<ReportDetail> {
               stream: widget.cubit.stateStream,
               child: RefreshIndicator(
                 onRefresh: () async {
+                  isCheckData = true;
+                  isInit = true;
                   await widget.cubit.getListReport(
                     idFolder: widget.idFolder,
                     isTree: true,
@@ -78,18 +93,26 @@ class _ReportDetailState extends State<ReportDetail> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
-                  child: StreamBuilder<List<ReportItem>>(
-                      stream: widget.cubit.listReportTree,
-                      builder: (context, snapshot) {
-                        final list = snapshot.data ?? [];
-                        return ReportList(
-                          isListView: widget.cubit.isListView.value,
-                          listReport: list,
-                          cubit: widget.cubit,
-                          isTree: true,
-                          idFolder: widget.idFolder,
-                        );
-                      }),
+                  child: StreamBuilder<List<ReportItem>?>(
+                    stream: widget.cubit.listReportTree,
+                    builder: (context, snapshot) {
+                      if (isCheckData && isInit) {
+                        listReportDetail.addAll(snapshot.data ?? []);
+                        isCheckInit = false;
+                        isCheckData = false;
+                        isInit = false;
+                      }
+                      return snapshot.data == null
+                          ? const SizedBox.shrink()
+                          : ReportList(
+                              isListView: widget.cubit.isListView.value,
+                              listReport: listReportDetail,
+                              cubit: widget.cubit,
+                              isTree: true,
+                              idFolder: widget.idFolder,
+                            );
+                    },
+                  ),
                 ),
               ),
             ),

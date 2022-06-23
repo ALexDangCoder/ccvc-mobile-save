@@ -92,6 +92,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                       onchange: (value) {
                         widget.cubit.isDuocTruyCapSink.add(value ?? false);
                         if (value ?? false) {
+                          widget.cubit.clearUsersNgoaiHeThongDuocTruyCap();
                           widget.cubit.getUsersNgoaiHeThongDuocTruyCap();
                         } else {
 

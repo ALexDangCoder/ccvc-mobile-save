@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -13,9 +16,14 @@ import 'package:flutter_svg/svg.dart';
 class ItemImageWidget extends StatelessWidget {
   final String image;
   final String title;
+  final DiemDanhCubit cubit;
 
-  const ItemImageWidget({Key? key, required this.image, required this.title})
-      : super(key: key);
+  const ItemImageWidget({
+    Key? key,
+    required this.image,
+    required this.title,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -96,34 +104,28 @@ class ItemImageWidget extends StatelessWidget {
                 ),
                 spaceW16,
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: colorE2E8F0),
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: colorFFFFFF,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.05),
-                          blurRadius: 2,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          ImageAssets.icUpAnh,
-                        ),
-                        spaceH14,
-                        Text(
-                          S.current.tai_anh_len,
-                          style: textNormal(
-                            color667793,
-                            14.0.textScale(),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: colorE2E8F0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: colorFFFFFF,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.05),
+                            blurRadius: 2,
+                            spreadRadius: 2,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      child: StreamBuilder<File>(
+                        stream: cubit.imagePickerStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data;
+                          return data == null ? emptyImage() : Container();
+                        },
+                      ),
                     ),
                   ),
                 )
@@ -134,4 +136,25 @@ class ItemImageWidget extends StatelessWidget {
       ),
     );
   }
+
+  Widget emptyImage() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          ImageAssets.icUpAnh,
+        ),
+        spaceH14,
+        Text(
+          S.current.tai_anh_len,
+          style: textNormal(
+            color667793,
+            14.0.textScale(),
+          ),
+        ),
+      ],
+    );
+  }
+
+// Widget upLoadImage() {}
 }

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:image_picker/image_picker.dart';
 
 extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   List<NhanDienKhuonMatUIModel> get listDataKhongDeoKinh => [
@@ -49,4 +52,14 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
           title: S.current.anh_chup_mat_tu_duoi_len,
         ),
       ];
+
+  /// Get from gallery
+  Future<void> getFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery, );
+
+    if (image != null) {
+        imagePickerSubject.add(File(image.path));
+    }
+  }
 }

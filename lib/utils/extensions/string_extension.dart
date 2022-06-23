@@ -98,6 +98,15 @@ extension StringParse on String {
     return parsedString;
   }
 
+  bool get isExensionOfFile {
+    final document = this;
+    final int startOfSubString = document.lastIndexOf('/');
+
+    final subString =
+        document.substring(startOfSubString + 1, document.length);
+    return subString.contains('.');
+  }
+
   String convertNameFile() {
     final document = this;
 
@@ -243,6 +252,7 @@ extension CheckValidate on String {
     }
     return null;
   }
+
   String? validatorTitle() {
     if (trim().isEmpty) {
       return S.current.ban_phai_nhap_truong_tieu_de;

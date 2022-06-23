@@ -23,6 +23,7 @@ class _TabAnhDeoKinhState extends State<TabAnhDeoKinh> {
         children: widget.cubit.listDataDeoKinh
             .map(
               (e) => ItemImageWidget(
+                cubit: widget.cubit,
                 image: e.image,
                 title: e.title,
               ),

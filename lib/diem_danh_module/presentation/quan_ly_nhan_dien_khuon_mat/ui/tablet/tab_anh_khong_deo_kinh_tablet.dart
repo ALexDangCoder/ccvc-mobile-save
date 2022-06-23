@@ -1,10 +1,13 @@
-import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/item_anh_khong_deo_kinh.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/item_image.dart';
 import 'package:flutter/material.dart';
 
 class TabAnhKhongDeoKinhTablet extends StatefulWidget {
-  const TabAnhKhongDeoKinhTablet({Key? key}) : super(key: key);
+  final DiemDanhCubit cubit;
+
+  const TabAnhKhongDeoKinhTablet({Key? key, required this.cubit})
+      : super(key: key);
 
   @override
   State<TabAnhKhongDeoKinhTablet> createState() =>
@@ -14,56 +17,22 @@ class TabAnhKhongDeoKinhTablet extends StatefulWidget {
 class _TabAnhKhongDeoKinhTabletState extends State<TabAnhKhongDeoKinhTablet> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: ItemAnhKhongDeoKinh(
-                    image: ImageAssets.imgAnhChinhDien,
-                    title: S.current.anh_mat_nhin_chinh_dien,
-                  ),
-                ),
-                Expanded(
-                  child: ItemAnhKhongDeoKinh(
-                    image: ImageAssets.imgAnhNhinSangPhai,
-                    title: S.current.anh_mat_nhin_sang_phai,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ItemAnhKhongDeoKinh(
-                    image: ImageAssets.imgAnhNhinSangTrai,
-                    title: S.current.anh_mat_nhin_sang_trai,
-                  ),
-                ),
-                Expanded(
-                  child: ItemAnhKhongDeoKinh(
-                    image: ImageAssets.imgAnhChupMatTuTrenXuong,
-                    title: S.current.anh_chup_mat_tu_tren_xuong,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ItemAnhKhongDeoKinh(
-                    image: ImageAssets.imgAnhChupMatTuDuoiLen,
-                    title: S.current.anh_chup_mat_tu_duoi_len,
-                  ),
-                ),
-                Expanded(child: SizedBox())
-              ],
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      child: GridView.count(
+        crossAxisCount: 2,
+        shrinkWrap: true,
+        crossAxisSpacing: 28,
+        mainAxisSpacing: 28,
+        childAspectRatio: 1.1,
+        children: widget.cubit.listDataKhongDeoKinh
+            .map(
+              (e) => ItemImageWidget(
+                image: e.image,
+                title: e.title,
+              ),
+            )
+            .toList(),
       ),
     );
   }

@@ -13,9 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class QuanLyNhanDienKhuonMatMobileScreen extends StatefulWidget {
-  DiemDanhCubit cubit;
+  final DiemDanhCubit cubit;
 
-  QuanLyNhanDienKhuonMatMobileScreen({Key? key, required this.cubit})
+  const QuanLyNhanDienKhuonMatMobileScreen({Key? key, required this.cubit})
       : super(key: key);
 
   @override
@@ -69,30 +69,30 @@ class _QuanLyNhanDienKhuonMatMobileScreenState
                 text: S.current.anh_khong_deo_kinh,
               ),
               Tab(
-                text: S.current.anh_deo_kinh,
-              ),
-            ],
-            controller: _tabController,
-            indicatorSize: TabBarIndicatorSize.tab,
-            labelColor: AppTheme.getInstance().colorField(),
-            unselectedLabelColor: color667793,
-            indicatorColor: AppTheme.getInstance().colorField(),
-            unselectedLabelStyle: textNormalCustom(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-            ),
-            labelStyle: textNormalCustom(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w700,
-            ),
+            text: S.current.anh_deo_kinh,
+          ),
+        ],
+        controller: _tabController,
+        indicatorSize: TabBarIndicatorSize.tab,
+        labelColor: AppTheme.getInstance().colorField(),
+        unselectedLabelColor: color667793,
+        indicatorColor: AppTheme.getInstance().colorField(),
+        unselectedLabelStyle: textNormalCustom(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+        ),
+        labelStyle: textNormalCustom(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w700,
+        ),
             physics: const AlwaysScrollableScrollPhysics(),
           ),
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children:const [
-                TabAnhKhongDeoKinh(),
-                TabAnhDeoKinh(),
+              children: [
+                TabAnhKhongDeoKinh(cubit: widget.cubit,),
+                TabAnhDeoKinh(cubit : widget.cubit),
               ],
             ),
           ),

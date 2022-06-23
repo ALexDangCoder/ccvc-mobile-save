@@ -1,10 +1,6 @@
-import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/mobile/diem_danh_ca_nhan_mobile_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_state.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/mobile/quan_ly_nhan_dien_bien_so_xe_mobile_screen.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/quan_ly_nhan_dien_khuon_mat_mobile_screen.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainDiemDanhScreen extends StatefulWidget {
   const MainDiemDanhScreen({Key? key}) : super(key: key);
@@ -15,29 +11,21 @@ class MainDiemDanhScreen extends StatefulWidget {
 
 class _MainDiemDanhScreenState extends State<MainDiemDanhScreen> {
   late final DiemDanhCubit cubit;
+
   @override
   void initState() {
     super.initState();
     cubit = DiemDanhCubit();
-    cubit.emit(DiemDanhCaNhan());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DiemDanhCubit, DiemDanhState>(
-      bloc:cubit ,
-        builder: (context, state) {
-      if (state is DiemDanhCaNhan) {
-        return DiemDanhCaNhanMobileScreen(
-          cubit: cubit,
-        );
-      } else if (state is DiemDanhKhuonMat) {
-        return QuanLyNhanDienKhuonMatMobileScreen(
-          cubit: cubit,
-        );
-      } else {
-        return QuanLyNhanDienBienSoXeMobileScreen(cubit: cubit);
-      }
-    });
+    return StreamBuilder<TypeDiemDanh>(
+      stream: cubit.typeDiemDanhStream,
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? TypeDiemDanh.CANHAN;
+        return data.getScreen(cubit);
+      },
+    );
   }
 }

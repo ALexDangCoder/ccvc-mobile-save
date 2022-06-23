@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class QuanLyNhanDienKhuonMatTabletScreen extends StatefulWidget {
-  DiemDanhCubit cubit;
+  final DiemDanhCubit cubit;
 
-  QuanLyNhanDienKhuonMatTabletScreen({Key? key, required this.cubit})
+  const QuanLyNhanDienKhuonMatTabletScreen({Key? key, required this.cubit})
       : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class QuanLyNhanDienKhuonMatTabletScreen extends StatefulWidget {
 
 class _QuanLyNhanDienKhuonMatTabletScreenState
     extends State<QuanLyNhanDienKhuonMatTabletScreen>
-    with SingleTickerProviderStateMixin , AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
 
   @override
@@ -89,13 +89,17 @@ class _QuanLyNhanDienKhuonMatTabletScreenState
             ),
             physics: const AlwaysScrollableScrollPhysics(),
           ),
-          Expanded(child: TabBarView(
-            controller: _tabController,
-            children: const[
-              TabAnhKhongDeoKinhTablet(),
-              TabAnhDeoKinhTablet()
-            ],
-          ))
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                TabAnhKhongDeoKinhTablet(cubit: widget.cubit),
+                TabAnhDeoKinhTablet(
+                  cubit: widget.cubit,
+                )
+              ],
+            ),
+          )
         ],
       ),
     );

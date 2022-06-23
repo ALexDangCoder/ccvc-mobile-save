@@ -6,6 +6,9 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/loai_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/thong_ke_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_state.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -16,9 +19,44 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
   DiemDanhRepository get diemDanhRepo => Get.find();
 
+  ///variable menu
+  BehaviorSubject<TypeDiemDanh> typeDiemDanhSubject =
+      BehaviorSubject.seeded(TypeDiemDanh.CANHAN);
+
+  Stream<TypeDiemDanh> get typeDiemDanhStream => typeDiemDanhSubject.stream;
+
+  /// -------------------------------------
+
+  ///nhan dien khuon mat
+  // List<NhanDienKhuonMatUIModel> listDataDeoKinh = [
+  //   NhanDienKhuonMatUIModel(
+  //     image: ImageAssets.imgAnhChinhDienDeoKinh,
+  //     title: S.current.anh_mat_nhin_chinh_dien,
+  //   ),
+  //   NhanDienKhuonMatUIModel(
+  //     image: ImageAssets.imgAnhNhinSangPhaiDeoKinh,
+  //     title: S.current.anh_mat_nhin_sang_phai,
+  //   ),
+  //   NhanDienKhuonMatUIModel(
+  //     image: ImageAssets.imgAnhNhinSangTraiDeoKinh,
+  //     title: S.current.anh_mat_nhin_sang_trai,
+  //   ),
+  //   NhanDienKhuonMatUIModel(
+  //     image: ImageAssets.imgAnhChupMatTuTrenXuongDeoKinh,
+  //     title: S.current.anh_chup_mat_tu_tren_xuong,
+  //   ),
+  //   NhanDienKhuonMatUIModel(
+  //     image: ImageAssets.imgAnhChupMatTuDuoiLenDeoKinh,
+  //     title: S.current.anh_chup_mat_tu_duoi_len,
+  //   ),
+  // ];
+  ///----------------------
+
+  ///Fake data
   String xeMay = 'Xe máy';
   String bienKiemSoat = '29x5 38534';
   String loaiSoHuu = 'Xe cán bộ';
+  ///--------------------
 
   BehaviorSubject<List<LoaiXeModel>> loaiXeSubject = BehaviorSubject.seeded(
     [
@@ -26,10 +64,9 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
       LoaiXeModel(ten: S.current.xe_o_to),
     ],
   );
+
   BehaviorSubject<bool> nhanDienbienSoxe = BehaviorSubject.seeded(false);
 
-  BehaviorSubject<List<bool>> selectTypeDiemDanhSubject =
-      BehaviorSubject.seeded([true, false, false]);
   BehaviorSubject<ThongKeDiemDanhCaNhanModel> thongKeSubject =
       BehaviorSubject();
   BehaviorSubject<List<BangDiemDanhCaNhanModel>> listBangDiemDanh =
@@ -50,7 +87,8 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
     });
   }
 
-  Future<void> postBangDiemDanhCaNhan() async {
+  Future<void> postBangDiemDanhCaNhan()
+  async {
     final bangDiemDanhCaNhanRequest = BangDiemDanhCaNhanRequest(
         thoiGian: '2022-06-01T00:00:00.00Z',
         userId: '93114dcb-dfe1-487b-8e15-9c378c168994');

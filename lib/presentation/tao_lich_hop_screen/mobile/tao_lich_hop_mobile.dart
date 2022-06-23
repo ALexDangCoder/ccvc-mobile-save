@@ -219,7 +219,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         spaceH24,
                         TextFieldStyle(
                           urlIcon: ImageAssets.icDocument,
-                          hintText: S.current.noi_dung,
+                          hintText: S.current.noidung,
                           maxLines: 4,
                           onChange: (value) {
                             _cubit.taoLichHopRequest.noiDung = value;

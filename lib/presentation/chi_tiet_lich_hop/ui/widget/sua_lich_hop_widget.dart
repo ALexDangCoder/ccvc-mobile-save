@@ -253,7 +253,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                       TextFieldStyle(
                         initValue: widget.chiTietHop.noiDung,
                         urlIcon: ImageAssets.icDocument,
-                        hintText: S.current.noi_dung,
+                        hintText: S.current.noidung,
                         maxLines: 4,
                         onChange: (value) {
                           _cubitTaoLichHop.taoLichHopRequest.noiDung = value;

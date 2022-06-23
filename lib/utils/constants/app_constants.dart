@@ -131,7 +131,7 @@ const _dtFormat9 = 'dd/MM/yyyy HH:mm';
 const _dtFormat10 = 'dd/MM/yyyy';
 const _dtFormat11 = 'dd-MM-yyyy';
 const _dtFormat12 = 'yyyy-MM-ddTHH:mm:ss';
-const _dtFormat13 = 'yyyy/MM/dd HH:mm';
+const _dtFormat13 = 'dd/MM/yyyy HH:mm';
 const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
 const HOUR_MINUTE_FORMAT = 'Hm';
 

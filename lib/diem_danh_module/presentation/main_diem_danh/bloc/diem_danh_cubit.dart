@@ -21,36 +21,12 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
   ///variable menu
   BehaviorSubject<TypeDiemDanh> typeDiemDanhSubject =
-      BehaviorSubject.seeded(TypeDiemDanh.CANHAN);
+      BehaviorSubject.seeded(TypeDiemDanh.CA_NHAN);
 
   Stream<TypeDiemDanh> get typeDiemDanhStream => typeDiemDanhSubject.stream;
 
   /// -------------------------------------
 
-  ///nhan dien khuon mat
-  // List<NhanDienKhuonMatUIModel> listDataDeoKinh = [
-  //   NhanDienKhuonMatUIModel(
-  //     image: ImageAssets.imgAnhChinhDienDeoKinh,
-  //     title: S.current.anh_mat_nhin_chinh_dien,
-  //   ),
-  //   NhanDienKhuonMatUIModel(
-  //     image: ImageAssets.imgAnhNhinSangPhaiDeoKinh,
-  //     title: S.current.anh_mat_nhin_sang_phai,
-  //   ),
-  //   NhanDienKhuonMatUIModel(
-  //     image: ImageAssets.imgAnhNhinSangTraiDeoKinh,
-  //     title: S.current.anh_mat_nhin_sang_trai,
-  //   ),
-  //   NhanDienKhuonMatUIModel(
-  //     image: ImageAssets.imgAnhChupMatTuTrenXuongDeoKinh,
-  //     title: S.current.anh_chup_mat_tu_tren_xuong,
-  //   ),
-  //   NhanDienKhuonMatUIModel(
-  //     image: ImageAssets.imgAnhChupMatTuDuoiLenDeoKinh,
-  //     title: S.current.anh_chup_mat_tu_duoi_len,
-  //   ),
-  // ];
-  ///----------------------
 
   ///Fake data
   String xeMay = 'Xe máy';
@@ -98,6 +74,6 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
       listBangDiemDanh.sink.add(res.items ?? []);
     }, error: (err) {
       showContent();
-    });
+    },);
   }
 }

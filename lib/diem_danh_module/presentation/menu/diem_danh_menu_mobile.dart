@@ -1,9 +1,7 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_state.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/widget/widget_item_menu_diem_danh_mobile.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +18,9 @@ class DiemDanhMenuMobile extends StatefulWidget {
 
 class _DiemDanhMenuMobileState extends State<DiemDanhMenuMobile> {
   List<TypeDiemDanh> itemMenu = [
-    TypeDiemDanh.CANHAN,
-    TypeDiemDanh.KHUONMAT,
-    TypeDiemDanh.BIENSOXE,
+    TypeDiemDanh.CA_NHAN,
+    TypeDiemDanh.KHUON_MAT,
+    TypeDiemDanh.BIEN_SO_XE,
   ];
 
   @override
@@ -43,7 +41,7 @@ class _DiemDanhMenuMobileState extends State<DiemDanhMenuMobile> {
             child: StreamBuilder<TypeDiemDanh>(
               stream: widget.cubit.typeDiemDanhStream,
               builder: (context, snapshot) {
-                final data = snapshot.data ?? TypeDiemDanh.CANHAN;
+                final data = snapshot.data ?? TypeDiemDanh.CA_NHAN;
                 return Column(
                   children: itemMenu
                       .map(

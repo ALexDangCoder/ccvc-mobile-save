@@ -2,7 +2,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_tabllet.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_tablet.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/tablet/tab_anh_deo_kinh_tablet.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/tablet/tab_anh_khong_deo_kinh_tablet.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';

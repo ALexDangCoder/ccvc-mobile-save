@@ -14,8 +14,7 @@ class ItemImageWidget extends StatelessWidget {
   final String image;
   final String title;
 
-  const ItemImageWidget(
-      {Key? key, required this.image, required this.title})
+  const ItemImageWidget({Key? key, required this.image, required this.title})
       : super(key: key);
 
   @override
@@ -28,17 +27,19 @@ class ItemImageWidget extends StatelessWidget {
           Text(
             S.current.goc_anh,
             style: textNormalCustom(
-                fontSize: 16.0.textScale(),
-                fontWeight: FontWeight.w500,
-                color: color3D5586,),
+              fontSize: 16.0.textScale(),
+              fontWeight: FontWeight.w500,
+              color: color3D5586,
+            ),
           ),
           spaceH14,
           Text(
             title,
             style: textNormalCustom(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w400,
-                color: color667793,),
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              color: color667793,
+            ),
           ),
           spaceH16,
           SizedBox(
@@ -85,7 +86,7 @@ class ItemImageWidget extends StatelessWidget {
                             ),
                             child: Text(
                               S.current.anh_mau,
-                              style: const TextStyle(color: colorFFFFFF),
+                              style: textNormalCustom(color: colorFFFFFF),
                             ),
                           ),
                         ),

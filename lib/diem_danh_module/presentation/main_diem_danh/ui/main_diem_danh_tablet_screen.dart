@@ -24,7 +24,7 @@ class _MainDiemDanhTabletScreenState extends State<MainDiemDanhTabletScreen> {
     return StreamBuilder<TypeDiemDanh>(
       stream: cubit.typeDiemDanhStream,
       builder: (context, snapshot) {
-        final data = snapshot.data ?? TypeDiemDanh.CANHAN;
+        final data = snapshot.data ?? TypeDiemDanh.CA_NHAN;
         return data.getScreenTablet(cubit);
       },
     );

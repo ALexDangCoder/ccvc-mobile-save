@@ -11,20 +11,20 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 
-enum TypeDiemDanh { CANHAN, KHUONMAT, BIENSOXE }
+enum TypeDiemDanh { CA_NHAN, KHUON_MAT, BIEN_SO_XE }
 
 extension DiemDanhEx on TypeDiemDanh {
   Widget getScreen(DiemDanhCubit cubit) {
     switch (this) {
-      case TypeDiemDanh.CANHAN:
+      case TypeDiemDanh.CA_NHAN:
         return DiemDanhCaNhanMobileScreen(
           cubit: cubit,
         );
-      case TypeDiemDanh.KHUONMAT:
+      case TypeDiemDanh.KHUON_MAT:
         return QuanLyNhanDienKhuonMatMobileScreen(
           cubit: cubit,
         );
-      case TypeDiemDanh.BIENSOXE:
+      case TypeDiemDanh.BIEN_SO_XE:
         return QuanLyNhanDienBienSoXeMobileScreen(
           cubit: cubit,
         );
@@ -33,15 +33,15 @@ extension DiemDanhEx on TypeDiemDanh {
 
   Widget getScreenTablet(DiemDanhCubit cubit) {
     switch (this) {
-      case TypeDiemDanh.CANHAN:
+      case TypeDiemDanh.CA_NHAN:
         return DiemDanhCaNhanTabletScreen(
           cubit: cubit,
         );
-      case TypeDiemDanh.KHUONMAT:
+      case TypeDiemDanh.KHUON_MAT:
         return QuanLyNhanDienKhuonMatTabletScreen(
           cubit: cubit,
         );
-      case TypeDiemDanh.BIENSOXE:
+      case TypeDiemDanh.BIEN_SO_XE:
         return QuanLyNhanDienBienSoXeTabletScreen(
           cubit: cubit,
         );
@@ -59,22 +59,22 @@ extension DiemDanhEx on TypeDiemDanh {
 extension DiemDanhMenuEx on TypeDiemDanh {
   String get getIconMenu {
     switch (this) {
-      case TypeDiemDanh.CANHAN:
+      case TypeDiemDanh.CA_NHAN:
         return ImageAssets.icDiemDanhCaNhan;
-      case TypeDiemDanh.KHUONMAT:
+      case TypeDiemDanh.KHUON_MAT:
         return ImageAssets.icDiemDanhKhuonMat;
-      case TypeDiemDanh.BIENSOXE:
+      case TypeDiemDanh.BIEN_SO_XE:
         return ImageAssets.icDiemDanhBienSoXe;
     }
   }
 
   String get getTitleMenu {
     switch (this) {
-      case TypeDiemDanh.CANHAN:
+      case TypeDiemDanh.CA_NHAN:
         return S.current.diem_danh_ca_nhan;
-      case TypeDiemDanh.KHUONMAT:
+      case TypeDiemDanh.KHUON_MAT:
         return S.current.quan_ly_nhan_dien_khuon_mat;
-      case TypeDiemDanh.BIENSOXE:
+      case TypeDiemDanh.BIEN_SO_XE:
         return S.current.quan_ly_nhan_dien_bien_so_xe;
     }
   }
@@ -85,7 +85,7 @@ extension DiemDanhMenuEx on TypeDiemDanh {
     required Function onTap,
   }) {
     switch (this) {
-      case TypeDiemDanh.CANHAN:
+      case TypeDiemDanh.CA_NHAN:
         return ItemMenuDiemDanhWidgetMobile(
           onTap: () {
             onTap();
@@ -93,7 +93,7 @@ extension DiemDanhMenuEx on TypeDiemDanh {
           type: this,
           isSelect: type.isState(selectType),
         );
-      case TypeDiemDanh.KHUONMAT:
+      case TypeDiemDanh.KHUON_MAT:
         return ItemMenuDiemDanhWidgetMobile(
           onTap: () {
             onTap();
@@ -101,7 +101,7 @@ extension DiemDanhMenuEx on TypeDiemDanh {
           type: this,
           isSelect: type.isState(selectType),
         );
-      case TypeDiemDanh.BIENSOXE:
+      case TypeDiemDanh.BIEN_SO_XE:
         return ItemMenuDiemDanhWidgetMobile(
           onTap: () {
             onTap();
@@ -118,7 +118,7 @@ extension DiemDanhMenuEx on TypeDiemDanh {
     required Function onTap,
   }) {
     switch (this) {
-      case TypeDiemDanh.CANHAN:
+      case TypeDiemDanh.CA_NHAN:
         return ItemMenuDiemDanhWidgetTablet(
           onTap: () {
             onTap();
@@ -126,7 +126,7 @@ extension DiemDanhMenuEx on TypeDiemDanh {
           type: this,
           isSelect: type.isState(selectType),
         );
-      case TypeDiemDanh.KHUONMAT:
+      case TypeDiemDanh.KHUON_MAT:
         return ItemMenuDiemDanhWidgetTablet(
           onTap: () {
             onTap();
@@ -134,7 +134,7 @@ extension DiemDanhMenuEx on TypeDiemDanh {
           type: this,
           isSelect: type.isState(selectType),
         );
-      case TypeDiemDanh.BIENSOXE:
+      case TypeDiemDanh.BIEN_SO_XE:
         return ItemMenuDiemDanhWidgetTablet(
           onTap: () {
             onTap();

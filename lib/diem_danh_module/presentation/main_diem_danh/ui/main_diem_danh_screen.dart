@@ -23,7 +23,7 @@ class _MainDiemDanhScreenState extends State<MainDiemDanhScreen> {
     return StreamBuilder<TypeDiemDanh>(
       stream: cubit.typeDiemDanhStream,
       builder: (context, snapshot) {
-        final data = snapshot.data ?? TypeDiemDanh.CANHAN;
+        final data = snapshot.data ?? TypeDiemDanh.CA_NHAN;
         return data.getScreen(cubit);
       },
     );

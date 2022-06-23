@@ -48,6 +48,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                 border: Border(bottom: BorderSide(color: borderButtomColor)),
               ),
               child: ShowRequied(
+                textShow: S.current.ban_phai_nhap_truong_ten_nhom,
                 isShow: isShow,
                 child: TextFormField(
                   controller: controller,

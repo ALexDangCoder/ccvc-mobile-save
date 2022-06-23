@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TextFieldStyle extends StatelessWidget {
+class TextFieldStyle extends StatefulWidget {
   final String? hintText;
   final String urlIcon;
   final int maxLines;
@@ -27,31 +27,40 @@ class TextFieldStyle extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<TextFieldStyle> createState() => _TextFieldStyleState();
+}
+
+class _TextFieldStyleState extends State<TextFieldStyle> {
+  final key = GlobalKey<FormFieldState<String>>();
+
+  @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment:
-          maxLines == 1 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      crossAxisAlignment: widget.maxLines == 1
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       children: [
         Container(
           width: 16.0.textScale(space: 4),
           height: 16.0.textScale(space: 4),
           color: Colors.transparent,
-          child: SvgPicture.asset(urlIcon),
+          child: SvgPicture.asset(widget.urlIcon),
         ),
         const SizedBox(
           width: 14,
         ),
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: maxLines == 1 ? 9 : 0),
+            padding:
+                EdgeInsets.symmetric(vertical: widget.maxLines == 1 ? 9 : 0),
             decoration: const BoxDecoration(
               border: Border(
                 bottom: BorderSide(color: colorECEEF7),
               ),
             ),
             child: textField(
-                validate: validate,
-                initValue: initValue,
+              validate: widget.validate,
+              initValue: widget.initValue,
             ),
           ),
         ),
@@ -61,19 +70,21 @@ class TextFieldStyle extends StatelessWidget {
 
   Widget textField({Function(String)? validate, String? initValue}) {
     return TextFormField(
+      key: key,
       validator: (value) {
         return validate?.call((value ?? '').trim());
       },
-      controller: controller,
+      controller: widget.controller,
       onChanged: (value) {
-        onChange?.call(value.trim());
+        widget.onChange?.call(value.trim());
+        key.currentState?.validate();
       },
       initialValue: initValue,
-      maxLength: maxLength,
-      maxLines: maxLines,
+      maxLength: widget.maxLength,
+      maxLines: widget.maxLines,
       style: textNormal(color3D5586, 16),
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: widget.hintText,
         hintStyle: textNormal(textBodyTime, 16),
         border: InputBorder.none,
         counterText: '',

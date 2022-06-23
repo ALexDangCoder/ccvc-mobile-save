@@ -179,12 +179,12 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         urlIcon: ImageAssets.icNhacLai,
                         title: S.current.nhac_lai,
                         value: widget.chiTietHop.nhacLai(),
-                        listSelect: danhSachThoiGianNhacLich
+                        listSelect: danhSachSuaThoiGianNhacLich
                             .map((e) => e.label)
                             .toList(),
                         onChange: (index) {
                           _cubitTaoLichHop.taoLichHopRequest.typeReminder =
-                              danhSachThoiGianNhacLich[index].id;
+                              danhSachSuaThoiGianNhacLich[index].id;
                           if (index == 0) {
                             _cubitTaoLichHop.taoLichHopRequest.isNhacLich =
                                 false;
@@ -221,6 +221,10 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         onDayPicked: (listId) {
                           _cubitTaoLichHop.taoLichHopRequest.days =
                               listId.join(',');
+                          if(listId.isEmpty) {
+                            _cubitTaoLichHop.taoLichHopRequest
+                                .typeRepeat = danhSachLichLap.first.id;
+                          }
                         },
                         onDateChange: (value) {
                           _cubitTaoLichHop.taoLichHopRequest.dateRepeat =

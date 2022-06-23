@@ -155,10 +155,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                               );
                             }
                             widget.onDateTimeChanged(
-                              _cubit.timeBeginSubject.valueOrNull ?? '',
-                              _cubit.timeEndSubject.valueOrNull ?? '',
-                              _cubit.dateBeginSubject.valueOrNull ?? '',
-                              _cubit.dateEndSubject.valueOrNull ?? '',
+                              timeFrom,
+                              timeTo,
+                              dateFrom,
+                              dateTo,
                             );
                           },
                         );
@@ -276,13 +276,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           backgroundColor: backgroundColorApp,
                           mode: _cubit.getTypePicker(typePicker),
                           use24hFormat: true,
-                          initialDateTime: widget.isEdit
-                              ? '${_cubit.dateBeginSubject.value} '
-                                      '${_cubit.timeBeginSubject.value}'
-                                  .convertStringToDate(
-                                  formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                                )
-                              : null,
+                          initialDateTime: initDataFrom.convertStringToDate(
+                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                          ),
                           onDateTimeChanged: (value) {
                             debouncer.run(
                               () {
@@ -292,17 +288,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                 );
                                 _cubit.checkTime();
                                 widget.onDateTimeChanged(
-                                  _cubit.timeBeginSubject.valueOrNull ??
-                                      '00:00',
-                                  _cubit.timeEndSubject.valueOrNull ?? '00:00',
-                                  _cubit.dateBeginSubject.valueOrNull ??
-                                      DateTime.now().dateTimeFormatter(
-                                        pattern: DateFormatApp.date,
-                                      ),
-                                  _cubit.dateEndSubject.valueOrNull ??
-                                      DateTime.now().dateTimeFormatter(
-                                        pattern: DateFormatApp.date,
-                                      ),
+                                  timeFrom,
+                                  timeTo,
+                                  dateFrom,
+                                  dateTo,
                                 );
                               },
                             );
@@ -321,16 +310,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             _cubit.dateBeginSubject.sink.add(convertDate);
                             _cubit.checkTime();
                             widget.onDateTimeChanged(
-                              _cubit.timeBeginSubject.valueOrNull ?? '00:00',
-                              _cubit.timeEndSubject.valueOrNull ?? '00:00',
-                              _cubit.dateBeginSubject.valueOrNull ??
-                                  DateTime.now().dateTimeFormatter(
-                                    pattern: DateFormatApp.date,
-                                  ),
-                              _cubit.dateEndSubject.valueOrNull ??
-                                  DateTime.now().dateTimeFormatter(
-                                    pattern: DateFormatApp.date,
-                                  ),
+                              timeFrom,
+                              timeTo,
+                              dateFrom,
+                              dateTo,
                             );
                           },
                           initialDate: widget.initDateStart ?? DateTime.now(),
@@ -449,13 +432,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             backgroundColor: backgroundColorApp,
                             mode: _cubit.getTypePicker(typePicker),
                             use24hFormat: true,
-                            initialDateTime: widget.isEdit
-                                ? '${_cubit.dateEndSubject.value} '
-                                        '${_cubit.timeEndSubject.value}'
-                                    .convertStringToDate(
-                                    formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                                  )
-                                : null,
+                            initialDateTime: initDataTo.convertStringToDate(
+                              formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                            ),
                             onDateTimeChanged: (value) {
                               debouncer.run(
                                 () {
@@ -465,16 +444,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                   );
                                   _cubit.checkTime();
                                   widget.onDateTimeChanged(
-                                    _cubit.timeBeginSubject.valueOrNull ??
-                                        '00:00',
-                                    _cubit.timeEndSubject.valueOrNull ??
-                                        '00:00',
-                                    _cubit.dateBeginSubject.valueOrNull ??
-                                        DateTime.now().dateTimeFormatter(
-                                            pattern: DateFormatApp.date),
-                                    _cubit.dateEndSubject.valueOrNull ??
-                                        DateTime.now().dateTimeFormatter(
-                                            pattern: DateFormatApp.date),
+                                    timeFrom,
+                                    timeTo,
+                                    dateFrom,
+                                    dateTo,
                                   );
                                 },
                               );
@@ -493,14 +466,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                               _cubit.dateEndSubject.sink.add(convertDate);
                               _cubit.checkTime();
                               widget.onDateTimeChanged(
-                                _cubit.timeBeginSubject.valueOrNull ?? '00:00',
-                                _cubit.timeEndSubject.valueOrNull ?? '00:00',
-                                _cubit.dateBeginSubject.valueOrNull ??
-                                    DateTime.now().dateTimeFormatter(
-                                        pattern: DateFormatApp.date),
-                                _cubit.dateEndSubject.valueOrNull ??
-                                    DateTime.now().dateTimeFormatter(
-                                        pattern: DateFormatApp.date),
+                                timeFrom,
+                                timeTo,
+                                dateFrom,
+                                dateTo,
                               );
                             },
                             initialDate: widget.initDateEnd ?? DateTime.now(),
@@ -535,6 +504,23 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       ],
     );
   }
+
+  String get now =>
+      DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+
+  String get dateFrom => _cubit.dateBeginSubject.valueOrNull ?? now;
+
+  String get dateTo => _cubit.dateEndSubject.valueOrNull ?? now;
+
+  String get timeTo => _cubit.timeEndSubject.valueOrNull ?? '00:00';
+
+  String get timeFrom => _cubit.timeBeginSubject.valueOrNull ?? '00:00';
+
+  String get initDataFrom =>
+      '${dateFrom != 'DD/MM/YYYY' ? dateFrom : now} ${timeFrom != 'hh:mm' ? timeFrom : '00:00'}';
+
+  String get initDataTo =>
+      '${dateTo != 'DD/MM/YYYY' ? dateTo : now} ${timeTo != 'hh:mm' ? timeTo : '00:00'}';
 }
 
 String timeFormat(String time, String oldPattern, String newPattern) {

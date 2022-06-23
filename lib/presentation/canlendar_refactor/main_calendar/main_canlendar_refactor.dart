@@ -2,6 +2,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
@@ -35,7 +37,6 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
     _handleEventBus();
     super.initState();
   }
-
 
   void _handleEventBus() {
     eventBus.on<RefreshCalendar>().listen((event) {
@@ -88,11 +89,18 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
             children: [
               ChooseTimeCalendarWidget(
                 onChange: (startDate, endDate, type, keySearch) {
-                  if (cubit.state is CalendarViewState) {
-                    cubit.emitCalendar(type: type);
-                  } else {
-                    cubit.emitList(type: type);
+                  if (type != cubit.state.typeView) {
+                    if (cubit.state is CalendarViewState) {
+                      cubit.emitCalendar(type: type);
+                    } else {
+                      cubit.emitList(type: type);
+                    }
                   }
+                  cubit.callApiByNewFilter(
+                    startDate: startDate,
+                    endDate: endDate,
+                    keySearch: keySearch,
+                  );
                 },
                 controller: cubit.controller,
               ),
@@ -119,7 +127,107 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
   void showMenu() {
     DrawerSlide.navigatorSlide(
       context: context,
-      screen: MenuWidget(cubit: cubit),
+      screen: StreamBuilder<List<MenuModel>>(
+        stream: cubit.menuDataStream,
+        builder: (_, snap) {
+          final leaderMenuData = snap.data ?? [];
+          return StreamBuilder<DashBoardLichHopModel>(
+            stream: cubit.totalWorkStream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? DashBoardLichHopModel.empty();
+              return MenuWidget(
+                dataMenu: [
+                  ParentMenu(
+                    count: data.countScheduleCaNhan ?? 0,
+                    iconAsset: ImageAssets.icPerson,
+                    title: S.current.lich_cua_toi,
+                    value: StatusDataItem(StatusWorkCalendar.LICH_CUA_TOI),
+                  ),
+                  ParentMenu(
+                    childData: [
+                      ChildMenu(
+                        value: StatusDataItem(
+                          StatusWorkCalendar.LICH_DUOC_MOI,
+                        ),
+                        title: S.current.lich_duoc_moi,
+                        count: data.tongLichDuocMoi ?? 0,
+                      ),
+                      ChildMenu(
+                        value: StatusDataItem(
+                          StatusWorkCalendar.LICH_TAO_HO,
+                        ),
+                        title: S.current.lich_tao_ho,
+                        count: data.soLichTaoHo ?? 0,
+                      ),
+                      ChildMenu(
+                        value: StatusDataItem(
+                          StatusWorkCalendar.LICH_HUY,
+                        ),
+                        title: S.current.lich_huy,
+                        count: data.soLichHuyBo ?? 0,
+                      ),
+                      ChildMenu(
+                        value: StatusDataItem(
+                          StatusWorkCalendar.LICH_THU_HOI,
+                        ),
+                        title: S.current.lich_thu_hoi,
+                        count: data.soLichThuHoi ?? 0,
+                      ),
+                      ChildMenu(
+                        value: StatusDataItem(
+                          StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+                        ),
+                        title: S.current.lich_da_co_bao_cao,
+                        count: data.soLichCoBaoCaoDaDuyet ?? 0,
+                      ),
+                      ChildMenu(
+                        value: StatusDataItem(
+                          StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
+                        ),
+                        title: S.current.lich_chua_co_bao_cao,
+                        count: data.soLichChuaCoBaoCao ?? 0,
+                      ),
+                    ],
+                    count: 0,
+                    iconAsset: ImageAssets.icLichTheoTrangThai,
+                    title: S.current.lich_theo_trang_thai,
+                  ),
+                  ParentMenu(
+                    childData: leaderMenuData
+                        .map(
+                          (e) => ChildMenu(
+                            value: LeaderDataItem(e.id ?? '', e.tenDonVi ?? ''),
+                            title: e.tenDonVi ?? '',
+                            count: e.count ?? 0,
+                          ),
+                        )
+                        .toList(),
+                    count: 0,
+                    iconAsset: ImageAssets.icLichLanhDao,
+                    title: S.current.lich_theo_lanh_dao,
+                  ),
+                ],
+                onChoose: (value, state) {
+                  cubit.menuClick(value, state);
+                },
+                stateMenu: [
+                  StateMenu(
+                    icon: ImageAssets.icTheoDangLich,
+                    title: S.current.theo_dang_lich,
+                    state: ListViewState(typeView: cubit.state.typeView),
+                  ),
+                  StateMenu(
+                    icon: ImageAssets.icTheoDangDanhSachGrey,
+                    title: S.current.theo_dang_danh_sach,
+                    state: CalendarViewState(typeView: cubit.state.typeView),
+                  ),
+                ],
+                state: cubit.state,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

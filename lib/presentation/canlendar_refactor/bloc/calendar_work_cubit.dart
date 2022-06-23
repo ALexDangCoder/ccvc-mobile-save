@@ -1,16 +1,20 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -33,7 +37,6 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   StateType stateType = StateType.CHO_XAC_NHAN;
 
   StatusWorkCalendar? statusType = StatusWorkCalendar.LICH_CUA_TOI;
-  bool apiCalling = false;
 
   late final CalendarController fCalendarControllerDay;
 
@@ -44,7 +47,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   final controller = ChooseTimeController();
 
   final PagingController<int, ListLichLVModel> worksPagingController =
-  PagingController(firstPageKey: 0);
+      PagingController(firstPageKey: 0);
 
   //data subject
 
@@ -54,10 +57,21 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   Stream<DataLichLvModel> get listCalendarWorkStream =>
       _listCalendarWorkSubject.stream;
 
+  final BehaviorSubject<List<LichLamViecDashBroadItem>> _dashBroadSubject =
+      BehaviorSubject();
+
+  Stream<List<LichLamViecDashBroadItem>> get dashBroadStream =>
+      _dashBroadSubject.stream;
+
   final BehaviorSubject<DashBoardLichHopModel> _totalWorkSubject =
       BehaviorSubject();
 
   Stream<DashBoardLichHopModel> get totalWorkStream => _totalWorkSubject.stream;
+
+  final BehaviorSubject<List<MenuModel>> _menuDataSubject =
+      BehaviorSubject();
+
+  Stream<List<MenuModel>> get menuDataStream => _menuDataSubject.stream;
 
   //viewSubject
 
@@ -92,7 +106,6 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   }
 
   Future<void> refreshApi() async {
-    apiCalling = true;
     showLoading();
     final Queue queue = Queue();
     unawaited(queue.add(() => getMenuData()));
@@ -100,15 +113,12 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     unawaited(queue.add(() => getDashboardSchedule()));
     if (state is CalendarViewState) {
       unawaited(queue.add(() => getFullListWork()));
-    }else{
+    } else {
       worksPagingController.refresh();
     }
     await queue.onComplete;
     showContent();
-    apiCalling = false;
   }
-
-
 
   Future<void> callApiByMenu({
     String? idDonViLanhDao,
@@ -126,15 +136,33 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     required DateTime endDate,
     required String keySearch,
   }) async {
-    if (apiCalling) {
-      apiCalling = true;
-      this.startDate = startDate;
-      this.endDate = endDate;
-      this.keySearch = keySearch;
-      fCalendarControllerDay.selectedDate = this.startDate;
-      fCalendarControllerWeek.selectedDate = this.startDate;
-      fCalendarControllerMonth.selectedDate = this.startDate;
-      await refreshApi();
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.keySearch = keySearch;
+    fCalendarControllerDay.selectedDate = this.startDate;
+    fCalendarControllerWeek.selectedDate = this.startDate;
+    fCalendarControllerMonth.selectedDate = this.startDate;
+    await refreshApi();
+  }
+
+  void menuClick(DataItemMenu? value, BaseState) {
+    if (BaseState is ListViewState) {
+      emitList();
+      if (statusType == StatusWorkCalendar.LICH_DUOC_MOI) {
+        stateType = StateType.CHO_XAC_NHAN;
+        worksPagingController.refresh();
+      }
+    } else {
+      emitCalendar();
+    }
+    if (value != null) {
+      if (value is StatusDataItem) {
+        callApiByMenu(status: value.value);
+      }
+      if (value is LeaderDataItem) {
+        callApiByMenu(idDonViLanhDao: value.id);
+        _titleSubject.sink.add(value.title);
+      }
     }
   }
 
@@ -152,7 +180,9 @@ extension GetData on CalendarWorkCubit {
       endDate.formatApi,
     );
     result.when(
-      success: (value) {},
+      success: (value) {
+        _menuDataSubject.sink.add(value);
+      },
       error: (error) {},
     );
   }
@@ -163,7 +193,9 @@ extension GetData on CalendarWorkCubit {
       endDate.formatApi,
     );
     result.when(
-      success: (res) {},
+      success: (res) {
+        _totalWorkSubject.sink.add(res);
+      },
       error: (err) {},
     );
   }
@@ -176,7 +208,9 @@ extension GetData on CalendarWorkCubit {
     );
     final result = await calendarWorkRepo.getLichLvRight(request);
     result.when(
-      success: (res) {},
+      success: (res) {
+        _dashBroadSubject.sink.add(res);
+      },
       error: (err) {},
     );
   }

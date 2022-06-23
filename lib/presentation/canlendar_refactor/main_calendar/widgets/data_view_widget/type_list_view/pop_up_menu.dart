@@ -53,7 +53,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
         width: 140,
         key: _key,
         color: Colors.transparent,
-        child: getMenuView(currentItem),
+        child: getMenuView(currentItem, null),
       ),
     );
   }
@@ -66,6 +66,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
       builder: (BuildContext overlayContext) {
         return DialogSelectWidget(
           offset: position,
+          currentItem: currentItem,
           onDismiss: (item) {
             overlayEntry.remove();
             setState(() {
@@ -74,7 +75,6 @@ class _PopUpMenuState extends State<PopUpMenu> {
             if (item != null){
               widget.onChange.call(item.type);
             }
-
           },
           data: widget.data,
         );
@@ -88,12 +88,14 @@ class DialogSelectWidget extends StatefulWidget {
   final Offset offset;
   final Function(ItemMenuData?) onDismiss;
   final List<ItemMenuData> data;
+  final ItemMenuData currentItem;
 
   const DialogSelectWidget({
     Key? key,
     required this.offset,
     required this.onDismiss,
     required this.data,
+    required this.currentItem,
   }) : super(key: key);
 
   @override
@@ -127,13 +129,13 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
             },
             child: SizedBox.expand(
               child: Container(
-                color: Colors.transparent,
+                color: Colors.transparent ,
               ),
             ),
           ),
           Positioned(
-            right: MediaQuery.of(context).size.width - widget.offset.dx,
-            top: widget.offset.dy + 50,
+            right: 16,
+            top: widget.offset.dy  ,
             child: AnimatedBuilder(
               animation: _animationController,
               builder: (context, _) => Opacity(
@@ -146,7 +148,6 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                     ),
                   alignment: Alignment.topRight,
                   child: Container(
-                    width: 210,
                     decoration: BoxDecoration(
                       color: backgroundColorApp,
                       borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -159,11 +160,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                         )
                       ],
                     ),
-                    padding: const EdgeInsets.only(
-                      right: 20,
-                      left: 20,
-                      top: 20,
-                    ),
+                    padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                     child: Column(
                       children: widget.data
                           .map(
@@ -171,7 +168,10 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                               onTap: () {
                                 widget.onDismiss.call(e);
                               },
-                              child: getMenuView(e),
+                              child: SizedBox(
+                                width: 140,
+                                  child: getMenuView(e, widget.currentItem)
+                              ),
                             ),
                           )
                           .toList(),
@@ -214,10 +214,11 @@ extension GetViewByTypeMenu on StateType {
   }
 }
 
-Widget getMenuView(ItemMenuData dataItem) {
+Widget getMenuView(ItemMenuData dataItem ,ItemMenuData? itemSelect) {
   switch (dataItem.type) {
     case StateType.CHO_XAC_NHAN:
       return ItemMenuView(
+        isSelect: itemSelect?.type == dataItem.type,
         title: S.current.cho_xac_nhan,
         color: color02C5DD,
         value: dataItem.value,
@@ -225,6 +226,7 @@ Widget getMenuView(ItemMenuData dataItem) {
 
     case StateType.THAM_GIA:
       return ItemMenuView(
+        isSelect: itemSelect?.type == dataItem.type,
         title: S.current.tham_gia,
         color: itemWidgetUsing,
         value: dataItem.value,
@@ -232,6 +234,7 @@ Widget getMenuView(ItemMenuData dataItem) {
 
     case StateType.TU_CHOI:
       return ItemMenuView(
+        isSelect: itemSelect?.type == dataItem.type,
         title: S.current.tu_choi,
         color: statusCalenderRed,
         value: dataItem.value,
@@ -245,11 +248,13 @@ class ItemMenuView extends StatelessWidget {
     required this.title,
     required this.value,
     required this.color,
+     this.isSelect = false,
   }) : super(key: key);
 
   final String title;
   final Color color;
   final int value;
+  final bool isSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -262,6 +267,7 @@ class ItemMenuView extends StatelessWidget {
         bottom: 16,
       ),
       decoration: BoxDecoration(
+        color: isSelect ? color: null,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
           color: color,
@@ -273,7 +279,7 @@ class ItemMenuView extends StatelessWidget {
           Text(
             '$title($value)',
             style: textNormalCustom(
-              color: color,
+              color: isSelect ? Colors.white: color ,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),

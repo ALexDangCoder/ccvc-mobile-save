@@ -1,152 +1,82 @@
+import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MenuWidget extends StatelessWidget {
-  const MenuWidget({Key? key, required this.cubit}) : super(key: key);
-  final CalendarWorkCubit cubit;
+  const MenuWidget({
+    Key? key,
+    required this.dataMenu,
+    required this.onChoose,
+    required this.stateMenu,
+    required this.state,
+  }) : super(key: key);
+
+  final List<ParentMenu> dataMenu;
+  final List<StateMenu> stateMenu;
+  final Function(DataItemMenu? value, BaseState state) onChoose;
+  final BaseState state;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundDrawerMenu,
-      body: BlocBuilder(
-        bloc: cubit,
-        builder: (_, state) {
-          final isCalendarView = state is CalendarViewState;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spaceH50,
-              title,
-              spaceH24,
-              itemMenuView(
-                icon: ImageAssets.icTheoDangLich,
-                title: S.current.theo_dang_lich,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  cubit.emitCalendar();
-                },
-                isSelect: isCalendarView,
-              ),
-              spaceH2,
-              itemMenuView(
-                icon: ImageAssets.icTheoDangDanhSachGrey,
-                title: S.current.theo_dang_danh_sach,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  cubit.emitList();
-                  if (cubit.statusType == StatusWorkCalendar.LICH_DUOC_MOI){
-                    cubit.stateType = StateType.CHO_XAC_NHAN;
-                    cubit.worksPagingController.refresh();
-                  }
-                },
-                isSelect: !isCalendarView,
-              ),
-              spaceH12,
-              const Divider(
-                color: containerColor,
-                height: 1,
-              ),
-              spaceH12,
-              itemMenuView(
-                isMyWork: true,
-                icon: ImageAssets.icPerson,
-                title: S.current.lich_cua_toi,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  cubit.callApiByMenu(status: StatusWorkCalendar.LICH_CUA_TOI);
-                },
-              ),
-              spaceH2,
-              ExpandOnlyWidget(
-                isPadingIcon: true,
-                header: itemMenuView(
-                  icon: ImageAssets.icLichTheoTrangThai,
-                  title: S.current.lich_theo_trang_thai,
-                ),
-                child: StreamBuilder<DashBoardLichHopModel>(
-                  stream: cubit.totalWorkStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? DashBoardLichHopModel.empty();
-                    return Column(
-                      children: [
-                        childItemMenu(
-                          context,
-                          data.tongLichDuocMoi ?? 0,
-                          StatusWorkCalendar.LICH_DUOC_MOI,
-                        ),
-                        childItemMenu(
-                          context,
-                          data.soLichTaoHo ?? 0,
-                          StatusWorkCalendar.LICH_TAO_HO,
-                        ),
-                        childItemMenu(
-                          context,
-                          data.soLichHuyBo ?? 0,
-                          StatusWorkCalendar.LICH_HUY,
-                        ),
-                        childItemMenu(
-                          context,
-                          data.soLichThuHoi ?? 0,
-                          StatusWorkCalendar.LICH_THU_HOI,
-                        ),
-                        childItemMenu(
-                          context,
-                          data.soLichCoBaoCaoDaDuyet ?? 0,
-                          StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
-                        ),
-                        childItemMenu(
-                          context,
-                          data.soLichChuaCoBaoCao ?? 0,
-                          StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-              spaceH2,
-              ExpandOnlyWidget(
-                isPadingIcon: true,
-                header: itemMenuView(
-                  icon: ImageAssets.icLichLanhDao,
-                  title: S.current.lich_theo_lanh_dao,
-                ),
-                child: Container(
-                  height: 200,
-                  color: Colors.red,
-                ),
-              ),
-              spaceH16,
-            ],
-          );
-        },
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            spaceH50,
+            title,
+            spaceH24,
+            ...stateMenu
+                .map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: itemMenuView(
+                      icon: e.icon,
+                      title: e.title,
+                      onTap: () {
+                        onChoose.call(null, e.state);
+                        Navigator.of(context).pop();
+                      },
+                      isSelect: e.state ==  state,
+                    ),
+                  ),
+                )
+                .toList(),
+            const Divider(
+              color: containerColor,
+              height: 1,
+            ),
+            spaceH12,
+            ...dataMenu
+                .map(
+                  (e) => e.childData != null
+                      ? menuItemWithChild(e, context)
+                      : menuViewNoChild(e),
+                )
+                .toList(),
+          ],
+        ),
       ),
     );
-
   }
 
   Widget childItemMenu(
-      BuildContext context,
-      int value,
-      StatusWorkCalendar type,
-      ) {
+    BuildContext context,
+    ChildMenu data,
+  ) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).pop();
-        cubit.callApiByMenu(status: type);
+        onChoose.call(data.value, state);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -163,7 +93,7 @@ class MenuWidget extends StatelessWidget {
                   spaceW30,
                   Expanded(
                     child: Text(
-                      type.getTitle(),
+                      data.title,
                       style: tokenDetailAmount(
                         color: backgroundColorApp,
                         fontSize: 14,
@@ -174,13 +104,12 @@ class MenuWidget extends StatelessWidget {
               ),
             ),
             spaceW12,
-            countItemWidget(value),
+            countItemWidget(data.count),
           ],
         ),
       ),
     );
   }
-
 
   Widget countItemWidget(int count) {
     return Container(
@@ -225,13 +154,13 @@ class MenuWidget extends StatelessWidget {
       );
 
   Widget itemMenuView({
-    bool isMyWork = false,
     bool isSelect = false,
     required String icon,
     required String title,
     Function()? onTap,
   }) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -259,18 +188,105 @@ class MenuWidget extends StatelessWidget {
                 ),
               ),
             ),
-            if (isMyWork) spaceW12,
-            if (isMyWork)
-              StreamBuilder<DashBoardLichHopModel>(
-                stream: cubit.totalWorkStream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? DashBoardLichHopModel.empty();
-                  return countItemWidget(data.countScheduleCaNhan ?? 0);
-                },
-              ),
           ],
         ),
       ),
     );
   }
+
+  Widget menuViewNoChild(ParentMenu item) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Row(
+        children: [
+          Expanded(
+            child: itemMenuView(
+              icon: item.iconAsset,
+              title: item.title,
+              onTap: () {
+                onChoose.call(item.value, state);
+              },
+            ),
+          ),
+          spaceW12,
+          countItemWidget(item.count),
+          spaceW18,
+        ],
+      ),
+    );
+  }
+
+  Widget menuItemWithChild(ParentMenu item, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: ExpandOnlyWidget(
+        isPadingIcon: true,
+        header: itemMenuView(
+          icon: ImageAssets.icLichTheoTrangThai,
+          title: S.current.lich_theo_trang_thai,
+        ),
+        child: Column(
+          children: item.childData!
+              .map(
+                (e) => childItemMenu(
+                  context,
+                  e,
+                ),
+              )
+              .toList(),
+        ),
+      ),
+    );
+  }
+}
+
+class ChildMenu {
+  String title;
+  int count;
+  DataItemMenu value;
+
+  ChildMenu({required this.title, required this.count, required this.value});
+}
+
+class StateMenu {
+  String title;
+  String icon;
+  BaseState state;
+
+  StateMenu({
+    required this.title,
+    required this.icon,
+    required this.state,
+  });
+}
+
+class ParentMenu {
+  String title;
+  int count;
+  String iconAsset;
+  DataItemMenu? value;
+  List<ChildMenu>? childData;
+
+  ParentMenu({
+    required this.title,
+    required this.count,
+    required this.iconAsset,
+    this.value,
+    this.childData,
+  });
+}
+
+abstract class DataItemMenu {}
+
+class StatusDataItem extends DataItemMenu {
+  StatusWorkCalendar value;
+
+  StatusDataItem(this.value);
+}
+
+class LeaderDataItem extends DataItemMenu {
+  String id;
+  String title;
+
+  LeaderDataItem(this.id, this.title);
 }

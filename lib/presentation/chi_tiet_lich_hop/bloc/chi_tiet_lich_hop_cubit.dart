@@ -227,15 +227,15 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     await getChiTietLichHop(idCuocHop);
+
     ///check permission button
-    if(needCheckPermission) {
+    if (needCheckPermission) {
       initDataButton();
     }
 
-     getDanhSachThuHoiLichHop(idCuocHop);
+    getDanhSachThuHoiLichHop(idCuocHop);
 
-     getDanhSachNguoiChuTriPhienHop(idCuocHop);
-
+    getDanhSachNguoiChuTriPhienHop(idCuocHop);
   }
 
   Future<void> getDanhSachNTGChuongTrinhHop({
@@ -252,14 +252,20 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
   }
 
-  Future<void> huyAndDuyetLichHop({
+  Future<bool> huyAndDuyetLichHop({
     required bool isDuyet,
   }) async {
+    bool isCheck = true;
     final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
     result.when(
-      success: (res) {},
-      error: (error) {},
+      success: (res) {
+        isCheck = true;
+      },
+      error: (error) {
+        isCheck = false;
+      },
     );
+    return isCheck;
   }
 
   Future<void> cuCanBoDiThay({

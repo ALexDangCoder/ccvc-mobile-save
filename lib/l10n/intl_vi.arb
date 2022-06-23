@@ -1143,7 +1143,13 @@
   "confirm_tham_gia": "Bạn có chắc muốn tham gia",
   "confirm_huy_tham_gia": "Bạn có chắc muốn hủy tham gia",
   "thanh_cong": "Thành công",
-  "that_bai": "Thất bại"
+  "that_bai": "Thất bại",
+  "huy_duyet_lich": "Bạn có chắc chắn muốn huỷ duyệt lịch không?",
+  "duyet_lich_content": "Bạn có chắc chắn muốn duyệt lịch không?",
+  "huy_duyet_thanh_cong": "Huỷ duyệt thành công",
+  "huy_duyet_khong_thanh_cong": "Huỷ duyệt không thành công",
+  "duyet_thanh_cong": "Duyệt lịch thành công",
+  "duyet_khong_thanh_cong": "Duyệt  lịch không thành công"
 }
 
 

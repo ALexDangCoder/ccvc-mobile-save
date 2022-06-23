@@ -1,20 +1,20 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 class ItemMenuDiemDanhWidgetMobile extends StatelessWidget {
-  final String icon;
-  final String name;
-  final bool isSelect;
+  final TypeDiemDanh type;
   final Function onTap;
+  final bool isSelect;
 
   const ItemMenuDiemDanhWidgetMobile({
     Key? key,
-    required this.icon,
-    required this.name,
-    required this.isSelect,
+    required this.type,
     required this.onTap,
+    required this.isSelect,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class ItemMenuDiemDanhWidgetMobile extends StatelessWidget {
               height: 15.0.textScale(space: 8),
               width: 15.0.textScale(space: 8),
               child: SvgPicture.asset(
-                icon,
+                type.getIconMenu,
                 color: isSelect
                     ? Colors.white
                     : AppTheme.getInstance().colorField(),
@@ -46,11 +46,13 @@ class ItemMenuDiemDanhWidgetMobile extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                name,
+                type.getTitleMenu,
                 softWrap: true,
                 maxLines: 2,
                 style: textNormalCustom(
-                  color: isSelect ? Colors.white : AppTheme.getInstance().titleColor(),
+                  color: isSelect
+                      ? Colors.white
+                      : AppTheme.getInstance().titleColor(),
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0.textScale(space: 4),
                 ),

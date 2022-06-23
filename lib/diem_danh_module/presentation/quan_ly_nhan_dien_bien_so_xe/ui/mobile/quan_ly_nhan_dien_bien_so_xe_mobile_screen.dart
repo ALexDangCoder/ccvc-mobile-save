@@ -140,16 +140,6 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const ,
-                  //   ),
-                  // ).then((value) {
-                  //   if (value) {
-
-                  //   }
-                  // });
                 },
                 backgroundColor: AppTheme.getInstance().colorField(),
                 child: SvgPicture.asset(ImageAssets.icVectorFloatAction),

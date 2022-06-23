@@ -122,6 +122,25 @@ extension StringParse on String {
       return 0;
     }
   }
+
+  int? dayToIdLichLap() {
+    switch (this) {
+      case 'Thứ Hai':
+        return 1;
+      case 'Thứ Ba':
+        return 2;
+      case 'Thứ Tư':
+        return 3;
+      case 'Thứ Năm':
+        return 4;
+      case 'Thứ Sáu':
+        return 5;
+      case 'Thứ Bảy':
+        return 6;
+      case 'Chủ nhât':
+        return 7;
+    }
+  }
 }
 
 extension CheckValidate on String {
@@ -240,6 +259,12 @@ extension CheckValidate on String {
   String? checkNull() {
     if (trim().isEmpty) {
       return S.current.khong_duoc_de_trong;
+    }
+    return null;
+  }
+  String? validatorTitle() {
+    if (trim().isEmpty) {
+      return S.current.ban_phai_nhap_truong_tieu_de;
     }
     return null;
   }

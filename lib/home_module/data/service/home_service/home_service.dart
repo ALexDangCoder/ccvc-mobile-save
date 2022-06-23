@@ -85,9 +85,9 @@ abstract class HomeServiceGateWay {
   @POST(ApiConstants.TONG_HOP_NHIEM_VU)
   @FormUrlEncoded()
   Future<TongHopNhiemVuResponse> getTongHopNhiemVu(
-    @Query('UserId') String userId,
+    // @Query('UserId') String userId,
     @Query('CanBoId') String canBoId,
-    @Query('DonViId') String donViId,
+    // @Query('DonViId') String donViId,
   );
 
   @POST(ApiConstants.TINH_HINH_XU_LY_VAN_BAN)

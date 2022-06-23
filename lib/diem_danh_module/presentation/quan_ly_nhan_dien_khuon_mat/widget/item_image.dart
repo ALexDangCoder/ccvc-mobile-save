@@ -10,10 +10,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ItemAnhKhongDeoKinh extends StatelessWidget {
+class ItemImageWidget extends StatelessWidget {
   final String image;
   final String title;
-  const ItemAnhKhongDeoKinh({Key? key, required this.image, required this.title}) : super(key: key);
+
+  const ItemImageWidget({Key? key, required this.image, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +27,19 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
           Text(
             S.current.goc_anh,
             style: textNormalCustom(
-                fontSize: 16.0.textScale(),
-                fontWeight: FontWeight.w500,
-                color: color3D5586),
+              fontSize: 16.0.textScale(),
+              fontWeight: FontWeight.w500,
+              color: color3D5586,
+            ),
           ),
           spaceH14,
           Text(
             title,
             style: textNormalCustom(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w400,
-                color: color667793),
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              color: color667793,
+            ),
           ),
           spaceH16,
           SizedBox(
@@ -65,7 +69,6 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
                               image: AssetImage(image),
                               fit: BoxFit.cover,
                             ),
-
                           ),
                         ),
                       ),
@@ -75,18 +78,19 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
                             color: color3D5586.withOpacity(0.8),
-
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                              vertical: 2,
+                            ),
                             child: Text(
                               S.current.anh_mau,
-                              style: TextStyle(color: colorFFFFFF),
+                              style: textNormalCustom(color: colorFFFFFF),
                             ),
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -94,16 +98,16 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(color: colorE2E8F0),
-                        borderRadius: BorderRadius.circular(8.0),
-                         color: colorFFFFFF,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.05),
-                            blurRadius: 2,
-                            spreadRadius: 2,
-                          ),
-                        ],
+                      border: Border.all(color: colorE2E8F0),
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: colorFFFFFF,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.05),
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                        ),
+                      ],
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

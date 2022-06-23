@@ -137,15 +137,15 @@ class HomeImpl extends HomeRepository {
 
   @override
   Future<Result<DocumentDashboardModel>> getTongHopNhiemVu(
-    String userId,
+    // String userId,
     String canBoId,
-    String donViId,
+    // String donViId,
   ) {
     return runCatchingAsync<TongHopNhiemVuResponse, DocumentDashboardModel>(
       () => _homeServiceGateWay.getTongHopNhiemVu(
-        userId,
+        // userId,
         canBoId,
-        donViId,
+        // donViId,
       ),
       (res) => res.data?.toDomain() ?? DocumentDashboardModel(),
     );

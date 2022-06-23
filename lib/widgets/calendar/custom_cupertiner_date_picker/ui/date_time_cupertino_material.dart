@@ -93,7 +93,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   }
 
   bool validator() {
-    return !_cubit.validateTime.value.isNotEmpty;
+    return _cubit.checkTime();
   }
 
   @override
@@ -530,9 +530,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                 child: Text(
                   snapshot.data ?? '',
                   style: textNormalCustom(
-                      color: Colors.red,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400),
+                    color: Colors.red,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             );

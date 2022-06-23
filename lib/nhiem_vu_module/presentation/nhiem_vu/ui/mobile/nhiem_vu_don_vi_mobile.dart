@@ -54,7 +54,12 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
     // TODO: implement initState
     super.initState();
     widget.danhSachCubit.mangTrangThai=widget.maTrangThai;
-    widget.danhSachCubit.callApiDonVi(false);
+    if(widget.maTrangThai.isNotEmpty){
+      widget.danhSachCubit.callApiDonVi(false,canCallApi: false);
+    }
+    else{
+      widget.danhSachCubit.callApiDonVi(false);
+    }
   }
 
   @override

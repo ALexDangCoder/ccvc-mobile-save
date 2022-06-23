@@ -498,7 +498,7 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         .toList();
 
     void getParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {
-      final parent = treeAlls.where((x) => x.id == node.iDDonViCha).first;
+      final parent = treeAlls.where((element) => element.id == node.iDDonViCha).first;
       if (!result.contains(parent)) {
         result.add(parent);
       }

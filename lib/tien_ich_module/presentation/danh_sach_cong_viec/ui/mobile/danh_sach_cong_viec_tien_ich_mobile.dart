@@ -431,7 +431,7 @@ class ListUpDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
             );
@@ -560,7 +560,7 @@ class ListDownDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
             );

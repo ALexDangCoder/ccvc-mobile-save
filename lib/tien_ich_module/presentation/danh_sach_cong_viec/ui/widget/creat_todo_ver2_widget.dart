@@ -44,7 +44,6 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController noteControler = TextEditingController();
   int sizeFile = 0;
   BehaviorSubject<bool> isShow = BehaviorSubject.seeded(false);
-  FToast toast = FToast();
 
   @override
   void initState() {
@@ -84,12 +83,14 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
 
               return;
             }
-            if (sizeFile < 31457280) {
+            if (sizeFile > 31457280) {
+              final toast = FToast();
+              toast.init(context);
               toast.showToast(
                 child: ShowToast(
                   text: S.current.file_qua_30M,
                 ),
-                gravity: ToastGravity.TOP_RIGHT,
+                gravity: ToastGravity.BOTTOM,
               );
               return;
             }

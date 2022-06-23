@@ -27,9 +27,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 
   /// tree danh ba by tung
   TienIchRepository get tienIchRepTree => Get.find();
-  BehaviorSubject<treeDanhBaDienTu> listTreeDanhBaSubject =
-      BehaviorSubject<treeDanhBaDienTu>();
-  treeDanhBaDienTu dataTypeTree = treeDanhBaDienTu();
+  BehaviorSubject<TreeDanhBaDienTu> listTreeDanhBaSubject =
+      BehaviorSubject<TreeDanhBaDienTu>();
+  TreeDanhBaDienTu dataTypeTree = TreeDanhBaDienTu();
 
   List<TreeDonViDanhBA> listTreeDanhBa = [];
   Debouncer debouncer = Debouncer();
@@ -450,7 +450,7 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     result.when(
       success: (res) {
         showContent();
-        final ans = treeDanhBaDienTu();
+        final ans = TreeDanhBaDienTu();
         listTreeDanhBa = res;
 
         for (final e in listTreeDanhBa) {
@@ -478,47 +478,8 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     idDonVi.sink.add(nodeHSCV.value.id);
   }
 
-  void searchTree(String text) {
-    final searchTxt = text.toLowerCase().vietNameseParse();
-    bool isListCanBo(TreeDonViDanhBA tree) {
-      return tree.tenDonVi.toLowerCase().vietNameseParse().contains(searchTxt);
-    }
-
-    ///hàm tim node cha
-    List<TreeDonViDanhBA> result = [];
-    void findDonViCha(List<TreeDonViDanhBA> listAll, TreeDonViDanhBA node) {
-      final parentsNode =
-          listAll.where((x) => x.id == node.iDDonViCha).toList();
-      if (parentsNode.isNotEmpty) {
-        final parentNode = parentsNode.first;
-        if (!result.contains(parentNode)) {
-          result.add(parentNode);
-          findDonViCha(listAll, parentNode);
-        }
-      }
-    }
-
-    /// các object sau khi tìm
-    final List<TreeDonViDanhBA> vlAfterSearch =
-        listTreeDanhBa.where((element) => isListCanBo(element)).toList();
-
-    /// tìm các node cha của list đã tìm
-    if (vlAfterSearch.isNotEmpty) {
-      for (var x = 0; x <= vlAfterSearch.length; x++) {
-        if (!(result.map((e) => e.id)).contains(vlAfterSearch[x].id)) {
-          result.add(vlAfterSearch[x]);
-        }
-        findDonViCha(listTreeDanhBa, vlAfterSearch[x]);
-      }
-    }
-
-    final ans = treeDanhBaDienTu();
-    ans.initTree(listNode: result);
-    listTreeDanhBaSubject.add(ans);
-  }
-
-  void searchTree2(String keyword) {
-    final ans = treeDanhBaDienTu();
+  void searchTree(String keyword) {
+    final ans = TreeDanhBaDienTu();
     if (keyword.isEmpty) {
       ans.initTree(listNode: listTreeDanhBa);
       listTreeDanhBaSubject.add(ans);
@@ -536,19 +497,19 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         )
         .toList();
 
-    void GetParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {
-      var parent = treeAlls.where((x) => x.id == node.iDDonViCha).first;
+    void getParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {
+      final parent = treeAlls.where((x) => x.id == node.iDDonViCha).first;
       if (!result.contains(parent)) {
         result.add(parent);
       }
       if (parent.iDDonViCha.isNotEmpty) {
-        GetParent(treeAlls, parent);
+        getParent(treeAlls, parent);
       }
     }
 
     for (final e in matches) {
       result.add(e);
-      GetParent(listTreeDanhBa, e);
+      getParent(listTreeDanhBa, e);
     }
 
     ans.initTree(listNode: result);

@@ -462,7 +462,7 @@ class ListUpDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
                 ImageAssets.ic_xoa_vinh_viec_cv,
@@ -580,7 +580,7 @@ class ListDownDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
                 ImageAssets.ic_xoa_vinh_viec_cv,

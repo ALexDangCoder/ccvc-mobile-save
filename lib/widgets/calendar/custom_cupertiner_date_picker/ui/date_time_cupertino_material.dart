@@ -93,7 +93,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   }
 
   bool validator() {
-    return !_cubit.validateTime.value.isNotEmpty;
+    return _cubit.checkTime();
   }
 
   @override

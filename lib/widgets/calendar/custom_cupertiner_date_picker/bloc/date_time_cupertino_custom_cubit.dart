@@ -130,7 +130,7 @@ class DateTimeCupertinoCustomCubit
   /// Returns a negative value if this DateTime [isBefore] [other].
   /// It returns 0 if it [isAtSameMomentAs] [other],
   /// and returns a positive value otherwise (when this [isAfter] [other]).
-  void checkTime() {
+  bool checkTime() {
     if (dateBeginSubject.hasValue &&
         timeBeginSubject.hasValue &&
         dateEndSubject.hasValue &&
@@ -149,17 +149,19 @@ class DateTimeCupertinoCustomCubit
           'yyyy-MM-dd HH:mm',
         ),
       );
-
       if (begin.isAtSameMomentAs(end) ||
           begin.isAfter(end) ||
           end.isAtSameMomentAs(begin) ||
           end.isBefore(begin)) {
         validateTime.sink.add(S.current.thoi_gian_bat_dau);
+        return false;
       } else {
         validateTime.sink.add('');
+        return true;
       }
     } else {
-      validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+       return false;
     }
   }
 

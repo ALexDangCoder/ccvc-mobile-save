@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
@@ -12,6 +13,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widget
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -34,10 +36,14 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   bool apiCalling = false;
 
   final CalendarController fCalendarController = CalendarController();
+
+  BehaviorSubject<List<DateTime>> get listNgayCoLich => _listNgayCoLich;
   final controller = ChooseTimeController();
 
   final BehaviorSubject<DataLichLvModel> _listCalendarWorkSubject =
       BehaviorSubject();
+  final BehaviorSubject<List<DateTime>> _listNgayCoLich =
+      BehaviorSubject<List<DateTime>>();
 
   Stream<DataLichLvModel> get listCalendarWorkStream =>
       _listCalendarWorkSubject.stream;
@@ -66,17 +72,16 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   Future<void> refreshApi() async {
     apiCalling = true;
-    showLoading();
-    final Queue queue = Queue();
+    ShowLoadingScreen.show();
+    final Queue queue = Queue(parallel: 3);
     unawaited(queue.add(() => getMenuData()));
     unawaited(queue.add(() => getTotalWork()));
-    unawaited(queue.add(() => dayHaveEvent()));
     unawaited(queue.add(() => getDashboardSchedule()));
     if (state is CalendarViewState) {
       unawaited(queue.add(() => getFullListWork()));
     }
     await queue.onComplete;
-    showContent();
+    ShowLoadingScreen.dismiss();
     apiCalling = false;
   }
 
@@ -98,14 +103,11 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     required DateTime endDate,
     required String keySearch,
   }) async {
-    if (apiCalling) {
-      apiCalling = true;
-      this.startDate = startDate;
-      this.endDate = endDate;
-      this.keySearch = keySearch;
-      fCalendarController.selectedDate = this.startDate;
-      await refreshApi();
-    }
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.keySearch = keySearch;
+    fCalendarController.selectedDate = this.startDate;
+    await refreshApi();
   }
 
   void emitList({CalendarType? type}) =>
@@ -138,9 +140,10 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-  Future<void> dayHaveEvent() async {
+  Future<void> dayHaveEvent(DateTime startDate,DateTime endDate,String keySearch) async {
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
+        Title: keySearch,
         DateFrom: startDate.formatApi,
         DateTo: endDate.formatApi,
         DonViId:
@@ -154,7 +157,10 @@ extension GetData on CalendarWorkCubit {
       ),
     );
     result.when(
-      success: (value) {},
+      success: (value) {
+        final data = value.map((e) => DateTime.parse(e)).toList();
+        _listNgayCoLich.sink.add(data);
+      },
       error: (error) {},
     );
   }
@@ -235,7 +241,7 @@ extension ListenCalendarController on CalendarWorkCubit {
       if (propertyChanged == 'displayDate') {
         final dateSelect = fCalendarController.displayDate ?? startDate;
         if (dateSelect.millisecondsSinceEpoch <
-            startDate.millisecondsSinceEpoch) {
+            controller.selectDate.value.millisecondsSinceEpoch) {
           controller.backTime();
         } else {
           controller.nextTime();

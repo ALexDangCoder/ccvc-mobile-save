@@ -203,11 +203,12 @@ class TableCalendarPhone<T> extends StatefulWidget {
 
   /// Creates a `TableCalendar` widget.
   final bool isCheckLuner;
-
+  final GlobalKey<TableCalendarBaseState>? globalKey;
   TableCalendarPhone({
     Key? key,
     this.isCheckLuner = false,
     required DateTime focusedDay,
+    this.globalKey,
     required DateTime firstDay,
     required DateTime lastDay,
     DateTime? currentDay,
@@ -477,6 +478,7 @@ class _TableCalendarPhoneState<T> extends State<TableCalendarPhone<T>> {
         Flexible(
           flex: widget.shouldFillViewport ? 1 : 0,
           child: TableCalendarBase(
+            key: widget.globalKey,
             onCalendarCreated: (pageController) {
               _pageController = pageController;
               widget.onCalendarCreated?.call(pageController);

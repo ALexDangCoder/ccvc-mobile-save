@@ -1,6 +1,8 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
@@ -73,10 +75,10 @@ class TableCalendarBase extends StatefulWidget {
         super(key: key);
 
   @override
-  _TableCalendarBaseState createState() => _TableCalendarBaseState();
+  TableCalendarBaseState createState() => TableCalendarBaseState();
 }
 
-class _TableCalendarBaseState extends State<TableCalendarBase> {
+class TableCalendarBaseState extends State<TableCalendarBase> {
   late final ValueNotifier<double> _pageHeight;
   late final PageController _pageController;
   late DateTime _focusedDay;
@@ -111,16 +113,16 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
       final shouldAnimate = _focusedDay != widget.focusedDay;
 
       _focusedDay = widget.focusedDay;
-      _updatePage(shouldAnimate: shouldAnimate);
+      // _updatePage(shouldAnimate: shouldAnimate);
     }
 
-    if (widget.rowHeight != oldWidget.rowHeight ||
-        widget.dowHeight != oldWidget.dowHeight ||
-        widget.dowVisible != oldWidget.dowVisible ||
-        widget.sixWeekMonthsEnforced != oldWidget.sixWeekMonthsEnforced) {
-      final rowCount = _getRowCount(widget.calendarFormat, _focusedDay);
-      _pageHeight.value = _getPageHeight(rowCount);
-    }
+    // if (widget.rowHeight != oldWidget.rowHeight ||
+    //     widget.dowHeight != oldWidget.dowHeight ||
+    //     widget.dowVisible != oldWidget.dowVisible ||
+    //     widget.sixWeekMonthsEnforced != oldWidget.sixWeekMonthsEnforced) {
+    //   final rowCount = _getRowCount(widget.calendarFormat, _focusedDay);
+    //   _pageHeight.value = _getPageHeight(rowCount);
+    // }
   }
 
   @override
@@ -137,13 +139,23 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
   bool get _canScrollVertically =>
       widget.availableGestures == AvailableGestures.all ||
       widget.availableGestures == AvailableGestures.verticalSwipe;
+  void colasp(DateTime dateTime,
+      {CalendarFormat calendarFormat = CalendarFormat.week}) {
+    _focusedDay = dateTime;
+    updatePage(dateTime: dateTime, calendarFormat: calendarFormat);
+    final rowCount = _getRowCount(calendarFormat, dateTime);
+    _pageHeight.value = _getPageHeight(rowCount);
+  }
 
-  void _updatePage({bool shouldAnimate = false}) {
+  void updatePage(
+      {bool shouldAnimate = false,
+      DateTime? dateTime,
+      CalendarFormat calendarFormat = CalendarFormat.week}) {
     final currentIndex = _calculateFocusedPage(
-        widget.calendarFormat, widget.firstDay, _focusedDay);
+        calendarFormat, widget.firstDay, dateTime ?? DateTime.now());
 
-    final endIndex = _calculateFocusedPage(
-        widget.calendarFormat, widget.firstDay, widget.lastDay);
+    final endIndex =
+        _calculateFocusedPage(calendarFormat, widget.firstDay, widget.lastDay);
 
     if (currentIndex != _previousIndex ||
         currentIndex == 0 ||
@@ -169,7 +181,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
     }
 
     _previousIndex = currentIndex;
-    final rowCount = _getRowCount(widget.calendarFormat, _focusedDay);
+    final rowCount = _getRowCount(calendarFormat, dateTime ?? DateTime.now());
     _pageHeight.value = _getPageHeight(rowCount);
 
     _pageCallbackDisabled = false;

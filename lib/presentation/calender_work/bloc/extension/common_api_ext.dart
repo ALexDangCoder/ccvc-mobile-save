@@ -101,6 +101,7 @@ extension CommonApiExt on CalenderCubit {
   }) async {
     final result = await lichLamViec.postEventCalendar(
       EventCalendarRequest(
+        Title: '',
         DateFrom: startDates.formatApi,
         DateTo: endDates.formatApi,
         DonViId:

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
@@ -21,10 +23,14 @@ class MainCanlendanRefactor extends StatefulWidget {
 
 class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
   final CalendarWorkCubit cubit = CalendarWorkCubit();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBarWithTwoLeading(
         backGroundColorTablet: bgTabletColor,
@@ -47,16 +53,31 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
         onRefresh: () async {},
         child: Column(
           children: [
-            ChooseTimeCalendarWidget(
-              onChange: (startDate, endDate, type,keySearch) {
-                if (cubit.state is CalendarViewState){
-                  cubit.emitCalendar(type : type);
-                }else {
-                  cubit.emitList(type : type);
-                }
-              },
-              controller: cubit.controller,
-            ),
+            StreamBuilder<List<DateTime>>(
+                stream: cubit.listNgayCoLich,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? <DateTime>[];
+                  return ChooseTimeCalendarWidget(
+                    calendarDays: data,
+                    onChange: (startDate, endDate, type, keySearch) {
+                      if (cubit.state is CalendarViewState) {
+                        cubit.emitCalendar(type: type);
+                      } else {
+                        cubit.emitList(type: type);
+                      }
+
+                      cubit.callApiByNewFilter(
+                          startDate: startDate,
+                          endDate: endDate,
+                          keySearch: keySearch);
+                    },
+
+                    controller: cubit.controller,
+                    onChangeYear: (startDate, endDate, keySearch) {
+                      cubit.dayHaveEvent(startDate, endDate, keySearch);
+                    },
+                  );
+                }),
             Expanded(child: MainDataView(cubit: cubit)),
           ],
         ),

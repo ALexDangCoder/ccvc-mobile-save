@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_base_phone.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
@@ -18,12 +19,14 @@ class TabletCalendarWidget extends StatefulWidget {
   final Function(DateTime) onSelect;
   final DateTime initDate;
   final ChooseTimeController controller;
+  final Function(DateTime) onPageCalendar;
   const TabletCalendarWidget(
       {Key? key,
       required this.calendarDays,
       required this.onSelect,
       required this.initDate,
-      required this.controller})
+      required this.controller,
+      required this.onPageCalendar})
       : super(key: key);
 
   @override
@@ -32,22 +35,38 @@ class TabletCalendarWidget extends StatefulWidget {
 
 class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
   DateTime selectDay = DateTime.now();
+  final GlobalKey<TableCalendarBaseState> key =
+      GlobalKey<TableCalendarBaseState>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.controller.selectDate.addListener(() {
-      selectDay = widget.controller.selectDate.value;
-      setState(() {});
-    });
-    widget.controller.calendarFormat.addListener(() {
-      setState(() {});
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      widget.controller.selectDate.addListener(() {
+        selectDay = widget.controller.selectDate.value;
+        if (mounted) setState(() {});
+      });
+      widget.controller.calendarFormat.addListener(() {
+
+        // if (mounted) setState(() {});
+        key.currentState?.colasp(widget.controller.pageTableCalendar,
+            calendarFormat: widget.controller.calendarFormat.value);
+        if (mounted) setState(() {});
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return TableCalendarPhone(
+      globalKey: key,
+      onPageChanged: (value) {
+        if (value.month != widget.controller.pageTableCalendar.month) {
+          widget.controller.pageTableCalendar = value;
+          widget.onPageCalendar(value);
+        }
+      },
       daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: textNormalCustom(fontSize: 13, color: textBodyTime),
           weekendStyle: textNormalCustom(fontSize: 13, color: textBodyTime)),
@@ -96,8 +115,8 @@ class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
       ),
       headerVisible: false,
       calendarFormat: widget.controller.calendarFormat.value,
-      firstDay: DateTime.utc(2021, 8, 20),
-      lastDay: DateTime.utc(2030, 8, 20),
+      firstDay: DateTime.utc(DateTime.now().year - 10, 8, 20),
+      lastDay: DateTime.utc(DateTime.now().year + 10, 8, 20),
       focusedDay: selectDay,
     );
   }

@@ -23,7 +23,9 @@ class MainDataView extends StatefulWidget {
 class _MainDataViewState extends State<MainDataView> {
   @override
   void initState() {
-    widget.cubit.setFCalendarListener();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      widget.cubit.setFCalendarListener();
+    });
     super.initState();
   }
 
@@ -31,9 +33,9 @@ class _MainDataViewState extends State<MainDataView> {
   Widget build(BuildContext context) {
     return BlocBuilder(
       bloc: widget.cubit,
-      builder: (context,CalendarWorkState state) {
+      builder: (context, CalendarWorkState state) {
         final typeState = state.typeView;
-        if (state is CalendarViewState){
+        if (state is CalendarViewState) {
           return IndexedStack(
             index: typeState.index,
             children: [
@@ -48,7 +50,7 @@ class _MainDataViewState extends State<MainDataView> {
               )
             ],
           );
-        }else{
+        } else {
           return DataViewTypeList(
             cubit: widget.cubit,
           );

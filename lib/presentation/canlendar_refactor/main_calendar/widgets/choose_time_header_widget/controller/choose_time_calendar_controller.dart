@@ -6,6 +6,8 @@ class ChooseTimeController {
   ValueNotifier<DateTime> selectDate = ValueNotifier(DateTime.now());
   ValueNotifier<bool> isShowCalendarType = ValueNotifier(false);
   ValueNotifier<CalendarType> calendarType = ValueNotifier(CalendarType.DAY);
+  DateTime pageTableCalendar = DateTime.now();
+  int page =0 ;
   ValueNotifier<CalendarFormat> calendarFormat =
       ValueNotifier(CalendarFormat.week);
   void onExpandCalendar() {
@@ -15,6 +17,7 @@ class ChooseTimeController {
       calendarFormat.value = CalendarFormat.week;
     }
   }
+
   void onCloseCalendar() {
     if (calendarFormat.value == CalendarFormat.week) {
       return;
@@ -24,31 +27,35 @@ class ChooseTimeController {
   }
 
   void nextTime() {
-    switch (calendarType.value) {
-      case CalendarType.DAY:
-        _nextDay();
-        break;
-      case CalendarType.WEEK:
-        _nextWeek();
-        break;
-      case CalendarType.MONTH:
-        _nextMonth();
-        break;
-    }
+    try {
+      switch (calendarType.value) {
+        case CalendarType.DAY:
+          _nextDay();
+          break;
+        case CalendarType.WEEK:
+          _nextWeek();
+          break;
+        case CalendarType.MONTH:
+          _nextMonth();
+          break;
+      }
+    } catch (e) {}
   }
 
   void backTime() {
-    switch (calendarType.value) {
-      case CalendarType.DAY:
-        _nextDay(isBack: true);
-        break;
-      case CalendarType.WEEK:
-        _nextWeek(isBack: true);
-        break;
-      case CalendarType.MONTH:
-        _nextMonth(isBack: true);
-        break;
-    }
+    try {
+      switch (calendarType.value) {
+        case CalendarType.DAY:
+          _nextDay(isBack: true);
+          break;
+        case CalendarType.WEEK:
+          _nextWeek(isBack: true);
+          break;
+        case CalendarType.MONTH:
+          _nextMonth(isBack: true);
+          break;
+      }
+    } catch (e) {}
   }
 
   void _nextDay({bool isBack = false}) {

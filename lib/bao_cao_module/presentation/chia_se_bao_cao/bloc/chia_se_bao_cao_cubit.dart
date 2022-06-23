@@ -34,7 +34,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
 
   ReportRepository get _repo => get_dart.Get.find();
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
-      BehaviorSubject.seeded([]);
+  BehaviorSubject.seeded([]);
   BehaviorSubject<String> callAPI = BehaviorSubject.seeded('');
   final BehaviorSubject<bool> _isDuocTruyCapSubject = BehaviorSubject<bool>();
 
@@ -45,7 +45,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   bool get valueDuocTruyCap => _isDuocTruyCapSubject.value;
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
-      BehaviorSubject<List<Node<DonViModel>>>();
+  BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
 
@@ -78,10 +78,8 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     );
   }
 
-  Future<void> getMemberInGroup(
-    String idGroup,
-    NhomCungHeThong nhomCungHeThong,
-  ) async {
+  Future<void> getMemberInGroup(String idGroup,
+      NhomCungHeThong nhomCungHeThong,) async {
     final rs = await _repo.getListThanhVien(idGroup);
     rs.when(
       success: (res) {
@@ -133,8 +131,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     return rs;
   }
 
-  Future<String> chiaSeBaoCao(
-    Share enumShare, {
+  Future<String> chiaSeBaoCao(Share enumShare, {
     Map<String, String>? newUser,
   }) async {
     String mes = '';
@@ -152,7 +149,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
         mes = await shareReport(mapData, idReport: idReport);
         break;
       case Share.HAS_USER:
-        // TODO: Handle this case.
+      // TODO: Handle this case.
         break;
       case Share.NEW_USER:
         final ShareReport map = ShareReport(
@@ -166,8 +163,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     return mes;
   }
 
-  Future<String> shareReport(
-    List<ShareReport> mapData, {
+  Future<String> shareReport(List<ShareReport> mapData, {
     required String idReport,
   }) async {
     String message = '';
@@ -185,7 +181,9 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   }
 
   void themNhom(String tenNhom) {
-    if (listCheck.where((element) => element.tenNhom == tenNhom).isEmpty) {
+    if (listCheck
+        .where((element) => element.tenNhom == tenNhom)
+        .isEmpty) {
       listCheck.add(
         listResponse.firstWhere((element) => element.tenNhom == tenNhom),
       );
@@ -206,8 +204,8 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   List<NhomCungHeThong> listCheck = [];
 
   final BehaviorSubject<List<UserNgoaiHeThongDuocTruyCapModel>>
-      usersNgoaiHeThongDuocTruyCapBHVSJ =
-      BehaviorSubject<List<UserNgoaiHeThongDuocTruyCapModel>>();
+  usersNgoaiHeThongDuocTruyCapBHVSJ =
+  BehaviorSubject<List<UserNgoaiHeThongDuocTruyCapModel>>();
 
   ///huy
   int pageSize = 10;
@@ -238,20 +236,16 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     } else {
       //nothing
     }
-  Future<void> getUsersNgoaiHeThongDuocTruyCap({required String appId}) async {
-    final result =
-        await _repo.getUsersNgoaiHeThongTruyCap(appId, '0', '10', '');
-  }
 
-  Future<void> refreshGetUsersNgoaiHeThongTruyCap() async {
-    canLoadMoreList = true;
-    if (refresh == false) {
-      pageSize = 0;
-      refresh = true;
-      await getUsersNgoaiHeThongDuocTruyCap();
+    Future<void> refreshGetUsersNgoaiHeThongTruyCap() async {
+      canLoadMoreList = true;
+      if (refresh == false) {
+        pageSize = 0;
+        refresh = true;
+        await getUsersNgoaiHeThongDuocTruyCap();
+      }
     }
   }
-
   Future<void> getUsersNgoaiHeThongDuocTruyCap({
     bool isSearch = false,
   }) async {

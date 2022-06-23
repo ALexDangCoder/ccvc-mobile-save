@@ -151,4 +151,19 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     }
     return 0;
   }
+
+  Future<bool> confirmThamGiaHop(
+      {required String lichHopId, required bool isThamGia}) async {
+    bool isSuccess = false;
+    final rs = await hopRp.xacNhanThamGiaHop(lichHopId, isThamGia);
+    rs.when(
+      success: (res) {
+        isSuccess = true;
+      },
+      error: (error) {
+        isSuccess = false;
+      },
+    );
+    return isSuccess;
+  }
 }

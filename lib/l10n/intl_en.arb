@@ -1157,5 +1157,10 @@
   "ban_phai_chon_thoi_gian": "Vui lòng chọn thời gian",
   "vui_long_chon_loai_lich": "Vui lòng chọn loại lịch",
   "ban_phai_nhap_truong_tieu_de": "Bạn phải nhập trường Tiêu đề!",
-  "dinh_kem_tep_english": "Đính kèm file"
+  "dinh_kem_tep_english": "Đính kèm file",
+  "confirm_tu_choi_tham_gia": "Bạn có chắc muốn từ chối tham gia",
+  "confirm_tham_gia": "Bạn có chắc muốn tham gia",
+  "confirm_huy_tham_gia": "Bạn có chắc muốn hủy tham gia",
+  "thanh_cong": "Thành công",
+  "that_bai": "Thất bại"
 }

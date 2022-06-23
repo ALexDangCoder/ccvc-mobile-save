@@ -40,6 +40,7 @@ class TaoLichHopMobileTabletScreen extends StatefulWidget {
 class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
   late TaoLichHopCubit _cubit;
   final _formKey = GlobalKey<FormState>();
+  final _timerPickerKey = GlobalKey<CupertinoMaterialPickerState>();
 
   @override
   void didChangeDependencies() {
@@ -89,7 +90,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             StreamBuilder<List<LoaiSelectModel>>(
                               stream: _cubit.loaiLich,
                               builder: (context, snapshot) {
-                                final data = snapshot.data ?? <LoaiSelectModel>[];
+                                final data = snapshot.data ??
+                                    <LoaiSelectModel>[];
                                 return SelectOnlyExpand(
                                   urlIcon: ImageAssets.icCalendar,
                                   title: S.current.loai_hop,
@@ -106,7 +108,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             StreamBuilder<List<LoaiSelectModel>>(
                               stream: _cubit.linhVuc,
                               builder: (context, snapshot) {
-                                final data = snapshot.data ?? <LoaiSelectModel>[];
+                                final data = snapshot.data ??
+                                    <LoaiSelectModel>[];
                                 return SelectOnlyExpand(
                                   urlIcon: ImageAssets.icWork,
                                   title: S.current.linh_vuc,
@@ -184,7 +187,12 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                                 }
                               },
                               onDayPicked: (listId) {
-                                _cubit.taoLichHopRequest.days = listId.join(',');
+                                _cubit.taoLichHopRequest.days
+                                              = listId.join(',');
+                                if(listId.isEmpty) {
+                                  _cubit.taoLichHopRequest
+                                      .typeRepeat = danhSachLichLap.first.id;
+                                }
                               },
                               onDateChange: (value) {
                                 _cubit.taoLichHopRequest.dateRepeat =
@@ -303,7 +311,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                     rightTxt: S.current.tao_lich_hop,
                     funcBtnOk: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        if (_formKey.currentState?.validate() ?? false) {
+                        if (_timerPickerKey.currentState?.validator() ??
+                            false) {
                           _cubit.createMeeting().then((value) {
                             if (value) {
                               Navigator.push(

@@ -546,6 +546,8 @@ class ImageAssets {
   static const String ic_edit_cal = '$baseImg/ic_edit_cal.svg';
   static const String img_calendar = '$baseImg/img_calendar.svg';
   static const String img_sua_lich = '$baseImg/ic_sua_lich.svg';
+  static const String img_tham_gia = '$baseImg/img_tham_gia.svg';
+  static const String img_tu_choi_tham_gia = '$baseImg/img_tu_choi_tham_gia.svg';
 
 
   static SvgPicture svgAssets(

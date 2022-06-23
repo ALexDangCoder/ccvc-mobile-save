@@ -325,15 +325,25 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {
             showDiaLog(
               context,
-              textContent: S.current.duyet_lich,
+              textContent: S.current.duyet_lich_content,
               btnLeftTxt: S.current.khong,
-              funcBtnRight: () {
-                cubit.huyAndDuyetLichHop(isDuyet: true);
-                Navigator.pop(context);
+              funcBtnRight: () async {
+                await cubit.huyAndDuyetLichHop(isDuyet: true).then((value) {
+                  if (value) {
+                    MessageConfig.show(
+                      title: S.current.duyet_thanh_cong,
+                    );
+                    cubit.initDataChiTiet(needCheckPermission: true);
+                  } else {
+                    MessageConfig.show(
+                      title: S.current.duyet_khong_thanh_cong,
+                    );
+                  }
+                });
               },
               title: S.current.khong,
               btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icDuyetLich),
+              icon: SvgPicture.asset(ImageAssets.img_tham_gia),
             );
           },
         );
@@ -504,7 +514,31 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.HUY_DUYET.getIcon(),
           text: PERMISSION_DETAIL.HUY_DUYET.getString(),
-          onTap: () {},
+          onTap: () {
+            showDiaLog(
+              context,
+              textContent: S.current.huy_duyet_lich,
+              btnLeftTxt: S.current.khong,
+              funcBtnRight: () async {
+                await cubit.huyAndDuyetLichHop(isDuyet: false).then((value) {
+                  if (value) {
+                    MessageConfig.show(
+                      title: S.current.huy_duyet_thanh_cong,
+                    );
+                    cubit.initDataChiTiet(needCheckPermission: true);
+                  } else {
+                    MessageConfig.show(
+                      title: S.current.huy_duyet_khong_thanh_cong,
+                    );
+                  }
+                });
+                // Navigator.pop(context);
+              },
+              title: S.current.huy_duyet,
+              btnRightTxt: S.current.dong_y,
+              icon: SvgPicture.asset(ImageAssets.img_tu_choi_tham_gia),
+            );
+          },
         );
     }
   }

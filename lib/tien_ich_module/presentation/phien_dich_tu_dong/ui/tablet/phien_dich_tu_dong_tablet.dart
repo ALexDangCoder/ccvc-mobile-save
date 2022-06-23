@@ -314,6 +314,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                     textEditingController.clear();
                                     cubit.lengthTextSubject.sink.add(0);
                                     cubit.textTranslateSubject.add('');
+                                    stopListening();
                                   },
                                   child: ImageAssets.svgAssets(
                                     ImageAssets.icX,

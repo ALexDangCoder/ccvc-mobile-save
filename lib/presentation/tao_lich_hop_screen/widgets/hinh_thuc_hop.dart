@@ -102,6 +102,13 @@ class _HinhThucHopState extends State<HinhThucHop> {
               onChange: (value) {
                 widget.cubit.taoLichHopRequest.diaDiemHop = value;
               },
+              validate: (value){
+                if(isHopTrucTiep){
+                  if (value.trim().isEmpty) {
+                    return S.current.khong_duoc_de_trong;
+                  }
+                }
+              },
             ),
           ],
           spaceH5,

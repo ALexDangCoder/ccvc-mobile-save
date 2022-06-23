@@ -124,6 +124,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
         totalItem = res.totalItems ?? 1;
         final result = res.getlistChuDe ?? [];
         if (isFirstCall) {
+          hotNewData = result.removeAt(0);
           isFirstCall = false;
         }
         listChuDeLoadMore.addAll(result);

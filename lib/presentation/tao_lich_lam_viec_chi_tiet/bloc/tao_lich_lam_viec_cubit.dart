@@ -62,7 +62,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     DateTime.now(),
   );
   BehaviorSubject<bool> isCheckAllDaySubject = BehaviorSubject.seeded(false);
-  BehaviorSubject<bool> checkCal = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> checkCal = BehaviorSubject();
 
   Stream<bool> get isCheckAllDayStream => isCheckAllDaySubject.stream;
 
@@ -377,6 +377,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String content,
     required String location,
   }) async {
+    showLoading();
     if (selectLoaiLichId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
       tinhSelectModel?.tenTinhThanh = '';
       tinhSelectModel?.id = '';
@@ -495,6 +496,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   Future<void> suaLichLamViecNuocNgoai({bool only = true}) async {
+    showLoading();
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
       title ?? '',
       selectLoaiLich?.id ?? '',

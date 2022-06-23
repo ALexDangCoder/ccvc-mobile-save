@@ -383,4 +383,9 @@ mixin HopRepository {
     bool isDuyet,
     String lyDo,
   );
+
+  Future<Result<bool>> xacNhanThamGiaHop(
+    String lichHopId,
+    bool isThamGia,
+  );
 }

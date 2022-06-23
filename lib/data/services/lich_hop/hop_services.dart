@@ -476,4 +476,10 @@ abstract class HopServices {
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
   );
+
+  @POST(ApiConstants.CONFIRM_HOP)
+  Future<ThemPhienHopResponse> xacNhanThamGiaHop(
+    @Field('hopId') String hopId,
+    @Field('isThamGia') bool isThamGia,
+  );
 }

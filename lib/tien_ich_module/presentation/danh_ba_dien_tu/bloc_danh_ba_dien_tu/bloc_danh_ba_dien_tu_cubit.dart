@@ -93,15 +93,15 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   }
 
   void callApiDanhBaToChuc(
-      {int? pageIndexTung,
-      int? pageSizeTung,
+      {int? pageIndexApi,
+      int? pageSizeApi,
       String? keyWork,
       String? id,
       bool? callApi}) {
     if (callApi ?? true) {
       getListDanhBaToChuc(
-        pageIndex: pageIndexTung ?? pageIndex,
-        pageSize: pageSizeTung ?? pageSize,
+        pageIndex: pageIndexApi ?? pageIndex,
+        pageSize: pageSizeApi ?? pageSize,
         filterBy: keyWork ?? '',
         idDonVi: id ?? this.id,
       );

@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class treeDanhBaDienTu<T> {
+class TreeDanhBaDienTu<T> {
   List<NodeHSCV> tree = [];
 
   void initTree({required List<TreeDonViDanhBA> listNode}) {

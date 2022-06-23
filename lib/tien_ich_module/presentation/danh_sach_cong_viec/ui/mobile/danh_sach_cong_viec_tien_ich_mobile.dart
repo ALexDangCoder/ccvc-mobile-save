@@ -431,7 +431,7 @@ class ListUpDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
             );
@@ -462,7 +462,7 @@ class ListUpDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
                 ImageAssets.ic_xoa_vinh_viec_cv,
@@ -560,7 +560,7 @@ class ListDownDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
             );
@@ -580,7 +580,7 @@ class ListDownDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
                 ImageAssets.ic_xoa_vinh_viec_cv,

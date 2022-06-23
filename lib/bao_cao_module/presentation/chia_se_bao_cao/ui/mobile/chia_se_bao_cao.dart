@@ -8,13 +8,18 @@ import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChiaSeBaoCaoMobile extends StatefulWidget {
-  const ChiaSeBaoCaoMobile({Key? key, required this.idReport,required this.appId,})
-      : super(key: key);
+  const ChiaSeBaoCaoMobile({
+    Key? key,
+    required this.idReport,
+    required this.appId,
+  }) : super(key: key);
   final String idReport;
   final String appId;
 
@@ -114,7 +119,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                     Expanded(
                       flex: 9,
                       child: Text(
-                        S.current.chia_se,
+                        widget.idReport,
                         style: textNormalCustom(
                           color: labelColor,
                           fontSize: 14,
@@ -122,9 +127,20 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                       ),
                     ),
                     Expanded(
-                      child: SvgPicture.asset(
-                        ImageAssets.ic_copy,
-                        color: colorA2AEBD,
+                      child: InkWell(
+                        onTap: () {
+                          Clipboard.setData(
+                            ClipboardData(
+                              text: widget.idReport,
+                            ),
+                          ).then((value) {
+                            MessageConfig.show(title: S.current.copy_success);
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          ImageAssets.ic_copy,
+                          color: colorA2AEBD,
+                        ),
                       ),
                     ),
                   ],
@@ -152,7 +168,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                 ],
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,
-                isScrollable: true,
+                //isScrollable: true,
                 labelColor: textDefault,
                 unselectedLabelColor: infoColor,
                 indicatorColor: textDefault,

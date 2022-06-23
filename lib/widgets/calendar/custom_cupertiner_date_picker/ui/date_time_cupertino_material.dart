@@ -146,20 +146,13 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           onToggle: (bool value) {
                             _cubit.handleSwitchButtonPressed(isChecked: value);
                             widget.onSwitchPressed?.call(value);
-                            if (!value) {
-                              if (_cubit.typePickerSubjectStart.value ==
-                                      TypePickerDateTime.TIME_START &&
-                                  keyExpandedBegin
-                                      .currentState!.isExpandedGroup) {
-                                keyExpandedBegin.currentState
-                                    ?.collapseGesture();
-                              }
-                              if (_cubit.typePickerSubjectEnd.value ==
-                                      TypePickerDateTime.TIME_START &&
-                                  keyExpandedEnd
-                                      .currentState!.isExpandedGroup) {
-                                keyExpandedEnd.currentState?.collapseGesture();
-                              }
+                            if (value) {
+                              _cubit.setTypePickerStart(
+                                TypePickerDateTime.DATE_START,
+                              );
+                              _cubit.setTypePickerEnd(
+                                TypePickerDateTime.DATE_END,
+                              );
                             }
                             widget.onDateTimeChanged(
                               _cubit.timeBeginSubject.valueOrNull ?? '',
@@ -219,7 +212,6 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           _cubit.setTypePickerStart(
                             TypePickerDateTime.TIME_START,
                           );
-                          _cubit.lastedType = TypePickerDateTime.TIME_START;
                         },
                         child: StreamBuilder<String>(
                           stream: _cubit.timeBeginSubject,
@@ -257,8 +249,6 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                         }
                         _cubit
                             .setTypePickerStart(TypePickerDateTime.DATE_START);
-                        //cubit.handleDateTimePressed();
-                        _cubit.lastedType = TypePickerDateTime.DATE_START;
                       },
                       child: Text(
                         date,
@@ -379,20 +369,24 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                       return Visibility(
                         visible: !isShowTime,
                         child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            if (_cubit.typePickerSubjectEnd.value ==
-                                    TypePickerDateTime.TIME_END &&
-                                keyExpandedEnd.currentState!.isExpandedGroup) {
-                              keyExpandedEnd.currentState?.collapseGesture();
-                            } else {
-                              keyExpandedEnd.currentState?.expandGesture();
-                            }
-                            _cubit
-                                .setTypePickerEnd(TypePickerDateTime.TIME_END);
-                            //cubit.handleDateTimePressed(isBegin: false);
-                            _cubit.lastedType = TypePickerDateTime.TIME_END;
-                          },
+                          behavior: HitTestBehavior.deferToChild,
+                          onTap: isShowTime
+                              ? () {}
+                              : () {
+                                  if (_cubit.typePickerSubjectEnd.value ==
+                                          TypePickerDateTime.TIME_END &&
+                                      keyExpandedEnd
+                                          .currentState!.isExpandedGroup) {
+                                    keyExpandedEnd.currentState
+                                        ?.collapseGesture();
+                                  } else {
+                                    keyExpandedEnd.currentState
+                                        ?.expandGesture();
+                                  }
+                                  _cubit.setTypePickerEnd(
+                                    TypePickerDateTime.TIME_END,
+                                  );
+                                },
                           child: StreamBuilder<String>(
                             stream: _cubit.timeEndSubject,
                             initialData: 'hh:mm',
@@ -428,7 +422,6 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             keyExpandedEnd.currentState?.expandGesture();
                           }
                           _cubit.setTypePickerEnd(TypePickerDateTime.DATE_END);
-                          _cubit.lastedType = TypePickerDateTime.DATE_END;
                         },
                         child: Text(
                           date,

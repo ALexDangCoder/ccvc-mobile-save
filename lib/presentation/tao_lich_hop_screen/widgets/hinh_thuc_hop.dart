@@ -10,7 +10,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.da
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -295,22 +294,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 validator: (value) {},
                 title: S.current.chuc_vu,
                 hint: S.current.chuc_vu,
-              ),
-              spaceH20,
-              textField(
-                onChange: (value) {
-                  diemCau.canBoDauMoiSDT = value;
-                },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return null;
-                  }
-                  final phoneRegex = RegExp(VN_PHONE);
-                  final bool checkRegex = phoneRegex.hasMatch(value);
-                  return checkRegex ? null : S.current.nhap_sai_dinh_dang;
-                },
-                title: S.current.so_dien_thoai,
-                hint: S.current.so_dien_thoai,
               ),
               spaceH20,
               CoolDropDown(

@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_s
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/tablet/sua_lich_cong_tac_trong_nuoc_tablet.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -45,224 +46,228 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ChiTietLichLamViecModel>(
-      stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
-      builder: (context, snapshot) {
-        final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
-        return snapshot.data != null
-            ? Scaffold(
-                backgroundColor: bgWidgets,
-                appBar: BaseAppBar(
-                  title: S.current.chi_tiet_lich_lam_viec,
-                  actions: [
-                    MenuSelectWidget(
-                      listSelect: [
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icHuy,
-                          text: S.current.huy,
-                          onTap: () {
-                            checkCancelDuplicateCal(
-                              dataModel.isLichLap ?? false,
-                            );
-                          },
-                        ),
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icChartFocus,
-                          text: S.current.bao_cao_ket_qua,
-                          onTap: () {
-                            showDiaLogTablet(
-                              context,
-                              title: S.current.bao_cao_ket_qua,
-                              child: BaoCaoBottomSheet(
-                                scheduleId: widget.id,
-                                cubit: BaoCaoKetQuaCubit(),
-                                listTinhTrangBaoCao:
-                                    chiTietLichLamViecCubit.listTinhTrang,
+    return StateStreamLayout(
+      textEmpty: S.current.khong_co_du_lieu,
+      retry: () {},
+      error: AppException('', S.current.something_went_wrong),
+      stream: chiTietLichLamViecCubit.stateStream,
+      child: StreamBuilder<ChiTietLichLamViecModel>(
+        stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
+        builder: (context, snapshot) {
+          final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
+          return snapshot.data != null
+              ? dataModel.id != null
+                  ? Scaffold(
+                      backgroundColor: bgWidgets,
+                      appBar: BaseAppBar(
+                        title: S.current.chi_tiet_lich_lam_viec,
+                        actions: [
+                          MenuSelectWidget(
+                            listSelect: [
+                              CellPopPupMenu(
+                                urlImage: ImageAssets.icHuy,
+                                text: S.current.huy,
+                                onTap: () {
+                                  checkCancelDuplicateCal(
+                                    dataModel.isLichLap ?? false,
+                                  );
+                                },
                               ),
-                              isBottomShow: false,
-                              funcBtnOk: () {
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        ),
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icChoYKien,
-                          text: S.current.cho_y_kien,
-                          onTap: () {
-                            showDiaLogTablet(
-                              context,
-                              title: S.current.cho_y_kien,
-                              child: YKienBottomSheet(
-                                id: widget.id,
-                                isCheck: false,
+                              CellPopPupMenu(
+                                urlImage: ImageAssets.icChartFocus,
+                                text: S.current.bao_cao_ket_qua,
+                                onTap: () {
+                                  showDiaLogTablet(
+                                    context,
+                                    title: S.current.bao_cao_ket_qua,
+                                    child: BaoCaoBottomSheet(
+                                      scheduleId: widget.id,
+                                      cubit: BaoCaoKetQuaCubit(),
+                                      listTinhTrangBaoCao:
+                                          chiTietLichLamViecCubit.listTinhTrang,
+                                    ),
+                                    isBottomShow: false,
+                                    funcBtnOk: () {
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                },
                               ),
-                              isBottomShow: false,
-                              funcBtnOk: () {
-                                Navigator.pop(context);
-                              },
-                            ).then((value) {
-                              if (value == true) {
-                                chiTietLichLamViecCubit.loadApi(widget.id);
-                              } else if (value == null) {
-                                return;
-                              }
-                            });
-                          },
-                        ),
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icDelete,
-                          text: S.current.xoa_lich,
-                          onTap: () {
-                            checkDeleteDuplicateCal(
-                              dataModel.isLichLap ?? false,
-                            );
-                          },
-                        ),
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icEditBlue,
-                          text: S.current.sua_lich,
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    SuaLichCongTacTrongNuocTablet(
-                                  cubit: chiTietLichLamViecCubit,
-                                  event: dataModel,
-                                ),
+                              CellPopPupMenu(
+                                urlImage: ImageAssets.icChoYKien,
+                                text: S.current.cho_y_kien,
+                                onTap: () {
+                                  showDiaLogTablet(
+                                    context,
+                                    title: S.current.cho_y_kien,
+                                    child: YKienBottomSheet(
+                                      id: widget.id,
+                                      isCheck: false,
+                                    ),
+                                    isBottomShow: false,
+                                    funcBtnOk: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ).then((value) {
+                                    if (value == true) {
+                                      chiTietLichLamViecCubit
+                                          .loadApi(widget.id);
+                                    } else if (value == null) {
+                                      return;
+                                    }
+                                  });
+                                },
                               ),
-                            )
-                                .then((value) {
-                              if (value == true) {
-                                Navigator.pop(context, true);
-                              } else if (value == null) {
-                                return;
-                              }
-                            });
+                              CellPopPupMenu(
+                                urlImage: ImageAssets.icDelete,
+                                text: S.current.xoa_lich,
+                                onTap: () {
+                                  checkDeleteDuplicateCal(
+                                    dataModel.isLichLap ?? false,
+                                  );
+                                },
+                              ),
+                              CellPopPupMenu(
+                                urlImage: ImageAssets.icEditBlue,
+                                text: S.current.sua_lich,
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SuaLichCongTacTrongNuocTablet(
+                                        cubit: chiTietLichLamViecCubit,
+                                        event: dataModel,
+                                      ),
+                                    ),
+                                  )
+                                      .then((value) {
+                                    if (value == true) {
+                                      Navigator.pop(context, true);
+                                    } else if (value == null) {
+                                      return;
+                                    }
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                        leadingIcon: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
                           },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: AqiColor,
+                          ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                  leadingIcon: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      color: AqiColor,
-                    ),
-                  ),
-                ),
-                body: StateStreamLayout(
-                  textEmpty: S.current.khong_co_du_lieu,
-                  retry: () {},
-                  error: AppException('', S.current.something_went_wrong),
-                  stream: chiTietLichLamViecCubit.stateStream,
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                        top: 28, left: 30, right: 30, bottom: 28),
-                    margin: const EdgeInsets.only(
-                        top: 28, left: 30, right: 30, bottom: 28),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: toDayColor.withOpacity(0.5),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          offset: const Offset(0, 4),
-                          blurRadius: 10,
-                        )
-                      ],
-                    ),
-                    child: SingleChildScrollView(
-                      child: ExpandGroup(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            StreamBuilder<ChiTietLichLamViecModel>(
-                              stream: chiTietLichLamViecCubit
-                                  .chiTietLichLamViecStream,
-                              builder: (context, snapshot) {
-                                final data =
-                                    snapshot.data ?? ChiTietLichLamViecModel();
-                                return snapshot.data != null
-                                    ? Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.circle,
-                                                size: 12,
-                                                color: statusCalenderRed,
-                                              ),
-                                              const SizedBox(
-                                                width: 16,
-                                              ),
-                                              Text(
-                                                data.title ?? '',
-                                                style: textNormalCustom(
-                                                  color: textTitle,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          ItemRowChiTiet(
-                                            data: data,
-                                            cubit: chiTietLichLamViecCubit,
-                                          ),
-                                        ],
-                                      )
-                                    : const SizedBox.shrink();
-                              },
-                            ),
-                            BtnShowBaoCaoTablet(
-                              cubit: chiTietLichLamViecCubit,
-                            ),
-                            DanhSachYKienButtomTablet(
-                              id: widget.id,
-                              cubit: chiTietLichLamViecCubit,
-                            ),
+                      body: Container(
+                        padding: const EdgeInsets.only(
+                            top: 28, left: 30, right: 30, bottom: 28),
+                        margin: const EdgeInsets.only(
+                            top: 28, left: 30, right: 30, bottom: 28),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: toDayColor.withOpacity(0.5),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: shadowContainerColor.withOpacity(0.05),
+                              offset: const Offset(0, 4),
+                              blurRadius: 10,
+                            )
                           ],
                         ),
+                        child: SingleChildScrollView(
+                          child: ExpandGroup(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                StreamBuilder<ChiTietLichLamViecModel>(
+                                  stream: chiTietLichLamViecCubit
+                                      .chiTietLichLamViecStream,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ??
+                                        ChiTietLichLamViecModel();
+                                    return snapshot.data != null
+                                        ? Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.circle,
+                                                    size: 12,
+                                                    color: statusCalenderRed,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 16,
+                                                  ),
+                                                  Text(
+                                                    data.title ?? '',
+                                                    style: textNormalCustom(
+                                                      color: textTitle,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ItemRowChiTiet(
+                                                data: data,
+                                                cubit: chiTietLichLamViecCubit,
+                                              ),
+                                            ],
+                                          )
+                                        : const SizedBox.shrink();
+                                  },
+                                ),
+                                BtnShowBaoCaoTablet(
+                                  cubit: chiTietLichLamViecCubit,
+                                ),
+                                DanhSachYKienButtomTablet(
+                                  id: widget.id,
+                                  cubit: chiTietLichLamViecCubit,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink()
+              : Scaffold(
+                  appBar: BaseAppBar(
+                    title: S.current.chi_tiet_lich_lam_viec,
+                    leadingIcon: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        color: AqiColor,
                       ),
                     ),
                   ),
-                ),
-              )
-            : Scaffold(
-                appBar: BaseAppBar(
-                  title: S.current.chi_tiet_lich_lam_viec,
-                  leadingIcon: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      color: AqiColor,
+                  body: Center(
+                    child: Text(
+                      S.current.no_data,
+                      style: textNormalCustom(
+                        fontSize: 14.0.textScale(),
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     ),
                   ),
-                ),
-                body: Center(
-                  child: Text(
-                    S.current.no_data,
-                    style: textNormalCustom(
-                      fontSize: 14,
-                      color: AppTheme.getInstance().colorField(),
-                    ),
-                  ),
-                ),
-              );
-      },
+                );
+        },
+      ),
     );
   }
 

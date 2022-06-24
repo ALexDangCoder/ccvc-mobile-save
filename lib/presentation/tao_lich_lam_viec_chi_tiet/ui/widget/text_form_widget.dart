@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,7 +20,8 @@ class TextFormWidget extends StatefulWidget {
     required this.image,
     required this.hint,
     this.formatters = const [],
-    this.validator, this.onChange,
+    this.validator,
+    this.onChange,
   }) : super(key: key);
 
   @override
@@ -36,12 +38,9 @@ class _TextFormWidgetState extends State<TextFormWidget> {
           width: 14.0.textScale(),
         ),
         Expanded(
-          child: TextFormField(
-            controller: widget.controller,
+          child: TextFieldValidator(
             validator: widget.validator,
-            onChanged: (value) {
-              widget.onChange?.call(value);
-            },
+            controller: widget.controller,
             inputFormatters: widget.formatters,
             decoration: InputDecoration(
               labelStyle: textNormalCustom(

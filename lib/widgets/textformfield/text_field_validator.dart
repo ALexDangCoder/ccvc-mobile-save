@@ -25,6 +25,7 @@ class TextFieldValidator extends StatefulWidget {
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
   final bool Function(String)? validatorPaste;
+  final InputDecoration? decoration;
 
   const TextFieldValidator({
     Key? key,
@@ -43,7 +44,7 @@ class TextFieldValidator extends StatefulWidget {
     this.fillColor,
     this.maxLength,
     this.inputFormatters,
-    this.validatorPaste,
+    this.validatorPaste, this.decoration,
   }) : super(key: key);
 
   @override
@@ -135,7 +136,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           color: color3D5586,
         ),
         enabled: widget.isEnabled,
-        decoration: InputDecoration(
+        decoration: widget.decoration ?? InputDecoration(
           counterText: '',
           hintText: widget.hintText,
           hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),

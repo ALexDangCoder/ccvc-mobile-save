@@ -240,7 +240,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       firstDay: DateTime.utc(2021, 8, 20),
                       lastDay: DateTime.utc(2030, 8, 20),
                       focusedDay: _selectedDay,
-                      isCheckLuner: widget.isCheckLunar, currentDate: _selectedDay,
+                      isCheckLuner: widget.isCheckLunar,
                     ),
                   )
                 else

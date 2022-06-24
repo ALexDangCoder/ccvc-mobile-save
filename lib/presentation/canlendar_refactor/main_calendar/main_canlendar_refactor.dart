@@ -32,11 +32,7 @@ class MainCanlendanRefactor extends StatefulWidget {
 
 class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
   final CalendarWorkCubit cubit = CalendarWorkCubit();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+
 
   @override
   void initState() {
@@ -95,7 +91,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
           child: Column(
             children: [
               StreamBuilder<List<DateTime>>(
-                  stream: cubit.listNgayCoLich,
+                  stream: cubit.listNgayCoLichStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? <DateTime>[];
                     return ChooseTimeCalendarWidget(

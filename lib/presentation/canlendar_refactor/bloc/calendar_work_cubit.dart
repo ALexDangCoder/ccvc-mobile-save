@@ -62,6 +62,9 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   final BehaviorSubject<List<DateTime>> _listNgayCoLich =
       BehaviorSubject<List<DateTime>>();
 
+  Stream<List<DateTime>> get  listNgayCoLichStream => _listNgayCoLich.stream;
+
+
   Stream<DataSourceFCalendar> get listCalendarWorkStream =>
       _listCalendarWorkSubject.stream;
 

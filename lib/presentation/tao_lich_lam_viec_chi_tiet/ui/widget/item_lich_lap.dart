@@ -19,29 +19,30 @@ class _LichLapWidgetState extends State<LichLapWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<LichLapModel>>(
-        stream: widget.taoLichLamViecCubit.lichLap,
-        builder: (context, snapshot) {
-          final data = snapshot.data ?? [];
-          return SelectOnlyExpand(
-            urlIcon: ImageAssets.icNhacLai,
-            title: S.current.lich_lap,
-            hintText: S.current.chon_lich_lap,
-            listSelect: data.map<String>((e) => e.name ?? '').toList(),
-            onChange: (value) {
-              widget.taoLichLamViecCubit.selectLichLap.id = data[value].id;
-              if (data[value].id == 7) {
-                widget.taoLichLamViecCubit.lichLapTuyChinhSubject.add(true);
-              } else {
-                widget.taoLichLamViecCubit.lichLapTuyChinhSubject.add(false);
-              }
+      stream: widget.taoLichLamViecCubit.lichLap,
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        return SelectOnlyExpand(
+          urlIcon: ImageAssets.icNhacLai,
+          title: S.current.lich_lap,
+          listSelect: data.map<String>((e) => e.name ?? '').toList(),
+          value: widget.taoLichLamViecCubit.selectLichLap.name ?? '',
+          onChange: (value) {
+            widget.taoLichLamViecCubit.selectLichLap.id = data[value].id;
+            if (data[value].id == 7) {
+              widget.taoLichLamViecCubit.lichLapTuyChinhSubject.add(true);
+            } else {
+              widget.taoLichLamViecCubit.lichLapTuyChinhSubject.add(false);
+            }
 
-              if (data[value].id != 1) {
-                widget.taoLichLamViecCubit.lichLapKhongLapLaiSubject.add(true);
-              } else {
-                widget.taoLichLamViecCubit.lichLapKhongLapLaiSubject.add(false);
-              }
-            },
-          );
-        });
+            if (data[value].id != 1) {
+              widget.taoLichLamViecCubit.lichLapKhongLapLaiSubject.add(true);
+            } else {
+              widget.taoLichLamViecCubit.lichLapKhongLapLaiSubject.add(false);
+            }
+          },
+        );
+      },
+    );
   }
 }

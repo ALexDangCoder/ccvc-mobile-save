@@ -31,13 +31,19 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
 
     final data = jsonDecode(jsonString);
-
-    return data.map((e) => CanBoThamGiaStr.fromJson(e)).toList();
+    final List<CanBoThamGiaStr> list = [];
+    (data as List<dynamic>).forEach((element) {
+      final cb = CanBoThamGiaStr.fromJson(element);
+      list.add(cb);
+    });
+    return list;
   }
 
   List<CanBoThamGiaStr> canBoThamGia() {
     return scheduleCoperatives
-        .where((e) => e.id?.toUpperCase() == getIdCurrentUser())
+        .where(
+          (e) => e.CanBoId?.toUpperCase() == getIdCurrentUser().toUpperCase(),
+        )
         .toList();
   }
 
@@ -92,8 +98,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     value.addAll(
       scheduleCoperatives
           .where((e) =>
-              (e.id ?? '').isNotEmpty &&
-              e.id?.toUpperCase() == (dataUser?.userId ?? '').toUpperCase())
+              (e.CanBoId ?? '').isNotEmpty &&
+              e.CanBoId?.toUpperCase() == (dataUser?.userId ?? '').toUpperCase())
           .toList(),
     );
 
@@ -105,7 +111,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
                   permissionType: PermissionType.VPDT,
                   permissionTxt: 'quyen-cu-can-bo',
                 ) &&
-                (e.id ?? '').isEmpty &&
+                (e.CanBoId ?? '').isEmpty &&
                 e.donViId?.toUpperCase() ==
                     ((dataUser?.userInformation?.donViTrucThuoc?.id ?? '')
                         .replaceAll(
@@ -139,19 +145,19 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   bool isDaCuCanBo() {
     String id = '';
-
     for (final i in thamGia()) {
       if ((i.id ?? '').isNotEmpty) {
         id = i.id ?? '';
         break;
       }
     }
-    return scheduleCoperatives
+    final bool i = scheduleCoperatives
         .where(
           (e) => (e.id ?? '').toUpperCase() == id.toUpperCase(),
         )
         .toList()
         .isNotEmpty;
+    return i;
   }
 
   int classThamDu() {
@@ -229,7 +235,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   void initDataButton() {
     listButton.clear();
     scheduleCoperatives = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
-
     ///check quyen sua lich
     if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
         (activeChuTri() || isNguoiTao() || isThuKy()) &&
@@ -294,6 +299,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       listButton.add(PERMISSION_DETAIL.DUYET_LICH);
     }
 
+
     ///check quyen phan cong thu ky
     if (activeChuTri() && !trangThaiHuy()) {
       listButton.add(PERMISSION_DETAIL.PHAN_CONG_THU_KY);
@@ -311,10 +317,11 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       listButton.add(PERMISSION_DETAIL.CU_CAN_BO_DI_THAY);
     }
 
-    ///check quyen tao boc bang cuoc hop
-    if (getChiTietLichHopModel.isTaoTaoBocBang) {
-      listButton.add(PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP);
-    }
+    ///Tạm thời bỏ bóc băng
+    // ///check quyen tao boc bang cuoc hop
+    // if (getChiTietLichHopModel.isTaoTaoBocBang) {
+    //   listButton.add(PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP);
+    // }
 
     ///check quyen huy lich
     if ((isOwner() || isThuKy() && !trangThaiHuy()) && !trangThaiHuy()) {
@@ -323,7 +330,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
     ///check quyen xac nhan tham gia
     if (dataXacNhanThamGia().isNotEmpty) {
-      if (dataXacNhanThamGia()[0].trangThai == 0 || isDaCuCanBo()) {
+      if (dataXacNhanThamGia()[0].trangThai == 0 && isDaCuCanBo()) {
         listButton.add(PERMISSION_DETAIL.XAC_NHAN_THAM_GIA);
       }
 

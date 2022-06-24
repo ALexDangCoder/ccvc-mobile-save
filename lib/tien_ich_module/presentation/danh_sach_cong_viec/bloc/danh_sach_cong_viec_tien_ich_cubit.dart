@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
@@ -30,6 +31,7 @@ class DanhSachCongViecTienIchCubit
   String? noteChange;
   String? titleChange;
   String filePath = '';
+  TextEditingController searchControler = TextEditingController();
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -80,7 +82,7 @@ class DanhSachCongViecTienIchCubit
   BehaviorSubject<String> nameFile = BehaviorSubject();
 
   ///init cac list
-  void doDataTheoFilter() {
+  dynamic doDataTheoFilter() {
     // data trả về phụ thuộc vào hai api
     listGop = [
       ...toDoModelGanChoToiDefault,
@@ -109,14 +111,31 @@ class DanhSachCongViecTienIchCubit
     listDaBiXoa = listGop
         .where((e) => e.inUsed == false && e.isDeleted == false)
         .toList();
-    vlMenuDf[DSCVScreen.CVCB].number = listCongViecCuaBan
+    dataMenuDefault[DSCVScreen.CVCB].number = listCongViecCuaBan
         .where((element) => element.isTicked == false)
         .toList()
         .length;
-    vlMenuDf[DSCVScreen.CVQT].number = listQuanTrong.length;
-    vlMenuDf[DSCVScreen.DHT].number = listDaHoanThanh.length;
-    vlMenuDf[DSCVScreen.GCT].number = listGanChoToi.length;
-    vlMenuDf[DSCVScreen.DBX].number = listDaBiXoa.length;
+    dataMenuDefault[DSCVScreen.CVQT].number = listQuanTrong.length;
+    dataMenuDefault[DSCVScreen.DHT].number = listDaHoanThanh.length;
+    dataMenuDefault[DSCVScreen.GCT].number = listGanChoToi.length;
+    dataMenuDefault[DSCVScreen.DBX].number = listDaBiXoa.length;
+
+    switch (statusDSCV.value) {
+      case DSCVScreen.CVCB:
+        return listCongViecCuaBan;
+      case DSCVScreen.CVQT:
+        return listQuanTrong;
+      case DSCVScreen.DHT:
+        return listDaHoanThanh;
+      case DSCVScreen.GCT:
+        return listGanChoToi;
+      case DSCVScreen.DBX:
+        return listDaBiXoa;
+      case DSCVScreen.NCVM:
+        return toDoModelDefault
+            .where((e) => isList(e, groupId) && e.inUsed == true)
+            .toList();
+    }
   }
 
   /// khoi tao data
@@ -201,7 +220,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// valueViewMenu
-  List<MenuDscvModel> vlMenuDf = [
+  List<MenuDscvModel> dataMenuDefault = [
     MenuDscvModel(
       icon: isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01,
       title: S.current.cong_viec_cua_ban,
@@ -241,7 +260,7 @@ class DanhSachCongViecTienIchCubit
 
   ///tim kiem
   void search(String text) {
-    final dataSearch = listDSCV.value;
+    final dataSearch = doDataTheoFilter();
     if (text != '') {
       final searchTxt = text.trim().toLowerCase().vietNameseParse();
       bool isListCanBo(TodoDSCVModel toDo) {
@@ -284,7 +303,7 @@ class DanhSachCongViecTienIchCubit
             res,
           );
           listDSCV.sink.add(data);
-          await callAndFillApiAutu();
+          await callAndFillApiAuto();
           closeDialog();
         },
         error: (err) {
@@ -352,7 +371,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///call and fill api autu
-  Future<void> callAndFillApiAutu() async {
+  Future<void> callAndFillApiAuto() async {
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
     doDataTheoFilter();
@@ -374,12 +393,21 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isDeleted,
     String? filePathTodo,
-    String? titleChange,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
     dynamic checkData({dynamic changeData, dynamic defaultData}) {
       if (changeData == '' || changeData == null || changeData == defaultData) {
+        return defaultData;
+      } else {
+        return changeData;
+      }
+    }
+
+    dynamic checkDataFile({dynamic changeData, dynamic defaultData}) {
+      if (changeData == '') {
+        return null;
+      } else if (changeData == defaultData) {
         return defaultData;
       } else {
         return changeData;
@@ -407,12 +435,15 @@ class DanhSachCongViecTienIchCubit
         performer: dataNguoiThucHienModel.id == ''
             ? null
             : nguoiThucHienSubject.value.id,
-        filePath:
-            checkData(changeData: filePathTodo, defaultData: todo.filePath),
+        filePath: (filePathTodo ?? '').isNotEmpty
+            ? checkDataFile(
+                changeData: filePathTodo, defaultData: todo.filePath)
+            : filePath,
       ),
     );
     result.when(
       success: (res) {
+        filePath = '';
         final data = listDSCV.value;
         if (isTicked != null) {
           data.remove(todo);
@@ -432,7 +463,7 @@ class DanhSachCongViecTienIchCubit
         if (filePathTodo != null) {
           nameFile.sink.add('');
         }
-        callAndFillApiAutu();
+        callAndFillApiAuto();
       },
       error: (err) {
         showError();
@@ -517,14 +548,25 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///xóa cong viec
-  Future<void> xoaCongViecVinhVien(String idCv) async {
+  Future<void> xoaCongViecVinhVien(
+    String idCv,
+    TodoDSCVModel todo,
+  ) async {
+    showLoading();
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        callAndFillApiAutu();
+        showContent();
+        final data = listDSCV.value;
+        data.remove(todo);
+        listDSCV.sink.add(data);
+        callAndFillApiAuto();
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
+    showContent();
   }
 
   /// hiển thị icon theo từng màn hình

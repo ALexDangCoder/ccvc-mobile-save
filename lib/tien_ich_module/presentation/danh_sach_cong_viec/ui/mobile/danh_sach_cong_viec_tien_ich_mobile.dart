@@ -83,7 +83,7 @@ class _DanhSachCongViecTienIchMobileState
           cubit: cubit,
           child: RefreshIndicator(
             onRefresh: () async {
-              await cubit.callAndFillApiAutu().then(
+              await cubit.callAndFillApiAuto().then(
                     (value) => textSearch != '' ? cubit.search(textSearch) : '',
                   );
             },
@@ -96,6 +96,7 @@ class _DanhSachCongViecTienIchMobileState
                   return ScrollBarWidget(
                     children: [
                       BaseSearchBar(
+                        controller: cubit.searchControler,
                         hintText: S.current.tim_kiem_nhanh,
                         onChange: (value) {
                           textSearch = value;
@@ -314,7 +315,7 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                       } else {
                         showDiaLogTablet(
                           context,
-                          title: S.current.chon_thanh_phan_tham_gia,
+                          title: S.current.doi_lai_ten,
                           child: AddToDoWidgetTienIch(
                             initData: cubit.titleAppBar.value,
                             onTap: (value) {
@@ -324,13 +325,13 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                           ),
                           isBottomShow: false,
                           funcBtnOk: () {},
-                          maxHeight: 300,
+                          maxHeight: 250,
                         );
                       }
                     },
                   ),
                   CellPopPupMenu(
-                    urlImage: ImageAssets.ic_delete_do,
+                    urlImage: '',
                     text: S.current.xoa,
                     onTap: () {
                       showDiaLog(
@@ -341,9 +342,9 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                         icon: SvgPicture.asset(
                           ImageAssets.icDeleteLichHop,
                         ),
-                        title: '',
-                        textContent:
+                        title:
                             S.current.ban_co_chan_chan_muon_xoa_nhom_cong_viec,
+                        textContent: '',
                         btnLeftTxt: S.current.huy,
                         btnRightTxt: S.current.xoa,
                       );
@@ -430,10 +431,9 @@ class ListUpDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
-              titleChange: vl,
             );
           },
           onEdit: () {
@@ -453,8 +453,7 @@ class ListUpDSCV extends StatelessWidget {
               icon: SvgPicture.asset(
                 ImageAssets.ic_hoan_tac_dscv,
               ),
-              title: '',
-              textContent: S.current.ban_co_chan_chan_muon_hoan_tac,
+              title: S.current.ban_co_chan_chan_muon_hoan_tac,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.hoan_tac,
             );
@@ -463,18 +462,16 @@ class ListUpDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
                 ImageAssets.ic_xoa_vinh_viec_cv,
               ),
-              title: '',
-              textContent: S.current.ban_co_chan_chan_muon_xoa,
+              title: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
             );
           },
-          enabled: !(todo.isTicked ?? true),
           cubit: cubit,
         );
       },
@@ -489,7 +486,7 @@ class ListUpDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
       );
     } else {
@@ -499,7 +496,7 @@ class ListUpDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
         isBottomShow: false,
         funcBtnOk: () {},
@@ -563,10 +560,9 @@ class ListDownDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
-              titleChange: vl,
             );
           },
           onEdit: () {
@@ -584,18 +580,16 @@ class ListDownDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
-                ImageAssets.icDeleteLichHop,
+                ImageAssets.ic_xoa_vinh_viec_cv,
               ),
-              title: S.current.xoa_cong_viec,
-              textContent: S.current.ban_co_chac_chan_muon_gui_mai_nay,
+              title: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
             );
           },
-          enabled: !(todo.isTicked ?? true),
           cubit: cubit,
         );
       },
@@ -610,7 +604,7 @@ class ListDownDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
       );
     } else {
@@ -620,7 +614,7 @@ class ListDownDSCV extends StatelessWidget {
         child: CreatTodoOrUpdateWidget(
           cubit: cubit,
           todo: todo,
-          isCreat: false,
+          isCreate: false,
         ),
         isBottomShow: false,
         funcBtnOk: () {},

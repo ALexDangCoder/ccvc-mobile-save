@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_to_chuc_model.dart';
@@ -19,6 +21,8 @@ class DanhBaToChuc extends StatefulWidget {
 
 class _DanhBaToChucState extends State<DanhBaToChuc> {
   DanhBaDienTuCubit cubit = DanhBaDienTuCubit();
+  String keySearch = '';
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -38,12 +42,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                child: BaseSearchBar(
-                  hintText: S.current.tim_kiem_danh_ba,
-                  onChange: (value) {
-                    cubit.callApiDanhBaToChuc(keyWork: value, pageIndexTung: 1);
-                  },
-                ),
+                child: searchBar(),
               ),
             ),
             Expanded(
@@ -55,17 +54,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
                   ),
                   child: Column(
                     children: [
-                      DanhBaWidget(
-                        cubit: cubit,
-                        onChange: (value) {
-                          cubit.callApiDanhBaToChuc(
-                            pageIndexTung: 1,
-                            id: value.id,
-                          );
-
-                          cubit.id = value.id;
-                        },
-                      ),
+                      danhBaWidget(),
                       Expanded(child: _content()),
                     ],
                   ),
@@ -85,34 +74,17 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height,
               ),
-              child: BaseSearchBar(
-                hintText: S.current.tim_kiem_danh_ba,
-                onChange: (value) {
-                  cubit.callApiDanhBaToChuc(
-                    keyWork: value,
-                    pageIndexTung: 1,
-                  );
-                },
-              ),
+              child: searchBar(),
             ),
             Container(
               padding: const EdgeInsets.only(top: 10, left: 14, right: 14),
               width: 343,
-              child: DanhBaWidget(
-                cubit: cubit,
-                onChange: (value) {
-                  cubit.callApiDanhBaToChuc(
-                    pageIndexTung: 1,
-                    id: value.id,
-                  );
-                  cubit.id = value.id;
-                },
-              ),
+              child: danhBaWidget(),
             ),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.only(top: 10, left: 14, right: 14),
-                child: _contentTabLet(),
+                child: _content(),
               ),
             ),
           ],
@@ -123,6 +95,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
 
   Widget _content() {
     return ListViewLoadMore(
+      checkRatio: isMobile() ? 2 : 1.5,
       cubit: cubit,
       sinkWap: true,
       isListView: true,
@@ -136,7 +109,9 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
               )
               .then((value) => cubit.getTree(soCap: 2))
         else
-          cubit.callApiDanhBaToChuc()
+          cubit.callApiDanhBaToChuc(
+            keyWork: keySearch,
+          )
       },
       viewItem: (value, index) => CellListDanhBaToChuc(
         item: value as ItemsToChuc,
@@ -146,28 +121,30 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
     );
   }
 
-  Widget _contentTabLet() {
-    return ListViewLoadMore(
-      checkRatio: 1.5,
-      cubit: cubit,
-      isListView: false,
-      callApi: (page) => {
-        cubit.pageIndex = page,
-        if (cubit.listTreeDanhBa.isEmpty)
-          cubit
-              .getTree(soCap: 1)
-              .then(
-                (value) => cubit.callApiDanhBaToChuc(id: cubit.init().id),
-              )
-              .then((value) => cubit.getTree(soCap: 2))
-        else
-          cubit.callApiDanhBaToChuc()
-      },
-      viewItem: (value, index) => CellListDanhBaToChucTablet(
-        item: value as ItemsToChuc,
-        index: index ?? 0,
+  Widget searchBar() => BaseSearchBar(
+        hintText: S.current.tim_kiem_danh_ba,
+        onChange: (value) {
+          keySearch = value;
+          if (value.isNotEmpty) {
+            if (_debounce?.isActive ?? false) _debounce?.cancel();
+            _debounce = Timer(const Duration(milliseconds: 1000), () {
+              cubit.callApiDanhBaToChuc(
+                keyWork: value,
+                pageIndexApi: 1,
+              );
+            });
+          }
+        },
+      );
+
+  Widget danhBaWidget() => DanhBaWidget(
         cubit: cubit,
-      ),
-    );
-  }
+        onChange: (value) {
+          cubit.callApiDanhBaToChuc(
+            pageIndexApi: 1,
+            id: value.id,
+          );
+          cubit.id = value.id;
+        },
+      );
 }

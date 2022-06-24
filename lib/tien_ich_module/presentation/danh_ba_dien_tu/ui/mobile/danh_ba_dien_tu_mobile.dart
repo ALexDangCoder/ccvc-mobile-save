@@ -17,7 +17,6 @@ class DanhBaDienTuMobile extends StatefulWidget {
 
 class _DanhBaDienTuMobileState extends State<DanhBaDienTuMobile>
     with SingleTickerProviderStateMixin {
-  // var _controller = TabController(vsync: AnimatedListState(), length: 2);
   late TabController _controller;
   @override
   void initState() {

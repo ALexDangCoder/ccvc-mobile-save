@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
@@ -34,6 +35,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_lua
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/cu_can_bo_di_thay_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
@@ -945,6 +947,7 @@ class HopRepositoryImpl implements HopRepository {
       (response) => response.isSucces,
     );
   }
+
   @override
   Future<Result<DuyetLichModel>> huyAndDuyetLichHop(
     String lichHopId,
@@ -954,6 +957,24 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<DuyetLichResponse, DuyetLichModel>(
       () => _hopServices.huyDuyetLichHop(lichHopId, isDuyet, lyDo),
       (res) => res.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<bool>> cuCanBoDiThay(
+    CuCanBoDiThayRequest cuCanBoDiThayRequest,
+  ) {
+    return runCatchingAsync<CuCanBoDiThayResponse, bool>(
+      () => _hopServices.cuCanBoDiThay(cuCanBoDiThayRequest),
+      (res) => res.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> xacNhanThamGiaHop(String lichHopId, bool isThamGia) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+          () => _hopServices.xacNhanThamGiaHop(lichHopId, isThamGia),
+          (response) => response.isSucces,
     );
   }
 }

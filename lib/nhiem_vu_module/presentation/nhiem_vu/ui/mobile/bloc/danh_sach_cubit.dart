@@ -415,7 +415,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         chartDataNhiemVuCaNhan.removeAt(0);
         chartDataNhiemVuCaNhan.removeAt(0);
         statusNhiemVuCaNhanSuject.sink.add(chartDataNhiemVuCaNhan);
-        showContent();
+       // showContent();
       },
       error: (error) {
         showError();

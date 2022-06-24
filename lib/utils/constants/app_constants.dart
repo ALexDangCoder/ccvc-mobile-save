@@ -131,7 +131,7 @@ const _dtFormat9 = 'dd/MM/yyyy HH:mm';
 const _dtFormat10 = 'dd/MM/yyyy';
 const _dtFormat11 = 'dd-MM-yyyy';
 const _dtFormat12 = 'yyyy-MM-ddTHH:mm:ss';
-const _dtFormat13 = 'yyyy/MM/dd HH:mm';
+const _dtFormat13 = 'dd/MM/yyyy HH:mm';
 const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
 const HOUR_MINUTE_FORMAT = 'Hm';
 
@@ -235,7 +235,8 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
   static String timeFormat = 'Hm';
-  static String monthDayFormat = 'MM/dd/yyyy HH:mm:ss';
+  static String monthDayFormat = 'MM/dd/yyyy HH:mm';
+  static String pickDateFormat = 'dd/MM/yyyy HH:mm';
 }
 
 class StatusYKND {

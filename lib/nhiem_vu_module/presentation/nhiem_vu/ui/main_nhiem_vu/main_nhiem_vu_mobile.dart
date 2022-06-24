@@ -41,7 +41,6 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
 
   @override
   Widget build(BuildContext context) {
-    print('---------------------------- isCaNhan ${widget.isCaNhanScreen}---------');
     return BlocBuilder<NhiemVuCubit, NhiemVuState>(
       bloc: cubit,
       builder: (context, state) {
@@ -58,6 +57,7 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
           builder: (context, state) {
             if (state is NhiemVuCaNhan) {
               return NhiemVuCaNhanMobile(
+                maTrangThai: widget.maTrangThai,
                 isCheck: true,
                 danhSachCubit: danhSachCubit,
                 nhiemVuCubit: cubit,

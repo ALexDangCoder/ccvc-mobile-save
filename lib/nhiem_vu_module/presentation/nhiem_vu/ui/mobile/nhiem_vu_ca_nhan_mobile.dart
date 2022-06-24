@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class NhiemVuCaNhanMobile extends StatefulWidget {
+  final String maTrangThai;
   final bool isCheck;
   final DanhSachCubit danhSachCubit;
   final NhiemVuCubit nhiemVuCubit;
@@ -30,6 +31,7 @@ class NhiemVuCaNhanMobile extends StatefulWidget {
     required this.isCheck,
     required this.danhSachCubit,
     required this.nhiemVuCubit,
+    this.maTrangThai='',
   }) : super(key: key);
 
   @override
@@ -43,9 +45,14 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.danhSachCubit.callApi(true);
+    widget.danhSachCubit.mangTrangThai=widget.maTrangThai;
     widget.danhSachCubit.keySearch = '';
-    widget.danhSachCubit.mangTrangThai = '';
+    if(widget.maTrangThai.isNotEmpty){
+      widget.danhSachCubit.callApi(true, canCallApi: false);
+    }
+    else{
+      widget.danhSachCubit.callApi(true);
+    }
   }
 
   @override

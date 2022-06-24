@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -244,7 +245,7 @@ extension GetData on CalendarWorkCubit {
         DateTo: endDate.formatApi,
         DonViId:
             HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
-        isLichCuaToi: isMyWork,
+        isLichCuaToi: true,
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,

@@ -557,7 +557,7 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
                 onLongPress: () => _onDayLongPressed(day),
                 child: _buildCell(day, focusedMonth),
               );
-            }, currentDate: widget.focusedDay,
+            },
           ),
         ),
       ],

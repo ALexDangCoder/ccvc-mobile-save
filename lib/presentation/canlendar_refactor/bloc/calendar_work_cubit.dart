@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -162,8 +163,8 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     }
   }
 
-  void menuClick(DataItemMenu? value, BaseState) {
-    if (BaseState is ListViewState) {
+  void menuClick(DataItemMenu? value, BaseState state) {
+    if (state is ListViewState) {
       emitList();
       if (statusType == StatusWorkCalendar.LICH_DUOC_MOI) {
         stateType = StateType.CHO_XAC_NHAN;
@@ -185,22 +186,29 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   void checkDuplicate(List<ListLichLVModel> list) {
     for (final item in list) {
-      final currentTimeFrom  = getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
-      final currentTimeTo  = getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
+      final currentTimeFrom =
+          getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
+      final currentTimeTo =
+          getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
       final listDuplicate = list.where((element) {
-        final startTime = getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo){
+        final startTime =
+            getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
+        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
           return true;
         }
         return false;
       });
-      if (listDuplicate.length> 1){
-        listDuplicate.forEach((e) {e.isTrung = true;});
+      if (listDuplicate.length > 1) {
+        listDuplicate.forEach((e) {
+          e.isTrung = true;
+        });
       }
-
     }
   }
-  DateTime getDate (String time) => time.convertStringToDate(formatPattern: DateTimeFormat.DATE_TIME_RECEIVE);
+
+  DateTime getDate(String time) => time.convertStringToDate(
+        formatPattern: DateTimeFormat.DATE_TIME_RECEIVE,
+      );
 
   void emitList({CalendarType? type}) =>
       emit(ListViewState(typeView: type ?? state.typeView));
@@ -236,7 +244,11 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-  Future<void> dayHaveEvent(DateTime startDate,DateTime endDate,String keySearch) async {
+  Future<void> dayHaveEvent(
+    DateTime startDate,
+    DateTime endDate,
+    String keySearch,
+  ) async {
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
         Title: keySearch,
@@ -244,7 +256,7 @@ extension GetData on CalendarWorkCubit {
         DateTo: endDate.formatApi,
         DonViId:
             HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
-        isLichCuaToi: isMyWork,
+        isLichCuaToi: statusType == StatusWorkCalendar.LICH_CUA_TOI,
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
@@ -502,7 +514,11 @@ extension GetData on CalendarWorkCubit {
 
 extension ListenCalendarController on CalendarWorkCubit {
 
-  DateTime getOnlyDate (DateTime date)=> DateTime (date.year, date.month, date.day);
+  DateTime getOnlyDate(DateTime date) => DateTime(
+        date.year,
+        date.month,
+        date.day,
+      );
 
   void changeCalendarDate(DateTime oldDate ,DateTime newDate ){
     final currentDate = getOnlyDate(oldDate);
@@ -520,21 +536,27 @@ extension ListenCalendarController on CalendarWorkCubit {
   void propertyChangedDay(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-          startDate, fCalendarControllerDay.displayDate ?? startDate);
+        startDate,
+        fCalendarControllerDay.displayDate ?? startDate,
+      );
     }
   }
 
   void propertyChangedWeek(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-          startDate, fCalendarControllerWeek.displayDate ?? startDate);
+        startDate,
+        fCalendarControllerWeek.displayDate ?? startDate,
+      );
     }
   }
 
   void propertyChangedMonth(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-          startDate, fCalendarControllerMonth.displayDate ?? startDate);
+        startDate,
+        fCalendarControllerMonth.displayDate ?? startDate,
+      );
     }
   }
 

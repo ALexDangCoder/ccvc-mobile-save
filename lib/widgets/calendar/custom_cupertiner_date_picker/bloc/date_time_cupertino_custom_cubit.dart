@@ -126,15 +126,11 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_START:
         dateFromTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-        );
+        dateBeginSubject.sink.add(dateFromTmp);
         break;
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateEndSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-        );
+        dateEndSubject.sink.add(dateToTmp);
         break;
     }
   }

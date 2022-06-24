@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
@@ -58,6 +59,8 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkSubject =
       BehaviorSubject();
+  final BehaviorSubject<List<DateTime>> _listNgayCoLich =
+      BehaviorSubject<List<DateTime>>();
 
   Stream<DataSourceFCalendar> get listCalendarWorkStream =>
       _listCalendarWorkSubject.stream;
@@ -227,6 +230,31 @@ extension GetData on CalendarWorkCubit {
         _totalWorkSubject.sink.add(res);
       },
       error: (err) {},
+    );
+  }
+
+  Future<void> dayHaveEvent(DateTime startDate,DateTime endDate,String keySearch) async {
+    final result = await calendarWorkRepo.postEventCalendar(
+      EventCalendarRequest(
+        Title: keySearch,
+        DateFrom: startDate.formatApi,
+        DateTo: endDate.formatApi,
+        DonViId:
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
+        isLichCuaToi: isMyWork,
+        month: startDate.month,
+        PageIndex: ApiConstants.PAGE_BEGIN,
+        PageSize: 1000,
+        UserId: HiveLocal.getDataUser()?.userId ?? '',
+        year: startDate.year,
+      ),
+    );
+    result.when(
+      success: (value) {
+        final data = value.map((e) => DateTime.parse(e)).toList();
+        _listNgayCoLich.sink.add(data);
+      },
+      error: (error) {},
     );
   }
 

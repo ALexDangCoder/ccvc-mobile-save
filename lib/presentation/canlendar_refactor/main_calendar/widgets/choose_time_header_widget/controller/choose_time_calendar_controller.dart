@@ -6,6 +6,8 @@ class ChooseTimeController {
   ValueNotifier<DateTime> selectDate = ValueNotifier(DateTime.now());
   ValueNotifier<bool> isShowCalendarType = ValueNotifier(false);
   ValueNotifier<CalendarType> calendarType = ValueNotifier(CalendarType.DAY);
+  DateTime pageTableCalendar = DateTime.now();
+  int page =0 ;
   ValueNotifier<CalendarFormat> calendarFormat =
       ValueNotifier(CalendarFormat.week);
   void onExpandCalendar() {
@@ -15,6 +17,7 @@ class ChooseTimeController {
       calendarFormat.value = CalendarFormat.week;
     }
   }
+
   void onCloseCalendar() {
     if (calendarFormat.value == CalendarFormat.week) {
       return;
@@ -24,31 +27,35 @@ class ChooseTimeController {
   }
 
   void nextTime() {
-    switch (calendarType.value) {
-      case CalendarType.DAY:
-        _nextDay();
-        break;
-      case CalendarType.WEEK:
-        _nextWeek();
-        break;
-      case CalendarType.MONTH:
-        _nextMonth();
-        break;
-    }
+    try {
+      switch (calendarType.value) {
+        case CalendarType.DAY:
+          _nextDay();
+          break;
+        case CalendarType.WEEK:
+          _nextWeek();
+          break;
+        case CalendarType.MONTH:
+          _nextMonth();
+          break;
+      }
+    } catch (e) {}
   }
 
   void backTime() {
-    switch (calendarType.value) {
-      case CalendarType.DAY:
-        _nextDay(isBack: true);
-        break;
-      case CalendarType.WEEK:
-        _nextWeek(isBack: true);
-        break;
-      case CalendarType.MONTH:
-        _nextMonth(isBack: true);
-        break;
-    }
+    try {
+      switch (calendarType.value) {
+        case CalendarType.DAY:
+          _nextDay(isBack: true);
+          break;
+        case CalendarType.WEEK:
+          _nextWeek(isBack: true);
+          break;
+        case CalendarType.MONTH:
+          _nextMonth(isBack: true);
+          break;
+      }
+    } catch (e) {}
   }
 
   void _nextDay({bool isBack = false}) {
@@ -58,9 +65,10 @@ class ChooseTimeController {
     } else {
       day = selectDate.value.millisecondsSinceEpoch + (24 * 60 * 60 * 1000);
     }
-
+    pageTableCalendar = DateTime.fromMillisecondsSinceEpoch(day);
     /// cộng thêm 24 giờ dạng millisecond;
-    selectDate.value = DateTime.fromMillisecondsSinceEpoch(day);
+    selectDate.value = pageTableCalendar;
+
   }
 
   void _nextWeek({bool isBack = false}) {
@@ -72,7 +80,9 @@ class ChooseTimeController {
     }
 
     /// cộng thêm 7 ngày dạng millisecond;
-    selectDate.value = DateTime.fromMillisecondsSinceEpoch(day);
+    pageTableCalendar = DateTime.fromMillisecondsSinceEpoch(day);
+    selectDate.value = pageTableCalendar;
+
   }
 
   void _nextMonth({bool isBack = false}) {
@@ -86,6 +96,7 @@ class ChooseTimeController {
     }
 
     /// cộng thêm 30 ngày dạng millisecond;
-    selectDate.value = DateTime.fromMillisecondsSinceEpoch(day);
+    pageTableCalendar = DateTime.fromMillisecondsSinceEpoch(day);
+    selectDate.value = pageTableCalendar;
   }
 }

@@ -1,6 +1,8 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
@@ -11,6 +13,7 @@ class TableCalendarBase extends StatefulWidget {
   final DateTime firstDay;
   final DateTime lastDay;
   final DateTime focusedDay;
+  final DateTime? currentDate;
   final CalendarFormat calendarFormat;
   final DayBuilder? dowBuilder;
   final FocusedDayBuilder dayBuilder;
@@ -64,6 +67,7 @@ class TableCalendarBase extends StatefulWidget {
       CalendarFormat.month: 'Month',
       CalendarFormat.week: 'Week',
     },
+    required this.currentDate,
     this.onVerticalSwipe,
     this.onPageChanged,
     this.onCalendarCreated,
@@ -73,10 +77,10 @@ class TableCalendarBase extends StatefulWidget {
         super(key: key);
 
   @override
-  _TableCalendarBaseState createState() => _TableCalendarBaseState();
+  TableCalendarBaseState createState() => TableCalendarBaseState();
 }
 
-class _TableCalendarBaseState extends State<TableCalendarBase> {
+class TableCalendarBaseState extends State<TableCalendarBase> {
   late final ValueNotifier<double> _pageHeight;
   late final PageController _pageController;
   late DateTime _focusedDay;
@@ -139,8 +143,13 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
       widget.availableGestures == AvailableGestures.verticalSwipe;
 
   void _updatePage({bool shouldAnimate = false}) {
-    final currentIndex = _calculateFocusedPage(
-        widget.calendarFormat, widget.firstDay, _focusedDay);
+    DateTime dateTime = DateTime.now();
+    if (widget.currentDate?.month == widget.focusedDay.month &&
+        widget.currentDate?.year == widget.focusedDay.year) {
+      dateTime = widget.focusedDay;
+    }
+    final currentIndex = _calculateFocusedPage(widget.calendarFormat,
+        widget.firstDay, widget.currentDate ?? DateTime.now());
 
     final endIndex = _calculateFocusedPage(
         widget.calendarFormat, widget.firstDay, widget.lastDay);
@@ -169,7 +178,8 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
     }
 
     _previousIndex = currentIndex;
-    final rowCount = _getRowCount(widget.calendarFormat, _focusedDay);
+    final rowCount = _getRowCount(
+        widget.calendarFormat, widget.currentDate ?? DateTime.now());
     _pageHeight.value = _getPageHeight(rowCount);
 
     _pageCallbackDisabled = false;
@@ -209,7 +219,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
               startingDayOfWeek: widget.startingDayOfWeek,
               calendarFormat: widget.calendarFormat,
               previousIndex: _previousIndex,
-              focusedDay: _focusedDay,
+              focusedDay: widget.currentDate,
               sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
               dowVisible: widget.dowVisible,
               dowHeight: widget.dowHeight,

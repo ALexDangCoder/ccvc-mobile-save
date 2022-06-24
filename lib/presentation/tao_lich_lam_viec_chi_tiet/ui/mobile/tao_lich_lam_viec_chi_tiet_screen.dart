@@ -357,7 +357,7 @@ class _TaoLichLamViecChiTietScreenState
 
   Future<void> validateField() async {
     _formKey.currentState!.validator();
-    if (!timeValue && !calValue) {
+    if (_formKey.currentState!.validator() && !timeValue && !calValue) {
       await taoLichLamViecCubit.checkTrungLich(
         context: context,
         title: tieuDeController.value.text.trim().replaceAll(' +', ' '),

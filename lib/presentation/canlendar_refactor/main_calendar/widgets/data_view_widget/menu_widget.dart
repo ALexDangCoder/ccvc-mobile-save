@@ -1,91 +1,134 @@
+import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MenuWidget extends StatelessWidget {
-  const MenuWidget({Key? key, required this.cubit}) : super(key: key);
-  final CalendarWorkCubit cubit;
+  const MenuWidget({
+    Key? key,
+    required this.dataMenu,
+    required this.onChoose,
+    required this.stateMenu,
+    required this.state,
+  }) : super(key: key);
+
+  final List<ParentMenu> dataMenu;
+  final List<StateMenu> stateMenu;
+  final Function(DataItemMenu? value, BaseState state) onChoose;
+  final BaseState state;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundDrawerMenu,
-      body: BlocBuilder(
-        bloc: cubit,
-        builder: (_, state) {
-          final isCalendarView = state is CalendarViewState;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spaceH50,
-              title,
-              spaceH24,
-              itemMenuView(
-                icon: ImageAssets.icTheoDangLich,
-                title: S.current.theo_dang_lich,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  cubit.emitCalendar();
-                },
-                isSelect: isCalendarView,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            spaceH50,
+            title,
+            spaceH24,
+            ...stateMenu
+                .map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: itemMenuView(
+                      icon: e.icon,
+                      title: e.title,
+                      onTap: () {
+                        onChoose.call(null, e.state);
+                        Navigator.of(context).pop();
+                      },
+                      isSelect: e.state ==  state,
+                    ),
+                  ),
+                )
+                .toList(),
+            const Divider(
+              color: containerColor,
+              height: 1,
+            ),
+            spaceH12,
+            ...dataMenu
+                .map(
+                  (e) => e.childData != null
+                      ? menuItemWithChild(e, context)
+                      : menuViewNoChild(e),
+                )
+                .toList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget childItemMenu(
+    BuildContext context,
+    ChildMenu data,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+        onChoose.call(data.value, state);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 12,
+        ),
+        color: Colors.transparent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  spaceW30,
+                  Expanded(
+                    child: Text(
+                      data.title,
+                      style: tokenDetailAmount(
+                        color: backgroundColorApp,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              spaceH2,
-              itemMenuView(
-                icon: ImageAssets.icTheoDangDanhSachGrey,
-                title: S.current.theo_dang_danh_sach,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  cubit.emitList();
-                },
-                isSelect: !isCalendarView,
-              ),
-              spaceH12,
-              const Divider(
-                color: containerColor,
-                height: 1,
-              ),
-              spaceH12,
-              itemMenuView(
-                icon: ImageAssets.icPerson,
-                title: S.current.lich_cua_toi,
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              spaceH2,
-              ExpandOnlyWidget(
-                header: itemMenuView(
-                  icon: ImageAssets.icLichTheoTrangThai,
-                  title: S.current.lich_theo_trang_thai,
-                ),
-                child: Container(
-                  height: 200,
-                  color: Colors.red,
-                ),
-              ),
-              spaceH2,
-              ExpandOnlyWidget(
-                header: itemMenuView(
-                  icon: ImageAssets.icLichLanhDao,
-                  title: S.current.lich_theo_lanh_dao,
-                ),
-                child: Container(
-                  height: 200,
-                  color: Colors.red,
-                ),
-              ),
-              spaceH16,
-            ],
-          );
-        },
+            ),
+            spaceW12,
+            countItemWidget(data.count),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget countItemWidget(int count) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 4,
+        horizontal: 5,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: AppTheme.getInstance().colorField(),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        count.toString(),
+        style: textNormalCustom(
+          color: backgroundColorApp,
+          fontWeight: FontWeight.w500,
+          fontSize: 12,
+        ),
       ),
     );
   }
@@ -117,6 +160,7 @@ class MenuWidget extends StatelessWidget {
     Function()? onTap,
   }) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -149,4 +193,100 @@ class MenuWidget extends StatelessWidget {
       ),
     );
   }
+
+  Widget menuViewNoChild(ParentMenu item) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Row(
+        children: [
+          Expanded(
+            child: itemMenuView(
+              icon: item.iconAsset,
+              title: item.title,
+              onTap: () {
+                onChoose.call(item.value, state);
+              },
+            ),
+          ),
+          spaceW12,
+          countItemWidget(item.count),
+          spaceW18,
+        ],
+      ),
+    );
+  }
+
+  Widget menuItemWithChild(ParentMenu item, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: ExpandOnlyWidget(
+        isPadingIcon: true,
+        header: itemMenuView(
+          icon: ImageAssets.icLichTheoTrangThai,
+          title: S.current.lich_theo_trang_thai,
+        ),
+        child: Column(
+          children: item.childData!
+              .map(
+                (e) => childItemMenu(
+                  context,
+                  e,
+                ),
+              )
+              .toList(),
+        ),
+      ),
+    );
+  }
+}
+
+class ChildMenu {
+  String title;
+  int count;
+  DataItemMenu value;
+
+  ChildMenu({required this.title, required this.count, required this.value});
+}
+
+class StateMenu {
+  String title;
+  String icon;
+  BaseState state;
+
+  StateMenu({
+    required this.title,
+    required this.icon,
+    required this.state,
+  });
+}
+
+class ParentMenu {
+  String title;
+  int count;
+  String iconAsset;
+  DataItemMenu? value;
+  List<ChildMenu>? childData;
+
+  ParentMenu({
+    required this.title,
+    required this.count,
+    required this.iconAsset,
+    this.value,
+    this.childData,
+  });
+}
+
+abstract class DataItemMenu {}
+
+class StatusDataItem extends DataItemMenu {
+  StatusWorkCalendar value;
+
+  StatusDataItem(this.value);
+}
+
+class LeaderDataItem extends DataItemMenu {
+  String id;
+  String title;
+
+  LeaderDataItem(this.id, this.title);
 }

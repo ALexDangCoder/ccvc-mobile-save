@@ -1,8 +1,8 @@
+import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
-import 'package:equatable/equatable.dart';
 
 
-abstract class CalendarWorkState extends Equatable {
+abstract class CalendarWorkState extends BaseState {
   final CalendarType typeView;
   const CalendarWorkState( this.typeView);
 }

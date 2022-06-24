@@ -65,9 +65,10 @@ class ChooseTimeController {
     } else {
       day = selectDate.value.millisecondsSinceEpoch + (24 * 60 * 60 * 1000);
     }
-
+    pageTableCalendar = DateTime.fromMillisecondsSinceEpoch(day);
     /// cộng thêm 24 giờ dạng millisecond;
-    selectDate.value = DateTime.fromMillisecondsSinceEpoch(day);
+    selectDate.value = pageTableCalendar;
+
   }
 
   void _nextWeek({bool isBack = false}) {
@@ -79,7 +80,9 @@ class ChooseTimeController {
     }
 
     /// cộng thêm 7 ngày dạng millisecond;
-    selectDate.value = DateTime.fromMillisecondsSinceEpoch(day);
+    pageTableCalendar = DateTime.fromMillisecondsSinceEpoch(day);
+    selectDate.value = pageTableCalendar;
+
   }
 
   void _nextMonth({bool isBack = false}) {
@@ -93,6 +96,7 @@ class ChooseTimeController {
     }
 
     /// cộng thêm 30 ngày dạng millisecond;
-    selectDate.value = DateTime.fromMillisecondsSinceEpoch(day);
+    pageTableCalendar = DateTime.fromMillisecondsSinceEpoch(day);
+    selectDate.value = pageTableCalendar;
   }
 }

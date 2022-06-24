@@ -92,7 +92,6 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
           AnimatedBuilder(
             builder: (context, _) => GestureDetector(
               onTap: () {
-                isSearch = !isSearch;
                 if (isSearch) {
                   focusNode.unfocus();
                   widget.controller.text = '';
@@ -101,6 +100,7 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
                 } else {
                   expandController.reverse();
                 }
+                isSearch = !isSearch;
               },
               child: Stack(
                 children: [

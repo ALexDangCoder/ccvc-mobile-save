@@ -13,6 +13,7 @@ class TableCalendarBase extends StatefulWidget {
   final DateTime firstDay;
   final DateTime lastDay;
   final DateTime focusedDay;
+  final DateTime? currentDate;
   final CalendarFormat calendarFormat;
   final DayBuilder? dowBuilder;
   final FocusedDayBuilder dayBuilder;
@@ -66,6 +67,7 @@ class TableCalendarBase extends StatefulWidget {
       CalendarFormat.month: 'Month',
       CalendarFormat.week: 'Week',
     },
+    required this.currentDate,
     this.onVerticalSwipe,
     this.onPageChanged,
     this.onCalendarCreated,
@@ -113,16 +115,16 @@ class TableCalendarBaseState extends State<TableCalendarBase> {
       final shouldAnimate = _focusedDay != widget.focusedDay;
 
       _focusedDay = widget.focusedDay;
-      // _updatePage(shouldAnimate: shouldAnimate);
+      _updatePage(shouldAnimate: shouldAnimate);
     }
 
-    // if (widget.rowHeight != oldWidget.rowHeight ||
-    //     widget.dowHeight != oldWidget.dowHeight ||
-    //     widget.dowVisible != oldWidget.dowVisible ||
-    //     widget.sixWeekMonthsEnforced != oldWidget.sixWeekMonthsEnforced) {
-    //   final rowCount = _getRowCount(widget.calendarFormat, _focusedDay);
-    //   _pageHeight.value = _getPageHeight(rowCount);
-    // }
+    if (widget.rowHeight != oldWidget.rowHeight ||
+        widget.dowHeight != oldWidget.dowHeight ||
+        widget.dowVisible != oldWidget.dowVisible ||
+        widget.sixWeekMonthsEnforced != oldWidget.sixWeekMonthsEnforced) {
+      final rowCount = _getRowCount(widget.calendarFormat, _focusedDay);
+      _pageHeight.value = _getPageHeight(rowCount);
+    }
   }
 
   @override
@@ -139,23 +141,18 @@ class TableCalendarBaseState extends State<TableCalendarBase> {
   bool get _canScrollVertically =>
       widget.availableGestures == AvailableGestures.all ||
       widget.availableGestures == AvailableGestures.verticalSwipe;
-  void colasp(DateTime dateTime,
-      {CalendarFormat calendarFormat = CalendarFormat.week}) {
-    _focusedDay = dateTime;
-    updatePage(dateTime: dateTime, calendarFormat: calendarFormat);
-    final rowCount = _getRowCount(calendarFormat, dateTime);
-    _pageHeight.value = _getPageHeight(rowCount);
-  }
 
-  void updatePage(
-      {bool shouldAnimate = false,
-      DateTime? dateTime,
-      CalendarFormat calendarFormat = CalendarFormat.week}) {
-    final currentIndex = _calculateFocusedPage(
-        calendarFormat, widget.firstDay, dateTime ?? DateTime.now());
+  void _updatePage({bool shouldAnimate = false}) {
+    DateTime dateTime = DateTime.now();
+    if (widget.currentDate?.month == widget.focusedDay.month &&
+        widget.currentDate?.year == widget.focusedDay.year) {
+      dateTime = widget.focusedDay;
+    }
+    final currentIndex = _calculateFocusedPage(widget.calendarFormat,
+        widget.firstDay, widget.currentDate ?? DateTime.now());
 
-    final endIndex =
-        _calculateFocusedPage(calendarFormat, widget.firstDay, widget.lastDay);
+    final endIndex = _calculateFocusedPage(
+        widget.calendarFormat, widget.firstDay, widget.lastDay);
 
     if (currentIndex != _previousIndex ||
         currentIndex == 0 ||
@@ -181,7 +178,8 @@ class TableCalendarBaseState extends State<TableCalendarBase> {
     }
 
     _previousIndex = currentIndex;
-    final rowCount = _getRowCount(calendarFormat, dateTime ?? DateTime.now());
+    final rowCount = _getRowCount(
+        widget.calendarFormat, widget.currentDate ?? DateTime.now());
     _pageHeight.value = _getPageHeight(rowCount);
 
     _pageCallbackDisabled = false;
@@ -221,7 +219,7 @@ class TableCalendarBaseState extends State<TableCalendarBase> {
               startingDayOfWeek: widget.startingDayOfWeek,
               calendarFormat: widget.calendarFormat,
               previousIndex: _previousIndex,
-              focusedDay: _focusedDay,
+              focusedDay: widget.currentDate,
               sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
               dowVisible: widget.dowVisible,
               dowHeight: widget.dowHeight,

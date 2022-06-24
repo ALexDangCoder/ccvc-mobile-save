@@ -72,7 +72,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   Future<void> refreshApi() async {
     apiCalling = true;
-    ShowLoadingScreen.show();
+
     final Queue queue = Queue(parallel: 3);
     unawaited(queue.add(() => getMenuData()));
     unawaited(queue.add(() => getTotalWork()));
@@ -81,7 +81,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       unawaited(queue.add(() => getFullListWork()));
     }
     await queue.onComplete;
-    ShowLoadingScreen.dismiss();
+
     apiCalling = false;
   }
 

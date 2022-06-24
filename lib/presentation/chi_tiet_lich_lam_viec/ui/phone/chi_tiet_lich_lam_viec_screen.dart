@@ -233,30 +233,30 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                         ),
                       ),
                     )
-                  : const SizedBox.shrink()
-              : Scaffold(
-                  appBar: BaseAppBar(
-                    title: S.current.chi_tiet_lich_lam_viec,
-                    leadingIcon: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        color: AqiColor,
+                  : Scaffold(
+                      appBar: BaseAppBar(
+                        title: S.current.chi_tiet_lich_lam_viec,
+                        leadingIcon: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: AqiColor,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  body: Center(
-                    child: Text(
-                      S.current.no_data,
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        color: AppTheme.getInstance().colorField(),
+                      body: Center(
+                        child: Text(
+                          S.current.no_data,
+                          style: textNormalCustom(
+                            fontSize: 14,
+                            color: AppTheme.getInstance().colorField(),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
+                    )
+              : const Scaffold();
         },
       ),
     );

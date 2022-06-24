@@ -170,7 +170,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                         onTap: isShowTime
                             ? () {}
                             : () {
-                                expandEnd();
+                                expandEnd(TypePickerDateTime.TIME_END);
                               },
                         child: StreamBuilder<String>(
                           stream: _cubit.timeEndSubject,
@@ -199,7 +199,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     final String date = snapshot.data ?? S.current.ddmmyy;
                     return GestureDetector(
                       onTap: () {
-                        expandEnd();
+                        expandEnd(TypePickerDateTime.DATE_END);
                       },
                       child: Text(
                         date,
@@ -300,7 +300,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     visible: !isShowTime,
                     child: GestureDetector(
                       onTap: () {
-                        expandStart();
+                        expandStart(TypePickerDateTime.TIME_START);
                       },
                       child: StreamBuilder<String>(
                         stream: _cubit.timeBeginSubject,
@@ -329,7 +329,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
                     onTap: () {
-                      expandStart();
+                      expandStart(TypePickerDateTime.DATE_START);
                     },
                     child: Text(
                       date,
@@ -424,13 +424,13 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       DateTimeFormat.DAY_MONTH_YEAR,
     );
     _cubit.dateEndSubject.sink.add(convertDate);
-    _cubit.checkTime();
     _cubit.onTimeChanged(
       timeSelected: convertDate.convertStringToDate(
         formatPattern: DateFormatApp.date,
       ),
       typePicker: typePicker,
     );
+    _cubit.checkTime();
   }
 
   Widget get switchButton => Row(
@@ -502,24 +502,24 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         ],
       );
 
-  void expandEnd() {
+  void expandEnd(TypePickerDateTime type) {
     if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
         keyExpandedEnd.currentState!.isExpandedGroup) {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
       keyExpandedEnd.currentState?.expandGesture();
     }
-    _cubit.setTypePickerEnd(TypePickerDateTime.DATE_END);
+    _cubit.setTypePickerEnd(type);
   }
 
-  void expandStart() {
+  void expandStart(TypePickerDateTime type) {
     if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
         keyExpandedBegin.currentState!.isExpandedGroup) {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
       keyExpandedBegin.currentState?.expandGesture();
     }
-    _cubit.setTypePickerStart(TypePickerDateTime.DATE_START);
+    _cubit.setTypePickerStart(type);
   }
 
   String get now =>

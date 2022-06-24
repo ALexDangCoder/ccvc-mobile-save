@@ -45,6 +45,30 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
+      if (dateFromTmp == 'DD/MM/YYYY') {
+        dateFromTmp =
+            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+        dateBeginSubject.sink.add(
+            dateFromTmp,
+        );
+      }
+      else {
+        dateBeginSubject.sink.add(
+          dateFromTmp,
+        );
+      }
+      if (dateToTmp == 'DD/MM/YYYY') {
+        dateToTmp =
+            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+        dateEndSubject.sink.add(
+          dateToTmp,
+        );
+      }
+      else {
+        dateBeginSubject.sink.add(
+          dateToTmp,
+        );
+      }
       final date = DateTime.now();
       timeBeginSubject.sink.add(
         DateTime(date.year, date.month, date.day, 08)
@@ -54,12 +78,12 @@ class DateTimeCupertinoCustomCubit
         DateTime(date.year, date.month, date.day, 18)
             .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
       );
-      dateBeginSubject.sink.add(
-        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      dateEndSubject.sink.add(
-        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      );
+      // dateBeginSubject.sink.add(
+      //   DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+      // );
+      // dateEndSubject.sink.add(
+      //   DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+      // );
       validateTime.sink.add('');
     } else {
       timeBeginSubject.sink.add(timeFromTmp);

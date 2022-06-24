@@ -5,8 +5,18 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_i
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+enum TypeDashBroad {
+  LICH_CONG_TAC_TRONG_NUOC,
+  LICH_LAM_VIEC,
+  LICH_CONG_TAC_NUOC_NGOAI,
+  LICH_TIEP_DAN,
+  ADMIN_TAO,
+}
+
 
 class DashBroadCountRow extends StatelessWidget {
   DashBroadCountRow({
@@ -14,13 +24,6 @@ class DashBroadCountRow extends StatelessWidget {
     required this.cubit,
   }) : super(key: key);
   final CalendarWorkCubit cubit;
-  final List<String> img = [
-    ImageAssets.icLichCongTacTrongNuoc,
-    ImageAssets.icLichLamViec,
-    ImageAssets.icLichCongTacNuocNgoai,
-    ImageAssets.icLichTiepDan,
-    ImageAssets.icAdminTao,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class DashBroadCountRow extends StatelessWidget {
                       data.length,
                       (index) => itemDashBroad(
                         data[index].typeName ?? '',
-                        img[index],
+                        getTypeFromString((data[index].typeName ?? '').textToCode).getImage(),
                         data[index].numberOfCalendars ?? 0,
                       ),
                     ),
@@ -126,3 +129,37 @@ class DashBroadCountRow extends StatelessWidget {
     );
   }
 }
+
+
+extension TypeDashBroadUltis on TypeDashBroad {
+  String getImage() {
+    switch (this) {
+      case TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC:
+        return ImageAssets.icLichCongTacTrongNuoc;
+      case TypeDashBroad.LICH_CONG_TAC_NUOC_NGOAI:
+        return ImageAssets.icLichCongTacNuocNgoai;
+      case TypeDashBroad.LICH_LAM_VIEC:
+        return ImageAssets.icLichLamViec;
+      case TypeDashBroad.LICH_TIEP_DAN:
+        return ImageAssets.icLichTiepDan;
+      case TypeDashBroad.ADMIN_TAO:
+        return ImageAssets.icAdminTao;
+    }
+  }
+}
+TypeDashBroad getTypeFromString (String value){
+  switch (value) {
+    case 'LICH_CONG_TAC_TRONG_NUOC':
+      return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
+    case 'LICH_CONG_TAC_NUOC_NGOAI':
+      return TypeDashBroad.LICH_CONG_TAC_NUOC_NGOAI;
+    case 'LICH_LAM_VIEC':
+      return TypeDashBroad.LICH_LAM_VIEC;
+    case 'LICH_TIEP_DAN':
+      return TypeDashBroad.LICH_TIEP_DAN;
+    case 'ADMIN_TAO':
+      return TypeDashBroad.ADMIN_TAO;
+    default : return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
+  }
+}
+

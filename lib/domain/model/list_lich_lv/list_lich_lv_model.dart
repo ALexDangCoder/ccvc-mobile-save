@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DataLichLvModel {
@@ -20,32 +22,25 @@ class DataLichLvModel {
 
   DataSourceFCalendar toDataFCalenderSource  () {
     final List<Appointment> appointments = [];
-    //
-    // final RecurrenceProperties recurrence =
-    // RecurrenceProperties(startDate: DateTime.now());
-    // recurrence.recurrenceType = RecurrenceType.daily;
-    // recurrence.interval = 2;
-    // recurrence.recurrenceRange = RecurrenceRange.noEndDate;
-    // recurrence.recurrenceCount = 10;
-    //
-    // if ((dataLichLvModels.listLichLVModel ?? []).isNotEmpty) {
-    //   for (final i in dataLichLvModels.listLichLVModel ?? []) {
-    //     appointments.add(
-    //       Appointment(
-    //         startTime: DateTime.parse(
-    //           i.dateTimeFrom ?? '',
-    //         ),
-    //         endTime: DateTime.parse(
-    //           i.dateTimeTo ?? '',
-    //         ),
-    //         subject: i.title ?? '',
-    //         color: Colors.blue,
-    //         id: i.id ?? '',
-    //       ),
-    //     );
-    //   }
-    //   // getMatchDate(dataLichLvModels);
-    // }
+    if ((listLichLVModel ?? []).isNotEmpty) {
+      for (final ListLichLVModel i in listLichLVModel ?? []) {
+        appointments.add(
+          Appointment(
+            notes: i.typeSchedule,
+            startTime: DateTime.parse(
+              i.dateTimeFrom ?? '',
+            ),
+            endTime: DateTime.parse(
+              i.dateTimeTo ?? '',
+            ),
+            subject: i.title ?? '',
+            color: Colors.blue,
+            id: i.id ?? '',
+          ),
+        );
+      }
+      // getMatchDate(dataLichLvModels);
+    }
     return DataSourceFCalendar(appointments);
   }
 }

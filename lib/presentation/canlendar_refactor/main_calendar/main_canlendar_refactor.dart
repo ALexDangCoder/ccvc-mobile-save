@@ -214,12 +214,12 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                   StateMenu(
                     icon: ImageAssets.icTheoDangLich,
                     title: S.current.theo_dang_lich,
-                    state: ListViewState(typeView: cubit.state.typeView),
+                    state: CalendarViewState(typeView: cubit.state.typeView) ,
                   ),
                   StateMenu(
                     icon: ImageAssets.icTheoDangDanhSachGrey,
                     title: S.current.theo_dang_danh_sach,
-                    state: CalendarViewState(typeView: cubit.state.typeView),
+                    state: ListViewState(typeView: cubit.state.typeView),
                   ),
                 ],
                 state: cubit.state,

@@ -22,7 +22,7 @@ class _TabAnhKhongDeoKinhState extends State<TabAnhKhongDeoKinh> {
               .map(
                 (e) => ItemImageWidget(
                   image: e.image,
-                  title: e.title,
+                  title: e.title, cubit: widget.cubit,
                 ),
               )
               .toList(),

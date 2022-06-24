@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_sele
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';

@@ -28,8 +28,6 @@ class ImageAssets {
   static const String icXoaNhanhDienBienSoXe = '$baseImg/ic_xoa_nhan_dien_bien_so_xe.svg';
   static const String imgDangKyXe = '$baseImg/image_dang_ky_xe.png';
 
-
-
   static SvgPicture svgAssets(
     String name, {
     Color? color,

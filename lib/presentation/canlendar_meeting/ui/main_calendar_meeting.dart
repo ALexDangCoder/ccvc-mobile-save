@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_c
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/tao_lich_hop_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
@@ -35,6 +37,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
   @override
   void initState() {
    // init  api
+    cubit.initData();
     _handleEventBus();
     super.initState();
   }
@@ -123,12 +126,12 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const TaoLichLamViecChiTietScreen(),
-            //   ),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TaoLichHopScreen(),
+              ),
+            );
           },
           backgroundColor: AppTheme.getInstance().colorField(),
           child: SvgPicture.asset(ImageAssets.icVectorCalender),
@@ -141,15 +144,14 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
     DrawerSlide.navigatorSlide(
       context: context,
       screen: StreamBuilder<List<MenuModel>>(
-        // stream: cubit.menuDataStream,
+        stream: cubit.menuDataStream,
         builder: (_, snap) {
           final leaderMenuData = snap.data ?? [];
-          return StreamBuilder(
-            // stream: cubit.totalWorkStream,
+          return StreamBuilder<DashBoardLichHopModel>(
+            stream: cubit.totalWorkStream,
             builder: (context, snapshot) {
-              final data = snapshot.data ;
+              final data = snapshot.data ?? DashBoardLichHopModel.empty();
               return MenuWidget(
-                //data menu : menu been duoiws
                 dataMenu: [
                   ParentMenu(
                     count:  0,
@@ -158,15 +160,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                     value: StatusDataItem(StatusWorkCalendar.LICH_CUA_TOI),
                   ),
                   ParentMenu(
-                    childData: [
-                      ChildMenu(
-                        value: StatusDataItem(
-                          StatusWorkCalendar.LICH_DUOC_MOI,
-                        ),
-                        title: S.current.lich_duoc_moi,
-                        count: 0,
-                      ),
-                    ],
+                    childData: cubit.getMenuLichTheoTrangThai(data),
                     count: 0,
                     iconAsset: ImageAssets.icLichTheoTrangThai,
                     title: S.current.lich_theo_trang_thai,
@@ -189,7 +183,6 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                 onChoose: (value, state) {
                   // cubit.menuClick(value, state);
                 },
-                //data menu : menu been tren
 
                 stateMenu: [
                   StateMenu(

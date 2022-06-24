@@ -166,7 +166,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     return Visibility(
                       visible: !isShowTime,
                       child: GestureDetector(
-                        behavior: HitTestBehavior.deferToChild,
+                        behavior: HitTestBehavior.opaque,
                         onTap: isShowTime
                             ? () {}
                             : () {
@@ -299,6 +299,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   return Visibility(
                     visible: !isShowTime,
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
                         expandStart(TypePickerDateTime.TIME_START);
                       },

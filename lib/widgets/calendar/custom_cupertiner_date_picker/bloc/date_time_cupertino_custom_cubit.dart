@@ -92,20 +92,6 @@ class DateTimeCupertinoCustomCubit
     required DateTime timeSelected,
     required TypePickerDateTime typePicker,
   }) {
-    if (isSwitchBtnCheckedSubject.hasValue && isSwitchBtnCheckedSubject.value) {
-      timeEndSubject.sink.add(timeBeginSubject.value);
-      dateBeginSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      dateEndSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      timeFromTmp = timeBeginSubject.value;
-      dateFromTmp = dateBeginSubject.value;
-      dateToTmp = dateEndSubject.value;
-      return;
-    }
-
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
         timeFromTmp = timeSelected.dateTimeFormatter(

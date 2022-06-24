@@ -49,10 +49,9 @@ class DateTimeCupertinoCustomCubit
         dateFromTmp =
             DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
         dateBeginSubject.sink.add(
-            dateFromTmp,
+          dateFromTmp,
         );
-      }
-      else {
+      } else {
         dateBeginSubject.sink.add(
           dateFromTmp,
         );
@@ -63,8 +62,7 @@ class DateTimeCupertinoCustomCubit
         dateEndSubject.sink.add(
           dateToTmp,
         );
-      }
-      else {
+      } else {
         dateBeginSubject.sink.add(
           dateToTmp,
         );
@@ -78,12 +76,6 @@ class DateTimeCupertinoCustomCubit
         DateTime(date.year, date.month, date.day, 18)
             .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
       );
-      // dateBeginSubject.sink.add(
-      //   DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      // );
-      // dateEndSubject.sink.add(
-      //   DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      // );
       validateTime.sink.add('');
     } else {
       timeBeginSubject.sink.add(timeFromTmp);

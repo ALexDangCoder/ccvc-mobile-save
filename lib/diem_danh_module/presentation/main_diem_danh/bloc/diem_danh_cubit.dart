@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/bang_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_nhan_request.dart';
@@ -25,14 +27,19 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
   Stream<TypeDiemDanh> get typeDiemDanhStream => typeDiemDanhSubject.stream;
 
-  /// -------------------------------------
+  /// ................................
 
+  /// quan ly nhan dien khuon mat
+
+  BehaviorSubject<File> imagePickerSubject = BehaviorSubject();
+  Stream<File> get imagePickerStream => imagePickerSubject.stream;
 
   ///Fake data
   String xeMay = 'Xe máy';
   String bienKiemSoat = '29x5 38534';
   String loaiSoHuu = 'Xe cán bộ';
-  ///--------------------
+
+  /// ................................
 
   BehaviorSubject<List<LoaiXeModel>> loaiXeSubject = BehaviorSubject.seeded(
     [

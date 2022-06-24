@@ -30,6 +30,7 @@ class _TabAnhKhongDeoKinhTabletState extends State<TabAnhKhongDeoKinhTablet> {
               (e) => ItemImageWidget(
                 image: e.image,
                 title: e.title,
+                cubit: widget.cubit,
               ),
             )
             .toList(),

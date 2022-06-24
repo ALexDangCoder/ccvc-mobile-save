@@ -423,10 +423,9 @@ class ListUpDSCV extends StatelessWidget {
                 );
               },
               icon: SvgPicture.asset(
-                ImageAssets.icDeleteLichHop,
+                ImageAssets.ic_xoa_vinh_viec_cv,
               ),
-              title: S.current.xoa_cong_viec,
-              textContent: S.current.ban_chac_chan_muon_xoa,
+              title: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
             );

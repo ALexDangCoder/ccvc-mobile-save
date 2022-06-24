@@ -13,6 +13,7 @@ class EventCalendarRequest {
   bool? isLichCuaToi;
   int? month;
   int? year;
+  String? Title;
 
   EventCalendarRequest({
     required this.DateFrom,
@@ -24,6 +25,7 @@ class EventCalendarRequest {
     required this.isLichCuaToi,
     required this.month,
     required this.year,
+    required this.Title,
   });
 
   factory EventCalendarRequest.fromJson(Map<String, dynamic> json) =>

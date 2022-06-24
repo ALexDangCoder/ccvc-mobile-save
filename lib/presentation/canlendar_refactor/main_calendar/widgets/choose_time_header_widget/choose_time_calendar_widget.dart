@@ -14,11 +14,13 @@ class ChooseTimeCalendarWidget extends StatefulWidget {
   final List<DateTime> calendarDays;
   final Function(DateTime, DateTime, CalendarType, String) onChange;
   final ChooseTimeController? controller;
+  final Function(DateTime, DateTime, String)? onChangeYear;
   const ChooseTimeCalendarWidget(
       {Key? key,
       this.calendarDays = const [],
       required this.onChange,
-      this.controller})
+      this.controller,
+      this.onChangeYear})
       : super(key: key);
 
   @override
@@ -38,10 +40,19 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
     } else {
       controller = widget.controller!;
     }
-    controller.selectDate.addListener(() {
+    final timePage = controller.pageTableCalendar
+        .dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+    widget.onChangeYear?.call(timePage.first, timePage.last,
+        textEditingController.text);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       final times = dateTimeRange(controller.selectDate.value);
       widget.onChange(times[0], times[1], controller.calendarType.value,
           textEditingController.text);
+      controller.selectDate.addListener(() {
+        final times = dateTimeRange(controller.selectDate.value);
+        widget.onChange(times[0], times[1], controller.calendarType.value,
+            textEditingController.text);
+      });
     });
   }
 
@@ -97,6 +108,10 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                             dateTimeRange(controller.selectDate.value);
                         widget.onChange(times[0], times[1],
                             controller.calendarType.value, value);
+                        final timePage = controller.pageTableCalendar
+                            .dateTimeFormRange(timeRange: TimeRange.NAM_NAY);
+                        widget.onChangeYear?.call(timePage.first, timePage.last,
+                            textEditingController.text);
                       },
                       time: dateFormat(value),
                       onTap: () {
@@ -107,12 +122,19 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                   },
                 ),
                 TabletCalendarWidget(
+
                   initDate: controller.selectDate.value,
                   calendarDays: widget.calendarDays,
                   onSelect: (value) {
                     controller.selectDate.value = value;
                   },
                   controller: controller,
+                  onPageCalendar: (value) {
+                    final times =
+                        value.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+                    widget.onChangeYear?.call(
+                        times.first, times.last, textEditingController.text);
+                  },
                 ),
               ],
             ),

@@ -200,14 +200,15 @@ class TableCalendarPhone<T> extends StatefulWidget {
 
   /// Called when the calendar is created. Exposes its PageController.
   final void Function(PageController pageController)? onCalendarCreated;
-
+  final DateTime? currentDate;
   /// Creates a `TableCalendar` widget.
   final bool isCheckLuner;
-
+  final GlobalKey<TableCalendarBaseState>? globalKey;
   TableCalendarPhone({
     Key? key,
     this.isCheckLuner = false,
     required DateTime focusedDay,
+    this.globalKey,
     required DateTime firstDay,
     required DateTime lastDay,
     DateTime? currentDay,
@@ -226,6 +227,7 @@ class TableCalendarPhone<T> extends StatefulWidget {
     this.pageAnimationEnabled = true,
     this.sixWeekMonthsEnforced = false,
     this.shouldFillViewport = false,
+     this.currentDate,
     this.rowHeight = 70.0,
     this.daysOfWeekHeight = 25.0,
     this.formatAnimationDuration = const Duration(milliseconds: 200),
@@ -477,6 +479,7 @@ class _TableCalendarPhoneState<T> extends State<TableCalendarPhone<T>> {
         Flexible(
           flex: widget.shouldFillViewport ? 1 : 0,
           child: TableCalendarBase(
+            key: widget.globalKey,
             onCalendarCreated: (pageController) {
               _pageController = pageController;
               widget.onCalendarCreated?.call(pageController);
@@ -538,7 +541,7 @@ class _TableCalendarPhoneState<T> extends State<TableCalendarPhone<T>> {
                 onLongPress: () => _onDayLongPressed(day),
                 child: _buildCell(day, focusedMonth),
               );
-            },
+            }, currentDate: widget.currentDate,
           ),
         ),
       ],

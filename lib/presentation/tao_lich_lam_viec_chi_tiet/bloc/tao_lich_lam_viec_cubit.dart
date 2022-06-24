@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_sele
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
@@ -390,47 +391,48 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       datNuocSelectModel?.id = '';
     }
     final result = await _lichLamViec.taoLichLamViec(
-      title,
-      selectLoaiLichId ?? '',
-      selectLinhVuc?.id ?? '',
-      tinhSelectModel?.id ?? '',
-      tinhSelectModel?.tenTinhThanh ?? '',
-      huyenSelectModel?.id ?? '',
-      huyenSelectModel?.tenQuanHuyen ?? '',
-      xaSelectModel?.id ?? '',
-      xaSelectModel?.tenXaPhuong ?? '',
-      datNuocSelectModel?.name ?? '',
-      datNuocSelectModel?.id ?? '',
-      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      timeFrom ?? timeFrom ?? DateTime.now().formatApiFixMeet,
-      DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-      timeEnd ??
+      title: title,
+      typeScheduleId: selectLoaiLichId ?? '',
+      linhVucId: selectLinhVuc?.id ?? '',
+      tinhId: tinhSelectModel?.id ?? '',
+      TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
+      huyenId: huyenSelectModel?.id ?? '',
+      TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
+      xaId: xaSelectModel?.id ?? '',
+      TenXa: xaSelectModel?.tenXaPhuong ?? '',
+      country: datNuocSelectModel?.name ?? '',
+      countryId: datNuocSelectModel?.id ?? '',
+      dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      timeFrom: timeFrom ?? timeFrom ?? DateTime.now().formatApiFixMeet,
+      dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
+      timeTo: timeEnd ??
           timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      content,
-      location,
-      '',
-      '',
-      '',
-      2,
-      '',
-      publishSchedule ?? false,
+      content: content,
+      location: location,
+      vehicle: '',
+      expectedResults: '',
+      results: '',
+      status: 2,
+      rejectReason: '',
+      publishSchedule: publishSchedule ?? false,
       //cong khai lich
-      '',
-      false,
-      true,
-      selectNguoiChuTri?.userId ?? '',
-      selectNguoiChuTri?.donViId ?? '',
-      '',
-      isCheckAllDaySubject.value,
-      true,
-      donviModel ?? [],
-      selectNhacLai.value ?? 1,
-      selectLichLap.id ?? 0,
+      tags: '',
+      isLichDonVi: false,
+      isLichLanhDao: true,
+      canBoChuTriId: selectNguoiChuTri?.userId ?? '',
+      donViId: selectNguoiChuTri?.donViId ?? '',
+      note: '',
+      isAllDay: isCheckAllDaySubject.value,
+      isSendMail: true,
+      scheduleCoperativeRequest: donviModel ?? [],
+      typeRemider: selectNhacLai.value ?? 1,
+      typeRepeat: selectLichLap.id ?? 0,
+      dateRepeat:
       DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      dateTimeLapDenNgay.formatApi,
-      true,
-      lichLapItem1,
+      dateRepeat1: dateTimeLapDenNgay.formatApi,
+      only: true,
+      days: lichLapItem1,
     );
     result.when(
       success: (res) {

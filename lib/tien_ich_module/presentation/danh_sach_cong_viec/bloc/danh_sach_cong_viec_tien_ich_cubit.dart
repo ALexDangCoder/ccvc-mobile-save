@@ -436,7 +436,8 @@ class DanhSachCongViecTienIchCubit
             ? null
             : nguoiThucHienSubject.value.id,
         filePath: (filePathTodo ?? '').isNotEmpty
-            ? checkDataFile(changeData: filePathTodo, defaultData: todo.filePath)
+            ? checkDataFile(
+                changeData: filePathTodo, defaultData: todo.filePath)
             : filePath,
       ),
     );
@@ -547,14 +548,25 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///xóa cong viec
-  Future<void> xoaCongViecVinhVien(String idCv) async {
+  Future<void> xoaCongViecVinhVien(
+    String idCv,
+    TodoDSCVModel todo,
+  ) async {
+    showLoading();
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
+        showContent();
+        final data = listDSCV.value;
+        data.remove(todo);
+        listDSCV.sink.add(data);
         callAndFillApiAuto();
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
+    showContent();
   }
 
   /// hiển thị icon theo từng màn hình

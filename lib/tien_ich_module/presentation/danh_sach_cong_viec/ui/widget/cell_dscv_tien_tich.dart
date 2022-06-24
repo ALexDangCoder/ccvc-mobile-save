@@ -60,41 +60,41 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: borderButtomColor)),
       ),
-      child: Stack(
-        children: [
-          Row(
-            children: [
-              if (widget.showIcon?.contains(IconDSCV.icCheckBox) ?? false)
-                SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: Checkbox(
-                    checkColor: Colors.white,
-                    // color of tick Mark
-                    activeColor: AppTheme.getInstance().colorField(),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    side: const BorderSide(width: 1.5, color: lineColor),
-                    value: widget.todoModel.isTicked ?? false,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                if (widget.showIcon?.contains(IconDSCV.icCheckBox) ?? false)
+                  SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: Checkbox(
+                      checkColor: Colors.white,
+                      // color of tick Mark
+                      activeColor: AppTheme.getInstance().colorField(),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      side: const BorderSide(width: 1.5, color: lineColor),
+                      value: widget.todoModel.isTicked ?? false,
 
-                    onChanged:
-                        !(widget.isEnableIcon?.contains(IconDSCV.icCheckBox) ??
-                                false)
-                            ? (value) {
-                                widget.onCheckBox(value ?? false);
-                              }
-                            : null,
+                      onChanged: !(widget.isEnableIcon
+                                  ?.contains(IconDSCV.icCheckBox) ??
+                              false)
+                          ? (value) {
+                              widget.onCheckBox(value ?? false);
+                            }
+                          : null,
+                    ),
                   ),
+                const SizedBox(
+                  width: 13,
                 ),
-              const SizedBox(
-                width: 13,
-              ),
-              Flexible(
-                child: !widget.enabled
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Align(
+                Flexible(
+                  child: !widget.enabled
+                      ? Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             widget.text,
@@ -103,142 +103,144 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                               14,
                             ),
                           ),
-                        ),
-                      )
-                    : Container(
-                        padding: const EdgeInsets.only(right: 6),
-                        child: TextFormField(
-                          focusNode: focusNode,
-                          controller: TextEditingController(text: widget.text),
-                          enabled: widget.enabled,
-                          style: textNormal(infoColor, 14.0.textScale()),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
+                        )
+                      : Container(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: TextFormField(
+                            focusNode: focusNode,
+                            controller:
+                                TextEditingController(text: widget.text),
+                            enabled: true,
+                            style: textNormal(infoColor, 14.0.textScale()),
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            onChanged: (vl) {},
+                            onFieldSubmitted: (vl) {
+                              if (vl.isNotEmpty) {
+                                widget.onChange?.call(vl);
+                              }
+                            },
                           ),
-                          onChanged: (vl) {},
-                          onFieldSubmitted: (vl) {
-                            if (vl.isNotEmpty) {
-                              widget.onChange?.call(vl);
-                            }
-                          },
                         ),
-                      ),
-              ),
-              if (widget.showIcon?.contains(IconDSCV.icEdit) ?? false)
-                Padding(
-                  padding: EdgeInsets.only(right: padingIcon),
-                  child: GestureDetector(
-                    onTap: !(widget.isEnableIcon?.contains(IconDSCV.icEdit) ??
-                            false)
-                        ? widget.onEdit
-                        : onTapNull,
-                    child: SvgPicture.asset(ImageAssets.icEditBlue),
-                  ),
                 ),
-              if (widget.showIcon?.contains(IconDSCV.icImportant) ?? false)
-                Padding(
-                  padding: EdgeInsets.only(right: padingIcon),
-                  child: GestureDetector(
-                    onTap:
-                        !(widget.isEnableIcon?.contains(IconDSCV.icImportant) ??
-                                false)
-                            ? widget.onStar
-                            : onTapNull,
-                    child: SvgPicture.asset(
-                      widget.todoModel.important ?? false
-                          ? ImageAssets.icStarFocus
-                          : ImageAssets.icStarUnfocus,
-                    ),
-                  ),
-                ),
-              if (widget.showIcon?.contains(IconDSCV.icHoanTac) ?? false)
-                GestureDetector(
-                  onTap: !(widget.isEnableIcon?.contains(IconDSCV.icHoanTac) ??
-                          false)
-                      ? widget.onThuHoi
-                      : onTapNull,
-                  child: Padding(
+                if (widget.showIcon?.contains(IconDSCV.icEdit) ?? false)
+                  Padding(
                     padding: EdgeInsets.only(right: padingIcon),
-                    child: SvgPicture.asset(
-                      ImageAssets.ic_hoan_tac,
-                    ),
-                  ),
-                ),
-              if (widget.showIcon?.contains(IconDSCV.icXoaVinhVien) ?? false)
-                GestureDetector(
-                  onTap:
-                      !(widget.isEnableIcon?.contains(IconDSCV.icXoaVinhVien) ??
+                    child: GestureDetector(
+                      onTap: !(widget.isEnableIcon?.contains(IconDSCV.icEdit) ??
                               false)
-                          ? widget.onXoaVinhVien
+                          ? widget.onEdit
                           : onTapNull,
-                  child: Padding(
+                      child: SvgPicture.asset(ImageAssets.icEditBlue),
+                    ),
+                  ),
+                if (widget.showIcon?.contains(IconDSCV.icImportant) ?? false)
+                  Padding(
                     padding: EdgeInsets.only(right: padingIcon),
-                    child: SvgPicture.asset(
-                      ImageAssets.ic_delete_dscv,
+                    child: GestureDetector(
+                      onTap: !(widget.isEnableIcon
+                                  ?.contains(IconDSCV.icImportant) ??
+                              false)
+                          ? widget.onStar
+                          : onTapNull,
+                      child: SvgPicture.asset(
+                        widget.todoModel.important ?? false
+                            ? ImageAssets.icStarFocus
+                            : ImageAssets.icStarUnfocus,
+                      ),
                     ),
                   ),
-                ),
-              if (widget.showIcon?.contains(IconDSCV.icClose) ?? false)
-                GestureDetector(
-                  onTap: !(widget.isEnableIcon?.contains(IconDSCV.icClose) ??
-                          false)
-                      ? widget.onClose
-                      : onTapNull,
-                  child: SvgPicture.asset(
-                    ImageAssets.icClose,
-                  ),
-                )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 31, top: 35, bottom: 8),
-            child: Row(
-              children: [
-                textUnder(
-                  DateTime.parse(widget.todoModel.createdOn ?? '')
-                      .toStringWithListFormat,
-                ),
-                if (widget.todoModel.showDotOne()) circleWidget(),
-                StreamBuilder<List<NguoiThucHienModel>>(
-                  stream: widget.cubit.listNguoiThucHienSubject,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData && widget.todoModel.showDotOne()) {
-                      return Container(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * 0.3,
-                        ),
-                        padding: const EdgeInsets.only(left: 8),
-                        child: textUnder(
-                          widget.cubit.convertIdToPerson(
-                            vl: widget.todoModel.performer ?? '',
-                            hasChucVu: false,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-                if (widget.todoModel.showDotTwo()) circleWidget(),
-                if (widget.todoModel.showIconNote())
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: SvgPicture.asset(
-                      ImageAssets.iconNote_dscv,
+                if (widget.showIcon?.contains(IconDSCV.icHoanTac) ?? false)
+                  GestureDetector(
+                    onTap:
+                        !(widget.isEnableIcon?.contains(IconDSCV.icHoanTac) ??
+                                false)
+                            ? widget.onThuHoi
+                            : onTapNull,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: padingIcon),
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_hoan_tac,
+                      ),
                     ),
                   ),
-                if (widget.todoModel.showIconFile())
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: SvgPicture.asset(
-                      ImageAssets.ic_ghim_dscv,
+                if (widget.showIcon?.contains(IconDSCV.icXoaVinhVien) ?? false)
+                  GestureDetector(
+                    onTap: !(widget.isEnableIcon
+                                ?.contains(IconDSCV.icXoaVinhVien) ??
+                            false)
+                        ? widget.onXoaVinhVien
+                        : onTapNull,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: padingIcon),
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_delete_dscv,
+                      ),
                     ),
                   ),
+                if (widget.showIcon?.contains(IconDSCV.icClose) ?? false)
+                  GestureDetector(
+                    onTap: !(widget.isEnableIcon?.contains(IconDSCV.icClose) ??
+                            false)
+                        ? widget.onClose
+                        : onTapNull,
+                    child: SvgPicture.asset(
+                      ImageAssets.icClose,
+                    ),
+                  )
               ],
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 31),
+              child: Row(
+                children: [
+                  textUnder(
+                    DateTime.parse(widget.todoModel.createdOn ?? '')
+                        .toStringWithListFormat,
+                  ),
+                  if (widget.todoModel.showDotOne()) circleWidget(),
+                  StreamBuilder<List<NguoiThucHienModel>>(
+                    stream: widget.cubit.listNguoiThucHienSubject,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && widget.todoModel.showDotOne()) {
+                        return Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.3,
+                          ),
+                          padding: const EdgeInsets.only(left: 8),
+                          child: textUnder(
+                            widget.cubit.convertIdToPerson(
+                              vl: widget.todoModel.performer ?? '',
+                              hasChucVu: false,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  ),
+                  if (widget.todoModel.showDotTwo()) circleWidget(),
+                  if (widget.todoModel.showIconNote())
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: SvgPicture.asset(
+                        ImageAssets.iconNote_dscv,
+                      ),
+                    ),
+                  if (widget.todoModel.showIconFile())
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_ghim_dscv,
+                      ),
+                    ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -66,12 +66,12 @@ class _MenuDSCVState extends State<MenuDSCV> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          final vl = widget.cubit.dataMenuDefault[index];
+                          final value = widget.cubit.dataMenuDefault[index];
                           return TheoDangLichWidgetDSCV(
-                            icon: vl.icon ?? '',
-                            name: vl.title ?? '',
+                            icon: value.icon ?? '',
+                            name: value.title ?? '',
                             onTap: () {
-                              widget.cubit.titleAppBar.add(vl.title ?? '');
+                              widget.cubit.titleAppBar.add(value.title ?? '');
                               widget.cubit.statusDSCV.sink.add(index);
                               widget.cubit.addValueWithTypeToDSCV();
                               widget.cubit.groupId = '';
@@ -79,7 +79,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                               Navigator.pop(context);
                             },
                             isSelect: index == snapshot.data,
-                            number: vl.number ?? 0,
+                            number: value.number ?? 0,
                           );
                         },
                       );
@@ -178,19 +178,19 @@ class _MenuDSCVState extends State<MenuDSCV> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final vl = widget.cubit.dataMenuDefault[index];
+                final value = widget.cubit.dataMenuDefault[index];
                 return CellMenuCustom(
-                  icon: vl.icon ?? '',
-                  name: vl.title ?? '',
+                  icon: value.icon ?? '',
+                  name: value.title ?? '',
                   onTap: () {
-                    widget.cubit.titleAppBar.add(vl.title ?? '');
+                    widget.cubit.titleAppBar.add(value.title ?? '');
                     widget.cubit.statusDSCV.sink.add(index);
                     widget.cubit.addValueWithTypeToDSCV();
                     widget.cubit.searchControler.text = '';
                     Navigator.pop(context);
                   },
                   isSelect: true,
-                  number: vl.number ?? 0,
+                  number: value.number ?? 0,
                 );
               },
             ),

@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class FormGroup extends StatefulWidget {
   final Widget child;
-
-  const FormGroup({Key? key, required this.child}) : super(key: key);
+  final ScrollController? scrollController;
+  const FormGroup({Key? key, required this.child, this.scrollController})
+      : super(key: key);
 
   @override
   FormGroupState createState() => FormGroupState();
@@ -25,10 +28,33 @@ class FormGroupState extends State<FormGroup> {
       _validator[vl] = vl.currentState!.validate();
     }
     final result = _validator.values.contains(false);
+
+    _scrollToError();
     if (result == true) {
       return false;
     }
+
     return true;
+  }
+
+  void _scrollToError() {
+    for (final element in _validator.keys) {
+      final validator = _validator[element];
+      if (validator == true ) {
+        // ignore: cast_nullable_to_non_nullable
+        final box = element.currentContext?.findRenderObject() as RenderBox;
+        final Offset position = box.globalToLocal(Offset.zero);
+        if (widget.scrollController != null) {
+          widget.scrollController!.animateTo(
+             position.dy,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.linear);
+        }
+
+        break;
+      }
+    }
+
   }
 
   @override

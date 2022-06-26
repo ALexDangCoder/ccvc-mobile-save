@@ -267,7 +267,7 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
     title: StreamBuilder<String>(
       stream: cubit.titleAppBar.stream,
       builder: (context, snapshot) {
-        final title = snapshot.data ?? S.current.danh_sach_cong_viec;
+        final title = snapshot.data ?? S.current.cong_viec_cua_ban;
         return Text(
           title,
           style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),

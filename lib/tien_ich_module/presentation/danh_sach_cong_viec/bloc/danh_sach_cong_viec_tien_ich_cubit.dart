@@ -184,7 +184,7 @@ class DanhSachCongViecTienIchCubit
 
   Future<void> listNguoiThucHien() async {
     showLoading();
-    final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
+    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
     result.when(
       success: (res) {
         showContent();

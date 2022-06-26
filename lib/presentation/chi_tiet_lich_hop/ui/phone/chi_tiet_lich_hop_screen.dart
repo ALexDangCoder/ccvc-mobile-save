@@ -297,6 +297,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   }
 }
 
+///for phone and tab
 PreferredSizeWidget appbarChiTietHop(
   DetailMeetCalenderCubit cubit,
   BuildContext context,

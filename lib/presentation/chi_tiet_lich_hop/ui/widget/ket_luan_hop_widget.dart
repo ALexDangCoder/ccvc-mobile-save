@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
@@ -6,7 +7,9 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/xem_luong_xu_ly_nhiem_vu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/extension_status.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_moi_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
@@ -20,6 +23,8 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'icon_with_title_widget.dart';
 
 class KetLuanHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -86,12 +91,15 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
     );
   }
 
-  Widget textKetLuanHopNhiemVu() => Text(
-        S.current.danh_sach_nhiem_vu,
-        style: textNormalCustom(
-          fontWeight: FontWeight.w500,
-          fontSize: 14.0.textScale(),
-          color: dateColor,
+  Widget textKetLuanHopNhiemVu() => Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Text(
+          S.current.danh_sach_nhiem_vu,
+          style: textNormalCustom(
+            fontWeight: FontWeight.w500,
+            fontSize: 14.0.textScale(),
+            color: dateColor,
+          ),
         ),
       );
 
@@ -100,25 +108,63 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data;
-            return ItemKetLuanHopWidget(
-              title: '${S.current.ket_luan_hop} (${data?.title ?? ''})',
-              time: data?.thoiGian ?? '',
-              trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-              tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-              id: widget.cubit.idCuocHop,
-              cubit: widget.cubit,
-              onTap: () {
-                isShow = !isShow;
-                setState(() {});
-              },
-              listFile: data?.file ?? [],
+            return Column(
+              children: [
+                ItemKetLuanHopWidget(
+                  title: '${S.current.ket_luan_hop} (${data?.title ?? ''})',
+                  time: data?.thoiGian ?? '',
+                  trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                  tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+                  id: widget.cubit.idCuocHop,
+                  cubit: widget.cubit,
+                  onTap: () {
+                    isShow = !isShow;
+                    setState(() {});
+                  },
+                  listFile: data?.file ?? [],
+                ),
+                if (widget.cubit.isDuyetOrHuyKetLuanHop())
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Row(
+                      children: [
+                        ButtonOtherWidget(
+                          text: S.current.duyet,
+                          color: itemWidgetUsing,
+                          ontap: () {
+                            widget.cubit
+                                .xacNhanHoacHuyKetLuanHop(isDuyet: true);
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: ButtonOtherWidget(
+                            text: S.current.tu_choi,
+                            color: statusCalenderRed,
+                            ontap: () {
+                              widget.cubit
+                                  .xacNhanHoacHuyKetLuanHop(isDuyet: false);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             );
-          } else {
-            return const SizedBox(
-              height: 200,
-              child: NodataWidget(),
+          } else if (widget.cubit.isSoanKetLuanHop()) {
+            return IconWithTiltleWidget(
+              icon: ImageAssets.icDocument2,
+              title: S.current.soan_ket_luan_hop,
+              onPress: () {
+                xemOrTaoKetLuanHop(widget.cubit, context);
+              },
             );
           }
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 30),
+            child: NodataWidget(),
+          );
         },
       );
 
@@ -230,14 +276,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                         urlImage: ImageAssets.icDocument2,
                         text: S.current.ket_luan_cuoc_hop,
                         onTap: () {
-                          showBottomSheetCustom(
-                            context,
-                            title: S.current.ket_luan_cuoc_hop,
-                            child: XemKetLuanHopWidget(
-                              cubit: cubit,
-                              id: id,
-                            ),
-                          );
+                          xemOrTaoKetLuanHop(cubit, context);
                         },
                       ),
                       CellPopPupMenu(
@@ -286,11 +325,15 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                 S.current.ban_co_chac_chan_muon_xoa_klh_nay,
                             btnLeftTxt: S.current.khong,
                             funcBtnRight: () async {
-                              await cubit.deleteKetLuanHop(
-                                cubit.xemKetLuanHopModel.id ?? '',
-                              );
-                              await cubit.getXemKetLuanHop(
-                                  cubit.xemKetLuanHopModel.id ?? '');
+                              await cubit
+                                  .deleteKetLuanHop(
+                                    cubit.xemKetLuanHopModel.id ?? '',
+                                  )
+                                  .then(
+                                    (value) => cubit.getXemKetLuanHop(
+                                      cubit.xemKetLuanHopModel.id ?? '',
+                                    ),
+                                  );
                             },
                             title: S.current.xoa_ket_luan_hop,
                             btnRightTxt: S.current.dong_y,
@@ -343,6 +386,31 @@ class ItemKetLuanHopWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+void xemOrTaoKetLuanHop(DetailMeetCalenderCubit cubit, BuildContext context) {
+  if (isMobile()) {
+    showBottomSheetCustom(
+      context,
+      title: S.current.ket_luan_cuoc_hop,
+      child: XemKetLuanHopWidget(
+        cubit: cubit,
+      ),
+    );
+  } else {
+    showDiaLogTablet(
+      context,
+      maxHeight: 280,
+      title: S.current.thu_hoi_lich,
+      child: XemKetLuanHopWidget(
+        cubit: cubit,
+      ),
+      isBottomShow: false,
+      funcBtnOk: () {
+        Navigator.pop(context);
+      },
     );
   }
 }

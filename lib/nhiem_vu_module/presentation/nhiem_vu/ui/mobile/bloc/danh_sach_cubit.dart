@@ -65,7 +65,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<bool> isCheckDataNVDV = BehaviorSubject.seeded(false);
   List<ChartData> listStatusData = [];
 
-  void callApi(bool isCheckCaNhan) {
+  void callApi(bool isCheckCaNhan, {bool canCallApi=true}) {
     initTimeRange();
     getDashBroashNhiemVuCaNhan(
       ngayDauTien: ngayDauTien,
@@ -75,10 +75,12 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    if(canCallApi){
+      callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    }
   }
 
-  void callApiDonVi(bool isCheckCaNhan) {
+  void callApiDonVi(bool isCheckCaNhan, {bool canCallApi= true,}) {
     initTimeRange();
     postBieuDoTheoDonVi(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
@@ -86,7 +88,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     //   ngayDauTien: ngayDauTien,
     //   ngayCuoiCung: ngayKetThuc,
     // );
-    callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    if(canCallApi){
+      callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    }
   }
 
   void callApiDashBroashDonVi(bool isCheckCaNhan) {

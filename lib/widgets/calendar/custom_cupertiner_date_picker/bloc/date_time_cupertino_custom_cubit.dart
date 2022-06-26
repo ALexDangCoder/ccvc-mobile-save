@@ -45,6 +45,28 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
+      if (dateFromTmp == 'DD/MM/YYYY') {
+        dateFromTmp =
+            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+        dateBeginSubject.sink.add(
+          dateFromTmp,
+        );
+      } else {
+        dateBeginSubject.sink.add(
+          dateFromTmp,
+        );
+      }
+      if (dateToTmp == 'DD/MM/YYYY') {
+        dateToTmp =
+            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+        dateEndSubject.sink.add(
+          dateToTmp,
+        );
+      } else {
+        dateBeginSubject.sink.add(
+          dateToTmp,
+        );
+      }
       final date = DateTime.now();
       timeBeginSubject.sink.add(
         DateTime(date.year, date.month, date.day, 08)
@@ -53,12 +75,6 @@ class DateTimeCupertinoCustomCubit
       timeEndSubject.sink.add(
         DateTime(date.year, date.month, date.day, 18)
             .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-      );
-      dateBeginSubject.sink.add(
-        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      dateEndSubject.sink.add(
-        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
       );
       validateTime.sink.add('');
     } else {
@@ -92,20 +108,6 @@ class DateTimeCupertinoCustomCubit
     required DateTime timeSelected,
     required TypePickerDateTime typePicker,
   }) {
-    if (isSwitchBtnCheckedSubject.hasValue && isSwitchBtnCheckedSubject.value) {
-      timeEndSubject.sink.add(timeBeginSubject.value);
-      dateBeginSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      dateEndSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      timeFromTmp = timeBeginSubject.value;
-      dateFromTmp = dateBeginSubject.value;
-      dateToTmp = dateEndSubject.value;
-      return;
-    }
-
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
         timeFromTmp = timeSelected.dateTimeFormatter(
@@ -126,11 +128,13 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_START:
         dateFromTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink.add(dateFromTmp);
+        dateBeginSubject.sink
+            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
         break;
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateEndSubject.sink.add(dateToTmp);
+        dateEndSubject.sink
+            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
         break;
     }
   }

@@ -166,11 +166,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     return Visibility(
                       visible: !isShowTime,
                       child: GestureDetector(
-                        behavior: HitTestBehavior.deferToChild,
-                        onTap: isShowTime
-                            ? () {}
-                            : () {
-                                expandEnd();
+                        behavior: HitTestBehavior.opaque,
+                        onTap:  () {
+                                expandTimeEnd(TypePickerDateTime.TIME_END);
                               },
                         child: StreamBuilder<String>(
                           stream: _cubit.timeEndSubject,
@@ -199,7 +197,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     final String date = snapshot.data ?? S.current.ddmmyy;
                     return GestureDetector(
                       onTap: () {
-                        expandEnd();
+                        expandDateEnd(TypePickerDateTime.DATE_END);
                       },
                       child: Text(
                         date,
@@ -299,8 +297,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   return Visibility(
                     visible: !isShowTime,
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        expandStart();
+                        expandTimeStart(TypePickerDateTime.TIME_START);
                       },
                       child: StreamBuilder<String>(
                         stream: _cubit.timeBeginSubject,
@@ -329,7 +328,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
                     onTap: () {
-                      expandStart();
+                      expandDateStart(TypePickerDateTime.DATE_START);
                     },
                     child: Text(
                       date,
@@ -424,13 +423,13 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       DateTimeFormat.DAY_MONTH_YEAR,
     );
     _cubit.dateEndSubject.sink.add(convertDate);
-    _cubit.checkTime();
     _cubit.onTimeChanged(
       timeSelected: convertDate.convertStringToDate(
         formatPattern: DateFormatApp.date,
       ),
       typePicker: typePicker,
     );
+    _cubit.checkTime();
   }
 
   Widget get switchButton => Row(
@@ -502,24 +501,24 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         ],
       );
 
-  void expandEnd() {
-    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
+  void expandTimeEnd(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.TIME_END &&
         keyExpandedEnd.currentState!.isExpandedGroup) {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
       keyExpandedEnd.currentState?.expandGesture();
     }
-    _cubit.setTypePickerEnd(TypePickerDateTime.DATE_END);
+    _cubit.setTypePickerEnd(type);
   }
 
-  void expandStart() {
-    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
+  void expandTimeStart(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.TIME_START &&
         keyExpandedBegin.currentState!.isExpandedGroup) {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
       keyExpandedBegin.currentState?.expandGesture();
     }
-    _cubit.setTypePickerStart(TypePickerDateTime.DATE_START);
+    _cubit.setTypePickerStart(type);
   }
 
   String get now =>
@@ -538,6 +537,26 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
 
   String get initDataTo =>
       '${dateTo != 'DD/MM/YYYY' ? dateTo : now} ${timeTo != 'hh:mm' ? timeTo : '00:00'}';
+
+  void expandDateEnd(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
+        keyExpandedEnd.currentState!.isExpandedGroup) {
+      keyExpandedEnd.currentState?.collapseGesture();
+    } else {
+      keyExpandedEnd.currentState?.expandGesture();
+    }
+    _cubit.setTypePickerEnd(type);
+  }
+
+  void expandDateStart(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
+        keyExpandedBegin.currentState!.isExpandedGroup) {
+      keyExpandedBegin.currentState?.collapseGesture();
+    } else {
+      keyExpandedBegin.currentState?.expandGesture();
+    }
+    _cubit.setTypePickerStart(type);
+  }
 }
 
 String timeFormat(String time, String oldPattern, String newPattern) {

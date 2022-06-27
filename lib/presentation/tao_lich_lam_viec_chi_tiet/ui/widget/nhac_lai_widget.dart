@@ -6,11 +6,13 @@ import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart
 import 'package:flutter/material.dart';
 
 class NhacLaiWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final TaoLichLamViecCubit cubit;
+  final bool isEdit;
 
   const NhacLaiWidget({
     Key? key,
-    required this.taoLichLamViecCubit,
+    required this.cubit,
+    this.isEdit = false,
   }) : super(key: key);
 
   @override
@@ -20,20 +22,24 @@ class NhacLaiWidget extends StatefulWidget {
 class _NhacLaiWidgetState extends State<NhacLaiWidget> {
   @override
   Widget build(BuildContext context) {
+    final _cubit = widget.cubit;
     return StreamBuilder<List<NhacLaiModel>>(
-        stream: widget.taoLichLamViecCubit.nhacLai,
+        stream: _cubit.nhacLai,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           return SelectOnlyExpand(
             urlIcon: ImageAssets.icNotify,
             listSelect: data.map<String>((e) => e.title ?? '').toList(),
             title: S.current.nhac_lich,
-            value: widget.taoLichLamViecCubit.selectNhacLai.title ?? '',
+            value: widget.isEdit
+                ? (_cubit.scheduleReminder?.nhacLai() ?? '')
+                : _cubit.selectNhacLai.title ?? '',
             onChange: (value) {
-              widget.taoLichLamViecCubit.selectNhacLai.title =
-                  data[value].title;
-              widget.taoLichLamViecCubit.selectNhacLai.value =
-                  data[value].value;
+              _cubit.selectNhacLai.title = data[value].title;
+              _cubit.selectNhacLai.value = data[value].value;
+              if (widget.isEdit) {
+                _cubit.scheduleReminder?.typeReminder = data[value].value;
+              }
             },
           );
         });

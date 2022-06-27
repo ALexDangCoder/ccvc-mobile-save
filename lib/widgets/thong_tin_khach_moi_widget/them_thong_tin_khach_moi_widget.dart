@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/thanh_phan_tham_gia_tao_hop.dart';
 import 'package:ccvc_mobile/widgets/them_don_vi_phoi_hop_khac/them_don_vi_phoi_hop_khac_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemThongTinKhachMoiWidget extends StatefulWidget {
@@ -227,6 +228,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _emailController,
                           hintText: S.current.email,
+                          textInputType: TextInputType.emailAddress,
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,
@@ -247,6 +249,10 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _sdtController,
                           hintText: S.current.so_dien_thoai,
+                          textInputType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,

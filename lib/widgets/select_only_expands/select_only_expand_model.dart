@@ -1,20 +1,21 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SelectOnlyExpand extends StatefulWidget {
+class SelectOnlyExpandModel extends StatefulWidget {
   final bool initExpand;
-  final List<String> listSelect;
+  final List<NguoiChutriModel> listSelect;
   final String value;
+  final String userId;
   final String title;
   final String urlIcon;
   final bool isShowValue;
@@ -23,7 +24,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final String hintText;
   final int? maxLine;
 
-  const SelectOnlyExpand({
+  const SelectOnlyExpandModel({
     Key? key,
     this.initExpand = false,
     this.listSelect = const [],
@@ -33,14 +34,16 @@ class SelectOnlyExpand extends StatefulWidget {
     required this.urlIcon,
     this.customValue,
     this.onChange,
-    this.hintText = '', this.maxLine,
+    this.hintText = '',
+    this.maxLine,
+    required this.userId,
   }) : super(key: key);
 
   @override
   _ExpandedSectionState createState() => _ExpandedSectionState();
 }
 
-class _ExpandedSectionState extends State<SelectOnlyExpand>
+class _ExpandedSectionState extends State<SelectOnlyExpandModel>
     with SingleTickerProviderStateMixin {
   final BehaviorSubject<int> selectBloc = BehaviorSubject<int>();
   String valueSelect = '';
@@ -55,9 +58,9 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
     );
     if (widget.listSelect.isNotEmpty) {
       final index =
-          widget.listSelect.indexWhere((element) => element == widget.value);
+          widget.listSelect.indexWhere((element) => element.userId == widget.userId);
       if (index != -1) {
-        valueSelect = widget.listSelect[index];
+        valueSelect = widget.listSelect[index].title();
         if (widget.onChange != null) {
           widget.onChange!(index);
         }
@@ -67,14 +70,14 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   }
 
   @override
-  void didUpdateWidget(covariant SelectOnlyExpand oldWidget) {
+  void didUpdateWidget(covariant SelectOnlyExpandModel oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     if (widget.listSelect.isNotEmpty) {
       final index =
-          widget.listSelect.indexWhere((element) => element == widget.value);
+          widget.listSelect.indexWhere((element) => element.userId == widget.userId);
       if (index != -1) {
-        valueSelect = widget.listSelect[index];
+        valueSelect = widget.listSelect[index].title();
         if (widget.onChange != null) {
           widget.onChange!(index);
         }
@@ -114,7 +117,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      valueSelect = widget.listSelect[index];
+                      valueSelect = widget.listSelect[index].title();
                       if (widget.onChange != null) {
                         widget.onChange!(index);
                       }
@@ -128,7 +131,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                         children: [
                           Flexible(
                             child: Text(
-                              widget.listSelect[index],
+                              widget.listSelect[index].title(),
                               style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
                               maxLines: widget.maxLine,

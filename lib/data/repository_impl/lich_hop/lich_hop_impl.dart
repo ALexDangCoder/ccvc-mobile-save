@@ -973,8 +973,52 @@ class HopRepositoryImpl implements HopRepository {
   @override
   Future<Result<bool>> xacNhanThamGiaHop(String lichHopId, bool isThamGia) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
-          () => _hopServices.xacNhanThamGiaHop(lichHopId, isThamGia),
-          (response) => response.isSucces,
+      () => _hopServices.xacNhanThamGiaHop(lichHopId, isThamGia),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> xacNhanHoacHuyKetLuanHop(
+    String lichHopId,
+    bool isDuyet,
+    String noiDung,
+  ) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.xacNhanHoacHuyKetLuanHop(
+        lichHopId,
+        isDuyet,
+        noiDung,
+      ),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> createKetLuanHop(
+    String lichHopId,
+    String scheduleId,
+    String reportStatusId,
+    String reportTemplateId,
+    String startDate,
+    String endDate,
+    String content,
+    List<String> files,
+    List<String> filesDelete,
+  ) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.createKetLuanHop(
+        lichHopId,
+        scheduleId,
+        reportStatusId,
+        reportTemplateId,
+        startDate,
+        endDate,
+        content,
+        files,
+        filesDelete,
+      ),
+      (response) => response.isSucces,
     );
   }
 }

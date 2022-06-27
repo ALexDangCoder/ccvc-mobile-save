@@ -184,7 +184,7 @@ class DanhSachCongViecTienIchCubit
 
   Future<void> listNguoiThucHien() async {
     showLoading();
-    final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
+    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
     result.when(
       success: (res) {
         showContent();
@@ -552,21 +552,18 @@ class DanhSachCongViecTienIchCubit
     String idCv,
     TodoDSCVModel todo,
   ) async {
-    showLoading();
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        showContent();
         final data = listDSCV.value;
         data.remove(todo);
         listDSCV.sink.add(data);
-        callAndFillApiAuto();
+        // callAndFillApiAuto();
       },
       error: (error) {
         showError();
       },
     );
-    showContent();
   }
 
   /// hiển thị icon theo từng màn hình

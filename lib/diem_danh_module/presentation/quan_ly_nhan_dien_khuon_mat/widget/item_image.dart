@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/select_image.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ItemImageWidget extends StatelessWidget {
   final String image;
@@ -50,113 +47,70 @@ class ItemImageWidget extends StatelessWidget {
             ),
           ),
           spaceH16,
-          Expanded(
-            child: SizedBox(
-              height: 164.0.textScale(space: 56.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Positioned.fill(
-                          child: Container(
-                            height: 164.0.textScale(space: 56.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: colorE2E8F0),
-                              borderRadius: BorderRadius.circular(8.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color.fromRGBO(0, 0, 0, 0.05),
-                                  blurRadius: 2,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                              image: DecorationImage(
-                                image: AssetImage(image),
-                                fit: BoxFit.cover,
+          SizedBox(
+            height: 164.0.textScale(space: 56.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Positioned.fill(
+                        child: Container(
+                          height: 164.0.textScale(space: 56.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: colorE2E8F0),
+                            borderRadius: BorderRadius.circular(8.0),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.05),
+                                blurRadius: 2,
+                                spreadRadius: 2,
                               ),
+                            ],
+                            image: DecorationImage(
+                              image: AssetImage(image),
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.0),
-                              color: color3D5586.withOpacity(0.8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 2,
-                              ),
-                              child: Text(
-                                S.current.anh_mau,
-                                style: textNormalCustom(color: colorFFFFFF),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  spaceW16,
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: colorE2E8F0),
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: colorFFFFFF,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.05),
-                              blurRadius: 2,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: StreamBuilder<File>(
-                          stream: cubit.imagePickerStream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data;
-                            return data == null ? emptyImage() : Container();
-                          },
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: color3D5586.withOpacity(0.8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                              vertical: 2,
+                            ),
+                            child: Text(
+                              S.current.anh_mau,
+                              style: textNormalCustom(color: colorFFFFFF),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                spaceW16,
+                Expanded(
+                  child: SelectImageWidget(
+                    selectImage: (image) {},
+                  ),
+                )
+              ],
             ),
           )
         ],
       ),
     );
   }
-
-  Widget emptyImage() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          ImageAssets.icUpAnh,
-        ),
-        spaceH14,
-        Text(
-          S.current.tai_anh_len,
-          style: textNormal(
-            color667793,
-            14.0.textScale(),
-          ),
-        ),
-      ],
-    );
-  }
-
-// Widget upLoadImage() {}
 }
+

@@ -118,10 +118,12 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         stream: _cubit.validateTime.stream,
         builder: (context, snapshot) {
           widget.validateTime(
-            snapshot.data ?? S.current.ban_phai_chon_thoi_gian,
+            snapshot.data ??
+                (widget.isEdit ? '' : S.current.ban_phai_chon_thoi_gian),
           );
           return Visibility(
-            visible: (snapshot.data?.isNotEmpty) ?? false,
+            visible:
+                (snapshot.data?.isNotEmpty) ?? (widget.isEdit ? true : false),
             child: Padding(
               padding: const EdgeInsets.only(left: 28.0),
               child: Text(
@@ -167,9 +169,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                       visible: !isShowTime,
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onTap:  () {
-                                expandTimeEnd(TypePickerDateTime.TIME_END);
-                              },
+                        onTap: () {
+                          expandTimeEnd(TypePickerDateTime.TIME_END);
+                        },
                         child: StreamBuilder<String>(
                           stream: _cubit.timeEndSubject,
                           initialData: 'hh:mm',

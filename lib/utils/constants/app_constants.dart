@@ -188,6 +188,9 @@ class WidgetTypeConstant {
   static const String LICH_LAM_VIEC_LICH_HOP = 'BoxLichVaHop';
   static const String TONG_HOP_HCC = 'TongHopHCC';
   static const String TIN_BUON = 'TinBuon';
+  static const String TINH_HINH_XU_LY_HO_SO_CA_NHAN = 'TinhHinhXuLyHoSoCaNhan';
+  static const String DANH_SACH_DICH_VU_CONG = 'DanhSachDichVuCong';
+  static const String TiNH_HINH_XU_LY_HO_SO_DON_VI = 'TinhHinhXuLyHoSoDonVi';
 }
 
 class DocumentState {

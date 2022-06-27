@@ -118,6 +118,9 @@ class WidgetModel {
         return WidgetType.nhiemVu;
       case WidgetTypeConstant.TINH_HINH_XU_LY_PAKN_CA_NHAN:
         return WidgetType.situationHandlingPeople;
+      case WidgetTypeConstant.VAN_BAN_DON_VI:
+        return WidgetType.vanBanDonVi;
+
     }
   }
 

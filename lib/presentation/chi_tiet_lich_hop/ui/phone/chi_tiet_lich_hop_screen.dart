@@ -25,6 +25,7 @@ import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -42,11 +43,13 @@ class DetailMeetCalenderScreen extends StatefulWidget {
 
 class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
+  final ThanhPhanThamGiaCubit _cubitThanhPhan = ThanhPhanThamGiaCubit();
 
   @override
   void initState() {
     super.initState();
     cubit.idCuocHop = widget.id;
+    _cubitThanhPhan.getTree();
     cubit.initDataChiTiet(needCheckPermission: true);
   }
 
@@ -81,6 +84,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           context,
                           cubit,
                           widget.id,
+                          _cubitThanhPhan,
                         ),
                       )
                       .toList(),
@@ -212,8 +216,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                           MessageConfig.show(
                                             title:
                                                 '${S.current.xac_nhan_tham_gia}'
-                                                ' ${S.current.thanh_cong
-                                                    .toLowerCase()}',
+                                                ' ${S.current.thanh_cong.toLowerCase()}',
                                           );
                                           cubit.initDataChiTiet(
                                             needCheckPermission: true,
@@ -223,8 +226,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                             messState: MessState.error,
                                             title:
                                                 '${S.current.xac_nhan_tham_gia}'
-                                                ' ${S.current.that_bai
-                                                    .toLowerCase()}',
+                                                ' ${S.current.that_bai.toLowerCase()}',
                                           );
                                         }
                                       });
@@ -244,7 +246,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                     funcBtnRight: () {
                                       cubit
                                           .confirmThamGiaHop(
-                                        lichHopId: cubit.getChiTietLichHopModel.id,
+                                        lichHopId:
+                                            cubit.getChiTietLichHopModel.id,
                                         isThamGia: false,
                                       )
                                           .then((value) {
@@ -269,8 +272,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                     },
                                     title: S.current.tu_choi_tham_gia,
                                     btnRightTxt: S.current.dong_y,
-                                    icon: SvgPicture.asset(ImageAssets.img_tu_choi_tham_gia),
-                                    textContent: S.current.confirm_tu_choi_tham_gia,
+                                    icon: SvgPicture.asset(
+                                        ImageAssets.img_tu_choi_tham_gia),
+                                    textContent:
+                                        S.current.confirm_tu_choi_tham_gia,
                                   );
                                 },
                               ),

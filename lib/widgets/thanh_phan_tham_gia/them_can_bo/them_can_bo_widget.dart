@@ -91,8 +91,14 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
 class ThemCanBoScreen extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
   final bool needCheckTrung;
+  final bool removeButton;
 
-  const ThemCanBoScreen({Key? key, required this.cubit, required this.needCheckTrung}) : super(key: key);
+  const ThemCanBoScreen({
+    Key? key,
+    required this.cubit,
+    required this.needCheckTrung,
+    this.removeButton = false,
+  }) : super(key: key);
 
   @override
   _ThemCanBoScreenState createState() => _ThemCanBoScreenState();
@@ -127,6 +133,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
             cubit: widget.cubit,
             onChange: (value) {
               _themCanBoCubit.getCanBo(value);
+              widget.cubit.idCanBoItem = value.id;
             },
           ),
           SizedBox(
@@ -170,7 +177,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                     EdgeInsets.only(top: index == 0 ? 0 : 16),
                                 child: CanBoWidget(
                                   onCheckBox: (value) async {
-                                    if(value && widget.needCheckTrung) {
+                                    if (value && widget.needCheckTrung) {
                                       await _themCanBoCubit
                                           .checkLichTrung(
                                         donViId: result.donViId,
@@ -237,40 +244,43 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: screenDevice(
-              mobileScreen: DoubleButtonBottom(
-                title1: S.current.dong,
-                title2: S.current.them,
-                onPressed1: () {
-                  Navigator.pop(context);
-                },
-                onPressed2: () {
-                  Navigator.pop(context, _themCanBoCubit.listSelectCanBo);
-                },
+          if (widget.removeButton)
+            Container()
+          else
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: screenDevice(
+                mobileScreen: DoubleButtonBottom(
+                  title1: S.current.dong,
+                  title2: S.current.them,
+                  onPressed1: () {
+                    Navigator.pop(context);
+                  },
+                  onPressed2: () {
+                    Navigator.pop(context, _themCanBoCubit.listSelectCanBo);
+                  },
+                ),
+                tabletScreen: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    button(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      title: S.current.dong,
+                    ),
+                    spaceW20,
+                    button(
+                      onTap: () {
+                        Navigator.pop(context, _themCanBoCubit.listSelectCanBo);
+                      },
+                      title: S.current.them,
+                      isLeft: false,
+                    )
+                  ],
+                ),
               ),
-              tabletScreen: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  button(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    title: S.current.dong,
-                  ),
-                  spaceW20,
-                  button(
-                    onTap: () {
-                      Navigator.pop(context, _themCanBoCubit.listSelectCanBo);
-                    },
-                    title: S.current.them,
-                    isLeft: false,
-                  )
-                ],
-              ),
-            ),
-          )
+            )
         ],
       ),
     );

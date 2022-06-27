@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -88,10 +87,10 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         ThemCanBoWidget(
           cubit: _cubit,
           onChange: (value) {
-            value.forEach((element) {
+            for (final element in value) {
               element.vaiTroThamGia = 2;
               element.type = 1;
-            });
+            }
             _cubit.addPeopleThamGia(value);
           },
           needCheckTrung: widget.isTaoHop,

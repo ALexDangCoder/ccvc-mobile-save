@@ -45,6 +45,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
@@ -71,6 +72,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<String?> data = [];
   List<String> selectPhatBieu = [];
   String idCuocHop = '';
+  String idDanhSachCanBo = '';
   List<LoaiSelectModel> listLoaiHop = [];
   String? ngaySinhs;
   String chonNgay = '';
@@ -194,7 +196,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<NguoiChutriModel> dataThuKyOrThuHoiDeFault = [];
 
   List<NguoiChutriModel> dataThuHoi = [];
-
   DateTime timeNow = DateTime.now();
   TimerData end = TimerData(hour: 00, minutes: 00);
   TimerData start = TimerData(
@@ -267,7 +268,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
     return isCheck;
   }
-
+ //todo
   Future<void> cuCanBoDiThay({
     required String id,
     required List<CanBoDiThay>? canBoDiThay,
@@ -277,11 +278,22 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       lichHopId: idCuocHop,
       canBoDiThay: canBoDiThay,
     );
+    showLoading();
     final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
     result.when(
-      success: (res) {},
-      error: (error) {},
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.thay_doi_thanh_cong,
+        );
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.khong,
+          messState: MessState.error,
+        );
+      },
     );
+    showContent();
   }
 
   bool loaiBieuQ = false;

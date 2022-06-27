@@ -11,6 +11,7 @@ class NguoiChutriModel {
   bool? isThuKy;
   int? vaiTroThamGia;
   int? trangThai;
+  String? chucVu;
 
   NguoiChutriModel({
     this.tenDonVi = '',
@@ -22,9 +23,10 @@ class NguoiChutriModel {
     this.isThuKy,
     this.vaiTroThamGia,
     this.trangThai,
+    this.chucVu,
   });
 
   String title() {
-    return '$hoTen - $tenDonVi';
+    return '$hoTen - $tenDonVi - $chucVu';
   }
 }

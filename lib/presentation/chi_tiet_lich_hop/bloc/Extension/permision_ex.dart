@@ -99,7 +99,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       scheduleCoperatives
           .where((e) =>
               (e.CanBoId ?? '').isNotEmpty &&
-              e.CanBoId?.toUpperCase() == (dataUser?.userId ?? '').toUpperCase())
+              e.CanBoId?.toUpperCase() ==
+                  (dataUser?.userId ?? '').toUpperCase())
           .toList(),
     );
 
@@ -235,6 +236,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   void initDataButton() {
     listButton.clear();
     scheduleCoperatives = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
+
     ///check quyen sua lich
     if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
         (activeChuTri() || isNguoiTao() || isThuKy()) &&
@@ -298,7 +300,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         getChiTietLichHopModel.bit_YeuCauDuyet) {
       listButton.add(PERMISSION_DETAIL.DUYET_LICH);
     }
-
 
     ///check quyen phan cong thu ky
     if (activeChuTri() && !trangThaiHuy()) {
@@ -566,6 +567,16 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool isSoanKetLuanHop() {
     if (xemKetLuanHopModel == KetLuanHopModel.empty() &&
         getChiTietLichHopModel.status == 2) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isDuyetOrHuyKetLuanHop() {
+    if (HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.VPDT,
+      permissionTxt: 'quyen-duyet-ket-luan-hop',
+    )) {
       return true;
     }
     return false;

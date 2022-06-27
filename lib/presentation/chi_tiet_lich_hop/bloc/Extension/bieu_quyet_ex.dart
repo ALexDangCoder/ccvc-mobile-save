@@ -201,6 +201,43 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     }
   }
 
+  Future<void> getDanhSachNTGChuongTrinhHop({
+    required String id,
+  }) async {
+    final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
+
+    result.when(
+      success: (res) {
+        listData = res;
+        nguoiThamGiaSubject.sink.add(listData);
+      },
+      error: (error) {},
+    );
+  }
+
+  TimerData dateTimeNowStart() {
+    final TimerData start = TimerData(
+      hour: timeNow.hour,
+      minutes: timeNow.minute,
+    );
+    return start;
+  }
+
+  TimerData dateTimeNowEnd() {
+    final TimerData end = TimerData(
+      hour: timeNow.add(const Duration(hours: 1)).hour,
+      minutes: timeNow.minute,
+    );
+    return end;
+  }
+
+  String dateTimeCovert(int time) {
+    if (time < 10) {
+      return '0$time';
+    }
+    return '$time';
+  }
+
   Future<void> callAPiBieuQuyet() async {
     await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop);

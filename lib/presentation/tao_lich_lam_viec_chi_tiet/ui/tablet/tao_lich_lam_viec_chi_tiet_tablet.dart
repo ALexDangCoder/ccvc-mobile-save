@@ -223,15 +223,15 @@ class _TaoLichLamViecChiTietTabletState
                                           cubit: calCubit,
                                         ),
                                         NhacLaiWidget(
-                                          taoLichLamViecCubit:
+                                          cubit:
                                               taoLichLamViecCubit,
                                         ),
                                         NguoiChuTriWidget(
-                                          taoLichLamViecCubit:
+                                          cubit:
                                               taoLichLamViecCubit,
                                         ),
                                         LinhVucWidget(
-                                          taoLichLamViecCubit:
+                                          cubit:
                                               taoLichLamViecCubit,
                                         ),
                                         Padding(
@@ -279,7 +279,7 @@ class _TaoLichLamViecChiTietTabletState
                                               );
                                             } else {
                                               return ItemDatNuocWidget(
-                                                taoLichLamViecCubit:
+                                                cubit:
                                                     taoLichLamViecCubit,
                                               );
                                             }
@@ -294,7 +294,7 @@ class _TaoLichLamViecChiTietTabletState
                                           },
                                         ),
                                         LichLapWidget(
-                                          taoLichLamViecCubit:
+                                          cubit:
                                               taoLichLamViecCubit,
                                         ),
                                         StreamBuilder<bool>(
@@ -400,12 +400,20 @@ class _TaoLichLamViecChiTietTabletState
 
   Future<void> validateField() async {
     if (_formKey.currentState!.validate() && !timeValue && !calValue) {
-      await taoLichLamViecCubit.checkTrungLich(
-        context: context,
-        title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-        content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-        location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-      );
+      if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
+        await taoLichLamViecCubit.taoLichLamViec(
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      } else {
+        await taoLichLamViecCubit.checkTrungLich(
+          context: context,
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      }
     }
     if (timeValue) {
       calCubit.validateTime.sink.add(

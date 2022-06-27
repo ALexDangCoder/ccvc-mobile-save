@@ -61,10 +61,10 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
     widget.files ??= [];
   }
 
-  bool checkFileError(List<String?> files) {
+  bool isFileError(List<String?> files) {
     for (final i in files) {
       if (i != null || (i ?? '').isNotEmpty) {
-        if (i!.isExensionOfFile) {
+        if (!i!.isExensionOfFile) {
           return true;
         }
       }
@@ -85,7 +85,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
             );
 
             if (result != null) {
-              if (checkFileError(result.paths)) {
+              if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
                   final listSelect =
                       result.paths.map((path) => File(path ?? '')).toList();

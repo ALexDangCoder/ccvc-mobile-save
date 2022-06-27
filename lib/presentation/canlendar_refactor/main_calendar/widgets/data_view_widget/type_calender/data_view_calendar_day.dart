@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 
 class DataViewCalendarDay extends StatefulWidget {
   const DataViewCalendarDay({
@@ -11,7 +12,8 @@ class DataViewCalendarDay extends StatefulWidget {
     required this.propertyChanged,
     required this.buildAppointment,
     required this.data,
-    required this.fCalendarController, this.onMore,
+    required this.fCalendarController,
+    this.onMore,
   }) : super(key: key);
 
   final Function(String property) propertyChanged;
@@ -25,16 +27,15 @@ class DataViewCalendarDay extends StatefulWidget {
 }
 
 class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
-
   late DateTime currentDate;
 
   @override
   void initState() {
-    currentDate = getOnlyDate( widget.fCalendarController.displayDate ?? DateTime.now());
+    currentDate =
+        getOnlyDate(widget.fCalendarController.displayDate ?? DateTime.now());
     setFCalendarListenerWeek();
     super.initState();
   }
-
 
   @override
   void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
@@ -42,6 +43,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     checkDuplicate(
       widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
     );
+    log('${widget.data}');
   }
 
   void checkDuplicate(List<AppointmentWithDuplicate> list) {
@@ -49,6 +51,12 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     for (final item in list) {
       final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
       final currentTimeTo = item.endTime.millisecondsSinceEpoch;
+      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
+        item.startTime = DateTime.fromMillisecondsSinceEpoch(
+            item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000);
+        item.endTime = DateTime.fromMillisecondsSinceEpoch(
+            item.endTime.millisecondsSinceEpoch);
+      }
       final listDuplicate = list.where((element) {
         final startTime = element.startTime.millisecondsSinceEpoch;
         if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
@@ -59,7 +67,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       if (listDuplicate.length > 1) {
         for (int i = 0; i < listDuplicate.length; i++) {
           listDuplicate.elementAt(i).isDuplicate = true;
-          listDuplicate.elementAt(i).isMore = i==3;
+          listDuplicate.elementAt(i).isMore = i == 3;
           if (i > 3) {
             listRemove.add(listDuplicate.elementAt(i));
           }
@@ -69,13 +77,16 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     for (final AppointmentWithDuplicate element in listRemove) {
       list.remove(element);
     }
+
   }
 
   void setFCalendarListenerWeek() {
-    widget.fCalendarController.addPropertyChangedListener(widget.propertyChanged);
+    widget.fCalendarController
+        .addPropertyChangedListener(widget.propertyChanged);
   }
 
-  DateTime getOnlyDate (DateTime date)=> DateTime (date.year, date.month, date.day);
+  DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
 
   @override
   Widget build(BuildContext context) {
@@ -113,14 +124,13 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       },
     );
   }
-
 }
 
 class DataSourceFCalendar extends CalendarDataSource {
   DataSourceFCalendar(List<AppointmentWithDuplicate> source) {
     appointments = source;
   }
-  DataSourceFCalendar.empty(){
-    appointments= [];
+  DataSourceFCalendar.empty() {
+    appointments = [];
   }
 }

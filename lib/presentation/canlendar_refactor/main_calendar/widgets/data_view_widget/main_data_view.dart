@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/dashbroad_count_row.dart';
@@ -65,6 +67,8 @@ class _MainDataViewState extends State<MainDataView> {
               buildAppointment: itemAppointment,
               propertyChanged: (String property) {
                 widget.cubit.propertyChangedMonth(property);
+              },
+              onMore: (value){
               },
               data: data,
               fCalendarController: widget.cubit.fCalendarControllerMonth,

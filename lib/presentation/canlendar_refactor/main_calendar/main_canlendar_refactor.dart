@@ -33,7 +33,6 @@ class MainCanlendanRefactor extends StatefulWidget {
 class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
   final CalendarWorkCubit cubit = CalendarWorkCubit();
 
-
   @override
   void initState() {
     cubit.refreshApi();
@@ -110,16 +109,19 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                           keySearch: keySearch,
                         );
                       },
-
                       controller: cubit.controller,
                       onChangeYear: (startDate, endDate, keySearch) {
                         cubit.dayHaveEvent(startDate, endDate, keySearch);
                       },
                     );
                   }),
-              Expanded(child: MainDataView(cubit: cubit)),
+              Expanded(
+                  child: MouseRegion(
+                      onHover: (_) {
+                        cubit.controller.onCloseCalendar();
+                      },
+                      child: MainDataView(cubit: cubit))),
             ],
-
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -228,7 +230,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                   StateMenu(
                     icon: ImageAssets.icTheoDangLich,
                     title: S.current.theo_dang_lich,
-                    state: CalendarViewState(typeView: cubit.state.typeView) ,
+                    state: CalendarViewState(typeView: cubit.state.typeView),
                   ),
                   StateMenu(
                     icon: ImageAssets.icTheoDangDanhSachGrey,

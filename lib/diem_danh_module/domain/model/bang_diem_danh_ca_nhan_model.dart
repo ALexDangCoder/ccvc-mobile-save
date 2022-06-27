@@ -19,8 +19,8 @@ class BangDiemDanhCaNhanModel {
   String? timeIn;//giờ vào
   String? timeOut;//giờ ra
   String? type;//??
-  int? dayWage;//số ngày lương
-  int? leave;//??
+  double? dayWage;//số ngày lương
+  double? leave;//??
   int? isLeaveRequest;//??
   String? leaveRequestReasonCode;//??
   String? leaveRequestReasonTakeLeaveCode;//??

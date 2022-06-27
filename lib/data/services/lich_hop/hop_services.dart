@@ -489,4 +489,24 @@ abstract class HopServices {
     @Field('hopId') String hopId,
     @Field('isThamGia') bool isThamGia,
   );
+
+  @POST(ApiConstants.CONFIRM_OR_CANCEL_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> xacNhanHoacHuyKetLuanHop(
+    @Field('lichHopId') String lichHopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('noiDung') String noiDung,
+  );
+
+  @POST(ApiConstants.CREATE_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> createKetLuanHop(
+    @Field('Id') String lichHopId,
+    @Field('ScheduleId') String scheduleId,
+    @Field('ReportStatusId') String reportStatusId,
+    @Field('ReportTemplateId') String reportTemplateId,
+    @Field('StartDate') String startDate,
+    @Field('EndDate') String endDate,
+    @Field('Content') String content,
+    @Field('Files') List<String> files,
+    @Field('FilesDelete') List<String> filesDelete,
+  );
 }

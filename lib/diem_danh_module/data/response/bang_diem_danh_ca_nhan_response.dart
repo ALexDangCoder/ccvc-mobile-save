@@ -79,9 +79,9 @@ class ThongKeDiemDanhCaNhanModelResponse {
   @JsonKey(name: 'type')
   String? type;
   @JsonKey(name: 'dayWage')
-  int? dayWage;
+  double? dayWage;
   @JsonKey(name: 'leave')
-  int? leave;
+  double? leave;
   @JsonKey(name: 'isLeaveRequest')
   int? isLeaveRequest;
   @JsonKey(name: 'leaveRequestReasonCode')

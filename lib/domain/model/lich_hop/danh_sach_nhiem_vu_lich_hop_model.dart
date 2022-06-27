@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 enum TrangThaiNhiemVu { ChoPhanXuLy, DangThucHien, DaThucHien }
 
 class DanhSachNhiemVuLichHopModel {
+  String id;
   String soNhiemVu = '';
   String noiDungTheoDoi = '';
   String tinhHinhThucHienNoiBo = '';
@@ -20,6 +21,7 @@ class DanhSachNhiemVuLichHopModel {
     required this.hanXuLy,
     required this.loaiNhiemVu,
     required this.trangThai,
+    required this.id,
   });
 }
 

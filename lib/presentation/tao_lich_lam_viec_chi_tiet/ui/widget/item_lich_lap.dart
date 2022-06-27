@@ -6,9 +6,10 @@ import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart
 import 'package:flutter/material.dart';
 
 class LichLapWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final TaoLichLamViecCubit cubit;
+  final bool isEdit;
 
-  LichLapWidget({Key? key, required this.taoLichLamViecCubit})
+  LichLapWidget({Key? key, required this.cubit, this.isEdit = false})
       : super(key: key);
 
   @override
@@ -18,27 +19,30 @@ class LichLapWidget extends StatefulWidget {
 class _LichLapWidgetState extends State<LichLapWidget> {
   @override
   Widget build(BuildContext context) {
+    final _cubit = widget.cubit;
     return StreamBuilder<List<LichLapModel>>(
-      stream: widget.taoLichLamViecCubit.lichLap,
+      stream: _cubit.lichLap,
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
         return SelectOnlyExpand(
           urlIcon: ImageAssets.icNhacLai,
           title: S.current.lich_lap,
           listSelect: data.map<String>((e) => e.name ?? '').toList(),
-          value: widget.taoLichLamViecCubit.selectLichLap.name ?? '',
+          value: widget.isEdit
+              ? _cubit.chiTietLichLamViecModel.lichLap()
+              : _cubit.selectLichLap.name ?? '',
           onChange: (value) {
-            widget.taoLichLamViecCubit.selectLichLap.id = data[value].id;
+            _cubit.selectLichLap.id = data[value].id;
             if (data[value].id == 7) {
-              widget.taoLichLamViecCubit.lichLapTuyChinhSubject.add(true);
+              _cubit.lichLapTuyChinhSubject.add(true);
             } else {
-              widget.taoLichLamViecCubit.lichLapTuyChinhSubject.add(false);
+              _cubit.lichLapTuyChinhSubject.add(false);
             }
 
             if (data[value].id != 1) {
-              widget.taoLichLamViecCubit.lichLapKhongLapLaiSubject.add(true);
+              _cubit.lichLapKhongLapLaiSubject.add(true);
             } else {
-              widget.taoLichLamViecCubit.lichLapKhongLapLaiSubject.add(false);
+              _cubit.lichLapKhongLapLaiSubject.add(false);
             }
           },
         );

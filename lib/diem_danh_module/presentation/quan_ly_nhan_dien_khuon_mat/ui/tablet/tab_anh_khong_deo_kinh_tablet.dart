@@ -22,8 +22,7 @@ class _TabAnhKhongDeoKinhTabletState extends State<TabAnhKhongDeoKinhTablet> {
       child: GridView.count(
         crossAxisCount: 2,
         shrinkWrap: true,
-        crossAxisSpacing: 28,
-        mainAxisSpacing: 28,
+        crossAxisSpacing: 14,
         childAspectRatio: 1.1,
         children: widget.cubit.listDataKhongDeoKinh
             .map(

@@ -290,6 +290,8 @@ class ApiConstants {
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
   static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';
+  static const CONFIRM_OR_CANCEL_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/duyet-bao-cao';
+  static const CREATE_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/create-meet-report';
 }
 
 class ImageConstants {

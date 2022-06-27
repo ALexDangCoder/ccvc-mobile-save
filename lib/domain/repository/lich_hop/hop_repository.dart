@@ -391,4 +391,22 @@ mixin HopRepository {
     String lichHopId,
     bool isThamGia,
   );
+
+  Future<Result<bool>> xacNhanHoacHuyKetLuanHop(
+    String lichHopId,
+    bool isDuyet,
+    String noiDung,
+  );
+
+  Future<Result<bool>> createKetLuanHop(
+    String lichHopId,
+    String scheduleId,
+    String reportStatusId,
+    String reportTemplateId,
+    String startDate,
+    String endDate,
+    String content,
+    List<String> files,
+    List<String> filesDelete,
+  );
 }

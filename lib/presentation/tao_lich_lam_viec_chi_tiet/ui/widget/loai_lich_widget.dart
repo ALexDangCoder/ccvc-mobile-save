@@ -9,10 +9,14 @@ import 'package:flutter/material.dart';
 
 class LoaiLichWidget extends StatefulWidget {
   final TaoLichLamViecCubit taoLichLamViecCubit;
+  final bool isEdit;
 
-  const LoaiLichWidget(
-      {Key? key, required this.taoLichLamViecCubit, this.callback})
-      : super(key: key);
+  const LoaiLichWidget({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    this.callback,
+    this.isEdit = false,
+  }) : super(key: key);
   final Function(bool)? callback;
 
   @override
@@ -41,6 +45,9 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
                     .add(data[value].name);
                 widget.taoLichLamViecCubit.checkCal.sink.add(false);
               },
+              value: widget.isEdit
+                  ? (widget.taoLichLamViecCubit.selectLoaiLich?.name ?? '')
+                  : '',
               hintText: S.current.chon_loai_lich,
               urlIcon: ImageAssets.icCalendarUnFocus,
               listSelect: data.map((e) => e.name).toList(),

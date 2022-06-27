@@ -206,16 +206,16 @@ class _TaoLichLamViecChiTietScreenState
                               },
                             ),
                             NhacLaiWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             NguoiChuTriWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             LinhVucWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             //cong khai lich
                             Padding(
@@ -259,7 +259,7 @@ class _TaoLichLamViecChiTietScreenState
                                   );
                                 } else {
                                   return ItemDatNuocWidget(
-                                    taoLichLamViecCubit: taoLichLamViecCubit,
+                                    cubit: taoLichLamViecCubit,
                                   );
                                 }
                               },
@@ -273,7 +273,7 @@ class _TaoLichLamViecChiTietScreenState
                               },
                             ),
                             LichLapWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             StreamBuilder<bool>(
                               stream: taoLichLamViecCubit
@@ -358,12 +358,20 @@ class _TaoLichLamViecChiTietScreenState
   Future<void> validateField() async {
     _formKey.currentState!.validator();
     if (_formKey.currentState!.validator() && !timeValue && !calValue) {
-      await taoLichLamViecCubit.checkTrungLich(
-        context: context,
-        title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-        content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-        location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-      );
+      if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
+        await taoLichLamViecCubit.taoLichLamViec(
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      } else {
+        await taoLichLamViecCubit.checkTrungLich(
+          context: context,
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      }
     }
     if (timeValue) {
       calCubit.validateTime.sink.add(

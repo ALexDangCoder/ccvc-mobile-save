@@ -6,10 +6,9 @@ import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart
 import 'package:flutter/material.dart';
 
 class NguoiChuTriWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final TaoLichLamViecCubit cubit;
 
-  const NguoiChuTriWidget({Key? key, required this.taoLichLamViecCubit})
-      : super(key: key);
+  const NguoiChuTriWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _NguoiChuTriWidgetState createState() => _NguoiChuTriWidgetState();
@@ -18,20 +17,19 @@ class NguoiChuTriWidget extends StatefulWidget {
 class _NguoiChuTriWidgetState extends State<NguoiChuTriWidget> {
   @override
   Widget build(BuildContext context) {
+    final _cubit = widget.cubit;
     return StreamBuilder<List<NguoiChutriModel>>(
-      stream: widget.taoLichLamViecCubit.nguoiChuTri,
+      stream: _cubit.nguoiChuTri,
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
         return SelectOnlyExpand(
           onChange: (value) {
-            widget.taoLichLamViecCubit.selectNguoiChuTri?.userId =
-                data[value].userId;
-            widget.taoLichLamViecCubit.selectNguoiChuTri?.donViId =
-                data[value].donViId;
+            _cubit.selectNguoiChuTri?.userId = data[value].userId;
+            _cubit.selectNguoiChuTri?.donViId = data[value].donViId;
           },
           urlIcon: ImageAssets.icPeople,
           listSelect: data.map((e) => e.title()).toList(),
-          value: widget.taoLichLamViecCubit.selectNguoiChuTri?.title() ?? '',
+          value: _cubit.selectNguoiChuTri?.title() ?? '',
           title: S.current.nguoi_chu_tri,
         );
       },

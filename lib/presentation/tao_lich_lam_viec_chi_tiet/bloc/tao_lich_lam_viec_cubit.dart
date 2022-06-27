@@ -24,7 +24,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_sele
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
@@ -151,9 +150,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   String? timeFrom;
   String? dateEnd;
   String? timeEnd;
-  String? title = '';
-  String? content = '';
-  String? location = '';
   String? typeScheduleName = '';
   String? typeScheduleId = '';
   String? dateTimeFrom;
@@ -346,9 +342,19 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
                     location: location,
                   );
                 } else if (isInside) {
-                  await suaLichLamViec(only: isOnly);
+                  await suaLichLamViec(
+                    title: title,
+                    content: content,
+                    location: location,
+                    only: isOnly,
+                  );
                 } else {
-                  await suaLichLamViecNuocNgoai(only: isOnly);
+                  await suaLichLamViecNuocNgoai(
+                    title: title,
+                    content: content,
+                    location: location,
+                    only: isOnly,
+                  );
                 }
                 Navigator.pop(context);
               },
@@ -364,9 +370,17 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
                 location: location,
               );
             } else if (isEdit && isInside) {
-              suaLichLamViec();
+              suaLichLamViec(
+                title: title,
+                content: content,
+                location: location,
+              );
             } else {
-              suaLichLamViecNuocNgoai();
+              suaLichLamViecNuocNgoai(
+                title: title,
+                content: content,
+                location: location,
+              );
             }
           }
         },
@@ -429,7 +443,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
       dateRepeat:
-      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+          DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
       dateRepeat1: dateTimeLapDenNgay.formatApi,
       only: true,
       days: lichLapItem1,
@@ -446,10 +460,15 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViec({bool only = true}) async {
+  Future<void> suaLichLamViec({
+    required String title,
+    required String content,
+    required String location,
+    bool only = true,
+  }) async {
     showLoading();
     final result = await _lichLamViec.suaLichLamViec(
-      title ?? '',
+      title,
       selectLoaiLich?.id ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
@@ -460,8 +479,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       dateEnd ?? DateTime.now().formatApi,
       timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      content ?? '',
-      location ?? '',
+      content,
+      location,
       '',
       '',
       '',
@@ -497,10 +516,15 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViecNuocNgoai({bool only = true}) async {
+  Future<void> suaLichLamViecNuocNgoai({
+    required String title,
+    required String content,
+    required String location,
+    bool only = true,
+  }) async {
     showLoading();
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
-      title ?? '',
+      title,
       selectLoaiLich?.id ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
@@ -512,8 +536,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       dateEnd ?? DateTime.now().formatApi,
       timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      content ?? '',
-      location ?? '',
+      content,
+      location,
       '',
       '',
       '',

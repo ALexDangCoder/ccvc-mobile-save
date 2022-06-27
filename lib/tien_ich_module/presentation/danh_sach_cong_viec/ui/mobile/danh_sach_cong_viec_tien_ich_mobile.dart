@@ -267,7 +267,7 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
     title: StreamBuilder<String>(
       stream: cubit.titleAppBar.stream,
       builder: (context, snapshot) {
-        final title = snapshot.data ?? S.current.danh_sach_cong_viec;
+        final title = snapshot.data ?? S.current.cong_viec_cua_ban;
         return Text(
           title,
           style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
@@ -423,15 +423,14 @@ class ListUpDSCV extends StatelessWidget {
                 );
               },
               icon: SvgPicture.asset(
-                ImageAssets.icDeleteLichHop,
+                ImageAssets.ic_xoa_vinh_viec_cv,
               ),
-              title: S.current.xoa_cong_viec,
-              textContent: S.current.ban_chac_chan_muon_xoa,
+              title: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
             );
@@ -462,7 +461,7 @@ class ListUpDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
                 ImageAssets.ic_xoa_vinh_viec_cv,
@@ -560,7 +559,7 @@ class ListDownDSCV extends StatelessWidget {
               btnRightTxt: S.current.xoa,
             );
           },
-          onChange: (vl) {
+          onChange: (value) {
             cubit.editWork(
               todo: todo,
             );
@@ -580,7 +579,7 @@ class ListDownDSCV extends StatelessWidget {
             showDiaLog(
               context,
               funcBtnRight: () {
-                cubit.xoaCongViecVinhVien(todo.id ?? '');
+                cubit.xoaCongViecVinhVien(todo.id ?? '', todo);
               },
               icon: SvgPicture.asset(
                 ImageAssets.ic_xoa_vinh_viec_cv,

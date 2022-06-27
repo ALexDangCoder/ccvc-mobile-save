@@ -27,6 +27,7 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class TaoLichHopMobileScreen extends StatefulWidget {
@@ -189,6 +190,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           },
                           onDayPicked: (listId) {
                             _cubit.taoLichHopRequest.days = listId.join(',');
+                            if(listId.isEmpty) {
+                              _cubit.taoLichHopRequest
+                                  .typeRepeat = danhSachLichLap.first.id;
+                            }
                           },
                           onDateChange: (value) {
                             _cubit.taoLichHopRequest.dateRepeat =
@@ -215,7 +220,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         spaceH24,
                         TextFieldStyle(
                           urlIcon: ImageAssets.icDocument,
-                          hintText: S.current.noi_dung,
+                          hintText: S.current.noidung,
                           maxLines: 4,
                           onChange: (value) {
                             _cubit.taoLichHopRequest.noiDung = value;
@@ -241,6 +246,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         TextFieldStyle(
                           urlIcon: ImageAssets.icCuocGoi,
                           hintText: S.current.so_dien_thoai,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          textInputType: TextInputType.number,
                           validate: (value) {
                             if (value.isEmpty) {
                               return null;

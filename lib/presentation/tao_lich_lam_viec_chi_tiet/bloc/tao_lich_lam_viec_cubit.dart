@@ -150,9 +150,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   String? timeFrom;
   String? dateEnd;
   String? timeEnd;
-  String? title = '';
-  String? content = '';
-  String? location = '';
   String? typeScheduleName = '';
   String? typeScheduleId = '';
   String? dateTimeFrom;
@@ -345,9 +342,19 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
                     location: location,
                   );
                 } else if (isInside) {
-                  await suaLichLamViec(only: isOnly);
+                  await suaLichLamViec(
+                    title: title,
+                    content: content,
+                    location: location,
+                    only: isOnly,
+                  );
                 } else {
-                  await suaLichLamViecNuocNgoai(only: isOnly);
+                  await suaLichLamViecNuocNgoai(
+                    title: title,
+                    content: content,
+                    location: location,
+                    only: isOnly,
+                  );
                 }
                 Navigator.pop(context);
               },
@@ -363,9 +370,17 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
                 location: location,
               );
             } else if (isEdit && isInside) {
-              suaLichLamViec();
+              suaLichLamViec(
+                title: title,
+                content: content,
+                location: location,
+              );
             } else {
-              suaLichLamViecNuocNgoai();
+              suaLichLamViecNuocNgoai(
+                title: title,
+                content: content,
+                location: location,
+              );
             }
           }
         },
@@ -390,47 +405,48 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       datNuocSelectModel?.id = '';
     }
     final result = await _lichLamViec.taoLichLamViec(
-      title,
-      selectLoaiLichId ?? '',
-      selectLinhVuc?.id ?? '',
-      tinhSelectModel?.id ?? '',
-      tinhSelectModel?.tenTinhThanh ?? '',
-      huyenSelectModel?.id ?? '',
-      huyenSelectModel?.tenQuanHuyen ?? '',
-      xaSelectModel?.id ?? '',
-      xaSelectModel?.tenXaPhuong ?? '',
-      datNuocSelectModel?.name ?? '',
-      datNuocSelectModel?.id ?? '',
-      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      timeFrom ?? timeFrom ?? DateTime.now().formatApiFixMeet,
-      DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-      timeEnd ??
+      title: title,
+      typeScheduleId: selectLoaiLichId ?? '',
+      linhVucId: selectLinhVuc?.id ?? '',
+      tinhId: tinhSelectModel?.id ?? '',
+      TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
+      huyenId: huyenSelectModel?.id ?? '',
+      TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
+      xaId: xaSelectModel?.id ?? '',
+      TenXa: xaSelectModel?.tenXaPhuong ?? '',
+      country: datNuocSelectModel?.name ?? '',
+      countryId: datNuocSelectModel?.id ?? '',
+      dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      timeFrom: timeFrom ?? timeFrom ?? DateTime.now().formatApiFixMeet,
+      dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
+      timeTo: timeEnd ??
           timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      content,
-      location,
-      '',
-      '',
-      '',
-      2,
-      '',
-      publishSchedule ?? false,
+      content: content,
+      location: location,
+      vehicle: '',
+      expectedResults: '',
+      results: '',
+      status: 2,
+      rejectReason: '',
+      publishSchedule: publishSchedule ?? false,
       //cong khai lich
-      '',
-      false,
-      true,
-      selectNguoiChuTri?.userId ?? '',
-      selectNguoiChuTri?.donViId ?? '',
-      '',
-      isCheckAllDaySubject.value,
-      true,
-      donviModel ?? [],
-      selectNhacLai.value ?? 1,
-      selectLichLap.id ?? 0,
-      DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      dateTimeLapDenNgay.formatApi,
-      true,
-      lichLapItem1,
+      tags: '',
+      isLichDonVi: false,
+      isLichLanhDao: true,
+      canBoChuTriId: selectNguoiChuTri?.userId ?? '',
+      donViId: selectNguoiChuTri?.donViId ?? '',
+      note: '',
+      isAllDay: isCheckAllDaySubject.value,
+      isSendMail: true,
+      scheduleCoperativeRequest: donviModel ?? [],
+      typeRemider: selectNhacLai.value ?? 1,
+      typeRepeat: selectLichLap.id ?? 0,
+      dateRepeat:
+          DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      dateRepeat1: dateTimeLapDenNgay.formatApi,
+      only: true,
+      days: lichLapItem1,
     );
     result.when(
       success: (res) {
@@ -444,10 +460,15 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViec({bool only = true}) async {
+  Future<void> suaLichLamViec({
+    required String title,
+    required String content,
+    required String location,
+    bool only = true,
+  }) async {
     showLoading();
     final result = await _lichLamViec.suaLichLamViec(
-      title ?? '',
+      title,
       selectLoaiLich?.id ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
@@ -458,8 +479,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       dateEnd ?? DateTime.now().formatApi,
       timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      content ?? '',
-      location ?? '',
+      content,
+      location,
       '',
       '',
       '',
@@ -495,10 +516,15 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViecNuocNgoai({bool only = true}) async {
+  Future<void> suaLichLamViecNuocNgoai({
+    required String title,
+    required String content,
+    required String location,
+    bool only = true,
+  }) async {
     showLoading();
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
-      title ?? '',
+      title,
       selectLoaiLich?.id ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
@@ -510,8 +536,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       dateEnd ?? DateTime.now().formatApi,
       timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      content ?? '',
-      location ?? '',
+      content,
+      location,
       '',
       '',
       '',

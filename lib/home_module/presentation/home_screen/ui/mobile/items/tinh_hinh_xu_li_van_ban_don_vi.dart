@@ -12,20 +12,20 @@ import '/home_module/config/resources/styles.dart';
 import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
 import '/home_module/widgets/chart/base_pie_chart.dart';
 
-class VanBanDonViWidget extends StatefulWidget {
+class TinhHinhXuLyVanBanDonViWidget extends StatefulWidget {
   final WidgetType homeItemType;
 
-  const VanBanDonViWidget({
+  const TinhHinhXuLyVanBanDonViWidget({
     required this.homeItemType,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<VanBanDonViWidget> createState() => _VanBanDonViWidgetState();
+  State<TinhHinhXuLyVanBanDonViWidget> createState() => _VanBanDonViWidgetState();
 }
 
-class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
-  // late HomeCubit cubit;
+class _VanBanDonViWidgetState extends State<TinhHinhXuLyVanBanDonViWidget> {
+  late HomeCubit cubit;
   final VanBanDonViCubit _vanBanDonViCubit = VanBanDonViCubit();
 
   @override
@@ -34,7 +34,7 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        // _vanBanDonViCubit.getDocument();
+         _vanBanDonViCubit.getDocument();
       });
     });
   }
@@ -43,7 +43,7 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    // cubit = HomeProvider.of(context).homeCubit;
+    cubit = HomeProvider.of(context).homeCubit;
   }
 
   @override
@@ -82,7 +82,7 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
                   )
                 ],
               );
-            }),
+            },),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

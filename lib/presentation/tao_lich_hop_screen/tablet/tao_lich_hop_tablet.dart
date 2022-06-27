@@ -189,6 +189,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               onDayPicked: (listId) {
                                 _cubit.taoLichHopRequest.days
                                               = listId.join(',');
+                                if(listId.isEmpty) {
+                                  _cubit.taoLichHopRequest
+                                      .typeRepeat = danhSachLichLap.first.id;
+                                }
                               },
                               onDateChange: (value) {
                                 _cubit.taoLichHopRequest.dateRepeat =
@@ -216,7 +220,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             spaceH24,
                             TextFieldStyle(
                               urlIcon: ImageAssets.icDocument,
-                              hintText: S.current.noi_dung,
+                              hintText: S.current.noidung,
                               maxLines: 4,
                               onChange: (value) {
                                 _cubit.taoLichHopRequest.noiDung = value;

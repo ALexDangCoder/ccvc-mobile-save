@@ -51,7 +51,6 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.getUsersNgoaiHeThongDuocTruyCap();
   }
 
   @override

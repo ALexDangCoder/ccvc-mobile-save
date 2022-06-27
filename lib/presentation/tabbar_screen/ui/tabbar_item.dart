@@ -1,20 +1,19 @@
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/report_screen_tablet.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
-
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/main_canlendar_refactor.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_screen.dart';
-
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -67,11 +66,11 @@ extension TabbarEnum on TabBarType {
       case TabBarType.report:
         return screenDevice(
           mobileScreen: const ReportScreenMobile(),
-          tabletScreen: const ReportScreenMobile(),
+          tabletScreen: const ReportScreenTablet(),
         );
       case TabBarType.calendarWork:
         return screenDevice(
-          mobileScreen: const CalenderWorkDayMobile(),
+          mobileScreen: const MainCanlendanRefactor(),
           tabletScreen: const CalenderWorkDayTablet(),
         );
 
@@ -80,16 +79,17 @@ extension TabbarEnum on TabBarType {
         return ProviderWidget<MenuCubit>(
           cubit: cubit,
           child: screenDevice(
-              mobileScreen: const MenuScreen(),
-              tabletScreen: Navigator(
-                onGenerateRoute: (setting) {
-                  return MaterialPageRoute(
-                    builder: (_) => MenuTabletScreen(
-                      menuCubit: cubit,
-                    ),
-                  );
-                },
-              )),
+            mobileScreen: const MenuScreen(),
+            tabletScreen: Navigator(
+              onGenerateRoute: (setting) {
+                return MaterialPageRoute(
+                  builder: (_) => MenuTabletScreen(
+                    menuCubit: cubit,
+                  ),
+                );
+              },
+            ),
+          ),
         );
     }
   }

@@ -1,13 +1,13 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemMenuDiemDanhWidgetTablet extends StatelessWidget {
-  final String icon;
-  final String name;
+  final TypeDiemDanh type;
   final int number;
   final bool isSelect;
   final Function onTap;
@@ -15,10 +15,9 @@ class ItemMenuDiemDanhWidgetTablet extends StatelessWidget {
 
   const ItemMenuDiemDanhWidgetTablet({
     Key? key,
-    this.isShowNumber = true,
-    required this.icon,
-    required this.name,
-    required this.number,
+    this.isShowNumber = false,
+    required this.type,
+    this.number = 0,
     required this.isSelect,
     required this.onTap,
   }) : super(key: key);
@@ -61,7 +60,7 @@ class ItemMenuDiemDanhWidgetTablet extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: SvgPicture.asset(
-                    icon,
+                    type.getIconMenu,
                     color: !isSelect
                         ? backgroundColorApp
                         : AppTheme.getInstance().colorField(),
@@ -73,7 +72,7 @@ class ItemMenuDiemDanhWidgetTablet extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  name,
+                  type.getTitleMenu,
                   style: textNormalCustom(
                     color: isSelect ? backgroundColorApp : color3D5586,
                     fontWeight: FontWeight.w400,

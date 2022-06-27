@@ -55,7 +55,6 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
     required String to,
     required bool isTTDH,
   }) async {
-    showLoading();
     final rs = await hopRepository.getDanhSachPhongHop(id, from, to, isTTDH);
     rs.when(
       success: (res) {
@@ -63,7 +62,6 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
       },
       error: (error) {},
     );
-    showContent();
   }
 
   void addThietBi(ThietBiValue value) {

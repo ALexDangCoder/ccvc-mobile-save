@@ -131,7 +131,7 @@ const _dtFormat9 = 'dd/MM/yyyy HH:mm';
 const _dtFormat10 = 'dd/MM/yyyy';
 const _dtFormat11 = 'dd-MM-yyyy';
 const _dtFormat12 = 'yyyy-MM-ddTHH:mm:ss';
-const _dtFormat13 = 'yyyy/MM/dd HH:mm';
+const _dtFormat13 = 'dd/MM/yyyy HH:mm';
 const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
 const HOUR_MINUTE_FORMAT = 'Hm';
 
@@ -184,6 +184,9 @@ class WidgetTypeConstant {
   static const String LICH_LAM_VIEC_LICH_HOP = 'BoxLichVaHop';
   static const String TONG_HOP_HCC = 'TongHopHCC';
   static const String TIN_BUON = 'TinBuon';
+  static const String TINH_HINH_XU_LY_HO_SO_CA_NHAN = 'TinhHinhXuLyHoSoCaNhan';
+  static const String DANH_SACH_DICH_VU_CONG = 'DanhSachDichVuCong';
+  static const String TiNH_HINH_XU_LY_HO_SO_DON_VI = 'TinhHinhXuLyHoSoDonVi';
 }
 
 class DocumentState {
@@ -235,7 +238,8 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
   static String timeFormat = 'Hm';
-  static String monthDayFormat = 'MM/dd/yyyy HH:mm:ss';
+  static String monthDayFormat = 'MM/dd/yyyy HH:mm';
+  static String pickDateFormat = 'dd/MM/yyyy HH:mm';
 }
 
 class StatusYKND {

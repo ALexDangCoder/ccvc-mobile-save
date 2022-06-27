@@ -184,7 +184,7 @@ class DanhSachCongViecTienIchCubit
 
   Future<void> listNguoiThucHien() async {
     showLoading();
-    final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
+    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
     result.when(
       success: (res) {
         showContent();
@@ -436,7 +436,8 @@ class DanhSachCongViecTienIchCubit
             ? null
             : nguoiThucHienSubject.value.id,
         filePath: (filePathTodo ?? '').isNotEmpty
-            ? checkDataFile(changeData: filePathTodo, defaultData: todo.filePath)
+            ? checkDataFile(
+                changeData: filePathTodo, defaultData: todo.filePath)
             : filePath,
       ),
     );
@@ -547,13 +548,21 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///xóa cong viec
-  Future<void> xoaCongViecVinhVien(String idCv) async {
+  Future<void> xoaCongViecVinhVien(
+    String idCv,
+    TodoDSCVModel todo,
+  ) async {
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        callAndFillApiAuto();
+        final data = listDSCV.value;
+        data.remove(todo);
+        listDSCV.sink.add(data);
+        // callAndFillApiAuto();
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
   }
 

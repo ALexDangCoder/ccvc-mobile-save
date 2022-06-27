@@ -98,6 +98,15 @@ extension StringParse on String {
     return parsedString;
   }
 
+  bool get isExensionOfFile {
+    final document = this;
+    final int startOfSubString = document.lastIndexOf('/');
+
+    final subString =
+        document.substring(startOfSubString + 1, document.length);
+    return subString.contains('.');
+  }
+
   String convertNameFile() {
     final document = this;
 
@@ -120,6 +129,25 @@ extension StringParse on String {
       return int.parse(this);
     } catch (e) {
       return 0;
+    }
+  }
+
+  int? dayToIdLichLap() {
+    switch (this) {
+      case 'Thứ Hai':
+        return 1;
+      case 'Thứ Ba':
+        return 2;
+      case 'Thứ Tư':
+        return 3;
+      case 'Thứ Năm':
+        return 4;
+      case 'Thứ Sáu':
+        return 5;
+      case 'Thứ Bảy':
+        return 6;
+      case 'Chủ nhât':
+        return 7;
     }
   }
 }
@@ -168,7 +196,7 @@ extension CheckValidate on String {
 
   String? checkPassWordChangePass(String name) {
     final isCheck =
-        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
             .hasMatch(this);
     if (isCheck) {
       return null;
@@ -240,6 +268,13 @@ extension CheckValidate on String {
   String? checkNull() {
     if (trim().isEmpty) {
       return S.current.khong_duoc_de_trong;
+    }
+    return null;
+  }
+
+  String? validatorTitle() {
+    if (trim().isEmpty) {
+      return S.current.ban_phai_nhap_truong_tieu_de;
     }
     return null;
   }

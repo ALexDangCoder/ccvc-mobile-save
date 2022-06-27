@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
-import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/prev_view_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/prev_view_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/drag_item_list.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/item_not%20_use.dart';
@@ -38,6 +37,31 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 28,),
+          SizedBox(
+            width: 160,
+            height: 44,
+            child: ButtonCustomBottom(
+              border: 8,
+              title: S.current.xem_truoc,
+              isColorBlue: true,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => const PrevViewWidgetTablet(),
+                  ),
+                );
+              },
+              size: 16.0,
+            ),
+          ),
+          const SizedBox(height: 28,),
+        ],
+      ),
       backgroundColor: bgWidgets,
       appBar: BaseAppBar(
         title: S.current.widget_manage,
@@ -77,150 +101,206 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
         ),
         stream: widgetManageCubit.stateStream,
         child: RefreshIndicator(
-            onRefresh: () async {
-              await widgetManageCubit.onRefreshData();
-            },
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(30, 28, 30, 5),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: borderColor.withOpacity(0.5),
-                      ),
-                      color: backgroundColorApp,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(ImageAssets.ic_hoicham),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              S.current.keep_drop,
-                              style: textNormal(
-                                textTitle,
-                                14.0.textScale(),
+          onRefresh: () async {
+            await widgetManageCubit.onRefreshData();
+          },
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(30, 28, 30, 5),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: borderColor.withOpacity(0.5),
+                ),
+                color: backgroundColorApp,
+              ),
+              child: StreamBuilder<List<WidgetModel>>(
+                stream: widgetManageCubit.listWidgetUsing,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? [];
+                  if (data.isNotEmpty) {
+                    final List<WidgetModel> listWidgetUsing = data;
+                    return DragItemList(
+                      headerList: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(ImageAssets.ic_hoicham),
+                              const SizedBox(
+                                width: 8,
                               ),
+                              Text(
+                                S.current.keep_drop,
+                                style: textNormal(
+                                  textTitle,
+                                  14.0.textScale(),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            S.current.using,
+                            style: textNormalCustom(
+                              color: itemWidgetUsing,
+                              fontSize: 16,
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 28,
-                        ),
-                        Text(
-                          S.current.using,
-                          style: textNormalCustom(
-                            color: itemWidgetUsing,
-                            fontSize: 16.0.textScale(),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        StreamBuilder<List<WidgetModel>>(
-                          stream: widgetManageCubit.listWidgetUsing,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? [];
-                            if (data.isNotEmpty) {
-                              final List<WidgetModel> listWidgetUsing = data;
-                              return DragItemList(
-                                paddingTablet: true,
-                                headerList: const SizedBox(),
-                                footerList: const SizedBox(),
-                                listWidget: listWidgetUsing,
-                                widgetManageCubit: widgetManageCubit,
-                                isUsing: true,
-                                isScroll: true,
-                              );
-                            } else {
-                              return Center(
-                                child: Text(S.current.no_data),
-                              );
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          S.current.not_use,
-                          style: textNormalCustom(
-                            color: itemWidgetNotUse,
-                            fontSize: 16.0.textScale(),
+                          const SizedBox(
+                            height: 16,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        StreamBuilder<List<WidgetModel>>(
-                          stream: widgetManageCubit.listWidgetNotUse,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? [];
-                            if (data.isNotEmpty) {
-                              final List<WidgetModel> listWidgetNotUse = data;
-                              return DragItemList(
-                                paddingTablet: true,
-                                headerList: const SizedBox(),
-                                footerList: const SizedBox(),
-                                listWidget: listWidgetNotUse,
-                                widgetManageCubit: widgetManageCubit,
-                                isUsing: false,
-                                isScroll: true,
-                              );
-                            } else {
-                              return Center(
-                                child: Text(S.current.no_data),
-                              );
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          height: 28,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 28,
-                ),
-                Center(
-                  child: SizedBox(
-                    width: 160,
-                    height: 44,
-                    child: ButtonCustomBottom(
-                      border: 8,
-                      title: S.current.xem_truoc,
-                      isColorBlue: true,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) =>
-                                const PrevViewWidgetTablet(),
+                        ],
+                      ),
+                      footerList: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 16,
                           ),
-                        );
-                      },
-                      size: 16.0,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 28,
-                ),
-              ],
+                          Text(
+                            S.current.not_use,
+                            style: textNormalCustom(
+                              color: itemWidgetNotUse,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          StreamBuilder<List<WidgetModel>>(
+                            stream: widgetManageCubit.listWidgetNotUse,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? [];
+                              if (data.isNotEmpty) {
+                                final List<WidgetModel> listWidgetNotUse = data;
+                                return ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    return ItemWidgetNotUse(
+                                      widgetItem: listWidgetNotUse[index],
+                                      cubit: widgetManageCubit,
+                                      index: index,
+                                      contentWidget: listWidgetNotUse[index].name,
+                                    );
+                                  },
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: Center(
+                                    child: Text(S.current.no_data),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      listWidget: listWidgetUsing,
+                      widgetManageCubit: widgetManageCubit,
+                      isUsing: true,
+                    );
+                  } else {
+                    return  DragItemList(
+                      headerList: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(ImageAssets.ic_hoicham),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                S.current.keep_drop,
+                                style: textNormal(
+                                  textTitle,
+                                  14.0.textScale(),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            S.current.using,
+                            style: textNormalCustom(
+                              color: itemWidgetUsing,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                        ],
+                      ),
+                      footerList: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            S.current.not_use,
+                            style: textNormalCustom(
+                              color: itemWidgetNotUse,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          StreamBuilder<List<WidgetModel>>(
+                            stream: widgetManageCubit.listWidgetNotUse,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? [];
+                              if (data.isNotEmpty) {
+                                final List<WidgetModel> listWidgetNotUse = data;
+                                return ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    return ItemWidgetNotUse(
+                                      widgetItem: listWidgetNotUse[index],
+                                      cubit: widgetManageCubit,
+                                      index: index,
+                                      contentWidget: listWidgetNotUse[index].name,
+                                    );
+                                  },
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: Center(
+                                    child: Text(S.current.no_data),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      listWidget: [],
+                      widgetManageCubit: widgetManageCubit,
+                      isUsing: true,
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ),

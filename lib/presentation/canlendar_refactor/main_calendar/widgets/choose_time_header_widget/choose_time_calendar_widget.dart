@@ -68,6 +68,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
               maintainState: true,
               visible: value,
               child: ChooseTypeCalendarWidget(
+                controller: controller,
                 onChange: (value) {
                   controller.calendarType.value = value;
                   final times = dateTimeRange(controller.selectDate.value);

@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
@@ -89,10 +89,11 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: SvgPicture.asset(
-                                      ImageAssets.img_company,
+                                      ImageAssets.img_companies_svg,
                                       height: 5.h,
                                       width: 5.w,
                                       color: Colors.blue,
+                                      fit: BoxFit.none,
                                     ),
                                   ),
                                   spaceW5,
@@ -289,6 +290,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                     widget.cubit.chiaSeBaoCao(Share.COMMON).then((value) {
                       if (value == 'Thành công') {
                         MessageConfig.show(title: value);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       } else {
                         MessageConfig.show(
                           title: value,

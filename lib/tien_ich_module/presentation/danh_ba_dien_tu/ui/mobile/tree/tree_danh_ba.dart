@@ -62,8 +62,8 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
               children: [
                 BaseSearchBarNoBorder(
                   hintText: S.current.nhap_don_vi,
-                  onChange: (vl) {
-                    widget.cubit.searchTree2(vl);
+                  onChange: (value) {
+                    widget.cubit.searchTree(value);
                   },
                 ),
                 Container(
@@ -74,7 +74,9 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                   child: StreamBuilder(
                     stream: widget.cubit.listTreeDanhBaSubject.stream,
                     builder: (context, snapshot) {
-                      if (widget.cubit.listTreeDanhBa.isEmpty) {
+                      final data = snapshot.data;
+                      if (widget.cubit.listTreeDanhBa.isEmpty &&
+                          data == TreeDanhBaDienTu()) {
                         return const Padding(
                           padding: EdgeInsets.only(top: 20),
                           child: NodataWidget(),

@@ -405,19 +405,25 @@ extension lichHopOptionDayCubitTablet on Type_Choose_Option_Day {
     }
   }
 
-  Widget getLichHopStateDangLichTablet({required LichHopCubit cubit}) {
+  Widget getLichHopStateDangLichTablet({
+    required LichHopCubit cubit,
+    required final Type_Choose_Option_Day type,
+  }) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
         return LichHopTheoNgayTablet(
           cubit: cubit,
+          type: type,
         );
       case Type_Choose_Option_Day.WEEK:
         return LichHopTheoTuanTablet(
           cubit: cubit,
+          type: type,
         );
       case Type_Choose_Option_Day.MONTH:
         return LichHopTheoThangTablet(
           cubit: cubit,
+          type: type,
         );
       default:
         return const SizedBox();
@@ -446,7 +452,7 @@ extension lichHopCubitTablet on LichHopState {
     if (this is LichHopStateDangList) {
       return type.getLichHopStateDangListTablet(cubit, type);
     } else if (this is LichHopStateDangLich) {
-      return type.getLichHopStateDangLichTablet(cubit: cubit);
+      return type.getLichHopStateDangLichTablet(cubit: cubit, type: type);
     } else if (this is LichHopStateDangDanhSach) {
       return type.getLichHopStateDanhSachTablet(cubit);
     } else if (this is LichHopStateDangThongKe) {

@@ -9,7 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainNhieVuMobile extends StatefulWidget {
-  const MainNhieVuMobile({Key? key}) : super(key: key);
+  final String maTrangThai;
+  final bool isCaNhanScreen;
+
+  const MainNhieVuMobile(
+      {Key? key, this.maTrangThai = '', this.isCaNhanScreen = true})
+      : super(key: key);
 
   @override
   _MainNhieVuMobileState createState() => _MainNhieVuMobileState();
@@ -24,7 +29,12 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
   void initState() {
     cubit = NhiemVuCubit();
     danhSachCubit = DanhSachCubit();
-    cubit.emit(NhiemVuCaNhan());
+    if (widget.isCaNhanScreen) {
+      cubit.emit(NhiemVuCaNhan());
+    } else {
+      cubit.emit(NhiemVuDonVi());
+    }
+
     title = S.current.nhiem_vu_ca_nhan;
     super.initState();
   }
@@ -47,12 +57,14 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
           builder: (context, state) {
             if (state is NhiemVuCaNhan) {
               return NhiemVuCaNhanMobile(
+                maTrangThai: widget.maTrangThai,
                 isCheck: true,
                 danhSachCubit: danhSachCubit,
                 nhiemVuCubit: cubit,
               );
             } else if (state is NhiemVuDonVi) {
               return NhiemVuDonViMobile(
+                maTrangThai: widget.maTrangThai,
                 isCheck: false,
                 danhSachCubit: danhSachCubit,
                 nhiemVuCubit: cubit,

@@ -1,0 +1,116 @@
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/select_image.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+
+class ItemImageWidget extends StatelessWidget {
+  final String image;
+  final String title;
+  final DiemDanhCubit cubit;
+
+  const ItemImageWidget({
+    Key? key,
+    required this.image,
+    required this.title,
+    required this.cubit,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.current.goc_anh,
+            style: textNormalCustom(
+              fontSize: 16.0.textScale(),
+              fontWeight: FontWeight.w500,
+              color: color3D5586,
+            ),
+          ),
+          spaceH14,
+          Text(
+            title,
+            style: textNormalCustom(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              color: color667793,
+            ),
+          ),
+          spaceH16,
+          SizedBox(
+            height: 164.0.textScale(space: 56.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Positioned.fill(
+                        child: Container(
+                          height: 164.0.textScale(space: 56.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: colorE2E8F0),
+                            borderRadius: BorderRadius.circular(8.0),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.05),
+                                blurRadius: 2,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: AssetImage(image),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: color3D5586.withOpacity(0.8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                              vertical: 2,
+                            ),
+                            child: Text(
+                              S.current.anh_mau,
+                              style: textNormalCustom(color: colorFFFFFF),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                spaceW16,
+                Expanded(
+                  child: SelectImageWidget(
+                    selectImage: (image) {},
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+

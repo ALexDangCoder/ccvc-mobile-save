@@ -191,7 +191,6 @@ class _ExpandedSectionState extends State<LichLapWidget>
                             initDayPicked: widget.initDayPicked,
                             onChange: (listId) {
                               widget.onDayPicked?.call(listId);
-
                             },
                           ),
                         ),

@@ -1,4 +1,10 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+
+import 'dart:developer';
+
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
@@ -70,23 +76,22 @@ class _MainDataViewState extends State<MainDataView> {
         },
       ),
       StreamBuilder<DataSourceFCalendar>(
-        stream: widget.cubit.listCalendarWorkMonthStream,
-        builder: (context, snapshot) {
-          final data = snapshot.data ?? DataSourceFCalendar.empty();
-          return DataViewCalendarMonth(
-            buildAppointment: itemAppointment,
-            propertyChanged: (String property) {
-              widget.cubit.propertyChangedMonth(property);
-            },
-            onMore: (value) {
-              widget.cubit.controller.calendarType.value = CalendarType.DAY;
-              widget.cubit.controller.selectDate.value = value;
-            },
-            data: data,
-            fCalendarController: widget.cubit.fCalendarControllerMonth,
-          );
-        },
-      ),
+          stream: widget.cubit.listCalendarWorkMonthStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? DataSourceFCalendar.empty();
+            return DataViewCalendarMonth(
+              buildAppointment: itemAppointmentMonth,
+              propertyChanged: (String property) {
+                widget.cubit.propertyChangedMonth(property);
+              },
+              onMore: (value){
+                widget.cubit.controller.calendarType.value = CalendarType.DAY;
+                widget.cubit.controller.selectDate.value = value;
+              },
+              data: data,
+              fCalendarController: widget.cubit.fCalendarControllerMonth,
+            );
+          }),
     ];
     super.initState();
   }
@@ -189,8 +194,74 @@ class _MainDataViewState extends State<MainDataView> {
       ],
     );
   }
-
-  Widget itemAppointment(Appointment appointment) {
+  Widget itemAppointmentMonth(Appointment appointment) {
+    final data = appointment as AppointmentWithDuplicate;
+    return Align(
+      child: GestureDetector(
+        onTap: (){
+          final TypeCalendar typeAppointment =
+          getType(appointment.notes ?? 'Schedule');
+          if (typeAppointment == TypeCalendar.Schedule) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChiTietLichLamViecScreen(
+                  id: appointment.id as String? ?? '',
+                ),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailMeetCalenderScreen(
+                  id: appointment.id as String? ?? '',
+                ),
+              ),
+            );
+          }
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 1),
+          alignment: Alignment.center,
+          height: 20,
+          decoration: const BoxDecoration(
+            color: textDefault,
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Center(
+                child: Text(
+                  appointment.subject.trim(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textNormalCustom(color: Colors.white, fontSize: 9),
+                ),
+              ),
+              Visibility(
+                visible: data.isDuplicate,
+                child: Positioned(
+                  top: 3,
+                  right: 3,
+                  child: Container(
+                    width: 5,
+                    height: 5,
+                    decoration: const BoxDecoration(
+                      color: redChart,
+                      shape: BoxShape.circle
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  Widget itemAppointment (Appointment appointment){
     return GestureDetector(
       onTap: () {
         final TypeCalendar typeAppointment =

@@ -9,13 +9,14 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kie
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/bloc/chi_tiet_nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/widget/pick_file.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 enum PickImage {
   PICK_MAIN,
@@ -137,20 +138,13 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                               widget.cubit.validateNhapYkien.add('');
                             }
                           }
-                        }
-                        // : _nhapYkienController
-                        ,
-                        //focusNode:
-                        //isMain ?
-                        //_nodeYMain
-                        //: _nodeYkien
-                        //,
+                        },
                         maxLines: 999,
                         minLines: 1,
                         keyboardType: TextInputType.multiline,
                         onTap: () {
                           // if (isMain) {
-                          //   for (final ChiTietYKienXuLyModel value in _list) {
+                          //   for (final ChiTietYKienXuLyModel value in _list){
                           //     value.isInput = false;
                           //   }
                           //_nhapYkienController.text = '';
@@ -450,7 +444,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                         );
                         widget.cubit.listPickFileMain.remove(objPick);
                       } else {
-                        //_listYkien.remove(objPick);
+                        
                       }
                     });
                   },
@@ -473,6 +467,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
   }
 
   void addDataListPick(Map<String, dynamic> mediaMap, PickImage pickImage) {
+    final FToast toast = FToast();
     if (mediaMap.getStringValue(NAME_OF_FILE).isNotEmpty) {
       final _path = mediaMap.getStringValue(PATH_OF_FILE);
       final _name = mediaMap.getStringValue(NAME_OF_FILE);
@@ -491,19 +486,15 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
             ),
           );
         } else {
-          // _listYkien.add(
-          //   PickImageFileModel(
-          //     path: _path,
-          //     name: _name,
-          //     extension: _extensionName,
-          //     size: _size,
-          //   ),
-          // );
+
         }
       } else {
-        MessageConfig.show(
-          title: S.current.file_dinh_kem_mb,
-          messState: MessState.error,
+        toast.init(context);
+        toast.showToast(
+          child: ShowToast(
+            text: S.current.dung_luong_toi_da,
+          ),
+          gravity: ToastGravity.BOTTOM,
         );
       }
       setState(() {});

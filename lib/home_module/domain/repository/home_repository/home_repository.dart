@@ -48,9 +48,9 @@ abstract class HomeRepository {
       SearchVBRequest searchVBRequest);
 
   Future<Result<DocumentDashboardModel>> getTongHopNhiemVu(
-    String userId,
-    String canBoId,
-    String donViId,
+    // String userId,
+     String canBoId,
+    // String donViId,
   );
 
   Future<Result<VanBanDonViModel>> getTinhHinhXuLyVanBan(

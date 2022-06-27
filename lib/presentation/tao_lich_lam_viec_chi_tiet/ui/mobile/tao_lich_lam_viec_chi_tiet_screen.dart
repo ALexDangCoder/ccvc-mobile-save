@@ -28,6 +28,7 @@ import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/bloc/
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,10 +49,11 @@ class _TaoLichLamViecChiTietScreenState
   TextEditingController tieuDeController = TextEditingController();
   TextEditingController noiDungController = TextEditingController();
   TextEditingController diaDiemController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormGroupState>();
   bool timeValue = true;
-  bool calValue = false;
+  bool calValue = true;
   late DateTimeCupertinoCustomCubit calCubit;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -132,13 +134,19 @@ class _TaoLichLamViecChiTietScreenState
               },
               child: ProviderWidget<TaoLichLamViecCubit>(
                 cubit: taoLichLamViecCubit,
-                child: ExpandGroup(
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        bottom: 16.0, left: 16.0, right: 16.0),
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formKey,
+                child: FormGroup(
+                  scrollController: scrollController,
+                  key: _formKey,
+                  child: ExpandGroup(
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        bottom: 16.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -147,7 +155,7 @@ class _TaoLichLamViecChiTietScreenState
                               image: ImageAssets.icEdit,
                               hint: S.current.tieu_de,
                               validator: (value) {
-                                return (value ?? '').checkNull();
+                                return (value ?? '').validatorTitle();
                               },
                             ),
                             LoaiLichWidget(
@@ -169,40 +177,46 @@ class _TaoLichLamViecChiTietScreenState
                                 String dateEnd,
                               ) {
                                 taoLichLamViecCubit.checkValidateTime();
-                                taoLichLamViecCubit.listeningEndDataTime(
-                                  DateTime.parse(
-                                    timeFormat(
-                                      '$dateEnd $timeEnd',
-                                      DateTimeFormat.DATE_TIME_PICKER,
-                                      DateTimeFormat.DATE_TIME_PUT,
+                                if (timeEnd != 'hh:mm' &&
+                                    dateEnd != 'DD/MM/YYYY') {
+                                  taoLichLamViecCubit.listeningEndDataTime(
+                                    DateTime.parse(
+                                      timeFormat(
+                                        '$dateEnd $timeEnd',
+                                        DateTimeFormat.DATE_TIME_PICKER,
+                                        DateTimeFormat.DATE_TIME_PUT,
+                                      ),
                                     ),
-                                  ),
-                                );
-                                taoLichLamViecCubit.listeningStartDataTime(
-                                  DateTime.parse(
-                                    timeFormat(
-                                      '$dateStart $timeStart',
-                                      DateTimeFormat.DATE_TIME_PICKER,
-                                      DateTimeFormat.DATE_TIME_PUT,
+                                  );
+                                }
+                                if (timeStart != 'hh:mm' &&
+                                    dateStart != 'DD/MM/YYYY') {
+                                  taoLichLamViecCubit.listeningStartDataTime(
+                                    DateTime.parse(
+                                      timeFormat(
+                                        '$dateStart $timeStart',
+                                        DateTimeFormat.DATE_TIME_PICKER,
+                                        DateTimeFormat.DATE_TIME_PUT,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
                               },
                               validateTime: (String value) {
                                 timeValue = value.isNotEmpty;
                               },
                             ),
                             NhacLaiWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             NguoiChuTriWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             LinhVucWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             //cong khai lich
                             Padding(
@@ -224,32 +238,33 @@ class _TaoLichLamViecChiTietScreenState
                               ),
                             ),
                             StreamBuilder<bool>(
-                                stream: taoLichLamViecCubit.checkTrongNuoc,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? false;
-                                  if (!data) {
-                                    return Column(
-                                      children: [
-                                        ItemTinhWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
-                                        ),
-                                        ItemHuyenWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
-                                        ),
-                                        ItemXaWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
-                                        ),
-                                      ],
-                                    );
-                                  } else {
-                                    return ItemDatNuocWidget(
-                                      taoLichLamViecCubit: taoLichLamViecCubit,
-                                    );
-                                  }
-                                }),
+                              stream: taoLichLamViecCubit.checkTrongNuoc,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? false;
+                                if (!data) {
+                                  return Column(
+                                    children: [
+                                      ItemTinhWidget(
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
+                                      ),
+                                      ItemHuyenWidget(
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
+                                      ),
+                                      ItemXaWidget(
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return ItemDatNuocWidget(
+                                    cubit: taoLichLamViecCubit,
+                                  );
+                                }
+                              },
+                            ),
                             TextFormWidget(
                               controller: diaDiemController,
                               image: ImageAssets.icViTri,
@@ -259,7 +274,7 @@ class _TaoLichLamViecChiTietScreenState
                               },
                             ),
                             LichLapWidget(
-                              taoLichLamViecCubit: taoLichLamViecCubit,
+                              cubit: taoLichLamViecCubit,
                             ),
                             StreamBuilder<bool>(
                               stream: taoLichLamViecCubit
@@ -319,33 +334,8 @@ class _TaoLichLamViecChiTietScreenState
                                   child: buttomWidget(
                                     background: buttonColor,
                                     title: S.current.luu,
-                                    onTap: () async {
-                                      if (_formKey.currentState!.validate() &&
-                                          !timeValue &&
-                                          !calValue) {
-                                        await taoLichLamViecCubit
-                                            .checkTrungLich(
-                                          context: context,
-                                          title: tieuDeController.value.text
-                                              .trim()
-                                              .replaceAll(' +', ' '),
-                                          content: noiDungController.value.text
-                                              .trim()
-                                              .replaceAll(' +', ' '),
-                                          location: diaDiemController.value.text
-                                              .trim()
-                                              .replaceAll(' +', ' '),
-                                        );
-                                      }
-                                      if (timeValue) {
-                                        calCubit.validateTime.sink.add(
-                                          S.current.ban_phai_chon_thoi_gian,
-                                        );
-                                      }
-                                      if (!calValue) {
-                                        taoLichLamViecCubit.checkCal.sink
-                                            .add(true);
-                                      }
+                                    onTap: () {
+                                      validateField();
                                     },
                                     textColor: Colors.white,
                                   ),
@@ -364,6 +354,34 @@ class _TaoLichLamViecChiTietScreenState
         ),
       ),
     );
+  }
+
+  Future<void> validateField() async {
+    _formKey.currentState!.validator();
+    if (_formKey.currentState!.validator() && !timeValue && !calValue) {
+      if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
+        await taoLichLamViecCubit.taoLichLamViec(
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      } else {
+        await taoLichLamViecCubit.checkTrungLich(
+          context: context,
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      }
+    }
+    if (timeValue) {
+      calCubit.validateTime.sink.add(
+        S.current.ban_phai_chon_thoi_gian,
+      );
+    }
+    if (calValue) {
+      taoLichLamViecCubit.checkCal.sink.add(true);
+    }
   }
 }
 
@@ -423,6 +441,7 @@ Widget buttomWidget({
       onTap();
     },
     child: Container(
+      margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.symmetric(
         vertical: 13,
         horizontal: 24,

@@ -205,13 +205,13 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                 urlIcon: ImageAssets.icNhacLai,
                                 title: S.current.nhac_lai,
                                 value: widget.chiTietHop.nhacLai(),
-                                listSelect: danhSachThoiGianNhacLich
+                                listSelect: danhSachSuaThoiGianNhacLich
                                     .map((e) => e.label)
                                     .toList(),
                                 onChange: (index) {
                                   _cubitTaoLichHop
-                                          .taoLichHopRequest.typeReminder =
-                                      danhSachThoiGianNhacLich[index].id;
+                                      .taoLichHopRequest.typeReminder =
+                                      danhSachSuaThoiGianNhacLich[index].id;
                                   if (index == 0) {
                                     _cubitTaoLichHop
                                         .taoLichHopRequest.isNhacLich = false;
@@ -251,6 +251,10 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                 onDayPicked: (listId) {
                                   _cubitTaoLichHop.taoLichHopRequest.days =
                                       listId.join(',');
+                                  if(listId.isEmpty) {
+                                    _cubitTaoLichHop.taoLichHopRequest
+                                      .typeRepeat = danhSachLichLap.first.id;
+                                  }
                                 },
                                 onDateChange: (value) {
                                   _cubitTaoLichHop
@@ -281,7 +285,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                               TextFieldStyle(
                                 initValue: widget.chiTietHop.noiDung,
                                 urlIcon: ImageAssets.icDocument,
-                                hintText: S.current.noi_dung,
+                                hintText: S.current.noidung,
                                 maxLines: 4,
                                 onChange: (value) {
                                   _cubitTaoLichHop.taoLichHopRequest.noiDung =

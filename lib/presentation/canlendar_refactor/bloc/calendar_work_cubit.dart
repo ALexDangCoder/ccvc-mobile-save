@@ -35,7 +35,10 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+  DateTime startDateHaveEvent = DateTime.now();
+  DateTime endDateHaveEvent = DateTime.now();
   String keySearch = '';
+  String keySearchHaveEvent = '';
   String? idDonViLanhDao;
   StateType stateType = StateType.CHO_XAC_NHAN;
 
@@ -246,23 +249,34 @@ extension GetData on CalendarWorkCubit {
   }
 
   Future<void> dayHaveEvent(
-    DateTime startDate,
-    DateTime endDate,
-    String keySearch,
-  ) async {
+      DateTime? startDate, DateTime? endDate, String? keySearch) async {
+    if (startDate != null && endDate != null && keySearch != null) {
+      startDateHaveEvent = startDate;
+      endDateHaveEvent = endDate;
+      this.keySearch = keySearch;
+    }
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
-        Title: keySearch,
-        DateFrom: startDate.formatApi,
-        DateTo: endDate.formatApi,
-        DonViId:
-            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
-        isLichCuaToi: statusType == StatusWorkCalendar.LICH_CUA_TOI,
-        month: startDate.month,
+        Title: keySearchHaveEvent,
+        DateFrom: startDateHaveEvent.formatApi,
+        DateTo: endDateHaveEvent.formatApi,
+        DonViId: idDonViLanhDao ??
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
+            '',
+        IsLichLanhDao: idDonViLanhDao != null ? true : null,
+        isLichCuaToi: statusType == StatusWorkCalendar.LICH_CUA_TOI ? true : null,
+        isLichDuocMoi: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
+        isLichTaoHo: statusType == StatusWorkCalendar.LICH_TAO_HO,
+        isLichHuyBo: statusType == StatusWorkCalendar.LICH_HUY,
+        isLichThuHoi: statusType == StatusWorkCalendar.LICH_THU_HOI,
+        isChuaCoBaoCao: statusType == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
+        isDaCoBaoCao: statusType == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+        isChoXacNhan: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
+        month: startDateHaveEvent.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
-        year: startDate.year,
+        year: startDateHaveEvent.year,
       ),
     );
     result.when(

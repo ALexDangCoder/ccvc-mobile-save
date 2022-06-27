@@ -46,22 +46,16 @@ class DateTimeCupertinoCustomCubit
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
       if (dateFromTmp == 'DD/MM/YYYY') {
-        dateFromTmp =
-            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink.add(
-          dateFromTmp,
-        );
+        dateBeginSubject.sink
+            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       } else {
         dateBeginSubject.sink.add(
           dateFromTmp,
         );
       }
       if (dateToTmp == 'DD/MM/YYYY') {
-        dateToTmp =
-            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
-        dateEndSubject.sink.add(
-          dateToTmp,
-        );
+        dateEndSubject.sink
+            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       } else {
         dateBeginSubject.sink.add(
           dateToTmp,

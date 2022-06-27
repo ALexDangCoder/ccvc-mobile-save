@@ -146,6 +146,7 @@ class _TaoLichLamViecChiTietScreenState
                       ),
                       child: SingleChildScrollView(
                         controller: scrollController,
+                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

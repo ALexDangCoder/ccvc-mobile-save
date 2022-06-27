@@ -53,6 +53,7 @@ class TextFieldValidator extends StatefulWidget {
 
 class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
+  final focusNode = FocusNode();
   late TextSelectionControls _selectionControls;
   FormProvider? formProvider;
 
@@ -91,10 +92,12 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         } else {
           formProvider?.validator.addAll({key: true});
         }
+        formProvider?.focusMap.addAll({key: focusNode});
       }
     });
     if (formProvider != null) {
       formProvider?.validator.addAll({key: true});
+
     }
   }
 
@@ -110,6 +113,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
     return Form(
       key: key,
       child: TextFormField(
+        focusNode: focusNode,
         selectionControls: _selectionControls,
         inputFormatters: widget.inputFormatters,
         maxLength: widget.maxLength,

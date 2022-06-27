@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -29,7 +30,7 @@ class _DiemDanhCaNhanTabletScreenState
   @override
   void initState() {
     widget.cubit.postDiemDanhThongKe();
-    widget.cubit. postBangDiemDanhCaNhan();
+    widget.cubit.postBangDiemDanhCaNhan();
     super.initState();
   }
   @override

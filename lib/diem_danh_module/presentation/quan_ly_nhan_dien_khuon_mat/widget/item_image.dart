@@ -50,86 +50,88 @@ class ItemImageWidget extends StatelessWidget {
             ),
           ),
           spaceH16,
-          SizedBox(
-            height: 164.0.textScale(space: 56.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Positioned.fill(
-                        child: Container(
-                          height: 164.0.textScale(space: 56.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: colorE2E8F0),
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.05),
-                                blurRadius: 2,
-                                spreadRadius: 2,
+          Expanded(
+            child: SizedBox(
+              height: 164.0.textScale(space: 56.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Positioned.fill(
+                          child: Container(
+                            height: 164.0.textScale(space: 56.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: colorE2E8F0),
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.05),
+                                  blurRadius: 2,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                              image: DecorationImage(
+                                image: AssetImage(image),
+                                fit: BoxFit.cover,
                               ),
-                            ],
-                            image: DecorationImage(
-                              image: AssetImage(image),
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.0),
-                            color: color3D5586.withOpacity(0.8),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 2,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.0),
+                              color: color3D5586.withOpacity(0.8),
                             ),
-                            child: Text(
-                              S.current.anh_mau,
-                              style: textNormalCustom(color: colorFFFFFF),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 2,
+                              ),
+                              child: Text(
+                                S.current.anh_mau,
+                                style: textNormalCustom(color: colorFFFFFF),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                spaceW16,
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: colorE2E8F0),
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: colorFFFFFF,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.05),
-                            blurRadius: 2,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: StreamBuilder<File>(
-                        stream: cubit.imagePickerStream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data;
-                          return data == null ? emptyImage() : Container();
-                        },
-                      ),
+                      ],
                     ),
                   ),
-                )
-              ],
+                  spaceW16,
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: colorE2E8F0),
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: colorFFFFFF,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.05),
+                              blurRadius: 2,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: StreamBuilder<File>(
+                          stream: cubit.imagePickerStream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data;
+                            return data == null ? emptyImage() : Container();
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           )
         ],

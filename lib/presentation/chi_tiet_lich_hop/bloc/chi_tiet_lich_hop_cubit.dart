@@ -270,7 +270,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
     return isCheck;
   }
- //todo
+
+  //todo
   Future<void> cuCanBoDiThay({
     required String id,
     required List<CanBoDiThay>? canBoDiThay,
@@ -334,17 +335,4 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   bool phuongThucNhan = false;
 
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
-
-  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
-    await getChiTietLichHop(idCuocHop);
-
-    await getDanhSachThuHoiLichHop(idCuocHop);
-
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-
-    ///check permission button
-    if (needCheckPermission) {
-      initDataButton();
-    }
-  }
 }

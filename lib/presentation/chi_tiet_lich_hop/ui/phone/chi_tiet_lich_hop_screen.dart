@@ -64,39 +64,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
       ),
       stream: cubit.stateStream,
       child: Scaffold(
-        appBar: BaseAppBar(
-          leadingIcon: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: SvgPicture.asset(ImageAssets.icBack),
-          ),
-          title: S.current.chi_tiet_lich_hop,
-          actions: [
-            StreamBuilder<List<PERMISSION_DETAIL>>(
-              stream: cubit.listButtonSubject.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                return MenuSelectWidget(
-                  listSelect: data
-                      .map(
-                        (e) => e.getMenuLichHop(
-                          context,
-                          cubit,
-                          widget.id,
-                          _cubitThanhPhan,
-                        ),
-                      )
-                      .toList(),
-                );
-              },
-            ),
-            const SizedBox(
-              width: 16,
-            )
-          ],
-        ),
-        appBar: appbarChiTietHop(cubit, context),
+        appBar: appbarChiTietHop(cubit, context,_cubitThanhPhan),
         body: ProviderWidget<DetailMeetCalenderCubit>(
           cubit: cubit,
           child: ExpandGroup(
@@ -336,6 +304,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
 PreferredSizeWidget appbarChiTietHop(
   DetailMeetCalenderCubit cubit,
   BuildContext context,
+  ThanhPhanThamGiaCubit thanhPhanThamGiaCubit,
 ) =>
     BaseAppBar(
       title: S.current.chi_tiet_lich_hop,
@@ -360,6 +329,7 @@ PreferredSizeWidget appbarChiTietHop(
                       (e) => e.getMenuLichHop(
                         context,
                         cubit,
+                        thanhPhanThamGiaCubit,
                       ),
                     )
                     .toList(),

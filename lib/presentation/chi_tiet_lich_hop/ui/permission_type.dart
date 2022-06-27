@@ -187,7 +187,6 @@ extension GetDataPermission on PERMISSION_DETAIL {
   CellPopPupMenu getMenuLichHop(
     BuildContext context,
     DetailMeetCalenderCubit cubit,
-    String id,
     ThanhPhanThamGiaCubit cubitThanhPhanTG,
   ) {
     switch (this) {

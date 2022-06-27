@@ -109,7 +109,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                         widget.onChange(times[0], times[1],
                             controller.calendarType.value, value);
                         final timePage = controller.pageTableCalendar
-                            .dateTimeFormRange(timeRange: TimeRange.NAM_NAY);
+                            .dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
                         widget.onChangeYear?.call(timePage.first, timePage.last,
                             textEditingController.text);
                       },

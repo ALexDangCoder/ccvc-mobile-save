@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
-import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -22,7 +22,6 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -58,16 +57,27 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   //data subject
 
-  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkSubject =
+  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkDaySubject =
       BehaviorSubject();
+  Stream<DataSourceFCalendar> get listCalendarWorkDayStream =>
+      _listCalendarWorkDaySubject.stream;
+  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkWeekSubject =
+      BehaviorSubject();
+  Stream<DataSourceFCalendar> get listCalendarWorkWeekStream =>
+      _listCalendarWorkWeekSubject.stream;
+  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkMonthSubject =
+      BehaviorSubject();
+  Stream<DataSourceFCalendar> get listCalendarWorkMonthStream =>
+      _listCalendarWorkMonthSubject.stream;
+
+
+
   final BehaviorSubject<List<DateTime>> _listNgayCoLich =
       BehaviorSubject<List<DateTime>>();
 
   Stream<List<DateTime>> get  listNgayCoLichStream => _listNgayCoLich.stream;
 
 
-  Stream<DataSourceFCalendar> get listCalendarWorkStream =>
-      _listCalendarWorkSubject.stream;
 
   final BehaviorSubject<List<LichLamViecDashBroadItem>> _dashBroadSubject =
       BehaviorSubject();
@@ -163,8 +173,8 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     }
   }
 
-  void menuClick(DataItemMenu? value, BaseState state) {
-    if (state is ListViewState) {
+  void menuClick(DataItemMenu? value, BaseState) {
+    if (BaseState is ListViewState) {
       emitList();
       if (statusType == StatusWorkCalendar.LICH_DUOC_MOI) {
         stateType = StateType.CHO_XAC_NHAN;
@@ -186,29 +196,24 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   void checkDuplicate(List<ListLichLVModel> list) {
     for (final item in list) {
-      final currentTimeFrom =
-          getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
-      final currentTimeTo =
-          getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
+      final currentTimeFrom  = getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
+      final currentTimeTo  = getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
       final listDuplicate = list.where((element) {
-        final startTime =
-            getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
+        final startTime = getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
+        if (startTime >= currentTimeFrom && startTime < currentTimeTo){
           return true;
         }
         return false;
       });
-      if (listDuplicate.length > 1) {
-        listDuplicate.forEach((e) {
-          e.isTrung = true;
-        });
+      if (listDuplicate.length> 1){
+        for (int i= 0; i < listDuplicate.length ; i++ ) {
+          listDuplicate.elementAt(i).isTrung = true;
+        }
       }
+
     }
   }
-
-  DateTime getDate(String time) => time.convertStringToDate(
-        formatPattern: DateTimeFormat.DATE_TIME_RECEIVE,
-      );
+  DateTime getDate (String time) => time.convertStringToDate(formatPattern: DateTimeFormat.DATE_TIME_RECEIVE);
 
   void emitList({CalendarType? type}) =>
       emit(ListViewState(typeView: type ?? state.typeView));
@@ -244,11 +249,7 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-  Future<void> dayHaveEvent(
-    DateTime startDate,
-    DateTime endDate,
-    String keySearch,
-  ) async {
+  Future<void> dayHaveEvent(DateTime startDate,DateTime endDate,String keySearch) async {
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
         Title: keySearch,
@@ -256,13 +257,12 @@ extension GetData on CalendarWorkCubit {
         DateTo: endDate.formatApi,
         DonViId:
             HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
-        isLichCuaToi: statusType == StatusWorkCalendar.LICH_CUA_TOI,
+        isLichCuaToi: true,
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         year: startDate.year,
-
       ),
     );
     result.when(
@@ -303,7 +303,7 @@ extension GetData on CalendarWorkCubit {
       result.when(
         success: (res) {
           newItems = res.listLichLVModel ?? [];
-          checkDuplicate(newItems);
+          checkDuplicate([...?worksPagingController.itemList ,...newItems]);
         },
         error: (error) {},
       );
@@ -330,151 +330,17 @@ extension GetData on CalendarWorkCubit {
     final result = await calendarWorkRepo.getListLichLamViec(data);
     result.when(
       success: (res) {
-        checkDuplicate(res.listLichLVModel ?? []);
-        _listCalendarWorkSubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkDaySubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkWeekSubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkMonthSubject.sink.add(res.toDataFCalenderSource());
       },
       error: (error) {},
     );
 
     //to do
-    _listCalendarWorkSubject.sink.add(toDataFCalenderSource());
   }
 
-  DataSourceFCalendar toDataFCalenderSource  () {
-    final List<Appointment> appointments = [];
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 12, 12 ),
-        endTime: DateTime(2022, 6, 18 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 16 , 12, 12 ),
-        endTime: DateTime(2022, 6, 19 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 13 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 12 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 12 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
 
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 12, 12 ),
-        endTime: DateTime(2022, 6, 11 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 6, 12 ),
-        endTime: DateTime(2022, 6, 11 , 14, 12 ),
-        subject: 'ngay 2 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 14, 45 ),
-        endTime: DateTime(2022, 6, 11 , 18, 34 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 9, 10 ),
-        endTime: DateTime(2022, 6, 11 , 20, 12 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 12 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 6, 12 ),
-        endTime: DateTime(2022, 6, 12 , 14, 12 ),
-        subject: 'ngay 2 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 14, 45 ),
-        endTime: DateTime(2022, 6, 13 , 18, 34 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 15 , 9, 10 ),
-        endTime: DateTime(2022, 6, 11 , 20, 12 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    return DataSourceFCalendar(appointments);
-  }
 
 
   DanhSachLichLamViecRequest getDanhSachLichLVRequest({
@@ -515,11 +381,7 @@ extension GetData on CalendarWorkCubit {
 
 extension ListenCalendarController on CalendarWorkCubit {
 
-  DateTime getOnlyDate(DateTime date) => DateTime(
-        date.year,
-        date.month,
-        date.day,
-      );
+  DateTime getOnlyDate (DateTime date)=> DateTime (date.year, date.month, date.day);
 
   void changeCalendarDate(DateTime oldDate ,DateTime newDate ){
     final currentDate = getOnlyDate(oldDate);
@@ -537,27 +399,21 @@ extension ListenCalendarController on CalendarWorkCubit {
   void propertyChangedDay(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-        startDate,
-        fCalendarControllerDay.displayDate ?? startDate,
-      );
+          startDate, fCalendarControllerDay.displayDate ?? startDate);
     }
   }
 
   void propertyChangedWeek(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-        startDate,
-        fCalendarControllerWeek.displayDate ?? startDate,
-      );
+          startDate, fCalendarControllerWeek.displayDate ?? startDate);
     }
   }
 
   void propertyChangedMonth(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-        startDate,
-        fCalendarControllerMonth.displayDate ?? startDate,
-      );
+          startDate, fCalendarControllerMonth.displayDate ?? startDate);
     }
   }
 

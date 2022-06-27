@@ -1,5 +1,7 @@
+
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/dashbroad_count_row.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_month.dart';
@@ -32,7 +34,7 @@ class _MainDataViewState extends State<MainDataView> {
   void initState() {
     _listCalendarScreen = [
       StreamBuilder<DataSourceFCalendar>(
-          stream: widget.cubit.listCalendarWorkStream,
+          stream: widget.cubit.listCalendarWorkDayStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? DataSourceFCalendar.empty();
             return DataViewCalendarDay(
@@ -41,11 +43,14 @@ class _MainDataViewState extends State<MainDataView> {
               propertyChanged: (String property) {
                 widget.cubit.propertyChangedDay(property);
               },
+              onMore: (value){
+                widget.cubit.emitList();
+              },
               buildAppointment: itemAppointment,
             );
           }),
       StreamBuilder<DataSourceFCalendar>(
-          stream: widget.cubit.listCalendarWorkStream,
+          stream: widget.cubit.listCalendarWorkWeekStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? DataSourceFCalendar.empty();
             return DataViewCalendarWeek(
@@ -53,18 +58,26 @@ class _MainDataViewState extends State<MainDataView> {
               propertyChanged: (String property) {
                 widget.cubit.propertyChangedWeek(property);
               },
+              onMore: (value){
+                widget.cubit.controller.calendarType.value = CalendarType.DAY;
+                widget.cubit.controller.selectDate.value = value;
+              },
               data: data,
               fCalendarController: widget.cubit.fCalendarControllerWeek,
             );
           }),
       StreamBuilder<DataSourceFCalendar>(
-          stream: widget.cubit.listCalendarWorkStream,
+          stream: widget.cubit.listCalendarWorkMonthStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? DataSourceFCalendar.empty();
             return DataViewCalendarMonth(
               buildAppointment: itemAppointment,
               propertyChanged: (String property) {
                 widget.cubit.propertyChangedMonth(property);
+              },
+              onMore: (value){
+                widget.cubit.controller.calendarType.value = CalendarType.DAY;
+                widget.cubit.controller.selectDate.value = value;
               },
               data: data,
               fCalendarController: widget.cubit.fCalendarControllerMonth,

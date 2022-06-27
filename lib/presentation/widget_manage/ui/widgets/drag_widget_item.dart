@@ -42,11 +42,17 @@ class _WidgetItemState extends State<WidgetItem> {
         child: Container(
           padding: const EdgeInsets.only(left: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget.content,
-                style: textNormal(textTitle, 16),
+              Expanded(
+                flex: 9,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child:  Text(
+                    widget.content,
+                    style: textNormal(textTitle, 16),
+                  ),
+                ),
               ),
               IconButton(
                 onPressed: () {

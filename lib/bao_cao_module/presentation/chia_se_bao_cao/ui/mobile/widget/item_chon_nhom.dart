@@ -1,10 +1,11 @@
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ChonNhomWidget extends StatelessWidget {
   const ChonNhomWidget({Key? key, required this.item, required this.delete}) : super(key: key);
@@ -26,11 +27,12 @@ class ChonNhomWidget extends StatelessWidget {
                 color: color4C6FFF.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
-              child: Image.asset(
-                ImageAssets.img_company,
+              child: SvgPicture.asset(
+                ImageAssets.img_companies_svg,
                 height: 5.h,
                 width: 5.w,
                 color: Colors.blue,
+                fit: BoxFit.none,
               ),
             ),
             spaceW5,

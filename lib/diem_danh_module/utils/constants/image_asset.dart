@@ -27,8 +27,7 @@ class ImageAssets {
   static const String icVectorFloatAction = '$baseImg/ic_vector_float_action.svg';
   static const String icXoaNhanhDienBienSoXe = '$baseImg/ic_xoa_nhan_dien_bien_so_xe.svg';
   static const String imgDangKyXe = '$baseImg/image_dang_ky_xe.png';
-
-
+  static const String icRemoveImg = '$baseImg/ic_remove_img.svg';
 
   static SvgPicture svgAssets(
     String name, {

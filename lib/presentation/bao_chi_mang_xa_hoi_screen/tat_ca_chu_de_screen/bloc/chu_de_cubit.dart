@@ -73,7 +73,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
   String startDate = DateTime.now().formatApiStartDay;
   String endDate = DateTime.now().formatApiEndDay;
 
-  Future<void> callApi() async {
+  Future<void> callApi({bool isTablet = false}) async {
     showLoading();
     final queue = Queue(parallel: 3);
     unawaited(
@@ -88,6 +88,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
       () => getListTatCaCuDe(
         startDate,
         endDate,
+        isTablet: isTablet,
       ),
     );
     await queue.add(
@@ -107,6 +108,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     String enDate, {
     int pageIndex = ApiConstants.PAGE_BEGIN,
     bool isShow = false,
+    bool isTablet = false,
   }) async {
     if (isShow) showLoading();
     final result = await _BCMXHRepo.getDashListChuDe(
@@ -124,6 +126,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
         totalItem = res.totalItems ?? 1;
         final result = res.getlistChuDe ?? [];
         if (isFirstCall) {
+          if (!isTablet) hotNewData = result.removeAt(0);
           isFirstCall = false;
         }
         listChuDeLoadMore.addAll(result);

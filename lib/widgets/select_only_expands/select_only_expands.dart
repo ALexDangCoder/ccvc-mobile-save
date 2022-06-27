@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,6 +21,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final Widget? customValue;
   final Function(int)? onChange;
   final String hintText;
+  final int? maxLine;
 
   const SelectOnlyExpand({
     Key? key,
@@ -31,7 +33,7 @@ class SelectOnlyExpand extends StatefulWidget {
     required this.urlIcon,
     this.customValue,
     this.onChange,
-    this.hintText = '',
+    this.hintText = '', this.maxLine,
   }) : super(key: key);
 
   @override
@@ -129,6 +131,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                               widget.listSelect[index],
                               style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
+                              maxLines: widget.maxLine,
                             ),
                           ),
                           if (widget.isShowValue)

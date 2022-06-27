@@ -40,6 +40,9 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetTypeConstant.LICH_LAM_VIEC_LICH_HOP,
     WidgetTypeConstant.TONG_HOP_HCC,
     WidgetTypeConstant.TIN_BUON,
+    WidgetTypeConstant.TINH_HINH_XU_LY_HO_SO_CA_NHAN,
+    WidgetTypeConstant.TiNH_HINH_XU_LY_HO_SO_DON_VI,
+    WidgetTypeConstant.DANH_SACH_DICH_VU_CONG,
   ];
 
   Future<void> _getListWidgetNotUse() async {
@@ -202,8 +205,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void> onRefreshData() async {
-    _listWidgetUsing.sink.add([]);
-    _listWidgetNotUse.sink.add([]);
+    // _listWidgetUsing.sink.add([]);
+    // _listWidgetNotUse.sink.add([]);
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {

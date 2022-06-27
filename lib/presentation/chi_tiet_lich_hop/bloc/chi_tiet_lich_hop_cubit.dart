@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
@@ -34,15 +35,12 @@ import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_ex.dart';
+
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
+
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
+
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
@@ -50,8 +48,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:intl/intl.dart';
-import 'package:queue/queue.dart';
+
 import 'package:rxdart/rxdart.dart';
 
 const DANHSACHPHATBIEU = 0;
@@ -62,6 +59,8 @@ const HUYDUYET = 3;
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
+  /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
+  /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
   bool check = false;
   String startTime = '00:00';
@@ -205,54 +204,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     minutes: 00,
   );
 
-  TimerData dateTimeNowStart() {
-    final TimerData start = TimerData(
-      hour: timeNow.hour,
-      minutes: timeNow.minute,
-    );
-    return start;
-  }
-
-  TimerData dateTimeNowEnd() {
-    final TimerData end = TimerData(
-      hour: timeNow.add(const Duration(hours: 1)).hour,
-      minutes: timeNow.minute,
-    );
-    return end;
-  }
-
-  int dateDiff(String startTime, String endTime) {
-    final start = DateTime.parse(startTime);
-    final end = DateTime.parse(endTime);
-    final result = end.difference(start).inSeconds;
-    return result;
-  }
-
-  Future<void> initDataChiTiet() async {
-    await getChiTietLichHop(idCuocHop);
-
-    await getDanhSachThuHoiLichHop(idCuocHop);
-
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-
-    ///check permission button
-    initDataButton();
-  }
-
-  Future<void> getDanhSachNTGChuongTrinhHop({
-    required String id,
-  }) async {
-    final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
-
-    result.when(
-      success: (res) {
-        listData = res;
-        nguoiThamGiaSubject.sink.add(listData);
-      },
-      error: (error) {},
-    );
-  }
-
   bool loaiBieuQ = false;
   String date = DateTime.now().toStringWithListFormat;
 
@@ -290,10 +241,16 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
-  String dateTimeCovert(int time) {
-    if (time < 10) {
-      return '0$time';
+  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
+    await getChiTietLichHop(idCuocHop);
+
+    await getDanhSachThuHoiLichHop(idCuocHop);
+
+    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+
+    ///check permission button
+    if (needCheckPermission) {
+      initDataButton();
     }
-    return '$time';
   }
 }

@@ -79,7 +79,7 @@ abstract class TienIchService {
   Future<ToDoListDSCVResponse> getListDSCVGanChoToi();
 
   @DELETE(ApiConstants.XOA_CONG_VIEC)
-  Future<ToDoListDSCVResponse> xoaCongViec(
+  Future<ToDoListUpdateResponseTwo> xoaCongViec(
     @Query('id') String id,
   );
 

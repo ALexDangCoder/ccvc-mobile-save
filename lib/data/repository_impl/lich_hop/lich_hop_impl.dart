@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
@@ -34,6 +35,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_lua
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/cu_can_bo_di_thay_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
@@ -41,6 +43,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_resp
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phat_bieu_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dash_board_lh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/duyet_lich_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/gui_mail_ket_luat-response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
@@ -80,6 +83,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
@@ -940,6 +944,80 @@ class HopRepositoryImpl implements HopRepository {
     }
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.themPhienHop(lichHopId, _data),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<DuyetLichModel>> huyAndDuyetLichHop(
+    String lichHopId,
+    bool isDuyet,
+    String lyDo,
+  ) {
+    return runCatchingAsync<DuyetLichResponse, DuyetLichModel>(
+      () => _hopServices.huyDuyetLichHop(lichHopId, isDuyet, lyDo),
+      (res) => res.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<bool>> cuCanBoDiThay(
+    CuCanBoDiThayRequest cuCanBoDiThayRequest,
+  ) {
+    return runCatchingAsync<CuCanBoDiThayResponse, bool>(
+      () => _hopServices.cuCanBoDiThay(cuCanBoDiThayRequest),
+      (res) => res.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> xacNhanThamGiaHop(String lichHopId, bool isThamGia) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.xacNhanThamGiaHop(lichHopId, isThamGia),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> xacNhanHoacHuyKetLuanHop(
+    String lichHopId,
+    bool isDuyet,
+    String noiDung,
+  ) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.xacNhanHoacHuyKetLuanHop(
+        lichHopId,
+        isDuyet,
+        noiDung,
+      ),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> createKetLuanHop(
+    String lichHopId,
+    String scheduleId,
+    String reportStatusId,
+    String reportTemplateId,
+    String startDate,
+    String endDate,
+    String content,
+    List<String> files,
+    List<String> filesDelete,
+  ) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.createKetLuanHop(
+        lichHopId,
+        scheduleId,
+        reportStatusId,
+        reportTemplateId,
+        startDate,
+        endDate,
+        content,
+        files,
+        filesDelete,
+      ),
       (response) => response.isSucces,
     );
   }

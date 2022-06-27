@@ -5,9 +5,14 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widget
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'controller/choose_time_calendar_controller.dart';
+
 class ChooseTypeCalendarWidget extends StatefulWidget {
   final Function(CalendarType) onChange;
-  const ChooseTypeCalendarWidget({Key? key,required this.onChange}) : super(key: key);
+  final ChooseTimeController controller;
+  const ChooseTypeCalendarWidget(
+      {Key? key, required this.onChange, required this.controller})
+      : super(key: key);
 
   @override
   _ChooseTypeCalendarWidgetState createState() =>
@@ -16,6 +21,16 @@ class ChooseTypeCalendarWidget extends StatefulWidget {
 
 class _ChooseTypeCalendarWidgetState extends State<ChooseTypeCalendarWidget> {
   CalendarType type = CalendarType.DAY;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.controller.calendarType.addListener(() {
+      type = widget.controller.calendarType.value;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const data = CalendarType.values;

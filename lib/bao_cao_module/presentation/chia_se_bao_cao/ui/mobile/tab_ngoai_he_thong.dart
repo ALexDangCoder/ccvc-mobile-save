@@ -103,7 +103,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 21),
                 child: StreamBuilder<bool>(
-                  initialData: true,
+                  initialData: false,
                   stream: widget.cubit.isDuocTruyCapStream,
                   builder: (context, snapshot) {
                     final isDuocTruyCap = snapshot.data ?? false;

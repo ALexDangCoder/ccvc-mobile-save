@@ -440,6 +440,7 @@ Widget buttomWidget({
       onTap();
     },
     child: Container(
+      margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.symmetric(
         vertical: 13,
         horizontal: 24,

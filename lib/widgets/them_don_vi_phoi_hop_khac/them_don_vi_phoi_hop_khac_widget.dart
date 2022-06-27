@@ -280,7 +280,7 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
                   Expanded(
                     flex: 3,
                     child: Text(
-                      S.current.noi_dung,
+                      S.current.noidung,
                       style: textNormal(infoColor, 14),
                     ),
                   ),

@@ -98,5 +98,6 @@ class Items {
         userId: userId ?? '',
         tenDonVi: tenDonVi ?? '',
         donViId: donViId,
+        chucVu: chucVu,
       );
 }

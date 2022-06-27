@@ -13,6 +13,7 @@ extension StringHandle on String {
         '${substring(0, 7)}...${substring(length - 10, length)}';
     return result;
   }
+  String get removeSpace => trim().replaceAll(' +', ' ');
 }
 
 extension StringMoneyFormat on String {

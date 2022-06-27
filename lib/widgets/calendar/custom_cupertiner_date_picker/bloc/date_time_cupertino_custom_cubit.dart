@@ -31,10 +31,10 @@ class DateTimeCupertinoCustomCubit
 
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;
-  String timeFromTmp = 'hh:mm';
-  String dateFromTmp = 'DD/MM/YYYY';
-  String dateToTmp = 'DD/MM/YYYY';
-  String timeToTmp = 'hh:mm';
+  String timeFromTmp = INIT_TIME_PICK;
+  String dateFromTmp = INIT_DATE_PICK;
+  String dateToTmp = INIT_DATE_PICK;
+  String timeToTmp = INIT_TIME_PICK;
 
   void handleSwitchButtonPressed({required bool isChecked}) {
     if (isShowBeginPickerSubject.value) {
@@ -45,7 +45,7 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
-      if (dateFromTmp == 'DD/MM/YYYY') {
+      if (dateFromTmp == INIT_DATE_PICK) {
         dateBeginSubject.sink
             .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       } else {
@@ -53,7 +53,7 @@ class DateTimeCupertinoCustomCubit
           dateFromTmp,
         );
       }
-      if (dateToTmp == 'DD/MM/YYYY') {
+      if (dateToTmp == INIT_DATE_PICK) {
         dateEndSubject.sink
             .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       } else {
@@ -133,30 +133,23 @@ class DateTimeCupertinoCustomCubit
     }
   }
 
-  /// handle datetime begin greater than datetime end
-
-  /// Compares this DateTime object to [other],
-  /// returning zero if the values are equal.
-  /// Returns a negative value if this DateTime [isBefore] [other].
-  /// It returns 0 if it [isAtSameMomentAs] [other],
-  /// and returns a positive value otherwise (when this [isAfter] [other]).
   bool checkTime() {
-    if (dateBeginSubject.valueOrNull != 'DD/MM/YYYY' &&
-        timeBeginSubject.valueOrNull != 'hh:mm' &&
-        dateEndSubject.valueOrNull != 'DD/MM/YYYY' &&
-        timeEndSubject.valueOrNull != 'hh:mm') {
+    if (dateBeginSubject.valueOrNull != INIT_DATE_PICK &&
+        timeBeginSubject.valueOrNull != INIT_TIME_PICK &&
+        dateEndSubject.valueOrNull != INIT_DATE_PICK &&
+        timeEndSubject.valueOrNull != INIT_TIME_PICK) {
       final begin = DateTime.parse(
         timeFormat(
           '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
-          'dd/MM/yyyy HH:mm',
-          'yyyy-MM-dd HH:mm',
+          DateTimeFormat.DATE_TIME_PICKER,
+          DateTimeFormat.DATE_TIME_PUT_EDIT,
         ),
       );
       final end = DateTime.parse(
         timeFormat(
           '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
-          'dd/MM/yyyy HH:mm',
-          'yyyy-MM-dd HH:mm',
+          DateTimeFormat.DATE_TIME_PICKER,
+          DateTimeFormat.DATE_TIME_PUT_EDIT,
         ),
       );
       if (begin.isAtSameMomentAs(end) ||

@@ -1,12 +1,12 @@
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
 
 class LichLapWidget extends StatefulWidget {
-  final TaoLichLamViecCubit cubit;
+  final CreateWorkCalCubit cubit;
   final bool isEdit;
 
   LichLapWidget({Key? key, required this.cubit, this.isEdit = false})
@@ -29,7 +29,7 @@ class _LichLapWidgetState extends State<LichLapWidget> {
           title: S.current.lich_lap,
           listSelect: data.map<String>((e) => e.name ?? '').toList(),
           value: widget.isEdit
-              ? _cubit.chiTietLichLamViecModel.lichLap()
+              ? _cubit.detailCalendarWorkModel.lichLap()
               : _cubit.selectLichLap.name ?? '',
           onChange: (value) {
             _cubit.selectLichLap.id = data[value].id;

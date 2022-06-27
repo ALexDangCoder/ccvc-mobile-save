@@ -262,7 +262,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
       lichLamViecDashBroadSubject.stream;
   DashBoardLichHopModel lichLamViecDashBroads = DashBoardLichHopModel.empty();
 
-  LichLamViecRepository get lichLamViec => Get.find();
+  CreateWorkCalendarRepository get lichLamViec => Get.find();
 
   BehaviorSubject<List<LichLamViecDashBroadItem>>
       lichLamViecDashBroadRightSubject = BehaviorSubject.seeded([

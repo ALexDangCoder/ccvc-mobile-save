@@ -15,7 +15,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -39,7 +39,7 @@ class ChiTietLichLamViecScreen extends StatefulWidget {
 class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit =
       ChiTietLichLamViecCubit();
-  final TaoLichLamViecCubit cubit = TaoLichLamViecCubit();
+  final CreateWorkCalCubit cubit = CreateWorkCalCubit();
 
   @override
   void initState() {

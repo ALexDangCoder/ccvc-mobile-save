@@ -46,18 +46,18 @@ class HuyenSelectRequest extends Equatable {
 }
 
 @JsonSerializable()
-class XaSelectRequest extends Equatable {
+class WardRequest extends Equatable {
   int? pageIndex;
   int? pageSize;
   String? disytrictId;
 
-  XaSelectRequest({
+  WardRequest({
     this.pageIndex,
     this.pageSize,
     this.disytrictId,
   });
 
-  factory XaSelectRequest.fromJson(Map<String, dynamic> json) =>
+  factory WardRequest.fromJson(Map<String, dynamic> json) =>
       _$XaSelectRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$XaSelectRequestToJson(this);

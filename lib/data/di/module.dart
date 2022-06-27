@@ -80,12 +80,12 @@ void configureDependencies() {
 
   // lich lam viec
   Get.put(
-    LichLamViecService(
+    WorkCalendarService(
       provideDio(baseOption: BaseURLOption.GATE_WAY),
     ),
   );
-  Get.put<LichLamViecRepository>(
-    LichLamViecImlp(Get.find()),
+  Get.put<CreateWorkCalendarRepository>(
+    CreateWorkCalendarRepositoryImpl(Get.find()),
   );
 
   Get.put(ThongBaoService(provideDio(baseOption: BaseURLOption.NOTI)));

@@ -41,9 +41,9 @@ import 'package:retrofit/retrofit.dart';
 part 'lich_lam_viec_service.g.dart';
 
 @RestApi()
-abstract class LichLamViecService {
+abstract class WorkCalendarService {
   @factoryMethod
-  factory LichLamViecService(Dio dio, {String baseUrl}) = _LichLamViecService;
+  factory WorkCalendarService(Dio dio, {String baseUrl}) = _LichLamViecService;
 
   @GET(ApiConstants.LICH_LAM_VIEC_DASHBOARD)
   Future<LichLamViecDashBroadResponse> getLichLamViec(
@@ -134,7 +134,7 @@ abstract class LichLamViecService {
   Future<TrangThaiLVResponse> detailTrangThai();
 
   @POST(ApiConstants.TAO_LICH_LAM_VIEC)
-  Future<TaoLichLamViecResponse> taoLichLamviec(
+  Future<TaoLichLamViecResponse> createWorkCalendar(
     @Body() FormData data,
   );
 
@@ -193,7 +193,7 @@ abstract class LichLamViecService {
 
   @POST(ApiConstants.XA_SELECT)
   Future<PageDaTaXaSelectModelResponse> xaSelect(
-    @Body() XaSelectRequest xaSelectRequest,
+    @Body() WardRequest xaSelectRequest,
   );
 
   @POST(ApiConstants.DAT_NUOC_SELECT)

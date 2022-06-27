@@ -42,7 +42,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
 
   Stream<List<BaoCaoModel>> get listBaoCaoKetQua => _listBaoCaoKetQua.stream;
 
-  LichLamViecRepository get detailLichLamViec => Get.find();
+  CreateWorkCalendarRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
 
   Future<void> dataChiTietLichLamViec(String id) async {
@@ -92,7 +92,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   }
 
   // xoa lich lam viec
-  LichLamViecRepository get deleteLichLamViec => Get.find();
+  CreateWorkCalendarRepository get deleteLichLamViec => Get.find();
 
   Future<void> deleteCalendarWork(
     String id, {
@@ -103,7 +103,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   }
 
   // huy lich lam viec
-  LichLamViecRepository get cancelLichLamViec => Get.find();
+  CreateWorkCalendarRepository get cancelLichLamViec => Get.find();
 
   Future<void> cancelCalendarWork(
     String id, {

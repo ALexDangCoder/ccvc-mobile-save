@@ -1,11 +1,13 @@
 import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/chia_se_bao_cao.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/chia_se_bao_cao_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart'
     as bao_cao;
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -139,17 +141,34 @@ class _ShowMoreBottomSheetState extends State<ShowMoreBottomSheet> {
             ),
             child: GestureDetector(
               onTap: () {
-                showModalBottomSheet(
-                  backgroundColor: Colors.transparent,
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (_) {
-                    return ChiaSeBaoCaoMobile(
-                      idReport: widget.reportItem.id ?? '',
-                      appId: widget.cubit.appId,
-                    );
-                  },
-                );
+                if (APP_DEVICE == DeviceType.MOBILE) {
+                  showModalBottomSheet(
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (_) {
+                      return ChiaSeBaoCaoMobile(
+                        idReport: widget.reportItem.id ?? '',
+                        appId: widget.cubit.appId,
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return Scaffold(
+                        backgroundColor: Colors.transparent,
+                        body: Center(
+                          child: ChiaSeBaoCaoTablet(
+                            idReport: widget.reportItem.id ?? '',
+                            appId: widget.cubit.appId,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
               },
               child: Container(
                 color: Colors.transparent,

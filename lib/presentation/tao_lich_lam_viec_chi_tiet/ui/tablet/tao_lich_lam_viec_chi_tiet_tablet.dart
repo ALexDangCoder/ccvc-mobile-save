@@ -144,7 +144,7 @@ class _TaoLichLamViecChiTietTabletState
                   key: _formKey,
                   child: ExpandGroup(
                     child: SingleChildScrollView(
-                      controller: scrollControlle,
+                      controller: scrollController,
                       keyboardDismissBehavior:
                           ScrollViewKeyboardDismissBehavior.onDrag,
                       child: Column(

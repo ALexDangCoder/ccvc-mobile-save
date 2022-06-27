@@ -96,6 +96,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
             )
           ],
         ),
+        appBar: appbarChiTietHop(cubit, context),
         body: ProviderWidget<DetailMeetCalenderCubit>(
           cubit: cubit,
           child: ExpandGroup(
@@ -161,29 +162,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           );
                         },
                       ),
-                      CongTacChuanBiWidget(
-                        cubit: cubit,
-                      ),
-                      ChuongTrinhHopWidget(
-                        cubit: cubit,
-                      ),
-                      ThanhPhanThamGiaWidget(
-                        cubit: cubit,
-                      ),
-                      TaiLieuWidget(
-                        cubit: cubit,
-                      ),
-                      PhatBieuWidget(
-                        cubit: cubit,
-                      ),
-                      BieuQuyetWidget(
-                        cubit: cubit,
-                      ),
-                      KetLuanHopWidget(
-                        cubit: cubit,
-                      ),
-                      YKienCuocHopWidget(
-                        cubit: cubit,
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: listWidgetChiTietHop(cubit).length,
+                        itemBuilder: (context, index) {
+                          return listWidgetChiTietHop(cubit)[index];
+                        },
                       ),
                       StreamBuilder<List<PERMISSION_DETAIL>>(
                         stream: cubit.listButtonSubject.stream,
@@ -346,3 +331,68 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     );
   }
 }
+
+///for phone and tab
+PreferredSizeWidget appbarChiTietHop(
+  DetailMeetCalenderCubit cubit,
+  BuildContext context,
+) =>
+    BaseAppBar(
+      title: S.current.chi_tiet_lich_hop,
+      leadingIcon: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: SvgPicture.asset(
+          ImageAssets.icBack,
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: StreamBuilder<List<PERMISSION_DETAIL>>(
+            stream: cubit.listButtonSubject.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              return MenuSelectWidget(
+                listSelect: data
+                    .map(
+                      (e) => e.getMenuLichHop(
+                        context,
+                        cubit,
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          ),
+        )
+      ],
+    );
+
+List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
+      CongTacChuanBiWidget(
+        cubit: cubit,
+      ),
+      ChuongTrinhHopWidget(
+        cubit: cubit,
+      ),
+      ThanhPhanThamGiaWidget(
+        cubit: cubit,
+      ),
+      TaiLieuWidget(
+        cubit: cubit,
+      ),
+      PhatBieuWidget(
+        cubit: cubit,
+      ),
+      BieuQuyetWidget(
+        cubit: cubit,
+      ),
+      KetLuanHopWidget(
+        cubit: cubit,
+      ),
+      YKienCuocHopWidget(
+        cubit: cubit,
+      ),
+    ];

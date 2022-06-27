@@ -2,11 +2,11 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ItemLapDenNgayWidget extends StatefulWidget {
@@ -29,6 +29,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
   late AnimationController? expandController;
   bool isShowDatePicker = false;
   final Debouncer deboucer = Debouncer();
+
   @override
   void initState() {
     super.initState();
@@ -70,17 +71,17 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                 ),
                                 spaceW10,
                                 RotatedBox(
-                                  quarterTurns:isShowDatePicker?0: 2,
-                                  child:  SvgPicture.asset(ImageAssets.icDropDown),
-                                )
-
+                                  quarterTurns: isShowDatePicker ? 0 : 2,
+                                  child: SvgPicture.asset(
+                                    ImageAssets.icDropDown,
+                                  ),
+                                ),
                               ],
                             ),
                           );
                         },
                       ),
                     ),
-
                   ],
                 ),
                 AnimatedContainer(
@@ -90,23 +91,24 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   height: isShowDatePicker ? 200 : 1,
                   child: isShowDatePicker
                       ? CupertinoDatePicker(
-                    maximumDate: DateTime(2099, 12, 30),
-                    maximumYear: 2099,
-                    minimumYear: DateTime.now().year,
-                    backgroundColor: backgroundColorApp,
-                    mode: CupertinoDatePickerMode.date,
-                    use24hFormat: true,
-                    initialDateTime:widget.initDate,
-                    onDateTimeChanged: (value) {
-                      deboucer.run(() {
-                        widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-                            value;
-                        widget.taoLichLamViecCubit.changeDateTimeSubject
-                            .add(value);
-                        setState(() {});
-                      });
-                    },
-                  )
+                          maximumDate: DateTime(2099, 12, 30),
+                          maximumYear: 2099,
+                          minimumYear: DateTime.now().year,
+                          minimumDate: DateTime.now(),
+                          backgroundColor: backgroundColorApp,
+                          mode: CupertinoDatePickerMode.date,
+                          use24hFormat: true,
+                          initialDateTime: widget.initDate,
+                          onDateTimeChanged: (value) {
+                            deboucer.run(() {
+                              widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+                                  value;
+                              widget.taoLichLamViecCubit.changeDateTimeSubject
+                                  .add(value);
+                              setState(() {});
+                            });
+                          },
+                        )
                       : const SizedBox.shrink(),
                 ),
                 Visibility(
@@ -151,10 +153,10 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                 ),
                                 spaceW10,
                                 RotatedBox(
-                                  quarterTurns:isShowDatePicker?0: 2,
-                                  child:  SvgPicture.asset(ImageAssets.icDropDown),
+                                  quarterTurns: isShowDatePicker ? 0 : 2,
+                                  child:
+                                      SvgPicture.asset(ImageAssets.icDropDown),
                                 )
-
                               ],
                             ),
                           );
@@ -170,23 +172,23 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   height: isShowDatePicker ? 200 : 1,
                   child: isShowDatePicker
                       ? CupertinoDatePicker(
-                    maximumDate: DateTime(2099, 12, 30),
-                    maximumYear: 2099,
-                    minimumYear: DateTime.now().year,
-                    backgroundColor: backgroundColorApp,
-                    mode: CupertinoDatePickerMode.date,
-                    use24hFormat: true,
-                    initialDateTime:widget.initDate,
-                    onDateTimeChanged: (value) {
-                      deboucer.run(() {
-                        widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-                            value;
-                        widget.taoLichLamViecCubit.changeDateTimeSubject
-                            .add(value);
-                        setState(() {});
-                      });
-                    },
-                  )
+                          maximumDate: DateTime(2099, 12, 30),
+                          maximumYear: 2099,
+                          minimumYear: DateTime.now().year,
+                          backgroundColor: backgroundColorApp,
+                          mode: CupertinoDatePickerMode.date,
+                          use24hFormat: true,
+                          initialDateTime: widget.initDate,
+                          onDateTimeChanged: (value) {
+                            deboucer.run(() {
+                              widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+                                  value;
+                              widget.taoLichLamViecCubit.changeDateTimeSubject
+                                  .add(value);
+                              setState(() {});
+                            });
+                          },
+                        )
                       : const SizedBox.shrink(),
                 ),
                 Visibility(

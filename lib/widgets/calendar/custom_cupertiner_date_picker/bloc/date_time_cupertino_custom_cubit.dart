@@ -31,6 +31,10 @@ class DateTimeCupertinoCustomCubit
 
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;
+  String timeFromTmp = 'hh:mm';
+  String dateFromTmp = 'DD/MM/YYYY';
+  String dateToTmp = 'DD/MM/YYYY';
+  String timeToTmp = 'hh:mm';
 
   void handleSwitchButtonPressed({required bool isChecked}) {
     if (isShowBeginPickerSubject.value) {
@@ -41,6 +45,22 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
+      if (dateFromTmp == 'DD/MM/YYYY') {
+        dateBeginSubject.sink
+            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
+      } else {
+        dateBeginSubject.sink.add(
+          dateFromTmp,
+        );
+      }
+      if (dateToTmp == 'DD/MM/YYYY') {
+        dateEndSubject.sink
+            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
+      } else {
+        dateBeginSubject.sink.add(
+          dateToTmp,
+        );
+      }
       final date = DateTime.now();
       timeBeginSubject.sink.add(
         DateTime(date.year, date.month, date.day, 08)
@@ -50,18 +70,12 @@ class DateTimeCupertinoCustomCubit
         DateTime(date.year, date.month, date.day, 18)
             .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
       );
-      dateBeginSubject.sink.add(
-        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      dateEndSubject.sink.add(
-        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      );
       validateTime.sink.add('');
     } else {
-      timeBeginSubject.sink
-          .add(DateTime.now().dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT));
-      timeEndSubject.sink
-          .add(DateTime.now().dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT));
+      timeBeginSubject.sink.add(timeFromTmp);
+      timeEndSubject.sink.add(timeToTmp);
+      dateBeginSubject.sink.add(dateFromTmp);
+      dateEndSubject.sink.add(dateToTmp);
     }
   }
 
@@ -88,37 +102,33 @@ class DateTimeCupertinoCustomCubit
     required DateTime timeSelected,
     required TypePickerDateTime typePicker,
   }) {
-    if (isSwitchBtnCheckedSubject.hasValue && isSwitchBtnCheckedSubject.value) {
-      timeEndSubject.sink.add(timeBeginSubject.value);
-      dateBeginSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      dateEndSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      return;
-    }
-
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
+        timeFromTmp = timeSelected.dateTimeFormatter(
+          pattern: HOUR_MINUTE_FORMAT,
+        );
         timeBeginSubject.sink.add(
           timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
         );
         break;
       case TypePickerDateTime.TIME_END:
+        timeToTmp = timeSelected.dateTimeFormatter(
+          pattern: HOUR_MINUTE_FORMAT,
+        );
         timeEndSubject.sink.add(
           timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
         );
         break;
       case TypePickerDateTime.DATE_START:
-        dateBeginSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-        );
+        dateFromTmp =
+            timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
+        dateBeginSubject.sink
+            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
         break;
       case TypePickerDateTime.DATE_END:
-        dateEndSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-        );
+        dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
+        dateEndSubject.sink
+            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
         break;
     }
   }
@@ -131,20 +141,20 @@ class DateTimeCupertinoCustomCubit
   /// It returns 0 if it [isAtSameMomentAs] [other],
   /// and returns a positive value otherwise (when this [isAfter] [other]).
   bool checkTime() {
-    if (dateBeginSubject.hasValue &&
-        timeBeginSubject.hasValue &&
-        dateEndSubject.hasValue &&
-        timeEndSubject.hasValue) {
+    if (dateBeginSubject.valueOrNull != 'DD/MM/YYYY' &&
+        timeBeginSubject.valueOrNull != 'hh:mm' &&
+        dateEndSubject.valueOrNull != 'DD/MM/YYYY' &&
+        timeEndSubject.valueOrNull != 'hh:mm') {
       final begin = DateTime.parse(
         timeFormat(
-          '${dateBeginSubject.value} ${timeBeginSubject.value}',
+          '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
           'dd/MM/yyyy HH:mm',
           'yyyy-MM-dd HH:mm',
         ),
       );
       final end = DateTime.parse(
         timeFormat(
-          '${dateEndSubject.value} ${timeEndSubject.value}',
+          '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
           'dd/MM/yyyy HH:mm',
           'yyyy-MM-dd HH:mm',
         ),
@@ -160,8 +170,8 @@ class DateTimeCupertinoCustomCubit
         return true;
       }
     } else {
-       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
-       return false;
+      validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+      return false;
     }
   }
 

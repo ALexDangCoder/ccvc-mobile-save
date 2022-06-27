@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
-import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
@@ -51,16 +50,16 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     rs.when(
       success: (data) {
         if ((data.id?.isEmpty ?? true) || data.id == null) {
-          showEmpty();
+          chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
         }
         chiTietLichLamViecModel = data;
         chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
       },
       error: (error) {
-        showEmpty();
+        chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
         MessageConfig.show(
           title: S.current.error,
-          title2:S.current.no_internet,
+          title2: S.current.no_internet,
         );
       },
     );

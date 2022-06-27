@@ -15,12 +15,14 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Color? backGroundColor;
   final List<Widget>? actions;
+  final PreferredSizeWidget? tabbar;
 
   BaseAppBar({
     Key? key,
     required this.title,
     this.leadingIcon,
     this.actions,
+    this.tabbar,
     this.backGroundColor,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
@@ -36,6 +38,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       bottomOpacity: 0.0,
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
       shadowColor: bgDropDown,
+      bottom: tabbar,
       automaticallyImplyLeading: false,
       title: Text(
         title,

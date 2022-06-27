@@ -151,7 +151,7 @@ class ChiTietLichLamViecModel {
       case 2:
         return 'Lặp lại hàng ngày';
       case 3:
-        return 'Thứ 2 đến thứ 6 hàng tuần';
+        return 'Từ thứ 2 đến thứ 6 hàng tuần';
       case 4:
         return 'Lặp lại hàng tuần';
       case 5:
@@ -211,7 +211,7 @@ class ScheduleReminder {
       case 10080:
         return 'Trước 1 tuần';
     }
-    return '';
+    return 'Không bao giờ';
   }
 }
 

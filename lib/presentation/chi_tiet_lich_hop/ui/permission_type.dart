@@ -1,10 +1,12 @@
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/sua_lich_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_widget.dart';
@@ -194,32 +196,48 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.THU_HOI.getIcon(),
           text: PERMISSION_DETAIL.THU_HOI.getString(),
           onTap: () {
-            showBottomSheetCustom(
-              context,
-              title: S.current.thu_hoi_lich,
-              child: ThuHoiLichWidget(
-                cubit: cubit,
-                id: id,
-              ),
-            );
+            isMobile()
+                ? showBottomSheetCustom(
+                    context,
+                    title: S.current.thu_hoi_lich,
+                    child: ThuHoiLichWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    maxHeight: 280,
+                    title: S.current.thu_hoi_lich,
+                    child: ThuHoiLichWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
           },
         );
+
       case PERMISSION_DETAIL.XOA:
         return CellPopPupMenu(
-          urlImage: PERMISSION_DETAIL.XOA.getIcon(),
-          text: PERMISSION_DETAIL.XOA.getString(),
+          urlImage: ImageAssets.ic_delete_do,
+          text: S.current.xoa_lich,
           onTap: () {
             showDiaLog(
               context,
               textContent: S.current.xoa_chi_tiet_lich_hop,
               btnLeftTxt: S.current.khong,
               funcBtnRight: () {
-                cubit.deleteChiTietLichHop(id);
+                cubit.deleteChiTietLichHop(cubit.idCuocHop);
                 Navigator.pop(context);
               },
               title: S.current.khong,
               btnRightTxt: S.current.dong_y,
               icon: SvgPicture.asset(ImageAssets.icHuyLich),
+              showTablet: true,
             );
           },
         );
@@ -411,7 +429,30 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.PHAN_CONG_THU_KY.getIcon(),
           text: PERMISSION_DETAIL.PHAN_CONG_THU_KY.getString(),
-          onTap: () {},
+          onTap: () {
+            isMobile()
+                ? showBottomSheetCustom(
+                    context,
+                    title: S.current.thu_hoi_lich,
+                    child: PhanCongThuKyWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    maxHeight: 280,
+                    title: S.current.phan_cong_thu_ky,
+                    child: PhanCongThuKyWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+          },
         );
       case PERMISSION_DETAIL.CU_CAN_BO_DI_THAY:
         return CellPopPupMenu(
@@ -424,29 +465,40 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP.getIcon(),
           text: PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP.getString(),
           onTap: () {
+            isMobile() ?
             showBottomSheetCustom(
               context,
               title: S.current.tao_boc_bang_cuoc_hop,
               child: const TaoBocBangWidget(),
+            ) : showDiaLogTablet(
+              context,
+              maxHeight: 280,
+              title: S.current.tao_boc_bang_cuoc_hop,
+              child: const TaoBocBangWidget(),
+              isBottomShow: false,
+              funcBtnOk: () {
+                Navigator.pop(context);
+              },
             );
           },
         );
       case PERMISSION_DETAIL.HUY_LICH:
         return CellPopPupMenu(
-          urlImage: PERMISSION_DETAIL.HUY_LICH.getIcon(),
-          text: PERMISSION_DETAIL.HUY_LICH.getString(),
+          urlImage: ImageAssets.icHuy,
+          text: S.current.huy_lich_hop,
           onTap: () {
             showDiaLog(
               context,
               textContent: S.current.ban_chan_chan_huy_lich_nay,
               btnLeftTxt: S.current.khong,
               funcBtnRight: () {
-                cubit.huyChiTietLichHop(id);
+                cubit.huyChiTietLichHop(cubit.idCuocHop);
                 Navigator.pop(context);
               },
               title: S.current.huy_lich,
               btnRightTxt: S.current.dong_y,
               icon: SvgPicture.asset(ImageAssets.icHuyLich),
+              showTablet: true,
             );
           },
         );

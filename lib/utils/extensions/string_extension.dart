@@ -24,7 +24,7 @@ extension StringMoneyFormat on String {
 
 extension VietNameseParse on String {
   String get textToCode =>
-      this.split(' ').join('_').toUpperCase().vietNameseParse();
+      split(' ').join('_').toUpperCase().vietNameseParse();
 
   String vietNameseParse() {
     var result = this;
@@ -96,6 +96,15 @@ extension StringParse on String {
     final String parsedString =
         parse(document.body?.text).documentElement?.text ?? '';
     return parsedString;
+  }
+
+  bool get isExensionOfFile {
+    final document = this;
+    final int startOfSubString = document.lastIndexOf('/');
+
+    final subString =
+        document.substring(startOfSubString + 1, document.length);
+    return subString.contains('.');
   }
 
   String convertNameFile() {
@@ -187,7 +196,7 @@ extension CheckValidate on String {
 
   String? checkPassWordChangePass(String name) {
     final isCheck =
-        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
             .hasMatch(this);
     if (isCheck) {
       return null;
@@ -262,6 +271,7 @@ extension CheckValidate on String {
     }
     return null;
   }
+
   String? validatorTitle() {
     if (trim().isEmpty) {
       return S.current.ban_phai_nhap_truong_tieu_de;

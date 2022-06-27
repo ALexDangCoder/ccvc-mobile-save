@@ -60,6 +60,8 @@ const HUYDUYET = 3;
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
+  /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
+  /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
   bool check = false;
   String startTime = '00:00';
@@ -333,10 +335,16 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
-  String dateTimeCovert(int time) {
-    if (time < 10) {
-      return '0$time';
+  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
+    await getChiTietLichHop(idCuocHop);
+
+    await getDanhSachThuHoiLichHop(idCuocHop);
+
+    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+
+    ///check permission button
+    if (needCheckPermission) {
+      initDataButton();
     }
-    return '$time';
   }
 }

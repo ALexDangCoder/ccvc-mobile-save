@@ -580,4 +580,14 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
     return false;
   }
+
+  bool isDuyetOrHuyKetLuanHop() {
+    if (HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.VPDT,
+      permissionTxt: 'quyen-duyet-ket-luan-hop',
+    )) {
+      return true;
+    }
+    return false;
+  }
 }

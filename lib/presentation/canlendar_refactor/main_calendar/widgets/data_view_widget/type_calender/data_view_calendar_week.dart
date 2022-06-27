@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -17,7 +18,7 @@ class DataViewCalendarWeek extends StatefulWidget {
   final Function(String property) propertyChanged;
   final DataSourceFCalendar data;
   final CalendarController fCalendarController;
-  final Widget Function(Appointment appointment) buildAppointment;
+  final Widget Function(AppointmentWithDuplicate appointment) buildAppointment;
 
   @override
   State<DataViewCalendarWeek> createState() => _DataViewCalendarWeekState();
@@ -39,6 +40,34 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         .addPropertyChangedListener(widget.propertyChanged);
   }
 
+
+  // void checkDuplicate(List<AppointmentWithDuplicate> list) {
+  //   List<AppointmentWithDuplicate> listRemove =[];
+  //   for (final item in list) {
+  //     final currentTimeFrom  = item.startTime.millisecondsSinceEpoch;
+  //     final currentTimeTo  = item.endTime.millisecondsSinceEpoch;
+  //     final listDuplicate = list.where((element) {
+  //       final startTime =element.startTime.millisecondsSinceEpoch;
+  //       if (startTime >= currentTimeFrom && startTime < currentTimeTo){
+  //         return true;
+  //       }
+  //       return false;
+  //     });
+  //     if (listDuplicate.length> 1){
+  //       for (int i= 0; i < listDuplicate.length ; i++ ) {
+  //         listDuplicate.elementAt(i).isDuplicate = true;
+  //         if (i== 1 ){
+  //           listDuplicate.elementAt(i).isMore = true;
+  //         }
+  //         if (i>1) {
+  //           listRemove.add(listDuplicate.elementAt(i));
+  //         }
+  //       }
+  //     }
+  //   }
+  //   for ( final ListLichLVModel element in listRemove) {list.remove(element);}
+  // }
+
   DateTime getOnlyDate(DateTime date) =>
       DateTime(date.year, date.month, date.day);
 
@@ -46,23 +75,8 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   Widget build(BuildContext context) {
     return SfCalendar(
       firstDayOfWeek: 1,
-      scheduleViewSettings: ScheduleViewSettings(
-        appointmentItemHeight: 40,
-        dayHeaderSettings: DayHeaderSettings(),
-      ),
-      resourceViewSettings: ResourceViewSettings(
-      ),
-      weekNumberStyle: WeekNumberStyle(
-      ),
       showCurrentTimeIndicator: false,
       viewHeaderHeight: 0,
-      // monthCellBuilder: (_, detailMonth ){
-      //   final appointment  = detailMonth.appointments.first;
-      //   return Container ();
-      // },
-      timeSlotViewSettings: TimeSlotViewSettings(
-        timelineAppointmentHeight: 100,
-      ),
       allowAppointmentResize: true,
       controller: widget.fCalendarController,
       headerHeight: 0,
@@ -97,10 +111,10 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
       ),
 
       selectionDecoration: const BoxDecoration(color: Colors.transparent),
-      // appointmentBuilder: (_, appointmentDetail) {
-      //   final Appointment appointment = appointmentDetail.appointments.first;
-      //   return widget.buildAppointment(appointment);
-      // },
+      appointmentBuilder: (_, appointmentDetail) {
+        final AppointmentWithDuplicate appointment = appointmentDetail.appointments.first;
+        return widget.buildAppointment(appointment);
+      },
     );
   }
 }

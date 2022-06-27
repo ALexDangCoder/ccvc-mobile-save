@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -21,7 +21,6 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -195,9 +194,10 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
         return false;
       });
       if (listDuplicate.length> 1){
-        listDuplicate.forEach((e) {e.isTrung = true;});
+        for (int i= 0; i < listDuplicate.length ; i++ ) {
+          listDuplicate.elementAt(i).isTrung = true;
+        }
       }
-
     }
   }
   DateTime getDate (String time) => time.convertStringToDate(formatPattern: DateTimeFormat.DATE_TIME_RECEIVE);
@@ -244,7 +244,7 @@ extension GetData on CalendarWorkCubit {
         DateTo: endDate.formatApi,
         DonViId:
             HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
-        isLichCuaToi: isMyWork,
+        isLichCuaToi: statusType == StatusWorkCalendar.LICH_CUA_TOI,
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
@@ -290,7 +290,7 @@ extension GetData on CalendarWorkCubit {
       result.when(
         success: (res) {
           newItems = res.listLichLVModel ?? [];
-          checkDuplicate(newItems);
+          checkDuplicate([...?worksPagingController.itemList ,...newItems]);
         },
         error: (error) {},
       );
@@ -324,144 +324,9 @@ extension GetData on CalendarWorkCubit {
     );
 
     //to do
-    _listCalendarWorkSubject.sink.add(toDataFCalenderSource());
   }
 
-  DataSourceFCalendar toDataFCalenderSource  () {
-    final List<Appointment> appointments = [];
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 12, 12 ),
-        endTime: DateTime(2022, 6, 18 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 16 , 12, 12 ),
-        endTime: DateTime(2022, 6, 19 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 13 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 12 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 12 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
 
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 12, 12 ),
-        endTime: DateTime(2022, 6, 11 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 6, 12 ),
-        endTime: DateTime(2022, 6, 11 , 14, 12 ),
-        subject: 'ngay 2 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 14, 45 ),
-        endTime: DateTime(2022, 6, 11 , 18, 34 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 11 , 9, 10 ),
-        endTime: DateTime(2022, 6, 11 , 20, 12 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 12, 12 ),
-        endTime: DateTime(2022, 6, 12 , 15, 12 ),
-        subject: 'ngay 1 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 6, 12 ),
-        endTime: DateTime(2022, 6, 12 , 14, 12 ),
-        subject: 'ngay 2 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 12 , 14, 45 ),
-        endTime: DateTime(2022, 6, 13 , 18, 34 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    appointments.add(
-      Appointment(
-        notes: 'Schedule',
-        startTime: DateTime(2022, 6, 15 , 9, 10 ),
-        endTime: DateTime(2022, 6, 11 , 20, 12 ),
-        subject: 'ngay 4 ',
-        color: Colors.blue,
-        id: '',
-      ),
-    );
-    return DataSourceFCalendar(appointments);
-  }
 
 
   DanhSachLichLamViecRequest getDanhSachLichLVRequest({

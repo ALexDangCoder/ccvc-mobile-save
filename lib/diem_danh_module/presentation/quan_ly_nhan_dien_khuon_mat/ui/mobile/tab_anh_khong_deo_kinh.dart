@@ -15,18 +15,16 @@ class TabAnhKhongDeoKinh extends StatefulWidget {
 class _TabAnhKhongDeoKinhState extends State<TabAnhKhongDeoKinh> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: widget.cubit.listDataKhongDeoKinh
-              .map(
-                (e) => ItemImageWidget(
-                  image: e.image,
-                  title: e.title, cubit: widget.cubit,
-                ),
-              )
-              .toList(),
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        children: widget.cubit.listDataKhongDeoKinh
+            .map(
+              (e) => ItemImageWidget(
+                image: e.image,
+                title: e.title, cubit: widget.cubit,
+              ),
+            )
+            .toList(),
       ),
     );
   }

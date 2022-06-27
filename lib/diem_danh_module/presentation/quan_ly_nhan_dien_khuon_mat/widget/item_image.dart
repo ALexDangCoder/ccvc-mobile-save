@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/select_image.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ItemImageWidget extends StatelessWidget {
   final String image;
@@ -104,29 +101,8 @@ class ItemImageWidget extends StatelessWidget {
                 ),
                 spaceW16,
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: colorE2E8F0),
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: colorFFFFFF,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.05),
-                            blurRadius: 2,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: StreamBuilder<File>(
-                        stream: cubit.imagePickerStream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data;
-                          return data == null ? emptyImage() : Container();
-                        },
-                      ),
-                    ),
+                  child: SelectImageWidget(
+                    selectImage: (image) {},
                   ),
                 )
               ],
@@ -136,25 +112,4 @@ class ItemImageWidget extends StatelessWidget {
       ),
     );
   }
-
-  Widget emptyImage() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          ImageAssets.icUpAnh,
-        ),
-        spaceH14,
-        Text(
-          S.current.tai_anh_len,
-          style: textNormal(
-            color667793,
-            14.0.textScale(),
-          ),
-        ),
-      ],
-    );
-  }
-
-// Widget upLoadImage() {}
 }

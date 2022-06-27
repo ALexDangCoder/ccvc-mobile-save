@@ -86,6 +86,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 );
               }
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   StreamBuilder<ChiTietLichHopModel>(
                     stream: widget.cubit.chiTietLichHopSubject.stream,
@@ -129,7 +130,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                       showBottomSheet();
                                     },
                                   ),
-                                )
+                                ),
                             ],
                           ),
                         ),

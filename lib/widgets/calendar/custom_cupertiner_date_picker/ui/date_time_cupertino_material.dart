@@ -118,10 +118,12 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         stream: _cubit.validateTime.stream,
         builder: (context, snapshot) {
           widget.validateTime(
-            snapshot.data ?? S.current.ban_phai_chon_thoi_gian,
+            snapshot.data ??
+                (widget.isEdit ? '' : S.current.ban_phai_chon_thoi_gian),
           );
           return Visibility(
-            visible: (snapshot.data?.isNotEmpty) ?? false,
+            visible:
+                (snapshot.data?.isNotEmpty) ?? (widget.isEdit ? true : false),
             child: Padding(
               padding: const EdgeInsets.only(left: 28.0),
               child: Text(
@@ -166,12 +168,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     return Visibility(
                       visible: !isShowTime,
                       child: GestureDetector(
-                        behavior: HitTestBehavior.deferToChild,
-                        onTap: isShowTime
-                            ? () {}
-                            : () {
-                                expandEnd(TypePickerDateTime.TIME_END);
-                              },
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          expandTimeEnd(TypePickerDateTime.TIME_END);
+                        },
                         child: StreamBuilder<String>(
                           stream: _cubit.timeEndSubject,
                           initialData: 'hh:mm',
@@ -199,7 +199,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     final String date = snapshot.data ?? S.current.ddmmyy;
                     return GestureDetector(
                       onTap: () {
-                        expandEnd(TypePickerDateTime.DATE_END);
+                        expandDateEnd(TypePickerDateTime.DATE_END);
                       },
                       child: Text(
                         date,
@@ -299,8 +299,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   return Visibility(
                     visible: !isShowTime,
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        expandStart(TypePickerDateTime.TIME_START);
+                        expandTimeStart(TypePickerDateTime.TIME_START);
                       },
                       child: StreamBuilder<String>(
                         stream: _cubit.timeBeginSubject,
@@ -329,7 +330,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
                     onTap: () {
-                      expandStart(TypePickerDateTime.DATE_START);
+                      expandDateStart(TypePickerDateTime.DATE_START);
                     },
                     child: Text(
                       date,
@@ -502,8 +503,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         ],
       );
 
-  void expandEnd(TypePickerDateTime type) {
-    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
+  void expandTimeEnd(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.TIME_END &&
         keyExpandedEnd.currentState!.isExpandedGroup) {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
@@ -512,8 +513,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     _cubit.setTypePickerEnd(type);
   }
 
-  void expandStart(TypePickerDateTime type) {
-    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
+  void expandTimeStart(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.TIME_START &&
         keyExpandedBegin.currentState!.isExpandedGroup) {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
@@ -538,6 +539,26 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
 
   String get initDataTo =>
       '${dateTo != 'DD/MM/YYYY' ? dateTo : now} ${timeTo != 'hh:mm' ? timeTo : '00:00'}';
+
+  void expandDateEnd(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
+        keyExpandedEnd.currentState!.isExpandedGroup) {
+      keyExpandedEnd.currentState?.collapseGesture();
+    } else {
+      keyExpandedEnd.currentState?.expandGesture();
+    }
+    _cubit.setTypePickerEnd(type);
+  }
+
+  void expandDateStart(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
+        keyExpandedBegin.currentState!.isExpandedGroup) {
+      keyExpandedBegin.currentState?.collapseGesture();
+    } else {
+      keyExpandedBegin.currentState?.expandGesture();
+    }
+    _cubit.setTypePickerStart(type);
+  }
 }
 
 String timeFormat(String time, String oldPattern, String newPattern) {

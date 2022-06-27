@@ -51,12 +51,12 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
       height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 30),
       decoration: BoxDecoration(
-        border: Border.all(color: bgDropDown),
+        //border: Border.all(color: bgDropDown),
       ),
       child: Row(
         children: [
           Expanded(
-            flex: 8,
+            flex: 4,
             child: CustomDropDown(
               paddingTop: 0,
               paddingLeft: 16,
@@ -80,41 +80,48 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
             ),
           ),
           const SizedBox(
-            width: 40,
+            width: 60,
           ),
           Expanded(
               flex: 4,
-              child: GestureDetector(
-                child: Center(
-                  child: SizedBox(
-                    height: 22,
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          ImageAssets.ic_box_serach,
-                          fit: BoxFit.cover,
-                          color: AppTheme.getInstance().colorField(),
-                        ),
-                        spaceW15,
-                        Text(
-                          S.current.tim_kiem,
-                          style: textNormalCustom(
-                            color: color3D5586,
+              child: Container(
+                padding:  const EdgeInsets.symmetric(horizontal: 16),
+                decoration:  BoxDecoration(
+                  border: Border.all(color: bgDropDown),
+                ),
+                child: GestureDetector(
+                  child: Center(
+                    child: SizedBox(
+
+                      height: 22,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            ImageAssets.ic_box_serach,
+                            fit: BoxFit.cover,
+                            color: AppTheme.getInstance().colorField(),
                           ),
-                        )
-                      ],
+                          spaceW15,
+                          Text(
+                            S.current.tim_kiem,
+                            style: textNormalCustom(
+                              color: color3D5586,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
+                  onTap: () {
+                    showBottomSheetCustom(
+                      context,
+                      child: SearchBanTinBtnSheet(
+                        cubit: widget.chuDeCubit,
+                      ),
+                      title: S.current.tim_kiem,
+                    );
+                  },
                 ),
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    child: SearchBanTinBtnSheet(
-                      cubit: widget.chuDeCubit,
-                    ),
-                    title: S.current.tim_kiem,
-                  );
-                },
               ))
         ],
       ),

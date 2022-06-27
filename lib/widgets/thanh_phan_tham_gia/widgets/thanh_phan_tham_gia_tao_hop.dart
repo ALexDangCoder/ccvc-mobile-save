@@ -75,12 +75,6 @@ class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
                 height: 10.0.textScale(space: 10),
               ),
               if (!widget.isKhachMoi) ...[
-                rowInfo(value: widget.donVi.chucVu, key: S.current.chuc_vu),
-                SizedBox(
-                  height: 10.0.textScale(space: 10),
-                ),
-              ],
-              if (!widget.isKhachMoi) ...[
                 rowInfo(
                   value: widget.isChuTri
                       ? S.current.can_bo_chu_tri

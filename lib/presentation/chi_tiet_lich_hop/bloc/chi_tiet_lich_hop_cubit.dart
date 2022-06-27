@@ -59,6 +59,8 @@ const HUYDUYET = 3;
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
+  /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
+  /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
   bool check = false;
   String startTime = '00:00';
@@ -202,88 +204,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     minutes: 00,
   );
 
-  TimerData dateTimeNowStart() {
-    final TimerData start = TimerData(
-      hour: timeNow.hour,
-      minutes: timeNow.minute,
-    );
-    return start;
-  }
-
-  TimerData dateTimeNowEnd() {
-    final TimerData end = TimerData(
-      hour: timeNow.add(const Duration(hours: 1)).hour,
-      minutes: timeNow.minute,
-    );
-    return end;
-  }
-
-  int dateDiff(String startTime, String endTime) {
-    final start = DateTime.parse(startTime);
-    final end = DateTime.parse(endTime);
-    final result = end.difference(start).inSeconds;
-    return result;
-  }
-
-  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
-    await getChiTietLichHop(idCuocHop);
-
-    ///check permission button
-    if (needCheckPermission) {
-      initDataButton();
-    }
-
-    getDanhSachThuHoiLichHop(idCuocHop);
-
-    getDanhSachNguoiChuTriPhienHop(idCuocHop);
-  }
-
-  Future<void> getDanhSachNTGChuongTrinhHop({
-    required String id,
-  }) async {
-    final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
-
-    result.when(
-      success: (res) {
-        listData = res;
-        nguoiThamGiaSubject.sink.add(listData);
-      },
-      error: (error) {},
-    );
-  }
-
-  Future<bool> huyAndDuyetLichHop({
-    required bool isDuyet,
-  }) async {
-    bool isCheck = true;
-    final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
-    result.when(
-      success: (res) {
-        isCheck = true;
-      },
-      error: (error) {
-        isCheck = false;
-      },
-    );
-    return isCheck;
-  }
-
-  Future<void> cuCanBoDiThay({
-    required String id,
-    required List<CanBoDiThay>? canBoDiThay,
-  }) async {
-    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
-      id: id,
-      lichHopId: idCuocHop,
-      canBoDiThay: canBoDiThay,
-    );
-    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
-    result.when(
-      success: (res) {},
-      error: (error) {},
-    );
-  }
-
   bool loaiBieuQ = false;
   String date = DateTime.now().toStringWithListFormat;
 
@@ -321,10 +241,16 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
-  String dateTimeCovert(int time) {
-    if (time < 10) {
-      return '0$time';
+  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
+    await getChiTietLichHop(idCuocHop);
+
+    await getDanhSachThuHoiLichHop(idCuocHop);
+
+    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+
+    ///check permission button
+    if (needCheckPermission) {
+      initDataButton();
     }
-    return '$time';
   }
 }

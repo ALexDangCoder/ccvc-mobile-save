@@ -188,6 +188,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     required String id,
     required List<CanBoDiThay>? canBoDiThay,
   }) async {
+    showLoading();
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
       id: id,
       lichHopId: idCuocHop,
@@ -195,8 +196,13 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     );
     final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
     result.when(
-      success: (res) {},
-      error: (error) {},
+      success: (res) {
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
     );
+    showError();
   }
 }

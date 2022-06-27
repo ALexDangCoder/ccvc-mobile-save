@@ -49,6 +49,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   @override
   void initState() {
     super.initState();
+    widget.cubit.getUsersNgoaiHeThongDuocTruyCap();
   }
 
   @override
@@ -83,17 +84,17 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                       listData: [
                         ItemCustomGroupRadio(
                           title: S.current.doi_tuong_da_duoc_truy_cap,
-                          value: true,
+                          value: false,
                         ),
                         ItemCustomGroupRadio(
                           title: S.current.them_moi_doi_tuong,
-                          value: false,
+                          value: true,
                         ),
                       ],
                       groupValue: isDuocTruyCap,
                       onchange: (value) {
                         widget.cubit.isDuocTruyCapSink.add(value ?? false);
-                        if (value ?? false) {
+                        if (!(value ?? false)) {
                           widget.cubit.clearUsersNgoaiHeThongDuocTruyCap();
                           widget.cubit.getUsersNgoaiHeThongDuocTruyCap();
                         } else {
@@ -107,14 +108,14 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 21),
                 child: StreamBuilder<bool>(
-                  initialData: true,
+                  initialData: false,
                   stream: widget.cubit.isDuocTruyCapStream,
                   builder: (context, snapshot) {
                     final isDuocTruyCap = snapshot.data ?? false;
                     if (isDuocTruyCap) {
-                      return objectAccessed;
-                    } else {
                       return newObject;
+                    } else {
+                      return objectAccessed;
                     }
                   },
                 ),

@@ -19,6 +19,7 @@ class ChiTietYKNDModel {
   bool isDuyet;
   bool isDraft;
   int linhVucId;
+  String linhVucPaknTen;
   String tenLuat;
   String phanLoaiPAKN;
   String soPAKN;
@@ -74,6 +75,7 @@ class ChiTietYKNDModel {
     this.luatId,
     this.noiDungPAKNId,
     this.linhVucPAKNId,
+    this.linhVucPaknTen,
     this.dSTaiLieuDinhKem,
     this.doiTuongId,
     this.tenNguoiPhanAnh,
@@ -201,6 +203,7 @@ class NguoiPhanAnhModel {
   int? doiTuong;
   String? tenCaNhan;
   String? cmnd;
+  String? doiTuongNop;
   String? diaChiEmail;
   String? soDienthoai;
   String? diaChiChiTiet;
@@ -217,6 +220,7 @@ class NguoiPhanAnhModel {
     this.cmnd,
     this.diaChiEmail,
     this.soDienthoai,
+    this.doiTuongNop,
     this.diaChiChiTiet,
     this.tinhThanhPho,
     this.quanHuyen,

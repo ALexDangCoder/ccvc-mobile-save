@@ -5,7 +5,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
@@ -434,16 +435,34 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
+  final BehaviorSubject<DashBoardPAKNModel> dashBoardPAKNTiepCanXuLyBHVSJ = BehaviorSubject();
 
-  Future<void> getDashBoardPAKN() async {
-    final result = await _YKNDRepo.getDashboardTinhHinhXuLyPAKN(false);
+  Future<void> getDashBoardPAKNTiepCanXuLy() async {
+    showLoading();
+    final result = await _YKNDRepo.getDashBoardPAKNTiepNhanXuLy(
+      startDate,
+      endDate,
+    );
     result.when(
       success: (success) {
-        getTinhHinhXuLy.sink.add(success);
+        dashBoardPAKNTiepCanXuLyBHVSJ.sink.add(success);
+        showContent();
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
   }
+
+  // Future<void> getDashBoardPAKN() async {
+  //   final result = await _YKNDRepo.getDashboardTinhHinhXuLyPAKN(false);
+  //   result.when(
+  //     success: (success) {
+  //       getTinhHinhXuLy.sink.add(success);
+  //     },
+  //     error: (error) {},
+  //   );
+  // }
 
   Future<void> getDashBoardTinhHinhXuLy(
     String donViID,

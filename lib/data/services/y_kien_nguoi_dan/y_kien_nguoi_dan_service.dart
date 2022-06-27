@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_k
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_thong_tin_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
@@ -55,8 +56,6 @@ abstract class YKienNguoiDanService {
     @Query('DenNgay') String DenNgay,
   );
 
-
-
   @GET(ApiConstants.DANH_SACH_Y_KIEN_NGUOI_DAN)
   Future<DanhSachYKienNguoiDanResponse> getDanhSachYKienNguoiDan(
     @Query('TuNgay') String tuNgay,
@@ -72,12 +71,11 @@ abstract class YKienNguoiDanService {
   Future<ChiTietKienNghiResponse> chiTietYKienNguoiDan(
     @Body() ChiTietKienNghiRequest chiTietKienNghiRequest,
   );
-  
-  
+
   @POST(ApiConstants.THONG_TIN_XU_LY_PAKN)
   Future<ThongTinXuLyTotalResponse> thongTinXuLyPAKN(
-      @Body() ChiTietKienNghiRequest chiTietKienNghi,
-      );
+    @Body() ChiTietKienNghiRequest chiTietKienNghi,
+  );
 
   @GET(ApiConstants.SEARCH_Y_KIEN_NGUOI_DAN)
   Future<SearchYKienNguoiDanResponse> searchDanhSachYKienNguoiDan(
@@ -167,5 +165,13 @@ abstract class YKienNguoiDanService {
   });
 
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
-  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(@Query('isDonVi') bool isDonVi);
+  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(
+      @Query('isDonVi') bool isDonVi);
+
+  @GET(ApiConstants.DASHBOARD_PAKN_TIEP_NHAN_XU_LY)
+  Future<DashBoardThongTinPaknTotalResponse>
+      getDashBoardTinhHinhPAKNTiepNhanXuLy(
+    @Query('DateTo') String dateTo,
+    @Query('DateFrom') String dateFrom,
+  );
 }

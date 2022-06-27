@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_k
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_thong_tin_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/location_address_response.dart';
@@ -26,7 +27,8 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/y_kien_xu_ly_response
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/y_kien_nguoi_dan/y_kien_nguoi_dan_service.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/result_xin_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/tien_trinh_xu_ly_model.dart';
@@ -387,6 +389,16 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
         () => _yKienNguoiDanService.getDashboardTinhHinhPAKN(isDonVi),
         (res) => res.data?.toDomain() ?? DocumentDashboardModel());
   }
+
+  @override
+  Future<Result<DashBoardPAKNModel>> getDashBoardPAKNTiepNhanXuLy(String dateFrom, String dateTo) {
+    return runCatchingAsync<DashBoardThongTinPaknTotalResponse,
+        DashBoardPAKNModel>(
+            () => _yKienNguoiDanService.getDashBoardTinhHinhPAKNTiepNhanXuLy(dateFrom, dateTo),
+            (res) => res.data?.toModel() ?? DashBoardPAKNModel(dashBoardHanXuLyPAKNModel: DashBoardHanXuLyPAKNModel(), dashBoardTiepNhanPAKNModel: DashBoardTiepNhanPAKNModel(), dashBoardXuLyPAKNModelModel: DashBoardXuLyPAKNModel(),  ));
+  }
+
+
 
 
 }

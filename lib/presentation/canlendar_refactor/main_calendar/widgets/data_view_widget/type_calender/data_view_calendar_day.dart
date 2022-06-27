@@ -11,13 +11,14 @@ class DataViewCalendarDay extends StatefulWidget {
     required this.propertyChanged,
     required this.buildAppointment,
     required this.data,
-    required this.fCalendarController,
+    required this.fCalendarController, this.onMore,
   }) : super(key: key);
 
   final Function(String property) propertyChanged;
-  final Widget Function(Appointment appointment) buildAppointment;
+  final Widget Function(AppointmentWithDuplicate appointment) buildAppointment;
   final DataSourceFCalendar data;
   final CalendarController fCalendarController;
+  final Function(DateTime)? onMore;
 
   @override
   State<DataViewCalendarDay> createState() => _DataViewCalendarDayState();
@@ -34,32 +35,41 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     super.initState();
   }
 
-  // void checkDuplicate(Appointment list) {
-  //   List<Appointment> listRemove =[];
-  //   for (final item in list) {
-  //     final currentTimeFrom  = getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
-  //     final currentTimeTo  = getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
-  //     final listDuplicate = list.where((element) {
-  //       final startTime = getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
-  //       if (startTime >= currentTimeFrom && startTime < currentTimeTo){
-  //         return true;
-  //       }
-  //       return false;
-  //     });
-  //     if (listDuplicate.length> 1){
-  //       for (int i= 0; i < listDuplicate.length ; i++ ) {
-  //         listDuplicate.elementAt(i).isTrung = true;
-  //         if (i== 1 ){
-  //           listDuplicate.elementAt(i).isMore = true;
-  //         }
-  //         if (i>1) {
-  //           listRemove.add(listDuplicate.elementAt(i));
-  //         }
-  //       }
-  //     }
-  //   }
-  //   for ( final ListLichLVModel element in listRemove) {list.remove(element);}
-  // }
+
+  @override
+  void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    checkDuplicate(
+      widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
+    );
+  }
+
+  void checkDuplicate(List<AppointmentWithDuplicate> list) {
+    final List<AppointmentWithDuplicate> listRemove = [];
+    for (final item in list) {
+      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
+      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
+      final listDuplicate = list.where((element) {
+        final startTime = element.startTime.millisecondsSinceEpoch;
+        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
+          return true;
+        }
+        return false;
+      });
+      if (listDuplicate.length > 1) {
+        for (int i = 0; i < listDuplicate.length; i++) {
+          listDuplicate.elementAt(i).isDuplicate = true;
+          listDuplicate.elementAt(i).isMore = i==3;
+          if (i > 3) {
+            listRemove.add(listDuplicate.elementAt(i));
+          }
+        }
+      }
+    }
+    for (final AppointmentWithDuplicate element in listRemove) {
+      list.remove(element);
+    }
+  }
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController.addPropertyChangedListener(widget.propertyChanged);
@@ -83,8 +93,22 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       appointmentTimeTextFormat: 'hh:mm:ss a',
       dataSource: widget.data,
       appointmentBuilder: (_, appointmentDetail) {
-        final Appointment appointment =
+        final AppointmentWithDuplicate appointment =
             appointmentDetail.appointments.first;
+        if (appointment.isMore) {
+          return GestureDetector(
+            onTap: () {
+              widget.onMore?.call(appointmentDetail.date);
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: const Icon(
+                Icons.more_horiz,
+                color: textBodyTime,
+              ),
+            ),
+          );
+        }
         return widget.buildAppointment(appointment);
       },
     );

@@ -56,16 +56,27 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   //data subject
 
-  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkSubject =
+  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkDaySubject =
       BehaviorSubject();
+  Stream<DataSourceFCalendar> get listCalendarWorkDayStream =>
+      _listCalendarWorkDaySubject.stream;
+  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkWeekSubject =
+      BehaviorSubject();
+  Stream<DataSourceFCalendar> get listCalendarWorkWeekStream =>
+      _listCalendarWorkWeekSubject.stream;
+  final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkMonthSubject =
+      BehaviorSubject();
+  Stream<DataSourceFCalendar> get listCalendarWorkMonthStream =>
+      _listCalendarWorkMonthSubject.stream;
+
+
+
   final BehaviorSubject<List<DateTime>> _listNgayCoLich =
       BehaviorSubject<List<DateTime>>();
 
   Stream<List<DateTime>> get  listNgayCoLichStream => _listNgayCoLich.stream;
 
 
-  Stream<DataSourceFCalendar> get listCalendarWorkStream =>
-      _listCalendarWorkSubject.stream;
 
   final BehaviorSubject<List<LichLamViecDashBroadItem>> _dashBroadSubject =
       BehaviorSubject();
@@ -317,8 +328,9 @@ extension GetData on CalendarWorkCubit {
     final result = await calendarWorkRepo.getListLichLamViec(data);
     result.when(
       success: (res) {
-        checkDuplicate(res.listLichLVModel ?? []);
-         _listCalendarWorkSubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkDaySubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkWeekSubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkMonthSubject.sink.add(res.toDataFCalenderSource());
       },
       error: (error) {},
     );

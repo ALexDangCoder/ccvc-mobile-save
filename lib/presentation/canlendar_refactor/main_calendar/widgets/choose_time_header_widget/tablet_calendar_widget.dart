@@ -48,14 +48,6 @@ class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
         if (mounted) setState(() {});
       });
       widget.controller.calendarFormat.addListener(() {
-        if (widget.controller.calendarFormat.value == CalendarFormat.week) {
-          if (widget.controller.pageTableCalendar.month ==
-                  widget.controller.selectDate.value.month &&
-              widget.controller.pageTableCalendar.year ==
-                  widget.controller.selectDate.value.year) {
-            widget.controller.pageTableCalendar = widget.controller.selectDate.value;
-          }
-        }
         if (mounted) setState(() {});
       });
     });
@@ -72,7 +64,6 @@ class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
           widget.onPageCalendar(value);
         }
       },
-      currentDate: widget.controller.pageTableCalendar,
       daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: textNormalCustom(fontSize: 13, color: textBodyTime),
           weekendStyle: textNormalCustom(fontSize: 13, color: textBodyTime)),

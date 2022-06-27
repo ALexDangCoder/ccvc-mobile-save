@@ -318,7 +318,7 @@ extension GetData on CalendarWorkCubit {
     result.when(
       success: (res) {
         checkDuplicate(res.listLichLVModel ?? []);
-        _listCalendarWorkSubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkSubject.sink.add(res.toDataFCalenderSource());
       },
       error: (error) {},
     );

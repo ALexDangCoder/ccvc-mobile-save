@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'dart:developer';
+
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/dashbroad_count_row.dart';
@@ -75,6 +77,8 @@ class _MainDataViewState extends State<MainDataView> {
               propertyChanged: (String property) {
                 widget.cubit.propertyChangedMonth(property);
               },
+              onMore: (value){
+              },
               data: data,
               fCalendarController: widget.cubit.fCalendarControllerMonth,
             );
@@ -132,68 +136,31 @@ class _MainDataViewState extends State<MainDataView> {
   }
 
   Widget itemAppointment (Appointment appointment){
-    if ( appointment is AppointmentWithDuplicate ){
-      return GestureDetector(
-        onTap: () {
-          final TypeCalendar typeAppointment =
-          getType(appointment.notes ?? 'Schedule');
-          if (typeAppointment == TypeCalendar.Schedule) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChiTietLichLamViecScreen(
-                  id: appointment.id as String? ?? '',
-                ),
+    return GestureDetector(
+      onTap: () {
+        final TypeCalendar typeAppointment =
+        getType(appointment.notes ?? 'Schedule');
+        if (typeAppointment == TypeCalendar.Schedule) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChiTietLichLamViecScreen(
+                id: appointment.id as String? ?? '',
               ),
-            );
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailMeetCalenderScreen(
-                  id: appointment.id as String? ?? '',
-                ),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailMeetCalenderScreen(
+                id: appointment.id as String? ?? '',
               ),
-            );
-          }
-        },
-        child:  Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 5.0,
-            vertical: 3,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3.0),
-            color: AppTheme.getInstance().colorField(),
-          ),
-          child: Column(
-            crossAxisAlignment:  CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      appointment.subject,
-                      style: textNormalCustom(
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                  // const Icon(
-                  //   Icons.circle,
-                  //   color: Colors.red,
-                  //   size: 10,
-                  // ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    else {
-      return const SizedBox.shrink();
-    }
+            ),
+          );
+        }
+      },
+      child: ItemAppointment(appointment: appointment),
+    );
   }
 }

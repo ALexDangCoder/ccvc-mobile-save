@@ -77,6 +77,10 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
       firstDayOfWeek: 1,
       showCurrentTimeIndicator: false,
       viewHeaderHeight: 0,
+      timeSlotViewSettings: const TimeSlotViewSettings(
+        timeIntervalHeight: 100,
+
+      ),
       allowAppointmentResize: true,
       controller: widget.fCalendarController,
       headerHeight: 0,
@@ -91,7 +95,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           color: colorA2AEBD,
         ),
       ),
-
       monthViewSettings: MonthViewSettings(
         appointmentDisplayCount: 2,
         monthCellStyle: MonthCellStyle(

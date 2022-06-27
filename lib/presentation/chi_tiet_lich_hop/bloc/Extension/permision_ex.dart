@@ -381,7 +381,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return trangThaiPhong() == 0 || trangThaiPhong() == 2;
   }
 
-  bool checkPermission() {
+  bool checkPermissionQuyenDuyetPhong() {
     if (HiveLocal.checkPermissionApp(
           permissionType: PermissionType.VPDT,
           permissionTxt: 'quyen-duyet-phong',

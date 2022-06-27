@@ -2,13 +2,13 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_web_view.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_web_view_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_gridview.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
-class ReportList extends StatelessWidget {
+class ReportListTablet extends StatelessWidget {
   final bool isListView;
   final List<ReportItem> listReport;
   final ScrollPhysics? scrollPhysics;
@@ -16,7 +16,7 @@ class ReportList extends StatelessWidget {
   final String idFolder;
   final bool isTree;
 
-  const ReportList({
+  const ReportListTablet({
     Key? key,
     required this.isListView,
     required this.listReport,
@@ -39,7 +39,7 @@ class ReportList extends StatelessWidget {
                 shrinkWrap: true,
                 physics: scrollPhysics,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 4,
                   mainAxisSpacing: 17,
                   crossAxisSpacing: 17,
                   childAspectRatio: 1.5,
@@ -54,6 +54,7 @@ class ReportList extends StatelessWidget {
                       value: listReport[index],
                     ),
                     child: ItemGridView(
+                      isTablet: true,
                       item: listReport[index],
                       cubit: cubit,
                     ),
@@ -79,6 +80,7 @@ class ReportList extends StatelessWidget {
                       child: ItemList(
                         item: listReport[index],
                         cubit: cubit,
+                        isTablet: true,
                       ),
                     );
                   },
@@ -97,7 +99,7 @@ class ReportList extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return ReportDetail(
+            return ReportDetailMobile(
               title: value.name ?? '',
               cubit: cubit,
               idFolder: value.id ?? '',
@@ -111,7 +113,7 @@ class ReportList extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return ReportWebView(
+            return ReportWebViewMobile(
               cubit: cubit,
               idReport: value.id ?? '',
               title: value.name ?? '',

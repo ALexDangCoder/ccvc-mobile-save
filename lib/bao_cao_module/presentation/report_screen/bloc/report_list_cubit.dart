@@ -202,10 +202,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
 
   void clearSearch() {
     isStatusSearch.add(true);
-    //sort = ALL;
-    //textSearch.add('');
-    //textFilterBox.add(S.current.all);
-    //getListReport();
   }
 
   void filterBox(String value) {

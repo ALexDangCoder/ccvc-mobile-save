@@ -1,7 +1,8 @@
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_filter_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/report_filter_tablet.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_report_share_favorite.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -15,14 +16,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ReportScreenMobile extends StatefulWidget {
-  const ReportScreenMobile({Key? key}) : super(key: key);
+class ReportScreenTablet extends StatefulWidget {
+  const ReportScreenTablet({Key? key}) : super(key: key);
 
   @override
-  _ReportScreenMobileState createState() => _ReportScreenMobileState();
+  _ReportScreenTabletState createState() => _ReportScreenTabletState();
 }
 
-class _ReportScreenMobileState extends State<ReportScreenMobile> {
+class _ReportScreenTabletState extends State<ReportScreenTablet> {
   late ReportListCubit cubit;
   late TextEditingController _searchController;
 
@@ -64,6 +65,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
       },
       child: Column(
         children: [
+          reportLine(left: 16),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -71,13 +73,14 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    showModalBottomSheet(
+                    showDialog(
                       context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => ReportFilterMobile(
-                        cubit: cubit,
-                      ),
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return ReportFilterTablet(
+                          cubit: cubit,
+                        );
+                      },
                     );
                   },
                   child: Row(
@@ -300,7 +303,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         if (isSearch)
           GestureDetector(
             onTap: () {
-              _searchController.text=cubit.textSearch.value;
+              _searchController.text = cubit.textSearch.value;
               cubit.isStatusSearch.add(false);
             },
             child: Container(
@@ -398,7 +401,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                 );
               },
             ),
-          )
+          ),
       ],
     );
   }

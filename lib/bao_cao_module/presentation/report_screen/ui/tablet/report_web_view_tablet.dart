@@ -6,8 +6,8 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class ReportWebView extends StatefulWidget {
-  const ReportWebView({
+class ReportWebViewTablet extends StatefulWidget {
+  const ReportWebViewTablet({
     Key? key,
     required this.cubit,
     required this.idReport,
@@ -18,10 +18,10 @@ class ReportWebView extends StatefulWidget {
   final String title;
 
   @override
-  State<ReportWebView> createState() => _ReportWebViewState();
+  State<ReportWebViewTablet> createState() => _ReportWebViewState();
 }
 
-class _ReportWebViewState extends State<ReportWebView> {
+class _ReportWebViewState extends State<ReportWebViewTablet> {
   @override
   void initState() {
     widget.cubit.getReportDetail(

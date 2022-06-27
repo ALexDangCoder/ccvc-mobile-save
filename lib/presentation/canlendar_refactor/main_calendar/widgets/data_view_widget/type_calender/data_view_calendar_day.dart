@@ -1,14 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import 'item_appoinment_widget.dart';
 
 class DataViewCalendarDay extends StatefulWidget {
   const DataViewCalendarDay({
@@ -16,13 +11,14 @@ class DataViewCalendarDay extends StatefulWidget {
     required this.propertyChanged,
     required this.buildAppointment,
     required this.data,
-    required this.fCalendarController,
+    required this.fCalendarController, this.onMore,
   }) : super(key: key);
 
   final Function(String property) propertyChanged;
-  final Widget Function(Appointment appointment) buildAppointment;
+  final Widget Function(AppointmentWithDuplicate appointment) buildAppointment;
   final DataSourceFCalendar data;
   final CalendarController fCalendarController;
+  final Function(DateTime)? onMore;
 
   @override
   State<DataViewCalendarDay> createState() => _DataViewCalendarDayState();
@@ -39,6 +35,41 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     super.initState();
   }
 
+
+  @override
+  void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    checkDuplicate(
+      widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
+    );
+  }
+
+  void checkDuplicate(List<AppointmentWithDuplicate> list) {
+    final List<AppointmentWithDuplicate> listRemove = [];
+    for (final item in list) {
+      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
+      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
+      final listDuplicate = list.where((element) {
+        final startTime = element.startTime.millisecondsSinceEpoch;
+        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
+          return true;
+        }
+        return false;
+      });
+      if (listDuplicate.length > 1) {
+        for (int i = 0; i < listDuplicate.length; i++) {
+          listDuplicate.elementAt(i).isDuplicate = true;
+          listDuplicate.elementAt(i).isMore = i==3;
+          if (i > 3) {
+            listRemove.add(listDuplicate.elementAt(i));
+          }
+        }
+      }
+    }
+    for (final AppointmentWithDuplicate element in listRemove) {
+      list.remove(element);
+    }
+  }
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController.addPropertyChangedListener(widget.propertyChanged);
@@ -62,8 +93,22 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       appointmentTimeTextFormat: 'hh:mm:ss a',
       dataSource: widget.data,
       appointmentBuilder: (_, appointmentDetail) {
-        final Appointment appointment =
+        final AppointmentWithDuplicate appointment =
             appointmentDetail.appointments.first;
+        if (appointment.isMore) {
+          return GestureDetector(
+            onTap: () {
+              widget.onMore?.call(appointmentDetail.date);
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: const Icon(
+                Icons.more_horiz,
+                color: textBodyTime,
+              ),
+            ),
+          );
+        }
         return widget.buildAppointment(appointment);
       },
     );
@@ -72,7 +117,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
 }
 
 class DataSourceFCalendar extends CalendarDataSource {
-  DataSourceFCalendar(List<Appointment> source) {
+  DataSourceFCalendar(List<AppointmentWithDuplicate> source) {
     appointments = source;
   }
   DataSourceFCalendar.empty(){

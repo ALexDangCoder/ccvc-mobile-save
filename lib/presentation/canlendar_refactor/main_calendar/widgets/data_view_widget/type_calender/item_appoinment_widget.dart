@@ -12,6 +12,7 @@ class ItemAppointment extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 5.0,
+        vertical: 3,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(3.0),
@@ -31,11 +32,11 @@ class ItemAppointment extends StatelessWidget {
                   ),
                 ),
               ),
-              const Icon(
-                Icons.circle,
-                color: Colors.red,
-                size: 10,
-              ),
+              // const Icon(
+              //   Icons.circle,
+              //   color: Colors.red,
+              //   size: 10,
+              // ),
             ],
           ),
         ],

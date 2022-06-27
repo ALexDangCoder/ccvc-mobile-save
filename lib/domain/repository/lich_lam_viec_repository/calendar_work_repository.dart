@@ -29,7 +29,7 @@ import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 
-mixin CreateWorkCalendarRepository {
+mixin CalendarWorkRepository {
   Future<Result<DashBoardLichHopModel>> getLichLv(
     String startTime,
     String endTime,

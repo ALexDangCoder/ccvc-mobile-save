@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.da
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -42,7 +42,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
 
   Stream<List<BaoCaoModel>> get listBaoCaoKetQua => _listBaoCaoKetQua.stream;
 
-  CreateWorkCalendarRepository get detailLichLamViec => Get.find();
+  CalendarWorkRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
 
   Future<void> dataChiTietLichLamViec(String id) async {
@@ -92,7 +92,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   }
 
   // xoa lich lam viec
-  CreateWorkCalendarRepository get deleteLichLamViec => Get.find();
+  CalendarWorkRepository get deleteLichLamViec => Get.find();
 
   Future<void> deleteCalendarWork(
     String id, {
@@ -103,7 +103,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   }
 
   // huy lich lam viec
-  CreateWorkCalendarRepository get cancelLichLamViec => Get.find();
+  CalendarWorkRepository get cancelLichLamViec => Get.find();
 
   Future<void> cancelCalendarWork(
     String id, {

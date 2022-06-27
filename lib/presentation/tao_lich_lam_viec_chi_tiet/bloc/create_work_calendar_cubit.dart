@@ -17,7 +17,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/nhac_lai_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
@@ -37,7 +37,7 @@ import 'package:rxdart/rxdart.dart';
 class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   CreateWorkCalCubit() : super(TaoLichLVStateInitial());
 
-  CreateWorkCalendarRepository get _workCal => Get.find();
+  CalendarWorkRepository get _workCal => Get.find();
 
   TaoMoiBanGhiRequest requestBanGhi = TaoMoiBanGhiRequest(
     content: '<p>ưq</p>',

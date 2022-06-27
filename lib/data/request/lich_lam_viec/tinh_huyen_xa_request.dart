@@ -58,9 +58,9 @@ class WardRequest extends Equatable {
   });
 
   factory WardRequest.fromJson(Map<String, dynamic> json) =>
-      _$XaSelectRequestFromJson(json);
+      _$WardRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$XaSelectRequestToJson(this);
+  Map<String, dynamic> toJson() => _$WardRequestToJson(this);
 
   //todo convert to Model to use
   @override

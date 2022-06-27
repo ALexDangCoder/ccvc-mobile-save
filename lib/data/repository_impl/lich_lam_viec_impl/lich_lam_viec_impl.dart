@@ -53,10 +53,10 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:dio/dio.dart';
 
-class CreateWorkCalendarRepositoryImpl implements CreateWorkCalendarRepository {
+class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
   WorkCalendarService workCalendarService;
 
   CreateWorkCalendarRepositoryImpl(this.workCalendarService);

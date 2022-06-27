@@ -9,7 +9,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
@@ -31,7 +31,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   CalendarWorkCubit() : super(const CalendarViewState());
 
-  LichLamViecRepository get calendarWorkRepo => Get.find();
+  CalendarWorkRepository get calendarWorkRepo => Get.find();
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();

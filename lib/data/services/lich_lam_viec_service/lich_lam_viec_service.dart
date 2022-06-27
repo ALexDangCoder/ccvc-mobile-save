@@ -43,7 +43,7 @@ part 'lich_lam_viec_service.g.dart';
 @RestApi()
 abstract class WorkCalendarService {
   @factoryMethod
-  factory WorkCalendarService(Dio dio, {String baseUrl}) = _LichLamViecService;
+  factory WorkCalendarService(Dio dio, {String baseUrl}) = _WorkCalendarService;
 
   @GET(ApiConstants.LICH_LAM_VIEC_DASHBOARD)
   Future<LichLamViecDashBroadResponse> getLichLamViec(

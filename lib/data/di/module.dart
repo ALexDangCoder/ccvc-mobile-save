@@ -30,7 +30,7 @@ import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_respository.dart';
@@ -84,7 +84,7 @@ void configureDependencies() {
       provideDio(baseOption: BaseURLOption.GATE_WAY),
     ),
   );
-  Get.put<CreateWorkCalendarRepository>(
+  Get.put<CalendarWorkRepository>(
     CreateWorkCalendarRepositoryImpl(Get.find()),
   );
 

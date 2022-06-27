@@ -54,6 +54,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
               hanXuLy: e.hanXuLy,
               loaiNhiemVu: e.loaiNhiemVu,
               trangThai: trangThaiNhiemVu(e.maTrangThai),
+              id: e.id,
             ),
           );
           danhSachNhiemVuLichHopSubject.sink.add(danhSachNhiemVuLichHopModel);
@@ -197,6 +198,60 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         return;
       },
     );
+  }
+
+  Future<void> xacNhanHoacHuyKetLuanHop({
+    required bool isDuyet,
+  }) async {
+    showLoading();
+    final result = await hopRp.xacNhanHoacHuyKetLuanHop(
+      idCuocHop,
+      isDuyet,
+      '',
+    );
+    result.when(
+      success: (res) {
+        showContent();
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
+  }
+
+  Future<void> createKetLuanHop({
+    required String lichHopId,
+    required String scheduleId,
+    required String reportStatusId,
+    required String reportTemplateId,
+    required String startDate,
+    required String endDate,
+    required String content,
+    required List<String> files,
+    required List<String> filesDelete,
+  }) async {
+    showLoading();
+    final result = await hopRp.createKetLuanHop(
+      lichHopId,
+      scheduleId,
+      reportStatusId,
+      reportTemplateId,
+      startDate,
+      endDate,
+      content,
+      files,
+      filesDelete,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
   }
 
   Future<void> callApiKetLuanHop() async {

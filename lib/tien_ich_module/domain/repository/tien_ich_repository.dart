@@ -63,7 +63,7 @@ mixin TienIchRepository {
 
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoToi();
 
-  Future<Result<List<TodoDSCVModel>>> xoaCongViec(String id);
+  Future<Result<TodoDSCVModel>> xoaCongViec(String id);
 
   Future<Result<NhomCVMoiModel>> createNhomCongViecMoi(String label);
 

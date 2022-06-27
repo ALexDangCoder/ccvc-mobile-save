@@ -1,20 +1,20 @@
+import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_report_share_favorite.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/report_list_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-class ReportDetailMobile extends StatefulWidget {
+class ReportDetailTablet extends StatefulWidget {
   final String title;
   final ReportListCubit cubit;
   final String idFolder;
   final bool isListView;
 
-  const ReportDetailMobile({
+  const ReportDetailTablet({
     Key? key,
     required this.title,
     required this.cubit,
@@ -23,10 +23,10 @@ class ReportDetailMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ReportDetailMobile> createState() => _ReportDetailMobileState();
+  State<ReportDetailTablet> createState() => _ReportDetailTabletState();
 }
 
-class _ReportDetailMobileState extends State<ReportDetailMobile> {
+class _ReportDetailTabletState extends State<ReportDetailTablet> {
   List<ReportItem> listReportDetail = [];
   bool isCheckInit = true;
   bool isCheckData = false;
@@ -57,7 +57,17 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
       ),
       body: Column(
         children: [
-          reportLine(left: 16),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 16,
+              left: 16,
+            ),
+            child: Container(
+              height: 1,
+              width: double.infinity,
+              color: borderColor.withOpacity(0.5),
+            ),
+          ),
           Expanded(
             child: StateStreamLayout(
               retry: () {
@@ -94,7 +104,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                       }
                       return snapshot.data == null
                           ? const SizedBox.shrink()
-                          : ReportListMobile(
+                          : ReportListTablet(
                               isListView: widget.cubit.isListView.value,
                               listReport: listReportDetail,
                               cubit: widget.cubit,

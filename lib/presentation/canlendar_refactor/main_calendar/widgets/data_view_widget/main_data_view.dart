@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 
 import 'dart:developer';
 
@@ -13,6 +14,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widget
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_week.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/item_appoinment_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/data_view_type_list.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/material.dart';
@@ -39,38 +41,40 @@ class _MainDataViewState extends State<MainDataView> {
   void initState() {
     _listCalendarScreen = [
       StreamBuilder<DataSourceFCalendar>(
-          stream: widget.cubit.listCalendarWorkDayStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? DataSourceFCalendar.empty();
-            return DataViewCalendarDay(
-              data: data,
-              fCalendarController: widget.cubit.fCalendarControllerDay,
-              propertyChanged: (String property) {
-                widget.cubit.propertyChangedDay(property);
-              },
-              onMore: (value){
-                widget.cubit.emitList();
-              },
-              buildAppointment: itemAppointment,
-            );
-          }),
+        stream: widget.cubit.listCalendarWorkDayStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? DataSourceFCalendar.empty();
+          return DataViewCalendarDay(
+            data: data,
+            fCalendarController: widget.cubit.fCalendarControllerDay,
+            propertyChanged: (String property) {
+              widget.cubit.propertyChangedDay(property);
+            },
+            onMore: (value) {
+              widget.cubit.emitList();
+            },
+            buildAppointment: itemAppointment,
+          );
+        },
+      ),
       StreamBuilder<DataSourceFCalendar>(
-          stream: widget.cubit.listCalendarWorkWeekStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? DataSourceFCalendar.empty();
-            return DataViewCalendarWeek(
-              buildAppointment: itemAppointment,
-              propertyChanged: (String property) {
-                widget.cubit.propertyChangedWeek(property);
-              },
-              onMore: (value){
-                widget.cubit.controller.calendarType.value = CalendarType.DAY;
-                widget.cubit.controller.selectDate.value = value;
-              },
-              data: data,
-              fCalendarController: widget.cubit.fCalendarControllerWeek,
-            );
-          }),
+        stream: widget.cubit.listCalendarWorkWeekStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? DataSourceFCalendar.empty();
+          return DataViewCalendarWeek(
+            buildAppointment: itemAppointment,
+            propertyChanged: (String property) {
+              widget.cubit.propertyChangedWeek(property);
+            },
+            onMore: (value) {
+              widget.cubit.controller.calendarType.value = CalendarType.DAY;
+              widget.cubit.controller.selectDate.value = value;
+            },
+            data: data,
+            fCalendarController: widget.cubit.fCalendarControllerWeek,
+          );
+        },
+      ),
       StreamBuilder<DataSourceFCalendar>(
           stream: widget.cubit.listCalendarWorkMonthStream,
           builder: (context, snapshot) {
@@ -96,11 +100,62 @@ class _MainDataViewState extends State<MainDataView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: DashBroadCountRow(
-            cubit: widget.cubit,
-          ),
+        StreamBuilder<StatusWorkCalendar?>(
+          stream: widget.cubit.statusWorkSubjectStream,
+          builder: (context, snapshot) {
+            final isLichCuaToi = snapshot.data == StatusWorkCalendar.LICH_CUA_TOI;
+            if (isLichCuaToi) {
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DashBroadCountRow(
+                  cubit: widget.cubit,
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+        StreamBuilder<StatusWorkCalendar?>(
+          stream: widget.cubit.statusWorkSubjectStream,
+          builder: (context, snapshot) {
+            final isLichDuocMoi = snapshot.data == StatusWorkCalendar.LICH_DUOC_MOI;
+            if (isLichDuocMoi) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 16 ,right: 16),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: StreamBuilder<DashBoardLichHopModel>(
+                    stream: widget.cubit.totalWorkStream,
+                    builder: (context, snapshot) {
+                      final data =
+                          snapshot.data ?? DashBoardLichHopModel.empty();
+                      return PopUpMenu(
+                        data: [
+                          ItemMenuData(
+                            StateType.CHO_XAC_NHAN,
+                            data.soLichChoXacNhan ?? 0,
+                          ),
+                          ItemMenuData(
+                            StateType.THAM_GIA,
+                            data.soLichThamGia ?? 0,
+                          ),
+                          ItemMenuData(
+                            StateType.TU_CHOI,
+                            data.soLichTuChoi ?? 0,
+                          ),
+                        ],
+                        onChange: (type) {
+                          widget.cubit.stateType = type;
+                          widget.cubit.updateList();
+                        },
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
         Expanded(
           child: BlocBuilder(
@@ -210,7 +265,7 @@ class _MainDataViewState extends State<MainDataView> {
     return GestureDetector(
       onTap: () {
         final TypeCalendar typeAppointment =
-        getType(appointment.notes ?? 'Schedule');
+            getType(appointment.notes ?? 'Schedule');
         if (typeAppointment == TypeCalendar.Schedule) {
           Navigator.push(
             context,

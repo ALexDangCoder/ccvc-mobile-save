@@ -179,7 +179,7 @@ class DSCVScreen {
   static const int CVCB = 0;
   static const int CVQT = 1;
   static const int DHT = 2;
-  static const int GCT = 3;
+  static const int DG = 3;
   static const int DBX = 4;
   static const int NCVM = 5;
 }

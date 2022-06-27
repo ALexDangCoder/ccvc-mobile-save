@@ -46,7 +46,7 @@ class DanhSachCongViecTienIchCubit
   List<TodoDSCVModel> listCongViecCuaBan = [];
   List<TodoDSCVModel> listQuanTrong = [];
   List<TodoDSCVModel> listDaHoanThanh = [];
-  List<TodoDSCVModel> listGanChoToi = [];
+  List<TodoDSCVModel> listDaGan = [];
   List<TodoDSCVModel> listDaBiXoa = [];
   List<TodoDSCVModel> nhomCongViecMoi = [];
 
@@ -88,7 +88,7 @@ class DanhSachCongViecTienIchCubit
       ...toDoModelGanChoToiDefault,
       ...toDoModelDefault,
     ];
-    listCongViecCuaBan = listGop
+    listCongViecCuaBan = toDoModelGanChoToiDefault
         .where(
           (element) => element.inUsed == true,
         )
@@ -103,7 +103,7 @@ class DanhSachCongViecTienIchCubit
           (e) => e.inUsed == true && e.isTicked == true,
         )
         .toList();
-    listGanChoToi = toDoModelGanChoToiDefault
+    listDaGan = toDoModelGanChoToiDefault
         .where(
           (e) => e.inUsed == true && e.isTicked == false,
         )
@@ -117,7 +117,7 @@ class DanhSachCongViecTienIchCubit
         .length;
     dataMenuDefault[DSCVScreen.CVQT].number = listQuanTrong.length;
     dataMenuDefault[DSCVScreen.DHT].number = listDaHoanThanh.length;
-    dataMenuDefault[DSCVScreen.GCT].number = listGanChoToi.length;
+    dataMenuDefault[DSCVScreen.DG].number = listDaGan.length;
     dataMenuDefault[DSCVScreen.DBX].number = listDaBiXoa.length;
 
     switch (statusDSCV.value) {
@@ -127,8 +127,8 @@ class DanhSachCongViecTienIchCubit
         return listQuanTrong;
       case DSCVScreen.DHT:
         return listDaHoanThanh;
-      case DSCVScreen.GCT:
-        return listGanChoToi;
+      case DSCVScreen.DG:
+        return listDaGan;
       case DSCVScreen.DBX:
         return listDaBiXoa;
       case DSCVScreen.NCVM:
@@ -184,7 +184,7 @@ class DanhSachCongViecTienIchCubit
 
   Future<void> listNguoiThucHien() async {
     showLoading();
-    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
+    final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
     result.when(
       success: (res) {
         showContent();
@@ -206,8 +206,8 @@ class DanhSachCongViecTienIchCubit
         return listDSCV.sink.add(listQuanTrong);
       case DSCVScreen.DHT:
         return listDSCV.sink.add(listDaHoanThanh);
-      case DSCVScreen.GCT:
-        return listDSCV.sink.add(listGanChoToi);
+      case DSCVScreen.DG:
+        return listDSCV.sink.add(listDaGan);
       case DSCVScreen.DBX:
         return listDSCV.sink.add(listDaBiXoa);
       case DSCVScreen.NCVM:
@@ -235,7 +235,7 @@ class DanhSachCongViecTienIchCubit
     ),
     MenuDscvModel(
       icon: isMobile() ? ImageAssets.icGanChoToi : ImageAssets.ic04,
-      title: S.current.gan_cho_toi,
+      title: S.current.da_gan,
     ),
     MenuDscvModel(
       icon: isMobile() ? ImageAssets.icXoa : ImageAssets.ic05,
@@ -589,7 +589,7 @@ class DanhSachCongViecTienIchCubit
             IconDSCV.icImportant,
             IconDSCV.icClose,
           ];
-        case DSCVScreen.GCT:
+        case DSCVScreen.DG:
           return [
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
@@ -630,7 +630,7 @@ class DanhSachCongViecTienIchCubit
             IconDSCV.icImportant,
             IconDSCV.icClose,
           ];
-        case DSCVScreen.GCT:
+        case DSCVScreen.DG:
           return [
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
@@ -659,7 +659,7 @@ class DanhSachCongViecTienIchCubit
         return [];
       case DSCVScreen.DHT:
         return [];
-      case DSCVScreen.GCT:
+      case DSCVScreen.DG:
         return [];
       case DSCVScreen.DBX:
         return [IconDSCV.icCheckBox, IconDSCV.icImportant];

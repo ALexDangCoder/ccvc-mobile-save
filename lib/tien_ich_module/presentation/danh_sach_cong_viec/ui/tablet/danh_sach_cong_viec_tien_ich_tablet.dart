@@ -95,7 +95,7 @@ class _DanhSachCongViecTienIchTabletState
                     ),
                     if (dataType == DSCVScreen.CVCB ||
                         dataType == DSCVScreen.CVQT ||
-                        dataType == DSCVScreen.GCT ||
+                        dataType == DSCVScreen.DG ||
                         dataType == DSCVScreen.NCVM ||
                         dataType == DSCVScreen.DBX)
                       Padding(

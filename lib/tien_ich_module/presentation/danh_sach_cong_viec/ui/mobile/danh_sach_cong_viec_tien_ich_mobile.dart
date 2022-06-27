@@ -108,7 +108,7 @@ class _DanhSachCongViecTienIchMobileState
                         children: [
                           if (dataType == DSCVScreen.CVCB ||
                               dataType == DSCVScreen.CVQT ||
-                              dataType == DSCVScreen.GCT ||
+                              dataType == DSCVScreen.DG ||
                               dataType == DSCVScreen.NCVM ||
                               dataType == DSCVScreen.DBX)
                             StreamBuilder<List<TodoDSCVModel>>(

@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/di
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:image_picker/image_picker.dart';
 
 extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
@@ -56,10 +57,38 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   /// Get from gallery
   Future<void> getFromGallery() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery, );
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
 
     if (image != null) {
-        imagePickerSubject.add(File(image.path));
+      imagePickerSubject.add(File(image.path));
     }
+  }
+
+  Future<void> postImage(
+    String fileTypeUpload,
+    String entityName,
+    List<File> files,
+  ) async {
+    showLoading();
+    final result = await diemDanhRepo.postFileModel(
+      dataUser?.userId ?? '',
+      fileTypeUpload,
+      entityName,
+      false,
+      files,
+    );
+
+    result.when(
+      success: (success) {
+        MessageConfig.show(title: success.message ?? '');
+        showContent();
+      },
+      error: (error) {
+        MessageConfig.show(title: error.message);
+        showContent();
+      },
+    );
   }
 }

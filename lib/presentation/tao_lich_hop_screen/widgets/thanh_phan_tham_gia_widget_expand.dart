@@ -31,7 +31,8 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
               child: Text(
                 S.current.thanh_phan_tham_gia,
                 style: textNormalCustom(
-                    color: titleColumn, fontSize: 16.0.textScale()),
+                    color: titleColumn, fontSize: 16.0.textScale(),
+                ),
               ),
             ),
           ),

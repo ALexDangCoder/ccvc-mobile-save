@@ -24,7 +24,7 @@ extension StringMoneyFormat on String {
 
 extension VietNameseParse on String {
   String get textToCode =>
-      this.split(' ').join('_').toUpperCase().vietNameseParse();
+      split(' ').join('_').toUpperCase().vietNameseParse();
 
   String vietNameseParse() {
     var result = this;
@@ -196,7 +196,7 @@ extension CheckValidate on String {
 
   String? checkPassWordChangePass(String name) {
     final isCheck =
-        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
             .hasMatch(this);
     if (isCheck) {
       return null;

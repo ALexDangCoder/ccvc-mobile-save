@@ -58,6 +58,7 @@ class _TaoLichLamViecChiTietTabletState
   bool timeValue = true;
   bool calValue = true;
   late DateTimeCupertinoCustomCubit calCubit;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -143,6 +144,9 @@ class _TaoLichLamViecChiTietTabletState
                   key: _formKey,
                   child: ExpandGroup(
                     child: SingleChildScrollView(
+                      controller: scrollController,
+                      keyboardDismissBehavior:
+                          ScrollViewKeyboardDismissBehavior.onDrag,
                       child: Column(
                         children: [
                           Container(
@@ -223,16 +227,13 @@ class _TaoLichLamViecChiTietTabletState
                                           cubit: calCubit,
                                         ),
                                         NhacLaiWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         NguoiChuTriWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         LinhVucWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -279,8 +280,7 @@ class _TaoLichLamViecChiTietTabletState
                                               );
                                             } else {
                                               return ItemDatNuocWidget(
-                                                taoLichLamViecCubit:
-                                                    taoLichLamViecCubit,
+                                                cubit: taoLichLamViecCubit,
                                               );
                                             }
                                           },
@@ -294,8 +294,7 @@ class _TaoLichLamViecChiTietTabletState
                                           },
                                         ),
                                         LichLapWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         StreamBuilder<bool>(
                                             stream: taoLichLamViecCubit
@@ -400,12 +399,20 @@ class _TaoLichLamViecChiTietTabletState
 
   Future<void> validateField() async {
     if (_formKey.currentState!.validate() && !timeValue && !calValue) {
-      await taoLichLamViecCubit.checkTrungLich(
-        context: context,
-        title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-        content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-        location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-      );
+      if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
+        await taoLichLamViecCubit.taoLichLamViec(
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      } else {
+        await taoLichLamViecCubit.checkTrungLich(
+          context: context,
+          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+        );
+      }
     }
     if (timeValue) {
       calCubit.validateTime.sink.add(

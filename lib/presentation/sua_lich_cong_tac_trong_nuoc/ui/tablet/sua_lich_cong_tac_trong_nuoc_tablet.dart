@@ -118,7 +118,6 @@ class _SuaLichCongTacTrongNuocTabletState
     }
     taoLichLamViecCubit.files = event.files;
     taoLichLamViecCubit.id = event.id;
-    taoLichLamViecCubit.title = event.title;
   }
 
   @override
@@ -250,9 +249,6 @@ class _SuaLichCongTacTrongNuocTabletState
                                               urlIcon: ImageAssets.icEdit,
                                               hintText:
                                                   '${S.current.tieu_de} $data',
-                                              onChange: (vl) {
-                                                taoLichLamViecCubit.title = vl;
-                                              },
                                               validate: (value) {
                                                 return value.checkNull();
                                               },
@@ -530,9 +526,6 @@ class _SuaLichCongTacTrongNuocTabletState
                                         controller: diaDiemController,
                                         urlIcon: ImageAssets.icViTri,
                                         hintText: S.current.dia_diem,
-                                        onChange: (vl) {
-                                          taoLichLamViecCubit.location = vl;
-                                        },
                                         validate: (value) {
                                           return value.checkNull();
                                         },
@@ -651,9 +644,6 @@ class _SuaLichCongTacTrongNuocTabletState
                                         controller: noiDungController,
                                         urlIcon: ImageAssets.icDocument,
                                         hintText: S.current.noi_dung,
-                                        onChange: (vl) {
-                                          taoLichLamViecCubit.content = vl;
-                                        },
                                       ),
                                     ],
                                   ),
@@ -744,23 +734,28 @@ class _SuaLichCongTacTrongNuocTabletState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
+          taoLichLamViecCubit.suaLichLamViec(
+            title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+          );
+        });
+      } else {
+        if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
+          taoLichLamViecCubit.suaLichLamViec(
+            title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+          );
+        } else {
           taoLichLamViecCubit.checkTrungLich(
             context: context,
             title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
             location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
             isEdit: true,
-            isOnly: !value,
           );
-        });
-      } else {
-        taoLichLamViecCubit.checkTrungLich(
-          context: context,
-          title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
-          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-          isEdit: true,
-        );
+        }
       }
     } else {
       if (widget.event.isLichLap ?? false) {
@@ -786,14 +781,22 @@ class _SuaLichCongTacTrongNuocTabletState
           );
         });
       } else {
-        taoLichLamViecCubit.checkTrungLich(
-          context: context,
-          title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
-          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-          isEdit: true,
-          isInside: false,
-        );
+        if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
+          taoLichLamViecCubit.suaLichLamViecNuocNgoai(
+            title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
+            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+          );
+        } else {
+          taoLichLamViecCubit.checkTrungLich(
+            context: context,
+            title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
+            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+            isEdit: true,
+            isInside: false,
+          );
+        }
       }
     }
   }

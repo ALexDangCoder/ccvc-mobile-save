@@ -13,7 +13,7 @@ class LichLapModel {
 List<LichLapModel> listLichLap = [
   LichLapModel(name: 'Không lặp lại', id: 1),
   LichLapModel(name: 'Lặp lại hàng ngày', id: 2),
-  LichLapModel(name: 'Thứ 2 đên thứ 6 hàng tuần', id: 3),
+  LichLapModel(name: 'Từ thứ 2 đến thứ 6 hàng tuần', id: 3),
   LichLapModel(name: 'Lặp lại hàng tuần', id: 4),
   LichLapModel(name: 'Lặp lại hàng tháng', id: 5),
   LichLapModel(name: 'Lặp lại hàng năm', id: 6),

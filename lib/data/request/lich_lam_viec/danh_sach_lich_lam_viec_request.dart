@@ -6,13 +6,13 @@ part 'danh_sach_lich_lam_viec_request.g.dart';
 @JsonSerializable()
 class DanhSachLichLamViecRequest extends Equatable {
   String? DateFrom;
+  String? Title;
   String? DateTo;
   String? UserId;
   String? DonViId;
   bool? IsLichLanhDao;
   int? PageIndex;
   int? PageSize;
-  String? Title;
   bool? isLichCuaToi;
   bool? isLichDuocMoi;
   bool? isLichHuyBo;

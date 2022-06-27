@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
@@ -34,6 +35,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_lua
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/cu_can_bo_di_thay_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/duyet_lich_response.dart';
@@ -475,5 +477,36 @@ abstract class HopServices {
     @Field('lichHopId') String lichHopId,
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CU_CAN_BO_DI_THAY)
+  Future<CuCanBoDiThayResponse> cuCanBoDiThay(
+    @Body() CuCanBoDiThayRequest cuCanBoDiThayRequest,
+  );
+
+  @POST(ApiConstants.CONFIRM_HOP)
+  Future<ThemPhienHopResponse> xacNhanThamGiaHop(
+    @Field('hopId') String hopId,
+    @Field('isThamGia') bool isThamGia,
+  );
+
+  @POST(ApiConstants.CONFIRM_OR_CANCEL_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> xacNhanHoacHuyKetLuanHop(
+    @Field('lichHopId') String lichHopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('noiDung') String noiDung,
+  );
+
+  @POST(ApiConstants.CREATE_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> createKetLuanHop(
+    @Field('Id') String lichHopId,
+    @Field('ScheduleId') String scheduleId,
+    @Field('ReportStatusId') String reportStatusId,
+    @Field('ReportTemplateId') String reportTemplateId,
+    @Field('StartDate') String startDate,
+    @Field('EndDate') String endDate,
+    @Field('Content') String content,
+    @Field('Files') List<String> files,
+    @Field('FilesDelete') List<String> filesDelete,
   );
 }

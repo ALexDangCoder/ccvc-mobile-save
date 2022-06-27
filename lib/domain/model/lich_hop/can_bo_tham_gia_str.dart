@@ -12,8 +12,10 @@ class CanBoThamGiaStr {
   String? updateAt;
   String? updateBy;
   int? vaiTroThamGia;
+  String? CanBoId;
 
   CanBoThamGiaStr({
+    required this.CanBoId,
     required this.createdAt,
     required this.createdBy,
     required this.diemDanh,
@@ -33,6 +35,7 @@ class CanBoThamGiaStr {
 
   factory CanBoThamGiaStr.fromJson(Map<String, dynamic> json) {
     return CanBoThamGiaStr(
+      CanBoId: json['CanBoId'],
       createdAt: json['CreatedAt'],
       createdBy: json['CreatedBy'],
       diemDanh: json['DiemDanh'],

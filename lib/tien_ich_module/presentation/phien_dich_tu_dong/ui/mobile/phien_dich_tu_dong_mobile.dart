@@ -283,6 +283,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                                 onTap: () {
                                   textEditingController.clear();
                                   cubit.textTranslateSubject.add('');
+                                  stopListening();
                                 },
                                 child: ImageAssets.svgAssets(
                                   ImageAssets.icX,

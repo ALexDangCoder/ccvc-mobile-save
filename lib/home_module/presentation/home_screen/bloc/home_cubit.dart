@@ -43,7 +43,7 @@ import '/home_module/presentation/home_screen/bloc/home_state.dart';
 import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/extensions/date_time_extension.dart';
 
-class HomeCubit extends BaseCubit<HomeState> {
+class  HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
 
   HomeRepository get homeRep => Get.find();
@@ -744,18 +744,18 @@ class DanhSachCongViecCubit extends HomeCubit {
 class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getTongHopNhiemVu =
       BehaviorSubject<DocumentDashboardModel>();
-  List<String> mangTrangThai = [];
+  bool isCaNhan=true;
+  // List<String> mangTrangThai = [];
   int? trangThaiHanXuLy;
   String donViId = '';
   String userId = '';
   String canBoId = '';
+  String mangTrangThai='';
 
   TongHopNhiemVuCubit() {
     dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
-      donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
-      userId = dataUser?.userId ?? '';
-      canBoId = dataUser?.userInformation?.canBoDepartmentId ?? '';
+      canBoId = dataUser?.userInformation?.id ?? '';
     }
   }
 
@@ -763,13 +763,14 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
     showLoading();
     String canBoIdDepartment = '';
     if (selectKeyDonVi == SelectKey.DON_VI) {
-    } else {
+    }
+    else {
       canBoIdDepartment = canBoId;
     }
     final result = await homeRep.getTongHopNhiemVu(
-      userId,
+      //userId,
       canBoIdDepartment,
-      donViId,
+     // donViId,
     );
     showContent();
     result.when(
@@ -807,16 +808,16 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
       // trangThaiHanXuLy = 2;
       //    break;
       case TongHopNhiemVuType.choPhanXuLy:
-        // TODO: Handle this case.
-        break;
+           mangTrangThai='CHO_PHAN_XU_LY';
+           break;
       case TongHopNhiemVuType.chuaThucHien:
-        // TODO: Handle this case.
+        mangTrangThai='CHUA_THUC_HIEN';
         break;
       case TongHopNhiemVuType.dangThucHien:
-        // TODO: Handle this case.
+        mangTrangThai='DANG_THUC_HIEN';
         break;
       case TongHopNhiemVuType.hoanThanhNhiemVu:
-        // TODO: Handle this case.
+        mangTrangThai='DA_HOAN_THANH';
         break;
     }
   }
@@ -824,7 +825,12 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   @override
   void selectDonVi({required SelectKey selectKey}) {
     selectKeyDonVi = selectKey;
-
+    if(selectKeyDonVi==SelectKey.CA_NHAN){
+      isCaNhan=true;
+    }
+    if(selectKeyDonVi==SelectKey.DON_VI){
+      isCaNhan=false;
+    }
     getDataTongHopNhiemVu();
     selectKeyDialog.sink.add(true);
   }

@@ -1,4 +1,4 @@
-
+import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/report_filter.dart';
@@ -35,14 +35,25 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: cubit.isStatusSearch,
-      builder: (context, snapshot) {
-        return Scaffold(
-          appBar: widgetAppbar(snapshot.data ?? false),
-          body: snapshot.data ?? false ? body() : bodySearch(),
-        );
+    return StateStreamLayout(
+      retry: () {
+        cubit.getAppID();
       },
+      error: AppException(
+        S.current.error,
+        S.current.something_went_wrong,
+      ),
+      textEmpty: S.current.list_empty,
+      stream: cubit.stateStream,
+      child: StreamBuilder<bool>(
+        stream: cubit.isStatusSearch,
+        builder: (context, snapshot) {
+          return Scaffold(
+            appBar: widgetAppbar(snapshot.data ?? false),
+            body: snapshot.data ?? false ? body() : bodySearch(),
+          );
+        },
+      ),
     );
   }
 
@@ -103,11 +114,12 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            cubit.isListView.sink.add(true);
+                            cubit.isListViewInit=true;
+                            cubit.isListView.sink.add(cubit.isListViewInit);
                           },
                           child: SvgPicture.asset(
                             ImageAssets.icGridView,
-                            color: snapshot.data ?? false
+                            color: snapshot.data ?? cubit.isListViewInit
                                 ? AppTheme.getInstance().colorField()
                                 : AppTheme.getInstance().unselectedLabelColor(),
                           ),
@@ -115,11 +127,12 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                         spaceW16,
                         GestureDetector(
                           onTap: () {
-                            cubit.isListView.sink.add(false);
+                            cubit.isListViewInit=false;
+                            cubit.isListView.sink.add(cubit.isListViewInit);
                           },
                           child: SvgPicture.asset(
                             ImageAssets.icListHopMobile,
-                            color: !(snapshot.data ?? false)
+                            color: !(snapshot.data ?? cubit.isListViewInit)
                                 ? AppTheme.getInstance().colorField()
                                 : AppTheme.getInstance().unselectedLabelColor(),
                           ),
@@ -134,89 +147,48 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
           StreamBuilder<bool>(
             stream: cubit.isListView,
             builder: (context, snapshot) {
-              final isListView = snapshot.data ?? false;
+              final isListView = snapshot.data ?? cubit.isListViewInit;
               return Expanded(
-                child: BlocConsumer(
+                child: BlocBuilder<ReportListCubit, BaseState>(
                   bloc: cubit,
-                  listener: (ctx, state) {},
                   builder: (BuildContext context, Object? state) {
-                    return StateStreamLayout(
-                      retry: () {
-                        cubit.getAppID();
-                      },
-                      error: AppException(
-                        S.current.error,
-                        S.current.something_went_wrong,
-                      ),
-                      textEmpty: S.current.list_empty,
-                      stream: cubit.stateStream,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            if (cubit.listReportFavorite.isNotEmpty)
-                              Column(
-                                children: [
-                                  titleBaoCao(S.current.yeu_thich),
-                                  spaceH16,
-                                  ReportList(
-                                    scrollPhysics:
-                                        const NeverScrollableScrollPhysics(),
-                                    isListView: isListView,
-                                    listReport: cubit.listReportFavorite,
-                                    cubit: cubit,
-                                    idFolder: cubit.folderId,
-                                  ),
-                                ],
-                              ),
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          if (cubit.listReportFavorite.isNotEmpty)
+                            Column(
+                              children: [
+                                titleBaoCao(S.current.yeu_thich),
+                                spaceH16,
+                                ReportList(
+                                  scrollPhysics:
+                                      const NeverScrollableScrollPhysics(),
+                                  isListView: isListView,
+                                  listReport: cubit.listReportFavorite,
+                                  cubit: cubit,
+                                  idFolder: cubit.folderId,
+                                ),
+                              ],
+                            ),
+                          if (state is CompletedLoadMore)
                             titleBaoCao(S.current.all),
-                            spaceH16,
-                            if (cubit.listReport.isNotEmpty)
-                              ReportList(
-                                idFolder: cubit.folderId,
-                                listReport: cubit.listReport,
-                                isListView: isListView,
-                                scrollPhysics:
-                                    const NeverScrollableScrollPhysics(),
-                                cubit: cubit,
-                              )
-                            else
-                              noData()
-                          ],
-                        ),
+                          spaceH16,
+                          if (state is CompletedLoadMore)
+                            ReportList(
+                              idFolder: cubit.folderId,
+                              listReport: cubit.listReport,
+                              isListView: isListView,
+                              scrollPhysics:
+                                  const NeverScrollableScrollPhysics(),
+                              cubit: cubit,
+                            )
+                        ],
                       ),
                     );
                   },
                 ),
               );
             },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget noData() {
-    return Center(
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 30.0,
-          ),
-          SvgPicture.asset(
-            ImageAssets.icNoDataNhiemVu,
-          ),
-          const SizedBox(
-            height: 30.0,
-          ),
-          Text(
-            S.current.khong_co_bao_cao,
-            style: textNormalCustom(
-              fontSize: 16.0.textScale(space: 4.0),
-              color: grayChart,
-            ),
-          ),
-          const SizedBox(
-            height: 10.0,
           ),
         ],
       ),
@@ -296,31 +268,21 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
-              await cubit.getListReport();
+              await cubit.getListReport(
+                isSearch: true,
+              );
             },
-            child: BlocConsumer(
+            child: BlocBuilder(
               bloc: cubit,
-              listener: (ctx, state) {},
               builder: (BuildContext context, Object? state) {
-                return StateStreamLayout(
-                  retry: () {
-                    cubit.getAppID();
-                  },
-                  error: AppException(
-                    S.current.error,
-                    S.current.something_went_wrong,
-                  ),
-                  textEmpty: S.current.list_empty,
-                  stream: cubit.stateStream,
-                  child: cubit.listReport.isNotEmpty
-                      ? ReportList(
-                          idFolder: cubit.folderId,
-                          listReport: cubit.listReport,
-                          isListView: cubit.isListView.value,
-                          cubit: cubit,
-                        )
-                      : noData(),
-                );
+                return cubit.listReportSearch.isNotEmpty
+                    ? ReportList(
+                        idFolder: cubit.folderId,
+                        listReport: cubit.listReportSearch,
+                        isListView: cubit.isListView.value,
+                        cubit: cubit,
+                      )
+                    : noData();
               },
             ),
           ),
@@ -418,7 +380,9 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                           if (snapshot.data?.isNotEmpty ?? false) {
                             _searchController.text = '';
                             cubit.textSearch.add('');
-                            cubit.getListReport();
+                            cubit.getListReport(
+                              isSearch: true,
+                            );
                           }
                         },
                         child: SvgPicture.asset(
@@ -458,4 +422,32 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
       ),
     );
   }
+}
+
+Widget noData() {
+  return Center(
+    child: Column(
+      children: [
+        const SizedBox(
+          height: 30.0,
+        ),
+        SvgPicture.asset(
+          ImageAssets.icNoDataNhiemVu,
+        ),
+        const SizedBox(
+          height: 30.0,
+        ),
+        Text(
+          S.current.khong_co_bao_cao,
+          style: textNormalCustom(
+            fontSize: 16.0.textScale(space: 4.0),
+            color: grayChart,
+          ),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+      ],
+    ),
+  );
 }

@@ -92,6 +92,8 @@ class ApiConstants {
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
   static const HUY_AND_DUYET_LICH_HOP =
       '/vpdt/api/MeetingSchedule/duyet-lich-hop';
+  static const CU_CAN_BO_DI_THAY =
+      '/vpdt/api/MeetingSchedule/cu-can-bo-di-thay';
   static const TRANG_THAI = '/vpdt/api/ReportStatus/list';
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
@@ -302,6 +304,9 @@ class ApiConstants {
   static const CREATE_NEW_USER = '/htcs/api/User/create';
   static const SHARE_REPORT = '/htcs/api/User/share-many';
 
+  static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';
+  static const CONFIRM_OR_CANCEL_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/duyet-bao-cao';
+  static const CREATE_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/create-meet-report';
 }
 
 class ImageConstants {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
@@ -382,5 +383,30 @@ mixin HopRepository {
     String lichHopId,
     bool isDuyet,
     String lyDo,
+  );
+
+  Future<Result<bool>> cuCanBoDiThay(CuCanBoDiThayRequest cuCanBoDiThayRequest);
+
+  Future<Result<bool>> xacNhanThamGiaHop(
+    String lichHopId,
+    bool isThamGia,
+  );
+
+  Future<Result<bool>> xacNhanHoacHuyKetLuanHop(
+    String lichHopId,
+    bool isDuyet,
+    String noiDung,
+  );
+
+  Future<Result<bool>> createKetLuanHop(
+    String lichHopId,
+    String scheduleId,
+    String reportStatusId,
+    String reportTemplateId,
+    String startDate,
+    String endDate,
+    String content,
+    List<String> files,
+    List<String> filesDelete,
   );
 }

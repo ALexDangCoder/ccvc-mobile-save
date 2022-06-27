@@ -29,6 +29,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NhiemVuDonViMobile extends StatefulWidget {
+  final String maTrangThai;
   final bool isCheck;
   final DanhSachCubit danhSachCubit;
   final NhiemVuCubit nhiemVuCubit;
@@ -38,6 +39,7 @@ class NhiemVuDonViMobile extends StatefulWidget {
     required this.isCheck,
     required this.danhSachCubit,
     required this.nhiemVuCubit,
+    this. maTrangThai='',
   }) : super(key: key);
 
   @override
@@ -51,9 +53,13 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.danhSachCubit.mangTrangThai = '';
-    widget.danhSachCubit.keySearch = '';
-    widget.danhSachCubit.callApiDonVi(false);
+    widget.danhSachCubit.mangTrangThai=widget.maTrangThai;
+    if(widget.maTrangThai.isNotEmpty){
+      widget.danhSachCubit.callApiDonVi(false,canCallApi: false);
+    }
+    else{
+      widget.danhSachCubit.callApiDonVi(false);
+    }
   }
 
   @override

@@ -49,10 +49,19 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     final rs = await detailLichLamViec.detailCalenderWork(id);
     rs.when(
       success: (data) {
+        if ((data.id?.isEmpty ?? true) || data.id == null) {
+          chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
+        }
         chiTietLichLamViecModel = data;
         chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
       },
-      error: (error) {},
+      error: (error) {
+        chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
+        MessageConfig.show(
+          title: S.current.error,
+          title2: S.current.no_internet,
+        );
+      },
     );
   }
 

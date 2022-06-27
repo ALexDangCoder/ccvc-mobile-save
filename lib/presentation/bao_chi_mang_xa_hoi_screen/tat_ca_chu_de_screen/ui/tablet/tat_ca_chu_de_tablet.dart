@@ -55,13 +55,17 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
         }
       }
     });
-    chuDeCubit.callApi();
+    chuDeCubit.callApi(
+      isTablet: true,
+    );
     _handleEventBus();
   }
 
   void _handleEventBus() {
     eventBus.on<FireTopic>().listen((event) {
-      chuDeCubit.callApi();
+      chuDeCubit.callApi(
+        isTablet: true,
+      );
     });
   }
 
@@ -132,11 +136,13 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
                               TuongTacThongKeResponseModel(
                                 danhSachTuongtacThongKe: [],
                               );
+
                           return SizedBox(
                             height: 270,
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: data.danhSachTuongtacThongKe.length,
+                              physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return index == 0
                                     ? ItemTableTopicTablet(

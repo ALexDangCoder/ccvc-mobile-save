@@ -58,6 +58,7 @@ class _TaoLichLamViecChiTietTabletState
   bool timeValue = true;
   bool calValue = true;
   late DateTimeCupertinoCustomCubit calCubit;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -143,6 +144,9 @@ class _TaoLichLamViecChiTietTabletState
                   key: _formKey,
                   child: ExpandGroup(
                     child: SingleChildScrollView(
+                      controller: scrollControlle,
+                      keyboardDismissBehavior:
+                          ScrollViewKeyboardDismissBehavior.onDrag,
                       child: Column(
                         children: [
                           Container(
@@ -223,16 +227,13 @@ class _TaoLichLamViecChiTietTabletState
                                           cubit: calCubit,
                                         ),
                                         NhacLaiWidget(
-                                          cubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         NguoiChuTriWidget(
-                                          cubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         LinhVucWidget(
-                                          cubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -279,8 +280,7 @@ class _TaoLichLamViecChiTietTabletState
                                               );
                                             } else {
                                               return ItemDatNuocWidget(
-                                                cubit:
-                                                    taoLichLamViecCubit,
+                                                cubit: taoLichLamViecCubit,
                                               );
                                             }
                                           },
@@ -294,8 +294,7 @@ class _TaoLichLamViecChiTietTabletState
                                           },
                                         ),
                                         LichLapWidget(
-                                          cubit:
-                                              taoLichLamViecCubit,
+                                          cubit: taoLichLamViecCubit,
                                         ),
                                         StreamBuilder<bool>(
                                             stream: taoLichLamViecCubit

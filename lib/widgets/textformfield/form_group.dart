@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 class FormGroup extends StatefulWidget {
   final Widget child;
   final ScrollController? scrollController;
+
   const FormGroup({Key? key, required this.child, this.scrollController})
       : super(key: key);
 
@@ -14,7 +13,7 @@ class FormGroup extends StatefulWidget {
 
 class FormGroupState extends State<FormGroup> {
   final Map<GlobalKey<FormState>, bool> _validator = {};
-  final Map<GlobalKey<FormState>,FocusNode> focusMap = {};
+  final Map<GlobalKey<FormState>, FocusNode> focusMap = {};
 
   bool checkValidator() {
     final result = _validator.values.contains(false);
@@ -41,16 +40,17 @@ class FormGroupState extends State<FormGroup> {
   String _scrollToError() {
     for (final element in _validator.keys) {
       final validator = _validator[element];
-      if (validator == false ) {
+      if (validator == false) {
         // ignore: cast_nullable_to_non_nullable
 
         final box = element.currentContext?.findRenderObject() as RenderBox;
         final Offset position = box.globalToLocal(Offset.zero);
         if (widget.scrollController != null) {
-          widget.scrollController!.animateTo(
-             position.dy,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.linear).whenComplete((){
+          widget.scrollController!
+              .animateTo(position.dy,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.linear)
+              .whenComplete(() {
             focusMap[element]?.requestFocus();
           });
         }
@@ -58,18 +58,19 @@ class FormGroupState extends State<FormGroup> {
         return '';
       }
     }
-return '';
+    return '';
   }
 
   @override
   Widget build(BuildContext context) {
-    return FormProvider(focusMap: focusMap,validator: _validator, child: widget.child);
+    return FormProvider(
+        focusMap: focusMap, validator: _validator, child: widget.child);
   }
 }
 
 class FormProvider extends InheritedWidget {
   final Map<GlobalKey<FormState>, bool> validator;
-  final Map<GlobalKey<FormState>,FocusNode> focusMap;
+  final Map<GlobalKey<FormState>, FocusNode> focusMap;
 
   const FormProvider({
     Key? key,

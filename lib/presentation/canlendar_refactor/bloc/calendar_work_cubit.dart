@@ -319,13 +319,13 @@ extension GetData on CalendarWorkCubit {
     result.when(
       success: (res) {
         checkDuplicate(res.listLichLVModel ?? []);
-        _listCalendarWorkSubject.sink.add(res.toDataFCalenderSource());
+         _listCalendarWorkSubject.sink.add(res.toDataFCalenderSource());
       },
       error: (error) {},
     );
 
     //to do
-    _listCalendarWorkSubject.sink.add(toDataFCalenderSource());
+    //_listCalendarWorkSubject.sink.add(toDataFCalenderSource());
   }
 
   DataSourceFCalendar toDataFCalenderSource  () {
@@ -406,6 +406,16 @@ extension GetData on CalendarWorkCubit {
         notes: 'Schedule',
         startTime: DateTime(2022, 6, 11 , 14, 45 ),
         endTime: DateTime(2022, 6, 11 , 18, 34 ),
+        subject: 'ngay 4 ',
+        color: Colors.blue,
+        id: '',
+      ),
+    );
+    appointments.add(
+      Appointment(
+        notes: 'Schedule',
+        startTime: DateTime(2022, 6, 13 , 14, 45 ),
+        endTime: DateTime(2022, 6, 13 , 18, 34 ),
         subject: 'ngay 4 ',
         color: Colors.blue,
         id: '',

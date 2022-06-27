@@ -46,22 +46,11 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   Widget build(BuildContext context) {
     return SfCalendar(
       firstDayOfWeek: 1,
-      scheduleViewSettings: ScheduleViewSettings(
-        appointmentItemHeight: 40,
-        dayHeaderSettings: DayHeaderSettings(),
-      ),
-      resourceViewSettings: ResourceViewSettings(
-      ),
-      weekNumberStyle: WeekNumberStyle(
-      ),
       showCurrentTimeIndicator: false,
       viewHeaderHeight: 0,
-      // monthCellBuilder: (_, detailMonth ){
-      //   final appointment  = detailMonth.appointments.first;
-      //   return Container ();
-      // },
-      timeSlotViewSettings: TimeSlotViewSettings(
-        timelineAppointmentHeight: 100,
+      timeSlotViewSettings: const TimeSlotViewSettings(
+        timeIntervalHeight: 100,
+
       ),
       allowAppointmentResize: true,
       controller: widget.fCalendarController,
@@ -77,7 +66,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           color: colorA2AEBD,
         ),
       ),
-
       monthViewSettings: MonthViewSettings(
         appointmentDisplayCount: 2,
         monthCellStyle: MonthCellStyle(

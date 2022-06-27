@@ -39,7 +39,7 @@ class ReportListMobile extends StatelessWidget {
                 shrinkWrap: true,
                 physics: scrollPhysics,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
+                  crossAxisCount: 2,
                   mainAxisSpacing: 17,
                   crossAxisSpacing: 17,
                   childAspectRatio: 1.5,
@@ -54,7 +54,6 @@ class ReportListMobile extends StatelessWidget {
                       value: listReport[index],
                     ),
                     child: ItemGridView(
-                      isTablet: true,
                       item: listReport[index],
                       cubit: cubit,
                     ),

@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/report_filter_tablet.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/report_list_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_report_share_favorite.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -163,7 +163,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                               children: [
                                 titleBaoCao(S.current.yeu_thich),
                                 spaceH16,
-                                ReportListMobile(
+                                ReportListTablet(
                                   scrollPhysics:
                                       const NeverScrollableScrollPhysics(),
                                   isListView: isListView,
@@ -177,7 +177,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                             titleBaoCao(S.current.all),
                           spaceH16,
                           if (state is CompletedLoadMore)
-                            ReportListMobile(
+                            ReportListTablet(
                               idFolder: cubit.folderId,
                               listReport: cubit.listReport,
                               isListView: isListView,
@@ -279,7 +279,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
               bloc: cubit,
               builder: (BuildContext context, Object? state) {
                 return cubit.listReportSearch.isNotEmpty
-                    ? ReportListMobile(
+                    ? ReportListTablet(
                         idFolder: cubit.folderId,
                         listReport: cubit.listReportSearch,
                         isListView: cubit.isListView.value,

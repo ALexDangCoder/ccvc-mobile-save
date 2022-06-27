@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/report_list_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -104,7 +104,7 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
                       }
                       return snapshot.data == null
                           ? const SizedBox.shrink()
-                          : ReportListMobile(
+                          : ReportListTablet(
                               isListView: widget.cubit.isListView.value,
                               listReport: listReportDetail,
                               cubit: widget.cubit,

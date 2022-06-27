@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_web_view_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/report_detail_tablet.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/report_web_view_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_gridview.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
@@ -99,7 +99,7 @@ class ReportListTablet extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return ReportDetailMobile(
+            return ReportDetailTablet(
               title: value.name ?? '',
               cubit: cubit,
               idFolder: value.id ?? '',
@@ -113,7 +113,7 @@ class ReportListTablet extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return ReportWebViewMobile(
+            return ReportWebViewTablet(
               cubit: cubit,
               idReport: value.id ?? '',
               title: value.name ?? '',

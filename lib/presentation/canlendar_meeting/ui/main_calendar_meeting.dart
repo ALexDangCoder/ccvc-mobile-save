@@ -1,5 +1,3 @@
-
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -54,7 +52,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {
-        // cubit.refreshApi();
+        cubit.refreshData();
       },
       error: AppException('', S.current.something_went_wrong),
       stream: cubit.stateStream,
@@ -88,7 +86,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-           //TODO
+            cubit.refreshData();
           },
           child: Column(
             children: [
@@ -98,27 +96,34 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                     final data = snapshot.data ?? <DateTime>[];
                     return ChooseTimeCalendarWidget(
                       calendarDays: data,
-                      onChange: (startDate, endDate, type, keySearch) {
-                        if (type != cubit.state.typeView) {
-                          if (cubit.state is CalendarViewState) {
-                            cubit.emitCalendarViewState(type: type);
-                          } else if(cubit.state is ListViewState){
-                            cubit.emitListViewState(type: type);
-                          }else{
-                            cubit.emitChartViewState(type: type);
-                          }
+                    onChange: (startDate, endDate, type, keySearch) {
+                      cubit.handleDatePicked(
+                        keySearch: keySearch,
+                        endDate: endDate,
+                        startDate: startDate,
+                      );
+                      if (type != cubit.state.typeView) {
+                        if (cubit.state is CalendarViewState) {
+                          cubit.emitCalendarViewState(type: type);
+                        } else if (cubit.state is ListViewState) {
+                          cubit.emitListViewState(type: type);
+                        } else {
+                          cubit.emitChartViewState(type: type);
                         }
-                      },
-                      controller: cubit.controller,
-                      onChangeYear: (startDate, endDate, keySearch) {
-                        cubit.getDaysHaveEvent(
-                          startDate: startDate,
-                          endDate: endDate,
-                          keySearch: keySearch,
-                        );
-                      },
-                    );
-                  }),
+                      }
+                      cubit.refreshData();
+                    },
+                    controller: cubit.controller,
+                    onChangeYear: (startDate, endDate, keySearch) {
+                      cubit.getDaysHaveEvent(
+                        startDate: startDate,
+                        endDate: endDate,
+                        keySearch: keySearch,
+                      );
+                    },
+                  );
+                },
+              ),
               Expanded(child: ViewDataMeeting(cubit: cubit)),
             ],
 
@@ -154,7 +159,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
               return MenuWidget(
                 dataMenu: [
                   ParentMenu(
-                    count:  0,
+                    count: data.countScheduleCaNhan ?? 0,
                     iconAsset: ImageAssets.icPerson,
                     title: S.current.lich_cua_toi,
                     value: StatusDataItem(StatusWorkCalendar.LICH_CUA_TOI),
@@ -198,8 +203,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                   ),
                 ],
                 onChoose: (value, state) {
-                  // log('${(value as StatusDataItem).value} >>>>>>>>>>>>> $state');
                   // cubit.menuClick(value, state);
+                  cubit.handleMenuSelect(
+                    itemMenu: value,
+                    state: state,
+                  );
                 },
                 state: cubit.state,
               );

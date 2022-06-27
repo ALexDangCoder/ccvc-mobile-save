@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
@@ -449,6 +448,7 @@ enum StatusWorkCalendar {
   LICH_DUYET_THIET_BI,
   LICH_DUYET_KY_THUAT,
   LICH_YEU_CAU_CHUAN_BI,
+  LICH_CAN_DUYET,
 }
 
 extension StatusWorkCalendarExt on StatusWorkCalendar {
@@ -482,6 +482,8 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
         return S.current.lich_hop_duyet_ky_thuat;
       case StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI:
         return S.current.lich_hop_duyet_yeu_cau_tb;
+      case StatusWorkCalendar.LICH_CAN_DUYET:
+        return S.current.lich_hop_can_duyet;
     }
   }
 }

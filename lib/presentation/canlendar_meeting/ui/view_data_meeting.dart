@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widget
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_month.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_week.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/item_appoinment_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -28,44 +29,47 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   void initState() {
     _listCalendarScreen = [
       StreamBuilder<DataSourceFCalendar>(
-          //stream: widget.cubit.listCalendarWorkStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? DataSourceFCalendar.empty();
-            return DataViewCalendarDay(
-              data: data,
-              fCalendarController: widget.cubit.fCalendarControllerDay,
-              propertyChanged: (String property) {
-                //widget.cubit.propertyChangedDay(property);
-              },
-              buildAppointment: itemAppointment,
-            );
-          }),
+        stream: widget.cubit.listCalendarWorkDayStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? DataSourceFCalendar.empty();
+          return DataViewCalendarDay(
+            data: data,
+            fCalendarController: widget.cubit.fCalendarControllerDay,
+            propertyChanged: (String property) {
+              //widget.cubit.propertyChangedDay(property);
+            },
+            buildAppointment: itemAppointment,
+          );
+        },
+      ),
       StreamBuilder<DataSourceFCalendar>(
-         // stream: widget.cubit.listCalendarWorkStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? DataSourceFCalendar.empty();
-            return DataViewCalendarWeek(
-              buildAppointment: itemAppointment,
-              propertyChanged: (String property) {
-               // widget.cubit.propertyChangedWeek(property);
-              },
-              data: data,
-              fCalendarController: widget.cubit.fCalendarControllerWeek,
-            );
-          }),
+        stream: widget.cubit.listCalendarWorkWeekStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? DataSourceFCalendar.empty();
+          return DataViewCalendarWeek(
+            buildAppointment: itemAppointment,
+            propertyChanged: (String property) {
+              // widget.cubit.propertyChangedWeek(property);
+            },
+            data: data,
+            fCalendarController: widget.cubit.fCalendarControllerWeek,
+          );
+        },
+      ),
       StreamBuilder<DataSourceFCalendar>(
-         // stream: widget.cubit.listCalendarWorkStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? DataSourceFCalendar.empty();
-            return DataViewCalendarMonth(
-              buildAppointment: itemAppointment,
-              propertyChanged: (String property) {
+        stream: widget.cubit.listCalendarWorkMonthStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? DataSourceFCalendar.empty();
+          return DataViewCalendarMonth(
+            buildAppointment: itemAppointment,
+            propertyChanged: (String property) {
               //  widget.cubit.propertyChangedMonth(property);
-              },
-              data: data,
-              fCalendarController: widget.cubit.fCalendarControllerMonth,
-            );
-          }),
+            },
+            data: data,
+            fCalendarController: widget.cubit.fCalendarControllerMonth,
+          );
+        },
+      ),
     ];
     super.initState();
   }
@@ -74,12 +78,6 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // SizedBox(
-        //   width: MediaQuery.of(context).size.width,
-        //   child: DashBroadCountRow(
-        //     cubit: widget.cubit,
-        //   ),
-        // ),
         Expanded(
           child: BlocBuilder(
             bloc: widget.cubit,
@@ -119,28 +117,14 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
     return GestureDetector(
       onTap: () {
         /// go to detail
-
-        // final TypeCalendar typeAppointment =
-        // getType(appointment.notes ?? 'Schedule');
-        // if (typeAppointment == TypeCalendar.Schedule) {
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => ChiTietLichLamViecScreen(
-        //         id: appointment.id as String? ?? '',
-        //       ),
-        //     ),
-        //   );
-        // } else {
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => DetailMeetCalenderScreen(
-        //         id: appointment.id as String? ?? '',
-        //       ),
-        //     ),
-        //   );
-        // }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailMeetCalenderScreen(
+              id: appointment.id as String? ?? '',
+            ),
+          ),
+        );
       },
       child: ItemAppointment(appointment: appointment),
     );

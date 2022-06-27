@@ -32,8 +32,8 @@ class GetAllFilesResponse {
 
 @JsonSerializable()
 class GetAllFileData {
-  @JsonKey(name: 'item')
-  List<String>? item;
+  @JsonKey(name: 'items')
+  List<FileImageResponse>? items;
   @JsonKey(name: 'pageIndex')
   int? pageIndex;
   @JsonKey(name: 'pageSize')
@@ -44,7 +44,7 @@ class GetAllFileData {
   int? totalPage;
 
   GetAllFileData({
-    this.item,
+    this.items,
     this.pageIndex,
     this.pageSize,
     this.totalCount,
@@ -52,7 +52,7 @@ class GetAllFileData {
   });
 
   GetAllFilesIdModel get toModel => GetAllFilesIdModel(
-        item: item,
+        items: items?.map((e) => e.toModel).toList() ?? [],
         pageIndex: pageIndex,
         pageSize: pageSize,
         totalCount: totalCount,
@@ -63,4 +63,31 @@ class GetAllFileData {
       _$GetAllFileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$GetAllFileDataToJson(this);
+}
+
+@JsonSerializable()
+class FileImageResponse {
+  @JsonKey(name: 'item')
+  String? id;
+  @JsonKey(name: 'entityName')
+  String? entityName;
+  @JsonKey(name: 'fileTypeUpload')
+  String? fileTypeUpload;
+
+  FileImageResponse({
+    required this.id,
+    required this.entityName,
+    required this.fileTypeUpload,
+  });
+
+  FileImageModel get toModel => FileImageModel(
+        id: id,
+        entityName: entityName,
+        fileTypeUpload: fileTypeUpload,
+      );
+
+  factory FileImageResponse.fromJson(Map<String, dynamic> json) =>
+      _$FileImageResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FileImageResponseToJson(this);
 }

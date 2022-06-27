@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/htcs_model.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_common_repository.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/htcs_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_detail_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_state.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -30,9 +31,10 @@ class ReportListCubit extends BaseCubit<BaseState> {
   static const int FOLDER_SORT = 12;
   static const int REPORT_SORT = 13;
   Timer? debounceTime;
-  bool isListViewInit=true;
+  bool isListViewInit = true;
   BehaviorSubject<String> textFilter = BehaviorSubject.seeded(S.current.tu_a_z);
   BehaviorSubject<String> textSearch = BehaviorSubject.seeded('');
+  BehaviorSubject<String?> urlReportWebView = BehaviorSubject();
   BehaviorSubject<String> textFilterBox = BehaviorSubject.seeded(S.current.all);
   BehaviorSubject<bool> isListView = BehaviorSubject.seeded(true);
   BehaviorSubject<bool> isStatusSearch = BehaviorSubject.seeded(true);
@@ -97,6 +99,36 @@ class ReportListCubit extends BaseCubit<BaseState> {
         }
       },
       error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+      },
+    );
+  }
+
+  Future<void> getReportDetail({
+    required String idReport,
+  }) async {
+    showLoading();
+    urlReportWebView.add(null);
+    final Result<ReportDetailModel> result =
+        await _reportService.getReportDetail(
+      appId,
+      idReport,
+    );
+    result.when(
+      success: (res) {
+        if (res.urls?.desktop?.isNotEmpty ?? false) {
+          urlReportWebView.add(res.urls?.desktop ?? '');
+          emit(const CompletedLoadMore(CompleteType.SUCCESS));
+          showContent();
+        } else {
+          urlReportWebView.add('');
+          emit(const CompletedLoadMore(CompleteType.ERROR));
+          showContent();
+        }
+      },
+      error: (error) {
+        urlReportWebView.add(null);
         emit(const CompletedLoadMore(CompleteType.ERROR));
         showError();
       },
@@ -170,9 +202,9 @@ class ReportListCubit extends BaseCubit<BaseState> {
 
   void clearSearch() {
     isStatusSearch.add(true);
-    sort = ALL;
-    textSearch.add('');
-    textFilterBox.add(S.current.all);
+    //sort = ALL;
+    //textSearch.add('');
+    //textFilterBox.add(S.current.all);
     //getListReport();
   }
 
@@ -236,7 +268,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
       isCheckData.add(false);
       listReportTree.add(null);
     } else if (isSearch) {
-      listReportSearch.clear();
+      // listReportSearch.clear();
     } else {
       listReport.clear();
       await getListFavorite();
@@ -252,6 +284,10 @@ class ReportListCubit extends BaseCubit<BaseState> {
         if (!res.isNotEmpty) {
           showContent();
           listReportTree.add([]);
+          if (isSearch) {
+            listReportSearch.clear();
+            listReportSearch.addAll([]);
+          }
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
         } else {
           listReportTree.add(res);
@@ -262,8 +298,11 @@ class ReportListCubit extends BaseCubit<BaseState> {
                 list.add(value);
               }
             }
-            listReport.addAll(list);
-            listReportSearch.addAll(list);
+            if (!isSearch) {
+              listReport.addAll(list);
+            }
+            listReportSearch.clear();
+            listReportSearch.addAll(res);
           }
           showContent();
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));

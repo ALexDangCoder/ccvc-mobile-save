@@ -114,7 +114,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            cubit.isListViewInit=true;
+                            cubit.isListViewInit = true;
                             cubit.isListView.sink.add(cubit.isListViewInit);
                           },
                           child: SvgPicture.asset(
@@ -127,7 +127,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                         spaceW16,
                         GestureDetector(
                           onTap: () {
-                            cubit.isListViewInit=false;
+                            cubit.isListViewInit = false;
                             cubit.isListView.sink.add(cubit.isListViewInit);
                           },
                           child: SvgPicture.asset(
@@ -300,6 +300,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         if (isSearch)
           GestureDetector(
             onTap: () {
+              _searchController.text=cubit.textSearch.value;
               cubit.isStatusSearch.add(false);
             },
             child: Container(

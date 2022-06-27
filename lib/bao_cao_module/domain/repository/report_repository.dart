@@ -1,5 +1,8 @@
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_detail_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 
@@ -18,9 +21,9 @@ mixin ReportRepository {
   );
 
   Future<Result<String>> addNewMember(
-      Map<String,String> mapMember,
-      String appId,
-      );
+    Map<String, String> mapMember,
+    String appId,
+  );
 
   Future<Result<ReportItem>> getFolderID(
     String appID,
@@ -42,14 +45,15 @@ mixin ReportRepository {
   );
 
   Future<Result<List<ReportItem>>> getListReportTree(
-      String appId,
-      String folderId,
-      );
+    String appId,
+    String folderId,
+  );
+
   Future<Result<String>> shareReport(
-      List<ShareReport> mapMember,
-      String idReport,
-      String appId,
-      );
+    List<ShareReport> mapMember,
+    String idReport,
+    String appId,
+  );
 
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(
@@ -57,5 +61,10 @@ mixin ReportRepository {
     int pageIndex,
     int pageSize,
     String keyword,
+  );
+
+  Future<Result<ReportDetailModel>> getReportDetail(
+    String appId,
+    String idReport,
   );
 }

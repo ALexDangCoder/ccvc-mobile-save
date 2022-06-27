@@ -1,5 +1,5 @@
 
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'group_response.g.dart';

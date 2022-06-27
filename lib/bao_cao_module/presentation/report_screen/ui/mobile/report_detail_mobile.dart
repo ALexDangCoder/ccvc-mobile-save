@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/appbar/app_bar_default_back.dart';

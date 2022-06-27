@@ -1,7 +1,8 @@
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_web_view.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
@@ -106,7 +107,18 @@ class ReportList extends StatelessWidget {
         ),
       );
     } else {
-      //todo report
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return ReportWebView(
+              cubit: cubit,
+              idReport: value.id ?? '',
+              title: value.name ?? '',
+            );
+          },
+        ),
+      );
     }
   }
 }

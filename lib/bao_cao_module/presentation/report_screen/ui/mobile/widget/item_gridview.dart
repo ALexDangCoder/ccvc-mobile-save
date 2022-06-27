@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';

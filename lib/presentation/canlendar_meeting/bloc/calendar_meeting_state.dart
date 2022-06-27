@@ -23,9 +23,9 @@ class CalendarViewState extends CalendarMeetingState {
   @override
   List<Object?> get props => [typeView];
 }
-class CalendarChartState extends CalendarMeetingState {
+class ChartViewState extends CalendarMeetingState {
 
-  const CalendarChartState({typeView = CalendarType.DAY}) : super(typeView);
+  const ChartViewState({typeView = CalendarType.DAY}) : super(typeView);
 
   @override
   List<Object?> get props => [typeView];

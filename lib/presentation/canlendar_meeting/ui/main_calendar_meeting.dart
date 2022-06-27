@@ -1,5 +1,4 @@
 
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -94,7 +93,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
           child: Column(
             children: [
               StreamBuilder<List<DateTime>>(
-                  stream: null,
+                  stream: cubit.listNgayCoLichStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? <DateTime>[];
                     return ChooseTimeCalendarWidget(
@@ -102,22 +101,21 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                       onChange: (startDate, endDate, type, keySearch) {
                         if (type != cubit.state.typeView) {
                           if (cubit.state is CalendarViewState) {
-                            // cubit.emitCalendar(type: type);
-                          } else {
-                            // cubit.emitList(type: type);
+                            cubit.emitCalendarViewState(type: type);
+                          } else if(cubit.state is ListViewState){
+                            cubit.emitListViewState(type: type);
+                          }else{
+                            cubit.emitChartViewState(type: type);
                           }
                         }
-                        // cubit.callApiByNewFilter(
-                        //   startDate: startDate,
-                        //   endDate: endDate,
-                        //   keySearch: keySearch,
-                        // );
                       },
-
                       controller: cubit.controller,
                       onChangeYear: (startDate, endDate, keySearch) {
-                        // cubit.dayHaveEvent(startDate, endDate, keySearch);
-                        /// call api ngay co lich
+                        cubit.getDaysHaveEvent(
+                          startDate: startDate,
+                          endDate: endDate,
+                          keySearch: keySearch,
+                        );
                       },
                     );
                   }),
@@ -196,7 +194,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                   StateMenu(
                     icon: ImageAssets.icTheoDangLich,
                     title: S.current.bao_cao_thong_ke,
-                    state: CalendarChartState(typeView: cubit.state.typeView),
+                    state: ChartViewState(typeView: cubit.state.typeView),
                   ),
                 ],
                 onChoose: (value, state) {

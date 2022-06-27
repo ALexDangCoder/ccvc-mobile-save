@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
@@ -45,10 +46,15 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   Stream<List<MenuModel>> get menuDataStream => _menuDataSubject.stream;
 
-  final BehaviorSubject<DashBoardLichHopModel> _totalWorkSubject = BehaviorSubject();
+  final BehaviorSubject<DashBoardLichHopModel> _totalWorkSubject =
+      BehaviorSubject();
 
   Stream<DashBoardLichHopModel> get totalWorkStream => _totalWorkSubject.stream;
 
+  final BehaviorSubject<List<DateTime>> _listNgayCoLich =
+      BehaviorSubject<List<DateTime>>();
+
+  Stream<List<DateTime>> get listNgayCoLichStream => _listNgayCoLich.stream;
 
   void initData() {
     getCountDashboard();
@@ -197,7 +203,10 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
   }
 
-  Future<void> postEventsCalendar({
+  /// lấy danh sách ngày có sự kiện
+  Future<void> getDaysHaveEvent({
+    required DateTime startDate,
+    required DateTime endDate,
     required String keySearch,
   }) async {
     showLoading();
@@ -229,16 +238,21 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
     result.when(
       success: (value) {
-        final List<DateTime> data = [];
-
-        value.forEach((element) {
-          data.add(element.convertStringToDate());
-        });
-
-        eventsSubject.add(data);
+        final data = value.map((e) => DateTime.parse(e)).toList();
+        _listNgayCoLich.sink.add(data);
       },
       error: (error) {},
     );
     showContent();
   }
+
+  void emitListViewState({CalendarType? type}) =>
+      emit(ListViewState(typeView: type ?? state.typeView));
+
+  void emitCalendarViewState({CalendarType? type}) =>
+      emit(CalendarViewState(typeView: type ?? state.typeView));
+
+ void emitChartViewState({CalendarType? type}) =>
+      emit(ChartViewState(typeView: type ?? state.typeView));
+
 }

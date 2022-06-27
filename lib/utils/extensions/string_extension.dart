@@ -196,7 +196,7 @@ extension CheckValidate on String {
 
   String? checkPassWordChangePass(String name) {
     final isCheck =
-        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
             .hasMatch(this);
     if (isCheck) {
       return null;

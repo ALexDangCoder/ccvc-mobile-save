@@ -61,9 +61,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
             messState: MessState.error,
           );
         } else if (err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
-          if (err.message.contains(S.current.sai_tai_khoan_hoac_mat_khau)) {
-            thongBao.sink.add(err.message);
-          } else {
+          if (err.message.contains('tồn tại')) {
             MessageConfig.show(
               messState: MessState.customIcon,
               title: S.current.tai_khoan_hien_khong_ton_tai,
@@ -72,6 +70,8 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
             Navigator.pop(context);
             AppStateCt.of(context).appState.setToken('');
             HiveLocal.clearData();
+          } else  {
+            thongBao.sink.add(err.message);
           }
         } else {
           thongBao.sink.add(err.message);

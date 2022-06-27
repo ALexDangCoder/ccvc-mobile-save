@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
+import 'package:permission_handler/permission_handler.dart';
 
 const String TYPE_OF_FILE = 'type';
 const String PATH_OF_FILE = 'path';
@@ -74,23 +75,31 @@ Future<Map<String, dynamic>> pickImageFunc({
     VALID_FORMAT_OF_FILE: '',
     NAME_OF_FILE: '',
   };
-  try {
-    final newImage = await ImagePicker().pickImage(source: source);
-    if (newImage == null) {
+  final permission =
+      Platform.isIOS ? Permission.photosAddOnly : Permission.storage;
+  print('fuck permission $permission');
+  final status = await permission.status;
+  if (status.isGranted || status.isLimited) {
+    try {
+      final newImage = await ImagePicker().pickImage(source: source);
+      if (newImage == null) {
+        return _resultMap;
+      }
+      final extension = (p.extension(newImage.path)).replaceAll('.', '');
+      _resultMap[EXTENSION_OF_FILE] = extension;
+      _resultMap[VALID_FORMAT_OF_FILE] =
+          PickerType.IMAGE_FILE.fileType.contains(extension.toUpperCase());
+      _resultMap[SIZE_OF_FILE] =
+          File(newImage.path).readAsBytesSync().lengthInBytes;
+      _resultMap[PATH_OF_FILE] = newImage.path;
+      _resultMap[NAME_OF_FILE] = newImage.name;
       return _resultMap;
+    } on PlatformException catch (e) {
+      throw 'Cant upload image $e';
     }
-    final extension = (p.extension(newImage.path)).replaceAll('.', '');
-    _resultMap[EXTENSION_OF_FILE] = extension;
-    _resultMap[VALID_FORMAT_OF_FILE] =
-        PickerType.IMAGE_FILE.fileType.contains(extension.toUpperCase());
-    _resultMap[SIZE_OF_FILE] =
-        File(newImage.path).readAsBytesSync().lengthInBytes;
-    _resultMap[PATH_OF_FILE] = newImage.path;
-    _resultMap[NAME_OF_FILE] = newImage.name;
-    return _resultMap;
-  } on PlatformException catch (e) {
+  } else {
     await MessageConfig.showDialogSetting();
-    throw 'Cant upload image $e';
+    return {};
   }
 }
 

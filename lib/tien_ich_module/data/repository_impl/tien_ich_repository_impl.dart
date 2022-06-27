@@ -164,10 +164,10 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<List<TodoDSCVModel>>> xoaCongViec(String id) {
-    return runCatchingAsync<ToDoListDSCVResponse, List<TodoDSCVModel>>(
+  Future<Result<TodoDSCVModel>> xoaCongViec(String id) {
+    return runCatchingAsync<ToDoListUpdateResponseTwo, TodoDSCVModel>(
       () => _tienIchService.xoaCongViec(id),
-      (response) => response.toModel(),
+      (response) => response.data?.toDomain() ?? TodoDSCVModel(),
     );
   }
 

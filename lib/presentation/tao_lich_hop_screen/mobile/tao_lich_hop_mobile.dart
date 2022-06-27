@@ -27,6 +27,7 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class TaoLichHopMobileScreen extends StatefulWidget {
@@ -245,6 +246,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         TextFieldStyle(
                           urlIcon: ImageAssets.icCuocGoi,
                           hintText: S.current.so_dien_thoai,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          textInputType: TextInputType.number,
                           validate: (value) {
                             if (value.isEmpty) {
                               return null;

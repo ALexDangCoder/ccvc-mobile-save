@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -180,10 +182,6 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                     title: S.current.lich_theo_lanh_dao,
                   ),
                 ],
-                onChoose: (value, state) {
-                  // cubit.menuClick(value, state);
-                },
-
                 stateMenu: [
                   StateMenu(
                     icon: ImageAssets.icTheoDangLich,
@@ -201,6 +199,10 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                     state: CalendarChartState(typeView: cubit.state.typeView),
                   ),
                 ],
+                onChoose: (value, state) {
+                  // log('${(value as StatusDataItem).value} >>>>>>>>>>>>> $state');
+                  // cubit.menuClick(value, state);
+                },
                 state: cubit.state,
               );
             },

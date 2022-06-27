@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
@@ -7,6 +8,7 @@ import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -21,10 +23,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
 
+  StatusWorkCalendar typeCalender = StatusWorkCalendar.LICH_CUA_TOI;
+
   HopRepository get hopRepo => Get.find();
 
   List<ChildMenu> listMenuTheoTrangThai = [];
-
 
   final BehaviorSubject<String> _titleSubject = BehaviorSubject();
 
@@ -192,5 +195,50 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       },
       error: (error) {},
     );
+  }
+
+  Future<void> postEventsCalendar({
+    required String keySearch,
+  }) async {
+    showLoading();
+    final result = await hopRepo.postEventCalendar(
+      EventCalendarRequest(
+        Title: keySearch,
+        DateFrom: startDate.formatApi,
+        DateTo: endDate.formatApi,
+        DonViId:
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
+        month: startDate.month,
+        PageIndex: ApiConstants.PAGE_BEGIN,
+        PageSize: 1000,
+        UserId: HiveLocal.getDataUser()?.userId ?? '',
+        year: startDate.year,
+        isLichCuaToi: typeCalender == StatusWorkCalendar.LICH_CUA_TOI,
+        isDuyetKyThuat: typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT,
+        isChoXacNhan: typeCalender == StatusWorkCalendar.CHO_DUYET,
+        isDuyetThietBi: typeCalender == StatusWorkCalendar.LICH_DUYET_THIET_BI,
+        isChuaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
+        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+        isLichDuocMoi: typeCalender == StatusWorkCalendar.LICH_DUOC_MOI,
+        isLichYeuCauChuanBi:
+            typeCalender == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
+        isDuyetPhong: typeCalender == StatusWorkCalendar.LICH_DUYET_PHONG,
+        isLichThuHoi: typeCalender == StatusWorkCalendar.LICH_THU_HOI,
+        isLichHuyBo: typeCalender == StatusWorkCalendar.LICH_HUY,
+      ),
+    );
+    result.when(
+      success: (value) {
+        final List<DateTime> data = [];
+
+        value.forEach((element) {
+          data.add(element.convertStringToDate());
+        });
+
+        eventsSubject.add(data);
+      },
+      error: (error) {},
+    );
+    showContent();
   }
 }

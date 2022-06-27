@@ -6,9 +6,9 @@ import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart
 import 'package:flutter/material.dart';
 
 class ItemDatNuocWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final TaoLichLamViecCubit cubit;
 
-  ItemDatNuocWidget({Key? key, required this.taoLichLamViecCubit})
+  ItemDatNuocWidget({Key? key, required this.cubit})
       : super(key: key);
 
   @override
@@ -18,23 +18,24 @@ class ItemDatNuocWidget extends StatefulWidget {
 class _ItemDatNuocWidgetState extends State<ItemDatNuocWidget> {
   @override
   Widget build(BuildContext context) {
+    final _cubit = widget.cubit;
     return StreamBuilder<List<DatNuocSelectModel>>(
-      stream: widget.taoLichLamViecCubit.datNuocSelect,
+      stream: _cubit.datNuocSelect,
       builder: (context, snapshot) {
         final data = snapshot.data ?? <DatNuocSelectModel>[];
         return SelectOnlyExpand(
           onChange: (value) {
-            widget.taoLichLamViecCubit.datNuocSelectModel?.name =
+            _cubit.datNuocSelectModel?.name =
                 data[value].name;
-            widget.taoLichLamViecCubit.datNuocSelectModel?.id = data[value].id;
+            _cubit.datNuocSelectModel?.id = data[value].id;
+            _cubit.selectedCountryID = data[value].id ?? '';
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.name ?? '').toList(),
-          value: widget.taoLichLamViecCubit.datNuocSelectModel?.name ?? '',
+          hintText: 'Chọn nước',
           title: S.current.quoc_gia,
         );
       },
     );
-    return Container();
   }
 }

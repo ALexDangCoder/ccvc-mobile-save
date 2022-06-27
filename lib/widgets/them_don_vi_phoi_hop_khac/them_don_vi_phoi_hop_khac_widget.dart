@@ -2,12 +2,14 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/checkbox/checkbox.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -17,14 +19,21 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
+  final Function(DonViModel)? onDelete;
+  final bool isTaoHop;
+  final bool isCheckedEmail;
 
   const ThemDonViPhoiHopKhacWidget({
     Key? key,
     required this.onChange,
+    this.isTaoHop = false,
+    this.isCheckedEmail = false,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -53,7 +62,9 @@ class _ThemDonViPhoiHopKhacWidgetState
           onTap: () {
             showDialog(context);
           },
-          text: S.current.them_thanh_phan_tham_gia,
+          text: widget.isTaoHop
+              ? S.current.them_don_vi_phoi_hop_khac
+              : S.current.them_thanh_phan_tham_gia,
           urlIcon: ImageAssets.icAddButtonCalenderTablet,
         ),
         StreamBuilder<List<DonViModel>>(
@@ -65,10 +76,19 @@ class _ThemDonViPhoiHopKhacWidgetState
                 data.length,
                 (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
-                  child: ItemThanhPhanWidget(
+                  child: widget.isTaoHop
+                      ? ItemDonViPhoiHopWidget(
                     data: data[index],
-                    cubit: cubit,
-                  ),
+                          cubit: cubit,
+                          isCheckedEmail: widget.isCheckedEmail,
+                          onDelete: () {
+                            widget.onDelete?.call(data[index]);
+                          },
+                        )
+                      : ItemThanhPhanWidget(
+                          data: data[index],
+                          cubit: cubit,
+                        ),
                 ),
               ),
             );
@@ -195,6 +215,164 @@ class ItemThanhPhanWidget extends StatelessWidget {
   }
 }
 
+class ItemDonViPhoiHopWidget extends StatefulWidget {
+  final DonViModel data;
+  final ThanhPhanThamGiaCubit cubit;
+  final bool isCheckedEmail;
+  final Function()? onDelete;
+
+  const ItemDonViPhoiHopWidget({
+    Key? key,
+    required this.data,
+    required this.cubit,
+    required this.isCheckedEmail,
+    this.onDelete,
+  }) : super(key: key);
+
+  @override
+  State<ItemDonViPhoiHopWidget> createState() => _ItemDonViPhoiHopWidgetState();
+}
+
+class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
+  bool isChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.isCheckedEmail;
+  }
+
+  @override
+  void didUpdateWidget(covariant ItemDonViPhoiHopWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    isChecked = widget.isCheckedEmail;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: borderButtomColor.withOpacity(0.1),
+        border: Border.all(color: borderButtomColor),
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
+      ),
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              rowInfo(
+                value: widget.data.tenDonVi,
+                key: S.current.dv_phoi_hop,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              rowInfo(
+                value: widget.data.dauMoiLienHe,
+                key: S.current.nguoi_pho_hop,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              Row(
+                crossAxisAlignment: isMobile()
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      S.current.noidung,
+                      style: textNormal(infoColor, 14),
+                    ),
+                  ),
+                  spaceW8,
+                  Expanded(
+                    flex: 7,
+                    child: textField(
+                      onChange: (value) {
+                        widget.data.noidung = value;
+                      },
+                      initValue: widget.data.noidung,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    widget.cubit.removeDonViPhoiHop(widget.data);
+                    widget.onDelete?.call();
+                  },
+                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                ),
+                spaceW12,
+                StreamBuilder<bool>(
+                  stream: widget.cubit.phuongThucNhanStream,
+                  builder: (context, snapshot) {
+                    return CusCheckBox(
+                      isChecked: isChecked,
+                      onChange: (value) {},
+                    );
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget textField({
+    Function(String)? onChange,
+    String? hintText,
+    String? initValue,
+  }) {
+    return TextFormField(
+      onChanged: (value) {
+        onChange?.call(value);
+      },
+      initialValue: initValue,
+      style: textNormal(color3D5586, 16),
+      maxLines: isMobile() ? 1 : 3,
+      decoration: InputDecoration(
+        hintText: hintText ?? S.current.nhap_noi_dung_cong_viec,
+        hintStyle: textNormal(textBodyTime, 16),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      ),
+    );
+  }
+}
+
 class ThemDonViPhoiHopKhacScreen extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
 
@@ -223,7 +401,6 @@ class _ThemDonViPhoiHopKhacScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -247,7 +424,6 @@ class _ThemDonViPhoiHopKhacScreenState
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
                     id: '',
-                    name: _tenDonViController.text,
                     dauMoiLienHe: _dauMoiLamViecController.text,
                     noidung: _noiDungLamViecController.text,
                     email: _emailController.text,
@@ -255,6 +431,7 @@ class _ThemDonViPhoiHopKhacScreenState
                     vaiTroThamGia: 4,
                     tenDonVi: _tenDonViController.text,
                     tenCoQuan: _tenDonViController.text,
+                    name: '',
                   ),
                 );
                 Navigator.pop(context);
@@ -289,6 +466,9 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _dauMoiLamViecController,
                           hintText: S.current.dau_moi_lam_viec,
+                          validator: (value) {
+                            return (value ?? '').checkNull();
+                          },
                         ),
                       ),
                       spaceH20,
@@ -303,13 +483,17 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _emailController,
                           hintText: S.current.email,
+                          textInputType: TextInputType.emailAddress,
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,
                             child: Center(
-                                child: SvgPicture.asset(ImageAssets.ic_email)),
+                                child: SvgPicture.asset(ImageAssets.ic_email),),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkEmail();
                           },
                         ),
@@ -319,6 +503,10 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _sdtController,
                           hintText: S.current.so_dien_thoai,
+                          textInputType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,
@@ -327,6 +515,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkSdt();
                           },
                         ),

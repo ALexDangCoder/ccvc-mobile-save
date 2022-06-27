@@ -63,7 +63,7 @@ mixin TienIchRepository {
 
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoToi();
 
-  Future<Result<ResponseModel>> xoaCongViec(String id);
+  Future<Result<TodoDSCVModel>> xoaCongViec(String id);
 
   Future<Result<NhomCVMoiModel>> createNhomCongViecMoi(String label);
 
@@ -89,4 +89,6 @@ mixin TienIchRepository {
   );
 
   Future<Result<PostAnhModel>> uploadFile(File files);
+
+  Future<Result<PostAnhModel>> uploadFileDSCV(File files);
 }

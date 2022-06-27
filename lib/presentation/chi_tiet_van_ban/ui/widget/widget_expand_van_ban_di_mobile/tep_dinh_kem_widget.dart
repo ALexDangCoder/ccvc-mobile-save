@@ -7,7 +7,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_mo
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
-import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -91,7 +91,7 @@ class TepDinhKemMobile extends StatelessWidget {
           Expanded(
             flex: 3,
             child: AutoSizeText(
-              S.current.dv_trong_he_thong,
+              title,
               style: textNormalCustom(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -107,10 +107,10 @@ class TepDinhKemMobile extends StatelessWidget {
                         .map(
                           (e) => GestureDetector(
                             onTap: () async {
-                              final baseURL = Get.find<AppConstants>().baseUrlQLNV;
-                              await handleSaveFile(
-                                name: e.ten ?? '',
-                                url: '$baseURL${e.duongDan}',
+                              await saveFile(
+                                fileName: e.ten ?? '',
+                                url: e.duongDan ?? '',
+                                downloadType: DomainDownloadType.QLNV,
                               );
                             },
                             child: Text(

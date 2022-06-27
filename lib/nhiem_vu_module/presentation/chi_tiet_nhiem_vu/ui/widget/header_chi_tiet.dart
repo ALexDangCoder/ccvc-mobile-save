@@ -18,89 +18,86 @@ class HeaderChiTiet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: APP_DEVICE == DeviceType.TABLET
-              ? const EdgeInsets.all(20)
-              : const EdgeInsets.all(16),
-          decoration: APP_DEVICE == DeviceType.TABLET
-              ? BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: toDayColor.withOpacity(0.5),
+    return Container(
+      padding: APP_DEVICE == DeviceType.TABLET
+          ? const EdgeInsets.only(left: 20,right: 20,top: 20,)
+          : const EdgeInsets.only(left: 16,right: 16,top: 16,),
+      decoration: APP_DEVICE == DeviceType.TABLET
+          ? BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: toDayColor.withOpacity(0.5),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: colorBlack.withOpacity(0.05),
+                  blurRadius: 10, // changes position of shadow
+                ),
+              ],
+            )
+          : const BoxDecoration(),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: row
+              .map(
+                (e) => Container(
+                  margin: EdgeInsets.only(
+                    bottom: 10.0.textScale(),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorBlack.withOpacity(0.05),
-                      blurRadius: 10, // changes position of shadow
-                    ),
-                  ],
-                )
-              : const BoxDecoration(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: row
-                .map(
-                  (e) => Container(
-                    margin: EdgeInsets.only(
-                      bottom: 10.0.textScale(),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: e.key,
+                                style: textNormalCustom(
+                                  color: color667793,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14.0.textScale(),
+                                ),
+                              ),
+                              if (e.isNote)
                                 TextSpan(
-                                  text: e.key,
+                                  text: ' *',
                                   style: textNormalCustom(
-                                    color: color667793,
-                                    fontWeight: FontWeight.w400,
+                                    color: Colors.red,
                                     fontSize: 14.0.textScale(),
                                   ),
-                                ),
-                                if (e.isNote)
-                                  TextSpan(
-                                    text: ' *',
-                                    style: textNormalCustom(
-                                      color: Colors.red,
-                                      fontSize: 14.0.textScale(),
-                                    ),
-                                  )
-                                else
-                                  const TextSpan(text: ''),
-                              ],
-                            ),
+                                )
+                              else
+                                const TextSpan(text: ''),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          width: 20.0.textScale(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: (e.key != S.current.tinh_hinh_thuc_hien)
-                              ? Text(
-                                  e.value,
-                                  style: textNormalCustom(
-                                    color: textTitle,
-                                    fontSize: 16.0.textScale(),
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                )
-                              : getStatus(getStatusNV(e.value)),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: 20.0.textScale(),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: (e.key != S.current.tinh_hinh_thuc_hien)
+                            ? Text(
+                                e.value,
+                                style: textNormalCustom(
+                                  color: textTitle,
+                                  fontSize: 16.0.textScale(),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
+                            : getStatus(getStatusNV(e.value)),
+                      )
+                    ],
                   ),
-                )
-                .toList(),
-          ),
+                ),
+              )
+              .toList(),
         ),
-      ],
+      ),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/common_api_ext.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/list/widget/custom_item_calender_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/type_calendar.dart';
@@ -38,7 +40,6 @@ class _InListFormState extends State<InListForm> {
           _scrollController.position.maxScrollExtent) {
         if (widget.cubit.page < widget.cubit.totalPage) {
           widget.cubit.page = widget.cubit.page + 1;
-          widget.cubit.getListLichLV();
         }
       }
     });
@@ -62,6 +63,7 @@ class _InListFormState extends State<InListForm> {
             child: StreamBuilder<DataLichLvModel>(
               stream: _cubit.streamListLich,
               builder: (context, snapshot) {
+                widget.cubit.getMatchDate(_cubit.dataLichLvModel);
                 return ListView.builder(
                   controller: _scrollController,
                   shrinkWrap: true,
@@ -95,8 +97,8 @@ class _InListFormState extends State<InListForm> {
                               .navigatorDetail(context, _cubit, index);
                         },
                         isTrung: _cubit.dataLichLvModel.listLichLVModel?[index]
-                                .isLichLap ??
-                            true,
+                                .isTrung ??
+                            false,
                       ),
                     );
                   },

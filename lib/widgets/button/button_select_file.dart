@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -26,6 +27,8 @@ class ButtonSelectFile extends StatefulWidget {
   List<File>? files;
   final double? spacingFile;
   final bool hasMultipleFile;
+  final bool isShowFile;
+  final double? maxSize;
 
   ButtonSelectFile({
     Key? key,
@@ -40,6 +43,8 @@ class ButtonSelectFile extends StatefulWidget {
     this.files,
     this.spacingFile,
     this.hasMultipleFile = false,
+    this.isShowFile = true,
+    this.maxSize,
   }) : super(key: key);
 
   @override
@@ -48,11 +53,23 @@ class ButtonSelectFile extends StatefulWidget {
 
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
   final TaoLichLamViecCubit _cubit = TaoLichLamViecCubit();
+  String errText = '';
 
   @override
   void initState() {
     super.initState();
     widget.files ??= [];
+  }
+
+  bool isFileError(List<String?> files) {
+    for (final i in files) {
+      if (i != null || (i ?? '').isNotEmpty) {
+        if (!i!.isExensionOfFile) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   @override
@@ -63,14 +80,42 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         GestureDetector(
           onTap: () async {
             final FilePickerResult? result =
-                await FilePicker.platform.pickFiles(allowMultiple: true);
+                await FilePicker.platform.pickFiles(
+              allowMultiple: true,
+            );
 
             if (result != null) {
-              if (widget.hasMultipleFile) {
-                widget.files
-                    ?.addAll(result.paths.map((path) => File(path!)).toList());
+              if (!isFileError(result.paths)) {
+                if (widget.hasMultipleFile) {
+                  final listSelect =
+                      result.paths.map((path) => File(path ?? '')).toList();
+                  if (widget.maxSize != null) {
+                    bool isOverSize = false;
+                    errText = '';
+                    for (int i = 0; i < listSelect.length; i++) {
+                      if (listSelect[i].lengthSync() > widget.maxSize!) {
+                        listSelect.removeAt(i);
+                        isOverSize = true;
+                      }
+                    }
+                    if (isOverSize) {
+                      errText = S.current.file_qua_30M;
+                    }
+                  }
+                  widget.files?.addAll(listSelect);
+                } else {
+                  widget.files =
+                      result.paths.map((path) => File(path!)).toList();
+                }
               } else {
-                widget.files = result.paths.map((path) => File(path!)).toList();
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      S.current.file_khong_hop_le,
+                      style: textNormalCustom(fontSize: 14),
+                    ),
+                  ),
+                );
               }
             } else {
               // User canceled the picker
@@ -120,29 +165,40 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
             ),
           ),
         ),
+        if (errText.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Text(
+              errText,
+              style: textNormal(redChart, 14),
+            ),
+          ),
         SizedBox(
           height: widget.spacingFile == null ? 16.0.textScale() : 0,
         ),
-        Column(
-          children: widget.files?.isNotEmpty ?? false
-              ? widget.files!.map((e) {
-                  if (widget.builder == null) {
-                    return itemListFile(
-                      file: e,
-                      onTap: () {
-                        _cubit.deleteFile(e, widget.files ?? []);
-                        if (widget.hasMultipleFile) {
-                          widget.onChange(widget.files ?? []);
-                        }
-                        setState(() {});
-                      },
-                      spacingFile: widget.spacingFile,
-                    );
-                  }
-                  return widget.builder!(context, e);
-                }).toList()
-              : [Container()],
-        )
+        if (!widget.isShowFile)
+          const SizedBox()
+        else
+          Column(
+            children: widget.files?.isNotEmpty ?? false
+                ? widget.files!.map((e) {
+                    if (widget.builder == null) {
+                      return itemListFile(
+                        file: e,
+                        onTap: () {
+                          _cubit.deleteFile(e, widget.files ?? []);
+                          if (widget.hasMultipleFile) {
+                            widget.onChange(widget.files ?? []);
+                          }
+                          setState(() {});
+                        },
+                        spacingFile: widget.spacingFile,
+                      );
+                    }
+                    return widget.builder!(context, e);
+                  }).toList()
+                : [Container()],
+          )
       ],
     );
   }

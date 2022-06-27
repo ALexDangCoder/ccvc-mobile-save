@@ -11,6 +11,7 @@ class DoubleButtonBottom extends StatelessWidget {
   final Function onPressed1;
   final Function onPressed2;
   final bool isTablet;
+  final bool noPadding;
 
   const DoubleButtonBottom({
     Key? key,
@@ -19,6 +20,7 @@ class DoubleButtonBottom extends StatelessWidget {
     required this.onPressed1,
     required this.onPressed2,
     this.isTablet = false,
+    this.noPadding = false,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,9 @@ class DoubleButtonBottom extends StatelessWidget {
             ),
           )
         : Row(
+            crossAxisAlignment: noPadding
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: GestureDetector(

@@ -67,7 +67,7 @@ extension TypeVBDen on VBDenDocumentType {
       case VBDenDocumentType.CHO_XU_LY:
         return 'CHO_XU_LY';
       case VBDenDocumentType.QUA_HAN:
-        return 'DANG_THUC_HIEN';
+        return 'QUA_HAN';
       case VBDenDocumentType.TRONG_HAN:
         return 'TRONG_HAN';
       case VBDenDocumentType.THUONG_KHAN:

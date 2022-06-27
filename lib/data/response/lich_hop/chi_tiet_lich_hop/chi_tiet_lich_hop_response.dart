@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 
 class ChiTietLichHopResponse {
@@ -7,8 +8,7 @@ class ChiTietLichHopResponse {
   String? code;
   String? message;
 
-  ChiTietLichHopResponse(
-      {this.data, this.statusCode, this.succeeded, this.code, this.message});
+  ChiTietLichHopResponse({this.data, this.statusCode, this.succeeded, this.code, this.message});
 
   ChiTietLichHopResponse.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -64,6 +64,11 @@ class Data {
   String? thoiGianKetThuc;
   int? trangThaiDuyetKyThuat;
   String? lichHop_PhienHopStr;
+  bool? isDuyetKyThuat;
+  List<dynamic>? dsDiemCau;
+  List<dynamic>? phongHopThietBi;
+  bool? bit_LinkTrongHeThong;
+  String? thuMoiFiles;
 
   Data({
     this.nguoiTaoStr,
@@ -110,6 +115,11 @@ class Data {
     this.dateRepeat,
     this.trangThaiDuyetKyThuat,
     this.lichHop_PhienHopStr,
+    this.dsDiemCau,
+    this.bit_LinkTrongHeThong,
+    this.phongHopThietBi,
+    this.thuMoiFiles,
+    this.isDuyetKyThuat,
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -139,7 +149,7 @@ class Data {
     lichDonVi = json['lichDonVi'];
     chuTri = json['chuTri'] != null ? ChuTri.fromJson(json['chuTri']) : null;
     phongHop =
-        json['phongHop'] != null ? PhongHop.fromJson(json['phongHop']) : null;
+    json['phongHop'] != null ? PhongHop.fromJson(json['phongHop']) : null;
     mucDo = json['mucDo'];
     typeRepeat = json['typeRepeat'];
     thoiGianKetThuc = json['thoiGianKetThuc'];
@@ -163,10 +173,16 @@ class Data {
     }
     dateRepeat = json['dateRepeat'];
     lichHop_PhienHopStr = json['lichHop_PhienHopStr'];
+    isDuyetKyThuat = json['isDuyetKyThuat'];
+    linkTrucTuyen = json['linkTrucTuyen'];
+    dsDiemCau = json['dsDiemCau'];
+    bit_LinkTrongHeThong = json['bit_LinkTrongHeThong'];
+    phongHopThietBi = json['phongHop_ThietBi'];
+    thuMoiFiles = json['thuMoiFiles'];
   }
 
   ChiTietLichHopModel toDomain() => ChiTietLichHopModel(
-        id: id ?? '',
+    id: id ?? '',
         typeScheduleId: typeScheduleId ?? '',
         chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
         linhVuc: tenLinhVuc ?? '',
@@ -187,7 +203,7 @@ class Data {
         ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
         mucDoHop: mucDo,
         bit_HopTrucTuyen: bitHopTrucTuyen ?? false,
-        bit_TrongDonVi: bitTrongDonVi ?? false,
+        bit_TrongDonVi: bitTrongDonVi,
         isAllDay: isAllDay ?? false,
         typeReminder: typeReminder,
         bit_YeuCauDuyet: bitYeuCauDuyet ?? false,
@@ -199,6 +215,19 @@ class Data {
         isTaoTaoBocBang: isTaoBocBang ?? false,
         bit_PhongTrungTamDieuHanh: bitPhongTrungTamDieuHanh ?? false,
         lichHop_PhienHopStr: lichHop_PhienHopStr ?? '',
+        diaDiemHop: diaDiemHop ?? '',
+        isCongKhai: congKhai,
+        isDuyetKyThuat: isDuyetKyThuat,
+        linkTrucTuyen: linkTrucTuyen,
+        dsDiemCau:
+            dsDiemCau?.map((e) => DiemCau.fromJson(e).toDomain()).toList(),
+        bit_LinkTrongHeThong: bit_LinkTrongHeThong,
+        isLichLap: isLichLap,
+        phongHopThietBi:
+            phongHopThietBi?.map((e) => PhongHopThietBi.fromJson(e)).toList(),
+        lichDonVi: lichDonVi,
+        thuMoiFiles: thuMoiFiles,
+        linhVucId: linhVucId,
       );
 }
 
@@ -214,16 +243,15 @@ class ChuTri {
 
   String? canBoTenChucVu;
 
-  ChuTri(
-      {this.donViId,
-      this.canBoId,
-      this.vaiTroThamGia,
-      this.soDienThoai,
-      this.dauMoiLienHe,
-      this.tenCanBo,
-      this.tenCoQuan,
-      this.id,
-      this.canBoTenChucVu});
+  ChuTri({this.donViId,
+    this.canBoId,
+    this.vaiTroThamGia,
+    this.soDienThoai,
+    this.dauMoiLienHe,
+    this.tenCanBo,
+    this.tenCoQuan,
+    this.id,
+    this.canBoTenChucVu});
 
   ChuTri.fromJson(Map<String, dynamic> json) {
     donViId = json['donViId'];
@@ -240,14 +268,14 @@ class ChuTri {
   }
 
   ChuTriModel toDomain() => ChuTriModel(
-        id: id ?? '',
-        tenCanBo: tenCanBo ?? '',
-        tenCoQuan: tenCoQuan ?? '',
-        dauMoiLienHe: dauMoiLienHe ?? '',
-        soDienThoai: soDienThoai ?? '',
-        canBoId: canBoId ?? '',
-        donViId: donViId ?? '',
-      );
+    id: id ?? '',
+    tenCanBo: tenCanBo ?? '',
+    tenCoQuan: tenCoQuan ?? '',
+    dauMoiLienHe: dauMoiLienHe ?? '',
+    soDienThoai: soDienThoai ?? '',
+    canBoId: canBoId ?? '',
+    donViId: donViId ?? '',
+  );
 }
 
 class PhongHop {
@@ -256,6 +284,8 @@ class PhongHop {
   String? lichHopId;
   String? noiDungYeuCau;
   String? ten;
+  String? phongHopId;
+  bool? bit_TTDH;
 
   PhongHop.fromJson(Map<String, dynamic> json) {
     donViId = json['donViId'];
@@ -263,9 +293,49 @@ class PhongHop {
     lichHopId = json['lichHopId'];
     noiDungYeuCau = json['noiDungYeuCau'];
     ten = json['ten'];
+    bit_TTDH = json['bit_TTDH'];
+    phongHopId = json['phongHopId'];
   }
 
-  PhongHopMode toDomain() => PhongHopMode(id: id ?? '', ten: ten ?? '');
+  PhongHopMode toDomain() => PhongHopMode(
+        id: id ?? '',
+        ten: ten ?? '',
+        bit_TTDH: bit_TTDH ?? false,
+        donViId: donViId,
+        noiDungYeuCau: noiDungYeuCau,
+        phongHopId: phongHopId,
+      );
+}
+
+class DiemCau {
+  String? canBoDauMoi_ChucVu;
+  String? canBoDauMoi_DiaChi;
+  String? canBoDauMoi_HoTen;
+  String? canBoDauMoi_SDT;
+  String? id;
+  String? id_LichHop;
+  int? loaiDiemCau;
+  String? tenDiemCau;
+
+  DiemCau.fromJson(Map<String, dynamic> json) {
+    canBoDauMoi_ChucVu = json['canBoDauMoi_ChucVu'];
+    canBoDauMoi_DiaChi = json['canBoDauMoi_DiaChi'];
+    canBoDauMoi_HoTen = json['canBoDauMoi_HoTen'];
+    canBoDauMoi_SDT = json['canBoDauMoi_SDT'];
+    loaiDiemCau = json['loaiDiemCau'];
+    id = json['id'];
+    id_LichHop = json['id_LichHop'];
+  }
+
+  DsDiemCau toDomain() => DsDiemCau(
+        canBoDauMoiChucVu: canBoDauMoi_ChucVu ?? '',
+        canBoDauMoiHoTen: canBoDauMoi_HoTen ?? '',
+        canBoDauMoiSDT: canBoDauMoi_SDT ?? '',
+        loaiDiemCau: loaiDiemCau,
+        tenDiemCau: tenDiemCau,
+        id: id,
+        id_LichHop: id_LichHop,
+      );
 }
 
 class FileData {

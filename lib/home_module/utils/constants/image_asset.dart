@@ -5,7 +5,7 @@ const baseImg = 'lib/home_module/assets/images';
 
 class ImageAssets {
   ///Svg path
-
+  static const icHappyBirthday = '$baseImg/ic_happy_birthday.png';
   static const String bgAppBarTablet = '$baseImg/bg_app_bar.png';
   static const String icTongSoNhiemVu = '$baseImg/ic_tong_so_nhiem_vu.svg';
   static const String icHoanThanhNhiemVu =
@@ -59,6 +59,7 @@ class ImageAssets {
   static const String ic_delete_dscv = '$baseImg/ic_delete_dscv.svg';
   static const String ic_hoan_tac = '$baseImg/ic_hoan_tac.svg';
   static const String iconNote_dscv = '$baseImg/iconNote_dscv.svg';
+  static const String ic_ghim_dscv = '$baseImg/ic_ghim_file.svg';
 
 
 
@@ -74,6 +75,10 @@ class ImageAssets {
   static const String icCalendar = '$baseImg/ic_calendar.svg';
   static const String icWork = '$baseImg/ic_work.svg';
   static const String edit_dscv = '$baseImg/edit_dscv.svg';
+  static const String ic_up = '$baseImg/ic_up.svg';
+  static const String ic_down = '$baseImg/ic_down.svg';
+  static const String ic_close = '$baseImg/ic_close.svg';
+
 
   static const String appBarBackgroundXanh =
       '$baseImg/app_bar_backgroud_xanh.png';
@@ -216,6 +221,7 @@ class ImageAssets {
       '$baseImg/header_background_nha_giao_viet_nam_tablet.png';
   static const String headerBackgroudLeGiangSinhTablet =
       '$baseImg/header_background_le_giang_sinh_tablet.png';
+
 
   static SvgPicture svgAssets(
     String name, {

@@ -57,13 +57,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   String ngayDauTien = '';
   String ngayKetThuc = '';
   String mangTrangThai = '';
+  String loaiNhiemVuId = '';
   int? trangThaiHanXuLy;
   bool checkDataNhiemVu = false;
   List<String> titleNhiemVu = [];
   List<List<ChartData>> listData = [];
+  BehaviorSubject<bool> isCheckDataNVDV = BehaviorSubject.seeded(false);
   List<ChartData> listStatusData = [];
 
-  void callApi(bool isCheckCaNhan) {
+  void callApi(bool isCheckCaNhan, {bool canCallApi=true}) {
     initTimeRange();
     getDashBroashNhiemVuCaNhan(
       ngayDauTien: ngayDauTien,
@@ -73,10 +75,12 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    if(canCallApi){
+      callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    }
   }
 
-  void callApiDonVi(bool isCheckCaNhan) {
+  void callApiDonVi(bool isCheckCaNhan, {bool canCallApi= true,}) {
     initTimeRange();
     postBieuDoTheoDonVi(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
@@ -84,7 +88,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     //   ngayDauTien: ngayDauTien,
     //   ngayCuoiCung: ngayKetThuc,
     // );
-    callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    if(canCallApi){
+      callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    }
   }
 
   void callApiDashBroashDonVi(bool isCheckCaNhan) {
@@ -113,7 +119,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       mangTrangThai: [],
       ngayTaoNhiemVu: {'FromDate': start, 'ToDate': end},
       size: pageSize,
-      keySearch: keySearch, isFilter: false,
+      keySearch: keySearch,
     );
   }
 
@@ -132,8 +138,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   Debouncer debouncer = Debouncer();
 
   Future<void> postDanhSachNhiemVu({
-    required int? index,
-    required bool isFilter,
+    int index = 1,
     required bool isNhiemVuCaNhan,
     required bool isSortByHanXuLy,
     required String keySearch,
@@ -141,11 +146,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required Map<String, String> ngayTaoNhiemVu,
     required int size,
     int? trangThaiHanXuLy,
-    String? loaiNhiemVuId,
   }) async {
-    if (isFilter) {
-      loadMoreList.clear();
-    }
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
@@ -161,7 +162,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       loaiNhiemVuId: loaiNhiemVuId,
     );
     showLoading();
-    loadMorePage = index ?? 1;
+    loadMorePage = index;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
       success: (res) {
@@ -241,6 +242,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         loaiNhiemVuSuject.sink.add(res.data?.trangThaiXuLy ?? []);
+        chartDataTheoLoai.clear();
+        chartData.clear();
         for (final LoaiNhiemVuComomModel value in res.data?.loaiNhiemVu ?? []) {
           chartDataTheoLoai.add(
             ChartData(
@@ -285,6 +288,10 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     ));
     result.when(
       success: (res) {
+        listData.clear();
+        listStatusData.clear();
+        titleNhiemVu.clear();
+        isCheckDataNVDV.sink.add(false);
         for (final NhiemVuDonViModel value in res.nhiemVuDonVi ?? []) {
           titleNhiemVu.add(value.tenDonVi ?? '');
           listData.add(
@@ -334,6 +341,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
             daXuLyColor,
           ),
         ]);
+        if (res.nhiemVuDonVi?.isNotEmpty ?? false) {
+          isCheckDataNVDV.sink.add(true);
+        }
         showContent();
       },
       error: (error) {
@@ -405,7 +415,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         chartDataNhiemVuCaNhan.removeAt(0);
         chartDataNhiemVuCaNhan.removeAt(0);
         statusNhiemVuCaNhanSuject.sink.add(chartDataNhiemVuCaNhan);
-        showContent();
+       // showContent();
       },
       error: (error) {
         showError();

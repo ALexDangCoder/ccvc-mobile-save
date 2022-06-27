@@ -21,11 +21,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'edit_ket_luan_hop_screen.dart';
 
 class XemKetLuanHopWidget extends StatefulWidget {
-  final String id;
   final DetailMeetCalenderCubit cubit;
 
-  const XemKetLuanHopWidget({Key? key, required this.cubit, required this.id})
-      : super(key: key);
+  const XemKetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _XemKetLuanHopWidgetState createState() => _XemKetLuanHopWidgetState();
@@ -45,7 +43,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
     show = false;
     reportStatusId = '';
     reportTemplateId = '';
-    widget.cubit.getXemKetLuanHop(widget.id);
+    widget.cubit.getXemKetLuanHop(widget.cubit.idCuocHop);
   }
 
   @override
@@ -175,9 +173,9 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                     onChange: (List<File> files) {},
                   ),
                 ),
-                ListFileFromAPI(
+                FileFromAPIWidget(
                   data: '',
-                  onTap: () {},
+                  onTapDelete: () {},
                 ),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE
@@ -192,7 +190,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                     onPressed2: () {
                       if (reportStatusId.isNotEmpty) {
                         widget.cubit.suaKetLuan(
-                          scheduleId: widget.id,
+                          scheduleId: widget.cubit.idCuocHop,
                           reportStatusId: reportStatusId,
                           reportTemplateId: reportTemplateId,
                         );

@@ -25,6 +25,8 @@ class ApiConstants {
   static const String GET_DASHBOARD_VB_DEN =
       '/qlvb/api/danh-muc/dashboard-van-ban-den';
   static const String GET_VB_DI_SO_LUONG = '/qlvb/api/van-ban-di/so-luong?';
+  static const String GET_BIRTHDAY =
+      '/appdieuhanh/api/CmsCard/lay-danhsach-chucmung';
   static const String GET_INFO = '/api/CanBo';
   static const String GET_TINH_HUYEN_XA = '/api/DanhMuc/tinh-thanh';
   static const String GET_TINH_HUYEN_XA_CHILD = '/api/DanhMuc/tinh-thanh';
@@ -59,15 +61,17 @@ class ApiConstants {
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
   static const UPLOAD_FILE = '/api/CanBo/upload';
   static const UPLOAD_FILE_COMMON = '/qlvb/api/Common/UploadMultiFile';
-  static const UPDATE_Y_KIEN_XU_LY = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/update-y-kien';
+  static const UPDATE_Y_KIEN_XU_LY =
+      '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/update-y-kien';
   static const CHO_Y_KIEN = '/qlvb/api/xin-y-kien/cho-y-kien';
-  static const TRA_LOI_Y_KIEN_VAN_BAN_DEN = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/tra-loi-xin-y-kien';
+  static const TRA_LOI_Y_KIEN_VAN_BAN_DEN =
+      '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/tra-loi-xin-y-kien';
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';
   static const LICH_LAM_VIEC_DASHBOARD_RIGHT =
       '/vpdt/api/Schedules/dashboard-schedule';
-  static const GET_TREE_DON_VI = '/common/DonVi/get-tree?';
+  static const GET_TREE_DON_VI = '/common/DonVi/get-tree';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
@@ -81,10 +85,15 @@ class ApiConstants {
   static const CHUONG_TRINH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
   static const CHI_TIET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}';
-  static const Y_KIEN_VAN_BAN_DI = '/qlvb/api/van-ban-di/y-kien-van-ban-di/{id}';
+  static const Y_KIEN_VAN_BAN_DI =
+      '/qlvb/api/van-ban-di/y-kien-van-ban-di/{id}';
   static const CHI_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/{id}?';
 
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
+  static const HUY_AND_DUYET_LICH_HOP =
+      '/vpdt/api/MeetingSchedule/duyet-lich-hop';
+  static const CU_CAN_BO_DI_THAY =
+      '/vpdt/api/MeetingSchedule/cu-can-bo-di-thay';
   static const TRANG_THAI = '/vpdt/api/ReportStatus/list';
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
@@ -105,20 +114,18 @@ class ApiConstants {
 
   static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
-  static const XOA_LICH_LAM_VIEC =
-      '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
+  static const XOA_LICH_LAM_VIEC = '/vpdt/api/Schedules/delete-schedule';
 
   static const POST_DANH_SACH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/danh-sach-lich';
   static const TAO_MOI_BAN_GHI = '/vpdt/api/ScheduleOpinion/create';
-  static const CANCEL_TIET_LICH_LAM_VIEC =
-      '/vpdt/api/Schedules/change-status?scheduleId={id}&statusId=8&isMulti=false';
+  static const CANCEL_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/change-status';
   static const SCHEDULE_REPORT_LIST = '/vpdt/api/ScheduleReport/list';
   static const DELETE_SCHEDULE_REPORT = '/vpdt/api/ScheduleReport/delete';
   static const SCHEDULE_OPINION_LIST = '/vpdt/api/ScheduleOpinion/list';
   static const UPDATE_SCHEDULE_REPORT = '/vpdt/api/ScheduleReport/update';
   static const REPORT_STATUS_LIST = '/vpdt/api/ReportStatus/list';
-  static const DELETE_DETAIL_CELENDER_MEET = '/vpdt/api/MeetingSchedule?';
+  static const DELETE_DETAIL_CELENDER_MEET = '/vpdt/api/MeetingSchedule';
 
   static const CANCEL_DETAIL_CELENDER_MEET =
       '/vpdt/api/MeetingSchedule/cancel?';
@@ -134,7 +141,7 @@ class ApiConstants {
       '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA =
       '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
-  static const SUA_LICH_HOP = '/api/MeetingSchedule/edit-meeting';
+  static const SUA_LICH_HOP = '/vpdt/api/MeetingSchedule/edit-meeting';
 
   static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall?';
 
@@ -145,6 +152,7 @@ class ApiConstants {
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
+  static const SUA_BAO_CAO_KET_QUA = '/vpdt/api/ScheduleReport/update';
 
   static const DETAIL_MEETING_SCHEDULE = '/vpdt/api/MeetingSchedule/detail';
   static const MEETING_ROOM_DANH_SACH_PHONG_HOP =
@@ -177,6 +185,8 @@ class ApiConstants {
   static const CHI_TIET_VAN_BAN_DEN = '/qlvb/api/VanBan/ChiTietVanBanDen';
   static const HOI_BAO_VAN_BAN_DEN = '/qlvb/api/vanban/van-ban-di-response';
   static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
+
+  static const CHON_PHONG_HOP_METTING = '/vpdt/MeetingSchedule/chon-phong-hop';
   static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
   static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
   static const THEO_DOI_VAN_BAN_DA_BAN_HANH =
@@ -214,6 +224,7 @@ class ApiConstants {
       '/pakn/api/IocApi/thong-ke-pakn-theo-trang-thai';
   static const DANH_SACH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const CHI_TIET_Y_KIEN_NGUOI_DAN = '/pakn/api/Tasks/chi-tiet-kien-nghi';
+  static const THONG_TIN_XU_LY_PAKN = '/pakn/api/Tasks/chi-tiet-kien-nghi';
   static const SEARCH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const GET_LIST_WIDGET = '/api/Widget/get-list-widget?';
   static const GET_DANH_SACH_Y_KIEN_PAKN =
@@ -241,8 +252,7 @@ class ApiConstants {
       '/api/NewsNetViews/thong_ke_theo_nguon';
   static const BAO_CAO_THEO_SAC_THAI_LINE_CHART =
       '/api/NewsNetViews/thong_ke_theo_sac_thai';
-  static const THEO_DOI_BAI_VIET =
-      '/api/NewsNetViews/theo_doi';
+  static const THEO_DOI_BAI_VIET = '/api/NewsNetViews/theo_doi';
   static const CHANGE_PASS = '/api/auth/change-pass';
   static const FORGOT_PASSWORD = '/api/auth/forgot-password';
   static const THEM_Y_KIEN = '/vpdt/api/ScheduleOpinion/create';
@@ -265,8 +275,37 @@ class ApiConstants {
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
   static const CREATE_DEVICE = '/api/DeviceNotification/create-device';
   static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
-  static const DS_DON_VI_CON_PHONG = '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
+  static const DS_DON_VI_CON_PHONG =
+      '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
   static const DS_PHONG_HOP = '/vpdt/api/PhongHop/lay-theo-don-vi';
+  static const DUYET_HOAC_HUYDUYET_PHONG_HOP =
+      '/vpdt/api/MeetingSchedule/duyet-phong-hop';
+  static const DUYET_HOAC_HUYDUYET_THIET_BI =
+      '/vpdt/api/MeetingSchedule/duyet-thiet-bi';
+  static const CHON_PHONG_HOP = '/vpdt/api/CanBoThamGia/thay-doi-phong';
+  static const DUYET_HOAC_HUYDUYET_KY_THUAT =
+      '/vpdt/api/CanBoThamGia/duyet-ky-thuat';
+
+  static const LIST_REPORT = '/htcs/api/Folder/list';
+  static const GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP = '/htcs/api/User/list';
+  static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
+      '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
+  static const CHECK_LICH_HOP_TRUNG =
+      '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
+  static const LIST_GROUP_BAO_CAO = '/common/Group/search';
+  static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
+  static const GET_APP_ID = '/api/App/search';
+  static const GET_FOLDER_ID = '/htcs/api/Folder/get-root';
+  static const POST_LIKE_REPORT = '/htcs/api/Report/like-many';
+  static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
+  static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
+  static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
+  static const CREATE_NEW_USER = '/htcs/api/User/create';
+  static const SHARE_REPORT = '/htcs/api/User/share-many';
+
+  static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';
+  static const CONFIRM_OR_CANCEL_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/duyet-bao-cao';
+  static const CREATE_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/create-meet-report';
 }
 
 class ImageConstants {

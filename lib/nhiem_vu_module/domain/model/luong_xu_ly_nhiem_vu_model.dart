@@ -54,7 +54,7 @@ class DonViLuongNhiemVuModel {
         return chuaThucHienColor;
       case 'DANG_THUC_HIEN':
         return choTrinhKyColor;
-      case 'DA_THUC_HIEN':
+      case 'DA_HOAN_THANH':
         return greenChart;
       case 'TRA_LAI':
         return pinkColor;
@@ -83,7 +83,7 @@ class DonViLuongNhiemVuModel {
     return Colors.black;
   }
 
-  String get textChucVuDonVi {
+  String get  textChucVuDonVi {
     if (chucVu?.isNotEmpty ?? false) {
       return '$ten - $chucVu';
     }

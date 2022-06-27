@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/location_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_xy_ly_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -30,6 +31,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
 
   final BehaviorSubject<List<List<ListRowYKND>>> tienTrinhXuLyRowData =
       BehaviorSubject<List<List<ListRowYKND>>>();
+
+  BehaviorSubject<ThongTinXuLyPAKNModel> listThongTinXuLy =
+      BehaviorSubject<ThongTinXuLyPAKNModel>();
 
   final BehaviorSubject<List<List<ListRowYKND>>> ketQuaXuLyRowData =
       BehaviorSubject<List<List<ListRowYKND>>>();
@@ -138,7 +142,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
           tienTrinhXuLyRowData.sink.add(listData);
         }
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
   }
 
@@ -235,7 +241,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             ketQuaXuLyRowData.sink.add(listData);
           }
         },
-        error: (error) {});
+        error: (error) {
+          showError();
+        });
   }
 
   Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
@@ -432,14 +440,28 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     return status;
   }
 
-  // Future<void> getThongTinPAKN(String kienNghiId,
-  //     String taskId,) async {
-  //   if (headerRowData.hasValue) {
-  //     headerRowData.value.clear();
-  //   } else {}
-  //
-  //
-  // }
+
+
+  Future<void> getThongTinXuLyPAKN(String kienNghiId, String taskId) async {
+    if(listThongTinXuLy.hasValue) {
+      listThongTinXuLy.value.donViDuocPhanXuLy?.clear();
+    } else {
+
+    }
+    showLoading();
+    final result = await YKNDRepo.thongTinXuLyPAKN(kienNghiId, taskId);
+    result.when(
+      success: (success) {
+        showContent();
+        listThongTinXuLy.sink.add(success);
+      },
+      error: (error) {
+        showContent();
+        listThongTinXuLy.sink.add(ThongTinXuLyPAKNModel.seeded());
+
+      },
+    );
+  }
 
   Future<void> getThongTinPAKN(
     String kienNghiId,
@@ -512,8 +534,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
               title: S.current.tai_lieu_dinh_kem_cong_dan,
               content: listFileName,
               nameFile: listFileName,
-              urlDownload: listUrlFile
-          ),
+              urlDownload: listUrlFile),
         );
         headerRowData.sink.add(listRowHeaderData);
       },

@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
@@ -45,7 +46,6 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 
   Future<void> getChiTietLichHop(String id) async {
     showLoading();
-    this.id = id;
     final loaiHop = await hopRp
         .getLoaiHop(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     loaiHop.when(
@@ -54,17 +54,17 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       },
       error: (err) {},
     );
-    final result = await hopRp.getChiTietLichHop(id);
+    final result = await hopRp.getChiTietLichHop(idCuocHop);
     result.when(
       success: (res) {
-        showContent();
         res.loaiHop = _findLoaiHop(res.typeScheduleId)?.name ?? '';
-        chiTietLichLamViecSubject.add(res);
+        chiTietLichHopSubject.add(res);
       },
       error: (err) {
         showError();
       },
     );
+    showContent();
   }
 
   Future<void> postThuHoiHop(String scheduleId) async {
@@ -151,5 +151,58 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         return 10080;
     }
     return 0;
+  }
+
+  Future<bool> confirmThamGiaHop(
+      {required String lichHopId, required bool isThamGia}) async {
+    bool isSuccess = false;
+    final rs = await hopRp.xacNhanThamGiaHop(lichHopId, isThamGia);
+    rs.when(
+      success: (res) {
+        isSuccess = true;
+      },
+      error: (error) {
+        isSuccess = false;
+      },
+    );
+    return isSuccess;
+  }
+
+  Future<bool> huyAndDuyetLichHop({
+    required bool isDuyet,
+  }) async {
+    bool isCheck = true;
+    final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
+    result.when(
+      success: (res) {
+        isCheck = true;
+      },
+      error: (error) {
+        isCheck = false;
+      },
+    );
+    return isCheck;
+  }
+
+  Future<void> cuCanBoDiThay({
+    required String id,
+    required List<CanBoDiThay>? canBoDiThay,
+  }) async {
+    showLoading();
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: id,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
+    result.when(
+      success: (res) {
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
+    );
+    showError();
   }
 }

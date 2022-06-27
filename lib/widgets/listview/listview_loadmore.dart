@@ -18,6 +18,7 @@ class ListViewLoadMore extends StatelessWidget {
   final double? checkRatio;
   final double? crossAxisSpacing;
   final bool? sinkWap;
+  final bool isLoadMoreBottom;
 
   const ListViewLoadMore({
     Key? key,
@@ -28,6 +29,7 @@ class ListViewLoadMore extends StatelessWidget {
     this.checkRatio,
     this.crossAxisSpacing,
     this.sinkWap,
+    this.isLoadMoreBottom = true,
   }) : super(key: key);
 
   Future<void> refreshPosts() async {
@@ -40,20 +42,24 @@ class ListViewLoadMore extends StatelessWidget {
   }
 
   Future<void> loadMorePosts() async {
-    if (!cubit.loadMoreLoading) {
-      cubit.loadMorePage += ApiConstants.PAGE_BEGIN;
-      cubit.loadMoreRefresh = false;
-      cubit.loadMoreLoading = true;
-      cubit.loadMoreSink.add(cubit.loadMoreLoading);
-      await callApi(cubit.loadMorePage);
+    if (isLoadMoreBottom) {
+      if (!cubit.loadMoreLoading) {
+        cubit.loadMorePage += ApiConstants.PAGE_BEGIN;
+        cubit.loadMoreRefresh = false;
+        cubit.loadMoreLoading = true;
+        cubit.loadMoreSink.add(cubit.loadMoreLoading);
+        await callApi(cubit.loadMorePage);
+      }
     }
   }
 
   Future<void> initData() async {
-    cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
-    cubit.loadMoreRefresh = true;
-    cubit.loadMoreLoading = true;
-    await callApi(cubit.loadMorePage);
+    if (isLoadMoreBottom) {
+      cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
+      cubit.loadMoreRefresh = true;
+      cubit.loadMoreLoading = true;
+      await callApi(cubit.loadMorePage);
+    }
   }
 
   @override
@@ -144,19 +150,20 @@ class ListViewLoadMore extends StatelessWidget {
                             );
                     },
                   ),
-                  Positioned(
-                    bottom: 5,
-                    right: 16,
-                    left: 16,
-                    child: StreamBuilder<bool>(
-                      stream: cubit.loadMoreStream,
-                      builder: (context, snapshot) {
-                        return snapshot.data ?? false
-                            ? LoadingItem()
-                            : const SizedBox();
-                      },
-                    ),
-                  )
+                  if (isLoadMoreBottom)
+                    Positioned(
+                      bottom: 5,
+                      right: 16,
+                      left: 16,
+                      child: StreamBuilder<bool>(
+                        stream: cubit.loadMoreStream,
+                        builder: (context, snapshot) {
+                          return snapshot.data ?? false
+                              ? LoadingItem()
+                              : const SizedBox();
+                        },
+                      ),
+                    )
                 ],
               ),
             ),

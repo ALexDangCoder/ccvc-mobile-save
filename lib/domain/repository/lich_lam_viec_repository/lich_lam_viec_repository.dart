@@ -71,9 +71,14 @@ mixin LichLamViecRepository {
 
   Future<Result<DeleteTietLichLamViecModel>> deleteCalenderWork(
     String id,
+    bool only,
   );
 
-  Future<Result<CancelLichLamViecModel>> cancelCalenderWork(String id);
+  Future<Result<CancelLichLamViecModel>> cancelCalenderWork(
+    String id,
+    int statusId,
+    bool isMulti,
+  );
 
   Future<Result<List<YKienModel>>> getDanhSachYKien(String id);
 
@@ -95,46 +100,46 @@ mixin LichLamViecRepository {
   Future<Result<MessageModel>> checkTrungLichLamviec(
       CheckTrungLichRequest body);
 
-  Future<Result<MessageModel>> taoLichLamViec(
-    String title,
-    String typeScheduleId,
-    String linhVucId,
-    String tinhId,
-    String TenTinh,
-    String huyenId,
-    String TenHuyen,
-    String xaId,
-    String TenXa,
-    String country,
-    String countryId,
-    String dateFrom,
-    String timeFrom,
-    String dateTo,
-    String timeTo,
-    String content,
-    String location,
-    String vehicle,
-    String expectedResults,
-    String results,
-    int status,
-    String rejectReason,
-    bool publishSchedule,
-    String tags,
-    bool isLichDonVi,
-    bool isLichLanhDao,
-    String canBoChuTriId,
-    String donViId,
-    String note,
-    bool isAllDay,
-    bool isSendMail,
-    List<DonViModel> scheduleCoperativeRequest,
-    int typeRemider,
-    int typeRepeat,
-    String dateRepeat,
-    String dateRepeat1,
-    bool only,
-    List<int> days,
-  );
+  Future<Result<MessageModel>> taoLichLamViec({
+    required String title,
+    required String typeScheduleId,
+    required String linhVucId,
+    required String tinhId,
+    required String TenTinh,
+    required String huyenId,
+    required String TenHuyen,
+    required String xaId,
+    required String TenXa,
+    required String country,
+    required String countryId,
+    required String dateFrom,
+    required String timeFrom,
+    required String dateTo,
+    required String timeTo,
+    required String content,
+    required String location,
+    required String vehicle,
+    required String expectedResults,
+    required String results,
+    required int status,
+    required String rejectReason,
+    required bool publishSchedule,
+    required String tags,
+    required bool isLichDonVi,
+    required bool isLichLanhDao,
+    required String canBoChuTriId,
+    required String donViId,
+    required String note,
+    required bool isAllDay,
+    required bool isSendMail,
+    required List<DonViModel> scheduleCoperativeRequest,
+    required int? typeRemider,
+    required int typeRepeat,
+    required String dateRepeat,
+    required String dateRepeat1,
+    required bool only,
+    required List<int> days,
+  });
 
   Future<Result<MessageModel>> suaLichLamViec(
     String title,
@@ -160,6 +165,7 @@ mixin LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -196,6 +202,7 @@ mixin LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -210,8 +217,17 @@ mixin LichLamViecRepository {
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
     String scheduleId,
+    String content,
     List<File> files,
   );
+
+  Future<Result<MessageModel>> suaBaoCaoKetQua(
+      {required String id,
+      required String reportStatusId,
+      required String scheduleId,
+      required String content,
+      required List<File> files,
+      required List<String> idFileDelele});
 
   Future<Result<ThemYKienModel>> themYKien(ThemYKienRequest themYKienRequest);
 

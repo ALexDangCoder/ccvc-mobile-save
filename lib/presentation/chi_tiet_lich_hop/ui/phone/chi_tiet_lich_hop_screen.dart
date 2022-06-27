@@ -3,7 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
@@ -12,7 +13,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
@@ -22,6 +22,8 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +46,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = DetailMeetCalenderCubit();
-    cubit.id = widget.id;
-    cubit.initData(id: widget.id);
-    cubit.initDataButton();
+    cubit.idCuocHop = widget.id;
+    cubit.initDataChiTiet(needCheckPermission: true);
   }
 
   @override
@@ -61,54 +61,24 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
       ),
       stream: cubit.stateStream,
       child: Scaffold(
-        appBar: BaseAppBar(
-          leadingIcon: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: SvgPicture.asset(ImageAssets.icBack),
-          ),
-          title: S.current.chi_tiet_lich_hop,
-          actions: [
-            StreamBuilder<List<PERMISSION_DETAIL>>(
-                stream: cubit.listButtonSubject.stream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return MenuSelectWidget(
-                    listSelect: data
-                        .map(
-                          (e) => e.getMenuLichHop(
-                            context,
-                            cubit,
-                            widget.id,
-                          ),
-                        )
-                        .toList(),
-                  );
-                }),
-            const SizedBox(
-              width: 16,
-            )
-          ],
-        ),
+        appBar: appbarChiTietHop(cubit, context),
         body: ProviderWidget<DetailMeetCalenderCubit>(
           cubit: cubit,
-          child: DetailMeetCalendarInherited(
-            cubit: cubit,
-            child: ExpandGroup(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  await cubit.initData(id: widget.id);
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: ListView(
+          child: ExpandGroup(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await cubit.initDataChiTiet();
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
                       StreamBuilder<ChiTietLichHopModel>(
-                        stream: cubit.chiTietLichLamViecSubject.stream,
+                        stream: cubit.chiTietLichHopSubject.stream,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Container();
+                            return const SizedBox();
                           }
                           final data = snapshot.data ?? ChiTietLichHopModel();
                           return Column(
@@ -157,42 +127,113 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           );
                         },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16, bottom: 10),
-                        child: CongTacChuanBiWidget(
-                          cubit: cubit,
-                        ),
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: listWidgetChiTietHop(cubit).length,
+                        itemBuilder: (context, index) {
+                          return listWidgetChiTietHop(cubit)[index];
+                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: ChuongTrinhHopWidget(
-                          id: widget.id,
-                          cubit: cubit,
-                        ),
+                      StreamBuilder<List<PERMISSION_DETAIL>>(
+                        stream: cubit.listButtonSubject.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          if (data.contains(
+                                PERMISSION_DETAIL.XAC_NHAN_THAM_GIA,
+                              ) &&
+                              data.contains(
+                                PERMISSION_DETAIL.TU_CHOI_THAM_GIA,
+                              )) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: DoubleButtonBottom(
+                                title1: S.current.tham_du,
+                                title2: S.current.tu_choi,
+                                onPressed1: () {
+                                  showDiaLog(
+                                    context,
+                                    btnLeftTxt: S.current.khong,
+                                    funcBtnRight: () {
+                                      cubit
+                                          .confirmThamGiaHop(
+                                        lichHopId:
+                                            cubit.getChiTietLichHopModel.id,
+                                        isThamGia: true,
+                                      )
+                                          .then((value) {
+                                        if (value) {
+                                          MessageConfig.show(
+                                            title:
+                                                '${S.current.xac_nhan_tham_gia}'
+                                                ' ${S.current.thanh_cong.toLowerCase()}',
+                                          );
+                                          cubit.initDataChiTiet(
+                                            needCheckPermission: true,
+                                          );
+                                        } else {
+                                          MessageConfig.show(
+                                            messState: MessState.error,
+                                            title:
+                                                '${S.current.xac_nhan_tham_gia}'
+                                                ' ${S.current.that_bai.toLowerCase()}',
+                                          );
+                                        }
+                                      });
+                                    },
+                                    title: S.current.xac_nhan_tham_gia,
+                                    btnRightTxt: S.current.dong_y,
+                                    icon: SvgPicture.asset(
+                                      ImageAssets.img_tham_gia,
+                                    ),
+                                    textContent: S.current.confirm_tham_gia,
+                                  );
+                                },
+                                onPressed2: () {
+                                  showDiaLog(
+                                    context,
+                                    btnLeftTxt: S.current.khong,
+                                    funcBtnRight: () {
+                                      cubit
+                                          .confirmThamGiaHop(
+                                        lichHopId:
+                                            cubit.getChiTietLichHopModel.id,
+                                        isThamGia: false,
+                                      )
+                                          .then((value) {
+                                        if (value) {
+                                          MessageConfig.show(
+                                            title:
+                                                '${S.current.tu_choi_tham_gia} '
+                                                '${S.current.thanh_cong.toLowerCase()}',
+                                          );
+                                          cubit.initDataChiTiet(
+                                            needCheckPermission: true,
+                                          );
+                                        } else {
+                                          MessageConfig.show(
+                                            messState: MessState.error,
+                                            title:
+                                                '${S.current.tu_choi_tham_gia}'
+                                                ' ${S.current.that_bai.toLowerCase()}',
+                                          );
+                                        }
+                                      });
+                                    },
+                                    title: S.current.tu_choi_tham_gia,
+                                    btnRightTxt: S.current.dong_y,
+                                    icon: SvgPicture.asset(
+                                        ImageAssets.img_tu_choi_tham_gia),
+                                    textContent:
+                                        S.current.confirm_tu_choi_tham_gia,
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       ),
-                      ThanhPhanThamGiaWidget(
-                        cubit: cubit,
-                      ),
-                      TaiLieuWidget(
-                        cubit: cubit,
-                      ),
-                      PhatBieuWidget(
-                        cubit: cubit,
-                        id: widget.id,
-                      ),
-                      BieuQuyetWidget(
-                        id: widget.id,
-                        cubit: cubit,
-                      ),
-                      KetLuanHopWidget(
-                        cubit: cubit,
-                        id: widget.id,
-                      ),
-                      YKienCuocHopWidget(
-                        id: widget.id,
-                        cubit: cubit,
-                      ),
-                      BocBangWidget(cubit: cubit,)
                     ],
                   ),
                 ),
@@ -256,22 +297,67 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   }
 }
 
-class DetailMeetCalendarInherited extends InheritedWidget {
-  DetailMeetCalenderCubit cubit;
+///for phone and tab
+PreferredSizeWidget appbarChiTietHop(
+  DetailMeetCalenderCubit cubit,
+  BuildContext context,
+) =>
+    BaseAppBar(
+      title: S.current.chi_tiet_lich_hop,
+      leadingIcon: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: SvgPicture.asset(
+          ImageAssets.icBack,
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: StreamBuilder<List<PERMISSION_DETAIL>>(
+            stream: cubit.listButtonSubject.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              return MenuSelectWidget(
+                listSelect: data
+                    .map(
+                      (e) => e.getMenuLichHop(
+                        context,
+                        cubit,
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          ),
+        )
+      ],
+    );
 
-  DetailMeetCalendarInherited(
-      {Key? key, required this.cubit, required Widget child})
-      : super(key: key, child: child);
-
-  static DetailMeetCalendarInherited of(BuildContext context) {
-    final DetailMeetCalendarInherited? result = context
-        .dependOnInheritedWidgetOfExactType<DetailMeetCalendarInherited>();
-    assert(result != null, 'No element');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
-  }
-}
+List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
+      CongTacChuanBiWidget(
+        cubit: cubit,
+      ),
+      ChuongTrinhHopWidget(
+        cubit: cubit,
+      ),
+      ThanhPhanThamGiaWidget(
+        cubit: cubit,
+      ),
+      TaiLieuWidget(
+        cubit: cubit,
+      ),
+      PhatBieuWidget(
+        cubit: cubit,
+      ),
+      BieuQuyetWidget(
+        cubit: cubit,
+      ),
+      KetLuanHopWidget(
+        cubit: cubit,
+      ),
+      YKienCuocHopWidget(
+        cubit: cubit,
+      ),
+    ];

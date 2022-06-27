@@ -1,6 +1,12 @@
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/btn_them_cong_viec.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/dialog_them_cong_viec.dart';
+import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 
 import '/generated/l10n.dart';
 import '/home_module/config/resources/color.dart';
@@ -12,11 +18,11 @@ import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/cong_viec_cell.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/widgets/text/dialog/show_dialog.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 
 class WorkListTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
@@ -30,24 +36,40 @@ class WorkListTabletWidget extends StatefulWidget {
 
 class _WorkListWidgetState extends State<WorkListTabletWidget> {
   late HomeCubit cubit;
+  String? nguoiGanID;
   DanhSachCongViecCubit danhSachCVCubit = DanhSachCongViecCubit();
-
+  TextEditingController controllerCongViec = TextEditingController();
+  final keyGroup = GlobalKey<FormGroupState>();
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    cubit = HomeProvider.of(context).homeCubit;
+    cubit = HomeProvider
+        .of(context)
+        .homeCubit;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    danhSachCVCubit.callApi();
     danhSachCVCubit.getToDoList();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+      HomeProvider
+          .of(context)
+          .homeCubit
+          .refreshListen
+          .listen((value) {
         danhSachCVCubit.getToDoList();
       });
+    });
+    _handleEventBus();
+  }
+
+  void _handleEventBus() {
+    eventBus.on<CallBackNguoiGan>().listen((event) {
+      nguoiGanID = event.id;
     });
   }
 
@@ -60,18 +82,31 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
       minHeight: 415,
       urlIcon: ImageAssets.icPlus,
       onTapIcon: () {
-        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        showDiaLogTablet(
+          context,
+          child: DiaLogThemCongViec(
+            keyGroup: keyGroup,
+            controllerCongViec: controllerCongViec,
+            danhSachCVCubit: danhSachCVCubit,
+          ),
+          title: S.current.them_cong_viec,
+          funcBtnOk: () {
+            if (controllerCongViec.text.isEmpty) {
+              keyGroup.currentState!.validator();
+            } else {
+              final String label = controllerCongViec.text;
+              danhSachCVCubit.addTodo(label, nguoiGanID);
+              Navigator.pop(context, false);
+            }
+          },
+        ).then((value) {
+          danhSachCVCubit.setDisplayIcon(
+            IconListCanBo.DOWN,
+          );
+          danhSachCVCubit.setDisplayListCanBo(false);
+        });
       },
       isCustomDialog: true,
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        customDialog: AddToDoWidget(
-          onTap: (value) {
-            cubit.closeDialog();
-            danhSachCVCubit.addTodo(value);
-          },
-        ),
-      ),
       child: LoadingOnly(
         stream: danhSachCVCubit.stateStream,
         child: ScrollBarWidget(
@@ -86,6 +121,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                     children: List.generate(data.length, (index) {
                       final todo = data[index];
                       return CongViecCell(
+                        nguoiGan: danhSachCVCubit.danhSachTenNguoiGan[index],
                         text: todo.label ?? '',
                         todoModel: todo,
                         onCheckBox: (value) {
@@ -149,6 +185,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                         children: List.generate(data.length, (index) {
                           final todo = data[index];
                           return CongViecCell(
+                            nguoiGan: '',
                             enabled: false,
                             todoModel: todo,
                             onCheckBox: (value) {
@@ -271,7 +308,7 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIconConstraints:
-                    const BoxConstraints(maxWidth: 25, maxHeight: 14),
+                const BoxConstraints(maxWidth: 25, maxHeight: 14),
                 prefixIcon: Container(
                   color: Colors.transparent,
                   child: Align(

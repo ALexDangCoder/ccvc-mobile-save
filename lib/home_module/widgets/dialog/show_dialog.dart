@@ -10,7 +10,7 @@ import '/home_module/widgets/text/button/button_custom_bottom.dart';
 Future<T?> showDiaLog<T>(
   BuildContext context, {
   required String title,
-  required String textContent,
+  String textContent = '',
   required Widget icon,
   required String btnRightTxt,
   required String btnLeftTxt,
@@ -61,14 +61,17 @@ Future<T?> showDiaLog<T>(
                 ),
               ),
               icon,
-              SizedBox(
-                height: showTablet ? 20.0.textScale(space: -8) : 20,
-              ),
-              Text(
-                title,
-                style: titleAppbar(),
-              ),
-              if (isOneButton)
+              if (title != '')
+                SizedBox(
+                  height: showTablet ? 20.0.textScale(space: -8) : 20,
+                ),
+              if (title != '')
+                Text(
+                  title,
+                  style: titleAppbar(),
+                  textAlign: TextAlign.center,
+                ),
+              if (isOneButton && textContent != '')
                 Column(
                   children: [
                     SizedBox(

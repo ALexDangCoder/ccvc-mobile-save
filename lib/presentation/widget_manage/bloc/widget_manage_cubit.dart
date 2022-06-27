@@ -39,23 +39,34 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetTypeConstant.HANH_CHINH_CONG,
     WidgetTypeConstant.LICH_LAM_VIEC_LICH_HOP,
     WidgetTypeConstant.TONG_HOP_HCC,
+    WidgetTypeConstant.TIN_BUON,
   ];
 
-  Future<void> _getListWidgetUsing() async {
-    if (APP_DEVICE == DeviceType.TABLET) {
-      listUsing = keyHomeTablet.currentState?.homeCubit.getListWidget ?? [];
-    } else {
-      listUsing = keyHomeMobile.currentState?.homeCubit.getListWidget ?? [];
-    }
-    if (listUsing.isNotEmpty) {
-      listTitleWidgetUse = listUsing.map((e) => e.name).toList();
-      _listWidgetUsing.sink.add(listUsing);
-    } else {
-      _listWidgetUsing.sink.add([]);
-    }
+  Future<void> _getListWidgetNotUse() async {
+    listNotUse.clear();
+    final result = await _qlWidgetRepo.getListWidget();
+    result.when(
+      success: (res) {
+        for (final element in res) {
+          // ignore: iterable_contains_unrelated_type
+          if (!listTitleWidgetUse.contains(element.name) &&
+              !removeWidget.contains(element.component)) {
+            for (final fullPara in listTempFullPara) {
+              if (fullPara.name == element.name) {
+                listNotUse.add(fullPara);
+              }
+            }
+          }
+        }
+        _listWidgetNotUse.sink.add(listNotUse);
+      },
+      error: (err) {
+        return;
+      },
+    );
   }
 
-  Future<void>loadApi() async{
+  Future<void> loadApi() async {
     final queue = Queue(parallel: 3);
     await queue.add(() => _getListWidgetUsing());
     await queue.add(() => setFullParaNotUse());
@@ -99,6 +110,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     final List<WidgetModel> listUpdate = _listWidgetUsing.value;
     final element = listUpdate.removeAt(oldIndex);
     listUpdate.insert(newIndex, element);
+    listUsing=listUpdate;
+    setFullParaNotUse();
     if (APP_DEVICE == DeviceType.TABLET) {
       keyHomeTablet.currentState?.homeCubit.orderWidget(listUpdate);
     } else {
@@ -116,30 +129,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   final QuanLyWidgetRepository _qlWidgetRepo = Get.find();
-
-  Future<void> _getListWidgetNotUse() async {
-    listNotUse.clear();
-    final result = await _qlWidgetRepo.getListWidget();
-    result.when(
-      success: (res) {
-        for (final element in res) {
-          // ignore: iterable_contains_unrelated_type
-          if (!listTitleWidgetUse.contains(element.name) &&
-              !removeWidget.contains(element.component)) {
-            for (final fullPara in listTempFullPara) {
-              if (fullPara.name == element.name) {
-                listNotUse.add(fullPara);
-              }
-            }
-          }
-        }
-        _listWidgetNotUse.sink.add(listNotUse);
-      },
-      error: (err) {
-        return;
-      },
-    );
-  }
 
   Future<void> setFullParaNotUse() async {
     final result = await _qlWidgetRepo.resetListWidget();
@@ -163,15 +152,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
       success: (res) {
         listUsing.clear();
         listNotUse.clear();
+        res.removeWhere((element) => removeWidget.contains(element.component));
         listUsing = res;
-        listTitleWidgetUse = listUsing.map((e) => e.name).toList();
-        for (final element in res) {
-          // ignore: iterable_contains_unrelated_type
-          if (!listTitleWidgetUse.contains(element.name) &&
-              !removeWidget.contains(element.component)) {
-            listNotUse.add(element);
-          }
-        }
         _listWidgetUsing.sink.add(listUsing);
         _listWidgetNotUse.sink.add(listNotUse);
         orderWidgetHome(_listWidgetUsing.value);
@@ -195,11 +177,14 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   HomeRepository get homeRep => Get.find();
 
-  Future<void> configWidget() async {
+  Future<void> _getListWidgetUsing() async {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
-        _listWidgetUsing.sink.add(res);
+        res.removeWhere((element) => removeWidget.contains(element.component));
+        listUsing = res;
+        listTitleWidgetUse = listUsing.map((e) => e.name).toList();
+        _listWidgetUsing.sink.add(listUsing);
       },
       error: (err) {},
     );
@@ -210,7 +195,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     for (final element in listUsing) {
       listMap.add(widgetModelToJson(element));
     }
-    // json.encode(listMap);
     listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));
@@ -218,6 +202,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void> onRefreshData() async {
+    _listWidgetUsing.sink.add([]);
+    _listWidgetNotUse.sink.add([]);
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {

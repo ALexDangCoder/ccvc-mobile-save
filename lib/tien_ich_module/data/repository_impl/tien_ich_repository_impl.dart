@@ -114,7 +114,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
   @override
   Future<Result<LichAmDuong>> getLichAmDuong(String date) {
     return runCatchingAsync<DataLichAmDuongResponse, LichAmDuong>(
-      () => _tienIchServiceUAT.getLichAmDuong(date),
+      () => _tienIchService.getLichAmDuong(date),
       (response) => response.data?.toModel() ?? LichAmDuong(),
     );
   }
@@ -164,10 +164,10 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> xoaCongViec(String id) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+  Future<Result<TodoDSCVModel>> xoaCongViec(String id) {
+    return runCatchingAsync<ToDoListUpdateResponseTwo, TodoDSCVModel>(
       () => _tienIchService.xoaCongViec(id),
-      (response) => response.toModel(),
+      (response) => response.data?.toDomain() ?? TodoDSCVModel(),
     );
   }
 
@@ -255,6 +255,16 @@ class TienIchRepositoryImpl implements TienIchRepository {
   Future<Result<PostAnhModel>> uploadFile(File files) {
     return runCatchingAsync<PostAnhResponse, PostAnhModel>(
       () => _tienIchService.uploadFile(
+        files,
+      ),
+      (res) => res.toMoDel(),
+    );
+  }
+
+  @override
+  Future<Result<PostAnhModel>> uploadFileDSCV(File files) {
+    return runCatchingAsync<PostAnhResponse, PostAnhModel>(
+      () => _tienIchService.uploadFileDSCV(
         files,
       ),
       (res) => res.toMoDel(),

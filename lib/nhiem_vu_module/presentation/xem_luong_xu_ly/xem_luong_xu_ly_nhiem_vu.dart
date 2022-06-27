@@ -249,7 +249,7 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                           ),
                           rowChuThich(
                             color: itemWidgetUsing,
-                            title: S.current.da_thuc_hien,
+                            title: S.current.da_hoan_thanh,
                           ),
                           rowChuThich(
                             color: pinkColor,

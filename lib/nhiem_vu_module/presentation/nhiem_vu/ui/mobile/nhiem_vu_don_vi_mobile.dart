@@ -29,6 +29,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NhiemVuDonViMobile extends StatefulWidget {
+  final String maTrangThai;
   final bool isCheck;
   final DanhSachCubit danhSachCubit;
   final NhiemVuCubit nhiemVuCubit;
@@ -38,6 +39,7 @@ class NhiemVuDonViMobile extends StatefulWidget {
     required this.isCheck,
     required this.danhSachCubit,
     required this.nhiemVuCubit,
+    this. maTrangThai='',
   }) : super(key: key);
 
   @override
@@ -51,9 +53,13 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.danhSachCubit.mangTrangThai = '';
-    widget.danhSachCubit.keySearch = '';
-    widget.danhSachCubit.callApiDonVi(false);
+    widget.danhSachCubit.mangTrangThai=widget.maTrangThai;
+    if(widget.maTrangThai.isNotEmpty){
+      widget.danhSachCubit.callApiDonVi(false,canCallApi: false);
+    }
+    else{
+      widget.danhSachCubit.callApiDonVi(false);
+    }
   }
 
   @override
@@ -102,9 +108,10 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                             false;
                                         widget.danhSachCubit.keySearch = '';
                                         widget.danhSachCubit.mangTrangThai = '';
+                                        widget.danhSachCubit.loadMoreList
+                                            .clear();
                                         widget.danhSachCubit
                                             .postDanhSachNhiemVu(
-                                          index: 0,
                                           isNhiemVuCaNhan: widget.isCheck,
                                           isSortByHanXuLy: true,
                                           mangTrangThai: [
@@ -121,7 +128,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                               widget.danhSachCubit.keySearch,
                                           trangThaiHanXuLy: widget
                                               .danhSachCubit.trangThaiHanXuLy,
-                                          isFilter: true,
                                         );
                                       },
                                       child: const Icon(
@@ -149,13 +155,13 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                           ),
                         ),
                         onChanged: (text) {
+                          widget.danhSachCubit.loadMoreList.clear();
                           if (text.isEmpty) {
                             setState(() {});
                             widget.danhSachCubit.isHideClearData = false;
                             widget.danhSachCubit.keySearch = text;
                             widget.danhSachCubit.mangTrangThai = '';
                             widget.danhSachCubit.postDanhSachNhiemVu(
-                              index: 0,
                               isNhiemVuCaNhan: widget.isCheck,
                               isSortByHanXuLy: true,
                               mangTrangThai: [
@@ -169,7 +175,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               keySearch: widget.danhSachCubit.keySearch,
                               trangThaiHanXuLy:
                                   widget.danhSachCubit.trangThaiHanXuLy,
-                              isFilter: true,
                             );
                           } else {
                             widget.danhSachCubit.debouncer.run(() {
@@ -178,8 +183,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               widget.danhSachCubit.mangTrangThai = '';
                               widget.danhSachCubit.isHideClearData = true;
                               widget.danhSachCubit.postDanhSachNhiemVu(
-                                isFilter: true,
-                                index: 0,
                                 isNhiemVuCaNhan: widget.isCheck,
                                 isSortByHanXuLy: true,
                                 mangTrangThai: [
@@ -265,7 +268,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
               onChooseDateFilter: (startDate, endDate) {
                 widget.danhSachCubit.ngayDauTien = startDate.formatApi;
                 widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-                widget.danhSachCubit.callApiDashBroash(true);
+                widget.danhSachCubit.callApiDashBroash(widget.isCheck);
               },
             ),
             ExpandOnlyWidget(
@@ -311,11 +314,11 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               chartData: data,
                               cubit: widget.danhSachCubit,
                               ontap: (value) {
-                                widget.danhSachCubit.mangTrangThai = value;
                                 widget.danhSachCubit.trangThaiHanXuLy = null;
+                                widget.danhSachCubit.loaiNhiemVuId = value;
+                                widget.danhSachCubit.loadMoreList.clear();
                                 setState(() {
                                   widget.danhSachCubit.postDanhSachNhiemVu(
-                                    index: 0,
                                     isNhiemVuCaNhan: widget.isCheck,
                                     isSortByHanXuLy: true,
                                     mangTrangThai: [],
@@ -328,8 +331,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     keySearch: widget.danhSachCubit.keySearch,
                                     trangThaiHanXuLy:
                                         widget.danhSachCubit.trangThaiHanXuLy,
-                                    loaiNhiemVuId: value,
-                                    isFilter: true,
                                   );
                                 });
                               },
@@ -344,12 +345,11 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         chartData: widget.danhSachCubit.chartData,
                         cubit: widget.danhSachCubit,
                         ontap: (value) {
-                          widget.danhSachCubit.mangTrangThai = value;
                           widget.danhSachCubit.trangThaiHanXuLy = null;
+                          widget.danhSachCubit.mangTrangThai = value;
                           setState(() {
+                            widget.danhSachCubit.loadMoreList.clear();
                             widget.danhSachCubit.postDanhSachNhiemVu(
-                              isFilter: true,
-                              index: 0,
                               isNhiemVuCaNhan: widget.isCheck,
                               isSortByHanXuLy: true,
                               ngayTaoNhiemVu: {
@@ -368,10 +368,9 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                           widget.danhSachCubit.mangTrangThai = '';
                           widget.danhSachCubit.trangThaiHanXuLy =
                               value_status_box;
+                          widget.danhSachCubit.loadMoreList.clear();
                           setState(() {
                             widget.danhSachCubit.postDanhSachNhiemVu(
-                              isFilter: true,
-                              index: 0,
                               isNhiemVuCaNhan: widget.isCheck,
                               isSortByHanXuLy: true,
                               mangTrangThai: [
@@ -391,19 +390,24 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                       ),
                     );
                   } else {
-                    if (widget.danhSachCubit.listData.isNotEmpty) {
-                      return StatusWidget(
-                        listData: widget.danhSachCubit.listData,
-                        listStatusData: widget.danhSachCubit.listStatusData,
-                        title: widget.danhSachCubit.titleNhiemVu,
-                        danhSachCubit: widget.danhSachCubit,
-                        isCheck: widget.isCheck,
-                      );
-                    } else {
-                      return const NodataWidget(
-                        height: 250,
-                      );
-                    }
+                    return StreamBuilder<bool>(
+                      stream: widget.danhSachCubit.isCheckDataNVDV,
+                      builder: (context, snapshot) {
+                        final checkListData = snapshot.data ?? false;
+                        return checkListData
+                            ? StatusWidget(
+                                listData: widget.danhSachCubit.listData,
+                                listStatusData:
+                                    widget.danhSachCubit.listStatusData,
+                                title: widget.danhSachCubit.titleNhiemVu,
+                                danhSachCubit: widget.danhSachCubit,
+                                isCheck: widget.isCheck,
+                              )
+                            : const NodataWidget(
+                                height: 250,
+                              );
+                      },
+                    );
                   }
                 },
               ),
@@ -415,7 +419,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
           ],
           callApi: (page) {
             widget.danhSachCubit.postDanhSachNhiemVu(
-              isFilter: false,
               index: page,
               isNhiemVuCaNhan: widget.isCheck,
               isSortByHanXuLy: true,
@@ -667,9 +670,10 @@ class _StatusWidgetState extends State<StatusWidget> {
                                                         null;
                                                     setState(() {
                                                       widget.danhSachCubit
+                                                          .loadMoreList
+                                                          .clear();
+                                                      widget.danhSachCubit
                                                           .postDanhSachNhiemVu(
-                                                        isFilter: true,
-                                                        index: 0,
                                                         isNhiemVuCaNhan:
                                                             widget.isCheck,
                                                         isSortByHanXuLy: true,
@@ -758,9 +762,9 @@ class _StatusWidgetState extends State<StatusWidget> {
             crossAxisSpacing: 10,
             children: List.generate(widget.listStatusData.length, (index) {
               final result = widget.listStatusData[index];
-              // ignore: avoid_unnecessary_containers
               return GestureDetector(
                 onTap: () {
+                  widget.danhSachCubit.loadMoreList.clear();
                   widget.danhSachCubit.mangTrangThai = result.title
                       .split(' ')
                       .join('_')
@@ -769,8 +773,6 @@ class _StatusWidgetState extends State<StatusWidget> {
                   widget.danhSachCubit.trangThaiHanXuLy = null;
                   setState(() {
                     widget.danhSachCubit.postDanhSachNhiemVu(
-                      isFilter: true,
-                      index: 0,
                       isNhiemVuCaNhan: widget.isCheck,
                       isSortByHanXuLy: true,
                       mangTrangThai: [widget.danhSachCubit.mangTrangThai],

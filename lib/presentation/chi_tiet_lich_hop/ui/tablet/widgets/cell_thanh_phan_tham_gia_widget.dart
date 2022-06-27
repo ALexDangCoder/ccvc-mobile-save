@@ -45,25 +45,17 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
           ),
           child: Column(
             children: [
+
               widgetRow(
                 name: S.current.ten_don_vi,
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(
-                        '${widget.infoModel.tenCoQuan}',
-                        style: textNormalCustom(
-                          fontSize: 14,
-                          color: infoColor,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: textCell(widget.infoModel.tenCoQuan.toString()),
                     ),
-                    const Expanded(child: SizedBox()),
                     if (widget.infoModel.showCheckBox())
                       CustomCheckBox(
                         isOnlyCheckbox: true,
-                        title: '',
                         isCheck: isChecked,
                         onChange: (isCheck) {
                           widget.cubit.addOrRemoveId(
@@ -83,45 +75,15 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
               ),
               widgetRow(
                 name: S.current.ten_can_bo,
-                child: Row(
-                  children: [
-                    Text(
-                      '${widget.infoModel.tenCanBo}',
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        color: infoColor,
-                      ),
-                    ),
-                  ],
-                ),
+                child: textCell(widget.infoModel.tenCanBo.toString()),
               ),
               widgetRow(
                 name: S.current.vai_tro,
-                child: Row(
-                  children: [
-                    Text(
-                      '${widget.infoModel.vaiTro}',
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        color: infoColor,
-                      ),
-                    ),
-                  ],
-                ),
+                child: textCell(widget.infoModel.vaiTro.toString()),
               ),
               widgetRow(
                 name: S.current.noi_dung_cong_viec,
-                child: Row(
-                  children: [
-                    Text(
-                      '${widget.infoModel.ghiChu}',
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        color: infoColor,
-                      ),
-                    ),
-                  ],
-                ),
+                child: textCell(widget.infoModel.ghiChu.toString()),
               ),
               widgetRow(
                 name: S.current.trang_thai,
@@ -159,7 +121,6 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                 children: [
                   if (widget.infoModel.showCheckBox())
                     CustomCheckBox(
-                      title: '',
                       isCheck: isChecked,
                       onChange: (isCheck) {
                         widget.cubit.addOrRemoveId(
@@ -170,14 +131,9 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                         setState(() {});
                       },
                     ),
-                  Text(
+                  textCell(
                     '${S.current.ten_can_bo}: ${widget.infoModel.tenCanBo}',
-                    style: textNormalCustom(
-                      fontSize: 16,
-                      color: infoColor,
-                    ),
                   ),
-                  const Expanded(child: SizedBox()),
                   if (!widget.infoModel.showCheckBox())
                     GestureDetector(
                       onTap: widget.ontap,
@@ -193,23 +149,11 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       children: [
                         widgetRow(
                           name: S.current.vai_tro,
-                          child: Text(
-                            '${widget.infoModel.vaiTro}',
-                            style: textNormalCustom(
-                              fontSize: 14,
-                              color: infoColor,
-                            ),
-                          ),
+                          child: textCell(widget.infoModel.vaiTro.toString()),
                         ),
                         widgetRow(
                           name: S.current.noi_dung,
-                          child: Text(
-                            '${widget.infoModel.ghiChu}',
-                            style: textNormalCustom(
-                              fontSize: 14,
-                              color: infoColor,
-                            ),
-                          ),
+                          child: textCell(widget.infoModel.ghiChu.toString()),
                         ),
                       ],
                     ),
@@ -271,4 +215,14 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
       ],
     );
   }
+
+  Widget textCell(String text) => Text(
+        text,
+        style: textNormalCustom(
+          fontSize: 14,
+          color: infoColor,
+        ),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      );
 }

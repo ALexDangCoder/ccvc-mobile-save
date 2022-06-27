@@ -35,6 +35,7 @@ class TodoDSCVModel {
   String? note;
   String? performer;
   String? groupId;
+  String? filePath;
 
   TodoDSCVModel({
     this.id,
@@ -50,10 +51,11 @@ class TodoDSCVModel {
     this.note,
     this.performer,
     this.groupId,
+    this.filePath,
   });
 
   bool showDotOne() {
-    if (performer != '' && createdOn != '') {
+    if (performer != '' && createdOn != '' && performer != null) {
       return true;
     } else {
       return false;
@@ -61,7 +63,7 @@ class TodoDSCVModel {
   }
 
   bool showDotTwo() {
-    if (performer != '' && showIconNote()) {
+    if (performer != '' && (showIconNote() || showIconFile())) {
       return true;
     } else {
       return false;
@@ -69,7 +71,7 @@ class TodoDSCVModel {
   }
 
   bool showIconFile() {
-    if (performer != '' && createdOn != '') {
+    if (filePath != '' && filePath != null) {
       return true;
     } else {
       return false;

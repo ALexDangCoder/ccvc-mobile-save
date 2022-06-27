@@ -1,11 +1,17 @@
-import '/home_module/data/request/account/gui_loi_chuc_request.dart';
-import '/home_module/data/response/home/danh_sach_thiep_response.dart';
-import '/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
-import '/home_module/data/response/home/gui_loi_chuc_response.dart';
+import 'package:ccvc_mobile/data/di/module.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/home_module/data/di/flutter_transformer.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/nguoi_gan_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' as Foundation;
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '/home_module/data/request/account/gui_loi_chuc_request.dart';
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
 import '/home_module/data/request/home/danh_sach_van_ban_den_request.dart';
 import '/home_module/data/request/home/lich_hop_request.dart';
@@ -15,8 +21,11 @@ import '/home_module/data/request/home/to_do_list_request.dart';
 import '/home_module/data/response/home/bao_chi_mang_xa_hoi_response.dart';
 import '/home_module/data/response/home/config_widget_dash_board_response.dart';
 import '/home_module/data/response/home/danh_sach_cong_viec_response.dart';
+import '/home_module/data/response/home/danh_sach_thiep_response.dart';
 import '/home_module/data/response/home/danh_sach_van_ban_response.dart';
 import '/home_module/data/response/home/dash_board_van_ban_den_response.dart';
+import '/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
+import '/home_module/data/response/home/gui_loi_chuc_response.dart';
 import '/home_module/data/response/home/lich_hop_response.dart';
 import '/home_module/data/response/home/lich_lam_viec_response.dart';
 import '/home_module/data/response/home/list_y_kien_nguoi_dan_response.dart';
@@ -40,9 +49,9 @@ abstract class HomeServiceGateWay {
   factory HomeServiceGateWay(Dio dio, {String baseUrl}) = _HomeServiceGateWay;
 
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
-  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(@Query('isDonVi') bool isDonVi);
-  
-  
+  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(
+      @Query('isDonVi') bool isDonVi);
+
   @POST(ApiConstants.GET_PHAM_VI)
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
@@ -76,9 +85,18 @@ abstract class HomeServiceGateWay {
   @POST(ApiConstants.TONG_HOP_NHIEM_VU)
   @FormUrlEncoded()
   Future<TongHopNhiemVuResponse> getTongHopNhiemVu(
-    @Query('UserId') String userId,
+    // @Query('UserId') String userId,
+    @Query('CanBoId') String canBoId,
+    // @Query('DonViId') String donViId,
+  );
+
+  @POST(ApiConstants.TINH_HINH_XU_LY_VAN_BAN)
+  @FormUrlEncoded()
+  Future<VanBanDonViResponse> getTinhHinhXuLyVanBan(
     @Query('CanBoId') String canBoId,
     @Query('DonViId') String donViId,
+    @Query('startDate') String startDate,
+    @Query('endDate') String endDate,
   );
 
   @POST(ApiConstants.NHIEM_VU_GET_ALL)
@@ -117,7 +135,8 @@ abstract class HomeServiceGateWay {
   Future<LichHopResponse> getLichHop(@Body() LichHopRequest lichHopRequest);
 
   @POST(ApiConstants.DANH_SACH_CONG_VIEC)
-  Future<DanhSachCongViecResponse> getDanhSachCongViec(@Body() DanhSachCongViecRequest request);
+  Future<DanhSachCongViecResponse> getDanhSachCongViec(
+      @Body() DanhSachCongViecRequest request);
 }
 
 @RestApi()
@@ -169,17 +188,40 @@ abstract class HomeServiceCCVC {
   @FormUrlEncoded()
   Future<LunarDateResponse> getLunarDate(@Query('inputDate') String inputDate);
 
-
   @GET(ApiConstants.GET_DASHBOARD_WIDGET)
   @FormUrlEncoded()
   Future<DashBoardResponse> getDashBoard();
 
   @POST(ApiConstants.GUI_LOI_CHUC)
-  Future<GuiLoiChucResponse> guiLoiChuc(@Body() GuiLoiChucRequest guiLoiChucRequest);
+  Future<GuiLoiChucResponse> guiLoiChuc(
+      @Body() GuiLoiChucRequest guiLoiChucRequest);
 
   @GET(ApiConstants.GET_TIN_BUON)
   Future<TinhHuongKhanCapResponse> getTinBuon();
+
   @GET(ApiConstants.GET_LIST_THONG_TIN_THIEP)
-  Future<DanhSachThiepResponse> getDanhSachThiep(@Query('pageIndex') int pageIndex,@Query('pageSize') int pageSize);
+  Future<DanhSachThiepResponse> getDanhSachThiep(
+      @Query('pageIndex') int pageIndex, @Query('pageSize') int pageSize);
+
+  @GET(ApiConstants.GET_LIST_CAN_BO)
+  Future<NguoiGanResponse> getListNguoiGan(
+    @Query('PageIndex') int pageIndex,
+    @Query('PageSize') int pageSize,
+    @Query('IsGetAll') bool isGetAll,
+  );
+}
+
+@RestApi()
+abstract class HomeServiceCommon {
+  @factoryMethod
+  factory HomeServiceCommon(Dio dio, {String baseUrl}) = _HomeServiceCommon;
+  @GET(ApiConstants.GET_LIST_CAN_BO)
+  Future<NguoiGanResponse> getListNguoiGan(
+      @Query('PageIndex') int pageIndex,
+      @Query('PageSize') int pageSize,
+      @Query('IsGetAll') bool isGetAll,
+      @Query('FilterBy') String keyFilter,
+      );
 
 }
+

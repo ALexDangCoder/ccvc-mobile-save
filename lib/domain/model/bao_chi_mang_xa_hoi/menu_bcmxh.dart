@@ -1,13 +1,13 @@
 class ListMenuItemModel {
   String id;
-  int nodeid;
+  int nodeId;
   String title;
   List<MenuItemModel> subMenu;
 
   ListMenuItemModel({
     required this.id,
     required this.title,
-    required this.nodeid,
+    required this.nodeId,
     required this.subMenu,
   });
 }

@@ -3,8 +3,12 @@ import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_reques
 import 'package:ccvc_mobile/home_module/data/response/home/danh_sach_thiep_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/nguoi_gan_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
@@ -44,14 +48,18 @@ import '/home_module/domain/model/home/su_kien_model.dart';
 import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
 import '/home_module/domain/model/home/todo_model.dart';
-import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
 import '/home_module/domain/repository/home_repository/home_repository.dart';
 
 class HomeImpl extends HomeRepository {
   final HomeServiceGateWay _homeServiceGateWay;
   final HomeServiceCCVC _homeServiceCCVC;
+  final HomeServiceCommon _homeServiceCommon;
 
-  HomeImpl(this._homeServiceGateWay, this._homeServiceCCVC);
+  HomeImpl(
+    this._homeServiceGateWay,
+    this._homeServiceCCVC,
+    this._homeServiceCommon,
+  );
 
   @override
   Future<Result<PhamViModel>> getPhamVi() {
@@ -129,15 +137,15 @@ class HomeImpl extends HomeRepository {
 
   @override
   Future<Result<DocumentDashboardModel>> getTongHopNhiemVu(
-    String userId,
+    // String userId,
     String canBoId,
-    String donViId,
+    // String donViId,
   ) {
     return runCatchingAsync<TongHopNhiemVuResponse, DocumentDashboardModel>(
       () => _homeServiceGateWay.getTongHopNhiemVu(
-        userId,
+        // userId,
         canBoId,
-        donViId,
+        // donViId,
       ),
       (res) => res.data?.toDomain() ?? DocumentDashboardModel(),
     );
@@ -306,5 +314,39 @@ class HomeImpl extends HomeRepository {
             DocumentDashboardModel>(
         () => _homeServiceGateWay.getDashboardTinhHinhPAKN(isDonVi),
         (res) => res.data?.toDomain() ?? DocumentDashboardModel());
+  }
+
+  @override
+  Future<Result<VanBanDonViModel>> getTinhHinhXuLyVanBan(
+      String canBoId, String donViId, String startDate, String endDate) {
+    return runCatchingAsync<VanBanDonViResponse, VanBanDonViModel>(
+      () => _homeServiceGateWay.getTinhHinhXuLyVanBan(
+        canBoId,
+        donViId,
+        startDate,
+        endDate,
+      ),
+      (res) =>
+          res.data?.toDomain() ??
+          VanBanDonViModel(vbDen: DocumentDashboardModel(), vbDi: DocumentDashboardModel()),
+    );
+  }
+
+  @override
+  Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(
+    bool isGetAll,
+    int pageSize,
+    int pageIndex,
+  String kerSearch,
+  ) {
+    return runCatchingAsync<NguoiGanResponse, NguoiGanCongViecModel>(
+      () => _homeServiceCommon.getListNguoiGan(
+        pageIndex,
+        pageSize,
+        isGetAll,
+        kerSearch,
+      ),
+      (res) => res.data?.toDomain() ?? NguoiGanCongViecModel(items: []),
+    );
   }
 }

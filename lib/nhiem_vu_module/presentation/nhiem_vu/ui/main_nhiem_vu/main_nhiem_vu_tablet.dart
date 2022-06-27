@@ -13,7 +13,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MainNhiemVuTablet extends StatefulWidget {
-  const MainNhiemVuTablet({Key? key}) : super(key: key);
+  final String maTrangThai;
+  final bool isCaNhanScreen;
+
+  const MainNhiemVuTablet(
+      {Key? key, this.maTrangThai = '', this.isCaNhanScreen = true,})
+      : super(key: key);
 
   @override
   _MainNhiemVuTabletState createState() => _MainNhiemVuTabletState();
@@ -22,7 +27,6 @@ class MainNhiemVuTablet extends StatefulWidget {
 class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
     with SingleTickerProviderStateMixin {
   late TabController controller;
-
   late ScrollController scrollController;
   late NhiemVuCubit cubit;
   late final DanhSachCubit danhSachCubit;
@@ -35,8 +39,11 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
     controller = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     title = S.current.nhiem_vu_ca_nhan;
-    cubit.emit(NhiemVuCaNhan());
-
+    if (widget.isCaNhanScreen) {
+      cubit.emit(NhiemVuCaNhan());
+    } else {
+      cubit.emit(NhiemVuDonVi());
+    }
     super.initState();
   }
 
@@ -84,12 +91,14 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
             builder: (context, state) {
               if (state is NhiemVuCaNhan) {
                 return NhiemVuCaNhanTablet(
+                  maTrangThai: widget.maTrangThai,
                   cubit: cubit,
                   danhSachCubit: danhSachCubit,
                   isCheck: true,
                 );
               } else if (state is NhiemVuDonVi) {
                 return NhiemVuDonViTablet(
+                  maTrangThai: widget.maTrangThai,
                   danhSachCubit: danhSachCubit,
                   cubit: cubit,
                   isCheck: false,

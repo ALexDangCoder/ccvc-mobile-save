@@ -6,10 +6,9 @@ import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart
 import 'package:flutter/material.dart';
 
 class LinhVucWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final TaoLichLamViecCubit cubit;
 
-  LinhVucWidget({Key? key, required this.taoLichLamViecCubit})
-      : super(key: key);
+  LinhVucWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _LinhVucWidgetState createState() => _LinhVucWidgetState();
@@ -18,17 +17,19 @@ class LinhVucWidget extends StatefulWidget {
 class _LinhVucWidgetState extends State<LinhVucWidget> {
   @override
   Widget build(BuildContext context) {
+    final _cubit = widget.cubit;
     return StreamBuilder<List<LoaiSelectModel>>(
-      stream: widget.taoLichLamViecCubit.linhVuc,
+      stream: _cubit.linhVuc,
       builder: (context, snapshot) {
         final data = snapshot.data ?? <LoaiSelectModel>[];
         return SelectOnlyExpand(
           onChange: (value) {
-            widget.taoLichLamViecCubit.selectLinhVuc?.id = data[value].id;
+            _cubit.selectLinhVuc?.id = data[value].id;
+            _cubit.selectLinhVuc?.name = data[value].name;
           },
           urlIcon: ImageAssets.icWork,
           listSelect: data.map((e) => e.name).toList(),
-          value: widget.taoLichLamViecCubit.selectLinhVuc?.name ?? '',
+          hintText: S.current.chon_linh_vuc,
           title: S.current.linh_vuc,
         );
       },

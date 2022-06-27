@@ -27,7 +27,6 @@ class TabThongTinPAKN extends StatefulWidget {
 class _TabThongTinPAKNState extends State<TabThongTinPAKN> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
   }

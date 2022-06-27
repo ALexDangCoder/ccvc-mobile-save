@@ -1,44 +1,34 @@
 class CanBoThamGiaStr {
+  String? createdAt;
+  String? createdBy;
+  bool? diemDanh;
+  String? donViId;
+  String? id;
+  bool? isThamGiaBocBang;
+  bool? isThuKy;
+  String? lichHopId;
+  String? tenCoQuan;
+  int? trangThai;
+  String? updateAt;
+  String? updateBy;
+  int? vaiTroThamGia;
   String? CanBoId;
-  String? CanBo_TenChucVu;
-  String? CanBo_TenDonVi;
-  String? CreatedAt;
-  String? CreatedBy;
-  bool? DiemDanh;
-  String? DonViId;
-  String? HoTen;
-  String? Id;
-  bool? IsThamGiaBocBang;
-  bool? IsThuKy;
-  String? LichHopId;
-  String? TenCanBo;
-  String? TenCoQuan;
-  int? TrangThai;
-  String? UpdateAt;
-  String? UpdateBy;
-  int? VaiTroThamGia;
-  String? ParentId;
 
   CanBoThamGiaStr({
     required this.CanBoId,
-    required this.CanBo_TenChucVu,
-    required this.CanBo_TenDonVi,
-    required this.CreatedAt,
-    required this.CreatedBy,
-    required this.DiemDanh,
-    required this.DonViId,
-    required this.HoTen,
-    required this.Id,
-    required this.IsThamGiaBocBang,
-    required this.IsThuKy,
-    required this.LichHopId,
-    required this.TenCanBo,
-    required this.TenCoQuan,
-    required this.TrangThai,
-    required this.UpdateAt,
-    required this.UpdateBy,
-    required this.VaiTroThamGia,
-    required this.ParentId,
+    required this.createdAt,
+    required this.createdBy,
+    required this.diemDanh,
+    required this.donViId,
+    required this.id,
+    required this.isThamGiaBocBang,
+    required this.isThuKy,
+    required this.lichHopId,
+    required this.tenCoQuan,
+    required this.trangThai,
+    required this.updateAt,
+    required this.updateBy,
+    required this.vaiTroThamGia,
   });
 
   CanBoThamGiaStr.empty();
@@ -46,24 +36,19 @@ class CanBoThamGiaStr {
   factory CanBoThamGiaStr.fromJson(Map<String, dynamic> json) {
     return CanBoThamGiaStr(
       CanBoId: json['CanBoId'],
-      CanBo_TenChucVu: json['CanBo_TenChucVu'],
-      CanBo_TenDonVi: json['CanBo_TenDonVi'],
-      CreatedAt: json['CreatedAt'],
-      CreatedBy: json['CreatedBy'],
-      DiemDanh: json['DiemDanh'],
-      DonViId: json['DonViId'],
-      HoTen: json['HoTen'],
-      Id: json['Id'],
-      IsThamGiaBocBang: json['IsThamGiaBocBang'],
-      IsThuKy: json['IsThuKy'],
-      LichHopId: json['LichHopId'],
-      TenCanBo: json['TenCanBo'],
-      TenCoQuan: json['TenCoQuan'],
-      TrangThai: json['TrangThai'],
-      UpdateAt: json['UpdateAt'],
-      UpdateBy: json['UpdateBy'],
-      VaiTroThamGia: json['VaiTroThamGia'],
-      ParentId: json['ParentId'],
+      createdAt: json['CreatedAt'],
+      createdBy: json['CreatedBy'],
+      diemDanh: json['DiemDanh'],
+      donViId: json['DonViId'],
+      id: json['Id'],
+      isThamGiaBocBang: json['IsThamGiaBocBang'],
+      isThuKy: json['IsThuKy'],
+      lichHopId: json['LichHopId'],
+      tenCoQuan: json['TenCoQuan'],
+      trangThai: json['TrangThai'],
+      updateAt: json['UpdateAt'],
+      updateBy: json['UpdateBy'],
+      vaiTroThamGia: json['VaiTroThamGia'],
     );
   }
 }

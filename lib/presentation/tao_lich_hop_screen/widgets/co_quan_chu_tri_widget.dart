@@ -9,13 +9,17 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_t
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CoQuanChuTri extends StatefulWidget {
-  const CoQuanChuTri({Key? key, required this.cubit}) : super(key: key);
+  const CoQuanChuTri({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
   final TaoLichHopCubit cubit;
 
   @override
@@ -30,7 +34,12 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
+    if (widget.cubit.taoLichHopRequest.bitTrongDonVi != null) {
+      isTrongDonVi = widget.cubit.taoLichHopRequest.bitTrongDonVi!;
+      isNgoaiDonVi = !widget.cubit.taoLichHopRequest.bitTrongDonVi!;
+    } else {
+      widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
+    }
   }
 
   @override
@@ -62,7 +71,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
           spaceH12,
           ContainerToggleWidget(
             initData: isTrongDonVi,
-            key: UniqueKey(),
             showDivider: false,
             title: S.current.trong_don_vi,
             onChange: (value) {
@@ -74,7 +82,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
               setState(() {});
             },
           ),
-          if(!isTrongDonVi)
+          if (!isTrongDonVi)
             const Padding(
               padding: EdgeInsets.only(left: 28.0),
               child: Divider(
@@ -82,8 +90,9 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 thickness: 1,
               ),
             ),
-          if(isTrongDonVi)
-            Column(
+          Visibility(
+            visible: isTrongDonVi,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -98,66 +107,110 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   stream: widget.cubit.danhSachCB,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? <DonViModel>[];
+                    if(indexSelected == -1) {
+                      indexSelected = widget.cubit.danhSachCB.value.indexWhere(
+                        (e) =>
+                            e.userId ==
+                            widget.cubit.taoLichHopRequest.chuTri?.canBoId,
+                      );
+                    }
                     return data.isEmpty
                         ? const NodataWidget()
                         : Column(
-                      children: List.generate(
-                        data.length,
-                            (index) =>
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: 30,
-                                top: index == 0 ? 0 : 8,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  widget.cubit.taoLichHopRequest.chuTri
-                                    ?..tenCanBo = data[index].tenCanBo
-                                    ..tenCoQuan = data[index].tenCoQuan
-                                    ..canBoId = data[index].userId
-                                    ..donViId = data[index].donViId;
-                                  setState(() {
-                                    indexSelected = index;
-                                  });
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  padding:
-                                  const EdgeInsets.symmetric(vertical: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          data[index].title,
-                                          style: textNormal(color3D5586, 16),
-                                          overflow: TextOverflow.ellipsis,
+                            children: List.generate(
+                              data.length,
+                              (index) => Padding(
+                                padding: EdgeInsets.only(
+                                  left: 30,
+                                  top: index == 0 ? 0 : 8,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    widget.cubit
+                                        .checkLichTrung(
+                                      donViId: data[index].donViId,
+                                      canBoId: data[index].canBoId,
+                                    )
+                                        .then((value) {
+                                      if (value) {
+                                        showDiaLog(
+                                          context,
+                                          title: S.current.lich_trung,
+                                          textContent: S.current
+                                              .ban_co_muon_tiep_tuc_khong,
+                                          icon: ImageAssets.svgAssets(
+                                            ImageAssets.ic_trung_hop,
+                                          ),
+                                          btnRightTxt: S.current.dong_y,
+                                          btnLeftTxt: S.current.khong,
+                                          isCenterTitle: true,
+                                          funcBtnRight: () {
+                                            indexSelected = index;
+                                            widget
+                                                .cubit.taoLichHopRequest.chuTri
+                                              ?..tenCanBo = data[index].tenCanBo
+                                              ..tenCoQuan = data[index].tenDonVi
+                                              ..canBoId = data[index].userId
+                                              ..donViId = data[index].donViId;
+                                            widget.cubit.chuTri = data[index];
+                                            widget.cubit.danhSachCB.sink.add(
+                                              widget.cubit.danhSachCB.value,
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        indexSelected = index;
+                                        widget.cubit.taoLichHopRequest.chuTri
+                                          ?..tenCanBo = data[index].tenCanBo
+                                          ..tenCoQuan = data[index].tenDonVi
+                                          ..canBoId = data[index].userId
+                                          ..donViId = data[index].donViId;
+                                        widget.cubit.chuTri = data[index];
+                                        widget.cubit.danhSachCB.sink
+                                            .add(widget.cubit.danhSachCB.value);
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            data[index].title,
+                                            style: textNormal(color3D5586, 16),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
-                                      ),
-                                      if (indexSelected == index)
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 4,
-                                          ),
-                                          child: SvgPicture.asset(
-                                            ImageAssets.icCheck,
-                                            color: AppTheme.getInstance()
-                                                .colorField(),
-                                          ),
-                                        )
-                                      else
-                                        const SizedBox(),
-                                    ],
+                                        if (indexSelected == index)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 4,
+                                            ),
+                                            child: SvgPicture.asset(
+                                              ImageAssets.icCheck,
+                                              color: AppTheme.getInstance()
+                                                  .colorField(),
+                                            ),
+                                          )
+                                        else
+                                          const SizedBox(),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                      ),
-                    );
+                          );
                   },
                 ),
                 ContainerToggleWidget(
+                  initData:
+                      widget.cubit.taoLichHopRequest.bitYeuCauDuyet ?? false,
                   title: S.current.chu_tri_duyet,
                   onChange: (value) {
                     widget.cubit.taoLichHopRequest.bitYeuCauDuyet = value;
@@ -165,11 +218,11 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 ),
               ],
             ),
+          ),
           spaceH5,
           ContainerToggleWidget(
             showDivider: false,
             initData: isNgoaiDonVi,
-            key: UniqueKey(),
             title: S.current.ngoai_don_vi,
             onChange: (value) {
               isNgoaiDonVi = value;
@@ -196,6 +249,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFieldStyle(
+                    initValue: widget.cubit.taoLichHopRequest.chuTri?.tenCoQuan,
                     urlIcon: ImageAssets.icWork,
                     hintText: S.current.ten_co_quan,
                     onChange: (value) {
@@ -204,6 +258,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ),
                   spaceH12,
                   TextFieldStyle(
+                    initValue: widget.cubit.taoLichHopRequest.chuTri?.tenCanBo,
                     urlIcon: ImageAssets.icPeople,
                     hintText: S.current.nguoi_chu_tri,
                     onChange: (value) {
@@ -216,11 +271,13 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ),
                   spaceH24,
                   ButtonSelectFile(
+                    files: [],
                     spacingFile: 16,
+                    maxSize: 30000000,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
                     onChange: (list) {
-                      widget.cubit.listFile = list;
+                      widget.cubit.listThuMoi = list;
                     },
                     hasMultipleFile: true,
                   )

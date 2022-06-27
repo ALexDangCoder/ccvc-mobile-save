@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
@@ -48,10 +49,19 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     final rs = await detailLichLamViec.detailCalenderWork(id);
     rs.when(
       success: (data) {
+        if ((data.id?.isEmpty ?? true) || data.id == null) {
+          chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
+        }
         chiTietLichLamViecModel = data;
         chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
       },
-      error: (error) {},
+      error: (error) {
+        chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
+        MessageConfig.show(
+          title: S.current.error,
+          title2: S.current.no_internet,
+        );
+      },
     );
   }
 
@@ -84,16 +94,24 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   // xoa lich lam viec
   LichLamViecRepository get deleteLichLamViec => Get.find();
 
-  Future dataDelete(String id) async {
-    final rs = await detailLichLamViec.deleteCalenderWork(id);
+  Future<void> deleteCalendarWork(
+    String id, {
+    bool only = true,
+  }) async {
+    final rs = await detailLichLamViec.deleteCalenderWork(id, only);
     rs.when(success: (data) {}, error: (error) {});
   }
 
   // huy lich lam viec
   LichLamViecRepository get cancelLichLamViec => Get.find();
 
-  Future<void> cancel(String id) async {
-    final rs = await detailLichLamViec.cancelCalenderWork(id);
+  Future<void> cancelCalendarWork(
+    String id, {
+    int statusId = 8,
+    bool isMulti = false,
+  }) async {
+    final rs =
+        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
     rs.when(success: (data) {}, error: (error) {});
   }
 
@@ -120,8 +138,15 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     showContent();
   }
 
-  Future<void> getDanhSachBaoCaoKetQua(String id) async {
+  Future<void> getDanhSachBaoCaoKetQua(String id,
+      {bool isReload = false}) async {
+    if (isReload) {
+      showLoading();
+    }
     final result = await detailLichLamViec.getDanhSachBaoCao(id);
+    if (isReload) {
+      showContent();
+    }
     result.when(
         success: (res) {
           _listBaoCaoKetQua.sink.add(res);
@@ -197,23 +222,85 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     required String scheduleId,
     required String? scheduleOpinionId,
   }) async {
-    showLoading();
+    ShowLoadingScreen.show();
     final ThemYKienRequest themYKienRequest = ThemYKienRequest(
       content: content,
       phienHopId: phienHopId,
       scheduleId: scheduleId,
       scheduleOpinionId: scheduleOpinionId,
     );
-    final result = await detailLichLamViec.themYKien(themYKienRequest);
-    result.when(
-      success: (res) {},
-      error: (err) {},
-    );
+    await detailLichLamViec.themYKien(themYKienRequest);
+    ShowLoadingScreen.dismiss();
   }
 
   void dispose() {
     _listBaoCaoKetQua.close();
     chiTietLichLamViecSubject.close();
     _listYKien.close();
+  }
+}
+
+///Báo cáo kết quả
+class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
+  String reportStatusId = '';
+  Set<File> files = {};
+  List<FileModel> fileInit = [];
+  List<FileModel> fileDelete = [];
+  String content = '';
+  TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
+  final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
+  final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
+
+  BaoCaoKetQuaCubit(
+      {this.content = '',
+      this.tinhTrangBaoCaoModel,
+      this.fileInit = const []}) {
+    reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
+  }
+
+  void init(List<TinhTrangBaoCaoModel> list) {
+    if (list.isNotEmpty) {
+      reportStatusId = list.first.id ?? '';
+      tinhTrangBaoCaoModel = list.first;
+    }
+  }
+
+  Future<void> createScheduleReport(String scheduleId, String content) async {
+    ShowLoadingScreen.show();
+    final result = await detailLichLamViec.taoBaoCaoKetQua(
+        reportStatusId, scheduleId, content, files.toList());
+    ShowLoadingScreen.dismiss();
+    result.when(success: (res) {
+      MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
+      emit(SuccessChiTietLichLamViecState());
+    }, error: (err) {
+      MessageConfig.show(
+          title: S.current.bao_cao_ket_qua_that_bai,
+          messState: MessState.error);
+    });
+  }
+
+  Future<void> editScheduleReport(
+      {required String scheduleId,
+      required String content,
+      required String id}) async {
+    ShowLoadingScreen.show();
+    final result = await detailLichLamViec.suaBaoCaoKetQua(
+      id: id,
+      scheduleId: scheduleId,
+      content: content,
+      files: files.toList(),
+      idFileDelele: fileDelete.map((e) => e.id ?? '').toList(),
+      reportStatusId: reportStatusId,
+    );
+    ShowLoadingScreen.dismiss();
+    result.when(success: (res) {
+      MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
+      emit(SuccessChiTietLichLamViecState());
+    }, error: (err) {
+      MessageConfig.show(
+          title: S.current.sua_bao_cao_ket_qua_that_bai,
+          messState: MessState.error);
+    });
   }
 }

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
+import 'package:ccvc_mobile/presentation/danh_sach_thiep_va_loi_chuc/danh_sach_thiep_va_loi_chuc_screen.dart';
+import 'package:ccvc_mobile/presentation/danh_sach_thiep_va_loi_chuc/phone/danh_sach_thiep_va_loi_chuc_mobile_screen.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +64,26 @@ class InfoUserWidget extends StatelessWidget {
                   )
                 ],
               ),
+              Visibility(
+                visible: data.isSinhNhat(),
+                child: Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DanhSachThiepVaLoiChucScreen()));
+                    },
+                    child: Container(
+                        color: Colors.transparent,
+                        child: Image.asset(
+                          ImageAssets.icHappyBirthday,
+                          height: 40,
+                        )),
+                  ),
+                ),
+              ),
               Container(
                 height: 40.0.textScale(space: 8),
                 width: 40.0.textScale(space: 8),
@@ -71,6 +93,7 @@ class InfoUserWidget extends StatelessWidget {
                   color: Colors.transparent,
                 ),
                 child: CachedNetworkImage(
+                  fit: BoxFit.cover,
                   imageUrl: data.anhDaiDienFilePath ?? '',
                   errorWidget: (context, url, error) => Container(
                       color: Colors.black,

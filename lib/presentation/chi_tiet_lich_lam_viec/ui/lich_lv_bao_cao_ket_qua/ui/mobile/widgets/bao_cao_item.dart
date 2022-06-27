@@ -2,14 +2,16 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 
 class BaoCaoItem extends StatelessWidget {
   final String status;
   final Color statusColor;
   final String content;
-  final List<String> fileNames;
+  final List<FileModel> files;
   final Function() funcEdit;
   final Function() funcDelete;
 
@@ -20,7 +22,7 @@ class BaoCaoItem extends StatelessWidget {
     required this.funcEdit,
     required this.funcDelete,
     required this.statusColor,
-    required this.fileNames,
+    required this.files,
   }) : super(key: key);
 
   @override
@@ -143,21 +145,26 @@ class BaoCaoItem extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: fileNames.map((e) {
-                      return Column(
-                        children: [
-                          Text(
-                            e,
-                            style: textNormalCustom(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: numberOfCalenders,
+                    children: files.map((e) {
+                      return GestureDetector(
+                        onTap: (){
+                          saveFile(fileName: e.name ?? '', url: e.path ?? '');
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              e.name ?? '',
+                              style: textNormalCustom(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: numberOfCalenders,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          )
-                        ],
+                            const SizedBox(
+                              height: 4,
+                            )
+                          ],
+                        ),
                       );
                     }).toList(),
                   ),

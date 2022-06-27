@@ -2,8 +2,10 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -20,6 +22,15 @@ class CongTacChuanBiWidgetTablet extends StatefulWidget {
 
 class _CongTacChuanBiWidgetTabletState
     extends State<CongTacChuanBiWidgetTablet> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(!isMobile()) {
+      widget.cubit.callApiCongTacChuanBi();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -71,6 +82,7 @@ class _CongTacChuanBiWidgetTabletState
                       padding: const EdgeInsets.only(bottom: 16),
                       child: ThongTinYeuCauThietBiWidget(
                         model: data[index],
+                        onChange: (bool) {},
                       ),
                     ),
                   ),

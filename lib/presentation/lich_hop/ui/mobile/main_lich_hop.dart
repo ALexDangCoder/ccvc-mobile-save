@@ -544,7 +544,14 @@ class _MainLichHopState extends State<MainLichHop> {
                                   pageBuilder: (_, __, ___) =>
                                       const TaoLichHopScreen(),
                                 ),
-                              );
+                              ).then((value) async {
+                                if(value == null){
+                                  return;
+                                }
+                                if(value){
+                                  await cubit.initData();
+                                }
+                              });
                             },
                             backgroundColor:
                                 AppTheme.getInstance().colorField(),

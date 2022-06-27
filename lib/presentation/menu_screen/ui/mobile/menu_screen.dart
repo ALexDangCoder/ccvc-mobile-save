@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -89,7 +91,12 @@ class _MenuScreenState extends State<MenuScreen> {
                                   id: menuCubit.id,
                                 ),
                               ),
-                            );
+                            ).then((value) {
+                              if(value is bool && value){
+                                menuCubit.getUserRefresh();
+                              }
+
+                            });
                           },
                           child: HeaderMenuMobileWidget(
                             menuCubit: menuCubit,

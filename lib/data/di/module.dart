@@ -1,3 +1,9 @@
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_common_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_common_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_common_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_impl.dart';
@@ -50,7 +56,7 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI }
+enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI, HEAD_ORIGIN }
 
 void configureDependencies() {
   Get.put(
@@ -93,6 +99,15 @@ void configureDependencies() {
   );
   Get.put<YKienNguoiDanRepository>(
     YKienNguoiDanImpl(Get.find()),
+  );
+  Get.put(ReportService(provideDio(baseOption: BaseURLOption.GATE_WAY)));
+  Get.put<ReportRepository>(
+    ReportImpl(Get.find()),
+  );
+
+  Get.put(ReportCommonService(provideDio(baseOption: BaseURLOption.COMMON)));
+  Get.put<ReportCommonRepository>(
+    ReportCommonImpl(Get.find()),
   );
 
   Get.put(
@@ -180,6 +195,13 @@ void configureDependencies() {
     ),
   );
   Get.put<DiemDanhRepository>(DiemDanhRepoImpl(Get.find()));
+
+  Get.put(
+    ReportService(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+  Get.put<ReportRepository>(ReportImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;
@@ -202,6 +224,9 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       break;
     case BaseURLOption.API_AND_UAT:
       baseUrl = DO_MAIN_LICH_AM_DUONG;
+      break;
+    case BaseURLOption.HEAD_ORIGIN:
+      baseUrl = appConstants.headerOrigin;
       break;
   }
   final options = BaseOptions(

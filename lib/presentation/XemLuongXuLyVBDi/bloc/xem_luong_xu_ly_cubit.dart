@@ -50,7 +50,7 @@ class XemLuongXuLyVBDICubit extends BaseCubit<XemLuongXuLyState> {
         final NodePhanXuLy<LuongXuLyVBDiModel> nodeParent =
             NodePhanXuLy<LuongXuLyVBDiModel>(element);
         node.addChild(nodeParent);
-        log('>>>>>>>>>>>>>>>>>>>>>${element}');
+
         makeBuildTree(
           nodeParent,
           dataList.where((e) => e.idCha == element.id).toList(),

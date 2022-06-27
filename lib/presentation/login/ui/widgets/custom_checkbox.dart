@@ -6,14 +6,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatefulWidget {
-  final title;
+  final String title;
   bool isCheck;
   final bool isOnlyCheckbox;
   final Function(bool check) onChange;
 
   CustomCheckBox({
     Key? key,
-    required this.title,
+    this.title = '',
     required this.isCheck,
     required this.onChange,
     this.isOnlyCheckbox = false,

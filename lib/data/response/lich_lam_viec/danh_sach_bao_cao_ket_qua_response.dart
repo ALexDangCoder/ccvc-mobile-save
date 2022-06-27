@@ -92,6 +92,7 @@ class Data {
         listFile: files?.map((e) => e.toDomain()).toList() ?? [],
         id: id ?? '',
         reportStatusCode: reportStatusCode ?? '',
+    reportStatusId: reportStatusId ?? '',
       );
 }
 
@@ -110,5 +111,6 @@ class Files {
     extension = json['EntityId'];
   }
 
-  FileModel toDomain() => FileModel(id: id ?? '', name: name ?? '');
+  FileModel toDomain() =>
+      FileModel(id: id ?? '', name: name ?? '', path: path);
 }

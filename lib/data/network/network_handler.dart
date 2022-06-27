@@ -12,20 +12,24 @@ class NetworkHandler {
       return AppException(S.current.error, S.current.something_went_wrong);
     }
     if (_isNetWorkError(error)) {
-      return AppException(S.current.error, S.current.something_went_wrong);
+      return TimeoutException();
     }
     final parsedException = _parseError(error);
     final errorCode = error.response?.statusCode;
     if (errorCode == 503) {
       return MaintenanceException();
     }
-    if (error.response?.data['message'] != null) {
-      return AppException(
-        S.current.error,
-        error.response?.data['message'] ?? S.current.something_went_wrong,
-        error.response?.statusCode,
-      );
-    } else {
+    try {
+      if (error.response?.data['message'] != null) {
+        return AppException(
+          S.current.error,
+          error.response?.data['message'] ?? S.current.something_went_wrong,
+          error.response?.statusCode,
+        );
+      } else {
+        return parsedException;
+      }
+    } catch (e) {
       return parsedException;
     }
   }

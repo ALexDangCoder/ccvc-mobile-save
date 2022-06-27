@@ -17,14 +17,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class AvatarDanhBa extends StatefulWidget {
   final FToast toast;
-  final  DanhBaDienTuCubit cubit;
-  const AvatarDanhBa({Key? key, required this.toast , required this.cubit}) : super(key: key);
+  final DanhBaDienTuCubit cubit;
+
+  const AvatarDanhBa({Key? key, required this.toast, required this.cubit})
+      : super(key: key);
 
   @override
   State<AvatarDanhBa> createState() => _AvatarDanhBaState();
 }
 
 class _AvatarDanhBaState extends State<AvatarDanhBa> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.cubit.anhDanhBaCaNhan.sink.add(null);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +78,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.CENTER,
         );
       } else {
         widget.cubit.anhDanhBaCaNhan.sink.add(_path);
@@ -107,10 +115,10 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                     ),
                   ],
                 ),
-                child: StreamBuilder<ModelAnh>(
+                child: StreamBuilder<ModelAnh?>(
                   stream: widget.cubit.anhDanhBaCaNhan,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                    if (snapshot.data == null) {
                       return ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Padding(
@@ -173,10 +181,10 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                   ),
                 ],
               ),
-              child: StreamBuilder<ModelAnh>(
+              child: StreamBuilder<ModelAnh?>(
                 stream: widget.cubit.anhDanhBaCaNhan,
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+                  if (snapshot.data == null) {
                     return ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Column(

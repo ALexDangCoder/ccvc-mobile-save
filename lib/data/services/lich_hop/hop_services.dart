@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
@@ -33,8 +35,10 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_lua
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/cu_can_bo_di_thay_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/duyet_lich_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_response.dart';
@@ -52,6 +56,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.d
 import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/phong_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/them_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
@@ -253,7 +258,8 @@ abstract class HopServices {
 
   @POST(ApiConstants.CREATE_METTING)
   Future<ChiTietLichHopResponse> createMetting(
-      @Body() TaoLichHopRequest taoLichHopRequest);
+    @Body() TaoLichHopRequest taoLichHopRequest,
+  );
 
   @GET(ApiConstants.XEM_KET_LUAN_HOP)
   Future<XemKetLuanHopDataResponse> getXemKetLuanHop(@Query('id') String id);
@@ -404,5 +410,103 @@ abstract class HopServices {
     @Query('TuNgay') String TuNgay,
     @Query('DenNgay') String DenNgay,
     @Query('Bit_TTDH') bool Bit_TTDH,
+  );
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_PHONG_HOP)
+  Future<PhanCongThuKyResponse> huyOrDuyetPhongHop(
+    @Field('lichHopId') String hopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CHON_PHONG_HOP)
+  Future<PhanCongThuKyResponse> thayDoiPhongHop(
+    @Field('bit_TTDH') bool bit_TTDH,
+    @Field('lichHopId') String lichHopId,
+    @Field('phongHopId') String phongHopId,
+    @Field('tenPhong') String tenPhong,
+  );
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_THIET_BI)
+  Future<PhanCongThuKyResponse> duyetOrHuyDuyetThietBi(
+    @Field('isDuyet') bool isDuyet,
+    @Field('lichHopId') String lichHopId,
+    @Field('lyDo') String lyDo,
+    @Field('thietBiId') String thietBiId,
+  );
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_KY_THUAT)
+  Future<PhanCongThuKyResponse> duyetOrHuyDuyetKyThuat(
+    @Field('lichHopId') String hopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CHON_PHONG_HOP_METTING)
+  Future<PhanCongThuKyResponse> chonPhongHopMetting(
+    @Body() TaoLichHopRequest taoLichHopRequest,
+  );
+
+  @GET(ApiConstants.CHECK_LICH_HOP_TRUNG)
+  Future<dynamic> checkLichHopTrung(
+    @Query('ScheduleId') String? scheduleId,
+    @Query('DonViId') String donViId,
+    @Query('UserId') String userId,
+    @Query('TimeFrom') String timeFrom,
+    @Query('TimeTo') String timeTo,
+    @Query('DateFrom') String dateFrom,
+    @Query('DateTo') String dateTo,
+  );
+
+  @POST(ApiConstants.MOI_HOP)
+  Future<ThanhPhanThamGiaResponse> moiHop(
+    @Query('lichHopId') String lichHopId,
+    @Query('IsMultipe') bool IsMultipe,
+    @Query('isSendMail') bool isSendMail,
+    @Body() List<MoiThamGiaHopRequest> body,
+  );
+
+  @POST(ApiConstants.THEM_PHIEN_HOP_CHI_TIET)
+  Future<ThemPhienHopResponse> themPhienHop(
+    @Query('lichHopId') String lichHopId,
+    @Body() FormData data,
+  );
+
+  @POST(ApiConstants.HUY_AND_DUYET_LICH_HOP)
+  Future<DuyetLichResponse> huyDuyetLichHop(
+    @Field('lichHopId') String lichHopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CU_CAN_BO_DI_THAY)
+  Future<CuCanBoDiThayResponse> cuCanBoDiThay(
+    @Body() CuCanBoDiThayRequest cuCanBoDiThayRequest,
+  );
+
+  @POST(ApiConstants.CONFIRM_HOP)
+  Future<ThemPhienHopResponse> xacNhanThamGiaHop(
+    @Field('hopId') String hopId,
+    @Field('isThamGia') bool isThamGia,
+  );
+
+  @POST(ApiConstants.CONFIRM_OR_CANCEL_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> xacNhanHoacHuyKetLuanHop(
+    @Field('lichHopId') String lichHopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('noiDung') String noiDung,
+  );
+
+  @POST(ApiConstants.CREATE_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> createKetLuanHop(
+    @Field('Id') String lichHopId,
+    @Field('ScheduleId') String scheduleId,
+    @Field('ReportStatusId') String reportStatusId,
+    @Field('ReportTemplateId') String reportTemplateId,
+    @Field('StartDate') String startDate,
+    @Field('EndDate') String endDate,
+    @Field('Content') String content,
+    @Field('Files') List<String> files,
+    @Field('FilesDelete') List<String> filesDelete,
   );
 }

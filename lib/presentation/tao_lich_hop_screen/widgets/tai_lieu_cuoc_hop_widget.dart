@@ -40,6 +40,9 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
             height: 0.0.textScale(space: 10),
           ),
           ButtonSelectFile(
+            files: [],
+            maxSize: 30000000,
+            hasMultipleFile: true,
             spacingFile: 16,
             title: isMobile()
                 ? S.current.dinh_kem
@@ -47,7 +50,9 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
             icon: isMobile()
                 ? ImageAssets.icShareFile
                 : ImageAssets.icDocumentBlue,
-            onChange: (value) {},
+            onChange: (value) {
+              cubit.listTaiLieu = value;
+            },
           )
         ],
       ),

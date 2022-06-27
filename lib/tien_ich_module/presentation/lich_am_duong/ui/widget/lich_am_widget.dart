@@ -41,8 +41,9 @@ class LichAmWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               titleLichAm(
-                '${S.current.am_lich}: ${ngayAmLich.day ?? ''}-'
-                ' ${ngayAmLich.month ?? ''}- ${ngayAmLich.year ?? ''}',
+                '${S.current.am_lich}:  ${checkValue(ngayAmLich.day ?? 0)}-'
+                ' ${checkValue(ngayAmLich.month ?? 0)}- '
+                '${ngayAmLich.year ?? ''}',
                 fontSize: 12.0,
                 fontWeight: FontWeight.w500,
                 color: AqiColor,

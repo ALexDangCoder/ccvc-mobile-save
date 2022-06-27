@@ -15,16 +15,24 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/thanh_phan_tham_gia_tao_hop.dart';
 import 'package:ccvc_mobile/widgets/them_don_vi_phoi_hop_khac/them_don_vi_phoi_hop_khac_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemThongTinKhachMoiWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
+  final Function(DonViModel)? onDelete;
+  final bool isMoiHop;
+  final bool isCheckedEmail;
 
   const ThemThongTinKhachMoiWidget({
     Key? key,
     required this.onChange,
+    this.isMoiHop = false,
+    this.isCheckedEmail = false,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -47,6 +55,9 @@ class _ThemDonViPhoiHopKhacWidgetState
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: widget.isMoiHop
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.center,
       children: [
         SolidButton(
           onTap: () {
@@ -62,12 +73,22 @@ class _ThemDonViPhoiHopKhacWidgetState
             return Column(
               children: List.generate(
                 data.length,
-                (index) => Padding(
+                    (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
-                  child: ItemThanhPhanWidget(
-                    data: data[index],
-                    cubit: cubit,
-                  ),
+                  child: widget.isMoiHop
+                      ? ItemPeopleThamGia(
+                    donVi: data[index],
+                          cubit: cubit,
+                          isKhachMoi: widget.isMoiHop,
+                          isSendEmail: widget.isCheckedEmail,
+                          onDelete: () {
+                            widget.onDelete?.call(data[index]);
+                          },
+                        )
+                      : ItemThanhPhanWidget(
+                          data: data[index],
+                          cubit: cubit,
+                        ),
                 ),
               ),
             );
@@ -124,6 +145,7 @@ class _ThemDonViPhoiHopKhacScreenState
       TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _sdtController = TextEditingController();
+  final TextEditingController _soLuongController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +174,9 @@ class _ThemDonViPhoiHopKhacScreenState
                     sdt: _sdtController.text,
                     tenCoQuan: _tenDonViController.text,
                     vaiTroThamGia: 5,
-                    dauMoiLienHe: '',
+                    dauMoiLienHe: _hoTenController.text,
                     tenCanBo: _hoTenController.text,
+                    soLuong: int.parse(_soLuongController.text),
                   ),
                 );
                 Navigator.pop(context);
@@ -177,7 +200,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         title: S.current.ho_va_ten,
                         child: TextFieldValidator(
                           controller: _hoTenController,
-                          hintText: S.current.ten_don_vi,
+                          hintText: S.current.ho_va_ten,
                           validator: (value) {
                             return (value ?? '').checkNull();
                           },
@@ -188,6 +211,9 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _tenDonViController,
                           hintText: S.current.dau_moi_lam_viec,
+                          validator: (value) {
+                            return (value ?? '').checkNull();
+                          },
                         ),
                       ),
                       spaceH20,
@@ -202,6 +228,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _emailController,
                           hintText: S.current.email,
+                          textInputType: TextInputType.emailAddress,
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,
@@ -210,6 +237,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkEmail();
                           },
                         ),
@@ -219,6 +249,10 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _sdtController,
                           hintText: S.current.so_dien_thoai,
+                          textInputType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,
@@ -227,6 +261,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkSdt();
                           },
                         ),
@@ -235,6 +272,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         title: S.current.tong_so_luong_khach,
                         isObligatory: true,
                         child: TextFieldValidator(
+                          controller: _soLuongController,
                           hintText: S.current.nhap_so_luong,
                           textInputType: TextInputType.number,
                           suffixIcon: SizedBox(

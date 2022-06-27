@@ -2,6 +2,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
@@ -9,12 +10,13 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.da
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -22,8 +24,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HinhThucHop extends StatefulWidget {
-  const HinhThucHop({Key? key, required this.cubit}) : super(key: key);
+  const HinhThucHop({
+    Key? key,
+    required this.cubit,
+    this.chiTietHop,
+  }) : super(key: key);
   final TaoLichHopCubit cubit;
+  final ChiTietLichHopModel? chiTietHop;
 
   @override
   _HinhThucHopState createState() => _HinhThucHopState();
@@ -41,6 +48,24 @@ class _HinhThucHopState extends State<HinhThucHop> {
   final _key = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.chiTietHop != null) {
+      isHopTrucTiep = !widget.chiTietHop!.bit_HopTrucTuyen;
+      isHopTrucTuyen = widget.chiTietHop!.bit_HopTrucTuyen;
+      isDuyetKyThuat = widget.chiTietHop!.isDuyetKyThuat ?? false;
+      if(widget.chiTietHop!.bit_LinkTrongHeThong != null){
+        kieuLinkHop = widget.chiTietHop!.bit_LinkTrongHeThong! ?  0 : 1;
+      }
+      widget.cubit.taoLichHopRequest.linkTrucTuyen =
+      widget.chiTietHop!.linkTrucTuyen;
+      widget.cubit.dsDiemCauSubject.sink.add(
+        widget.chiTietHop!.dsDiemCau ?? [],
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TitleChildWidget(
       title: S.current.hinh_thuc_hop,
@@ -48,7 +73,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ContainerToggleWidget(
-            key: UniqueKey(),
             showDivider: false,
             initData: isHopTrucTiep,
             title: S.current.hop_truc_tiep,
@@ -71,16 +95,23 @@ class _HinhThucHopState extends State<HinhThucHop> {
             ),
           if (isHopTrucTiep) ...[
             TextFieldStyle(
+              initValue: widget.chiTietHop?.diaDiemHop,
               urlIcon: ImageAssets.icLocation,
               hintText: S.current.dia_diem_hop,
               onChange: (value) {
                 widget.cubit.taoLichHopRequest.diaDiemHop = value;
               },
+              validate: (value){
+                if(isHopTrucTiep){
+                  if (value.trim().isEmpty) {
+                    return S.current.khong_duoc_de_trong;
+                  }
+                }
+              },
             ),
           ],
           spaceH5,
           ContainerToggleWidget(
-            key: UniqueKey(),
             initData: isHopTrucTuyen,
             title: S.current.hop_truc_tuyen,
             onChange: (value) {
@@ -133,6 +164,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                   left: 28.0,
                 ),
                 child: textField(
+                  initValue: widget.chiTietHop?.linkTrucTuyen,
                   title: S.current.link_ngoai_he_thong,
                   onChange: (value) {
                     widget.cubit.taoLichHopRequest.linkTrucTuyen = value;
@@ -189,10 +221,10 @@ class _HinhThucHopState extends State<HinhThucHop> {
           TitleChildWidget(
             title: S.current.ky_thuat,
             child: ContainerToggleWidget(
-              key: UniqueKey(),
               initData: isDuyetKyThuat,
               title: S.current.duyet_ky_thuat,
               onChange: (value) {
+                isDuyetKyThuat = value;
                 widget.cubit.taoLichHopRequest.isDuyetKyThuat = value;
               },
             ),
@@ -208,104 +240,100 @@ class _HinhThucHopState extends State<HinhThucHop> {
 
   void themDiemCauBTS() {
     final DsDiemCau diemCau = DsDiemCau();
-    showBottomSheetCustom(
+    if(isMobile()) {
+      showBottomSheetCustom(
       context,
-      child: FollowKeyBoardWidget(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _key,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.tenDiemCau = value;
-                  },
-                  validator: (value) {
-                    return value.isEmpty ? S.current.khong_duoc_de_trong : null;
-                  },
-                  isRequired: true,
-                  title: S.current.ten_don_vi,
-                  hint: S.current.ten_don_vi,
-                ),
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.canBoDauMoiHoTen = value;
-                  },
-                  validator: (value) {},
-                  title: S.current.can_bo_dau_moi,
-                  hint: S.current.can_bo_dau_moi,
-                ),
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.canBoDauMoiChucVu = value;
-                  },
-                  validator: (value) {},
-                  title: S.current.chuc_vu,
-                  hint: S.current.chuc_vu,
-                ),
-                spaceH20,
-                textField(
-                  onChange: (value) {
-                    diemCau.canBoDauMoiSDT = value;
-                  },
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return null;
-                    }
-                    final phoneRegex = RegExp(VN_PHONE);
-                    final bool checkRegex = phoneRegex.hasMatch(value);
-                    return checkRegex ? null : S.current.nhap_sai_dinh_dang;
-                  },
-                  title: S.current.so_dien_thoai,
-                  hint: S.current.so_dien_thoai,
-                ),
-                spaceH20,
-                CoolDropDown(
-                  onChange: (index) {
-                    /// điểm chính = 1
-                    /// điểm phụ = 2
-                    /// => điểm cầu = index +1
-                    diemCau.loaiDiemCau = index + 1;
-                  },
-                  listData: [
-                    S.current.diem_chinh,
-                    S.current.diem_phu,
-                  ],
-                  initData: S.current.diem_chinh,
-                ),
-                spaceH20,
-                DoubleButtonBottom(
-                  title1: S.current.dong,
-                  title2: S.current.xac_nhan,
-                  onPressed1: () {
+      child: themDiemCau(diemCau),
+      title: S.current.them_diem_cau,
+    );
+    }else{
+      showDiaLogTablet(
+        context,
+        title: S.current.them_diem_cau,
+        child: themDiemCau(diemCau),
+        isBottomShow: false, funcBtnOk: () {  },
+      );
+    }
+  }
+
+  Widget themDiemCau(DsDiemCau diemCau){
+    return FollowKeyBoardWidget(
+      child: SingleChildScrollView(
+        child: Form(
+          key: _key,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.tenDiemCau = value;
+                },
+                validator: (value) {
+                  return value.isEmpty ? S.current.khong_duoc_de_trong : null;
+                },
+                isRequired: true,
+                title: S.current.ten_don_vi,
+                hint: S.current.ten_don_vi,
+              ),
+              spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.canBoDauMoiHoTen = value;
+                },
+                validator: (value) {},
+                title: S.current.can_bo_dau_moi,
+                hint: S.current.can_bo_dau_moi,
+              ),
+              spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.canBoDauMoiChucVu = value;
+                },
+                validator: (value) {},
+                title: S.current.chuc_vu,
+                hint: S.current.chuc_vu,
+              ),
+              spaceH20,
+              CoolDropDown(
+                onChange: (index) {
+                  /// điểm chính = 1
+                  /// điểm phụ = 2
+                  /// => điểm cầu = index +1
+                  diemCau.loaiDiemCau = index + 1;
+                },
+                listData: [
+                  S.current.diem_chinh,
+                  S.current.diem_phu,
+                ],
+                initData: S.current.diem_chinh,
+              ),
+              spaceH20,
+              DoubleButtonBottom(
+                title1: S.current.dong,
+                title2: S.current.xac_nhan,
+                onPressed1: () {
+                  Navigator.pop(context);
+                },
+                onPressed2: () {
+                  if (_key.currentState?.validate() ?? false) {
+                    final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
+                    diemCau.loaiDiemCau ??= 1;
+                    dsDiemCau.add(diemCau);
+                    widget.cubit.dsDiemCauSubject.add(dsDiemCau);
+                    MessageConfig.show(
+                      title: S.current.thay_doi_thanh_cong,
+                    );
                     Navigator.pop(context);
-                  },
-                  onPressed2: () {
-                    if (_key.currentState?.validate() ?? false) {
-                      final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
-                      diemCau.loaiDiemCau ??= 1;
-                      dsDiemCau.add(diemCau);
-                      widget.cubit.dsDiemCauSubject.add(dsDiemCau);
-                      widget.cubit.taoLichHopRequest.dsDiemCau?.add(diemCau);
-                      MessageConfig.show(
-                        title: S.current.thay_doi_thanh_cong,
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-                spaceH30,
-              ],
-            ),
+                  }
+                },
+              ),
+              spaceH30,
+            ],
           ),
         ),
       ),
-      title: S.current.them_diem_cau,
     );
   }
 
@@ -315,6 +343,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
     Function(String)? validator,
     bool isRequired = false,
     String hint = '',
+    String? initValue,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -342,6 +371,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
           onChanged: (value) {
             onChange(value);
           },
+          initialValue: initValue,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,

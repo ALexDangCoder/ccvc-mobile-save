@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -48,7 +51,8 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
             ),
           ),
           SizedBox(
-            height: viewInsertPadding(),
+            height:
+                Platform.isIOS ? viewInsertPaddingIos() : viewInsertPadding(),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -64,5 +68,9 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
       return (_viewInsert.bottom - mouseRegion) + 175.h;
     }
     return 0;
+  }
+
+  double viewInsertPaddingIos() {
+    return _viewInsert.bottom;
   }
 }

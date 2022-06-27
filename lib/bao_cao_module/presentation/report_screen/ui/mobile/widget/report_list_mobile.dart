@@ -1,13 +1,14 @@
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_detail_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_screen_mobile.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/report_web_view_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_gridview.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
-class ReportList extends StatelessWidget {
+class ReportListMobile extends StatelessWidget {
   final bool isListView;
   final List<ReportItem> listReport;
   final ScrollPhysics? scrollPhysics;
@@ -15,7 +16,7 @@ class ReportList extends StatelessWidget {
   final String idFolder;
   final bool isTree;
 
-  const ReportList({
+  const ReportListMobile({
     Key? key,
     required this.isListView,
     required this.listReport,
@@ -96,7 +97,7 @@ class ReportList extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return ReportDetail(
+            return ReportDetailMobile(
               title: value.name ?? '',
               cubit: cubit,
               idFolder: value.id ?? '',
@@ -106,7 +107,18 @@ class ReportList extends StatelessWidget {
         ),
       );
     } else {
-      //todo report
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return ReportWebViewMobile(
+              cubit: cubit,
+              idReport: value.id ?? '',
+              title: value.name ?? '',
+            );
+          },
+        ),
+      );
     }
   }
 }

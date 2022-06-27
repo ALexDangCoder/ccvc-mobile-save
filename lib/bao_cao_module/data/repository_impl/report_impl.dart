@@ -1,13 +1,16 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/folder_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/group_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_report_respose.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/report_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_service.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/folder_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/group_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/list_tree_report_respose.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/report_detail_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/report_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/report_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_detail_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
@@ -152,7 +155,10 @@ class ReportImpl implements ReportRepository {
 
   @override
   Future<Result<String>> shareReport(
-      List<ShareReport> mapMember, String idReport, String appId,) {
+    List<ShareReport> mapMember,
+    String idReport,
+    String appId,
+  ) {
     return runCatchingAsync<PostDataResponse, String>(
       () => _reportService.shareReport(
         idReport,
@@ -178,6 +184,17 @@ class ReportImpl implements ReportRepository {
         ),
       ),
       (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<ReportDetailModel>> getReportDetail(
+    String appId,
+    String idReport,
+  ) {
+    return runCatchingAsync<ReportDetailResponse, ReportDetailModel>(
+      () => _reportService.getReportDetail(appId, idReport),
+      (res) => res.dataResponse?.toModel() ?? ReportDetailModel(),
     );
   }
 }

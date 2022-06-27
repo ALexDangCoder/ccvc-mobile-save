@@ -1,7 +1,8 @@
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/show_dialog_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -13,11 +14,13 @@ import 'package:flutter_svg/svg.dart';
 class ItemList extends StatelessWidget {
   final ReportItem item;
   final ReportListCubit cubit;
+  final bool isTablet;
 
   const ItemList({
     Key? key,
     required this.item,
     required this.cubit,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -88,16 +91,30 @@ class ItemList extends StatelessWidget {
             ),
           InkWell(
             onTap: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => ShowMoreBottomSheet(
-                  reportItem: item,
-                  cubit: cubit,
-                  isFavorite: item.isPin ?? false,
-                ),
-              );
+              if (isTablet) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return ShowMoreBottomSheetTablet(
+                      reportItem: item,
+                      cubit: cubit,
+                      isFavorite: item.isPin ?? false,
+                    );
+                  },
+                );
+              } else {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => ShowMoreBottomSheetMobile(
+                    reportItem: item,
+                    cubit: cubit,
+                    isFavorite: item.isPin ?? false,
+                  ),
+                );
+              }
             },
             child: Padding(
               padding: const EdgeInsets.only(

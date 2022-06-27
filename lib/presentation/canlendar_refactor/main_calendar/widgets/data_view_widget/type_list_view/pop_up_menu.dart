@@ -33,11 +33,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
 
   @override
   void initState() {
-    if (widget.data.isNotEmpty) {
-      currentItem = widget.data.first;
-    } else {
-      currentItem = ItemMenuData(StateType.CHO_XAC_NHAN, 0);
-    }
+    if (widget.data.isNotEmpty) currentItem = widget.data.first;
     super.initState();
   }
 

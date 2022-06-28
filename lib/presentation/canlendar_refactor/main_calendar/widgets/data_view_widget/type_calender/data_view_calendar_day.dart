@@ -127,7 +127,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       }
       if (i == 3) {
         for (final AppointmentWithDuplicate e in checkDuplicate[i]) {
-          e.isDuplicate = true;
           e.isMore = true;
           resultList.add(e);
         }

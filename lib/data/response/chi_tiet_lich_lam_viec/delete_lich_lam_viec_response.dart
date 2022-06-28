@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'delete_lich_lam_viec_response.g.dart';
 
 @JsonSerializable()
-class DeleteCalenderWorkResponse extends Equatable {
+class MessageResponse extends Equatable {
   @JsonKey(name: 'code')
   String? code;
   @JsonKey(name: 'data')
@@ -15,14 +15,14 @@ class DeleteCalenderWorkResponse extends Equatable {
   @JsonKey(name: 'succeeded')
   bool? succeeded;
 
-  DeleteCalenderWorkResponse();
+  MessageResponse();
 
-  factory DeleteCalenderWorkResponse.fromJson(
+  factory MessageResponse.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$DeleteCalenderWorkResponseFromJson(json);
+      _$MessageResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeleteCalenderWorkResponseToJson(this);
+  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 
   @override
   // TODO: implement props

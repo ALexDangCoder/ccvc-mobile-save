@@ -165,7 +165,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     String id,
     bool only,
   ) {
-    return runCatchingAsync<DeleteCalenderWorkResponse,
+    return runCatchingAsync<MessageResponse,
         DeleteTietLichLamViecModel>(
       () => workCalendarService.deleteCalenderWork(id, only),
       (response) => response.toDelete(),
@@ -667,5 +667,11 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
       () => workCalendarService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );
+  }
+
+  @override
+  Future<Result<MessageModel>> recallWorkCalendar(bool isMulti) {
+    // TODO: implement recallWorkCalendar
+    throw UnimplementedError();
   }
 }

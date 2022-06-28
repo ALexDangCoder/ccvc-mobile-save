@@ -27,44 +27,29 @@ class DanhSachYKienButtomTablet extends StatefulWidget {
 class _DanhSachYKienButtomTabletState extends State<DanhSachYKienButtomTablet> {
   @override
   Widget build(BuildContext context) {
-    return ExpandOnlyWidget(
-      header: Container(
-        width: double.infinity,
-        color: Colors.transparent,
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Text(
-          S.current.danh_sach_y_kien,
-          style: textNormalCustom(
-            color: titleColumn,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+    return SolidButton(
+      text: S.current.danh_sach_y_kien,
+      urlIcon: ImageAssets.ic_danhsachykien,
+      onTap: () {
+        showDiaLogTablet(
+          context,
+          title: S.current.cho_y_kien,
+          child: YKienBottomSheet(
+            id: widget.id,
+            isCheck: false,
           ),
-        ),
-      ),
-      child: SolidButton(
-        text: S.current.danh_sach_y_kien,
-        urlIcon: ImageAssets.ic_danhsachykien,
-        onTap: () {
-          showDiaLogTablet(
-            context,
-            title: S.current.cho_y_kien,
-            child: YKienBottomSheet(
-              id: widget.id,
-              isCheck: false,
-            ),
-            isBottomShow: false,
-            funcBtnOk: () {
-              Navigator.pop(context);
-            },
-          ).then((value) {
-            if (value == true) {
-              widget.cubit.loadApi(widget.id);
-            } else if (value == null) {
-              return;
-            }
-          });
-        },
-      ),
+          isBottomShow: false,
+          funcBtnOk: () {
+            Navigator.pop(context);
+          },
+        ).then((value) {
+          if (value == true) {
+            widget.cubit.loadApi(widget.id);
+          } else if (value == null) {
+            return;
+          }
+        });
+      },
     );
   }
 }

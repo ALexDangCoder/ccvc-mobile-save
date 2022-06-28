@@ -345,20 +345,12 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
     if (_formKey.currentState!.validator() &&
         !pickTimeValidatorValue &&
         !chooseTypeCalendarValidatorValue) {
-      if (createCubit.lichLapKhongLapLaiSubject.value) {
-        await createCubit.createWorkCalendar(
-          title: titleController.value.text.removeSpace,
-          content: contentController.value.text.removeSpace,
-          location: locationController.value.text.removeSpace,
-        );
-      } else {
-        await createCubit.checkDuplicate(
-          context: context,
-          title: titleController.value.text.removeSpace,
-          content: contentController.value.text.removeSpace,
-          location: locationController.value.text.removeSpace,
-        );
-      }
+      await createCubit.checkDuplicate(
+        context: context,
+        title: titleController.value.text.removeSpace,
+        content: contentController.value.text.removeSpace,
+        location: locationController.value.text.removeSpace,
+      );
     }
     if (pickTimeValidatorValue) {
       calCubit.validateTime.sink.add(

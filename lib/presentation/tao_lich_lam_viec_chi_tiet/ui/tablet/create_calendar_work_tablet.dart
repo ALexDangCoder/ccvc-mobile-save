@@ -48,8 +48,7 @@ class CreateCalendarWorkTablet extends StatefulWidget {
       _CreateCalendarWorkTabletState();
 }
 
-class _CreateCalendarWorkTabletState
-    extends State<CreateCalendarWorkTablet> {
+class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
   final CreateWorkCalCubit createCubit = CreateWorkCalCubit();
   final _formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
@@ -198,7 +197,8 @@ class _CreateCalendarWorkTabletState
                                         LoaiLichWidget(
                                           taoLichLamViecCubit: createCubit,
                                           callback: (bool value) {
-                                            chooseTypeCalendarValidatorValue = value;
+                                            chooseTypeCalendarValidatorValue =
+                                                value;
                                           },
                                         ),
                                         CupertinoMaterialPicker(
@@ -220,7 +220,8 @@ class _CreateCalendarWorkTabletState
                                             );
                                           },
                                           validateTime: (String value) {
-                                            pickTimeValidatorValue = value.isNotEmpty;
+                                            pickTimeValidatorValue =
+                                                value.isNotEmpty;
                                           },
                                           cubit: cupertinoMaterialCubit,
                                         ),
@@ -398,20 +399,12 @@ class _CreateCalendarWorkTabletState
     if (_formKey.currentState!.validate() &&
         !pickTimeValidatorValue &&
         !chooseTypeCalendarValidatorValue) {
-      if (createCubit.lichLapKhongLapLaiSubject.value) {
-        await createCubit.createWorkCalendar(
-          title: titleController.value.text.removeSpace,
-          content: contentController.value.text.removeSpace,
-          location: locationController.value.text.removeSpace,
-        );
-      } else {
-        await createCubit.checkDuplicate(
-          context: context,
-          title: titleController.value.text.removeSpace,
-          content: contentController.value.text.removeSpace,
-          location: locationController.value.text.removeSpace,
-        );
-      }
+      await createCubit.checkDuplicate(
+        context: context,
+        title: titleController.value.text.removeSpace,
+        content: contentController.value.text.removeSpace,
+        location: locationController.value.text.removeSpace,
+      );
     }
     if (pickTimeValidatorValue) {
       cupertinoMaterialCubit.validateTime.sink.add(
@@ -430,24 +423,28 @@ class _CreateCalendarWorkTabletState
     String timeStart,
   ) {
     createCubit.checkValidateTime();
-    createCubit.listeningEndDataTime(
-      DateTime.parse(
-        timeFormat(
-          '$dateEnd $timeEnd',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT,
+    if (timeEnd != INIT_TIME_PICK && dateEnd != INIT_DATE_PICK) {
+      createCubit.listeningEndDataTime(
+        DateTime.parse(
+          timeFormat(
+            '$dateEnd $timeEnd',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT,
+          ),
         ),
-      ),
-    );
-    createCubit.listeningStartDataTime(
-      DateTime.parse(
-        timeFormat(
-          '$dateStart $timeStart',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT,
+      );
+    }
+    if (timeStart != INIT_TIME_PICK && dateStart != INIT_DATE_PICK) {
+      createCubit.listeningStartDataTime(
+        DateTime.parse(
+          timeFormat(
+            '$dateStart $timeStart',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 

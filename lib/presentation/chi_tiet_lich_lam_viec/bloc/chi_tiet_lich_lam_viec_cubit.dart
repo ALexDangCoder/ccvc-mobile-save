@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
+import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
@@ -11,6 +12,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
+import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -38,7 +40,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   final BehaviorSubject<List<YKienModel>> _listYKien =
       BehaviorSubject<List<YKienModel>>();
 
+  ThanhPhanThamGiaReponsitory get dataRepo => Get.find();
+
   Stream<List<YKienModel>> get listYKien => _listYKien.stream;
+  List<Officer> dataRecall = [];
 
   Stream<List<BaoCaoModel>> get listBaoCaoKetQua => _listBaoCaoKetQua.stream;
 
@@ -125,14 +130,30 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     });
   }
 
+  final listOfficer = BehaviorSubject<List<Officer>>();
+  final listRecall = BehaviorSubject<List<Officer>>();
+
+  Future<void> getOfficer(String id) async {
+    final rs = await dataRepo.getOfficerJoin(id);
+    rs.when(
+      success: (data) {
+        listOfficer.sink.add(data);
+        listRecall.sink.add(data);
+        dataRecall.addAll(data.where((element) => element != 4));
+      },
+      error: (error) {},
+    );
+  }
+
   Future<void> loadApi(String id) async {
-    final queue = Queue(parallel: 4);
+    final queue = Queue(parallel: 5);
     showLoading();
     idLichLamViec = id;
     unawaited(queue.add(() => dataChiTietLichLamViec(id)));
     unawaited(queue.add(() => getDanhSachBaoCaoKetQua(id)));
     unawaited(queue.add(() => getDanhSachYKien(id)));
     unawaited(queue.add(() => getListTinhTrang()));
+    unawaited(queue.add(() => getOfficer(id)));
     dataTrangThai();
     await queue.onComplete;
     showContent();

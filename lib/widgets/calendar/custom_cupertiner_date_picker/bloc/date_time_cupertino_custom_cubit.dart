@@ -49,6 +49,8 @@ class DateTimeCupertinoCustomCubit
         dateBeginSubject.sink
             .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       } else {
+        dateFromTmp =
+            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
         dateBeginSubject.sink.add(
           dateFromTmp,
         );
@@ -57,6 +59,8 @@ class DateTimeCupertinoCustomCubit
         dateEndSubject.sink
             .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       } else {
+        dateToTmp =
+            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
         dateBeginSubject.sink.add(
           dateToTmp,
         );

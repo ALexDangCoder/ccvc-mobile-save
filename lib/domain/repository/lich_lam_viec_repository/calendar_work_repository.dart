@@ -65,6 +65,8 @@ mixin CalendarWorkRepository {
 
   Future<Result<MessageModel>> deleteBaoCaoKetQua(String id);
 
+  Future<Result<MessageModel>> recallWorkCalendar(bool isMulti);
+
   Future<Result<DataLichLvModel>> getListLichLamViec(
     DanhSachLichLamViecRequest danhSachLichLamViecRequest,
   );

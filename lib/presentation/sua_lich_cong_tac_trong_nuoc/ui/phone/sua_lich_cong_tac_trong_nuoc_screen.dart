@@ -487,28 +487,23 @@ class _SuaLichCongTacTrongNuocPhoneState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          taoLichLamViecCubit.editWorkCalendar(
-            title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-          );
-        });
-      } else {
-        if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
-          taoLichLamViecCubit.editWorkCalendar(
-            title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-          );
-        } else {
           taoLichLamViecCubit.checkDuplicate(
             context: context,
             title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
             location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
             isEdit: true,
+            isOnly: !value,
           );
-        }
+        });
+      } else {
+        taoLichLamViecCubit.checkDuplicate(
+          context: context,
+          title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+          isEdit: true,
+        );
       }
     } else {
       if (widget.event.isLichLap ?? false) {
@@ -523,29 +518,25 @@ class _SuaLichCongTacTrongNuocPhoneState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          taoLichLamViecCubit.editWorkCalendarAboard(
-            title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-          );
-        });
-      } else {
-        if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
-          taoLichLamViecCubit.editWorkCalendarAboard(
-            title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-          );
-        } else {
           taoLichLamViecCubit.checkDuplicate(
             context: context,
-            title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
+            title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
             location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
             isEdit: true,
+            isOnly: !value,
             isInside: false,
           );
-        }
+        });
+      } else {
+        taoLichLamViecCubit.checkDuplicate(
+          context: context,
+          title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
+          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
+          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+          isEdit: true,
+          isInside: false,
+        );
       }
     }
   }

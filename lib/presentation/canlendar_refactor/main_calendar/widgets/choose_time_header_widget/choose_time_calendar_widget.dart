@@ -42,8 +42,8 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
     }
     final timePage = controller.pageTableCalendar
         .dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-    widget.onChangeYear?.call(timePage.first, timePage.last,
-        textEditingController.text);
+    widget.onChangeYear
+        ?.call(timePage.first, timePage.last, textEditingController.text);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       final times = dateTimeRange(controller.selectDate.value);
       widget.onChange(times[0], times[1], controller.calendarType.value,
@@ -100,30 +100,34 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
             ),
             child: Column(
               children: [
-                ValueListenableBuilder<DateTime>(
-                  valueListenable: controller.selectDate,
-                  builder: (context, value, _) {
-                    return HeaderTabletCalendarWidget(
-                      onSearch: (value) {
-                        final times =
-                            dateTimeRange(controller.selectDate.value);
-                        widget.onChange(times[0], times[1],
-                            controller.calendarType.value, value);
-                        final timePage = controller.pageTableCalendar
-                            .dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-                        widget.onChangeYear?.call(timePage.first, timePage.last,
-                            textEditingController.text);
-                      },
-                      time: dateFormat(value),
-                      onTap: () {
-                        controller.onExpandCalendar();
-                      },
-                      controller: textEditingController,
-                    );
-                  },
+                ValueListenableBuilder<CalendarType>(
+                  valueListenable: controller.calendarType,
+                  builder: (context, value, _) =>
+                      ValueListenableBuilder<DateTime>(
+                    valueListenable: controller.selectDate,
+                    builder: (context, value, _) {
+                      return HeaderTabletCalendarWidget(
+                        onSearch: (value) {
+                          final times =
+                              dateTimeRange(controller.selectDate.value);
+                          widget.onChange(times[0], times[1],
+                              controller.calendarType.value, value);
+                          final timePage = controller.pageTableCalendar
+                              .dateTimeFormRange(
+                                  timeRange: TimeRange.THANG_NAY);
+                          widget.onChangeYear?.call(timePage.first,
+                              timePage.last, textEditingController.text);
+                        },
+                        time: dateFormat(value),
+                        onTap: () {
+                          controller.onExpandCalendar();
+                        },
+                        controller: textEditingController,
+                      );
+                    },
+                  ),
                 ),
                 TabletCalendarWidget(
-
                   initDate: controller.selectDate.value,
                   calendarDays: widget.calendarDays,
                   onSelect: (value) {

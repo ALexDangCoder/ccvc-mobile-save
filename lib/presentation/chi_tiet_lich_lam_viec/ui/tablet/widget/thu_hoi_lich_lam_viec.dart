@@ -1,36 +1,33 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ThuHoiLichWidget extends StatefulWidget {
+class RecallCalendar extends StatefulWidget {
   final String id;
-  final DetailMeetCalenderCubit cubit;
+  final ChiTietLichLamViecCubit cubit;
 
-  const ThuHoiLichWidget({Key? key, required this.cubit, required this.id})
+  const RecallCalendar({Key? key, required this.cubit, required this.id})
       : super(key: key);
 
   @override
-  _ThuHoiLichWidgetState createState() => _ThuHoiLichWidgetState();
+  _RecallCalendarState createState() => _RecallCalendarState();
 }
 
-class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
+class _RecallCalendarState extends State<RecallCalendar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -56,9 +53,6 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () {
-                widget.cubit.postThuHoiHop(
-                  widget.id,
-                );
                 Navigator.pop(context);
               },
             ),
@@ -73,7 +67,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
 }
 
 class SelectThuHoiWidget extends StatefulWidget {
-  final DetailMeetCalenderCubit cubit;
+  final ChiTietLichLamViecCubit cubit;
 
   const SelectThuHoiWidget({
     Key? key,
@@ -85,14 +79,12 @@ class SelectThuHoiWidget extends StatefulWidget {
 }
 
 class _SelectThuHoiWidgetState extends State<SelectThuHoiWidget> {
-  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         SelectTHuHoiCell(
-          controller: controller,
           cubit: widget.cubit,
         ),
       ],
@@ -101,12 +93,10 @@ class _SelectThuHoiWidgetState extends State<SelectThuHoiWidget> {
 }
 
 class SelectTHuHoiCell extends StatelessWidget {
-  final DetailMeetCalenderCubit cubit;
-  final TextEditingController controller;
+  final ChiTietLichLamViecCubit cubit;
 
   const SelectTHuHoiCell({
     Key? key,
-    required this.controller,
     required this.cubit,
   }) : super(key: key);
 
@@ -133,27 +123,25 @@ class SelectTHuHoiCell extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(6.0.textScale())),
         color: Colors.white,
       ),
-      child: StreamBuilder<List<NguoiChutriModel>>(
-        stream: cubit.listThuHoi,
+      child: StreamBuilder<List<Officer>>(
+        stream: cubit.listRecall.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
-          final dataSN = data
-              .where((e) => e.trangThai == 4)
-              .map((e) => e.hoTen ?? '')
-              .toList();
+          final dataSN = data.map((e) => e.getTitle()).toList();
           return Stack(
             alignment: AlignmentDirectional.centerStart,
             children: [
               DropDownSearchThuHoi(
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
+                hintText: 'Chọn cán bộ hoặc đơn vị để thu hồi',
                 onChange: (vl) {
-                  if (cubit.dataThuHoi[vl].trangThai == 4) {
-                    cubit.dataThuHoi[vl].trangThai = 0;
+                  if (cubit.dataRecall[vl].status == 4) {
+                    cubit.dataRecall[vl].status = 0;
                   } else {
-                    cubit.dataThuHoi[vl].trangThai = 4;
+                    cubit.dataRecall[vl].status = 4;
                   }
-                  cubit.listThuHoi.sink.add(cubit.dataThuHoi);
+                  cubit.listRecall.sink.add(cubit.dataRecall);
                 },
               ),
               Wrap(
@@ -164,8 +152,8 @@ class SelectTHuHoiCell extends StatelessWidget {
                   return tag(
                     title: dataSnb,
                     onDelete: () {
-                      cubit.dataThuHoi[index].trangThai = 0;
-                      cubit.listThuHoi.sink.add(cubit.dataThuHoi);
+                      cubit.dataRecall[index].status = 0;
+                      cubit.listRecall.sink.add(cubit.dataRecall);
                     },
                   );
                 }),
@@ -177,7 +165,7 @@ class SelectTHuHoiCell extends StatelessWidget {
     );
   }
 
-  Widget tag({required String title, required Function onDelete}) {
+  Widget tag({required String title, required Function() onDelete}) {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
@@ -225,7 +213,7 @@ class SelectTHuHoiCell extends StatelessWidget {
 }
 
 class DropDownSearchThuHoi extends StatefulWidget {
-  final List<NguoiChutriModel> listSelect;
+  final List<Officer> listSelect;
   final String title;
   final Function(int) onChange;
   final String hintText;
@@ -244,9 +232,8 @@ class DropDownSearchThuHoi extends StatefulWidget {
 
 class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
   final TextEditingController textEditingController = TextEditingController();
-  BehaviorSubject<List<NguoiChutriModel>> searchItemSubject = BehaviorSubject();
-  List<NguoiChutriModel> searchList = [];
-  NguoiChutriModel select = NguoiChutriModel();
+  BehaviorSubject<List<Officer>> searchItemSubject = BehaviorSubject();
+  Officer select = Officer();
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +246,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             width: double.infinity,
-            child: select.hoTen == ''
+            child: select.getTitle() == ''
                 ? Text(
                     widget.hintText,
                     style: textNormal(
@@ -364,29 +351,9 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        BaseSearchBar(
-          onChange: (keySearch) {
-            bool isListThuKy(NguoiChutriModel thuKy) {
-              return thuKy.hoTen
-                      ?.toLowerCase()
-                      .vietNameseParse()
-                      .contains(keySearch) ??
-                  false;
-            }
-
-            searchList = widget.listSelect
-                .where(
-                  (item) => isListThuKy(item),
-                )
-                .toList();
-            searchItemSubject.sink.add(searchList);
-          },
-        ),
-        const SizedBox(
-          height: 10,
-        ),
+        spaceH8,
         Expanded(
-          child: StreamBuilder<List<NguoiChutriModel>>(
+          child: StreamBuilder<List<Officer>>(
             stream: searchItemSubject,
             builder: (context, snapshot) {
               final listData = snapshot.data ?? [];
@@ -397,8 +364,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                     )
                   : ListView.separated(
                       itemBuilder: (context, index) {
-                        final itemTitle =
-                            snapshot.data?[index] ?? NguoiChutriModel();
+                        final itemTitle = snapshot.data?[index] ?? Officer();
                         return GestureDetector(
                           onTap: () {
                             setState(() {
@@ -411,14 +377,14 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                           child: Container(
                             color: Colors.transparent,
                             padding: const EdgeInsets.symmetric(
-                              vertical: 2,
+                              vertical: 4,
                               horizontal: 4,
                             ),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: Text(
-                                    itemTitle.hoTen ?? '',
+                                    itemTitle.getTitle(),
                                     style: textNormalCustom(
                                       color: titleItemEdit,
                                       fontWeight: itemTitle == select
@@ -427,7 +393,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                                     ),
                                   ),
                                 ),
-                                if (itemTitle.trangThai == 4)
+                                if (itemTitle.status == 4)
                                   const Icon(
                                     Icons.done_sharp,
                                     color: buttonColor,

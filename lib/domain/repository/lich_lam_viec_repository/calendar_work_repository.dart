@@ -29,7 +29,7 @@ import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 
-mixin LichLamViecRepository {
+mixin CalendarWorkRepository {
   Future<Result<DashBoardLichHopModel>> getLichLv(
     String startTime,
     String endTime,
@@ -65,6 +65,8 @@ mixin LichLamViecRepository {
 
   Future<Result<MessageModel>> deleteBaoCaoKetQua(String id);
 
+  Future<Result<MessageModel>> recallWorkCalendar(bool isMulti);
+
   Future<Result<DataLichLvModel>> getListLichLamViec(
     DanhSachLichLamViecRequest danhSachLichLamViecRequest,
   );
@@ -97,10 +99,9 @@ mixin LichLamViecRepository {
 
   Future<Result<List<TinhTrangBaoCaoModel>>> getListTinhTrangBaoCao();
 
-  Future<Result<MessageModel>> checkTrungLichLamviec(
-      CheckTrungLichRequest body);
+  Future<Result<MessageModel>> checkDuplicate(CheckTrungLichRequest body);
 
-  Future<Result<MessageModel>> taoLichLamViec({
+  Future<Result<MessageModel>> createWorkCalendar({
     required String title,
     required String typeScheduleId,
     required String linhVucId,
@@ -141,41 +142,41 @@ mixin LichLamViecRepository {
     required List<int> days,
   });
 
-  Future<Result<MessageModel>> suaLichLamViec(
-    String title,
-    String typeScheduleId,
-    String linhVucId,
-    String TenTinh,
-    String TenHuyen,
-    String TenXa,
-    String dateFrom,
-    String timeFrom,
-    String dateTo,
-    String timeTo,
-    String content,
-    String location,
-    String vehicle,
-    String expectedResults,
-    String results,
-    int status,
-    String rejectReason,
-    bool publishSchedule,
-    String tags,
-    bool isLichDonVi,
-    String canBoChuTriId,
-    String donViId,
-    String note,
-    String id,
-    bool isAllDay,
-    bool isSendMail,
-    List<DonViModel> scheduleCoperativeRequest,
-    int typeRemider,
-    int typeRepeat,
-    String dateRepeat,
-    String dateRepeat1,
-    bool only,
-    List<int> days,
-  );
+  Future<Result<MessageModel>> suaLichLamViec({
+    required String title,
+    required String typeScheduleId,
+    required String linhVucId,
+    required String TenTinh,
+    required String TenHuyen,
+    required String TenXa,
+    required String dateFrom,
+    required String timeFrom,
+    required String dateTo,
+    required String timeTo,
+    required String content,
+    required String location,
+    required String vehicle,
+    required String expectedResults,
+    required String results,
+    required int status,
+    required String rejectReason,
+    required bool publishSchedule,
+    required String tags,
+    required bool isLichDonVi,
+    required String canBoChuTriId,
+    required String donViId,
+    required String note,
+    required String id,
+    required bool isAllDay,
+    required bool isSendMail,
+    required List<DonViModel> scheduleCoperativeRequest,
+    required int? typeRemider,
+    required int typeRepeat,
+    required String dateRepeat,
+    required String dateRepeat1,
+    required bool only,
+    required List<int> days,
+  });
 
   Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
     String title,
@@ -234,11 +235,11 @@ mixin LichLamViecRepository {
   Future<Result<DaTaTinhSelectModel>> tinhSelect(
       TinhSelectRequest tinhSelectRequest);
 
-  Future<Result<DaTaHuyenSelectModel>> huyenSelect(
+  Future<Result<DaTaHuyenSelectModel>> getDistrict(
       HuyenSelectRequest huyenSelectRequest);
 
-  Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest);
+  Future<Result<DaTaXaSelectModel>> getWard(WardRequest xaSelectRequest);
 
-  Future<Result<DataDatNuocSelectModel>> datNuocSelect(
+  Future<Result<DataDatNuocSelectModel>> getCountry(
       DatNuocSelectRequest datNuocSelectRequest);
 }

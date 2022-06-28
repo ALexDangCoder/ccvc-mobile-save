@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ImageAssets {
   ///Svg path
   static const String icHeaderMenuBlue = '$baseImg/background_menu_blue.png';
+  static const String icRecall = '$baseImg/ic_recall.svg';
   static const String icHeaderMenuPink = '$baseImg/header_menu_pink.png';
   static const String icHeaderMenuYellow = '$baseImg/header_menu_yellow.png';
   static const String icBackGroundXuan = '$baseImg/back_ground_xuan.png';

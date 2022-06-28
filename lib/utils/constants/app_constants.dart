@@ -135,10 +135,13 @@ const _dtFormat11 = 'dd-MM-yyyy';
 const _dtFormat12 = 'yyyy-MM-ddTHH:mm:ss';
 const _dtFormat13 = 'dd/MM/yyyy HH:mm';
 const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
+const _dtFormat15 = 'yyyy-MM-dd HH:mm';
 const HOUR_MINUTE_FORMAT = 'Hm';
 
 const START_TIME='8:00';
 const END_TIME='18:00';
+const INIT_TIME_PICK='hh:mm';
+const INIT_DATE_PICK='DD/MM/YYYY';
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
@@ -162,6 +165,7 @@ class DateTimeFormat {
   static const  DATE_TIME_RECEIVE = _dtFormat12;
   static const  DATE_TIME_PICKER = _dtFormat13;
   static const  DATE_TIME_PUT = _dtFormat14;
+  static const  DATE_TIME_PUT_EDIT = _dtFormat15;
 }
 
 class ThongBaoTypeConstant {

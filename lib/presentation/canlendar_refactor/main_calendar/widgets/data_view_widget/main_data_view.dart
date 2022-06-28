@@ -68,6 +68,7 @@ class _MainDataViewState extends State<MainDataView> {
             onMore: (value) {
               widget.cubit.controller.calendarType.value = CalendarType.DAY;
               widget.cubit.controller.selectDate.value = value;
+              widget.cubit.controller.selectDate.notifyListeners();
             },
             data: data,
             fCalendarController: widget.cubit.fCalendarControllerWeek,

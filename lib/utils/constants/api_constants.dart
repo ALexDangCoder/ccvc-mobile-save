@@ -136,7 +136,7 @@ class ApiConstants {
   static const CO_CAU_LICH_HOP =
       '/vpdt/api/Statistic/statistic-by-type-of-calendar';
   static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list?';
-  static const MENU_LICH_LV = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
+  static const MENU_LICH_LV = '/vpdt/api/Schedules/count-lich-don-vi';
   static const TO_CHUC_BOI_DON_VI =
       '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA =
@@ -285,26 +285,12 @@ class ApiConstants {
   static const CHON_PHONG_HOP = '/vpdt/api/CanBoThamGia/thay-doi-phong';
   static const DUYET_HOAC_HUYDUYET_KY_THUAT =
       '/vpdt/api/CanBoThamGia/duyet-ky-thuat';
-
-  static const LIST_REPORT = '/htcs/api/Folder/list';
-  static const GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP = '/htcs/api/User/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const DASHBOARD_PAKN_TIEP_NHAN_XU_LY = '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
   static const DANH_SACH_PAKN_FILTER = '/pakn/api/dashboard-mpi/danh-sach-pakn';
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
-  static const LIST_GROUP_BAO_CAO = '/common/Group/search';
-  static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
-  static const GET_APP_ID = '/api/App/search';
-  static const GET_FOLDER_ID = '/htcs/api/Folder/get-root';
-  static const POST_LIKE_REPORT = '/htcs/api/Report/like-many';
-  static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
-  static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
-  static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
-  static const CREATE_NEW_USER = '/htcs/api/User/create';
-  static const SHARE_REPORT = '/htcs/api/User/share-many';
-
   static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';
   static const CONFIRM_OR_CANCEL_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/duyet-bao-cao';
   static const CREATE_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/create-meet-report';

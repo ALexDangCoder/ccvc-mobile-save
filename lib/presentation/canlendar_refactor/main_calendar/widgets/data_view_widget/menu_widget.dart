@@ -46,7 +46,7 @@ class MenuWidget extends StatelessWidget {
                         onChoose.call(null, e.state);
                         Navigator.of(context).pop();
                       },
-                      isSelect: e.state ==  state,
+                      isSelect: e.state == state,
                     ),
                   ),
                 )
@@ -60,7 +60,7 @@ class MenuWidget extends StatelessWidget {
                 .map(
                   (e) => e.childData != null
                       ? menuItemWithChild(e, context)
-                      : menuViewNoChild(e),
+                      : menuViewNoChild(e , context),
                 )
                 .toList(),
           ],
@@ -194,7 +194,7 @@ class MenuWidget extends StatelessWidget {
     );
   }
 
-  Widget menuViewNoChild(ParentMenu item) {
+  Widget menuViewNoChild(ParentMenu item, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 2),
       child: Row(
@@ -204,6 +204,7 @@ class MenuWidget extends StatelessWidget {
               icon: item.iconAsset,
               title: item.title,
               onTap: () {
+                Navigator.of(context).pop();
                 onChoose.call(item.value, state);
               },
             ),
@@ -222,8 +223,8 @@ class MenuWidget extends StatelessWidget {
       child: ExpandOnlyWidget(
         isPadingIcon: true,
         header: itemMenuView(
-          icon: ImageAssets.icLichTheoTrangThai,
-          title: S.current.lich_theo_trang_thai,
+          icon: item.iconAsset,
+          title: item.title,
         ),
         child: Column(
           children: item.childData!

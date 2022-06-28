@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/report_filter.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_filter_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -75,7 +75,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                       context: context,
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => ReportFilter(
+                      builder: (context) => ReportFilterMobile(
                         cubit: cubit,
                       ),
                     );
@@ -114,7 +114,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            cubit.isListViewInit=true;
+                            cubit.isListViewInit = true;
                             cubit.isListView.sink.add(cubit.isListViewInit);
                           },
                           child: SvgPicture.asset(
@@ -127,7 +127,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                         spaceW16,
                         GestureDetector(
                           onTap: () {
-                            cubit.isListViewInit=false;
+                            cubit.isListViewInit = false;
                             cubit.isListView.sink.add(cubit.isListViewInit);
                           },
                           child: SvgPicture.asset(
@@ -160,7 +160,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                               children: [
                                 titleBaoCao(S.current.yeu_thich),
                                 spaceH16,
-                                ReportList(
+                                ReportListMobile(
                                   scrollPhysics:
                                       const NeverScrollableScrollPhysics(),
                                   isListView: isListView,
@@ -174,7 +174,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                             titleBaoCao(S.current.all),
                           spaceH16,
                           if (state is CompletedLoadMore)
-                            ReportList(
+                            ReportListMobile(
                               idFolder: cubit.folderId,
                               listReport: cubit.listReport,
                               isListView: isListView,
@@ -276,7 +276,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
               bloc: cubit,
               builder: (BuildContext context, Object? state) {
                 return cubit.listReportSearch.isNotEmpty
-                    ? ReportList(
+                    ? ReportListMobile(
                         idFolder: cubit.folderId,
                         listReport: cubit.listReportSearch,
                         isListView: cubit.isListView.value,
@@ -300,6 +300,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         if (isSearch)
           GestureDetector(
             onTap: () {
+              _searchController.text=cubit.textSearch.value;
               cubit.isStatusSearch.add(false);
             },
             child: Container(

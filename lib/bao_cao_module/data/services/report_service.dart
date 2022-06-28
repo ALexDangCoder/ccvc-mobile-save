@@ -1,12 +1,13 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/appid_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/folder_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/group_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/list_tree_report_respose.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/report_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
-import 'package:ccvc_mobile/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/appid_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/folder_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/group_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/list_tree_report_respose.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/report_detail_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/report_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
@@ -64,32 +65,38 @@ abstract class ReportService {
 
   @GET(ApiConstants.GET_LIST_REPORT_FAVORITE)
   Future<ReportResponse> getListReportFavorite(
-      @Header('AppId') String appId,
-      @Query('folderId') String folderId,
-      );
+    @Header('AppId') String appId,
+    @Query('folderId') String folderId,
+  );
 
   @GET(ApiConstants.GET_LIST_TREE_REPORT)
   Future<ListTreeReportResponse> getListReportTree(
-      @Header('AppId') String appId,
-      @Query('folderId') String folderId,
-      );
+    @Header('AppId') String appId,
+    @Query('folderId') String folderId,
+  );
 
   @POST(ApiConstants.CREATE_NEW_USER)
   Future<PostDataResponse> addNewUser(
-      @Body() Map<String,String> mapUser,
-      @Header('AppId') String appId,
-      );
+    @Body() Map<String, String> mapUser,
+    @Header('AppId') String appId,
+  );
 
   @POST('${ApiConstants.SHARE_REPORT}/{idReport}')
   Future<PostDataResponse> shareReport(
-      @Path() String idReport,
-      @Body() List<ShareReport> mapData,
-      @Header('AppId') String appId,
+    @Path() String idReport,
+    @Body() List<ShareReport> mapData,
+    @Header('AppId') String appId,
   );
 
   @POST(ApiConstants.GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP)
   Future<UserNgoaiHeThongTruyCapTotalResponse> getUsersNgoaiHeThongDuocTruyCap(
-      @Header('AppId') String appId,
-      @Body() UsersNgoaiHeThongTruyCapRequest request,
+    @Header('AppId') String appId,
+    @Body() UsersNgoaiHeThongTruyCapRequest request,
+  );
+
+  @GET(ApiConstants.REPORT_DETAIL)
+  Future<ReportDetailResponse> getReportDetail(
+    @Header('AppId') String appId,
+    @Query('id') String idReport,
   );
 }

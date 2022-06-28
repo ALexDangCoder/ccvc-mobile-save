@@ -1,7 +1,7 @@
-import 'package:ccvc_mobile/bao_cao_module/data/response/bao_cao/appid_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_common_service.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/htcs_model.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_common_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/appid_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/report_common_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/htcs_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 
 class ReportCommonImpl implements ReportCommonRepository {

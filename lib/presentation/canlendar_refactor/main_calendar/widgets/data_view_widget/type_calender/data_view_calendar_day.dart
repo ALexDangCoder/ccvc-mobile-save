@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
@@ -43,22 +41,28 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     checkDuplicate(
       widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
     );
-    log('${widget.data}');
+    checkMore(
+      widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
+    );
   }
 
+  DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
+
   void checkDuplicate(List<AppointmentWithDuplicate> list) {
-    final List<AppointmentWithDuplicate> listRemove = [];
     for (final item in list) {
       final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
       final currentTimeTo = item.endTime.millisecondsSinceEpoch;
       if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
         item.startTime = DateTime.fromMillisecondsSinceEpoch(
-            item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000);
+          item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000,
+        );
         item.endTime = DateTime.fromMillisecondsSinceEpoch(
-            item.endTime.millisecondsSinceEpoch);
+          item.endTime.millisecondsSinceEpoch,
+        );
       }
       final listDuplicate = list.where((element) {
-        final startTime = element.startTime.millisecondsSinceEpoch;
+        final startTime = item.startTime.millisecondsSinceEpoch;
         if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
           return true;
         }
@@ -67,26 +71,75 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       if (listDuplicate.length > 1) {
         for (int i = 0; i < listDuplicate.length; i++) {
           listDuplicate.elementAt(i).isDuplicate = true;
-          listDuplicate.elementAt(i).isMore = i == 3;
-          if (i > 3) {
-            listRemove.add(listDuplicate.elementAt(i));
-          }
         }
       }
     }
-    for (final AppointmentWithDuplicate element in listRemove) {
-      list.remove(element);
-    }
+  }
 
+  void checkMore(List<AppointmentWithDuplicate> rootList) {
+    final List<AppointmentWithDuplicate> rootListTmp = [];
+    final List<AppointmentWithDuplicate> resultList = [];
+    final List<List<AppointmentWithDuplicate>> checkDuplicate = [];
+    final List<DateTime> endTimeDataTmp = [];
+
+    // remove Appointment full day
+    for (final AppointmentWithDuplicate e in rootList) {
+      if (getOnlyDate(e.startTime) != getOnlyDate(e.endTime)) {
+        resultList.add(e);
+      } else {
+        rootListTmp.add(e);
+      }
+    }
+    // sort
+    rootListTmp.sort((item1, item2) {
+      return item1.startTime.compareTo(item2.startTime);
+    });
+
+    // group lists no duplicate
+    if (endTimeDataTmp.isEmpty && rootListTmp.isNotEmpty) {
+      checkDuplicate.add([rootListTmp.first]);
+      endTimeDataTmp.add(rootListTmp.first.endTime);
+      rootListTmp.remove(rootListTmp.first);
+    }
+    while (rootListTmp.isNotEmpty) {
+      int? indexAdd;
+      for (int i = 0; i < endTimeDataTmp.length; i++) {
+        if (endTimeDataTmp[i].millisecondsSinceEpoch <=
+            rootListTmp.first.startTime.millisecondsSinceEpoch) {
+          indexAdd = i;
+          break;
+        }
+      }
+      if (indexAdd == null) {
+        checkDuplicate.add([rootListTmp.first]);
+        endTimeDataTmp.add(rootListTmp.first.endTime);
+        rootListTmp.remove(rootListTmp.first);
+      } else {
+        endTimeDataTmp[indexAdd] = rootListTmp.first.endTime;
+        checkDuplicate[indexAdd].add(rootListTmp.first);
+        rootListTmp.remove(rootListTmp.first);
+      }
+    }
+    // remove and add more
+    for (int i = 0; i < checkDuplicate.length && i < 4; i++) {
+      if (i < 3) {
+        resultList.addAll(checkDuplicate[i]);
+      }
+      if (i == 3) {
+        for (final AppointmentWithDuplicate e in checkDuplicate[i]) {
+          e.isMore = true;
+          resultList.add(e);
+        }
+      }
+    }
+    rootList.clear();
+    rootList.addAll(resultList);
   }
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController
         .addPropertyChangedListener(widget.propertyChanged);
   }
-
-  DateTime getOnlyDate(DateTime date) =>
-      DateTime(date.year, date.month, date.day);
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +155,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       appointmentTextStyle: textNormalCustom(color: backgroundColorApp),
       todayHighlightColor: statusCalenderRed,
       appointmentTimeTextFormat: 'hh:mm:ss a',
+
       dataSource: widget.data,
       appointmentBuilder: (_, appointmentDetail) {
         final AppointmentWithDuplicate appointment =
@@ -130,6 +184,7 @@ class DataSourceFCalendar extends CalendarDataSource {
   DataSourceFCalendar(List<AppointmentWithDuplicate> source) {
     appointments = source;
   }
+
   DataSourceFCalendar.empty() {
     appointments = [];
   }

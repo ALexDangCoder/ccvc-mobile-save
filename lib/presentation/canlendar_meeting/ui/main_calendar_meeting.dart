@@ -52,7 +52,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {
-        cubit.refreshData();
+        cubit.refreshDataDangLich();
       },
       error: AppException('', S.current.something_went_wrong),
       stream: cubit.stateStream,
@@ -86,7 +86,12 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            cubit.refreshData();
+            if (cubit.state is CalendarViewState) {
+              cubit.refreshDataDangLich();
+            } else if (cubit.state is ListViewState) {
+            } else {
+              cubit.getDataDangChart();
+            }
           },
           child: Column(
             children: [
@@ -105,13 +110,21 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                       if (type != cubit.state.typeView) {
                         if (cubit.state is CalendarViewState) {
                           cubit.emitCalendarViewState(type: type);
+                          cubit.refreshDataDangLich();
                         } else if (cubit.state is ListViewState) {
                           cubit.emitListViewState(type: type);
                         } else {
                           cubit.emitChartViewState(type: type);
+                          cubit.getDataDangChart();
+                        }
+                      } else {
+                        if (cubit.state is CalendarViewState) {
+                          cubit.refreshDataDangLich();
+                        } else if (cubit.state is ListViewState) {
+                        } else {
+                          cubit.getDataDangChart();
                         }
                       }
-                      cubit.refreshData();
                     },
                     controller: cubit.controller,
                     onChangeYear: (startDate, endDate, keySearch) {
@@ -124,9 +137,15 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                   );
                 },
               ),
-              Expanded(child: ViewDataMeeting(cubit: cubit)),
+              Expanded(
+                child: MouseRegion(
+                  onHover: (_) {
+                    cubit.controller.onCloseCalendar();
+                  },
+                  child: ViewDataMeeting(cubit: cubit),
+                ),
+              ),
             ],
-
           ),
         ),
         floatingActionButton: FloatingActionButton(

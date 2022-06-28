@@ -74,7 +74,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   final BehaviorSubject<List<ListLichLVModel>> _listWorkSubject =
       BehaviorSubject();
 
-
+  Stream<List<ListLichLVModel>> get listWorkStream => _listWorkSubject.stream;
 
   final BehaviorSubject<List<DateTime>> _listNgayCoLich =
       BehaviorSubject<List<DateTime>>();
@@ -451,7 +451,7 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
         return S.current.lich_da_co_bao_cao;
       case StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO:
         return S.current.lich_chua_co_bao_cao;
-   case StatusWorkCalendar.CHO_DUYET:
+      case StatusWorkCalendar.CHO_DUYET:
         return S.current.cho_duyet;
       case StatusWorkCalendar.LICH_HOP_CAN_KLCH:
         return S.current.lich_hop_can_klch;

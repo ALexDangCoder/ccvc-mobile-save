@@ -113,7 +113,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                         cubit.dayHaveEvent(startDate, endDate, keySearch);
                       },
                     );
-                  }),
+                  },),
               Expanded(
                   child: MouseRegion(
                       onHover: (_) {

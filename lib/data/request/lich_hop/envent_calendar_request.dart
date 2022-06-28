@@ -31,16 +31,6 @@ class EventCalendarRequest {
   bool? isPublish;
   bool? IsLichLanhDao;
   List<String>? ListUserId;
-  bool? isChoXacNhan;
-  bool? isChuaCoBaoCao;
-  bool? isDaCoBaoCao;
-  bool? isLichDuocMoi;
-  bool? isLichHuyBo;
-  bool? isLichTaoHo;
-  bool? isLichThamGia;
-  bool? isLichThuHoi;
-  bool? isLichTuChoi;
-  bool? isPublish;
 
   EventCalendarRequest({
     required this.DateFrom,
@@ -70,12 +60,6 @@ class EventCalendarRequest {
     this.isLichTaoHo,
     this.IsLichLanhDao,
     this.ListUserId,
-    this.isChoXacNhan,
-    this.isChuaCoBaoCao,
-    this.isDaCoBaoCao,
-    this.isLichDuocMoi,
-    this.isLichHuyBo,
-    this.isLichTaoHo,
   });
 
   factory EventCalendarRequest.fromJson(Map<String, dynamic> json) =>

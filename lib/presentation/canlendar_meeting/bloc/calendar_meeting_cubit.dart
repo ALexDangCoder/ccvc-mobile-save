@@ -5,6 +5,10 @@ import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/dashboard_thong_ke_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/statistic_by_month_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_gia.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
@@ -18,6 +22,8 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
@@ -88,20 +94,62 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   Stream<DataSourceFCalendar> get listCalendarWorkMonthStream =>
       _listCalendarWorkMonthSubject.stream;
 
-  // final PagingController<int, ListLichLVModel> worksPagingController =
-  // PagingController(firstPageKey: 0);
+  final BehaviorSubject<List<StatisticByMonthModel>> _statisticSubject =
+      BehaviorSubject();
+
+  Stream<List<StatisticByMonthModel>> get statisticStream =>
+      _statisticSubject.stream;
+
+  final BehaviorSubject<List<ToChucBoiDonViModel>> _toChucBoiDonViSubject =
+      BehaviorSubject();
+
+  Stream<List<ToChucBoiDonViModel>> get toChucBoiDonViStream =>
+      _toChucBoiDonViSubject.stream;
+
+  final BehaviorSubject<List<ChartData>> _coCauLichHopSubject =
+      BehaviorSubject();
+
+  Stream<List<ChartData>> get coCauLichHopStream => _coCauLichHopSubject.stream;
+
+  final BehaviorSubject<List<TiLeThamGiaModel>> _tiLeThamGiaSubject =
+      BehaviorSubject();
+
+  Stream<List<TiLeThamGiaModel>> get tiLeThamGiaStream =>
+      _tiLeThamGiaSubject.stream;
+
+  final BehaviorSubject<bool> _isShowStatusFilter =
+      BehaviorSubject.seeded(false);
+
+  Stream<bool> get isShowStatusStream =>
+      _isShowStatusFilter.stream;
+
+  final BehaviorSubject<StatusWorkCalendar?> _statusWorkSubject =
+  BehaviorSubject.seeded(StatusWorkCalendar.LICH_CUA_TOI);
+
+  Stream<StatusWorkCalendar?> get statusWorkSubjectStream
+  => _statusWorkSubject.stream;
+
+  final BehaviorSubject<List<DashBoardThongKeModel>> _listDashBoardThongKeSubject =
+  BehaviorSubject();
+
+  Stream<List<DashBoardThongKeModel>> get listDashBoardThongKeStream
+  => _listDashBoardThongKeSubject.stream;
 
   void initData() {
     getCountDashboard();
     getMenuLichLanhDao();
     getDanhSachLichHop();
+    getDashBoardThongKe();
   }
 
-  void refreshData({bool isLichLanhDao = false}) {
+  void refreshDataDangLich({bool isLichLanhDao = false}) {
     getCountDashboard();
     getDanhSachLichHop(isLichLanhDao: isLichLanhDao);
     getDaysHaveEvent(
-        startDate: startDate, endDate: endDate, keySearch: keySearch,);
+      startDate: startDate,
+      endDate: endDate,
+      keySearch: keySearch,
+    );
   }
 
   /// Lấy danh sách menu lịch lãnh đạo:
@@ -240,6 +288,20 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       success: (value) {
         getMenuLichTheoTrangThai(value);
         _totalWorkSubject.sink.add(value);
+      },
+      error: (error) {},
+    );
+  }
+
+  /// lấy data cho dashboard
+  Future<void> getDashBoardThongKe() async {
+    final result = await hopRepo.getDashBoardThongKe(
+      startDate.formatApiDDMMYYYYSlash,
+      endDate.formatApiDDMMYYYYSlash,
+    );
+    result.when(
+      success: (success) {
+        _listDashBoardThongKeSubject.add(success);
       },
       error: (error) {},
     );
@@ -395,6 +457,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     fCalendarControllerMonth.displayDate = this.startDate;
   }
 
+  /// handle menu clicked
   void handleMenuSelect({
     DataItemMenu? itemMenu,
     required BaseState state,
@@ -402,10 +465,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     stateType = StateType.CHO_XAC_NHAN;
     if (state is ListViewState) {
       emitListViewState();
-      if (typeCalender == StatusWorkCalendar.LICH_DUOC_MOI) {
-        stateType = StateType.CHO_XAC_NHAN;
-        // worksPagingController.refresh();
-      }
     } else if (state is CalendarViewState) {
       emitCalendarViewState();
     } else {
@@ -416,13 +475,167 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       if (itemMenu is StatusDataItem) {
         _titleSubject.sink.add(itemMenu.value.getTitle());
         typeCalender = itemMenu.value;
-        refreshData();
+        _statusWorkSubject.sink.add(itemMenu.value);
+        refreshDataDangLich();
       }
       if (itemMenu is LeaderDataItem) {
         _titleSubject.sink.add(itemMenu.title);
         idDonViLanhDao = itemMenu.id;
-        refreshData(isLichLanhDao: true);
+        refreshDataDangLich(isLichLanhDao: true);
       }
     }
+  }
+
+  void getDataDangChart() {
+    getStatisticByMonth();
+    getToChucBoiDonVi();
+    getTiLeThamDu();
+    getCoCauLichHop();
+  }
+
+  // void checkShowHideDashboard(StatusWorkCalendar typeCanledar){
+  //     switch (typeCanledar) {
+  //       case StatusWorkCalendar.LICH_CUA_TOI:
+  //         return S.current.lich_cua_toi;
+  //       case StatusWorkCalendar.LICH_DUOC_MOI:
+  //         return S.current.lich_duoc_moi;
+  //       case StatusWorkCalendar.LICH_TAO_HO:
+  //         return S.current.lich_tao_ho;
+  //       case StatusWorkCalendar.LICH_HUY:
+  //         return S.current.lich_huy;
+  //       case StatusWorkCalendar.LICH_THU_HOI:
+  //         return S.current.lich_thu_hoi;
+  //       case StatusWorkCalendar.LICH_DA_CO_BAO_CAO:
+  //         return S.current.lich_da_co_bao_cao;
+  //       case StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO:
+  //         return S.current.lich_chua_co_bao_cao;
+  //       case StatusWorkCalendar.CHO_DUYET:
+  //         return S.current.cho_duyet;
+  //       case StatusWorkCalendar.LICH_HOP_CAN_KLCH:
+  //         return S.current.lich_hop_can_klch;
+  //       case StatusWorkCalendar.LICH_DA_KLCH:
+  //         return S.current.lich_da_klch;
+  //       case StatusWorkCalendar.LICH_DUYET_PHONG:
+  //         return S.current.lich_duyet_phong;
+  //       case StatusWorkCalendar.LICH_DUYET_THIET_BI:
+  //         return S.current.lich_hop_duyet_thiet_bi;
+  //       case StatusWorkCalendar.LICH_DUYET_KY_THUAT:
+  //         return S.current.lich_hop_duyet_ky_thuat;
+  //       case StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI:
+  //         return S.current.lich_hop_duyet_yeu_cau_tb;
+  //       case StatusWorkCalendar.LICH_CAN_DUYET:
+  //         return S.current.lich_hop_can_duyet;
+  // }
+
+  /// lấy số lịch họp trong thời gian
+  Future<void> getStatisticByMonth({bool needShowLoading = false}) async {
+    showLoading();
+    final result = await hopRepo.postStatisticByMonth(
+      startDate.formatApiDDMMYYYYSlash,
+      endDate.formatApiDDMMYYYYSlash,
+    );
+    result.when(
+      success: (success) {
+        _statisticSubject.add(success);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  /// lấy số lịch họp theo đon vị
+  Future<void> getToChucBoiDonVi() async {
+    final result = await hopRepo.postToChucBoiDonVi(
+      startDate.formatApiDDMMYYYYSlash,
+      endDate.formatApiDDMMYYYYSlash,
+    );
+    result.when(
+      success: (value) {
+        _toChucBoiDonViSubject.add(value);
+      },
+      error: (error) {},
+    );
+  }
+
+  /// lấy tỉ lệ tham dự
+  Future<void> getTiLeThamDu() async {
+    final result = await hopRepo.postTiLeThamGia(
+      startDate.formatApiDDMMYYYYSlash,
+      endDate.formatApiDDMMYYYYSlash,
+    );
+
+    result.when(
+      success: (value) {
+        _tiLeThamGiaSubject.add(value);
+      },
+      error: (error) {},
+    );
+  }
+
+  /// get cơ cấu lịch họp
+  int indexThongKe = 0;
+  String idThongKe = '';
+
+  Future<void> getCoCauLichHop() async {
+    final result = await hopRepo.postCoCauLichHop(
+      startDate.formatApiDDMMYYYYSlash,
+      endDate.formatApiDDMMYYYYSlash,
+    );
+    final List<ChartData> dataCoCauLichHop = [];
+    result.when(
+      success: (value) {
+        for (var i in value) {
+          dataCoCauLichHop.add(
+            ChartData(
+              i.name ?? '',
+              i.quantities?.toDouble() ?? 0,
+              i.color ?? Colors.white,
+            ),
+          );
+        }
+        idThongKe = value[indexThongKe].id ?? '';
+        _coCauLichHopSubject.add(dataCoCauLichHop);
+      },
+      error: (error) {},
+    );
+  }
+
+  bool checkDataList(List<dynamic> data) {
+    for (var i in data) {
+      if (i.quantities != 0) return true;
+    }
+    return false;
+  }
+
+  double getMax(List<ToChucBoiDonViModel> data) {
+    double value = 0;
+    data.forEach((element) {
+      if ((element.quantities?.toDouble() ?? 0.0) > value) {
+        value = element.quantities?.toDouble() ?? 0.0;
+      }
+    });
+    final double range = value % 10;
+
+    return (value + (10.0 - range)) / 5.0;
+  }
+
+  bool checkDataRateList(List<TiLeThamGiaModel> data) {
+    for (var i in data) {
+      if (i.rate != 0) return true;
+    }
+    return false;
+  }
+
+  double getMaxTiLe(List<TiLeThamGiaModel> data) {
+    double value = 0;
+    data.forEach((element) {
+      if ((element.rate?.toDouble() ?? 0.0) > value) {
+        value = element.rate?.toDouble() ?? 0.0;
+      }
+    });
+
+    final double range = value % 10;
+
+    return (value + (10.0 - range)) / 5.0;
   }
 }

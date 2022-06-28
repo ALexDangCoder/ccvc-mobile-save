@@ -133,7 +133,7 @@ class CellContent extends StatelessWidget {
     } else if (isToday && isTodayHighlighted) {
       cell = calendarBuilders.todayBuilder?.call(context, day, focusedDay) ??
           Container(
-            margin: margin,
+
             padding: padding,
             alignment: Alignment.center,
             child: AnimatedContainer(

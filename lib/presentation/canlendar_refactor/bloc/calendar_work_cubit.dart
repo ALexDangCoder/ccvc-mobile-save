@@ -458,6 +458,14 @@ enum StatusWorkCalendar {
   LICH_THU_HOI,
   LICH_DA_CO_BAO_CAO,
   LICH_CHUA_CO_BAO_CAO,
+  CHO_DUYET,
+  LICH_HOP_CAN_KLCH,
+  LICH_DA_KLCH,
+  LICH_DUYET_PHONG,
+  LICH_DUYET_THIET_BI,
+  LICH_DUYET_KY_THUAT,
+  LICH_YEU_CAU_CHUAN_BI,
+  LICH_CAN_DUYET,
 }
 
 extension StatusWorkCalendarExt on StatusWorkCalendar {
@@ -477,6 +485,22 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
         return S.current.lich_da_co_bao_cao;
       case StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO:
         return S.current.lich_chua_co_bao_cao;
+      case StatusWorkCalendar.CHO_DUYET:
+        return S.current.cho_duyet;
+      case StatusWorkCalendar.LICH_HOP_CAN_KLCH:
+        return S.current.lich_hop_can_klch;
+      case StatusWorkCalendar.LICH_DA_KLCH:
+        return S.current.lich_da_klch;
+      case StatusWorkCalendar.LICH_DUYET_PHONG:
+        return S.current.lich_duyet_phong;
+      case StatusWorkCalendar.LICH_DUYET_THIET_BI:
+        return S.current.lich_hop_duyet_thiet_bi;
+      case StatusWorkCalendar.LICH_DUYET_KY_THUAT:
+        return S.current.lich_hop_duyet_ky_thuat;
+      case StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI:
+        return S.current.lich_hop_duyet_yeu_cau_tb;
+      case StatusWorkCalendar.LICH_CAN_DUYET:
+        return S.current.lich_hop_can_duyet;
     }
   }
 }

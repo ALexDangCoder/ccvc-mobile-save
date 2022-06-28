@@ -57,8 +57,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return scheduleCoperatives
         .where(
           (e) =>
-              (dataDviTrucThuoc?.id ?? '').isEmpty &&
-              e.donViId == (dataDviTrucThuoc?.id ?? '').toUpperCase() &&
+              (dataDviTrucThuoc?.id ?? '').isNotEmpty &&
+              (e.donViId ?? '').toUpperCase() ==
+                  (dataDviTrucThuoc?.id ?? '').toUpperCase() &&
               (e.id ?? '').isNotEmpty,
         )
         .toList();
@@ -136,8 +137,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     final isCuCanBo = scheduleCoperatives
         .map(
           (e) =>
-              e.donViId == (dataDviTrucThuoc?.id ?? '').toUpperCase() &&
-              (e.id ?? '').isEmpty,
+              (e.donViId ?? '').toUpperCase() ==
+                  (dataDviTrucThuoc?.id ?? '').toUpperCase() &&
+              (e.CanBoId ?? '').isEmpty,
         )
         .toList();
 
@@ -226,6 +228,13 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return false;
   }
 
+  bool isOwnerNew() {
+    if(activeChuTri()) {
+      return true;
+    }
+    return false;
+  }
+
   bool trangThaiHuy() {
     if (getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY) {
       return true;
@@ -255,9 +264,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
 
     ///check quyen button thu hoi
-    if (getChiTietLichHopModel.chuTriModel.canBoId ==
-            (dataUser?.userId ?? '') ||
-        isThuKy()) {
+    if (getChiTietLichHopModel.chuTriModel.canBoId.toUpperCase() ==
+            (dataUser?.userId ?? '').toUpperCase() ||
+        isThuKy() || isNguoiTao()) {
       listButton.add(PERMISSION_DETAIL.THU_HOI);
     }
 
@@ -275,8 +284,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
 
     ///check quyen button cu can bo
-    if (getChiTietLichHopModel.status != 8 &&
-        isLichThuHoi() &&
+    if (!isLichHuy() &&
+        !isLichThuHoi() &&
         HiveLocal.checkPermissionApp(
           permissionType: PermissionType.VPDT,
           permissionTxt: 'quyen-cu-can-bo',
@@ -325,7 +334,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     // }
 
     ///check quyen huy lich
-    if ((isOwner() || isThuKy() && !trangThaiHuy()) && !trangThaiHuy()) {
+    if ((isOwnerNew() || isThuKy() || isNguoiTao()) && !trangThaiHuy()) {
       listButton.add(PERMISSION_DETAIL.HUY_LICH);
     }
 

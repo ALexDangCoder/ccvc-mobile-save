@@ -11,6 +11,8 @@ class ApiConstants {
   static const GET_ALL_FILE = '/ddth/api/Files/GetListFileForEntity';
   static const DANH_SACH_BIEN_SO_XE = '/ddth/api/SYSBienSoXe/GetList';
   static const GET_FILE = '/ddth/api/Files';
+  static const XOA_BIEN_XO_XE = '/ddth/api/SYSBienSoXe/Delete/{id}';
+  static const DANG_KY_THONG_TIN_XE_MOI = '/ddth/api/SYSBienSoXe/Create';
 }
 
 class ImageConstants {

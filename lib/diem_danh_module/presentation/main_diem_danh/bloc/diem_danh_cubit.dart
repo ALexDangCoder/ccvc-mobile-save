@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/thong_ke_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
@@ -9,6 +10,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -30,10 +32,11 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   BehaviorSubject<File> imagePickerSubject = BehaviorSubject();
   Stream<File> get imagePickerStream => imagePickerSubject.stream;
 
-  ///Fake data
-  String xeMay = 'Xe máy';
-  String bienKiemSoat = '29x5 38534';
-  String loaiSoHuu = 'Xe cán bộ';
+  ///item dang ky bien so xe
+  String? xeMay ;
+  String? bienKiemSoat;
+  String? loaiSoHuu;
+  final toast = FToast();
 
   ///dang ky bien so xe
   BehaviorSubject<List<LoaiXeModel>> loaiXeSubject = BehaviorSubject.seeded(
@@ -43,7 +46,8 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
     ],
   );
 
-  BehaviorSubject<bool> nhanDienbienSoxe = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> nhanDienbienSoxeSubject = BehaviorSubject.seeded(false);
+  BehaviorSubject<List<ChiTietBienSoXeModel>> danhSachBienSoXeSubject =BehaviorSubject();
 
   ///Diem danh ca nhan
   BehaviorSubject<ThongKeDiemDanhCaNhanModel> thongKeSubject =

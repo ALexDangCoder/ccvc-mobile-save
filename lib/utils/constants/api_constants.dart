@@ -73,6 +73,8 @@ class ApiConstants {
       '/vpdt/api/Schedules/dashboard-schedule';
   static const GET_TREE_DON_VI = '/common/DonVi/get-tree';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
+  static const OFFICERS_JOIN = '/vpdt/api/CanBoThamGia/can-bo-tham-gia-tree';
+  static const OFFICER_JOIN = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
@@ -149,6 +151,8 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
+  static const THU_HOI_LICH_LAM_VIEC = 'vpdt/api/ScheduleCoperative/change-status-multi';
+  static const CAN_BO_THU_HOI_LICH = ' /CanBoThamGia/can-bo-tham-gia-hop-tree';
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';

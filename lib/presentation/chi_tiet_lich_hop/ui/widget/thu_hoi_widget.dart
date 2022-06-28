@@ -134,45 +134,46 @@ class SelectTHuHoiCell extends StatelessWidget {
         color: Colors.white,
       ),
       child: StreamBuilder<List<NguoiChutriModel>>(
-          stream: cubit.listThuHoi,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? [];
-            final dataSN = data
-                .where((e) => e.trangThai == 4)
-                .map((e) => e.hoTen ?? '')
-                .toList();
-            return Stack(
-              alignment: AlignmentDirectional.centerStart,
-              children: [
-                DropDownSearchThuHoi(
-                  title: S.current.thu_hoi_lich,
-                  listSelect: data,
-                  onChange: (vl) {
-                    if (cubit.dataThuHoi[vl].trangThai == 4) {
-                      cubit.dataThuHoi[vl].trangThai = 0;
-                    } else {
-                      cubit.dataThuHoi[vl].trangThai = 4;
-                    }
-                    cubit.listThuHoi.sink.add(cubit.dataThuHoi);
-                  },
-                ),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: List.generate(dataSN.length, (index) {
-                    final dataSnb = dataSN[index];
-                    return tag(
-                      title: dataSnb,
-                      onDelete: () {
-                        cubit.dataThuHoi[index].trangThai = 0;
-                        cubit.listThuHoi.sink.add(cubit.dataThuHoi);
-                      },
-                    );
-                  }),
-                ),
-              ],
-            );
-          }),
+        stream: cubit.listThuHoi,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          final dataSN = data
+              .where((e) => e.trangThai == 4)
+              .map((e) => e.hoTen ?? '')
+              .toList();
+          return Stack(
+            alignment: AlignmentDirectional.centerStart,
+            children: [
+              DropDownSearchThuHoi(
+                title: S.current.thu_hoi_lich,
+                listSelect: data,
+                onChange: (vl) {
+                  if (cubit.dataThuHoi[vl].trangThai == 4) {
+                    cubit.dataThuHoi[vl].trangThai = 0;
+                  } else {
+                    cubit.dataThuHoi[vl].trangThai = 4;
+                  }
+                  cubit.listThuHoi.sink.add(cubit.dataThuHoi);
+                },
+              ),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: List.generate(dataSN.length, (index) {
+                  final dataSnb = dataSN[index];
+                  return tag(
+                    title: dataSnb,
+                    onDelete: () {
+                      cubit.dataThuHoi[index].trangThai = 0;
+                      cubit.listThuHoi.sink.add(cubit.dataThuHoi);
+                    },
+                  );
+                }),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

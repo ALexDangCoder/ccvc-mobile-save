@@ -1,17 +1,15 @@
 class NguoiChutriModel {
   String? tenDonVi;
   String? userId;
-
   String? hoTen;
-
   String? userTaoHoId;
-
   String? id;
   String? donViId;
   bool? isThuKy;
   int? vaiTroThamGia;
   int? trangThai;
   String? chucVu;
+  String? canBoId;
 
   NguoiChutriModel({
     this.tenDonVi = '',
@@ -24,6 +22,7 @@ class NguoiChutriModel {
     this.vaiTroThamGia,
     this.trangThai,
     this.chucVu,
+    this.canBoId,
   });
 
   String title() {

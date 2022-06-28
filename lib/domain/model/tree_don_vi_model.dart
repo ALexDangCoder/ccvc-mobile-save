@@ -18,7 +18,6 @@ class DonViModel {
   String donViId = '';
   String userId = '';
   String tenCoQuan = '';
-
   //param sử dụng tại tạo lịch làm việc
   int? soLuong = 0;
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();

@@ -2,8 +2,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
-import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/status_extention.dart';
@@ -15,7 +15,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -39,7 +39,7 @@ class ChiTietLichLamViecScreen extends StatefulWidget {
 class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit =
       ChiTietLichLamViecCubit();
-  final TaoLichLamViecCubit cubit = TaoLichLamViecCubit();
+  final CreateWorkCalCubit cubit = CreateWorkCalCubit();
 
   @override
   void initState() {
@@ -140,6 +140,17 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 },
                               ),
                               CellPopPupMenu(
+                                urlImage: ImageAssets.icRecall,
+                                text: S.current.thu_hoi,
+                                onTap: () {
+                                  showBottomSheetCustom(
+                                    context,
+                                    child: Text(''),
+                                    title: S.current.thu_hoi_lich,
+                                  );
+                                },
+                              ),
+                              CellPopPupMenu(
                                 urlImage: ImageAssets.icEditBlue,
                                 text: S.current.sua_lich,
                                 onTap: () {
@@ -211,13 +222,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   data: dataModel,
                                   cubit: chiTietLichLamViecCubit,
                                 ),
-                                if ((dataModel.scheduleCoperatives ?? [])
-                                    .isNotEmpty)
-                                  listScheduleCooperatives(
-                                    dataModel.scheduleCoperatives ?? [],
-                                  )
-                                else
-                                  const SizedBox.shrink(),
+                                listScheduleCooperatives(),
                                 spaceH8,
                                 BtnShowChinhSuaBaoCao(
                                   chiTietLichLamViecCubit:
@@ -262,16 +267,22 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     );
   }
 
-  Widget listScheduleCooperatives(List<DonViModel> listCooperatives) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(
-        top: 24,
-      ),
-      shrinkWrap: true,
-      itemCount: listCooperatives.length,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (_, index) {
-        return itemScheduleCooperatives(listCooperatives[index]);
+  Widget listScheduleCooperatives() {
+    return StreamBuilder<List<Officer>>(
+      stream: chiTietLichLamViecCubit.listOfficer.stream,
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        return ListView.builder(
+          padding: const EdgeInsets.only(
+            top: 24,
+          ),
+          shrinkWrap: true,
+          itemCount: data.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, index) {
+            return itemScheduleCooperatives(data[index]);
+          },
+        );
       },
     );
   }
@@ -348,7 +359,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     }
   }
 
-  Widget itemScheduleCooperatives(DonViModel data) {
+  Widget itemScheduleCooperatives(Officer data) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
@@ -361,11 +372,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          rowTextData(data.tenDonVi, S.current.don_vi_phoi_hop),
+          rowTextData(data.tenDonVi ?? '', S.current.don_vi_phoi_hop),
           spaceH8,
-          rowTextData(data.tenCanBo, S.current.nguoi_pho_hop),
+          rowTextData(data.hoTen ?? '', S.current.nguoi_pho_hop),
           spaceH8,
-          rowTextData(data.noidung, S.current.nd_cong_viec),
+          rowTextData(data.taskContent ?? '', S.current.nd_cong_viec),
           spaceH8,
           Row(
             children: [

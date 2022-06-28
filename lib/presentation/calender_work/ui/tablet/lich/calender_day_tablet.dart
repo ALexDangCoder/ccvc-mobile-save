@@ -82,7 +82,7 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                           appointment.id.toString(),
                         );
                         if (element != null){
-                          typeCalendar.getTypeCalendar.navigatorDetail(
+                          typeCalendar.getTypeCalendar.navigatorDetailTablet(
                             context,
                             widget.cubit,
                             (widget.cubit.dataLichLvModel.listLichLVModel ??

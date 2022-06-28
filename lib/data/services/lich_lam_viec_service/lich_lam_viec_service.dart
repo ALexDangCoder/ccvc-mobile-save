@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
@@ -41,9 +42,9 @@ import 'package:retrofit/retrofit.dart';
 part 'lich_lam_viec_service.g.dart';
 
 @RestApi()
-abstract class LichLamViecService {
+abstract class WorkCalendarService {
   @factoryMethod
-  factory LichLamViecService(Dio dio, {String baseUrl}) = _LichLamViecService;
+  factory WorkCalendarService(Dio dio, {String baseUrl}) = _WorkCalendarService;
 
   @GET(ApiConstants.LICH_LAM_VIEC_DASHBOARD)
   Future<LichLamViecDashBroadResponse> getLichLamViec(
@@ -99,7 +100,7 @@ abstract class LichLamViecService {
 
 //?scheduleId={id}&only=true&isLichLap=true&?
   @DELETE(ApiConstants.XOA_LICH_LAM_VIEC)
-  Future<DeleteCalenderWorkResponse> deleteCalenderWork(
+  Future<MessageResponse> deleteCalenderWork(
     @Query('scheduleId') String id,
     @Query('only') bool only,
   );
@@ -134,7 +135,7 @@ abstract class LichLamViecService {
   Future<TrangThaiLVResponse> detailTrangThai();
 
   @POST(ApiConstants.TAO_LICH_LAM_VIEC)
-  Future<TaoLichLamViecResponse> taoLichLamviec(
+  Future<TaoLichLamViecResponse> createWorkCalendar(
     @Body() FormData data,
   );
 
@@ -155,15 +156,16 @@ abstract class LichLamViecService {
     @Part() String Content,
     @Part() List<File> Files,
   );
+
   @PUT(ApiConstants.SUA_BAO_CAO_KET_QUA)
   Future<TaoBaoCaoKetQuaResponse> suaBaoCaoKetQua(
-      @Part() String ReportStatusId,
-      @Part() String ScheduleId,
-      @Part() String Content,
-      @Part() List<File> Files,
-      @Part() List<String> FilesDelete,
-      @Part() String Id,
-      );
+    @Part() String ReportStatusId,
+    @Part() String ScheduleId,
+    @Part() String Content,
+    @Part() List<File> Files,
+    @Part() List<String> FilesDelete,
+    @Part() String Id,
+  );
 
   @POST(ApiConstants.TAO_MOI_BAN_GHI)
   Future<TaoMoiBanGhiResponse> taoMoiBanGhi(
@@ -193,11 +195,17 @@ abstract class LichLamViecService {
 
   @POST(ApiConstants.XA_SELECT)
   Future<PageDaTaXaSelectModelResponse> xaSelect(
-    @Body() XaSelectRequest xaSelectRequest,
+    @Body() WardRequest xaSelectRequest,
   );
 
   @POST(ApiConstants.DAT_NUOC_SELECT)
   Future<PageDataDatNuocSelectModelResponse> datNuocSelect(
     @Body() DatNuocSelectRequest datNuocSelectRequest,
+  );
+
+  @POST(ApiConstants.THU_HOI_LICH_LAM_VIEC)
+  Future<MessageResponse> recallWorkCalendar(
+    @Body() RecallRequest request,
+    @Query('isMulti') bool isMulti,
   );
 }

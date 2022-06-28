@@ -17,9 +17,9 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/nhac_lai_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -34,16 +34,14 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
-class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
-  TaoLichLamViecCubit() : super(TaoLichLVStateInitial());
+class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
+  CreateWorkCalCubit() : super(TaoLichLVStateInitial());
 
-  LichLamViecRepository get _lichLamViec => Get.find();
+  CalendarWorkRepository get _workCal => Get.find();
 
   TaoMoiBanGhiRequest requestBanGhi = TaoMoiBanGhiRequest(
     content: '<p>ưq</p>',
-    phienHopId: null,
     scheduleId: '7765603d-4493-4f7c-8a06-2d2b7511eedb',
-    scheduleOpinionId: null,
   );
   String selectedCountry = '';
   String selectedCountryID = '';
@@ -62,7 +60,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     DateTime.now(),
   );
   BehaviorSubject<bool> isCheckAllDaySubject = BehaviorSubject.seeded(false);
-  BehaviorSubject<bool> checkCal = BehaviorSubject();
+  BehaviorSubject<bool> checkChooseTypeCal = BehaviorSubject();
 
   Stream<bool> get isCheckAllDayStream => isCheckAllDaySubject.stream;
 
@@ -95,22 +93,19 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   final BehaviorSubject<List<TinhSelectModel>> tinhSelectSubject =
       BehaviorSubject();
-  final BehaviorSubject<List<HuyenSelectModel>> huyenSelectSubject =
-      BehaviorSubject();
-  final BehaviorSubject<List<XaSelectModel>> xaSelectSubject =
-      BehaviorSubject();
-  final BehaviorSubject<List<DatNuocSelectModel>> datNuocSelectSubject =
+  final BehaviorSubject<List<HuyenSelectModel>> disSubject = BehaviorSubject();
+  final BehaviorSubject<List<WardModel>> wardSubject = BehaviorSubject();
+  final BehaviorSubject<List<DatNuocSelectModel>> countrySubject =
       BehaviorSubject();
   final BehaviorSubject<bool> showButton = BehaviorSubject();
 
   Stream<List<TinhSelectModel>> get tinhSelect => tinhSelectSubject.stream;
 
-  Stream<List<HuyenSelectModel>> get huyenSelect => huyenSelectSubject.stream;
+  Stream<List<HuyenSelectModel>> get huyenSelect => disSubject.stream;
 
-  Stream<List<XaSelectModel>> get xaSelect => xaSelectSubject.stream;
+  Stream<List<WardModel>> get xaSelect => wardSubject.stream;
 
-  Stream<List<DatNuocSelectModel>> get datNuocSelect =>
-      datNuocSelectSubject.stream;
+  Stream<List<DatNuocSelectModel>> get datNuocSelect => countrySubject.stream;
 
   Set<int> lichLapItem = {};
   List<int> lichLapItem1 = <int>[];
@@ -144,7 +139,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   TinhSelectModel? tinhSelectModel = TinhSelectModel();
   HuyenSelectModel? huyenSelectModel = HuyenSelectModel();
-  XaSelectModel? xaSelectModel = XaSelectModel();
+  WardModel? wardModel = WardModel();
   DatNuocSelectModel? datNuocSelectModel = DatNuocSelectModel();
   String? dateFrom;
   String? timeFrom;
@@ -164,7 +159,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   bool? publishSchedule;
   List<Files>? files;
   String? id;
-  ChiTietLichLamViecModel chiTietLichLamViecModel = ChiTietLichLamViecModel();
+  ChiTietLichLamViecModel detailCalendarWorkModel = ChiTietLichLamViecModel();
   final toast = FToast();
 
   bool allDay = true;
@@ -190,7 +185,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   Future<void> taoMoiBanGhi(TaoMoiBanGhiRequest request) async {
-    final result = await _lichLamViec.postTaoMoiBanGhi(request);
+    final result = await _workCal.postTaoMoiBanGhi(request);
 
     result.when(
       success: (value) {
@@ -226,29 +221,29 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   Future<void> loadData() async {
     final queue = Queue(parallel: 4);
     unawaited(queue.add(() => _getLinhVuc()));
-    unawaited(queue.add(() => _dataLoaiLich()));
+    unawaited(queue.add(() => _dataTypeCalendar()));
     unawaited(queue.add(() => _getNguoiChuTri()));
-    unawaited(queue.add(() => getDatatinh()));
-    unawaited(queue.add(() => getDataDatNuoc()));
+    unawaited(queue.add(() => getDataProvince()));
+    unawaited(queue.add(() => getCountry()));
     await queue.onComplete;
     showContent();
     queue.dispose();
   }
 
   void selectColor(ItemSelectModel item) {
-    listColorDefault.forEach((element) {
+    for (final element in listColorDefault) {
       if (element == item) {
         element.isSelect = true;
       } else {
         element.isSelect = false;
       }
-    });
+    }
 
     listColorDefaultSubject.add(listColorDefault);
   }
 
-  Future<void> _dataLoaiLich() async {
-    final result = await _lichLamViec
+  Future<void> _dataTypeCalendar() async {
+    final result = await _workCal
         .getLoaiLich(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 0));
     result.when(
       success: (res) {
@@ -265,7 +260,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   Future<void> _getLinhVuc() async {
-    final result = await _lichLamViec
+    final result = await _workCal
         .getLinhVuc(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     result.when(
         success: (res) {
@@ -277,12 +272,12 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         error: (err) {});
   }
 
-  String name = '';
+  String userId = '';
 
   Future<void> _getNguoiChuTri() async {
     final dataUser = HiveLocal.getDataUser();
 
-    final result = await _lichLamViec.getNguoiChuTri(
+    final result = await _workCal.getNguoiChuTri(
       NguoiChuTriRequest(
         isTaoHo: true,
         pageIndex: 1,
@@ -291,22 +286,23 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       ),
     );
     result.when(
-        success: (res) {
-          if (res.isNotEmpty) {
-            name = HiveLocal.getDataUser()?.userId ?? '';
-            for (var i in res) {
-              if (i.userId.toString() == name.toString()) {
-                selectNguoiChuTri = i;
-                break;
-              }
+      success: (res) {
+        if (res.isNotEmpty) {
+          userId = HiveLocal.getDataUser()?.userId ?? '';
+          for (final element in res) {
+            if (element.userId.toString() == userId) {
+              selectNguoiChuTri = element;
+              break;
             }
           }
-          _nguoiChuTri.sink.add(res);
-        },
-        error: (err) {});
+        }
+        _nguoiChuTri.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
-  Future<void> checkTrungLich({
+  Future<void> checkDuplicate({
     required BuildContext context,
     required String title,
     required String content,
@@ -316,16 +312,18 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     bool isOnly = true,
   }) async {
     showLoading();
-    final result =
-        await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
-      dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-      timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
-      timeTo: timeEnd ??
-          (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      donViId: selectNguoiChuTri?.donViId,
-      userId: selectNguoiChuTri?.userId,
-    ));
+    final result = await _workCal.checkDuplicate(
+      CheckTrungLichRequest(
+        dateFrom:
+            DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+        dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
+        timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
+        timeTo: timeEnd ??
+            (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
+        donViId: selectNguoiChuTri?.donViId,
+        userId: selectNguoiChuTri?.userId,
+      ),
+    );
     result.when(
         success: (res) {
           showContent();
@@ -336,27 +334,27 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
               btnLeftTxt: S.current.khong,
               funcBtnRight: () async {
                 if (!isEdit) {
-                  await taoLichLamViec(
+                  await createWorkCalendar(
                     title: title,
                     content: content,
                     location: location,
                   );
                 } else if (isInside) {
-                  await suaLichLamViec(
+                  await editWorkCalendar(
                     title: title,
                     content: content,
                     location: location,
                     only: isOnly,
                   );
                 } else {
-                  await suaLichLamViecNuocNgoai(
+                  await editWorkCalendarAboard(
                     title: title,
                     content: content,
                     location: location,
                     only: isOnly,
                   );
                 }
-                Navigator.pop(context);
+                //Navigator.pop(context);
               },
               title: res.code ?? '',
               btnRightTxt: S.current.dong_y,
@@ -364,19 +362,19 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
             );
           } else {
             if (!isEdit) {
-              taoLichLamViec(
+              createWorkCalendar(
                 title: title,
                 content: content,
                 location: location,
               );
             } else if (isEdit && isInside) {
-              suaLichLamViec(
+              editWorkCalendar(
                 title: title,
                 content: content,
                 location: location,
               );
             } else {
-              suaLichLamViecNuocNgoai(
+              editWorkCalendarAboard(
                 title: title,
                 content: content,
                 location: location,
@@ -387,7 +385,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         error: (error) {});
   }
 
-  Future<void> taoLichLamViec({
+  Future<void> createWorkCalendar({
     required String title,
     required String content,
     required String location,
@@ -398,13 +396,13 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       tinhSelectModel?.id = '';
       huyenSelectModel?.tenQuanHuyen = '';
       huyenSelectModel?.id = '';
-      xaSelectModel?.tenXaPhuong = '';
-      xaSelectModel?.id = '';
+      wardModel?.tenXaPhuong = '';
+      wardModel?.id = '';
     } else {
       datNuocSelectModel?.name = '';
       datNuocSelectModel?.id = '';
     }
-    final result = await _lichLamViec.taoLichLamViec(
+    final result = await _workCal.createWorkCalendar(
       title: title,
       typeScheduleId: selectLoaiLichId ?? '',
       linhVucId: selectLinhVuc?.id ?? '',
@@ -412,8 +410,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
       huyenId: huyenSelectModel?.id ?? '',
       TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
-      xaId: xaSelectModel?.id ?? '',
-      TenXa: xaSelectModel?.tenXaPhuong ?? '',
+      xaId: wardModel?.id ?? '',
+      TenXa: wardModel?.tenXaPhuong ?? '',
       country: datNuocSelectModel?.name ?? '',
       countryId: datNuocSelectModel?.id ?? '',
       dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
@@ -430,7 +428,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       status: 2,
       rejectReason: '',
       publishSchedule: publishSchedule ?? false,
-      //cong khai lich
       tags: '',
       isLichDonVi: false,
       isLichLanhDao: true,
@@ -460,49 +457,48 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViec({
+  Future<void> editWorkCalendar({
     required String title,
     required String content,
     required String location,
     bool only = true,
   }) async {
     showLoading();
-    final result = await _lichLamViec.suaLichLamViec(
-      title,
-      selectLoaiLich?.id ?? '',
-      selectLinhVuc?.id ?? '',
-      tinhSelectModel?.tenTinhThanh ?? '',
-      huyenSelectModel?.tenQuanHuyen ?? '',
-      xaSelectModel?.tenXaPhuong ?? '',
-      dateFrom ?? DateTime.now().formatApi,
-      timeFrom ?? DateTime.now().formatApiFixMeet,
-      dateEnd ?? DateTime.now().formatApi,
-      timeEnd ??
+    final result = await _workCal.suaLichLamViec(
+      title: title,
+      typeScheduleId: selectLoaiLich?.id ?? '',
+      linhVucId: selectLinhVuc?.id ?? '',
+      TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
+      TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
+      TenXa: wardModel?.tenXaPhuong ?? '',
+      dateFrom: dateFrom ?? DateTime.now().formatApi,
+      timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
+      dateTo: dateEnd ?? DateTime.now().formatApi,
+      timeTo: timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
-      content,
-      location,
-      '',
-      '',
-      '',
-      2,
-      '',
-      publishSchedule ?? false,
-      //cong khai lich
-      '',
-      false,
-      selectNguoiChuTri?.userId ?? '',
-      selectNguoiChuTri?.donViId ?? '',
-      '',
-      id ?? '',
-      isCheckAllDaySubject.value,
-      true,
-      donviModel ?? [],
-      selectNhacLai.value ?? 1,
-      selectLichLap.id ?? 0,
-      dateFrom ?? DateTime.now().formatApi,
-      dateTimeLapDenNgay.formatApi,
-      only,
-      lichLapItem1,
+      content: content,
+      location: location,
+      vehicle: '',
+      expectedResults: '',
+      results: '',
+      status: 2,
+      rejectReason: '',
+      publishSchedule: publishSchedule ?? false,
+      tags: '',
+      isLichDonVi: false,
+      canBoChuTriId: selectNguoiChuTri?.userId ?? '',
+      donViId: selectNguoiChuTri?.donViId ?? '',
+      note: '',
+      id: id ?? '',
+      isAllDay: isCheckAllDaySubject.value,
+      isSendMail: true,
+      scheduleCoperativeRequest: donviModel ?? [],
+      typeRemider: selectNhacLai.value ?? 1,
+      typeRepeat: selectLichLap.id ?? 0,
+      dateRepeat: dateFrom ?? DateTime.now().formatApi,
+      dateRepeat1: dateTimeLapDenNgay.formatApi,
+      only: only,
+      days: lichLapItem1,
     );
     result.when(
       success: (res) {
@@ -516,20 +512,20 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViecNuocNgoai({
+  Future<void> editWorkCalendarAboard({
     required String title,
     required String content,
     required String location,
     bool only = true,
   }) async {
     showLoading();
-    final result = await _lichLamViec.suaLichLamViecNuocNgoai(
+    final result = await _workCal.suaLichLamViecNuocNgoai(
       title,
       selectLoaiLich?.id ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
       huyenSelectModel?.tenQuanHuyen ?? '',
-      xaSelectModel?.tenXaPhuong ?? '',
+      wardModel?.tenXaPhuong ?? '',
       selectedCountryID,
       dateFrom ?? DateTime.now().formatApi,
       timeFrom ?? DateTime.now().formatApiFixMeet,
@@ -572,8 +568,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> getDatatinh() async {
-    final result = await _lichLamViec.tinhSelect(
+  Future<void> getDataProvince() async {
+    final result = await _workCal.tinhSelect(
       TinhSelectRequest(pageIndex: 1, pageSize: 100),
     );
     result.when(
@@ -583,39 +579,42 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         error: (error) {});
   }
 
-  Future<void> getDataHuyen(String provinceId) async {
-    final result = await _lichLamViec.huyenSelect(
+  Future<void> getDataDistrict(String provinceId) async {
+    final result = await _workCal.getDistrict(
       HuyenSelectRequest(pageIndex: 1, pageSize: 100, provinceId: provinceId),
     );
     result.when(
-        success: (res) {
-          huyenSelectSubject.sink.add(res.items ?? []);
-          xaSelectSubject.sink.add([]);
-          xaSelectModel = XaSelectModel();
-        },
-        error: (error) {});
+      success: (res) {
+        disSubject.sink.add(res.items ?? []);
+        wardSubject.sink.add([]);
+        wardModel = WardModel();
+      },
+      error: (error) {},
+    );
   }
 
-  Future<void> getDataXa(String disytrictId) async {
-    final result = await _lichLamViec.xaSelect(
-      XaSelectRequest(pageIndex: 1, pageSize: 100, disytrictId: disytrictId),
+  Future<void> getDataWard(String districtId) async {
+    final result = await _workCal.getWard(
+      WardRequest(pageIndex: 1, pageSize: 100, disytrictId: districtId),
     );
     result.when(
-        success: (res) {
-          xaSelectSubject.sink.add(res.items ?? []);
-        },
-        error: (error) {});
+      success: (res) {
+        wardSubject.sink.add(res.items ?? []);
+      },
+      error: (error) {},
+    );
   }
 
-  Future<void> getDataDatNuoc() async {
-    final result = await _lichLamViec.datNuocSelect(
+  Future<void> getCountry() async {
+    final result = await _workCal.getCountry(
       DatNuocSelectRequest(pageIndex: 1, pageSize: 100),
     );
     result.when(
-        success: (res) {
-          datNuocSelectSubject.sink.add(res.items ?? []);
-        },
-        error: (error) {});
+      success: (res) {
+        countrySubject.sink.add(res.items ?? []);
+      },
+      error: (error) {},
+    );
   }
 
   void dispose() {

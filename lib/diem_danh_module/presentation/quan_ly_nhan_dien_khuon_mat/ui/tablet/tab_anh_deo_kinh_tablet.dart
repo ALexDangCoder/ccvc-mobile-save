@@ -40,7 +40,7 @@ class _TabAnhDeoKinhTabletState extends State<TabAnhDeoKinhTablet> {
                         cubit: widget.cubit,
                         dataUI: e,
                         initImage: widget.cubit.getUrlImageDeoKinh(
-                            fileTypeUpload: e.fileTypeUpload),
+                            fileTypeUpload: e.fileTypeUpload,),
                       ),
                     )
                     .toList(),

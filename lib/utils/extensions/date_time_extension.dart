@@ -202,20 +202,6 @@ extension DateFormatString on DateTime {
   }
 
   DateTime _getDate(DateTime d) => DateTime(d.year, d.month, d.day);
-
-  DateTime getStartEndOfDayTime({
-    bool getStartTime = true,
-  }) {
-    try {
-      return getStartTime
-          ? DateTime.parse(
-              '${DateFormat('yyyy-MM-dd').format(this)}T00:00:00.000')
-          : DateTime.parse(
-              '${DateFormat('yyyy-MM-dd').format(this)}T23:59:59.999');
-    } catch (_) {
-      return this;
-    }
-  }
 }
 
 extension TimeFormatString on TimerData {

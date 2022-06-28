@@ -109,6 +109,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       appointmentTextStyle: textNormalCustom(color: backgroundColorApp),
       todayHighlightColor: statusCalenderRed,
       appointmentTimeTextFormat: 'hh:mm:ss a',
+
       dataSource: widget.data,
       appointmentBuilder: (_, appointmentDetail) {
         final AppointmentWithDuplicate appointment =

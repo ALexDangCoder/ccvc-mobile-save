@@ -15,7 +15,7 @@ class ReportFilterTablet extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
-        width: double.infinity / 2,
+        width: MediaQuery.of(context).size.width/ 2,
         clipBehavior: Clip.hardEdge,
         decoration: const BoxDecoration(
           color: Colors.white,

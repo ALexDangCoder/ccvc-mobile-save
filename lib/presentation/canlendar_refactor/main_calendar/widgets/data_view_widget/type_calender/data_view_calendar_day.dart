@@ -43,7 +43,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     checkDuplicate(
       widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
     );
-    log('${widget.data}');
   }
 
   void checkDuplicate(List<AppointmentWithDuplicate> list) {
@@ -77,7 +76,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     for (final AppointmentWithDuplicate element in listRemove) {
       list.remove(element);
     }
-
   }
 
   void setFCalendarListenerWeek() {
@@ -102,6 +100,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
       appointmentTextStyle: textNormalCustom(color: backgroundColorApp),
       todayHighlightColor: statusCalenderRed,
       appointmentTimeTextFormat: 'hh:mm:ss a',
+
       dataSource: widget.data,
       appointmentBuilder: (_, appointmentDetail) {
         final AppointmentWithDuplicate appointment =

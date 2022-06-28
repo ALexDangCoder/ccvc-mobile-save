@@ -129,9 +129,10 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   Future<void> refreshApi() async {
     showLoading();
-    final Queue queue = Queue();
+    final Queue queue = Queue(parallel: 5);
     unawaited(queue.add(() => getMenuData()));
     unawaited(queue.add(() => getTotalWork()));
+    unawaited(queue.add(() => dayHaveEvent()));
     unawaited(queue.add(() => getDashboardSchedule()));
     unawaited(queue.add(() => getFullListWork()));
     await queue.onComplete;
@@ -165,7 +166,14 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       fCalendarControllerWeek.displayDate = this.startDate;
       fCalendarControllerMonth.selectedDate = this.startDate;
       fCalendarControllerMonth.displayDate = this.startDate;
-      await refreshApi();
+      showLoading();
+      final Queue queue = Queue(parallel: 4);
+      unawaited(queue.add(() => getMenuData()));
+      unawaited(queue.add(() => getTotalWork()));
+      unawaited(queue.add(() => getDashboardSchedule()));
+      unawaited(queue.add(() => getFullListWork()));
+      await queue.onComplete;
+      showContent();
       apiCalling = false;
     }
   }
@@ -274,15 +282,15 @@ extension GetData on CalendarWorkCubit {
   }
 
   Future<void> dayHaveEvent(
-      DateTime? startDate, DateTime? endDate, String? keySearch) async {
+  { DateTime? startDate, DateTime? endDate}) async {
     if (startDate != null && endDate != null && keySearch != null) {
       startDateHaveEvent = startDate;
       endDateHaveEvent = endDate;
-      this.keySearch = keySearch;
+
     }
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
-        Title: keySearchHaveEvent,
+        Title: keySearch,
         DateFrom: startDateHaveEvent.formatApi,
         DateTo: endDateHaveEvent.formatApi,
         DonViId: idDonViLanhDao ??
@@ -297,7 +305,7 @@ extension GetData on CalendarWorkCubit {
         isLichThuHoi: statusType == StatusWorkCalendar.LICH_THU_HOI,
         isChuaCoBaoCao: statusType == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
         isDaCoBaoCao: statusType == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
-        isChoXacNhan: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
+        // isChoXacNhan: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
         month: startDateHaveEvent.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,

@@ -37,6 +37,9 @@ import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_resp
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/repository_impl/ho_tro_ky_thuat_impl.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/repository_impl/ket_noi_repo.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/service/ket_noi_service.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/repository/ket_noi_repository.dart';
@@ -202,6 +205,13 @@ void configureDependencies() {
     ),
   );
   Get.put<ReportRepository>(ReportImpl(Get.find()));
+
+  Get.put(
+    HoTroKyThuatService(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+  Get.put<HoTroKyThuatRepository>(HoTroKyThuatImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;

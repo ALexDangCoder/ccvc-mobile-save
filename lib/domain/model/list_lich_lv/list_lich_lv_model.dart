@@ -45,6 +45,7 @@ class DataLichLvModel {
 class AppointmentWithDuplicate extends Appointment{
   bool isDuplicate ;
   bool isMore ;
+  int group = 0;
   AppointmentWithDuplicate({
     this.isDuplicate = false,
     this.isMore = false,

@@ -83,9 +83,10 @@ class _MainDataViewState extends State<MainDataView> {
               propertyChanged: (String property) {
                 widget.cubit.propertyChangedMonth(property);
               },
-              onMore: (value){
+              onMore: (value) {
                 widget.cubit.controller.calendarType.value = CalendarType.DAY;
                 widget.cubit.controller.selectDate.value = value;
+                widget.cubit.controller.selectDate.notifyListeners();
               },
               data: data,
               fCalendarController: widget.cubit.fCalendarControllerMonth,
@@ -102,7 +103,8 @@ class _MainDataViewState extends State<MainDataView> {
         StreamBuilder<StatusWorkCalendar?>(
           stream: widget.cubit.statusWorkSubjectStream,
           builder: (context, snapshot) {
-            final isLichCuaToi = snapshot.data == StatusWorkCalendar.LICH_CUA_TOI;
+            final isLichCuaToi =
+                snapshot.data == StatusWorkCalendar.LICH_CUA_TOI;
             if (isLichCuaToi) {
               return SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -117,10 +119,11 @@ class _MainDataViewState extends State<MainDataView> {
         StreamBuilder<StatusWorkCalendar?>(
           stream: widget.cubit.statusWorkSubjectStream,
           builder: (context, snapshot) {
-            final isLichDuocMoi = snapshot.data == StatusWorkCalendar.LICH_DUOC_MOI;
+            final isLichDuocMoi =
+                snapshot.data == StatusWorkCalendar.LICH_DUOC_MOI;
             if (isLichDuocMoi) {
               return Padding(
-                padding: const EdgeInsets.only(top: 16 ,right: 16),
+                padding: const EdgeInsets.only(top: 16, right: 16),
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: StreamBuilder<DashBoardLichHopModel>(
@@ -197,13 +200,14 @@ class _MainDataViewState extends State<MainDataView> {
       ],
     );
   }
+
   Widget itemAppointmentMonth(Appointment appointment) {
     final data = appointment as AppointmentWithDuplicate;
     return Align(
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           final TypeCalendar typeAppointment =
-          getType(appointment.notes ?? 'Schedule');
+              getType(appointment.notes ?? 'Schedule');
           if (typeAppointment == TypeCalendar.Schedule) {
             Navigator.push(
               context,
@@ -252,9 +256,7 @@ class _MainDataViewState extends State<MainDataView> {
                     width: 5,
                     height: 5,
                     decoration: const BoxDecoration(
-                      color: redChart,
-                      shape: BoxShape.circle
-                    ),
+                        color: redChart, shape: BoxShape.circle),
                   ),
                 ),
               )
@@ -264,7 +266,8 @@ class _MainDataViewState extends State<MainDataView> {
       ),
     );
   }
-  Widget itemAppointment (Appointment appointment){
+
+  Widget itemAppointment(Appointment appointment) {
     return GestureDetector(
       onTap: () {
         final TypeCalendar typeAppointment =

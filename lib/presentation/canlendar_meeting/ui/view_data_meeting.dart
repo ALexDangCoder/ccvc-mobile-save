@@ -1,7 +1,11 @@
+import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/canlendar_chart_widget.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_listview/canlendar_meeting_listview.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/dash_board_meeting.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
@@ -11,6 +15,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widget
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +47,10 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
             data: data,
             fCalendarController: widget.cubit.fCalendarControllerDay,
             propertyChanged: (String property) {
-              //widget.cubit.propertyChangedDay(property);
+              widget.cubit.propertyChanged(
+                property: property,
+                typeChoose: Type_Choose_Option_Day.DAY,
+              );
             },
             buildAppointment: itemAppointment,
           );
@@ -55,7 +63,10 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
           return DataViewCalendarWeek(
             buildAppointment: itemAppointment,
             propertyChanged: (String property) {
-              // widget.cubit.propertyChangedWeek(property);
+              widget.cubit.propertyChanged(
+                property: property,
+                typeChoose: Type_Choose_Option_Day.WEEK,
+              );
             },
             data: data,
             fCalendarController: widget.cubit.fCalendarControllerWeek,
@@ -67,9 +78,12 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         builder: (context, snapshot) {
           final data = snapshot.data ?? DataSourceFCalendar.empty();
           return DataViewCalendarMonth(
-            buildAppointment: itemAppointment,
+            buildAppointment: itemAppointmentMonth,
             propertyChanged: (String property) {
-              //  widget.cubit.propertyChangedMonth(property);
+              widget.cubit.propertyChanged(
+                property: property,
+                typeChoose: Type_Choose_Option_Day.MONTH,
+              );
             },
             data: data,
             fCalendarController: widget.cubit.fCalendarControllerMonth,
@@ -143,6 +157,10 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                           widget.cubit.stateType = type;
                           widget.cubit.refreshDataDangLich();
                         },
+                        initData: ItemMenuData(
+                          StateType.CHO_XAC_NHAN,
+                          data.soLichChoXacNhan ?? 0,
+                        ),
                       );
                     },
                   ),
@@ -156,7 +174,10 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
           child: BlocBuilder(
             bloc: widget.cubit,
             buildWhen: (prev, state) => prev != state,
-            builder: (context, CalendarMeetingState state) {
+            builder: (
+              context,
+              CalendarMeetingState state,
+            ) {
               final typeState = state.typeView;
               int index = 0;
               if (state is CalendarViewState) index = 0;
@@ -169,7 +190,9 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                     index: typeState.index,
                     children: _listCalendarScreen,
                   ),
-                  Container(child: Text('listView')),
+                  DataViewTypeList(
+                    cubit: widget.cubit,
+                  ),
                   ThongKeLichHopScreen(
                     cubit: widget.cubit,
                   ),
@@ -206,6 +229,70 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         }
       },
       child: ItemAppointment(appointment: appointment),
+    );
+  }
+
+  Widget itemAppointmentMonth(Appointment appointment) {
+    final data = appointment as AppointmentWithDuplicate;
+    return Align(
+      child: GestureDetector(
+        onTap: () {
+          if (isMobile()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailMeetCalenderScreen(
+                  id: appointment.id as String? ?? '',
+                ),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailMeetCalenderTablet(
+                  id: appointment.id as String? ?? '',
+                ),
+              ),
+            );
+          }
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 1),
+          alignment: Alignment.center,
+          height: 20,
+          decoration: const BoxDecoration(
+            color: textDefault,
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Center(
+                child: Text(
+                  appointment.subject.trim(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textNormalCustom(color: Colors.white, fontSize: 9),
+                ),
+              ),
+              Visibility(
+                visible: data.isDuplicate,
+                child: Positioned(
+                  top: 3,
+                  right: 3,
+                  child: Container(
+                    width: 5,
+                    height: 5,
+                    decoration: const BoxDecoration(
+                        color: redChart, shape: BoxShape.circle,),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

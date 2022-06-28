@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widget
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
+import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -120,20 +121,25 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   final BehaviorSubject<bool> _isShowStatusFilter =
       BehaviorSubject.seeded(false);
 
-  Stream<bool> get isShowStatusStream =>
-      _isShowStatusFilter.stream;
+  Stream<bool> get isShowStatusStream => _isShowStatusFilter.stream;
 
   final BehaviorSubject<StatusWorkCalendar?> _statusWorkSubject =
-  BehaviorSubject.seeded(StatusWorkCalendar.LICH_CUA_TOI);
+      BehaviorSubject.seeded(StatusWorkCalendar.LICH_CUA_TOI);
 
-  Stream<StatusWorkCalendar?> get statusWorkSubjectStream
-  => _statusWorkSubject.stream;
+  Stream<StatusWorkCalendar?> get statusWorkSubjectStream =>
+      _statusWorkSubject.stream;
 
-  final BehaviorSubject<List<DashBoardThongKeModel>> _listDashBoardThongKeSubject =
-  BehaviorSubject();
+  final BehaviorSubject<List<DashBoardThongKeModel>>
+      _listDashBoardThongKeSubject = BehaviorSubject();
 
-  Stream<List<DashBoardThongKeModel>> get listDashBoardThongKeStream
-  => _listDashBoardThongKeSubject.stream;
+  Stream<List<DashBoardThongKeModel>> get listDashBoardThongKeStream =>
+      _listDashBoardThongKeSubject.stream;
+
+  final BehaviorSubject<DanhSachLichHopModel> _danhSachLichHopSubject =
+      BehaviorSubject();
+
+  Stream<DanhSachLichHopModel> get danhSachLichHopStream =>
+      _danhSachLichHopSubject.stream;
 
   void initData() {
     getCountDashboard();
@@ -401,6 +407,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+        _danhSachLichHopSubject.sink.add(value);
       },
       error: (error) {},
     );
@@ -637,5 +644,45 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     final double range = value % 10;
 
     return (value + (10.0 - range)) / 5.0;
+  }
+
+  void changeCalendarDate(DateTime oldDate, DateTime newDate) {
+    final currentDate = getOnlyDate(oldDate);
+    final dateSelect = getOnlyDate(newDate);
+    if (currentDate.millisecondsSinceEpoch <
+        dateSelect.millisecondsSinceEpoch) {
+      controller.nextTime();
+    }
+    if (currentDate.millisecondsSinceEpoch >
+        dateSelect.millisecondsSinceEpoch) {
+      controller.backTime();
+    }
+  }
+
+  DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
+
+  void propertyChanged({
+    required String property,
+    required Type_Choose_Option_Day typeChoose,
+  }) {
+    if (property == 'displayDate') {
+      if (typeChoose == Type_Choose_Option_Day.DAY) {
+        changeCalendarDate(
+          startDate,
+          fCalendarControllerDay.displayDate ?? startDate,
+        );
+      } else if (typeChoose == Type_Choose_Option_Day.WEEK) {
+        changeCalendarDate(
+          startDate,
+          fCalendarControllerWeek.displayDate ?? startDate,
+        );
+      } else {
+        changeCalendarDate(
+          startDate,
+          fCalendarControllerMonth.displayDate ?? startDate,
+        );
+      }
+    }
   }
 }

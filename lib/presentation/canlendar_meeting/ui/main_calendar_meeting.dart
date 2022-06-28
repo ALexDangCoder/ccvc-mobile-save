@@ -113,14 +113,15 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                           cubit.refreshDataDangLich();
                         } else if (cubit.state is ListViewState) {
                           cubit.emitListViewState(type: type);
+                          cubit.refreshDataDangLich();
                         } else {
                           cubit.emitChartViewState(type: type);
                           cubit.getDataDangChart();
                         }
                       } else {
-                        if (cubit.state is CalendarViewState) {
+                        if (cubit.state is CalendarViewState ||
+                            cubit.state is ListViewState) {
                           cubit.refreshDataDangLich();
-                        } else if (cubit.state is ListViewState) {
                         } else {
                           cubit.getDataDangChart();
                         }
@@ -152,10 +153,17 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => const TaoLichHopScreen(),
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => const TaoLichHopScreen(),
               ),
-            );
+            ).then((value) async {
+              if (value == null) {
+                return;
+              }
+              if (value) {
+                cubit.refreshDataDangLich();
+              }
+            });
           },
           backgroundColor: AppTheme.getInstance().colorField(),
           child: SvgPicture.asset(ImageAssets.icVectorCalender),

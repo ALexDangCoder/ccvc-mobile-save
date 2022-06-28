@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
-import 'package:ccvc_mobile/diem_danh_module/domain/model/loai_xe_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/custom_radio_loai_so_huu.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/item_text_note.dart';

@@ -34,178 +34,169 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
-        stream: widget.cubit.nhanDienbienSoxe,
-        builder: (context, snapshot) {
-          final data = snapshot.data;
-          if (data == true) {
-            return Scaffold(
-              appBar: BaseAppBar(
-                title: S.current.quan_ly_nhan_dien_bien_so_xe,
-                leadingIcon: IconButton(
-                  onPressed: () => {Navigator.pop(context)},
+      stream: widget.cubit.nhanDienbienSoxe,
+      builder: (context, snapshot) {
+        final data = snapshot.data;
+        if (data == true) {
+          return Scaffold(
+            appBar: BaseAppBar(
+              title: S.current.quan_ly_nhan_dien_bien_so_xe,
+              leadingIcon: IconButton(
+                onPressed: () => {Navigator.pop(context)},
+                icon: SvgPicture.asset(
+                  ImageAssets.icBack,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    DrawerSlide.navigatorSlide(
+                      context: context,
+                      screen: DiemDanhMenuMobile(
+                        cubit: widget.cubit,
+                      ),
+                    );
+                  },
                   icon: SvgPicture.asset(
-                    ImageAssets.icBack,
+                    ImageAssets.icMenuCalender,
                   ),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      DrawerSlide.navigatorSlide(
-                        context: context,
-                        screen: DiemDanhMenuMobile(
-                          cubit: widget.cubit,
-                        ),
-                      );
-                    },
-                    icon: SvgPicture.asset(
-                      ImageAssets.icMenuCalender,
-                    ),
-                  )
-                ],
-              ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 12.0, left: 16.0, right: 16.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: colorE2E8F0),
-                          borderRadius: BorderRadius.circular(8.0),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.05),
-                              blurRadius: 2,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                          image: const DecorationImage(
-                            image: AssetImage(ImageAssets.imgBienSoXe),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      spaceH12,
-                      Text(
-                        S.current.giay_dang_ky_xe,
-                        style: textNormalCustom(
-                          color: color3D5586,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      spaceH20,
-                      ItemLoaiXe(
-                        titleXeMay: widget.cubit.xeMay,
-                        titleBienKiemSoat: widget.cubit.bienKiemSoat,
-                        titleLoaiSoHuu: widget.cubit.loaiSoHuu,
-                      ),
-                      spaceH24,
-                      DoubleButtonBottom(
-                        title1: S.current.chinh_sua,
-                        title2: S.current.xoa,
-                        onPressed1: () {
-                          showBottomSheetCustom(
-                            context,
-                            title: S.current.cap_nhat_tong_tin_dang_ky_xe,
-                            child: Container(
-                              padding: EdgeInsets.zero,
-                              child: WidgetCapNhatThingTinDangKyXe(
-                                cubit: widget.cubit,
-                              ),
-                            ),
-                          );
-                        },
-                        onPressed2: () {
-                          showDiaLog(
-                            context,
-                            title: S.current.xoa_nhan_bien_so_xe,
-                            icon: SvgPicture.asset(
-                              ImageAssets.icXoaNhanhDienBienSoXe,
-                            ),
-                            btnLeftTxt: S.current.khong,
-                            btnRightTxt: S.current.dong_y,
-                            funcBtnRight: () {},
-                            showTablet: false,
-                            textContent:
-                                S.current.ban_co_muon_xoa_nhan_dien_bien_so_xe,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                },
-                backgroundColor: AppTheme.getInstance().colorField(),
-                child: SvgPicture.asset(ImageAssets.icVectorFloatAction),
-              ),
-            );
-          } else {
-            return Scaffold(
-              appBar: BaseAppBar(
-                title: S.current.dang_ky_xe_ra_vao_bo,
-                leadingIcon: IconButton(
-                  onPressed: () => {Navigator.pop(context)},
-                  icon: SvgPicture.asset(
-                    ImageAssets.icBack,
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      DrawerSlide.navigatorSlide(
-                        context: context,
-                        screen: DiemDanhMenuMobile(
-                          cubit: widget.cubit,
-                        ),
-                      );
-                    },
-                    icon: SvgPicture.asset(
-                      ImageAssets.icMenuCalender,
-                    ),
-                  )
-                ],
-              ),
-              body: Center(
+                )
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: 12.0, left: 16.0, right: 16.0),
                 child: Column(
                   children: [
-                    spaceH60,
                     Container(
-                      height: 250,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(ImageAssets.imgDangKyXe),
-                        )
+                      height: 200,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: colorE2E8F0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.05),
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                        image: const DecorationImage(
+                          image: AssetImage(ImageAssets.imgBienSoXe),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    spaceH48,
-                    SizedBox(
-                      width: 163,
-                      child: ButtonCustomBottom(
-                        title: S.current.dang_ky_xe_moi,
-                        isColorBlue: true,
-                        onPressed: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DangKyThongTinXeMoi() ,
-                            ),
-                          );
-                          }
-
+                    spaceH12,
+                    Text(
+                      S.current.giay_dang_ky_xe,
+                      style: textNormalCustom(
+                        color: color3D5586,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
                       ),
+                    ),
+                    spaceH20,
+                    ItemLoaiXe(
+                      titleXeMay: widget.cubit.xeMay,
+                      titleBienKiemSoat: widget.cubit.bienKiemSoat,
+                      titleLoaiSoHuu: widget.cubit.loaiSoHuu,
+                    ),
+                    spaceH24,
+                    DoubleButtonBottom(
+                      title1: S.current.chinh_sua,
+                      title2: S.current.xoa,
+                      onPressed1: () {
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.cap_nhat_tong_tin_dang_ky_xe,
+                          child: Container(
+                            padding: EdgeInsets.zero,
+                            child: WidgetCapNhatThingTinDangKyXe(
+                              cubit: widget.cubit,
+                            ),
+                          ),
+                        );
+                      },
+                      onPressed2: () {
+                        showDiaLog(
+                          context,
+                          title: S.current.xoa_nhan_bien_so_xe,
+                          icon: SvgPicture.asset(
+                            ImageAssets.icXoaNhanhDienBienSoXe,
+                          ),
+                          btnLeftTxt: S.current.khong,
+                          btnRightTxt: S.current.dong_y,
+                          funcBtnRight: () {},
+                          showTablet: false,
+                          textContent:
+                              S.current.ban_co_muon_xoa_nhan_dien_bien_so_xe,
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
-            );
-          }
-        });
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: AppTheme.getInstance().colorField(),
+              child: SvgPicture.asset(ImageAssets.icVectorFloatAction),
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: BaseAppBar(
+              title: S.current.dang_ky_xe_ra_vao_bo,
+              leadingIcon: IconButton(
+                onPressed: () => {Navigator.pop(context)},
+                icon: SvgPicture.asset(
+                  ImageAssets.icBack,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    DrawerSlide.navigatorSlide(
+                      context: context,
+                      screen: DiemDanhMenuMobile(
+                        cubit: widget.cubit,
+                      ),
+                    );
+                  },
+                  icon: SvgPicture.asset(
+                    ImageAssets.icMenuCalender,
+                  ),
+                )
+              ],
+            ),
+            body: Center(
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    ImageAssets.imgDangKyXeSvg,
+                  ),
+                  SizedBox(
+                    width: 163,
+                    child: ButtonCustomBottom(
+                      title: S.current.dang_ky_xe_moi,
+                      isColorBlue: true,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DangKyThongTinXeMoi(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      },
+    );
   }
 }

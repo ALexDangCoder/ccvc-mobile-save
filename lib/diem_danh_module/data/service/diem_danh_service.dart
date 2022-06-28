@@ -35,11 +35,12 @@ abstract class DiemDanhService {
   );
 
   @POST(ApiConstants.POST_FILE)
+  @MultiPart()
   Future<PostFileResponse> postFile(
     @Query('entityId') String entityId,
     @Query('fileTypeUpload') String fileTypeUpload,
     @Query('entityName') String entityName,
     @Query('isPrivate') bool isPrivate,
-    @Field('files') List<File> files,
+    @Part(value: 'files') List<File> files,
   );
 }

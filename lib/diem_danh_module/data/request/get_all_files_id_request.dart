@@ -4,11 +4,11 @@ part 'get_all_files_id_request.g.dart';
 
 @JsonSerializable()
 class GetAllFilesRequest {
-  @JsonKey(name: 'data')
+  @JsonKey(name: 'entityId')
   String? entityId;
-  @JsonKey(name: 'statusCode')
+  @JsonKey(name: 'entityName')
   String? entityName;
-  @JsonKey(name: 'succeeded')
+  @JsonKey(name: 'fileTypeUpload')
   String? fileTypeUpload;
 
   GetAllFilesRequest({

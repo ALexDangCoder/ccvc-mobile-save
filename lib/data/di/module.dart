@@ -206,6 +206,24 @@ void configureDependencies() {
 
 int _connectTimeOut = 60000;
 
+String getUrlDomain({BaseURLOption baseOption = BaseURLOption.CCVC}) {
+  final appConstants = Get.find<AppConstants>();
+  switch (baseOption) {
+    case BaseURLOption.GATE_WAY:
+      return appConstants.baseUrlGateWay;
+    case BaseURLOption.COMMON:
+      return appConstants.baseUrlCommon;
+    case BaseURLOption.CCVC:
+      return appConstants.baseUrlCCVC;
+    case BaseURLOption.NOTI:
+      return appConstants.baseUrlNOTI;
+    case BaseURLOption.API_AND_UAT:
+      return DO_MAIN_LICH_AM_DUONG;
+    case BaseURLOption.HEAD_ORIGIN:
+      return appConstants.headerOrigin;
+  }
+}
+
 Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
   final appConstants = Get.find<AppConstants>();
   String baseUrl = appConstants.baseUrlCCVC;

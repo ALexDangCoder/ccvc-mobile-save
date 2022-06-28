@@ -14,42 +14,53 @@ class EventCalendarRequest {
   int? month;
   int? year;
   String? Title;
-  bool? IsLichLanhDao;
-  List<String>? ListUserId;
   bool? isChoXacNhan;
   bool? isChuaCoBaoCao;
   bool? isDaCoBaoCao;
+  bool? isDuyetKyThuat;
+  bool? isDuyetLich;
+  bool? isDuyetPhong;
+  bool? isDuyetThietBi;
   bool? isLichDuocMoi;
   bool? isLichHuyBo;
-  bool? isLichTaoHo;
   bool? isLichThamGia;
   bool? isLichThuHoi;
   bool? isLichTuChoi;
+  bool? isLichYeuCauChuanBi;
+  bool? isLichTaoHo;
   bool? isPublish;
+  bool? IsLichLanhDao;
+  List<String>? ListUserId;
 
-  EventCalendarRequest(
-      {this.DateFrom,
-      this.DateTo,
-      this.DonViId,
-      this.PageIndex,
-      this.PageSize,
-      this.UserId,
-      this.isLichCuaToi,
-      this.month,
-      this.year,
-      this.Title,
-      this.IsLichLanhDao,
-      this.ListUserId,
-      this.isChoXacNhan,
-      this.isChuaCoBaoCao,
-      this.isDaCoBaoCao,
-      this.isLichDuocMoi,
-      this.isLichHuyBo,
-      this.isLichTaoHo,
-      this.isLichThamGia,
-      this.isLichThuHoi,
-      this.isLichTuChoi,
-      this.isPublish}); //
+  EventCalendarRequest({
+    required this.DateFrom,
+    required this.DateTo,
+    required this.DonViId,
+    required this.PageIndex,
+    required this.PageSize,
+    required this.UserId,
+    required this.isLichCuaToi,
+    required this.month,
+    required this.year,
+    required this.Title,
+    this.isChoXacNhan,
+    this.isChuaCoBaoCao,
+    this.isDaCoBaoCao,
+    this.isDuyetKyThuat,
+    this.isDuyetLich,
+    this.isDuyetPhong,
+    this.isDuyetThietBi,
+    this.isLichDuocMoi,
+    this.isLichHuyBo,
+    this.isLichThamGia,
+    this.isLichThuHoi,
+    this.isLichTuChoi,
+    this.isLichYeuCauChuanBi,
+    this.isPublish,
+    this.isLichTaoHo,
+    this.IsLichLanhDao,
+    this.ListUserId,
+  });
 
   factory EventCalendarRequest.fromJson(Map<String, dynamic> json) =>
       _$EventCalendarRequestFromJson(json);

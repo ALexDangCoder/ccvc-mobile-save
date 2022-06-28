@@ -2,7 +2,7 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_state.dart';
-import 'package:get/get.dart' as GET_IT;
+import 'package:get/get.dart' as get_it;
 import 'package:rxdart/rxdart.dart';
 
 class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
@@ -11,8 +11,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   ThanhPhanThamGiaCubit()
       : super(MainStateInitial());
 
-  ThanhPhanThamGiaReponsitory get hopRp => GET_IT.Get.find();
+  ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
+  String idCanBoItem = '';
   final BehaviorSubject<List<DonViModel>> _listPeopleThamGia =
   BehaviorSubject<List<DonViModel>>();
 

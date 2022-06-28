@@ -4,9 +4,13 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
-Widget statusWidget(List<ChartData> listData) {
+Widget statusWidget({
+  required List<ChartData> listData,
+  required Function(int index) callBack,
+}) {
   final data = listData.map((e) => e.value).toList();
   final total = data.reduce((a, b) => a + b);
+
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [
@@ -14,57 +18,56 @@ Widget statusWidget(List<ChartData> listData) {
         padding: const EdgeInsets.symmetric(horizontal: 14),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: listData
-              .map(
-                (e) => Row(
-                  children: [
-                    Container(
-                      height: 260,
-                      width: 38,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: colorECEEF7,
-                      ),
-                      // color: e.color,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: (total - (e.value)).toInt(),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                FittedBox(
-                                  child: Text(
-                                    e.value.toInt().toString(),
-                                    style: textNormal(
-                                      textTitleColumn,
-                                      14.0.textScale(),
-                                    ),
+          children: listData.map(
+            (e) {
+              // final index = listData.indexOf(e);
+              return Row(
+                children: [
+                  Container(
+                    height: 260,
+                    width: 38,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: colorECEEF7,
+                    ),
+                    // color: e.color,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: (total - (e.value)).toInt(),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              FittedBox(
+                                child: Text(
+                                  e.value.toInt().toString(),
+                                  style: textNormal(
+                                    textTitleColumn,
+                                    14.0.textScale(),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                              ],
+                              ),
+                              spaceH6,
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: e.value.toInt(),
+                          child: Container(
+                            width: 38,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: e.color,
                             ),
                           ),
-                          Expanded(
-                            flex: e.value.toInt(),
-                            child: Container(
-                              width: 38,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: e.color,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
-              )
-              .toList(),
+                  ),
+                ],
+              );
+            },
+          ).toList(),
         ),
       ),
       const SizedBox(
@@ -80,8 +83,8 @@ Widget statusWidget(List<ChartData> listData) {
         children: List.generate(listData.length, (index) {
           final result = listData[index];
           // ignore: avoid_unnecessary_containers
-          return GestureDetector(
-            onTap: () {},
+          return InkWell(
+            onTap: () => callBack(index),
             child: Row(
               children: [
                 Container(

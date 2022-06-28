@@ -67,38 +67,42 @@ class _InListFormTabletState extends State<InListFormTablet> {
                   controller: _scrollController,
                   shrinkWrap: true,
                   itemCount:
-                      _cubit.dataLichLvModel.listLichLVModel?.length ?? 0,
+                  _cubit.dataLichLvModel.listLichLVModel?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
                       child: CustomItemCalenderTablet(
                         title: _cubit.dataLichLvModel.listLichLVModel?[index]
-                                .title ??
+                            .title ??
                             '',
-                        dateTimeFrom: DateTime.parse(
+                        dateTimeFrom: DateTime
+                            .parse(
                           _cubit.dataLichLvModel.listLichLVModel?[index]
-                                  .dateTimeFrom ??
+                              .dateTimeFrom ??
                               '',
-                        ).toStringWithAMPM,
-                        dateTimeTo: DateTime.parse(
+                        )
+                            .toStringWithAMPM,
+                        dateTimeTo: DateTime
+                            .parse(
                           _cubit.dataLichLvModel.listLichLVModel?[index]
-                                  .dateTimeTo ??
+                              .dateTimeTo ??
                               '',
-                        ).toStringWithAMPM,
+                        )
+                            .toStringWithAMPM,
                         urlImage:
-                            'https://lh3.googleusercontent.com/ogw/ADea4I7KuOHLBX4h7PqlUfbDpmYAuuvb9iBc5eaCvicoFg=s192-c-mo',
+                        'https://lh3.googleusercontent.com/ogw/ADea4I7KuOHLBX4h7PqlUfbDpmYAuuvb9iBc5eaCvicoFg=s192-c-mo',
                         onTap: () {
                           final String typeCalendar = _cubit.dataLichLvModel
-                                  .listLichLVModel?[index].typeSchedule ??
+                              .listLichLVModel?[index].typeSchedule ??
                               'Schedule';
                           typeCalendar.getTypeCalendar.navigatorDetailTablet(
                             context,
-                            _cubit.dataLichLvModel.listLichLVModel?[index].id ??
-                                '',
+                            _cubit,
+                            index,
                           );
                         },
                         isTrung: _cubit.dataLichLvModel.listLichLVModel?[index]
-                                .isTrung ??
+                            .isTrung ??
                             false,
                       ),
                     );

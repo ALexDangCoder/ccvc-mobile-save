@@ -8,7 +8,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/danh_sach_lich_lam_viec.d
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/api_time_type_ext.dart';
@@ -262,7 +262,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
       lichLamViecDashBroadSubject.stream;
   DashBoardLichHopModel lichLamViecDashBroads = DashBoardLichHopModel.empty();
 
-  LichLamViecRepository get lichLamViec => Get.find();
+  CalendarWorkRepository get lichLamViec => Get.find();
 
   BehaviorSubject<List<LichLamViecDashBroadItem>>
       lichLamViecDashBroadRightSubject = BehaviorSubject.seeded([

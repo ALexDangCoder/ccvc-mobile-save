@@ -2,8 +2,9 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/date_input.dart';
-import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chia_se_co_tk.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/validate_email.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
@@ -19,6 +20,7 @@ import 'package:ccvc_mobile/widgets/radio/group_radio_button.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -62,8 +64,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (widget.cubit.canLoadMoreList &&
-              scrollInfo.metrics.pixels ==
-                  scrollInfo.metrics.maxScrollExtent && widget.cubit.valueDuocTruyCap) {
+              scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+              widget.cubit.valueDuocTruyCap) {
             widget.cubit.loadMoreUsersNgoaiHeThongTruyCap();
           }
           return true;
@@ -93,12 +95,6 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                       groupValue: isDuocTruyCap,
                       onchange: (value) {
                         widget.cubit.isDuocTruyCapSink.add(value ?? false);
-                        if (value ?? false) {
-                          widget.cubit.clearUsersNgoaiHeThongDuocTruyCap();
-                          widget.cubit.getUsersNgoaiHeThongDuocTruyCap();
-                        } else {
-
-                        }
                       },
                     );
                   },
@@ -107,7 +103,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 21),
                 child: StreamBuilder<bool>(
-                  initialData: true,
+                  initialData: false,
                   stream: widget.cubit.isDuocTruyCapStream,
                   builder: (context, snapshot) {
                     final isDuocTruyCap = snapshot.data ?? false;
@@ -176,6 +172,9 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                 if ((value ?? '').isEmpty) {
                   return S.current.khong_duoc_de_trong;
                 }
+                if(!(value ?? '').isValidEmail()){
+                  return S.current.dinh_dang_email;
+                }
               },
             ),
             spaceH16,
@@ -185,6 +184,10 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               onChange: (value) {
                 phoneNumber = value;
               },
+              inputFormatter: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              textInputType: TextInputType.number,
             ),
             spaceH16,
             textField(
@@ -256,7 +259,29 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               onPressed2: () {
                 if (_groupKey.currentState?.validator() ?? true) {
                   if (snapshot.data == true) {
-                    /// share báo cáo
+                    showDiaLog(
+                      context,
+                      title: S.current.chia_se_thu_muc,
+                      icon: SvgPicture.asset(
+                        ImageAssets.ic_chia_se,
+                      ),
+                      btnLeftTxt: S.current.huy,
+                      btnRightTxt: S.current.dong_y,
+                      funcBtnRight: () {
+                        widget.cubit.chiaSeBaoCao(Share.HAS_USER).then((value) {
+                          if (value == 'Thành công') {
+                            MessageConfig.show(title: value);
+                          } else {
+                            MessageConfig.show(
+                              title: value,
+                              messState: MessState.error,
+                            );
+                          }
+                        });
+                      },
+                      showTablet: false,
+                      textContent: S.current.chia_se_thu_muc_chac_chua,
+                    ).then((value) {});
                   } else {
                     showDiaLog(
                       context,
@@ -288,7 +313,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                           }
                         });
                       },
-                      showTablet: true,
+                      showTablet: false,
                       textContent: S.current.chia_se_thu_muc_chac_chua,
                     ).then((value) {});
                   }
@@ -326,7 +351,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ItemChiaSeCoTk(
-                  model: data[index], cubit: widget.cubit,
+                  model: data[index],
+                  cubit: widget.cubit,
                 );
               },
             );
@@ -368,6 +394,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
     required String title,
     required Function(String) onChange,
     String? Function(String?)? validate,
+    List<TextInputFormatter>? inputFormatter,
+    TextInputType? textInputType,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -389,6 +417,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           onChange: onChange,
           maxLine: maxLine,
           validator: validate,
+          inputFormatters: inputFormatter,
+          textInputType: textInputType,
         )
       ],
     );

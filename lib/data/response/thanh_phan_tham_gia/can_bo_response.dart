@@ -100,4 +100,16 @@ class Items {
       tenDonVi: tenDonVi ?? '',
     );
   }
+  DonViModel toModel() {
+    return DonViModel(
+      id: id ?? '',
+      name: tenDonVi ?? '',
+      tenCanBo: hoTen ?? '',
+      chucVu: chucVu ?? '',
+      canBoId: canBoId ?? '',
+      userId: userId ?? '',
+      donViId: donViId ?? '',
+      tenDonVi: tenDonVi ?? '',
+    );
+  }
 }

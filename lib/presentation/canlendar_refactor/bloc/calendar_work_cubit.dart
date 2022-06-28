@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
@@ -9,7 +10,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
@@ -23,7 +24,6 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -31,7 +31,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   CalendarWorkCubit() : super(const CalendarViewState());
 
-  LichLamViecRepository get calendarWorkRepo => Get.find();
+  CalendarWorkRepository get calendarWorkRepo => Get.find();
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
@@ -54,23 +54,27 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   final controller = ChooseTimeController();
 
-  final PagingController<int, ListLichLVModel> worksPagingController =
-      PagingController(firstPageKey: 0);
-
   //data subject
 
   final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkDaySubject =
       BehaviorSubject();
+
   Stream<DataSourceFCalendar> get listCalendarWorkDayStream =>
       _listCalendarWorkDaySubject.stream;
   final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkWeekSubject =
       BehaviorSubject();
+
   Stream<DataSourceFCalendar> get listCalendarWorkWeekStream =>
       _listCalendarWorkWeekSubject.stream;
   final BehaviorSubject<DataSourceFCalendar> _listCalendarWorkMonthSubject =
       BehaviorSubject();
+
   Stream<DataSourceFCalendar> get listCalendarWorkMonthStream =>
       _listCalendarWorkMonthSubject.stream;
+  final BehaviorSubject<List<ListLichLVModel>> _listWorkSubject =
+      BehaviorSubject();
+
+  Stream<List<ListLichLVModel>> get listWorkStream => _listWorkSubject.stream;
 
   final BehaviorSubject<List<DateTime>> _listNgayCoLich =
       BehaviorSubject<List<DateTime>>();
@@ -98,10 +102,11 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   Stream<String> get titleStream => _titleSubject.stream;
 
-  final BehaviorSubject<bool> _isLichDuocMoiSubject =
-      BehaviorSubject.seeded(false);
+  final BehaviorSubject<StatusWorkCalendar?> _statusWorkSubject =
+      BehaviorSubject.seeded(StatusWorkCalendar.LICH_CUA_TOI);
 
-  Stream<bool> get isLichDuocMoiStream => _isLichDuocMoiSubject.stream;
+  Stream<StatusWorkCalendar?> get statusWorkSubjectStream =>
+      _statusWorkSubject.stream;
 
   void setMenuChoose({
     String? idDonViLanhDao,
@@ -110,11 +115,9 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     if (statusType != null) {
       this.idDonViLanhDao = null;
       this.statusType = statusType;
+      _statusWorkSubject.sink.add(statusType);
       if (statusType == StatusWorkCalendar.LICH_DUOC_MOI) {
-        _isLichDuocMoiSubject.sink.add(true);
         stateType = StateType.CHO_XAC_NHAN;
-      } else {
-        _isLichDuocMoiSubject.sink.add(false);
       }
       _titleSubject.sink.add(statusType.getTitle());
     }
@@ -126,15 +129,12 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   Future<void> refreshApi() async {
     showLoading();
-    final Queue queue = Queue();
+    final Queue queue = Queue(parallel: 5);
     unawaited(queue.add(() => getMenuData()));
     unawaited(queue.add(() => getTotalWork()));
+    unawaited(queue.add(() => dayHaveEvent()));
     unawaited(queue.add(() => getDashboardSchedule()));
-    if (state is CalendarViewState) {
-      unawaited(queue.add(() => getFullListWork()));
-    } else {
-      worksPagingController.refresh();
-    }
+    unawaited(queue.add(() => getFullListWork()));
     await queue.onComplete;
     showContent();
   }
@@ -166,17 +166,23 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       fCalendarControllerWeek.displayDate = this.startDate;
       fCalendarControllerMonth.selectedDate = this.startDate;
       fCalendarControllerMonth.displayDate = this.startDate;
-      await refreshApi();
+      showLoading();
+      final Queue queue = Queue(parallel: 4);
+      unawaited(queue.add(() => getMenuData()));
+      unawaited(queue.add(() => getTotalWork()));
+      unawaited(queue.add(() => getDashboardSchedule()));
+      unawaited(queue.add(() => getFullListWork()));
+      await queue.onComplete;
+      showContent();
       apiCalling = false;
     }
   }
 
-  void menuClick(DataItemMenu? value, BaseState) {
-    if (BaseState is ListViewState) {
+  void menuClick(DataItemMenu? value, BaseState state) {
+    if (state is ListViewState) {
       emitList();
       if (statusType == StatusWorkCalendar.LICH_DUOC_MOI) {
         stateType = StateType.CHO_XAC_NHAN;
-        worksPagingController.refresh();
       }
     } else {
       emitCalendar();
@@ -251,30 +257,29 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-  Future<void> dayHaveEvent(
-      DateTime? startDate, DateTime? endDate, String? keySearch) async {
+  Future<void> dayHaveEvent({DateTime? startDate, DateTime? endDate}) async {
     if (startDate != null && endDate != null && keySearch != null) {
       startDateHaveEvent = startDate;
       endDateHaveEvent = endDate;
-      this.keySearch = keySearch;
     }
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
-        Title: keySearchHaveEvent,
+        Title: keySearch,
         DateFrom: startDateHaveEvent.formatApi,
         DateTo: endDateHaveEvent.formatApi,
         DonViId: idDonViLanhDao ??
             HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
             '',
         IsLichLanhDao: idDonViLanhDao != null ? true : null,
-        isLichCuaToi: statusType == StatusWorkCalendar.LICH_CUA_TOI ? true : null,
+        isLichCuaToi:
+            statusType == StatusWorkCalendar.LICH_CUA_TOI ? true : null,
         isLichDuocMoi: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
         isLichTaoHo: statusType == StatusWorkCalendar.LICH_TAO_HO,
         isLichHuyBo: statusType == StatusWorkCalendar.LICH_HUY,
         isLichThuHoi: statusType == StatusWorkCalendar.LICH_THU_HOI,
         isChuaCoBaoCao: statusType == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
         isDaCoBaoCao: statusType == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
-        isChoXacNhan: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
+        // isChoXacNhan: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
         month: startDateHaveEvent.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
@@ -306,61 +311,28 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-  Future<void> getListWorkLoadMore({
-    int pageIndex = ApiConstants.PAGE_BEGIN,
-  }) async {
-    try {
-      final currentPage = pageIndex ~/ ApiConstants.DEFAULT_PAGE_SIZE;
-      List<ListLichLVModel> newItems = [];
-      final DanhSachLichLamViecRequest request = getDanhSachLichLVRequest(
-        pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
-        pageIndex: currentPage + 1,
-      );
-      final result = await calendarWorkRepo.getListLichLamViec(request);
-      result.when(
-        success: (res) {
-          newItems = res.listLichLVModel ?? [];
-          checkDuplicate([...?worksPagingController.itemList, ...newItems]);
-        },
-        error: (error) {},
-      );
-
-      final isLastPage = newItems.length < ApiConstants.DEFAULT_PAGE_SIZE;
-      if (isLastPage) {
-        worksPagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageIndex + newItems.length;
-        worksPagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      worksPagingController.error = error;
-    }
-  }
-
-  Future<void> getFullListWork({
-    String? idDonViLanhDao,
-  }) async {
-    final DanhSachLichLamViecRequest data = getDanhSachLichLVRequest(
-      pageSize: 10000,
-      pageIndex: ApiConstants.PAGE_BEGIN,
-    );
+  Future<void> getFullListWork() async {
+    final DanhSachLichLamViecRequest data = getDanhSachLichLVRequest();
     final result = await calendarWorkRepo.getListLichLamViec(data);
     result.when(
       success: (res) {
         _listCalendarWorkDaySubject.sink.add(res.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(res.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(res.toDataFCalenderSource());
+        checkDuplicate(res.listLichLVModel ?? []);
+        _listWorkSubject.sink.add(res.listLichLVModel ?? []);
       },
       error: (error) {},
     );
-
-    //to do
   }
 
-  DanhSachLichLamViecRequest getDanhSachLichLVRequest({
-    required int pageIndex,
-    required int pageSize,
-  }) {
+  Future<void> updateList() async {
+    showLoading();
+    await getFullListWork();
+    showContent();
+  }
+
+  DanhSachLichLamViecRequest getDanhSachLichLVRequest() {
     final isLichDuocMoi = statusType == StatusWorkCalendar.LICH_DUOC_MOI;
     return DanhSachLichLamViecRequest(
       DateFrom: startDate.formatApi,
@@ -385,8 +357,8 @@ extension GetData on CalendarWorkCubit {
       isLichTuChoi: stateType == StateType.TU_CHOI &&
           isLichDuocMoi &&
           state is ListViewState,
-      PageIndex: pageIndex,
-      PageSize: pageSize,
+      PageIndex: ApiConstants.PAGE_BEGIN,
+      PageSize: 10000,
       Title: keySearch,
       UserId: HiveLocal.getDataUser()?.userId ?? '',
     );
@@ -413,21 +385,27 @@ extension ListenCalendarController on CalendarWorkCubit {
   void propertyChangedDay(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-          startDate, fCalendarControllerDay.displayDate ?? startDate);
+        startDate,
+        fCalendarControllerDay.displayDate ?? startDate,
+      );
     }
   }
 
   void propertyChangedWeek(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-          startDate, fCalendarControllerWeek.displayDate ?? startDate);
+        startDate,
+        fCalendarControllerWeek.displayDate ?? startDate,
+      );
     }
   }
 
   void propertyChangedMonth(String property) {
     if (property == 'displayDate') {
       changeCalendarDate(
-          startDate, fCalendarControllerMonth.displayDate ?? startDate);
+        startDate,
+        fCalendarControllerMonth.displayDate ?? startDate,
+      );
     }
   }
 }
@@ -453,6 +431,14 @@ enum StatusWorkCalendar {
   LICH_THU_HOI,
   LICH_DA_CO_BAO_CAO,
   LICH_CHUA_CO_BAO_CAO,
+  CHO_DUYET,
+  LICH_HOP_CAN_KLCH,
+  LICH_DA_KLCH,
+  LICH_DUYET_PHONG,
+  LICH_DUYET_THIET_BI,
+  LICH_DUYET_KY_THUAT,
+  LICH_YEU_CAU_CHUAN_BI,
+  LICH_CAN_DUYET,
 }
 
 extension StatusWorkCalendarExt on StatusWorkCalendar {
@@ -472,6 +458,22 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
         return S.current.lich_da_co_bao_cao;
       case StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO:
         return S.current.lich_chua_co_bao_cao;
+      case StatusWorkCalendar.CHO_DUYET:
+        return S.current.cho_duyet;
+      case StatusWorkCalendar.LICH_HOP_CAN_KLCH:
+        return S.current.lich_hop_can_klch;
+      case StatusWorkCalendar.LICH_DA_KLCH:
+        return S.current.lich_da_klch;
+      case StatusWorkCalendar.LICH_DUYET_PHONG:
+        return S.current.lich_duyet_phong;
+      case StatusWorkCalendar.LICH_DUYET_THIET_BI:
+        return S.current.lich_hop_duyet_thiet_bi;
+      case StatusWorkCalendar.LICH_DUYET_KY_THUAT:
+        return S.current.lich_hop_duyet_ky_thuat;
+      case StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI:
+        return S.current.lich_hop_duyet_yeu_cau_tb;
+      case StatusWorkCalendar.LICH_CAN_DUYET:
+        return S.current.lich_hop_can_duyet;
     }
   }
 }

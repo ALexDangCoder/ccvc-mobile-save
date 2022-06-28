@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/widget/item_nguoi_dung_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';

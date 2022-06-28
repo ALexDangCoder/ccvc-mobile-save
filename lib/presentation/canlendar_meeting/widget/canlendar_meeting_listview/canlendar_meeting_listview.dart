@@ -1,12 +1,15 @@
 import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
@@ -47,13 +50,18 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                 return itemList(element);
               },
               groupComparator: (value1, value2) => value1.compareTo(value2),
-              groupSeparatorBuilder: (groupValue) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  groupValue.toString(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold,),
+              groupSeparatorBuilder: (groupValue) => Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${groupValue.getDayofWeekTxt()}, ${groupValue.formatMonth}',
+                    textAlign: TextAlign.center,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: AppTheme.getInstance().unselectedLabelColor(),
+                    ),
+                  ),
                 ),
               ),
             );
@@ -169,12 +177,10 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: 8),
                     child: Text(
-                      '${item.dateTimeFrom?.changeToNewPatternDate(
+                      '${item.dateTimeFrom?.formatTimeWithJm(
                         DateTimeFormat.DATE_TIME_RECEIVE,
-                        DateTimeFormat.DATE_DD_MM_HM,
-                      )} - ${item.dateTimeTo?.changeToNewPatternDate(
+                      )} - ${item.dateTimeTo?.formatTimeWithJm(
                         DateTimeFormat.DATE_TIME_RECEIVE,
-                        DateTimeFormat.DATE_DD_MM_HM,
                       )}',
                       style: textNormalCustom(
                         color: textBodyTime,
@@ -183,18 +189,20 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                     ),
                   ),
                   Container(
+                    clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.only(right: 4.0),
                     height: 24.0,
                     width: 24.0,
                     decoration: const BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.black,
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          '',
-                        ),
+                    ),
+                    child: Image.network(
+                      '',
+                      errorBuilder: (_, __, ___) => Image.asset(
+                        ImageAssets.anhDaiDienMacDinh,
                       ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ],

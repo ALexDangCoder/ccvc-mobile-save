@@ -105,7 +105,8 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   final BehaviorSubject<StatusWorkCalendar?> _statusWorkSubject =
       BehaviorSubject.seeded(StatusWorkCalendar.LICH_CUA_TOI);
 
-  Stream<StatusWorkCalendar?> get statusWorkSubjectStream => _statusWorkSubject.stream;
+  Stream<StatusWorkCalendar?> get statusWorkSubjectStream =>
+      _statusWorkSubject.stream;
 
   void setMenuChoose({
     String? idDonViLanhDao,
@@ -219,6 +220,30 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     }
   }
 
+  List<ListLichLVModel> filterByDateTime(List<ListLichLVModel> list) {
+    return list
+        .where(
+          (element) => _checkTime(
+            start: element.dateTimeFrom ?? '',
+            end: element.dateTimeTo ?? '',
+          ),
+        )
+        .toList();
+  }
+
+  bool _checkTime({required String start, required String end}) {
+    // if (start.isEmpty || end.isEmpty) return false;
+    // if (startDate
+    //         .getStartEndOfDayTime()
+    //         .isBefore(start.convertStringToDate()) &&
+    //     endDate
+    //         . getStartEndOfDayTime(getStartTime: false)
+    //         .isAfter(end.convertStringToDate())) {
+    //   return true;
+    // }
+    return true;
+  }
+
   DateTime getDate(String time) =>
       time.convertStringToDate(formatPattern: DateTimeFormat.DATE_TIME_RECEIVE);
 
@@ -272,7 +297,8 @@ extension GetData on CalendarWorkCubit {
             HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
             '',
         IsLichLanhDao: idDonViLanhDao != null ? true : null,
-        isLichCuaToi: statusType == StatusWorkCalendar.LICH_CUA_TOI ? true : null,
+        isLichCuaToi:
+            statusType == StatusWorkCalendar.LICH_CUA_TOI ? true : null,
         isLichDuocMoi: statusType == StatusWorkCalendar.LICH_DUOC_MOI,
         isLichTaoHo: statusType == StatusWorkCalendar.LICH_TAO_HO,
         isLichHuyBo: statusType == StatusWorkCalendar.LICH_HUY,
@@ -311,7 +337,6 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-
   Future<void> getFullListWork() async {
     final DanhSachLichLamViecRequest data = getDanhSachLichLVRequest();
     final result = await calendarWorkRepo.getListLichLamViec(data);
@@ -321,13 +346,14 @@ extension GetData on CalendarWorkCubit {
         _listCalendarWorkWeekSubject.sink.add(res.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(res.toDataFCalenderSource());
         checkDuplicate(res.listLichLVModel ?? []);
-        _listWorkSubject.sink.add(res.listLichLVModel ?? []);
+        final list = filterByDateTime(res.listLichLVModel ?? []);
+        _listWorkSubject.sink.add(list);
       },
       error: (error) {},
     );
   }
 
-  Future<void> updateList () async {
+  Future<void> updateList() async {
     showLoading();
     await getFullListWork();
     showContent();

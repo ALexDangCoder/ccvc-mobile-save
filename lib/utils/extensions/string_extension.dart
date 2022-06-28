@@ -23,8 +23,7 @@ extension StringMoneyFormat on String {
 }
 
 extension VietNameseParse on String {
-  String get textToCode =>
-      split(' ').join('_').toUpperCase().vietNameseParse();
+  String get textToCode => split(' ').join('_').toUpperCase().vietNameseParse();
 
   String vietNameseParse() {
     var result = this;
@@ -71,8 +70,20 @@ extension FormatAddressConfirm on String {
     }
   }
 
+  String formatTimeWithJm(String pattern) {
+    try {
+      return DateFormat.jm('en').format(DateFormat(pattern).parse(this));
+    } catch (_) {
+      return '';
+    }
+  }
+
   DateTime convertStringToDate({String formatPattern = 'yyyy-MM-dd'}) {
-    return DateFormat(formatPattern).parse(this);
+    try {
+      return DateFormat(formatPattern).parse(this);
+    } catch (_) {
+      return DateTime.now();
+    }
   }
 
   TimerData? getTimeData({TimerData? timeReturnParseFail}) {
@@ -102,8 +113,7 @@ extension StringParse on String {
     final document = this;
     final int startOfSubString = document.lastIndexOf('/');
 
-    final subString =
-        document.substring(startOfSubString + 1, document.length);
+    final subString = document.substring(startOfSubString + 1, document.length);
     return subString.contains('.');
   }
 
@@ -195,9 +205,9 @@ extension CheckValidate on String {
   }
 
   String? checkPassWordChangePass(String name) {
-    final isCheck =
-    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
-            .hasMatch(this);
+    final isCheck = RegExp(
+            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
+        .hasMatch(this);
     if (isCheck) {
       return null;
     } else {

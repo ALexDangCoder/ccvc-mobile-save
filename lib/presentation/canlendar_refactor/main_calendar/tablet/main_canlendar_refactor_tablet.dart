@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
@@ -9,9 +8,9 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_c
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/main_data_view.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/date_view_widget/main_data_view_tablet.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/menu_widget_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
@@ -21,17 +20,18 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MainCanlendanRefactor extends StatefulWidget {
-  const MainCanlendanRefactor({Key? key, this.isBack = false})
+class MainCalendarRefactorTablet extends StatefulWidget {
+  const MainCalendarRefactorTablet({Key? key, this.isBack = false})
       : super(key: key);
-
   final bool isBack;
 
   @override
-  _MainCanlendanRefactorState createState() => _MainCanlendanRefactorState();
+  _MainCalendarRefactorTabletState createState() =>
+      _MainCalendarRefactorTabletState();
 }
 
-class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
+class _MainCalendarRefactorTabletState
+    extends State<MainCalendarRefactorTablet> {
   final CalendarWorkCubit cubit = CalendarWorkCubit();
 
   @override
@@ -134,23 +134,11 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                   onHover: (_) {
                     cubit.controller.onCloseCalendar();
                   },
-                  child: MainDataView(cubit: cubit),
+                  child: MainDataViewTablet(cubit: cubit),
                 ),
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CreateCalendarWorkMobile(),
-              ),
-            );
-          },
-          backgroundColor: AppTheme.getInstance().colorField(),
-          child: SvgPicture.asset(ImageAssets.icVectorCalender),
         ),
       ),
     );
@@ -167,7 +155,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
             stream: cubit.totalWorkStream,
             builder: (context, snapshot) {
               final data = snapshot.data ?? DashBoardLichHopModel.empty();
-              return MenuWidget(
+              return MenuWidgetTablet(
                 dataMenu: [
                   ParentMenu(
                     count: data.countScheduleCaNhan ?? 0,

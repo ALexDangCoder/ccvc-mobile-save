@@ -13,6 +13,7 @@ class DataViewCalendarWeek extends StatefulWidget {
     required this.buildAppointment,
     required this.data,
     required this.fCalendarController,
+    this.isTablet = false,
     this.onMore,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class DataViewCalendarWeek extends StatefulWidget {
   final CalendarController fCalendarController;
   final Widget Function(AppointmentWithDuplicate appointment) buildAppointment;
   final Function(DateTime)? onMore;
+  final bool isTablet;
 
   @override
   State<DataViewCalendarWeek> createState() => _DataViewCalendarWeekState();
@@ -59,16 +61,25 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
     return SfCalendar(
       firstDayOfWeek: 1,
       showCurrentTimeIndicator: false,
-      viewHeaderHeight: 0,
       timeSlotViewSettings: const TimeSlotViewSettings(
         timeIntervalHeight: 100,
+        dayFormat: 'EEEE',
+
       ),
+      headerHeight: 0,
+      viewHeaderHeight: widget.isTablet ? -1 : 0,
       allowAppointmentResize: true,
       controller: widget.fCalendarController,
-      headerHeight: 0,
       view: CalendarView.week,
       todayHighlightColor: labelColor,
       appointmentTimeTextFormat: 'hh:mm:ss',
+      resourceViewSettings: ResourceViewSettings(
+        displayNameTextStyle: textNormalCustom(
+          fontSize: 14,
+          color: Colors.red,
+        ),
+      ),
+      headerDateFormat: 'MMMM,yyy',
       dataSource: widget.data,
       viewHeaderStyle: ViewHeaderStyle(
         dayTextStyle: textNormalCustom(

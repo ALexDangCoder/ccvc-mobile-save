@@ -19,19 +19,21 @@ enum TypeDashBroad {
 
 
 class DashBroadCountRow extends StatelessWidget {
-  DashBroadCountRow({
+  const DashBroadCountRow({
     Key? key,
+    this.isTablet = false,
     required this.cubit,
   }) : super(key: key);
   final CalendarWorkCubit cubit;
+  final bool isTablet;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 16,
-        left: 16,
-        bottom: 16,
+      padding:  EdgeInsets.only(
+        top: isTablet ? 30 :  16,
+        left: isTablet ? 30 :  16,
+        bottom: isTablet ? 30 :  16,
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

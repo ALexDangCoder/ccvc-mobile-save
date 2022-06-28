@@ -3,15 +3,14 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MenuWidget extends StatelessWidget {
-  const MenuWidget({
+class MenuWidgetTablet extends StatelessWidget {
+  const MenuWidgetTablet({
     Key? key,
     required this.dataMenu,
     required this.onChoose,
@@ -27,7 +26,7 @@ class MenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundDrawerMenu,
+      backgroundColor: backgroundColorApp,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +42,7 @@ class MenuWidget extends StatelessWidget {
             ...stateMenu
                 .map(
                   (e) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.only(bottom: 16),
                     child: itemMenuView(
                       icon: e.icon,
                       title: e.title,
@@ -56,16 +55,17 @@ class MenuWidget extends StatelessWidget {
                   ),
                 )
                 .toList(),
+            spaceH12,
             const Divider(
               color: containerColor,
               height: 1,
             ),
-            spaceH12,
+            spaceH28,
             ...dataMenu
                 .map(
                   (e) => e.childData != null
                       ? menuItemWithChild(e, context)
-                      : menuViewNoChild(e , context),
+                      : menuViewNoChild(e, context),
                 )
                 .toList(),
           ],
@@ -84,11 +84,17 @@ class MenuWidget extends StatelessWidget {
         onChoose.call(data.value, state);
       },
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: borderColor.withOpacity(0.1),
+        ),
+        margin: const EdgeInsets.only(
+          top: 16,
+        ),
         padding: const EdgeInsets.symmetric(
           horizontal: 17,
           vertical: 12,
         ),
-        color: Colors.transparent,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -100,8 +106,8 @@ class MenuWidget extends StatelessWidget {
                     child: Text(
                       data.title,
                       style: tokenDetailAmount(
-                        color: backgroundColorApp,
-                        fontSize: 14,
+                        color: color667793,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -124,15 +130,15 @@ class MenuWidget extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: AppTheme.getInstance().colorField(),
+        color: numberColorTabletbg,
       ),
       alignment: Alignment.center,
       child: Text(
         count.toString(),
         style: textNormalCustom(
-          color: backgroundColorApp,
+          color: AppTheme.getInstance().colorField(),
           fontWeight: FontWeight.w500,
-          fontSize: 12,
+          fontSize: 14,
         ),
       ),
     );
@@ -143,15 +149,19 @@ class MenuWidget extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          SvgPicture.asset(ImageAssets.icHeaderLVVV.svgToTheme()),
+          SvgPicture.asset(
+            ImageAssets.icX,
+            height: 24,
+            width: 24,
+          ),
           const SizedBox(
             width: 12,
           ),
           Text(
-            S.current.lich_lam_viec,
+            S.current.menu_lich_lam_viec,
             style: textNormalCustom(
-              color: backgroundColorApp,
-              fontSize: 16,
+              color: color3D5586,
+              fontSize: 24,
               fontWeight: FontWeight.w500,
             ),
           )
@@ -162,24 +172,34 @@ class MenuWidget extends StatelessWidget {
     bool isSelect = false,
     required String icon,
     required String title,
+    double padding = 30,
     Function()? onTap,
+    bool haveBorder = true,
   }) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 17,
-          vertical: 10,
+        padding: EdgeInsets.symmetric(
+          horizontal: padding,
+          vertical: 15,
         ),
-        color: isSelect ? color_464646 : null,
+        decoration: BoxDecoration(
+          border: haveBorder
+              ? Border.all(color: borderColor.withOpacity(0.5))
+              : null,
+          color: isSelect ? AppTheme.getInstance().colorField() : null,
+        ),
         child: Row(
           children: [
             SizedBox(
-              height: 15,
-              width: 15,
+              height: 26,
+              width: 26,
               child: SvgPicture.asset(
                 icon,
+                color: isSelect
+                    ? backgroundColorApp
+                    : AppTheme.getInstance().colorField(),
               ),
             ),
             spaceW13,
@@ -187,9 +207,9 @@ class MenuWidget extends StatelessWidget {
               child: Text(
                 title,
                 style: textNormalCustom(
-                  color: backgroundColorApp,
+                  color: isSelect ? backgroundColorApp : color3D5586,
                   fontWeight: FontWeight.w400,
-                  fontSize: 16,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -200,12 +220,19 @@ class MenuWidget extends StatelessWidget {
   }
 
   Widget menuViewNoChild(ParentMenu item, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2),
+    return Container(
+      margin: const EdgeInsets.only(
+        left: 28,
+        right: 28,
+        bottom: 24,
+      ),
+      decoration: customDecoration,
       child: Row(
         children: [
           Expanded(
             child: itemMenuView(
+              padding: 20,
+              haveBorder: false,
               icon: item.iconAsset,
               title: item.title,
               onTap: () {
@@ -216,18 +243,31 @@ class MenuWidget extends StatelessWidget {
           ),
           spaceW12,
           countItemWidget(item.count),
-          spaceW18,
+          spaceW20,
         ],
       ),
     );
   }
 
+  BoxDecoration get customDecoration => BoxDecoration(
+        color: borderColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: borderColor.withOpacity(0.5)),
+      );
+
   Widget menuItemWithChild(ParentMenu item, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2),
+    return Container(
+      margin: const EdgeInsets.only(
+        left: 28,
+        right: 28,
+        bottom: 24,
+      ),
       child: ExpandOnlyWidget(
+        headerDecoration: customDecoration,
         isPadingIcon: true,
         header: itemMenuView(
+          padding: 20,
+          haveBorder: false,
           icon: item.iconAsset,
           title: item.title,
         ),
@@ -244,56 +284,4 @@ class MenuWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-class ChildMenu {
-  String title;
-  int count;
-  DataItemMenu value;
-
-  ChildMenu({required this.title, required this.count, required this.value});
-
-}
-
-class StateMenu {
-  String title;
-  String icon;
-  BaseState state;
-
-  StateMenu({
-    required this.title,
-    required this.icon,
-    required this.state,
-  });
-}
-
-class ParentMenu {
-  String title;
-  int count;
-  String iconAsset;
-  DataItemMenu? value;
-  List<ChildMenu>? childData;
-
-  ParentMenu({
-    required this.title,
-    required this.count,
-    required this.iconAsset,
-    this.value,
-    this.childData,
-  });
-}
-
-abstract class DataItemMenu {}
-
-class StatusDataItem extends DataItemMenu {
-  StatusWorkCalendar value;
-
-  StatusDataItem(this.value);
-}
-
-class LeaderDataItem extends DataItemMenu {
-  String id;
-  String title;
-
-  LeaderDataItem(this.id, this.title);
 }

@@ -10,6 +10,7 @@ class DataViewCalendarDay extends StatefulWidget {
     Key? key,
     required this.propertyChanged,
     required this.buildAppointment,
+    this.isTablet = false,
     required this.data,
     required this.fCalendarController,
     this.onMore,
@@ -20,6 +21,7 @@ class DataViewCalendarDay extends StatefulWidget {
   final DataSourceFCalendar data;
   final CalendarController fCalendarController;
   final Function(DateTime)? onMore;
+  final bool isTablet;
 
   @override
   State<DataViewCalendarDay> createState() => _DataViewCalendarDayState();
@@ -45,7 +47,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
         .checkDuplicate();
     (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkMore(4);
+        .checkMore(widget.isTablet ? 5 : 4);
   }
 
 
@@ -98,7 +100,7 @@ class DataSourceFCalendar extends CalendarDataSource {
   }
 
   DataSourceFCalendar.empty() {
-    appointments = [];
+    appointments = <AppointmentWithDuplicate>[];
   }
 }
 

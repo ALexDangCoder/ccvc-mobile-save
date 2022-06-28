@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/main_canlendar_refactor.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/main_canlendar_refactor.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_screen.dart';

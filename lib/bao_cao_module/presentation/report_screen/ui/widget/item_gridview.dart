@@ -100,7 +100,10 @@ class ItemGridView extends StatelessWidget {
             children: [
               ItemFolder(
                 type: item.type ?? 0,
-                isShare: true,
+                isShare: cubit.checkStatus(
+                  item.status ?? 0,
+                  item.type ?? 0,
+                ),
                 fileNumber: item.childrenTotal ?? 0,
               ),
               spaceH18,

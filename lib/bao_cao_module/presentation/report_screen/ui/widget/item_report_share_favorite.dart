@@ -67,7 +67,10 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                 children: [
                   ItemFolder(
                     type: widget.reportItem.type ?? 0,
-                    isShare: true,
+                    isShare: widget.cubit.checkStatus(
+                      widget.reportItem.status ?? 0,
+                      widget.reportItem.type ?? 0,
+                    ),
                     isListView: true,
                     fileNumber: widget.reportItem.childrenTotal ?? 0,
                   ),
@@ -80,7 +83,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          width: widget.isIconClose ? 200 : 100,
+                          width: widget.isIconClose
+                              ? MediaQuery.of(context).size.width / 4
+                              : MediaQuery.of(context).size.width / 2,
                           child: Text(
                             widget.reportItem.name ?? '',
                             maxLines: 1,
@@ -130,70 +135,78 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
           width: MediaQuery.of(context).size.width,
           color: borderColor.withOpacity(0.5),
         ),
-        Padding(
-          padding: const EdgeInsets.only(
-            right: 16,
-            left: 16,
-            top: 18,
-            bottom: 18,
-          ),
-          child: GestureDetector(
-            onTap: () {
-              if(widget.isIconClose){
-              showDialog(
-                context: context,
-                builder: (_) {
-                  return Scaffold(
+        if (widget.cubit.checkStatus(
+          widget.reportItem.status ?? 0,
+          widget.reportItem.type ?? 0,
+        ))
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 16,
+              left: 16,
+              top: 18,
+              bottom: 18,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                if (widget.isIconClose) {
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return Scaffold(
+                        backgroundColor: Colors.transparent,
+                        body: Center(
+                          child: ChiaSeBaoCaoTablet(
+                            idReport: widget.reportItem.id ?? '',
+                            appId: widget.cubit.appId,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  showModalBottomSheet(
                     backgroundColor: Colors.transparent,
-                    body: Center(
-                      child: ChiaSeBaoCaoTablet(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (_) {
+                      return ChiaSeBaoCaoMobile(
                         idReport: widget.reportItem.id ?? '',
                         appId: widget.cubit.appId,
+                      );
+                    },
+                  );
+                }
+              },
+              child: Container(
+                color: Colors.transparent,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      ImageAssets.icUploadSvg,
+                      width: 20,
+                      height: 20,
+                      color: AppTheme.getInstance().unselectColor(),
+                    ),
+                    spaceW13,
+                    Text(
+                      S.current.chia_se,
+                      style: textNormalCustom(
+                        color: AppTheme.getInstance().unselectedColor(),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
                       ),
                     ),
-                  );
-                },
-              );
-              } else {
-                showModalBottomSheet(
-                  backgroundColor: Colors.transparent,
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (_) {
-                    return ChiaSeBaoCaoMobile(
-                      idReport: widget.reportItem.id ?? '',
-                      appId: widget.cubit.appId,
-                    );
-                  },
-                );
-              }
-            },
-            child: Container(
-              color: Colors.transparent,
-              width: double.infinity,
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    ImageAssets.icUploadSvg,
-                    width: 20,
-                    height: 20,
-                    color: AppTheme.getInstance().unselectColor(),
-                  ),
-                  spaceW13,
-                  Text(
-                    S.current.chia_se,
-                    style: textNormalCustom(
-                      color: AppTheme.getInstance().unselectedColor(),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        reportLine(),
+        if (widget.cubit.checkStatus(
+          widget.reportItem.status ?? 0,
+          widget.reportItem.type ?? 0,
+        ))
+          reportLine(),
         if (widget.reportItem.type == REPORT) spaceH18,
         if (widget.reportItem.type == REPORT)
           Padding(

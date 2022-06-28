@@ -88,7 +88,6 @@ class CellContent extends StatelessWidget {
     } else if (isSelected) {
       cell = calendarBuilders.selectedBuilder?.call(context, day, focusedDay) ??
           Container(
-            margin: margin,
             padding: padding,
             alignment: Alignment.center,
             child: Container(

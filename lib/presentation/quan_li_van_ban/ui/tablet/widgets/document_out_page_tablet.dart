@@ -123,6 +123,10 @@ class _DocumentOutPageTabletState extends State<DocumentOutPageTablet>
                       padding: EdgeInsets.symmetric(vertical: 24),
                       child: NodataWidget(),
                     ),
+                    firstPageErrorIndicatorBuilder: (_) => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: NodataWidget(),
+                    ),
                     itemBuilder: (context, item, index) => Padding(
                       padding: EdgeInsets.only(
                         bottom: 16,
@@ -163,65 +167,6 @@ class _DocumentOutPageTabletState extends State<DocumentOutPageTablet>
                     ),
                   ),
                 ),
-                // StreamBuilder<List<VanBanModel>>(
-                //   stream: widget.qlvbCubit.getDanhSachVbDi,
-                //   builder: (context, snapshot) {
-                //     final List<VanBanModel> listData = snapshot.data ?? [];
-                //     return listData.isNotEmpty
-                //         ? ListView.builder(
-                //             physics: const NeverScrollableScrollPhysics(),
-                //             shrinkWrap: true,
-                //             itemCount: listData.length,
-                //             itemBuilder: (context, index) {
-                //               return Padding(
-                //                 padding: EdgeInsets.only(
-                //                   bottom: 16,
-                //                   top: (index == 0) ? 16 : 0,
-                //                 ),
-                //                 child: GestureDetector(
-                //                   behavior: HitTestBehavior.translucent,
-                //                   onTap: () {
-                //                     Navigator.push(
-                //                       context,
-                //                       MaterialPageRoute(
-                //                         builder: (context) =>
-                //                             ChiTietVanBanDiTablet(
-                //                           id: listData[index].iD ?? '',
-                //                         ),
-                //                       ),
-                //                     );
-                //                   },
-                //                   child: ContainerInfoWidget(
-                //                     title:
-                //                         listData[index].trichYeu?.parseHtml() ??
-                //                             '',
-                //                     listData: [
-                //                       InfoData(
-                //                         key: S.current.dv_soan_thao,
-                //                         value:
-                //                             listData[index].donViSoanThao ?? '',
-                //                         urlIcon: ImageAssets.icLocation,
-                //                       ),
-                //                       InfoData(
-                //                         key: S.current.nguoi_soan_thao,
-                //                         value:
-                //                             listData[index].nguoiSoanThao ?? '',
-                //                         urlIcon: ImageAssets.imgAcount,
-                //                       ),
-                //                     ],
-                //                     status: listData[index].doKhan ?? '',
-                //                     colorStatus: getColorFromPriorityCode(
-                //                       listData[index].priorityCode ?? '',
-                //                     ),
-                //                   ),
-                //                 ),
-                //               );
-                //             },
-                //           )
-                //         : const Padding(
-                //             padding: EdgeInsets.all(16), child: NodataWidget());
-                //   },
-                // ),
               ],
             ),
           ),

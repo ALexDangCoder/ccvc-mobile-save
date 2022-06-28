@@ -73,7 +73,7 @@ class HuyenSelectModel {
 }
 
 class DaTaXaSelectModel {
-  List<XaSelectModel>? items;
+  List<WardModel>? items;
   int? pageIndex;
   int? pageSize;
   int? totalCount;
@@ -88,14 +88,14 @@ class DaTaXaSelectModel {
   });
 }
 
-class XaSelectModel {
+class WardModel {
   String? id;
   String? huyenId;
   String? ma;
   String? tenXaPhuong;
   int? totalItems;
 
-  XaSelectModel({
+  WardModel({
     this.id,
     this.huyenId,
     this.ma,
@@ -103,7 +103,7 @@ class XaSelectModel {
     this.totalItems,
   });
 
-  XaSelectModel.seeded({
+  WardModel.seeded({
     this.id = '',
     this.ma = '',
     this.tenXaPhuong = '',

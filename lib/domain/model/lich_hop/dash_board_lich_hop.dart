@@ -32,6 +32,7 @@ class DashBoardLichHopModel {
   int? tongSoLichCoBaoCao = 0;
   int? soLichPreviewPhong = 0;
   int? soLichChuTri = 0;
+  int? tongSoLichDuyetKyThuat = 0;
 
   DashBoardLichHopModel.empty();
 
@@ -69,5 +70,6 @@ class DashBoardLichHopModel {
     required this.tongSoLichCoBaoCao,
     required this.soLichPreviewPhong,
     required this.soLichChuTri,
+    required this.tongSoLichDuyetKyThuat,
   });
 }

@@ -9,10 +9,9 @@ extension DateFormatString on DateTime {
     var dateString = '';
     try {
       dateString = DateFormat.jm('en').format(this);
-    }
-     catch(e){
+    } catch (e) {
       return '';
-     }
+    }
     return dateString;
   }
 
@@ -50,7 +49,8 @@ extension DateFormatString on DateTime {
   String get formatApiTaoBieuQuyet {
     return DateFormat('yyyy-MM-ddTHH:mm').format(this);
   }
-String get formatBE {
+
+  String get formatBE {
     return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
   }
 
@@ -202,6 +202,20 @@ String get formatBE {
   }
 
   DateTime _getDate(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  DateTime getStartEndOfDayTime({
+    bool getStartTime = true,
+  }) {
+    try {
+      return getStartTime
+          ? DateTime.parse(
+              '${DateFormat('yyyy-MM-dd').format(this)}T00:00:00.000')
+          : DateTime.parse(
+              '${DateFormat('yyyy-MM-dd').format(this)}T23:59:59.999');
+    } catch (_) {
+      return this;
+    }
+  }
 }
 
 extension TimeFormatString on TimerData {
@@ -216,5 +230,4 @@ extension TimeFormatString on TimerData {
     }
     return '$hour:$minute';
   }
-
 }

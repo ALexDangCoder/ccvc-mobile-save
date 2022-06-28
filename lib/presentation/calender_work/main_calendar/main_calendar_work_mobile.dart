@@ -14,7 +14,7 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/select_o
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/calender_provider.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/lich_lv_extension.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
@@ -268,7 +268,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const TaoLichLamViecChiTietScreen(),
+                      builder: (context) => const CreateCalendarWorkMobile(),
                     ),
                   );
                 },

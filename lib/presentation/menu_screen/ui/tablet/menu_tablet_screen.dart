@@ -30,6 +30,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info/package_info.dart';
 
 import 'icon_tablet_menu.dart';
 
@@ -44,13 +45,18 @@ class MenuTabletScreen extends StatefulWidget {
 
 class _MenuTabletScreenState extends State<MenuTabletScreen> {
   late MenuCubit menuCubit;
-
+  String version = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     menuCubit = widget.menuCubit;
     menuCubit.getUser();
+    PackageInfo.fromPlatform().then((packageInfo) {
+      setState(() {
+        version = 'v${packageInfo.version}#${packageInfo.buildNumber}';
+      });
+    });
   }
 
   @override
@@ -266,7 +272,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                 },
                               )),
                         ),
-                      )
+                      ),
+                      Text('$version'),
                     ],
                   ),
                 ),

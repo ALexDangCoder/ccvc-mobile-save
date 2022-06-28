@@ -12,6 +12,7 @@ class DoubleButtonBottom extends StatelessWidget {
   final Function onPressed2;
   final bool isTablet;
   final bool noPadding;
+  final double? height;
 
   const DoubleButtonBottom({
     Key? key,
@@ -21,6 +22,7 @@ class DoubleButtonBottom extends StatelessWidget {
     required this.onPressed2,
     this.isTablet = false,
     this.noPadding = false,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -59,7 +61,7 @@ class DoubleButtonBottom extends StatelessWidget {
               onPressed1();
             },
             child: Container(
-              height: 40.0.textScale(space: 16.0),
+              height: height ?? 40.0.textScale(space: 16.0),
               decoration: BoxDecoration(
                 borderRadius:
                 BorderRadius.circular(4.0.textScale(space: 4.0)),
@@ -85,7 +87,7 @@ class DoubleButtonBottom extends StatelessWidget {
               onPressed2();
             },
             child: Container(
-              height: 40.0.textScale(space: 16.0),
+              height: height ?? 40.0.textScale(space: 16.0),
               decoration: BoxDecoration(
                 borderRadius:
                 BorderRadius.circular(4.0.textScale(space: 4.0)),

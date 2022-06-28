@@ -2,8 +2,8 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/widget/item_chon_nhom_tablet.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/widget/item_nguoi_dung_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -19,15 +19,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TabCungHeThongMobile extends StatefulWidget {
-  const TabCungHeThongMobile({Key? key, required this.cubit}) : super(key: key);
+class TabCungHeThongTablet extends StatefulWidget {
+  const TabCungHeThongTablet({Key? key, required this.cubit}) : super(key: key);
   final ChiaSeBaoCaoCubit cubit;
 
   @override
-  _TabCungHeThongMobileState createState() => _TabCungHeThongMobileState();
+  _TabCungHeThongTabletState createState() => _TabCungHeThongTabletState();
 }
 
-class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
+class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
   final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
 
   @override
@@ -45,8 +45,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
       children: [
         SingleChildScrollView(
           padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
+            left: 24.w,
+            right: 24.w,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,9 +56,9 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                 stream: widget.cubit.callAPI,
                 builder: (context, snapshot) {
                   return Container(
-                    height: 40.h,
+                    height: 44.h,
                     width: double.infinity,
-                    padding: EdgeInsets.only(right: 15.w, left: 15.w),
+                    padding: EdgeInsets.only(right: 16.w, left: 16.w),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(4.r)),
@@ -111,9 +111,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                           onChanged: (String? newValue) {
                             widget.cubit.themNhom(newValue ?? '');
                           },
-                          dropdownMaxHeight: 200,
-                          dropdownWidth:
-                              MediaQuery.of(context).size.width - 32.w,
+                          dropdownMaxHeight: 200.h,
+                          dropdownWidth: 544.w,
                           dropdownDecoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius:
@@ -126,7 +125,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                             S.current.chon_nhom,
                             style: textNormalCustom(
                               color: color3D5586,
-                              fontSize: 14,
+                              fontSize: 16,
                             ),
                           ),
                           icon: const Icon(
@@ -152,7 +151,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                         itemBuilder: (context, int index) {
                           return Column(
                             children: [
-                              ChonNhomWidget(
+                              ChonNhomTabletWidget(
                                 item: snapshot.data![index],
                                 delete: () {
                                   widget.cubit.xoaNhom(
@@ -179,11 +178,12 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                     visible: snapshot.hasData &&
                         _themDonViCubit.selectNode.isNotEmpty,
                     child: Container(
-                      width: 341.w,
+                      width: 560.w,
                       padding: EdgeInsets.only(
-                        left: 12.w,
-                        bottom: 12.h,
-                        top: 12.h,
+                        left: 16.w,
+                        bottom: 16.h,
+                        top: 16.h,
+                        right: 16.w,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(color: containerColorTab),
@@ -193,7 +193,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                         runSpacing: 10.h, // gap between lines
                         children: _themDonViCubit.selectNode
                             .map(
-                              (e) => ItemNguoiDung(
+                              (e) => ItemNguoiDungTablet(
                                 name: e.value.name,
                                 hasFunction: true,
                                 delete: () {
@@ -258,12 +258,13 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
           alignment: Alignment.bottomCenter,
           child: Container(
             padding: EdgeInsets.only(
-              left: 16.w,
-              right: 16.w,
+              left: 144.w,
+              right: 144.w,
             ),
-            height: 63.h,
+            height: 70.h,
             color: Colors.white,
             child: DoubleButtonBottom(
+              height: 44.h,
               title1: S.current.dong,
               title2: S.current.chia_se,
               onPressed1: () {

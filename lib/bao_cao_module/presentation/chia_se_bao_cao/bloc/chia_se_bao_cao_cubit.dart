@@ -171,6 +171,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
             type: HAS_USER,
           );
           mapData.add(map);
+          mes = await shareReport(mapData, idReport: idReport);
         }
         break;
       case Share.NEW_USER:

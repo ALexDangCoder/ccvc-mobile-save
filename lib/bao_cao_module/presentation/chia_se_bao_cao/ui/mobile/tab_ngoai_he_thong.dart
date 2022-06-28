@@ -259,7 +259,29 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               onPressed2: () {
                 if (_groupKey.currentState?.validator() ?? true) {
                   if (snapshot.data == true) {
-                    /// share báo cáo
+                    showDiaLog(
+                      context,
+                      title: S.current.chia_se_thu_muc,
+                      icon: SvgPicture.asset(
+                        ImageAssets.ic_chia_se,
+                      ),
+                      btnLeftTxt: S.current.huy,
+                      btnRightTxt: S.current.dong_y,
+                      funcBtnRight: () {
+                        widget.cubit.chiaSeBaoCao(Share.HAS_USER).then((value) {
+                          if (value == 'Thành công') {
+                            MessageConfig.show(title: value);
+                          } else {
+                            MessageConfig.show(
+                              title: value,
+                              messState: MessState.error,
+                            );
+                          }
+                        });
+                      },
+                      showTablet: false,
+                      textContent: S.current.chia_se_thu_muc_chac_chua,
+                    ).then((value) {});
                   } else {
                     showDiaLog(
                       context,
@@ -291,7 +313,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                           }
                         });
                       },
-                      showTablet: true,
+                      showTablet: false,
                       textContent: S.current.chia_se_thu_muc_chac_chua,
                     ).then((value) {});
                   }

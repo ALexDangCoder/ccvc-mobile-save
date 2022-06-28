@@ -40,9 +40,14 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
-    // widget.cubit.getDashBoardPAKN();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
     widget.cubit.getDanhSachPAKN();
+  }
+
+  @override
+  void dispose() {
+    widget.cubit.dispose();
+    super.dispose();
   }
 
   @override
@@ -85,7 +90,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 if (widget.cubit.canLoadMoreList &&
                     scrollInfo.metrics.pixels ==
                         scrollInfo.metrics.maxScrollExtent) {
-                  widget.cubit.loadMoreGetDSPAKN();
+                  if(!widget.cubit.isFilter) {
+                    widget.cubit.loadMoreGetDSPAKN();
+                  } else {
+                    widget.cubit.loadMoreGetDSPAKNFilter();
+                  }
                 }
                 return true;
               },
@@ -174,14 +183,16 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                 Expanded(
                                   child: TiepCanWidget(
                                     model: data,
+                                    cubit: widget.cubit,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 115,
                                 ),
                                 Expanded(
                                   child: XuLyWidget(
                                     model: data,
+                                    cubit: widget.cubit,
                                   ),
                                 ),
                               ],
@@ -428,19 +439,13 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
     );
   }
 
-  TextTrangThai statusTrangThai(int trangThai) {
-    switch (trangThai) {
-      case YKienNguoiDanCubitt.TRONGHAN:
-        {
-          return TextTrangThai(S.current.trong_han, choTrinhKyColor);
-        }
-      case YKienNguoiDanCubitt.DENHAN:
-        {
-          return TextTrangThai(S.current.den_han, choVaoSoColor);
-        }
-      default:
-        //QUA HAN
-        return TextTrangThai(S.current.qua_han, statusCalenderRed);
+  TextTrangThai statusTrangThai(int soNgayToiHan) {
+    if (soNgayToiHan < 0) {
+      return TextTrangThai(S.current.qua_han, statusCalenderRed);
+    } else if (soNgayToiHan >= 3) {
+      return TextTrangThai(S.current.trong_han, choTrinhKyColor);
+    } else {
+      return TextTrangThai(S.current.den_han, choVaoSoColor);
     }
   }
 }

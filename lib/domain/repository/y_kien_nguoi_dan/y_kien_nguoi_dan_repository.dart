@@ -127,6 +127,16 @@ mixin YKienNguoiDanRepository {
     String? tuKhoa,
   });
 
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPaknFilter({
+    int? pageIndex,
+    int? pageSize,
+    String? trangThai,
+    String? loaiMenu,
+    String? dateFrom,
+    String? dateTo,
+    int? hanXuLy,
+  });
+
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(
     String nguoiChoYKien,
     String kienNghiId,

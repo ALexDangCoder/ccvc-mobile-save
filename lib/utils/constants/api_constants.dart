@@ -288,6 +288,7 @@ class ApiConstants {
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const DASHBOARD_PAKN_TIEP_NHAN_XU_LY = '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
+  static const DANH_SACH_PAKN_FILTER = '/pakn/api/dashboard-mpi/danh-sach-pakn';
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
   static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';

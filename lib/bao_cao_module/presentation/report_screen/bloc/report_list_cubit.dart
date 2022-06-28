@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_state.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -30,6 +31,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
   static const int OLDEST_SORT = 6;
   static const int FOLDER_SORT = 12;
   static const int REPORT_SORT = 13;
+  static const int STATUS_DA_XUAT_BAN = 2;
   Timer? debounceTime;
   bool isListViewInit = true;
   BehaviorSubject<String> textFilter = BehaviorSubject.seeded(S.current.tu_a_z);
@@ -48,6 +50,18 @@ class ReportListCubit extends BaseCubit<BaseState> {
   ReportRepository get _reportService => Get.find();
 
   ReportCommonRepository get _reportCommonService => Get.find();
+
+  bool checkStatus(int status, int type) {
+    if (type != FOLDER) {
+      if (status == STATUS_DA_XUAT_BAN) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
 
   void getStatus(String title) {
     if (S.current.all == title) {

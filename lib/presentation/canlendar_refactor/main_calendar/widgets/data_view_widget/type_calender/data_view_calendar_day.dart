@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
@@ -43,11 +41,9 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     checkDuplicate(
       widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
     );
-    log('${widget.data}');
   }
 
   void checkDuplicate(List<AppointmentWithDuplicate> list) {
-    final List<AppointmentWithDuplicate> listRemove = [];
     for (final item in list) {
       final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
       final currentTimeTo = item.endTime.millisecondsSinceEpoch;
@@ -56,6 +52,18 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
             item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000);
         item.endTime = DateTime.fromMillisecondsSinceEpoch(
             item.endTime.millisecondsSinceEpoch);
+      }
+    }
+    final List<AppointmentWithDuplicate> listRemove = [];
+    for (final item in list) {
+      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
+      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
+      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
+        item.startTime = DateTime.fromMillisecondsSinceEpoch(
+            item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000);
+        item.endTime = DateTime.fromMillisecondsSinceEpoch(
+          item.endTime.millisecondsSinceEpoch,
+        );
       }
       final listDuplicate = list.where((element) {
         final startTime = element.startTime.millisecondsSinceEpoch;
@@ -77,7 +85,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     for (final AppointmentWithDuplicate element in listRemove) {
       list.remove(element);
     }
-
   }
 
   void setFCalendarListenerWeek() {
@@ -130,6 +137,7 @@ class DataSourceFCalendar extends CalendarDataSource {
   DataSourceFCalendar(List<AppointmentWithDuplicate> source) {
     appointments = source;
   }
+
   DataSourceFCalendar.empty() {
     appointments = [];
   }

@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -130,6 +129,10 @@ class _MainDataViewState extends State<MainDataView> {
                       final data =
                           snapshot.data ?? DashBoardLichHopModel.empty();
                       return PopUpMenu(
+                        initData: ItemMenuData(
+                          StateType.CHO_XAC_NHAN,
+                          data.soLichChoXacNhan ?? 0,
+                        ),
                         data: [
                           ItemMenuData(
                             StateType.CHO_XAC_NHAN,

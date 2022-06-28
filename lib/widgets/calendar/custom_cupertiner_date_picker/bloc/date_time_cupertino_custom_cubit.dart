@@ -141,38 +141,43 @@ class DateTimeCupertinoCustomCubit
   /// It returns 0 if it [isAtSameMomentAs] [other],
   /// and returns a positive value otherwise (when this [isAfter] [other]).
   bool checkTime() {
-    if (dateBeginSubject.valueOrNull != 'DD/MM/YYYY' &&
-        timeBeginSubject.valueOrNull != 'hh:mm' &&
-        dateEndSubject.valueOrNull != 'DD/MM/YYYY' &&
-        timeEndSubject.valueOrNull != 'hh:mm') {
-      final begin = DateTime.parse(
-        timeFormat(
-          '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
-          'dd/MM/yyyy HH:mm',
-          'yyyy-MM-dd HH:mm',
-        ),
-      );
-      final end = DateTime.parse(
-        timeFormat(
-          '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
-          'dd/MM/yyyy HH:mm',
-          'yyyy-MM-dd HH:mm',
-        ),
-      );
-      if (begin.isAtSameMomentAs(end) ||
-          begin.isAfter(end) ||
-          end.isAtSameMomentAs(begin) ||
-          end.isBefore(begin)) {
-        validateTime.sink.add(S.current.thoi_gian_bat_dau);
-        return false;
-      } else {
-        validateTime.sink.add('');
-        return true;
-      }
-    } else {
-      validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
-      return false;
-    }
+   try{
+     if (dateBeginSubject.valueOrNull != 'DD/MM/YYYY' &&
+         timeBeginSubject.valueOrNull != 'hh:mm' &&
+         dateEndSubject.valueOrNull != 'DD/MM/YYYY' &&
+         timeEndSubject.valueOrNull != 'hh:mm') {
+       final begin = DateTime.parse(
+         timeFormat(
+           '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
+           'dd/MM/yyyy HH:mm',
+           'yyyy-MM-dd HH:mm',
+         ),
+       );
+       final end = DateTime.parse(
+         timeFormat(
+           '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
+           'dd/MM/yyyy HH:mm',
+           'yyyy-MM-dd HH:mm',
+         ),
+       );
+       if (begin.isAtSameMomentAs(end) ||
+           begin.isAfter(end) ||
+           end.isAtSameMomentAs(begin) ||
+           end.isBefore(begin)) {
+         validateTime.sink.add(S.current.thoi_gian_bat_dau);
+         return false;
+       } else {
+         validateTime.sink.add('');
+         return true;
+       }
+     } else {
+       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+       return false;
+     }
+   }catch(e){
+     validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+     return false;
+   }
   }
 
   int getYearNumber() {

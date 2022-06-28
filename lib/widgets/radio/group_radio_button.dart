@@ -15,6 +15,7 @@ class ItemCustomGroupRadio<T> {
 class CustomGroupRadio<T> extends StatefulWidget {
   final Function(T?) onchange;
   final List<ItemCustomGroupRadio<T>> listData;
+  final bool? isRow;
   T groupValue;
 
   CustomGroupRadio({
@@ -22,6 +23,7 @@ class CustomGroupRadio<T> extends StatefulWidget {
     required this.onchange,
     required this.groupValue,
     required this.listData,
+    this.isRow,
   }) : super(key: key);
 
   @override
@@ -31,11 +33,12 @@ class CustomGroupRadio<T> extends StatefulWidget {
 class _CustomGroupRadioState<T> extends State<CustomGroupRadio<T>> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widget.listData
-          .map(
-            (e) => Padding(
+    if(widget.isRow == true){
+      return Row(
+        children: widget.listData
+            .map(
+              (e) => Expanded(
+            child: Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: Row(
                 children: [
@@ -66,9 +69,50 @@ class _CustomGroupRadioState<T> extends State<CustomGroupRadio<T>> {
                 ],
               ),
             ),
-          )
-          .toList(),
-    );
+          ),
+        )
+            .toList(),
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: widget.listData
+            .map(
+              (e) => Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 18,
+                  width: 18,
+                  child: Radio<T>(
+                    fillColor: MaterialStateProperty.resolveWith(getColor),
+                    activeColor: textDefault,
+                    value: e.value,
+                    onChanged: (T? value) {
+                      setState(() {
+                        widget.groupValue = e.value;
+                      });
+                      widget.onchange(value);
+                    },
+                    groupValue: widget.groupValue,
+                  ),
+                ),
+                spaceW16,
+                Text(
+                  e.title,
+                  style: tokenDetailAmount(
+                    fontSize: 14,
+                    color: color3D5586,
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+            .toList(),
+      );
+    }
   }
 
   Color getColor(Set<MaterialState> states) {

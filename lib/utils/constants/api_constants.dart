@@ -73,6 +73,8 @@ class ApiConstants {
       '/vpdt/api/Schedules/dashboard-schedule';
   static const GET_TREE_DON_VI = '/common/DonVi/get-tree';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
+  static const OFFICERS_JOIN = '/vpdt/api/CanBoThamGia/can-bo-tham-gia-tree';
+  static const OFFICER_JOIN = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
@@ -149,6 +151,9 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
+  static const THU_HOI_LICH_LAM_VIEC =
+      'vpdt/api/ScheduleCoperative/change-status-multi';
+  static const CAN_BO_THU_HOI_LICH = ' /CanBoThamGia/can-bo-tham-gia-hop-tree';
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
@@ -285,27 +290,18 @@ class ApiConstants {
   static const CHON_PHONG_HOP = '/vpdt/api/CanBoThamGia/thay-doi-phong';
   static const DUYET_HOAC_HUYDUYET_KY_THUAT =
       '/vpdt/api/CanBoThamGia/duyet-ky-thuat';
-
-  static const LIST_REPORT = '/htcs/api/Folder/list';
-  static const GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP = '/htcs/api/User/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
+  static const DASHBOARD_PAKN_TIEP_NHAN_XU_LY =
+      '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
+  static const DANH_SACH_PAKN_FILTER = '/pakn/api/dashboard-mpi/danh-sach-pakn';
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
-  static const LIST_GROUP_BAO_CAO = '/common/Group/search';
-  static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
-  static const GET_APP_ID = '/api/App/search';
-  static const GET_FOLDER_ID = '/htcs/api/Folder/get-root';
-  static const POST_LIKE_REPORT = '/htcs/api/Report/like-many';
-  static const PUT_DISLIKE_REPORT = '/htcs/api/Report/disable-like-many';
-  static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
-  static const GET_LIST_TREE_REPORT = '/htcs/api/Folder/tree';
-  static const CREATE_NEW_USER = '/htcs/api/User/create';
-  static const SHARE_REPORT = '/htcs/api/User/share-many';
-
   static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';
-  static const CONFIRM_OR_CANCEL_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/duyet-bao-cao';
-  static const CREATE_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/create-meet-report';
+  static const CONFIRM_OR_CANCEL_KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/duyet-bao-cao';
+  static const CREATE_KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/create-meet-report';
 }
 
 class ImageConstants {

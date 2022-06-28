@@ -174,7 +174,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                         },
                         child: StreamBuilder<String>(
                           stream: _cubit.timeEndSubject,
-                          initialData: 'hh:mm',
+                          initialData: INIT_TIME_PICK,
                           builder: (context, snapshot) {
                             final String time = snapshot.data ?? '';
                             return Padding(
@@ -194,7 +194,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                 ),
                 StreamBuilder<String>(
                   stream: _cubit.dateEndSubject.stream,
-                  initialData: 'DD/MM/YYYY',
+                  initialData: INIT_DATE_PICK,
                   builder: (context, snapshot) {
                     final String date = snapshot.data ?? S.current.ddmmyy;
                     return GestureDetector(
@@ -305,7 +305,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                       },
                       child: StreamBuilder<String>(
                         stream: _cubit.timeBeginSubject,
-                        initialData: 'hh:mm',
+                        initialData: INIT_TIME_PICK,
                         builder: (context, snapshot) {
                           final String time = snapshot.data ?? '';
                           return Padding(
@@ -325,7 +325,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
               ),
               StreamBuilder<String>(
                 stream: _cubit.dateBeginSubject,
-                initialData: 'DD/MM/YYYY',
+                initialData: INIT_DATE_PICK,
                 builder: (context, snapshot) {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
@@ -535,10 +535,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   String get timeFrom => _cubit.timeBeginSubject.valueOrNull ?? '00:00';
 
   String get initDataFrom =>
-      '${dateFrom != 'DD/MM/YYYY' ? dateFrom : now} ${timeFrom != 'hh:mm' ? timeFrom : '00:00'}';
+      '${dateFrom != INIT_DATE_PICK ? dateFrom : now} ${timeFrom != INIT_TIME_PICK ? timeFrom : '00:00'}';
 
   String get initDataTo =>
-      '${dateTo != 'DD/MM/YYYY' ? dateTo : now} ${timeTo != 'hh:mm' ? timeTo : '00:00'}';
+      '${dateTo != INIT_DATE_PICK ? dateTo : now} ${timeTo != INIT_TIME_PICK ? timeTo : '00:00'}';
 
   void expandDateEnd(TypePickerDateTime type) {
     if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&

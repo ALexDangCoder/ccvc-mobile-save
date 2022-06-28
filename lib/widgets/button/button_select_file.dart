@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -52,7 +52,7 @@ class ButtonSelectFile extends StatefulWidget {
 }
 
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
-  final TaoLichLamViecCubit _cubit = TaoLichLamViecCubit();
+  final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
   String errText = '';
 
   @override

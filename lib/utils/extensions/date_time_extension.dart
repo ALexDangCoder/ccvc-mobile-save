@@ -9,10 +9,9 @@ extension DateFormatString on DateTime {
     var dateString = '';
     try {
       dateString = DateFormat.jm('en').format(this);
-    }
-     catch(e){
+    } catch (e) {
       return '';
-     }
+    }
     return dateString;
   }
 
@@ -50,7 +49,8 @@ extension DateFormatString on DateTime {
   String get formatApiTaoBieuQuyet {
     return DateFormat('yyyy-MM-ddTHH:mm').format(this);
   }
-String get formatBE {
+
+  String get formatBE {
     return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
   }
 
@@ -216,5 +216,4 @@ extension TimeFormatString on TimerData {
     }
     return '$hour:$minute';
   }
-
 }

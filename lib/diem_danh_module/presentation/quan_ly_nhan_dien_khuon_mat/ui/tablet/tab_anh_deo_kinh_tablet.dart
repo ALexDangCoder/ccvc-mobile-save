@@ -18,8 +18,7 @@ class _TabAnhDeoKinhTabletState extends State<TabAnhDeoKinhTablet> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: GridView.count(crossAxisCount: 2,
         shrinkWrap: true,
-        // crossAxisSpacing: 28,
-        // mainAxisSpacing: 28,
+        crossAxisSpacing: 14,
         childAspectRatio: 1.1,
         children: widget.cubit.listDataDeoKinh
             .map(

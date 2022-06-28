@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
@@ -172,40 +172,44 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                 },
               ),
               spaceH24,
-              Container(
-                width: 341.w,
-                padding: EdgeInsets.only(
-                  left: 12.w,
-                  bottom: 12.h,
-                  top: 12.h,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(color: containerColorTab),
-                ),
-                child: StreamBuilder<Object>(
-                  stream: _themDonViCubit.selectDonVi,
-                  builder: (context, snapshot) {
-                    return Wrap(
-                      spacing: 10.w, // gap between adjacent chips
-                      runSpacing: 10.h, // gap between lines
-                      children: _themDonViCubit.selectNode
-                          .map(
-                            (e) => ItemNguoiDung(
-                              name: e.value.name,
-                              hasFunction: true,
-                              delete: () {
-                                _themDonViCubit.addSelectNode(
-                                  e,
-                                  isCheck: false,
-                                );
-                                _themDonViCubit.removeTag(e);
-                              },
-                            ),
-                          )
-                          .toList(),
-                    );
-                  },
-                ),
+              StreamBuilder<Object>(
+                stream: _themDonViCubit.selectDonVi,
+                builder: (context, snapshot) {
+                  return Visibility(
+                    visible: snapshot.hasData &&
+                        _themDonViCubit.selectNode.isNotEmpty,
+                    child: Container(
+                      width: 341.w,
+                      padding: EdgeInsets.only(
+                        left: 12.w,
+                        bottom: 12.h,
+                        top: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: containerColorTab),
+                      ),
+                      child: Wrap(
+                        spacing: 10.w, // gap between adjacent chips
+                        runSpacing: 10.h, // gap between lines
+                        children: _themDonViCubit.selectNode
+                            .map(
+                              (e) => ItemNguoiDung(
+                                name: e.value.name,
+                                hasFunction: true,
+                                delete: () {
+                                  _themDonViCubit.addSelectNode(
+                                    e,
+                                    isCheck: false,
+                                  );
+                                  _themDonViCubit.removeTag(e);
+                                },
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  );
+                },
               ), // Stream list nhóm
               Container(
                 height: 300.h,

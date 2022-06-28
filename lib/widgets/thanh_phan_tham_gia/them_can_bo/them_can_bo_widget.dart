@@ -27,12 +27,14 @@ class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final ThanhPhanThamGiaCubit cubit;
   final bool needCheckTrung;
+  final ThemCanBoCubit themCanBoCubit;
 
   const ThemCanBoWidget({
     Key? key,
     required this.onChange,
     required this.cubit,
     this.needCheckTrung = false,
+    required this.themCanBoCubit,
   }) : super(key: key);
 
   @override
@@ -61,6 +63,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
           child: ThemCanBoScreen(
             cubit: widget.cubit,
             needCheckTrung: widget.needCheckTrung,
+            themCanBoCubit: widget.themCanBoCubit,
           ),
         ),
       ).then((value) {
@@ -75,6 +78,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         child: ThemCanBoScreen(
           cubit: widget.cubit,
           needCheckTrung: widget.needCheckTrung,
+          themCanBoCubit: widget.themCanBoCubit,
         ),
         isBottomShow: false,
         funcBtnOk: () {},
@@ -91,16 +95,22 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
 class ThemCanBoScreen extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
   final bool needCheckTrung;
+  final bool removeButton;
+  final ThemCanBoCubit themCanBoCubit;
 
-  const ThemCanBoScreen({Key? key, required this.cubit, required this.needCheckTrung}) : super(key: key);
+  const ThemCanBoScreen({
+    Key? key,
+    required this.cubit,
+    required this.needCheckTrung,
+    this.removeButton = false,
+    required this.themCanBoCubit,
+  }) : super(key: key);
 
   @override
   _ThemCanBoScreenState createState() => _ThemCanBoScreenState();
 }
 
 class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
-  final ThemCanBoCubit _themCanBoCubit = ThemCanBoCubit();
-
   @override
   void initState() {
     super.initState();
@@ -109,7 +119,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
   @override
   void dispose() {
     super.dispose();
-    _themCanBoCubit.dispose();
+    widget.themCanBoCubit.dispose();
   }
 
   @override
@@ -126,7 +136,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
           SelectDonVi(
             cubit: widget.cubit,
             onChange: (value) {
-              _themCanBoCubit.getCanBo(value);
+              widget.themCanBoCubit.getCanBo(value);
             },
           ),
           SizedBox(
@@ -140,20 +150,20 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
           BaseSearchBar(
             hintText: S.current.nhap_ten_don_vi_phong_ban,
             onChange: (value) {
-              _themCanBoCubit.search(value);
+              widget.themCanBoCubit.search(value);
             },
           ),
           spaceH16,
           Expanded(
             child: BlocBuilder<ThemCanBoCubit, ThemCanBoState>(
-              bloc: _themCanBoCubit,
+              bloc: widget.themCanBoCubit,
               builder: (context, state) {
                 return ModalProgressHUD(
                   inAsyncCall: state is Loading,
                   color: Colors.transparent,
                   progressIndicator: const CupertinoLoading(),
                   child: StreamBuilder<List<DonViModel>>(
-                    stream: _themCanBoCubit.getCanbo,
+                    stream: widget.themCanBoCubit.getCanbo,
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? <DonViModel>[];
                       if (data.isNotEmpty) {
@@ -170,8 +180,8 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                     EdgeInsets.only(top: index == 0 ? 0 : 16),
                                 child: CanBoWidget(
                                   onCheckBox: (value) async {
-                                    if(value && widget.needCheckTrung) {
-                                      await _themCanBoCubit
+                                    if (value && widget.needCheckTrung) {
+                                      await widget.themCanBoCubit
                                           .checkLichTrung(
                                         donViId: result.donViId,
                                         canBoId: result.canBoId,
@@ -193,7 +203,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                             btnLeftTxt: S.current.khong,
                                             isCenterTitle: true,
                                             funcBtnRight: () {
-                                              _themCanBoCubit.selectCanBo(
+                                              widget.themCanBoCubit.selectCanBo(
                                                 result,
                                                 isCheck: value,
                                               );
@@ -201,7 +211,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                             },
                                           );
                                         } else {
-                                          _themCanBoCubit.selectCanBo(
+                                          widget.themCanBoCubit.selectCanBo(
                                             result,
                                             isCheck: value,
                                           );
@@ -210,13 +220,13 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                       });
                                       return;
                                     }
-                                    _themCanBoCubit.selectCanBo(
+                                    widget.themCanBoCubit.selectCanBo(
                                       result,
                                       isCheck: value,
                                     );
                                   },
                                   canBoModel: result,
-                                  themCanBoCubit: _themCanBoCubit,
+                                  themCanBoCubit: widget.themCanBoCubit,
                                 ),
                               );
                             },
@@ -237,40 +247,49 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: screenDevice(
-              mobileScreen: DoubleButtonBottom(
-                title1: S.current.dong,
-                title2: S.current.them,
-                onPressed1: () {
-                  Navigator.pop(context);
-                },
-                onPressed2: () {
-                  Navigator.pop(context, _themCanBoCubit.listSelectCanBo);
-                },
+          if (widget.removeButton)
+            Container()
+          else
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: screenDevice(
+                mobileScreen: DoubleButtonBottom(
+                  title1: S.current.dong,
+                  title2: S.current.them,
+                  onPressed1: () {
+                    Navigator.pop(context);
+                  },
+                  onPressed2: () {
+                    Navigator.pop(
+                      context,
+                      widget.themCanBoCubit.listSelectCanBo,
+                    );
+                  },
+                ),
+                tabletScreen: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    button(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      title: S.current.dong,
+                    ),
+                    spaceW20,
+                    button(
+                      onTap: () {
+                        Navigator.pop(
+                          context,
+                          widget.themCanBoCubit.listSelectCanBo,
+                        );
+                      },
+                      title: S.current.them,
+                      isLeft: false,
+                    )
+                  ],
+                ),
               ),
-              tabletScreen: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  button(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    title: S.current.dong,
-                  ),
-                  spaceW20,
-                  button(
-                    onTap: () {
-                      Navigator.pop(context, _themCanBoCubit.listSelectCanBo);
-                    },
-                    title: S.current.them,
-                    isLeft: false,
-                  )
-                ],
-              ),
-            ),
-          )
+            )
         ],
       ),
     );

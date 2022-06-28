@@ -73,11 +73,12 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   void selectCanBo(DonViModel canBoModel, {bool isCheck = false}) {
     if (isCheck) {
       listSelectCanBo.add(canBoModel);
+      print("xxxx${listSelectCanBo}");
     } else {
       listSelectCanBo.remove(canBoModel);
+      print("xxxx${listSelectCanBo}");
     }
   }
-
   void search(String text) {
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(DonViModel canBo) {

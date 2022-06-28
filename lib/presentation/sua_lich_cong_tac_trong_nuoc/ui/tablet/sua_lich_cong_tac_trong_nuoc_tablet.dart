@@ -14,9 +14,9 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_state.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/custom_switch_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap_tuy_chinh.dart';
@@ -54,7 +54,7 @@ class SuaLichCongTacTrongNuocTablet extends StatefulWidget {
 
 class _SuaLichCongTacTrongNuocTabletState
     extends State<SuaLichCongTacTrongNuocTablet> {
-  final TaoLichLamViecCubit taoLichLamViecCubit = TaoLichLamViecCubit();
+  final CreateWorkCalCubit taoLichLamViecCubit = CreateWorkCalCubit();
   final _formKey = GlobalKey<FormState>();
   TextEditingController tieuDeController = TextEditingController();
   TextEditingController noiDungController = TextEditingController();
@@ -89,7 +89,7 @@ class _SuaLichCongTacTrongNuocTabletState
       ),
     );
 
-    taoLichLamViecCubit.chiTietLichLamViecModel = event;
+    taoLichLamViecCubit.detailCalendarWorkModel = event;
     taoLichLamViecCubit.selectedCountry = event.country ?? '';
     taoLichLamViecCubit.selectedCountryID = event.countryId ?? '';
     taoLichLamViecCubit.datNuocSelectModel?.id = event.countryId;
@@ -106,7 +106,7 @@ class _SuaLichCongTacTrongNuocTabletState
     taoLichLamViecCubit.dateRepeat = event.dateRepeat;
 
     taoLichLamViecCubit.scheduleReminder = event.scheduleReminder;
-    taoLichLamViecCubit.chiTietLichLamViecModel.scheduleCoperatives =
+    taoLichLamViecCubit.detailCalendarWorkModel.scheduleCoperatives =
         event.scheduleCoperatives;
     tieuDeController.text = event.title ?? '';
     noiDungController.text = event.content ?? '';
@@ -122,7 +122,7 @@ class _SuaLichCongTacTrongNuocTabletState
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TaoLichLamViecCubit, TaoLichLamViecState>(
+    return BlocListener<CreateWorkCalCubit, CreateWorkCalState>(
       bloc: taoLichLamViecCubit,
       listener: (context, state) {
         if (state is CreateSuccess) {
@@ -147,7 +147,7 @@ class _SuaLichCongTacTrongNuocTabletState
           });
         } else {}
       },
-      child: WidgetTaoLichLVInherited(
+      child: CreateWorkCalendarProvide(
         taoLichLamViecCubit: taoLichLamViecCubit,
         child: Scaffold(
           backgroundColor: bgWidgets,
@@ -193,7 +193,7 @@ class _SuaLichCongTacTrongNuocTabletState
               S.current.error,
             ),
             stream: taoLichLamViecCubit.stateStream,
-            child: ProviderWidget<TaoLichLamViecCubit>(
+            child: ProviderWidget<CreateWorkCalCubit>(
               cubit: taoLichLamViecCubit,
               child: ExpandGroup(
                 child: SingleChildScrollView(
@@ -562,7 +562,7 @@ class _SuaLichCongTacTrongNuocTabletState
                                               urlIcon: ImageAssets.icNhacLai,
                                               title: S.current.lich_lap,
                                               value: taoLichLamViecCubit
-                                                  .chiTietLichLamViecModel
+                                                  .detailCalendarWorkModel
                                                   .lichLap(),
                                               listSelect: data
                                                   .map<String>(
@@ -570,7 +570,7 @@ class _SuaLichCongTacTrongNuocTabletState
                                                   .toList(),
                                               onChange: (value) {
                                                 taoLichLamViecCubit
-                                                        .chiTietLichLamViecModel
+                                                        .detailCalendarWorkModel
                                                         .typeRepeat =
                                                     data[value].id;
                                                 // taoLichLamViecCubit.typeRepeat=data[value].id;
@@ -658,7 +658,7 @@ class _SuaLichCongTacTrongNuocTabletState
                                     ThanhPhanThamGiaTLWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                       listPeopleInit: taoLichLamViecCubit
-                                          .chiTietLichLamViecModel
+                                          .detailCalendarWorkModel
                                           .scheduleCoperatives,
                                     ),
                                     TaiLieuWidget(
@@ -734,7 +734,7 @@ class _SuaLichCongTacTrongNuocTabletState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          taoLichLamViecCubit.suaLichLamViec(
+          taoLichLamViecCubit.editWorkCalendar(
             title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
             location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
@@ -742,13 +742,13 @@ class _SuaLichCongTacTrongNuocTabletState
         });
       } else {
         if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
-          taoLichLamViecCubit.suaLichLamViec(
+          taoLichLamViecCubit.editWorkCalendar(
             title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
             location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
           );
         } else {
-          taoLichLamViecCubit.checkTrungLich(
+          taoLichLamViecCubit.checkDuplicate(
             context: context,
             title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
@@ -770,7 +770,7 @@ class _SuaLichCongTacTrongNuocTabletState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          taoLichLamViecCubit.checkTrungLich(
+          taoLichLamViecCubit.checkDuplicate(
             context: context,
             title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
@@ -782,13 +782,13 @@ class _SuaLichCongTacTrongNuocTabletState
         });
       } else {
         if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
-          taoLichLamViecCubit.suaLichLamViecNuocNgoai(
+          taoLichLamViecCubit.editWorkCalendarAboard(
             title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),
             location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
           );
         } else {
-          taoLichLamViecCubit.checkTrungLich(
+          taoLichLamViecCubit.checkDuplicate(
             context: context,
             title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
             content: noiDungController.value.text.trim().replaceAll(' +', ' '),

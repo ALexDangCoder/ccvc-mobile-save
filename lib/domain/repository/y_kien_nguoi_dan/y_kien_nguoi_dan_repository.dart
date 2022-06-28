@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/result_xin_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/tien_trinh_xu_ly_model.dart';
@@ -126,6 +127,16 @@ mixin YKienNguoiDanRepository {
     String? tuKhoa,
   });
 
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPaknFilter({
+    int? pageIndex,
+    int? pageSize,
+    String? trangThai,
+    String? loaiMenu,
+    String? dateFrom,
+    String? dateTo,
+    int? hanXuLy,
+  });
+
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(
     String nguoiChoYKien,
     String kienNghiId,
@@ -138,5 +149,10 @@ mixin YKienNguoiDanRepository {
     String kienNghiId,
     String noiDung,
     List<File> file,
+  );
+
+  Future<Result<DashBoardPAKNModel>> getDashBoardPAKNTiepNhanXuLy(
+    String dateFrom,
+    String dateTo,
   );
 }

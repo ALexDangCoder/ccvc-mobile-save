@@ -5,7 +5,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
@@ -68,6 +69,10 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     pageSizeDSPAKN = 10;
     pageNumberDSPAKN = 1;
     initStartDate = DateTime.now();
+    isFilter = false;
+    hanXuLy = null;
+    trangThaiFilter = null;
+    loaiMenu = null;
     tuKhoa = '';
   }
 
@@ -386,6 +391,17 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     }
   }
 
+  Future<void> loadMoreGetDSPAKNFilter() async {
+    if (loadMore == false) {
+      pageNumberDSPAKN += 1;
+      canLoadMoreList = true;
+      loadMore = true;
+      await getDanhSachPAKNFilterChart(flagLoadMore: true);
+    } else {
+      //nothing
+    }
+  }
+
   Future<void> refreshGetDSPAKN() async {
     canLoadMoreList = true;
     if (refresh == false) {
@@ -434,16 +450,76 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
+  bool isFilter = false;
+  int? hanXuLy;
+  String? trangThaiFilter;
+  String? loaiMenu;
 
-  Future<void> getDashBoardPAKN() async {
-    final result = await _YKNDRepo.getDashboardTinhHinhXuLyPAKN(false);
-    result.when(
+  Future<void> getDanhSachPAKNFilterChart({bool flagLoadMore = false}) async {
+    isFilter = true;
+    if(!flagLoadMore) {
+      clearDSPAKN();
+    } else {
+
+    }
+    showLoading();
+    final data = await _YKNDRepo.getDanhSachPaknFilter(
+      pageIndex: pageNumberDSPAKN,
+      pageSize: pageSizeDSPAKN,
+      trangThai: trangThaiFilter,
+      loaiMenu: loaiMenu,
+      dateTo: startDate,
+      dateFrom: endDate,
+      hanXuLy: hanXuLy
+    );
+    data.when(
       success: (success) {
-        getTinhHinhXuLy.sink.add(success);
+        if (listDanhSachKetQuaPakn.hasValue) {
+          listDanhSachKetQuaPakn.sink
+              .add(listDanhSachKetQuaPakn.value + success);
+          canLoadMoreList = success.length >= pageSizeDSPAKN;
+          loadMore = false;
+          refresh = false;
+        } else {
+          listDanhSachKetQuaPakn.sink.add(success);
+        }
+        showContent();
       },
-      error: (error) {},
+      error: (error) {
+        listDanhSachKetQuaPakn.sink.add([]);
+      },
     );
   }
+
+  final BehaviorSubject<DashBoardPAKNModel> dashBoardPAKNTiepCanXuLyBHVSJ =
+      BehaviorSubject();
+
+  Future<void> getDashBoardPAKNTiepCanXuLy() async {
+    showLoading();
+    final result = await _YKNDRepo.getDashBoardPAKNTiepNhanXuLy(
+      startDate,
+      endDate,
+    );
+    result.when(
+      success: (success) {
+        dashBoardPAKNTiepCanXuLyBHVSJ.sink.add(success);
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
+    );
+  }
+
+  // Future<void> getDashBoardPAKN() async {
+  //   final result = await _YKNDRepo.getDashboardTinhHinhXuLyPAKN(false);
+  //   result.when(
+  //     success: (success) {
+  //       getTinhHinhXuLy.sink.add(success);
+  //     },
+  //     error: (error) {},
+  //   );
+  // }
 
   Future<void> getDashBoardTinhHinhXuLy(
     String donViID,
@@ -687,7 +763,55 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     }
   }
 
+  /*
+  * int? pageIndex,
+    int? pageSize,
+    String? trangThai,
+    String? loaiMenu,
+    String? dateFrom,
+    String? dateTo,
+    int? hanXuLy,
+    * "PageIndex": 1,
+        "PageSize": 10,
+        "TrangThai": "1",
+        "LoaiMenu": "TiepNhan",
+        "DateFrom": string (dd/MM/yyyy)
+        "DateFrom": string3 (dd/MM/yyyy)
+    * */
+
+
+
   void dispose() {
     listDanhSachKetQuaPakn.value.clear();
   }
+
+
+  static const String ChoTiepNhan = '1';
+  static const String ChoChuyenXuLy = '2';
+  static const String ChoTiepNhanXuLy = '3';
+  static const String ChoPhanCongXuLy = '4,12';
+  static const String ChoDonViDuyet = '5';
+  static const String ChoBoDuyet = '6';
+  static const String ChoDuyet = '6,13,18';
+  static const String ChoChuyenDonVi = '7';
+  static const String DaHoanThanh = '8';
+  static const String ChoBoSungThongTin = '9,22';
+  static const String TuChoiTiepNhan = '10';
+  static const String HuyBo = '11';
+  static const String ChoXuLy = '12';
+  static const String ChoDuyetChuyenDonViXuLy = '13';
+  static const String ChoXacNhanChuyenDonViXuLy = '14';
+  static const String HuyTrinh = '15';
+  static const String HuyDuyet = '16';
+  static const String ThuHoi = '17';
+  static const String ChoDuyetYCPH = '18';
+  static const String ChuyenXuLy = '19';
+  static const String DaPhanCong = '20';
+  static const String PhanXuLy = '21';
+  static const String DangXuLy = '3,4,12';
+  static const String ChoNguoiDanBoSungThongTin = '22';
 }
+
+
+
+

@@ -12,6 +12,7 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
   final Widget? leadingIcon;
+  final Widget? widgetTitle;
   final String title;
   final Color? backGroundColorTablet;
   final List<Widget>? actions;
@@ -20,6 +21,7 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
     Key? key,
     required this.title,
     this.leadingIcon,
+    this.widgetTitle,
     this.actions,
     this.backGroundColorTablet,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
@@ -37,10 +39,11 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
       shadowColor: bgDropDown,
       automaticallyImplyLeading: false,
-      title: Text(
-        title,
-        style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
-      ),
+      title: widgetTitle ??
+          Text(
+            title,
+            style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+          ),
       centerTitle: true,
       leading: leadingIcon,
       actions: actions,

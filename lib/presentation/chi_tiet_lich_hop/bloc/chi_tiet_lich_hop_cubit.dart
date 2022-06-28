@@ -181,6 +181,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<KetLuanHopModel> ketLuanHopSubject = BehaviorSubject();
 
+  KetLuanHopModel get getKetLuanHopModel =>
+      ketLuanHopSubject.valueOrNull ?? KetLuanHopModel();
+
   BehaviorSubject<List<DanhSachNhiemVuLichHopModel>>
       danhSachNhiemVuLichHopSubject = BehaviorSubject();
 

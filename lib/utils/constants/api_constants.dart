@@ -135,7 +135,7 @@ class ApiConstants {
   static const DASHBOARD_THONG_KE = '/vpdt/api/Statistic/statistics';
   static const CO_CAU_LICH_HOP =
       '/vpdt/api/Statistic/statistic-by-type-of-calendar';
-  static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list?';
+  static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list';
   static const MENU_LICH_LV = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
   static const TO_CHUC_BOI_DON_VI =
       '/vpdt/api/Statistic/statistic-by-processing-unit';
@@ -143,7 +143,7 @@ class ApiConstants {
       '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
   static const SUA_LICH_HOP = '/vpdt/api/MeetingSchedule/edit-meeting';
 
-  static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall?';
+  static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall';
 
   static const String POST_FILE_TAO_LICH_HOP =
       '/vpdt/api/Files/add-file-with-meeting';

@@ -173,7 +173,7 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
     }
 
     for (int i = 0; i < checkDuplicate.length && i < maxShow; i++) {
-      if (i== 3){
+      if (i== (maxShow -1 )){
         for (final e in checkDuplicate[i]){
           e.isMore = true;
           resultList.add(e);

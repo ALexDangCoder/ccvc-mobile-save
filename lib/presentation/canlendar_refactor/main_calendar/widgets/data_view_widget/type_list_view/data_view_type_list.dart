@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tie
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class DataViewTypeList extends StatefulWidget {
   const DataViewTypeList({Key? key, required this.cubit}) : super(key: key);
@@ -19,40 +20,47 @@ class DataViewTypeList extends StatefulWidget {
   State<DataViewTypeList> createState() => _DataViewTypeListState();
 }
 
-class _DataViewTypeListState extends State<DataViewTypeList> {
+DateTime getOnlyDate(String dateString) {
+  final date  = dateString.convertStringToDate(
+    formatPattern: DateTimeFormat.DATE_TIME_RECEIVE,
+  );
+  return DateTime(date.year, date.month, date.day);
+}
 
+
+class _DataViewTypeListState extends State<DataViewTypeList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
       ),
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StreamBuilder<List<ListLichLVModel>>(
-              stream: widget.cubit.listWorkStream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                if (data .isNotEmpty) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.length  ,
-                    itemBuilder: (_, index) {
-                      return itemList(data[index]);
-                    },
-                  );
-                }
-                else {
-                  return const NodataWidget();
-                }
+      child: StreamBuilder<List<ListLichLVModel>>(
+        stream: widget.cubit.listWorkStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          if (data.isNotEmpty) {
+            return GroupedListView<ListLichLVModel, DateTime>(
+              elements: data,
+              groupBy: (e) => getOnlyDate(e.dateTimeTo ?? ''),
+              itemBuilder: (_, element) {
+                return itemList(element);
               },
-            ),
-          ],
-        ),
+              groupComparator: (value1, value2) => value1.compareTo(value2),
+              groupSeparatorBuilder: (groupValue) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  groupValue.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            );
+          } else {
+            return const NodataWidget();
+          }
+        },
       ),
     );
   }

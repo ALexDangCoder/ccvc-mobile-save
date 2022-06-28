@@ -50,6 +50,16 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   }
 
   void checkDuplicate(List<AppointmentWithDuplicate> list) {
+    for (final item in list) {
+      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
+      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
+      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
+        item.startTime = DateTime.fromMillisecondsSinceEpoch(
+            item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000);
+        item.endTime = DateTime.fromMillisecondsSinceEpoch(
+            item.endTime.millisecondsSinceEpoch);
+      }
+    }
     final List<AppointmentWithDuplicate> listRemove = [];
     for (final item in list) {
       final currentTimeFrom = item.startTime.millisecondsSinceEpoch;

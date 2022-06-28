@@ -27,6 +27,7 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Table(
+
       border: tableBorder,
       children: [
         if (dowVisible) _buildDaysOfWeek(context),

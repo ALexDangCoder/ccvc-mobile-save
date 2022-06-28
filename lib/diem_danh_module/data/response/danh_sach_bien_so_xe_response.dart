@@ -75,6 +75,8 @@ class ChiTietBienSoXeModelResponse {
   String? id;
   @JsonKey(name: 'userId')
   String? userId;
+  @JsonKey(name: 'pictureId')
+  String? pictureId;
   @JsonKey(name: 'loaiXeMay')
   String? loaiXeMay;
   @JsonKey(name: 'bienKiemSoat')
@@ -85,6 +87,7 @@ class ChiTietBienSoXeModelResponse {
   ChiTietBienSoXeModelResponse({
     this.id,
     this.userId,
+    this.pictureId,
     this.loaiXeMay,
     this.bienKiemSoat,
     this.loaiSoHuu,
@@ -98,6 +101,7 @@ class ChiTietBienSoXeModelResponse {
   ChiTietBienSoXeModel toModel() => ChiTietBienSoXeModel(
         id: id,
         userId: userId,
+        pictureId: pictureId,
         loaiXeMay: loaiXeMay,
         bienKiemSoat: bienKiemSoat,
         loaiSoHuu: loaiSoHuu,

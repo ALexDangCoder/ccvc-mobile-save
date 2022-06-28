@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class ItemLoaiXe extends StatelessWidget {
         color: colorFFFFFF,
         boxShadow: const [
           BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.05),
+            color: shadow,
             blurRadius: 5,
             spreadRadius: 2,
           ),
@@ -71,7 +72,7 @@ class ItemLoaiXe extends StatelessWidget {
                   style: textNormalCustom(
                     color: color667793,
                     fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 Text(
@@ -79,7 +80,7 @@ class ItemLoaiXe extends StatelessWidget {
                   style: textNormalCustom(
                     color: color667793,
                     fontSize: 14.0,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],

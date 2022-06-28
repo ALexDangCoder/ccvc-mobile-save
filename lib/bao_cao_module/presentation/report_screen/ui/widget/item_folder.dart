@@ -7,7 +7,6 @@ import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemFolder extends StatelessWidget {
-
   final int type;
   final int fileNumber;
   final bool isShare;
@@ -22,7 +21,6 @@ class ItemFolder extends StatelessWidget {
     //   required this.funChiaSe,
   }) : super(key: key);
 
-
   //final Function funChiaSe;
 
   @override
@@ -31,9 +29,7 @@ class ItemFolder extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         SvgPicture.asset(
-          type == FOLDER
-              ? ImageAssets.icFileSvg
-              : ImageAssets.icBaoCaoSvg,
+          type == FOLDER ? ImageAssets.icFileSvg : ImageAssets.icBaoCaoSvg,
           width: isListView
               ? type == FOLDER
                   ? 40

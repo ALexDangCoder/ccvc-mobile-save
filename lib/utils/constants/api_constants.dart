@@ -73,6 +73,8 @@ class ApiConstants {
       '/vpdt/api/Schedules/dashboard-schedule';
   static const GET_TREE_DON_VI = '/common/DonVi/get-tree';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
+  static const OFFICERS_JOIN = '/vpdt/api/CanBoThamGia/can-bo-tham-gia-tree';
+  static const OFFICER_JOIN = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
@@ -136,7 +138,7 @@ class ApiConstants {
   static const CO_CAU_LICH_HOP =
       '/vpdt/api/Statistic/statistic-by-type-of-calendar';
   static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list?';
-  static const MENU_LICH_LV = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
+  static const MENU_LICH_LV = '/vpdt/api/Schedules/count-lich-don-vi';
   static const TO_CHUC_BOI_DON_VI =
       '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA =
@@ -149,6 +151,8 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
+  static const THU_HOI_LICH_LAM_VIEC = 'vpdt/api/ScheduleCoperative/change-status-multi';
+  static const CAN_BO_THU_HOI_LICH = ' /CanBoThamGia/can-bo-tham-gia-hop-tree';
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
@@ -287,6 +291,8 @@ class ApiConstants {
       '/vpdt/api/CanBoThamGia/duyet-ky-thuat';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
+  static const DASHBOARD_PAKN_TIEP_NHAN_XU_LY = '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
+  static const DANH_SACH_PAKN_FILTER = '/pakn/api/dashboard-mpi/danh-sach-pakn';
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
   static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';

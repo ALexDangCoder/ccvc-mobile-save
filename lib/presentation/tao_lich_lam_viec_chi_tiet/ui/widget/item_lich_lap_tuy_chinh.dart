@@ -1,12 +1,12 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LichLapTuyChinh extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final CreateWorkCalCubit taoLichLamViecCubit;
 
   const LichLapTuyChinh({Key? key, required this.taoLichLamViecCubit})
       : super(key: key);
@@ -66,7 +66,7 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
 }
 
 class SuaLichLapTuyChinh extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final CreateWorkCalCubit taoLichLamViecCubit;
   final List<int> initDataTuyChinh;
 
   SuaLichLapTuyChinh(

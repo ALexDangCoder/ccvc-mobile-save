@@ -12,7 +12,8 @@ class DataViewCalendarWeek extends StatefulWidget {
     required this.propertyChanged,
     required this.buildAppointment,
     required this.data,
-    required this.fCalendarController, this.onMore,
+    required this.fCalendarController,
+    this.onMore,
   }) : super(key: key);
 
   final Function(String property) propertyChanged;
@@ -44,38 +45,10 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   @override
   void didUpdateWidget(covariant DataViewCalendarWeek oldWidget) {
     super.didUpdateWidget(oldWidget);
-    checkDuplicate(
-      widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
-    );
-  }
-
-  void checkDuplicate(List<AppointmentWithDuplicate> list) {
-    final List<AppointmentWithDuplicate> listRemove = [];
-    for (final item in list) {
-      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
-      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
-      final listDuplicate = list.where((element) {
-        final startTime = element.startTime.millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isDuplicate = true;
-          if (i == 1) {
-            listDuplicate.elementAt(i).isMore = true;
-          }
-          if (i > 1) {
-            listRemove.add(listDuplicate.elementAt(i));
-          }
-        }
-      }
-    }
-    for (final AppointmentWithDuplicate element in listRemove) {
-      list.remove(element);
-    }
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .checkDuplicate();
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .checkMore(2);
   }
 
   DateTime getOnlyDate(DateTime date) =>

@@ -12,13 +12,16 @@ class ItemMenuData {
   ItemMenuData(this.type, this.value);
 }
 
+// ignore: must_be_immutable
 class PopUpMenu extends StatefulWidget {
   final Function(StateType) onChange;
   final List<ItemMenuData> data;
+  ItemMenuData initData;
 
-  const PopUpMenu({
+  PopUpMenu({
     Key? key,
     required this.onChange,
+    required this.initData,
     required this.data,
   }) : super(key: key);
 
@@ -28,18 +31,6 @@ class PopUpMenu extends StatefulWidget {
 
 class _PopUpMenuState extends State<PopUpMenu> {
   final GlobalKey _key = GlobalKey();
-
-  late ItemMenuData currentItem;
-
-  @override
-  void initState() {
-    if (widget.data.isNotEmpty) {
-      currentItem = widget.data.first;
-    } else {
-      currentItem = ItemMenuData(StateType.CHO_XAC_NHAN, 0);
-    }
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +44,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
         width: 140,
         key: _key,
         color: Colors.transparent,
-        child: getMenuView(currentItem, null),
+        child: getMenuView(widget.initData, null),
       ),
     );
   }
@@ -66,11 +57,11 @@ class _PopUpMenuState extends State<PopUpMenu> {
       builder: (BuildContext overlayContext) {
         return DialogSelectWidget(
           offset: position,
-          currentItem: currentItem,
+          currentItem: widget.initData,
           onDismiss: (item) {
             overlayEntry.remove();
             setState(() {
-              currentItem = item ?? currentItem;
+              widget.initData = item ?? widget.initData;
             });
             if (item != null){
               widget.onChange.call(item.type);

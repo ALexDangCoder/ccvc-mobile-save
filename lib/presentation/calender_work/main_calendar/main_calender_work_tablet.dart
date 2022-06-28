@@ -13,7 +13,7 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/widget/custom_i
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/lich_lv_extension.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/widget_select_option_header.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/tao_lich_lam_viec_chi_tiet_tablet.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/create_calendar_work_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
@@ -162,7 +162,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              const TaoLichLamViecChiTietTablet(),
+                              const CreateCalendarWorkTablet(),
                         ),
                       );
                     },

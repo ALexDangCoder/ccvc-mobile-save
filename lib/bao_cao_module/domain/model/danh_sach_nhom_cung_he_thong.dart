@@ -1,5 +1,3 @@
-
-
 class NhomCungHeThong {
   String? tenNhom;
   String? idNhom;

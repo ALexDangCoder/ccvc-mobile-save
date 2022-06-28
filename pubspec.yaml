@@ -97,6 +97,7 @@ dependencies:
   transparent_pointer: ^1.0.0
   #lazy load more
   infinite_scroll_pagination: 3.0.1
+  grouped_list: ^5.1.2
 
 dev_dependencies:
   flutter_test:

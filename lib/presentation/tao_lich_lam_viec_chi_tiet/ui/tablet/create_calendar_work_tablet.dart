@@ -4,9 +4,9 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_state.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/custom_switch_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_dat_nuoc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
@@ -40,37 +40,36 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TaoLichLamViecChiTietTablet extends StatefulWidget {
-  const TaoLichLamViecChiTietTablet({Key? key}) : super(key: key);
+class CreateCalendarWorkTablet extends StatefulWidget {
+  const CreateCalendarWorkTablet({Key? key}) : super(key: key);
 
   @override
-  _TaoLichLamViecChiTietTabletState createState() =>
-      _TaoLichLamViecChiTietTabletState();
+  _CreateCalendarWorkTabletState createState() =>
+      _CreateCalendarWorkTabletState();
 }
 
-class _TaoLichLamViecChiTietTabletState
-    extends State<TaoLichLamViecChiTietTablet> {
-  final TaoLichLamViecCubit taoLichLamViecCubit = TaoLichLamViecCubit();
+class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
+  final CreateWorkCalCubit createCubit = CreateWorkCalCubit();
   final _formKey = GlobalKey<FormState>();
-  TextEditingController tieuDeController = TextEditingController();
-  TextEditingController noiDungController = TextEditingController();
-  TextEditingController diaDiemController = TextEditingController();
-  bool timeValue = true;
-  bool calValue = true;
-  late DateTimeCupertinoCustomCubit calCubit;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  bool pickTimeValidatorValue = true;
+  bool chooseTypeCalendarValidatorValue = true;
+  late DateTimeCupertinoCustomCubit cupertinoMaterialCubit;
   final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    calCubit = DateTimeCupertinoCustomCubit();
-    taoLichLamViecCubit.loadData();
+    cupertinoMaterialCubit = DateTimeCupertinoCustomCubit();
+    createCubit.loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TaoLichLamViecCubit, TaoLichLamViecState>(
-      bloc: taoLichLamViecCubit,
+    return BlocListener<CreateWorkCalCubit, CreateWorkCalState>(
+      bloc: createCubit,
       listener: (context, state) {
         if (state is CreateSuccess) {
           showDiaLog(
@@ -85,18 +84,18 @@ class _TaoLichLamViecChiTietTabletState
             icon: SvgPicture.asset(ImageAssets.icTaoLichLamViecThanhCong),
           ).then((value) {
             if (value == null) {
-              Navigator.pop(context, true);
+              Navigator.pop(context);
             }
             if (value) {
-              Navigator.pop(context, true);
+              Navigator.pop(context);
             } else {
               Navigator.pop(context, false);
             }
           });
         } else {}
       },
-      child: WidgetTaoLichLVInherited(
-        taoLichLamViecCubit: taoLichLamViecCubit,
+      child: CreateWorkCalendarProvide(
+        taoLichLamViecCubit: createCubit,
         child: Scaffold(
           backgroundColor: bgWidgets,
           appBar: AppBar(
@@ -128,10 +127,10 @@ class _TaoLichLamViecChiTietTabletState
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              await taoLichLamViecCubit.loadData();
+              await createCubit.loadData();
             },
-            child: ProviderWidget<TaoLichLamViecCubit>(
-              cubit: taoLichLamViecCubit,
+            child: ProviderWidget<CreateWorkCalCubit>(
+              cubit: createCubit,
               child: StateStreamLayout(
                 textEmpty: S.current.khong_co_du_lieu,
                 retry: () {},
@@ -139,7 +138,7 @@ class _TaoLichLamViecChiTietTabletState
                   S.current.error,
                   S.current.error,
                 ),
-                stream: taoLichLamViecCubit.stateStream,
+                stream: createCubit.stateStream,
                 child: FormGroup(
                   key: _formKey,
                   child: ExpandGroup(
@@ -187,7 +186,7 @@ class _TaoLichLamViecChiTietTabletState
                                           ),
                                         ),
                                         TextFormWidget(
-                                          controller: tieuDeController,
+                                          controller: titleController,
                                           image: ImageAssets.icEdit,
                                           hint: S.current.tieu_de,
                                           validator: (value) {
@@ -196,16 +195,15 @@ class _TaoLichLamViecChiTietTabletState
                                           },
                                         ),
                                         LoaiLichWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
+                                          taoLichLamViecCubit: createCubit,
                                           callback: (bool value) {
-                                            calValue = value;
+                                            chooseTypeCalendarValidatorValue =
+                                                value;
                                           },
                                         ),
                                         CupertinoMaterialPicker(
                                           onSwitchPressed: (value) {
-                                            taoLichLamViecCubit
-                                                .isCheckAllDaySubject
+                                            createCubit.isCheckAllDaySubject
                                                 .add(value);
                                           },
                                           onDateTimeChanged: (
@@ -214,7 +212,7 @@ class _TaoLichLamViecChiTietTabletState
                                             String dateStart,
                                             String dateEnd,
                                           ) {
-                                            sendData(
+                                            sinkData(
                                               dateEnd,
                                               timeEnd,
                                               dateStart,
@@ -222,26 +220,27 @@ class _TaoLichLamViecChiTietTabletState
                                             );
                                           },
                                           validateTime: (String value) {
-                                            timeValue = value.isNotEmpty;
+                                            pickTimeValidatorValue =
+                                                value.isNotEmpty;
                                           },
-                                          cubit: calCubit,
+                                          cubit: cupertinoMaterialCubit,
                                         ),
                                         NhacLaiWidget(
-                                          cubit: taoLichLamViecCubit,
+                                          cubit: createCubit,
                                         ),
                                         NguoiChuTriWidget(
-                                          cubit: taoLichLamViecCubit,
+                                          cubit: createCubit,
                                         ),
                                         LinhVucWidget(
-                                          cubit: taoLichLamViecCubit,
+                                          cubit: createCubit,
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               top: 16.0, left: 30.0),
                                           child: CustomSwitchWidget(
                                             onToggle: (value) {
-                                              taoLichLamViecCubit
-                                                  .publishSchedule = value;
+                                              createCubit.publishSchedule =
+                                                  value;
                                             },
                                             value: false,
                                           ),
@@ -257,8 +256,7 @@ class _TaoLichLamViecChiTietTabletState
                                         ),
                                         //tinh
                                         StreamBuilder<bool>(
-                                          stream: taoLichLamViecCubit
-                                              .checkTrongNuoc,
+                                          stream: createCubit.checkTrongNuoc,
                                           builder: (context, snapshot) {
                                             final data = snapshot.data ?? false;
                                             if (!data) {
@@ -266,27 +264,27 @@ class _TaoLichLamViecChiTietTabletState
                                                 children: [
                                                   ItemTinhWidget(
                                                     taoLichLamViecCubit:
-                                                        taoLichLamViecCubit,
+                                                        createCubit,
                                                   ),
                                                   ItemHuyenWidget(
                                                     taoLichLamViecCubit:
-                                                        taoLichLamViecCubit,
+                                                        createCubit,
                                                   ),
                                                   ItemXaWidget(
                                                     taoLichLamViecCubit:
-                                                        taoLichLamViecCubit,
+                                                        createCubit,
                                                   ),
                                                 ],
                                               );
                                             } else {
                                               return ItemDatNuocWidget(
-                                                cubit: taoLichLamViecCubit,
+                                                cubit: createCubit,
                                               );
                                             }
                                           },
                                         ),
                                         TextFormWidget(
-                                          controller: diaDiemController,
+                                          controller: locationController,
                                           image: ImageAssets.icViTri,
                                           hint: S.current.dia_diem,
                                           validator: (value) {
@@ -294,10 +292,10 @@ class _TaoLichLamViecChiTietTabletState
                                           },
                                         ),
                                         LichLapWidget(
-                                          cubit: taoLichLamViecCubit,
+                                          cubit: createCubit,
                                         ),
                                         StreamBuilder<bool>(
-                                            stream: taoLichLamViecCubit
+                                            stream: createCubit
                                                 .lichLapTuyChinhSubject.stream,
                                             builder: (context, snapshot) {
                                               final data =
@@ -305,12 +303,12 @@ class _TaoLichLamViecChiTietTabletState
                                               return data
                                                   ? LichLapTuyChinh(
                                                       taoLichLamViecCubit:
-                                                          taoLichLamViecCubit,
+                                                          createCubit,
                                                     )
                                                   : Container();
                                             }),
                                         StreamBuilder<bool>(
-                                            stream: taoLichLamViecCubit
+                                            stream: createCubit
                                                 .lichLapKhongLapLaiSubject
                                                 .stream,
                                             builder: (context, snapshot) {
@@ -319,13 +317,13 @@ class _TaoLichLamViecChiTietTabletState
                                               return data
                                                   ? ItemLapDenNgayWidget(
                                                       taoLichLamViecCubit:
-                                                          taoLichLamViecCubit,
+                                                          createCubit,
                                                       isThem: true,
                                                     )
                                                   : Container();
                                             }),
                                         TextFormWidget(
-                                          controller: noiDungController,
+                                          controller: contentController,
                                           image: ImageAssets.icDocument,
                                           hint: S.current.noi_dung,
                                         ),
@@ -339,8 +337,7 @@ class _TaoLichLamViecChiTietTabletState
                                     child: Column(
                                       children: [
                                         ThanhPhanThamGiaTLWidget(
-                                          taoLichLamViecCubit:
-                                              taoLichLamViecCubit,
+                                          taoLichLamViecCubit: createCubit,
                                         ),
                                         TaiLieuWidget(),
                                       ],
@@ -355,7 +352,7 @@ class _TaoLichLamViecChiTietTabletState
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                buttomWidget(
+                                bottomButtonWidget(
                                   title: S.current.dong,
                                   background: AppTheme.getInstance()
                                       .colorField()
@@ -369,7 +366,7 @@ class _TaoLichLamViecChiTietTabletState
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                buttomWidget(
+                                bottomButtonWidget(
                                   title: S.current.luu,
                                   background:
                                       AppTheme.getInstance().colorField(),
@@ -398,61 +395,60 @@ class _TaoLichLamViecChiTietTabletState
   }
 
   Future<void> validateField() async {
-    if (_formKey.currentState!.validate() && !timeValue && !calValue) {
-      if (taoLichLamViecCubit.lichLapKhongLapLaiSubject.value) {
-        await taoLichLamViecCubit.taoLichLamViec(
-          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-        );
-      } else {
-        await taoLichLamViecCubit.checkTrungLich(
-          context: context,
-          title: tieuDeController.value.text.trim().replaceAll(' +', ' '),
-          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
-        );
-      }
+    _formKey.currentState!.validate();
+    if (_formKey.currentState!.validate() &&
+        !pickTimeValidatorValue &&
+        !chooseTypeCalendarValidatorValue) {
+      await createCubit.checkDuplicate(
+        context: context,
+        title: titleController.value.text.removeSpace,
+        content: contentController.value.text.removeSpace,
+        location: locationController.value.text.removeSpace,
+      );
     }
-    if (timeValue) {
-      calCubit.validateTime.sink.add(
+    if (pickTimeValidatorValue) {
+      cupertinoMaterialCubit.validateTime.sink.add(
         S.current.ban_phai_chon_thoi_gian,
       );
     }
-    if (calValue) {
-      taoLichLamViecCubit.checkCal.sink.add(true);
+    if (chooseTypeCalendarValidatorValue) {
+      createCubit.checkChooseTypeCal.sink.add(true);
     }
   }
 
-  void sendData(
+  void sinkData(
     String dateEnd,
     String timeEnd,
     String dateStart,
     String timeStart,
   ) {
-    taoLichLamViecCubit.checkValidateTime();
-    taoLichLamViecCubit.listeningEndDataTime(
-      DateTime.parse(
-        timeFormat(
-          '$dateEnd $timeEnd',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT,
+    createCubit.checkValidateTime();
+    if (timeEnd != INIT_TIME_PICK && dateEnd != INIT_DATE_PICK) {
+      createCubit.listeningEndDataTime(
+        DateTime.parse(
+          timeFormat(
+            '$dateEnd $timeEnd',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT,
+          ),
         ),
-      ),
-    );
-    taoLichLamViecCubit.listeningStartDataTime(
-      DateTime.parse(
-        timeFormat(
-          '$dateStart $timeStart',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT,
+      );
+    }
+    if (timeStart != INIT_TIME_PICK && dateStart != INIT_DATE_PICK) {
+      createCubit.listeningStartDataTime(
+        DateTime.parse(
+          timeFormat(
+            '$dateStart $timeStart',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 
-Widget buttomWidget({
+Widget bottomButtonWidget({
   required String title,
   required Color background,
   required Color textColor,

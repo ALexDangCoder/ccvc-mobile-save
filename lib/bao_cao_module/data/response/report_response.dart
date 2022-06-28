@@ -121,5 +121,6 @@ class ReportItemsResponse {
         isOwner: isOwner,
         dateTime: createdAt,
         isPin: isPin,
+        status: status,
       );
 }

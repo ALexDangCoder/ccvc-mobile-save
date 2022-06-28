@@ -1,15 +1,18 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
-import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class DataViewTypeList extends StatefulWidget {
   const DataViewTypeList({Key? key, required this.cubit}) : super(key: key);
@@ -20,105 +23,69 @@ class DataViewTypeList extends StatefulWidget {
   State<DataViewTypeList> createState() => _DataViewTypeListState();
 }
 
-class _DataViewTypeListState extends State<DataViewTypeList> {
-  @override
-  void initState() {
-    widget.cubit.worksPagingController.addPageRequestListener((pageKey) {
-      widget.cubit.getListWorkLoadMore(
-        pageIndex: pageKey,
-      );
-    });
-    super.initState();
-  }
+DateTime getOnlyDate(String dateString) {
+  final date = dateString.convertStringToDate(
+    formatPattern: DateTimeFormat.DATE_TIME_RECEIVE,
+  );
+  return DateTime(date.year, date.month, date.day);
+}
 
+class _DataViewTypeListState extends State<DataViewTypeList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
       ),
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StreamBuilder<bool>(
-              stream: widget.cubit.isLichDuocMoiStream,
-              builder: (context, snapshot) {
-                final isLichDuocMoi = snapshot.data ?? false;
-                if (isLichDuocMoi) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: StreamBuilder<DashBoardLichHopModel>(
-                        stream: widget.cubit.totalWorkStream,
-                        builder: (context, snapshot) {
-                          final data =
-                              snapshot.data ?? DashBoardLichHopModel.empty();
-                          return PopUpMenu(
-                            data: [
-                              ItemMenuData(
-                                StateType.CHO_XAC_NHAN,
-                                data.soLichChoXacNhan ?? 0,
-                              ),
-                              ItemMenuData(
-                                StateType.THAM_GIA,
-                                data.soLichThamGia ?? 0,
-                              ),
-                              ItemMenuData(
-                                StateType.TU_CHOI,
-                                data.soLichTuChoi ?? 0,
-                              ),
-                            ],
-                            onChange: (type) {
-                              widget.cubit.stateType = type;
-                              widget.cubit.worksPagingController.refresh();
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
+      child: StreamBuilder<List<ListLichLVModel>>(
+        stream: widget.cubit.listWorkStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          if (data.isNotEmpty) {
+            return GroupedListView<ListLichLVModel, DateTime>(
+              elements: data,
+              groupBy: (e) => getOnlyDate(e.dateTimeFrom ?? ''),
+              itemBuilder: (_, element) {
+                return itemList(element);
               },
-            ),
-            PagedListView<int, ListLichLVModel>(
-              pagingController: widget.cubit.worksPagingController,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              builderDelegate: PagedChildBuilderDelegate<ListLichLVModel>(
-                noItemsFoundIndicatorBuilder: (_) => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: NodataWidget(),
+              groupComparator: (value1, value2) => value1.compareTo(value2),
+              groupSeparatorBuilder: (groupValue) => Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${groupValue.getDayofWeekTxt()}, ${groupValue.formatMonth}',
+                    textAlign: TextAlign.center,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: AppTheme.getInstance().unselectedLabelColor(),
+                    ),
+                  ),
                 ),
-                itemBuilder: (context, item, index) => GestureDetector(
-                  onTap: () {
-                    // push detail screen
-                  },
-                  child: itemList(item),
-                ),
-
               ),
-            ),
-          ],
-        ),
+            );
+          } else {
+            return const SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: SizedBox(height: 300, child: NodataWidget()),
+            );
+          }
+        },
       ),
     );
   }
 
   Widget itemList(ListLichLVModel item) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         final TypeCalendar typeAppointment =
-        getType(item.typeSchedule ?? 'Schedule');
+            getType(item.typeSchedule ?? 'Schedule');
         if (typeAppointment == TypeCalendar.Schedule) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ChiTietLichLamViecScreen(
-                id: item.id  ?? '',
+                id: item.id ?? '',
               ),
             ),
           );
@@ -188,7 +155,8 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                       Expanded(
                         child: item.isTrung
                             ? Container(
-                                padding: const EdgeInsets.only(top: 3, left: 15),
+                                padding:
+                                    const EdgeInsets.only(top: 3, left: 15),
                                 decoration: BoxDecoration(
                                   color: statusCalenderRed.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(30),
@@ -213,7 +181,11 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: 8),
                     child: Text(
-                      '${item.dateTimeFrom} - ${item.dateTimeTo}',
+                      '${item.dateTimeFrom?.formatTimeWithJm(
+                        DateTimeFormat.DATE_TIME_RECEIVE,
+                      )} - ${item.dateTimeTo?.formatTimeWithJm(
+                        DateTimeFormat.DATE_TIME_RECEIVE,
+                      )}',
                       style: textNormalCustom(
                         color: textBodyTime,
                         fontWeight: FontWeight.w400,
@@ -221,16 +193,18 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                     ),
                   ),
                   Container(
+                    clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.only(right: 4.0),
                     height: 24.0,
                     width: 24.0,
-                    decoration: const  BoxDecoration(
-                      color: Colors.red,
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage('',),
-                      ),
+                    ),
+                    child: Image.network(
+                      '',
+                      errorBuilder: (_, __, ___) => Image.asset(ImageAssets.anhDaiDienMacDinh),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ],

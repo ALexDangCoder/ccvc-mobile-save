@@ -111,7 +111,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                       },
                       controller: cubit.controller,
                       onChangeYear: (startDate, endDate, keySearch) {
-                        cubit.dayHaveEvent(startDate, endDate, keySearch);
+                        cubit.dayHaveEvent(startDate: startDate,endDate: endDate);
                       },
                     );
                   }),
@@ -194,7 +194,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                           StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
                         ),
                         title: S.current.lich_da_co_bao_cao,
-                        count: data.soLichCoBaoCaoDaDuyet ?? 0,
+                        count: data.tongSoLichCoBaoCao ?? 0,
                       ),
                       ChildMenu(
                         value: StatusDataItem(

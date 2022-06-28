@@ -157,6 +157,7 @@ class DanhSachKetQuaPAKNResponse {
         noiDung: noiDung,
         nguonPAKNId: nguonPAKNId,
         luatId: luatId,
+        soNgayToiHan: soNgayToiHan,
         donViGuiYeuCau: donViGuiYeuCau,
         noiDungPAKNId: noiDungPAKNId,
         linhVucPAKNId: linhVucPAKNId,

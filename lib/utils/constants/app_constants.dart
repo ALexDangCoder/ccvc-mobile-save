@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 enum AppMode { MAC_DINH, XANH, HONG, VANG }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }

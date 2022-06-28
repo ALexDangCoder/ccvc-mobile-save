@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/diem_danh_module/data/request/bang_diem_danh_ca_nhan_request.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/request/danh_sach_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/get_all_files_id_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/bang_diem_danh_ca_nhan_response.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/response/danh_sach_bien_so_xe_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/get_all_files_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/post_file_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/thong_ke_diem_danh_ca_nhan_response.dart';
@@ -33,6 +35,11 @@ abstract class DiemDanhService {
   Future<GetAllFilesResponse> getAllFilesId(
     @Body() GetAllFilesRequest body,
   );
+
+  @POST(ApiConstants.DANH_SACH_BIEN_SO_XE)
+  Future<DataListItemChiTietBienSoXeModelResponse> danhSachBienSoXe(
+      @Body() DanhSachBienSoXeRequest danhSachBienSoXeRequest,
+      );
 
   @POST(ApiConstants.POST_FILE)
   Future<PostFileResponse> postFile(

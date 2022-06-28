@@ -1,14 +1,18 @@
 import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class DataViewTypeList extends StatefulWidget {
   const DataViewTypeList({Key? key, required this.cubit}) : super(key: key);
@@ -19,40 +23,54 @@ class DataViewTypeList extends StatefulWidget {
   State<DataViewTypeList> createState() => _DataViewTypeListState();
 }
 
-class _DataViewTypeListState extends State<DataViewTypeList> {
+DateTime getOnlyDate(String dateString) {
+  final date = dateString.convertStringToDate(
+    formatPattern: DateTimeFormat.DATE_TIME_RECEIVE,
+  );
+  return DateTime(date.year, date.month, date.day);
+}
 
+class _DataViewTypeListState extends State<DataViewTypeList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
       ),
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StreamBuilder<List<ListLichLVModel>>(
-              stream: widget.cubit.listWorkStream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                if (data .isNotEmpty) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.length  ,
-                    itemBuilder: (_, index) {
-                      return itemList(data[index]);
-                    },
-                  );
-                }
-                else {
-                  return const NodataWidget();
-                }
+      child: StreamBuilder<List<ListLichLVModel>>(
+        stream: widget.cubit.listWorkStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          if (data.isNotEmpty) {
+            return GroupedListView<ListLichLVModel, DateTime>(
+              elements: data,
+              groupBy: (e) => getOnlyDate(e.dateTimeFrom ?? ''),
+              itemBuilder: (_, element) {
+                return itemList(element);
               },
-            ),
-          ],
-        ),
+              groupComparator: (value1, value2) => value1.compareTo(value2),
+              groupSeparatorBuilder: (groupValue) => Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${groupValue.getDayofWeekTxt()}, ${groupValue.formatMonth}',
+                    textAlign: TextAlign.center,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: AppTheme.getInstance().unselectedLabelColor(),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return const SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: SizedBox(height: 300, child: NodataWidget()),
+            );
+          }
+        },
       ),
     );
   }
@@ -163,12 +181,10 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: 8),
                     child: Text(
-                      '${item.dateTimeFrom?.changeToNewPatternDate(
+                      '${item.dateTimeFrom?.formatTimeWithJm(
                         DateTimeFormat.DATE_TIME_RECEIVE,
-                        DateTimeFormat.DATE_DD_MM_HM,
-                      )} - ${item.dateTimeTo?.changeToNewPatternDate(
+                      )} - ${item.dateTimeTo?.formatTimeWithJm(
                         DateTimeFormat.DATE_TIME_RECEIVE,
-                        DateTimeFormat.DATE_DD_MM_HM,
                       )}',
                       style: textNormalCustom(
                         color: textBodyTime,
@@ -177,18 +193,18 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                     ),
                   ),
                   Container(
+                    clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.only(right: 4.0),
                     height: 24.0,
                     width: 24.0,
                     decoration: const BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.black,
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          '',
-                        ),
-                      ),
+                    ),
+                    child: Image.network(
+                      '',
+                      errorBuilder: (_, __, ___) => Image.asset(ImageAssets.anhDaiDienMacDinh),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ],

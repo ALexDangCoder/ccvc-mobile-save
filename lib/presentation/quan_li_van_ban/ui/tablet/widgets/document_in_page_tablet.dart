@@ -123,6 +123,10 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                       padding: EdgeInsets.symmetric(vertical: 24),
                       child: NodataWidget(),
                     ),
+                    firstPageErrorIndicatorBuilder: (_) => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: NodataWidget(),
+                    ),
                     itemBuilder: (context, item, index) => Padding(
                       padding: EdgeInsets.only(
                         bottom: 16,

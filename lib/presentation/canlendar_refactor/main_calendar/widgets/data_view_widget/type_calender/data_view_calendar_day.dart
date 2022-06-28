@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -37,56 +36,23 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     super.initState();
   }
 
+  DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
+
   @override
   void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
     super.didUpdateWidget(oldWidget);
-    checkDuplicate(
-      widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
-    );
-    log('${widget.data}');
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .checkDuplicate();
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .checkMore(4);
   }
 
-  void checkDuplicate(List<AppointmentWithDuplicate> list) {
-    final List<AppointmentWithDuplicate> listRemove = [];
-    for (final item in list) {
-      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
-      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
-      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
-        item.startTime = DateTime.fromMillisecondsSinceEpoch(
-            item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000);
-        item.endTime = DateTime.fromMillisecondsSinceEpoch(
-            item.endTime.millisecondsSinceEpoch);
-      }
-      final listDuplicate = list.where((element) {
-        final startTime = element.startTime.millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isDuplicate = true;
-          listDuplicate.elementAt(i).isMore = i == 3;
-          if (i > 3) {
-            listRemove.add(listDuplicate.elementAt(i));
-          }
-        }
-      }
-    }
-    for (final AppointmentWithDuplicate element in listRemove) {
-      list.remove(element);
-    }
-
-  }
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController
         .addPropertyChangedListener(widget.propertyChanged);
   }
-
-  DateTime getOnlyDate(DateTime date) =>
-      DateTime(date.year, date.month, date.day);
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +96,96 @@ class DataSourceFCalendar extends CalendarDataSource {
   DataSourceFCalendar(List<AppointmentWithDuplicate> source) {
     appointments = source;
   }
+
   DataSourceFCalendar.empty() {
-    appointments = [];
+    appointments = <AppointmentWithDuplicate>[];
   }
 }
+
+extension CheckDuplicate on List<AppointmentWithDuplicate> {
+  DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
+
+  void checkDuplicate() {
+    for (final item in this) {
+      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
+      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
+      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
+        item.startTime = DateTime.fromMillisecondsSinceEpoch(
+          item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000,
+        );
+        item.endTime = DateTime.fromMillisecondsSinceEpoch(
+          item.endTime.millisecondsSinceEpoch,
+        );
+      }
+      final listDuplicate = where((element) {
+        final startTime = item.startTime.millisecondsSinceEpoch;
+        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
+          return true;
+        }
+        return false;
+      });
+      if (listDuplicate.length > 1) {
+        for (int i = 0; i < listDuplicate.length; i++) {
+          listDuplicate.elementAt(i).isDuplicate = true;
+        }
+      }
+    }
+  }
+
+  void checkMore(int maxShow) {
+    final List<AppointmentWithDuplicate> rootListTmp = [];
+    final List<AppointmentWithDuplicate> resultList = [];
+    final List<List<AppointmentWithDuplicate>> checkDuplicate = [];
+    final List<DateTime> endTimeDataTmp = [];
+
+    // remove Appointment full day
+    for (final AppointmentWithDuplicate e in this) {
+      if (getOnlyDate(e.startTime) != getOnlyDate(e.endTime)) {
+        resultList.add(e);
+      } else {
+        rootListTmp.add(e);
+      }
+    }
+    // sort
+    rootListTmp.sort((item1, item2) {
+      return item1.startTime.compareTo(item2.startTime);
+    });
+
+    // group lists no duplicate
+    while (rootListTmp.isNotEmpty) {
+      int? indexAdd;
+      for (int i = 0; i < endTimeDataTmp.length; i++) {
+        if (endTimeDataTmp[i].millisecondsSinceEpoch <=
+            rootListTmp.first.startTime.millisecondsSinceEpoch) {
+          indexAdd = i;
+          break;
+        }
+      }
+      if (indexAdd == null) {
+        checkDuplicate.add([rootListTmp.first]);
+        endTimeDataTmp.add(rootListTmp.first.endTime);
+      } else {
+        endTimeDataTmp[indexAdd] = rootListTmp.first.endTime;
+        checkDuplicate[indexAdd].add(rootListTmp.first);
+      }
+      rootListTmp.remove(rootListTmp.first);
+    }
+
+    for (int i = 0; i < checkDuplicate.length && i < maxShow; i++) {
+      if (i== (maxShow -1 )){
+        for (final e in checkDuplicate[i]){
+          e.isMore = true;
+          resultList.add(e);
+        }
+      }else{
+        resultList.addAll(checkDuplicate[i]);
+      }
+
+    }
+    clear();
+    addAll(resultList);
+  }
+}
+
+

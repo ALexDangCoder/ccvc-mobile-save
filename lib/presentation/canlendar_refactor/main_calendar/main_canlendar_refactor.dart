@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -13,7 +12,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widget
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/main_data_view.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
@@ -111,10 +110,10 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                       },
                       controller: cubit.controller,
                       onChangeYear: (startDate, endDate, keySearch) {
-                        cubit.dayHaveEvent(startDate, endDate, keySearch);
+                        cubit.dayHaveEvent(startDate: startDate,endDate: endDate);
                       },
                     );
-                  }),
+                  },),
               Expanded(
                   child: MouseRegion(
                       onHover: (_) {
@@ -129,7 +128,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const TaoLichLamViecChiTietScreen(),
+                builder: (context) => const CreateCalendarWorkMobile(),
               ),
             );
           },
@@ -194,7 +193,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                           StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
                         ),
                         title: S.current.lich_da_co_bao_cao,
-                        count: data.soLichCoBaoCaoDaDuyet ?? 0,
+                        count: data.tongSoLichCoBaoCao ?? 0,
                       ),
                       ChildMenu(
                         value: StatusDataItem(

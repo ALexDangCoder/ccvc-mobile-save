@@ -1153,7 +1153,9 @@
   "duyet_thanh_cong": "Duyệt lịch thành công",
   "duyet_khong_thanh_cong": "Duyệt  lịch không thành công",
   "soan_ket_luan_hop": "Soạn kết luận họp",
-  "them_don_vi_phoi_hop_khac": "Thêm đơn vị phối hợp khác"
+  "them_don_vi_phoi_hop_khac": "Thêm đơn vị phối hợp khác",
+  "cu_can_bo_thanh_cong": "Cử cán bộ thành công",
+  "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công"
 }
 
 

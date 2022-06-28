@@ -39,7 +39,6 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       success: (res) {
         dataThuHoi = res.where((element) => element.trangThai != 4).toList();
         listThuHoi.sink.add(dataThuHoi);
-        idDanhSachCanBo = res.first.id ?? '';
       },
       error: (error) {},
     );

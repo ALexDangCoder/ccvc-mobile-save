@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
@@ -75,6 +76,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<String> selectPhatBieu = [];
   String idCuocHop = '';
   String idDanhSachCanBo = '';
+  String idCanBoDiThay = '';
   List<LoaiSelectModel> listLoaiHop = [];
   String? ngaySinhs;
   String chonNgay = '';
@@ -236,9 +238,10 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       initDataButton();
     }
 
-    getDanhSachThuHoiLichHop(idCuocHop);
+    await getDanhSachThuHoiLichHop(idCuocHop);
 
-    getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    await getDanhSachCanBoHop(idCuocHop);
   }
 
   Future<void> getDanhSachNTGChuongTrinhHop({
@@ -271,32 +274,78 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     return isCheck;
   }
 
-  //todo
-  Future<void> cuCanBoDiThay({
-    required String id,
+  Future<bool> cuCanBoDiThay({
     required List<CanBoDiThay>? canBoDiThay,
   }) async {
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
-      id: id,
+      id: idCanBoDiThay,
       lichHopId: idCuocHop,
       canBoDiThay: canBoDiThay,
     );
+    bool isCheck = true;
     showLoading();
     final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
     result.when(
       success: (res) {
         MessageConfig.show(
-          title: S.current.thay_doi_thanh_cong,
+          title: S.current.cu_can_bo_thanh_cong,
         );
+        isCheck = true;
       },
       error: (error) {
-        MessageConfig.show(
-          title: S.current.khong,
-          messState: MessState.error,
-        );
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
       },
     );
     showContent();
+    return isCheck;
+  }
+
+  Future<bool> cuCanBo({
+    required List<CanBoDiThay>? canBoDiThay,
+  }) async {
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: idDanhSachCanBo,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    bool isCheck = true;
+    showLoading();
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
+      },
+    );
+    showContent();
+    return isCheck;
   }
 
   bool loaiBieuQ = false;

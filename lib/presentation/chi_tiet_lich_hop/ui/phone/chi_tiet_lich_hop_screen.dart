@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
@@ -26,6 +27,7 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -44,6 +46,7 @@ class DetailMeetCalenderScreen extends StatefulWidget {
 class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
   final ThanhPhanThamGiaCubit _cubitThanhPhan = ThanhPhanThamGiaCubit();
+  final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
 
   @override
   void initState() {
@@ -51,6 +54,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit.idCuocHop = widget.id;
     _cubitThanhPhan.getTree();
     cubit.initDataChiTiet(needCheckPermission: true);
+    cubit.getDanhSachCanBoHop(widget.id);
   }
 
   @override
@@ -64,7 +68,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
       ),
       stream: cubit.stateStream,
       child: Scaffold(
-        appBar: appbarChiTietHop(cubit, context,_cubitThanhPhan),
+        appBar:
+            appbarChiTietHop(cubit, context, _cubitThanhPhan, themCanBoCubit),
         body: ProviderWidget<DetailMeetCalenderCubit>(
           cubit: cubit,
           child: ExpandGroup(
@@ -305,6 +310,7 @@ PreferredSizeWidget appbarChiTietHop(
   DetailMeetCalenderCubit cubit,
   BuildContext context,
   ThanhPhanThamGiaCubit thanhPhanThamGiaCubit,
+  ThemCanBoCubit themCanBoCubit,
 ) =>
     BaseAppBar(
       title: S.current.chi_tiet_lich_hop,
@@ -330,6 +336,7 @@ PreferredSizeWidget appbarChiTietHop(
                         context,
                         cubit,
                         thanhPhanThamGiaCubit,
+                        themCanBoCubit,
                       ),
                     )
                     .toList(),

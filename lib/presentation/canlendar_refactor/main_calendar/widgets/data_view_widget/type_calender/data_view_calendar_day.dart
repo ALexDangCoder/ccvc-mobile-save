@@ -98,7 +98,7 @@ class DataSourceFCalendar extends CalendarDataSource {
   }
 
   DataSourceFCalendar.empty() {
-    appointments = [];
+    appointments = <AppointmentWithDuplicate>[];
   }
 }
 

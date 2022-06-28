@@ -33,7 +33,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
-      stream: widget.cubit.nhanDienbienSoxe,
+      stream: widget.cubit.nhanDienbienSoxeSubject,
       builder: (context, snapshot) {
         final data = snapshot.data;
         if (data == true) {
@@ -97,9 +97,9 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                     ),
                     spaceH20,
                     ItemLoaiXe(
-                      titleXeMay: widget.cubit.xeMay,
-                      titleBienKiemSoat: widget.cubit.bienKiemSoat,
-                      titleLoaiSoHuu: widget.cubit.loaiSoHuu,
+                      titleXeMay: widget.cubit.xeMay??'',
+                      titleBienKiemSoat: widget.cubit.bienKiemSoat??'',
+                      titleLoaiSoHuu: widget.cubit.loaiSoHuu??'',
                     ),
                     spaceH24,
                     DoubleButtonBottom(
@@ -190,7 +190,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const DangKyThongTinXeMoi(),
+                                       DangKyThongTinXeMoi(cubit: widget.cubit),
                                 ),
                               );
                             }),

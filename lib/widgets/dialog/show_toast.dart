@@ -6,15 +6,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ShowToast extends StatelessWidget {
   final String text;
+  final String? icon;
+  final Color?color;
 
-  const ShowToast({Key? key, required this.text}) : super(key: key);
+  const ShowToast({Key? key, required this.text, this.icon, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: redChart.withOpacity(0.1),
+        color: color??redChart.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -23,7 +25,7 @@ class ShowToast extends StatelessWidget {
           SizedBox(
             width: 20,
             height: 20,
-            child: SvgPicture.asset(ImageAssets.icError),
+            child: SvgPicture.asset(icon??ImageAssets.icError),
           ),
           spaceW12,
           Text(

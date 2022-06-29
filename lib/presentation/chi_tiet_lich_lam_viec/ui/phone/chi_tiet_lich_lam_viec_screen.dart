@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -12,7 +13,9 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_c
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/show_bottom_sheet_ds_y_Kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
+import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/base_popup.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
@@ -139,17 +142,32 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   );
                                 },
                               ),
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icRecall,
-                                text: S.current.thu_hoi,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    child: Text(''),
-                                    title: S.current.thu_hoi_lich,
-                                  );
-                                },
-                              ),
+                              if ((dataModel.createBy?.id ?? '') ==
+                                  (HiveLocal.getDataUser()?.userId ??
+                                      '') &&
+                                  ((dataModel.createBy?.id ?? '')
+                                      .isNotEmpty) ||
+                                  (HiveLocal.getDataUser()?.userId ?? '')
+                                      .isNotEmpty) ...[
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icRecall,
+                                  text: S.current.thu_hoi,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: S.current.thu_hoi_lich,
+                                      child: RecallCalendar(
+                                        cubit: chiTietLichLamViecCubit,
+                                        callback: () {
+                                          checkRecallDuplicateCal(
+                                            dataModel.isLichLap ?? false,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                )
+                              ],
                               CellPopPupMenu(
                                 urlImage: ImageAssets.icEditBlue,
                                 text: S.current.sua_lich,
@@ -286,7 +304,42 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       },
     );
   }
-
+  void checkRecallDuplicateCal(bool isDup) {
+    if (isDup) {
+      showDialog(
+        context: context,
+        builder: (context) => ThemLinkHopDialog(
+          title: S.current.thu_hoi_lich,
+          isConfirm: false,
+          imageUrl: ImageAssets.icThuHoi,
+          textConfirm: S.current.ban_co_chac_muon_thu_hoi_lich,
+          textRadioAbove: S.current.chi_lich_nay,
+          textRadioBelow: S.current.tu_lich_nay,
+        ),
+      ).then(
+            (value) => chiTietLichLamViecCubit
+            .recallCalendar(isMulti: !value)
+            .then((_) => Navigator.pop(context, true)),
+      );
+    } else {
+      showDiaLog(
+        context,
+        textContent: S.current.ban_co_chac_muon_thu_hoi_lich,
+        btnLeftTxt: S.current.khong,
+        funcBtnRight: () async {
+          Navigator.pop(context);
+          await chiTietLichLamViecCubit.recallCalendar().then(
+                (_) => Navigator.pop(context, true),
+          );
+        },
+        title: S.current.thu_hoi_lich,
+        btnRightTxt: S.current.dong_y,
+        icon: SvgPicture.asset(
+          ImageAssets.icThuHoi,
+        ),
+      );
+    }
+  }
   void checkDeleteDuplicateCal(bool isDup) {
     if (isDup) {
       showDialog(

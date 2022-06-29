@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +10,7 @@ class MessageResponse extends Equatable {
   @JsonKey(name: 'code')
   String? code;
   @JsonKey(name: 'data')
-  bool? data;
+  dynamic? data;
   @JsonKey(name: 'message')
   String? message;
   @JsonKey(name: 'succeeded')
@@ -33,5 +34,10 @@ class MessageResponse extends Equatable {
         data: '',
         message: '',
         succeeded: '',
+      );
+
+  MessageModel toModel() => MessageModel(
+        code: '',
+        message: '',
       );
 }

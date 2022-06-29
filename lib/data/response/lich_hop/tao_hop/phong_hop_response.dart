@@ -36,7 +36,7 @@ class PhongHopResponse {
   @JsonKey(name: 'sucChua')
   int? sucChua;
   @JsonKey(name: 'bit_TTDH')
-  bool? bit_TTDH;
+  bool? isBitTTDH;
   @JsonKey(name: 'ban')
   int? ban;
 
@@ -47,7 +47,7 @@ class PhongHopResponse {
     this.ten,
     this.diaChi,
     this.sucChua,
-    this.bit_TTDH,
+    this.isBitTTDH,
     this.ban,
   );
 
@@ -58,7 +58,7 @@ class PhongHopResponse {
 
   PhongHopModel toModel() => PhongHopModel(
         id: id ?? '',
-        bit_TTDH: bit_TTDH ?? false,
+        bit_TTDH: isBitTTDH ?? false,
         diaChi: diaChi ?? '',
         donViDuyetId: donViDuyetId ?? '',
         sucChua: sucChua ?? 0,

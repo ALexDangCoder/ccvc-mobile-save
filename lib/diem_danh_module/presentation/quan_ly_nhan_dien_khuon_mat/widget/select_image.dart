@@ -10,11 +10,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectImageWidget extends StatefulWidget {
-  final Function(File? image) selectImage;
-  final File? image;
+  final String? image;
+  final Function(File? image) onTapImage;
+  final Function() removeImage;
+  final bool isShowLoading;
 
-  const SelectImageWidget({Key? key, required this.selectImage, this.image})
-      : super(key: key);
+  const SelectImageWidget({
+    Key? key,
+    required this.onTapImage,
+    required this.removeImage,
+    this.image,
+    this.isShowLoading = false,
+  }) : super(key: key);
 
   @override
   State<SelectImageWidget> createState() => _SelectImageWidgetState();
@@ -22,71 +29,89 @@ class SelectImageWidget extends StatefulWidget {
 
 class _SelectImageWidgetState extends State<SelectImageWidget> {
   ImagePicker picker = ImagePicker();
-  File? image;
 
   @override
   void initState() {
     super.initState();
-    image = widget.image;
   }
 
   Future<void> pickImage() async {
     final XFile? pickImg = await picker.pickImage(source: ImageSource.gallery);
     if (pickImg != null) {
-      image = File(pickImg.path);
-      widget.selectImage(image);
+      widget.onTapImage(File(pickImg.path));
     }
     setState(() {});
   }
 
   void removeImg() {
-    image = null;
-    widget.selectImage(image);
+    widget.onTapImage(null); //khi xoa thi call back tra ve null.
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return image != null
-        ? Stack(
-            children: [
-              Container(
-                height: 164.0.textScale(space: 56.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: colorE2E8F0),
-                  borderRadius: BorderRadius.circular(8.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.05),
-                      blurRadius: 2,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                  image: DecorationImage(
-                    image: FileImage(image!),
-                    fit: BoxFit.cover,
-                  ),
+    return widget.isShowLoading
+        ? Container(
+            height: 164.0.textScale(space: 56.0),
+            decoration: BoxDecoration(
+              border: Border.all(color: colorE2E8F0),
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.05),
+                  blurRadius: 2,
+                  spreadRadius: 2,
                 ),
+              ],
+            ),
+            child: const Center(
+              child: SizedBox(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(),
               ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: GestureDetector(
-                  onTap: () {
-                    removeImg();
-                  },
-                  child: SvgPicture.asset(
-                    ImageAssets.icRemoveImg,
-                  ),
-                ),
-              ),
-            ],
+            ),
           )
-        : emptyImage(
-            onTap: () {
-              pickImage();
-            },
-          );
+        : widget.image != null
+            ? Stack(
+                children: [
+                  Container(
+                    height: 164.0.textScale(space: 56.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorE2E8F0),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.05),
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: NetworkImage(widget.image!,),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: GestureDetector(
+                      onTap: () {
+                        removeImg();
+                      },
+                      child: SvgPicture.asset(
+                        ImageAssets.icRemoveImg,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : emptyImage(
+                onTap: () {
+                  pickImage();
+                },
+              );
   }
 
   Widget emptyImage({required Function onTap}) {

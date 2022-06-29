@@ -67,7 +67,7 @@ class GetAllFileData {
 
 @JsonSerializable()
 class FileImageResponse {
-  @JsonKey(name: 'item')
+  @JsonKey(name: 'id')
   String? id;
   @JsonKey(name: 'entityName')
   String? entityName;

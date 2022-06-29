@@ -3,7 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'dash_board_thong_tin_pakn_response.g.dart';
 
-int choDuyetChung = 0;
 
 @JsonSerializable()
 class DashBoardThongTinPaknTotalResponse {
@@ -78,7 +77,7 @@ class DashboardTiepNhanResponse {
         choTiepNhan: choTiepNhan ?? 0,
         phanXuLy: phanXuLy ?? 0,
         dangXuLy: dangXuLy ?? 0,
-        choDuyet: choDuyetChung = (choDuyet ?? 0),
+        choDuyet: choDuyet ?? 0,
         choBoSungThongTin: choBoSungThongTin ?? 0,
         daHoanThanh: daHoanThanh ?? 0,
       );
@@ -98,6 +97,8 @@ class DashboardXuLyResponse {
   int? daPhanCong;
   @JsonKey(name: 'DaHoanThanh')
   int? daHoanThanh;
+  @JsonKey(name: 'ChoDuyet')
+  int? choDuyet;
 
   DashboardXuLyResponse(
     this.choTiepNhanXuLy,
@@ -105,6 +106,7 @@ class DashboardXuLyResponse {
     this.choPhanXuLy,
     this.daPhanCong,
     this.daHoanThanh,
+      this.choDuyet,
   );
 
   factory DashboardXuLyResponse.fromJson(Map<String, dynamic> json) =>
@@ -116,7 +118,7 @@ class DashboardXuLyResponse {
         choPhanXuLy: choPhanXuLy ?? 0,
         daPhanCong: daPhanCong ?? 0,
         daHoanThanh: daHoanThanh ?? 0,
-        choDuyet: choDuyetChung,
+        choDuyet: choDuyet ?? 0,
       );
 
   Map<String, dynamic> toJson() => _$DashboardXuLyResponseToJson(this);

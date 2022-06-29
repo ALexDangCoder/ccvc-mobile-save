@@ -57,7 +57,6 @@ class ChiTietLichHopModel {
   String? thuMoiFiles;
   String? linhVucId;
 
-
   ChiTietLichHopModel({
     this.id = '',
     this.loaiLich = '',
@@ -106,6 +105,14 @@ class ChiTietLichHopModel {
     this.thuMoiFiles,
     this.linhVucId,
   });
+
+  String getNgayBatDau() {
+    return '$ngayBatDau $timeStart';
+  }
+
+  String getNgayKetThuc() {
+    return '$ngayKetThuc $timeTo';
+  }
 
   String mucDoHopWithInt() {
     switch (mucDoHop) {
@@ -392,18 +399,19 @@ class file {
   final String? updatedAt;
   final String? updatedBy;
 
-  file({this.createdAt,
-    this.createdBy,
-    this.entityId,
-    this.entityId_DM,
-    this.entityName,
-    this.entityType,
-    this.extension,
-    this.id,
-    this.isPrivate,
-    this.name,
-    this.path,
-    this.size,
-    this.updatedAt,
-    this.updatedBy});
+  file(
+      {this.createdAt,
+      this.createdBy,
+      this.entityId,
+      this.entityId_DM,
+      this.entityName,
+      this.entityType,
+      this.extension,
+      this.id,
+      this.isPrivate,
+      this.name,
+      this.path,
+      this.size,
+      this.updatedAt,
+      this.updatedBy});
 }

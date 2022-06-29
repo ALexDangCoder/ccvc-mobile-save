@@ -220,30 +220,6 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     }
   }
 
-  List<ListLichLVModel> filterByDateTime(List<ListLichLVModel> list) {
-    return list
-        .where(
-          (element) => _checkTime(
-            start: element.dateTimeFrom ?? '',
-            end: element.dateTimeTo ?? '',
-          ),
-        )
-        .toList();
-  }
-
-  bool _checkTime({required String start, required String end}) {
-    // if (start.isEmpty || end.isEmpty) return false;
-    // if (startDate
-    //         .getStartEndOfDayTime()
-    //         .isBefore(start.convertStringToDate()) &&
-    //     endDate
-    //         . getStartEndOfDayTime(getStartTime: false)
-    //         .isAfter(end.convertStringToDate())) {
-    //   return true;
-    // }
-    return true;
-  }
-
   DateTime getDate(String time) =>
       time.convertStringToDate(formatPattern: DateTimeFormat.DATE_TIME_RECEIVE);
 
@@ -281,12 +257,10 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-  Future<void> dayHaveEvent(
-  { DateTime? startDate, DateTime? endDate}) async {
+  Future<void> dayHaveEvent({DateTime? startDate, DateTime? endDate}) async {
     if (startDate != null && endDate != null && keySearch != null) {
       startDateHaveEvent = startDate;
       endDateHaveEvent = endDate;
-
     }
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
@@ -346,8 +320,7 @@ extension GetData on CalendarWorkCubit {
         _listCalendarWorkWeekSubject.sink.add(res.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(res.toDataFCalenderSource());
         checkDuplicate(res.listLichLVModel ?? []);
-        final list = filterByDateTime(res.listLichLVModel ?? []);
-        _listWorkSubject.sink.add(list);
+        _listWorkSubject.sink.add(res.listLichLVModel ?? []);
       },
       error: (error) {},
     );
@@ -458,6 +431,14 @@ enum StatusWorkCalendar {
   LICH_THU_HOI,
   LICH_DA_CO_BAO_CAO,
   LICH_CHUA_CO_BAO_CAO,
+  CHO_DUYET,
+  LICH_HOP_CAN_KLCH,
+  LICH_DA_KLCH,
+  LICH_DUYET_PHONG,
+  LICH_DUYET_THIET_BI,
+  LICH_DUYET_KY_THUAT,
+  LICH_YEU_CAU_CHUAN_BI,
+  LICH_CAN_DUYET,
 }
 
 extension StatusWorkCalendarExt on StatusWorkCalendar {
@@ -477,6 +458,22 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
         return S.current.lich_da_co_bao_cao;
       case StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO:
         return S.current.lich_chua_co_bao_cao;
+      case StatusWorkCalendar.CHO_DUYET:
+        return S.current.cho_duyet;
+      case StatusWorkCalendar.LICH_HOP_CAN_KLCH:
+        return S.current.lich_hop_can_klch;
+      case StatusWorkCalendar.LICH_DA_KLCH:
+        return S.current.lich_da_klch;
+      case StatusWorkCalendar.LICH_DUYET_PHONG:
+        return S.current.lich_duyet_phong;
+      case StatusWorkCalendar.LICH_DUYET_THIET_BI:
+        return S.current.lich_hop_duyet_thiet_bi;
+      case StatusWorkCalendar.LICH_DUYET_KY_THUAT:
+        return S.current.lich_hop_duyet_ky_thuat;
+      case StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI:
+        return S.current.lich_hop_duyet_yeu_cau_tb;
+      case StatusWorkCalendar.LICH_CAN_DUYET:
+        return S.current.lich_hop_can_duyet;
     }
   }
 }

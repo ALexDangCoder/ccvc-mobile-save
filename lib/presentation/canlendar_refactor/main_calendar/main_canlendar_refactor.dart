@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -114,7 +113,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
                         cubit.dayHaveEvent(startDate: startDate,endDate: endDate);
                       },
                     );
-                  }),
+                  },),
               Expanded(
                   child: MouseRegion(
                       onHover: (_) {

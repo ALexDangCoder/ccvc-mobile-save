@@ -132,5 +132,6 @@ class DataLichLamViecResponse {
         tongSoLichDuyetCuaChuTri: tongSoLichDuyetCuaChuTri,
         tongSoLichDuyetPhong: tongSoLichDuyetPhong,
         tongSoLichDuyetThietBi: tongSoLichDuyetThietBi,
+        tongSoLichDuyetKyThuat: 0,
       );
 }

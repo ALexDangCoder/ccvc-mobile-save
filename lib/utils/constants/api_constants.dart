@@ -137,21 +137,22 @@ class ApiConstants {
   static const DASHBOARD_THONG_KE = '/vpdt/api/Statistic/statistics';
   static const CO_CAU_LICH_HOP =
       '/vpdt/api/Statistic/statistic-by-type-of-calendar';
-  static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list?';
-  static const MENU_LICH_LV = '/vpdt/api/Schedules/count-lich-don-vi';
+  static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list';
+  static const MENU_LICH_LV = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
   static const TO_CHUC_BOI_DON_VI =
       '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA =
       '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
   static const SUA_LICH_HOP = '/vpdt/api/MeetingSchedule/edit-meeting';
 
-  static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall?';
+  static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall';
 
   static const String POST_FILE_TAO_LICH_HOP =
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
-  static const THU_HOI_LICH_LAM_VIEC = '/vpdt/api/ScheduleCoperative/change-status-multi';
+  static const THU_HOI_LICH_LAM_VIEC =
+      'vpdt/api/ScheduleCoperative/change-status-multi';
   static const CAN_BO_THU_HOI_LICH = ' /CanBoThamGia/can-bo-tham-gia-hop-tree';
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
@@ -291,13 +292,16 @@ class ApiConstants {
       '/vpdt/api/CanBoThamGia/duyet-ky-thuat';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
-  static const DASHBOARD_PAKN_TIEP_NHAN_XU_LY = '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
+  static const DASHBOARD_PAKN_TIEP_NHAN_XU_LY =
+      '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
   static const DANH_SACH_PAKN_FILTER = '/pakn/api/dashboard-mpi/danh-sach-pakn';
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
   static const CONFIRM_HOP = '/vpdt/api/CanBoThamGia/confirm-hop';
-  static const CONFIRM_OR_CANCEL_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/duyet-bao-cao';
-  static const CREATE_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/create-meet-report';
+  static const CONFIRM_OR_CANCEL_KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/duyet-bao-cao';
+  static const CREATE_KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/create-meet-report';
 }
 
 class ImageConstants {

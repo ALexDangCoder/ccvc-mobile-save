@@ -1,7 +1,8 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,10 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _vanBanDonViCubit.getDocument();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        // _vanBanDonViCubit.getDocument();
+        _vanBanDonViCubit.getDocument();
       });
     });
   }
@@ -57,138 +59,131 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ContainerBackgroundWidget(
-        isShowSubTitle: false,
-        title: S.current.don_vi_xu_ly,
+        title: S.current.tinh_hinh_xu_ly_vb_don_vi,
         onTapIcon: () {
           // cubit.showDialog(widget.homeItemType);
         },
-        selectKeyDialog: _vanBanDonViCubit,
-        dialogSelect: StreamBuilder(
-            stream: _vanBanDonViCubit.selectKeyDialog,
-            builder: (context, snapshot) {
-              return DialogSettingWidget(
-                type: widget.homeItemType,
-                listSelectKey: <DialogData>[
-                  DialogData(
-                    onSelect: (value, startDate, endDate) {
-                      _vanBanDonViCubit.selectDate(
-                          selectKey: value,
-                          startDate: startDate,
-                          endDate: endDate);
-                    },
-                    title: S.current.time,
-                    initValue: _vanBanDonViCubit.selectKeyTime,
-                    startDate: _vanBanDonViCubit.startDate,
-                    endDate: _vanBanDonViCubit.endDate,
+        child: StreamBuilder<VanBanDonViModel>(
+          stream: _vanBanDonViCubit.getVanBanDonVi,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final data = snapshot.data ??
+                  VanBanDonViModel(
+                      vbDen: DocumentDashboardModel(),
+                      vbDi: DocumentDashboardModel());
+              final dataVBDen = data.vbDen;
+              final dataVBDi = data.vbDi;
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: titleChart(
+                      S.current.document_incoming,
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          PieChart(
+                            paddingTop: 0,
+                            chartData: [
+                              ChartData(
+                                S.current.cho_vao_so,
+                                dataVBDen.soLuongChoVaoSo.toDouble(),
+                                choVaoSoColor,
+                                SelectKey.CHO_VAO_SO,
+                              ),
+                              ChartData(
+                                S.current.dang_xu_ly,
+                                dataVBDen.soLuongDangXuLy.toDouble(),
+                                dangXyLyColor,
+                                SelectKey.DANG_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.da_xu_ly,
+                                dataVBDen.soLuongDaXuLy.toDouble(),
+                                daXuLyColor,
+                                SelectKey.DA_XU_LY,
+                              ),
+                            ],
+                            onTap: (value, key) {},
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          statusWidget(
+                            [
+                              ChartData(
+                                S.current.qua_han,
+                                dataVBDen.soLuongQuaHan.toDouble(),
+                                statusCalenderRed,
+                                SelectKey.CHO_VAO_SO,
+                              ),
+                              ChartData(
+                                S.current.den_han,
+                                dataVBDen.soLuongDenHan.toDouble(),
+                                yellowColor,
+                                SelectKey.DANG_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.trong_han,
+                                dataVBDen.soLuongTrongHan.toDouble(),
+                                choTrinhKyColor,
+                                SelectKey.DA_XU_LY,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: titleChart(
+                        S.current.document_out_going,
+                        PieChart(
+                          chartData: [
+                            ChartData(
+                              S.current.cho_trinh_ky,
+                              dataVBDi.soLuongChoTrinhKy.toDouble(),
+                              choTrinhKyColor,
+                              SelectKey.CHO_TRINH_KY,
+                            ),
+                            ChartData(
+                              S.current.cho_xu_ly,
+                              dataVBDi.soLuongChoXuLy.toDouble(),
+                              choXuLyColor,
+                              SelectKey.CHO_XU_LY,
+                            ),
+                            ChartData(
+                              S.current.da_xu_ly,
+                              dataVBDi.soLuongDaXuLy.toDouble(),
+                              daXuLyColor,
+                              SelectKey.DA_XU_LY,
+                            ),
+                            ChartData(
+                              S.current.cho_cap_so,
+                              dataVBDi.soLuongChoCapSo.toDouble(),
+                              choCapSoColor,
+                              SelectKey.CHO_CAP_SO,
+                            ),
+                            ChartData(
+                              S.current.cho_ban_hanh,
+                              dataVBDi.soLuongChoBanHanh.toDouble(),
+                              choBanHanhColor,
+                              SelectKey.CHO_BAN_HANH,
+                            )
+                          ],
+                          onTap: (value, key) {},
+                        ),
+                        ),
                   )
                 ],
               );
-            }),
-        child: Container(
-          color: Colors.transparent,
-          margin: const EdgeInsets.only(bottom: 20),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              titleChart(
-                S.current.document_incoming,
-                Column(
-                  children: [
-                    PieChart(
-                      paddingTop: 0,
-                      chartData: [
-                        ChartData(
-                          S.current.cho_vao_so,
-                          14,
-                          choVaoSoColor,
-                          SelectKey.CHO_VAO_SO,
-                        ),
-                        ChartData(
-                          S.current.dang_xu_ly,
-                          7,
-                          dangXyLyColor,
-                          SelectKey.DANG_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.da_xu_ly,
-                          7,
-                          daXuLyColor,
-                          SelectKey.DA_XU_LY,
-                        ),
-                      ],
-                      onTap: (value, key) {},
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    statusWidget(
-                      [
-                        ChartData(
-                          S.current.qua_han,
-                          14,
-                          statusCalenderRed,
-                          SelectKey.CHO_VAO_SO,
-                        ),
-                        ChartData(
-                          S.current.den_han,
-                          14,
-                          yellowColor,
-                          SelectKey.DANG_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.trong_han,
-                          14,
-                          choTrinhKyColor,
-                          SelectKey.DA_XU_LY,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              titleChart(
-                S.current.document_out_going,
-                PieChart(
-                  chartData: [
-                    ChartData(
-                      S.current.cho_trinh_ky,
-                      30,
-                      choTrinhKyColor,
-                      SelectKey.CHO_TRINH_KY,
-                    ),
-                    ChartData(
-                      S.current.cho_xu_ly,
-                      12,
-                      choXuLyColor,
-                      SelectKey.CHO_XU_LY,
-                    ),
-                    ChartData(
-                      S.current.da_xu_ly,
-                      14,
-                      daXuLyColor,
-                      SelectKey.DA_XU_LY,
-                    ),
-                    ChartData(
-                      S.current.cho_cap_so,
-                      14,
-                      choCapSoColor,
-                      SelectKey.CHO_CAP_SO,
-                    ),
-                    ChartData(
-                      S.current.cho_ban_hanh,
-                      14,
-                      choBanHanhColor,
-                      SelectKey.CHO_BAN_HANH,
-                    )
-                  ],
-                  onTap: (value, key) {},
-                ),
-              )
-            ],
-          ),
+            } else {
+              return const SizedBox();
+            }
+          },
         ),
       ),
     );
@@ -205,7 +200,7 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
             children: listData
                 .map(
                   (e) => Expanded(
-                    flex: e.value.toInt(),
+                    flex: e.value.toInt() + 1,
                     child: Container(
                       color: e.color,
                       child: Center(

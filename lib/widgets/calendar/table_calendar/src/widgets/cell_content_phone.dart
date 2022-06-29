@@ -87,24 +87,27 @@ class CellContent extends StatelessWidget {
           );
     } else if (isSelected) {
       cell = calendarBuilders.selectedBuilder?.call(context, day, focusedDay) ??
-          AnimatedContainer(
-            duration: duration,
-            margin: margin,
+          Container(
             padding: padding,
-            decoration: calendarStyle.selectedDecoration,
-            alignment: alignment,
-            child: isCheckLunar
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(text, style: calendarStyle.selectedTextStyle),
-                      Text(
-                        lunar.lunarDay.toString(),
-                        style: calendarStyle.lunarTextStyle,
-                      ),
-                    ],
-                  )
-                : Text(text, style: calendarStyle.selectedTextStyle),
+            alignment: Alignment.center,
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: calendarStyle.selectedDecoration,
+              alignment: Alignment.center,
+              child: isCheckLunar
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(text, style: calendarStyle.selectedTextStyle),
+                        Text(
+                          lunar.lunarDay.toString(),
+                          style: calendarStyle.lunarTextStyle,
+                        ),
+                      ],
+                    )
+                  : Text(text, style: calendarStyle.selectedTextStyle),
+            ),
           );
     } else if (isRangeStart) {
       cell =
@@ -129,26 +132,31 @@ class CellContent extends StatelessWidget {
           );
     } else if (isToday && isTodayHighlighted) {
       cell = calendarBuilders.todayBuilder?.call(context, day, focusedDay) ??
-          AnimatedContainer(
-            duration: duration,
-            margin: margin,
+          Container(
+
             padding: padding,
-            decoration: calendarStyle.todayDecoration,
-            alignment: alignment,
-            child: isCheckLunar
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(text, style: calendarStyle.todayTextStyle),
-                        Text(
-                          lunar.lunarDay.toString(),
-                          style: calendarStyle.lunarTextStyle,
-                        ),
-                      ],
-                    ),
-                  )
-                : Text(text, style: calendarStyle.todayTextStyle),
+            alignment: Alignment.center,
+            child: AnimatedContainer(
+              duration: duration,
+              height: 40,
+              width: 40,
+              decoration: calendarStyle.todayDecoration,
+              alignment: alignment,
+              child: isCheckLunar
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(text, style: calendarStyle.todayTextStyle),
+                          Text(
+                            lunar.lunarDay.toString(),
+                            style: calendarStyle.lunarTextStyle,
+                          ),
+                        ],
+                      ),
+                    )
+                  : Text(text, style: calendarStyle.todayTextStyle),
+            ),
           );
     } else if (isHoliday) {
       cell = calendarBuilders.holidayBuilder?.call(context, day, focusedDay) ??
@@ -183,8 +191,7 @@ class CellContent extends StatelessWidget {
           );
     } else {
       cell = calendarBuilders.defaultBuilder?.call(context, day, focusedDay) ??
-          AnimatedContainer(
-            duration: duration,
+          Container(
             margin: margin,
             padding: padding,
             decoration: isWeekend

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
 import 'package:ccvc_mobile/data/response/thanh_phan_tham_gia/can_bo_response.dart';
+import 'package:ccvc_mobile/data/response/thanh_phan_tham_gia/officer_join_response.dart';
 import 'package:ccvc_mobile/data/response/thanh_phan_tham_gia/tree_don_vi_tham_gia_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
@@ -20,4 +21,9 @@ abstract class ThanhPhanThamGiaService {
   @POST(ApiConstants.SEARCH_CAN_BO)
   Future<SearchCanBoResponse> searchCanBo(
       @Body() SearchCanBoRequest searchCanBoRequest);
+
+  @GET(ApiConstants.OFFICERS_JOIN)
+  Future<OfficerJoinResponse> getOfficerJoin(
+    @Query('lichId') String id,
+  );
 }

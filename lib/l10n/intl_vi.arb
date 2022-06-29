@@ -13,6 +13,7 @@
   "phan_hoi": "Phản hồi",
   "cho_don_vi_duyet": "Chờ đơn vị duyệt",
   "cho_chuyen_xu_ly": "Chờ chuyển xử lý",
+  "just_noi_dung": "Nội dung",
   "cho_chuyen_don_vi": "Chờ chuyển đơn vị",
   "can_xu_ly": "Cần xử lý",
   "huy_trinh": "Huỷ trình",
@@ -530,6 +531,8 @@
   "da_nhan_ban_giay": "Đã nhận bản giấy",
   "nhap_ten_don_vi": "Nhập tên đơn vị",
   "thu_hoi_lich": "Thu hồi lịch",
+  "thu_hoi_lich_thanh_cong": "Thu hồi lịch thành công",
+  "thu_hoi_lich_that_bai": "Thu hồi lịch thất bại",
   "cho_y_kien": "Cho ý kiến",
   "ban_chan_chan_huy_lich_nay": "Bạn có chắc muốn hủy lịch này?",
   "khong": "Không",
@@ -538,6 +541,8 @@
   "xoa_lich_lam_viec": "Xóa lịch làm việc",
   "ban_co_muon_xoa_lich_lam_viec": "Bạn có muốn xóa lịch làm việc?",
   "xoa_thanh_cong": "Xóa thành công",
+  "huy_thanh_cong": "Hủy thành công",
+  "huy_that_bai": "Hủy thất bại",
   "khong_co_file": "Không có file",
   "cac_van_ban_dinh_kem": "Các văn bản đính kèm",
   "nhap_y_kien_cua_ban": "Nhập ý kiến của bạn",
@@ -1107,7 +1112,8 @@
   "bao_cao_ket_qua_that_bai": "Báo cáo kết quả thất bại",
   "thu_muc": "Thư mục",
   "ten_tai_khoan": "Tên tài khoản",
-  "ban_co_chac_muon_huy_lich": "Bạn có chắc chắn muốn hủy lịch",
+  "ban_co_chac_muon_huy_lich": "Bạn có chắc muốn hủy lịch",
+  "ban_co_chac_muon_thu_hoi_lich": "Bạn có chắc muốn thu hồi lịch",
   "dang_ky_xe_ra_vao_bo": "Đăng ký xe ra vào bộ",
   "dang_ky_xe_moi": "Đăng ký xe mới",
   "ban_co_chan_chan_muon_hoan_tac": "Bạn có chắc muốn hoàn tác?",
@@ -1153,7 +1159,11 @@
   "duyet_khong_thanh_cong": "Duyệt  lịch không thành công",
   "soan_ket_luan_hop": "Soạn kết luận họp",
   "them_don_vi_phoi_hop_khac": "Thêm đơn vị phối hợp khác",
-  "da_gan": "Đã gán"
+  "cu_can_bo_thanh_cong": "Cử cán bộ thành công",
+  "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
+  "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
+  "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
+  "location_warning": "Bạn phải nhập trường Địa điểm!"
 }
 
 

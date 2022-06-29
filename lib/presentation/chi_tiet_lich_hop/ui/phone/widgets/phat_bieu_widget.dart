@@ -64,8 +64,8 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                                     infoModel: list[index],
                                     cubit: widget.cubit,
                                     index: index,
-                                    onChangeCheckBox: (vl) {
-                                      if (vl != true) {
+                                    onChangeCheckBox: (value) {
+                                      if (value != true) {
                                         widget.cubit.selectPhatBieu
                                             .add(list[index].id ?? '');
                                       } else {

@@ -320,7 +320,7 @@ class XaSelectModelResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$XaSelectModelResponseToJson(this);
 
-  XaSelectModel toModel() => XaSelectModel(
+  WardModel toModel() => WardModel(
         id: id,
         huyenId: huyenId,
         ma: ma,

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +26,32 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
       success: (res) {
         listNguoiCHuTriModel.sink.add(res);
         dataThuKyOrThuHoiDeFault = res;
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getDanhSachCanBoHop(String id) async {
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);
+    result.when(
+      success: (res) {
+        final donViId =
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+        final idCuCanBo = res
+            .firstWhere(
+              (element) => element.donViId == donViId,
+              orElse: () => NguoiChutriModel(),
+            )
+            .id;
+        idDanhSachCanBo = idCuCanBo ?? '';
+        final canBoId = HiveLocal.getDataUser()?.userId;
+        final idCanBo = res
+            .firstWhere(
+              (element) => element.canBoId == canBoId,
+              orElse: () => NguoiChutriModel(),
+            )
+            .id;
+        idCanBoDiThay = idCanBo ?? '';
       },
       error: (error) {},
     );

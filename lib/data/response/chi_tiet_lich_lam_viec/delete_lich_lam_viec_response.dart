@@ -1,28 +1,29 @@
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'delete_lich_lam_viec_response.g.dart';
 
 @JsonSerializable()
-class DeleteCalenderWorkResponse extends Equatable {
+class MessageResponse extends Equatable {
   @JsonKey(name: 'code')
   String? code;
   @JsonKey(name: 'data')
-  bool? data;
+  dynamic? data;
   @JsonKey(name: 'message')
   String? message;
   @JsonKey(name: 'succeeded')
   bool? succeeded;
 
-  DeleteCalenderWorkResponse();
+  MessageResponse();
 
-  factory DeleteCalenderWorkResponse.fromJson(
+  factory MessageResponse.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$DeleteCalenderWorkResponseFromJson(json);
+      _$MessageResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeleteCalenderWorkResponseToJson(this);
+  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 
   @override
   // TODO: implement props
@@ -33,5 +34,10 @@ class DeleteCalenderWorkResponse extends Equatable {
         data: '',
         message: '',
         succeeded: '',
+      );
+
+  MessageModel toModel() => MessageModel(
+        code: '',
+        message: '',
       );
 }

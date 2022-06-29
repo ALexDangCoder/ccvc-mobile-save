@@ -1,12 +1,12 @@
 class GetAllFilesIdModel {
-  List<String>? item;
+  List<FileImageModel>? items;
   int? pageIndex;
   int? pageSize;
   int? totalCount;
   int? totalPage;
 
   GetAllFilesIdModel({
-    required this.item,
+    required this.items,
     required this.pageIndex,
     required this.pageSize,
     required this.totalCount,
@@ -14,4 +14,18 @@ class GetAllFilesIdModel {
   });
 
   GetAllFilesIdModel.empty();
+}
+
+class FileImageModel {
+  String? id;
+  String? entityName;
+  String? fileTypeUpload;
+
+  FileImageModel({
+    required this.id,
+    required this.entityName,
+    required this.fileTypeUpload,
+  });
+
+  FileImageModel.empty();
 }

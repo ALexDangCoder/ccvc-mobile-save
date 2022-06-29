@@ -13,6 +13,24 @@ class EventCalendarRequest {
   bool? isLichCuaToi;
   int? month;
   int? year;
+  String? Title;
+  bool? isChoXacNhan;
+  bool? isChuaCoBaoCao;
+  bool? isDaCoBaoCao;
+  bool? isDuyetKyThuat;
+  bool? isDuyetLich;
+  bool? isDuyetPhong;
+  bool? isDuyetThietBi;
+  bool? isLichDuocMoi;
+  bool? isLichHuyBo;
+  bool? isLichThamGia;
+  bool? isLichThuHoi;
+  bool? isLichTuChoi;
+  bool? isLichYeuCauChuanBi;
+  bool? isLichTaoHo;
+  bool? isPublish;
+  bool? IsLichLanhDao;
+  List<String>? ListUserId;
 
   EventCalendarRequest({
     required this.DateFrom,
@@ -24,6 +42,24 @@ class EventCalendarRequest {
     required this.isLichCuaToi,
     required this.month,
     required this.year,
+    required this.Title,
+    this.isChoXacNhan,
+    this.isChuaCoBaoCao,
+    this.isDaCoBaoCao,
+    this.isDuyetKyThuat,
+    this.isDuyetLich,
+    this.isDuyetPhong,
+    this.isDuyetThietBi,
+    this.isLichDuocMoi,
+    this.isLichHuyBo,
+    this.isLichThamGia,
+    this.isLichThuHoi,
+    this.isLichTuChoi,
+    this.isLichYeuCauChuanBi,
+    this.isPublish,
+    this.isLichTaoHo,
+    this.IsLichLanhDao,
+    this.ListUserId,
   });
 
   factory EventCalendarRequest.fromJson(Map<String, dynamic> json) =>

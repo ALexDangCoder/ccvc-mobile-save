@@ -21,17 +21,16 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MainCanlendanRefactor extends StatefulWidget {
-  const MainCanlendanRefactor({Key? key, this.isBack = false})
-      : super(key: key);
-
+class MainCanlendanMobileRefactor extends StatefulWidget {
   final bool isBack;
+  const MainCanlendanMobileRefactor({Key? key, this.isBack = false})
+      : super(key: key);
 
   @override
   _MainCanlendanRefactorState createState() => _MainCanlendanRefactorState();
 }
 
-class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
+class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
   final CalendarWorkCubit cubit = CalendarWorkCubit();
 
   @override
@@ -72,17 +71,17 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
           title: S.current.lich_cua_toi,
           leadingIcon: Row(
             children: [
-              if (widget.isBack)
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: SvgPicture.asset(
-                    ImageAssets.icBack,
-                  ),
-                )
-              else
-                const SizedBox(),
+              Visibility(
+                visible: widget.isBack,
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 16),
+                      child: Icon(Icons.arrow_back_ios),
+                    )),
+              ),
               cubit.controller.getIcon(),
             ],
           ),

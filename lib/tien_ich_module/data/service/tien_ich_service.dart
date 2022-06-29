@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/count_dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/detail_huong_dan_su_dung_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/tien_ich_module/data/response/lich_am_duong_response
 import 'package:ccvc_mobile/tien_ich_module/data/response/list_nguoi_thuc_hien_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/post_anh_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/todo_list_get_all_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/todo_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/topic_hdsd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tra_cuu_van_ban_phap_luat_response.dart';
@@ -133,6 +135,23 @@ abstract class TienIchService {
   Future<DataLichAmDuongResponse> getLichAmDuong(
     @Query('dateStr') String date,
   );
+
+  @GET(ApiConstants.CONG_VIEC_GAN_CHO_NGUOI_KHAC)
+  @FormUrlEncoded()
+  Future<ToDoListDSCVResponse> getListDSCVGanChoNguoiKhac();
+
+  @POST(ApiConstants.GET_ALL_CONG_VIEC_WITH_FILTER)
+  Future<TodoGetAllResponse> getAllListDSCVWithFilter(
+    @Field('pageIndex') int pageIndex,
+    @Field('pageSize') int pageSize,
+    @Field('searchWord') String searchWord,
+    @Field('isImportant') bool isImportant,
+    @Field('inUsed') bool inUsed,
+    @Field('isTicked') bool isTicked,
+  );
+
+  @GET(ApiConstants.GET_COUNT_TODO)
+  Future<CountTodoResponse> getCountTodo();
 }
 
 @RestApi()

@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/count_dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/detail_huong_dan_su_dung_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
@@ -13,6 +14,7 @@ import 'package:ccvc_mobile/tien_ich_module/data/response/lich_am_duong_response
 import 'package:ccvc_mobile/tien_ich_module/data/response/list_nguoi_thuc_hien_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/post_anh_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/todo_list_get_all_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/todo_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/topic_hdsd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tra_cuu_van_ban_phap_luat_response.dart';
@@ -268,6 +270,44 @@ class TienIchRepositoryImpl implements TienIchRepository {
         files,
       ),
       (res) => res.toMoDel(),
+    );
+  }
+
+  @override
+  Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoNguoiKhac() {
+    return runCatchingAsync<ToDoListDSCVResponse, List<TodoDSCVModel>>(
+      () => _tienIchService.getListDSCVGanChoToi(),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<TodoDSCVModel>>> getAllListDSCVWithFilter(
+    int pageIndex,
+    int pageSize,
+    String searchWord,
+    bool isImportant,
+    bool inUsed,
+    bool isTicked,
+  ) {
+    return runCatchingAsync<TodoGetAllResponse, List<TodoDSCVModel>>(
+      () => _tienIchService.getAllListDSCVWithFilter(
+        pageIndex,
+        pageSize,
+        searchWord,
+        isImportant,
+        inUsed,
+        isTicked,
+      ),
+      (response) => response.data?.toModel() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<CountTodoModel>>> getCountTodo() {
+    return runCatchingAsync<CountTodoResponse, List<CountTodoModel>>(
+      () => _tienIchService.getCountTodo(),
+      (response) => response.toModel(),
     );
   }
 }

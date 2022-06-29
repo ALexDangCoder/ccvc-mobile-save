@@ -88,7 +88,7 @@ class DanhSachCongViecTienIchCubit
       ...toDoModelGanChoToiDefault,
       ...toDoModelDefault,
     ];
-    listCongViecCuaBan = toDoModelGanChoToiDefault
+    listCongViecCuaBan = toDoModelDefault
         .where(
           (element) => element.inUsed == true,
         )
@@ -184,7 +184,7 @@ class DanhSachCongViecTienIchCubit
 
   Future<void> listNguoiThucHien() async {
     showLoading();
-    final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
+    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
     result.when(
       success: (res) {
         showContent();
@@ -195,6 +195,52 @@ class DanhSachCongViecTienIchCubit
         showError();
       },
     );
+  }
+
+  //TODO
+  Future<void> getListDSCVGanChoNguoiKhac() async {
+    showLoading();
+    final result = await tienIchRep.getListDSCVGanChoNguoiKhac();
+    result.when(
+      success: (res) {
+        showContent();
+        if (res.isNotEmpty) {}
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
+  }
+
+  //TODO
+  Future<void> getAllListDSCVWithFilter() async {
+    showLoading();
+    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
+    result.when(
+      success: (res) {
+        showContent();
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
+  }
+
+  //TODO
+  Future<void> getCountTodo() async {
+    showLoading();
+    final result = await tienIchRep.getCountTodo();
+    result.when(
+      success: (res) {
+        showContent();
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
   }
 
   /// set filter data

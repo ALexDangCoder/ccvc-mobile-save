@@ -86,3 +86,15 @@ class TodoDSCVModel {
     }
   }
 }
+
+class CountTodoModel {
+  String? name;
+  String? code;
+  int? count;
+
+  CountTodoModel({
+    this.name,
+    this.code,
+    this.count,
+  });
+}

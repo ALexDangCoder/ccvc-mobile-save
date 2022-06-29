@@ -91,4 +91,17 @@ mixin TienIchRepository {
   Future<Result<PostAnhModel>> uploadFile(File files);
 
   Future<Result<PostAnhModel>> uploadFileDSCV(File files);
+
+  Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoNguoiKhac();
+
+  Future<Result<List<TodoDSCVModel>>> getAllListDSCVWithFilter(
+    int pageIndex,
+    int pageSize,
+    String searchWord,
+    bool isImportant,
+    bool inUsed,
+    bool isTicked,
+  );
+
+  Future<Result<List<CountTodoModel>>> getCountTodo();
 }

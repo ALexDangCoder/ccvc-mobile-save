@@ -20,6 +20,7 @@ class TableCalendarBase extends StatefulWidget {
   final double rowHeight;
   final bool sixWeekMonthsEnforced;
   final bool dowVisible;
+  final bool isDowTop;
   final Decoration? dowDecoration;
   final Decoration? rowDecoration;
   final TableBorder? tableBorder;
@@ -46,6 +47,7 @@ class TableCalendarBase extends StatefulWidget {
     required this.dayBuilder,
     this.dowHeight,
     required this.rowHeight,
+    this.isDowTop = true,
     this.sixWeekMonthsEnforced = false,
     this.dowVisible = true,
     this.dowDecoration,
@@ -207,6 +209,7 @@ class TableCalendarBaseState extends State<TableCalendarBase> {
               );
             },
             child: CalendarCore(
+              isDowTop: widget.isDowTop,
               constraints: constraints,
               pageController: _pageController,
               scrollPhysics: _canScrollHorizontally

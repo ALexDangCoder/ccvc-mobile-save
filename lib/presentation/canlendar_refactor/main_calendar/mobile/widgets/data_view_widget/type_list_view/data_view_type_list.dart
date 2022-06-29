@@ -15,7 +15,13 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 class DataViewTypeList extends StatefulWidget {
-  const DataViewTypeList({Key? key, required this.cubit}) : super(key: key);
+  const DataViewTypeList({
+    Key? key,
+    required this.cubit,
+    this.isTablet = false,
+  }) : super(key: key);
+
+  final bool isTablet;
 
   final CalendarWorkCubit cubit;
 
@@ -35,7 +41,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 16,
+        horizontal: 30,
       ),
       child: StreamBuilder<List<ListLichLVModel>>(
         stream: widget.cubit.listWorkStream,
@@ -153,29 +159,31 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: item.isTrung
-                            ? Container(
-                                padding:
-                                    const EdgeInsets.only(top: 3, left: 15),
-                                decoration: BoxDecoration(
-                                  color: statusCalenderRed.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(
-                                    color: statusCalenderRed.withOpacity(0.1),
-                                  ),
-                                ),
-                                height: 24,
-                                child: Text(
-                                  S.current.trung,
-                                  style: textNormalCustom(
-                                    color: statusCalenderRed,
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              )
-                            : Container(),
-                      ),
+                      if (item.isTrung)
+                        Container(
+                          padding: const EdgeInsets.only(
+                            top: 3,
+                            left: 15,
+                            right: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            color: statusCalenderRed.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                              color: statusCalenderRed.withOpacity(0.1),
+                            ),
+                          ),
+                          height: 24,
+                          child: Text(
+                            S.current.trung,
+                            style: textNormalCustom(
+                              color: statusCalenderRed,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        )
+                      else
+                        Container(),
                       spaceW16
                     ],
                   ),
@@ -193,25 +201,60 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                       ),
                     ),
                   ),
-                  Container(
-                    clipBehavior: Clip.hardEdge,
-                    margin: const EdgeInsets.only(right: 4.0),
-                    height: 24.0,
-                    width: 24.0,
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      '',
-                      errorBuilder: (_, __, ___) => Image.asset(ImageAssets.anhDaiDienMacDinh),
-                      fit: BoxFit.cover,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: itemAvatar(''),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget itemAvatar(String url) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.only(right: 4.0),
+      height: 24.0,
+      width: 24.0,
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.circle,
+      ),
+      child: Image.network(
+        '',
+        errorBuilder: (_, __, ___) =>
+            Image.asset(ImageAssets.anhDaiDienMacDinh),
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  Widget liveOrOnLive({required bool isLive}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 3,
+        horizontal: 15,
+      ),
+      decoration: BoxDecoration(
+        color: isLive ? textDefault : itemWidgetUsing,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      height: 24,
+      child: Text(
+        isLive ? S.current.truc_tiep : S.current.truc_tuyen,
+        style: textNormalCustom(
+          color: statusCalenderRed,
+          fontSize: 12.0,
         ),
       ),
     );

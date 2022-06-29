@@ -7,6 +7,7 @@ class ExpandOnlyWidget extends StatefulWidget {
   final Widget header;
   final Widget child;
   final bool isShowIcon;
+  final BoxDecoration? headerDecoration;
   final bool? isPadingIcon;
   final double? padingSize;
   final double? paddingRightIcon;
@@ -18,6 +19,7 @@ class ExpandOnlyWidget extends StatefulWidget {
     this.initExpand = false,
     required this.child,
     required this.header,
+    this.headerDecoration,
     this.isShowIcon = true,
     this.initController,
     this.paddingRightIcon,
@@ -133,34 +135,37 @@ class ExpandedSectionState extends State<ExpandOnlyWidget>
               widget.onchange?.call(false);
             }
           },
-          child: Row(
-            children: [
-              Flexible(child: widget.header),
-              if (widget.isShowIcon)
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: widget.isPadingIcon == true
-                        ? widget.paddingRightIcon ?? 16
-                        : 0,
-                  ),
-                  child: AnimatedBuilder(
-                    animation: expandController,
-                    builder: (context, _) {
-                      return expandController.value == 0
-                          ? const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: AqiColor,
-                            )
-                          : const Icon(
-                              Icons.keyboard_arrow_up_rounded,
-                              color: AqiColor,
-                            );
-                    },
-                  ),
-                )
-              else
-                const SizedBox()
-            ],
+          child: Container(
+            decoration: widget.headerDecoration,
+            child: Row(
+              children: [
+                Flexible(child: widget.header),
+                if (widget.isShowIcon)
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: widget.isPadingIcon == true
+                          ? widget.paddingRightIcon ?? 16
+                          : 0,
+                    ),
+                    child: AnimatedBuilder(
+                      animation: expandController,
+                      builder: (context, _) {
+                        return expandController.value == 0
+                            ? const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AqiColor,
+                              )
+                            : const Icon(
+                                Icons.keyboard_arrow_up_rounded,
+                                color: AqiColor,
+                              );
+                      },
+                    ),
+                  )
+                else
+                  const SizedBox()
+              ],
+            ),
           ),
         ),
         SizeTransition(

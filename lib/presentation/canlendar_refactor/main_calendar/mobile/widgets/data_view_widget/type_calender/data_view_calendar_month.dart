@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -9,6 +9,7 @@ class DataViewCalendarMonth extends StatefulWidget {
   const DataViewCalendarMonth({
     Key? key,
     required this.propertyChanged,
+    this.isTablet = false,
     required this.buildAppointment,
     required this.data,
     required this.fCalendarController,
@@ -18,6 +19,7 @@ class DataViewCalendarMonth extends StatefulWidget {
   final Function(String property) propertyChanged;
   final DataSourceFCalendar data;
   final CalendarController fCalendarController;
+  final bool isTablet;
   final Widget Function(Appointment appointment) buildAppointment;
 
   @override
@@ -61,9 +63,7 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
         }
       }
     }
-
   }
-
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController
@@ -78,10 +78,28 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Container(
-        constraints: const BoxConstraints(
-          minHeight: 650,
+        constraints: BoxConstraints(
+          minHeight: widget.isTablet ? 800 : 650,
         ),
-        height: 650,
+        margin: widget.isTablet
+            ? const EdgeInsets.only(
+                left: 30,
+                right: 30,
+              )
+            : null,
+        decoration: widget.isTablet
+            ? BoxDecoration(
+                color: backgroundColorApp,
+                border: Border.all(
+                  color: borderColor.withOpacity(0.5),
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              )
+            : null,
+        height: widget.isTablet ? 800 : 650,
         child: SfCalendar(
           firstDayOfWeek: 1,
           allowAppointmentResize: true,
@@ -97,6 +115,7 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
               color: colorA2AEBD,
             ),
           ),
+          viewHeaderHeight: 50,
           monthViewSettings: MonthViewSettings(
             appointmentDisplayCount: 3,
             monthCellStyle: MonthCellStyle(
@@ -109,9 +128,8 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
                 fontSize: 14,
                 color: fontColorTablet2,
               ),
+              todayBackgroundColor: widget.isTablet ?  bgCalenderColor : null,
             ),
-            // numberOfWeeksInView: 4,
-            //showAgenda: true,
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
           ),
           selectionDecoration: const BoxDecoration(color: Colors.transparent),
@@ -137,6 +155,4 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
       ),
     );
   }
-
-
 }

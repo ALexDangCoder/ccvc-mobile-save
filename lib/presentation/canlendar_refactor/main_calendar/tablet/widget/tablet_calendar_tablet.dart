@@ -20,8 +20,10 @@ class TableCalendarTabletWidget extends StatefulWidget {
   final ChooseTimeController controller;
   final Function(DateTime) onPageCalendar;
   final Function(DateTime) onSelect;
+  final List<DateTime> calendarDays;
   const TableCalendarTabletWidget(
       {Key? key,
+        required this.calendarDays,
       required this.controller,
       required this.onPageCalendar,
       required this.onSelect})
@@ -121,7 +123,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
             weekdayStyle: textNormalCustom(fontSize: 18, color: color667793),
             weekendStyle: textNormalCustom(fontSize: 18, color: colorA2AEBD),
           ),
-          eventLoader: (day) => [DateTime.now()]
+          eventLoader: (day) => widget.calendarDays
               .where((element) => isSameDay(element, day))
               .toList(),
           startingDayOfWeek: StartingDayOfWeek.monday,

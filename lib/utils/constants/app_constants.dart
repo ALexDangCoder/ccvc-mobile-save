@@ -187,6 +187,9 @@ class WidgetTypeConstant {
   static const String TINH_HINH_XU_LY_HO_SO_CA_NHAN = 'TinhHinhXuLyHoSoCaNhan';
   static const String DANH_SACH_DICH_VU_CONG = 'DanhSachDichVuCong';
   static const String TiNH_HINH_XU_LY_HO_SO_DON_VI = 'TinhHinhXuLyHoSoDonVi';
+  static const String TiNH_HINH_PAKN_CA_NHAN = 'TinhHinhXuLyPAKNCaNhan';
+  static const String TiNH_HINH_PAKN_DON_VI = 'PhanAnhKienNghiDonVi';
+  static const String DANH_SACH_PAKN = 'YKienNguoiDanTongHop';
 }
 
 class DocumentState {
@@ -241,6 +244,7 @@ class DateFormatApp {
   static String monthDayFormat = 'MM/dd/yyyy HH:mm';
   static String pickDateFormat = 'dd/MM/yyyy HH:mm';
 }
+
 
 class StatusYKND {
   static const String CHUA_THUC_HIEN_YKND = '1';

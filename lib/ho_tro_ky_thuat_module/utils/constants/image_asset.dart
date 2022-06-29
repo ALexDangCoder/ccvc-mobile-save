@@ -22,6 +22,11 @@ class ImageAssets {
   static const String img_companies_svg = '$baseImg/img_company.svg';
   static const String ic_copy = '$baseImg/ic_copy.svg';
 
+  //
+  static const String ic_call = '$baseImg/ic_call.svg';
+  static const String ic_ho_tro_ky_thuat = '$baseImg/ic_ho_tro_ky_thuat.svg';
+  static const String ic_phone = '$baseImg/ic_phone.svg';
+
   static SvgPicture svgAssets(
     String name, {
     Color? color,

@@ -15,8 +15,6 @@ const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
 
-
-
 //bottom navigation color
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);
@@ -258,6 +256,8 @@ abstract class AppColor {
   Color unselectedLabelColor();
 
   Color sideTextInactiveColor();
+
+  Color borderColors();
 }
 
 class DefaultApp extends AppColor {
@@ -390,6 +390,11 @@ class DefaultApp extends AppColor {
   Color nhiemVuBoColor() {
     return color0A45B9;
   }
+
+  @override
+  Color borderColors() {
+    return borderColor;
+  }
 }
 
 class BlueApp extends AppColor {
@@ -493,7 +498,6 @@ class BlueApp extends AppColor {
     return AqiColor;
   }
 
-
   @override
   Color colorField() {
     return numberOfCalenders;
@@ -524,6 +528,10 @@ class BlueApp extends AppColor {
     return textBodyTime;
   }
 
+  @override
+  Color borderColors() {
+    return borderColor;
+  }
 }
 
 class PinkApp extends AppColor {
@@ -629,7 +637,6 @@ class PinkApp extends AppColor {
 
   @override
   Color colorField() {
-
     return pinkColor;
   }
 
@@ -653,10 +660,14 @@ class PinkApp extends AppColor {
     return colorB9C4D0;
   }
 
-
   @override
   Color textBodyTimeColor() {
     return textBodyTime;
+  }
+
+  @override
+  Color borderColors() {
+    return borderColor;
   }
 }
 
@@ -789,6 +800,11 @@ class YellowApp extends AppColor {
   @override
   Color textBodyTimeColor() {
     return textBodyTime;
+  }
+
+  @override
+  Color borderColors() {
+    return borderColor;
   }
 }
 

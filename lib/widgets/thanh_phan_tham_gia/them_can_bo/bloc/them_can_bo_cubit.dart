@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
-  final List<DonViModel> listSelectCanBo = [];
+   List<DonViModel> listSelectCanBo = [];
   List<DonViModel> listCanBo = [];
 
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
@@ -26,10 +26,11 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
       SearchCanBoRequest(iDDonVi: donViModel.id, pageIndex: 1, pageSize: 100),
     );
     emit(MainStateInitial());
-    listSelectCanBo.clear();
+    // listSelectCanBo.clear();
     result.when(
       success: (res) {
         listCanBo = res;
+
         _getCanbo.sink.add(listCanBo);
       },
       error: (err) {},
@@ -73,10 +74,9 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   void selectCanBo(DonViModel canBoModel, {bool isCheck = false}) {
     if (isCheck) {
       listSelectCanBo.add(canBoModel);
-      print("xxxx${listSelectCanBo}");
+
     } else {
       listSelectCanBo.remove(canBoModel);
-      print("xxxx${listSelectCanBo}");
     }
   }
   void search(String text) {

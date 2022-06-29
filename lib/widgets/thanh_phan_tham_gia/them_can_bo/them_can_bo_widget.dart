@@ -20,6 +20,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_ca
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_state.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/widgets/can_bo_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/widgets/select_don_vi.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,6 +43,7 @@ class ThemCanBoWidget extends StatefulWidget {
 }
 
 class _ThemDonViScreenState extends State<ThemCanBoWidget> {
+  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
   @override
   Widget build(BuildContext context) {
     return SolidButton(
@@ -61,6 +63,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.8,
           child: ThemCanBoScreen(
+            themDonViCubit: themDonViCubit,
             cubit: widget.cubit,
             needCheckTrung: widget.needCheckTrung,
             themCanBoCubit: widget.themCanBoCubit,
@@ -76,6 +79,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         context,
         title: S.current.chon_thanh_phan_tham_gia,
         child: ThemCanBoScreen(
+          themDonViCubit: themDonViCubit,
           cubit: widget.cubit,
           needCheckTrung: widget.needCheckTrung,
           themCanBoCubit: widget.themCanBoCubit,
@@ -97,6 +101,7 @@ class ThemCanBoScreen extends StatefulWidget {
   final bool needCheckTrung;
   final bool removeButton;
   final ThemCanBoCubit themCanBoCubit;
+  final ThemDonViCubit themDonViCubit;
 
   const ThemCanBoScreen({
     Key? key,
@@ -104,6 +109,7 @@ class ThemCanBoScreen extends StatefulWidget {
     required this.needCheckTrung,
     this.removeButton = false,
     required this.themCanBoCubit,
+    required this.themDonViCubit,
   }) : super(key: key);
 
   @override
@@ -113,15 +119,17 @@ class ThemCanBoScreen extends StatefulWidget {
 class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-  }
+    final List<DonViModel> listSelectCanBo = [];
 
-  @override
-  void dispose() {
-    super.dispose();
-    widget.themCanBoCubit.dispose();
+    for (var element in widget.themCanBoCubit.listSelectCanBo) {
+      if(widget.cubit.listPeople.map((e) => e.id).contains(element.id)){
+        listSelectCanBo.add(element);
+      }
+    }
+    widget.themCanBoCubit.listSelectCanBo = listSelectCanBo;
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -138,6 +146,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
             onChange: (value) {
               widget.themCanBoCubit.getCanBo(value);
             },
+            themDonViCubit: widget.themDonViCubit,
           ),
           SizedBox(
             height: 20.0.textScale(space: 4),
@@ -148,7 +157,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
           ),
           spaceH16,
           BaseSearchBar(
-            hintText: S.current.nhap_ten_don_vi_phong_ban,
+            hintText: S.current.nhap_ten_can_bo,
             onChange: (value) {
               widget.themCanBoCubit.search(value);
             },
@@ -227,6 +236,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                   },
                                   canBoModel: result,
                                   themCanBoCubit: widget.themCanBoCubit,
+                                  cubit: widget.cubit,
                                 ),
                               );
                             },

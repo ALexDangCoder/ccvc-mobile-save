@@ -13,11 +13,12 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
+
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -31,7 +32,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
-  CalendarMeetingCubit() : super(const CalendarViewState()) {
+  CalendarMeetingCubit() : super( CalendarViewState()) {
     showContent();
   }
 
@@ -406,6 +407,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+        checkDuplicate(value.items ?? []);
         _danhSachLichHopSubject.sink.add(value);
       },
       error: (error) {},

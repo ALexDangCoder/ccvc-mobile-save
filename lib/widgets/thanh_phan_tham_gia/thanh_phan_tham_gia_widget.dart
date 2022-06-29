@@ -76,7 +76,8 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   element.value.vaiTroThamGia = 1;
                   element.value.type = 2;
                 });
-                _cubit.addPeopleThamGia(
+
+                _cubit.addPeopleThamGiaDonVi(
                   value.map((e) => e.value).toList(),
                 );
               },

@@ -8,20 +8,24 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart'
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:rxdart/rxdart.dart';
 
 class RecallCalendar extends StatefulWidget {
-  final String id;
   final ChiTietLichLamViecCubit cubit;
+  final Function() callback;
 
-  const RecallCalendar({Key? key, required this.cubit, required this.id})
-      : super(key: key);
+  const RecallCalendar({
+    Key? key,
+    required this.cubit,
+    required this.callback,
+  }) : super(key: key);
 
   @override
   _RecallCalendarState createState() => _RecallCalendarState();
@@ -30,64 +34,46 @@ class RecallCalendar extends StatefulWidget {
 class _RecallCalendarState extends State<RecallCalendar> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SelectThuHoiWidget(
-            cubit: widget.cubit,
-          ),
-          const SizedBox(
-            height: 36,
-          ),
-          Padding(
-            padding: APP_DEVICE == DeviceType.MOBILE
-                ? EdgeInsets.zero
-                : const EdgeInsets.symmetric(horizontal: 100),
-            child: DoubleButtonBottom(
-              title1: S.current.dong,
-              title2: S.current.thu_hoi,
-              onPressed1: () {
-                Navigator.pop(context);
-              },
-              onPressed2: () {
-                Navigator.pop(context);
-              },
+    return BlocListener<ChiTietLichLamViecCubit, ChiTietLichLamViecState>(
+      bloc: widget.cubit,
+      listener: (context, state) {
+        if (state is SuccessChiTietLichLamViecState) {
+          Navigator.pop(context, true);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SelectTHuHoiCell(
+              cubit: widget.cubit,
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SelectThuHoiWidget extends StatefulWidget {
-  final ChiTietLichLamViecCubit cubit;
-
-  const SelectThuHoiWidget({
-    Key? key,
-    required this.cubit,
-  }) : super(key: key);
-
-  @override
-  State<SelectThuHoiWidget> createState() => _SelectThuHoiWidgetState();
-}
-
-class _SelectThuHoiWidgetState extends State<SelectThuHoiWidget> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SelectTHuHoiCell(
-          cubit: widget.cubit,
+            const SizedBox(
+              height: 36,
+            ),
+            Padding(
+              padding: APP_DEVICE == DeviceType.MOBILE
+                  ? EdgeInsets.zero
+                  : const EdgeInsets.symmetric(horizontal: 100),
+              child: DoubleButtonBottom(
+                title1: S.current.dong,
+                title2: S.current.thu_hoi,
+                onPressed1: () {
+                  Navigator.pop(context);
+                },
+                onPressed2: () {
+                  widget.callback();
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -127,11 +113,16 @@ class SelectTHuHoiCell extends StatelessWidget {
         stream: cubit.listRecall.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
-          final dataSN = data.map((e) => e.getTitle()).toList();
+          final dataSN = data
+              .where((element) => element.status == 4)
+              .map((e) => e.getTitle())
+              .toList();
           return Stack(
             alignment: AlignmentDirectional.centerStart,
             children: [
               DropDownSearchThuHoi(
+                cubit: cubit,
+                showHintText: dataSN.isEmpty,
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
                 hintText: 'Chọn cán bộ hoặc đơn vị để thu hồi',
@@ -152,7 +143,10 @@ class SelectTHuHoiCell extends StatelessWidget {
                   return tag(
                     title: dataSnb,
                     onDelete: () {
-                      cubit.dataRecall[index].status = 0;
+                      cubit
+                          .dataRecall[cubit.dataRecall.indexWhere(
+                              (element) => element.getTitle() == dataSnb)]
+                          .status = 0;
                       cubit.listRecall.sink.add(cubit.dataRecall);
                     },
                   );
@@ -214,9 +208,11 @@ class SelectTHuHoiCell extends StatelessWidget {
 
 class DropDownSearchThuHoi extends StatefulWidget {
   final List<Officer> listSelect;
+  final ChiTietLichLamViecCubit cubit;
   final String title;
   final Function(int) onChange;
   final String hintText;
+  final bool showHintText;
 
   const DropDownSearchThuHoi({
     Key? key,
@@ -224,6 +220,8 @@ class DropDownSearchThuHoi extends StatefulWidget {
     this.title = '',
     required this.onChange,
     this.hintText = '',
+    required this.cubit,
+    this.showHintText = true,
   }) : super(key: key);
 
   @override
@@ -232,7 +230,6 @@ class DropDownSearchThuHoi extends StatefulWidget {
 
 class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
   final TextEditingController textEditingController = TextEditingController();
-  BehaviorSubject<List<Officer>> searchItemSubject = BehaviorSubject();
   Officer select = Officer();
 
   @override
@@ -246,7 +243,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             width: double.infinity,
-            child: select.getTitle() == ''
+            child: widget.showHintText
                 ? Text(
                     widget.hintText,
                     style: textNormal(
@@ -276,7 +273,6 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
   }
 
   void showListItem(BuildContext context) {
-    searchItemSubject = BehaviorSubject.seeded(widget.listSelect);
     if (isMobile()) {
       showDialog(
           context: context,
@@ -336,8 +332,13 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
             );
           });
     } else {
-      showDiaLogTablet(context,
-          title: widget.title, child: dialogCell(), funcBtnOk: () {});
+      showDiaLogTablet(
+        context,
+        title: widget.title,
+        child: dialogCell(),
+        isBottomShow: false,
+        funcBtnOk: () {},
+      );
     }
   }
 
@@ -347,71 +348,65 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
   }
 
   Widget dialogCell() {
+    final listData = widget.cubit.dataRecall;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
         spaceH8,
         Expanded(
-          child: StreamBuilder<List<Officer>>(
-            stream: searchItemSubject,
-            builder: (context, snapshot) {
-              final listData = snapshot.data ?? [];
-              return listData.isEmpty
-                  ? const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: NodataWidget(),
-                    )
-                  : ListView.separated(
-                      itemBuilder: (context, index) {
-                        final itemTitle = snapshot.data?[index] ?? Officer();
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              select = itemTitle;
-                            });
-                            widget.onChange(selectIndex());
-                            Navigator.of(context).pop();
-                            searchItemSubject.close();
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 4,
-                              horizontal: 4,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    itemTitle.getTitle(),
-                                    style: textNormalCustom(
-                                      color: titleItemEdit,
-                                      fontWeight: itemTitle == select
-                                          ? FontWeight.w600
-                                          : FontWeight.w400,
-                                    ),
-                                  ),
+          child: listData.isEmpty
+              ? const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: NodataWidget(),
+                )
+              : ListView.separated(
+                  itemBuilder: (context, index) {
+                    final itemTitle = listData[index];
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          select = itemTitle;
+                        });
+                        widget.onChange(selectIndex());
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 4,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                itemTitle.getTitle(),
+                                style: textNormalCustom(
+                                  color: titleItemEdit,
+                                  fontWeight: itemTitle == select
+                                      ? FontWeight.w600
+                                      : FontWeight.w400,
                                 ),
-                                if (itemTitle.status == 4)
-                                  const Icon(
-                                    Icons.done_sharp,
-                                    color: buttonColor,
-                                  ),
-                              ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const Divider(
-                          color: borderColor,
-                        );
-                      },
-                      itemCount: snapshot.data?.length ?? 0,
+                            if (itemTitle.status == 4)
+                              const Icon(
+                                Icons.done_sharp,
+                                color: buttonColor,
+                              ),
+                          ],
+                        ),
+                      ),
                     );
-            },
-          ),
+                  },
+                  separatorBuilder: (context, index) {
+                    return const Divider(
+                      color: borderColor,
+                    );
+                  },
+                  itemCount: listData.length,
+                ),
         ),
         const SizedBox(
           height: 10,

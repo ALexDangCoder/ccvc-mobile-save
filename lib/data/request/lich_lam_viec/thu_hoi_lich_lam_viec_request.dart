@@ -13,15 +13,15 @@ class RecallRequest {
   @JsonKey(name: 'id')
   String? id;
   @JsonKey(name: 'status')
-  int status = 0;
+  int status ;
 
-  RecallRequest(
+  RecallRequest({
     this.donViId,
     this.scheduleId,
     this.canBoId,
     this.id,
-    this.status,
-  );
+    this.status = 0,
+  });
 
   factory RecallRequest.fromJson(Map<String, dynamic> json) =>
       _$RecallRequestFromJson(json);

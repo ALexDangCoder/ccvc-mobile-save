@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -65,7 +66,10 @@ mixin CalendarWorkRepository {
 
   Future<Result<MessageModel>> deleteBaoCaoKetQua(String id);
 
-  Future<Result<MessageModel>> recallWorkCalendar(bool isMulti);
+  Future<Result<MessageModel>> recallWorkCalendar(
+    bool isMulti,
+    List<RecallRequest> request,
+  );
 
   Future<Result<DataLichLvModel>> getListLichLamViec(
     DanhSachLichLamViecRequest danhSachLichLamViecRequest,

@@ -8,7 +8,7 @@ class Officer {
   String? userId = '';
   String? scheduleId = '';
   bool? isConfirm = false;
-  int? status = 0;
+  int? status;
   String? confirmDate = '';
   String? taskContent = '';
 
@@ -22,7 +22,7 @@ class Officer {
     this.userId,
     this.scheduleId,
     this.isConfirm,
-    this.status,
+    this.status = 0,
     this.confirmDate,
     this.taskContent,
   });

@@ -1,9 +1,10 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_base_phone.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
@@ -13,10 +14,17 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/days_of_week_style_phone.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TableCalendarTabletWidget extends StatefulWidget {
   final ChooseTimeController controller;
-  const TableCalendarTabletWidget({Key? key, required this.controller})
+  final Function(DateTime) onPageCalendar;
+  final Function(DateTime) onSelect;
+  const TableCalendarTabletWidget(
+      {Key? key,
+      required this.controller,
+      required this.onPageCalendar,
+      required this.onSelect})
       : super(key: key);
 
   @override
@@ -31,6 +39,15 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      widget.controller.selectDate.addListener(() {
+        selectDay = widget.controller.selectDate.value;
+        if (mounted) setState(() {});
+      });
+      widget.controller.calendarType.addListener(() {
+        if (mounted) setState(() {});
+      });
+    });
   }
 
   @override
@@ -38,6 +55,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ValueListenableBuilder<DateTime>(
               valueListenable: pageDateTime,
@@ -45,28 +63,71 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
                 return coverTime(value);
               },
             ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    widget.controller.backTime();
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    width: 32,
+                    height: 26,
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      ImageAssets.icBack,
+                      color: colorA2AEBD,
+                      height: 18,
+                      width: 8,
+                    ),
+                  ),
+                ),
+                Text(
+                  dateFormat(selectDay),
+                  style: textNormalCustom(fontSize: 16, color: labelColor),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    widget.controller.nextTime();
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    width: 32,
+                    height: 26,
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      ImageAssets.icNext,
+                      color: colorA2AEBD,
+                      height: 18,
+                      width: 7,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         TableCalendarPhone(
           locale: 'vi',
           isDowTop: false,
           onPageChanged: (value) {
+            pageDateTime.value = value;
             if (value.month != widget.controller.pageTableCalendar.month) {
               widget.controller.pageTableCalendar = value;
-              pageDateTime.value = value;
-              // widget.onPageCalendar(value);
+              widget.onPageCalendar(value);
             }
           },
           daysOfWeekStyle: DaysOfWeekStyle(
-              weekdayStyle: textNormalCustom(fontSize: 18, color: color667793),
-              weekendStyle: textNormalCustom(fontSize: 18, color: colorA2AEBD)),
+            weekdayStyle: textNormalCustom(fontSize: 18, color: color667793),
+            weekendStyle: textNormalCustom(fontSize: 18, color: colorA2AEBD),
+          ),
           eventLoader: (day) => [DateTime.now()]
               .where((element) => isSameDay(element, day))
               .toList(),
           startingDayOfWeek: StartingDayOfWeek.monday,
           onDaySelected: (selectDay, focusDay) {
             this.selectDay = selectDay;
-            // widget.onSelect(selectDay);
+            widget.onSelect(selectDay);
             setState(() {});
           },
           daysOfWeekVisible: true,
@@ -128,5 +189,25 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
         ],
       ),
     );
+  }
+
+  String dateFormat(DateTime dateTime) {
+    final now = DateTime.now();
+    if (dateTime.year == now.year && dateTime.month == now.month) {
+      return S.current.thang_nay;
+    }
+    switch (widget.controller.calendarType.value) {
+      case CalendarType.DAY:
+        return dateTime.formatDayCalendar;
+      case CalendarType.WEEK:
+        return dateTime.startEndWeek;
+      case CalendarType.MONTH:
+        final dateTimeFormRange =
+            dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+
+        final dataString =
+            '${dateTimeFormRange[0].day} - ${dateTimeFormRange[1].formatDayCalendar}';
+        return dataString;
+    }
   }
 }

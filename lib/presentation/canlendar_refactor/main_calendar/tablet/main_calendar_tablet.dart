@@ -51,7 +51,12 @@ class _MainCalendarTabletScreenState extends State<MainCalendarTabletScreen> {
             height: 20,
           ),
           ChooseTimeCalendarTablet(
-            onChange: (startDate, endDate, type, keySearch) {},
+            onChange: (startDate, endDate, type, keySearch) {
+
+            },
+            onChangeYear: (startDate,endDate,keySearch){
+
+            }, onTapTao: () {  },
           )
         ],
       ),

@@ -18,12 +18,15 @@ class ChooseTimeCalendarTablet extends StatefulWidget {
   final Function(DateTime, DateTime, CalendarType, String) onChange;
   final ChooseTimeController? controller;
   final Function(DateTime, DateTime, String)? onChangeYear;
+  final Function() onTapTao;
   const ChooseTimeCalendarTablet(
       {Key? key,
       this.calendarDays = const [],
       required this.onChange,
       this.controller,
-      this.onChangeYear})
+      this.onChangeYear,
+      required this.onTapTao
+      })
       : super(key: key);
 
   @override
@@ -61,21 +64,44 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        header(),
-        TableCalendarTabletWidget(controller: controller,),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          header(),
+          const SizedBox(
+            height: 28,
+          ),
+          TableCalendarTabletWidget(
+            controller: controller,
+            onPageCalendar: (value) {
+              final times =
+                  value.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+              widget.onChangeYear
+                  ?.call(times.first, times.last, textEditingController.text);
+            },
+            onSelect: (value) {
+              controller.selectDate.value = value;
+            },
+          ),
+        ],
+      ),
     );
   }
-  Widget header(){
+
+  Widget header() {
     return Row(
       children: [
         Expanded(
           child: Align(
             alignment: Alignment.centerLeft,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                widget.onTapTao();
+              },
               child: SvgPicture.asset(
                 ImageAssets.icAddCaledarScheduleMeet,
                 color: AppTheme.getInstance().colorField(),
@@ -84,9 +110,13 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
           ),
         ),
         ChooseTimeCalendarTypeWidget(
-          controller: controller, onChange: (type) {
-
-        },
+          controller: controller,
+          onChange: (type) {
+            controller.calendarType.value = type;
+            final times = dateTimeRange(controller.selectDate.value);
+            widget.onChange(times[0], times[1], controller.calendarType.value,
+                textEditingController.text);
+          },
         ),
         Expanded(
           flex: 2,
@@ -107,6 +137,15 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
                 ],
               ),
               child: TextField(
+                onSubmitted: (value) {
+                  final times = dateTimeRange(controller.selectDate.value);
+                  widget.onChange(
+                      times[0], times[1], controller.calendarType.value, value);
+                  final timePage = controller.pageTableCalendar
+                      .dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+                  widget.onChangeYear?.call(timePage.first, timePage.last,
+                      textEditingController.text);
+                },
                 decoration: InputDecoration(
                   prefixIcon: IconButton(
                     onPressed: () {},

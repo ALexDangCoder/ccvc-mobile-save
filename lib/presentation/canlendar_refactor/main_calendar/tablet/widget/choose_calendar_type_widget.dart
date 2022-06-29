@@ -35,7 +35,7 @@ class _ChooseTimeCalendarTypeWidgetState
     const data = CalendarType.values;
     return Container(
       height: 48,
-      padding: EdgeInsets.all(6),
+      padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           color: backgroundColorApp,

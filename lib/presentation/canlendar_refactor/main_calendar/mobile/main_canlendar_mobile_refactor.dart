@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -23,14 +22,16 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MainCanlendanRefactor extends StatefulWidget {
-  const MainCanlendanRefactor({Key? key}) : super(key: key);
+class MainCanlendanMobileRefactor extends StatefulWidget {
+  final bool isBack;
+  const MainCanlendanMobileRefactor({Key? key, this.isBack = false})
+      : super(key: key);
 
   @override
   _MainCanlendanRefactorState createState() => _MainCanlendanRefactorState();
 }
 
-class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
+class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
   final CalendarWorkCubit cubit = CalendarWorkCubit();
 
   @override
@@ -71,6 +72,17 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
           title: S.current.lich_cua_toi,
           leadingIcon: Row(
             children: [
+              Visibility(
+                visible: widget.isBack,
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 16),
+                      child: Icon(Icons.arrow_back_ios),
+                    )),
+              ),
               cubit.controller.getIcon(),
             ],
           ),
@@ -90,31 +102,33 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
           child: Column(
             children: [
               StreamBuilder<List<DateTime>>(
-                  stream: cubit.listNgayCoLichStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <DateTime>[];
-                    return ChooseTimeCalendarWidget(
-                      calendarDays: data,
-                      onChange: (startDate, endDate, type, keySearch) {
-                        if (type != cubit.state.typeView) {
-                          if (cubit.state is CalendarViewState) {
-                            cubit.emitCalendar(type: type);
-                          } else {
-                            cubit.emitList(type: type);
-                          }
+                stream: cubit.listNgayCoLichStream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? <DateTime>[];
+                  return ChooseTimeCalendarWidget(
+                    calendarDays: data,
+                    onChange: (startDate, endDate, type, keySearch) {
+                      if (type != cubit.state.typeView) {
+                        if (cubit.state is CalendarViewState) {
+                          cubit.emitCalendar(type: type);
+                        } else {
+                          cubit.emitList(type: type);
                         }
-                        cubit.callApiByNewFilter(
-                          startDate: startDate,
-                          endDate: endDate,
-                          keySearch: keySearch,
-                        );
-                      },
-                      controller: cubit.controller,
-                      onChangeYear: (startDate, endDate, keySearch) {
-                        cubit.dayHaveEvent(startDate: startDate,endDate: endDate);
-                      },
-                    );
-                  },),
+                      }
+                      cubit.callApiByNewFilter(
+                        startDate: startDate,
+                        endDate: endDate,
+                        keySearch: keySearch,
+                      );
+                    },
+                    controller: cubit.controller,
+                    onChangeYear: (startDate, endDate, keySearch) {
+                      cubit.dayHaveEvent(
+                          startDate: startDate, endDate: endDate);
+                    },
+                  );
+                },
+              ),
               Expanded(
                   child: MouseRegion(
                       onHover: (_) {

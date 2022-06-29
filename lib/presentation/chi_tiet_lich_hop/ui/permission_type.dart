@@ -856,3 +856,21 @@ class ACTIVE_PHAT_BIEU {
   static const int DA_DUYET = 2;
   static const int HUY_DUYET = 3;
 }
+
+class STATUS_ROOM_MEETING {
+  static const int CHO_DUYET = 0;
+  static const int DA_DUYET = 1;
+  static const int HUY_DUYET = 2;
+}
+
+class STATUS_DETAIL {
+  static const int NHAP = 0;
+  static const int CHO_DUYET = 1;
+  static const int DA_DUYET = 2;
+  static const int TU_CHOI_DUYET = 3;
+  static const int THU_HOI = 4;
+  static const int DANG_DIEN_DA = 5;
+  static const int DA_GUI_LOI_MOI = 6;
+  static const int XOA = 7;
+  static const int HUY = 8;
+}

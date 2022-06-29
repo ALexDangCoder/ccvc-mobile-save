@@ -72,6 +72,14 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
           title: S.current.lich_cua_toi,
           leadingIcon: Row(
             children: [
+              spaceW16,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: ImageAssets.svgAssets(ImageAssets.icBack),
+              ),
+              spaceW12,
               cubit.controller.getIcon(),
             ],
           ),
@@ -230,7 +238,6 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                   ),
                 ],
                 onChoose: (value, state) {
-                  // cubit.menuClick(value, state);
                   cubit.handleMenuSelect(
                     itemMenu: value,
                     state: state,

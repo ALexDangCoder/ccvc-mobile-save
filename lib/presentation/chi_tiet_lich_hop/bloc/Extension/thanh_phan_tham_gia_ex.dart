@@ -84,12 +84,12 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   }
 
   bool checkIsSelected(String id) {
-    bool vl = false;
+    bool value = false;
     if (selectedIds.contains(id)) {
-      vl = true;
+      value = true;
     }
     validateCheckAll();
-    return vl;
+    return value;
   }
 
   void addOrRemoveId({

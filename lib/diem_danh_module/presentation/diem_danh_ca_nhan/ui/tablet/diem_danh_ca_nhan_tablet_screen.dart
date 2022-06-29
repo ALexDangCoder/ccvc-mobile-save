@@ -18,9 +18,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
 
 class DiemDanhCaNhanTabletScreen extends StatefulWidget {
-  DiemDanhCubit cubit;
+  final DiemDanhCubit cubit;
 
-  DiemDanhCaNhanTabletScreen({Key? key, required this.cubit}) : super(key: key);
+  const DiemDanhCaNhanTabletScreen({Key? key, required this.cubit})
+      : super(key: key);
 
   @override
   _DiemDanhCaNhanTabletScreenState createState() =>
@@ -35,10 +36,11 @@ class _DiemDanhCaNhanTabletScreenState
     widget.cubit.postBangDiemDanhCaNhan();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:colorF9FAFF ,
+      backgroundColor: colorF9FAFF,
       appBar: BaseAppBar(
         title: S.current.diem_danh_ca_nhan,
         leadingIcon: IconButton(
@@ -81,53 +83,56 @@ class _DiemDanhCaNhanTabletScreenState
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 28.0),
+                  padding:
+                      const EdgeInsets.only(left: 30.0, right: 30.0, top: 28.0),
                   child: Row(
                     children: [
-                      Expanded(child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: colorE2E8F0),
-                          borderRadius: BorderRadius.circular(6.0),
-                          color: colorFFFFFF,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.05),
-                              blurRadius: 5,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: ExpandOnlyWidget(
-                          padingSize: 8,
-                          isPadingIcon: true,
-                          initExpand: true,
-                          header: Container(
-                            color: Colors.transparent,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 16.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    S.current.thong_ke,
-                                    style: textNormalCustom(
-                                        color: color3D5586, fontSize: 14),
-                                  ),
-                                ],
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: colorE2E8F0),
+                            borderRadius: BorderRadius.circular(6.0),
+                            color: colorFFFFFF,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.05),
+                                blurRadius: 5,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: ExpandOnlyWidget(
+                            padingSize: 8,
+                            isPadingIcon: true,
+                            initExpand: true,
+                            header: Container(
+                              color: Colors.transparent,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 16.0,),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      S.current.thong_ke,
+                                      style: textNormalCustom(
+                                          color: color3D5586, fontSize: 14,),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          child: StreamBuilder<ThongKeDiemDanhCaNhanModel>(
-                              stream: widget.cubit.thongKeSubject,
-                              builder: (context, snapshot) {
-                                final data=snapshot.data;
-                                return WidgetItemThongKe(
-                                  thongKeDiemDanhCaNhanModel: data??ThongKeDiemDanhCaNhanModel(),
-                                );
-                              }
+                            child: StreamBuilder<ThongKeDiemDanhCaNhanModel>(
+                                stream: widget.cubit.thongKeSubject,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data;
+                                  return WidgetItemThongKe(
+                                    thongKeDiemDanhCaNhanModel:
+                                        data ?? ThongKeDiemDanhCaNhanModel(),
+                                  );
+                                },),
                           ),
                         ),
-                      ),  ),
+                      ),
                       Expanded(child: Container()),
                     ],
                   ),

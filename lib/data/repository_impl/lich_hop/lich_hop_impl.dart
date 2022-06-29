@@ -790,50 +790,50 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> huyOrDuyetPhongHop(
+  Future<Result<bool>> huyOrDuyetPhongHop(
     String hopId,
     bool isDuyet,
     String lyDo,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.huyOrDuyetPhongHop(hopId, isDuyet, lyDo),
-      (response) => response.toModel(),
+      (response) => response.succeeded ?? false,
     );
   }
 
   @override
-  Future<Result<ResponseModel>> thayDoiPhongHop(
+  Future<Result<bool>> thayDoiPhongHop(
     bool bit_TTDH,
     String lichHopId,
     String phongHopId,
     String tenPhong,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.thayDoiPhongHop(
         bit_TTDH,
         lichHopId,
         phongHopId,
         tenPhong,
       ),
-      (response) => response.toModel(),
+      (response) => response.succeeded ?? true,
     );
   }
 
   @override
-  Future<Result<ResponseModel>> duyetOrHuyDuyetThietBi(
+  Future<Result<bool>> duyetOrHuyDuyetThietBi(
     bool isDuyet,
     String lichHopId,
     String lyDo,
     String thietBiId,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.duyetOrHuyDuyetThietBi(
         isDuyet,
         lichHopId,
         lyDo,
         thietBiId,
       ),
-      (response) => response.toModel(),
+      (response) => response.succeeded ?? false,
     );
   }
 
@@ -867,14 +867,14 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> duyetOrHuyDuyetKyThuat(
+  Future<Result<bool>> duyetOrHuyDuyetKyThuat(
     String hopId,
     bool isDuyet,
     String lyDo,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.duyetOrHuyDuyetKyThuat(hopId, isDuyet, lyDo),
-      (response) => response.toModel(),
+      (response) => response.succeeded ?? false,
     );
   }
 
@@ -887,12 +887,12 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> chonPhongHopMetting(
+  Future<Result<bool>> chonPhongHopMetting(
     TaoLichHopRequest taoLichHopRequest,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.chonPhongHopMetting(taoLichHopRequest),
-      (res) => res.toModel(),
+      (res) => res.succeeded ?? false,
     );
   }
 

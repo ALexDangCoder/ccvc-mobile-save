@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
@@ -130,7 +133,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> ListStatusKetLuanHop() async {
+  Future<void> listStatusKetLuanHop() async {
     final result = await hopRp.getListStatusKetLuanHop();
 
     result.when(
@@ -254,11 +257,14 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     showContent();
   }
 
+
+
   Future<void> callApiKetLuanHop() async {
     await getDanhSachNhiemVu(idCuocHop);
     await getXemKetLuanHop(idCuocHop);
     await getDanhSachLoaiNhiemVu();
-    await ListStatusKetLuanHop();
+    await listStatusKetLuanHop();
+    await danhSachCanBoTPTG(id: idCuocHop);
     await postChonMauHop();
   }
 }

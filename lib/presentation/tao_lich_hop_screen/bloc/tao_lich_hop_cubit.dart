@@ -138,7 +138,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   List<File> listTaiLieu = [];
   List<File> listTaiLieuPhienHop = [];
 
-  // Set<DonViModel> listThanhPhanThamGia = {};
   Set<DonViModel> listThanhPhanThamGia = {};
   BehaviorSubject<bool> isSendEmail = BehaviorSubject.seeded(false);
   DonViModel? chuTri;

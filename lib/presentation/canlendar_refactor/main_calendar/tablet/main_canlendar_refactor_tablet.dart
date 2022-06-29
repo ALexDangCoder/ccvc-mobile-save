@@ -58,6 +58,7 @@ class _MainCalendarRefactorTabletState
       error: AppException('', S.current.something_went_wrong),
       stream: cubit.stateStream,
       child: Scaffold(
+        backgroundColor: bgTabletColor,
         appBar: AppBarWithTwoLeading(
           backGroundColorTablet: bgTabletColor,
           widgetTitle: StreamBuilder<String>(

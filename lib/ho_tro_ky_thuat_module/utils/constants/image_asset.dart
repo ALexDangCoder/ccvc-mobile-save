@@ -28,6 +28,7 @@ class ImageAssets {
   static const String ic_phone = '$baseImg/ic_phone.svg';
   static const String ic_document = '$baseImg/ic_document.svg';
   static const String ic_info_circle = '$baseImg/ic_info_circle.svg';
+  static const String ic_search = '$baseImg/ic_search.svg';
 
   static SvgPicture svgAssets(
     String name, {

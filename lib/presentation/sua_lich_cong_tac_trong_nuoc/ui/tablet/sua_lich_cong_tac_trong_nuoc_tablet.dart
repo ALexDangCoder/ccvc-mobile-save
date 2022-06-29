@@ -662,9 +662,14 @@ class _SuaLichCongTacTrongNuocTabletState
                                           .scheduleCoperatives,
                                     ),
                                     TaiLieuWidget(
-                                      files: (taoLichLamViecCubit.files ?? [])
-                                          .map((e) => File(e.path ?? ''))
-                                          .toList(),
+                                      files: taoLichLamViecCubit.files ?? [],
+                                      onChange: (onChange) {
+                                        taoLichLamViecCubit.filesTaoLich =
+                                            onChange;
+                                      },
+                                      idRemove: (String id) {
+                                        taoLichLamViecCubit.filesDelete.add(id);
+                                      },
                                     ),
                                   ],
                                 ),

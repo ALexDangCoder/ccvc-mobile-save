@@ -333,6 +333,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     taoPhienHopRequest.Files = value;
                   },
                   hasMultipleFile: true,
+                  removeFileApi: (int index) {},
                 )
               ],
             ),

@@ -298,7 +298,11 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             ThanhPhanThamGiaTLWidget(
                               taoLichLamViecCubit: createCubit,
                             ),
-                            TaiLieuWidget(),
+                            TaiLieuWidget(
+                              onChange: (onChange) {
+                                createCubit.filesTaoLich = onChange;
+                              }, idRemove: (String id) {  },
+                            ),
                             Row(
                               children: [
                                 Expanded(

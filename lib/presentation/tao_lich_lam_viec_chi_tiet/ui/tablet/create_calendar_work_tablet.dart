@@ -288,7 +288,7 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                           image: ImageAssets.icViTri,
                                           hint: S.current.dia_diem,
                                           validator: (value) {
-                                            return (value ?? '').checkNull();
+                                            return (value ?? '').validatorLocation();
                                           },
                                         ),
                                         LichLapWidget(

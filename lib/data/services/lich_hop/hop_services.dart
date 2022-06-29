@@ -336,7 +336,7 @@ abstract class HopServices {
   );
 
   @GET(ApiConstants.DANH_SACH_LOAI_NHIEM_VU)
-  Future<DanhSachNhiemVulichHopResponse> getDanhSachLoaiNhiemVu();
+  Future<List<DanhSachNhiemVulichHopResponse>> getDanhSachLoaiNhiemVu();
 
   @POST(ApiConstants.THEM_PHIEN_NhIEM_VU)
   Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(

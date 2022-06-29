@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -106,7 +107,17 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   Widget ketLuanHop() => StreamBuilder<KetLuanHopModel>(
         stream: widget.cubit.ketLuanHopSubject.stream,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          final data = snapshot.data;
+          if (widget.cubit.isSoanKetLuanHop()) {
+            return IconWithTiltleWidget(
+              icon: ImageAssets.icDocument2,
+              title: S.current.soan_ket_luan_hop,
+              onPress: () {
+                xemOrTaoKetLuanHop(widget.cubit, context);
+              },
+            );
+          }
+          if (data != null) {
             final data = snapshot.data;
             return Column(
               children: [
@@ -152,15 +163,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                   ),
               ],
             );
-          } else if (widget.cubit.isSoanKetLuanHop()) {
-            return IconWithTiltleWidget(
-              icon: ImageAssets.icDocument2,
-              title: S.current.soan_ket_luan_hop,
-              onPress: () {
-                xemOrTaoKetLuanHop(widget.cubit, context);
-              },
-            );
           }
+
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 30),
             child: NodataWidget(),

@@ -585,10 +585,10 @@ class HopRepositoryImpl implements HopRepository {
   @override
   Future<Result<List<DanhSachLoaiNhiemVuLichHopModel>>>
       getDanhSachLoaiNhiemVu() {
-    return runCatchingAsync<DanhSachNhiemVulichHopResponse,
+    return runCatchingAsync<List<DanhSachNhiemVulichHopResponse>,
         List<DanhSachLoaiNhiemVuLichHopModel>>(
       () => _hopServices.getDanhSachLoaiNhiemVu(),
-      (response) => response.data?.map((e) => e.toDomain()).toList() ?? [],
+      (response) => response.map((e) => e.toModel()).toList(),
     );
   }
 

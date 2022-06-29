@@ -1,8 +1,11 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
@@ -184,25 +187,77 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isCheck;
   }
 
-  Future<void> cuCanBoDiThay({
-    required String id,
+  Future<bool> cuCanBoDiThay({
     required List<CanBoDiThay>? canBoDiThay,
   }) async {
-    showLoading();
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
-      id: id,
+      id: idCanBoDiThay,
       lichHopId: idCuocHop,
       canBoDiThay: canBoDiThay,
     );
+    bool isCheck = true;
+    showLoading();
     final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
     result.when(
       success: (res) {
-        showContent();
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
       },
       error: (error) {
-        showError();
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
       },
     );
-    showError();
+    showContent();
+    return isCheck;
+  }
+
+  Future<bool> cuCanBo({
+    required List<CanBoDiThay>? canBoDiThay,
+  }) async {
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: idDanhSachCanBo,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    bool isCheck = true;
+    showLoading();
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
+      },
+    );
+    showContent();
+    return isCheck;
   }
 }

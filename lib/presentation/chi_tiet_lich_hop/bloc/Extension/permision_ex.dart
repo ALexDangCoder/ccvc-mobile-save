@@ -34,10 +34,10 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
     final data = jsonDecode(jsonString);
     final List<CanBoThamGiaStr> list = [];
-    (data as List<dynamic>).forEach((element) {
+    for (final element in data as List<dynamic>) {
       final cb = CanBoThamGiaStr.fromJson(element);
       list.add(cb);
-    });
+    }
     return list;
   }
 
@@ -231,7 +231,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool isOwnerNew() {
-    if(activeChuTri()) {
+    if (activeChuTri()) {
       return true;
     }
     return false;
@@ -268,7 +268,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     ///check quyen button thu hoi
     if (getChiTietLichHopModel.chuTriModel.canBoId.toUpperCase() ==
             (dataUser?.userId ?? '').toUpperCase() ||
-        isThuKy() || isNguoiTao()) {
+        isThuKy() ||
+        isNguoiTao()) {
       listButton.add(PERMISSION_DETAIL.THU_HOI);
     }
 

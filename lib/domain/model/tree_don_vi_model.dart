@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 
 
 class DonViModel {
@@ -19,7 +18,6 @@ class DonViModel {
   String donViId = '';
   String userId = '';
   String tenCoQuan = '';
-
   //param sử dụng tại tạo lịch làm việc
   int? soLuong = 0;
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();
@@ -49,30 +47,37 @@ class DonViModel {
 
   MoiThamGiaHopRequest convertTrongHeThong(String lichHopId){
     return MoiThamGiaHopRequest(
-      canBoId: canBoId.isEmpty ? null : canBoId,
+      canBoId: userId.isEmpty ? null : userId,
       donViId: vaiTroThamGia == 1
-              ? (id.isEmpty ? null : id)
-              : (donViId.isEmpty ? null : donViId),
-      email: email,
-      lichHopId: lichHopId,
-      tenCanBo: tenCanBo,
-       tenCoQuan: tenCoQuan,
+          ? (id.isEmpty ? null : id)
+          : (donViId.isEmpty ? null : donViId),
       vaiTroThamGia: vaiTroThamGia,
-      soDienThoai: sdt,
-      createAt: DateTime.now().formatApiTaoBieuQuyet,
+      DonViId: vaiTroThamGia == 1
+          ? (id.isEmpty ? null : id)
+          : (donViId.isEmpty ? null : donViId),
+      chucVu: chucVu,
+      hoTen: tenCanBo,
+      status: status,
+      tenDonVi: tenDonVi,
+      type: type,
+      userId: userId,
     );
   }
 
   MoiThamGiaHopRequest convertNgoaiHeThong(String lichHopId) {
     return MoiThamGiaHopRequest(
-       dauMoiLienHe: dauMoiLienHe,
-      createAt: DateTime.now().formatApiTaoBieuQuyet,
-      soDienThoai: sdt,
-      vaiTroThamGia: vaiTroThamGia,
-      tenCoQuan: tenCoQuan,
-       tenCanBo: tenCanBo,
+      dauMoiLienHe: dauMoiLienHe,
       email: email,
-      lichHopId: lichHopId,
+      GhiChu: '',
+      soDienThoai: sdt,
+      TenCoQuan: tenCoQuan.isEmpty ? tenDonVi : tenCoQuan,
+      vaiTroThamGia: vaiTroThamGia,
+      dauMoi: dauMoiLienHe,
+      Email: email,
+      noiDungLamViec: noidung,
+      SoDienThoai: sdt,
+      tenCanBo: tenCanBo,
+      tenDonVi: tenDonVi,
     );
   }
 }

@@ -300,6 +300,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 
     final result = await hopRepo.postEventCalendar(
       EventCalendarRequest(
+        Title: '',
         DateFrom: startDate.formatApi,
         DateTo: endDate.formatApi,
         DonViId: donViId,

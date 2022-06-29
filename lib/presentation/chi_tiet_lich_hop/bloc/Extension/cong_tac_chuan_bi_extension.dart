@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
@@ -60,8 +61,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
-        if (res.succeeded ?? false) {
-          initDataChiTiet();
+        if (res) {
+          getThongTinPhongHopApi();
           MessageConfig.show(
             title: S.current.tao_thanh_cong,
           );
@@ -89,8 +90,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
-        if (res.succeeded ?? false) {
-          initDataChiTiet();
+        if (res) {
+          getThongTinPhongHopApi();
         }
       },
       error: (err) {
@@ -115,7 +116,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     );
     result.when(
       success: (res) {
-        if (res.succeeded ?? false) {
+        if (res) {
           return true;
         }
       },
@@ -126,7 +127,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     return false;
   }
 
-  Future<void> forToduyetOrHuyDuyetThietBi({
+  Future<bool> forToduyetOrHuyDuyetThietBi({
     required List<ThietBiPhongHopModel> listTHietBiDuocChon,
     required bool isDuyet,
   }) async {
@@ -135,18 +136,21 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     if (listTHietBiDuocChon.isNotEmpty) {
       for (int i = 0; i < listTHietBiDuocChon.length; i++) {
         await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
-          (vl) => checkAllFinal.add(vl),
+          (value) => checkAllFinal.add(value),
         );
       }
     }
 
     if (!checkAllFinal.contains(false)) {
-      await getDanhSachThietBi();
       MessageConfig.show(
         title: S.current.tao_that_bai,
       );
+      return true;
+    } else {
+      await getDanhSachThietBi();
     }
     showContent();
+    return true;
   }
 
   /// duyệt hoặc hủy duyệt kỹ thuât
@@ -162,8 +166,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
-        if (res.succeeded ?? false) {
-          initDataChiTiet();
+        if (res) {
+          getChiTietLichHop(idCuocHop);
           MessageConfig.show(
             title: S.current.tao_thanh_cong,
           );
@@ -212,8 +216,10 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   }
 
   Future<void> callApiCongTacChuanBi() async {
+    showLoading();
     await getThongTinPhongHopApi();
     await getDanhSachThietBi();
     await getDanhSachPhongHop();
+    showContent();
   }
 }

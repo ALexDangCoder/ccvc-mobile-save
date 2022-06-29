@@ -28,6 +28,7 @@ import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info/package_info.dart';
 
 import 'widgets/button_quan_ly_widget.dart';
 
@@ -40,12 +41,17 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   MenuCubit menuCubit = MenuCubit();
-
+  String version = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     menuCubit.getUser();
+    PackageInfo.fromPlatform().then((packageInfo) {
+      setState(() {
+        version = 'v${packageInfo.version}#${packageInfo.buildNumber}';
+      });
+    });
   }
 
   @override
@@ -200,6 +206,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           },
                           isColorBlue: false,
                         ),
+                        Text('$version'),
                         const SizedBox(
                           height: 24,
                         )

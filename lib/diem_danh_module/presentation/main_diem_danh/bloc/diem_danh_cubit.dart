@@ -1,17 +1,18 @@
 import 'dart:io';
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/data/request/bang_diem_danh_ca_nhan_request.dart';
-import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
-import 'package:ccvc_mobile/diem_danh_module/domain/model/loai_xe_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/thong_ke_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_state.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -21,26 +22,44 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
   DiemDanhRepository get diemDanhRepo => Get.find();
 
+  final DataUser? dataUser = HiveLocal.getDataUser();
+  final String? tokken = PrefsService.getToken();
+
   ///variable menu
   BehaviorSubject<TypeDiemDanh> typeDiemDanhSubject =
       BehaviorSubject.seeded(TypeDiemDanh.CA_NHAN);
 
   Stream<TypeDiemDanh> get typeDiemDanhStream => typeDiemDanhSubject.stream;
 
-  /// ................................
+  /// nhan dien khuon mat
+  BehaviorSubject<GetAllFilesIdModel> allFileDeokinhSubject = BehaviorSubject();
 
-  /// quan ly nhan dien khuon mat
+  Stream<GetAllFilesIdModel> get allFileDeokinhStream =>
+      allFileDeokinhSubject.stream;
 
-  BehaviorSubject<File> imagePickerSubject = BehaviorSubject();
-  Stream<File> get imagePickerStream => imagePickerSubject.stream;
+  BehaviorSubject<GetAllFilesIdModel> allFileKhongDeokinhSubject =
+      BehaviorSubject();
 
-  ///Fake data
-  String xeMay = 'Xe máy';
-  String bienKiemSoat = '29x5 38534';
-  String loaiSoHuu = 'Xe cán bộ';
+  Stream<GetAllFilesIdModel> get allFileKhongDeokinhStream =>
+      allFileKhongDeokinhSubject.stream;
 
-  /// ................................
+  BehaviorSubject<GetAllFilesIdModel> getOnlyFileDataSubject =
+      BehaviorSubject();
 
+  Stream<GetAllFilesIdModel> get getOnlyFileDataStream =>
+      getOnlyFileDataSubject.stream;
+
+  BehaviorSubject<String?> imageSubject = BehaviorSubject();
+
+  Stream<String?> get imageStream => imageSubject.stream;
+
+  ///item dang ky bien so xe
+  String? xeMay ;
+  String? bienKiemSoat;
+  String? loaiSoHuu;
+  final toast = FToast();
+
+  ///dang ky bien so xe
   BehaviorSubject<List<LoaiXeModel>> loaiXeSubject = BehaviorSubject.seeded(
     [
       LoaiXeModel(ten: S.current.xe_may),
@@ -48,39 +67,12 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
     ],
   );
 
-  BehaviorSubject<bool> nhanDienbienSoxe = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> nhanDienbienSoxeSubject = BehaviorSubject.seeded(false);
+  BehaviorSubject<List<ChiTietBienSoXeModel>> danhSachBienSoXeSubject =BehaviorSubject();
 
+  ///Diem danh ca nhan
   BehaviorSubject<ThongKeDiemDanhCaNhanModel> thongKeSubject =
       BehaviorSubject();
   BehaviorSubject<List<BangDiemDanhCaNhanModel>> listBangDiemDanh =
       BehaviorSubject<List<BangDiemDanhCaNhanModel>>();
-
-  Future<void> postDiemDanhThongKe() async {
-    final thongKeDiemDanhCaNhanRequest = ThongKeDiemDanhCaNhanRequest(
-        thoiGian: '2022-06-01T00:00:00.00Z',
-        userId: '93114dcb-dfe1-487b-8e15-9c378c168994');
-    showLoading();
-    final result =
-        await diemDanhRepo.thongKeDiemDanh(thongKeDiemDanhCaNhanRequest);
-    result.when(success: (res) {
-      thongKeSubject.sink.add(res);
-      showContent();
-    }, error: (error) {
-      showContent();
-    });
-  }
-
-  Future<void> postBangDiemDanhCaNhan()
-  async {
-    final bangDiemDanhCaNhanRequest = BangDiemDanhCaNhanRequest(
-        thoiGian: '2022-06-01T00:00:00.00Z',
-        userId: '93114dcb-dfe1-487b-8e15-9c378c168994');
-    showLoading();
-    final result = await diemDanhRepo.bangDiemDanh(bangDiemDanhCaNhanRequest);
-    result.when(success: (res) {
-      listBangDiemDanh.sink.add(res.items ?? []);
-    }, error: (err) {
-      showContent();
-    },);
-  }
 }

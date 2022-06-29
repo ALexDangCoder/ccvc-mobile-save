@@ -75,7 +75,11 @@ extension typeCalendar on TypeCalendar {
     }
   }
 
-  void navigatorDetailTablet(BuildContext context, String id) {
+  void navigatorDetailTablet(
+    BuildContext context,
+    CalenderCubit cubit,
+    int index,
+  ) {
     switch (this) {
       case TypeCalendar.Schedule:
         {
@@ -83,7 +87,7 @@ extension typeCalendar on TypeCalendar {
             context,
             MaterialPageRoute(
               builder: (context) => ChiTietLamViecTablet(
-                id: id,
+                id: cubit.dataLichLvModel.listLichLVModel?[index].id ?? '',
               ),
             ),
           );
@@ -97,7 +101,7 @@ extension typeCalendar on TypeCalendar {
             context,
             MaterialPageRoute(
               builder: (context) => DetailMeetCalenderTablet(
-                id: id,
+                id: cubit.dataLichLvModel.listLichLVModel?[index].id ?? '',
               ),
             ),
           );
@@ -111,9 +115,13 @@ extension typeCalendar on TypeCalendar {
             context,
             MaterialPageRoute(
               builder: (context) => ChiTietLamViecTablet(
-                id: id,
+                id: cubit.dataLichLvModel.listLichLVModel?[index].id ?? '',
               ),
             ),
+          ).then(
+            (value) => {
+              if (value == true) {cubit.callApi()}
+            },
           );
 
           break;

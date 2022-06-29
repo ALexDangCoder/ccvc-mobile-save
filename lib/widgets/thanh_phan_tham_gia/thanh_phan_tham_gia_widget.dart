@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -7,6 +6,7 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/people_tham_gia_widget.dart';
@@ -41,6 +41,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   final ThanhPhanThamGiaCubit _cubit = ThanhPhanThamGiaCubit();
+  final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
 
   @override
   void initState() {
@@ -88,13 +89,14 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         ThemCanBoWidget(
           cubit: _cubit,
           onChange: (value) {
-            value.forEach((element) {
+            for (final element in value) {
               element.vaiTroThamGia = 2;
               element.type = 1;
-            });
+            }
             _cubit.addPeopleThamGia(value);
           },
           needCheckTrung: widget.isTaoHop,
+          themCanBoCubit: themCanBoCubit,
         ),
         SizedBox(
           height: 20.0.textScale(space: -2),

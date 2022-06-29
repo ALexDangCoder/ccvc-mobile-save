@@ -1,9 +1,9 @@
-import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_common_impl.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/bao_cao/report_impl.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_common_service.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/services/bao_cao/report_service.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_common_repository.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/repository/bao_cao/report_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/report_common_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/report_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/report_common_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/report_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_impl.dart';
@@ -30,13 +30,16 @@ import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_respository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/repository_impl/ho_tro_ky_thuat_impl.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/repository_impl/ket_noi_repo.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/service/ket_noi_service.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/repository/ket_noi_repository.dart';
@@ -80,12 +83,12 @@ void configureDependencies() {
 
   // lich lam viec
   Get.put(
-    LichLamViecService(
+    WorkCalendarService(
       provideDio(baseOption: BaseURLOption.GATE_WAY),
     ),
   );
-  Get.put<LichLamViecRepository>(
-    LichLamViecImlp(Get.find()),
+  Get.put<CalendarWorkRepository>(
+    CreateWorkCalendarRepositoryImpl(Get.find()),
   );
 
   Get.put(ThongBaoService(provideDio(baseOption: BaseURLOption.NOTI)));
@@ -202,9 +205,34 @@ void configureDependencies() {
     ),
   );
   Get.put<ReportRepository>(ReportImpl(Get.find()));
+
+  Get.put(
+    HoTroKyThuatService(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+  Get.put<HoTroKyThuatRepository>(HoTroKyThuatImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;
+
+String getUrlDomain({BaseURLOption baseOption = BaseURLOption.CCVC}) {
+  final appConstants = Get.find<AppConstants>();
+  switch (baseOption) {
+    case BaseURLOption.GATE_WAY:
+      return appConstants.baseUrlGateWay;
+    case BaseURLOption.COMMON:
+      return appConstants.baseUrlCommon;
+    case BaseURLOption.CCVC:
+      return appConstants.baseUrlCCVC;
+    case BaseURLOption.NOTI:
+      return appConstants.baseUrlNOTI;
+    case BaseURLOption.API_AND_UAT:
+      return DO_MAIN_LICH_AM_DUONG;
+    case BaseURLOption.HEAD_ORIGIN:
+      return appConstants.headerOrigin;
+  }
+}
 
 Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
   final appConstants = Get.find<AppConstants>();

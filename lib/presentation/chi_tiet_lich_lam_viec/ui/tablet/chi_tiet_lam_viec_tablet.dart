@@ -2,8 +2,9 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
-import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/status_extention.dart';
@@ -12,6 +13,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_c
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/tablet/show_bottom_sheet_ds_y_Kien_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/tablet/sua_lich_cong_tac_trong_nuoc_tablet.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
@@ -127,6 +129,35 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                   );
                                 },
                               ),
+                              if ((dataModel.createBy?.id ?? '') ==
+                                          (HiveLocal.getDataUser()?.userId ??
+                                              '') &&
+                                      ((dataModel.createBy?.id ?? '')
+                                          .isNotEmpty) ||
+                                  (HiveLocal.getDataUser()?.userId ?? '')
+                                      .isNotEmpty) ...[
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icRecall,
+                                  text: S.current.thu_hoi,
+                                  onTap: () {
+                                    showDiaLogTablet(
+                                      context,
+                                      maxHeight: 280,
+                                      title: S.current.thu_hoi_lich,
+                                      child: RecallCalendar(
+                                        cubit: chiTietLichLamViecCubit,
+                                        callback: () {
+                                          checkRecallDuplicateCal(
+                                            dataModel.isLichLap ?? false,
+                                          );
+                                        },
+                                      ),
+                                      isBottomShow: false,
+                                      funcBtnOk: () {},
+                                    );
+                                  },
+                                )
+                              ],
                               CellPopPupMenu(
                                 urlImage: ImageAssets.icEditBlue,
                                 text: S.current.sua_lich,
@@ -168,9 +199,17 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                       ),
                       body: Container(
                         padding: const EdgeInsets.only(
-                            top: 28, left: 30, right: 30, bottom: 28),
+                          top: 28,
+                          left: 30,
+                          right: 30,
+                          bottom: 28,
+                        ),
                         margin: const EdgeInsets.only(
-                            top: 28, left: 30, right: 30, bottom: 28),
+                          top: 28,
+                          left: 30,
+                          right: 30,
+                          bottom: 28,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -187,55 +226,55 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                         ),
                         child: SingleChildScrollView(
                           child: ExpandGroup(
-                            child: Column(
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                StreamBuilder<ChiTietLichLamViecModel>(
-                                  stream: chiTietLichLamViecCubit
-                                      .chiTietLichLamViecStream,
-                                  builder: (context, snapshot) {
-                                    final data = snapshot.data ??
-                                        ChiTietLichLamViecModel();
-                                    return snapshot.data != null
-                                        ? Column(
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Row(
                                             children: [
-                                              Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.circle,
-                                                    size: 12,
-                                                    color: statusCalenderRed,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 16,
-                                                  ),
-                                                  Text(
-                                                    data.title ?? '',
-                                                    style: textNormalCustom(
-                                                      color: textTitle,
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ],
+                                              const Icon(
+                                                Icons.circle,
+                                                size: 12,
+                                                color: statusCalenderRed,
                                               ),
-                                              ItemRowChiTiet(
-                                                data: data,
-                                                cubit: chiTietLichLamViecCubit,
+                                              const SizedBox(
+                                                width: 16,
+                                              ),
+                                              Text(
+                                                dataModel.title ?? '',
+                                                style: textNormalCustom(
+                                                  color: textTitle,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                             ],
-                                          )
-                                        : const SizedBox.shrink();
-                                  },
+                                          ),
+                                          ItemRowChiTiet(
+                                            data: dataModel,
+                                            cubit: chiTietLichLamViecCubit,
+                                          ),
+                                        ],
+                                      ),
+                                      spaceH25,
+                                      BtnShowBaoCaoTablet(
+                                        cubit: chiTietLichLamViecCubit,
+                                      ),
+                                      spaceH25,
+                                      DanhSachYKienButtomTablet(
+                                        id: widget.id,
+                                        cubit: chiTietLichLamViecCubit,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                BtnShowBaoCaoTablet(
-                                  cubit: chiTietLichLamViecCubit,
-                                ),
-                                DanhSachYKienButtomTablet(
-                                  id: widget.id,
-                                  cubit: chiTietLichLamViecCubit,
-                                ),
+                                Expanded(child: listScheduleCooperatives()),
                               ],
                             ),
                           ),
@@ -343,21 +382,67 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
     }
   }
 
-  Widget listScheduleCooperatives(List<DonViModel> listCooperatives) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(
-        top: 24,
-      ),
-      shrinkWrap: true,
-      itemCount: listCooperatives.length,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (_, index) {
-        return itemScheduleCooperatives(listCooperatives[index]);
+  void checkRecallDuplicateCal(bool isDup) {
+    if (isDup) {
+      showDialog(
+        context: context,
+        builder: (context) => ThemLinkHopDialog(
+          title: S.current.thu_hoi_lich,
+          isConfirm: false,
+          imageUrl: ImageAssets.icThuHoi,
+          textConfirm: S.current.ban_co_chac_muon_thu_hoi_lich,
+          textRadioAbove: S.current.chi_lich_nay,
+          textRadioBelow: S.current.tu_lich_nay,
+        ),
+      ).then(
+        (value) {
+          Navigator.pop(context);
+          return chiTietLichLamViecCubit
+              .recallCalendar(isMulti: !value)
+              .then((_) => Navigator.pop(context, true));
+        },
+      );
+    } else {
+      showDiaLog(
+        context,
+        textContent: S.current.ban_co_chac_muon_thu_hoi_lich,
+        btnLeftTxt: S.current.khong,
+        funcBtnRight: () async {
+          Navigator.pop(context);
+          await chiTietLichLamViecCubit.recallCalendar().then(
+                (_) => Navigator.pop(context, true),
+              );
+        },
+        title: S.current.thu_hoi_lich,
+        btnRightTxt: S.current.dong_y,
+        icon: SvgPicture.asset(
+          ImageAssets.icThuHoi,
+        ),
+      );
+    }
+  }
+
+  Widget listScheduleCooperatives() {
+    return StreamBuilder<List<Officer>>(
+      stream: chiTietLichLamViecCubit.listOfficer.stream,
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        return ListView.builder(
+          padding: const EdgeInsets.only(
+            left: 24,
+          ),
+          shrinkWrap: true,
+          itemCount: data.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, index) {
+            return itemScheduleCooperatives(data[index]);
+          },
+        );
       },
     );
   }
 
-  Widget itemScheduleCooperatives(DonViModel data) {
+  Widget itemScheduleCooperatives(Officer data) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
@@ -370,11 +455,11 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          rowTextData(data.tenDonVi, S.current.don_vi_phoi_hop),
+          rowTextData(data.tenDonVi ?? '', S.current.don_vi_phoi_hop),
           spaceH8,
-          rowTextData(data.tenCanBo, S.current.nguoi_pho_hop),
+          rowTextData(data.hoTen ?? '', S.current.nguoi_pho_hop),
           spaceH8,
-          rowTextData(data.noidung, S.current.nd_cong_viec),
+          rowTextData(data.taskContent ?? '', S.current.nd_cong_viec),
           spaceH8,
           Row(
             children: [

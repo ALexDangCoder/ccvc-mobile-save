@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/item_image.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class TabAnhDeoKinhTablet extends StatefulWidget {
   final DiemDanhCubit cubit;
+
   const TabAnhDeoKinhTablet({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -13,22 +15,39 @@ class TabAnhDeoKinhTablet extends StatefulWidget {
 
 class _TabAnhDeoKinhTabletState extends State<TabAnhDeoKinhTablet> {
   @override
+  void initState() {
+    super.initState();
+    widget.cubit.allFileDeokinhStream;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: GridView.count(crossAxisCount: 2,
-        shrinkWrap: true,
-        crossAxisSpacing: 14,
-        childAspectRatio: 1.1,
-        children: widget.cubit.listDataDeoKinh
-            .map(
-              (e) => ItemImageWidget(
-            image: e.image,
-            title: e.title, cubit: widget.cubit,
-          ),
-        )
-            .toList(),
-      ),
-    );
+    return StreamBuilder<GetAllFilesIdModel>(
+        stream: widget.cubit.allFileDeokinhStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              child: GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                crossAxisSpacing: 14,
+                childAspectRatio: 1.1,
+                children: widget.cubit.listDataDeoKinh
+                    .map(
+                      (e) => ItemImageWidget(
+                        cubit: widget.cubit,
+                        dataUI: e,
+                        initImage: widget.cubit.getUrlImageDeoKinh(
+                            fileTypeUpload: e.fileTypeUpload,),
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
+          }
+          return Container();
+        });
   }
 }

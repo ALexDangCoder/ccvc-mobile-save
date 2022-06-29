@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/main_calendar_meeting.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +45,14 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
+      onTapTitle: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainCalendarMeeting(),
+          ),
+        );
+      },
       spacingTitle: 0,
       minHeight: 350,
       title: S.current.meeting_schedule,

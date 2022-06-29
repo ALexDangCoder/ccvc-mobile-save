@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
@@ -53,13 +54,13 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:dio/dio.dart';
 
-class LichLamViecImlp implements LichLamViecRepository {
-  LichLamViecService lichLamViecService;
+class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
+  WorkCalendarService workCalendarService;
 
-  LichLamViecImlp(this.lichLamViecService);
+  CreateWorkCalendarRepositoryImpl(this.workCalendarService);
 
   @override
   Future<Result<DashBoardLichHopModel>> getLichLv(
@@ -68,7 +69,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   ) {
     return runCatchingAsync<LichLamViecDashBroadResponse,
         DashBoardLichHopModel>(
-      () => lichLamViecService.getLichLamViec(startTime, endTime),
+      () => workCalendarService.getLichLamViec(startTime, endTime),
       (response) => response.data?.toDomain() ?? DashBoardLichHopModel.empty(),
     );
   }
@@ -78,7 +79,7 @@ class LichLamViecImlp implements LichLamViecRepository {
       LichLamViecRightRequest lamViecRightRequest) {
     return runCatchingAsync<LichLamViecDashBroadRightResponse,
         List<LichLamViecDashBroadItem>>(
-      () => lichLamViecService.getLichLamViecRight(lamViecRightRequest),
+      () => workCalendarService.getLichLamViecRight(lamViecRightRequest),
       (response) => response.toDomain(),
     );
   }
@@ -89,7 +90,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   ) {
     return runCatchingAsync<DanhSachLichLamViecResponse,
         DanhSachLichlamViecModel>(
-      () => lichLamViecService.postData(body),
+      () => workCalendarService.postData(body),
       (response) =>
           response.data?.toModel() ?? DanhSachLichlamViecModel.empty(),
     );
@@ -100,7 +101,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     CatogoryListRequest catogoryListRequest,
   ) {
     return runCatchingAsync<CatogoryListResponse, List<LoaiSelectModel>>(
-      () => lichLamViecService.getLoaiLichLamViec(catogoryListRequest),
+      () => workCalendarService.getLoaiLichLamViec(catogoryListRequest),
       (res) => res.data?.items?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -109,7 +110,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   Future<Result<ChiTietLichLamViecModel>> detailCalenderWork(String id) {
     return runCatchingAsync<DetailCalenderWorkResponse,
         ChiTietLichLamViecModel>(
-      () => lichLamViecService.detailCalenderWork(id),
+      () => workCalendarService.detailCalenderWork(id),
       (response) => response.data.toDomain(),
     );
   }
@@ -117,7 +118,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<List<BaoCaoModel>>> getDanhSachBaoCao(String scheduleId) {
     return runCatchingAsync<DanhSachBaoCaoResponse, List<BaoCaoModel>>(
-      () => lichLamViecService.getDanhSachBaoCaoKetQua(scheduleId),
+      () => workCalendarService.getDanhSachBaoCaoKetQua(scheduleId),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -127,7 +128,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     NguoiChuTriRequest nguoiChuTriRequest,
   ) {
     return runCatchingAsync<NguoiChuTriResponse, List<NguoiChutriModel>>(
-      () => lichLamViecService.getNguoiChuTri(nguoiChuTriRequest),
+      () => workCalendarService.getNguoiChuTri(nguoiChuTriRequest),
       (res) => res.data?.items?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -137,7 +138,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     CatogoryListRequest catogoryListRequest,
   ) {
     return runCatchingAsync<CatogoryListResponse, List<LoaiSelectModel>>(
-      () => lichLamViecService.getLinhVuc(catogoryListRequest),
+      () => workCalendarService.getLinhVuc(catogoryListRequest),
       (res) => res.data?.items?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -145,7 +146,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<MessageModel>> deleteBaoCaoKetQua(String id) {
     return runCatchingAsync<XoaBaoCaoKetQuaResponse, MessageModel>(
-      () => lichLamViecService.deleteBaoCaoKetQua(id),
+      () => workCalendarService.deleteBaoCaoKetQua(id),
       (res) => res.toDomain(),
     );
   }
@@ -155,7 +156,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     DanhSachLichLamViecRequest danhSachLichLamViecRequest,
   ) {
     return runCatchingAsync<ListLichLvResponse, DataLichLvModel>(
-      () => lichLamViecService.getListLichLv(danhSachLichLamViecRequest),
+      () => workCalendarService.getListLichLv(danhSachLichLamViecRequest),
       (response) => response.data.toDomain(),
     );
   }
@@ -165,9 +166,8 @@ class LichLamViecImlp implements LichLamViecRepository {
     String id,
     bool only,
   ) {
-    return runCatchingAsync<DeleteCalenderWorkResponse,
-        DeleteTietLichLamViecModel>(
-      () => lichLamViecService.deleteCalenderWork(id, only),
+    return runCatchingAsync<MessageResponse, DeleteTietLichLamViecModel>(
+      () => workCalendarService.deleteCalenderWork(id, only),
       (response) => response.toDelete(),
     );
   }
@@ -179,7 +179,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     bool isMulti,
   ) {
     return runCatchingAsync<CancelCalenderWorkResponse, CancelLichLamViecModel>(
-      () => lichLamViecService.cancelCalenderWork(id, statusId, isMulti),
+      () => workCalendarService.cancelCalenderWork(id, statusId, isMulti),
       (response) => response.toSucceeded(),
     );
   }
@@ -187,7 +187,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<List<YKienModel>>> getDanhSachYKien(String id) {
     return runCatchingAsync<DanhSachYKienResponse, List<YKienModel>>(
-      () => lichLamViecService.getDanhSachYKien(id),
+      () => workCalendarService.getDanhSachYKien(id),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -202,7 +202,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String id,
   ) {
     return runCatchingAsync<ChinhSuaBaoCaoKetQuaResponse, MessageModel>(
-      () => lichLamViecService.updateBaoCaoKetQua(
+      () => workCalendarService.updateBaoCaoKetQua(
         reportStatusId,
         scheduleId,
         content,
@@ -217,14 +217,14 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<List<TinhTrangBaoCaoModel>>> getListTinhTrangBaoCao() {
     return runCatchingAsync<ListTinhTrangResponse, List<TinhTrangBaoCaoModel>>(
-      () => lichLamViecService.getListTinhTrangBaoCao(),
+      () => workCalendarService.getListTinhTrangBaoCao(),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
 
   Future<Result<List<TrangThaiLvModel>>> trangThaiLV() {
     return runCatchingAsync<TrangThaiLVResponse, List<TrangThaiLvModel>>(
-      () => lichLamViecService.detailTrangThai(),
+      () => workCalendarService.detailTrangThai(),
       (response) => response.toDomain(),
     );
   }
@@ -232,7 +232,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<MessageModel>> taoLichHop(String id) {
     return runCatchingAsync<XoaBaoCaoKetQuaResponse, MessageModel>(
-      () => lichLamViecService.deleteBaoCaoKetQua(id),
+      () => workCalendarService.deleteBaoCaoKetQua(id),
       (res) => res.toDomain(),
     );
   }
@@ -240,112 +240,8 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<List<String>>> postEventCalendar(EventCalendarRequest request) {
     return runCatchingAsync<EventCalendarResponse, List<String>>(
-      () => lichLamViecService.postEventCalendar(request),
+      () => workCalendarService.postEventCalendar(request),
       (res) => res.toModel(),
-    );
-  }
-
-  @override
-  Future<Result<MessageModel>> suaLichLamViec(
-    String title,
-    String typeScheduleId,
-    String linhVucId,
-    String TenTinh,
-    String TenHuyen,
-    String TenXa,
-    String dateFrom,
-    String timeFrom,
-    String dateTo,
-    String timeTo,
-    String content,
-    String location,
-    String vehicle,
-    String expectedResults,
-    String results,
-    int status,
-    String rejectReason,
-    bool publishSchedule,
-    String tags,
-    bool isLichDonVi,
-    String canBoChuTriId,
-    String donViId,
-    String note,
-    String id,
-    bool isAllDay,
-    bool isSendMail,
-    List<DonViModel> scheduleCoperativeRequest,
-    int typeRemider,
-    int typeRepeat,
-    String dateRepeat,
-    String dateRepeat1,
-    bool only,
-    List<int> days,
-  ) {
-    final _data = FormData();
-    _data.fields.add(MapEntry('title', title));
-    _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
-    _data.fields.add(MapEntry('linhVucId', linhVucId));
-    _data.fields.add(MapEntry('TenTinh', TenTinh));
-    _data.fields.add(MapEntry('TenHuyen', TenHuyen));
-    _data.fields.add(MapEntry('TenXa', TenXa));
-    _data.fields.add(MapEntry('dateFrom', dateFrom));
-    _data.fields.add(MapEntry('timeFrom', timeFrom));
-    _data.fields.add(MapEntry('dateTo', dateTo));
-    _data.fields.add(MapEntry('timeTo', timeTo));
-    _data.fields.add(MapEntry('content', content));
-    _data.fields.add(MapEntry('vehicle', vehicle));
-    _data.fields.add(MapEntry('expectedResults', expectedResults));
-    _data.fields.add(MapEntry('results', results));
-    _data.fields.add(MapEntry('status', status.toString()));
-    _data.fields.add(MapEntry('rejectReason', rejectReason));
-    _data.fields.add(MapEntry('publishSchedule', publishSchedule.toString()));
-    _data.fields.add(MapEntry('tags', tags));
-    _data.fields.add(MapEntry('isLichDonVi', isLichDonVi.toString()));
-    _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
-    _data.fields.add(MapEntry('donViId', donViId));
-    _data.fields.add(MapEntry('note', note));
-    _data.fields.add(MapEntry('id', id));
-    _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
-    _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
-
-    for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
-      _data.fields.add(
-        MapEntry(
-          'ScheduleCoperativeRequest[$i].donViId',
-          scheduleCoperativeRequest[i].id,
-        ),
-      );
-      _data.fields.add(
-        MapEntry(
-          'ScheduleCoperativeRequest[$i].canBoId',
-          scheduleCoperativeRequest[i].canBoId,
-        ),
-      );
-      _data.fields.add(
-        MapEntry(
-          'ScheduleCoperativeRequest[$i].taskContent',
-          scheduleCoperativeRequest[i].noidung,
-        ),
-      );
-    }
-
-    _data.fields
-        .add(MapEntry('repeatCalendar.typeRepeat', typeRepeat.toString()));
-    _data.fields.add(MapEntry(
-        'scheduleReminderRequest.typeRemider', typeRemider.toString()));
-    final dateRepeats = [dateRepeat, dateRepeat1];
-    for (int i = 0; i < dateRepeats.length; i++) {
-      _data.fields.add(
-          MapEntry('repeatCalendar.dateRepeat[$i]', dateRepeats[i].toString()));
-    }
-    _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
-    for (int i = 0; i < days.length; i++) {
-      _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
-    }
-
-    return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
-      () => lichLamViecService.suaLichLamviec(_data),
-      (res) => res.toDomain(),
     );
   }
 
@@ -450,7 +346,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     }
 
     return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
-      () => lichLamViecService.suaLichLamviec(_data),
+      () => workCalendarService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );
   }
@@ -463,7 +359,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     List<File> files,
   ) {
     return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
-      () => lichLamViecService.taoBaoCaoKetQua(
+      () => workCalendarService.taoBaoCaoKetQua(
           reportStatusId, scheduleId, content, files),
       (res) => res.toDomain(),
     );
@@ -472,7 +368,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<MessageModel>> postTaoMoiBanGhi(TaoMoiBanGhiRequest body) {
     return runCatchingAsync<TaoMoiBanGhiResponse, MessageModel>(
-      () => lichLamViecService.taoMoiBanGhi(body),
+      () => workCalendarService.taoMoiBanGhi(body),
       (response) => response.toDomain(),
     );
   }
@@ -481,7 +377,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   Future<Result<List<MenuModel>>> getDataMenu(
       String startTime, String endTime) {
     return runCatchingAsync<MenuResponse, List<MenuModel>>(
-      () => lichLamViecService.getMenuLichLV(startTime, endTime),
+      () => workCalendarService.getMenuLichLV(startTime, endTime),
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
     );
   }
@@ -489,7 +385,7 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<ThemYKienModel>> themYKien(ThemYKienRequest themYKienRequest) {
     return runCatchingAsync<ThemYKienResponse, ThemYKienModel>(
-      () => lichLamViecService.themYKien(themYKienRequest),
+      () => workCalendarService.themYKien(themYKienRequest),
       (response) => response.toDomain(),
     );
   }
@@ -499,44 +395,43 @@ class LichLamViecImlp implements LichLamViecRepository {
       TinhSelectRequest tinhSelectRequest) {
     return runCatchingAsync<PageDaTaTinhSelectModelResponse,
         DaTaTinhSelectModel>(
-      () => lichLamViecService.tinhSelect(tinhSelectRequest),
+      () => workCalendarService.tinhSelect(tinhSelectRequest),
       (response) => response.data?.toModel() ?? DaTaTinhSelectModel(),
     );
   }
 
   @override
-  Future<Result<DaTaHuyenSelectModel>> huyenSelect(
+  Future<Result<DaTaHuyenSelectModel>> getDistrict(
       HuyenSelectRequest huyenSelectRequest) {
     return runCatchingAsync<PageDaTaHuyenSelectModelResponse,
         DaTaHuyenSelectModel>(
-      () => lichLamViecService.huyenSelect(huyenSelectRequest),
+      () => workCalendarService.huyenSelect(huyenSelectRequest),
       (response) => response.data?.toModel() ?? DaTaHuyenSelectModel(),
     );
   }
 
   @override
-  Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest) {
+  Future<Result<DaTaXaSelectModel>> getWard(WardRequest xaSelectRequest) {
     return runCatchingAsync<PageDaTaXaSelectModelResponse, DaTaXaSelectModel>(
-      () => lichLamViecService.xaSelect(xaSelectRequest),
+      () => workCalendarService.xaSelect(xaSelectRequest),
       (response) => response.data?.toModel() ?? DaTaXaSelectModel(),
     );
   }
 
   @override
-  Future<Result<DataDatNuocSelectModel>> datNuocSelect(
+  Future<Result<DataDatNuocSelectModel>> getCountry(
       DatNuocSelectRequest datNuocSelectRequest) {
     return runCatchingAsync<PageDataDatNuocSelectModelResponse,
         DataDatNuocSelectModel>(
-      () => lichLamViecService.datNuocSelect(datNuocSelectRequest),
+      () => workCalendarService.datNuocSelect(datNuocSelectRequest),
       (response) => response.data?.toModel() ?? DataDatNuocSelectModel(),
     );
   }
 
   @override
-  Future<Result<MessageModel>> checkTrungLichLamviec(
-      CheckTrungLichRequest body) {
+  Future<Result<MessageModel>> checkDuplicate(CheckTrungLichRequest body) {
     return runCatchingAsync<CheckTrungLichLamViecResponse, MessageModel>(
-        () => lichLamViecService.checkTrungLichLamviec(body),
+        () => workCalendarService.checkTrungLichLamviec(body),
         (response) => response.toDomain());
   }
 
@@ -549,14 +444,14 @@ class LichLamViecImlp implements LichLamViecRepository {
       required List<File> files,
       required List<String> idFileDelele}) {
     return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
-      () => lichLamViecService.suaBaoCaoKetQua(
+      () => workCalendarService.suaBaoCaoKetQua(
           reportStatusId, scheduleId, content, files, idFileDelele, id),
       (res) => res.toDomain(),
     );
   }
 
   @override
-  Future<Result<MessageModel>> taoLichLamViec({
+  Future<Result<MessageModel>> createWorkCalendar({
     required String title,
     required String typeScheduleId,
     required String linhVucId,
@@ -665,8 +560,123 @@ class LichLamViecImlp implements LichLamViecRepository {
     }
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-      () => lichLamViecService.taoLichLamviec(_data),
+      () => workCalendarService.createWorkCalendar(_data),
       (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<MessageModel>> suaLichLamViec({
+    required String title,
+    required String typeScheduleId,
+    required String linhVucId,
+    required String TenTinh,
+    required String TenHuyen,
+    required String TenXa,
+    required String dateFrom,
+    required String timeFrom,
+    required String dateTo,
+    required String timeTo,
+    required String content,
+    required String location,
+    required String vehicle,
+    required String expectedResults,
+    required String results,
+    required int status,
+    required String rejectReason,
+    required bool publishSchedule,
+    required String tags,
+    required bool isLichDonVi,
+    required String canBoChuTriId,
+    required String donViId,
+    required String note,
+    required String id,
+    required bool isAllDay,
+    required bool isSendMail,
+    required List<DonViModel> scheduleCoperativeRequest,
+    required int? typeRemider,
+    required int typeRepeat,
+    required String dateRepeat,
+    required String dateRepeat1,
+    required bool only,
+    required List<int> days,
+  }) {
+    final _data = FormData();
+    _data.fields.add(MapEntry('title', title));
+    _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
+    _data.fields.add(MapEntry('linhVucId', linhVucId));
+    _data.fields.add(MapEntry('TenTinh', TenTinh));
+    _data.fields.add(MapEntry('TenHuyen', TenHuyen));
+    _data.fields.add(MapEntry('TenXa', TenXa));
+    _data.fields.add(MapEntry('dateFrom', dateFrom));
+    _data.fields.add(MapEntry('timeFrom', timeFrom));
+    _data.fields.add(MapEntry('dateTo', dateTo));
+    _data.fields.add(MapEntry('timeTo', timeTo));
+    _data.fields.add(MapEntry('content', content));
+    _data.fields.add(MapEntry('vehicle', vehicle));
+    _data.fields.add(MapEntry('expectedResults', expectedResults));
+    _data.fields.add(MapEntry('results', results));
+    _data.fields.add(MapEntry('status', status.toString()));
+    _data.fields.add(MapEntry('rejectReason', rejectReason));
+    _data.fields.add(MapEntry('publishSchedule', publishSchedule.toString()));
+    _data.fields.add(MapEntry('tags', tags));
+    _data.fields.add(MapEntry('isLichDonVi', isLichDonVi.toString()));
+    _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
+    _data.fields.add(MapEntry('donViId', donViId));
+    _data.fields.add(MapEntry('note', note));
+    _data.fields.add(MapEntry('id', id));
+    _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
+    _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
+
+    for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].donViId',
+          scheduleCoperativeRequest[i].id,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].canBoId',
+          scheduleCoperativeRequest[i].canBoId,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].taskContent',
+          scheduleCoperativeRequest[i].noidung,
+        ),
+      );
+    }
+
+    _data.fields
+        .add(MapEntry('repeatCalendar.typeRepeat', typeRepeat.toString()));
+    _data.fields.add(MapEntry(
+        'scheduleReminderRequest.typeRemider', typeRemider.toString()));
+    final dateRepeats = [dateRepeat, dateRepeat1];
+    for (int i = 0; i < dateRepeats.length; i++) {
+      _data.fields.add(
+          MapEntry('repeatCalendar.dateRepeat[$i]', dateRepeats[i].toString()));
+    }
+    _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
+    for (int i = 0; i < days.length; i++) {
+      _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
+    }
+
+    return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
+      () => workCalendarService.suaLichLamviec(_data),
+      (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<MessageModel>> recallWorkCalendar(
+    bool isMulti,
+    List<RecallRequest> request,
+  ) {
+    return runCatchingAsync<MessageResponse, MessageModel>(
+      () => workCalendarService.recallWorkCalendar(request, isMulti),
+      (res) => res.toModel(),
     );
   }
 }

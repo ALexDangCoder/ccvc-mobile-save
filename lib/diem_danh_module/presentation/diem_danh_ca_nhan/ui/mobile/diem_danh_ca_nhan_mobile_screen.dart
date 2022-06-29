@@ -3,12 +3,13 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/thong_ke_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mobile.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/widget_item_thong_ke.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -16,9 +17,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DiemDanhCaNhanMobileScreen extends StatefulWidget {
-  DiemDanhCubit cubit;
+  final DiemDanhCubit cubit;
 
-  DiemDanhCaNhanMobileScreen({Key? key, required this.cubit}) : super(key: key);
+  const DiemDanhCaNhanMobileScreen({Key? key, required this.cubit})
+      : super(key: key);
 
   @override
   _DiemDanhCaNhanMobileScreenState createState() =>
@@ -29,10 +31,11 @@ class _DiemDanhCaNhanMobileScreenState
     extends State<DiemDanhCaNhanMobileScreen> {
   @override
   void initState() {
-   widget.cubit.postDiemDanhThongKe();
-   widget.cubit. postBangDiemDanhCaNhan();
+    widget.cubit.postDiemDanhThongKe();
+    widget.cubit.postBangDiemDanhCaNhan();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,15 +72,14 @@ class _DiemDanhCaNhanMobileScreenState
         ),
         stream: widget.cubit.stateStream,
         child: RefreshIndicator(
-          onRefresh: () async {
-
-          },
+          onRefresh: () async {},
           child: ProviderWidget<DiemDanhCubit>(
-            cubit:widget.cubit,
+            cubit: widget.cubit,
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26.0),
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 26.0),
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: colorE2E8F0),
@@ -99,13 +101,17 @@ class _DiemDanhCaNhanMobileScreenState
                         color: Colors.transparent,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 16.0),
+                            vertical: 20,
+                            horizontal: 16.0,
+                          ),
                           child: Row(
                             children: [
                               Text(
                                 S.current.thong_ke,
                                 style: textNormalCustom(
-                                    color: color3D5586, fontSize: 14),
+                                  color: color3D5586,
+                                  fontSize: 14,
+                                ),
                               ),
                             ],
                           ),
@@ -114,11 +120,12 @@ class _DiemDanhCaNhanMobileScreenState
                       child: StreamBuilder<ThongKeDiemDanhCaNhanModel>(
                         stream: widget.cubit.thongKeSubject,
                         builder: (context, snapshot) {
-                          final data=snapshot.data;
+                          final data = snapshot.data;
                           return WidgetItemThongKe(
-                            thongKeDiemDanhCaNhanModel: data??ThongKeDiemDanhCaNhanModel(),
+                            thongKeDiemDanhCaNhanModel:
+                                data ?? ThongKeDiemDanhCaNhanModel(),
                           );
-                        }
+                        },
                       ),
                     ),
                   ),

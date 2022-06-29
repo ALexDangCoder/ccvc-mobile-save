@@ -115,9 +115,12 @@ class ChiTietYKienNguoiDanData {
   String? thoiGianTaoMoi;
   @JsonKey(name: 'ThoiGianCapNhat')
   String? thoiGianCapNhat;
+  @JsonKey(name: 'LinhVucPAKN_Ten')
+  String? linhVucPaknTen;
 
   ChiTietYKienNguoiDanData(
     this.fileDinhKem,
+    this.linhVucPaknTen,
     this.taskFileDinhKem,
     this.luongXuLy,
     this.yKienChiDao,
@@ -195,6 +198,7 @@ class ChiTietYKienNguoiDanData {
       luatId ?? 0,
       noiDungPAKNId ?? 0,
       linhVucPAKNId ?? 0,
+      linhVucPaknTen ?? '',
       dSTaiLieuDinhKem ?? '',
       doiTuongId ?? 0,
       tenNguoiPhanAnh ?? '',

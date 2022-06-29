@@ -36,8 +36,8 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
-        onchange: (vl) {
-          if (vl) {
+        onchange: (value) {
+          if (value) {
             widget.cubit.callApiYkienCuocHop();
           }
         },

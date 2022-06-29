@@ -413,14 +413,14 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_PHONG_HOP)
-  Future<PhanCongThuKyResponse> huyOrDuyetPhongHop(
+  Future<ThemPhienHopResponse> huyOrDuyetPhongHop(
     @Field('lichHopId') String hopId,
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
   );
 
-  @POST(ApiConstants.CHON_PHONG_HOP)
-  Future<PhanCongThuKyResponse> thayDoiPhongHop(
+  @PUT(ApiConstants.CHON_PHONG_HOP)
+  Future<ThemPhienHopResponse> thayDoiPhongHop(
     @Field('bit_TTDH') bool bit_TTDH,
     @Field('lichHopId') String lichHopId,
     @Field('phongHopId') String phongHopId,
@@ -428,7 +428,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_THIET_BI)
-  Future<PhanCongThuKyResponse> duyetOrHuyDuyetThietBi(
+  Future<ThemPhienHopResponse> duyetOrHuyDuyetThietBi(
     @Field('isDuyet') bool isDuyet,
     @Field('lichHopId') String lichHopId,
     @Field('lyDo') String lyDo,
@@ -436,14 +436,14 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_KY_THUAT)
-  Future<PhanCongThuKyResponse> duyetOrHuyDuyetKyThuat(
-    @Field('lichHopId') String hopId,
+  Future<ThemPhienHopResponse> duyetOrHuyDuyetKyThuat(
+    @Field('hopId') String hopId,
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
   );
 
   @POST(ApiConstants.CHON_PHONG_HOP_METTING)
-  Future<PhanCongThuKyResponse> chonPhongHopMetting(
+  Future<ThemPhienHopResponse> chonPhongHopMetting(
     @Body() TaoLichHopRequest taoLichHopRequest,
   );
 

@@ -103,6 +103,8 @@ class ListCanBo {
         isThuKy: isThuKy,
         vaiTroThamGia: vaiTroThamGia,
         trangThai: trangThai,
+        donViId: donViId,
+        canBoId: canBoId,
       );
 }
 
@@ -112,11 +114,12 @@ class CountStatus {
   int? daDiemDanh;
   int? chuaDiemDanh;
 
-  CountStatus(
-      {this.tongSoThamGia,
-      this.tongSoTuChoi,
-      this.daDiemDanh,
-      this.chuaDiemDanh});
+  CountStatus({
+    this.tongSoThamGia,
+    this.tongSoTuChoi,
+    this.daDiemDanh,
+    this.chuaDiemDanh,
+  });
 
   CountStatus.fromJson(Map<String, dynamic> json) {
     tongSoThamGia = json['tongSoThamGia'];

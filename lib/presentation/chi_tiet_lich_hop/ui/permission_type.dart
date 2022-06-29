@@ -1,6 +1,6 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
-import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -305,60 +305,116 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.CU_CAN_BO.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO.getString(),
           onTap: () {
-            showBottomSheetCustom<List<DonViModel>>(
-              context,
-              title: S.current.chon_thanh_phan_tham_gia,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  children: [
-                    Flexible(
-                      child: ThemCanBoScreen(
-                        cubit: cubitThanhPhanTG,
-                        needCheckTrung: false,
-                        removeButton: true,
-                        themCanBoCubit: themCanBoCubit,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                        right: 8,
-                        bottom: 16,
-                      ),
-                      child: DoubleButtonBottom(
-                        title1: S.current.dong,
-                        title2: S.current.luu,
-                        onPressed1: () {
-                          Navigator.pop(context);
-                        },
-                        onPressed2: () async {
-                          await cubit
-                              .cuCanBo(
-                            canBoDiThay: themCanBoCubit.listSelectCanBo
-                                .map(
-                                  (element) => CanBoDiThay(
-                                    id: element.id,
-                                    donViId: element.donViId,
-                                    canBoId: element.canBoId,
-                                    taskContent: '',
-                                  ),
+            isMobile()
+                ? showBottomSheetCustom<List<DonViModel>>(
+                    context,
+                    title: S.current.chon_thanh_phan_tham_gia,
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Column(
+                        children: [
+                          Flexible(
+                            child: ThemCanBoScreen(
+                              cubit: cubitThanhPhanTG,
+                              needCheckTrung: false,
+                              removeButton: true,
+                              themCanBoCubit: themCanBoCubit,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8,
+                              right: 8,
+                              bottom: 16,
+                            ),
+                            child: DoubleButtonBottom(
+                              title1: S.current.dong,
+                              title2: S.current.luu,
+                              onPressed1: () {
+                                Navigator.pop(context);
+                              },
+                              onPressed2: () async {
+                                await cubit
+                                    .cuCanBo(
+                                  canBoDiThay: themCanBoCubit.listSelectCanBo
+                                      .map(
+                                        (element) => CanBoDiThay(
+                                          id: element.id,
+                                          donViId: element.donViId,
+                                          canBoId: element.canBoId,
+                                          taskContent: '',
+                                        ),
+                                      )
+                                      .toList(),
                                 )
-                                .toList(),
-                          )
-                              .then((value) {
-                            if (value) {
-                              cubit.initDataChiTiet();
-                              Navigator.pop(context);
-                            }
-                          });
-                        },
+                                    .then((value) {
+                                  if (value) {
+                                    cubit.initDataChiTiet();
+                                    Navigator.pop(context);
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            );
+                  )
+                : showDiaLogTablet(
+                    context,
+                    title: S.current.chon_thanh_phan_tham_gia,
+                    child: Column(
+                      children: [
+                        Flexible(
+                          child: ThemCanBoScreen(
+                            cubit: cubitThanhPhanTG,
+                            needCheckTrung: false,
+                            removeButton: true,
+                            themCanBoCubit: themCanBoCubit,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8,
+                            right: 8,
+                            bottom: 16,
+                          ),
+                          child: DoubleButtonBottom(
+                            title1: S.current.dong,
+                            title2: S.current.luu,
+                            onPressed1: () {
+                              Navigator.pop(context);
+                            },
+                            onPressed2: () async {
+                              await cubit
+                                  .cuCanBo(
+                                canBoDiThay: themCanBoCubit.listSelectCanBo
+                                    .map(
+                                      (element) => CanBoDiThay(
+                                        id: element.id,
+                                        donViId: element.donViId,
+                                        canBoId: element.canBoId,
+                                        taskContent: '',
+                                      ),
+                                    )
+                                    .toList(),
+                              )
+                                  .then((value) {
+                                if (value) {
+                                  cubit.initDataChiTiet();
+                                  Navigator.pop(context);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
           },
         );
       case PERMISSION_DETAIL.TU_CHOI_THAM_GIA:
@@ -461,60 +517,116 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getString(),
           onTap: () {
-            showBottomSheetCustom<List<DonViModel>>(
-              context,
-              title: S.current.chon_thanh_phan_tham_gia,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  children: [
-                    Flexible(
-                      child: ThemCanBoScreen(
-                        cubit: cubitThanhPhanTG,
-                        needCheckTrung: false,
-                        removeButton: true,
-                        themCanBoCubit: themCanBoCubit,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                        right: 8,
-                        bottom: 16,
-                      ),
-                      child: DoubleButtonBottom(
-                        title1: S.current.dong,
-                        title2: S.current.luu,
-                        onPressed1: () {
-                          Navigator.pop(context);
-                        },
-                        onPressed2: () async {
-                          await cubit
-                              .cuCanBoDiThay(
-                            canBoDiThay: themCanBoCubit.listSelectCanBo
-                                .map(
-                                  (element) => CanBoDiThay(
-                                    id: element.id,
-                                    donViId: element.donViId,
-                                    canBoId: element.canBoId,
-                                    taskContent: '',
-                                  ),
+            isMobile()
+                ? showBottomSheetCustom<List<DonViModel>>(
+                    context,
+                    title: S.current.chon_thanh_phan_tham_gia,
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Column(
+                        children: [
+                          Flexible(
+                            child: ThemCanBoScreen(
+                              cubit: cubitThanhPhanTG,
+                              needCheckTrung: false,
+                              removeButton: true,
+                              themCanBoCubit: themCanBoCubit,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8,
+                              right: 8,
+                              bottom: 16,
+                            ),
+                            child: DoubleButtonBottom(
+                              title1: S.current.dong,
+                              title2: S.current.luu,
+                              onPressed1: () {
+                                Navigator.pop(context);
+                              },
+                              onPressed2: () async {
+                                await cubit
+                                    .cuCanBoDiThay(
+                                  canBoDiThay: themCanBoCubit.listSelectCanBo
+                                      .map(
+                                        (element) => CanBoDiThay(
+                                          id: element.id,
+                                          donViId: element.donViId,
+                                          canBoId: element.canBoId,
+                                          taskContent: '',
+                                        ),
+                                      )
+                                      .toList(),
                                 )
-                                .toList(),
-                          )
-                              .then((value) {
-                            if (value) {
-                              cubit.initDataChiTiet();
-                              Navigator.pop(context);
-                            }
-                          });
-                        },
+                                    .then((value) {
+                                  if (value) {
+                                    cubit.initDataChiTiet();
+                                    Navigator.pop(context);
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            );
+                  )
+                : showDiaLogTablet(
+                    context,
+                    title: S.current.chon_thanh_phan_tham_gia,
+                    child: Column(
+                      children: [
+                        Flexible(
+                          child: ThemCanBoScreen(
+                            cubit: cubitThanhPhanTG,
+                            needCheckTrung: false,
+                            removeButton: true,
+                            themCanBoCubit: themCanBoCubit,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8,
+                            right: 8,
+                            bottom: 16,
+                          ),
+                          child: DoubleButtonBottom(
+                            title1: S.current.dong,
+                            title2: S.current.luu,
+                            onPressed1: () {
+                              Navigator.pop(context);
+                            },
+                            onPressed2: () async {
+                              await cubit
+                                  .cuCanBoDiThay(
+                                canBoDiThay: themCanBoCubit.listSelectCanBo
+                                    .map(
+                                      (element) => CanBoDiThay(
+                                        id: element.id,
+                                        donViId: element.donViId,
+                                        canBoId: element.canBoId,
+                                        taskContent: '',
+                                      ),
+                                    )
+                                    .toList(),
+                              )
+                                  .then((value) {
+                                if (value) {
+                                  cubit.initDataChiTiet();
+                                  Navigator.pop(context);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
           },
         );
       case PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP:

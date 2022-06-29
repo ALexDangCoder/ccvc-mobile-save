@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/thong_tin_cuoc_hop_widget.dart';
@@ -44,7 +45,9 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
   @override
   void initState() {
     cubit.idCuocHop = widget.id;
+    cubitThanhPhan.getTree();
     cubit.initDataChiTiet(needCheckPermission: true);
+    cubit.getDanhSachCanBoHop(widget.id);
     _controller = TabController(vsync: this, length: listTextTab.length);
     super.initState();
   }

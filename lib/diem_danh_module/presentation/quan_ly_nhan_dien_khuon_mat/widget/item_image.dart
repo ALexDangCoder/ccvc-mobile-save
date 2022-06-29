@@ -1,6 +1,9 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/select_image.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -11,15 +14,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class ItemImageWidget extends StatelessWidget {
-  final String image;
-  final String title;
+  final NhanDienKhuonMatUIModel dataUI;
   final DiemDanhCubit cubit;
+  final String? initImage;
 
   const ItemImageWidget({
     Key? key,
-    required this.image,
-    required this.title,
+    required this.dataUI,
     required this.cubit,
+    this.initImage,
   }) : super(key: key);
 
   @override
@@ -39,7 +42,7 @@ class ItemImageWidget extends StatelessWidget {
           ),
           spaceH14,
           Text(
-            title,
+            dataUI.title,
             style: textNormalCustom(
               fontSize: 16.0,
               fontWeight: FontWeight.w400,
@@ -71,7 +74,7 @@ class ItemImageWidget extends StatelessWidget {
                               ),
                             ],
                             image: DecorationImage(
-                              image: AssetImage(image),
+                              image: AssetImage(dataUI.image),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -101,8 +104,25 @@ class ItemImageWidget extends StatelessWidget {
                 ),
                 spaceW16,
                 Expanded(
-                  child: SelectImageWidget(
-                    selectImage: (image) {},
+                  child: StreamBuilder<String?>(
+                    stream: cubit.imageStream,
+                    builder: (context, snapshot) {
+                      return SelectImageWidget(
+                        isShowLoading: snapshot.hasData,
+                        image: initImage,
+                        removeImage: () {
+                        },
+                        onTapImage: (image) {
+                          if (image != null) {
+                            cubit.upLoadImage(
+                              dataUI.fileTypeUpload,
+                              dataUI.entityName,
+                              [image],
+                            );
+                          }
+                        },
+                      );
+                    },
                   ),
                 )
               ],
@@ -113,4 +133,3 @@ class ItemImageWidget extends StatelessWidget {
     );
   }
 }
-

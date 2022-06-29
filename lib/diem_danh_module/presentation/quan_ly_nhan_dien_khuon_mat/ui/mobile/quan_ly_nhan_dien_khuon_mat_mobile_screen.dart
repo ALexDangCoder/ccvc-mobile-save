@@ -1,5 +1,7 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mobile.dart';
@@ -61,42 +63,53 @@ class _QuanLyNhanDienKhuonMatMobileScreenState
           )
         ],
       ),
-      body: Column(
-        children: [
-          TabBar(
-            tabs: [
-              Tab(
-                text: S.current.anh_khong_deo_kinh,
-              ),
-              Tab(
-            text: S.current.anh_deo_kinh,
-          ),
-        ],
-        controller: _tabController,
-        indicatorSize: TabBarIndicatorSize.tab,
-        labelColor: AppTheme.getInstance().colorField(),
-        unselectedLabelColor: color667793,
-        indicatorColor: AppTheme.getInstance().colorField(),
-        unselectedLabelStyle: textNormalCustom(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w400,
+      body: StateStreamLayout(
+        stream: widget.cubit.stateStream,
+        error: AppException(
+          S.current.error,
+          S.current.something_went_wrong,
         ),
-        labelStyle: textNormalCustom(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w700,
-        ),
-            physics: const AlwaysScrollableScrollPhysics(),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                TabAnhKhongDeoKinh(cubit: widget.cubit,),
-                TabAnhDeoKinh(cubit : widget.cubit),
+        retry: () {},
+        textEmpty: S.current.khong_co_du_lieu,
+        child: Column(
+          children: [
+            TabBar(
+              tabs: [
+                Tab(
+                  text: S.current.anh_khong_deo_kinh,
+                ),
+                Tab(
+                  text: S.current.anh_deo_kinh,
+                ),
               ],
+              controller: _tabController,
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: AppTheme.getInstance().colorField(),
+              unselectedLabelColor: color667793,
+              indicatorColor: AppTheme.getInstance().colorField(),
+              unselectedLabelStyle: textNormalCustom(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+              ),
+              labelStyle: textNormalCustom(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w700,
+              ),
+              physics: const AlwaysScrollableScrollPhysics(),
             ),
-          ),
-        ],
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  TabAnhKhongDeoKinh(
+                    cubit: widget.cubit,
+                  ),
+                  TabAnhDeoKinh(cubit: widget.cubit),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

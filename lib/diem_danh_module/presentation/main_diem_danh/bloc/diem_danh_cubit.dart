@@ -3,11 +3,13 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/thong_ke_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_state.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,6 +23,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   DiemDanhRepository get diemDanhRepo => Get.find();
 
   final DataUser? dataUser = HiveLocal.getDataUser();
+  final String? tokken = PrefsService.getToken();
 
   ///variable menu
   BehaviorSubject<TypeDiemDanh> typeDiemDanhSubject =
@@ -29,8 +32,26 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   Stream<TypeDiemDanh> get typeDiemDanhStream => typeDiemDanhSubject.stream;
 
   /// nhan dien khuon mat
-  BehaviorSubject<File> imagePickerSubject = BehaviorSubject();
-  Stream<File> get imagePickerStream => imagePickerSubject.stream;
+  BehaviorSubject<GetAllFilesIdModel> allFileDeokinhSubject = BehaviorSubject();
+
+  Stream<GetAllFilesIdModel> get allFileDeokinhStream =>
+      allFileDeokinhSubject.stream;
+
+  BehaviorSubject<GetAllFilesIdModel> allFileKhongDeokinhSubject =
+      BehaviorSubject();
+
+  Stream<GetAllFilesIdModel> get allFileKhongDeokinhStream =>
+      allFileKhongDeokinhSubject.stream;
+
+  BehaviorSubject<GetAllFilesIdModel> getOnlyFileDataSubject =
+      BehaviorSubject();
+
+  Stream<GetAllFilesIdModel> get getOnlyFileDataStream =>
+      getOnlyFileDataSubject.stream;
+
+  BehaviorSubject<String?> imageSubject = BehaviorSubject();
+
+  Stream<String?> get imageStream => imageSubject.stream;
 
   ///item dang ky bien so xe
   String? xeMay ;

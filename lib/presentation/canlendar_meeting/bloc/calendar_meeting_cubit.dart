@@ -289,7 +289,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       startDate.formatApi,
       endDate.formatApi,
     );
-
     result.when(
       success: (value) {
         getMenuLichTheoTrangThai(value);

@@ -1194,5 +1194,6 @@
   "dien_thoai": "Điện thoại",
   "tong_dai": "Tổng đài",
   "diadiem": "Địa điểm",
-  "validate_thoi_gian_phien_hop": "Thời gian phiên họp phải nằm trong thời gian cuộc họp"
+  "validate_thoi_gian_phien_hop": "Thời gian phiên họp phải nằm trong thời gian cuộc họp",
+  "menu_lich_hop": "Menu Lịch họp"
 }

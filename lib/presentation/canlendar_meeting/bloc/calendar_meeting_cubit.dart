@@ -407,6 +407,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+        checkDuplicate(value.items ?? []);
         _danhSachLichHopSubject.sink.add(value);
       },
       error: (error) {},

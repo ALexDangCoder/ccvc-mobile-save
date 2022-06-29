@@ -16,8 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 class DataViewTypeList extends StatefulWidget {
-  const DataViewTypeList({Key? key, required this.cubit}) : super(key: key);
-
+  const DataViewTypeList(
+      {Key? key, required this.cubit, required this.isTablet})
+      : super(key: key);
+  final bool isTablet;
   final CalendarMeetingCubit cubit;
 
   @override
@@ -45,6 +47,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
           if (data.isNotEmpty) {
             return GroupedListView<ItemDanhSachLichHop, DateTime>(
               elements: data,
+              physics: const AlwaysScrollableScrollPhysics(),
               groupBy: (e) => getOnlyDate(e.dateTimeTo ?? ''),
               itemBuilder: (_, element) {
                 return itemList(element);
@@ -66,7 +69,10 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
               ),
             );
           } else {
-            return const NodataWidget();
+            return const SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: SizedBox(height: 300, child: NodataWidget()),
+            );
           }
         },
       ),
@@ -148,29 +154,31 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: item.isTrung ?? false
-                            ? Container(
-                                padding:
-                                    const EdgeInsets.only(top: 3, left: 15),
-                                decoration: BoxDecoration(
-                                  color: statusCalenderRed.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(
-                                    color: statusCalenderRed.withOpacity(0.1),
-                                  ),
-                                ),
-                                height: 24,
-                                child: Text(
-                                  S.current.trung,
-                                  style: textNormalCustom(
-                                    color: statusCalenderRed,
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              )
-                            : Container(),
-                      ),
+                      if (item.isTrung ?? false)
+                        Container(
+                          padding: const EdgeInsets.only(
+                            top: 3,
+                            left: 15,
+                            right: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            color: statusCalenderRed.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                              color: statusCalenderRed.withOpacity(0.1),
+                            ),
+                          ),
+                          height: 24,
+                          child: Text(
+                            S.current.trung,
+                            style: textNormalCustom(
+                              color: statusCalenderRed,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        )
+                      else
+                        Container(),
                       spaceW16
                     ],
                   ),
@@ -188,22 +196,15 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                       ),
                     ),
                   ),
-                  Container(
-                    clipBehavior: Clip.hardEdge,
-                    margin: const EdgeInsets.only(right: 4.0),
-                    height: 24.0,
-                    width: 24.0,
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      '',
-                      errorBuilder: (_, __, ___) => Image.asset(
-                        ImageAssets.anhDaiDienMacDinh,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: itemAvatar(''),
+                        ),
                       ),
-                      fit: BoxFit.cover,
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -213,4 +214,23 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
       ),
     );
   }
+  Widget itemAvatar(String url) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.only(right: 4.0),
+      height: 24.0,
+      width: 24.0,
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.circle,
+      ),
+      child: Image.network(
+        '',
+        errorBuilder: (_, __, ___) =>
+            Image.asset(ImageAssets.anhDaiDienMacDinh),
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
 }

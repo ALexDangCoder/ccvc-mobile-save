@@ -7,7 +7,7 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
-import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/view_data_meeting.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/mobile/view_data_meeting.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';

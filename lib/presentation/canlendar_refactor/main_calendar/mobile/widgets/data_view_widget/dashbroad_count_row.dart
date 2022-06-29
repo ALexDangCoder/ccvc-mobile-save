@@ -87,7 +87,7 @@ class DashBroadCountRow extends StatelessWidget {
         height: 88,
         width: 274,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(isTablet ? 12.0 : 6),
           color: isTablet ? backgroundColorApp : backgroundItemCalender,
           border: isTablet ?  Border.all(
             color: borderColor.withOpacity(0.5),

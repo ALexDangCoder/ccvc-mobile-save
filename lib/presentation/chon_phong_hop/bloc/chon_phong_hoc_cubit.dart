@@ -31,6 +31,7 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   final BehaviorSubject<List<PhongHopModel>> phongHopSubject =
       BehaviorSubject();
 
+  final BehaviorSubject<PhongHopModel> phongHopSelectedSubject = BehaviorSubject();
   HopRepository get hopRepository => Get.find();
 
   PhongHop phongHop = PhongHop();

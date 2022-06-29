@@ -1181,5 +1181,6 @@
   "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
   "them_don_vi_phoi_hop_khac": "Thêm đơn vị phối hợp khác",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
-  "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?"
+  "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
+  "diadiem": "Địa điểm"
 }

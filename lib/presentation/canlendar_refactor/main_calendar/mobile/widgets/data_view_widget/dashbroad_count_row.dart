@@ -88,7 +88,7 @@ class DashBroadCountRow extends StatelessWidget {
         width: 274,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
-          color: backgroundColorApp,
+          color: isTablet ? backgroundColorApp : backgroundItemCalender,
           border: isTablet ?  Border.all(
             color: borderColor.withOpacity(0.5),
           ) : null ,
@@ -100,9 +100,9 @@ class DashBroadCountRow extends StatelessWidget {
             Container(
               height: 56,
               width: 56,
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 shape: BoxShape.circle,
-                color: backgroundItemCalender,
+                color:isTablet ? backgroundItemCalender  : backgroundColorApp ,
               ),
               child: Center(
                 child: SvgPicture.asset(image),

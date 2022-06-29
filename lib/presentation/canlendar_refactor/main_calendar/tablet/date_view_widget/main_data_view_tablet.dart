@@ -272,7 +272,10 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
         pushToDetail(appointment);
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: appointment.isAllDay ? 1 : 6,
+        ),
         decoration: const BoxDecoration(
           color: textDefault,
           borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -286,34 +289,35 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
                 Expanded(
                   child: Text(
                     appointment.subject.trim(),
-                    maxLines: 2,
+                    maxLines: appointment.isAllDay ? 1 :  2,
                     overflow: TextOverflow.ellipsis,
                     style: textNormalCustom(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: appointment.isAllDay ? 12 : 16,
                     ),
                   ),
                 ),
-                spaceW3,
-                itemAvatar(''),
-                itemAvatar('')
+                if (!appointment.isAllDay) spaceW3,
+                if (!appointment.isAllDay) itemAvatar(''),
+                if (!appointment.isAllDay) itemAvatar('')
               ],
             ),
-            spaceH4,
-            Text(
-              '${DateFormat.jm('en').format(
-                appointment.startTime,
-              )} - ${DateFormat.jm('en').format(
-                appointment.endTime,
-              )}',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: textNormalCustom(
-                fontSize: 16,
-                color: backgroundColorApp.withOpacity(0.7),
-                fontWeight: FontWeight.w400,
-              ),
-            )
+            if (!appointment.isAllDay)spaceH4,
+            if (!appointment.isAllDay)
+              Text(
+                '${DateFormat.jm('en').format(
+                  appointment.startTime,
+                )} - ${DateFormat.jm('en').format(
+                  appointment.endTime,
+                )}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textNormalCustom(
+                  fontSize: 16,
+                  color: backgroundColorApp.withOpacity(0.7),
+                  fontWeight: FontWeight.w400,
+                ),
+              )
           ],
         ),
       ),

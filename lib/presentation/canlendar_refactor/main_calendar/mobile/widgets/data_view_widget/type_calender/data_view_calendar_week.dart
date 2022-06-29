@@ -75,14 +75,12 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
       ) : null ,
       child: SfCalendar(
         firstDayOfWeek: 1,
-        showCurrentTimeIndicator: false,
         timeSlotViewSettings: const TimeSlotViewSettings(
           timeIntervalHeight: 100,
           dayFormat: 'EEEE',
         ),
         headerHeight: 0,
         viewHeaderHeight: widget.isTablet ? -1 : 0,
-        allowAppointmentResize: true,
         controller: widget.fCalendarController,
         view: CalendarView.week,
         todayHighlightColor: labelColor,
@@ -114,7 +112,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
               color: fontColorTablet2,
             ),
           ),
-          agendaViewHeight: 50,
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
         ),
         selectionDecoration: const BoxDecoration(color: Colors.transparent),

@@ -18,7 +18,7 @@ class DataLichLvModel {
     this.totalPage,
   });
 
-  DataSourceFCalendar toDataFCalenderSource  () {
+  DataSourceFCalendar toDataFCalenderSource() {
     final List<AppointmentWithDuplicate> appointments = [];
     if ((listLichLVModel ?? []).isNotEmpty) {
       for (final ListLichLVModel i in listLichLVModel ?? []) {
@@ -42,10 +42,14 @@ class DataLichLvModel {
     return DataSourceFCalendar(appointments);
   }
 }
-class AppointmentWithDuplicate extends Appointment{
-  bool isDuplicate ;
-  bool isMore ;
+
+class AppointmentWithDuplicate extends Appointment {
+  bool isDuplicate;
+
+  bool isMore;
+
   int group = 0;
+
   AppointmentWithDuplicate({
     this.isDuplicate = false,
     this.isMore = false,
@@ -55,13 +59,17 @@ class AppointmentWithDuplicate extends Appointment{
     required DateTime endTime,
     required String subject,
   }) : super(
-    notes: notes,
-    startTime: startTime,
-    endTime: endTime,
-    subject: subject,
-    id: id,
-  );
+          notes: notes,
+          startTime: startTime,
+          endTime: endTime,
+          subject: subject,
+          id: id,
+          isAllDay: getOnlyDate(startTime).millisecondsSinceEpoch !=
+              getOnlyDate(endTime).millisecondsSinceEpoch,
+        );
 
+  static DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
 }
 
 class ListLichLVModel {
@@ -128,7 +136,6 @@ class ListLichLVModel {
     // required this.createBys,
     // required this.canBoChuTri,
   });
-
 }
 
 class CreateBys {

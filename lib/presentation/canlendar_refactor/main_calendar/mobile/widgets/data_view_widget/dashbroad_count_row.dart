@@ -17,7 +17,6 @@ enum TypeDashBroad {
   ADMIN_TAO,
 }
 
-
 class DashBroadCountRow extends StatelessWidget {
   const DashBroadCountRow({
     Key? key,
@@ -30,10 +29,10 @@ class DashBroadCountRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(
-        top: isTablet ? 30 :  16,
-        left: isTablet ? 30 :  16,
-        bottom: isTablet ? 30 :  16,
+      padding: EdgeInsets.only(
+        top: isTablet ? 30 : 16,
+        left: isTablet ? 30 : 16,
+        bottom: isTablet ? 30 : 16,
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -63,7 +62,9 @@ class DashBroadCountRow extends StatelessWidget {
                       data.length,
                       (index) => itemDashBroad(
                         data[index].typeName ?? '',
-                        getTypeFromString((data[index].typeName ?? '').textToCode).getImage(),
+                        getTypeFromString(
+                                (data[index].typeName ?? '').textToCode)
+                            .getImage(),
                         data[index].numberOfCalendars ?? 0,
                       ),
                     ),
@@ -87,7 +88,10 @@ class DashBroadCountRow extends StatelessWidget {
         width: 274,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
-          color: backgroundItemCalender,
+          color: backgroundColorApp,
+          border: isTablet ?  Border.all(
+            color: borderColor.withOpacity(0.5),
+          ) : null ,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -98,7 +102,7 @@ class DashBroadCountRow extends StatelessWidget {
               width: 56,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: backgroundColorApp,
+                color: backgroundItemCalender,
               ),
               child: Center(
                 child: SvgPicture.asset(image),
@@ -132,7 +136,6 @@ class DashBroadCountRow extends StatelessWidget {
   }
 }
 
-
 extension TypeDashBroadUltis on TypeDashBroad {
   String getImage() {
     switch (this) {
@@ -149,7 +152,8 @@ extension TypeDashBroadUltis on TypeDashBroad {
     }
   }
 }
-TypeDashBroad getTypeFromString (String value){
+
+TypeDashBroad getTypeFromString(String value) {
   switch (value) {
     case 'LICH_CONG_TAC_TRONG_NUOC':
       return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
@@ -161,7 +165,7 @@ TypeDashBroad getTypeFromString (String value){
       return TypeDashBroad.LICH_TIEP_DAN;
     case 'ADMIN_TAO':
       return TypeDashBroad.ADMIN_TAO;
-    default : return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
+    default:
+      return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
   }
 }
-

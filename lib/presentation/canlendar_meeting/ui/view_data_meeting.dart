@@ -206,7 +206,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
     );
   }
 
-  Widget itemAppointment (Appointment appointment){
+  Widget itemAppointment (AppointmentWithDuplicate appointment){
     return GestureDetector(
       onTap: () {
         if (isMobile()) {

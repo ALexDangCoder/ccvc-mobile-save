@@ -58,71 +58,86 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
 
   @override
   Widget build(BuildContext context) {
-    return SfCalendar(
-      firstDayOfWeek: 1,
-      showCurrentTimeIndicator: false,
-      timeSlotViewSettings: const TimeSlotViewSettings(
-        timeIntervalHeight: 100,
-        dayFormat: 'EEEE',
-
-      ),
-      headerHeight: 0,
-      viewHeaderHeight: widget.isTablet ? -1 : 0,
-      allowAppointmentResize: true,
-      controller: widget.fCalendarController,
-      view: CalendarView.week,
-      todayHighlightColor: labelColor,
-      appointmentTimeTextFormat: 'hh:mm:ss',
-      resourceViewSettings: ResourceViewSettings(
-        displayNameTextStyle: textNormalCustom(
-          fontSize: 14,
-          color: Colors.red,
+    return Container(
+      margin: widget.isTablet ?  const EdgeInsets.only(
+        left: 30,
+        right: 30,
+      ) : null ,
+      decoration: widget.isTablet ?  BoxDecoration(
+        color: backgroundColorApp,
+        border:  Border.all(
+          color: borderColor.withOpacity(0.5),
+        )  ,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
         ),
-      ),
-      headerDateFormat: 'MMMM,yyy',
-      dataSource: widget.data,
-      viewHeaderStyle: ViewHeaderStyle(
-        dayTextStyle: textNormalCustom(
-          fontSize: 13,
-          color: colorA2AEBD,
+      ) : null ,
+      child: SfCalendar(
+        firstDayOfWeek: 1,
+        showCurrentTimeIndicator: false,
+        timeSlotViewSettings: const TimeSlotViewSettings(
+          timeIntervalHeight: 100,
+          dayFormat: 'EEEE',
         ),
-      ),
-      monthViewSettings: MonthViewSettings(
-        appointmentDisplayCount: 2,
-        monthCellStyle: MonthCellStyle(
-          backgroundColor: bgCalenderColor,
-          trailingDatesTextStyle: textNormalCustom(
+        headerHeight: 0,
+        viewHeaderHeight: widget.isTablet ? -1 : 0,
+        allowAppointmentResize: true,
+        controller: widget.fCalendarController,
+        view: CalendarView.week,
+        todayHighlightColor: labelColor,
+        appointmentTimeTextFormat: 'hh:mm:ss',
+        resourceViewSettings: ResourceViewSettings(
+          displayNameTextStyle: textNormalCustom(
             fontSize: 14,
-            color: iconColorDown,
-          ),
-          textStyle: textNormalCustom(
-            fontSize: 14,
-            color: fontColorTablet2,
+            color: Colors.red,
           ),
         ),
-        agendaViewHeight: 50,
-        appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-      ),
-      selectionDecoration: const BoxDecoration(color: Colors.transparent),
-      appointmentBuilder: (_, appointmentDetail) {
-        final AppointmentWithDuplicate appointment =
-            appointmentDetail.appointments.first;
-        if (appointment.isMore) {
-          return GestureDetector(
-            onTap: () {
-              widget.onMore?.call(appointmentDetail.date);
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: const Icon(
-                Icons.more_vert,
-                color: textBodyTime,
-              ),
+        headerDateFormat: 'MMMM,yyy',
+        dataSource: widget.data,
+        viewHeaderStyle: ViewHeaderStyle(
+          dayTextStyle: textNormalCustom(
+            fontSize: 13,
+            color: colorA2AEBD,
+          ),
+        ),
+        monthViewSettings: MonthViewSettings(
+          appointmentDisplayCount: 2,
+          monthCellStyle: MonthCellStyle(
+            backgroundColor: bgCalenderColor,
+            trailingDatesTextStyle: textNormalCustom(
+              fontSize: 14,
+              color: iconColorDown,
             ),
-          );
-        }
-        return widget.buildAppointment(appointment);
-      },
+            textStyle: textNormalCustom(
+              fontSize: 14,
+              color: fontColorTablet2,
+            ),
+          ),
+          agendaViewHeight: 50,
+          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+        ),
+        selectionDecoration: const BoxDecoration(color: Colors.transparent),
+        appointmentBuilder: (_, appointmentDetail) {
+          final AppointmentWithDuplicate appointment =
+              appointmentDetail.appointments.first;
+          if (appointment.isMore) {
+            return GestureDetector(
+              onTap: () {
+                widget.onMore?.call(appointmentDetail.date);
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: const Icon(
+                  Icons.more_vert,
+                  color: textBodyTime,
+                ),
+              ),
+            );
+          }
+          return widget.buildAppointment(appointment);
+        },
+      ),
     );
   }
 }

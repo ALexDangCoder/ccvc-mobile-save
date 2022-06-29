@@ -270,7 +270,7 @@ class _MainDataViewState extends State<MainDataView> {
     );
   }
 
-  Widget itemAppointment(Appointment appointment) {
+  Widget itemAppointment(AppointmentWithDuplicate appointment) {
     return GestureDetector(
       onTap: () {
         final TypeCalendar typeAppointment =

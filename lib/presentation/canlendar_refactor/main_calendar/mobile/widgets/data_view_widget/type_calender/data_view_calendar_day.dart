@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
@@ -47,9 +46,8 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
         .checkDuplicate();
     (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkMore(widget.isTablet ? 5 : 4);
+        .checkMore( 4);
   }
-
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController
@@ -58,38 +56,61 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
 
   @override
   Widget build(BuildContext context) {
-    return SfCalendar(
-      headerHeight: 0,
-      viewHeaderHeight: 0,
-      allowAppointmentResize: true,
-      controller: widget.fCalendarController,
-      timeSlotViewSettings: const TimeSlotViewSettings(
-        timeIntervalHeight: 88,
-      ),
-      selectionDecoration: const BoxDecoration(color: Colors.transparent),
-      appointmentTextStyle: textNormalCustom(color: backgroundColorApp),
-      todayHighlightColor: statusCalenderRed,
-      appointmentTimeTextFormat: 'hh:mm:ss a',
-      dataSource: widget.data,
-      appointmentBuilder: (_, appointmentDetail) {
-        final AppointmentWithDuplicate appointment =
-            appointmentDetail.appointments.first;
-        if (appointment.isMore) {
-          return GestureDetector(
-            onTap: () {
-              widget.onMore?.call(appointmentDetail.date);
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: const Icon(
-                Icons.more_horiz,
-                color: textBodyTime,
-              ),
+    return Container(
+      margin: widget.isTablet ?  const EdgeInsets.only(
+        left: 30,
+        right: 30,
+      ) : null ,
+      decoration: widget.isTablet ?  BoxDecoration(
+        color: backgroundColorApp,
+        border:  Border.all(
+          color: borderColor.withOpacity(0.5),
+        )  ,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ) : null ,
+      child: Stack(
+        children: [
+          SfCalendar(
+            headerHeight: 0,
+            viewHeaderHeight: 0,
+            controller: widget.fCalendarController,
+            timeSlotViewSettings: const TimeSlotViewSettings(
+              timeIntervalHeight: 100,
             ),
-          );
-        }
-        return widget.buildAppointment(appointment);
-      },
+            selectionDecoration: const BoxDecoration(color: Colors.transparent),
+            appointmentTextStyle: textNormalCustom(color: backgroundColorApp),
+            todayHighlightColor: statusCalenderRed,
+            appointmentTimeTextFormat: 'hh:mm:ss a',
+            dataSource: widget.data,
+            appointmentBuilder: (_, appointmentDetail) {
+              final AppointmentWithDuplicate appointment =
+                  appointmentDetail.appointments.first;
+              if (appointment.isMore) {
+                return GestureDetector(
+                  onTap: () {
+                    widget.onMore?.call(appointmentDetail.date);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: const Icon(
+                      Icons.more_horiz,
+                      color: textBodyTime,
+                    ),
+                  ),
+                );
+              }
+              return widget.buildAppointment(appointment);
+            },
+          ),
+          Container(
+            height: 1,
+            color: backgroundColorApp,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -175,19 +196,16 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
     }
 
     for (int i = 0; i < checkDuplicate.length && i < maxShow; i++) {
-      if (i== (maxShow -1 )){
-        for (final e in checkDuplicate[i]){
+      if (i == (maxShow - 1)) {
+        for (final e in checkDuplicate[i]) {
           e.isMore = true;
           resultList.add(e);
         }
-      }else{
+      } else {
         resultList.addAll(checkDuplicate[i]);
       }
-
     }
     clear();
     addAll(resultList);
   }
 }
-
-

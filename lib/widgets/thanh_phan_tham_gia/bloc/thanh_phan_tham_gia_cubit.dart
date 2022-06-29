@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -7,15 +8,15 @@ import 'package:rxdart/rxdart.dart';
 
 class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   final List<DonViModel> listPeople = [];
+  Node<DonViModel>? nodeDonViThemCanBo;
 
-  ThanhPhanThamGiaCubit()
-      : super(MainStateInitial());
+  ThanhPhanThamGiaCubit() : super(MainStateInitial());
 
   ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
   String idCanBoItem = '';
   final BehaviorSubject<List<DonViModel>> _listPeopleThamGia =
-  BehaviorSubject<List<DonViModel>>();
+      BehaviorSubject<List<DonViModel>>();
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
   final BehaviorSubject<bool> _phuongThucNhan = BehaviorSubject.seeded(false);
@@ -23,7 +24,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
-  BehaviorSubject<List<Node<DonViModel>>>();
+      BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
 
@@ -32,13 +33,28 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   String dateStart = '';
   String dateEnd = '';
 
-  void addPeopleThamGia(List<DonViModel> donViModel,) {
+  void addPeopleThamGia(
+    List<DonViModel> donViModel,
+  ) {
     for (final vl in donViModel) {
       if (listPeople.indexWhere((element) => element.id == vl.id) == -1) {
         listPeople.add(vl);
       }
     }
     _listPeopleThamGia.sink.add(listPeople);
+  }
+
+  void addPeopleThamGiaDonVi(
+    List<DonViModel> donViModel,
+  ) {
+    final listDonVi =
+        listPeople.where((element) => element.tenCanBo.trim().isEmpty).toList();
+    for (final e in listDonVi) {
+      if (donViModel.indexWhere((element) => element.id == e.id) == -1) {
+        listPeople.remove(e);
+      }
+    }
+    addPeopleThamGia(donViModel);
   }
 
   void addDonViPhoiHopKhac(DonViModel model) {

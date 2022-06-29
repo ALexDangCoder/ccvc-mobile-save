@@ -23,7 +23,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MainCanlendanRefactor extends StatefulWidget {
-  const MainCanlendanRefactor({Key? key}) : super(key: key);
+  final bool isBack;
+  const MainCanlendanRefactor({Key? key,this.isBack = false}) : super(key: key);
 
   @override
   _MainCanlendanRefactorState createState() => _MainCanlendanRefactorState();
@@ -70,6 +71,17 @@ class _MainCanlendanRefactorState extends State<MainCanlendanRefactor> {
           title: S.current.lich_cua_toi,
           leadingIcon: Row(
             children: [
+              if (widget.isBack)
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: SvgPicture.asset(
+                    ImageAssets.icBack,
+                  ),
+                )
+              else
+                const SizedBox(),
               cubit.controller.getIcon(),
             ],
           ),

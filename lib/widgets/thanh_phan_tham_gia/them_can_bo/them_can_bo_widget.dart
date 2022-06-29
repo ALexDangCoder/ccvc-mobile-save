@@ -148,7 +148,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
           ),
           spaceH16,
           BaseSearchBar(
-            hintText: S.current.nhap_ten_don_vi_phong_ban,
+            hintText: S.current.nhap_ten_can_bo,
             onChange: (value) {
               widget.themCanBoCubit.search(value);
             },

@@ -33,7 +33,12 @@ class MenuWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             spaceH50,
-            title,
+            GestureDetector(
+              child: title,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
             spaceH24,
             ...stateMenu
                 .map(

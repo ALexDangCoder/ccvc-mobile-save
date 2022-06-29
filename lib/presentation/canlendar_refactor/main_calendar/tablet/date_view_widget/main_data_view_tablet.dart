@@ -103,7 +103,7 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: bgTabletColor,
+      color: Colors.transparent,
       child: Column(
         children: [
           StreamBuilder<StatusWorkCalendar?>(

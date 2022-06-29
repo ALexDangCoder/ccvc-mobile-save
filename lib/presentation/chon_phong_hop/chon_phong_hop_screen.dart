@@ -33,6 +33,7 @@ class ChonPhongHopScreen extends StatefulWidget {
   final String? dateTo;
   final PhongHop? initPhongHop;
   final List<PhongHopThietBi>? initThietBi;
+  final bool isChonPhongHopInDetail;
 
   const ChonPhongHopScreen({
     Key? key,
@@ -42,6 +43,7 @@ class ChonPhongHopScreen extends StatefulWidget {
     this.dateTo,
     this.initPhongHop,
     this.initThietBi,
+    this.isChonPhongHopInDetail = false,
   }) : super(key: key);
 
   @override
@@ -172,6 +174,15 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                 Navigator.pop(context);
               },
               onPressed2: () {
+                Navigator.pop(
+                  context,
+                  ChonPhongHopModel(
+                    loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
+                    listThietBi: widget.chonPhongHopCubit.listThietBi,
+                    yeuCauKhac: controller.text,
+                    phongHop: widget.chonPhongHopCubit.phongHop,
+                  ),
+                );
                 Navigator.pop(
                   context,
                   ChonPhongHopModel(

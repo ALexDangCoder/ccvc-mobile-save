@@ -27,8 +27,8 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
-        onchange: (vl) {
-          if (vl) {
+        onchange: (value) {
+          if (value) {
             widget.cubit.callAPiBieuQuyet();
           }
         },

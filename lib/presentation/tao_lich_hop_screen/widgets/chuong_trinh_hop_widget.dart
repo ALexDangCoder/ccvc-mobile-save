@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
@@ -78,8 +79,30 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                   return ItemPhienHop(
                     phienHop: data[index],
                     onTapRemove: () {
-                      data.removeAt(index);
-                      cubit.listPhienHop.sink.add(data);
+                      showDiaLog(
+                        context,
+                        title: S.current.xoa_chuong_trinh_hop,
+                        textContent: S.current.confirm_xoa_chuong_trinh_hop,
+                        icon: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 18,
+                            vertical: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: redChart.withOpacity(0.1),
+                          ),
+                          child: ImageAssets.svgAssets(
+                            ImageAssets.icDeleteRed,
+                          ),
+                        ),
+                        btnRightTxt: S.current.dong_y,
+                        btnLeftTxt: S.current.khong,
+                        funcBtnRight: () {
+                          data.removeAt(index);
+                          cubit.listPhienHop.sink.add(data);
+                        },
+                      );
                     },
                     onTapEdit: () {
                       showDialog(context, index: index);

@@ -327,33 +327,33 @@ mixin HopRepository {
     bool isTTDH,
   );
 
-  Future<Result<ResponseModel>> huyOrDuyetPhongHop(
+  Future<Result<bool>> huyOrDuyetPhongHop(
     String hopId,
     bool isDuyet,
     String lyDo,
   );
 
-  Future<Result<ResponseModel>> thayDoiPhongHop(
+  Future<Result<bool>> thayDoiPhongHop(
     bool bit_TTDH,
     String lichHopId,
     String phongHopId,
     String tenPhong,
   );
 
-  Future<Result<ResponseModel>> duyetOrHuyDuyetThietBi(
+  Future<Result<bool>> duyetOrHuyDuyetThietBi(
     bool isDuyet,
     String lichHopId,
     String lyDo,
     String thietBiId,
   );
 
-  Future<Result<ResponseModel>> duyetOrHuyDuyetKyThuat(
+  Future<Result<bool>> duyetOrHuyDuyetKyThuat(
     String hopId,
     bool isDuyet,
     String lyDo,
   );
 
-  Future<Result<ResponseModel>> chonPhongHopMetting(
+  Future<Result<bool>> chonPhongHopMetting(
     TaoLichHopRequest taoLichHopRequest,
   );
 

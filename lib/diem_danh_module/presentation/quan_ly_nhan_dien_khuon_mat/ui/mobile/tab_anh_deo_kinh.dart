@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/item_image.dart';
@@ -17,19 +18,36 @@ class TabAnhDeoKinh extends StatefulWidget {
 
 class _TabAnhDeoKinhState extends State<TabAnhDeoKinh> {
   @override
+  void initState() {
+    super.initState();
+    widget.cubit.getAllImageDeoKinhId();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: widget.cubit.listDataDeoKinh
-            .map(
-              (e) => ItemImageWidget(
-                cubit: widget.cubit,
-                image: e.image,
-                title: e.title,
-              ),
-            )
-            .toList(),
-      ),
+    return StreamBuilder<GetAllFilesIdModel>(
+      stream: widget.cubit.allFileDeokinhStream,
+      initialData: GetAllFilesIdModel.empty(),
+      builder:
+          (BuildContext context, AsyncSnapshot<GetAllFilesIdModel> snapshot) {
+        if (snapshot.hasData) {
+          return SingleChildScrollView(
+            child: Column(
+              children: widget.cubit.listDataDeoKinh
+                  .map(
+                    (e) => ItemImageWidget(
+                      cubit: widget.cubit,
+                      dataUI: e,
+                      initImage: widget.cubit
+                          .getUrlImageDeoKinh(fileTypeUpload: e.fileTypeUpload),
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }

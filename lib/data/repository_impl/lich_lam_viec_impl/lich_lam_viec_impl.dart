@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
@@ -165,8 +166,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     String id,
     bool only,
   ) {
-    return runCatchingAsync<MessageResponse,
-        DeleteTietLichLamViecModel>(
+    return runCatchingAsync<MessageResponse, DeleteTietLichLamViecModel>(
       () => workCalendarService.deleteCalenderWork(id, only),
       (response) => response.toDelete(),
     );
@@ -670,8 +670,13 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
   }
 
   @override
-  Future<Result<MessageModel>> recallWorkCalendar(bool isMulti) {
-    // TODO: implement recallWorkCalendar
-    throw UnimplementedError();
+  Future<Result<MessageModel>> recallWorkCalendar(
+    bool isMulti,
+    List<RecallRequest> request,
+  ) {
+    return runCatchingAsync<MessageResponse, MessageModel>(
+      () => workCalendarService.recallWorkCalendar(request, isMulti),
+      (res) => res.toModel(),
+    );
   }
 }

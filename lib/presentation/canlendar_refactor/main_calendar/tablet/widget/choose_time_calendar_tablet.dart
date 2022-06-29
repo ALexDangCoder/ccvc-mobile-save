@@ -25,8 +25,7 @@ class ChooseTimeCalendarTablet extends StatefulWidget {
       required this.onChange,
       this.controller,
       this.onChangeYear,
-      required this.onTapTao
-      })
+      required this.onTapTao})
       : super(key: key);
 
   @override
@@ -86,6 +85,7 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
             onSelect: (value) {
               controller.selectDate.value = value;
             },
+            calendarDays: widget.calendarDays,
           ),
         ],
       ),

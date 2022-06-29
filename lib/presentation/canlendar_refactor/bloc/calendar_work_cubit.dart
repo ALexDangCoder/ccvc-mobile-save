@@ -221,30 +221,6 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
     }
   }
 
-  List<ListLichLVModel> filterByDateTime(List<ListLichLVModel> list) {
-    return list
-        .where(
-          (element) => _checkTime(
-            start: element.dateTimeFrom ?? '',
-            end: element.dateTimeTo ?? '',
-          ),
-        )
-        .toList();
-  }
-
-  bool _checkTime({required String start, required String end}) {
-    // if (start.isEmpty || end.isEmpty) return false;
-    // if (startDate
-    //         .getStartEndOfDayTime()
-    //         .isBefore(start.convertStringToDate()) &&
-    //     endDate
-    //         . getStartEndOfDayTime(getStartTime: false)
-    //         .isAfter(end.convertStringToDate())) {
-    //   return true;
-    // }
-    return true;
-  }
-
   DateTime getDate(String time) =>
       time.convertStringToDate(formatPattern: DateTimeFormat.DATE_TIME_RECEIVE);
 
@@ -282,12 +258,10 @@ extension GetData on CalendarWorkCubit {
     );
   }
 
-  Future<void> dayHaveEvent(
-  { DateTime? startDate, DateTime? endDate}) async {
+  Future<void> dayHaveEvent({DateTime? startDate, DateTime? endDate}) async {
     if (startDate != null && endDate != null && keySearch != null) {
       startDateHaveEvent = startDate;
       endDateHaveEvent = endDate;
-
     }
     final result = await calendarWorkRepo.postEventCalendar(
       EventCalendarRequest(
@@ -347,8 +321,7 @@ extension GetData on CalendarWorkCubit {
         _listCalendarWorkWeekSubject.sink.add(res.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(res.toDataFCalenderSource());
         checkDuplicate(res.listLichLVModel ?? []);
-        final list = filterByDateTime(res.listLichLVModel ?? []);
-        _listWorkSubject.sink.add(list);
+        _listWorkSubject.sink.add(res.listLichLVModel ?? []);
       },
       error: (error) {},
     );

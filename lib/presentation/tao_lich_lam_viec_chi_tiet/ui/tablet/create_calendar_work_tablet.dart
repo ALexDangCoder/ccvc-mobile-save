@@ -50,7 +50,7 @@ class CreateCalendarWorkTablet extends StatefulWidget {
 
 class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
   final CreateWorkCalCubit createCubit = CreateWorkCalCubit();
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormGroupState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -288,7 +288,7 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                           image: ImageAssets.icViTri,
                                           hint: S.current.dia_diem,
                                           validator: (value) {
-                                            return (value ?? '').checkNull();
+                                            return (value ?? '').validatorLocation();
                                           },
                                         ),
                                         LichLapWidget(
@@ -395,8 +395,8 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
   }
 
   Future<void> validateField() async {
-    _formKey.currentState!.validate();
-    if (_formKey.currentState!.validate() &&
+    _formKey.currentState!.validator();
+    if (_formKey.currentState!.validator() &&
         !pickTimeValidatorValue &&
         !chooseTypeCalendarValidatorValue) {
       await createCubit.checkDuplicate(

@@ -26,4 +26,6 @@ class FileImageModel {
     required this.entityName,
     required this.fileTypeUpload,
   });
+
+  FileImageModel.empty();
 }

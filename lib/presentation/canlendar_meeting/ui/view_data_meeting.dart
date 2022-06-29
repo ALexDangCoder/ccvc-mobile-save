@@ -140,6 +140,10 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                       final data =
                           snapshot.data ?? DashBoardLichHopModel.empty();
                       return PopUpMenu(
+                        initData: ItemMenuData(
+                          StateType.CHO_XAC_NHAN,
+                          data.soLichChoXacNhan ?? 0,
+                        ),
                         data: [
                           ItemMenuData(
                             StateType.CHO_XAC_NHAN,
@@ -156,12 +160,8 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                         ],
                         onChange: (type) {
                           widget.cubit.stateType = type;
-                          widget.cubit.refreshDataDangLich();
+                          widget.cubit.getDanhSachLichHop();
                         },
-                        initData: ItemMenuData(
-                          StateType.CHO_XAC_NHAN,
-                          data.soLichChoXacNhan ?? 0,
-                        ),
                       );
                     },
                   ),

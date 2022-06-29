@@ -67,6 +67,10 @@ class ItemOfficerResponse {
   String? confirmDate;
   @JsonKey(name: 'taskContent')
   String? taskContent;
+  @JsonKey(name: 'scheduleId')
+  String? scheduleId;
+  @JsonKey(name: 'status')
+  int? status;
 
   factory ItemOfficerResponse.fromJson(Map<String, dynamic> json) =>
       _$ItemOfficerResponseFromJson(json);
@@ -84,6 +88,8 @@ class ItemOfficerResponse {
     this.isConfirm,
     this.confirmDate,
     this.taskContent,
+    this.status,
+    this.scheduleId,
   });
 
   Officer toModel() => Officer(
@@ -96,5 +102,7 @@ class ItemOfficerResponse {
         taskContent: taskContent,
         confirmDate: confirmDate,
         isConfirm: isConfirm,
+        status: status,
+        scheduleId: scheduleId,
       );
 }

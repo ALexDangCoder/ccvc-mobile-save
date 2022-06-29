@@ -205,7 +205,7 @@ abstract class WorkCalendarService {
 
   @POST(ApiConstants.THU_HOI_LICH_LAM_VIEC)
   Future<MessageResponse> recallWorkCalendar(
-    @Body() RecallRequest request,
+    @Body() List<RecallRequest> request,
     @Query('isMulti') bool isMulti,
   );
 }

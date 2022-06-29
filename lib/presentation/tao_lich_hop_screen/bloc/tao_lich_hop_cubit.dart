@@ -71,7 +71,7 @@ List<DropDownModel> mucDoHop = [
 class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   TaoLichHopCubit() : super(MainStateInitial()) {
     showContent();
-    }
+  }
 
   HopRepository get hopRp => Get.find();
   final BehaviorSubject<List<LoaiSelectModel>> _loaiLich = BehaviorSubject();
@@ -162,7 +162,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       taoLichHopRequest.chuTri?.canBoId = null;
     }
 
-    if(taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true){
+    if (taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true) {
       taoLichHopRequest.phongHop = null;
     }
 
@@ -202,7 +202,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
           unawaited(
             queue.add(
-                  () => themThanhPhanThamGia(
+              () => themThanhPhanThamGia(
                 isSendEmail: isSendEmail.value,
                 idHop: res.id,
               ),
@@ -210,7 +210,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
           unawaited(
             queue.add(
-                  () => themPhienHop(
+              () => themPhienHop(
                 res.id,
               ),
             ),
@@ -454,6 +454,43 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
             '${taoLichHopRequest.timeStart}'
         : '${taoLichHopRequest.ngayKetThuc} '
             '${taoLichHopRequest.timeTo}';
+  }
+
+  /// chon phong hop api of tung
+  Future<bool> chonPhongHopMetting(
+    TaoLichHopRequest taoLichHopRequest,
+    ChonPhongHopModel value,
+  ) async {
+    bool isUpdateSuccess = false;
+
+    showLoading();
+    if (value.phongHop?.phongHopId?.isNotEmpty ?? false) {
+      taoLichHopRequest.phongHop = value.phongHop;
+    }
+    taoLichHopRequest.phongHop?.noiDungYeuCau = value.yeuCauKhac;
+    taoLichHopRequest.phongHopThietBi = value.listThietBi
+        .map(
+          (e) => PhongHopThietBi(
+            tenThietBi: e.tenThietBi,
+            soLuong: e.soLuong.toString(),
+          ),
+        )
+        .toList();
+
+    final result = await hopRp.chonPhongHopMetting(taoLichHopRequest);
+
+    result.when(
+      success: (res) {
+        isUpdateSuccess = true;
+      },
+      error: (error) {
+        isUpdateSuccess = true;
+      },
+    );
+
+    showContent();
+
+    return isUpdateSuccess;
   }
 
   void handleChonPhongHop(ChonPhongHopModel value) {

@@ -194,6 +194,7 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                     textInputType: TextInputType.number,
                     controller: soLuong,
                     hintText: S.current.nhap_so_luong,
+                    maxLength: 19,
                     validator: (value) {
                       final result = (value ?? '').checkNull();
                       if (result != null) {

@@ -1,16 +1,16 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/main_data_view.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/date_view_widget/main_data_view_tablet.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/choose_time_calendar_tablet.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/menu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -21,16 +21,18 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MainCanlendanMobileRefactor extends StatefulWidget {
-  final bool isBack;
-  const MainCanlendanMobileRefactor({Key? key, this.isBack = false})
+class MainCalendarRefactorTablet extends StatefulWidget {
+  const MainCalendarRefactorTablet({Key? key, this.isBack = false})
       : super(key: key);
+  final bool isBack;
 
   @override
-  _MainCanlendanRefactorState createState() => _MainCanlendanRefactorState();
+  _MainCalendarRefactorTabletState createState() =>
+      _MainCalendarRefactorTabletState();
 }
 
-class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
+class _MainCalendarRefactorTabletState
+    extends State<MainCalendarRefactorTablet> {
   final CalendarWorkCubit cubit = CalendarWorkCubit();
 
   @override
@@ -71,17 +73,17 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
           title: S.current.lich_cua_toi,
           leadingIcon: Row(
             children: [
-              Visibility(
-                visible: widget.isBack,
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 16),
-                      child: Icon(Icons.arrow_back_ios),
-                    )),
-              ),
+              if (widget.isBack)
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: SvgPicture.asset(
+                    ImageAssets.icBack,
+                  ),
+                )
+              else
+                const SizedBox(),
               cubit.controller.getIcon(),
             ],
           ),
@@ -104,7 +106,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
                 stream: cubit.listNgayCoLichStream,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? <DateTime>[];
-                  return ChooseTimeCalendarWidget(
+                  return ChooseTimeCalendarTablet(
                     calendarDays: data,
                     onChange: (startDate, endDate, type, keySearch) {
                       if (type != cubit.state.typeView) {
@@ -125,6 +127,14 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
                       cubit.dayHaveEvent(
                           startDate: startDate, endDate: endDate);
                     },
+                    onTapTao: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CreateCalendarWorkMobile(),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -133,23 +143,11 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
                   onHover: (_) {
                     cubit.controller.onCloseCalendar();
                   },
-                  child: MainDataView(cubit: cubit),
+                  child: MainDataViewTablet(cubit: cubit),
                 ),
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CreateCalendarWorkMobile(),
-              ),
-            );
-          },
-          backgroundColor: AppTheme.getInstance().colorField(),
-          child: SvgPicture.asset(ImageAssets.icVectorCalender),
         ),
       ),
     );
@@ -166,7 +164,7 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
             stream: cubit.totalWorkStream,
             builder: (context, snapshot) {
               final data = snapshot.data ?? DashBoardLichHopModel.empty();
-              return MenuWidget(
+              return MenuWidgetTablet(
                 dataMenu: [
                   ParentMenu(
                     count: data.countScheduleCaNhan ?? 0,

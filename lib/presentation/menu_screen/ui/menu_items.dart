@@ -4,8 +4,8 @@ import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/main_diem_danh_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/main_diem_danh_tablet_screen.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/mobile/ho_tro_ky_thuat_mobile.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tablet/ho_tro_ky_thuat_tablet.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/main_ho_tro_ky_thuat_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/main_ho_tro_ky_thuat_tablet.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/phone/danh_sach_chung_screen.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/tab/danh_sach_chung_screen_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_mobile.dart';
@@ -300,8 +300,8 @@ extension GetScreen on MenuType {
         );
       case MenuType.hoTroKyThuat:
         return screenDevice(
-          mobileScreen: const HoTroKyThuatMobile(),
-          tabletScreen: const HoTroKyThuatTablet(),
+          mobileScreen: const MainHoTroKyThuatMobile(),
+          tabletScreen: const MainHoTroKyThuatTablet(),
         );
     }
   }

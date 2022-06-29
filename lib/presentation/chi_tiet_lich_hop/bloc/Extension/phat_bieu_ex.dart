@@ -73,8 +73,8 @@ extension PhatBieu on DetailMeetCalenderCubit {
     );
   }
 
-  Color bgrColorButton(int vl) {
-    switch (vl) {
+  Color bgrColorButton(int value) {
+    switch (value) {
       case DANHSACHPHATBIEU:
         return color5A8DEE;
       case CHODUYET:

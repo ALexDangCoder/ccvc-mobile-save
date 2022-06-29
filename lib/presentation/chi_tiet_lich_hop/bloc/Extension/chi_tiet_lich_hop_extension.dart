@@ -119,8 +119,8 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     }
   }
 
-  List<int> listNgayChonTuan(String vl) {
-    final List<String> lSt = vl.replaceAll(',', '').split('');
+  List<int> listNgayChonTuan(String value) {
+    final List<String> lSt = value.replaceAll(',', '').split('');
     final List<int> numbers = lSt.map(int.parse).toList();
     return numbers;
   }

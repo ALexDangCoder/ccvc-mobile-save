@@ -121,13 +121,13 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                       title: S.current.cac_lua_chon_bieu_quyet,
                       child: CacLuaChonDonViWidget(
                         detailMeetCalenderCubit: widget.cubit,
-                        onchange: (vl) {
-                          if (vl.isEmpty) {
+                        onchange: (value) {
+                          if (value.isEmpty) {
                             isShow = true;
                           } else {
                             isShow = false;
                           }
-                          widget.cubit.listLuaChon = vl;
+                          widget.cubit.listLuaChon = value;
                         },
                       ),
                     ),

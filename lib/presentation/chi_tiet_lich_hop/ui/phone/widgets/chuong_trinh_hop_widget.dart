@@ -58,8 +58,8 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
-        onchange: (vl) {
-          if (vl && isMobile()) {
+        onchange: (value) {
+          if (value && isMobile()) {
             widget.cubit.callApiChuongTrinhHop();
           }
         },

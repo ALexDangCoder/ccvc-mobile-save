@@ -47,8 +47,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
-        onchange: (vl) {
-          if (vl) {
+        onchange: (value) {
+          if (value) {
             widget.cubit.callApiCongTacChuanBi();
             _cubitTaoLichHop.loadData();
             _cubitTaoLichHop.taoLichHopRequest =
@@ -204,8 +204,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                             padding: const EdgeInsets.only(bottom: 16),
                             child: ThongTinYeuCauThietBiWidget(
                               model: data[index],
-                              onChange: (vl) {
-                                if (!vl) {
+                              onChange: (value) {
+                                if (!value) {
                                   listTHietBiDuocChon.add(data[index]);
                                 } else {
                                   listTHietBiDuocChon.remove(data[index]);
@@ -414,7 +414,7 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
                         return CustomCheckBox(
                           isOnlyCheckbox: true,
                           isCheck: _check.value,
-                          onChange: (vl) {
+                          onChange: (value) {
                             onChange(_check.value);
                             _check.sink.add(!_check.value);
                           },

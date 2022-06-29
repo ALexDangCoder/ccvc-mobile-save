@@ -136,7 +136,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     if (listTHietBiDuocChon.isNotEmpty) {
       for (int i = 0; i < listTHietBiDuocChon.length; i++) {
         await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
-          (vl) => checkAllFinal.add(vl),
+          (value) => checkAllFinal.add(value),
         );
       }
     }

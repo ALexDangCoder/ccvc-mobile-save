@@ -17,21 +17,22 @@ enum TypeDashBroad {
   ADMIN_TAO,
 }
 
-
 class DashBroadCountRow extends StatelessWidget {
-  DashBroadCountRow({
+  const DashBroadCountRow({
     Key? key,
+    this.isTablet = false,
     required this.cubit,
   }) : super(key: key);
   final CalendarWorkCubit cubit;
+  final bool isTablet;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 16,
-        left: 16,
-        bottom: 16,
+      padding: EdgeInsets.only(
+        top: isTablet ? 30 : 16,
+        left: isTablet ? 30 : 16,
+        bottom: isTablet ? 30 : 16,
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -61,7 +62,9 @@ class DashBroadCountRow extends StatelessWidget {
                       data.length,
                       (index) => itemDashBroad(
                         data[index].typeName ?? '',
-                        getTypeFromString((data[index].typeName ?? '').textToCode).getImage(),
+                        getTypeFromString(
+                                (data[index].typeName ?? '').textToCode)
+                            .getImage(),
                         data[index].numberOfCalendars ?? 0,
                       ),
                     ),
@@ -85,7 +88,10 @@ class DashBroadCountRow extends StatelessWidget {
         width: 274,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
-          color: backgroundItemCalender,
+          color: isTablet ? backgroundColorApp : backgroundItemCalender,
+          border: isTablet ?  Border.all(
+            color: borderColor.withOpacity(0.5),
+          ) : null ,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -94,9 +100,9 @@ class DashBroadCountRow extends StatelessWidget {
             Container(
               height: 56,
               width: 56,
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 shape: BoxShape.circle,
-                color: backgroundColorApp,
+                color:isTablet ? backgroundItemCalender  : backgroundColorApp ,
               ),
               child: Center(
                 child: SvgPicture.asset(image),
@@ -130,7 +136,6 @@ class DashBroadCountRow extends StatelessWidget {
   }
 }
 
-
 extension TypeDashBroadUltis on TypeDashBroad {
   String getImage() {
     switch (this) {
@@ -147,7 +152,8 @@ extension TypeDashBroadUltis on TypeDashBroad {
     }
   }
 }
-TypeDashBroad getTypeFromString (String value){
+
+TypeDashBroad getTypeFromString(String value) {
   switch (value) {
     case 'LICH_CONG_TAC_TRONG_NUOC':
       return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
@@ -159,7 +165,7 @@ TypeDashBroad getTypeFromString (String value){
       return TypeDashBroad.LICH_TIEP_DAN;
     case 'ADMIN_TAO':
       return TypeDashBroad.ADMIN_TAO;
-    default : return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
+    default:
+      return TypeDashBroad.LICH_CONG_TAC_TRONG_NUOC;
   }
 }
-

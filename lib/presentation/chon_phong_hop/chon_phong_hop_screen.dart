@@ -33,7 +33,6 @@ class ChonPhongHopScreen extends StatefulWidget {
   final String? dateTo;
   final PhongHop? initPhongHop;
   final List<PhongHopThietBi>? initThietBi;
-  final bool isChonPhongHopInDetail;
 
   const ChonPhongHopScreen({
     Key? key,
@@ -43,7 +42,6 @@ class ChonPhongHopScreen extends StatefulWidget {
     this.dateTo,
     this.initPhongHop,
     this.initThietBi,
-    this.isChonPhongHopInDetail = false,
   }) : super(key: key);
 
   @override
@@ -63,12 +61,79 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SolidButton(
-      onTap: () {
-        showBottomSheet();
-      },
-      text: S.current.chon_phong_hop,
-      urlIcon: ImageAssets.icChonPhongHop,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SolidButton(
+          onTap: () {
+            showBottomSheet();
+          },
+          text: S.current.chon_phong_hop,
+          urlIcon: ImageAssets.icChonPhongHop,
+        ),
+        spaceH16,
+        StreamBuilder<PhongHopModel>(
+          stream: _cubit.phongHopSelectedSubject,
+          builder: (context, snapshot) {
+            final phongHop = snapshot.data;
+            if (phongHop != null) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    S.current.thong_tin_phong,
+                    style: textNormal(color667793, 14).copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  spaceH12,
+                  itemPhongHop(
+                    phongHop: phongHop,
+                    index: 0,
+                    groupValue: 0,
+                    isShowCheckBox: false,
+                    onChange: (index) {},
+                  ),
+                ],
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
+        StreamBuilder<List<ThietBiValue>>(
+          stream: _cubit.listThietBiStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? <ThietBiValue>[];
+            if (data.isNotEmpty) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    S.current.thong_tin_yeu_cau_thiet_bi,
+                    style: textNormal(color667793, 14).copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  ...List.generate(
+                    data.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: thietBiWidget(
+                        value: data[index],
+                        onDelete: () {
+                          _cubit.removeThietBi(data[index]);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return const SizedBox();
+          },
+        )
+      ],
     );
   }
 
@@ -183,15 +248,6 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                     phongHop: widget.chonPhongHopCubit.phongHop,
                   ),
                 );
-                Navigator.pop(
-                  context,
-                  ChonPhongHopModel(
-                    loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
-                    listThietBi: widget.chonPhongHopCubit.listThietBi,
-                    yeuCauKhac: controller.text,
-                    phongHop: widget.chonPhongHopCubit.phongHop,
-                  ),
-                );
               },
             ),
           ),
@@ -289,13 +345,13 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                         stream: widget.chonPhongHopCubit.phongHopSubject,
                         builder: (context, snapshot) {
                           final listData = snapshot.data ?? [];
-                          if (widget.initPhongHop != null) {
-                            final indexSelect = listData.indexWhere(
-                              (element) =>
-                                  element.id == widget.initPhongHop?.phongHopId,
-                            );
-                            groupValue = indexSelect;
-                          }
+                          groupValue = listData.indexWhere(
+                            (element) =>
+                                element.id == widget.initPhongHop?.phongHopId ||
+                                element.id ==
+                                    widget
+                                        .chonPhongHopCubit.phongHop.phongHopId,
+                          );
                           return listData.isNotEmpty
                               ? ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
@@ -306,6 +362,9 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                                     index: index,
                                     groupValue: groupValue,
                                     onChange: (index) {
+                                      widget.chonPhongHopCubit
+                                          .phongHopSelectedSubject
+                                          .add(listData[index]);
                                       widget.chonPhongHopCubit.phongHop
                                         ..donViId = listData[index].donViDuyetId
                                         ..ten = listData[index].ten
@@ -348,6 +407,7 @@ Widget itemPhongHop({
   required int index,
   required int groupValue,
   required Function(int) onChange,
+  bool isShowCheckBox = true,
 }) {
   return Container(
     padding: const EdgeInsets.all(16),
@@ -379,7 +439,7 @@ Widget itemPhongHop({
               ),
               rowInfo(
                 value: phongHop.diaChi,
-                key: S.current.dia_diem,
+                key: S.current.diadiem,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
@@ -440,21 +500,22 @@ Widget itemPhongHop({
             ],
           ),
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: GestureDetector(
-            onTap: () {},
-            child: RadioButton<int>(
-              onChange: (value) {
-                onChange(value ?? -1);
-              },
-              value: index,
-              groupValue: groupValue,
-              useBlueColor: true,
+        if (isShowCheckBox)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: () {},
+              child: RadioButton<int>(
+                onChange: (value) {
+                  onChange(value ?? -1);
+                },
+                value: index,
+                groupValue: groupValue,
+                useBlueColor: true,
+              ),
             ),
-          ),
-        )
+          )
       ],
     ),
   );

@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/cai_dat_giao_dien_screen/cai_dat_giao_d
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/main_calendar_meeting.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/main_canlendar_mobile_refactor.dart';
 import 'package:ccvc_mobile/presentation/change_password/ui/mobile/change_password_screen.dart';
 import 'package:ccvc_mobile/presentation/change_password/ui/tablet/change_password_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/mobile/hoi_dap_screen.dart';
@@ -271,7 +272,7 @@ extension GetScreen on MenuType {
         );
       case MenuType.lichLamViec:
         return screenDevice(
-          mobileScreen: const CalenderWorkDayMobile(
+          mobileScreen: const MainCanlendanMobileRefactor(
             isBack: true,
           ),
           tabletScreen: const CalenderWorkDayTablet(

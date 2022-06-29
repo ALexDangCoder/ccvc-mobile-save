@@ -105,7 +105,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
               return widget.buildAppointment(appointment);
             },
           ),
-          Container(
+          if(widget.isTablet) Container(
             height: 1,
             color: backgroundColorApp,
           ),

@@ -397,7 +397,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     return runCatchingAsync<DashBoardThongTinPaknTotalResponse,
         DashBoardPAKNModel>(
       () => _yKienNguoiDanService.getDashBoardTinhHinhPAKNTiepNhanXuLy(
-          dateFrom, dateTo),
+          dateTo, dateFrom),
       (res) =>
           res.data?.toModel() ??
           DashBoardPAKNModel(
@@ -423,8 +423,8 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
         DanhSachPAKNRequest(
           pageIndex ?? 1,
           pageSize ?? 10,
-          dateFrom ?? '',
           dateTo ?? '',
+          dateFrom ?? '',
           trangThai: trangThai,
           loaiMenu: loaiMenu,
           hanXuLy: hanXuLy,

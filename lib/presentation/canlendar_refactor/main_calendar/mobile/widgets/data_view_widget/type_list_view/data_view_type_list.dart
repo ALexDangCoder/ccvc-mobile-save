@@ -50,6 +50,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
           if (data.isNotEmpty) {
             return GroupedListView<ListLichLVModel, DateTime>(
               elements: data,
+              physics: const AlwaysScrollableScrollPhysics(),
               groupBy: (e) => getOnlyDate(e.dateTimeFrom ?? ''),
               itemBuilder: (_, element) {
                 return itemList(element);

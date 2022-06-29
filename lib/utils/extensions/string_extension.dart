@@ -13,6 +13,7 @@ extension StringHandle on String {
         '${substring(0, 7)}...${substring(length - 10, length)}';
     return result;
   }
+
   String get removeSpace => trim().replaceAll(' +', ' ');
 }
 
@@ -286,6 +287,13 @@ extension CheckValidate on String {
   String? validatorTitle() {
     if (trim().isEmpty) {
       return S.current.ban_phai_nhap_truong_tieu_de;
+    }
+    return null;
+  }
+
+  String? validatorLocation() {
+    if (trim().isEmpty) {
+      return S.current.location_warning;
     }
     return null;
   }

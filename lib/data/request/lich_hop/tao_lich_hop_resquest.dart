@@ -144,7 +144,7 @@ class TaoLichHopRequest {
       data['phongHop_ThietBi'] =
           phongHopThietBi!.map((v) => v.toJson()).toList();
     }
-    data['status'] = status;
+    data['status'] = status ?? 1;
     data['bit_YeuCauDuyet'] = bitYeuCauDuyet;
     data['linkTrucTuyen'] = linkTrucTuyen;
     data['bit_TrongDonVi'] = bitTrongDonVi;

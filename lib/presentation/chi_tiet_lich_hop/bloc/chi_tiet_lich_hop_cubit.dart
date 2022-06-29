@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
@@ -45,6 +46,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
@@ -73,6 +75,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<String?> data = [];
   List<String> selectPhatBieu = [];
   String idCuocHop = '';
+  String idDanhSachCanBo = '';
+  String idCanBoDiThay = '';
   List<LoaiSelectModel> listLoaiHop = [];
   String? ngaySinhs;
   String chonNgay = '';
@@ -181,6 +185,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<KetLuanHopModel> ketLuanHopSubject = BehaviorSubject();
 
+  KetLuanHopModel get getKetLuanHopModel =>
+      ketLuanHopSubject.valueOrNull ?? KetLuanHopModel();
+
   BehaviorSubject<List<DanhSachNhiemVuLichHopModel>>
       danhSachNhiemVuLichHopSubject = BehaviorSubject();
 
@@ -196,13 +203,153 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<NguoiChutriModel> dataThuKyOrThuHoiDeFault = [];
 
   List<NguoiChutriModel> dataThuHoi = [];
-
   DateTime timeNow = DateTime.now();
   TimerData end = TimerData(hour: 00, minutes: 00);
   TimerData start = TimerData(
     hour: 00,
     minutes: 00,
   );
+
+  TimerData dateTimeNowStart() {
+    final TimerData start = TimerData(
+      hour: timeNow.hour,
+      minutes: timeNow.minute,
+    );
+    return start;
+  }
+
+  TimerData dateTimeNowEnd() {
+    final TimerData end = TimerData(
+      hour: timeNow.add(const Duration(hours: 1)).hour,
+      minutes: timeNow.minute,
+    );
+    return end;
+  }
+
+  int dateDiff(String startTime, String endTime) {
+    final start = DateTime.parse(startTime);
+    final end = DateTime.parse(endTime);
+    final result = end.difference(start).inSeconds;
+    return result;
+  }
+
+  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
+    await getChiTietLichHop(idCuocHop);
+
+    ///check permission button
+    if (needCheckPermission) {
+      initDataButton();
+    }
+
+    await getDanhSachThuHoiLichHop(idCuocHop);
+
+    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    await getDanhSachCanBoHop(idCuocHop);
+  }
+
+  Future<void> getDanhSachNTGChuongTrinhHop({
+    required String id,
+  }) async {
+    final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
+
+    result.when(
+      success: (res) {
+        listData = res;
+        nguoiThamGiaSubject.sink.add(listData);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<bool> huyAndDuyetLichHop({
+    required bool isDuyet,
+  }) async {
+    bool isCheck = true;
+    final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
+    result.when(
+      success: (res) {
+        isCheck = true;
+      },
+      error: (error) {
+        isCheck = false;
+      },
+    );
+    return isCheck;
+  }
+
+  Future<bool> cuCanBoDiThay({
+    required List<CanBoDiThay>? canBoDiThay,
+  }) async {
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: idCanBoDiThay,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    bool isCheck = true;
+    showLoading();
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
+      },
+    );
+    showContent();
+    return isCheck;
+  }
+
+  Future<bool> cuCanBo({
+    required List<CanBoDiThay>? canBoDiThay,
+  }) async {
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: idDanhSachCanBo,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    bool isCheck = true;
+    showLoading();
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
+      },
+    );
+    showContent();
+    return isCheck;
+  }
 
   bool loaiBieuQ = false;
   String date = DateTime.now().toStringWithListFormat;
@@ -240,17 +387,4 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   bool phuongThucNhan = false;
 
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
-
-  Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
-    await getChiTietLichHop(idCuocHop);
-
-    await getDanhSachThuHoiLichHop(idCuocHop);
-
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-
-    ///check permission button
-    if (needCheckPermission) {
-      initDataButton();
-    }
-  }
 }

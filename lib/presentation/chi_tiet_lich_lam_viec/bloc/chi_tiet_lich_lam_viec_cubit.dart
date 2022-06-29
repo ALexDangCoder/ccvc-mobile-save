@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/config/base/base_state.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -23,7 +23,7 @@ import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
+class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   BehaviorSubject<ChiTietLichLamViecModel> chiTietLichLamViecSubject =
       BehaviorSubject();
 
@@ -104,7 +104,17 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     bool only = true,
   }) async {
     final rs = await detailLichLamViec.deleteCalenderWork(id, only);
-    rs.when(success: (data) {}, error: (error) {});
+    rs.when(
+      success: (data) {
+        MessageConfig.show(title: S.current.xoa_thanh_cong);
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.xoa_that_bai,
+          messState: MessState.error,
+        );
+      },
+    );
   }
 
   // huy lich lam viec
@@ -115,18 +125,30 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     int statusId = 8,
     bool isMulti = false,
   }) async {
+    ShowLoadingScreen.show();
     final rs =
         await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
-    rs.when(success: (data) {}, error: (error) {});
+    rs.when(
+      success: (data) {
+        if (data.succeeded ?? false) {
+          MessageConfig.show(title: S.current.huy_thanh_cong);
+        }
+      },
+      error: (error) {
+        MessageConfig.show(title: S.current.huy_that_bai);
+      },
+    );
+    ShowLoadingScreen.dismiss();
   }
 
   Future<void> getListTinhTrang() async {
     await detailLichLamViec.getListTinhTrangBaoCao().then((value) {
       value.when(
-          success: (res) {
-            listTinhTrang = res;
-          },
-          error: (err) {});
+        success: (res) {
+          listTinhTrang = res;
+        },
+        error: (err) {},
+      );
     });
   }
 
@@ -137,9 +159,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     final rs = await dataRepo.getOfficerJoin(id);
     rs.when(
       success: (data) {
-        listOfficer.sink.add(data);
-        listRecall.sink.add(data);
-        dataRecall.addAll(data.where((element) => element != 4));
+        final tmp = data.where((element) => element.status == 0).toList();
+        listOfficer.sink.add(tmp);
+        listRecall.sink.add(tmp);
+        dataRecall = tmp;
       },
       error: (error) {},
     );
@@ -159,8 +182,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     showContent();
   }
 
-  Future<void> getDanhSachBaoCaoKetQua(String id,
-      {bool isReload = false}) async {
+  Future<void> getDanhSachBaoCaoKetQua(
+    String id, {
+    bool isReload = false,
+  }) async {
     if (isReload) {
       showLoading();
     }
@@ -254,6 +279,41 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     ShowLoadingScreen.dismiss();
   }
 
+  Future<void> recallCalendar({
+    bool isMulti = false,
+  }) async {
+    ShowLoadingScreen.show();
+    final List<Officer> tmp = List.from(
+      dataRecall.where((element) => element.status == 4),
+    );
+    final request = tmp
+        .map(
+          (e) => RecallRequest(
+            id: e.id,
+            status: e.status ?? 4,
+            canBoId: e.canBoId,
+            donViId: e.donViId,
+            scheduleId: e.scheduleId,
+          ),
+        )
+        .toList();
+    final result = await detailLichLamViec.recallWorkCalendar(isMulti, request);
+    result.when(
+      success: (success) {
+        //eventBus.fire(RefreshCalendar());
+        MessageConfig.show(title: S.current.thu_hoi_lich_thanh_cong);
+        emit(SuccessChiTietLichLamViecState());
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.thu_hoi_lich_that_bai,
+          messState: MessState.error,
+        );
+      },
+    );
+    ShowLoadingScreen.dismiss();
+  }
+
   void dispose() {
     _listBaoCaoKetQua.close();
     chiTietLichLamViecSubject.close();
@@ -296,8 +356,9 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       emit(SuccessChiTietLichLamViecState());
     }, error: (err) {
       MessageConfig.show(
-          title: S.current.bao_cao_ket_qua_that_bai,
-          messState: MessState.error);
+        title: S.current.bao_cao_ket_qua_that_bai,
+        messState: MessState.error,
+      );
     });
   }
 
@@ -320,8 +381,9 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       emit(SuccessChiTietLichLamViecState());
     }, error: (err) {
       MessageConfig.show(
-          title: S.current.sua_bao_cao_ket_qua_that_bai,
-          messState: MessState.error);
+        title: S.current.sua_bao_cao_ket_qua_that_bai,
+        messState: MessState.error,
+      );
     });
   }
 }

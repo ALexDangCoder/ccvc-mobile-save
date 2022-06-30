@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class ItemTextNote extends StatelessWidget {
@@ -18,7 +19,7 @@ class ItemTextNote extends StatelessWidget {
             style: textNormalCustom(
               color: color3D5586,
               fontWeight: FontWeight.w400,
-              fontSize: 14.0,
+              fontSize: 14.0.textScale(),
             ),
           ),
           Text(

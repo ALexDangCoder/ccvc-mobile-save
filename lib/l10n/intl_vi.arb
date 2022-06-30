@@ -1160,13 +1160,12 @@
   "duyet_khong_thanh_cong": "Duyệt  lịch không thành công",
   "soan_ket_luan_hop": "Soạn kết luận họp",
   "them_don_vi_phoi_hop_khac": "Thêm đơn vị phối hợp khác",
-  "thang_nay" : "Tháng này",
+  "thang_nay": "Tháng này",
   "cu_can_bo_thanh_cong": "Cử cán bộ thành công",
   "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
   "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
   "ho_tro_ky_thuat": "Hỗ trợ kỹ thuật",
-  "location_warning": "Bạn phải nhập trường Địa điểm!",
   "danh_sach_su_co": "Danh sách sự cố",
   "thoi_gian_yeu_cau": "Thời gian yêu cầu",
   "mo_ta_su_co": "Mô tả sự cố",
@@ -1176,7 +1175,12 @@
   "tong_dai": "Tổng đài",
   "diadiem": "Địa điểm",
   "validate_thoi_gian_phien_hop": "Thời gian phiên họp phải nằm trong thời gian cuộc họp",
+  "chuyen_xu_ly_report": "Chuyển xử lý",
+  "yeu_cau_phoi_hop_report": " Yêu cầu phối hợp",
   "menu_lich_hop": "Menu Lịch họp",
+  "location_warning": "Bạn phải nhập trường Địa điểm!",
+  "please_choose": "Vui lòng chọn",
+  "please_enter": "Vui lòng nhập",
   "doi_phong": "Đổi phòng"
 }
 

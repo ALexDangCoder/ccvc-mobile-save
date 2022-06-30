@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mo
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/mobile/dang_ky_thong_tin_xe_moi_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/item_loai_xe.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/widget_cap_nhat_thong_tin_dang_ky_xe.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -93,116 +94,114 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                               body: SingleChildScrollView(
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 12.0, left: 16.0, right: 16.0),
-                                  child: Column(
-                                    children: [
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: dataChiTiet.length,
-                                        itemBuilder: (context, index) {
-                                          return Column(
-                                            children: [
-                                              Container(
-                                                height: 200,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: colorE2E8F0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 0.05),
-                                                      blurRadius: 2,
-                                                      spreadRadius: 2,
-                                                    ),
-                                                  ],
-                                                  image: const DecorationImage(
-                                                    image: AssetImage(
-                                                        ImageAssets
-                                                            .imgBienSoXe),
-                                                    fit: BoxFit.cover,
+                                      top: 12.0, left: 16.0, right: 16.0,),
+                                  child: ListView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: dataChiTiet.length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            height: 200,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: colorE2E8F0),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      8.0),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 0.05),
+                                                  blurRadius: 2,
+                                                  spreadRadius: 2,
+                                                ),
+                                              ],
+                                              image: const DecorationImage(
+                                                image: AssetImage(
+                                                    ImageAssets
+                                                        .imgBienSoXe),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          spaceH12,
+                                          Text(
+                                            S.current.giay_dang_ky_xe,
+                                            style: textNormalCustom(
+                                              color: color3D5586,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          spaceH20,
+                                          ItemLoaiXe(
+                                            titleXeMay: dataChiTiet[index]
+                                                    .loaiXeMay
+                                                    ?.loaiXe() ??
+                                                '',
+                                            titleBienKiemSoat:
+                                                dataChiTiet[index]
+                                                        .bienKiemSoat ??
+                                                    '',
+                                            titleLoaiSoHuu:
+                                                dataChiTiet[index]
+                                                        .loaiSoHuu
+                                                        ?.loaiSoHuu() ??
+                                                    '',
+                                          ),
+                                          spaceH24,
+                                          DoubleButtonBottom(
+                                            title1: S.current.chinh_sua,
+                                            title2: S.current.xoa,
+                                            onPressed1: () {
+                                              showBottomSheetCustom(
+                                                context,
+                                                title: S.current
+                                                    .cap_nhat_tong_tin_dang_ky_xe,
+                                                child: Container(
+                                                  padding: EdgeInsets.zero,
+                                                  child:
+                                                      WidgetCapNhatThingTinDangKyXe(
+                                                    cubit: widget.cubit,
                                                   ),
                                                 ),
-                                              ),
-                                              spaceH12,
-                                              Text(
-                                                S.current.giay_dang_ky_xe,
-                                                style: textNormalCustom(
-                                                  color: color3D5586,
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.w400,
+                                              );
+                                            },
+                                            onPressed2: () {
+                                              showDiaLog(
+                                                context,
+                                                title: S.current
+                                                    .xoa_nhan_bien_so_xe,
+                                                icon: SvgPicture.asset(
+                                                  ImageAssets
+                                                      .icXoaNhanhDienBienSoXe,
                                                 ),
-                                              ),
-                                              spaceH20,
-                                              ItemLoaiXe(
-                                                titleXeMay: dataChiTiet[index]
-                                                        .loaiXeMay
-                                                        ?.loaiXe() ??
-                                                    '',
-                                                titleBienKiemSoat:
-                                                    dataChiTiet[index]
-                                                            .bienKiemSoat ??
-                                                        '',
-                                                titleLoaiSoHuu:
-                                                    dataChiTiet[index]
-                                                            .loaiSoHuu
-                                                            ?.loaiSoHuu() ??
-                                                        '',
-                                              ),
-                                              spaceH24,
-                                              DoubleButtonBottom(
-                                                title1: S.current.chinh_sua,
-                                                title2: S.current.xoa,
-                                                onPressed1: () {
-                                                  showBottomSheetCustom(
-                                                    context,
-                                                    title: S.current
-                                                        .cap_nhat_tong_tin_dang_ky_xe,
-                                                    child: Container(
-                                                      padding: EdgeInsets.zero,
-                                                      child:
-                                                          WidgetCapNhatThingTinDangKyXe(
-                                                        cubit: widget.cubit,
-                                                      ),
-                                                    ),
-                                                  );
+                                                btnLeftTxt: S.current.khong,
+                                                btnRightTxt:
+                                                    S.current.dong_y,
+                                                funcBtnRight: () async {
+                                                  await widget.cubit
+                                                      .xoaBienSoXe(
+                                                          dataChiTiet[index]
+                                                                  .id ??
+                                                              '')
+                                                      .then((value) {
+                                                    widget.cubit
+                                                        .postDanhSachBienSoXe();
+                                                  });
                                                 },
-                                                onPressed2: () {
-                                                  showDiaLog(
-                                                    context,
-                                                    title: S.current
-                                                        .xoa_nhan_bien_so_xe,
-                                                    icon: SvgPicture.asset(
-                                                      ImageAssets
-                                                          .icXoaNhanhDienBienSoXe,
-                                                    ),
-                                                    btnLeftTxt: S.current.khong,
-                                                    btnRightTxt:
-                                                        S.current.dong_y,
-                                                    funcBtnRight: () async {
-                                                      await widget.cubit
-                                                          .xoaBienSoXe(
-                                                              dataChiTiet[index]
-                                                                      .id ??
-                                                                  '')
-                                                          .then((value) {
-                                                        widget.cubit
-                                                            .postDanhSachBienSoXe();
-                                                      });
-                                                    },
-                                                    showTablet: false,
-                                                    textContent: S.current
-                                                        .ban_co_muon_xoa_nhan_dien_bien_so_xe,
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ],
+                                                showTablet: false,
+                                                textContent: S.current
+                                                    .ban_co_muon_xoa_nhan_dien_bien_so_xe,
+                                              );
+                                            },
+                                          ),
+                                          spaceH24,
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               ),

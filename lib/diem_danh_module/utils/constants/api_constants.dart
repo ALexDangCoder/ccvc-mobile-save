@@ -12,7 +12,6 @@ class ApiConstants {
   static const String NHIN_TU_DUOI_LEN = 'anh_nhin_tu_duoi_len';
   static const String BIEN_SO_XE_TYPE = 'anh_bien_so_xe';
 
-
   static const int DEFAULT_PAGE_SIZE = 10;
   static const int PAGE_BEGIN = 1;
   static const int NOT_SAVED_ID = -1;
@@ -27,6 +26,7 @@ class ApiConstants {
   static const GET_FILE = '/ddth/api/Files';
   static const XOA_BIEN_XO_XE = '/ddth/api/SYSBienSoXe/Delete/{id}';
   static const DANG_KY_THONG_TIN_XE_MOI = '/ddth/api/SYSBienSoXe/Create';
+  static const DELETE_IMAGE = '/ddth/api/Files/{id}';
 }
 
 class ImageConstants {

@@ -315,6 +315,8 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                   initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
                   initThietBi:
                       _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
+                  needShowSelectedRoom: true,
+                  idHop: _cubitTaoLichHop.taoLichHopRequest.id,
                 ),
                 spaceH15,
                 DoubleButtonBottom(

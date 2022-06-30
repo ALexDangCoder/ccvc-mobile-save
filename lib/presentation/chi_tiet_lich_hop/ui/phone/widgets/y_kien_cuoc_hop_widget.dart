@@ -21,11 +21,8 @@ class YKienCuocHopWidget extends StatefulWidget {
 }
 
 class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
-  DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (!isMobile()) {
       widget.cubit.callApiYkienCuocHop();
@@ -54,14 +51,14 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                     context,
                     title: S.current.y_kien,
                     child: ThemYKienWidget(
-                      cubit: cubit,
+                      cubit: widget.cubit,
                       id: widget.cubit.idCuocHop,
                     ),
                   );
                 },
               ),
               StreamBuilder<List<YkienCuocHopModel>>(
-                stream: cubit.listYKienCuocHop.stream,
+                stream: widget.cubit.listYKienCuocHop.stream,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? [];
                   if (data.isEmpty) {
@@ -74,7 +71,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                     itemBuilder: (context, index) {
                       return CommentWidget(
                         object: data[index],
-                        cubit: cubit,
+                        cubit: widget.cubit,
                         id: widget.cubit.idCuocHop,
                       );
                     },
@@ -98,7 +95,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                     context,
                     title: S.current.them_y_kien,
                     child: ThemYKienWidget(
-                      cubit: cubit,
+                      cubit: widget.cubit,
                       id: widget.cubit.idCuocHop,
                     ),
                   );
@@ -108,7 +105,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                 height: 16,
               ),
               StreamBuilder<List<YkienCuocHopModel>>(
-                stream: cubit.listYKienCuocHop.stream,
+                stream: widget.cubit.listYKienCuocHop.stream,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? [];
                   if (data.isEmpty) {
@@ -121,7 +118,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                     itemBuilder: (context, index) {
                       return CommentWidget(
                         object: data[index],
-                        cubit: cubit,
+                        cubit: widget.cubit,
                         id: widget.cubit.idCuocHop,
                       );
                     },

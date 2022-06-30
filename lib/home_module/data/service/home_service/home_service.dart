@@ -51,6 +51,8 @@ abstract class HomeServiceGateWay {
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
   Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(
       @Query('isDonVi') bool isDonVi);
+  @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN_CA_NHAN)
+  Future<TinhHinhXuLyPAKNCaNhan> getDashboardTinhHinhPAKNCaNhan();
 
   @POST(ApiConstants.GET_PHAM_VI)
   @FormUrlEncoded()

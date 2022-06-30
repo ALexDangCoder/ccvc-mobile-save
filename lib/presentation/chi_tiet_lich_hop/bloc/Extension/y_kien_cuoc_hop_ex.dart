@@ -30,6 +30,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
       phienHopId: phienHopId.isNotEmpty ? phienHopId : null,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
+    showContent();
   }
 
   // danh sách phiên họp - ý kiến cuộc họp
@@ -58,7 +59,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
   }
 
   Future<void> callApiYkienCuocHop() async {
-    await getDanhSachYKien(idCuocHop, ' ');
+    await getDanhSachYKien(idCuocHop, '');
     await getDanhSachPhienHop(idCuocHop);
   }
 }

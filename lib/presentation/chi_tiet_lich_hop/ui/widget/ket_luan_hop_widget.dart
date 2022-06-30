@@ -115,8 +115,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                 ItemKetLuanHopWidget(
                   title: '${S.current.ket_luan_hop} (${data?.title ?? ''})',
                   time: data?.thoiGian ?? '',
-                  trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                  tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+                  trangThai: data?.trangThai ?? TrangThai.CHO_DUYET,
+                  tinhTrang: data?.tinhTrang ?? TinhTrang.TRUNG_BINH,
                   id: widget.cubit.idCuocHop,
                   cubit: widget.cubit,
                   listFile: data?.file ?? [],

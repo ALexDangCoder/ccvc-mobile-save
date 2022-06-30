@@ -70,28 +70,28 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   TrangThai typeTrangthai(int value) {
     switch (value) {
       case 1:
-        return TrangThai.ChoDuyet;
+        return TrangThai.CHO_DUYET;
       case 2:
-        return TrangThai.DaDuyet;
+        return TrangThai.DA_DUYET;
       case 0:
-        return TrangThai.ChuaGuiDuyet;
+        return TrangThai.CHUA_GUI_DUYET;
       case 3:
-        return TrangThai.HuyDuyet;
+        return TrangThai.HUY_DUYET;
       default:
-        return TrangThai.ChoDuyet;
+        return TrangThai.CHO_DUYET;
     }
   }
 
   TinhTrang typeTinhTrang(String value) {
     switch (value) {
       case 'trung-binh':
-        return TinhTrang.TrungBinh;
+        return TinhTrang.TRUNG_BINH;
       case 'dat':
-        return TinhTrang.Dat;
+        return TinhTrang.DAT;
       case 'chua-dat':
-        return TinhTrang.ChuaDat;
+        return TinhTrang.CHUA_DAT;
       default:
-        return TinhTrang.TrungBinh;
+        return TinhTrang.TRUNG_BINH;
     }
   }
 

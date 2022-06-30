@@ -203,6 +203,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           onChange: (List<File> files) {
                             file = files;
                           },
+                          removeFileApi: (int index) {},
                         ),
                       ),
                       Padding(

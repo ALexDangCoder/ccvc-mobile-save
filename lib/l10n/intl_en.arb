@@ -1199,5 +1199,6 @@
   "validate_thoi_gian_phien_hop": "Thời gian phiên họp phải nằm trong thời gian cuộc họp",
   "chuyen_xu_ly_report": "Chuyển xử lý",
   "yeu_cau_phoi_hop_report": " Yêu cầu phối hợp",
-  "menu_lich_hop": "Menu Lịch họp"
+  "menu_lich_hop": "Menu Lịch họp",
+  "doi_phong": "Đổi phòng"
 }

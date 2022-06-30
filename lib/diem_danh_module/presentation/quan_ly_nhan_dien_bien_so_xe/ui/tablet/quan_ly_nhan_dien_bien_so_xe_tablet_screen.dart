@@ -16,7 +16,8 @@ import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_dia_log_tablet.dart';
+// import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:flutter/material.dart';
@@ -92,107 +93,114 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                     child: Padding(
                       padding:
                       const EdgeInsets.only(top: 28.0, left: 30.0, right: 30.0),
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: dataChiTiet.length,
-                        itemBuilder: (context,index){
-                          return Column(
-                            children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.4,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: colorE2E8F0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.05),
-                                      blurRadius: 2,
-                                      spreadRadius: 2,
-                                    ),
-                                  ],
-                                  image: const DecorationImage(
-                                    image: AssetImage(ImageAssets.imgBienSoXe),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              spaceH12,
-                              Text(
-                                S.current.giay_dang_ky_xe,
-                                style: textNormalCustom(
-                                  color: color3D5586,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              spaceH20,
-                              ItemLoaiXe(
-                                titleXeMay: dataChiTiet[index]
-                                    .loaiXeMay
-                                    ?.loaiXe() ??
-                                    '',
-                                titleBienKiemSoat:
-                                dataChiTiet[index]
-                                    .bienKiemSoat ??
-                                    '',
-                                titleLoaiSoHuu:
-                                dataChiTiet[index]
-                                    .loaiSoHuu
-                                    ?.loaiSoHuu() ??
-                                    '',
-                              ),
-                              spaceH28,
-                              SizedBox(
-                                width: 300,
-                                height: 44,
-                                child: DoubleButtonBottom(
-                                  title1: S.current.chinh_sua,
-                                  title2: S.current.xoa,
-                                  onPressed1: () {
-                                    showBottomSheetCustom(
-                                      context,
-                                      title: S.current.cap_nhat_tong_tin_dang_ky_xe,
-                                      child: Container(
-                                        padding: EdgeInsets.zero,
-                                        child: WidgetCapNhatThingTinDangKyXe(
-                                          cubit: widget.cubit,
+                      child: StreamBuilder<dynamic>(
+                          stream: widget.cubit.idPicture,
+                        builder: (context, idPictureSnapShot) {
+                          return ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: dataChiTiet.length,
+                            itemBuilder: (context,index){
+                              dataChiTiet.first.pictureId ??=
+                                  idPictureSnapShot.data;
+                              return Column(
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.4,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: colorE2E8F0),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.05),
+                                          blurRadius: 2,
+                                          spreadRadius: 2,
                                         ),
+                                      ],
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            '${widget.cubit.getUrlImageBienSoXe(dataChiTiet[index].pictureId)}'),
+                                        fit: BoxFit.cover,
                                       ),
-                                    );
-                                  },
-                                  onPressed2: () {
-                                    showDiaLog(
-                                      context,
-                                      title: S.current.xoa_nhan_bien_so_xe,
-                                      icon: SvgPicture.asset(
-                                        ImageAssets.icXoaNhanhDienBienSoXe,
-                                      ),
-                                      btnLeftTxt: S.current.khong,
-                                      btnRightTxt: S.current.dong_y,
-                                      funcBtnRight: () async {
-                                        await widget.cubit
-                                            .xoaBienSoXe(
-                                            dataChiTiet[index]
-                                                .id ??
-                                                '')
-                                            .then((value) {
-                                          widget.cubit
-                                              .postDanhSachBienSoXe();
-                                        });
+                                    ),
+                                  ),
+                                  spaceH12,
+                                  Text(
+                                    S.current.giay_dang_ky_xe,
+                                    style: textNormalCustom(
+                                      color: color3D5586,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  spaceH20,
+                                  ItemLoaiXe(
+                                    titleXeMay: dataChiTiet[index]
+                                        .loaiXeMay
+                                        ?.loaiXe() ??
+                                        '',
+                                    titleBienKiemSoat:
+                                    dataChiTiet[index]
+                                        .bienKiemSoat ??
+                                        '',
+                                    titleLoaiSoHuu:
+                                    dataChiTiet[index]
+                                        .loaiSoHuu
+                                        ?.loaiSoHuu() ??
+                                        '',
+                                  ),
+                                  spaceH28,
+                                  SizedBox(
+                                    width: 300,
+                                    height: 44,
+                                    child: DoubleButtonBottom(
+                                      title1: S.current.chinh_sua,
+                                      title2: S.current.xoa,
+                                      onPressed1: () {
+                                        showDiaLogTablet(
+                                          context,
+                                          title: S.current.cap_nhat_tong_tin_dang_ky_xe,
+                                          isBottomShow: false,
+                                          child:WidgetCapNhatThingTinDangKyXe(
+                                            cubit: widget.cubit, chiTietBienSoXeModel:dataChiTiet[index],
+                                          ),
+                                          funcBtnOk: () {},
+                                        );
                                       },
-                                      showTablet: false,
-                                      textContent:
-                                      S.current.ban_co_muon_xoa_nhan_dien_bien_so_xe,
-                                    );
-                                  },
-                                ),
-                              ),
-                              spaceH28,
-                            ],
+                                      onPressed2: () {
+                                        showDiaLog(
+                                          context,
+                                          title: S.current.xoa_nhan_bien_so_xe,
+                                          icon: SvgPicture.asset(
+                                            ImageAssets.icXoaNhanhDienBienSoXe,
+                                          ),
+                                          btnLeftTxt: S.current.khong,
+                                          btnRightTxt: S.current.dong_y,
+                                          funcBtnRight: () async {
+                                            await widget.cubit
+                                                .xoaBienSoXe(
+                                                dataChiTiet[index]
+                                                    .id ??
+                                                    '')
+                                                .then((value) {
+                                              widget.cubit
+                                                  .postDanhSachBienSoXe();
+                                            });
+                                          },
+                                          showTablet: true,
+                                          textContent:
+                                          S.current.ban_co_muon_xoa_nhan_dien_bien_so_xe,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  spaceH28,
+                                ],
+                              );
+                            },
                           );
-                        },
+                        }
                       ),
                     ),
                   ),

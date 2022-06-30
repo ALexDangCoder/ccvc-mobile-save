@@ -177,6 +177,10 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         );
       }
     }
+
+    /// Format date time:
+    taoLichHopRequest.timeStart = taoLichHopRequest.timeStart?.formatTime();
+    taoLichHopRequest.timeTo = taoLichHopRequest.timeTo?.formatTime();
   }
 
   bool checkThoiGianPhienHop() {

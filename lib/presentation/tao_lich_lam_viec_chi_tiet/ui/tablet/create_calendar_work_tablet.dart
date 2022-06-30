@@ -56,6 +56,7 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
   TextEditingController locationController = TextEditingController();
   bool pickTimeValidatorValue = true;
   bool chooseTypeCalendarValidatorValue = true;
+  bool chooseFileValidatorValue = true;
   late DateTimeCupertinoCustomCubit cupertinoMaterialCubit;
   final ScrollController scrollController = ScrollController();
 
@@ -342,9 +343,11 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                           taoLichLamViecCubit: createCubit,
                                         ),
                                         TaiLieuWidget(
-                                          onChange: (onChange) {
-                                            createCubit.filesTaoLich = onChange;
-                                          }, idRemove: (String id) {  },
+                                          onChange: (files, value) {
+                                            createCubit.filesTaoLich = files;
+                                            chooseFileValidatorValue = !value;
+                                          },
+                                          idRemove: (String id) {},
                                         ),
                                       ],
                                     ),
@@ -404,7 +407,7 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
     _formKey.currentState!.validator();
     if (_formKey.currentState!.validator() &&
         !pickTimeValidatorValue &&
-        !chooseTypeCalendarValidatorValue) {
+        !chooseTypeCalendarValidatorValue && chooseFileValidatorValue) {
       await createCubit.checkDuplicate(
         context: context,
         title: titleController.value.text.removeSpace,

@@ -25,35 +25,40 @@ class _TabAnhDeoKinhState extends State<TabAnhDeoKinh> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<GetAllFilesIdModel>(
-      stream: widget.cubit.allFileDeokinhStream,
-      initialData: GetAllFilesIdModel.empty(),
-      builder:
-          (BuildContext context, AsyncSnapshot<GetAllFilesIdModel> snapshot) {
-        if (snapshot.hasData) {
-          return SingleChildScrollView(
-            child: Column(
-              children: widget.cubit.listDataDeoKinh
-                  .map(
-                    (e) => ItemImageWidget(
-                      cubit: widget.cubit,
-                      dataUI: e,
-                      initImage: widget.cubit.getUrlImage(
-                        entityName: e.entityName,
-                        fileTypeUpload: e.fileTypeUpload,
-                      ),
-                      id: widget.cubit.findId(
-                        entityName: e.entityName,
-                        fileTypeUpload: e.fileTypeUpload,
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          );
-        }
-        return Container();
+    return RefreshIndicator(
+      onRefresh: () {
+        return widget.cubit.getAllImageDeoKinhId();
       },
+      child: StreamBuilder<GetAllFilesIdModel>(
+        stream: widget.cubit.allFileDeokinhStream,
+        initialData: GetAllFilesIdModel.empty(),
+        builder:
+            (BuildContext context, AsyncSnapshot<GetAllFilesIdModel> snapshot) {
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+              child: Column(
+                children: widget.cubit.listDataDeoKinh
+                    .map(
+                      (e) => ItemImageWidget(
+                        cubit: widget.cubit,
+                        dataUI: e,
+                        initImage: widget.cubit.getUrlImage(
+                          entityName: e.entityName,
+                          fileTypeUpload: e.fileTypeUpload,
+                        ),
+                        id: widget.cubit.findId(
+                          entityName: e.entityName,
+                          fileTypeUpload: e.fileTypeUpload,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -54,6 +55,23 @@ class ThongTinPhongHopModel {
         return TrangThaiPhongHop.DA_DUYET;
     }
     return TrangThaiPhongHop.CHO_DUYET;
+  }
+
+  PhongHopModel convertToPhongHopModel({
+    required bool isTTDH,
+    required int trangThai,
+    required List<ThietBiModel> listThietBi,
+  }) {
+    return PhongHopModel(
+      sucChua: int.parse(sucChua ?? '0'),
+      bit_TTDH: isTTDH,
+      diaChi: diaDiem ?? '',
+      donViDuyetId: '',
+      ten: tenPhong ?? '',
+      id: id ?? '',
+      trangThai: trangThai,
+      listThietBi: listThietBi,
+    );
   }
 }
 

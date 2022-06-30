@@ -357,6 +357,8 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                       initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
                       initThietBi:
                           _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
+                      needShowSelectedRoom: true,
+                      idHop: _cubitTaoLichHop.taoLichHopRequest.id,
                     ),
                   ],
                 ),

@@ -124,12 +124,13 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
     final List<DonViModel> listSelectCanBo = [];
 
     for (var element in widget.themCanBoCubit.listSelectCanBo) {
-      if(widget.cubit.listPeople.map((e) => e.id).contains(element.id)){
+      if (widget.cubit.listPeople.map((e) => e.id).contains(element.id)) {
         listSelectCanBo.add(element);
       }
     }
     widget.themCanBoCubit.listSelectCanBo = listSelectCanBo;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -229,10 +230,15 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                       });
                                       return;
                                     }
-                                    widget.themCanBoCubit.selectCanBo(
-                                      result,
-                                      isCheck: value,
-                                    );
+                                    if (widget.cubit.listPeople.indexWhere(
+                                            (element) =>
+                                                element.id == result.id) ==
+                                        -1) {
+                                      widget.themCanBoCubit.selectCanBo(
+                                        result,
+                                        isCheck: value,
+                                      );
+                                    }
                                   },
                                   canBoModel: result,
                                   themCanBoCubit: widget.themCanBoCubit,

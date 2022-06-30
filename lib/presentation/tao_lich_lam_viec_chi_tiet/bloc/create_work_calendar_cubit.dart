@@ -455,7 +455,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
-        //eventBus.fire(RefreshCalendar());
+        eventBus.fire(RefreshCalendar());
       },
       error: (error) {
         MessageConfig.show(title: S.current.error, messState: MessState.error);

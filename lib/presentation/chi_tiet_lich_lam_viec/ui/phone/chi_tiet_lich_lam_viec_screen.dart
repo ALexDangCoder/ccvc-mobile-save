@@ -75,20 +75,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 urlImage: ImageAssets.icHuy,
                                 text: S.current.huy,
                                 onTap: () {
-                                  showDiaLog(
-                                    context,
-                                    textContent:
-                                        S.current.ban_chan_chan_huy_lich_nay,
-                                    btnLeftTxt: S.current.khong,
-                                    funcBtnRight: () async {
-                                      checkCancelDuplicateCal(
-                                        dataModel.isLichLap ?? false,
-                                      );
-                                    },
-                                    title: S.current.huy_lich,
-                                    btnRightTxt: S.current.dong_y,
-                                    icon:
-                                        SvgPicture.asset(ImageAssets.icHuyLich),
+                                  checkCancelDuplicateCal(
+                                    dataModel.isLichLap ?? false,
                                   );
                                 },
                               ),
@@ -386,7 +374,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           imageUrl: ImageAssets.icHuyLich,
           textConfirm: S.current.ban_co_chac_muon_huy_lich,
           textRadioAbove: S.current.chi_lich_nay,
-          textRadioBelow: S.current.tu_lich_nay,
+          textRadioBelow: S.current.tu_lich_nay
         ),
       ).then(
         (value) => chiTietLichLamViecCubit

@@ -265,7 +265,7 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
     );
   }
 
-  Widget itemAppointmentDayTablet(Appointment appointment) {
+  Widget itemAppointmentDayTablet(AppointmentWithDuplicate appointment) {
     final lessThan1Hour = appointment.endTime.millisecondsSinceEpoch -
         appointment.startTime.millisecondsSinceEpoch <
         60 * 60 * 1000;
@@ -273,47 +273,67 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
       onTap: () {
         pushToDetail(appointment);
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: appointment.isAllDay ? 1 : 6,
-        ),
-        decoration: const BoxDecoration(
-          color: textDefault,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              child: Text(
-                appointment.subject.trim(),
-                maxLines: appointment.isAllDay ? 1 :  2,
-                overflow: TextOverflow.ellipsis,
-                style: textNormalCustom(
-                  color: Colors.white,
-                  fontSize: appointment.isAllDay ? 12 : 16,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: appointment.isAllDay ? 1 : 6,
+            ),
+            decoration: const BoxDecoration(
+              color: textDefault,
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  child: Text(
+                    appointment.subject.trim(),
+                    maxLines: appointment.isAllDay ? 1 :  2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textNormalCustom(
+                      color: Colors.white,
+                      fontSize: appointment.isAllDay ? 12 : 16,
+                    ),
+                  ),
+                ),
+                if (!appointment.isAllDay && !lessThan1Hour) spaceH4,
+                if (!appointment.isAllDay && !lessThan1Hour)
+                  Text(
+                    '${DateFormat.jm('en').format(
+                      appointment.startTime,
+                    )} - ${DateFormat.jm('en').format(
+                      appointment.endTime,
+                    )}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textNormalCustom(
+                      fontSize: 16,
+                      color: backgroundColorApp.withOpacity(0.7),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
+              ],
+            ),
+          ),
+          Visibility(
+            visible: appointment.isDuplicate,
+            child: Positioned(
+              top: 2,
+              right: 2,
+              child: Container(
+                width: 5,
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: redChart,
+                  shape: BoxShape.circle,
                 ),
               ),
             ),
-            if (!appointment.isAllDay && !lessThan1Hour) spaceH4,
-            if (!appointment.isAllDay && !lessThan1Hour)
-              Text(
-                '${DateFormat.jm('en').format(
-                  appointment.startTime,
-                )} - ${DateFormat.jm('en').format(
-                  appointment.endTime,
-                )}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: textNormalCustom(
-                  fontSize: 16,
-                  color: backgroundColorApp.withOpacity(0.7),
-                  fontWeight: FontWeight.w400,
-                ),
-              )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

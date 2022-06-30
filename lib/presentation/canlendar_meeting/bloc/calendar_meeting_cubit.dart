@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
@@ -397,7 +398,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isChoXacNhan:
             stateType != StateType.TU_CHOI && stateType != StateType.THAM_GIA,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
-        PageIndex: 1,
+        PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
       ),
     );
@@ -547,9 +548,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }
 
   /// get cơ cấu lịch họp
-  int indexThongKe = 0;
   String idThongKe = '';
-
   Future<void> getCoCauLichHop() async {
     final result = await hopRepo.postCoCauLichHop(
       startDate.formatApiDDMMYYYYSlash,
@@ -564,14 +563,35 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
               i.name ?? '',
               i.quantities?.toDouble() ?? 0,
               i.color ?? Colors.white,
+              id: i.id ?? '',
             ),
           );
         }
-        idThongKe = value[indexThongKe].id ?? '';
         _coCauLichHopSubject.add(dataCoCauLichHop);
       },
       error: (error) {},
     );
+  }
+
+  /// lấy danh sách lịch họp theo cơ cấu lịch họp:
+  Future<void> getDanhSachThongKe() async {
+    showLoading();
+    final result = await hopRepo.postDanhSachThongKe(
+      DanhSachThongKeRequest(
+        dateFrom: startDate.formatApiDDMMYYYYSlash,
+        dateTo: endDate.formatApiDDMMYYYYSlash,
+        pageIndex: ApiConstants.PAGE_BEGIN,
+        pageSize: 1000,
+        typeCalendarId: idThongKe,
+      ),
+    );
+    result.when(
+      success: (value) {
+        checkDuplicate(value.items ?? []);
+        _danhSachLichHopSubject.sink.add(value);      },
+      error: (error) {},
+    );
+    showContent();
   }
 
   bool checkDataList(List<dynamic> data) {

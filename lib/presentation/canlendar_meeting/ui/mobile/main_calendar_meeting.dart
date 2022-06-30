@@ -12,7 +12,6 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_c
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
-
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/tao_lich_hop_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -36,7 +35,6 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
 
   @override
   void initState() {
-   // init  api
     cubit.initData();
     _handleEventBus();
     super.initState();
@@ -44,7 +42,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
 
   void _handleEventBus() {
     eventBus.on<RefreshCalendar>().listen((event) {
-      // call api when neeed reffresh data
+      if (cubit.state is CalendarViewState || cubit.state is ListViewState) {
+        cubit.refreshDataDangLich();
+      } else {
+        cubit.getDataDangChart();
+      }
     });
   }
 
@@ -193,6 +195,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
             builder: (context, snapshot) {
               final data = snapshot.data ?? DashBoardLichHopModel.empty();
               return MenuWidget(
+                isLichHop: true,
                 dataMenu: [
                   ParentMenu(
                     count: data.countScheduleCaNhan ?? 0,

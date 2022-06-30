@@ -63,6 +63,14 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
+        if(fileItemBienSoXe.isNotEmpty==true) {
+          postImageResgiter(
+            idCreateResgiter: res.id,
+            entityName: ApiConstants.BIEN_SO_XE_ENTITY,
+            fileTypeUpload: ApiConstants.BIEN_SO_XE_TYPE,
+            files: fileItemBienSoXe,
+          );
+        }
         showContent();
         toast.showToast(
           child: ShowToast(
@@ -81,11 +89,11 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   }
 
   /// post image select
-  Future<String> postImageResgiter(
-    String idCreateResgiter,
-    String fileTypeUpload,
-    String entityName,
-    List<File> files,
+  Future<String> postImageResgiter({
+  required  dynamic idCreateResgiter,
+  required  String fileTypeUpload,
+  required  String entityName,
+  required  List<File> files,}
   ) async {
     final result = await diemDanhRepo.postFileModel(
       idCreateResgiter,
@@ -96,18 +104,17 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     );
     result.when(
       success: (success) {
-        MessageConfig.show(title: success.message ?? '');
+        idPicture.sink.add(success.data?.first);
         return success.data?.first;
       },
       error: (error) {
-        MessageConfig.show(title: error.message);
         return '';
       },
     );
     return '';
   }
   ///get url bien so xe
-  String? getUrlImageBienSoXe({required String fileTypeUpload, String? id}) {
+  String? getUrlImageBienSoXe( String? id) {
     if (id != null) {
       return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$id/$tokken';
     }

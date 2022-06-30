@@ -59,20 +59,24 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: widget.isTablet ?  const EdgeInsets.only(
-        left: 30,
-        right: 30,
-      ) : null ,
-      decoration: widget.isTablet ?  BoxDecoration(
-        color: backgroundColorApp,
-        border:  Border.all(
-          color: borderColor.withOpacity(0.5),
-        )  ,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
-      ) : null ,
+      margin: widget.isTablet
+          ? const EdgeInsets.only(
+              left: 30,
+              right: 30,
+            )
+          : null,
+      decoration: widget.isTablet
+          ? BoxDecoration(
+              color: backgroundColorApp,
+              border: Border.all(
+                color: borderColor.withOpacity(0.5),
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+            )
+          : null,
       child: SfCalendar(
         firstDayOfWeek: 1,
         timeSlotViewSettings: const TimeSlotViewSettings(
@@ -118,6 +122,13 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         appointmentBuilder: (_, appointmentDetail) {
           final AppointmentWithDuplicate appointment =
               appointmentDetail.appointments.first;
+          if (appointmentDetail.appointments.length > 1) {
+            return Center(
+                child: Text(
+              expandText(appointmentDetail.appointments.length),
+              style: textNormal(colorA2AEBD, 13),
+            ));
+          }
           if (appointment.isMore) {
             return GestureDetector(
               onTap: () {
@@ -136,5 +147,9 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         },
       ),
     );
+  }
+
+  String expandText(int sum) {
+    return '${sum - 2}+';
   }
 }

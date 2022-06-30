@@ -341,7 +341,11 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                         ThanhPhanThamGiaTLWidget(
                                           taoLichLamViecCubit: createCubit,
                                         ),
-                                        TaiLieuWidget(),
+                                        TaiLieuWidget(
+                                          onChange: (onChange) {
+                                            createCubit.filesTaoLich = onChange;
+                                          }, idRemove: (String id) {  },
+                                        ),
                                       ],
                                     ),
                                   ),

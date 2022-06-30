@@ -13,17 +13,19 @@ class DashBroadMeeting extends StatelessWidget {
     Key? key,
     required this.cubit,
     this.isChartView = false,
+    this.isTablet = false,
   }) : super(key: key);
   final CalendarMeetingCubit cubit;
   final bool isChartView;
+  final bool isTablet;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 16,
-        left: 16,
-        bottom: 16,
+      padding: EdgeInsets.only(
+        top: isTablet ? 30 : 16,
+        left: isTablet ? 30 : 16,
+        bottom: isTablet ? 30 : 16,
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -98,8 +100,11 @@ class DashBroadMeeting extends StatelessWidget {
         height: 88,
         width: 274,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.0),
-          color: backgroundItemCalender,
+          borderRadius: BorderRadius.circular(isTablet ? 12.0 : 6),
+          color: isTablet ? backgroundColorApp : backgroundItemCalender,
+          border: isTablet ?  Border.all(
+            color: borderColor.withOpacity(0.5),
+          ) : null ,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -108,9 +113,9 @@ class DashBroadMeeting extends StatelessWidget {
             Container(
               height: 56,
               width: 56,
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 shape: BoxShape.circle,
-                color: backgroundColorApp,
+                color:isTablet ? backgroundItemCalender  : backgroundColorApp ,
               ),
               child: Center(
                 child: SvgPicture.asset(image),

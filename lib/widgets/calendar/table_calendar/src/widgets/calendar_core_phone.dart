@@ -29,7 +29,7 @@ class CalendarCore extends StatelessWidget {
   final PageController? pageController;
   final ScrollPhysics? scrollPhysics;
   final _OnCalendarPageChanged onPageChanged;
-
+ final bool isDowTop;
   const CalendarCore({
     Key? key,
     this.dowBuilder,
@@ -39,6 +39,7 @@ class CalendarCore extends StatelessWidget {
     required this.lastDay,
     required this.constraints,
     this.dowHeight,
+    this.isDowTop = true,
     this.rowHeight,
     this.startingDayOfWeek = StartingDayOfWeek.sunday,
     this.calendarFormat = CalendarFormat.month,
@@ -72,6 +73,7 @@ class CalendarCore extends StatelessWidget {
             : null;
 
         return CalendarPage(
+          isDowTop: isDowTop,
           visibleDays: visibleDays,
           dowVisible: dowVisible,
           dowDecoration: dowDecoration,

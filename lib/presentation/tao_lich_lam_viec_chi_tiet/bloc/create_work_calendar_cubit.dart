@@ -159,6 +159,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   ScheduleReminder? scheduleReminder;
   bool? publishSchedule;
   List<Files>? files;
+  List<File>? filesTaoLich;
+  List<String> filesDelete=[];
   String? id;
   ChiTietLichLamViecModel detailCalendarWorkModel = ChiTietLichLamViecModel();
   final toast = FToast();
@@ -440,6 +442,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       note: '',
       isAllDay: isCheckAllDaySubject.value,
       isSendMail: true,
+      files: filesTaoLich,
       scheduleCoperativeRequest: donviModel ?? [],
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
@@ -496,6 +499,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       id: id ?? '',
       isAllDay: isCheckAllDaySubject.value,
       isSendMail: true,
+      files: filesTaoLich,
+      filesDelete: filesDelete,
       scheduleCoperativeRequest: donviModel ?? [],
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
@@ -552,6 +557,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       id ?? '',
       isCheckAllDaySubject.value,
       true,
+      filesTaoLich,
+      filesDelete,
       donviModel ?? [],
       selectNhacLai.value ?? 1,
       selectLichLap.id ?? 0,

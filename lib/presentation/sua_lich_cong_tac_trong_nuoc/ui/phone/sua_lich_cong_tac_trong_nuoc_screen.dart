@@ -388,12 +388,16 @@ class _SuaLichCongTacTrongNuocPhoneState
                                       .scheduleCoperatives,
                                 ),
                                 TaiLieuWidget(
-                                  files: (taoLichLamViecCubit.files ?? [])
-                                      .map((e) => File(e.path ?? ''))
-                                      .toList(),
+                                  files: taoLichLamViecCubit.files ?? [],
+                                  onChange: (onChange){
+                                    taoLichLamViecCubit.filesTaoLich = onChange;
+                                  },
+                                  idRemove: (String id) {
+                                    taoLichLamViecCubit.filesDelete.add(id);
+                                  },
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  padding: const EdgeInsets.only(bottom: 16.0,top: 16.0),
                                   child: Row(
                                     children: [
                                       Expanded(

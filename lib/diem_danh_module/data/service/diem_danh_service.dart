@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/diem_danh_module/data/response/bang_diem_danh_ca_nha
 import 'package:ccvc_mobile/diem_danh_module/data/response/dang_ky_thong_tin_xe_moi_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/danh_sach_bien_so_xe_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/get_all_files_response.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/response/message_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/post_file_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/thong_ke_diem_danh_ca_nhan_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/xoa_bien_so_xe_response.dart';
@@ -41,8 +42,8 @@ abstract class DiemDanhService {
 
   @POST(ApiConstants.DANH_SACH_BIEN_SO_XE)
   Future<DataListItemChiTietBienSoXeModelResponse> danhSachBienSoXe(
-      @Body() DanhSachBienSoXeRequest danhSachBienSoXeRequest,
-      );
+    @Body() DanhSachBienSoXeRequest danhSachBienSoXeRequest,
+  );
 
   @POST(ApiConstants.POST_FILE)
   @MultiPart()
@@ -58,9 +59,11 @@ abstract class DiemDanhService {
   Future<XoaBienSoXeResponse> xoaBienSoXe(
     @Path('id') String id,
   );
+
   @POST(ApiConstants.DANG_KY_THONG_TIN_XE_MOI)
   Future<DangKyThongTinXeMoiResponse> dangKyThongTinXeMoi(
-      @Body() DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest
-      );
+      @Body() DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest,);
 
+  @DELETE(ApiConstants.DELETE_IMAGE)
+  Future<MessageResponse> deleteImage(@Path('id') String id);
 }

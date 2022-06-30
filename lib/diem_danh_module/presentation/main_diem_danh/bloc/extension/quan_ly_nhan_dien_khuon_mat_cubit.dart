@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart'
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   List<NhanDienKhuonMatUIModel> get listDataKhongDeoKinh => [
@@ -255,20 +256,20 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   ///check list constant image
   bool isImage(String fileTypeUpload, String entityName) {
     if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
+      for (final element in allFileDeokinhSubject.valueOrNull?.items ?? []) {
+        if (element.fileTypeUpload == fileTypeUpload) {
+          return true;
+        }
+      }
+      return false;
+    } else {
       for (final element
           in allFileKhongDeokinhSubject.valueOrNull?.items ?? []) {
         if (element.fileTypeUpload == fileTypeUpload) {
-          return false;
+          return true;
         }
       }
-      return true;
-    } else {
-      for (final element in allFileDeokinhSubject.valueOrNull?.items ?? []) {
-        if (element.fileTypeUpload == fileTypeUpload) {
-          return false;
-        }
-      }
-      return true;
+      return false;
     }
   }
 

@@ -53,6 +53,7 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
             onChange: (value) {
               cubit.listTaiLieu = value;
             },
+            removeFileApi: (int index) {},
           )
         ],
       ),

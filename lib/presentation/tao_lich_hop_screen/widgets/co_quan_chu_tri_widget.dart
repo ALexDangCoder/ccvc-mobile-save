@@ -280,6 +280,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                       widget.cubit.listThuMoi = list;
                     },
                     hasMultipleFile: true,
+                    removeFileApi: (int index) {},
                   )
                 ],
               ),

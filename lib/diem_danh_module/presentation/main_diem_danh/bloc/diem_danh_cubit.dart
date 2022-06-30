@@ -57,6 +57,11 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   String? loaiSoHuu;
   final toast = FToast();
 
+  BehaviorSubject<GetAllFilesIdModel>fileBienSoXeSubject = BehaviorSubject();
+
+  Stream<GetAllFilesIdModel> get fileBienSoXeStream =>
+      fileBienSoXeSubject.stream;
+
   ///dang ky bien so xe
   BehaviorSubject<List<LoaiXeModel>> loaiXeSubject = BehaviorSubject.seeded(
     [

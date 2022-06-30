@@ -4,8 +4,8 @@ import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/main_diem_danh_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/main_diem_danh_tablet_screen.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/mobile/ho_tro_ky_thuat_mobile.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tablet/ho_tro_ky_thuat_tablet.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/main_ho_tro_ky_thuat_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/main_ho_tro_ky_thuat_tablet.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/phone/danh_sach_chung_screen.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/tab/danh_sach_chung_screen_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_mobile.dart';
@@ -13,14 +13,14 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tabbar_newspaper.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tablet/tabbar_newspaper_tablet.dart';
 import 'package:ccvc_mobile/presentation/cai_dat_giao_dien_screen/cai_dat_giao_dien_screen.dart';
-import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
-import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/main_calendar_meeting.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/main_canlendar_refactor.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/mobile/main_calendar_meeting.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/tablet/main_calendar_meeting_tablet.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/main_canlendar_mobile_refactor.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/main_canlendar_refactor_tablet.dart';
 import 'package:ccvc_mobile/presentation/change_password/ui/mobile/change_password_screen.dart';
 import 'package:ccvc_mobile/presentation/change_password/ui/tablet/change_password_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/mobile/hoi_dap_screen.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/tablet/hoi_dap_screen_tablet.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/main_lich_hop_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/qlvb_mobile_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/qlvb_tablet_screen.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/y_kien_nguoidan_screen.dart';
@@ -215,7 +215,7 @@ extension GetScreen on MenuType {
         return screenDevice(
           mobileScreen: const MainCalendarMeeting(),
           // mobileScreen: const MainLichHop(),
-          tabletScreen: const MainLichHopTabLet(),
+          tabletScreen: const MainCalendarMeetingTablet(),
         );
       case MenuType.quanLyNhiemVu:
         return screenDevice(
@@ -282,10 +282,10 @@ extension GetScreen on MenuType {
         );
       case MenuType.lichLamViec:
         return screenDevice(
-          mobileScreen: const MainCanlendanRefactor(
+          mobileScreen:  MainCanlendanMobileRefactor(
             isBack: true,
           ),
-          tabletScreen: const CalenderWorkDayTablet(
+          tabletScreen: const MainCalendarRefactorTablet(
             isBack: true,
           ),
         );
@@ -296,8 +296,8 @@ extension GetScreen on MenuType {
         );
       case MenuType.hoTroKyThuat:
         return screenDevice(
-          mobileScreen: const HoTroKyThuatMobile(),
-          tabletScreen: const HoTroKyThuatTablet(),
+          mobileScreen: const MainHoTroKyThuatMobile(),
+          tabletScreen: const MainHoTroKyThuatTablet(),
         );
     }
   }

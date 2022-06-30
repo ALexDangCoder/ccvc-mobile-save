@@ -170,7 +170,8 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: ButtonSelectFile(
                     title: S.current.them_tai_lieu_cuoc_hop,
-                    onChange: (List<File> files,) {},
+                    onChange: (List<File> files) {},
+                    removeFileApi: (int index) {},
                   ),
                 ),
                 FileFromAPIWidget(

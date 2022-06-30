@@ -118,6 +118,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   height: 24,
                 ),
                 ButtonSelectFile(
+                  removeFileApi: (int index) {},
                   isShowFile: false,
                   title: S.current.tai_lieu_dinh_kem,
                   onChange: (files,) {

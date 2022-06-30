@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -13,6 +14,7 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
@@ -172,21 +174,14 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
       taoPhienHopRequest = widget.cubit.listPhienHop.value[widget.indexEdit];
     } else {
       taoPhienHopRequest = TaoPhienHopRequest(
-        thoiGian_BatDau: DateTime.now().formatApiSuaPhienHop,
-        thoiGian_KetThuc: DateTime.now()
-            .add(
-              const Duration(hours: 1),
-            )
-            .formatApiSuaPhienHop,
+        thoiGian_BatDau: widget.cubit.getTime(),
+        thoiGian_KetThuc: widget.cubit.getTime(isGetDateStart: false),
       );
     }
-    timeStart = taoPhienHopRequest.timeStart ?? DateTime.now().formatHourMinute;
-    timeEnd = taoPhienHopRequest.timeEnd ??
-        DateTime.now()
-            .add(
-              const Duration(hours: 1),
-            )
-            .formatHourMinute;
+    taoPhienHopRequest.date =
+        taoPhienHopRequest.thoiGian_BatDau.split(' ').first;
+    timeStart = taoPhienHopRequest.thoiGian_BatDau.split(' ').last;
+    timeEnd = taoPhienHopRequest.thoiGian_KetThuc.split(' ').last;
   }
 
   @override
@@ -201,6 +196,31 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           child: DoubleButtonBottom(
             isTablet: isMobile() == false,
             onPressed2: () {
+              final dateTimeStart =
+                  '$thoiGianHop $timeStart'.convertStringToDate(
+                formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+              );
+              final dateTimeEnd = '$thoiGianHop $timeStart'.convertStringToDate(
+                formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+              );
+              if (dateTimeStart.isBefore(
+                    widget.cubit.getTime().convertStringToDate(
+                          formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+                        ),
+                  ) ||
+                  dateTimeEnd.isAfter(
+                    widget.cubit
+                        .getTime(isGetDateStart: false)
+                        .convertStringToDate(
+                          formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+                        ),
+                  )) {
+                MessageConfig.show(
+                  messState: MessState.error,
+                  title: S.current.validate_thoi_gian_phien_hop,
+                );
+                return;
+              }
               if ((_key.currentState?.validator() ?? false) &&
                   (_keyBaseTime.currentState?.validator() ?? false)) {
                 taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
@@ -333,6 +353,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     taoPhienHopRequest.Files = files;
                   },
                   hasMultipleFile: true,
+                  removeFileApi: (int index) {},
                 )
               ],
             ),

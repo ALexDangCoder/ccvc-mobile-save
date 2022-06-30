@@ -191,7 +191,7 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                           hint: S.current.tieu_de,
                                           validator: (value) {
                                             return (value ?? '')
-                                                .validatorTitle();
+                                                .pleaseEnter(S.current.tieu_de);
                                           },
                                         ),
                                         LoaiLichWidget(
@@ -288,7 +288,9 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                           image: ImageAssets.icViTri,
                                           hint: S.current.dia_diem,
                                           validator: (value) {
-                                            return (value ?? '').validatorLocation();
+                                            return (value ?? '').pleaseEnter(
+                                              S.current.dia_diem,
+                                            );
                                           },
                                         ),
                                         LichLapWidget(
@@ -339,7 +341,11 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                         ThanhPhanThamGiaTLWidget(
                                           taoLichLamViecCubit: createCubit,
                                         ),
-                                        TaiLieuWidget(),
+                                        TaiLieuWidget(
+                                          onChange: (onChange) {
+                                            createCubit.filesTaoLich = onChange;
+                                          }, idRemove: (String id) {  },
+                                        ),
                                       ],
                                     ),
                                   ),

@@ -278,6 +278,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     onChange: (value) {
                       _cubit.handleChonPhongHop(value);
                     },
+                    needShowSelectedRoom: true,
                   ),
                   spaceH15,
                   ExpandGroup(
@@ -303,6 +304,13 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         if ((_formKey.currentState?.validate() ?? false) &&
                             (_timerPickerKey.currentState?.validator() ??
                                 false)) {
+                          if (!_cubit.checkThoiGianPhienHop()) {
+                            MessageConfig.show(
+                              messState: MessState.error,
+                              title: S.current.validate_thoi_gian_phien_hop,
+                            );
+                            return;
+                          }
                           _cubit.createMeeting().then((value) {
                             if (value) {
                               Navigator.push(

@@ -29,6 +29,7 @@ class ButtonSelectFile extends StatefulWidget {
   final bool hasMultipleFile;
   final bool isShowFile;
   final double? maxSize;
+  final Function(int index) removeFileApi;
 
   ButtonSelectFile({
     Key? key,
@@ -45,6 +46,7 @@ class ButtonSelectFile extends StatefulWidget {
     this.hasMultipleFile = false,
     this.isShowFile = true,
     this.maxSize,
+    required this.removeFileApi,
   }) : super(key: key);
 
   @override
@@ -54,11 +56,14 @@ class ButtonSelectFile extends StatefulWidget {
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
   final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
   String errText = '';
+  List<String> filesRepo = [];
 
   @override
   void initState() {
     super.initState();
     widget.files ??= [];
+    filesRepo.clear();
+    (widget.files ?? []).map((e) => filesRepo.add(e.path)).toList();
   }
 
   bool isFileError(List<String?> files) {
@@ -182,21 +187,24 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
           Column(
             children: widget.files?.isNotEmpty ?? false
                 ? widget.files!.map((e) {
-              if (widget.builder == null) {
-                return itemListFile(
-                  file: e,
-                  onTap: () {
-                    _cubit.deleteFile(e, widget.files ?? []);
-                    if (widget.hasMultipleFile) {
-                      widget.onChange(widget.files ?? []);
+                    if (widget.builder == null) {
+                      return itemListFile(
+                        file: e,
+                        onTap: () {
+                          if (filesRepo.contains(e.path)) {
+                            widget.removeFileApi(filesRepo.indexOf(e.path));
+                          }
+                          _cubit.deleteFile(e, widget.files ?? []);
+                          if (widget.hasMultipleFile) {
+                            widget.onChange(widget.files ?? []);
+                          }
+                          setState(() {});
+                        },
+                        spacingFile: widget.spacingFile,
+                      );
                     }
-                    setState(() {});
-                  },
-                  spacingFile: widget.spacingFile,
-                );
-              }
-              return widget.builder!(context, e);
-            }).toList()
+                    return widget.builder!(context, e);
+                  }).toList()
                 : [Container()],
           )
       ],

@@ -212,7 +212,7 @@ class _ButtonSelectFileLichLamViecState
           const SizedBox()
         else
           Column(
-            children: listFileValidate.isNotEmpty ?? false
+            children: listFileValidate.isNotEmpty
                 ? listFileValidate.map((e) {
                     if (widget.builder == null) {
                       return itemListFile(

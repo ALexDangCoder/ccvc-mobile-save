@@ -44,7 +44,12 @@ class _TabAnhKhongDeoKinhTabletState extends State<TabAnhKhongDeoKinhTablet> {
                     (e) => ItemImageWidget(
                       cubit: widget.cubit,
                       dataUI: e,
-                      initImage: widget.cubit.getUrlImageKhongDeoKinh(
+                      initImage: widget.cubit.getUrlImage(
+                        entityName: e.entityName,
+                        fileTypeUpload: e.fileTypeUpload,
+                      ),
+                      id: widget.cubit.findId(
+                        entityName: e.entityName,
                         fileTypeUpload: e.fileTypeUpload,
                       ),
                     ),

@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart'
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   List<NhanDienKhuonMatUIModel> get listDataKhongDeoKinh => [
@@ -77,26 +78,16 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
         ),
       ];
 
-  ///get image when select image
-  Future<void> upLoadImage(
+  ///get image id
+  String? getImageWhenPost(
     String fileTypeUpload,
     String entityName,
-    List<File> files,
-  ) async {
-    showLoading();
-    final String id = await postImage(fileTypeUpload, entityName, files);
-    if (entityName == ApiConstants.KHUON_MAT_DEO_KINH && id.isNotEmpty) {
-      imageSubject.add(
-        getUrlImageDeoKinh(fileTypeUpload: fileTypeUpload, id: id),
-      );
-    }
-    if (entityName == ApiConstants.KHUON_MAT_KHONG_DEO_KINH && id.isNotEmpty) {
-      imageSubject.add(
-        getUrlImageKhongDeoKinh(fileTypeUpload: fileTypeUpload, id: id),
-      );
-    }
-
-    showContent();
+  ) {
+    return getUrlImage(
+      fileTypeUpload: fileTypeUpload,
+      entityName: entityName,
+      id: idImg,
+    );
   }
 
   ///get image deo kinh///
@@ -120,29 +111,6 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
         showContent();
       },
     );
-  }
-
-  ///get url image deo kinh
-  String? getUrlImageDeoKinh({required String fileTypeUpload, String? id}) {
-    if (id != null) {
-      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$id/$tokken';
-    }
-
-    if (isImage(fileTypeUpload, ApiConstants.KHUON_MAT_DEO_KINH)) {
-      final String? idImg = allFileDeokinhSubject.valueOrNull?.items
-          ?.firstWhere(
-            (element) => element.fileTypeUpload == fileTypeUpload,
-            orElse: () => FileImageModel.empty(),
-          )
-          .id;
-
-      if (idImg != null) {
-        return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$idImg/$tokken';
-      } else {
-        return null;
-      }
-    }
-    return null;
   }
 
   ///get only id image deo kinh
@@ -191,31 +159,6 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     );
   }
 
-  ///get url image khong deo kinh
-  String? getUrlImageKhongDeoKinh({
-    required String fileTypeUpload,
-    String? id,
-  }) {
-    if (id != null) {
-      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$id/$tokken';
-    }
-
-    if (isImage(fileTypeUpload, ApiConstants.KHUON_MAT_KHONG_DEO_KINH)) {
-      final String? idImg = allFileKhongDeokinhSubject.valueOrNull?.items
-          ?.firstWhere(
-            (element) => element.fileTypeUpload == fileTypeUpload,
-            orElse: () => FileImageModel.empty(),
-          )
-          .id;
-      if (idImg != null) {
-        return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$idImg/$tokken';
-      } else {
-        return null;
-      }
-    }
-    return null;
-  }
-
   ///get only id image khong deo kinh
   Future<void> getOnlyImageKhongDeoKinhId(String fileTypeUpload) async {
     final result = await diemDanhRepo.getAllFilesId(
@@ -244,6 +187,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     String entityName,
     List<File> files,
   ) async {
+    showLoading();
     final result = await diemDanhRepo.postFileModel(
       dataUser?.userId ?? '',
       fileTypeUpload,
@@ -251,37 +195,102 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
       false,
       files,
     );
+    String idImg = '';
+    result.when(
+      success: (success) {
+        MessageConfig.show(title: success.message ?? '');
+        idImg = success.data?.first ?? '';
+        showContent();
+      },
+      error: (error) {
+        MessageConfig.show(title: error.message);
+        showContent();
+      },
+    );
+    return idImg;
+  }
+
+  ///delete image
+  Future<void> deleteImage(String id) async {
+    showLoading();
+    final result = await diemDanhRepo.deleteImage(id);
 
     result.when(
       success: (success) {
         MessageConfig.show(title: success.message ?? '');
-        return success.data?.first;
+        showContent();
       },
       error: (error) {
         MessageConfig.show(title: error.message);
-        return '';
+        showContent();
       },
     );
-    return '';
+  }
+
+  ///get url image
+  String? getUrlImage({
+    required String fileTypeUpload,
+    required String entityName,
+    String? id,
+  }) {
+    if (id != null) {
+      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$id/$tokken';
+    }
+
+    String? idImg;
+
+    if ((entityName == ApiConstants.KHUON_MAT_DEO_KINH &&
+            isImage(fileTypeUpload, ApiConstants.KHUON_MAT_DEO_KINH)) ||
+        (entityName == ApiConstants.KHUON_MAT_KHONG_DEO_KINH &&
+            isImage(fileTypeUpload, ApiConstants.KHUON_MAT_KHONG_DEO_KINH))) {
+      idImg = findId(fileTypeUpload: fileTypeUpload, entityName: entityName);
+    }
+
+    if (idImg != null) {
+      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$idImg/$tokken';
+    } else {
+      return null;
+    }
   }
 
   ///check list constant image
   bool isImage(String fileTypeUpload, String entityName) {
     if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
+      for (final element in allFileDeokinhSubject.valueOrNull?.items ?? []) {
+        if (element.fileTypeUpload == fileTypeUpload) {
+          return true;
+        }
+      }
+      return false;
+    } else {
       for (final element
           in allFileKhongDeokinhSubject.valueOrNull?.items ?? []) {
         if (element.fileTypeUpload == fileTypeUpload) {
-          return false;
+          return true;
         }
       }
-      return true;
-    } else {
-      for (final element in allFileDeokinhSubject.valueOrNull?.items ?? []) {
-        if (element.fileTypeUpload == fileTypeUpload) {
-          return false;
-        }
-      }
-      return true;
+      return false;
+    }
+  }
+
+  ///find id of image
+  String? findId({required String entityName, required String fileTypeUpload}) {
+    if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
+      return allFileDeokinhSubject.valueOrNull?.items
+          ?.firstWhere(
+            (element) => element.fileTypeUpload == fileTypeUpload,
+            orElse: () => FileImageModel.empty(),
+          )
+          .id;
+    }
+
+    if (entityName == ApiConstants.KHUON_MAT_KHONG_DEO_KINH) {
+      return allFileKhongDeokinhSubject.valueOrNull?.items
+          ?.firstWhere(
+            (element) => element.fileTypeUpload == fileTypeUpload,
+            orElse: () => FileImageModel.empty(),
+          )
+          .id;
     }
   }
 }

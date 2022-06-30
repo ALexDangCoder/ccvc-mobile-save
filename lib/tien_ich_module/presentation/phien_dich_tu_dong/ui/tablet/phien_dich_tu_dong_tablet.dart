@@ -60,7 +60,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
     }
     speech.listen(
       onResult: resultListener,
-      pauseFor: const Duration(seconds: 3),
+      pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
       localeId: cubit.voiceType,
     );
     setState(() {

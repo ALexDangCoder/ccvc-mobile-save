@@ -1184,6 +1184,8 @@
   "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
   "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
+  "please_choose": "Vui lòng chọn",
+  "please_enter": "Vui lòng nhập",
   "ho_tro_ky_thuat": "Hỗ trợ kỹ thuật",
   "location_warning": "Bạn phải nhập trường Địa điểm!",
   "danh_sach_su_co": "Danh sách sự cố",

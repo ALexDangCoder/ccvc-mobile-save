@@ -68,7 +68,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
       bloc: createCubit,
       listener: (context, state) {
         if (state is CreateSuccess) {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (BuildContext context) => NotifyWidget(
@@ -77,7 +77,16 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                 textButtom: S.current.quay_lai,
               ),
             ),
-          );
+          ).then((value) {
+            if (value == null) {
+              Navigator.pop(context, true);
+            }
+            if (value) {
+              Navigator.pop(context, true);
+            } else {
+              Navigator.pop(context, false);
+            }
+          });
         }
       },
       child: CreateWorkCalendarProvide(
@@ -146,7 +155,8 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                               image: ImageAssets.icEdit,
                               hint: S.current.tieu_de,
                               validator: (value) {
-                                return (value ?? '').validatorTitle();
+                                return (value ?? '')
+                                    .pleaseEnter(S.current.tieu_de);
                               },
                             ),
                             LoaiLichWidget(
@@ -257,7 +267,8 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                               image: ImageAssets.icViTri,
                               hint: S.current.dia_diem,
                               validator: (value) {
-                                return (value ?? '').validatorLocation();
+                                return (value ?? '')
+                                    .pleaseEnter(S.current.dia_diem);
                               },
                             ),
                             LichLapWidget(

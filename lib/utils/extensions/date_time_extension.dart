@@ -15,6 +15,16 @@ extension DateFormatString on DateTime {
     return dateString;
   }
 
+  String get toFormat24h {
+    var dateString = '';
+    try {
+      dateString = DateFormat.Hm('en').format(this);
+    } catch (e) {
+      return '';
+    }
+    return dateString;
+  }
+
   String get toStringWithAMPMJMS {
     final dateString = DateFormat.jms('en').format(this);
     return dateString;

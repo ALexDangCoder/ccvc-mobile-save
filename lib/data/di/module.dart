@@ -197,6 +197,7 @@ void configureDependencies() {
       provideDio(baseOption: BaseURLOption.GATE_WAY),
     ),
   );
+
   Get.put<DiemDanhRepository>(DiemDanhRepoImpl(Get.find()));
 
   Get.put(

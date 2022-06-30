@@ -55,8 +55,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
 
   Widget selectFile() => ButtonSelectFile(
         title: S.current.them_tai_lieu_cuoc_hop,
-        onChange: (List<File> files) {},
-    removeFileApi: (int index) {},
+        onChange: (List<File> files,) {}, removeFileApi: (int index) {  },
       );
 
   Widget listFileFromApi() => StreamBuilder<ChiTietLichHopModel>(

@@ -85,8 +85,8 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
     String time = '';
     try {
       time =
-          '${DateTime.parse(widget.data.dateTimeFrom ?? '').toStringWithAMPM}-'
-          '${DateTime.parse(widget.data.dateTimeTo ?? '').toStringWithAMPM}';
+          '${DateTime.parse(widget.data.dateTimeFrom ?? '').toFormat24h}-'
+          '${DateTime.parse(widget.data.dateTimeTo ?? '').toFormat24h}';
     } on FormatException catch (_) {
       return '';
     }

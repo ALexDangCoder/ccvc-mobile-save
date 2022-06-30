@@ -101,7 +101,6 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
               child: RefreshIndicator(
                 onRefresh: () async {
                   widget.cubit.resetBeforeRefresh();
-                  widget.cubit.initTimeRange();
                   widget.cubit.getDashBoardPAKNTiepCanXuLy();
                   widget.cubit.getDanhSachPAKN();
                 },
@@ -134,7 +133,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                           } else {
                             widget.cubit.debouncer.run(() {
                               setState(() {});
-                              widget.cubit.tuKhoa = searchText;
+                              widget.cubit.tuKhoa = searchText.trim();
                               widget.cubit.clearDSPAKN();
                               widget.cubit.getDanhSachPAKN(isSearch: true);
                               widget.cubit.showCleanText = true;

@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
-import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
@@ -12,18 +13,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
-class ItemImageWidget extends StatelessWidget {
+class ItemImageWidget extends StatefulWidget {
   final NhanDienKhuonMatUIModel dataUI;
   final DiemDanhCubit cubit;
   final String? initImage;
+  final String? id;
 
   const ItemImageWidget({
     Key? key,
     required this.dataUI,
     required this.cubit,
     this.initImage,
+    required this.id,
   }) : super(key: key);
+
+  @override
+  State<ItemImageWidget> createState() => _ItemImageWidgetState();
+}
+
+class _ItemImageWidgetState extends State<ItemImageWidget> {
+  File? imageRepo;
+  String idImage = '';
+
+  @override
+  void dispose() {
+    imageRepo = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +60,7 @@ class ItemImageWidget extends StatelessWidget {
           ),
           spaceH14,
           Text(
-            dataUI.title,
+            widget.dataUI.title,
             style: textNormalCustom(
               fontSize: 16.0,
               fontWeight: FontWeight.w400,
@@ -74,7 +92,7 @@ class ItemImageWidget extends StatelessWidget {
                               ),
                             ],
                             image: DecorationImage(
-                              image: AssetImage(dataUI.image),
+                              image: AssetImage(widget.dataUI.image),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -104,24 +122,32 @@ class ItemImageWidget extends StatelessWidget {
                 ),
                 spaceW16,
                 Expanded(
-                  child: StreamBuilder<String?>(
-                    stream: cubit.imageStream,
-                    builder: (context, snapshot) {
-                      return SelectImageWidget(
-                        isShowLoading: snapshot.hasData,
-                        image: initImage,
-                        removeImage: () {
-                        },
-                        onTapImage: (image) {
-                          if (image != null) {
-                            cubit.upLoadImage(
-                              dataUI.fileTypeUpload,
-                              dataUI.entityName,
-                              [image],
-                            );
-                          }
-                        },
-                      );
+                  child: SelectImageWidget(
+                    image: imageRepo == null
+                        ? widget.initImage
+                        : widget.cubit.getUrlImage(
+                            fileTypeUpload: widget.dataUI.fileTypeUpload,
+                            entityName: widget.dataUI.entityName,
+                            id: idImage,
+                          ),
+                    removeImage: () {
+                      if (idImage.isNotEmpty) {
+                        widget.cubit.deleteImage(idImage);
+                        idImage = '';
+                      } else {
+                        widget.cubit.deleteImage(widget.id ?? '');
+                      }
+                    },
+                    onTapImage: (image) async {
+                      imageRepo = image;
+                      if (image != null) {
+                        idImage = await widget.cubit.postImage(
+                          widget.dataUI.fileTypeUpload,
+                          widget.dataUI.entityName,
+                          [image],
+                        );
+                        setState(() {});
+                      }
                     },
                   ),
                 )

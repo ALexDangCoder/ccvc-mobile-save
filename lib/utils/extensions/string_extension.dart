@@ -305,6 +305,20 @@ extension CheckValidate on String {
     return null;
   }
 
+  String? pleaseEnter(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.please_enter} ${name.toLowerCase()}';
+    }
+    return null;
+  }
+
+  String? pleaseChoose(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.please_choose} $name';
+    }
+    return null;
+  }
+
   String? checkNulls() {
     if (trim().isEmpty) {
       return S.current.nhap_sai_dinh_dang;

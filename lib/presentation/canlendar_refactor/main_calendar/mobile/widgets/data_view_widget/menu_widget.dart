@@ -17,13 +17,14 @@ class MenuWidget extends StatelessWidget {
     required this.onChoose,
     required this.stateMenu,
     required this.state,
+    this.isLichHop = false,
   }) : super(key: key);
 
   final List<ParentMenu> dataMenu;
   final List<StateMenu> stateMenu;
   final Function(DataItemMenu? value, BaseState state) onChoose;
   final BaseState state;
-
+  final bool isLichHop;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +149,7 @@ class MenuWidget extends StatelessWidget {
             width: 12,
           ),
           Text(
-            S.current.lich_lam_viec,
+            isLichHop ? S.current.menu_lich_hop : S.current.menu_lich_hop,
             style: textNormalCustom(
               color: backgroundColorApp,
               fontSize: 16,

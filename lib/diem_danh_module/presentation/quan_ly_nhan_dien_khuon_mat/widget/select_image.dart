@@ -10,12 +10,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectImageWidget extends StatefulWidget {
-  final String? image;
+  String? image;
   final Function(File? image) onTapImage;
   final Function() removeImage;
   final bool isShowLoading;
 
-  const SelectImageWidget({
+  SelectImageWidget({
     Key? key,
     required this.onTapImage,
     required this.removeImage,
@@ -40,11 +40,12 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
     if (pickImg != null) {
       widget.onTapImage(File(pickImg.path));
     }
-    setState(() {});
   }
 
   void removeImg() {
     widget.onTapImage(null); //khi xoa thi call back tra ve null.
+    widget.image = null;
+    widget.removeImage();
     setState(() {});
   }
 

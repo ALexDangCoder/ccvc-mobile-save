@@ -16,12 +16,14 @@ class MenuWidgetTablet extends StatelessWidget {
     required this.onChoose,
     required this.stateMenu,
     required this.state,
+    this.isLichHop = false,
   }) : super(key: key);
 
   final List<ParentMenu> dataMenu;
   final List<StateMenu> stateMenu;
   final Function(DataItemMenu? value, BaseState state) onChoose;
   final BaseState state;
+  final bool isLichHop;
 
   @override
   Widget build(BuildContext context) {
@@ -157,12 +159,16 @@ class MenuWidgetTablet extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          Text(
-            S.current.menu_lich_lam_viec,
-            style: textNormalCustom(
-              color: color3D5586,
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
+          Expanded(
+            child: Center(
+              child: Text(
+                isLichHop ? S.current.menu_lich_hop : S.current.menu_lich_hop,
+                style: textNormalCustom(
+                  color: color3D5586,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           )
         ],

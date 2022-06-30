@@ -248,7 +248,7 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
         }
         listDataChart.add(
           ChartData(
-            S.current.chuyen_xu_ly,
+            S.current.chuyen_xu_ly_report,
             dashBroadItemYKNDModel.chuyenXuLy?.toDouble() ?? 0,
             choBanHanhColor,
           ),
@@ -256,14 +256,14 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
         listDataChart.add(
           ChartData(
-            S.current.yeu_cau_phoi_hop,
+            S.current.yeu_cau_phoi_hop_report,
             dashBroadItemYKNDModel.yeuCauPhoiHop?.toDouble() ?? 0,
             radioFocusColor,
           ),
         );
         listDataChart.add(
           ChartData(
-            S.current.cho_bo_sung_tt,
+            S.current.cho_bo_xung_thong_tin,
             dashBroadItemYKNDModel.choBoSungThongTin?.toDouble() ?? 0,
             choTrinhKyColor,
           ),

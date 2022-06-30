@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/widgets/dialog/radio_option_dialog.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -335,6 +336,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                         needCheckTrung: false,
                         removeButton: true,
                         themCanBoCubit: themCanBoCubit,
+                        themDonViCubit: ThemDonViCubit(),
                       ),
                     ),
                     Padding(
@@ -491,6 +493,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                         needCheckTrung: false,
                         removeButton: true,
                         themCanBoCubit: themCanBoCubit,
+                        themDonViCubit: ThemDonViCubit(),
                       ),
                     ),
                     Padding(

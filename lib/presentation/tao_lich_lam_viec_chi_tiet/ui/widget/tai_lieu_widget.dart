@@ -2,16 +2,21 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/material.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class TaiLieuWidget extends StatefulWidget {
-  List<File>? files;
+  List<Files>? files;
+  final Function(List<File>) onChange;
+  Function(String id) idRemove;
 
-  TaiLieuWidget({Key? key, this.files}) : super(key: key);
+  TaiLieuWidget({Key? key, this.files, required this.onChange, required this.idRemove})
+      : super(key: key);
 
   @override
   _TaiLieuWidgetState createState() => _TaiLieuWidgetState();
@@ -59,13 +64,12 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         ),
         ExpandedSection(
           expand: isExpand,
-          child: ButtonSelectFile(
+          child: ButtonSelectFileLichLamViec(
             hasMultipleFile: true,
             maxSize: 20971520,
             title: S.current.dinh_kem_tep_english,
-            onChange: (List<File> files) {
+            onChange: (List<File> files, bool validate) {
             },
-            files: widget.files ?? [],
           ),
         )
       ],

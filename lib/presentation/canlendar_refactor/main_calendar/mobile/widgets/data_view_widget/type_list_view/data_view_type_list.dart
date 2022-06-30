@@ -40,8 +40,8 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 30,
+      padding:  EdgeInsets.symmetric(
+        horizontal: widget.isTablet ?  30 : 16,
       ),
       child: StreamBuilder<List<ListLichLVModel>>(
         stream: widget.cubit.listWorkStream,

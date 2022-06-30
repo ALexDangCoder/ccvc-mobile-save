@@ -4,31 +4,35 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/calendar_chart_tablet.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/canlendar_chart_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_listview/canlendar_meeting_listview.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/dash_board_meeting.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_month.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_week.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
-
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ViewDataMeeting extends StatefulWidget {
   const ViewDataMeeting({
     Key? key,
     required this.cubit,
+    this.isTablet = false,
   }) : super(key: key);
 
   final CalendarMeetingCubit cubit;
+  final bool isTablet;
 
   @override
   State<ViewDataMeeting> createState() => _ViewDataMeetingState();
@@ -53,7 +57,12 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                 typeChoose: Type_Choose_Option_Day.DAY,
               );
             },
-            buildAppointment: itemAppointment,
+            buildAppointment:
+                widget.isTablet ? itemAppointmentDayTablet : itemAppointment,
+            isTablet: widget.isTablet,
+            onMore: (value) {
+              widget.cubit.emitListViewState();
+            },
           );
         },
       ),
@@ -70,7 +79,13 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
               );
             },
             data: data,
+            isTablet: widget.isTablet,
             fCalendarController: widget.cubit.fCalendarControllerWeek,
+            onMore: (value) {
+              widget.cubit.controller.calendarType.value = CalendarType.DAY;
+              widget.cubit.controller.selectDate.value = value;
+              widget.cubit.controller.selectDate.notifyListeners();
+            },
           );
         },
       ),
@@ -87,7 +102,13 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
               );
             },
             data: data,
+            isTablet: widget.isTablet,
             fCalendarController: widget.cubit.fCalendarControllerMonth,
+            onMore: (value) {
+              widget.cubit.controller.calendarType.value = CalendarType.DAY;
+              widget.cubit.controller.selectDate.value = value;
+              widget.cubit.controller.selectDate.notifyListeners();
+            },
           );
         },
       ),
@@ -113,6 +134,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                   return SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: DashBroadMeeting(
+                      isTablet: widget.isTablet,
                       cubit: widget.cubit,
                       isChartView: widget.cubit.state is ChartViewState,
                     ),
@@ -193,10 +215,16 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                   ),
                   DataViewTypeList(
                     cubit: widget.cubit,
+                    isTablet: widget.isTablet,
                   ),
-                  ThongKeLichHopScreen(
-                    cubit: widget.cubit,
-                  ),
+                  if (widget.isTablet)
+                    ThongKeLichHopTablet(
+                      cubit: widget.cubit,
+                    )
+                  else
+                    ThongKeLichHopScreen(
+                      cubit: widget.cubit,
+                    ),
                 ],
               );
             },
@@ -206,7 +234,78 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
     );
   }
 
-  Widget itemAppointment (AppointmentWithDuplicate appointment){
+  Widget itemAppointmentDayTablet(Appointment appointment) {
+    final lessThan1Hour = appointment.endTime.millisecondsSinceEpoch -
+            appointment.startTime.millisecondsSinceEpoch <
+        60 * 60 * 1000;
+    return GestureDetector(
+      onTap: () {
+        if (isMobile()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailMeetCalenderScreen(
+                id: appointment.id as String? ?? '',
+              ),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailMeetCalenderTablet(
+                id: appointment.id as String? ?? '',
+              ),
+            ),
+          );
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: appointment.isAllDay ? 1 : 6,
+        ),
+        decoration: const BoxDecoration(
+          color: textDefault,
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              child: Text(
+                appointment.subject.trim(),
+                maxLines: appointment.isAllDay ? 1 : 2,
+                overflow: TextOverflow.ellipsis,
+                style: textNormalCustom(
+                  color: Colors.white,
+                  fontSize: appointment.isAllDay ? 12 : 16,
+                ),
+              ),
+            ),
+            if (!appointment.isAllDay && !lessThan1Hour) spaceH4,
+            if (!appointment.isAllDay && !lessThan1Hour)
+              Text(
+                '${DateFormat.jm('en').format(
+                  appointment.startTime,
+                )} - ${DateFormat.jm('en').format(
+                  appointment.endTime,
+                )}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textNormalCustom(
+                  fontSize: 16,
+                  color: backgroundColorApp.withOpacity(0.7),
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget itemAppointment(AppointmentWithDuplicate appointment) {
     return GestureDetector(
       onTap: () {
         if (isMobile()) {

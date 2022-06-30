@@ -1,14 +1,17 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/tim_kiem/widget/date_input.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
-as p;
+    as p;
 import 'package:ccvc_mobile/utils/constants/image_asset.dart' as image_utils;
 import 'package:flutter_svg/svg.dart';
+
 class TimKiemYcHoTro extends StatefulWidget {
   const TimKiemYcHoTro({Key? key}) : super(key: key);
 
@@ -17,10 +20,12 @@ class TimKiemYcHoTro extends StatefulWidget {
 }
 
 class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
-
-
   String? ngayYeuCau;
   String? ngayHoanThanh;
+
+
+  final Debouncer _debounce = Debouncer(milliseconds: 500);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,6 +76,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  spaceH20,
+                  search(),
                   spaceH16,
                   dropDownField(title: S.current.don_vi),
                   spaceH16,
@@ -91,7 +98,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                   DateInput(
                     paddings: 10,
                     leadingIcon:
-                    SvgPicture.asset(image_utils.ImageAssets.icCalenders),
+                        SvgPicture.asset(image_utils.ImageAssets.icCalenders),
                     onSelectDate: (dateTime) {
                       ngayYeuCau = dateTime;
                     },
@@ -115,7 +122,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                   DateInput(
                     paddings: 10,
                     leadingIcon:
-                    SvgPicture.asset(image_utils.ImageAssets.icCalenders),
+                        SvgPicture.asset(image_utils.ImageAssets.icCalenders),
                     onSelectDate: (dateTime) {
                       ngayHoanThanh = dateTime;
                     },
@@ -177,21 +184,45 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
     );
   }
 
-  Widget doubleBtn() => Padding(
-    padding: const EdgeInsets.only(
-      left: 21,
-      right: 21,
-      top: 24,
-    ),
-    child: DoubleButtonBottom(
-      onPressed1: () {
+  Widget search() => TextField(
+        style: tokenDetailAmount(
+          fontSize: 14.0,
+          color: color3D5586,
+        ),
+        decoration: InputDecoration(
+          hintText: S.current.tim_kiem,
+          hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+          prefixIcon: Icon(
+            Icons.search,
+            color: AppTheme.getInstance().colorField(),
+          ),
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor),
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor),
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor),
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+          ),
+        ),
+        onChanged: (keySearch) {
+          _debounce.run(() {
+            setState(() {});
 
-      },
-      title1: S.current.dong,
-      title2: S.current.gui_yc,
-      onPressed2: () {
+          });
+        },
+      );
 
-      },
-    ),
+  Widget doubleBtn() => DoubleButtonBottom(
+    onPressed1: () {},
+    title1: S.current.dong,
+    title2: S.current.gui_yc,
+    onPressed2: () {},
   );
 }

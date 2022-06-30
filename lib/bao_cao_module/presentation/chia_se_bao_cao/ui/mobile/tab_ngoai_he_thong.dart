@@ -361,7 +361,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
         },
       );
 
-  Widget get search => TextField(
+  Widget get search =>
+      TextField(
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
           color: color3D5586,

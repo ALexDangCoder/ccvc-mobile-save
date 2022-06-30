@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
@@ -274,6 +274,8 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     String id,
     bool isAllDay,
     bool isSendMail,
+    List<File>? files,
+    List<String>? filesDelete,
     List<DonViModel> scheduleCoperativeRequest,
     int typeRemider,
     int typeRepeat,
@@ -343,6 +345,15 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
     for (int i = 0; i < days.length; i++) {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
+    }
+    files?.forEach((element)async{
+      final MultipartFile file = await MultipartFile.fromFile(
+        element.path,
+      );
+      _data.files.add(MapEntry('Files', file));
+    });
+    for (int i = 0; i < (filesDelete??[]).length; i++) {
+      _data.fields.add(MapEntry('filesDelete', (filesDelete??[])[i].toString()));
     }
 
     return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
@@ -483,6 +494,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     required String note,
     required bool isAllDay,
     required bool isSendMail,
+    required List<File>? files,
     required List<DonViModel> scheduleCoperativeRequest,
     required int? typeRemider,
     required int? typeRepeat,
@@ -490,7 +502,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     required String dateRepeat1,
     required bool only,
     required List<int> days,
-  }) {
+  }) async{
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
     _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
@@ -558,9 +570,15 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     for (int i = 0; i < days.length; i++) {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
+    files?.forEach((element)async{
+      final MultipartFile file = await MultipartFile.fromFile(
+          element.path,
+      );
+      _data.files.add(MapEntry('Files', file));
+    });
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-      () => workCalendarService.createWorkCalendar(_data),
+      () => workCalendarService.createWorkCalendar(_data,files ?? []),
       (res) => res.toDomain(),
     );
   }
@@ -593,6 +611,8 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     required String id,
     required bool isAllDay,
     required bool isSendMail,
+    required List<File>? files,
+    required List<String>? filesDelete,
     required List<DonViModel> scheduleCoperativeRequest,
     required int? typeRemider,
     required int typeRepeat,
@@ -608,6 +628,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     _data.fields.add(MapEntry('TenTinh', TenTinh));
     _data.fields.add(MapEntry('TenHuyen', TenHuyen));
     _data.fields.add(MapEntry('TenXa', TenXa));
+    _data.fields.add(MapEntry('location', location));
     _data.fields.add(MapEntry('dateFrom', dateFrom));
     _data.fields.add(MapEntry('timeFrom', timeFrom));
     _data.fields.add(MapEntry('dateTo', dateTo));
@@ -661,6 +682,15 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
     for (int i = 0; i < days.length; i++) {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
+    }
+    files?.forEach((element)async{
+      final MultipartFile file = await MultipartFile.fromFile(
+        element.path,
+      );
+      _data.files.add(MapEntry('Files', file));
+    });
+    for (int i = 0; i < (filesDelete??[]).length; i++) {
+      _data.fields.add(MapEntry('filesDelete', (filesDelete??[])[i].toString()));
     }
 
     return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(

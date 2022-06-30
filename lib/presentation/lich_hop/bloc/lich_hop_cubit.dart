@@ -519,7 +519,6 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     result.when(
       success: (value) {
         totalPage = value.totalPage ?? 1;
-
         danhSachLichHopSubject.add(value);
       },
       error: (error) {},

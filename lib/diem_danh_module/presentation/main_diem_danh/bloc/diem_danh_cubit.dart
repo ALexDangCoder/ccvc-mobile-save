@@ -58,6 +58,8 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   String? bienKiemSoat;
   String? loaiSoHuu;
   final toast = FToast();
+  List<File>fileItemBienSoXe=[];
+  BehaviorSubject<dynamic> idPicture = BehaviorSubject.seeded(null);
 
   BehaviorSubject<GetAllFilesIdModel>fileBienSoXeSubject = BehaviorSubject();
 

@@ -5,9 +5,9 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/l
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_bien_so_xe_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/custom_radio_loai_so_huu.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/select_image_dang_ky_xe_moi.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/item_text_note.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -18,7 +18,6 @@ import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -44,7 +43,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   Widget build(BuildContext context) {
     return screenDevice(
         mobileScreen:Scaffold(
-          resizeToAvoidBottomInset: true,
+          resizeToAvoidBottomInset: false,
           appBar: AppBarDefaultBack(
             S.current.dang_ky_thong_tin_xe_moi,
           ),
@@ -68,38 +67,16 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            height: 200,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: colorE2E8F0),
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: colorFFFFFF,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: shadow,
-                                  blurRadius: 2,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  ImageAssets.icUpAnh,
-                                  color: color7966FF,
-                                ),
-                                spaceH14,
-                                Text(
-                                  S.current.tai_anh_len,
-                                  style: textNormal(
-                                    color667793,
-                                    14.0,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          SelectImageDangKyXe(
+                            isPhone: true,
+                            onTapImage: (image) {
+                              if(image !=null){
+                                widget.cubit.fileItemBienSoXe.clear();
+                                widget.cubit.fileItemBienSoXe.add(image);
+                              }
+
+                            },
+                            removeImage: () {}, isTao: true,
                           ),
                           spaceH12,
                           Text(
@@ -220,38 +197,16 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.4,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: colorE2E8F0),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: colorFFFFFF,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: shadow,
-                                      blurRadius: 2,
-                                      spreadRadius: 2,
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      ImageAssets.icUpAnh,
-                                      color: color7966FF,
-                                    ),
-                                    spaceH14,
-                                    Text(
-                                      S.current.tai_anh_len,
-                                      style: textNormal(
-                                        color667793,
-                                        16.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              SelectImageDangKyXe(
+                                isPhone: false,
+                                onTapImage: (image) {
+                                  if(image !=null){
+                                    widget.cubit.fileItemBienSoXe.clear();
+                                    widget.cubit.fileItemBienSoXe.add(image);
+                                  }
+
+                                },
+                                removeImage: () {}, isTao: true,
                               ),
                               spaceH12,
                               Text(

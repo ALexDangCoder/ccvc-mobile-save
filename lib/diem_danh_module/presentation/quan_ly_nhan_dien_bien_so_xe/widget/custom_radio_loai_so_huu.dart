@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 class CustomRadioLoaiSoHuu extends StatefulWidget {
 
   final Function(bool) onchange;
+  final String ?groupValueInit;
 
   const CustomRadioLoaiSoHuu({
     Key? key,
-    required this.onchange,
+    required this.onchange, this.groupValueInit,
   }) : super(key: key);
 
   @override
@@ -18,6 +19,12 @@ class CustomRadioLoaiSoHuu extends StatefulWidget {
 
 class _CustomRadioLoaiSoHuuState extends State<CustomRadioLoaiSoHuu> {
   String groupValue = S.current.xe_can_bo;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    groupValue=widget.groupValueInit??S.current.xe_can_bo;
+  }
 
   @override
   Widget build(BuildContext context) {

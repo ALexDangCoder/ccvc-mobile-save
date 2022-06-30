@@ -300,7 +300,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         if (isSearch)
           GestureDetector(
             onTap: () {
-              _searchController.text=cubit.textSearch.value;
+              _searchController.text = cubit.textSearch.value;
               cubit.isStatusSearch.add(false);
             },
             child: Container(

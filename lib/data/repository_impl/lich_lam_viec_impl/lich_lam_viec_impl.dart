@@ -608,6 +608,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     _data.fields.add(MapEntry('TenTinh', TenTinh));
     _data.fields.add(MapEntry('TenHuyen', TenHuyen));
     _data.fields.add(MapEntry('TenXa', TenXa));
+    _data.fields.add(MapEntry('location', location));
     _data.fields.add(MapEntry('dateFrom', dateFrom));
     _data.fields.add(MapEntry('timeFrom', timeFrom));
     _data.fields.add(MapEntry('dateTo', dateTo));

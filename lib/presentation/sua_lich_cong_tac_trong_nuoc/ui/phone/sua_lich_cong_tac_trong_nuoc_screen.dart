@@ -175,17 +175,9 @@ class _SuaLichCongTacTrongNuocPhoneState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StreamBuilder<String>(
-                      initialData: taoLichLamViecCubit.typeScheduleName,
-                      stream: taoLichLamViecCubit.changeOption,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? '';
-                        return Text(
-                          '${S.current.sua} $data',
-                          style:
-                              textNormalCustom(fontSize: 18, color: textTitle),
-                        );
-                      },
+                    Text(
+                      S.current.sua_lich_lam_viec,
+                      style: textNormalCustom(fontSize: 18, color: textTitle),
                     ),
                     Expanded(
                       child: FormGroup(
@@ -198,20 +190,12 @@ class _SuaLichCongTacTrongNuocPhoneState
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                StreamBuilder<String>(
-                                  initialData:
-                                      taoLichLamViecCubit.typeScheduleName,
-                                  stream: taoLichLamViecCubit.changeOption,
-                                  builder: (context, snapshot) {
-                                    final data = snapshot.data ?? '';
-                                    return TextFieldStyle(
-                                      controller: tieuDeController,
-                                      urlIcon: ImageAssets.icEdit,
-                                      hintText: '${S.current.tieu_de} $data',
-                                      validate: (value) {
-                                        return value.checkNull();
-                                      },
-                                    );
+                                TextFieldStyle(
+                                  controller: tieuDeController,
+                                  urlIcon: ImageAssets.icEdit,
+                                  hintText: S.current.tieu_de,
+                                  validate: (value) {
+                                    return value.pleaseEnter(S.current.tieu_de);
                                   },
                                 ),
                                 LoaiLichWidget(
@@ -223,6 +207,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                                 ),
                                 CupertinoMaterialPicker(
                                   isEdit: true,
+                                  isAllDay: widget.event.isAllDay ?? false,
                                   isSwitchButtonChecked:
                                       widget.event.isAllDay ?? false,
                                   initDateStart: taoLichLamViecCubit
@@ -249,24 +234,31 @@ class _SuaLichCongTacTrongNuocPhoneState
                                     String dateEnd,
                                   ) {
                                     taoLichLamViecCubit.checkValidateTime();
-                                    taoLichLamViecCubit.listeningEndDataTime(
-                                      DateTime.parse(
-                                        timeFormat(
-                                          '$dateEnd $timeEnd',
-                                          DateTimeFormat.DATE_TIME_PICKER,
-                                          DateTimeFormat.DATE_TIME_PUT,
+                                    if (timeEnd != INIT_TIME_PICK &&
+                                        dateEnd != INIT_DATE_PICK) {
+                                      taoLichLamViecCubit.listeningEndDataTime(
+                                        DateTime.parse(
+                                          timeFormat(
+                                            '$dateEnd $timeEnd',
+                                            DateTimeFormat.DATE_TIME_PICKER,
+                                            DateTimeFormat.DATE_TIME_PUT,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                    taoLichLamViecCubit.listeningStartDataTime(
-                                      DateTime.parse(
-                                        timeFormat(
-                                          '$dateStart $timeStart',
-                                          DateTimeFormat.DATE_TIME_PICKER,
-                                          DateTimeFormat.DATE_TIME_PUT,
+                                      );
+                                    }
+                                    if (timeStart != INIT_TIME_PICK &&
+                                        dateStart != INIT_DATE_PICK) {
+                                      taoLichLamViecCubit
+                                          .listeningStartDataTime(
+                                        DateTime.parse(
+                                          timeFormat(
+                                            '$dateStart $timeStart',
+                                            DateTimeFormat.DATE_TIME_PICKER,
+                                            DateTimeFormat.DATE_TIME_PUT,
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    }
                                   },
                                   onSwitchPressed: (value) {
                                     taoLichLamViecCubit.isCheckAllDaySubject
@@ -337,7 +329,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                                   urlIcon: ImageAssets.icViTri,
                                   hintText: S.current.dia_diem,
                                   validate: (value) {
-                                    return value.checkNull();
+                                    return value
+                                        .pleaseEnter(S.current.dia_diem);
                                   },
                                 ),
                                 LichLapWidget(
@@ -489,9 +482,9 @@ class _SuaLichCongTacTrongNuocPhoneState
         ).then((value) {
           taoLichLamViecCubit.checkDuplicate(
             context: context,
-            title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
-            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+            title: tieuDeController.value.text.removeSpace,
+            content: noiDungController.value.text.removeSpace,
+            location: diaDiemController.value.text.removeSpace,
             isEdit: true,
             isOnly: !value,
           );
@@ -499,9 +492,9 @@ class _SuaLichCongTacTrongNuocPhoneState
       } else {
         taoLichLamViecCubit.checkDuplicate(
           context: context,
-          title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
-          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+          title: tieuDeController.value.text.removeSpace,
+          content: noiDungController.value.text.removeSpace,
+          location: diaDiemController.value.text.removeSpace,
           isEdit: true,
         );
       }
@@ -520,9 +513,9 @@ class _SuaLichCongTacTrongNuocPhoneState
         ).then((value) {
           taoLichLamViecCubit.checkDuplicate(
             context: context,
-            title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
-            content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-            location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+            title: tieuDeController.value.text.removeSpace,
+            content: noiDungController.value.text.removeSpace,
+            location: diaDiemController.value.text.removeSpace,
             isEdit: true,
             isOnly: !value,
             isInside: false,
@@ -531,9 +524,9 @@ class _SuaLichCongTacTrongNuocPhoneState
       } else {
         taoLichLamViecCubit.checkDuplicate(
           context: context,
-          title: tieuDeController.value.text..trim().replaceAll(' +', ' '),
-          content: noiDungController.value.text.trim().replaceAll(' +', ' '),
-          location: diaDiemController.value.text.trim().replaceAll(' +', ' '),
+          title: tieuDeController.value.text.removeSpace,
+          content: noiDungController.value.text.removeSpace,
+          location: diaDiemController.value.text.removeSpace,
           isEdit: true,
           isInside: false,
         );

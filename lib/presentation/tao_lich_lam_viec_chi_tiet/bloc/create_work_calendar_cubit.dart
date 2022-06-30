@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_sele
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
@@ -325,64 +326,67 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       ),
     );
     result.when(
-        success: (res) {
-          showContent();
-          if (res.data == true) {
-            showDiaLog(
-              context,
-              textContent: S.current.ban_co_muon_tiep_tuc_khong,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () async {
-                if (!isEdit) {
-                  await createWorkCalendar(
-                    title: title,
-                    content: content,
-                    location: location,
-                  );
-                } else if (isInside) {
-                  await editWorkCalendar(
-                    title: title,
-                    content: content,
-                    location: location,
-                    only: isOnly,
-                  );
-                } else {
-                  await editWorkCalendarAboard(
-                    title: title,
-                    content: content,
-                    location: location,
-                    only: isOnly,
-                  );
-                }
-                //Navigator.pop(context);
-              },
-              title: res.code ?? '',
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icUserMeeting),
+      success: (res) {
+        showContent();
+        if (res.data == true) {
+          showDiaLog(
+            context,
+            textContent: S.current.ban_co_muon_tiep_tuc_khong,
+            btnLeftTxt: S.current.khong,
+            funcBtnRight: () async {
+              if (!isEdit) {
+                await createWorkCalendar(
+                  title: title,
+                  content: content,
+                  location: location,
+                );
+              } else if (isEdit && isInside) {
+                await editWorkCalendar(
+                  title: title,
+                  content: content,
+                  location: location,
+                  only: isOnly,
+                );
+              } else {
+                await editWorkCalendarAboard(
+                  title: title,
+                  content: content,
+                  location: location,
+                  only: isOnly,
+                );
+              }
+              //Navigator.pop(context);
+            },
+            title: res.code ?? '',
+            btnRightTxt: S.current.dong_y,
+            icon: SvgPicture.asset(ImageAssets.icUserMeeting),
+          );
+        } else {
+          if (!isEdit) {
+            createWorkCalendar(
+              title: title,
+              content: content,
+              location: location,
+            );
+          } else if (isEdit && isInside) {
+            editWorkCalendar(
+              title: title,
+              content: content,
+              location: location,
             );
           } else {
-            if (!isEdit) {
-              createWorkCalendar(
-                title: title,
-                content: content,
-                location: location,
-              );
-            } else if (isEdit && isInside) {
-              editWorkCalendar(
-                title: title,
-                content: content,
-                location: location,
-              );
-            } else {
-              editWorkCalendarAboard(
-                title: title,
-                content: content,
-                location: location,
-              );
-            }
+            editWorkCalendarAboard(
+              title: title,
+              content: content,
+              location: location,
+            );
           }
-        },
-        error: (error) {});
+        }
+      },
+      error: (error) {
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
+      },
+    );
   }
 
   Future<void> createWorkCalendar({
@@ -448,13 +452,13 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
-        eventBus.fire(RefreshCalendar());
-        showContent();
+        //eventBus.fire(RefreshCalendar());
       },
       error: (error) {
-        showContent();
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
       },
     );
+    showContent();
   }
 
   Future<void> editWorkCalendar({
@@ -504,12 +508,12 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       success: (res) {
         emit(CreateSuccess());
         eventBus.fire(RefreshCalendar());
-        showContent();
       },
       error: (error) {
-        showContent();
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
       },
     );
+    showContent();
   }
 
   Future<void> editWorkCalendarAboard({
@@ -559,13 +563,13 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
-        eventBus.fire(RefreshCalendar());
-        showContent();
+        //eventBus.fire(RefreshCalendar());
       },
       error: (error) {
-        showContent();
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
       },
     );
+    showContent();
   }
 
   Future<void> getDataProvince() async {

@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldValidator extends StatefulWidget {
   final TextEditingController? controller;
@@ -18,11 +19,13 @@ class TextFieldValidator extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool? obscureText;
+  final List<TextInputFormatter>? inputFormatters;
   final Color? fillColor;
 
   const TextFieldValidator({
     Key? key,
     this.controller,
+    this.inputFormatters,
     this.isEnabled = true,
     this.onChange,
     this.validator,
@@ -83,6 +86,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,
+        inputFormatters: widget.inputFormatters,
         maxLines: widget.maxLine,
         onTap: () {
           if (widget.onTap != null) {

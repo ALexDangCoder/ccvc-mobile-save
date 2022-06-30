@@ -14,7 +14,6 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -266,27 +265,30 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
     );
   }
 
-  Widget itemAppointmentDayTablet(Appointment appointment) {
+  Widget itemAppointmentDayTablet(AppointmentWithDuplicate appointment) {
+    final lessThan1Hour = appointment.endTime.millisecondsSinceEpoch -
+        appointment.startTime.millisecondsSinceEpoch <
+        60 * 60 * 1000;
     return GestureDetector(
       onTap: () {
         pushToDetail(appointment);
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: appointment.isAllDay ? 1 : 6,
-        ),
-        decoration: const BoxDecoration(
-          color: textDefault,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: appointment.isAllDay ? 1 : 6,
+            ),
+            decoration: const BoxDecoration(
+              color: textDefault,
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
+                SizedBox(
                   child: Text(
                     appointment.subject.trim(),
                     maxLines: appointment.isAllDay ? 1 :  2,
@@ -297,51 +299,45 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
                     ),
                   ),
                 ),
-                if (!appointment.isAllDay) spaceW3,
-                if (!appointment.isAllDay) itemAvatar(''),
-                if (!appointment.isAllDay) itemAvatar('')
+                if (!appointment.isAllDay && !lessThan1Hour) spaceH4,
+                if (!appointment.isAllDay && !lessThan1Hour)
+                  Text(
+                    '${DateFormat.jm('en').format(
+                      appointment.startTime,
+                    )} - ${DateFormat.jm('en').format(
+                      appointment.endTime,
+                    )}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textNormalCustom(
+                      fontSize: 16,
+                      color: backgroundColorApp.withOpacity(0.7),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
               ],
             ),
-            if (!appointment.isAllDay)spaceH4,
-            if (!appointment.isAllDay)
-              Text(
-                '${DateFormat.jm('en').format(
-                  appointment.startTime,
-                )} - ${DateFormat.jm('en').format(
-                  appointment.endTime,
-                )}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: textNormalCustom(
-                  fontSize: 16,
-                  color: backgroundColorApp.withOpacity(0.7),
-                  fontWeight: FontWeight.w400,
+          ),
+          Visibility(
+            visible: appointment.isDuplicate,
+            child: Positioned(
+              top: 2,
+              right: 2,
+              child: Container(
+                width: 5,
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: redChart,
+                  shape: BoxShape.circle,
                 ),
-              )
-          ],
-        ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget itemAvatar(String url) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.only(right: 4.0),
-      height: 24.0,
-      width: 24.0,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        shape: BoxShape.circle,
-      ),
-      child: Image.network(
-        '',
-        errorBuilder: (_, __, ___) =>
-            Image.asset(ImageAssets.anhDaiDienMacDinh),
-        fit: BoxFit.cover,
-      ),
-    );
-  }
 
   void pushToDetail(Appointment appointment) {
     final TypeCalendar typeAppointment =

@@ -1,18 +1,16 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
-import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/view_data_meeting.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/mobile/view_data_meeting.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_calendar_widget.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
-
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/choose_time_calendar_tablet.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/menu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/tao_lich_hop_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -23,20 +21,19 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MainCalendarMeeting extends StatefulWidget {
-  const MainCalendarMeeting({Key? key}) : super(key: key);
+class MainCalendarMeetingTablet extends StatefulWidget {
+  const MainCalendarMeetingTablet({Key? key}) : super(key: key);
 
   @override
-  _MainCalendarMeetingState createState() => _MainCalendarMeetingState();
+  _MainCalendarMeetingTabletState createState() =>
+      _MainCalendarMeetingTabletState();
 }
 
-class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
+class _MainCalendarMeetingTabletState extends State<MainCalendarMeetingTablet> {
   final CalendarMeetingCubit cubit = CalendarMeetingCubit();
-
 
   @override
   void initState() {
-   // init  api
     cubit.initData();
     _handleEventBus();
     super.initState();
@@ -44,7 +41,13 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
 
   void _handleEventBus() {
     eventBus.on<RefreshCalendar>().listen((event) {
-      // call api when neeed reffresh data
+      if (cubit.state is CalendarViewState) {
+        cubit.refreshDataDangLich();
+      } else if (cubit.state is ListViewState) {
+        cubit.refreshDataDangLich();
+      } else {
+        cubit.getDataDangChart();
+      }
     });
   }
 
@@ -58,6 +61,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
       error: AppException('', S.current.something_went_wrong),
       stream: cubit.stateStream,
       child: Scaffold(
+        backgroundColor: bgTabletColor,
         appBar: AppBarWithTwoLeading(
           backGroundColorTablet: bgTabletColor,
           widgetTitle: StreamBuilder<String>(
@@ -71,18 +75,13 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
             },
           ),
           title: S.current.lich_cua_toi,
-          leadingIcon: Row(
-            children: [
-              spaceW16,
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: ImageAssets.svgAssets(ImageAssets.icBack),
-              ),
-              spaceW12,
-              cubit.controller.getIcon(),
-            ],
+          leadingIcon: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset(
+              ImageAssets.icBack,
+            ),
           ),
           actions: [
             IconButton(
@@ -98,6 +97,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
             if (cubit.state is CalendarViewState) {
               cubit.refreshDataDangLich();
             } else if (cubit.state is ListViewState) {
+              cubit.refreshDataDangLich();
             } else {
               cubit.getDataDangChart();
             }
@@ -105,11 +105,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
           child: Column(
             children: [
               StreamBuilder<List<DateTime>>(
-                  stream: cubit.listNgayCoLichStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <DateTime>[];
-                    return ChooseTimeCalendarWidget(
-                      calendarDays: data,
+                stream: cubit.listNgayCoLichStream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? <DateTime>[];
+                  return ChooseTimeCalendarTablet(
+                    calendarDays: data,
                     onChange: (startDate, endDate, type, keySearch) {
                       cubit.handleDatePicked(
                         keySearch: keySearch,
@@ -144,6 +144,21 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                         keySearch: keySearch,
                       );
                     },
+                    onTapTao: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => const TaoLichHopScreen(),
+                        ),
+                      ).then((value) async {
+                        if (value == null) {
+                          return;
+                        }
+                        if (value) {
+                          cubit.refreshDataDangLich();
+                        }
+                      });
+                    },
                   );
                 },
               ),
@@ -152,30 +167,14 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                   onHover: (_) {
                     cubit.controller.onCloseCalendar();
                   },
-                  child: ViewDataMeeting(cubit: cubit),
+                  child: ViewDataMeeting(
+                    cubit: cubit,
+                    isTablet: true,
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const TaoLichHopScreen(),
-              ),
-            ).then((value) async {
-              if (value == null) {
-                return;
-              }
-              if (value) {
-                cubit.refreshDataDangLich();
-              }
-            });
-          },
-          backgroundColor: AppTheme.getInstance().colorField(),
-          child: SvgPicture.asset(ImageAssets.icVectorCalender),
         ),
       ),
     );
@@ -192,7 +191,8 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
             stream: cubit.totalWorkStream,
             builder: (context, snapshot) {
               final data = snapshot.data ?? DashBoardLichHopModel.empty();
-              return MenuWidget(
+              return MenuWidgetTablet(
+                isLichHop: true,
                 dataMenu: [
                   ParentMenu(
                     count: data.countScheduleCaNhan ?? 0,
@@ -210,11 +210,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                     childData: leaderMenuData
                         .map(
                           (e) => ChildMenu(
-                        value: LeaderDataItem(e.id ?? '', e.tenDonVi ?? ''),
-                        title: e.tenDonVi ?? '',
-                        count: e.count ?? 0,
-                      ),
-                    )
+                            value: LeaderDataItem(e.id ?? '', e.tenDonVi ?? ''),
+                            title: e.tenDonVi ?? '',
+                            count: e.count ?? 0,
+                          ),
+                        )
                         .toList(),
                     count: 0,
                     iconAsset: ImageAssets.icLichLanhDao,
@@ -225,7 +225,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                   StateMenu(
                     icon: ImageAssets.icTheoDangLich,
                     title: S.current.theo_dang_lich,
-                    state: CalendarViewState(typeView: cubit.state.typeView) ,
+                    state: CalendarViewState(typeView: cubit.state.typeView),
                   ),
                   StateMenu(
                     icon: ImageAssets.icTheoDangDanhSachGrey,

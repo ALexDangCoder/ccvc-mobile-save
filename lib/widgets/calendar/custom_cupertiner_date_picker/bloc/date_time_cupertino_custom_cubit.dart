@@ -45,26 +45,16 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
-      if (dateFromTmp == INIT_DATE_PICK) {
-        dateBeginSubject.sink
-            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
-      } else {
-        dateFromTmp =
-            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink.add(
-          dateFromTmp,
-        );
-      }
-      if (dateToTmp == INIT_DATE_PICK) {
-        dateEndSubject.sink
-            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
-      } else {
-        dateToTmp =
-            DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink.add(
-          dateToTmp,
-        );
-      }
+      dateFromTmp =
+          DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+      dateBeginSubject.sink.add(
+        dateFromTmp,
+      );
+      dateToTmp = DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+      dateEndSubject.sink.add(
+        dateToTmp,
+      );
+
       final date = DateTime.now();
       timeBeginSubject.sink.add(
         DateTime(date.year, date.month, date.day, 08)
@@ -126,50 +116,54 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_START:
         dateFromTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink
-            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
+        dateBeginSubject.sink.add(dateFromTmp);
         break;
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateEndSubject.sink
-            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
+        dateEndSubject.sink.add(dateToTmp);
         break;
     }
   }
 
   bool checkTime() {
-    if (dateBeginSubject.valueOrNull != INIT_DATE_PICK &&
-        timeBeginSubject.valueOrNull != INIT_TIME_PICK &&
-        dateEndSubject.valueOrNull != INIT_DATE_PICK &&
-        timeEndSubject.valueOrNull != INIT_TIME_PICK) {
-      final begin = DateTime.parse(
-        timeFormat(
-          '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT_EDIT,
-        ),
-      );
-      final end = DateTime.parse(
-        timeFormat(
-          '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT_EDIT,
-        ),
-      );
-      if (begin.isAtSameMomentAs(end) ||
-          begin.isAfter(end) ||
-          end.isAtSameMomentAs(begin) ||
-          end.isBefore(begin)) {
-        validateTime.sink.add(S.current.thoi_gian_bat_dau);
-        return false;
+    if (dateBeginSubject.hasValue &&
+        timeBeginSubject.hasValue &&
+        dateEndSubject.hasValue &&
+        timeEndSubject.hasValue) {
+      if (dateBeginSubject.value != INIT_DATE_PICK &&
+          timeBeginSubject.value != INIT_TIME_PICK &&
+          dateEndSubject.value != INIT_DATE_PICK &&
+          timeEndSubject.value != INIT_TIME_PICK) {
+        final begin = DateTime.parse(
+          timeFormat(
+            '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT_EDIT,
+          ),
+        );
+        final end = DateTime.parse(
+          timeFormat(
+            '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT_EDIT,
+          ),
+        );
+        if (begin.isAtSameMomentAs(end) ||
+            begin.isAfter(end) ||
+            end.isAtSameMomentAs(begin) ||
+            end.isBefore(begin)) {
+          validateTime.sink.add(S.current.thoi_gian_bat_dau);
+          return false;
+        } else {
+          validateTime.sink.add('');
+          return true;
+        }
       } else {
-        validateTime.sink.add('');
-        return true;
+        validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+        return false;
       }
-    } else {
-      validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
-      return false;
     }
+    return false;
   }
 
   int getYearNumber() {

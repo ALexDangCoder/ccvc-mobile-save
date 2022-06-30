@@ -171,6 +171,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                   child: ButtonSelectFile(
                     title: S.current.them_tai_lieu_cuoc_hop,
                     onChange: (List<File> files) {},
+                    removeFileApi: (int index) {},
                   ),
                 ),
                 FileFromAPIWidget(

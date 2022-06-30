@@ -16,7 +16,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/base_popup.dart';
-import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
+import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/edit_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -164,7 +164,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     context,
                                     title: '',
                                     textOption: false,
-                                    child: SuaLichCongTacTrongNuocPhone(
+                                    child: EditCalendarWork(
                                       cubit: chiTietLichLamViecCubit,
                                       event: dataModel,
                                     ),

@@ -38,8 +38,14 @@ class _TabAnhDeoKinhState extends State<TabAnhDeoKinh> {
                     (e) => ItemImageWidget(
                       cubit: widget.cubit,
                       dataUI: e,
-                      initImage: widget.cubit
-                          .getUrlImageDeoKinh(fileTypeUpload: e.fileTypeUpload),
+                      initImage: widget.cubit.getUrlImage(
+                        entityName: e.entityName,
+                        fileTypeUpload: e.fileTypeUpload,
+                      ),
+                      id: widget.cubit.findId(
+                        entityName: e.entityName,
+                        fileTypeUpload: e.fileTypeUpload,
+                      ),
                     ),
                   )
                   .toList(),

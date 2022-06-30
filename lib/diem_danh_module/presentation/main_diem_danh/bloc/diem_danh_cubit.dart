@@ -32,6 +32,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   Stream<TypeDiemDanh> get typeDiemDanhStream => typeDiemDanhSubject.stream;
 
   /// nhan dien khuon mat
+  String idImg = '';
   BehaviorSubject<GetAllFilesIdModel> allFileDeokinhSubject = BehaviorSubject();
 
   Stream<GetAllFilesIdModel> get allFileDeokinhStream =>
@@ -49,12 +50,9 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   Stream<GetAllFilesIdModel> get getOnlyFileDataStream =>
       getOnlyFileDataSubject.stream;
 
-  BehaviorSubject<String?> imageSubject = BehaviorSubject();
-
-  Stream<String?> get imageStream => imageSubject.stream;
-
   ///item dang ky bien so xe
-  String? xeMay ;
+  String? xeMay;
+
   String? bienKiemSoat;
   String? loaiSoHuu;
   final toast = FToast();
@@ -73,7 +71,8 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   );
 
   BehaviorSubject<bool> nhanDienbienSoxeSubject = BehaviorSubject.seeded(false);
-  BehaviorSubject<List<ChiTietBienSoXeModel>> danhSachBienSoXeSubject =BehaviorSubject();
+  BehaviorSubject<List<ChiTietBienSoXeModel>> danhSachBienSoXeSubject =
+      BehaviorSubject();
 
   ///Diem danh ca nhan
   BehaviorSubject<ThongKeDiemDanhCaNhanModel> thongKeSubject =

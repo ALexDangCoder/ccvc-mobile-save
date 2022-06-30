@@ -120,7 +120,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                 ButtonSelectFile(
                   isShowFile: false,
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (files) {
+                  onChange: (files,) {
                     if (widget.cubit.files
                         .map((e) => e.path)
                         .contains(files.first.path)) {

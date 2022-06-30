@@ -15,14 +15,14 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ButtonSelectFile extends StatefulWidget {
+class ButtonSelectFileLichLamViec extends StatefulWidget {
   final Color? background;
   final String title;
   final Color? titleColor;
   final String? icon;
   final bool isIcon;
   final bool childDiffence;
-  final Function(List<File>) onChange;
+  final Function(List<File> files, bool validate) onChange;
   final Widget Function(BuildContext, File)? builder;
   List<File>? files;
   final double? spacingFile;
@@ -30,7 +30,7 @@ class ButtonSelectFile extends StatefulWidget {
   final bool isShowFile;
   final double? maxSize;
 
-  ButtonSelectFile({
+  ButtonSelectFileLichLamViec({
     Key? key,
     this.background,
     required this.title,
@@ -48,18 +48,34 @@ class ButtonSelectFile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ButtonSelectFile> createState() => _ButtonSelectFileState();
+  State<ButtonSelectFileLichLamViec> createState() =>
+      _ButtonSelectFileLichLamViecState();
 }
 
-class _ButtonSelectFileState extends State<ButtonSelectFile> {
+class _ButtonSelectFileLichLamViecState
+    extends State<ButtonSelectFileLichLamViec> {
   final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
-  String errText = '';
+  List<FileValidate> listFileValidate = [];
 
   @override
   void initState() {
     super.initState();
     widget.files ??= [];
+    importDataValidate();
   }
+
+  void importDataValidate() {
+    (widget.files ?? []).forEach((element) {
+      listFileValidate.add(FileValidate(file: element, isOversize: false));
+    });
+  }
+
+  bool get isValidate => listFileValidate
+      .firstWhere(
+        (element) => element.isOversize == true,
+        orElse: () => FileValidate(file: File(''), isOversize: false),
+      )
+      .isOversize;
 
   bool isFileError(List<String?> files) {
     for (final i in files) {
@@ -72,6 +88,11 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
     return false;
   }
 
+  String get convertData {
+    final double value = (widget.maxSize ?? 0.0) / 1048576;
+    return value.toInt().toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,7 +101,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         GestureDetector(
           onTap: () async {
             final FilePickerResult? result =
-            await FilePicker.platform.pickFiles(
+                await FilePicker.platform.pickFiles(
               allowMultiple: true,
             );
 
@@ -88,24 +109,46 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
               if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
                   final listSelect =
-                  result.paths.map((path) => File(path ?? '')).toList();
+                      result.paths.map((path) => File(path ?? '')).toList();
                   if (widget.maxSize != null) {
                     bool isOverSize = false;
-                    errText = '';
                     for (int i = 0; i < listSelect.length; i++) {
                       if (listSelect[i].lengthSync() > widget.maxSize!) {
+                        listFileValidate.add(
+                          FileValidate(
+                            file: listSelect[i],
+                            isOversize: true,
+                          ),
+                        );
                         listSelect.removeAt(i);
                         isOverSize = true;
+                      } else {
+                        listFileValidate.add(
+                          FileValidate(
+                            file: listSelect[i],
+                            isOversize: false,
+                          ),
+                        );
                       }
                     }
-                    if (isOverSize) {
-                      errText = S.current.file_qua_30M;
-                    }
+                  } else {
+                    listSelect.forEach((e) {
+                      listFileValidate.add(
+                        FileValidate(
+                          file: e,
+                          isOversize: false,
+                        ),
+                      );
+                    });
                   }
                   widget.files?.addAll(listSelect);
                 } else {
                   widget.files =
                       result.paths.map((path) => File(path!)).toList();
+                  widget.files?.forEach((element) {
+                    listFileValidate
+                        .add(FileValidate(file: element, isOversize: false));
+                  });
                 }
               } else {
                 Scaffold.of(context).showSnackBar(
@@ -121,7 +164,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
               // User canceled the picker
             }
 
-            widget.onChange(widget.files ?? []);
+            widget.onChange(widget.files ?? [], isValidate);
             setState(() {});
           },
           child: Container(
@@ -165,78 +208,99 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
             ),
           ),
         ),
-        if (errText.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 24.0),
-            child: Text(
-              errText,
-              style: textNormal(redChart, 14),
-            ),
-          ),
-        SizedBox(
-          height: widget.spacingFile == null ? 16.0.textScale() : 0,
-        ),
         if (!widget.isShowFile)
           const SizedBox()
         else
           Column(
-            children: widget.files?.isNotEmpty ?? false
-                ? widget.files!.map((e) {
-              if (widget.builder == null) {
-                return itemListFile(
-                  file: e,
-                  onTap: () {
-                    _cubit.deleteFile(e, widget.files ?? []);
-                    if (widget.hasMultipleFile) {
-                      widget.onChange(widget.files ?? []);
+            children: listFileValidate.isNotEmpty ?? false
+                ? listFileValidate.map((e) {
+                    if (widget.builder == null) {
+                      return itemListFile(
+                        isOverSize: e.isOversize,
+                        file: e.file,
+                        onTap: () {
+                          _cubit.deleteFile(e.file, widget.files ?? []);
+                          listFileValidate.remove(e);
+                          if (widget.hasMultipleFile) {
+                            widget.onChange(widget.files ?? [], isValidate);
+                          }
+                          setState(() {});
+                        },
+                        spacingFile: widget.spacingFile,
+                      );
                     }
-                    setState(() {});
-                  },
-                  spacingFile: widget.spacingFile,
-                );
-              }
-              return widget.builder!(context, e);
-            }).toList()
+                    return widget.builder!(context, e.file);
+                  }).toList()
                 : [Container()],
           )
       ],
     );
   }
+
+  Widget itemListFile({
+    required File file,
+    required Function onTap,
+    bool isOverSize = false,
+    double? spacingFile,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(top: spacingFile ?? 16.0.textScale()),
+      padding: EdgeInsets.all(16.0.textScale()),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6.0.textScale()),
+        border: Border.all(color: bgDropDown),
+      ),
+      alignment: Alignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  file.path.convertNameFile(),
+                  style: isOverSize
+                      ? textValidateStrikethrough(
+                          color: color5A8DEE,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
+                        )
+                      : textNormalCustom(
+                          color: color5A8DEE,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
+                        ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  onTap();
+                },
+                child: SvgPicture.asset(ImageAssets.icDelete),
+              ),
+            ],
+          ),
+          if (isOverSize)
+            Text(
+              '${S.current.file_khong_vuot_qua} $convertData MB',
+              style: textNormalCustom(
+                color: Colors.red,
+                fontSize: 12.0.textScale(),
+                fontStyle: FontStyle.italic,
+              ),
+            )
+          else
+            Container(),
+        ],
+      ),
+    );
+  }
 }
 
-Widget itemListFile({
-  required File file,
-  required Function onTap,
-  double? spacingFile,
-}) {
-  return Container(
-    margin: EdgeInsets.only(top: spacingFile ?? 16.0.textScale()),
-    padding: EdgeInsets.all(16.0.textScale()),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(6.0.textScale()),
-      border: Border.all(color: bgDropDown),
-    ),
-    alignment: Alignment.center,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Text(
-            file.path.convertNameFile(),
-            style: textNormalCustom(
-              color: color5A8DEE,
-              fontWeight: FontWeight.w400,
-              fontSize: 14.0.textScale(),
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            onTap();
-          },
-          child: SvgPicture.asset(ImageAssets.icDelete),
-        ),
-      ],
-    ),
-  );
+class FileValidate {
+  File file;
+  bool isOversize;
+
+  FileValidate({required this.file, required this.isOversize});
 }

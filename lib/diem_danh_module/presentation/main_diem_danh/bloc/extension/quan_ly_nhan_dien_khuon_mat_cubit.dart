@@ -194,21 +194,19 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
       false,
       files,
     );
-
+    String idImg = '';
     result.when(
       success: (success) {
         MessageConfig.show(title: success.message ?? '');
+        idImg = success.data?.first ?? '';
         showContent();
-
-        return success.data?.first;
       },
       error: (error) {
         MessageConfig.show(title: error.message);
         showContent();
-        return '';
       },
     );
-    return '';
+    return idImg;
   }
 
   ///delete image

@@ -17,7 +17,7 @@ class _TabAnhDeoKinhTabletState extends State<TabAnhDeoKinhTablet> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.allFileDeokinhStream;
+    widget.cubit.getAllImageDeoKinhId();
   }
 
   @override

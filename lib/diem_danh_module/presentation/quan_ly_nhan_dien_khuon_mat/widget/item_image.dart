@@ -131,8 +131,9 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                             id: idImage,
                           ),
                     removeImage: () {
-                      if (imageRepo != null) {
+                      if (idImage.isNotEmpty) {
                         widget.cubit.deleteImage(idImage);
+                        idImage = '';
                       } else {
                         widget.cubit.deleteImage(widget.id ?? '');
                       }

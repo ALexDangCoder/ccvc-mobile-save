@@ -73,7 +73,7 @@ class _BaoCaoDialogTabletState extends State<BaoCaoDialogTablet> {
             ButtonSelectFile(
               // files: widget.baoCaoModel.listFile,
               title: S.current.tai_lieu_dinh_kem,
-              onChange: (List<File> files) {},
+              onChange: (List<File> files,) {},
             ),
             const SizedBox(
               height: 24,

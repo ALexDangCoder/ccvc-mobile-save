@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/calendar_chart_tablet.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/canlendar_chart_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_listview/canlendar_meeting_listview.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/dash_board_meeting.dart';
@@ -213,11 +214,17 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                     children: _listCalendarScreen,
                   ),
                   DataViewTypeList(
-                    cubit: widget.cubit, isTablet: widget.isTablet,
-                  ),
-                  ThongKeLichHopScreen(
                     cubit: widget.cubit,
+                    isTablet: widget.isTablet,
                   ),
+                  if (widget.isTablet)
+                    ThongKeLichHopTablet(
+                      cubit: widget.cubit,
+                    )
+                  else
+                    ThongKeLichHopScreen(
+                      cubit: widget.cubit,
+                    ),
                 ],
               );
             },

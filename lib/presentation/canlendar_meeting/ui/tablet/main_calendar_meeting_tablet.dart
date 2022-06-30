@@ -192,6 +192,7 @@ class _MainCalendarMeetingTabletState extends State<MainCalendarMeetingTablet> {
             builder: (context, snapshot) {
               final data = snapshot.data ?? DashBoardLichHopModel.empty();
               return MenuWidgetTablet(
+                isLichHop: true,
                 dataMenu: [
                   ParentMenu(
                     count: data.countScheduleCaNhan ?? 0,

@@ -65,16 +65,39 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
     );
   }
 
+  Future<void> getThongTinPhongHop({
+    required bool isTTDH,
+    required int trangThai,
+    required List<ThietBiModel> listThietBi,
+    required String idHop,
+  }) async {
+    final result = await hopRepository.getListThongTinPhongHop(idHop);
+    result.when(
+      success: (res) {
+        phongHopSelectedSubject.sink.add(
+          res.convertToPhongHopModel(
+            isTTDH: isTTDH,
+            trangThai: trangThai,
+            listThietBi: listThietBi,
+          ),
+        );
+      },
+      error: (err) {},
+    );
+  }
+
   void addThietBi(ThietBiValue value) {
     listThietBi.add(value);
     _listThietBi.sink.add(listThietBi);
   }
 
   void initListThietBi(List<PhongHopThietBi> value) {
-    final listParsed = value.map((e) => ThietBiValue(
-          soLuong: e.soLuong?.stringToInt() ?? 0,
-          tenThietBi: e.tenThietBi ?? '',
-        ),);
+    final listParsed = value.map(
+      (e) => ThietBiValue(
+        soLuong: e.soLuong?.stringToInt() ?? 0,
+        tenThietBi: e.tenThietBi ?? '',
+      ),
+    );
     listThietBi.addAll(listParsed);
     _listThietBi.sink.add(listThietBi);
   }

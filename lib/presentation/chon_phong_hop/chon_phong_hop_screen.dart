@@ -33,6 +33,8 @@ class ChonPhongHopScreen extends StatefulWidget {
   final String? dateTo;
   final PhongHop? initPhongHop;
   final List<PhongHopThietBi>? initThietBi;
+  final bool needShowSelectedRoom;
+  final String? idHop;
 
   const ChonPhongHopScreen({
     Key? key,
@@ -42,6 +44,8 @@ class ChonPhongHopScreen extends StatefulWidget {
     this.dateTo,
     this.initPhongHop,
     this.initThietBi,
+    this.needShowSelectedRoom = false,
+    this.idHop,
   }) : super(key: key);
 
   @override
@@ -57,6 +61,15 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
     if (widget.id != null) {
       _cubit.getDonViConPhong(widget.id!);
     }
+    if (widget.initPhongHop != null) {
+      _cubit.getThongTinPhongHop(
+        isTTDH: widget.initPhongHop!.bitTTDH ?? false,
+        listThietBi: [],
+        trangThai: -1,
+        idHop: widget.idHop ?? '',
+      );
+      _cubit.initListThietBi(widget.initThietBi ?? []);
+    }
   }
 
   @override
@@ -64,75 +77,84 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SolidButton(
-          onTap: () {
-            showBottomSheet();
-          },
-          text: S.current.chon_phong_hop,
-          urlIcon: ImageAssets.icChonPhongHop,
-        ),
-        spaceH16,
         StreamBuilder<PhongHopModel>(
           stream: _cubit.phongHopSelectedSubject,
           builder: (context, snapshot) {
-            final phongHop = snapshot.data;
-            if (phongHop != null) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    S.current.thong_tin_phong,
-                    style: textNormal(color667793, 14).copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  spaceH12,
-                  itemPhongHop(
-                    phongHop: phongHop,
-                    index: 0,
-                    groupValue: 0,
-                    isShowCheckBox: false,
-                    onChange: (index) {},
-                  ),
-                ],
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
+            return SolidButton(
+              onTap: () {
+                showBottomSheet();
+              },
+              text: snapshot.hasData
+                  ? S.current.doi_phong
+                  : S.current.chon_phong_hop,
+              urlIcon: ImageAssets.icChonPhongHop,
+            );
           },
         ),
-        StreamBuilder<List<ThietBiValue>>(
-          stream: _cubit.listThietBiStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? <ThietBiValue>[];
-            if (data.isNotEmpty) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    S.current.thong_tin_yeu_cau_thiet_bi,
-                    style: textNormal(color667793, 14).copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  ...List.generate(
-                    data.length,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: thietBiWidget(
-                        value: data[index],
-                        onDelete: () {
-                          _cubit.removeThietBi(data[index]);
-                        },
+        if (widget.needShowSelectedRoom) ...[
+          spaceH16,
+          StreamBuilder<PhongHopModel>(
+            stream: _cubit.phongHopSelectedSubject,
+            builder: (context, snapshot) {
+              final phongHop = snapshot.data;
+              if (phongHop != null) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.current.thong_tin_phong,
+                      style: textNormal(color667793, 14).copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
-              );
-            }
-            return const SizedBox();
-          },
-        )
+                    spaceH12,
+                    itemPhongHop(
+                      phongHop: phongHop,
+                      index: 0,
+                      groupValue: 0,
+                      isShowCheckBox: false,
+                      onChange: (index) {},
+                    ),
+                  ],
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+          StreamBuilder<List<ThietBiValue>>(
+            stream: _cubit.listThietBiStream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <ThietBiValue>[];
+              if (data.isNotEmpty) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.current.thong_tin_yeu_cau_thiet_bi,
+                      style: textNormal(color667793, 14).copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    ...List.generate(
+                      data.length,
+                      (index) => Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: thietBiWidget(
+                          value: data[index],
+                          onDelete: () {
+                            _cubit.removeThietBi(data[index]);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+        ],
       ],
     );
   }
@@ -201,10 +223,12 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
   final _key = GlobalKey<FormState>();
   int groupValue = -1;
+  late bool isFirstTime;
 
   @override
   void initState() {
     super.initState();
+    isFirstTime = false;
     controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
     if (widget.initPhongHop != null) {
       controller.text = widget.initPhongHop?.noiDungYeuCau ?? '';
@@ -212,7 +236,6 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
           widget.initPhongHop?.bitTTDH ?? false
               ? LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH
               : LoaiPhongHopEnum.PHONG_HOP_THUONG;
-      widget.chonPhongHopCubit.initListThietBi(widget.initThietBi ?? []);
     }
   }
 
@@ -345,13 +368,17 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                         stream: widget.chonPhongHopCubit.phongHopSubject,
                         builder: (context, snapshot) {
                           final listData = snapshot.data ?? [];
-                          groupValue = listData.indexWhere(
-                            (element) =>
-                                element.id == widget.initPhongHop?.phongHopId ||
-                                element.id ==
-                                    widget
-                                        .chonPhongHopCubit.phongHop.phongHopId,
-                          );
+                          if (!isFirstTime) {
+                            groupValue = listData.indexWhere(
+                              (element) =>
+                                  element.id ==
+                                      widget.initPhongHop?.phongHopId ||
+                                  element.id ==
+                                      widget.chonPhongHopCubit.phongHop
+                                          .phongHopId,
+                            );
+                            isFirstTime = true;
+                          }
                           return listData.isNotEmpty
                               ? ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
@@ -488,15 +515,17 @@ Widget itemPhongHop({
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(
-                value: phongHop.trangThai == 0
-                    ? S.current.phong_trong
-                    : S.current.phong_ban,
-                key: S.current.trang_thai,
-              ),
-              SizedBox(
-                height: 10.0.textScale(space: 10),
-              ),
+              if (phongHop.trangThai != -1) ...[
+                rowInfo(
+                  value: phongHop.trangThai == 0
+                      ? S.current.phong_trong
+                      : S.current.phong_ban,
+                  key: S.current.trang_thai,
+                ),
+                SizedBox(
+                  height: 10.0.textScale(space: 10),
+                ),
+              ],
             ],
           ),
         ),

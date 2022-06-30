@@ -88,6 +88,13 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
             appointmentBuilder: (_, appointmentDetail) {
               final AppointmentWithDuplicate appointment =
                   appointmentDetail.appointments.first;
+              if (appointmentDetail.appointments.length > 1) {
+                return Center(
+                    child: Text(
+                      expandText(appointmentDetail.appointments.length),
+                      style: textNormal(colorA2AEBD, 13),
+                    ));
+              }
               if (appointment.isMore) {
                 return GestureDetector(
                   onTap: () {
@@ -112,6 +119,9 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
         ],
       ),
     );
+  }
+  String expandText(int sum) {
+    return '${sum - 3}+';
   }
 }
 

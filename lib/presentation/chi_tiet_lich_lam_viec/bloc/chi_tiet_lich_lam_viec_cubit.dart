@@ -227,8 +227,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         error: (err) {});
   }
 
-  String parseDate(String ngay) {
-    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(ngay);
+  String parseDate(String date) {
+    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(date);
 
     return '${dateTime.day} ${S.current.thang} ${dateTime.month},${dateTime.year}';
   }

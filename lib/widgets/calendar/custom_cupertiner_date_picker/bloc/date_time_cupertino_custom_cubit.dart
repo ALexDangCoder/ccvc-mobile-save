@@ -138,38 +138,44 @@ class DateTimeCupertinoCustomCubit
   }
 
   bool checkTime() {
-    if (dateBeginSubject.valueOrNull != INIT_DATE_PICK &&
-        timeBeginSubject.valueOrNull != INIT_TIME_PICK &&
-        dateEndSubject.valueOrNull != INIT_DATE_PICK &&
-        timeEndSubject.valueOrNull != INIT_TIME_PICK) {
-      final begin = DateTime.parse(
-        timeFormat(
-          '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT_EDIT,
-        ),
-      );
-      final end = DateTime.parse(
-        timeFormat(
-          '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
-          DateTimeFormat.DATE_TIME_PICKER,
-          DateTimeFormat.DATE_TIME_PUT_EDIT,
-        ),
-      );
-      if (begin.isAtSameMomentAs(end) ||
-          begin.isAfter(end) ||
-          end.isAtSameMomentAs(begin) ||
-          end.isBefore(begin)) {
-        validateTime.sink.add(S.current.thoi_gian_bat_dau);
-        return false;
+    try{
+      if (dateBeginSubject.valueOrNull != INIT_DATE_PICK &&
+          timeBeginSubject.valueOrNull != INIT_TIME_PICK &&
+          dateEndSubject.valueOrNull != INIT_DATE_PICK &&
+          timeEndSubject.valueOrNull != INIT_TIME_PICK) {
+        final begin = DateTime.parse(
+          timeFormat(
+            '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT_EDIT,
+          ),
+        );
+        final end = DateTime.parse(
+          timeFormat(
+            '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
+            DateTimeFormat.DATE_TIME_PICKER,
+            DateTimeFormat.DATE_TIME_PUT_EDIT,
+          ),
+        );
+        if (begin.isAtSameMomentAs(end) ||
+            begin.isAfter(end) ||
+            end.isAtSameMomentAs(begin) ||
+            end.isBefore(begin)) {
+          validateTime.sink.add(S.current.thoi_gian_bat_dau);
+          return false;
+        } else {
+          validateTime.sink.add('');
+          return true;
+        }
       } else {
-        validateTime.sink.add('');
-        return true;
+        validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+        return false;
       }
-    } else {
+    }catch(e){
       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
       return false;
     }
+
   }
 
   int getYearNumber() {

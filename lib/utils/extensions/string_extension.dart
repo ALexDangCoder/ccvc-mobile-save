@@ -162,6 +162,20 @@ extension StringParse on String {
         return 7;
     }
   }
+
+  String formatTime(){
+    /// format 8:00 to 08:00
+    try{
+      String h = split(':').first;
+      final hour = int.parse(split(':').first);
+      if(hour <= 9){
+        h = '0$hour';
+      }
+      return '$h:${split(':').last}';
+    }catch(e){
+      return this;
+    }
+  }
 }
 
 extension CheckValidate on String {

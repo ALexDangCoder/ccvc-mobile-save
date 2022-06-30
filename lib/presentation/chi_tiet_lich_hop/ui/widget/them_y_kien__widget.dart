@@ -68,21 +68,21 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
               stream: widget.cubit.phienHop.stream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
-                List<String>? dataPlus = [S.current.cuoc_hop];
-                dataPlus.addAll(data.map((e) => e.value ?? '').toList());
+                if(data.isNotEmpty && data.first.key != S.current.cuoc_hop){
+                  data.insert(
+                    0,
+                    PhienhopModel(
+                      key: widget.id,
+                      value: S.current.cuoc_hop,
+                    ),
+                  );
+                }
+                final listCuocHop = data.map((e) => e.value ?? '').toList();
                 return CustomDropDown(
                   value: S.current.cuoc_hop,
-                  items: dataPlus,
+                  items: listCuocHop,
                   onSelectItem: (value) {
-                    if (value == 0) {
-                      widget.cubit.getDanhSachYKien(widget.id, '');
-                    } else {
-                      widget.cubit.getDanhSachYKien(
-                        widget.id,
-                        data[value - 1].key ?? '',
-                      );
-                      widget.cubit.getPhienHopId = data[value - 1].key ?? '';
-                    }
+                    widget.cubit.getPhienHopId = data[value].value ?? '';
                   },
                 );
               }),

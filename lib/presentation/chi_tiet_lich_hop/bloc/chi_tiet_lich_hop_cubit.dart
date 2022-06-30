@@ -166,8 +166,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   final BehaviorSubject<String> themBieuQuyet = BehaviorSubject<String>();
 
-  final BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
-      BehaviorSubject<ThongTinPhongHopModel>();
+  BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
+      BehaviorSubject();
 
   Stream<ThongTinPhongHopModel> get getThongTinPhongHop =>
       getThongTinPhongHopSb.stream;

@@ -38,7 +38,7 @@ extension trangThai on TrangThai {
         return status(S.current.cho_duyet, processingColor);
 
       case TrangThai.ChuaGuiDuyet:
-        return status(S.current.chua_gui_duyet, colorPrimary);
+        return status(S.current.nhap, subTitle);
 
       case TrangThai.HuyDuyet:
         return status(S.current.huy_duyet, canceledColor);

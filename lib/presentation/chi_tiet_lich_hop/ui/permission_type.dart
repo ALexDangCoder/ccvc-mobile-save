@@ -227,18 +227,35 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: ImageAssets.ic_delete_do,
           text: S.current.xoa_lich,
           onTap: () {
-            showDiaLog(
-              context,
-              textContent: S.current.xoa_chi_tiet_lich_hop,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () {
-                cubit.deleteChiTietLichHop(cubit.idCuocHop);
-                Navigator.pop(context);
-              },
-              title: S.current.khong,
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icHuyLich),
-              showTablet: true,
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
+              showDiaLog(
+                context,
+                textContent: S.current.xoa_chi_tiet_lich_hop,
+                btnLeftTxt: S.current.khong,
+                funcBtnRight: () {
+                  cubit.deleteChiTietLichHop();
+                  Navigator.pop(context);
+                },
+                title: S.current.khong,
+                btnRightTxt: S.current.dong_y,
+                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                showTablet: true,
+              );
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => RadioOptionDialog(
+                title: S.current.huy_lich_hop,
+                textRadioBelow: S.current.chi_lich_hien_tai,
+                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                imageUrl: ImageAssets.img_sua_lich,
+                onChange: (value) {
+                  cubit.deleteChiTietLichHop(isMulti: value).then(
+                        (value) => value ? Navigator.pop(context) : '',
+                      );
+                },
+              ),
             );
           },
         );
@@ -435,7 +452,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
             isMobile()
                 ? showBottomSheetCustom(
                     context,
-                    title: S.current.thu_hoi_lich,
+                    title: S.current.phan_cong_thu_ky,
                     child: PhanCongThuKyWidget(
                       cubit: cubit,
                       id: cubit.idCuocHop,
@@ -545,18 +562,35 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: ImageAssets.icHuy,
           text: S.current.huy_lich_hop,
           onTap: () {
-            showDiaLog(
-              context,
-              textContent: S.current.ban_chan_chan_huy_lich_nay,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () {
-                cubit.huyChiTietLichHop(cubit.idCuocHop);
-                Navigator.pop(context);
-              },
-              title: S.current.huy_lich,
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icHuyLich),
-              showTablet: true,
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
+              showDiaLog(
+                context,
+                textContent: S.current.ban_chan_chan_huy_lich_nay,
+                btnLeftTxt: S.current.khong,
+                funcBtnRight: () {
+                  cubit.huyChiTietLichHop();
+                  Navigator.pop(context);
+                },
+                title: S.current.huy_lich,
+                btnRightTxt: S.current.dong_y,
+                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                showTablet: true,
+              );
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => RadioOptionDialog(
+                title: S.current.huy_lich_hop,
+                textRadioBelow: S.current.chi_lich_hien_tai,
+                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                imageUrl: ImageAssets.img_sua_lich,
+                onChange: (value) {
+                  cubit.huyChiTietLichHop(isMulti: value).then(
+                        (value) => value ? Navigator.pop(context) : '',
+                      );
+                },
+              ),
             );
           },
         );
@@ -734,8 +768,8 @@ class STATUS_SCHEDULE {
 
 class TRANG_THAI_DUYET_KY_THUAT {
   static const int CHO_DUYET = 0;
-  static const DA_DUYET = 1;
-  static const KHONG_DUYET = 2;
+  static const int DA_DUYET = 1;
+  static const int KHONG_DUYET = 2;
 }
 
 class ACTIVE_PHAT_BIEU {

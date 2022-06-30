@@ -11,14 +11,50 @@ import '../chi_tiet_lich_hop_cubit.dart';
 
 ///chi tiết lịch họp
 extension ChiTietLichHop on DetailMeetCalenderCubit {
-  Future<void> deleteChiTietLichHop(String id) async {
-    final result = await hopRp.deleteChiTietLichHop(id);
-    result.when(success: (res) {}, error: (err) {});
+  Future<bool> deleteChiTietLichHop({bool? isMulti}) async {
+    showLoading();
+    final result = await hopRp.deleteChiTietLichHop(
+      idCuocHop,
+      isMulti ?? false,
+    );
+    result.when(success: (res) {
+      showContent();
+      return true;
+    }, error: (err) {
+      MessageConfig.show(
+        title: S.current.that_bai,
+        messState: MessState.error,
+      );
+      return false;
+    });
+    showContent();
+    return true;
   }
 
-  Future<void> huyChiTietLichHop(String scheduleId) async {
-    final result = await hopRp.huyChiTietLichHop(scheduleId, 8, false);
-    result.when(success: (res) {}, error: (err) {});
+  Future<bool> huyChiTietLichHop({
+    bool? isMulti,
+  }) async {
+    showLoading();
+    final result = await hopRp.huyChiTietLichHop(
+      idCuocHop,
+      8,
+      isMulti ?? false,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        return true;
+      },
+      error: (err) {
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
+        return false;
+      },
+    );
+    showContent();
+    return true;
   }
 
   Future<void> postSuaLichHop() async {
@@ -34,6 +70,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         showError();
       },
     );
+    showContent();
   }
 
   Future<void> getDanhSachThuHoiLichHop(String id) async {

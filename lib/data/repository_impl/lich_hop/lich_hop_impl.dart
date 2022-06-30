@@ -474,9 +474,9 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<MessageModel>> deleteChiTietLichHop(String id) {
+  Future<Result<MessageModel>> deleteChiTietLichHop(String id, bool isMulti) {
     return runCatchingAsync<XoaBaoCaoKetQuaResponse, MessageModel>(
-      () => _hopServices.deleteChiTietLichHop(id),
+      () => _hopServices.deleteChiTietLichHop(id, isMulti),
       (res) => res.toDomain(),
     );
   }
@@ -996,28 +996,38 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<bool>> createKetLuanHop(
-    String lichHopId,
     String scheduleId,
     String reportStatusId,
     String reportTemplateId,
-    String startDate,
-    String endDate,
     String content,
-    List<String> files,
-    List<String> filesDelete,
+    // List<File> files,
+    // List<String> filesDelete,
   ) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.createKetLuanHop(
-        lichHopId,
         scheduleId,
         reportStatusId,
         reportTemplateId,
-        startDate,
-        endDate,
         content,
-        files,
-        filesDelete,
+        // files,
+        // filesDelete,
       ),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> guiDuyetKetLuanHop(String meetId) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.guiDuyetKetLuanHop(meetId),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> thuHoiKetLuanHop(String meetId) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.thuHoiKetLuanHop(meetId),
       (response) => response.isSucces,
     );
   }

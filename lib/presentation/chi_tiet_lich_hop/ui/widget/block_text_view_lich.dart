@@ -74,6 +74,10 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
               color: color3D5586,
             ),
             decoration: InputDecoration(
+              hintStyle: tokenDetailAmount(
+                fontSize: 14.0.textScale(),
+                color: titleItemEdit.withOpacity(0.5),
+              ),
               hintText: widget.hintText,
               fillColor: backgroundColorApp,
               filled: true,
@@ -110,7 +114,7 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
                 ),
               ),
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
               errorStyle: tokenDetailAmount(fontSize: 12, color: canceledColor),
             ),
             validator: (value) {

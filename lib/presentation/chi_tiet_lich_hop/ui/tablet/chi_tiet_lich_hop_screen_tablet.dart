@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -30,6 +31,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
   late DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
   final ThanhPhanThamGiaCubit cubitThanhPhan = ThanhPhanThamGiaCubit();
   final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
+  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
   late TabController _controller;
   List<String> listTextTab = [
     S.current.cong_tac_chuan_bi,
@@ -56,7 +58,13 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgTabletColor,
-      appBar: appbarChiTietHop(cubit, context, cubitThanhPhan, themCanBoCubit),
+      appBar: appbarChiTietHop(
+        cubit,
+        context,
+        cubitThanhPhan,
+        themCanBoCubit,
+        themDonViCubit,
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 16, right: 16.0, left: 16.0),
         child: DefaultTabController(

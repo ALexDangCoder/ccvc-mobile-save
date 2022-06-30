@@ -10,7 +10,9 @@ import 'package:rxdart/rxdart.dart';
 
 class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   final List<DonViModel> listSelectCanBo = [];
+  DonViModel donViModel = DonViModel();
   List<DonViModel> listCanBo = [];
+  BehaviorSubject<String> titleCanBo = BehaviorSubject();
 
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
   final BehaviorSubject<List<DonViModel>> _getCanbo =
@@ -34,6 +36,16 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
       },
       error: (err) {},
     );
+  }
+
+  void addDataList(int index) {
+    for (final value in listCanBo) {
+      value.isCheck = false;
+      titleCanBo.sink.add('');
+    }
+    listCanBo[index].isCheck = true;
+    titleCanBo.sink.add(listCanBo[index].tenCanBo);
+    _getCanbo.sink.add(listCanBo);
   }
 
   HopRepository get hopRepo => Get.find();
@@ -73,12 +85,11 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   void selectCanBo(DonViModel canBoModel, {bool isCheck = false}) {
     if (isCheck) {
       listSelectCanBo.add(canBoModel);
-      print("xxxx${listSelectCanBo}");
     } else {
       listSelectCanBo.remove(canBoModel);
-      print("xxxx${listSelectCanBo}");
     }
   }
+
   void search(String text) {
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(DonViModel canBo) {

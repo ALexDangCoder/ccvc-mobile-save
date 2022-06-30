@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
@@ -44,14 +45,44 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
             )
             .id;
         idDanhSachCanBo = idCuCanBo ?? '';
+
+        ///cu can bo di thay
         final canBoId = HiveLocal.getDataUser()?.userId;
-        final idCanBo = res
-            .firstWhere(
-              (element) => element.canBoId == canBoId,
-              orElse: () => NguoiChutriModel(),
+        final idCanBo = res.firstWhere(
+          (element) => element.canBoId == canBoId,
+          orElse: () => NguoiChutriModel(),
+        );
+        final parentCanBo = DonViModel(
+          id: idCanBo.id ?? '',
+          name: idCanBo.hoTen ?? '',
+          tenCanBo: idCanBo.tenCanBo ?? '',
+          chucVu: idCanBo.chucVu ?? '',
+          canBoId: idCanBo.canBoId ?? '',
+          donViId: idCanBo.donViId ?? '',
+          tenCoQuan: idCanBo.tenCoQuan ?? '',
+        );
+        donViModel = parentCanBo;
+
+        /// lay con cua can bo
+        final canBoDiThay = res.where(
+          (element) => element.parentId == idCanBo.id,
+        );
+        final listCanBoMoi = canBoDiThay
+            .map(
+              (e) => DonViModel(
+                id: e.id ?? '',
+                name: e.hoTen ?? '',
+                tenCanBo: e.tenCanBo ?? '',
+                chucVu: e.chucVu ?? '',
+                canBoId: e.canBoId ?? '',
+                donViId: e.donViId ?? '',
+                tenCoQuan: e.tenCoQuan ?? '',
+              ),
             )
-            .id;
-        idCanBoDiThay = idCanBo ?? '';
+            .toList();
+        listDataCanBo.addAll(listCanBoMoi);
+        listDonViModel.sink.add(listCanBoMoi);
+        idCanBoDiThay = idCanBo.id ?? '';
       },
       error: (error) {},
     );

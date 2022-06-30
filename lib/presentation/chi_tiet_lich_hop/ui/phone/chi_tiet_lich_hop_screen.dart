@@ -28,6 +28,7 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -47,6 +48,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
   final ThanhPhanThamGiaCubit _cubitThanhPhan = ThanhPhanThamGiaCubit();
   final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
+  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
 
   @override
   void initState() {
@@ -68,8 +70,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
       ),
       stream: cubit.stateStream,
       child: Scaffold(
-        appBar:
-            appbarChiTietHop(cubit, context, _cubitThanhPhan, themCanBoCubit),
+        appBar: appbarChiTietHop(
+          cubit,
+          context,
+          _cubitThanhPhan,
+          themCanBoCubit,
+          themDonViCubit,
+        ),
         body: ProviderWidget<DetailMeetCalenderCubit>(
           cubit: cubit,
           child: ExpandGroup(
@@ -311,6 +318,7 @@ PreferredSizeWidget appbarChiTietHop(
   BuildContext context,
   ThanhPhanThamGiaCubit thanhPhanThamGiaCubit,
   ThemCanBoCubit themCanBoCubit,
+  ThemDonViCubit themDonViCubit,
 ) =>
     BaseAppBar(
       title: S.current.chi_tiet_lich_hop,
@@ -333,11 +341,11 @@ PreferredSizeWidget appbarChiTietHop(
                 listSelect: data
                     .map(
                       (e) => e.getMenuLichHop(
-                        context,
-                        cubit,
-                        thanhPhanThamGiaCubit,
-                        themCanBoCubit,
-                      ),
+                          context,
+                          cubit,
+                          thanhPhanThamGiaCubit,
+                          themCanBoCubit,
+                          themDonViCubit),
                     )
                     .toList(),
               );

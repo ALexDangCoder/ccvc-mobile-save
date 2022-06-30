@@ -1182,5 +1182,10 @@
   "them_don_vi_phoi_hop_khac": "Thêm đơn vị phối hợp khác",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
   "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
-  "location_warning": "Bạn phải nhập trường Địa điểm!"
+  "location_warning": "Bạn phải nhập trường Địa điểm!",
+  "danh_sach_can_bo" : "Danh sách cán bộ",
+  "ten_nguoi_phoi_hop" : "Tên người phối hợp",
+  "thanh_phan_bieu_quyet": "Thành phần biểu quyết",
+  "chi_tiet_cong_viec_can_phoi_hop": "Chi tiết công việc cần phối hợp"
+
 }

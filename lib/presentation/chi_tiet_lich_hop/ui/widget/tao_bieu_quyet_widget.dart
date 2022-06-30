@@ -140,7 +140,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                         isShow: snapshot.data ?? true,
                         child: InputInfoUserWidget(
                           isObligatory: true,
-                          title: S.current.cac_lua_chon_bieu_quyet,
+                          title: S.current.thanh_phan_bieu_quyet,
                           child: StreamBuilder<List<DanhSachNguoiThamGiaModel>>(
                             stream: widget.cubit.nguoiThamGiaSubject,
                             builder: (context, snapshot) {

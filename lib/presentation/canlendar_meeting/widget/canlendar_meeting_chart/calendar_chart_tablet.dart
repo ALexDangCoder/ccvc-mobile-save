@@ -54,7 +54,7 @@ class _ThongKeLichHopTabletState extends State<ThongKeLichHopTablet> {
                 ),
                 containerChart(
                   children: [
-                    textviewTitle(S.current.so_lich_hop_duoc_to_chuc_boi_cac_don_vi),
+                    textviewTitle(S.current.so_lich_hop_duoc_to_chuc_boi_cac_don_vi,),
                     ChartByMeetingNumberWidget(
                       cubit: widget.cubit,
                     ),
@@ -103,9 +103,10 @@ class _ThongKeLichHopTabletState extends State<ThongKeLichHopTablet> {
           return PieChart(
             chartData: data,
             onTap: (value) {
-              widget.cubit.emitListViewState(type: widget.cubit.state.typeView);
-              widget.cubit.idThongKe = data[value].id ?? '';
-              widget.cubit.getDanhSachThongKe();
+              widget.cubit.handleChartPicked(
+                id: data[value].id ?? '',
+                title: data[value].title,
+              );
             },
             isThongKeLichHop: false,
           );

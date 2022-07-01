@@ -106,7 +106,7 @@ class XemKetLuanHopDataResponseData extends Equatable {
       reportStatusId: reportStatusId ?? '',
       startDate: startDate ?? '',
       endDate: endDate ?? '',
-      content: content!.parseHtml(),
+      content: content?.parseHtml() ?? '',
       status: status ?? 0,
       statusName: statusName ?? '',
       scheduleTitle: scheduleTitle ?? '',

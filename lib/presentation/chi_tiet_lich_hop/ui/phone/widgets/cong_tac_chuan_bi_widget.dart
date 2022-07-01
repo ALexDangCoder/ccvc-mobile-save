@@ -73,8 +73,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
           child: StreamBuilder<ThongTinPhongHopModel>(
             stream: widget.cubit.getThongTinPhongHop,
             builder: (context, snapshot) {
-              final data = snapshot.data;
-              if (widget.cubit.isChuTri() && data == null) {
+              final data = snapshot.data ?? ThongTinPhongHopModel();
+              if (widget.cubit.isChonPhongHop()) {
                 ///nếu chua có phòng nào và là người chủ trì thì hiện button chọn phòng họp
                 return ChonPhongHopScreen(
                   dateFrom: _cubitTaoLichHop.getTime(),
@@ -90,9 +90,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   initThietBi:
                       _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
                 );
-              } else if (data == null) {
-                return const SizedBox();
-              } else {
+              }
+              if (widget.cubit.isHasPhong()) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -144,6 +143,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   ],
                 );
               }
+              return const SizedBox();
             },
           ),
         ),
@@ -227,7 +227,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   final data = snapshotPhongHop.data;
                   if (data == null) {
                     return const SizedBox();
-                  } else if (widget.cubit.checkPermissionDKT()) {
+                  }
+                  if (widget.cubit.checkPermissionDKT()) {
                     return StreamBuilder<ChiTietLichHopModel>(
                       stream: widget.cubit.chiTietLichHopSubject.stream,
                       builder: (context, snapshot) {

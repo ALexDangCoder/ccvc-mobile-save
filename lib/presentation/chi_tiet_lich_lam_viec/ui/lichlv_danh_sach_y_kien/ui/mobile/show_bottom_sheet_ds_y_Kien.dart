@@ -13,10 +13,12 @@ import 'package:flutter/material.dart';
 class DanhSachYKienButtom extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
   final String id;
+  final bool isTablet;
 
   const DanhSachYKienButtom({
     Key? key,
     required this.id,
+    this.isTablet = false,
     required this.cubit,
   }) : super(key: key);
 
@@ -54,6 +56,7 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
                 title: S.current.y_kien,
                 child: YKienBottomSheet(
                   id: widget.id,
+                  isTablet : widget.isTablet,
                 ),
               ).then((value) {
                 if (value == true) {

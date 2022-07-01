@@ -15,6 +15,7 @@ class BlockTextViewLich extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool isHideRequired;
   final bool useCustomTitle;
+  final int? maxLenght;
 
   const BlockTextViewLich({
     Key? key,
@@ -27,6 +28,7 @@ class BlockTextViewLich extends StatefulWidget {
     this.isRequired = true,
     this.isLimitCharacter = false,
     this.useCustomTitle = false,
+    this.maxLenght,
   }) : super(key: key);
 
   @override
@@ -66,6 +68,7 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
         Form(
           key: widget.formKey,
           child: TextFormField(
+            maxLength: widget.maxLenght,
             controller: widget.contentController,
             maxLines: 4,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -74,6 +77,7 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
               color: color3D5586,
             ),
             decoration: InputDecoration(
+              counterText: '',
               hintText: widget.hintText,
               fillColor: backgroundColorApp,
               filled: true,

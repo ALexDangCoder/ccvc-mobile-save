@@ -34,6 +34,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 
@@ -69,6 +70,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String endTime = '00:00';
   String? tenBieuQuyet;
   bool? loaiBieuQuyet;
+  DonViModel donViModel = DonViModel();
   String? dateBieuQuyet;
   String getPhienHopId = '';
   List<CanBoModel> dataThanhPhanThamGia = [];
@@ -83,7 +85,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<File>? listFile = [];
   PhongHop chosePhongHop = PhongHop();
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
-
+  BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
+  List<DonViModel> listDataCanBo = [];
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
       key: S.current.danh_sach_phat_bieu,
@@ -210,6 +213,36 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     minutes: 00,
   );
 
+  TimerData dateTimeNowStart() {
+    final TimerData start = TimerData(
+      hour: timeNow.hour,
+      minutes: timeNow.minute,
+    );
+    return start;
+  }
+
+  void xoaKhachMoiThamGia(
+    DonViModel donViModel,
+  ) {
+    listDataCanBo.remove(donViModel);
+    listDonViModel.sink.add(listDataCanBo);
+  }
+
+  TimerData dateTimeNowEnd() {
+    final TimerData end = TimerData(
+      hour: timeNow.add(const Duration(hours: 1)).hour,
+      minutes: timeNow.minute,
+    );
+    return end;
+  }
+
+  int dateDiff(String startTime, String endTime) {
+    final start = DateTime.parse(startTime);
+    final end = DateTime.parse(endTime);
+    final result = end.difference(start).inSeconds;
+    return result;
+  }
+
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     await getChiTietLichHop(idCuocHop);
 
@@ -222,6 +255,130 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getDanhSachCanBoHop(idCuocHop);
+  }
+
+  Future<void> getDanhSachNTGChuongTrinhHop({
+    required String id,
+  }) async {
+    final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
+
+    result.when(
+      success: (res) {
+        listData = res;
+        nguoiThamGiaSubject.sink.add(listData);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<bool> huyAndDuyetLichHop({
+    required bool isDuyet,
+  }) async {
+    bool isCheck = true;
+    final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
+    result.when(
+      success: (res) {
+        isCheck = true;
+      },
+      error: (error) {
+        isCheck = false;
+      },
+    );
+    return isCheck;
+  }
+
+  Future<bool> cuCanBoDiThay({
+    required List<CanBoDiThay> canBoDiThay,
+  }) async {
+    canBoDiThay.insert(
+      0,
+      CanBoDiThay(
+        id: donViModel.id,
+        donViId: donViModel.donViId,
+        canBoId: donViModel.canBoId,
+        taskContent: '',
+      ),
+    );
+    final listCanBo = listDataCanBo
+        .map(
+          (e) => CanBoDiThay(
+            id: e.id,
+            donViId: e.donViId,
+            canBoId: e.canBoId,
+            taskContent: '',
+          ),
+        )
+        .toSet();
+    canBoDiThay.addAll(listCanBo);
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: idCanBoDiThay,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    bool isCheck = true;
+    showLoading();
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
+      },
+    );
+    showContent();
+    return isCheck;
+  }
+
+  Future<bool> cuCanBo({
+    required List<CanBoDiThay> canBoDiThay,
+  }) async {
+    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
+      id: idDanhSachCanBo,
+      lichHopId: idCuocHop,
+      canBoDiThay: canBoDiThay,
+    );
+    bool isCheck = true;
+    showLoading();
+    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
+      },
+    );
+    showContent();
+    return isCheck;
   }
 
   bool loaiBieuQ = false;

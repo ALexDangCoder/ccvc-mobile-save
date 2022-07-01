@@ -214,6 +214,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           title1: S.current.dong,
                           title2: S.current.xac_nhan,
                           onPressed1: () {
+                            widget.cubit.noiDung.add('');
                             Navigator.pop(context);
                           },
                           onPressed2: () {

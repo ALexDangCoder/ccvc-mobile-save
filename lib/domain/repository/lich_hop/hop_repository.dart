@@ -245,7 +245,10 @@ mixin HopRepository {
 
   Future<Result<MessageModel>> deleteKetLuanHop(String id);
 
-  Future<Result<MessageModel>> deleteChiTietLichHop(String id);
+  Future<Result<MessageModel>> deleteChiTietLichHop(
+    String id,
+    bool isMulti,
+  );
 
   Future<Result<MessageModel>> huyChiTietLichHop(
     String scheduleId,
@@ -399,14 +402,19 @@ mixin HopRepository {
   );
 
   Future<Result<bool>> createKetLuanHop(
-    String lichHopId,
     String scheduleId,
     String reportStatusId,
     String reportTemplateId,
-    String startDate,
-    String endDate,
     String content,
-    List<String> files,
-    List<String> filesDelete,
+    // List<File> files,
+    // List<String> filesDelete,
+  );
+
+  Future<Result<bool>> guiDuyetKetLuanHop(
+    String meetId,
+  );
+
+  Future<Result<bool>> thuHoiKetLuanHop(
+    String meetId,
   );
 }

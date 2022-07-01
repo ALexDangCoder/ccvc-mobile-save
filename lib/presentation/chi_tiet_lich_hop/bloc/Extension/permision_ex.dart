@@ -34,10 +34,10 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
     final data = jsonDecode(jsonString);
     final List<CanBoThamGiaStr> list = [];
-    (data as List<dynamic>).forEach((element) {
+    for (final element in data as List<dynamic>) {
       final cb = CanBoThamGiaStr.fromJson(element);
       list.add(cb);
-    });
+    }
     return list;
   }
 
@@ -231,7 +231,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool isOwnerNew() {
-    if(activeChuTri()) {
+    if (activeChuTri()) {
       return true;
     }
     return false;
@@ -268,7 +268,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     ///check quyen button thu hoi
     if (getChiTietLichHopModel.chuTriModel.canBoId.toUpperCase() ==
             (dataUser?.userId ?? '').toUpperCase() ||
-        isThuKy() || isNguoiTao()) {
+        isThuKy() ||
+        isNguoiTao()) {
       listButton.add(PERMISSION_DETAIL.THU_HOI);
     }
 
@@ -453,6 +454,23 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
             TRANG_THAI_DUYET_KY_THUAT.KHONG_DUYET;
   }
 
+  /// check quyen chọn phong hop
+  bool isChonPhongHop() {
+    if (!isHasPhong() && (isChuTri() || isThuKy() || isNguoiTao())) {
+      return true;
+    }
+    return false;
+  }
+
+  //check da co phong hay chua
+  bool isHasPhong() {
+    if (getThongTinPhongHopForPermision == ThongTinPhongHopModel() ||
+        getThongTinPhongHopForPermision.tenPhong == null) {
+      return false;
+    }
+    return true;
+  }
+
   ///======================= check tab chuong trinh hop ==============================
 
   ///btn them phien hop
@@ -614,6 +632,26 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 //da duyet2
 //huy duyet 3
 
+  // button duyet kl
+  bool isDuyetKL() {
+    if (isChuTri() &&
+        (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
+            getKetLuanHopModel.trangThai == TrangThai.HUY_DUYET)) {
+      return true;
+    }
+    return false;
+  }
+
+  // huy duyet kl hop
+  bool isTuCHoiKL() {
+    if (isChuTri() &&
+        (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
+            getKetLuanHopModel.trangThai == TrangThai.DA_DUYET)) {
+      return true;
+    }
+    return false;
+  }
+
   // tọa nhiệm vụ: thu ky, chu tri;(nếu tt là nháp, chỉ hiển thị kết luận với thư ký)
   bool isTaoMoiNhiemVu() {
     if (isChuTri() || isThuKy()) {
@@ -624,24 +662,26 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   // gui duyet: thuky, trang thai kl hop = nhap va huy duyet(thu ký gửi chu tri duyet gửi duyet)
   bool isGuiDuyet() {
-    if (isThuKy() ||
-        getKetLuanHopModel.trangThai == TrangThai.ChuaGuiDuyet ||
-        getKetLuanHopModel.trangThai == TrangThai.HuyDuyet) {
+    if (isThuKy() &&
+        (getKetLuanHopModel.trangThai == TrangThai.CHUA_GUI_DUYET ||
+            getKetLuanHopModel.trangThai == TrangThai.HUY_DUYET)) {
       return true;
     }
     return false;
   }
 
   // sua ket laun: chu tri(khi trạng thái là cho duyet) thu ky(khi trạng thái là nháp hoặc cho duyet)
+  //=> chủ trì sua khi tt là cho duyet hoăc da duyet
   bool isSuaKetLuan() {
     if (isChuTri()) {
-      if (getKetLuanHopModel.trangThai == TrangThai.ChoDuyet) {
+      if (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
+          getKetLuanHopModel.trangThai == TrangThai.DA_DUYET) {
         return true;
       }
     }
     if (isThuKy()) {
-      if (getKetLuanHopModel.trangThai == TrangThai.ChoDuyet ||
-          getKetLuanHopModel.trangThai == TrangThai.ChuaGuiDuyet) {
+      if (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
+          getKetLuanHopModel.trangThai == TrangThai.CHUA_GUI_DUYET) {
         return true;
       }
     }
@@ -651,7 +691,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   // gửi mail: thu ky, chu trì với tt da duyet(2)
   bool isGuiMailKetLuan() {
     if ((isChuTri() || isThuKy()) &&
-        getKetLuanHopModel.trangThai == TrangThai.DaDuyet) {
+        getKetLuanHopModel.trangThai == TrangThai.DA_DUYET) {
       return true;
     }
     return false;
@@ -659,15 +699,19 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   // thu hoi: thuky, tt = cho duyet(1)
   bool isThuHoi() {
-    if (isThuKy() && getKetLuanHopModel.trangThai == TrangThai.ChoDuyet) {
+    if (isThuKy() && getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET) {
       return true;
     }
     return false;
   }
 
   // xóa: thu ký, tt = nháp(0)
+  // => người tạo là chủ tri thi dc xoa
   bool isXoaKetLuanHop() {
-    if (isThuKy() && getKetLuanHopModel.trangThai == TrangThai.ChuaGuiDuyet) {
+    if (isChuTri()) {
+      return true;
+    }
+    if (isThuKy() && getKetLuanHopModel.trangThai == TrangThai.CHUA_GUI_DUYET) {
       return true;
     }
     return false;
@@ -675,11 +719,17 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   //xem ket ket luan hop
   bool xemKetLuanHop() {
-    if (isChuTri() || isThuKy()) {
-      return true;
-    } else if (getKetLuanHopModel.trangThai != TrangThai.DaDuyet) {
-      return false;
+    if (isChuTri()) {
+      if (getKetLuanHopModel.trangThai != TrangThai.CHUA_GUI_DUYET) {
+        return true;
+      }
     }
-    return true;
+    if (isThuKy()) {
+      return true;
+    }
+    if (getKetLuanHopModel.trangThai == TrangThai.DA_DUYET) {
+      return true;
+    }
+    return false;
   }
 }

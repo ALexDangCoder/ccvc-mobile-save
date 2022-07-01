@@ -29,6 +29,11 @@ class ImageAssets {
   static const String ic_document = '$baseImg/ic_document.svg';
   static const String ic_info_circle = '$baseImg/ic_info_circle.svg';
   static const String ic_search = '$baseImg/ic_search.svg';
+  static const String ic_delete = '$baseImg/ic_delete.svg';
+  static const String ic_document_blue = '$baseImg/ic_document_blue.svg';
+  static const String ic_edit = '$baseImg/ic_edit.svg';
+  static const String ic_update = '$baseImg/ic_update.svg';
+  static const String ic_more = '$baseImg/ic_more.svg';
 
   static SvgPicture svgAssets(
     String name, {

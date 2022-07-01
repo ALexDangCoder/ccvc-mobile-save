@@ -2,12 +2,18 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WidgetTongDai extends StatelessWidget {
-  const WidgetTongDai({Key? key}) : super(key: key);
+  final HoTroKyThuatCubit cubit;
+
+  const WidgetTongDai({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +57,14 @@ class WidgetTongDai extends StatelessWidget {
               Expanded(
                 child: textIconColumn(
                   icon: ImageAssets.ic_call,
-                  numberPhone: '0964353453',
-                  colorText: statusCalenderRed,
+                  numberPhone: cubit.listTongDai.value.first.phone.toString(),
+                  colorText: Color(
+                    int.parse(
+                      cubit.getColor(
+                        cubit.listTongDai.value.first.color.toString(),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               straightLine(
@@ -61,8 +73,14 @@ class WidgetTongDai extends StatelessWidget {
               Expanded(
                 child: textIconColumn(
                   icon: ImageAssets.ic_phone,
-                  numberPhone: '0964353453',
-                  colorText: statusCalenderRed,
+                  numberPhone: cubit.listTongDai.value.last.phone.toString(),
+                  colorText: Color(
+                    int.parse(
+                      cubit.getColor(
+                        cubit.listTongDai.value.first.color.toString(),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

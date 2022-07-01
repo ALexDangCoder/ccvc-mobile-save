@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/date_time_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'danh_sach_su_co_response.g.dart';
@@ -91,12 +92,12 @@ class PageDataResponse {
         moTaSuCo: moTaSuCo,
         soDienThoai: soDienThoai,
         diaChi: diaChi,
-        thoiGianYeuCau: thoiGianYeuCau,
+        thoiGianYeuCau: DateTime.parse(thoiGianYeuCau ?? '').formatApiLichSu,
         nguoiYeuCau: nguoiYeuCau,
         donVi: donVi,
         trangThaiXuLy: trangThaiXuLy,
         ketQuaXuLy: ketQuaXuLy,
         nguoiXuLy: nguoiXuLy,
-        ngayHoanThanh: ngayHoanThanh,
+        ngayHoanThanh: DateTime.parse(ngayHoanThanh ?? '').formatApiLichSu,
       );
 }

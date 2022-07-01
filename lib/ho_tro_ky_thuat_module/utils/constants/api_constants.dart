@@ -3,7 +3,8 @@ class ApiConstants {
   static const int PAGE_BEGIN = 1;
   static const int NOT_SAVED_ID = -1;
   static const int TIME_OUT = 30;
-  static const String DANH_SACH_SU_CO = '/api/Task/get-all';
+  static const String DANH_SACH_SU_CO = '/htkt/api/Task/get-all';
+  static const String GET_TONG_DAI = '/htkt/api/CmsSupporters/get-sysconfig';
 
 }
 

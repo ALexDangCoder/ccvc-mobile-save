@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/widget_tong_dai_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
@@ -21,9 +23,25 @@ class ThongTinChungMobile extends StatefulWidget {
 
 class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
   @override
+  void initState() {
+    widget.cubit.getTongDai();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarMobile(),
+      body: StreamBuilder<List<TongDaiModel>>(
+        stream: widget.cubit.listTongDai,
+        builder: (context, snapshot) {
+          return snapshot.data?.isNotEmpty ?? false
+              ? WidgetTongDai(
+                  cubit: widget.cubit,
+                )
+              : const SizedBox.shrink();
+        },
+      ),
     );
   }
 

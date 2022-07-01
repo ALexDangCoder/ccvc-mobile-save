@@ -1,6 +1,11 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 
 class NetworkHandler {
   static AppException handleError(DioError error) {
@@ -19,6 +24,11 @@ class NetworkHandler {
     if (errorCode == 503) {
       return MaintenanceException();
     }
+
+    if (errorCode == 401) {
+      handleUnauthorized();
+    }
+
     try {
       if (error.response?.data['message'] != null) {
         return AppException(
@@ -32,6 +42,23 @@ class NetworkHandler {
     } catch (e) {
       return parsedException;
     }
+  }
+
+  static Future<void> handleUnauthorized() async {
+    final AccountRepository _loginRepo = Get.find();
+    //API LỖI
+    // await _loginRepo.refreshToken(
+    //   PrefsService.getToken(),
+    //   PrefsService.getRefreshToken(),
+    final rs = await _loginRepo.login(
+      PrefsService.getLoginUserName(),
+      PrefsService.getLoginPassWord(),
+      APP_CODE,
+    );
+    rs.when(success: (res) {
+      PrefsService.saveToken(res.dataUser?.accessToken ?? '');
+      PrefsService.saveRefreshToken(res.dataUser?.refreshToken ?? '');
+    }, error: (error) {});
   }
 
   static bool _isNetWorkError(DioError error) {

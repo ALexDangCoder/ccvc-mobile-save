@@ -50,10 +50,11 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                       cubit: widget.cubit,
                     ),
                   ).then((value) {
-                    if (value == true) {
-                      widget.cubit.initDataChiTiet();
-                    } else if (value == null) {
+                    if (value == null) {
                       return;
+                    }
+                    if (value) {
+                      widget.cubit.callApi(widget.cubit.idCuocHop);
                     }
                   });
                 },

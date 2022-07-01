@@ -155,8 +155,9 @@ class SelectDonViCell extends StatelessWidget {
             onTap: () {
               onDelete();
             },
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.only(left: 10, right: 9.25),
+              color: Colors.transparent,
               child: SvgPicture.asset(
                 ImageAssets.icClose,
                 width: 7.5,

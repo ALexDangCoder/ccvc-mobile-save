@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/selecdate_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
@@ -124,8 +124,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
               InputInfoUserWidget(
                 title: S.current.thoi_gian_hop,
                 isObligatory: true,
-                child: SelectDate(
-                  //key: UniqueKey(),
+                child: SelectDateWidget(
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                   value: ngay.text,

@@ -146,6 +146,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       quyenBieuQuyet: quyenBieuQuyet,
       danhSachThanhPhanThamGia: danhSachThanhPhanThamGia,
     );
+    showLoading();
     final result = await hopRp.themBieuQuyet(bieuQuyetRequest);
     result.when(
       success: (res) {

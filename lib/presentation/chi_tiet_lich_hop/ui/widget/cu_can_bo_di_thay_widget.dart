@@ -54,166 +54,172 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
-      bottomWidget: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0),
-        child: DoubleButtonBottom(
-          title1: S.current.dong,
-          title2: S.current.luu,
-          onPressed1: () {
-            Navigator.pop(context);
-          },
-          onPressed2: () async {
-            if (widget.themDonViCubit.listDonVi.isEmpty) {
-              widget.themDonViCubit.validateDonVi.sink.add(true);
-            } else {
-              widget.themDonViCubit.validateDonVi.sink.add(false);
-              await widget.cubit
-                  .cuCanBoDiThay(
-                canBoDiThay: widget.cubitThanhPhanTG.listCanBo
-                    .map(
-                      (element) => CanBoDiThay(
-                        id: element.id,
-                        donViId: element.donViId,
-                        canBoId: element.canBoId,
-                        taskContent: element.noidung,
-                      ),
-                    )
-                    .toList(),
-              )
-                  .then((value) {
-                if (value) {
-                  widget.cubit.initDataChiTiet();
-                  Navigator.pop(context);
-                }
-              });
-            }
-          },
-        ),
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            ThemCanBoScreen(
-              cubit: widget.cubitThanhPhanTG,
-              needCheckTrung: false,
-              removeButton: true,
-              themCanBoCubit: widget.themCanBoCubit,
-              titleCanBo: S.current.can_bo,
-              hindSearch: S.current.tim_kiem_can_bo,
-              checkStyle: false,
-              checkUiCuCanBo: true,
-              themDonViCubit: widget.themDonViCubit,
-            ),
-            spaceH20,
-            BlockTextViewLich(
-              isRequired: false,
-              hintText: S.current.chi_tiet_cong_viec_can_phoi_hop,
-              formKey: formKeyNoiDung,
-              contentController: noiDungController,
-              title: S.current.noi_dung,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 22, bottom: 14),
-              child: GestureDetector(
-                onTap: () {
-                  try {
-                    widget.cubitThanhPhanTG.listCanBo.last.noidung =
-                        noiDungController.text;
-                  } catch (_) {}
-
-                  widget.cubitThanhPhanTG
-                      .addCanBoThamGia(widget.cubitThanhPhanTG.listCanBo);
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(ImageAssets.ic_plus),
-                      spaceW10,
-                      Text(
-                        S.current.them,
-                        style: textNormalCustom(
-                          fontSize: 12.0,
-                          color: titleCalenderWork,
+      child: FollowKeyBoardWidget(
+        bottomWidget: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24.0),
+          child: DoubleButtonBottom(
+            title1: S.current.dong,
+            title2: S.current.luu,
+            onPressed1: () {
+              Navigator.pop(context);
+            },
+            onPressed2: () async {
+              if (widget.themDonViCubit.listDonVi.isEmpty) {
+                widget.themDonViCubit.validateDonVi.sink.add(true);
+              } else {
+                widget.themDonViCubit.validateDonVi.sink.add(false);
+                await widget.cubit
+                    .cuCanBoDiThay(
+                  canBoDiThay: widget.cubitThanhPhanTG.listCanBo
+                      .map(
+                        (element) => CanBoDiThay(
+                          id: element.id,
+                          donViId: element.donViId,
+                          canBoId: element.canBoId,
+                          taskContent: element.noidung,
                         ),
                       )
-                    ],
+                      .toList(),
+                )
+                    .then((value) {
+                  if (value) {
+                    widget.cubit.initDataChiTiet();
+                    Navigator.pop(context);
+                  }
+                });
+              }
+            },
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              ThemCanBoScreen(
+                cubit: widget.cubitThanhPhanTG,
+                needCheckTrung: false,
+                removeButton: true,
+                themCanBoCubit: widget.themCanBoCubit,
+                titleCanBo: S.current.can_bo,
+                hindSearch: S.current.tim_kiem_can_bo,
+                checkStyle: false,
+                checkUiCuCanBo: true,
+                themDonViCubit: widget.themDonViCubit,
+              ),
+              spaceH20,
+              BlockTextViewLich(
+                isRequired: false,
+                hintText: S.current.chi_tiet_cong_viec_can_phoi_hop,
+                formKey: formKeyNoiDung,
+                contentController: noiDungController,
+                title: S.current.noi_dung,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 22, bottom: 14),
+                child: GestureDetector(
+                  onTap: () {
+                    try {
+                      widget.cubitThanhPhanTG.listCanBo.last.noidung =
+                          noiDungController.text;
+                    } catch (_) {}
+
+                    widget.cubitThanhPhanTG
+                        .addCanBoThamGia(widget.cubitThanhPhanTG.listCanBo);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(ImageAssets.ic_plus),
+                        spaceW10,
+                        Text(
+                          S.current.them,
+                          style: textNormalCustom(
+                            fontSize: 12.0,
+                            color: titleCalenderWork,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            StreamBuilder<List<DonViModel>>(
-              stream: widget.cubitThanhPhanTG.listCanBoThamGia,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? <DonViModel>[];
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    StreamBuilder<List<DonViModel>>(
-                      stream: widget.cubit.listDonViModel,
-                      builder: (context, snap) {
-                        final datas = snap.data ?? <DonViModel>[];
-                        return Column(
-                          children: [
-                            itemListCanBoFirst(
-                              noiDungCV: '',
-                              onDelete: () {},
-                              tenCanBo: widget.cubit.donViModel.name,
-                              tenDonvi: widget.cubit.donViModel.tenCoQuan,
-                            ),
-                            ...List.generate(
-                              datas.length,
-                              (index) => Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20.0.textScale(space: -2),
-                                ),
-                                child: itemListCanBoFirst(
-                                  noiDungCV: '',
-                                  onDelete: () {
-                                    widget.cubit.xoaKhachMoiThamGia(
-                                      datas[index],
-                                    );
-                                  },
-                                  tenCanBo: datas[index].name,
-                                  tenDonvi: datas[index].tenCoQuan,
-                                ),
+              StreamBuilder<List<DonViModel>>(
+                stream: widget.cubitThanhPhanTG.listCanBoThamGia,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? <DonViModel>[];
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StreamBuilder<List<DonViModel>>(
+                        stream: widget.cubit.listDonViModel,
+                        builder: (context, snap) {
+                          final datas = snap.data ?? <DonViModel>[];
+                          return Column(
+                            children: [
+                              itemListCanBoFirst(
+                                noiDungCV: '',
+                                onDelete: () {},
+                                tenCanBo: widget.cubit.donViModel.name,
+                                tenDonvi: widget.cubit.donViModel.tenCoQuan,
                               ),
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                    ...List.generate(
-                      data.length,
-                      (index) => Padding(
-                        padding:
-                            EdgeInsets.only(top: 20.0.textScale(space: -2)),
-                        child: itemListCanBo(
-                          noiDungCV: data[index].noidung,
-                          cubit: widget.cubitThanhPhanTG,
-                          donVi: data[index],
-                          onDelete: () {
-                            widget.cubitThanhPhanTG
-                                .xoaCanBoThamGia(data[index]);
-                            widget.themCanBoCubit.titleCanBo.sink.add('');
-                            widget.themDonViCubit.selectNodeOnlyValue = null;
-                            widget.themDonViCubit.themDonViSubject.sink
-                                .add(true);
-                            noiDungController.text = '';
-                            widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
-                            widget.themDonViCubit.listDonVi.clear();
-                          },
-                        ),
+                              ...List.generate(
+                                datas.length,
+                                (index) => Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 20.0.textScale(space: -2),
+                                  ),
+                                  child: itemListCanBoFirst(
+                                    noiDungCV: '',
+                                    onDelete: () {
+                                      widget.cubit.xoaKhachMoiThamGia(
+                                        datas[index],
+                                      );
+                                    },
+                                    tenCanBo: datas[index].name,
+                                    tenDonvi: datas[index].tenCoQuan,
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        },
                       ),
-                    )
-                  ],
-                );
-              },
-            ),
-          ],
+                      ...List.generate(
+                        data.length,
+                        (index) => Padding(
+                          padding:
+                              EdgeInsets.only(top: 20.0.textScale(space: -2)),
+                          child: itemListCanBo(
+                            noiDungCV: data[index].noidung,
+                            cubit: widget.cubitThanhPhanTG,
+                            donVi: data[index],
+                            onDelete: () {
+                              widget.cubitThanhPhanTG
+                                  .xoaCanBoThamGia(data[index]);
+                              widget.themCanBoCubit.titleCanBo.sink.add('');
+                              widget.themDonViCubit.selectNodeOnlyValue = null;
+                              widget.themDonViCubit.themDonViSubject.sink
+                                  .add(true);
+                              noiDungController.text = '';
+                              widget.themDonViCubit.sinkSelectOnlyDonVi
+                                  .add(null);
+                              widget.themDonViCubit.listDonVi.clear();
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

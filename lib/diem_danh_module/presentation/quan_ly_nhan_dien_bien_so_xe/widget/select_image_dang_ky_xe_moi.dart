@@ -5,8 +5,10 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart'
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelectImageDangKyXe extends StatefulWidget {
@@ -32,6 +34,7 @@ class SelectImageDangKyXe extends StatefulWidget {
 class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
   ImagePicker picker = ImagePicker();
   File? imageChoosse;
+  final double sizeFile=0;
 
   @override
   void initState() {
@@ -39,10 +42,21 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
   }
 
   Future<void> pickImage() async {
-    final XFile? pickImg = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickImg = await picker.pickImage(source: ImageSource.gallery,);
     if (pickImg != null) {
+      sizeFile==(File(pickImg.path).lengthSync()/(1024*1024));
+      if(sizeFile>20){
+        final toast = FToast();
+        toast.init(context);
+        toast.showToast(
+          child: ShowToast(
+            text: S.current.dung_luong_toi_da_20,
+          ),
+          gravity: ToastGravity.TOP_RIGHT,
+        );
+      }else{
       widget.onTapImage(File(pickImg.path));
-      imageChoosse = File(pickImg.path);
+      imageChoosse = File(pickImg.path);}
     }
     setState(() {});
   }
@@ -50,6 +64,7 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
   void removeImg() {
     widget.onTapImage(null);
     imageChoosse = null;
+    widget.removeImage();
     setState(() {});
   }
 

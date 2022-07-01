@@ -18,29 +18,31 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 
-class WidgetCapNhatThingTinDangKyXe extends StatefulWidget {
+class WidgetCapNhatThongTinDangKyXe extends StatefulWidget {
+ final BuildContext context;
   final DiemDanhCubit cubit;
   final ChiTietBienSoXeModel chiTietBienSoXeModel;
 
-  const WidgetCapNhatThingTinDangKyXe({
+  const WidgetCapNhatThongTinDangKyXe({
     Key? key,
     required this.cubit,
-    required this.chiTietBienSoXeModel,
+    required this.chiTietBienSoXeModel, required this.context,
   }) : super(key: key);
 
   @override
-  _WidgetCapNhatThingTinDangKyXeState createState() =>
-      _WidgetCapNhatThingTinDangKyXeState();
+  _WidgetCapNhatThongTinDangKyXeState createState() =>
+      _WidgetCapNhatThongTinDangKyXeState();
 }
 
-class _WidgetCapNhatThingTinDangKyXeState
-    extends State<WidgetCapNhatThingTinDangKyXe> {
+class _WidgetCapNhatThongTinDangKyXeState
+    extends State<WidgetCapNhatThongTinDangKyXe> {
   TextEditingController bienKiemSoatController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
 
   @override
   void initState() {
     super.initState();
+    widget.cubit.toast.init(widget.context);
     bienKiemSoatController.text =
         widget.chiTietBienSoXeModel.bienKiemSoat ?? '';
   }
@@ -59,10 +61,16 @@ class _WidgetCapNhatThingTinDangKyXeState
               title1: S.current.huy,
               title2: S.current.cap_nhat,
               onPressed1: () {
-                Navigator.pop(context);
+                Navigator.pop(widget.context);
               },
               onPressed2: () {
-                if (keyGroup.currentState!.validator()) {}
+                if (keyGroup.currentState!.validator()) {
+                  widget.cubit.capNhatBienSoxe(
+                      bienKiemSoatController.value.text,
+                      widget.chiTietBienSoXeModel.id ?? '',
+                      widget.chiTietBienSoXeModel.pictureId ?? '',
+                      widget.context);
+                }
               },
             ),
           ),

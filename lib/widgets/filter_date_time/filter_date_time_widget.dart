@@ -47,7 +47,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
       context: widget.context,
       initialDate: initialDate,
       firstDate: DateTime(1930),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(

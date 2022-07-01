@@ -47,25 +47,34 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SolidButton(
-            text: S.current.danh_sach_y_kien,
-            urlIcon: ImageAssets.ic_danhsachykien,
-            onTap: () {
-              showBottomSheetCustom(
-                context,
-                title: S.current.y_kien,
-                child: YKienBottomSheet(
-                  id: widget.id,
-                  isTablet : widget.isTablet,
+          StreamBuilder<bool>(
+            stream: widget.cubit.showButtonAddOpinion,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? false;
+              return Visibility(
+                visible: data,
+                child: SolidButton(
+                  text: S.current.danh_sach_y_kien,
+                  urlIcon: ImageAssets.ic_danhsachykien,
+                  onTap: () {
+                    showBottomSheetCustom(
+                      context,
+                      title: S.current.y_kien,
+                      child: YKienBottomSheet(
+                        id: widget.id,
+                        isTablet : widget.isTablet,
+                      ),
+                    ).then((value) {
+                      if (value == true) {
+                        widget.cubit.getDanhSachYKien(widget.id);
+                      } else if (value == null) {
+                        return;
+                      }
+                    });
+                  },
                 ),
-              ).then((value) {
-                if (value == true) {
-                  widget.cubit.getDanhSachYKien(widget.id);
-                } else if (value == null) {
-                  return;
-                }
-              });
-            },
+              );
+            }
           ),
           spaceH16,
           DanhSachYKienScreen(

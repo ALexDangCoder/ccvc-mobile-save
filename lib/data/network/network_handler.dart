@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
@@ -45,10 +46,19 @@ class NetworkHandler {
 
   static Future<void> handleUnauthorized() async {
     final AccountRepository _loginRepo = Get.find();
-    await _loginRepo.refreshToken(
-      PrefsService.getToken(),
-      PrefsService.getRefreshToken(),
+    //API LỖI
+    // await _loginRepo.refreshToken(
+    //   PrefsService.getToken(),
+    //   PrefsService.getRefreshToken(),
+    final rs = await _loginRepo.login(
+      PrefsService.getLoginUserName(),
+      PrefsService.getLoginPassWord(),
+      APP_CODE,
     );
+    rs.when(success: (res) {
+      PrefsService.saveToken(res.dataUser?.accessToken ?? '');
+      PrefsService.saveRefreshToken(res.dataUser?.refreshToken ?? '');
+    }, error: (error) {});
   }
 
   static bool _isNetWorkError(DioError error) {

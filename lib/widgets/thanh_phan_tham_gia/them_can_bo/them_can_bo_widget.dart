@@ -130,7 +130,16 @@ class ThemCanBoScreen extends StatefulWidget {
 class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    final List<DonViModel> listSelectCanBo = [];
+
+    for (var element in widget.themCanBoCubit.listSelectCanBo) {
+      if (widget.cubit.listPeople.map((e) => e.id).contains(element.id)) {
+        listSelectCanBo.add(element);
+      }
+    }
+    widget.themCanBoCubit.listSelectCanBo = listSelectCanBo;
   }
 
   @override
@@ -214,7 +223,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                 ),
                 spaceH16,
                 BaseSearchBar(
-                  hintText: S.current.nhap_ten_don_vi_phong_ban,
+                  hintText: S.current.nhap_ten_can_bo,
                   onChange: (value) {
                     widget.themCanBoCubit.search(value);
                   },
@@ -243,8 +252,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                     final result = data[index];
                                     return Padding(
                                       padding: EdgeInsets.only(
-                                        top: index == 0 ? 0 : 16,
-                                      ),
+                                          top: index == 0 ? 0 : 16),
                                       child: CanBoWidget(
                                         onCheckBox: (value) async {
                                           if (value && widget.needCheckTrung) {
@@ -265,8 +273,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                                   textContent: S.current
                                                       .ban_co_muon_tiep_tuc_khong,
                                                   icon: ImageAssets.svgAssets(
-                                                    ImageAssets.ic_trung_hop,
-                                                  ),
+                                                      ImageAssets.ic_trung_hop),
                                                   btnRightTxt: S.current.dong_y,
                                                   btnLeftTxt: S.current.khong,
                                                   isCenterTitle: true,
@@ -290,13 +297,20 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                             });
                                             return;
                                           }
-                                          widget.themCanBoCubit.selectCanBo(
-                                            result,
-                                            isCheck: value,
-                                          );
+                                          if (widget.cubit.listPeople
+                                                  .indexWhere((element) =>
+                                                      element.id ==
+                                                      result.id) ==
+                                              -1) {
+                                            widget.themCanBoCubit.selectCanBo(
+                                              result,
+                                              isCheck: value,
+                                            );
+                                          }
                                         },
                                         canBoModel: result,
                                         themCanBoCubit: widget.themCanBoCubit,
+                                        cubit: widget.cubit,
                                       ),
                                     );
                                   },
@@ -317,46 +331,49 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: screenDevice(
-                    mobileScreen: DoubleButtonBottom(
-                      title1: S.current.dong,
-                      title2: S.current.them,
-                      onPressed1: () {
-                        Navigator.pop(context);
-                      },
-                      onPressed2: () {
-                        Navigator.pop(
-                          context,
-                          widget.themCanBoCubit.listSelectCanBo,
-                        );
-                      },
+                if (widget.removeButton)
+                  Container()
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: screenDevice(
+                      mobileScreen: DoubleButtonBottom(
+                        title1: S.current.dong,
+                        title2: S.current.them,
+                        onPressed1: () {
+                          Navigator.pop(context);
+                        },
+                        onPressed2: () {
+                          Navigator.pop(
+                            context,
+                            widget.themCanBoCubit.listSelectCanBo,
+                          );
+                        },
+                      ),
+                      tabletScreen: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          button(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            title: S.current.dong,
+                          ),
+                          spaceW20,
+                          button(
+                            onTap: () {
+                              Navigator.pop(
+                                context,
+                                widget.themCanBoCubit.listSelectCanBo,
+                              );
+                            },
+                            title: S.current.them,
+                            isLeft: false,
+                          )
+                        ],
+                      ),
                     ),
-                    tabletScreen: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        button(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          title: S.current.dong,
-                        ),
-                        spaceW20,
-                        button(
-                          onTap: () {
-                            Navigator.pop(
-                              context,
-                              widget.themCanBoCubit.listSelectCanBo,
-                            );
-                          },
-                          title: S.current.them,
-                          isLeft: false,
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                  )
               ],
             ),
     );

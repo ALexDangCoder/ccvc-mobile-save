@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -7,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   final List<DonViModel> listPeople = [];
+  Node<DonViModel>? nodeDonViThemCanBo;
 
   ThanhPhanThamGiaCubit() : super(MainStateInitial());
   DonViModel donViModel = DonViModel();
@@ -45,6 +47,19 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       }
     }
     _listPeopleThamGia.sink.add(listPeople);
+  }
+
+  void addPeopleThamGiaDonVi(
+    List<DonViModel> donViModel,
+  ) {
+    final listDonVi =
+        listPeople.where((element) => element.tenCanBo.trim().isEmpty).toList();
+    for (final e in listDonVi) {
+      if (donViModel.indexWhere((element) => element.id == e.id) == -1) {
+        listPeople.remove(e);
+      }
+    }
+    addPeopleThamGia(donViModel);
   }
 
   void addCanBoThamGia(

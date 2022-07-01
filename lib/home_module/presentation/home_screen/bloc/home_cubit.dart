@@ -1723,15 +1723,28 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
   }
 
   Future<void> callApi(bool isDonVi) async {
-    showLoading();
-    final result = await homeRep.getDashboardTinhHinhXuLyPAKN(isDonVi);
-    showContent();
-    result.when(
-      success: (res) {
-        _getTinhHinhXuLy.sink.add(res);
-      },
-      error: (err) {},
-    );
+
+    if (!isDonVi) {
+      showLoading();
+      final result = await homeRep.getDashboardTinhHinhXuLyPAKNCaNhan();
+      showContent();
+      result.when(
+        success: (res) {
+          _getTinhHinhXuLy.sink.add(res);
+        },
+        error: (err) {},
+      );
+    } else {
+      showLoading();
+      final result = await homeRep.getDashboardTinhHinhXuLyPAKN(isDonVi);
+      showContent();
+      result.when(
+        success: (res) {
+          _getTinhHinhXuLy.sink.add(res);
+        },
+        error: (err) {},
+      );
+    }
   }
 }
 

@@ -194,8 +194,9 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 ),
                 spaceH20,
                 ButtonSelectFile(
+                  removeFileApi: (int index) {},
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (value) {
+                  onChange: (value,) {
                     widget.cubit.listFile = value;
                   },
                 )

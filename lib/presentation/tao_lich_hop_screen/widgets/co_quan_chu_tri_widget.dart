@@ -276,10 +276,11 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     maxSize: 30000000,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
-                    onChange: (list) {
-                      widget.cubit.listThuMoi = list;
+                    onChange: ( files,) {
+                      widget.cubit.listThuMoi = files;
                     },
                     hasMultipleFile: true,
+                    removeFileApi: (int index) {},
                   )
                 ],
               ),

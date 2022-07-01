@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
@@ -178,6 +177,35 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         );
       }
     }
+
+    /// Format date time:
+    taoLichHopRequest.timeStart = taoLichHopRequest.timeStart?.formatTime();
+    taoLichHopRequest.timeTo = taoLichHopRequest.timeTo?.formatTime();
+  }
+
+  bool checkThoiGianPhienHop() {
+    final dateTimeStart = getTime().convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    final dateTimeEnd = getTime(isGetDateStart: false).convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+    bool isInvalid = true;
+    final listHop = listPhienHop.value;
+    for(int i = 0; i < listHop.length; i++){
+      final timeStart = listHop[i].thoiGian_BatDau.convertStringToDate(
+        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+      );
+      final timeEnd = listHop[i].thoiGian_KetThuc.convertStringToDate(
+        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+      );
+      if (timeStart.isBefore(dateTimeStart) || timeEnd.isAfter(dateTimeEnd)) {
+        isInvalid = false;
+        break;
+      }
+    }
+    return isInvalid;
   }
 
   Future<bool> createMeeting() async {

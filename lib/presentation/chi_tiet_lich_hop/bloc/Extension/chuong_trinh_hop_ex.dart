@@ -217,6 +217,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
   }
 
   Future<void> callApiChuongTrinhHop() async {
+    await getDanhSachCanBoHop(idCuocHop);
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getListPhienHop(idCuocHop);
   }

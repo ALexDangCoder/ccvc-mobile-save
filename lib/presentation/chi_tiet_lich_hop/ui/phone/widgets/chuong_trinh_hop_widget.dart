@@ -641,6 +641,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 ButtonSelectFile(
                   title: S.current.tai_lieu_dinh_kem,
                   onChange: (value) {},
+                  removeFileApi: (int index) {},
                 )
               ],
             ),

@@ -12,8 +12,7 @@ class TreeViewWidget extends StatefulWidget {
   final Node<DonViModel> node;
   final ThemDonViCubit themDonViCubit;
   final bool selectOnly;
-
-  const TreeViewWidget({
+  const  TreeViewWidget({
     Key? key,
     required this.themDonViCubit,
     required this.node,

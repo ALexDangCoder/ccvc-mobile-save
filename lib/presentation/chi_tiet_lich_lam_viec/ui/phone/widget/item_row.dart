@@ -33,8 +33,10 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
         ),
         rowData(
           icon: ImageAssets.icCalendarUnFocus,
-          value: widget.cubit
-              .parseDate(widget.data.dateTo ?? DateTime.now().formatApi),
+          value: getDate(
+            widget.data.dateFrom ?? '',
+            widget.data.dateTo ?? '',
+          ),
         ),
         rowData(
           icon: ImageAssets.icCalendarUnFocus,
@@ -84,9 +86,19 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
   String getDateTime(String timeFrom, String timeTo) {
     String time = '';
     try {
-      time =
-          '${DateTime.parse(widget.data.dateTimeFrom ?? '').toStringWithAMPM}-'
-          '${DateTime.parse(widget.data.dateTimeTo ?? '').toStringWithAMPM}';
+      time = '${DateTime.parse(timeFrom).toFormat24h}-'
+          '${DateTime.parse(timeTo).toFormat24h}';
+    } on FormatException catch (_) {
+      return '';
+    }
+    return time;
+  }
+
+  String getDate(String dateFrom, String dateTo) {
+    String time = '';
+    try {
+      time = '${widget.cubit.parseDate(dateFrom)}-'
+          '${widget.cubit.parseDate(dateTo)}';
     } on FormatException catch (_) {
       return '';
     }

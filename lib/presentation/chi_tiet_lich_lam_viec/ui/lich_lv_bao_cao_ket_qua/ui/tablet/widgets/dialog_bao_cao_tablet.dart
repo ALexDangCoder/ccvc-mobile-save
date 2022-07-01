@@ -74,6 +74,7 @@ class _BaoCaoDialogTabletState extends State<BaoCaoDialogTablet> {
               // files: widget.baoCaoModel.listFile,
               title: S.current.tai_lieu_dinh_kem,
               onChange: (List<File> files) {},
+              removeFileApi: (int index) {},
             ),
             const SizedBox(
               height: 24,

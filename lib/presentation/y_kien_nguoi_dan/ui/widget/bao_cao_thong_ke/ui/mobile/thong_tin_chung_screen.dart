@@ -123,7 +123,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                           } else {
                             widget.cubit.debouncer.run(() {
                               setState(() {});
-                              widget.cubit.tuKhoa = searchText;
+                              widget.cubit.tuKhoa = searchText.trim();
                               widget.cubit.clearDSPAKN();
                               widget.cubit.getDanhSachPAKN(isSearch: true);
                               widget.cubit.showCleanText = true;
@@ -197,7 +197,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           child: RefreshIndicator(
             onRefresh: () async {
               widget.cubit.resetBeforeRefresh();
-              widget.cubit.initTimeRange();
               widget.cubit.getDashBoardPAKNTiepCanXuLy();
               widget.cubit.getDanhSachPAKN();
             },

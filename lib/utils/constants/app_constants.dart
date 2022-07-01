@@ -271,6 +271,7 @@ class MenuItemConst {
   static const LICH_LAM_VIEC = 'lichlamviec';
   static const BAO_CAO = 'bao-cao';
   static const DIEM_DANH='dashboard';
+  static const HO_TRO_KY_THUAT='ho_tro_ky_thuat';
 }
 
 class StatusCodeConst {

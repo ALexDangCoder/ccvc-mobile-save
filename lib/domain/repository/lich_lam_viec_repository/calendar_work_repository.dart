@@ -137,6 +137,7 @@ mixin CalendarWorkRepository {
     required String note,
     required bool isAllDay,
     required bool isSendMail,
+    required List<File>? files,
     required List<DonViModel> scheduleCoperativeRequest,
     required int? typeRemider,
     required int typeRepeat,
@@ -173,6 +174,8 @@ mixin CalendarWorkRepository {
     required String id,
     required bool isAllDay,
     required bool isSendMail,
+    required List<File>? files,
+    required List<String> filesDelete,
     required List<DonViModel> scheduleCoperativeRequest,
     required int? typeRemider,
     required int typeRepeat,
@@ -182,7 +185,7 @@ mixin CalendarWorkRepository {
     required List<int> days,
   });
 
-  Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
+  Future<Result<MessageModel>> editWorkCalendarWorkAboard(
     String title,
     String typeScheduleId,
     String linhVucId,
@@ -210,6 +213,8 @@ mixin CalendarWorkRepository {
     String id,
     bool isAllDay,
     bool isSendMail,
+    List<File>? files,
+    List<String> filesDelete,
     List<DonViModel> scheduleCoperativeRequest,
     int typeRemider,
     int typeRepeat,

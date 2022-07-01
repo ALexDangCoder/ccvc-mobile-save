@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -103,10 +104,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     String id, {
     bool only = true,
   }) async {
+    ShowLoadingScreen.show();
     final rs = await detailLichLamViec.deleteCalenderWork(id, only);
     rs.when(
       success: (data) {
         MessageConfig.show(title: S.current.xoa_thanh_cong);
+        eventBus.fire(RefreshCalendar());
       },
       error: (error) {
         MessageConfig.show(
@@ -115,6 +118,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         );
       },
     );
+    ShowLoadingScreen.dismiss();
   }
 
   // huy lich lam viec
@@ -132,10 +136,14 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         if (data.succeeded ?? false) {
           MessageConfig.show(title: S.current.huy_thanh_cong);
+          eventBus.fire(RefreshCalendar());
         }
       },
       error: (error) {
-        MessageConfig.show(title: S.current.huy_that_bai);
+        MessageConfig.show(
+          title: S.current.huy_that_bai,
+          messState: MessState.error,
+        );
       },
     );
     ShowLoadingScreen.dismiss();
@@ -227,8 +235,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         error: (err) {});
   }
 
-  String parseDate(String ngay) {
-    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(ngay);
+  String parseDate(String date) {
+    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(date);
 
     return '${dateTime.day} ${S.current.thang} ${dateTime.month},${dateTime.year}';
   }

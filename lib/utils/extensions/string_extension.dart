@@ -162,6 +162,20 @@ extension StringParse on String {
         return 7;
     }
   }
+
+  String formatTime(){
+    /// format 8:00 to 08:00
+    try{
+      String h = split(':').first;
+      final hour = int.parse(split(':').first);
+      if(hour <= 9){
+        h = '0$hour';
+      }
+      return '$h:${split(':').last}';
+    }catch(e){
+      return this;
+    }
+  }
 }
 
 extension CheckValidate on String {
@@ -301,6 +315,20 @@ extension CheckValidate on String {
   String? checkTruongNull(String name) {
     if (trim().isEmpty) {
       return '${S.current.ban_phai_nhap_truong} $name';
+    }
+    return null;
+  }
+
+  String? pleaseEnter(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.please_enter} ${name.toLowerCase()}';
+    }
+    return null;
+  }
+
+  String? pleaseChoose(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.please_choose} $name';
     }
     return null;
   }

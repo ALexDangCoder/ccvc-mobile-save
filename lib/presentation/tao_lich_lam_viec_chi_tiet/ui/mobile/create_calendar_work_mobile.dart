@@ -51,13 +51,14 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
   final _formKey = GlobalKey<FormGroupState>();
   bool pickTimeValidatorValue = true;
   bool chooseTypeCalendarValidatorValue = true;
-  late DateTimeCupertinoCustomCubit calCubit;
+  bool chooseFileValidatorValue = true;
+  late DateTimeCupertinoCustomCubit cupertinoCubit;
   final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    calCubit = DateTimeCupertinoCustomCubit();
+    cupertinoCubit = DateTimeCupertinoCustomCubit();
     createCubit.loadData();
     createCubit.toast.init(context);
   }
@@ -68,7 +69,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
       bloc: createCubit,
       listener: (context, state) {
         if (state is CreateSuccess) {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (BuildContext context) => NotifyWidget(
@@ -77,7 +78,16 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                 textButtom: S.current.quay_lai,
               ),
             ),
-          );
+          ).then((value) {
+            if (value == null) {
+              Navigator.pop(context, true);
+            }
+            if (value) {
+              Navigator.pop(context, true);
+            } else {
+              Navigator.pop(context, false);
+            }
+          });
         }
       },
       child: CreateWorkCalendarProvide(
@@ -146,7 +156,8 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                               image: ImageAssets.icEdit,
                               hint: S.current.tieu_de,
                               validator: (value) {
-                                return (value ?? '').validatorTitle();
+                                return (value ?? '')
+                                    .pleaseEnter(S.current.tieu_de);
                               },
                             ),
                             LoaiLichWidget(
@@ -156,7 +167,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                               },
                             ),
                             CupertinoMaterialPicker(
-                              cubit: calCubit,
+                              cubit: cupertinoCubit,
                               onSwitchPressed: (value) {
                                 createCubit.isCheckAllDaySubject.add(value);
                               },
@@ -257,7 +268,8 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                               image: ImageAssets.icViTri,
                               hint: S.current.dia_diem,
                               validator: (value) {
-                                return (value ?? '').validatorLocation();
+                                return (value ?? '')
+                                    .pleaseEnter(S.current.dia_diem);
                               },
                             ),
                             LichLapWidget(
@@ -298,7 +310,13 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             ThanhPhanThamGiaTLWidget(
                               taoLichLamViecCubit: createCubit,
                             ),
-                            TaiLieuWidget(),
+                            TaiLieuWidget(
+                              onChange: (files, value) {
+                                createCubit.filesTaoLich = files;
+                                chooseFileValidatorValue = !value;
+                              },
+                              idRemove: (String id) {},
+                            ),
                             Row(
                               children: [
                                 Expanded(
@@ -344,7 +362,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
     _formKey.currentState!.validator();
     if (_formKey.currentState!.validator() &&
         !pickTimeValidatorValue &&
-        !chooseTypeCalendarValidatorValue) {
+        !chooseTypeCalendarValidatorValue && chooseFileValidatorValue) {
       await createCubit.checkDuplicate(
         context: context,
         title: titleController.value.text.removeSpace,
@@ -353,7 +371,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
       );
     }
     if (pickTimeValidatorValue) {
-      calCubit.validateTime.sink.add(
+      cupertinoCubit.validateTime.sink.add(
         S.current.ban_phai_chon_thoi_gian,
       );
     }

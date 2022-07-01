@@ -1,11 +1,11 @@
-enum TrangThai { DaDuyet, ChoDuyet, ChuaGuiDuyet, HuyDuyet }
-enum TinhTrang { TrungBinh, Dat, ChuaDat }
+enum TrangThai { DA_DUYET, CHO_DUYET, CHUA_GUI_DUYET, HUY_DUYET }
+enum TinhTrang { TRUNG_BINH, DAT, CHUA_DAT }
 
 class KetLuanHopModel {
   String id = '';
   String thoiGian = '';
-  TrangThai trangThai = TrangThai.ChoDuyet;
-  TinhTrang tinhTrang = TinhTrang.ChuaDat;
+  TrangThai trangThai = TrangThai.CHO_DUYET;
+  TinhTrang tinhTrang = TinhTrang.CHUA_DAT;
   List<String>? file = [];
   String? title;
 
@@ -14,8 +14,8 @@ class KetLuanHopModel {
   KetLuanHopModel({
     this.id = '',
     this.thoiGian = '',
-    this.trangThai = TrangThai.ChoDuyet,
-    this.tinhTrang = TinhTrang.ChuaDat,
+    this.trangThai = TrangThai.CHO_DUYET,
+    this.tinhTrang = TinhTrang.CHUA_DAT,
     this.file,
     this.title,
   });

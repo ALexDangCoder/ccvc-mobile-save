@@ -115,6 +115,7 @@ class _SelectDonViState extends State<SelectDonVi> {
         ),
       ).then((value) {
         if (value != null) {
+          widget.cubit.nodeDonViThemCanBo = value;
           widget.onChange(value.value);
           setState(() {});
         }
@@ -132,6 +133,7 @@ class _SelectDonViState extends State<SelectDonVi> {
         },
       ).then((value) {
         if (value != null) {
+          widget.cubit.nodeDonViThemCanBo = value;
           widget.onChange(value.value);
           setState(() {});
         }
@@ -140,11 +142,10 @@ class _SelectDonViState extends State<SelectDonVi> {
   }
 
   String title() {
-    if (widget.themDonViCubit.selectNodeOnlyValue == null) {
+    if (widget.cubit.nodeDonViThemCanBo == null) {
       return widget.hintText ?? S.current.chon_don_vi_phong_ban;
     } else {
-      final Node<DonViModel> nodeDonVi =
-          widget.themDonViCubit.selectNodeOnlyValue!;
+      final Node<DonViModel> nodeDonVi = widget.cubit.nodeDonViThemCanBo!;
       if (nodeDonVi.children.isEmpty) {
         return nodeDonVi.value.name;
       }

@@ -262,14 +262,6 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${S.current.ten_bieu_quyet} : ${widget.infoModel.noiDung}',
-                      style: textNormalCustom(
-                        fontSize: 16,
-                        color: infoColor,
-                      ),
-                    ),
-                    spaceH16,
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -278,6 +270,14 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text(
+                                S.current.ten_bieu_quyet,
+                                style: textNormalCustom(
+                                  fontSize: 16,
+                                  color: infoColor,
+                                ),
+                              ),
+                              spaceH16,
                               Text(
                                 S.current.thoi_gian,
                                 style: textNormalCustom(
@@ -322,8 +322,16 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${DateTime.parse(widget.infoModel.thoiGianBatDau ?? '').formatApiListBieuQuyet} - '
-                                '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiListBieuQuyet}',
+                                '${widget.infoModel.noiDung}',
+                                style: textNormalCustom(
+                                  fontSize: 16,
+                                  color: infoColor,
+                                ),
+                              ),
+                              spaceH16,
+                              Text(
+                                '${DateTime.parse(widget.infoModel.thoiGianBatDau ?? '').formatApiListBieuQuyetMobile} - '
+                                '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiFixMeet}',
                                 style: textNormalCustom(
                                   fontSize: 16,
                                   color: infoColor,

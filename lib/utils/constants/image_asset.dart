@@ -269,8 +269,6 @@ class ImageAssets {
   static const String ic_hoan_tac_dscv = '$baseImg/ic_hoan_tac_dscv.svg';
   static const String ic_xoa_vinh_viec_cv = '$baseImg/ic_xoa_vinh_viec_cv.svg';
   static const String ic_ho_tro_ky_thuat = '$baseImg/ic_ho_tro_ky_thuat.svg';
-
-
   static const String icCameraTablet = '$baseImg/ic_camera_tablet.svg';
   static const String ic_KinhRong = '$baseImg/ic_kinh_rong.svg';
 
@@ -548,8 +546,9 @@ class ImageAssets {
   static const String img_calendar = '$baseImg/img_calendar.svg';
   static const String img_sua_lich = '$baseImg/ic_sua_lich.svg';
   static const String img_tham_gia = '$baseImg/img_tham_gia.svg';
-  static const String img_tu_choi_tham_gia = '$baseImg/img_tu_choi_tham_gia.svg';
-
+  static const String img_tu_choi_tham_gia =
+      '$baseImg/img_tu_choi_tham_gia.svg';
+  static const String ic_plus = '$baseImg/ic_plus.svg';
 
   static SvgPicture svgAssets(
     String name, {

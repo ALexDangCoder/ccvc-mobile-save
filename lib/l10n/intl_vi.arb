@@ -1194,7 +1194,11 @@
   "please_choose": "Vui lòng chọn",
   "please_enter": "Vui lòng nhập",
   "doi_phong": "Đổi phòng",
-  "vui_long_nhap": "Vui lòng nhập"
+  "vui_long_nhap": "Vui lòng nhập",
+  "danh_sach_can_bo": "Danh sách cán bộ",
+  "ten_nguoi_phoi_hop": "Tên người phối hợp",
+  "thanh_phan_bieu_quyet": "Thành phần biểu quyết",
+  "chi_tiet_cong_viec_can_phoi_hop": "Chi tiết công việc cần phối hợp"
 }
 
 

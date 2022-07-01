@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
-import 'package:flutter/material.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
@@ -322,7 +321,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     if (!isLichHuy() &&
         HiveLocal.checkPermissionApp(
           permissionType: PermissionType.VPDT,
-          permissionTxt: 'cu-can-bo-di-thay',
+          permissionTxt: 'quyen-cu-can-can-bo-di-thay',
         ) &&
         !activeChuTri() &&
         canBoThamGia().isNotEmpty &&

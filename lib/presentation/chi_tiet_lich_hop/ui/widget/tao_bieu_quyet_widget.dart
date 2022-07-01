@@ -44,7 +44,6 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.cacLuaChonBieuQuyet = [];
     widget.cubit.listDanhSach = [DanhSachNguoiThamGiaModel()];
@@ -138,45 +137,42 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                   ),
                 ),
                 StreamBuilder<bool>(
-                  stream: widget.cubit.isValidateSubject,
-                  builder: (context, snapshot) {
-                    return ShowRequied(
-                      isShow: snapshot.data ?? true,
-                      textShow: '${S.current.vui_long_nhap}'
-                          ' ${S.current.cac_lua_chon_bieu_quyet}',
-                      child: InputInfoUserWidget(
-                        isObligatory: true,
-                        title: S.current.cac_lua_chon_bieu_quyet,
-                        child: StreamBuilder<List<DanhSachNguoiThamGiaModel>>(
-                          stream: widget.cubit.nguoiThamGiaSubject,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? [];
-                            if (data.isNotEmpty) {
-                              return CustomCheckBoxList(
-                                urlIcon: ImageAssets.icDocument,
-                                title: S.current.loai_bai_viet,
-                                onChange: (value) {
-                                  setState(() {});
-                                  if (widget.cubit.listDanhSach.isEmpty) {
-                                    widget.cubit.isValidateSubject.sink
-                                        .add(true);
-                                  } else {
-                                    widget.cubit.isValidateSubject.sink
-                                        .add(false);
-                                  }
-                                  widget.cubit.listDanhSach = value;
-                                },
-                                dataNguoiThamGia: data,
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
+                    stream: widget.cubit.isValidateSubject,
+                    builder: (context, snapshot) {
+                      return ShowRequied(
+                        isShow: snapshot.data ?? true,
+                        child: InputInfoUserWidget(
+                          isObligatory: true,
+                          title: S.current.thanh_phan_bieu_quyet,
+                          child: StreamBuilder<List<DanhSachNguoiThamGiaModel>>(
+                            stream: widget.cubit.nguoiThamGiaSubject,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? [];
+                              if (data.isNotEmpty) {
+                                return CustomCheckBoxList(
+                                  urlIcon: ImageAssets.icDocument,
+                                  title: S.current.loai_bai_viet,
+                                  onChange: (value) {
+                                    setState(() {});
+                                    if (widget.cubit.listDanhSach.isEmpty) {
+                                      widget.cubit.isValidateSubject.sink
+                                          .add(true);
+                                    } else {
+                                      widget.cubit.isValidateSubject.sink
+                                          .add(false);
+                                    }
+                                    widget.cubit.listDanhSach = value;
+                                  },
+                                  dataNguoiThamGia: data,
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    }),
                 DoubleButtonBottom(
                   isTablet: true,
                   title1: S.current.dong,

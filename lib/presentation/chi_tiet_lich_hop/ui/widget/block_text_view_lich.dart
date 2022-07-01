@@ -78,6 +78,10 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
             ),
             decoration: InputDecoration(
               counterText: '',
+              hintStyle: tokenDetailAmount(
+                fontSize: 14.0.textScale(),
+                color: titleItemEdit.withOpacity(0.5),
+              ),
               hintText: widget.hintText,
               fillColor: backgroundColorApp,
               filled: true,
@@ -114,23 +118,13 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
                 ),
               ),
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
               errorStyle: tokenDetailAmount(fontSize: 12, color: canceledColor),
             ),
             validator: (value) {
               if (widget.validator != null) {
                 return widget.validator!(value);
               }
-              // if (widget.validate ?? true) {
-              //   if (value == null ||
-              //       value.trim().isEmpty && widget.isRequired) {
-              //     return S.current.khong_duoc_de_trong;
-              //   }
-              //   // if (widget.isLimitCharacter && value.length > 255) {
-              //   //   return 'limit_character';
-              //   // }
-              // }
-
               return null;
             },
           ),

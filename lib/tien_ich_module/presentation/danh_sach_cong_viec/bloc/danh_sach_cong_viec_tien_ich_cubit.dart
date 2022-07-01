@@ -37,7 +37,7 @@ class DanhSachCongViecTienIchCubit
   String groupId = '';
 
   List<TodoDSCVModel> toDoModelDefault = [];
-  List<TodoDSCVModel> toDoModelGanChoToiDefault = [];
+  List<TodoDSCVModel> toDoModelGanChoNguoiKhacDefault = [];
 
   ///gop cua hai list ben tren
   List<TodoDSCVModel> listGop = [];
@@ -58,6 +58,9 @@ class DanhSachCongViecTienIchCubit
   BehaviorSubject<int> statusDSCV = BehaviorSubject.seeded(0);
 
   DanhSachCongViecTienIchCubit() : super(MainStateInitial());
+
+  BehaviorSubject<List<CountTodoModel>> countTodoModelSubject =
+      BehaviorSubject();
 
   final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
@@ -85,7 +88,7 @@ class DanhSachCongViecTienIchCubit
   dynamic doDataTheoFilter() {
     // data trả về phụ thuộc vào hai api
     listGop = [
-      ...toDoModelGanChoToiDefault,
+      ...toDoModelGanChoNguoiKhacDefault,
       ...toDoModelDefault,
     ];
     listCongViecCuaBan = toDoModelDefault
@@ -103,7 +106,7 @@ class DanhSachCongViecTienIchCubit
           (e) => e.inUsed == true && e.isTicked == true,
         )
         .toList();
-    listDaGan = toDoModelGanChoToiDefault
+    listDaGan = toDoModelGanChoNguoiKhacDefault
         .where(
           (e) => e.inUsed == true && e.isTicked == false,
         )
@@ -111,14 +114,14 @@ class DanhSachCongViecTienIchCubit
     listDaBiXoa = listGop
         .where((e) => e.inUsed == false && e.isDeleted == false)
         .toList();
-    dataMenuDefault[DSCVScreen.CVCB].number = listCongViecCuaBan
-        .where((element) => element.isTicked == false)
-        .toList()
-        .length;
-    dataMenuDefault[DSCVScreen.CVQT].number = listQuanTrong.length;
-    dataMenuDefault[DSCVScreen.DHT].number = listDaHoanThanh.length;
-    dataMenuDefault[DSCVScreen.DG].number = listDaGan.length;
-    dataMenuDefault[DSCVScreen.DBX].number = listDaBiXoa.length;
+    // dataMenuDefault[DSCVScreen.CVCB].number = listCongViecCuaBan
+    //     .where((element) => element.isTicked == false)
+    //     .toList()
+    //     .length;
+    // dataMenuDefault[DSCVScreen.CVQT].number = listQuanTrong.length;
+    // dataMenuDefault[DSCVScreen.DHT].number = listDaHoanThanh.length;
+    // dataMenuDefault[DSCVScreen.DG].number = listDaGan.length;
+    // dataMenuDefault[DSCVScreen.DBX].number = listDaBiXoa.length;
 
     switch (statusDSCV.value) {
       case DSCVScreen.CVCB:
@@ -141,7 +144,7 @@ class DanhSachCongViecTienIchCubit
   /// khoi tao data
   Future<void> initialData() async {
     await getToDoListDSCV();
-    await getDSCVGanCHoToi();
+    await getListDSCVGanChoNguoiKhac();
     unawaited(listNguoiThucHien());
     unawaited(getNHomCVMoi());
     doDataTheoFilter();
@@ -165,7 +168,7 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         if (res.isNotEmpty) {
-          toDoModelGanChoToiDefault = res;
+          toDoModelGanChoNguoiKhacDefault = res;
         }
       },
       error: (err) {},
@@ -204,7 +207,9 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         showContent();
-        if (res.isNotEmpty) {}
+        if (res.isNotEmpty) {
+          toDoModelGanChoNguoiKhacDefault = res;
+        }
       },
       error: (err) {
         showError();
@@ -235,6 +240,7 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         showContent();
+        countTodoModelSubject.sink.add(res);
       },
       error: (err) {
         showError();
@@ -265,29 +271,7 @@ class DanhSachCongViecTienIchCubit
     }
   }
 
-  /// valueViewMenu
-  List<MenuDscvModel> dataMenuDefault = [
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01,
-      title: S.current.cong_viec_cua_ban,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icCVQT : ImageAssets.ic02,
-      title: S.current.cong_viec_quan_trong,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icHT : ImageAssets.ic03,
-      title: S.current.da_hoan_thanh,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icGanChoToi : ImageAssets.ic04,
-      title: S.current.da_gan,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icXoa : ImageAssets.ic05,
-      title: S.current.da_bi_xoa,
-    ),
-  ];
+  ///get icon menu with code
 
   void closeDialog() {
     _showDialogSetting.add(null);
@@ -419,7 +403,7 @@ class DanhSachCongViecTienIchCubit
   ///call and fill api autu
   Future<void> callAndFillApiAuto() async {
     await getToDoListDSCV();
-    await getDSCVGanCHoToi();
+    await getListDSCVGanChoNguoiKhac();
     doDataTheoFilter();
     addValueWithTypeToDSCV();
   }

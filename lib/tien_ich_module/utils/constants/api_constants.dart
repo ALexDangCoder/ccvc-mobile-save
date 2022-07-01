@@ -27,7 +27,7 @@ class ApiConstants {
   static const CHUYEN_VB_SANG_GIONG_NOI =
       '/api/TichHop/chuyen-vanban-sang-giongnoi';
   static const POST_FILE_DSCV = '/api/CmsCard/upload-file';
-  static const CONG_VIEC_GAN_CHO_NGUOI_KHAC = '/api/TodoList/get-current-user';
+  static const CONG_VIEC_GAN_CHO_NGUOI_KHAC = '/api/TodoList/get-by-give-other';
   static const GET_ALL_CONG_VIEC_WITH_FILTER = '/api/TodoList/get-all';
   static const GET_COUNT_TODO = '/api/TodoList/get-count-todo';
 }

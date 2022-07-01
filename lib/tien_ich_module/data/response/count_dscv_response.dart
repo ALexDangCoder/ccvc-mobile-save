@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 
 class CountTodoResponse {
-  List<Data>? data;
+  List<CountTodoResponseData>? data;
   int? statusCode;
   bool? succeeded;
   String? code;
@@ -12,9 +12,9 @@ class CountTodoResponse {
 
   CountTodoResponse.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <CountTodoResponseData>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(CountTodoResponseData.fromJson(v));
       });
     }
     statusCode = json['statusCode'];
@@ -23,47 +23,39 @@ class CountTodoResponse {
     message = json['message'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    data['statusCode'] = statusCode;
-    data['succeeded'] = succeeded;
-    data['code'] = code;
-    data['message'] = message;
-    return data;
-  }
-
-  List<CountTodoModel> toModel() {
-    return data?.map((e) => e.todoModel()).toList() ?? [];
-  }
+  List<CountTodoModel> toModel() =>
+      data?.map((e) => e.toDomain()).toList() ?? [];
 }
 
-class Data {
+class CountTodoResponseData {
+  String? id;
   String? name;
   String? code;
   int? count;
+  List<CountTodoResponseData>? childrenTodoViewModel;
 
-  Data({this.name, this.code, this.count});
+  CountTodoResponseData({
+    this.id,
+    this.name,
+    this.code,
+    this.count,
+    this.childrenTodoViewModel,
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  CountTodoResponseData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     code = json['code'];
     count = json['count'];
+    if (json['childrenTodoViewModel'] != null) {
+      childrenTodoViewModel = <CountTodoResponseData>[];
+      json['childrenTodoViewModel'].forEach((v) {
+        childrenTodoViewModel!.add(CountTodoResponseData.fromJson(v));
+      });
+    }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['code'] = code;
-    data['count'] = count;
-    return data;
+  CountTodoModel toDomain() {
+    return CountTodoModel();
   }
-
-  CountTodoModel todoModel() => CountTodoModel(
-        name: name,
-        code: code,
-        count: count,
-      );
 }

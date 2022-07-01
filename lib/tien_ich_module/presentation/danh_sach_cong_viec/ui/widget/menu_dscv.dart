@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/widget/container_menu_bao_chi.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/button_botton_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_menu_custom.dart';
@@ -60,95 +61,105 @@ class _MenuDSCVState extends State<MenuDSCV> {
                   StreamBuilder<int>(
                     stream: widget.cubit.statusDSCV.stream,
                     builder: (context, snapshot) {
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: widget.cubit.dataMenuDefault.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final value = widget.cubit.dataMenuDefault[index];
-                          return TheoDangLichWidgetDSCV(
-                            icon: value.icon ?? '',
-                            name: value.title ?? '',
-                            onTap: () {
-                              widget.cubit.titleAppBar.add(value.title ?? '');
-                              widget.cubit.statusDSCV.sink.add(index);
-                              widget.cubit.addValueWithTypeToDSCV();
-                              widget.cubit.groupId = '';
-                              widget.cubit.searchControler.text = '';
-                              Navigator.pop(context);
+                      return StreamBuilder<List<CountTodoModel>>(
+                        stream: widget.cubit.countTodoModelSubject,
+                        builder: (context, snapshotCountTodoModel) {
+                          final dataCountTodoModel =
+                              snapshotCountTodoModel.data ?? [];
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: dataCountTodoModel?.length ?? 0,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final value = dataCountTodoModel[index];
+                              final valuechildren = dataCountTodoModel[index]
+                                  .childrenTodoViewModel;
+                              if (value.childrenTodoViewModel != null) {
+                                ContainerMenuDSCVWidget(
+                                  name: S.current.nhom_cong_viec_moi,
+                                  icon: ImageAssets.ic_nhomCVMoi,
+                                  type: TypeContainer.expand,
+                                  childExpand: Column(
+                                    children: [
+                                      ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        itemCount: valuechildren?.length ?? 0,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, indexChildren) {
+                                          final vlChil = valuechildren?[index];
+                                          return TheoDangLichWidgetDSCV(
+                                            icon: '',
+                                            name: vlChil?.name ?? '',
+                                            onTap: () {
+                                              widget.cubit.titleAppBar
+                                                  .add(vlChil?.name ?? '');
+                                              widget.cubit.statusDSCV.sink
+                                                  .add(DSCVScreen.NCVM);
+                                              widget.cubit
+                                                  .addValueWithTypeToDSCV();
+                                              widget.cubit.groupId =
+                                                  vlChil?.id ?? '';
+                                              widget.cubit.searchControler
+                                                  .text = '';
+                                              Navigator.pop(context);
+                                            },
+                                            isSelect: false,
+                                            number: vlChil?.count ?? 0,
+                                          );
+                                        },
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 40,
+                                          right: 17,
+                                          top: 4,
+                                        ),
+                                        child: ButtonCustomBottomDSCV(
+                                          title: S.current.them_nhom_cong_viec,
+                                          isColorBlue: true,
+                                          size: 12,
+                                          onPressed: () {
+                                            showBottomSheetCustom(
+                                              context,
+                                              title: S.current.ten_nhom,
+                                              child: AddToDoWidgetTienIch(
+                                                onTap: (value) {
+                                                  widget.cubit
+                                                      .addGroupTodo(value);
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                              return TheoDangLichWidgetDSCV(
+                                icon: value.icon(),
+                                name: value.name ?? '',
+                                onTap: () {
+                                  widget.cubit.titleAppBar
+                                      .add(value.name ?? '');
+                                  widget.cubit.statusDSCV.sink.add(index);
+                                  widget.cubit.addValueWithTypeToDSCV();
+                                  widget.cubit.groupId = '';
+                                  widget.cubit.searchControler.text = '';
+                                  Navigator.pop(context);
+                                },
+                                isSelect: index == snapshot.data,
+                                number: value.count ?? 0,
+                              );
                             },
-                            isSelect: index == snapshot.data,
-                            number: value.number ?? 0,
                           );
                         },
                       );
                     },
-                  ),
-                  ContainerMenuDSCVWidget(
-                    name: S.current.nhom_cong_viec_moi,
-                    icon: ImageAssets.ic_nhomCVMoi,
-                    type: TypeContainer.expand,
-                    childExpand: Column(
-                      children: [
-                        StreamBuilder<List<NhomCVMoiModel>>(
-                          stream: widget.cubit.nhomCVMoiSubject.stream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? [];
-                            return ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: data.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                final dataIndex = data[index];
-                                return TheoDangLichWidgetDSCV(
-                                  icon: '',
-                                  name: dataIndex.label,
-                                  onTap: () {
-                                    widget.cubit.titleAppBar
-                                        .add(dataIndex.label);
-                                    widget.cubit.statusDSCV.sink
-                                        .add(DSCVScreen.NCVM);
-                                    widget.cubit.addValueWithTypeToDSCV();
-                                    widget.cubit.groupId = dataIndex.id;
-                                    widget.cubit.searchControler.text = '';
-                                    Navigator.pop(context);
-                                  },
-                                  isSelect: false,
-                                  number: widget.cubit
-                                      .soLuongNhomCvMoi(groupId: dataIndex.id),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 40,
-                            right: 17,
-                            top: 4,
-                          ),
-                          child: ButtonCustomBottomDSCV(
-                            title: S.current.them_nhom_cong_viec,
-                            isColorBlue: true,
-                            size: 12,
-                            onPressed: () {
-                              showBottomSheetCustom(
-                                context,
-                                title: S.current.ten_nhom,
-                                child: AddToDoWidgetTienIch(
-                                  onTap: (value) {
-                                    widget.cubit.addGroupTodo(value);
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                      ],
-                    ),
                   ),
                 ],
               ),
@@ -172,109 +183,112 @@ class _MenuDSCVState extends State<MenuDSCV> {
         ),
         body: Column(
           children: [
-            ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: widget.cubit.dataMenuDefault.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final value = widget.cubit.dataMenuDefault[index];
-                return CellMenuCustom(
-                  icon: value.icon ?? '',
-                  name: value.title ?? '',
-                  onTap: () {
-                    widget.cubit.titleAppBar.add(value.title ?? '');
-                    widget.cubit.statusDSCV.sink.add(index);
-                    widget.cubit.addValueWithTypeToDSCV();
-                    widget.cubit.searchControler.text = '';
-                    Navigator.pop(context);
+            StreamBuilder<int>(
+              stream: widget.cubit.statusDSCV.stream,
+              builder: (context, snapshot) {
+                return StreamBuilder<List<CountTodoModel>>(
+                  stream: widget.cubit.countTodoModelSubject,
+                  builder: (context, snapshotCountTodoModel) {
+                    final dataCountTodoModel =
+                        snapshotCountTodoModel.data ?? [];
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: dataCountTodoModel?.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final value = dataCountTodoModel[index];
+                        final valuechildren =
+                            dataCountTodoModel[index].childrenTodoViewModel;
+                        if (value.childrenTodoViewModel != null) {
+                          ContainerMenuDSCVWidget(
+                            name: S.current.nhom_cong_viec_moi,
+                            icon: ImageAssets.ic_nhomCVMoi,
+                            type: TypeContainer.expand,
+                            childExpand: Column(
+                              children: [
+                                ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: valuechildren?.length ?? 0,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, indexChildren) {
+                                    final vlChil = valuechildren?[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: CellMenuCustom(
+                                        margin: false,
+                                        icon: '',
+                                        name: vlChil?.name ?? '',
+                                        onTap: () {
+                                          widget.cubit.titleAppBar
+                                              .add(vlChil?.name ?? '');
+                                          widget.cubit.statusDSCV.sink
+                                              .add(DSCVScreen.NCVM);
+                                          widget.cubit.addValueWithTypeToDSCV();
+                                          widget.cubit.groupId =
+                                              vlChil?.id ?? '';
+                                          widget.cubit.searchControler.text =
+                                              '';
+                                          Navigator.pop(context);
+                                        },
+                                        isSelect: true,
+                                        number: widget.cubit.soLuongNhomCvMoi(
+                                          groupId: vlChil?.id ?? '',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 200, right: 8, top: 20),
+                                  child: ButtonCustomBottomDSCV(
+                                    size: 14,
+                                    title: S.current.them_nhom_cong_viec,
+                                    isColorBlue: true,
+                                    onPressed: () {
+                                      showDiaLogTablet(
+                                        context,
+                                        title: S.current.ten_nhom,
+                                        child: AddToDoWidgetTienIch(
+                                          onTap: (value) {
+                                            widget.cubit.addGroupTodo(value);
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        isBottomShow: false,
+                                        funcBtnOk: () {},
+                                        maxHeight: 200,
+                                      );
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                        return CellMenuCustom(
+                          icon: value.icon(),
+                          name: value.name ?? '',
+                          onTap: () {
+                            widget.cubit.titleAppBar.add(value.name ?? '');
+                            widget.cubit.statusDSCV.sink.add(index);
+                            widget.cubit.addValueWithTypeToDSCV();
+                            widget.cubit.groupId = '';
+                            widget.cubit.searchControler.text = '';
+                            Navigator.pop(context);
+                          },
+                          isSelect: true,
+                          number: value.count ?? 0,
+                        );
+                      },
+                    );
                   },
-                  isSelect: true,
-                  number: value.number ?? 0,
                 );
               },
             ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: ContainerMenuDSCVWidget(
-                  name: S.current.nhom_cong_viec_moi,
-                  icon: ImageAssets.ic06,
-                  type: TypeContainer.expand,
-                  childExpand: Column(
-                    children: [
-                      StreamBuilder<List<NhomCVMoiModel>>(
-                        stream: widget.cubit.nhomCVMoiSubject.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          if (data.isNotEmpty) {
-                            return ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: data.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                final dataIndex = data[index];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: CellMenuCustom(
-                                    margin: false,
-                                    icon: '',
-                                    name: dataIndex.label,
-                                    onTap: () {
-                                      widget.cubit.titleAppBar
-                                          .add(dataIndex.label);
-                                      widget.cubit.statusDSCV.sink
-                                          .add(DSCVScreen.NCVM);
-                                      widget.cubit.addValueWithTypeToDSCV();
-                                      widget.cubit.groupId = dataIndex.id;
-                                      widget.cubit.searchControler.text = '';
-                                      Navigator.pop(context);
-                                    },
-                                    isSelect: true,
-                                    number: widget.cubit.soLuongNhomCvMoi(
-                                      groupId: dataIndex.id,
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(left: 200, right: 8, top: 20),
-                        child: ButtonCustomBottomDSCV(
-                          size: 14,
-                          title: S.current.them_nhom_cong_viec,
-                          isColorBlue: true,
-                          onPressed: () {
-                            showDiaLogTablet(
-                              context,
-                              title: S.current.ten_nhom,
-                              child: AddToDoWidgetTienIch(
-                                onTap: (value) {
-                                  widget.cubit.addGroupTodo(value);
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              isBottomShow: false,
-                              funcBtnOk: () {},
-                              maxHeight: 200,
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),

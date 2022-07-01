@@ -276,7 +276,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
   @override
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoNguoiKhac() {
     return runCatchingAsync<ToDoListDSCVResponse, List<TodoDSCVModel>>(
-      () => _tienIchService.getListDSCVGanChoToi(),
+      () => _tienIchService.getListDSCVGanChoNguoiKhac(),
       (response) => response.toModel(),
     );
   }

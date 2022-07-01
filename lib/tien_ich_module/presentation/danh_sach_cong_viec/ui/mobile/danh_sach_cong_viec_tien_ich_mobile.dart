@@ -331,7 +331,7 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                     },
                   ),
                   CellPopPupMenu(
-                    urlImage: '',
+                    urlImage: ImageAssets.ic_delete_do,
                     text: S.current.xoa,
                     onTap: () {
                       showDiaLog(

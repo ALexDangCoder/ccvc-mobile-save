@@ -1198,7 +1198,9 @@
   "danh_sach_can_bo": "Danh sách cán bộ",
   "ten_nguoi_phoi_hop": "Tên người phối hợp",
   "thanh_phan_bieu_quyet": "Thành phần biểu quyết",
-  "chi_tiet_cong_viec_can_phoi_hop": "Chi tiết công việc cần phối hợp"
+  "chi_tiet_cong_viec_can_phoi_hop": "Chi tiết công việc cần phối hợp",
+  "tao_bieu_quyet_thanh_cong": "Tạo biểu quyết thành công",
+  "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công"
 }
 
 

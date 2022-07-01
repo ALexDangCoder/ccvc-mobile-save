@@ -100,11 +100,13 @@ class SelectDonViCell extends StatelessWidget {
               width: double.infinity,
               color: Colors.transparent,
               child: TextField(
+                maxLength: 30,
                 onSubmitted: onSubmitted,
                 controller: controller,
                 style: textNormal(textTitle, 14.0.textScale()),
                 decoration: const InputDecoration(
                   isDense: true,
+                  counter: SizedBox(),
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   isCollapsed: true,
                   border: InputBorder.none,

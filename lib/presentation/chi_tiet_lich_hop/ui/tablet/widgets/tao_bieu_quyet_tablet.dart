@@ -70,7 +70,6 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () async {
-                print('VVVV${widget.cubit.loaiBieuQ}');
                 if (noiDungController.text.isEmpty ||
                     widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
                     widget.cubit.listDanhSach.isEmpty) {
@@ -103,7 +102,6 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   title: S.current.loai_bieu_quyet,
                   onchange: (value) {
                     widget.cubit.loaiBieuQ = value;
-                    print('VVVV${value}');
                   },
                 ),
                 InputInfoUserWidget(
@@ -139,11 +137,13 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 Flexible(
                   child: BlockTextViewLich(
                     formKey: formKeyNoiDung,
+                    maxLenght: 255,
                     contentController: noiDungController,
                     title: S.current.ten_bieu_quyet,
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return S.current.khong_duoc_de_trong;
+                        return '${S.current.vui_long_nhap}'
+                            ' ${S.current.ten_bieu_quyet}';
                       }
                       return null;
                     },
@@ -153,6 +153,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   padding: const EdgeInsets.only(bottom: 16),
                   child: ShowRequied(
                     isShow: isShow,
+                    textShow: '${S.current.vui_long_nhap}'
+                        ' ${S.current.cac_lua_chon_bieu_quyet}',
                     child: InputInfoUserWidget(
                       isObligatory: true,
                       title: S.current.cac_lua_chon_bieu_quyet,
@@ -177,9 +179,11 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     builder: (context, snapshot) {
                       return ShowRequied(
                         isShow: snapshot.data ?? true,
+                        textShow: '${S.current.vui_long_nhap}'
+                            ' ${S.current.thanh_phan_bieu_quyet}',
                         child: InputInfoUserWidget(
                           isObligatory: true,
-                          title: S.current.cac_lua_chon_bieu_quyet,
+                          title: S.current.thanh_phan_bieu_quyet,
                           child: StreamBuilder<List<DanhSachNguoiThamGiaModel>>(
                             stream: widget.cubit.nguoiThamGiaSubject,
                             builder: (context, snapshot) {

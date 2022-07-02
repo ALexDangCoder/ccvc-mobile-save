@@ -23,11 +23,13 @@ class HandleUnauthorized {
             for (final element in _callBackUnauthorized) {
               element.onRefreshToken.call(res.dataUser?.accessToken ?? '');
             }
+            _callBackUnauthorized.clear();
           },
           error: (error) {
             for (final element in _callBackUnauthorized) {
               element.onError.call(error);
             }
+            _callBackUnauthorized.clear();
           },
         );
       });

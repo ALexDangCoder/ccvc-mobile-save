@@ -57,6 +57,7 @@ Future<void> mainApp() async {
   );
   configureDependencies();
   configureDependenciesHome();
+
   runApp(const MyApp());
 }
 

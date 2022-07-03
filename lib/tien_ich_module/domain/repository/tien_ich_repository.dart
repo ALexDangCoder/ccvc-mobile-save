@@ -95,12 +95,13 @@ mixin TienIchRepository {
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoNguoiKhac();
 
   Future<Result<List<TodoDSCVModel>>> getAllListDSCVWithFilter(
-    int pageIndex,
-    int pageSize,
-    String searchWord,
-    bool isImportant,
-    bool inUsed,
-    bool isTicked,
+    int? pageIndex,
+    int? pageSize,
+    String? searchWord,
+    bool? isImportant,
+    bool? inUsed,
+    bool? isTicked,
+    String? groupId,
   );
 
   Future<Result<List<CountTodoModel>>> getCountTodo();

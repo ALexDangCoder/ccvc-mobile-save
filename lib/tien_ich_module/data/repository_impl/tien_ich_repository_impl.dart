@@ -283,12 +283,13 @@ class TienIchRepositoryImpl implements TienIchRepository {
 
   @override
   Future<Result<List<TodoDSCVModel>>> getAllListDSCVWithFilter(
-    int pageIndex,
-    int pageSize,
-    String searchWord,
-    bool isImportant,
-    bool inUsed,
-    bool isTicked,
+    int? pageIndex,
+    int? pageSize,
+    String? searchWord,
+    bool? isImportant,
+    bool? inUsed,
+    bool? isTicked,
+    String? groupId,
   ) {
     return runCatchingAsync<TodoGetAllResponse, List<TodoDSCVModel>>(
       () => _tienIchService.getAllListDSCVWithFilter(
@@ -298,6 +299,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
         isImportant,
         inUsed,
         isTicked,
+        groupId,
       ),
       (response) => response.data?.toModel() ?? [],
     );

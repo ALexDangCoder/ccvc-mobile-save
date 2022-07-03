@@ -176,12 +176,14 @@ class KieuGiongNoi {
 }
 
 class DSCVScreen {
-  static const int CVCB = 0;
-  static const int CVQT = 1;
-  static const int DHT = 2;
-  static const int DG = 3;
-  static const int DBX = 4;
-  static const int NCVM = 5;
+  static const String CVCB = 'TodoMe';
+  static const String CVQT = 'Important';
+  static const String DHT = 'Ticked';
+  static const String DG = 'TaskOfGiveOther';
+  static const String DBX = 'Deleted';
+  static const String NCVM = 'GroupTodo';
+
+  static const List<String> screen = [CVCB, CVQT, DHT, DG, DBX, NCVM];
 }
 
 class IconDSCV {

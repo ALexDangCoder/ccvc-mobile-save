@@ -216,7 +216,7 @@ class AppCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
             offset: value.selection.start + text.length,
           ),
         ),
-        SelectionChangedCause.toolbar,
+        SelectionChangedCause.toolBar,
       );
     }
     delegate.bringIntoView(delegate.textEditingValue.selection.extent);
@@ -258,7 +258,7 @@ class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
             offset: value.selection.start + text.length,
           ),
         ),
-        SelectionChangedCause.toolbar,
+        SelectionChangedCause.toolBar,
       );
     }
     delegate.bringIntoView(delegate.textEditingValue.selection.extent);

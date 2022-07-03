@@ -55,7 +55,28 @@ class CountTodoResponseData {
     }
   }
 
+  List<CountTodoModel> countTodoModel2() {
+    final List<CountTodoModel> v2 = [];
+    childrenTodoViewModel?.forEach((element) {
+      v2.add(
+        CountTodoModel(
+          id: element.id,
+          name: element.name,
+          code: element.code,
+          count: element.count,
+        ),
+      );
+    });
+    return v2;
+  }
+
   CountTodoModel toDomain() {
-    return CountTodoModel();
+    return CountTodoModel(
+      id: id,
+      name: name,
+      code: code,
+      count: count,
+      childrenTodoViewModel: countTodoModel2(),
+    );
   }
 }

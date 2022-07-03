@@ -171,6 +171,7 @@ const iconColorDown = Color(0xffA2AEBD);
 const bgCalenderColor = Color(0xffF9FAFF);
 Color cellColorborder = Color(0xffDBDFEF).withOpacity(0.5);
 Color cellColor = Color(0xffDBDFEF).withOpacity(0.1);
+const colorFFFFFF = Color(0xffffffff);
 
 const dateColor = Color(0xFF667793);
 

@@ -111,7 +111,7 @@ class CountTodoModel {
       case 'GroupTodo':
         return ImageAssets.ic_nhomCVMoi;
     }
-    return isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01;
+    return '';
   }
 
   CountTodoModel({

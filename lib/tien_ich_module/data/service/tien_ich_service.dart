@@ -142,12 +142,13 @@ abstract class TienIchService {
 
   @POST(ApiConstants.GET_ALL_CONG_VIEC_WITH_FILTER)
   Future<TodoGetAllResponse> getAllListDSCVWithFilter(
-    @Field('pageIndex') int pageIndex,
-    @Field('pageSize') int pageSize,
-    @Field('searchWord') String searchWord,
-    @Field('isImportant') bool isImportant,
-    @Field('inUsed') bool inUsed,
-    @Field('isTicked') bool isTicked,
+    @Field('pageIndex') int? pageIndex,
+    @Field('pageSize') int? pageSize,
+    @Field('searchWord') String? searchWord,
+    @Field('isImportant') bool? isImportant,
+    @Field('inUsed') bool? inUsed,
+    @Field('isTicked') bool? isTicked,
+    @Field('groupId') String? groupId,
   );
 
   @GET(ApiConstants.GET_COUNT_TODO)

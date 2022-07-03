@@ -46,8 +46,7 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
             color: homeColor,
           ),
           textviewTitle(S.current.co_cau_lich_hop),
-          coCauLichHop(
-          ),
+          coCauLichHop(),
           Container(
             width: double.maxFinite,
             height: 6,
@@ -76,10 +75,10 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
           return PieChart(
             chartData: data,
             onTap: (value) {
-              widget.cubit.emitListViewState(type: widget.cubit.state.typeView);
-              // cubit.indexThongKe = value;
-              // cubit.postDanhSachThongKe();
-              // cubit.isListThongKeSubject.add(true);
+              widget.cubit.handleChartPicked(
+                id: data[value].id ?? '',
+                title: data[value].title,
+              );
             },
             isThongKeLichHop: false,
           );

@@ -29,6 +29,8 @@ class ButtonSelectFile extends StatefulWidget {
   final bool hasMultipleFile;
   final bool isShowFile;
   final double? maxSize;
+  final Function(int index) removeFileApi;
+
 
   ButtonSelectFile({
     Key? key,
@@ -45,6 +47,7 @@ class ButtonSelectFile extends StatefulWidget {
     this.hasMultipleFile = false,
     this.isShowFile = true,
     this.maxSize,
+    required this.removeFileApi,
   }) : super(key: key);
 
   @override
@@ -54,11 +57,14 @@ class ButtonSelectFile extends StatefulWidget {
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
   final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
   String errText = '';
+  List<String> filesRepo = [];
 
   @override
   void initState() {
     super.initState();
     widget.files ??= [];
+    filesRepo.clear();
+    (widget.files ?? []).map((e) => filesRepo.add(e.path)).toList();
   }
 
   bool isFileError(List<String?> files) {
@@ -80,7 +86,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         GestureDetector(
           onTap: () async {
             final FilePickerResult? result =
-                await FilePicker.platform.pickFiles(
+            await FilePicker.platform.pickFiles(
               allowMultiple: true,
             );
 
@@ -88,7 +94,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
               if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
                   final listSelect =
-                      result.paths.map((path) => File(path ?? '')).toList();
+                  result.paths.map((path) => File(path ?? '')).toList();
                   if (widget.maxSize != null) {
                     bool isOverSize = false;
                     errText = '';
@@ -186,6 +192,9 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                       return itemListFile(
                         file: e,
                         onTap: () {
+                          if (filesRepo.contains(e.path)) {
+                            widget.removeFileApi(filesRepo.indexOf(e.path));
+                          }
                           _cubit.deleteFile(e, widget.files ?? []);
                           if (widget.hasMultipleFile) {
                             widget.onChange(widget.files ?? []);

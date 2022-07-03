@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -52,6 +53,7 @@ const spaceW8 = SizedBox(width: 8);
 const spaceW10 = SizedBox(width: 10);
 const spaceW12 = SizedBox(width: 12);
 const spaceW13 = SizedBox(width: 13);
+const spaceW14 = SizedBox(width: 14);
 const spaceW15 = SizedBox(width: 15);
 const spaceW16 = SizedBox(width: 16);
 const spaceW18 = SizedBox(width: 18);
@@ -68,6 +70,31 @@ const spaceW60 = SizedBox(width: 60);
 const spaceW78 = SizedBox(width: 78);
 const spaceW100 = SizedBox(width: 100);
 
+Widget line({
+  double paddingLeft = 0,
+  double paddingRight = 0,
+}) =>
+    Padding(
+      padding: EdgeInsets.only(
+        right: paddingRight,
+        left: paddingLeft,
+      ),
+      child: Container(
+        height: 1,
+        width: double.infinity,
+        color: AppTheme.getInstance().borderColors().withOpacity(0.5),
+      ),
+    );
+
+Widget straightLine({
+  double height = 0,
+}) =>
+    Container(
+      height: height,
+      width: 1,
+      color: containerColorTab,
+    ); //straight line
+
 TextStyle textNormal(Color? color, double? fontSize) {
   return GoogleFonts.roboto(
     color: color ?? Colors.white,
@@ -83,7 +110,7 @@ TextStyle tokenDetailAmount({
   FontWeight weight = FontWeight.w400,
 }) {
   return GoogleFonts.roboto(
-    color: color ??  Colors.white,
+    color: color ?? Colors.white,
     fontWeight: weight,
     fontStyle: FontStyle.normal,
     fontSize: fontSize,

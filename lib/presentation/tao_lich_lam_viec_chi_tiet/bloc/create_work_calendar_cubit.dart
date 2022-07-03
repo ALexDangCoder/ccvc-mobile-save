@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_sele
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
@@ -158,6 +159,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   ScheduleReminder? scheduleReminder;
   bool? publishSchedule;
   List<Files>? files;
+  List<File>? filesTaoLich;
+  List<String> filesDelete = [];
   String? id;
   ChiTietLichLamViecModel detailCalendarWorkModel = ChiTietLichLamViecModel();
   final toast = FToast();
@@ -222,7 +225,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     final queue = Queue(parallel: 4);
     unawaited(queue.add(() => _getLinhVuc()));
     unawaited(queue.add(() => _dataTypeCalendar()));
-    unawaited(queue.add(() => _getNguoiChuTri()));
+    unawaited(queue.add(() => _getLeader()));
     unawaited(queue.add(() => getDataProvince()));
     unawaited(queue.add(() => getCountry()));
     await queue.onComplete;
@@ -263,18 +266,19 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     final result = await _workCal
         .getLinhVuc(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     result.when(
-        success: (res) {
-          if (res.isNotEmpty) {
-            selectLinhVuc = res.first;
-          }
-          _linhVuc.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        if (res.isNotEmpty) {
+          selectLinhVuc = res.first;
+        }
+        _linhVuc.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   String userId = '';
 
-  Future<void> _getNguoiChuTri() async {
+  Future<void> _getLeader() async {
     final dataUser = HiveLocal.getDataUser();
 
     final result = await _workCal.getNguoiChuTri(
@@ -325,64 +329,67 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       ),
     );
     result.when(
-        success: (res) {
-          showContent();
-          if (res.data == true) {
-            showDiaLog(
-              context,
-              textContent: S.current.ban_co_muon_tiep_tuc_khong,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () async {
-                if (!isEdit) {
-                  await createWorkCalendar(
-                    title: title,
-                    content: content,
-                    location: location,
-                  );
-                } else if (isInside) {
-                  await editWorkCalendar(
-                    title: title,
-                    content: content,
-                    location: location,
-                    only: isOnly,
-                  );
-                } else {
-                  await editWorkCalendarAboard(
-                    title: title,
-                    content: content,
-                    location: location,
-                    only: isOnly,
-                  );
-                }
-                //Navigator.pop(context);
-              },
-              title: res.code ?? '',
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icUserMeeting),
+      success: (res) {
+        showContent();
+        if (res.data == true) {
+          showDiaLog(
+            context,
+            textContent: S.current.ban_co_muon_tiep_tuc_khong,
+            btnLeftTxt: S.current.khong,
+            funcBtnRight: () async {
+              if (!isEdit) {
+                await createWorkCalendar(
+                  title: title,
+                  content: content,
+                  location: location,
+                );
+              } else if (isEdit && isInside) {
+                await editWorkCalendar(
+                  title: title,
+                  content: content,
+                  location: location,
+                  only: isOnly,
+                );
+              } else {
+                await editWorkCalendarAboard(
+                  title: title,
+                  content: content,
+                  location: location,
+                  only: isOnly,
+                );
+              }
+              //Navigator.pop(context);
+            },
+            title: res.code ?? '',
+            btnRightTxt: S.current.dong_y,
+            icon: SvgPicture.asset(ImageAssets.icUserMeeting),
+          );
+        } else {
+          if (!isEdit) {
+            createWorkCalendar(
+              title: title,
+              content: content,
+              location: location,
+            );
+          } else if (isEdit && isInside) {
+            editWorkCalendar(
+              title: title,
+              content: content,
+              location: location,
             );
           } else {
-            if (!isEdit) {
-              createWorkCalendar(
-                title: title,
-                content: content,
-                location: location,
-              );
-            } else if (isEdit && isInside) {
-              editWorkCalendar(
-                title: title,
-                content: content,
-                location: location,
-              );
-            } else {
-              editWorkCalendarAboard(
-                title: title,
-                content: content,
-                location: location,
-              );
-            }
+            editWorkCalendarAboard(
+              title: title,
+              content: content,
+              location: location,
+            );
           }
-        },
-        error: (error) {});
+        }
+      },
+      error: (error) {
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
+      },
+    );
   }
 
   Future<void> createWorkCalendar({
@@ -436,6 +443,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       note: '',
       isAllDay: isCheckAllDaySubject.value,
       isSendMail: true,
+      files: filesTaoLich,
       scheduleCoperativeRequest: donviModel ?? [],
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
@@ -449,12 +457,12 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       success: (res) {
         emit(CreateSuccess());
         eventBus.fire(RefreshCalendar());
-        showContent();
       },
       error: (error) {
-        showContent();
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
       },
     );
+    showContent();
   }
 
   Future<void> editWorkCalendar({
@@ -492,6 +500,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       id: id ?? '',
       isAllDay: isCheckAllDaySubject.value,
       isSendMail: true,
+      files: filesTaoLich,
+      filesDelete: filesDelete,
       scheduleCoperativeRequest: donviModel ?? [],
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
@@ -504,12 +514,12 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       success: (res) {
         emit(CreateSuccess());
         eventBus.fire(RefreshCalendar());
-        showContent();
       },
       error: (error) {
-        showContent();
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
       },
     );
+    showContent();
   }
 
   Future<void> editWorkCalendarAboard({
@@ -519,7 +529,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     bool only = true,
   }) async {
     showLoading();
-    final result = await _workCal.suaLichLamViecNuocNgoai(
+    final result = await _workCal.editWorkCalendarWorkAboard(
       title,
       selectLoaiLich?.id ?? '',
       selectLinhVuc?.id ?? '',
@@ -548,6 +558,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       id ?? '',
       isCheckAllDaySubject.value,
       true,
+      filesTaoLich,
+      filesDelete,
       donviModel ?? [],
       selectNhacLai.value ?? 1,
       selectLichLap.id ?? 0,
@@ -560,12 +572,12 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       success: (res) {
         emit(CreateSuccess());
         eventBus.fire(RefreshCalendar());
-        showContent();
       },
       error: (error) {
-        showContent();
+        MessageConfig.show(title: S.current.error, messState: MessState.error);
       },
     );
+    showContent();
   }
 
   Future<void> getDataProvince() async {
@@ -573,10 +585,11 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       TinhSelectRequest(pageIndex: 1, pageSize: 100),
     );
     result.when(
-        success: (res) {
-          tinhSelectSubject.sink.add(res.items ?? []);
-        },
-        error: (error) {});
+      success: (res) {
+        tinhSelectSubject.sink.add(res.items ?? []);
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> getDataDistrict(String provinceId) async {

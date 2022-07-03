@@ -15,6 +15,16 @@ extension DateFormatString on DateTime {
     return dateString;
   }
 
+  String get toFormat24h {
+    var dateString = '';
+    try {
+      dateString = DateFormat.Hm('en').format(this);
+    } catch (e) {
+      return '';
+    }
+    return dateString;
+  }
+
   String get toStringWithAMPMJMS {
     final dateString = DateFormat.jms('en').format(this);
     return dateString;
@@ -33,7 +43,7 @@ extension DateFormatString on DateTime {
 
   String get formatDayCalendar {
     final dateString =
-        (DateFormat(' dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');
+    (DateFormat(' dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');
 
     return dateString;
   }
@@ -125,14 +135,14 @@ extension DateFormatString on DateTime {
 
   String get formatDateTime {
     final dateString =
-        (DateFormat('HH:mm ,dd-MM').format(this)).replaceAll('-', ' tháng ');
+    (DateFormat('HH:mm ,dd-MM').format(this)).replaceAll('-', ' tháng ');
 
     return dateString;
   }
 
   String get formatMonth {
     final dateString =
-        (DateFormat('dd-MM').format(this)).replaceAll('-', ' tháng ');
+    (DateFormat('dd-MM').format(this)).replaceAll('-', ' tháng ');
     return dateString;
   }
 
@@ -177,7 +187,7 @@ extension DateFormatString on DateTime {
   List<DateTime> _tuanNay() {
     final startDate = _getDate(subtract(Duration(days: weekday - 1)));
     final endDate =
-        _getDate(add(Duration(days: DateTime.daysPerWeek - weekday)));
+    _getDate(add(Duration(days: DateTime.daysPerWeek - weekday)));
     return [startDate, endDate];
   }
 
@@ -187,10 +197,13 @@ extension DateFormatString on DateTime {
       month,
     );
     final endDate = DateTime.fromMillisecondsSinceEpoch(
-      DateTime.utc(
+      DateTime
+          .utc(
         year,
         month + 1,
-      ).subtract(const Duration(days: 1)).millisecondsSinceEpoch,
+      )
+          .subtract(const Duration(days: 1))
+          .millisecondsSinceEpoch,
     );
     return [startDate, endDate];
   }
@@ -217,3 +230,4 @@ extension TimeFormatString on TimerData {
     return '$hour:$minute';
   }
 }
+

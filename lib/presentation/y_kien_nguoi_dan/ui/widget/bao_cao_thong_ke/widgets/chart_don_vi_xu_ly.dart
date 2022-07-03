@@ -47,24 +47,10 @@ class ChartDonViXuLyWidget extends StatelessWidget {
                     maximumLabelWidth: 90,
                     majorGridLines: const MajorGridLines(width: 0),
                   ),
-                  primaryYAxis: CategoryAxis(
-                    labelStyle: textNormalCustom(
-                      color: AqiColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    placeLabelsNearAxisLine: true,
-                    axisLine: const AxisLine(
-                      color: AqiColor,
-                      width: 0.41,
-                    ),
-                    interval: cubit.getMax(data),
-                    minimum: 0,
+                  primaryYAxis: NumericAxis(
                     majorGridLines: const MajorGridLines(
-                      width: 0.34,
-                      color: AqiColor,
-                      dashArray: [5, 5],
-                    ),
+                        width: 0.5, color: AqiColor, dashArray: <double>[5, 5]),
+                    minorTicksPerInterval: 0,
                   ),
                   series: <ChartSeries<DonViYKNDModel, String>>[
                     BarSeries<DonViYKNDModel, String>(

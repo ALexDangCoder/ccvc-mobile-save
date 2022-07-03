@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PrefsService {
   static const _PREF_LANGUAGE = 'pref_language';
   static const _PREF_TOKEN = 'pref_token';
-  static const _PREF_REFRESH_TOKEN = 'pref_token';
+  static const _PREF_REFRESH_TOKEN = 'pref_refresh_token';
 
   static const _PREF_DATA_USER = 'pref_data_user';
   static const _PREF_APP_THEME = 'pref_app_theme';
@@ -27,6 +27,10 @@ class PrefsService {
 
   static String getToken() {
     return _prefsInstance?.getString(_PREF_TOKEN) ?? '';
+  }
+
+  static String getRefreshToken() {
+    return _prefsInstance?.getString(_PREF_REFRESH_TOKEN) ?? '';
   }
 
   static String getLoginUserName() {

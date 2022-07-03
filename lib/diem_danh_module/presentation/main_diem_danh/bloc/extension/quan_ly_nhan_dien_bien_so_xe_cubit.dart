@@ -1,3 +1,10 @@
+import 'dart:io';
+import 'package:ccvc_mobile/data/di/module.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/request/get_all_files_id_request.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/danh_sach_bien_so_xe_request.dart';
@@ -12,12 +19,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   Future<void> postDanhSachBienSoXe() async {
-    final thongKeDiemDanhCaNhanRequest = DanhSachBienSoXeRequest(
-      userId: HiveLocal.getDataUser()?.userId ?? '',
-    );
+    final danhSachBienSoXeRequest = DanhSachBienSoXeRequest(
+        userId: HiveLocal.getDataUser()?.userId ?? '',
+        pageIndex: 1,
+        pageSize: 10);
     showLoading();
-    final result =
-        await diemDanhRepo.danhSachBienSoXe(thongKeDiemDanhCaNhanRequest);
+    final result = await diemDanhRepo.danhSachBienSoXe(danhSachBienSoXeRequest);
     result.when(
       success: (res) {
         if (res.items?.isEmpty == true) {
@@ -44,18 +51,27 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     });
   }
 
-  Future<void> dangKyThongTinXeMoi(String bienKiemSoat,BuildContext context) async {
+  Future<void> dangKyThongTinXeMoi(
+      String bienKiemSoat, BuildContext context) async {
     final dangKyThongTinXeMoiRequest = DangKyThongTinXeMoiRequest(
-      loaiSoHuu: loaiSoHuu??DanhSachBienSoXeConst.XE_CAN_BO,
+      loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
       userId: HiveLocal.getDataUser()?.userId ?? '',
       bienKiemSoat: bienKiemSoat,
-      loaiXeMay: xeMay??DanhSachBienSoXeConst.XE_MAY,
+      loaiXeMay: xeMay ?? DanhSachBienSoXeConst.XE_MAY,
     );
     showLoading();
     final result =
         await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
+        if(fileItemBienSoXe.isNotEmpty==true) {
+          postImageResgiter(
+            idCreateResgiter: res.id,
+            entityName: ApiConstants.BIEN_SO_XE_ENTITY,
+            fileTypeUpload: ApiConstants.BIEN_SO_XE_TYPE,
+            files: fileItemBienSoXe,
+          );
+        }
         showContent();
         toast.showToast(
           child: ShowToast(
@@ -71,5 +87,89 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         showContent();
       },
     );
+  }
+
+  ///update number plate, driver license
+  Future<void> capNhatBienSoxe(
+      String bienKiemSoat, String id,String idPicture, BuildContext context) async {
+    final capNhatBienSoXeRequest = CapNhatBienSoXeRequest(
+      id: id,
+      loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
+      userId: HiveLocal.getDataUser()?.userId ?? '',
+      bienKiemSoat: bienKiemSoat,
+      loaiXeMay: xeMay ?? DanhSachBienSoXeConst.XE_MAY,
+    );
+    showLoading();
+    final result = await diemDanhRepo.capNhatBienSoXe(capNhatBienSoXeRequest);
+    result.when(
+        success: (res) {
+          if (fileItemBienSoXe.isNotEmpty == true) {
+            deleteImage(idPicture);
+            postImageResgiter(
+              idCreateResgiter: res.id,
+              entityName: ApiConstants.BIEN_SO_XE_ENTITY,
+              fileTypeUpload: ApiConstants.BIEN_SO_XE_TYPE,
+              files: fileItemBienSoXe,
+            );
+          }
+          showContent();
+          toast.showToast(
+            child: ShowToast(
+              color:colorE9F9F1 ,
+              icon: ImageAssets.ic_tick_showToast,
+              text: S.current.luu_du_lieu_thanh_cong,
+            ),
+            gravity: ToastGravity.BOTTOM,
+          );
+          Navigator.pop(context,true);
+        },
+        error: (error) {});
+  }
+
+  ///delete image
+  Future<void> deleteImage(String id) async {
+    showLoading();
+    final result = await diemDanhRepo.deleteImage(id);
+    result.when(
+      success: (success) {
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
+  }
+
+  /// post image select
+  Future<String> postImageResgiter({
+  required  dynamic idCreateResgiter,
+  required  String fileTypeUpload,
+  required  String entityName,
+  required  List<File> files,}
+  ) async {
+    final result = await diemDanhRepo.postFileModel(
+      idCreateResgiter,
+      fileTypeUpload,
+      entityName,
+      false,
+      files,
+    );
+    result.when(
+      success: (success) {
+        idPicture.sink.add(success.data?.first);
+        return success.data?.first;
+      },
+      error: (error) {
+        return '';
+      },
+    );
+    return '';
+  }
+  ///get url bien so xe
+  String? getUrlImageBienSoXe( String? id) {
+    if (id != null) {
+      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$id/$tokken';
+    }
+    return null;
   }
 }

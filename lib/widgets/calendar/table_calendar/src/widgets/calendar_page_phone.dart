@@ -11,7 +11,7 @@ class CalendarPage extends StatelessWidget {
   final Decoration? rowDecoration;
   final TableBorder? tableBorder;
   final bool dowVisible;
-
+  final bool isDowTop;
   const CalendarPage({
     Key? key,
     required this.visibleDays,
@@ -21,6 +21,7 @@ class CalendarPage extends StatelessWidget {
     this.rowDecoration,
     this.tableBorder,
     this.dowVisible = true,
+    this.isDowTop = true
   })  : assert(!dowVisible || dowBuilder != null),
         super(key: key);
 
@@ -30,8 +31,11 @@ class CalendarPage extends StatelessWidget {
 
       border: tableBorder,
       children: [
-        if (dowVisible) _buildDaysOfWeek(context),
+        if (dowVisible && isDowTop) _buildDaysOfWeek(context),
         ..._buildCalendarDays(context),
+        if (dowVisible && !isDowTop) _buildDaysOfWeekPading(context),
+        if (dowVisible && !isDowTop) _buildDaysOfWeek(context),
+
       ],
     );
   }
@@ -42,6 +46,17 @@ class CalendarPage extends StatelessWidget {
       children: List.generate(
         7,
         (index) => dowBuilder!(context, visibleDays[index]),
+      ).toList(),
+    );
+  }
+  TableRow _buildDaysOfWeekPading(BuildContext context) {
+    return TableRow(
+      decoration: dowDecoration,
+      children: List.generate(
+        7,
+            (index) => const SizedBox(
+              height: 10,
+            ),
       ).toList(),
     );
   }

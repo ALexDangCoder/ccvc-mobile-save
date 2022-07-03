@@ -46,6 +46,15 @@ class _DateTimeCusState extends State<DateTimeCus>
   }
 
   @override
+  void didUpdateWidget(covariant DateTimeCus oldWidget) {
+    year = widget.initialDate?.year ?? DateTime.now().year;
+    month = widget.initialDate?.month ?? DateTime.now().month;
+    selectDate =
+        widget.initialDate?.formatddMMYYYY() ?? DateTime.now().formatddMMYYYY();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,

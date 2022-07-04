@@ -1,11 +1,13 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/dropdown_trang_thai_pakn.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
@@ -42,6 +44,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
     widget.cubit.getDanhSachPAKN();
   }
+
+
 
   @override
   void dispose() {
@@ -224,38 +228,39 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     child: ExpandPAKNWidget(
                       name: S.current.tinh_hinh_xu_ly_pakn,
                       child: StreamBuilder<DashBoardPAKNModel>(
-                          stream:
-                              widget.cubit.dashBoardPAKNTiepCanXuLyBHVSJ.stream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ??
-                                DashBoardPAKNModel(
-                                  dashBoardHanXuLyPAKNModel:
-                                      DashBoardHanXuLyPAKNModel(),
-                                  dashBoardTiepNhanPAKNModel:
-                                      DashBoardTiepNhanPAKNModel(),
-                                  dashBoardXuLyPAKNModelModel:
-                                      DashBoardXuLyPAKNModel(),
-                                );
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                TiepCanWidget(
-                                  model: data,
-                                  cubit: widget.cubit,
-                                ),
-                                const SizedBox(
-                                  height: 33,
-                                ),
-                                XuLyWidget(
-                                  model: data,
-                                  cubit: widget.cubit,
-                                ),
-                              ],
-                            );
-                          }),
+                        stream:
+                            widget.cubit.dashBoardPAKNTiepCanXuLyBHVSJ.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ??
+                              DashBoardPAKNModel(
+                                dashBoardHanXuLyPAKNModel:
+                                    DashBoardHanXuLyPAKNModel(),
+                                dashBoardTiepNhanPAKNModel:
+                                    DashBoardTiepNhanPAKNModel(),
+                                dashBoardXuLyPAKNModelModel:
+                                    DashBoardXuLyPAKNModel(),
+                              );
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TiepCanWidget(
+                                model: data,
+                                cubit: widget.cubit,
+                              ),
+                              const SizedBox(
+                                height: 33,
+                              ),
+                              XuLyWidget(
+                                model: data,
+                                cubit: widget.cubit,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -315,13 +320,22 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              child: Text(
-                                S.current.danh_sach_pakn,
-                                style: textNormalCustom(
-                                  color: textTitle,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      S.current.danh_sach_pakn,
+                                      style: textNormalCustom(
+                                        color: textTitle,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(child: DropDownTrangThaiPAKN()),
+                                ],
                               ),
                             ),
                             ListView.builder(
@@ -466,8 +480,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         child: Text(
                           statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1).text,
                           style: textNormalCustom(
-                            color: statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1)
-                                .color,
+                            color:
+                                statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1)
+                                    .color,
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
@@ -513,5 +528,32 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     } else {
       return TextTrangThai(S.current.den_han, choVaoSoColor);
     }
+  }
+
+  Widget _item({
+    required Color colorBG,
+    required String title,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(30),
+        ),
+        color: colorBG,
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: textNormalCustom(
+            color: AppTheme.getInstance().dfBtnTxtColor(),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
   }
 }

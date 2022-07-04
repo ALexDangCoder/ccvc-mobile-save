@@ -1193,7 +1193,6 @@
   "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
    "dung_luong_toi_da_30": "Dung lượng tối đa 30MB",
-  "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
   "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
   "da_gan": "Đã gán",
   "danh_sach_can_bo": "Danh sách cán bộ",
@@ -1237,5 +1236,8 @@
   "danh_gia":"Đánh giá",
   "dang_cho_xu_ly":"Đang chờ xử lý",
   "tu_choi_xu_ly":"Từ chối xử lý",
-  "vui_long_tai_anh_len": "Vui lòng tải ảnh lên"
+  "vui_long_tai_anh_len": "Vui lòng tải ảnh lên",
+  "tat_ca": "Tất cả",
+  "dang_ky_thanh_cong": "Đăng ký thành công",
+  "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau"
 }

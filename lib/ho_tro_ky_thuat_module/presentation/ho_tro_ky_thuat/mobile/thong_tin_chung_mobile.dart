@@ -42,7 +42,10 @@ class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarMobile(),
-      floatingActionButton: floatingHTKT(),
+      floatingActionButton: floatingHTKT(
+        context,
+        widget.cubit,
+      ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {
@@ -50,18 +53,14 @@ class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
         },
         error: AppException('', S.current.something_went_wrong),
         stream: widget.cubit.stateStream,
-        child: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
+        child: Column(
           children: [
-            RefreshIndicator(
-              onRefresh: () async {
-                await widget.cubit.getAllApiThongTinChung();
-              },
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await widget.cubit.getAllApiThongTinChung();
+                },
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Padding(
@@ -70,7 +69,7 @@ class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
                           title: [
                             Expanded(
                               child: Text(
-                                S.current.danh_sach_ho_tro_ky_thuat,
+                                S.current.thong_ke_su_co,
                                 style: textNormalCustom(
                                   color: AppTheme.getInstance().titleColor(),
                                   fontSize: 16,
@@ -85,7 +84,8 @@ class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
                               final list = snapshot.data ?? [];
                               return list.isNotEmpty
                                   ? ChartThongTinChung(
-                                      listData: [//todo data
+                                      listData: [
+                                        //todo data
                                         [
                                           ChartData(
                                             S.current.all,
@@ -214,20 +214,18 @@ class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
-              child: StreamBuilder<List<TongDaiModel>>(
-                stream: widget.cubit.listTongDai,
-                builder: (context, snapshot) {
-                  return snapshot.data?.isNotEmpty ?? false
-                      ? WidgetTongDai(
+            StreamBuilder<List<TongDaiModel>>(
+              stream: widget.cubit.listTongDai,
+              builder: (context, snapshot) {
+                return snapshot.data?.isNotEmpty ?? false
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: WidgetTongDai(
                           cubit: widget.cubit,
-                        )
-                      : const SizedBox.shrink();
-                },
-              ),
+                        ),
+                      )
+                    : const SizedBox.shrink();
+              },
             ),
           ],
         ),

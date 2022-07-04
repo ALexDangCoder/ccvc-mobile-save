@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
@@ -10,7 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemMoiYCHoTroMobile extends StatefulWidget {
-  const ThemMoiYCHoTroMobile({Key? key}) : super(key: key);
+  final HoTroKyThuatCubit cubit;
+
+  const ThemMoiYCHoTroMobile({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   State<ThemMoiYCHoTroMobile> createState() => _ThemMoiYCHoTroMobileState();
@@ -20,8 +26,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //todo đang để tạm
-      height: 450,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -171,7 +175,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           inputFormatters: inputFormatter,
           textInputType: textInputType,
         ),
-
       ],
     );
   }
@@ -216,14 +219,10 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           top: 24,
         ),
         child: DoubleButtonBottom(
-          onPressed1: () {
-
-          },
+          onPressed1: () {},
           title1: S.current.dong,
           title2: S.current.gui_yc,
-          onPressed2: () {
-
-          },
+          onPressed2: () {},
         ),
       );
 }

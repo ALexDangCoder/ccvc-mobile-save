@@ -74,7 +74,7 @@ class WidgetTongDai extends StatelessWidget {
                   numberPhone: cubit.listTongDai.value.last.phone.toString(),
                   colorText: Color(
                     cubit.getColor(
-                      cubit.listTongDai.value.first.color.toString(),
+                      cubit.listTongDai.value.last.color.toString(),
                     ),
                   ),
                 ),
@@ -105,7 +105,7 @@ Widget textIconColumn({
         style: textNormalCustom(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: AppTheme.getInstance().titleColor(),
+          color: colorText,
         ),
       ),
     ],

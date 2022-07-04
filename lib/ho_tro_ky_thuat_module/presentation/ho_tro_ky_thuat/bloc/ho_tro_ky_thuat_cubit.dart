@@ -41,10 +41,10 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   int getColor(String color) {
     if (color.isNotEmpty) {
-      final String value = color.replaceAll('#', '0xff');
+      final String value = color.replaceAll('#', '0xFF');
       return int.parse(value);
     }
-    return int.parse('0xfffffff');
+    return 0xfffffff;
   }
 
   void onClickPopupMenu(DanhSachSuCoModel value, int index) {
@@ -67,6 +67,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Future<void> getListDanhBaCaNhan({
     required int page,
   }) async {
+    showLoading();
     final result = await _hoTroKyThuatRepository.postDanhSachSuCo(
       page,
       ApiConstants.DEFAULT_PAGE_SIZE,
@@ -92,6 +93,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showLoading();
     await getNguoiXuLy();
     await getTongDai();
+    getCategory();
     showContent();
   }
 
@@ -113,6 +115,19 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         listTongDai.add(res);
+      },
+      error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+      },
+    );
+  }
+
+  Future<void> getCategory() async {
+    final result = await _hoTroKyThuatRepository.getCategory('khu-vuc');
+    result.when(
+      success: (res) {
+        //todo
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));

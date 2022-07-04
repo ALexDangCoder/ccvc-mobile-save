@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -90,7 +91,16 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                 id: item.id ?? '',
               ),
             ),
-          );
+          ).then((value) {
+            if (value != null && value) {
+              if (widget.cubit.state is CalendarViewState ||
+                  widget.cubit.state is ListViewState) {
+                widget.cubit.refreshDataDangLich();
+              } else {
+                widget.cubit.getDataDangChart();
+              }
+            }
+          });
         } else {
           Navigator.push(
             context,
@@ -99,7 +109,16 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                 id: item.id ?? '',
               ),
             ),
-          );
+          ).then((value) {
+            if (value != null && value) {
+              if (widget.cubit.state is CalendarViewState ||
+                  widget.cubit.state is ListViewState) {
+                widget.cubit.refreshDataDangLich();
+              } else {
+                widget.cubit.getDataDangChart();
+              }
+            }
+          });
         }
       },
       child: Container(
@@ -197,13 +216,49 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: itemAvatar(''),
-                        ),
+                      Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: itemAvatar(''),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: itemAvatar(''),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: itemAvatar(''),
+                          ),
+                        ],
                       ),
+                      if (item.bit_HopTrucTuyen != null)
+                        Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                            right: 15,
+                          ),
+                          margin: const EdgeInsets.only(right: 15),
+                          decoration: BoxDecoration(
+                            color: item.bit_HopTrucTuyen ?? false
+                                ? choVaoSoColor
+                                : dangXyLyColor,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          height: 24,
+                          child: Text(
+                            item.bit_HopTrucTuyen ?? false
+                                ? S.current.truc_tuyen
+                                : S.current.truc_tiep,
+                            style: textNormalCustom(
+                              color: colorFFFFFF,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        )
                     ],
                   ),
                 ],

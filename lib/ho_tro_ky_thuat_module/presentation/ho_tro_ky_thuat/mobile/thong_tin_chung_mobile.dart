@@ -85,7 +85,7 @@ class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
                               final list = snapshot.data ?? [];
                               return list.isNotEmpty
                                   ? ChartThongTinChung(
-                                      listData: [
+                                      listData: [//todo data
                                         [
                                           ChartData(
                                             S.current.all,

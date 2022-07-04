@@ -9,8 +9,8 @@ class GroupImplResponse {
   GroupDataResponse? data;
 
   GroupImplResponse(
-      this.data,
-      );
+    this.data,
+  );
 
   factory GroupImplResponse.fromJson(Map<String, dynamic> json) =>
       _$GroupImplResponseFromJson(json);
@@ -30,7 +30,6 @@ class GroupDataResponse {
 
   Map<String, dynamic> toJson() => _$GroupDataResponseToJson(this);
 
-
   List<ThanhVien>? toListThanhVien() =>
       data?.map((e) => e.toThanhVien()).toList();
 }
@@ -43,22 +42,25 @@ class GroupResponse {
   String? id;
   @JsonKey(name: 'chucVu')
   String? chucVu;
+  @JsonKey(name: 'phone')
+  String? soDienThoai;
 
   GroupResponse(
-      this.name,
-      this.id,
-      this.chucVu,
-      );
+    this.name,
+    this.id,
+    this.chucVu,
+    this.soDienThoai,
+  );
 
   factory GroupResponse.fromJson(Map<String, dynamic> json) =>
       _$GroupResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$GroupResponseToJson(this);
 
-
   ThanhVien toThanhVien() => ThanhVien(
-    idThanhVien: id,
-    tenThanhVien: name,
-    chucVu: chucVu,
-  );
+        idThanhVien: id,
+        tenThanhVien: name,
+        chucVu: chucVu,
+        soDienThoai: soDienThoai,
+      );
 }

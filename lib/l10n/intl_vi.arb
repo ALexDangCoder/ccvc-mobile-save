@@ -1198,6 +1198,8 @@
   "please_choose": "Vui lòng chọn",
   "please_enter": "Vui lòng nhập",
   "doi_phong": "Đổi phòng",
+  "danh_gia": "Đánh giá",
+  "chap_nhap_thxl": "Cập nhật THXL",
   "vui_long_nhap": "Vui lòng nhập",
   "danh_sach_can_bo": "Danh sách cán bộ",
   "ten_nguoi_phoi_hop": "Tên người phối hợp",
@@ -1205,7 +1207,11 @@
   "chi_tiet_cong_viec_can_phoi_hop": "Chi tiết công việc cần phối hợp",
   "tao_bieu_quyet_thanh_cong": "Tạo biểu quyết thành công",
   "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công",
-  "vui_long_tai_anh_len": "Vui lòng tải ảnh lên"
+  "danh_sach_ho_tro_ky_thuat": "Danh sách thông tin cán bộ hỗ trợ kỹ thuật",
+  "vui_long_tai_anh_len": "Vui lòng tải ảnh lên",
+  "tat_ca": "Tất cả",
+  "dang_ky_thanh_cong": "Đăng ký thành công",
+  "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau"
 }
 
 

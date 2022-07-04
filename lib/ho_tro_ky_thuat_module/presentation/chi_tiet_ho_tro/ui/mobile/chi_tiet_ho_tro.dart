@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/cap_nhat_tinh_hinh_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/danh_gia_yeu_cau_ho_tro.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
@@ -31,7 +32,8 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
     // TODO: implement initState
     super.initState();
     cubit = ChiTietHoTroCubit();
-    cubit.callApi();
+    cubit.getSupportDetail(widget.idHoTro);
+    cubit.getNguoiXuLy();
   }
 
   @override
@@ -46,107 +48,164 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
           ),
         ),
       ),
-      body: BlocBuilder<ChiTietHoTroCubit, ChiTietHoTroState>(
+      body: BlocConsumer<ChiTietHoTroCubit, ChiTietHoTroState>(
         bloc: cubit,
+        listener: (context, state) {
+          if (state is ChiTietHoTroLoading) {
+            cubit.showLoading();
+          }
+          if (state is ChiTietHoTroSuccess) {
+            if (state.completeType == CompleteType.SUCCESS) {
+              cubit.supportDetail = state.supportDetail ?? cubit.supportDetail;
+              cubit.showContent();
+            } else {
+              cubit.message = state.errorMess ?? '';
+              cubit.showError();
+            }
+          }
+        },
         builder: (context, state) {
           return StateStreamLayout(
             stream: cubit.stateStream,
-            error: AppException(S.current.something_went_wrong, ''),
-            retry: () {},
-            textEmpty: '',
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      spaceH12,
-                      title(S.current.thong_tin_yeu_cau),
-                      spaceH16,
-                      rowItem(S.current.don_vi, 'Trung tâm tin học'),
-                      spaceH10,
-                      rowItem(
-                          S.current.nguoi_yeu_cau, 'Nguyễn Văn A - Trưởng phòng'),
-                      spaceH10,
-                      rowItem(S.current.so_dien_thoai_lien_he, '0964950763'),
-                      spaceH10,
-                      rowItem(S.current.ten_thiet_bi, 'Cung cấp thiết bị làm việc'),
-                      spaceH10,
-                      rowItem(S.current.ngay_yeu_cau, '25/05/2022 | 10:59:00'),
-                      spaceH10,
-                      rowItem(S.current.mo_ta_su_co,
-                          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
-                      spaceH10,
-                      rowItem(S.current.dia_chi,
-                          'Số 302, Toà E, Khu vực 69 Nguyễn Thái Học'),
-                      spaceH10,
-                      loaiSuCo(['Tất cả', 'sự cố máy tính', 'Sự cố hệ thống']),
-                      spaceH20,
-                      title(S.current.ket_qua_xu_ly),
-                      spaceH16,
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              S.current.trang_thai_xu_ly,
-                              style: textNormalCustom(
-                                color: color667793,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          spaceW12,
-                          Expanded(
-                            flex: 3,
-                            child: 'DANG_THUC_HIEN'.getStatusNV().getStatus(),
-                          ),
-                        ],
-                      ),
-                      spaceH10,
-                      rowItem(S.current.ket_qua_xu_ly, 'Nguyễn Văn A'),
-                      spaceH10,
-                      rowItem(S.current.nguoi_xu_ly, 'Nguyễn Văn A'),
-                      spaceH10,
-                      rowItem(
-                          S.current.ngay_hoan_thanh, '25/05/2022 | 10:59:00 SA'),
-                      spaceH10,
-                      rowItem(S.current.nhan_xet, 'Hoàn thành tốt'),
-                      spaceH20,
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      left: 16.w,
-                      right: 16.w,
-                    ),
-                    height: 63.h,
-                    color: Colors.white,
-                    child: DoubleButtonBottom(
-                      title1: S.current.dong,
-                      title2: S.current.cap_nhat_thxl,
-                      onPressed1: () {},
-                      onPressed2: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (_) {
-                            return CapNhatTinhHinhHoTro();
-                          },
-                        );
-                      },
-                      noPadding: true,
-                    ),
-                  ),
-                ),
-              ],
+            error: AppException(
+              S.current.something_went_wrong,
+              cubit.message,
             ),
+            retry: () {
+              cubit.getSupportDetail(widget.idHoTro);
+              cubit.getNguoiXuLy();
+            },
+            textEmpty: '',
+            child: (state is ChiTietHoTroSuccess)
+                ? Stack(
+                    children: [
+                      SingleChildScrollView(
+                        padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            spaceH12,
+                            title(S.current.thong_tin_yeu_cau),
+                            spaceH16,
+                            rowItem(
+                              S.current.don_vi,
+                              cubit.supportDetail.donVi,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.nguoi_yeu_cau,
+                              (cubit.supportDetail.nguoiYeuCau ?? '') +
+                                  (cubit.supportDetail.chucVu ?? ''),
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.so_dien_thoai_lien_he,
+                              cubit.supportDetail.soDienThoai,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.ten_thiet_bi,
+                              cubit.supportDetail.tenThietBi,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.ngay_yeu_cau,
+                              cubit.supportDetail.thoiGianYeuCau,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.mo_ta_su_co,
+                              cubit.supportDetail.moTaSuCo,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.dia_chi,
+                              cubit.supportDetail.diaChi,
+                            ),
+                            spaceH10,
+                            loaiSuCo(
+                              cubit.supportDetail.loaiSuCo ?? [],
+                            ),
+                            spaceH20,
+                            title(S.current.ket_qua_xu_ly),
+                            spaceH16,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    S.current.trang_thai_xu_ly,
+                                    style: textNormalCustom(
+                                      color: color667793,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                spaceW12,
+                                Expanded(
+                                  flex: 3,
+                                  child:
+                                      (cubit.supportDetail.trangThaiXuLy ?? '')
+                                          .getStatusNV()
+                                          .getStatus(),
+                                ),
+                              ],
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.ket_qua_xu_ly,
+                              cubit.supportDetail.ketQuaXuLy,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.nguoi_xu_ly,
+                              cubit.supportDetail.nguoiXuLy,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.ngay_hoan_thanh,
+                              cubit.supportDetail.ngayHoanThanh,
+                            ),
+                            spaceH10,
+                            rowItem(
+                              S.current.nhan_xet,
+                              cubit.supportDetail.nhanXet,
+                            ),
+                            spaceH20,
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            left: 16.w,
+                            right: 16.w,
+                          ),
+                          height: 63.h,
+                          color: Colors.white,
+                          child: DoubleButtonBottom(
+                            title1: S.current.dong,
+                            title2: S.current.cap_nhat_thxl,
+                            onPressed1: () {},
+                            onPressed2: () {
+                              showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (_) {
+                                  return CapNhatTinhHinhHoTro();
+                                },
+                              );
+                            },
+                            noPadding: true,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
           );
         },
       ),
@@ -274,12 +333,9 @@ Widget statusTrangThaiXuLy({required String name, required Color background}) {
 
 enum StatusHoTro {
   DANG_CHO_XU_LY,
+  DANG_XU_LY,
   DA_XU_LY,
-  DANG_THUC_HIEN,
-  THU_HOI,
-  DA_HOAN_THANH,
-  CHO_PHAN_XU_LY,
-  TRA_LAI,
+  TU_CHOI_XU_LY,
   NONE,
 }
 
@@ -288,37 +344,25 @@ extension StatusChiTietNV on StatusHoTro {
     switch (this) {
       case StatusHoTro.DANG_CHO_XU_LY:
         return statusTrangThaiXuLy(
-          name: S.current.qua_han,
-          background: statusCalenderRed,
+          name: S.current.dang_cho_xu_ly,
+          background: chuaThucHienColor,
         );
-      case StatusHoTro.DANG_THUC_HIEN:
+      case StatusHoTro.DANG_XU_LY:
         return statusTrangThaiXuLy(
-          name: S.current.dang_thuc_hien,
+          name: S.current.dang_xu_ly,
           background: blueNhatChart,
         );
-      case StatusHoTro.THU_HOI:
+      case StatusHoTro.DA_XU_LY:
         return statusTrangThaiXuLy(
-          name: S.current.thu_hoi,
-          background: yellowColor,
-        );
-      case StatusHoTro.DA_HOAN_THANH:
-        return statusTrangThaiXuLy(
-          name: S.current.da_hoan_thanh,
+          name: S.current.da_xu_ly,
           background: daXuLyColor,
         );
-      case StatusHoTro.CHO_PHAN_XU_LY:
+      case StatusHoTro.TU_CHOI_XU_LY:
         return statusTrangThaiXuLy(
-          name: S.current.cho_phan_xu_ly,
-          background: color5A8DEE,
-        );
-      case StatusHoTro.TRA_LAI:
-        return statusTrangThaiXuLy(
-          name: S.current.tra_lai,
-          background: statusCalenderRed,
+          name: S.current.tu_choi_xu_ly,
+          background: specialPriceColor,
         );
       case StatusHoTro.NONE:
-        return const SizedBox();
-      case StatusHoTro.DA_XU_LY:
         return const SizedBox();
     }
   }
@@ -327,20 +371,16 @@ extension StatusChiTietNV on StatusHoTro {
 extension GetStatusNV on String {
   StatusHoTro getStatusNV() {
     switch (this) {
-      case 'DANG_THUC_HIEN':
-      case 'Đang thực hiện':
-        return StatusHoTro.DANG_THUC_HIEN;
-      case 'THU_HOI':
-        return StatusHoTro.THU_HOI;
-      case 'Đã hoàn thành':
-      case 'DA_HOAN_THANH':
-        return StatusHoTro.DA_HOAN_THANH;
-      case 'CHO_PHAN_XU_LY':
-        return StatusHoTro.CHO_PHAN_XU_LY;
-      case 'TRA_LAI':
-        return StatusHoTro.TRA_LAI;
+      case 'Đang chờ xử lý':
+        return StatusHoTro.DANG_CHO_XU_LY;
+      case 'Đang xử lý':
+        return StatusHoTro.DANG_XU_LY;
+      case 'Đã xử lý':
+        return StatusHoTro.DA_XU_LY;
+      case 'Từ chối xử lý':
+        return StatusHoTro.TU_CHOI_XU_LY;
       default:
-        return StatusHoTro.TRA_LAI;
+        return StatusHoTro.NONE;
     }
   }
 }

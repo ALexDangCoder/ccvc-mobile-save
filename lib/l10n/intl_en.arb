@@ -926,6 +926,7 @@
   "ban_co_chac_muon": "Bạn có chắc muốn",
   "khong_edit": "không?",
   "dung_luong_toi_da": "Dung lượng tối đa 15MB",
+  "dung_luong_toi_da_20": "Dung lượng tối đa 20MB",
   "ban_phai_nhap_truong": "Bạn phải nhập trường",
   "tin_buon": "Tin Buồn",
   "quoc_gia": "Quốc gia",
@@ -1195,6 +1196,7 @@
   "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
   "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
+  "da_gan": "Đã gán",
   "danh_sach_can_bo": "Danh sách cán bộ",
   "ten_nguoi_phoi_hop": "Tên người phối hợp",
   "thanh_phan_bieu_quyet": "Thành phần biểu quyết",
@@ -1217,5 +1219,8 @@
   "chuyen_xu_ly_report": "Chuyển xử lý",
   "yeu_cau_phoi_hop_report": " Yêu cầu phối hợp",
   "menu_lich_hop": "Menu Lịch họp",
-  "doi_phong": "Đổi phòng"
+  "doi_phong": "Đổi phòng",
+  "vui_long_nhap": "Vui lòng nhập",
+  "tao_bieu_quyet_thanh_cong": "Tạo biểu quyết thành công",
+  "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công"
 }

@@ -9,10 +9,11 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ChartByTimeWidget extends StatelessWidget {
   final CalendarMeetingCubit cubit;
-  const ChartByTimeWidget({
+  ChartByTimeWidget({
     Key? key,
     required this.cubit,
   }) : super(key: key);
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +24,10 @@ class ChartByTimeWidget extends StatelessWidget {
         builder: (context, snapshot) {
           final dataByMonth = snapshot.data ?? [];
           return Scrollbar(
+            controller: _scrollController,
             isAlwaysShown: true,
             child: SingleChildScrollView(
+              controller: _scrollController,
               scrollDirection: Axis.horizontal,
               child: SizedBox(
                 width: 600,

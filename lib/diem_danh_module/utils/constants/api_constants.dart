@@ -26,6 +26,7 @@ class ApiConstants {
   static const GET_FILE = '/ddth/api/Files';
   static const XOA_BIEN_XO_XE = '/ddth/api/SYSBienSoXe/Delete/{id}';
   static const DANG_KY_THONG_TIN_XE_MOI = '/ddth/api/SYSBienSoXe/Create';
+  static const CAP_NHAT_THONG_TIN_XE_MOI = '/ddth/api/SYSBienSoXe/Update';
   static const DELETE_IMAGE = '/ddth/api/Files/{id}';
 }
 

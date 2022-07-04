@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -41,7 +40,6 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     if (!isMobile()) {
@@ -59,16 +57,12 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
           }
         },
         title: S.current.ket_luan_hop,
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ketLuanHop(),
-                textKetLuanHopNhiemVu(),
-                listDanhSachNhiemVu()
-              ],
-            ),
+            ketLuanHop(),
+            textKetLuanHopNhiemVu(),
+            listDanhSachNhiemVu()
           ],
         ),
       ),

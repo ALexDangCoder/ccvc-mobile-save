@@ -146,11 +146,12 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       quyenBieuQuyet: quyenBieuQuyet,
       danhSachThanhPhanThamGia: danhSachThanhPhanThamGia,
     );
+    showLoading();
     final result = await hopRp.themBieuQuyet(bieuQuyetRequest);
     result.when(
       success: (res) {
         MessageConfig.show(
-          title: S.current.tao_thanh_cong,
+          title: S.current.tao_bieu_quyet_thanh_cong,
         );
       },
       error: (err) {
@@ -161,7 +162,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
           );
         } else {
           MessageConfig.show(
-            title: S.current.tao_that_bai,
+            title: S.current.tao_bieu_quyet_khong_thanh_cong,
             messState: MessState.error,
           );
         }

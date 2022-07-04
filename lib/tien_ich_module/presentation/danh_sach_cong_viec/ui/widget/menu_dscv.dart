@@ -173,7 +173,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, indexChildren) {
-                                        final vlChil =
+                                        final valueChild =
                                             valueChildren?[indexChildren];
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -181,14 +181,14 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                           child: CellMenuCustom(
                                             margin: false,
                                             icon: '',
-                                            name: vlChil?.name ?? '',
+                                            name: valueChild?.name ?? '',
                                             onTap: () {
                                               onTopInMenuChildren(
-                                                vlChil ?? CountTodoModel(),
+                                                valueChild ?? CountTodoModel(),
                                               );
                                             },
                                             isSelect: true,
-                                            number: vlChil?.count ?? 0,
+                                            number: valueChild?.count ?? 0,
                                           ),
                                         );
                                       },

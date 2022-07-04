@@ -29,8 +29,8 @@ class DanhSachCongViecTienIchTablet extends StatefulWidget {
 class _DanhSachCongViecTienIchTabletState
     extends State<DanhSachCongViecTienIchTablet> {
   DanhSachCongViecTienIchCubit cubit = DanhSachCongViecTienIchCubit();
-  bool isOpenWhenInit1 = true;
-  bool isOpenWhenInit2 = true;
+  bool isOpenWhenInitListUp = true;
+  bool isOpenWhenInitListDown = true;
   String textSearch = '';
 
   @override
@@ -100,7 +100,7 @@ class _DanhSachCongViecTienIchTabletState
                             return expanTablet(
                               isOtherType: dataType == DSCVScreen.CVCB ||
                                   dataType == DSCVScreen.NCVM,
-                              isCheck: isOpenWhenInit1,
+                              isCheck: isOpenWhenInitListUp,
                               title: S.current.gan_cho_toi,
                               count: data.length,
                               child: data.isNotEmpty
@@ -133,7 +133,7 @@ class _DanhSachCongViecTienIchTabletState
                           return expanTablet(
                             isOtherType: dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.NCVM,
-                            isCheck: isOpenWhenInit2,
+                            isCheck: isOpenWhenInitListDown,
                             title: S.current.da_hoan_thanh,
                             count: data.length,
                             child: data.isNotEmpty

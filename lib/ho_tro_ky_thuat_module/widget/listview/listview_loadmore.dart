@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListViewLoadMore extends StatelessWidget {
+class ListViewLoadMore extends StatefulWidget {
   final BaseCubit<dynamic> cubit;
   final Function(int page) callApi;
   final Widget Function(dynamic, int?) viewItem;
@@ -30,59 +30,69 @@ class ListViewLoadMore extends StatelessWidget {
     this.sinkWap,
   }) : super(key: key);
 
+  @override
+  State<ListViewLoadMore> createState() => _ListViewLoadMoreState();
+}
+
+class _ListViewLoadMoreState extends State<ListViewLoadMore> {
   Future<void> refreshPosts() async {
-    if (!cubit.loadMoreLoading) {
-      cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
-      cubit.loadMoreRefresh = true;
-      cubit.loadMoreLoading = true;
-      await callApi(cubit.loadMorePage);
+    if (!widget.cubit.loadMoreLoading) {
+      widget.cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
+      widget.cubit.loadMoreRefresh = true;
+      widget.cubit.loadMoreLoading = true;
+      await widget.callApi(widget.cubit.loadMorePage);
     }
   }
 
   Future<void> loadMorePosts() async {
-    if (!cubit.loadMoreLoading) {
-      cubit.loadMorePage += ApiConstants.PAGE_BEGIN;
-      cubit.loadMoreRefresh = false;
-      cubit.loadMoreLoading = true;
-      cubit.loadMoreSink.add(cubit.loadMoreLoading);
-      await callApi(cubit.loadMorePage);
+    if (!widget.cubit.loadMoreLoading) {
+      widget.cubit.loadMorePage += ApiConstants.PAGE_BEGIN;
+      widget.cubit.loadMoreRefresh = false;
+      widget.cubit.loadMoreLoading = true;
+      widget.cubit.loadMoreSink.add(widget.cubit.loadMoreLoading);
+      await widget.callApi(widget.cubit.loadMorePage);
     }
   }
 
   Future<void> initData() async {
-    cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
-    cubit.loadMoreRefresh = true;
-    cubit.loadMoreLoading = true;
-    await callApi(cubit.loadMorePage);
+    widget.cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
+    widget.cubit.loadMoreRefresh = true;
+    widget.cubit.loadMoreLoading = true;
+    await widget.callApi(widget.cubit.loadMorePage);
+  }
+
+  @override
+  void initState() {
+    initData();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    initData();
     return BlocConsumer(
-      bloc: cubit,
+      bloc: widget.cubit,
       listener: (ctx, state) {
         if (state is CompletedLoadMore) {
           if (state.completeType == CompleteType.SUCCESS) {
-            if (cubit.loadMoreRefresh ||
-                cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
-              cubit.loadMoreList.clear();
+            if (widget.cubit.loadMoreRefresh ||
+                widget.cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
+              widget.cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
-                cubit.showEmpty();
+                widget.cubit.showEmpty();
               } else {
-                cubit.showContent();
+                widget.cubit.showContent();
               }
             }
           } else {
-            cubit.loadMoreList.clear();
-            cubit.showError();
+            widget.cubit.loadMoreList.clear();
+            widget.cubit.showError();
           }
-          cubit.loadMoreList.addAll(state.posts ?? []);
-          cubit.canLoadMore =
+          widget.cubit.loadMoreList.addAll(state.posts ?? []);
+          widget.cubit.canLoadMore =
               (state.posts?.length ?? 0) >= ApiConstants.DEFAULT_PAGE_SIZE;
-          cubit.loadMoreLoading = false;
-          cubit.loadMoreSink.add(cubit.loadMoreLoading);
-          cubit.loadMoreListController.add(cubit.loadMoreList);
+          widget.cubit.loadMoreLoading = false;
+          widget.cubit.loadMoreSink.add(widget.cubit.loadMoreLoading);
+          widget.cubit.loadMoreListController.add(widget.cubit.loadMoreList);
         }
       },
       builder: (BuildContext context, Object? state) {
@@ -95,10 +105,10 @@ class ListViewLoadMore extends StatelessWidget {
             S.current.something_went_wrong,
           ),
           textEmpty: S.current.list_empty,
-          stream: cubit.stateStream,
+          stream: widget.cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (cubit.canLoadMore &&
+              if (widget.cubit.canLoadMore &&
                   scrollInfo.metrics.pixels ==
                       scrollInfo.metrics.maxScrollExtent) {
                 loadMorePosts();
@@ -110,17 +120,18 @@ class ListViewLoadMore extends StatelessWidget {
               child: Stack(
                 children: [
                   StreamBuilder(
-                    stream: cubit.loadMoreListStream,
+                    stream: widget.cubit.loadMoreListStream,
                     builder: (
                       BuildContext context,
                       AsyncSnapshot<List<dynamic>> snapshot,
                     ) {
-                      return isListView == true
+                      return widget.isListView == true
                           ? ListView.builder(
-                              shrinkWrap: sinkWap ?? false,
+                              shrinkWrap: widget.sinkWap ?? false,
                               itemCount: snapshot.data?.length ?? 0,
                               itemBuilder: (ctx, index) {
-                                return viewItem(snapshot.data![index], index);
+                                return widget.viewItem(
+                                    snapshot.data![index], index);
                               },
                             )
                           : GridView.builder(
@@ -134,12 +145,13 @@ class ListViewLoadMore extends StatelessWidget {
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 16,
-                                crossAxisSpacing: crossAxisSpacing ?? 28,
-                                childAspectRatio: checkRatio ?? 2 / 3,
+                                crossAxisSpacing: widget.crossAxisSpacing ?? 28,
+                                childAspectRatio: widget.checkRatio ?? 2 / 3,
                               ),
                               itemCount: snapshot.data?.length ?? 0,
                               itemBuilder: (_, index) {
-                                return viewItem(snapshot.data![index], index);
+                                return widget.viewItem(
+                                    snapshot.data![index], index);
                               },
                             );
                     },
@@ -149,7 +161,7 @@ class ListViewLoadMore extends StatelessWidget {
                     right: 16,
                     left: 16,
                     child: StreamBuilder<bool>(
-                      stream: cubit.loadMoreStream,
+                      stream: widget.cubit.loadMoreStream,
                       builder: (context, snapshot) {
                         return snapshot.data ?? false
                             ? LoadingItem()

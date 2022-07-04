@@ -1,10 +1,10 @@
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -118,8 +118,9 @@ class ItemDanhSachSuCo extends StatelessWidget {
             child: cubit.listCheckPopupMenu[index]
                 ? Container(
                     width: 179,
-                    padding: const EdgeInsets.all(
-                      16,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 16,
                     ),
                     decoration: BoxDecoration(
                       color: backgroundColorApp,
@@ -146,31 +147,25 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           icon: ImageAssets.ic_edit,
                           function: (value) {},
                         ),
-                        spaceH10,
                         line(
                           paddingLeft: 35,
                         ),
-                        spaceH10,
                         itemMenu(
                           title: S.current.xoa,
                           icon: ImageAssets.ic_delete,
                           function: (value) {},
                         ),
-                        spaceH10,
                         line(
                           paddingLeft: 35,
                         ),
-                        spaceH10,
                         itemMenu(
                           title: S.current.danh_gia,
                           icon: ImageAssets.ic_document_blue,
                           function: (value) {},
                         ),
-                        spaceH10,
                         line(
                           paddingLeft: 35,
                         ),
-                        spaceH10,
                         itemMenu(
                           title: S.current.chap_nhap_thxl,
                           icon: ImageAssets.ic_update,
@@ -193,26 +188,29 @@ class ItemDanhSachSuCo extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () => function(title),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 2,
-            child: SvgPicture.asset(
-              icon,
-              width: 20,
-              height: 20,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 2,
+              child: SvgPicture.asset(
+                icon,
+                width: 20,
+                height: 20,
+              ),
             ),
-          ),
-          spaceW16,
-          Expanded(
-            flex: 11,
-            child: Text(
-              title,
+            spaceW16,
+            Expanded(
+              flex: 11,
+              child: Text(
+                title,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

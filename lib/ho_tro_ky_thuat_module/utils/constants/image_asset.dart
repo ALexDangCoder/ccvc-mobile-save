@@ -34,6 +34,8 @@ class ImageAssets {
   static const String ic_edit = '$baseImg/ic_edit.svg';
   static const String ic_update = '$baseImg/ic_update.svg';
   static const String ic_more = '$baseImg/ic_more.svg';
+  static const String ic_up = '$baseImg/ic_up.svg';
+  static const String ic_drop_down = '$baseImg/ic_drop_down.svg';
 
   static SvgPicture svgAssets(
     String name, {

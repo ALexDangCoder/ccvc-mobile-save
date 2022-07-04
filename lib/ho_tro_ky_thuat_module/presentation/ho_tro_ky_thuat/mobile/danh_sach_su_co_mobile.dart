@@ -1,6 +1,6 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
@@ -24,10 +24,18 @@ class DanhSachSuCoMobile extends StatefulWidget {
 
 class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
   @override
+  void initState() {
+    widget.cubit.loadMoreListStream.listen((event) {
+      widget.cubit.initListCheckPopup(widget.cubit.loadMoreList.length);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarMobile(),
-      floatingActionButton: floating(),
+      floatingActionButton: floatingHTKT(),
       body: ListViewLoadMore(
         cubit: widget.cubit,
         isListView: true,
@@ -43,24 +51,13 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
               value,
               index,
             );
-            setState(
-              () {},
-            );
+            setState(() {});
           },
-          onClose: widget.cubit.onClosePopupMenu,
+          onClose: () {
+            widget.cubit.onClosePopupMenu();
+            setState(() {});
+          },
         ),
-      ),
-    );
-  }
-
-  Widget floating() {
-    return FloatingActionButton(
-      elevation: 0,
-      backgroundColor: labelColor,
-      onPressed: () {},
-      child: const Icon(
-        Icons.add,
-        size: 32,
       ),
     );
   }
@@ -98,4 +95,16 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
           ),
         ],
       );
+}
+
+Widget floatingHTKT() {
+  return FloatingActionButton(
+    elevation: 0,
+    backgroundColor: labelColor,
+    onPressed: () {},
+    child: const Icon(
+      Icons.add,
+      size: 32,
+    ),
+  );
 }

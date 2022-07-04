@@ -59,10 +59,8 @@ class WidgetTongDai extends StatelessWidget {
                   icon: ImageAssets.ic_call,
                   numberPhone: cubit.listTongDai.value.first.phone.toString(),
                   colorText: Color(
-                    int.parse(
-                      cubit.getColor(
-                        cubit.listTongDai.value.first.color.toString(),
-                      ),
+                    cubit.getColor(
+                      cubit.listTongDai.value.first.color.toString(),
                     ),
                   ),
                 ),
@@ -75,10 +73,8 @@ class WidgetTongDai extends StatelessWidget {
                   icon: ImageAssets.ic_phone,
                   numberPhone: cubit.listTongDai.value.last.phone.toString(),
                   colorText: Color(
-                    int.parse(
-                      cubit.getColor(
-                        cubit.listTongDai.value.first.color.toString(),
-                      ),
+                    cubit.getColor(
+                      cubit.listTongDai.value.first.color.toString(),
                     ),
                   ),
                 ),

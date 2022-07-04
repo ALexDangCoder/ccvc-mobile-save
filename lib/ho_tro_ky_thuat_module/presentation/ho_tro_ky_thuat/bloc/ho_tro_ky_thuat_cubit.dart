@@ -29,12 +29,20 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
-  String getColor(String color) {
+  void initListCheckPopup(int length) {
+    listCheckPopupMenu = List<bool>.filled(
+      length,
+      false,
+      growable: true,
+    );
+  }
+
+  int getColor(String color) {
     if (color.isNotEmpty) {
       final String value = color.replaceAll('#', '0xff');
-      return value;
+      return int.parse(value);
     }
-    return '0xfffffff';
+    return int.parse('0xfffffff');
   }
 
   void onClickPopupMenu(DanhSachSuCoModel value, int index) {

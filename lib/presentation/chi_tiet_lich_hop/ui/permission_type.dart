@@ -1,11 +1,12 @@
-import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
-import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_di_thay_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/sua_lich_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_bang_widget.dart';
@@ -13,11 +14,11 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_wid
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/radio_option_dialog.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/cupertino.dart';
@@ -191,6 +192,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
     DetailMeetCalenderCubit cubit,
     ThanhPhanThamGiaCubit cubitThanhPhanTG,
     ThemCanBoCubit themCanBoCubit,
+    ThemDonViCubit themDonViCubit,
   ) {
     switch (this) {
       case PERMISSION_DETAIL.THU_HOI:
@@ -228,18 +230,35 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: ImageAssets.ic_delete_do,
           text: S.current.xoa_lich,
           onTap: () {
-            showDiaLog(
-              context,
-              textContent: S.current.xoa_chi_tiet_lich_hop,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () {
-                cubit.deleteChiTietLichHop(cubit.idCuocHop);
-                Navigator.pop(context);
-              },
-              title: S.current.khong,
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icHuyLich),
-              showTablet: true,
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
+              showDiaLog(
+                context,
+                textContent: S.current.xoa_chi_tiet_lich_hop,
+                btnLeftTxt: S.current.khong,
+                funcBtnRight: () {
+                  cubit.deleteChiTietLichHop();
+                  Navigator.pop(context);
+                },
+                title: S.current.khong,
+                btnRightTxt: S.current.dong_y,
+                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                showTablet: true,
+              );
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => RadioOptionDialog(
+                title: S.current.huy_lich_hop,
+                textRadioBelow: S.current.chi_lich_hien_tai,
+                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                imageUrl: ImageAssets.img_sua_lich,
+                onChange: (value) {
+                  cubit.deleteChiTietLichHop(isMulti: value).then(
+                        (value) => value ? Navigator.pop(context) : '',
+                      );
+                },
+              ),
             );
           },
         );
@@ -306,61 +325,36 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.CU_CAN_BO.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO.getString(),
           onTap: () {
-            showBottomSheetCustom<List<DonViModel>>(
-              context,
-              title: S.current.chon_thanh_phan_tham_gia,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  children: [
-                    Flexible(
-                      child: ThemCanBoScreen(
-                        cubit: cubitThanhPhanTG,
-                        needCheckTrung: false,
-                        removeButton: true,
+            isMobile()
+                ? showBottomSheetCustom<List<DonViModel>>(
+                    context,
+                    title: S.current.cu_can_bo,
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                      ),
+                      child: CuCanBoWidget(
                         themCanBoCubit: themCanBoCubit,
-                        themDonViCubit: ThemDonViCubit(),
+                        cubit: cubit,
+                        cubitThanhPhanTG: cubitThanhPhanTG,
+                        themDonViCubit: themDonViCubit,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                        right: 8,
-                        bottom: 16,
-                      ),
-                      child: DoubleButtonBottom(
-                        title1: S.current.dong,
-                        title2: S.current.luu,
-                        onPressed1: () {
-                          Navigator.pop(context);
-                        },
-                        onPressed2: () async {
-                          await cubit
-                              .cuCanBo(
-                            canBoDiThay: themCanBoCubit.listSelectCanBo
-                                .map(
-                                  (element) => CanBoDiThay(
-                                    id: element.id,
-                                    donViId: element.donViId,
-                                    canBoId: element.canBoId,
-                                    taskContent: '',
-                                  ),
-                                )
-                                .toList(),
-                          )
-                              .then((value) {
-                            if (value) {
-                              cubit.initDataChiTiet();
-                              Navigator.pop(context);
-                            }
-                          });
-                        },
-                      ),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    title: S.current.cu_can_bo,
+                    child: CuCanBoWidget(
+                      themCanBoCubit: themCanBoCubit,
+                      cubit: cubit,
+                      cubitThanhPhanTG: cubitThanhPhanTG,
+                      themDonViCubit: themDonViCubit,
                     ),
-                  ],
-                ),
-              ),
-            );
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
           },
         );
       case PERMISSION_DETAIL.TU_CHOI_THAM_GIA:
@@ -437,7 +431,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
             isMobile()
                 ? showBottomSheetCustom(
                     context,
-                    title: S.current.thu_hoi_lich,
+                    title: S.current.phan_cong_thu_ky,
                     child: PhanCongThuKyWidget(
                       cubit: cubit,
                       id: cubit.idCuocHop,
@@ -463,61 +457,31 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getString(),
           onTap: () {
-            showBottomSheetCustom<List<DonViModel>>(
-              context,
-              title: S.current.chon_thanh_phan_tham_gia,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  children: [
-                    Flexible(
-                      child: ThemCanBoScreen(
-                        cubit: cubitThanhPhanTG,
-                        needCheckTrung: false,
-                        removeButton: true,
-                        themCanBoCubit: themCanBoCubit,
-                        themDonViCubit: ThemDonViCubit(),
-                      ),
+            isMobile()
+                ? showBottomSheetCustom<List<DonViModel>>(
+                    context,
+                    title: S.current.cu_can_bo_di_thay,
+                    child: CuCanBoDiThayWidget(
+                      themCanBoCubit: themCanBoCubit,
+                      cubit: cubit,
+                      cubitThanhPhanTG: cubitThanhPhanTG,
+                      themDonViCubit: themDonViCubit,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                        right: 8,
-                        bottom: 16,
-                      ),
-                      child: DoubleButtonBottom(
-                        title1: S.current.dong,
-                        title2: S.current.luu,
-                        onPressed1: () {
-                          Navigator.pop(context);
-                        },
-                        onPressed2: () async {
-                          await cubit
-                              .cuCanBoDiThay(
-                            canBoDiThay: themCanBoCubit.listSelectCanBo
-                                .map(
-                                  (element) => CanBoDiThay(
-                                    id: element.id,
-                                    donViId: element.donViId,
-                                    canBoId: element.canBoId,
-                                    taskContent: '',
-                                  ),
-                                )
-                                .toList(),
-                          )
-                              .then((value) {
-                            if (value) {
-                              cubit.initDataChiTiet();
-                              Navigator.pop(context);
-                            }
-                          });
-                        },
-                      ),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    title: S.current.cu_can_bo_di_thay,
+                    child: CuCanBoDiThayWidget(
+                      themCanBoCubit: themCanBoCubit,
+                      cubit: cubit,
+                      cubitThanhPhanTG: cubitThanhPhanTG,
+                      themDonViCubit: themDonViCubit,
                     ),
-                  ],
-                ),
-              ),
-            );
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
           },
         );
       case PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP:
@@ -548,18 +512,35 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: ImageAssets.icHuy,
           text: S.current.huy_lich_hop,
           onTap: () {
-            showDiaLog(
-              context,
-              textContent: S.current.ban_chan_chan_huy_lich_nay,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () {
-                cubit.huyChiTietLichHop(cubit.idCuocHop);
-                Navigator.pop(context);
-              },
-              title: S.current.huy_lich,
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icHuyLich),
-              showTablet: true,
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
+              showDiaLog(
+                context,
+                textContent: S.current.ban_chan_chan_huy_lich_nay,
+                btnLeftTxt: S.current.khong,
+                funcBtnRight: () {
+                  cubit.huyChiTietLichHop();
+                  Navigator.pop(context);
+                },
+                title: S.current.huy_lich,
+                btnRightTxt: S.current.dong_y,
+                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                showTablet: true,
+              );
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => RadioOptionDialog(
+                title: S.current.huy_lich_hop,
+                textRadioBelow: S.current.chi_lich_hien_tai,
+                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                imageUrl: ImageAssets.img_sua_lich,
+                onChange: (value) {
+                  cubit.huyChiTietLichHop(isMulti: value).then(
+                        (value) => value ? Navigator.pop(context) : '',
+                      );
+                },
+              ),
             );
           },
         );
@@ -737,8 +718,8 @@ class STATUS_SCHEDULE {
 
 class TRANG_THAI_DUYET_KY_THUAT {
   static const int CHO_DUYET = 0;
-  static const DA_DUYET = 1;
-  static const KHONG_DUYET = 2;
+  static const int DA_DUYET = 1;
+  static const int KHONG_DUYET = 2;
 }
 
 class ACTIVE_PHAT_BIEU {

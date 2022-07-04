@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_state.dart';
@@ -26,6 +27,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       typeHoTroKyThuatSubject.stream;
   List<bool> listCheckPopupMenu = [];
   BehaviorSubject<List<TongDaiModel>> listTongDai = BehaviorSubject.seeded([]);
+  BehaviorSubject<List<ThanhVien>> listCanCoHTKT = BehaviorSubject.seeded([]);
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
@@ -86,6 +88,26 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
+  Future<void> getAllApiThongTinChung() async {
+    showLoading();
+    await getNguoiXuLy();
+    await getTongDai();
+    showContent();
+  }
+
+  Future<void> getNguoiXuLy() async {
+    final result = await _hoTroKyThuatRepository.getNguoiXuLy();
+    result.when(
+      success: (res) {
+        listCanCoHTKT.add(res);
+      },
+      error: (error) {
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+      },
+    );
+  }
+
   Future<void> getTongDai() async {
     final result = await _hoTroKyThuatRepository.getTongDai();
     result.when(
@@ -97,5 +119,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         showError();
       },
     );
+  }
+
+  String subText(String text) {
+    final List<String> listText = text.split(' ');
+    final String result =
+        listText.first.substring(0, 1) + listText.last.substring(0, 1);
+    return result;
   }
 }

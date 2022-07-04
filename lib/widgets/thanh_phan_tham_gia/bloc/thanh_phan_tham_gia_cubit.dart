@@ -11,14 +11,19 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   Node<DonViModel>? nodeDonViThemCanBo;
 
   ThanhPhanThamGiaCubit() : super(MainStateInitial());
+  DonViModel donViModel = DonViModel();
 
   ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
   String idCanBoItem = '';
+  String noiDung = '';
   final BehaviorSubject<List<DonViModel>> _listPeopleThamGia =
+      BehaviorSubject<List<DonViModel>>();
+  final BehaviorSubject<List<DonViModel>> listCanBoThamGia =
       BehaviorSubject<List<DonViModel>>();
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
+  final List<DonViModel> listCanBo = [];
   final BehaviorSubject<bool> _phuongThucNhan = BehaviorSubject.seeded(false);
 
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;
@@ -57,6 +62,18 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     addPeopleThamGia(donViModel);
   }
 
+  void addCanBoThamGia(
+    List<DonViModel> donViModel,
+  ) {
+    listCanBoThamGia.sink.add(donViModel);
+  }
+
+  void xoaCanBoThamGia(
+    DonViModel donViModel,
+  ) {
+    listCanBo.remove(donViModel);
+    listCanBoThamGia.sink.add(listCanBo);
+  }
   void addDonViPhoiHopKhac(DonViModel model) {
     listPeople.add(model);
     _listPeopleThamGia.add(listPeople);
@@ -96,5 +113,6 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     _phuongThucNhan.close();
     _listPeopleThamGia.close();
     _getTreeDonVi.close();
+    listCanBoThamGia.close();
   }
 }

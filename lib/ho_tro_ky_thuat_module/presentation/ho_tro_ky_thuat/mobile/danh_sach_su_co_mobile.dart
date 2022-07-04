@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/mobile/chi_tiet_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
@@ -73,7 +74,11 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         actions: [
           GestureDetector(
             onTap: () {
-              //todo
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ChiTietHoTroMobile(idHoTro: ''),
+                ),
+              );
             },
             child: SvgPicture.asset(
               ImageAssets.ic_search,

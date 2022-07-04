@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 
-
 class DonViModel {
   String id = '';
   String name = '';
@@ -18,16 +17,17 @@ class DonViModel {
   String donViId = '';
   String userId = '';
   String tenCoQuan = '';
+  bool isCheck = false;
+
   //param sử dụng tại tạo lịch làm việc
   int? soLuong = 0;
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();
 
-
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
 
   DonViModel({
-    required this.id,
-    required this.name,
+    this.id = '',
+    this.name = '',
     this.tenCanBo = '',
     this.chucVu = '',
     this.canBoId = '',
@@ -45,7 +45,7 @@ class DonViModel {
     this.soLuong,
   });
 
-  MoiThamGiaHopRequest convertTrongHeThong(String lichHopId){
+  MoiThamGiaHopRequest convertTrongHeThong(String lichHopId) {
     return MoiThamGiaHopRequest(
       canBoId: userId.isEmpty ? null : userId,
       donViId: vaiTroThamGia == 1

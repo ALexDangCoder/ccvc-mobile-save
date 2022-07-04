@@ -89,11 +89,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
               final AppointmentWithDuplicate appointment =
                   appointmentDetail.appointments.first;
               if (appointmentDetail.appointments.length > 1) {
-                return Center(
-                    child: Text(
-                      expandText(appointmentDetail.appointments.length),
-                      style: textNormal(colorA2AEBD, 13),
-                    ));
+                return const SizedBox();
               }
               if (appointment.isMore) {
                 return GestureDetector(

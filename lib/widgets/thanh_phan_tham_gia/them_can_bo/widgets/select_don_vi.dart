@@ -22,6 +22,7 @@ class SelectDonVi extends StatefulWidget {
   final String? hintText;
   final ThanhPhanThamGiaCubit cubit;
   final ThemDonViCubit themDonViCubit;
+  final bool isRequire;
 
   const SelectDonVi({
     Key? key,
@@ -29,7 +30,8 @@ class SelectDonVi extends StatefulWidget {
     this.title,
     this.hintText,
     required this.cubit,
-    required this.themDonViCubit
+    required this.themDonViCubit,
+    this.isRequire = false,
   }) : super(key: key);
 
   @override
@@ -37,8 +39,6 @@ class SelectDonVi extends StatefulWidget {
 }
 
 class _SelectDonViState extends State<SelectDonVi> {
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -53,10 +53,27 @@ class _SelectDonViState extends State<SelectDonVi> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title ?? S.current.don_vi_phong_ban,
-          style: textNormal(titleItemEdit, 14.0.textScale()),
-        ),
+        if (widget.isRequire)
+          Row(
+            children: [
+              Text(
+                widget.title ?? S.current.don_vi_phong_ban,
+                style: tokenDetailAmount(
+                  fontSize: 14.0.textScale(),
+                  color: titleItemEdit,
+                ),
+              ),
+              const Text(
+                ' *',
+                style: TextStyle(color: canceledColor),
+              )
+            ],
+          )
+        else
+          Text(
+            widget.title ?? S.current.don_vi_phong_ban,
+            style: textNormal(titleItemEdit, 14.0.textScale()),
+          ),
         SizedBox(
           height: 8.0.textScale(),
         ),

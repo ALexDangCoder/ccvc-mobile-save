@@ -22,6 +22,11 @@ mixin AccountRepository {
     String appCode,
   );
 
+  Future<Result<bool>> refreshToken(
+      String accessToken,
+      String refreshToken,
+      );
+
   Future<Result<List<TinhHuyenXaModel>>> getData();
 
   Future<Result<List<BirthdayModel>>> getListBirthday(

@@ -15,7 +15,7 @@ class DangKyThongTinXeMoiRequest {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = userId;
+    data['id'] = id;
     data['userId'] = userId;
     data['loaiXeMay'] = loaiXeMay;
     data['bienKiemSoat'] = bienKiemSoat;

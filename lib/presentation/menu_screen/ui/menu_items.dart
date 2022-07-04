@@ -282,7 +282,7 @@ extension GetScreen on MenuType {
         );
       case MenuType.lichLamViec:
         return screenDevice(
-          mobileScreen:  MainCanlendanMobileRefactor(
+          mobileScreen: const MainCanlendanMobileRefactor(
             isBack: true,
           ),
           tabletScreen: const MainCalendarRefactorTablet(
@@ -291,8 +291,8 @@ extension GetScreen on MenuType {
         );
       case MenuType.baoCao:
         return screenDevice(
-          mobileScreen: const ReportScreenMobile(),
-          tabletScreen: const ReportScreenTablet(),
+          mobileScreen: const Scaffold(body: ReportScreenMobile()),
+          tabletScreen: const Scaffold(body: ReportScreenTablet()),
         );
       case MenuType.hoTroKyThuat:
         return screenDevice(

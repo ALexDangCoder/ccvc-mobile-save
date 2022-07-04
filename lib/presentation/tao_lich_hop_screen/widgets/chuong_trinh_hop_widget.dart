@@ -349,8 +349,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.tai_lieu_dinh_kem,
                   icon: ImageAssets.icShareFile,
                   files: taoPhienHopRequest.Files ?? [],
-                  onChange: (value) {
-                    taoPhienHopRequest.Files = value;
+                  onChange: ( files,) {
+                    taoPhienHopRequest.Files = files;
                   },
                   hasMultipleFile: true,
                   removeFileApi: (int index) {},

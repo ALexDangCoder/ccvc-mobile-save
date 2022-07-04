@@ -113,15 +113,28 @@ TextStyle titleText({Color color = Colors.white, double fontSize = 20}) {
   );
 }
 
+TextStyle textValidateStrikethrough({Color? color,
+  double? fontSize,
+  FontWeight? fontWeight, }) {
+  return GoogleFonts.roboto(
+    decoration: TextDecoration.lineThrough,
+    color: color ?? Colors.white,
+    fontWeight: fontWeight ?? FontWeight.w500,
+    fontStyle: FontStyle.normal,
+    fontSize: fontSize ?? 14,
+  );
+}
+
 TextStyle textNormalCustom({
   Color? color,
   double? fontSize,
   FontWeight? fontWeight,
+  FontStyle? fontStyle,
 }) {
   return GoogleFonts.roboto(
     color: color ?? Colors.white,
     fontWeight: fontWeight ?? FontWeight.w500,
-    fontStyle: FontStyle.normal,
+    fontStyle: fontStyle ?? FontStyle.normal,
     fontSize: fontSize ?? 14,
   );
 }

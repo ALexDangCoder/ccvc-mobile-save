@@ -74,6 +74,7 @@ class ApiConstants {
   static const GET_TREE_DON_VI = '/common/DonVi/get-tree';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
   static const OFFICERS_JOIN = '/vpdt/api/CanBoThamGia/can-bo-tham-gia-tree';
+  static const CONFIRM_OFFICER = '/vpdt/api/CanBoThamGia/confirm-lich';
   static const OFFICER_JOIN = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
@@ -304,6 +305,12 @@ class ApiConstants {
       '/vpdt/api/ScheduleReport/duyet-bao-cao';
   static const CREATE_KET_LUAN_HOP =
       '/vpdt/api/ScheduleReport/create-meet-report';
+  static const GUI_DUYET_KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/register-meet-report';
+  static const THU_HOI__KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/reject-meet-report';
+  static const REFRESH_TOKEN = '/api/auth/refresh-token';
+
 }
 
 class ImageConstants {

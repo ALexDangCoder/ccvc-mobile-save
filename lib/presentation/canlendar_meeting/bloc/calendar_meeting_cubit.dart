@@ -495,6 +495,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     }
   }
 
+  /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();
     getToChucBoiDonVi();
@@ -671,5 +672,12 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         );
       }
     }
+  }
+
+  void handleChartPicked({required String id, required String title}) {
+    emitListViewState(type: state.typeView);
+    idThongKe = id;
+    _titleSubject.add(title);
+    getDanhSachThongKe();
   }
 }

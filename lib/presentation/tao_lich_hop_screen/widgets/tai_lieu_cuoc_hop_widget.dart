@@ -50,8 +50,8 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
             icon: isMobile()
                 ? ImageAssets.icShareFile
                 : ImageAssets.icDocumentBlue,
-            onChange: (value) {
-              cubit.listTaiLieu = value;
+            onChange: (files,) {
+              cubit.listTaiLieu = files;
             },
             removeFileApi: (int index) {},
           )

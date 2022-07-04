@@ -185,7 +185,7 @@ mixin CalendarWorkRepository {
     required List<int> days,
   });
 
-  Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
+  Future<Result<MessageModel>> editWorkCalendarWorkAboard(
     String title,
     String typeScheduleId,
     String linhVucId,

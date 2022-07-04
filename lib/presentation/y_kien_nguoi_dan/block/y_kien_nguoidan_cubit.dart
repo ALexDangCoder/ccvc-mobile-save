@@ -40,7 +40,7 @@ class TextTrangThai {
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
   BehaviorSubject<List<bool>> selectTypeYKNDSubject =
-  BehaviorSubject.seeded([true, false]);
+      BehaviorSubject.seeded([true, false]);
   bool isCheck = false;
   late String startDate;
   late String endDate;
@@ -64,6 +64,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int QUAHAN = 3;
 
   final List<ChartData> listChartPhanLoai = [];
+  BehaviorSubject<bool> isShowFilterList = BehaviorSubject.seeded(false);
+  BehaviorSubject<String> textFilter = BehaviorSubject.seeded(S.current.all);
 
   void resetBeforeRefresh() {
     pageSizeDSPAKN = 10;
@@ -82,22 +84,22 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   ///dashboard
 
   final BehaviorSubject<DocumentDashboardModel> getTinhHinhXuLy =
-  BehaviorSubject<DocumentDashboardModel>();
+      BehaviorSubject<DocumentDashboardModel>();
 
   final BehaviorSubject<List<ChartData>> _chartTinhHinhXuLy =
-  BehaviorSubject<List<ChartData>>();
+      BehaviorSubject<List<ChartData>>();
 
   final BehaviorSubject<List<ChartData>> _chartPhanLoai =
-  BehaviorSubject<List<ChartData>>();
+      BehaviorSubject<List<ChartData>>();
 
   final BehaviorSubject<List<YKienNguoiDanDashBroadItem>> _listItemDashBoard =
-  BehaviorSubject<List<YKienNguoiDanDashBroadItem>>();
+      BehaviorSubject<List<YKienNguoiDanDashBroadItem>>();
 
   final BehaviorSubject<List<YKienNguoiDanModel>> _listYKienNguoiDan =
-  BehaviorSubject<List<YKienNguoiDanModel>>();
+      BehaviorSubject<List<YKienNguoiDanModel>>();
 
   final BehaviorSubject<DocumentDashboardModel> _statusTinhHinhXuLyData =
-  BehaviorSubject<DocumentDashboardModel>();
+      BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<bool> _selectSearch = BehaviorSubject.seeded(false);
   final BehaviorSubject<bool> _removeTextSearch = BehaviorSubject.seeded(false);
 
@@ -132,7 +134,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   ImageThongTinYKienNguoiDan imageThongTinYKienNguoiDan =
-  ImageThongTinYKienNguoiDan();
+      ImageThongTinYKienNguoiDan();
 
   List<DashboardSchedule> list = [
     DashboardSchedule(1, '22ssads2', 'Chờ duyệt'),
@@ -289,9 +291,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   final YKienNguoiDanRepository _YKNDRepo = Get.find();
 
-  Future<void> getThongTinYKienNguoiDan(String donViID,
-      String startDate,
-      String enDate,) async {
+  Future<void> getThongTinYKienNguoiDan(
+    String donViID,
+    String startDate,
+    String enDate,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.thongTingNguoiDan(
       donViID,
@@ -410,7 +414,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn =
-  BehaviorSubject();
+      BehaviorSubject();
 
   Future<void> getDanhSachPAKN({
     // String? tuKhoa,
@@ -457,9 +461,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     isFilter = true;
     if (!flagLoadMore) {
       clearDSPAKN();
-    } else {
-
-    }
+    } else {}
     showLoading();
     final data = await _YKNDRepo.getDanhSachPaknFilter(
         pageIndex: pageNumberDSPAKN,
@@ -468,8 +470,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         loaiMenu: loaiMenu,
         dateTo: startDate,
         dateFrom: endDate,
-        hanXuLy: hanXuLy
-    );
+        hanXuLy: hanXuLy);
     data.when(
       success: (success) {
         if (listDanhSachKetQuaPakn.hasValue) {
@@ -490,7 +491,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   final BehaviorSubject<DashBoardPAKNModel> dashBoardPAKNTiepCanXuLyBHVSJ =
-  BehaviorSubject();
+      BehaviorSubject();
 
   Future<void> getDashBoardPAKNTiepCanXuLy() async {
     showLoading();
@@ -519,9 +520,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   //   );
   // }
 
-  Future<void> getDashBoardTinhHinhXuLy(String donViID,
-      String startDate,
-      String enDate,) async {
+  Future<void> getDashBoardTinhHinhXuLy(
+    String donViID,
+    String startDate,
+    String enDate,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.dasdBoardTinhHinhXuLy(
       donViID,
@@ -535,19 +538,18 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         final listStatusTinhHinhXuLy = res.tinhHinhXuLyModel.listTrangThai;
         final List<ChartData> listChartTinhHinhxuLy = listDataTinhHinhXuLy
             .map(
-              (e) =>
-              ChartData(
+              (e) => ChartData(
                 e.status,
                 e.soLuong.toDouble(),
                 getColorStatus(
                   e.status.vietNameseParse().replaceAll(' ', '_').toUpperCase(),
                 ),
               ),
-        )
+            )
             .toList();
 
         final DocumentDashboardModel statusTrangThaiXuLyData =
-        DocumentDashboardModel();
+            DocumentDashboardModel();
         for (final element in listStatusTinhHinhXuLy) {
           getStatusTinhHinhXuLy(
             element.status.vietNameseParse().replaceAll(' ', '_').toUpperCase(),
@@ -564,9 +566,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
-  Future<void> getDashBoardPhanLoai(String donViID,
-      String startDate,
-      String enDate,) async {
+  Future<void> getDashBoardPhanLoai(
+    String donViID,
+    String startDate,
+    String enDate,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.dasdBoardPhanLoai(
       donViID,
@@ -620,13 +624,15 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
-  Future<void> getDanhSachYKienNguoiDan(String tuNgay,
-      String denNgay,
-      String? trangThai,
-      int pageSize,
-      int pageNumber,
-      String userId,
-      String donViId,) async {
+  Future<void> getDanhSachYKienNguoiDan(
+    String tuNgay,
+    String denNgay,
+    String? trangThai,
+    int pageSize,
+    int pageNumber,
+    String userId,
+    String donViId,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.danhSachYKienNguoiDan(
       tuNgay,
@@ -648,14 +654,16 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
-  Future<void> searchDanhSachYKienNguoiDan(String tuNgay,
-      String denNgay,
-      String? trangThai,
-      int pageSize,
-      int pageNumber,
-      String tuKhoa,
-      String userId,
-      String donViId,) async {
+  Future<void> searchDanhSachYKienNguoiDan(
+    String tuNgay,
+    String denNgay,
+    String? trangThai,
+    int pageSize,
+    int pageNumber,
+    String tuKhoa,
+    String userId,
+    String donViId,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.searchYKienNguoiDan(
       tuNgay,
@@ -676,9 +684,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
-  DocumentDashboardModel getStatusTinhHinhXuLy(String codeStatus,
-      DocumentDashboardModel data,
-      TinhHinhModel tinhHinhModel,) {
+  DocumentDashboardModel getStatusTinhHinhXuLy(
+    String codeStatus,
+    DocumentDashboardModel data,
+    TinhHinhModel tinhHinhModel,
+  ) {
     switch (codeStatus) {
       case 'DEN_HAN':
         data.soLuongDenHan = tinhHinhModel.soLuong;
@@ -711,7 +721,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   String getTrangThai(String status) {
     final String statusCode =
-    status.split(' ').join('_').toUpperCase().vietNameseParse();
+        status.split(' ').join('_').toUpperCase().vietNameseParse();
     String trangThai = '';
     switch (statusCode) {
       case 'CHUA_THUC_HIEN':
@@ -736,15 +746,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     return trangThai;
   }
 
-
   void initTimeRange() {
     final DateTime date = DateTime.now();
     initStartDate = DateTime(date.year, date.month, date.day - 30);
     startDate =
         DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
-    endDate = DateTime
-        .now()
-        .toStringWithListFormat;
+    endDate = DateTime.now().toStringWithListFormat;
   }
 
   void getUserData() {
@@ -771,11 +778,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         "DateFrom": string3 (dd/MM/yyyy)
     * */
 
-
   void dispose() {
     listDanhSachKetQuaPakn.value.clear();
   }
-
 
   static const String ChoTiepNhan = '1';
   static const String ChoChuyenXuLy = '2';
@@ -801,10 +806,4 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const String PhanXuLy = '21';
   static const String DangXuLy = '3,4,12';
   static const String ChoNguoiDanBoSungThongTin = '22';
-
-
 }
-
-
-
-

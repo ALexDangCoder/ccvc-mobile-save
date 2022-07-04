@@ -45,8 +45,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     widget.cubit.getDanhSachPAKN();
   }
 
-
-
   @override
   void dispose() {
     widget.cubit.dispose();
@@ -314,38 +312,72 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                           ),
                         );
                       } else {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        return Stack(
+                          alignment: Alignment.centerRight,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      S.current.danh_sach_pakn,
-                                      style: textNormalCustom(
-                                        color: textTitle,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          S.current.danh_sach_pakn,
+                                          style: textNormalCustom(
+                                            color: textTitle,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Expanded(
+                                        child: StreamBuilder<String>(
+                                          stream: widget.cubit.textFilter,
+                                          builder: (context, snapshot) {
+                                            return item(
+                                              title: snapshot.data ?? '',
+                                              callBack: (value) {
+                                                widget.cubit.isShowFilterList
+                                                    .add(true);
+                                              },
+                                              colorBG:
+                                                  Colors.red, //todo get color
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(child: DropDownTrangThaiPAKN()),
-                                ],
-                              ),
+                                ),
+                                ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    return _itemDanhSachPAKN(
+                                        dsKetQuaPakn: data[index]);
+                                  },
+                                ),
+                              ],
                             ),
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return _itemDanhSachPAKN(
-                                    dsKetQuaPakn: data[index]);
-                              },
+                            Positioned(
+                              top: 0,
+                              child: StreamBuilder<bool>(
+                                stream: widget.cubit.isShowFilterList,
+                                builder: (context, snapshot) {
+                                  final isShow = snapshot.data ?? false;
+                                  return isShow
+                                      ? DropDownTrangThaiPAKN(
+                                          cubit: widget.cubit,
+                                        )
+                                      : const SizedBox.shrink();
+                                },
+                              ),
                             ),
                           ],
                         );

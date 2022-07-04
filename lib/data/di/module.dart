@@ -5,6 +5,8 @@ import 'package:ccvc_mobile/bao_cao_module/data/services/report_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
+import 'package:ccvc_mobile/data/network/network_handler.dart';
+import 'package:ccvc_mobile/data/network/unauthorized_handle.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/lich_hop/lich_hop_impl.dart';
@@ -265,6 +267,25 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
     followRedirects: false,
   );
   final dio = Dio(options);
+  void _onReFreshToken(DioError e, ErrorInterceptorHandler handler){
+    HandleUnauthorized.resignRefreshToken(onRefreshToken: (token) async {
+      if (token.isNotEmpty) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
+      final opts = Options(
+          method: e.requestOptions.method,
+          headers: e.requestOptions.headers);
+      final cloneReq = await dio.request(e.requestOptions.path,
+          options: opts,
+          data: e.requestOptions.data,
+          queryParameters: e.requestOptions.queryParameters);
+
+      return handler.resolve(cloneReq);
+    }, onError: (error) {
+      return handler.next(e);
+    });
+  }
+
   dio.transformer = FlutterTransformer();
   dio.interceptors.add(
     InterceptorsWrapper(
@@ -281,12 +302,19 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       onResponse: (response, handler) {
         return handler.next(response); // continue
       },
-      onError: (DioError e, handler) => handler.next(e),
+      onError: (DioError e, handler) async {
+        if (e.response?.statusCode == 401) {
+         _onReFreshToken(e, handler);
+        } else {
+          return handler.next(e);
+        }
+      },
     ),
   );
   if (Foundation.kDebugMode) {
     dio.interceptors.add(dioLogger());
   }
+
   return dio;
 }
 

@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 
 class ItemDatNuocWidget extends StatefulWidget {
   final CreateWorkCalCubit cubit;
+  final bool isEdit;
+  final String name;
 
-  ItemDatNuocWidget({Key? key, required this.cubit})
+  ItemDatNuocWidget(
+      {Key? key, required this.cubit, this.isEdit = false, this.name = ''})
       : super(key: key);
 
   @override
@@ -25,14 +28,14 @@ class _ItemDatNuocWidgetState extends State<ItemDatNuocWidget> {
         final data = snapshot.data ?? <DatNuocSelectModel>[];
         return SelectOnlyExpand(
           onChange: (value) {
-            _cubit.datNuocSelectModel?.name =
-                data[value].name;
+            _cubit.datNuocSelectModel?.name = data[value].name;
             _cubit.datNuocSelectModel?.id = data[value].id;
             _cubit.selectedCountryID = data[value].id ?? '';
           },
           urlIcon: ImageAssets.icViTri,
+          value: widget.isEdit ? widget.name : '',
           listSelect: data.map((e) => e.name ?? '').toList(),
-          hintText: 'Chọn nước',
+          hintText: widget.isEdit ? '' : 'Chọn nước',
           title: S.current.quoc_gia,
         );
       },

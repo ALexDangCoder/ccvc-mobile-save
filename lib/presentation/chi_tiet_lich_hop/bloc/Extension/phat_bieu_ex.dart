@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
@@ -41,6 +43,7 @@ extension PhatBieu on DetailMeetCalenderCubit {
   }
 
   Future<void> taoPhatBieu(TaoBieuQuyetRequest taoBieuQuyetRequest) async {
+    showLoading();
     final result = await hopRp.postTaoPhatBieu(taoBieuQuyetRequest);
 
     result.when(
@@ -50,10 +53,19 @@ extension PhatBieu on DetailMeetCalenderCubit {
               status: 1, lichHopId: taoBieuQuyetRequest.lichHopId ?? '');
 
           soLuongPhatBieuData(id: taoBieuQuyetRequest.lichHopId ?? '');
+          MessageConfig.show(
+            title: S.current.dang_ky_thanh_cong,
+          );
         }
       },
-      error: (error) {},
+      error: (error) {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.dang_ky_that_bai,
+        );
+      },
     );
+    showContent();
   }
 
   Future<void> duyetOrHuyDuyetPhatBieu({

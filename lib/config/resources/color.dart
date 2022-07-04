@@ -89,7 +89,15 @@ const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const shadowColor = Color(0xff6262eb);
 const color5A8DEE = Color(0xff5A8DEE);
+const color9B8DFF= Color(0xff9B8DFF);
+const color6FCF97= Color(0xff6FCF97);
 const color02C5DD = Color(0xff02C5DD);
+const color979797 = Color(0xff979797);
+const color00BA8D = Color(0xff00BA8D);
+const color56CCF2 = Color(0xff56CCF2);
+const colorF2C94C = Color(0xffF2C94C);
+const colorCF6F6F = Color(0xffCF6F6F);
+const colorB6CF6F= Color(0xffB6CF6F);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -169,6 +177,7 @@ const iconColorDown = Color(0xffA2AEBD);
 const bgCalenderColor = Color(0xffF9FAFF);
 Color cellColorborder = Color(0xffDBDFEF).withOpacity(0.5);
 Color cellColor = Color(0xffDBDFEF).withOpacity(0.1);
+const colorFFFFFF = Color(0xffffffff);
 
 const dateColor = Color(0xFF667793);
 

@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tabbar_newspaper.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/mobile/tat_ca_chu_de_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,6 +68,14 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
       title: S.current.press_socialNetWord,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+      },
+      onTapTitle: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TabbarNewspaper(),
+          ),
+        );
       },
       selectKeyDialog: _xaHoiCubit,
       dialogSelect: StreamBuilder(

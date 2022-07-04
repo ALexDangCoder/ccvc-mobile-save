@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
@@ -137,6 +136,24 @@ mixin YKienNguoiDanRepository {
     int? hanXuLy,
   });
 
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachChoTaoVBDi({
+    int? pageIndex,
+    int? pageSize,
+    String? donViId,
+    String? dateFrom,
+    String? dateTo,
+    int? trangThaiVanBanDi,
+  });
+
+
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKNXuLyCacYKien({
+    int? pageIndex,
+    int? pageSize,
+    String? dateFrom,
+    String? dateTo,
+    bool? daChoYKien,
+  });
+
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(
     String nguoiChoYKien,
     String kienNghiId,
@@ -155,4 +172,5 @@ mixin YKienNguoiDanRepository {
     String dateFrom,
     String dateTo,
   );
+
 }

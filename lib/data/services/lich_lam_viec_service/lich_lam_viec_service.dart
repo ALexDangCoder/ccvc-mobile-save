@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_req
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
+import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/data_config_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/huy_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/trang_thai/trang_thai_lv_response.dart';
@@ -137,8 +138,8 @@ abstract class WorkCalendarService {
   @POST(ApiConstants.TAO_LICH_LAM_VIEC)
   @MultiPart()
   Future<TaoLichLamViecResponse> createWorkCalendar(
-     @Body() FormData data,
-      @Part() List<File> Files,
+    @Body() FormData data,
+    @Part() List<File> Files,
   );
 
   @POST(ApiConstants.CHECK_TRUNG_LICH_LICH_LAM_VIEC)
@@ -210,4 +211,7 @@ abstract class WorkCalendarService {
     @Body() List<RecallRequest> request,
     @Query('isMulti') bool isMulti,
   );
+
+  @GET(ApiConstants.CONFIG_SYSTEM)
+  Future<DataConfigResponse> getConfigTime();
 }

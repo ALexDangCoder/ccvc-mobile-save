@@ -154,7 +154,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             TextFormWidget(
                               controller: titleController,
                               image: ImageAssets.icEdit,
-                              hint: S.current.tieu_de,
+                              hint: S.current.nhap_tieu_de,
                               validator: (value) {
                                 return (value ?? '')
                                     .pleaseEnter(S.current.tieu_de);
@@ -266,7 +266,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             TextFormWidget(
                               controller: locationController,
                               image: ImageAssets.icViTri,
-                              hint: S.current.dia_diem,
+                              hint: S.current.nhap_dia_diem,
                               validator: (value) {
                                 return (value ?? '')
                                     .pleaseEnter(S.current.dia_diem);

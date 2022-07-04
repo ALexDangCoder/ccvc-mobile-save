@@ -1202,7 +1202,10 @@
   "thanh_phan_bieu_quyet": "Thành phần biểu quyết",
   "chi_tiet_cong_viec_can_phoi_hop": "Chi tiết công việc cần phối hợp",
   "tao_bieu_quyet_thanh_cong": "Tạo biểu quyết thành công",
-  "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công"
+  "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công",
+  "tat_ca": "Tất cả",
+  "dang_ky_thanh_cong": "Đăng ký thành công",
+  "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau"
 }
 
 

@@ -1221,5 +1221,8 @@
   "doi_phong": "Đổi phòng",
   "vui_long_nhap": "Vui lòng nhập",
   "tao_bieu_quyet_thanh_cong": "Tạo biểu quyết thành công",
-  "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công"
+  "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công",
+  "tat_ca": "Tất cả",
+  "dang_ky_thanh_cong": "Đăng ký thành công",
+  "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau"
 }

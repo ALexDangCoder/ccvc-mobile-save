@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_g
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
@@ -210,7 +211,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.CHO_DUYET,
         ),
-        count: 0,
+        count: countData.tongSoLichDuyetCuaChuTri ?? 0,
       ),
       ChildMenu(
         title: StatusWorkCalendar.LICH_HOP_CAN_KLCH.getTitle(),
@@ -463,18 +464,21 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     fCalendarControllerMonth.displayDate = this.startDate;
   }
 
+  String oldTitle = '';
   /// handle menu clicked
   void handleMenuSelect({
     DataItemMenu? itemMenu,
     required BaseState state,
   }) {
-    stateType = StateType.CHO_XAC_NHAN;
     if (state is ListViewState) {
       emitListViewState();
+      _titleSubject.sink.add(oldTitle);
     } else if (state is CalendarViewState) {
       emitCalendarViewState();
+      _titleSubject.sink.add(oldTitle);
     } else {
       emitChartViewState();
+      _titleSubject.sink.add(S.current.bao_cao_thong_ke);
     }
     if (itemMenu != null) {
       idDonViLanhDao = null;
@@ -490,6 +494,10 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         refreshDataDangLich(isLichLanhDao: true);
       }
     }
+    if(state is! ChartViewState){
+      oldTitle = _titleSubject.valueOrNull ?? S.current.lich_cua_toi;
+    }
+
   }
 
   /// Handle chartview

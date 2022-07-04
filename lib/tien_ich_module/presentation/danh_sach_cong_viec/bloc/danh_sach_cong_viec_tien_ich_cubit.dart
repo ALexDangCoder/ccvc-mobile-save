@@ -72,41 +72,53 @@ class DanhSachCongViecTienIchCubit
   Future<bool> callAPITheoFilter({
     String? textSearch,
     String? groupId,
+    int? pageIndex,
     int? pageSize,
+    bool? isLoadmore,
   }) async {
     switch (statusDSCV.value) {
       case DSCVScreen.CVCB:
         return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
           inUsed: true,
-          pageSize: pageSize ?? 10,
+          pageSize: 10,
+          pageIndex: pageIndex,
           searchWord: textSearch,
         );
       case DSCVScreen.CVQT:
         return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
           inUsed: true,
           isImportant: true,
-          pageSize: pageSize,
+          pageSize: pageSize ?? 10,
+          pageIndex: pageIndex,
           searchWord: textSearch,
         );
       case DSCVScreen.DHT:
         return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
           inUsed: true,
           isTicked: true,
           searchWord: textSearch,
+          pageIndex: pageIndex,
           pageSize: pageSize ?? 10,
         );
       case DSCVScreen.DG:
         return getListDSCVGanChoNguoiKhac();
       case DSCVScreen.DBX:
         return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
           inUsed: false,
           searchWord: textSearch,
+          pageIndex: pageIndex,
           pageSize: pageSize ?? 10,
         );
       case DSCVScreen.NCVM:
         return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
           inUsed: true,
           pageSize: pageSize ?? 10,
+          pageIndex: pageIndex,
           groupId: groupId ?? this.groupId,
           searchWord: textSearch,
         );
@@ -117,7 +129,7 @@ class DanhSachCongViecTienIchCubit
   /// khoi tao data
   Future<void> initialData() async {
     await callAPITheoFilter();
-    await getCountTodo();
+    await getCountTodoAndMenu();
     unawaited(listNguoiThucHien());
     showContent();
   }
@@ -200,11 +212,12 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isTicked,
     String? groupId,
+    bool? isLoadmore,
   }) async {
     showLoading();
     final result = await tienIchRep.getAllListDSCVWithFilter(
-      pageIndex ?? 1,
-      pageSize,
+      countLoadMore,
+      pageSize ?? 10,
       searchWord,
       isImportant,
       inUsed,
@@ -214,12 +227,16 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         showContent();
-        listDSCV.sink.add(res);
+        final List<TodoDSCVModel> data = listDSCV.valueOrNull ?? [];
+        if (isLoadmore ?? false) {
+          data.addAll(res);
+        }
+
+        listDSCV.sink.add((isLoadmore ?? false) ? res : data);
         return true;
       },
       error: (err) {
         showError();
-        countLoadMore--;
         return false;
       },
     );
@@ -227,7 +244,7 @@ class DanhSachCongViecTienIchCubit
     return true;
   }
 
-  Future<void> getCountTodo() async {
+  Future<void> getCountTodoAndMenu() async {
     showLoading();
     final result = await tienIchRep.getCountTodo();
     result.when(
@@ -295,9 +312,7 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         showContent();
-        final List<NhomCVMoiModel> data = nhomCVMoiSubject.value;
-        data.insert(0, res);
-        nhomCVMoiSubject.sink.add(data);
+        getCountTodoAndMenu();
       },
       error: (err) {
         showError();
@@ -332,7 +347,7 @@ class DanhSachCongViecTienIchCubit
         showContent();
         titleAppBar.sink.add(S.current.cong_viec_cua_ban);
         statusDSCV.sink.add(DSCVScreen.CVCB);
-        callAPITheoFilter();
+        getCountTodoAndMenu();
       },
       error: (err) {
         showError();
@@ -342,16 +357,8 @@ class DanhSachCongViecTienIchCubit
 
   ///call and fill api autu
   Future<void> callAndFillApiAuto() async {
-    await getCountTodo();
-    await callAPITheoFilter();
-  }
-
-  /// tìm kiếm cong việc theo nhóm cong việc
-  bool isList(TodoDSCVModel toDo, String idGr) {
-    if (toDo.groupId != null) {
-      return toDo.groupId!.contains(idGr);
-    }
-    return false;
+    await getCountTodoAndMenu();
+    await callAPITheoFilter(pageIndex: 10 * countLoadMore);
   }
 
   ///chinh sưa và update công việc

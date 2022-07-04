@@ -1,4 +1,6 @@
-import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 
 class TodoListModelTwo {
   final List<TodoDSCVModel> listTodoImportant;
@@ -85,4 +87,38 @@ class TodoDSCVModel {
       return true;
     }
   }
+}
+
+class CountTodoModel {
+  String? id;
+  String? name;
+  String? code;
+  int? count;
+  List<CountTodoModel>? childrenTodoViewModel;
+
+  String icon() {
+    switch (code) {
+      case 'TodoMe':
+        return isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01;
+      case 'Ticked':
+        return isMobile() ? ImageAssets.icHT : ImageAssets.ic03;
+      case 'Important':
+        return isMobile() ? ImageAssets.icCVQT : ImageAssets.ic02;
+      case 'Deleted':
+        return isMobile() ? ImageAssets.icXoa : ImageAssets.ic05;
+      case 'TaskOfGiveOther':
+        return isMobile() ? ImageAssets.icGanChoToi : ImageAssets.ic04;
+      case 'GroupTodo':
+        return ImageAssets.ic_nhomCVMoi;
+    }
+    return '';
+  }
+
+  CountTodoModel({
+    this.id,
+    this.name,
+    this.code,
+    this.count,
+    this.childrenTodoViewModel,
+  });
 }

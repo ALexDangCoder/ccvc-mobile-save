@@ -17,12 +17,10 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -185,22 +183,23 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 const Expanded(child: SizedBox()),
                 GestureDetector(
                   onTap: () {
-                    showDiaLogTablet(
+                    showBottomSheetCustom(
                       context,
-                      title: S.current.sua_phien_hop,
-                      child: SuaPhienHopScreen(
-                        id: listPhienHopModel.id ?? '',
-                        cubit: widget.cubit,
-                        phienHopModel: listPhienHopModel,
-                        lichHopId: id,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.8,
+                        ),
+                        child: SuaPhienHopScreen(
+                          id: listPhienHopModel.id ?? '',
+                          cubit: widget.cubit,
+                          phienHopModel: listPhienHopModel,
+                          lichHopId: id,
+                        ),
                       ),
-                      isBottomShow: false,
-                      funcBtnOk: () {
-                        Navigator.pop(context);
-                      },
+                      title: S.current.sua_phien_hop,
                     ).then((value) {
                       if (value == true) {
-                        widget.cubit.initDataChiTiet();
+                        widget.cubit.callApiChuongTrinhHop();
                       } else if (value == null) {
                         return;
                       }
@@ -216,29 +215,21 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     showDiaLog(
                       context,
                       title: S.current.xoa_chuong_trinh_hop,
-                      icon: SvgPicture.asset(
-                        ImageAssets.deleteChuongTrinhHop,
-                      ),
+                      icon: SvgPicture.asset(ImageAssets.deleteChuongTrinhHop),
                       btnLeftTxt: S.current.khong,
                       btnRightTxt: S.current.dong_y,
                       funcBtnRight: () {
                         widget.cubit
                             .xoaChuongTrinhHop(id: listPhienHopModel.id ?? '')
                             .then((value) {
-                          MessageConfig.show(
-                            title: S.current.xoa_thanh_cong,
-                          );
-                          widget.cubit.initDataChiTiet();
-                        }).onError((error, stackTrace) {
-                          MessageConfig.show(
-                            title: S.current.xoa_that_bai,
-                            messState: MessState.error,
-                          );
+                          if (value) {
+                            widget.cubit.callApiChuongTrinhHop();
+                          }
                         });
                       },
-                      showTablet: true,
+                      showTablet: false,
                       textContent: S.current.conten_xoa_chuong_trinh,
-                    ).then((value) {});
+                    );
                   },
                   child: SvgPicture.asset(ImageAssets.ic_delete_do),
                 )
@@ -285,7 +276,28 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 ),
                 const Expanded(child: SizedBox()),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    showDiaLogTablet(
+                      context,
+                      title: S.current.sua_phien_hop,
+                      child: SuaPhienHopScreen(
+                        id: listPhienHopModel.id ?? '',
+                        cubit: widget.cubit,
+                        phienHopModel: listPhienHopModel,
+                        lichHopId: id,
+                      ),
+                      isBottomShow: false,
+                      funcBtnOk: () {
+                        Navigator.pop(context);
+                      },
+                    ).then((value) {
+                      if (value == true) {
+                        widget.cubit.callApiChuongTrinhHop();
+                      } else if (value == null) {
+                        return;
+                      }
+                    });
+                  },
                   child: SvgPicture.asset(ImageAssets.icEditBlue),
                 ),
                 const SizedBox(
@@ -303,19 +315,14 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                         widget.cubit
                             .xoaChuongTrinhHop(id: listPhienHopModel.id ?? '')
                             .then((value) {
-                          MessageConfig.show(
-                            title: S.current.xoa_thanh_cong,
-                          );
-                          widget.cubit.initDataChiTiet();
-                        }).onError((error, stackTrace) {
-                          MessageConfig.show(
-                            title: S.current.xoa_that_bai,
-                          );
+                          if (value) {
+                            widget.cubit.callApiChuongTrinhHop();
+                          }
                         });
                       },
-                      showTablet: false,
+                      showTablet: true,
                       textContent: S.current.conten_xoa_chuong_trinh,
-                    ).then((value) {});
+                    );
                   },
                   child: SvgPicture.asset(ImageAssets.ic_delete_do),
                 )
@@ -433,49 +440,6 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
         ),
       ),
     );
-  }
-
-  void showSuaWidget(
-      {required ListPhienHopModel listPhienHopModel, required String id}) {
-    if (isMobile()) {
-      showBottomSheetCustom(
-        context,
-        child: SuaPhienHopScreen(
-          id: listPhienHopModel.id ?? '',
-          cubit: widget.cubit,
-          phienHopModel: listPhienHopModel,
-          lichHopId: id,
-        ),
-        title: S.current.sua_phien_hop,
-      ).then((value) {
-        if (value == true) {
-          widget.cubit.initDataChiTiet();
-        } else if (value == null) {
-          return;
-        }
-      });
-    } else {
-      showDiaLogTablet(
-        context,
-        title: S.current.sua_phien_hop,
-        child: SuaPhienHopScreen(
-          id: listPhienHopModel.id ?? '',
-          cubit: widget.cubit,
-          phienHopModel: listPhienHopModel,
-          lichHopId: id,
-        ),
-        isBottomShow: false,
-        funcBtnOk: () {
-          Navigator.pop(context);
-        },
-      ).then((value) {
-        if (value == true) {
-          widget.cubit.initDataChiTiet();
-        } else if (value == null) {
-          return;
-        }
-      });
-    }
   }
 
   Widget listFileDinhKem(

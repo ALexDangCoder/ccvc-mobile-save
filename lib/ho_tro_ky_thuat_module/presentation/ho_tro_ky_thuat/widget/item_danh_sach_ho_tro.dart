@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ItemDanhSachHoTro extends StatelessWidget {
   final bool isLine;
@@ -69,10 +70,13 @@ class ItemDanhSachHoTro extends StatelessWidget {
                   ),
                 ],
               ),
-              SvgPicture.asset(
-                ImageAssets.ic_call,
-                width: 32,
-                height: 32,
+              GestureDetector(
+                onTap: () => launchUrlString("tel://21213123123"),
+                child: SvgPicture.asset(
+                  ImageAssets.ic_call,
+                  width: 32,
+                  height: 32,
+                ),
               ),
             ],
           ),

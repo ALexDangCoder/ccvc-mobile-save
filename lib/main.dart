@@ -45,7 +45,7 @@ Future<void> mainApp() async {
   FirebaseMessaging.onBackgroundMessage(_messageHandler);
 
   final appDocumentDirectory =
-      await path_provider.getApplicationDocumentsDirectory();
+  await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   await HiveLocal.init();
   await HiveLocalHome.init();
@@ -57,6 +57,7 @@ Future<void> mainApp() async {
   );
   configureDependencies();
   configureDependenciesHome();
+
   runApp(const MyApp());
 }
 
@@ -70,20 +71,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+
   @override
   void initState() {
-
     super.initState();
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
+      if (message.notification != null) {}
     });
   }
 
@@ -94,50 +90,53 @@ class _MyAppState extends State<MyApp> {
       child: KeyboardDismisser(
         child: ScreenUtilInit(
           designSize: const Size(375, 812),
-          builder: () => GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: Strings.app_name,
-            theme: ThemeData(
-              primaryColor: AppTheme.getInstance().primaryColor(),
-              cardColor: Colors.white,
-              textTheme: GoogleFonts.latoTextTheme(
-                Theme.of(context).textTheme,
+          builder: () =>
+              GetMaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: Strings.app_name,
+                theme: ThemeData(
+                  primaryColor: AppTheme.getInstance().primaryColor(),
+                  cardColor: Colors.white,
+                  textTheme: GoogleFonts.latoTextTheme(
+                    Theme
+                        .of(context)
+                        .textTheme,
+                  ),
+                  appBarTheme: const AppBarTheme(
+                    color: Colors.white,
+                    systemOverlayStyle: SystemUiOverlayStyle.dark,
+                  ),
+                  dividerColor: dividerColor,
+                  scaffoldBackgroundColor: Colors.white,
+                  textSelectionTheme: TextSelectionThemeData(
+                    cursorColor: AppTheme.getInstance().primaryColor(),
+                    selectionColor: AppTheme.getInstance().primaryColor(),
+                    selectionHandleColor: AppTheme.getInstance().primaryColor(),
+                  ),
+                  colorScheme: ColorScheme.fromSwatch().copyWith(
+                    secondary: AppTheme.getInstance().accentColor(),
+                  ),
+                ),
+                localeResolutionCallback: (deviceLocale, supportedLocales) {
+                  // if (supportedLocales.contains(
+                  //   Locale(deviceLocale?.languageCode ?? EN_CODE),
+                  // )) {
+                  //   return deviceLocale;
+                  // } else {
+                  //   return const Locale.fromSubtags(languageCode: EN_CODE);
+                  // }
+                  return const Locale.fromSubtags(languageCode: VI_CODE);
+                },
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                onGenerateRoute: AppRouter.generateRoute,
+                initialRoute: AppRouter.splash,
               ),
-              appBarTheme: const AppBarTheme(
-                color: Colors.white,
-                systemOverlayStyle: SystemUiOverlayStyle.dark,
-              ),
-              dividerColor: dividerColor,
-              scaffoldBackgroundColor: Colors.white,
-              textSelectionTheme: TextSelectionThemeData(
-                cursorColor: AppTheme.getInstance().primaryColor(),
-                selectionColor: AppTheme.getInstance().primaryColor(),
-                selectionHandleColor: AppTheme.getInstance().primaryColor(),
-              ),
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                secondary: AppTheme.getInstance().accentColor(),
-              ),
-            ),
-            localeResolutionCallback: (deviceLocale, supportedLocales) {
-              // if (supportedLocales.contains(
-              //   Locale(deviceLocale?.languageCode ?? EN_CODE),
-              // )) {
-              //   return deviceLocale;
-              // } else {
-              //   return const Locale.fromSubtags(languageCode: EN_CODE);
-              // }
-              return const Locale.fromSubtags(languageCode: VI_CODE);
-            },
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            onGenerateRoute: AppRouter.generateRoute,
-            initialRoute: AppRouter.splash,
-          ),
         ),
       ),
     );
@@ -145,7 +144,8 @@ class _MyAppState extends State<MyApp> {
 
   void checkDeviceType() {
     final shortestSide =
-        MediaQueryData.fromWindow(WidgetsBinding.instance!.window)
+        MediaQueryData
+            .fromWindow(WidgetsBinding.instance!.window)
             .size
             .shortestSide;
     APP_DEVICE = shortestSide < 700 ? DeviceType.MOBILE : DeviceType.TABLET;
@@ -163,7 +163,7 @@ class AppStateCt extends InheritedWidget {
 
   static AppStateCt of(BuildContext context) {
     final AppStateCt? result =
-        context.dependOnInheritedWidgetOfExactType<AppStateCt>();
+    context.dependOnInheritedWidgetOfExactType<AppStateCt>();
     assert(result != null, 'No element');
     return result!;
   }

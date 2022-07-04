@@ -1,10 +1,11 @@
-import 'package:ccvc_mobile/bao_cao_module/widget/views/loading_only.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/views/loading_only.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -58,28 +59,30 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ContainerBackgroundWidget(
-        title: S.current.tinh_hinh_xu_ly_vb_don_vi,
-        onTapIcon: () {
-          // cubit.showDialog(widget.homeItemType);
-        },
+    return ContainerBackgroundWidget(
+      title: S.current.tinh_hinh_xu_ly_vb_don_vi,
+      child: Padding(
+        padding: EdgeInsets.zero,
         child: LoadingOnly(
           stream: _vanBanDonViCubit.stateStream,
           child: StreamBuilder<VanBanDonViModel>(
             stream: _vanBanDonViCubit.getVanBanDonVi,
             builder: (context, snapshot) {
-              if(snapshot.hasData){
+              if (snapshot.hasData) {
                 final data = snapshot.data ??
-                    VanBanDonViModel(vbDen: DocumentDashboardModel(), vbDi: DocumentDashboardModel());
-                final dataVBDen=data.vbDen;
-                final dataVBDi=data.vbDi;
+                    VanBanDonViModel(
+                        vbDen: DocumentDashboardModel(),
+                        vbDi: DocumentDashboardModel(),);
+                final dataVBDen = data.vbDen;
+                final dataVBDi = data.vbDi;
                 return Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     titleChart(
                       S.current.document_incoming,
                       Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           PieChart(
                             paddingTop: 0,
@@ -176,9 +179,10 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
                     )
                   ],
                 );
-              }
-              else{
-                return const SizedBox();
+              } else {
+                return const SizedBox(height: 400,
+                child: NodataWidget(),
+                );
               }
             },
           ),
@@ -197,16 +201,19 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
           child: Row(
             children: listData
                 .map(
-                  (e) => Expanded(
-                    flex: e.value.toInt()+1,
-                    child: Container(
-                      color: e.color,
-                      child: Center(
-                        child: Text(
-                          e.value.toInt().toString(),
-                          style: textNormal(
-                            backgroundColorApp,
-                            14.0.textScale(),
+                  (e) => Visibility(
+                    visible: !(e.value.toInt()==0),
+                    child: Expanded(
+                      flex:  e.value.toInt(),
+                      child: Container(
+                        color: e.color,
+                        child: Center(
+                          child: Text(
+                            e.value.toInt().toString(),
+                            style: textNormal(
+                              backgroundColorApp,
+                              14.0.textScale(),
+                            ),
                           ),
                         ),
                       ),

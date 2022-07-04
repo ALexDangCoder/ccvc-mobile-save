@@ -122,7 +122,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           ButtonSelectFile(
             removeFileApi: (int index) {},
             title: S.current.tai_lieu_dinh_kem,
-            onChange: (List<File> files) {},
+            onChange: (List<File> files,) {},
             files: [],
           ),
           SizedBox(

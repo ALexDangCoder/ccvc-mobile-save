@@ -84,9 +84,15 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
                                       Text(
                                         '${S.current.nguoi_tao}:${donViLuongModel.ten}',
-                                        style: textNormal(infoColor, 12),
+                                        style: textNormal(
+                                          infoColor,
+                                          12,
+                                        ),
                                         textAlign: TextAlign.center,
                                       ),
                                       const SizedBox(
@@ -122,7 +128,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                   colorBorder: donViLuongModel.vaiTroColor(),
                                   child: Column(
                                     children: [
-                                      if (result.isCaNhan ?? false)
+                                      if (result.isCanBo())
                                         Container(
                                           margin:
                                               const EdgeInsets.only(bottom: 10),
@@ -150,19 +156,22 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                           donViLuongModel.tenDonVi ?? '',
                                           maxLines: 2,
                                           style: textNormal(
-                                            selectColorTabbar,
+                                            fontColorTablet2,
                                             14,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
-                                      // Text(
-                                      //   result.,
-                                      //   style: textNormal(
-                                      //     infoColor,
-                                      //     12,
-                                      //   ),
-                                      //   textAlign: TextAlign.center,
-                                      // ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Visibility(
+                                        visible: result.isCanBo(),
+                                        child: Text(
+                                          '${donViLuongModel.ten}- ${donViLuongModel.chucVu}',
+                                          style: textNormal(infoColor, 12),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
                                       const SizedBox(
                                         height: 10,
                                       ),
@@ -310,13 +319,15 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
         const SizedBox(
           width: 10,
         ),
-        Expanded(child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Text(
-            title,
-            style: textNormal(titleItemEdit, 16),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              title,
+              style: textNormal(titleItemEdit, 16),
+            ),
           ),
-        ),),
+        ),
       ],
     );
   }

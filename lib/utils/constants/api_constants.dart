@@ -302,6 +302,12 @@ class ApiConstants {
       '/vpdt/api/ScheduleReport/duyet-bao-cao';
   static const CREATE_KET_LUAN_HOP =
       '/vpdt/api/ScheduleReport/create-meet-report';
+  static const GUI_DUYET_KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/register-meet-report';
+  static const THU_HOI__KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/reject-meet-report';
+  static const REFRESH_TOKEN = '/api/auth/refresh-token';
+
 }
 
 class ImageConstants {

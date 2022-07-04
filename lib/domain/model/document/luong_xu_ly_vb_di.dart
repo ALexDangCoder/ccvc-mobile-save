@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 //Trang thai can bo Trong luong xu ly
-const CHO_TRINH_KY = 1;
+const CHO_TRINH_KY = 0;
 const DA_TRINH_KY = 2;
 const CHO_DUYET = 3;
 const DA_DUYET = 4;

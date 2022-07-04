@@ -60,6 +60,8 @@ class _ModalProgressHUDState extends State<ModalProgressHUD> {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       final renderBox = context.findRenderObject() as RenderBox;
       size = renderBox.size;
+      print('------------------------------- waaaaaaaaaaaaaaa ${size.width}');
+      print('------------------------------- haaaaaaaaaaaaaaa ${size.height}');
       _isAsyncCall.sink.add(widget.inAsyncCall);
     });
   }

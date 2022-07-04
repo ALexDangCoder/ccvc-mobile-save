@@ -327,7 +327,8 @@ class HomeImpl extends HomeRepository {
       ),
       (res) =>
           res.data?.toDomain() ??
-          VanBanDonViModel(vbDen: DocumentDashboardModel(), vbDi: DocumentDashboardModel()),
+          VanBanDonViModel(
+              vbDen: DocumentDashboardModel(), vbDi: DocumentDashboardModel()),
     );
   }
 
@@ -336,7 +337,7 @@ class HomeImpl extends HomeRepository {
     bool isGetAll,
     int pageSize,
     int pageIndex,
-  String kerSearch,
+    String kerSearch,
   ) {
     return runCatchingAsync<NguoiGanResponse, NguoiGanCongViecModel>(
       () => _homeServiceCommon.getListNguoiGan(
@@ -347,5 +348,12 @@ class HomeImpl extends HomeRepository {
       ),
       (res) => res.data?.toDomain() ?? NguoiGanCongViecModel(items: []),
     );
+  }
+
+  @override
+  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKNCaNhan() {
+    return runCatchingAsync<TinhHinhXuLyPAKNCaNhan, DocumentDashboardModel>(
+        () => _homeServiceGateWay.getDashboardTinhHinhPAKNCaNhan(),
+        (res) => res.toDomain());
   }
 }

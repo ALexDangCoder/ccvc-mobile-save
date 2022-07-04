@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -190,7 +191,9 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
                     ],
                   );
                 } else {
-                  return const SizedBox();
+                  return const SizedBox(height: 400,
+                    child: NodataWidget(),
+                  );
                 }
               },
             ),

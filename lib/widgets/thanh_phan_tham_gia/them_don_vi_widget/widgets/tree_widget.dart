@@ -38,7 +38,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                 child: Row(
                   children: [
                     if (widget.selectOnly)
-                      StreamBuilder<Node<DonViModel>>(
+                      StreamBuilder<Node<DonViModel>?>(
                           stream: widget.themDonViCubit.selectOnlyDonVi,
                           builder: (context, snapshot) {
                             return CustomCheckBox(

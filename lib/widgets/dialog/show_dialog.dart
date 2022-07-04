@@ -81,6 +81,7 @@ Future<T?> showDiaLog<T>(
                         dateColor,
                         showTablet ? 14.0.textScale() : 14,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 )

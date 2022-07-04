@@ -31,6 +31,7 @@ class ButtonSelectFile extends StatefulWidget {
   final double? maxSize;
   final Function(int index) removeFileApi;
 
+
   ButtonSelectFile({
     Key? key,
     this.background,
@@ -85,7 +86,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         GestureDetector(
           onTap: () async {
             final FilePickerResult? result =
-                await FilePicker.platform.pickFiles(
+            await FilePicker.platform.pickFiles(
               allowMultiple: true,
             );
 
@@ -93,7 +94,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
               if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
                   final listSelect =
-                      result.paths.map((path) => File(path ?? '')).toList();
+                  result.paths.map((path) => File(path ?? '')).toList();
                   if (widget.maxSize != null) {
                     bool isOverSize = false;
                     errText = '';

@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/main_lich_hop_tablet.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -48,6 +49,14 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
     return ContainerBackgroundTabletWidget(
       maxHeight: 858,
       minHeight: 415,
+      onTapTitle: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainLichHopTabLet(),
+          ),
+        );
+      },
       title: S.current.meeting_schedule,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);

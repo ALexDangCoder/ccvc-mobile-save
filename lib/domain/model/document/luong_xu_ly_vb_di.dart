@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 //Trang thai can bo Trong luong xu ly
-const CHO_TRINH_KY = 1;
+const CHO_TRINH_KY = 0;
 const DA_TRINH_KY = 2;
 const CHO_DUYET = 3;
 const DA_DUYET = 4;
@@ -22,26 +22,36 @@ const CAP_SO_BAN_HANH = 4;
 List<DataRowLuongXuLy> chuThichTrangThai = [
   DataRowLuongXuLy(title: S.current.cho_trinh_ky, color: color81B2DF),
   DataRowLuongXuLy(title: S.current.cho_duyet, color: colorF2994A),
-  DataRowLuongXuLy(title: S.current.cho_cap_so, color: capSoColor),
-  DataRowLuongXuLy(title: S.current.da_ban_hanh, color: banHanhColor),
-  DataRowLuongXuLy(title: S.current.da_trinh_ky, color: daTrinhColor),
-  DataRowLuongXuLy(title: S.current.da_duyet, color: daDuyetColor),
-  DataRowLuongXuLy(title: S.current.cho_ban_hanh, color: choBanHanhLuongColor),
-  DataRowLuongXuLy(title: S.current.tra_lai, color: traLaiColor)
+  DataRowLuongXuLy(title: S.current.cho_cap_so, color: color00BA8D),
+  DataRowLuongXuLy(title: S.current.da_ban_hanh, color: choPhanXuLyColor),
+  DataRowLuongXuLy(title: S.current.da_trinh_ky, color: thuHoiLuongColor),
+  DataRowLuongXuLy(title: S.current.da_duyet, color: colorNenLam),
+  DataRowLuongXuLy(title: S.current.cho_ban_hanh, color: color56CCF2),
+  DataRowLuongXuLy(title: S.current.tra_lai, color: colorF2C94C)
+];
+List<DataRowLuongXuLy> chuThichTrangThaiTablet = [
+  DataRowLuongXuLy(title: S.current.cho_trinh_ky, color: color81B2DF),
+  DataRowLuongXuLy(title: S.current.cho_duyet, color: colorF2994A),
+  DataRowLuongXuLy(title: S.current.da_duyet, color: colorNenLam),
+  DataRowLuongXuLy(title: S.current.da_trinh_ky, color: thuHoiLuongColor),
+  DataRowLuongXuLy(title: S.current.cho_cap_so, color: color00BA8D),
+  DataRowLuongXuLy(title: S.current.da_ban_hanh, color: choPhanXuLyColor),
+  DataRowLuongXuLy(title: S.current.tra_lai, color: colorF2C94C),
+  DataRowLuongXuLy(title: S.current.cho_ban_hanh, color: color56CCF2),
 ];
 List<DataRowLuongXuLy> chuThichTrangThaiLuong = [
-  DataRowLuongXuLy(title: S.current.nguoi_soan_thao, color: soanThaoColor),
-  DataRowLuongXuLy(title: S.current.nguoi_ky_duyet, color: kyDuyetColor),
+  DataRowLuongXuLy(title: S.current.nguoi_soan_thao, color: color6FCF97),
+  DataRowLuongXuLy(title: S.current.nguoi_ky_duyet, color: dangThucHienPurble),
   DataRowLuongXuLy(
     title: S.current.nguoi_ky_van_ban,
     color: nguoiKyVanBanColor,
   ),
   DataRowLuongXuLy(
-    title: S.current.nguoi_kiem_tra_thuc_the,
-    color: kiemTraThucTheColor,
+    title: S.current.nguoi_kt_thuc_the,
+    color: colorCF6F6F,
   ),
   DataRowLuongXuLy(
-      title: S.current.nguoi_cap_so_ban_hanh, color: nguoiCapSoColor)
+      title: S.current.nguoi_cap_so_ban_hanh, color: colorB6CF6F)
 ];
 
 class LuongXuLyVBDiModel {
@@ -70,22 +80,22 @@ class LuongXuLyVBDiModel {
       case DA_TRINH_KY:
         return DataRowLuongXuLy(
           title: S.current.da_trinh_ky,
-          color: daTrinhColor,
+          color: thuHoiLuongColor,
         );
       case CHO_DUYET:
         return DataRowLuongXuLy(title: S.current.cho_duyet, color: colorF2994A);
       case DA_DUYET:
-        return DataRowLuongXuLy(title: S.current.da_duyet, color: daDuyetColor);
+        return DataRowLuongXuLy(title: S.current.da_duyet, color: colorNenLam);
       case CHO_CAP_SO:
-        return DataRowLuongXuLy(title: S.current.cho_cap_so, color: capSoColor);
+        return DataRowLuongXuLy(title: S.current.cho_cap_so, color: color00BA8D);
       case CHO_BAN_HANH:
         return DataRowLuongXuLy(
-            title: S.current.cho_ban_hanh, color: choBanHanhLuongColor);
+            title: S.current.cho_ban_hanh, color: color56CCF2);
       case DA_BAN_HANH:
         return DataRowLuongXuLy(
-            title: S.current.da_ban_hanh, color: banHanhColor);
+            title: S.current.da_ban_hanh, color: choPhanXuLyColor);
       case TRA_LAI:
-        return DataRowLuongXuLy(title: S.current.tra_lai, color: traLaiColor);
+        return DataRowLuongXuLy(title: S.current.tra_lai, color: colorF2C94C);
     }
     return DataRowLuongXuLy(title: '', color: Colors.transparent);
   }
@@ -94,20 +104,20 @@ class LuongXuLyVBDiModel {
     switch (loaiXuLy) {
       case SOAN_THAO:
         return DataRowLuongXuLy(
-            title: S.current.nguoi_soan_thao, color: soanThaoColor);
+            title: S.current.nguoi_soan_thao, color: color6FCF97);
       case KY_DUYET:
         return DataRowLuongXuLy(
-            title: S.current.nguoi_ky_duyet, color: kyDuyetColor);
+            title: S.current.nguoi_ky_duyet, color: dangThucHienPurble);
       case KY_VAN_BAN:
         return DataRowLuongXuLy(
             title: S.current.nguoi_ky_van_ban, color: nguoiKyVanBanColor);
       case KIEM_TRA_THUC_THE:
         return DataRowLuongXuLy(
-            title: S.current.nguoi_kiem_tra_thuc_the,
-            color: kiemTraThucTheColor);
+            title: S.current.nguoi_kt_thuc_the,
+            color: colorCF6F6F);
       case CAP_SO_BAN_HANH:
         return DataRowLuongXuLy(
-            title: S.current.nguoi_cap_so_ban_hanh, color: nguoiCapSoColor);
+            title: S.current.nguoi_cap_so_ban_hanh, color: colorB6CF6F);
     }
     return DataRowLuongXuLy(title: '', color: Colors.transparent);
   }

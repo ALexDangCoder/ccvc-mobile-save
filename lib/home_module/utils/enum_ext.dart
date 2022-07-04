@@ -94,7 +94,6 @@ extension DocumentStatusEx on DocumentStatus {
         return S.current.cho_phan_xu_ly;
       case DocumentStatus.HOA_TOC:
         return S.current.hoa_toc;
-
       case DocumentStatus.KHAN:
         return S.current.khan;
       case DocumentStatus.BINH_THUONG:

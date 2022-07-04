@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tablet/tabbar_newspaper_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,6 +65,14 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       maxHeight: 415,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+      },
+      onTapTitle: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TabbarNewspaperTablet(),
+          ),
+        );
       },
       spacingTitle: 0,
       selectKeyDialog: _xaHoiCubit,

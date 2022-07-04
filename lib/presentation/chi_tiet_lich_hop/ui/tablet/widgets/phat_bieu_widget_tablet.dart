@@ -244,9 +244,14 @@ Widget buttonPhatBieu({
                     showBottomSheetCustom(
                       context,
                       title: S.current.dang_ky_phat_bieu,
-                      child: DangKyPhatBieuWidget(
-                        cubit: cubit,
-                        id: id,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height*0.8,
+                        ),
+                        child: DangKyPhatBieuWidget(
+                          cubit: cubit,
+                          id: id,
+                        ),
                       ),
                     );
                   },

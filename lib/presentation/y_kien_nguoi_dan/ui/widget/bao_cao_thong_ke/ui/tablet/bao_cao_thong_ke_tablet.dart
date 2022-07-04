@@ -133,234 +133,247 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
         ),
         child: StateStreamLayout(
           textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
+          retry: () {
+            baoCaoCubit.callApi(
+              DateTime.now().toStringWithListFormat,
+              DateTime.now().toStringWithListFormat,
+            );
+          },
           error: AppException('1', S.current.something_went_wrong),
           stream: baoCaoCubit.stateStream,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        left: 16.0,
-                      ),
-                      height: 88,
-                      child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
-                        initialData: baoCaoCubit.listInitDataBaoCao,
-                        stream: baoCaoCubit.listBaoCaoYKND,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              return CustomItemCalenderWork(
-                                image: data[index].img ?? '',
-                                typeName: data[index].typeName ?? '',
-                                numberOfCalendars:
-                                    data[index].numberOfCalendars ?? 0,
-                              );
-                            },
-                          );
-                        },
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await baoCaoCubit.callApi(
+                DateTime.now().toStringWithListFormat,
+                DateTime.now().toStringWithListFormat,
+              );
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                          left: 16.0,
+                        ),
+                        height: 88,
+                        child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
+                          initialData: baoCaoCubit.listInitDataBaoCao,
+                          stream: baoCaoCubit.listBaoCaoYKND,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return CustomItemCalenderWork(
+                                  image: data[index].img ?? '',
+                                  typeName: data[index].typeName ?? '',
+                                  numberOfCalendars:
+                                      data[index].numberOfCalendars ?? 0,
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 550,
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              StreamBuilder<List<ChartData>>(
-                                stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
-                                builder: (context, snapshot) {
-                                  final listDataChart = snapshot.data ?? [];
-                                  return Expanded(
-                                    child: PieChart(
-                                      title: S.current.y_kien_nguoi_dan,
-                                      chartData: listDataChart,
-                                      onTap: (int value) {},
-                                    ),
-                                  );
-                                },
-                              ),
-                              Container(height: 20),
-                              StreamBuilder<DashBroadItemYKNDModel>(
-                                stream: baoCaoCubit.listChartDashBoard,
-                                builder: (context, snapshot) {
-                                  final data =
-                                      snapshot.data ?? DashBroadItemYKNDModel();
-                                  return Row(
-                                    children: [
-                                      Expanded(
-                                        child: BoxStatusVanBan(
-                                          value: data.trongHan ?? 0,
-                                          onTap: () {},
-                                          color: color3D5586,
-                                          statusName: S.current.trong_han,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      Expanded(
-                                        child: BoxStatusVanBan(
-                                          value: data.denHan ?? 0,
-                                          onTap: () {},
-                                          color: numberOfCalenders,
-                                          statusName: S.current.den_han,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: BoxStatusVanBan(
-                                          value: data.quaHan ?? 0,
-                                          onTap: () {},
-                                          color: statusCalenderRed,
-                                          statusName: S.current.qua_han,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 28,
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textviewTitle(S.current.linh_vuc_xu_ly),
-                              ChartLinhVucXuLyWidget(
-                                cubit: baoCaoCubit,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 450,
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textviewTitle(S.current.so_luong_yknd),
-                              ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
-                            ],
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 550,
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: cellColorborder),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: shadowContainerColor.withOpacity(0.05),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                StreamBuilder<List<ChartData>>(
+                                  stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
+                                  builder: (context, snapshot) {
+                                    final listDataChart = snapshot.data ?? [];
+                                    return Expanded(
+                                      child: PieChart(
+                                        title: S.current.y_kien_nguoi_dan,
+                                        chartData: listDataChart,
+                                        onTap: (int value) {},
+                                      ),
+                                    );
+                                  },
+                                ),
+                                Container(height: 20),
+                                StreamBuilder<DashBroadItemYKNDModel>(
+                                  stream: baoCaoCubit.listChartDashBoard,
+                                  builder: (context, snapshot) {
+                                    final data =
+                                        snapshot.data ?? DashBroadItemYKNDModel();
+                                    return Row(
+                                      children: [
+                                        Expanded(
+                                          child: BoxStatusVanBan(
+                                            value: data.trongHan ?? 0,
+                                            onTap: () {},
+                                            color: color3D5586,
+                                            statusName: S.current.trong_han,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        Expanded(
+                                          child: BoxStatusVanBan(
+                                            value: data.denHan ?? 0,
+                                            onTap: () {},
+                                            color: numberOfCalenders,
+                                            statusName: S.current.den_han,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: BoxStatusVanBan(
+                                            value: data.quaHan ?? 0,
+                                            onTap: () {},
+                                            color: statusCalenderRed,
+                                            statusName: S.current.qua_han,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 24,
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            color: Colors.white,
+                        const SizedBox(
+                          width: 28,
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: cellColorborder),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: shadowContainerColor.withOpacity(0.05),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textviewTitle(S.current.linh_vuc_xu_ly),
+                                ChartLinhVucXuLyWidget(
+                                  cubit: baoCaoCubit,
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textviewTitle(S.current.don_vi_xu_ly),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                                child: SingleChildScrollView(
-                                  child: ChartDonViXuLyWidget(
-                                    cubit: baoCaoCubit,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 450,
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: cellColorborder),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: shadowContainerColor.withOpacity(0.05),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textviewTitle(S.current.so_luong_yknd),
+                                ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: cellColorborder),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: shadowContainerColor.withOpacity(0.05),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textviewTitle(S.current.don_vi_xu_ly),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
+                                  child: SingleChildScrollView(
+                                    child: ChartDonViXuLyWidget(
+                                      cubit: baoCaoCubit,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

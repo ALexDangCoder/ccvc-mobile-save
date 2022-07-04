@@ -214,7 +214,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
             endTime: DateTime.parse(
               i.dateTimeTo ?? '',
             ),
-            subject: i.title ?? '',
+            subject: i.listTitle ?? '',
             color: Colors.blue,
             id: i.id ?? '',
           ),

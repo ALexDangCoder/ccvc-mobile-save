@@ -141,7 +141,6 @@ class _MainCalendarMeetingTabletState extends State<MainCalendarMeetingTablet> {
                       cubit.getDaysHaveEvent(
                         startDate: startDate,
                         endDate: endDate,
-                        keySearch: keySearch,
                       );
                     },
                     onTapTao: () {

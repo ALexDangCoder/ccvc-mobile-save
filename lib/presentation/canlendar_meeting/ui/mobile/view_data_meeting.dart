@@ -58,7 +58,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
               );
             },
             buildAppointment:
-                widget.isTablet ? itemAppointmentDayTablet : itemAppointment,
+                widget.isTablet ? itemAppointmentDayTablet : itemAppointmentDay,
             isTablet: widget.isTablet,
             onMore: (value) {
               widget.cubit.emitListViewState();
@@ -240,25 +240,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         60 * 60 * 1000;
     return GestureDetector(
       onTap: () {
-        if (isMobile()) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailMeetCalenderScreen(
-                id: appointment.id as String? ?? '',
-              ),
-            ),
-          );
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailMeetCalenderTablet(
-                id: appointment.id as String? ?? '',
-              ),
-            ),
-          );
-        }
+        pushToDetail(appointment);
       },
       child: Container(
         padding: EdgeInsets.symmetric(
@@ -308,27 +290,82 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   Widget itemAppointment(AppointmentWithDuplicate appointment) {
     return GestureDetector(
       onTap: () {
-        if (isMobile()) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailMeetCalenderScreen(
-                id: appointment.id as String? ?? '',
-              ),
-            ),
-          );
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailMeetCalenderTablet(
-                id: appointment.id as String? ?? '',
-              ),
-            ),
-          );
-        }
+        pushToDetail(appointment);
       },
       child: ItemAppointment(appointment: appointment),
+    );
+  }
+
+  Widget itemAppointmentDay(AppointmentWithDuplicate appointment) {
+    final lessThan1Hour = appointment.endTime.millisecondsSinceEpoch -
+            appointment.startTime.millisecondsSinceEpoch <
+        60 * 60 * 1000;
+    return GestureDetector(
+      onTap: () {
+        pushToDetail(appointment);
+      },
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: appointment.isAllDay ? 1 : 6,
+            ),
+            decoration: const BoxDecoration(
+              color: textDefault,
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  child: Text(
+                    appointment.subject.trim(),
+                    maxLines: appointment.isAllDay ? 1 : 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textNormalCustom(
+                      color: Colors.white,
+                      fontSize: appointment.isAllDay ? 11 : 14,
+                    ),
+                  ),
+                ),
+                if (!appointment.isAllDay && !lessThan1Hour) spaceH4,
+                if (!appointment.isAllDay && !lessThan1Hour)
+                  Text(
+                    '${DateFormat.jm('en').format(
+                      appointment.startTime,
+                    )} - ${DateFormat.jm('en').format(
+                      appointment.endTime,
+                    )}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textNormalCustom(
+                      fontSize: 12,
+                      color: backgroundColorApp.withOpacity(0.7),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
+              ],
+            ),
+          ),
+          Visibility(
+            visible: appointment.isDuplicate,
+            child: Positioned(
+              top: 2,
+              right: 2,
+              child: Container(
+                width: 5,
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: redChart,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -337,25 +374,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
     return Align(
       child: GestureDetector(
         onTap: () {
-          if (isMobile()) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailMeetCalenderScreen(
-                  id: appointment.id as String? ?? '',
-                ),
-              ),
-            );
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailMeetCalenderTablet(
-                  id: appointment.id as String? ?? '',
-                ),
-              ),
-            );
-          }
+          pushToDetail(data);
         },
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 1),
@@ -385,7 +404,9 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                     width: 5,
                     height: 5,
                     decoration: const BoxDecoration(
-                        color: redChart, shape: BoxShape.circle,),
+                      color: redChart,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
               )
@@ -394,5 +415,45 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         ),
       ),
     );
+  }
+
+  void pushToDetail(Appointment appointment) {
+    if (isMobile()) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailMeetCalenderScreen(
+            id: appointment.id as String? ?? '',
+          ),
+        ),
+      ).then((value) {
+        if (value != null && value) {
+          if (widget.cubit.state is CalendarViewState ||
+              widget.cubit.state is ListViewState) {
+            widget.cubit.refreshDataDangLich();
+          } else {
+            widget.cubit.getDataDangChart();
+          }
+        }
+      });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailMeetCalenderTablet(
+            id: appointment.id as String? ?? '',
+          ),
+        ),
+      ).then((value) {
+        if (value != null && value) {
+          if (widget.cubit.state is CalendarViewState ||
+              widget.cubit.state is ListViewState) {
+            widget.cubit.refreshDataDangLich();
+          } else {
+            widget.cubit.getDataDangChart();
+          }
+        }
+      });
+    }
   }
 }

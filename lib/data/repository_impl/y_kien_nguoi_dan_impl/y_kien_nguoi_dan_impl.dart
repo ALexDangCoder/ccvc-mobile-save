@@ -435,4 +435,44 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
           [],
     );
   }
+
+  @override
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachChoTaoVBDi(
+      {int? pageIndex,
+      int? pageSize,
+      String? donViId,
+      String? dateFrom,
+      String? dateTo,
+      int? trangThaiVanBanDi}) {
+    return runCatchingAsync<DataDanhSachPAKNFilterResponse,
+        List<DanhSachKetQuaPAKNModel>>(
+      () => _yKienNguoiDanService.getDanhSachPAKNTiepNhanVanBanDi(
+          DanhSachPAKNVanBanDiRequest(donViId ?? '', trangThaiVanBanDi ?? 0,
+              pageIndex ?? 1, pageSize ?? 10, dateFrom ?? '', dateTo ?? '')),
+      (res) =>
+          res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKNXuLyCacYKien(
+      {int? pageIndex,
+      int? pageSize,
+      String? dateFrom,
+      String? dateTo, bool? daChoYKien}) {
+    return runCatchingAsync<DataDanhSachPAKNFilterResponse,
+        List<DanhSachKetQuaPAKNModel>>(
+      () => _yKienNguoiDanService.getDanhSachPAKNXuLyCacYKien(
+        DanhSachPAKNXuLyCacYKienRequest(
+          daChoYKien ?? false,
+          pageIndex ?? 1,
+          pageSize ?? 10,
+          dateFrom ?? '',
+          dateTo ?? '',
+        ),
+      ),
+      (res) =>
+          res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
 }

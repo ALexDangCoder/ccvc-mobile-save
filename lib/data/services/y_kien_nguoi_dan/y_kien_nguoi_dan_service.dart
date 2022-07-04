@@ -168,7 +168,8 @@ abstract class YKienNguoiDanService {
 
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
   Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(
-      @Query('isDonVi') bool isDonVi);
+    @Query('isDonVi') bool isDonVi,
+  );
 
   @GET(ApiConstants.DASHBOARD_PAKN_TIEP_NHAN_XU_LY)
   Future<DashBoardThongTinPaknTotalResponse>
@@ -182,4 +183,13 @@ abstract class YKienNguoiDanService {
     @Body() DanhSachPAKNRequest request,
   );
 
+  @POST(ApiConstants.GET_PAKN_TIEP_NHAN_VAN_BAN_DI)
+  Future<DataDanhSachPAKNFilterResponse> getDanhSachPAKNTiepNhanVanBanDi(
+    @Body() DanhSachPAKNVanBanDiRequest request,
+  );
+
+  @POST(ApiConstants.GET_PAKN_XU_LY_VAN_BAN)
+  Future<DataDanhSachPAKNFilterResponse> getDanhSachPAKNXuLyCacYKien(
+      @Body() DanhSachPAKNXuLyCacYKienRequest request,
+      );
 }

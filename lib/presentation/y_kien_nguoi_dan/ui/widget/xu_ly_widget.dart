@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
@@ -32,31 +33,73 @@ class _XuLyWidgetState extends State<XuLyWidget> {
           widget.cubit.hanXuLy = null;
           widget.cubit.loaiMenu = 'XuLy';
           widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.ChoTiepNhanXuLy;
+          widget.cubit.textFilter.add(
+            TextTrangThai(
+              S.current.cho_tiep_nhan_xu_ly,
+              AppTheme.getInstance().choXuLyColor(),
+            ),
+          );
+          widget.cubit.isShowFilterList.add(false);
           widget.cubit.getDanhSachPAKNFilterChart();
         } else if (index == 1) {
           widget.cubit.hanXuLy = null;
           widget.cubit.loaiMenu = 'XuLy';
           widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.ChoXuLy;
+          widget.cubit.textFilter.add(
+            TextTrangThai(
+              S.current.cho_xu_ly,
+              textColorForum,
+            ),
+          );
+          widget.cubit.isShowFilterList.add(false);
           widget.cubit.getDanhSachPAKNFilterChart();
         }else if (index == 2) {
           widget.cubit.hanXuLy = null;
           widget.cubit.loaiMenu = 'XuLy';
           widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.ChoPhanCongXuLy;
+          widget.cubit.textFilter.add(
+            TextTrangThai(
+              S.current.cho_phan_cong_xu_ly,
+              AppTheme.getInstance().choXuLyColor(),
+            ),
+          );
+          widget.cubit.isShowFilterList.add(false);
           widget.cubit.getDanhSachPAKNFilterChart();
         }else if (index == 3) {
           widget.cubit.hanXuLy = null;
           widget.cubit.loaiMenu = 'XuLy';
           widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.ChoDuyet;
+          widget.cubit.textFilter.add(
+            TextTrangThai(
+              S.current.cho_duyet,
+              textColorForum,
+            ),
+          );
+          widget.cubit.isShowFilterList.add(false);
           widget.cubit.getDanhSachPAKNFilterChart();
         }else if (index == 4) {
           widget.cubit.hanXuLy = null;
           widget.cubit.loaiMenu = 'XuLy';
           widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.DaPhanCong;
+          widget.cubit.textFilter.add(
+            TextTrangThai(
+              S.current.da_phan_cong,
+              daXuLyColor,
+            ),
+          );
+          widget.cubit.isShowFilterList.add(false);
           widget.cubit.getDanhSachPAKNFilterChart();
         } else {
           widget.cubit.hanXuLy = null;
           widget.cubit.loaiMenu = 'XuLy';
           widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.DaHoanThanh;
+          widget.cubit.textFilter.add(
+            TextTrangThai(
+              S.current.da_hoan_thanh,
+              greenChart,
+            ),
+          );
+          widget.cubit.isShowFilterList.add(false);
           widget.cubit.getDanhSachPAKNFilterChart();
         }
       },

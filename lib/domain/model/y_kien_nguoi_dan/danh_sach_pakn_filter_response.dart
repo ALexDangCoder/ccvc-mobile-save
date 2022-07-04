@@ -10,9 +10,10 @@ class DanhSachPAKNFilterResponse {
   @JsonKey(name: 'Data')
   DataDanhSachPAKNFilterResponse? data;
 
-
   DanhSachPAKNFilterResponse(
-      this.messages, this.data);
+    this.messages,
+    this.data,
+  );
 
   factory DanhSachPAKNFilterResponse.fromJson(Map<String, dynamic> json) =>
       _$DanhSachPAKNFilterResponseFromJson(json);

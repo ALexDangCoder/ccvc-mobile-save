@@ -120,6 +120,11 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
                             key: S.current.ten_ca_nhan_to_chuc,
                             value: result.noiGui,
                           ),
+                          InfoData(
+                            urlIcon: ImageAssets.icTime,
+                            key: S.current.han_xu_ly,
+                            value: result.hanXuLyCover,
+                          ),
                         ],
                       ),
                     ),

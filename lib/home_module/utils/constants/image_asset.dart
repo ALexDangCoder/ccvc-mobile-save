@@ -221,6 +221,8 @@ class ImageAssets {
       '$baseImg/header_background_nha_giao_viet_nam_tablet.png';
   static const String headerBackgroudLeGiangSinhTablet =
       '$baseImg/header_background_le_giang_sinh_tablet.png';
+  static const String erorrLoadImage =
+      '$baseImg/erorr_load_image.png';
 
 
   static SvgPicture svgAssets(

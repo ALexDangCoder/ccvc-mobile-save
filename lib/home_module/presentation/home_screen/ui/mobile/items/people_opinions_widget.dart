@@ -1,5 +1,7 @@
 
+import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
+import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:flutter/material.dart';
 
@@ -107,6 +109,7 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                         );
                       },
                       child: ContainerInfoWidget(
+                        // colorStatus2: choXuLyColor,
                         title: result.title,
                         status: result.trangThaiXuXy.getText(),
                         colorStatus: result.trangThaiXuXy.getColor(),
@@ -120,6 +123,11 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                             urlIcon: ImageAssets.icAddress,
                             key: S.current.ten_ca_nhan_to_chuc,
                             value: result.noiGui,
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icTime,
+                            key: S.current.han_xu_ly,
+                            value: result.hanXuLyCover,
                           ),
                         ],
                       ),

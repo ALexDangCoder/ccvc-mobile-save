@@ -6,18 +6,17 @@ import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_close.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/container_status_luong_xu_ly_widget.dart';
-
-import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/bloc/xem_luong_xu_ly_cubit.dart';
-import 'package:flutter/material.dart';
+import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/container_status_luong_xu_ly_widget.dart';
+import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:flutter/material.dart';
 
 class XemLuongXuLyScreen extends StatefulWidget {
   final String id;
+
   const XemLuongXuLyScreen({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -85,9 +84,15 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
                                       Text(
                                         '${S.current.nguoi_tao}:${donViLuongModel.ten}',
-                                        style: textNormal(infoColor, 12),
+                                        style: textNormal(
+                                          infoColor,
+                                          12,
+                                        ),
                                         textAlign: TextAlign.center,
                                       ),
                                       const SizedBox(
@@ -123,7 +128,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                   colorBorder: donViLuongModel.vaiTroColor(),
                                   child: Column(
                                     children: [
-                                      if (result.isCaNhan ?? false)
+                                      if (result.isCanBo())
                                         Container(
                                           margin:
                                               const EdgeInsets.only(bottom: 10),
@@ -151,19 +156,22 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                           donViLuongModel.tenDonVi ?? '',
                                           maxLines: 2,
                                           style: textNormal(
-                                            selectColorTabbar,
+                                            fontColorTablet2,
                                             14,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
-                                      // Text(
-                                      //   result.,
-                                      //   style: textNormal(
-                                      //     infoColor,
-                                      //     12,
-                                      //   ),
-                                      //   textAlign: TextAlign.center,
-                                      // ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Visibility(
+                                        visible: result.isCanBo(),
+                                        child: Text(
+                                          '${donViLuongModel.ten}- ${donViLuongModel.chucVu}',
+                                          style: textNormal(infoColor, 12),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
                                       const SizedBox(
                                         height: 10,
                                       ),
@@ -228,61 +236,63 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                         childAspectRatio: 6.7,
                         children: [
                           rowChuThich(
-                            color: choVaoSoLuongColor,
+                            color: color9B8DFF,
                             title: S.current.cho_vao_so,
                           ),
                           rowChuThich(
-                            color: choPhanXuLyColor,
+                            color: color5A8DEE,
                             title: S.current.cho_phan_xu_ly,
                           ),
                           rowChuThich(
-                            color: choXuLyLuongColor,
+                            color: choVaoSoColor,
                             title: S.current.cho_xu_ly,
                           ),
                           rowChuThich(
-                            color: dangXuLyLuongColor,
+                            color: color02C5DD,
                             title: S.current.dang_xu_ly,
                           ),
                           rowChuThich(
-                            color: daXuLyLuongColor,
-                            title: S.current.da_xu_ly,
+                            color: daXuLyColor,
+                            title: S.current.da_hoan_thanh_s,
                           ),
                           rowChuThich(
-                            color: thuHoiLuongColor,
+                            color: infoColor,
                             title: S.current.thu_hoi,
                           ),
                           rowChuThich(
-                            color: traLaiLuongColor,
+                            color: pinkColor,
                             title: S.current.tra_lai,
                           ),
                         ],
                       ),
                       const SizedBox(
-                        height: 24,
+                        height: 20,
                       ),
                       GridView.count(
                         shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 2.textScale(space: 1),
+                        // physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 3.textScale(),
                         mainAxisSpacing: 5,
                         childAspectRatio: 6.7,
+                        // scrollDirection: Axis.horizontal,
                         children: [
                           rowChuThich(
                             boxShape: BoxShape.rectangle,
-                            color: nguoiChuTriColor,
+                            color: color6FCF97,
                             title: S.current.chu_tri,
                           ),
                           rowChuThich(
-                              boxShape: BoxShape.rectangle,
-                              color: phoiHopColor,
-                              title: S.current.phoi_hop),
+                            boxShape: BoxShape.rectangle,
+                            color: dangThucHienPurble,
+                            title: S.current.phoi_hop,
+                          ),
                           rowChuThich(
                             boxShape: BoxShape.rectangle,
-                            color: nhanDeBietColor,
+                            color: color979797,
                             title: S.current.nhan_de_biet,
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -309,9 +319,14 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          title,
-          style: textNormal(titleItemEdit, 16),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              title,
+              style: textNormal(titleItemEdit, 16),
+            ),
+          ),
         ),
       ],
     );

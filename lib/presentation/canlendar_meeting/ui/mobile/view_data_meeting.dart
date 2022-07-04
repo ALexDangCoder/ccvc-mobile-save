@@ -149,48 +149,24 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         StreamBuilder<StatusWorkCalendar?>(
           stream: widget.cubit.statusWorkSubjectStream,
           builder: (context, snapshot) {
-            final isLichDuocMoi =
-                snapshot.data == StatusWorkCalendar.LICH_DUOC_MOI;
-            if (isLichDuocMoi) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 16, right: 16),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: StreamBuilder<DashBoardLichHopModel>(
-                    stream: widget.cubit.totalWorkStream,
-                    builder: (context, snapshot) {
-                      final data =
-                          snapshot.data ?? DashBoardLichHopModel.empty();
-                      return PopUpMenu(
-                        initData: ItemMenuData(
-                          StateType.CHO_XAC_NHAN,
-                          data.soLichChoXacNhan ?? 0,
-                        ),
-                        data: [
-                          ItemMenuData(
-                            StateType.CHO_XAC_NHAN,
-                            data.soLichChoXacNhan ?? 0,
-                          ),
-                          ItemMenuData(
-                            StateType.THAM_GIA,
-                            data.soLichThamGia ?? 0,
-                          ),
-                          ItemMenuData(
-                            StateType.TU_CHOI,
-                            data.soLichTuChoi ?? 0,
-                          ),
-                        ],
-                        onChange: (type) {
-                          widget.cubit.stateType = type;
-                          widget.cubit.getDanhSachLichHop();
-                        },
-                      );
-                    },
-                  ),
+            final typeCalendar =
+                snapshot.data ?? StatusWorkCalendar.LICH_CUA_TOI;
+            return Padding(
+              padding: const EdgeInsets.only(top: 16, right: 16),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: StreamBuilder<DashBoardLichHopModel>(
+                  stream: widget.cubit.totalWorkStream,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? DashBoardLichHopModel.empty();
+                    return getActionMenu(
+                      typeCalendar: typeCalendar,
+                      data: data,
+                    );
+                  },
                 ),
-              );
-            }
-            return const SizedBox.shrink();
+              ),
+            );
           },
         ),
         Expanded(
@@ -437,5 +413,136 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         ),
       );
     }
+  }
+
+  Widget getActionMenu({
+    required StatusWorkCalendar typeCalendar,
+    required DashBoardLichHopModel data,
+  }) {
+    final List<int> listCount = [];
+    switch (typeCalendar) {
+      case StatusWorkCalendar.CHO_DUYET:
+        listCount.add(data.soLichCanChuTriDuyetCho ?? 0);
+        listCount.add(data.soLichChuTriDaDuyet ?? 0);
+        listCount.add(data.soLichChuTriTuChoi ?? 0);
+        break;
+      case StatusWorkCalendar.LICH_DUYET_PHONG:
+        listCount.add(data.soLichDuyetPhongCho ?? 0);
+        listCount.add(data.soLichDuyetPhongXacNhan ?? 0);
+        listCount.add(data.soLichDuyetPhongTuChoi ?? 0);
+        break;
+      case StatusWorkCalendar.LICH_DUYET_THIET_BI:
+        listCount.add(data.soLichDuyetThietBiCho ?? 0);
+        listCount.add(data.soLichDuyetThietBiXacNhan ?? 0);
+        listCount.add(data.soLichDuyetThietBiTuChoi ?? 0);
+        break;
+      case StatusWorkCalendar.LICH_DUYET_KY_THUAT:
+        listCount.add(data.soLichChoDuyetKyThuat ?? 0);
+        listCount.add(data.soLichDaDuyetKyThuat ?? 0);
+        listCount.add(data.soLichTuChoiDuyetKyThuat ?? 0);
+        break;
+      case StatusWorkCalendar.LICH_DA_KLCH:
+        listCount.add(data.soLichCoBaoCaoChoDuyet ?? 0);
+        listCount.add(data.soLichCoBaoCaoDaDuyet ?? 0);
+        listCount.add(data.soLichCoBaoCaoTuChoi ?? 0);
+        break;
+      case StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI:
+        listCount.add(data.soLichChuaThucHienYC ?? 0);
+        listCount.add(data.soLichDaThucHienYC ?? 0);
+        break;
+      default:
+        break;
+    }
+
+    if (typeCalendar == StatusWorkCalendar.LICH_DUOC_MOI) {
+      return actionLichDuocMoi(data);
+    } else if (typeCalendar == StatusWorkCalendar.CHO_DUYET ||
+        typeCalendar == StatusWorkCalendar.LICH_DUYET_PHONG ||
+        typeCalendar == StatusWorkCalendar.LICH_DUYET_THIET_BI ||
+        typeCalendar == StatusWorkCalendar.LICH_DUYET_KY_THUAT ||
+        typeCalendar == StatusWorkCalendar.LICH_DA_KLCH) {
+      return actionLichCanDuyet(listCount);
+    } else if (typeCalendar == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI) {
+      return actionDuyetYeuCauChuanBi(listCount);
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget actionLichDuocMoi(DashBoardLichHopModel data) {
+    return PopUpMenu(
+      initData: ItemMenuData(
+        StateType.CHO_XAC_NHAN,
+        data.soLichChoXacNhan ?? 0,
+      ),
+      data: [
+        ItemMenuData(
+          StateType.CHO_XAC_NHAN,
+          data.soLichChoXacNhan ?? 0,
+        ),
+        ItemMenuData(
+          StateType.THAM_GIA,
+          data.soLichThamGia ?? 0,
+        ),
+        ItemMenuData(
+          StateType.TU_CHOI,
+          data.soLichTuChoi ?? 0,
+        ),
+      ],
+      onChange: (type) {
+        widget.cubit.stateType = type;
+        widget.cubit.getDanhSachLichHop();
+      },
+    );
+  }
+
+  Widget actionLichCanDuyet(List<int> listCount) {
+    return PopUpMenu(
+      initData: ItemMenuData(
+        StateType.CHO_DUYET,
+        listCount.isNotEmpty ? listCount.first : 0,
+      ),
+      data: [
+        ItemMenuData(
+          StateType.CHO_DUYET,
+          listCount.isNotEmpty ? listCount.first : 0,
+        ),
+        ItemMenuData(
+          StateType.DA_DUYET,
+          listCount.length >= 2 ? listCount[1] : 0,
+        ),
+        ItemMenuData(
+          StateType.TU_CHOI,
+          listCount.length >= 3 ? listCount[2] : 0,
+        ),
+      ],
+      onChange: (type) {
+        widget.cubit.stateType = type;
+        widget.cubit.getDanhSachLichHop();
+      },
+    );
+  }
+
+  Widget actionDuyetYeuCauChuanBi(List<int> listCount) {
+    return PopUpMenu(
+      initData: ItemMenuData(
+        StateType.CHUA_THUC_HIEN,
+        listCount.isNotEmpty ? listCount.first : 0,
+      ),
+      data: [
+        ItemMenuData(
+          StateType.CHUA_THUC_HIEN,
+          listCount.isNotEmpty ? listCount.first : 0,
+        ),
+        ItemMenuData(
+          StateType.DA_THUC_HIEN,
+          listCount.length >= 2 ? listCount[1] : 0,
+        ),
+      ],
+      onChange: (type) {
+        widget.cubit.stateType = type;
+        widget.cubit.getDanhSachLichHop();
+      },
+    );
   }
 }

@@ -492,7 +492,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
         toast.init(context);
         toast.showToast(
           child: ShowToast(
-            text: S.current.dung_luong_toi_da,
+            text: S.current.dung_luong_toi_da_30,
           ),
           gravity: ToastGravity.BOTTOM,
         );

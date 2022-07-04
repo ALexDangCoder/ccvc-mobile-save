@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_mode
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/dropdown_trang_thai_pakn.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
@@ -189,7 +190,14 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               if (!widget.cubit.isFilter) {
                 widget.cubit.loadMoreGetDSPAKN();
               } else {
-                widget.cubit.loadMoreGetDSPAKNFilter();
+                if(widget.cubit.isFilterTiepNhan) {
+                  widget.cubit.loadMorePAKNVanBanFilter();
+                  widget.cubit.loadMorePAKNVanBanFilter();
+                } else if(widget.cubit.isFilterXuLy) {
+                  widget.cubit.loadMorePAKNXuLyCacYKienFilter();
+                } else {
+                  widget.cubit.loadMoreGetDSPAKNFilter();
+                }
               }
             }
             return true;
@@ -199,6 +207,10 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               widget.cubit.resetBeforeRefresh();
               widget.cubit.getDashBoardPAKNTiepCanXuLy();
               widget.cubit.getDanhSachPAKN();
+              widget.cubit.textFilter.sink.add(TextTrangThai(
+                S.current.all,
+                Colors.black,
+              ),);
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -224,38 +236,39 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     child: ExpandPAKNWidget(
                       name: S.current.tinh_hinh_xu_ly_pakn,
                       child: StreamBuilder<DashBoardPAKNModel>(
-                          stream:
-                              widget.cubit.dashBoardPAKNTiepCanXuLyBHVSJ.stream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ??
-                                DashBoardPAKNModel(
-                                  dashBoardHanXuLyPAKNModel:
-                                      DashBoardHanXuLyPAKNModel(),
-                                  dashBoardTiepNhanPAKNModel:
-                                      DashBoardTiepNhanPAKNModel(),
-                                  dashBoardXuLyPAKNModelModel:
-                                      DashBoardXuLyPAKNModel(),
-                                );
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                TiepCanWidget(
-                                  model: data,
-                                  cubit: widget.cubit,
-                                ),
-                                const SizedBox(
-                                  height: 33,
-                                ),
-                                XuLyWidget(
-                                  model: data,
-                                  cubit: widget.cubit,
-                                ),
-                              ],
-                            );
-                          }),
+                        stream:
+                            widget.cubit.dashBoardPAKNTiepCanXuLyBHVSJ.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ??
+                              DashBoardPAKNModel(
+                                dashBoardHanXuLyPAKNModel:
+                                    DashBoardHanXuLyPAKNModel(),
+                                dashBoardTiepNhanPAKNModel:
+                                    DashBoardTiepNhanPAKNModel(),
+                                dashBoardXuLyPAKNModelModel:
+                                    DashBoardXuLyPAKNModel(),
+                              );
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TiepCanWidget(
+                                model: data,
+                                cubit: widget.cubit,
+                              ),
+                              const SizedBox(
+                                height: 33,
+                              ),
+                              XuLyWidget(
+                                model: data,
+                                cubit: widget.cubit,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -300,7 +313,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                               Text(
                                 S.current.khong_co_thong_tin_pakn,
                                 style: textNormalCustom(
-                                    fontSize: 16.0, color: grayChart),
+                                  fontSize: 16.0,
+                                  color: grayChart,
+                                ),
                               ),
                               const SizedBox(
                                 height: 10.0,
@@ -309,29 +324,73 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                           ),
                         );
                       } else {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        return Stack(
+                          alignment: Alignment.centerRight,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Text(
-                                S.current.danh_sach_pakn,
-                                style: textNormalCustom(
-                                  color: textTitle,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          S.current.danh_sach_pakn,
+                                          style: textNormalCustom(
+                                            color: textTitle,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: StreamBuilder<TextTrangThai>(
+                                          stream:
+                                              widget.cubit.textFilter.stream,
+                                          builder: (context, snapshot) {
+                                            return item(
+                                              title: snapshot.data?.text ?? '',
+                                              callBack: (value) {
+                                                widget.cubit.isShowFilterList
+                                                    .add(true);
+                                              },
+                                              colorBG: snapshot.data?.color ??
+                                                  Colors.red,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                                ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    return _itemDanhSachPAKN(
+                                        dsKetQuaPakn: data[index]);
+                                  },
+                                ),
+                              ],
                             ),
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return _itemDanhSachPAKN(
-                                    dsKetQuaPakn: data[index]);
-                              },
+                            Positioned(
+                              top: 0,
+                              child: StreamBuilder<bool>(
+                                stream: widget.cubit.isShowFilterList,
+                                builder: (context, snapshot) {
+                                  final isShow = snapshot.data ?? false;
+                                  return isShow
+                                      ? DropDownTrangThaiPAKN(
+                                          cubit: widget.cubit,
+                                        )
+                                      : const SizedBox.shrink();
+                                },
+                              ),
                             ),
                           ],
                         );
@@ -440,7 +499,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
+                    '${S.current.han_xu_ly}: ${DateTime.parse(dsKetQuaPakn.hanXuLy ?? '').toStringWithListFormat}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,
@@ -466,8 +525,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         child: Text(
                           statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1).text,
                           style: textNormalCustom(
-                            color: statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1)
-                                .color,
+                            color:
+                                statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1)
+                                    .color,
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
@@ -514,4 +574,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
       return TextTrangThai(S.current.den_han, choVaoSoColor);
     }
   }
+
+
 }

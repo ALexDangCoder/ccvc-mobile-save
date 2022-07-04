@@ -16,6 +16,7 @@ class DragItemList extends StatefulWidget {
   final Widget footerList;
   final bool isScroll;
   final bool paddingTablet;
+
   const DragItemList({
     required this.listWidget,
     required this.widgetManageCubit,
@@ -23,7 +24,7 @@ class DragItemList extends StatefulWidget {
     required this.footerList,
     this.isScroll = false,
     required this.isUsing,
-    this.paddingTablet=false,
+    this.paddingTablet = false,
     Key? key,
   }) : super(key: key);
 
@@ -49,7 +50,7 @@ class _DragItemListState extends State<DragItemList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:EdgeInsets.symmetric(horizontal: widget.paddingTablet? 0:16),
+      padding: EdgeInsets.symmetric(horizontal: widget.paddingTablet ? 0 : 16),
       child: CustomReorderableListView.builder(
         shrinkWrap: true,
         physics: widget.isScroll
@@ -89,7 +90,9 @@ class _DragItemListState extends State<DragItemList> {
         },
         itemCount: widget.listWidget.length,
         itemBuilder: (context, index) {
-          final String productName = widget.listWidget[index].name;
+          // final String productName = widget.listWidget[index].name;
+          final String productName =
+              widget.widgetManageCubit.getNameWidget(widget.listWidget[index]);
           return Padding(
             key: ValueKey(productName),
             padding: const EdgeInsets.only(bottom: 20),

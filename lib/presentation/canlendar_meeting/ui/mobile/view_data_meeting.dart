@@ -402,7 +402,16 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
             id: appointment.id as String? ?? '',
           ),
         ),
-      );
+      ).then((value) {
+        if (value != null && value) {
+          if (widget.cubit.state is CalendarViewState ||
+              widget.cubit.state is ListViewState) {
+            widget.cubit.refreshDataDangLich();
+          } else {
+            widget.cubit.getDataDangChart();
+          }
+        }
+      });
     } else {
       Navigator.push(
         context,
@@ -411,7 +420,16 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
             id: appointment.id as String? ?? '',
           ),
         ),
-      );
+      ).then((value) {
+        if (value != null && value) {
+          if (widget.cubit.state is CalendarViewState ||
+              widget.cubit.state is ListViewState) {
+            widget.cubit.refreshDataDangLich();
+          } else {
+            widget.cubit.getDataDangChart();
+          }
+        }
+      });
     }
   }
 

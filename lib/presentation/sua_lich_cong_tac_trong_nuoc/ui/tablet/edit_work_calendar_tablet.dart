@@ -342,6 +342,7 @@ class _EditWorkCalendarTabletState
                                       ),
                                       LinhVucWidget(
                                         cubit: createCubit,
+                                        isEdit: true,
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -369,20 +370,28 @@ class _EditWorkCalendarTabletState
                                                 ItemTinhWidget(
                                                   taoLichLamViecCubit:
                                                       createCubit,
+                                                  isEdit: true,
+                                                  name: widget.event.tenTinh ?? '',
                                                 ),
                                                 ItemHuyenWidget(
                                                   taoLichLamViecCubit:
                                                       createCubit,
+                                                  isEdit: true,
+                                                  name: widget.event.tenHuyen ?? '',
                                                 ),
                                                 ItemXaWidget(
                                                   taoLichLamViecCubit:
                                                       createCubit,
+                                                  isEdit: true,
+                                                  name: widget.event.tenXa ?? '',
                                                 ),
                                               ],
                                             );
                                           } else {
                                             return ItemDatNuocWidget(
                                               cubit: createCubit,
+                                              isEdit: true,
+                                              name: widget.event.country ?? '',
                                             );
                                           }
                                         },

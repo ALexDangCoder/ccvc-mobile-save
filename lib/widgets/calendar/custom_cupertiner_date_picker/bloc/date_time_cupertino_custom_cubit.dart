@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -13,7 +15,9 @@ enum TypePickerDateTime { DATE_START, DATE_END, TIME_START, TIME_END }
 
 class DateTimeCupertinoCustomCubit
     extends BaseCubit<DateTimeCupertinoCustomState> {
-  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial());
+  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial()) {
+    getTimeConfig();
+  }
 
   BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject();
   BehaviorSubject<String> timeBeginSubject = BehaviorSubject();
@@ -35,6 +39,21 @@ class DateTimeCupertinoCustomCubit
   String dateFromTmp = INIT_DATE_PICK;
   String dateToTmp = INIT_DATE_PICK;
   String timeToTmp = INIT_TIME_PICK;
+  String timeStartConfigSystem = '00:00';
+  String timeEndConfigSystem = '00:00';
+
+  CalendarWorkRepository get calendarRepo => Get.find();
+
+  Future<void> getTimeConfig() async {
+    final result = await calendarRepo.getConfigTime();
+    result.when(
+      success: (res) {
+        timeStartConfigSystem = res.timeStart ?? '00:00';
+        timeEndConfigSystem = res.timeEnd ?? '00:00';
+      },
+      error: (error) {},
+    );
+  }
 
   void handleSwitchButtonPressed({required bool isChecked}) {
     if (isShowBeginPickerSubject.value) {
@@ -57,20 +76,13 @@ class DateTimeCupertinoCustomCubit
         dateEndSubject.sink
             .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       } else {
-
         dateEndSubject.sink.add(
           dateToTmp,
         );
       }
-      final date = DateTime.now();
-      timeBeginSubject.sink.add(
-        DateTime(date.year, date.month, date.day, 08)
-            .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-      );
-      timeEndSubject.sink.add(
-        DateTime(date.year, date.month, date.day, 18)
-            .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-      );
+      //final date = DateTime.now();
+      timeBeginSubject.sink.add(timeStartConfigSystem);
+      timeEndSubject.sink.add(timeEndConfigSystem);
       validateTime.sink.add('');
     } else {
       timeBeginSubject.sink.add(timeFromTmp);
@@ -133,7 +145,7 @@ class DateTimeCupertinoCustomCubit
   }
 
   bool checkTime() {
-    try{
+    try {
       if (dateBeginSubject.hasValue &&
           timeBeginSubject.hasValue &&
           dateEndSubject.hasValue &&
@@ -173,7 +185,7 @@ class DateTimeCupertinoCustomCubit
       }
       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
       return false;
-    }catch(e){
+    } catch (e) {
       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
       return false;
     }

@@ -7,8 +7,15 @@ import 'package:flutter/material.dart';
 
 class ItemXaWidget extends StatefulWidget {
   final CreateWorkCalCubit taoLichLamViecCubit;
+  final bool isEdit;
+  final String name;
 
-  ItemXaWidget({Key? key, required this.taoLichLamViecCubit}) : super(key: key);
+  ItemXaWidget({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    this.isEdit = false,
+    this.name = '',
+  }) : super(key: key);
 
   @override
   _ItemXaWidgetState createState() => _ItemXaWidgetState();
@@ -29,7 +36,8 @@ class _ItemXaWidgetState extends State<ItemXaWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenXaPhuong ?? '').toList(),
-          hintText: S.current.chon_xa,
+          hintText: widget.isEdit ? '' : S.current.chon_xa,
+          value: widget.isEdit ? widget.name : '',
           title: S.current.xa,
         );
       },

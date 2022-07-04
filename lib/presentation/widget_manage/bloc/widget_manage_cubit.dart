@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_respository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/repository/home_repository/home_repository.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
@@ -113,7 +114,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     final List<WidgetModel> listUpdate = _listWidgetUsing.value;
     final element = listUpdate.removeAt(oldIndex);
     listUpdate.insert(newIndex, element);
-    listUsing=listUpdate;
+    listUsing = listUpdate;
     setFullParaNotUse();
     if (APP_DEVICE == DeviceType.TABLET) {
       keyHomeTablet.currentState?.homeCubit.orderWidget(listUpdate);
@@ -205,20 +206,40 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void> onRefreshData() async {
-    // _listWidgetUsing.sink.add([]);
-    // _listWidgetNotUse.sink.add([]);
-    final result = await homeRep.getDashBoardConfig();
-    result.when(
-      success: (res) {
-        listUsing = res;
-        final data =
-            res.where((element) => element.widgetType != null).toList();
-        listTitleWidgetUse = data.map((e) => e.name).toList();
-        _listWidgetUsing.sink.add(data);
-        _getListWidgetNotUse();
-        orderWidgetHome(listUsing);
-      },
-      error: (err) {},
-    );
+    await loadApi();
+    // final result = await homeRep.getDashBoardConfig();
+    // result.when(
+    //   success: (res) {
+    //     listUsing = res;
+    //     final data =
+    //         res.where((element) => element.widgetType != null).toList();
+    //     listTitleWidgetUse = data.map((e) => e.name).toList();
+    //     _listWidgetUsing.sink.add(data);
+    //     _getListWidgetNotUse();
+    //     orderWidgetHome(listUsing);
+    //   },
+    //   error: (err) {},
+    // );
+  }
+
+  String getNameWidget(WidgetModel widgetModel) {
+    String widgetName='';
+    switch (widgetModel.component) {
+      case WidgetTypeConstant.DANH_SACH_PAKN:
+        widgetName= S.current.danh_sach_pakn;
+        break;
+      case WidgetTypeConstant.TiNH_HINH_PAKN_CA_NHAN:
+        widgetName= S.current.tinh_hinh_pakn_ca_nhan;
+        break;
+      case WidgetTypeConstant.TiNH_HINH_PAKN_DON_VI:
+        widgetName= S.current.tinh_hinh_pakn_don_vi;
+        break;
+      case WidgetTypeConstant.BAO_CHI:
+        widgetName= S.current.bao_chi_mxh;
+        break;
+      default:
+        widgetName=widgetModel.name;
+    }
+    return widgetName;
   }
 }

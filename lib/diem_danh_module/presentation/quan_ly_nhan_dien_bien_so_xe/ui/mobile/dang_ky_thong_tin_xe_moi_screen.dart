@@ -62,9 +62,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                   );
                 } else {
                   widget.cubit.toast.showToast(
-                    child: const ShowToast(
-                      //ToDo: chưa có srs thông báo
-                      text: 'Chưa có hình ảnh',
+                    child:  ShowToast(
+                      text: S.current.vui_long_tai_anh_len,
                     ),
                     gravity: ToastGravity.TOP_RIGHT,
                   );
@@ -309,9 +308,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                     bienKiemSoatController.value.text, context);
                               } else {
                                 widget.cubit.toast.showToast(
-                                  child: const ShowToast(
-                                    //ToDo: chưa có srs thông báo
-                                    text: 'Chưa có hình ảnh',
+                                  child:  ShowToast(
+                                    text: S.current.vui_long_tai_anh_len,
                                   ),
                                   gravity: ToastGravity.TOP_RIGHT,
                                 );

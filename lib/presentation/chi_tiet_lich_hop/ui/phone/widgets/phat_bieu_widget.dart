@@ -22,7 +22,6 @@ class PhatBieuWidget extends StatefulWidget {
 class _PhatBieuWidgetState extends State<PhatBieuWidget> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

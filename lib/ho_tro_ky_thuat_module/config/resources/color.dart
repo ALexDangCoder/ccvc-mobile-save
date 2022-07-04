@@ -14,7 +14,7 @@ const secondTxtColor = Color(0xFF808FA8);
 const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
-
+const blueColor = Colors.blue;
 //bottom navigation color
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);
@@ -140,6 +140,7 @@ const labelColor = Color(0xff7966FF);
 const color667793 = Color(0xff667793);
 const indicatorColor = Color(0xff7966FF);
 const color3D5586 = Color(0xFF3D5586);
+const colorDBDFEF = Color(0xFFDBDFEF);
 const color125DF2 = Color(0xFF125DF2);
 const colorBlack = Color(0xff000000);
 const errorBorderColor = Color(0xFF585782);

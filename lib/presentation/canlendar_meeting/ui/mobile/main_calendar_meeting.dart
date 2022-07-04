@@ -143,7 +143,6 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                       cubit.getDaysHaveEvent(
                         startDate: startDate,
                         endDate: endDate,
-                        keySearch: keySearch,
                       );
                     },
                   );

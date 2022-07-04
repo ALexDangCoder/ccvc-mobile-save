@@ -15,8 +15,6 @@ const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
 
-
-
 //bottom navigation color
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);
@@ -91,7 +89,15 @@ const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const shadowColor = Color(0xff6262eb);
 const color5A8DEE = Color(0xff5A8DEE);
+const color9B8DFF= Color(0xff9B8DFF);
+const color6FCF97= Color(0xff6FCF97);
 const color02C5DD = Color(0xff02C5DD);
+const color979797 = Color(0xff979797);
+const color00BA8D = Color(0xff00BA8D);
+const color56CCF2 = Color(0xff56CCF2);
+const colorF2C94C = Color(0xffF2C94C);
+const colorCF6F6F = Color(0xffCF6F6F);
+const colorB6CF6F= Color(0xffB6CF6F);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -258,6 +264,8 @@ abstract class AppColor {
   Color unselectedLabelColor();
 
   Color sideTextInactiveColor();
+
+  Color borderColors();
 }
 
 class DefaultApp extends AppColor {
@@ -390,6 +398,11 @@ class DefaultApp extends AppColor {
   Color nhiemVuBoColor() {
     return color0A45B9;
   }
+
+  @override
+  Color borderColors() {
+    return borderColor;
+  }
 }
 
 class BlueApp extends AppColor {
@@ -493,7 +506,6 @@ class BlueApp extends AppColor {
     return AqiColor;
   }
 
-
   @override
   Color colorField() {
     return numberOfCalenders;
@@ -524,6 +536,10 @@ class BlueApp extends AppColor {
     return textBodyTime;
   }
 
+  @override
+  Color borderColors() {
+    return borderColor;
+  }
 }
 
 class PinkApp extends AppColor {
@@ -629,7 +645,6 @@ class PinkApp extends AppColor {
 
   @override
   Color colorField() {
-
     return pinkColor;
   }
 
@@ -653,10 +668,14 @@ class PinkApp extends AppColor {
     return colorB9C4D0;
   }
 
-
   @override
   Color textBodyTimeColor() {
     return textBodyTime;
+  }
+
+  @override
+  Color borderColors() {
+    return borderColor;
   }
 }
 
@@ -789,6 +808,11 @@ class YellowApp extends AppColor {
   @override
   Color textBodyTimeColor() {
     return textBodyTime;
+  }
+
+  @override
+  Color borderColors() {
+    return borderColor;
   }
 }
 

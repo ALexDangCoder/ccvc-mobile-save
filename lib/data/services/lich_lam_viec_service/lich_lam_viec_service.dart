@@ -135,8 +135,10 @@ abstract class WorkCalendarService {
   Future<TrangThaiLVResponse> detailTrangThai();
 
   @POST(ApiConstants.TAO_LICH_LAM_VIEC)
+  @MultiPart()
   Future<TaoLichLamViecResponse> createWorkCalendar(
-    @Body() FormData data,
+     @Body() FormData data,
+      @Part() List<File> Files,
   );
 
   @POST(ApiConstants.CHECK_TRUNG_LICH_LICH_LAM_VIEC)

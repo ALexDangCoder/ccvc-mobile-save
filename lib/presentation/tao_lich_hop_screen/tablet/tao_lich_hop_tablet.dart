@@ -275,6 +275,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                         onChange: (value) {
                           _cubit.handleChonPhongHop(value);
                         },
+                        needShowSelectedRoom: true,
                       ),
                       spaceH15,
                     ],

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
@@ -13,11 +14,12 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/choose_time_item.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/menu_widget.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
+
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -31,7 +33,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
-  CalendarMeetingCubit() : super(const CalendarViewState()) {
+  CalendarMeetingCubit() : super( CalendarViewState()) {
     showContent();
   }
 
@@ -396,7 +398,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isChoXacNhan:
             stateType != StateType.TU_CHOI && stateType != StateType.THAM_GIA,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
-        PageIndex: 1,
+        PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
       ),
     );
@@ -406,6 +408,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+        checkDuplicate(value.items ?? []);
         _danhSachLichHopSubject.sink.add(value);
       },
       error: (error) {},
@@ -545,9 +548,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }
 
   /// get cơ cấu lịch họp
-  int indexThongKe = 0;
   String idThongKe = '';
-
   Future<void> getCoCauLichHop() async {
     final result = await hopRepo.postCoCauLichHop(
       startDate.formatApiDDMMYYYYSlash,
@@ -562,14 +563,35 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
               i.name ?? '',
               i.quantities?.toDouble() ?? 0,
               i.color ?? Colors.white,
+              id: i.id ?? '',
             ),
           );
         }
-        idThongKe = value[indexThongKe].id ?? '';
         _coCauLichHopSubject.add(dataCoCauLichHop);
       },
       error: (error) {},
     );
+  }
+
+  /// lấy danh sách lịch họp theo cơ cấu lịch họp:
+  Future<void> getDanhSachThongKe() async {
+    showLoading();
+    final result = await hopRepo.postDanhSachThongKe(
+      DanhSachThongKeRequest(
+        dateFrom: startDate.formatApiDDMMYYYYSlash,
+        dateTo: endDate.formatApiDDMMYYYYSlash,
+        pageIndex: ApiConstants.PAGE_BEGIN,
+        pageSize: 1000,
+        typeCalendarId: idThongKe,
+      ),
+    );
+    result.when(
+      success: (value) {
+        checkDuplicate(value.items ?? []);
+        _danhSachLichHopSubject.sink.add(value);      },
+      error: (error) {},
+    );
+    showContent();
   }
 
   bool checkDataList(List<dynamic> data) {

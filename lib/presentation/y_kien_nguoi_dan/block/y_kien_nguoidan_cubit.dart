@@ -747,6 +747,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     return trangThai;
   }
 
+
+
+
   void initTimeRange() {
     final DateTime date = DateTime.now();
     initStartDate = DateTime(date.year, date.month, date.day - 30);

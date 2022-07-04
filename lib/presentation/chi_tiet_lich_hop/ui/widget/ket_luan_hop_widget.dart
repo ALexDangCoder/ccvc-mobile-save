@@ -40,7 +40,6 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     if (!isMobile()) {
@@ -58,16 +57,12 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
           }
         },
         title: S.current.ket_luan_hop,
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ketLuanHop(),
-                textKetLuanHopNhiemVu(),
-                listDanhSachNhiemVu()
-              ],
-            ),
+            ketLuanHop(),
+            textKetLuanHopNhiemVu(),
+            listDanhSachNhiemVu()
           ],
         ),
       ),
@@ -106,58 +101,78 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   Widget ketLuanHop() => StreamBuilder<KetLuanHopModel>(
         stream: widget.cubit.ketLuanHopSubject.stream,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          final data = snapshot.data;
+          if (data != null && widget.cubit.xemKetLuanHop()) {
             final data = snapshot.data;
             return Column(
               children: [
                 ItemKetLuanHopWidget(
                   title: '${S.current.ket_luan_hop} (${data?.title ?? ''})',
                   time: data?.thoiGian ?? '',
-                  trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                  tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+                  trangThai: data?.trangThai ?? TrangThai.CHO_DUYET,
+                  tinhTrang: data?.tinhTrang ?? TinhTrang.TRUNG_BINH,
                   id: widget.cubit.idCuocHop,
                   cubit: widget.cubit,
-                  onTap: () {
-                    isShow = !isShow;
-                    setState(() {});
-                  },
                   listFile: data?.file ?? [],
                 ),
-                if (widget.cubit.isDuyetOrHuyKetLuanHop())
+                if (!widget.cubit.isDuyetOrHuyKetLuanHop())
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
                     child: Row(
                       children: [
-                        ButtonOtherWidget(
-                          text: S.current.duyet,
-                          color: itemWidgetUsing,
-                          ontap: () {
-                            widget.cubit
-                                .xacNhanHoacHuyKetLuanHop(isDuyet: true);
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: ButtonOtherWidget(
-                            text: S.current.tu_choi,
-                            color: statusCalenderRed,
-                            ontap: () {
-                              widget.cubit
-                                  .xacNhanHoacHuyKetLuanHop(isDuyet: false);
-                            },
+                        if (widget.cubit.isDuyetKL())
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: ButtonOtherWidget(
+                              text: S.current.duyet,
+                              color: itemWidgetUsing,
+                              ontap: () {
+                                widget.cubit
+                                    .xacNhanHoacHuyKetLuanHop(isDuyet: true);
+                              },
+                            ),
                           ),
-                        ),
+                        if (widget.cubit.isTuCHoiKL())
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: ButtonOtherWidget(
+                              text: S.current.tu_choi,
+                              color: statusCalenderRed,
+                              ontap: () {
+                                widget.cubit
+                                    .xacNhanHoacHuyKetLuanHop(isDuyet: false);
+                              },
+                            ),
+                          ),
+                        if (widget.cubit.isGuiDuyet())
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: ButtonOtherWidget(
+                              text: S.current.gui_duyet,
+                              color: color02C5DD,
+                              ontap: () {
+                                widget.cubit.guiDuyetKetLuanHop();
+                              },
+                            ),
+                          ),
                       ],
                     ),
                   ),
               ],
             );
-          } else if (widget.cubit.isSoanKetLuanHop()) {
+          }
+          if (widget.cubit.isSoanKetLuanHop()) {
             return IconWithTiltleWidget(
               icon: ImageAssets.icDocument2,
               title: S.current.soan_ket_luan_hop,
               onPress: () {
-                xemOrTaoKetLuanHop(widget.cubit, context);
+                xemOrTaoOrSuaKetLuanHop(
+                  cubit: widget.cubit,
+                  context: context,
+                  title: S.current.ket_luan_cuoc_hop,
+                  isCreate: true,
+                  listFile: [],
+                );
               },
             );
           }
@@ -214,7 +229,6 @@ class ItemKetLuanHopWidget extends StatelessWidget {
   final String time;
   final TrangThai trangThai;
   final TinhTrang tinhTrang;
-  final Function onTap;
   final DetailMeetCalenderCubit cubit;
   final String id;
   final List<String> listFile;
@@ -225,7 +239,6 @@ class ItemKetLuanHopWidget extends StatelessWidget {
     required this.time,
     required this.trangThai,
     required this.tinhTrang,
-    required this.onTap,
     required this.cubit,
     required this.id,
     required this.listFile,
@@ -255,101 +268,117 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Column(
-                children: [
-                  MenuSelectWidget(
-                    listSelect: [
-                      if (cubit.isTaoMoiNhiemVu())
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icPlus2,
-                          text: S.current.tao_moi_nhiem_vu,
-                          onTap: () {
-                            showBottomSheetCustom(
-                              context,
-                              title: S.current.tao_moi_nhiem_vu,
-                              child: TaoMoiNhiemVuWidget(
-                                cubit: cubit,
-                              ),
-                            );
+              MenuSelectWidget(
+                listSelect: [
+                  if (cubit.isTaoMoiNhiemVu())
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icPlus2,
+                      text: S.current.tao_moi_nhiem_vu,
+                      onTap: () {
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.tao_moi_nhiem_vu,
+                          child: TaoMoiNhiemVuWidget(
+                            cubit: cubit,
+                          ),
+                        );
+                      },
+                    ),
+                  if (cubit.xemKetLuanHop())
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icDocument2,
+                      text: S.current.ket_luan_cuoc_hop,
+                      onTap: () {
+                        xemOrTaoOrSuaKetLuanHop(
+                          cubit: cubit,
+                          context: context,
+                          title: S.current.ket_luan_cuoc_hop,
+                          isOnlyViewContent: true,
+                          listFile: listFile,
+                        );
+                      },
+                    ),
+                  if (cubit.isSuaKetLuan())
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icEditBlue,
+                      text: S.current.sua_ket_luan,
+                      onTap: () {
+                        xemOrTaoOrSuaKetLuanHop(
+                          cubit: cubit,
+                          context: context,
+                          title: S.current.ket_luan_cuoc_hop,
+                          listFile: listFile,
+                        );
+                      },
+                    ),
+                  if (cubit.isGuiMailKetLuan())
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icMessage,
+                      text: S.current.gui_mail_ket_luan,
+                      onTap: () {
+                        showDiaLog(
+                          context,
+                          textContent:
+                              S.current.ban_co_chac_chan_muon_gui_mai_nay,
+                          btnLeftTxt: S.current.khong,
+                          funcBtnRight: () async {
+                            await cubit.sendMailKetLuatHop(id);
                           },
-                        ),
-                      if (cubit.xemKetLuanHop())
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icDocument2,
-                          text: S.current.ket_luan_cuoc_hop,
-                          onTap: () {
-                            xemOrTaoKetLuanHop(cubit, context);
+                          title: S.current.gui_email,
+                          btnRightTxt: S.current.dong_y,
+                          icon: SvgPicture.asset(ImageAssets.IcEmail),
+                        );
+                      },
+                    ),
+                  if (cubit.isThuHoi())
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.Group2,
+                      text: S.current.thu_hoi,
+                      onTap: () {
+                        showDiaLog(
+                          context,
+                          textContent:
+                              S.current.ban_co_chac_chan_muon_thu_hoi_nay,
+                          btnLeftTxt: S.current.khong,
+                          funcBtnRight: () {
+                            cubit.thuHoiKetLuanHop();
+                            Navigator.pop(context);
                           },
-                        ),
-                      if (cubit.isGuiMailKetLuan())
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icMessage,
-                          text: S.current.gui_mail_ket_luan,
-                          onTap: () {
-                            showDiaLog(
-                              context,
-                              textContent:
-                                  S.current.ban_co_chac_chan_muon_gui_mai_nay,
-                              btnLeftTxt: S.current.khong,
-                              funcBtnRight: () async {
-                                await cubit.sendMailKetLuatHop(id);
-                              },
-                              title: S.current.gui_email,
-                              btnRightTxt: S.current.dong_y,
-                              icon: SvgPicture.asset(ImageAssets.IcEmail),
-                            );
+                          title: S.current.thu_hoi_ket_luan_hop,
+                          btnRightTxt: S.current.dong_y,
+                          icon: SvgPicture.asset(ImageAssets.icThuHoiKL),
+                        );
+                      },
+                    ),
+                  if (cubit.isXoaKetLuanHop())
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icDeleteRed,
+                      text: S.current.xoa,
+                      onTap: () {
+                        showDiaLog(
+                          context,
+                          textContent:
+                              S.current.ban_co_chac_chan_muon_xoa_klh_nay,
+                          btnLeftTxt: S.current.khong,
+                          funcBtnRight: () {
+                            cubit
+                                .deleteKetLuanHop(
+                                  cubit.xemKetLuanHopModel.id ?? '',
+                                )
+                                .then(
+                                  (value) => cubit.getXemKetLuanHop(
+                                    cubit.idCuocHop,
+                                  ),
+                                );
                           },
-                        ),
-                      if (cubit.isThuHoi())
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.Group2,
-                          text: S.current.thu_hoi,
-                          onTap: () {
-                            showDiaLog(
-                              context,
-                              textContent:
-                                  S.current.ban_co_chac_chan_muon_thu_hoi_nay,
-                              btnLeftTxt: S.current.khong,
-                              funcBtnRight: () {
-                                Navigator.pop(context);
-                              },
-                              title: S.current.thu_hoi_ket_luan_hop,
-                              btnRightTxt: S.current.dong_y,
-                              icon: SvgPicture.asset(ImageAssets.icThuHoiKL),
-                            );
-                          },
-                        ),
-                      if (cubit.isXoaKetLuanHop())
-                        CellPopPupMenu(
-                          urlImage: ImageAssets.icDeleteRed,
-                          text: S.current.xoa,
-                          onTap: () {
-                            showDiaLog(
-                              context,
-                              textContent:
-                                  S.current.ban_co_chac_chan_muon_xoa_klh_nay,
-                              btnLeftTxt: S.current.khong,
-                              funcBtnRight: () async {
-                                await cubit
-                                    .deleteKetLuanHop(
-                                      cubit.xemKetLuanHopModel.id ?? '',
-                                    )
-                                    .then(
-                                      (value) => cubit.getXemKetLuanHop(
-                                        cubit.xemKetLuanHopModel.id ?? '',
-                                      ),
-                                    );
-                              },
-                              title: S.current.xoa_ket_luan_hop,
-                              btnRightTxt: S.current.dong_y,
-                              icon: SvgPicture.asset(ImageAssets.XoaKLHop),
-                            );
-                          },
-                        ),
-                    ],
-                  ),
+                          title: S.current.xoa_ket_luan_hop,
+                          btnRightTxt: S.current.dong_y,
+                          icon: SvgPicture.asset(ImageAssets.XoaKLHop),
+                        );
+                      },
+                    ),
                 ],
-              )
+              ),
             ],
           ),
           widgetRow(
@@ -395,22 +424,34 @@ class ItemKetLuanHopWidget extends StatelessWidget {
   }
 }
 
-void xemOrTaoKetLuanHop(DetailMeetCalenderCubit cubit, BuildContext context) {
+void xemOrTaoOrSuaKetLuanHop(
+    {required DetailMeetCalenderCubit cubit,
+    required BuildContext context,
+    required String title,
+    bool? isCreate,
+    bool? isOnlyViewContent,
+    required List<String> listFile}) {
   if (isMobile()) {
     showBottomSheetCustom(
       context,
-      title: S.current.ket_luan_cuoc_hop,
-      child: XemKetLuanHopWidget(
+      title: title,
+      child: CreateOrUpdateKetLuanHopWidget(
         cubit: cubit,
+        isCreate: isCreate ?? false,
+        isOnlyViewContent: isOnlyViewContent ?? false,
+        listFile: listFile,
       ),
     );
   } else {
     showDiaLogTablet(
       context,
       maxHeight: 280,
-      title: S.current.thu_hoi_lich,
-      child: XemKetLuanHopWidget(
+      title: title,
+      child: CreateOrUpdateKetLuanHopWidget(
         cubit: cubit,
+        isCreate: isCreate ?? false,
+        isOnlyViewContent: isOnlyViewContent ?? false,
+        listFile: listFile,
       ),
       isBottomShow: false,
       funcBtnOk: () {

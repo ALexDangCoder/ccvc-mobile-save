@@ -8,7 +8,9 @@ import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/mobile/danh_sach_cong_viec_tien_ich_mobile.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/app_bar_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/creat_todo_ver2_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/list_widget_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -27,8 +29,9 @@ class DanhSachCongViecTienIchTablet extends StatefulWidget {
 class _DanhSachCongViecTienIchTabletState
     extends State<DanhSachCongViecTienIchTablet> {
   DanhSachCongViecTienIchCubit cubit = DanhSachCongViecTienIchCubit();
-  bool isOpenWhenInit1 = true;
-  bool isOpenWhenInit2 = true;
+  bool isOpenWhenInitListUp = true;
+  bool isOpenWhenInitListDown = true;
+  String textSearch = '';
 
   @override
   void initState() {
@@ -41,32 +44,15 @@ class _DanhSachCongViecTienIchTabletState
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await cubit.callAndFillApiAuto();
+        cubit.callAPITheoFilter(
+          textSearch: textSearch,
+        );
       },
       child: Scaffold(
         backgroundColor: bgQLVBTablet,
         appBar: appBarDSCV(cubit: cubit, context: context),
-        floatingActionButton: Container(
-          margin: const EdgeInsets.only(bottom: 16.0),
-          child: FloatingActionButton(
-            elevation: 0.0,
-            onPressed: () {
-              showDiaLogTablet(
-                context,
-                title: S.current.them_cong_viec,
-                child: CreatTodoOrUpdateWidget(
-                  cubit: cubit,
-                ),
-                isBottomShow: false,
-                funcBtnOk: () {},
-              );
-            },
-            backgroundColor: AppTheme.getInstance().colorField(),
-            child: SvgPicture.asset(
-              ImageAssets.icAddCalenderWhite,
-            ),
-          ),
-        ),
+        floatingActionButton:
+            buttonThemCongViec(cubit: cubit, context: context),
         body: StateStreamLayout(
           textEmpty: S.current.khong_co_du_lieu,
           retry: () {},
@@ -75,10 +61,10 @@ class _DanhSachCongViecTienIchTabletState
             S.current.error,
           ),
           stream: cubit.stateStream,
-          child: StreamBuilder<int>(
+          child: StreamBuilder<String>(
             stream: cubit.statusDSCV.stream,
             builder: (context, snapshotbool) {
-              final dataType = snapshotbool.data ?? 0;
+              final dataType = snapshotbool.data ?? '';
               return SingleChildScrollView(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 28),
@@ -86,16 +72,16 @@ class _DanhSachCongViecTienIchTabletState
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 26),
-                      child: BaseSearchBar(
-                        hintText: S.current.tim_kiem_nhanh,
-                        onChange: (value) {
-                          cubit.search(value);
+                      child: searchWidgetDscv(
+                        cubit: cubit,
+                        textSearch: (value) {
+                          textSearch = value;
                         },
                       ),
                     ),
                     if (dataType == DSCVScreen.CVCB ||
                         dataType == DSCVScreen.CVQT ||
-                        dataType == DSCVScreen.GCT ||
+                        dataType == DSCVScreen.DG ||
                         dataType == DSCVScreen.NCVM ||
                         dataType == DSCVScreen.DBX)
                       Padding(
@@ -114,7 +100,7 @@ class _DanhSachCongViecTienIchTabletState
                             return expanTablet(
                               isOtherType: dataType == DSCVScreen.CVCB ||
                                   dataType == DSCVScreen.NCVM,
-                              isCheck: isOpenWhenInit1,
+                              isCheck: isOpenWhenInitListUp,
                               title: S.current.gan_cho_toi,
                               count: data.length,
                               child: data.isNotEmpty
@@ -147,7 +133,7 @@ class _DanhSachCongViecTienIchTabletState
                           return expanTablet(
                             isOtherType: dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.NCVM,
-                            isCheck: isOpenWhenInit2,
+                            isCheck: isOpenWhenInitListDown,
                             title: S.current.da_hoan_thanh,
                             count: data.length,
                             child: data.isNotEmpty

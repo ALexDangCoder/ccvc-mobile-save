@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/confirm_officer_response.dart';
 import 'package:ccvc_mobile/data/response/thanh_phan_tham_gia/can_bo_response.dart';
 import 'package:ccvc_mobile/data/response/thanh_phan_tham_gia/officer_join_response.dart';
 import 'package:ccvc_mobile/data/response/thanh_phan_tham_gia/tree_don_vi_tham_gia_response.dart';
@@ -25,5 +27,10 @@ abstract class ThanhPhanThamGiaService {
   @GET(ApiConstants.OFFICERS_JOIN)
   Future<OfficerJoinResponse> getOfficerJoin(
     @Query('lichId') String id,
+  );
+
+  @POST(ApiConstants.CONFIRM_OFFICER)
+  Future<ConfirmOfficerResponse> confirmOfficer(
+    @Body() ConfirmOfficerRequest request,
   );
 }

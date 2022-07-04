@@ -44,94 +44,55 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
         title: S.current.y_kien_cuop_hop,
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
-          child: Column(
-            children: [
-              IconWithTiltleWidget(
-                icon: ImageAssets.Comment_ic,
-                title: S.current.them_y_kien,
-                onPress: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.y_kien,
-                    child: ThemYKienWidget(
-                      cubit: cubit,
-                      id: widget.cubit.idCuocHop,
-                    ),
-                  );
-                },
-              ),
-              StreamBuilder<List<YkienCuocHopModel>>(
-                stream: cubit.listYKienCuocHop.stream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  if (data.isEmpty) {
-                    return const SizedBox();
-                  }
-                  return ListView.builder(
-                    itemCount: data.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return CommentWidget(
-                        object: data[index],
-                        cubit: cubit,
-                        id: widget.cubit.idCuocHop,
-                      );
-                    },
-                  );
-                },
-              )
-            ],
-          ),
+          child: ThemYKienWidgetForPhoneAndTab(widget.cubit),
         ),
       ),
       tabletScreen: Padding(
         padding: const EdgeInsets.only(top: 60.0),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              IconWithTiltleWidget(
-                icon: ImageAssets.Comment_ic,
-                title: S.current.them_y_kien,
-                onPress: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.them_y_kien,
-                    child: ThemYKienWidget(
-                      cubit: cubit,
-                      id: widget.cubit.idCuocHop,
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              StreamBuilder<List<YkienCuocHopModel>>(
-                stream: cubit.listYKienCuocHop.stream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  if (data.isEmpty) {
-                    return const SizedBox();
-                  }
-                  return ListView.builder(
-                    itemCount: data.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return CommentWidget(
-                        object: data[index],
-                        cubit: cubit,
-                        id: widget.cubit.idCuocHop,
-                      );
-                    },
-                  );
-                },
-              )
-            ],
-          ),
+          child: ThemYKienWidgetForPhoneAndTab(widget.cubit),
         ),
       ),
     );
   }
+
+  Widget ThemYKienWidgetForPhoneAndTab(DetailMeetCalenderCubit cubit) => Column(
+        children: [
+          IconWithTiltleWidget(
+            icon: ImageAssets.Comment_ic,
+            title: S.current.them_y_kien,
+            onPress: () {
+              showBottomSheetCustom(
+                context,
+                title: S.current.y_kien,
+                child: ThemYKienWidget(
+                  cubit: cubit,
+                  id: cubit.idCuocHop,
+                ),
+              );
+            },
+          ),
+          StreamBuilder<List<YkienCuocHopModel>>(
+            stream: cubit.listYKienCuocHop.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              if (data.isEmpty) {
+                return const SizedBox();
+              }
+              return ListView.builder(
+                itemCount: data.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return CommentWidget(
+                    object: data[index],
+                    cubit: cubit,
+                    id: cubit.idCuocHop,
+                  );
+                },
+              );
+            },
+          )
+        ],
+      );
 }

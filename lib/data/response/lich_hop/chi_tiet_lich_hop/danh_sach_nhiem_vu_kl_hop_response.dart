@@ -1,41 +1,38 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'danh_sach_nhiem_vu_kl_hop_response.g.dart';
+
+@JsonSerializable()
 class DanhSachNhiemVulichHopResponse {
-  List<Data>? data;
-
-  DanhSachNhiemVulichHopResponse({
-    this.data,
-  });
-
-  DanhSachNhiemVulichHopResponse.fromJson(Map<String, dynamic> json) {
-    data = json.values.map((e) => Data.fromJson(e)).toList();
-  }
-}
-
-class Data {
+  @JsonKey(name: 'id')
   String? id;
-  String? ma;
-  bool? nhiemVuChinhPhu;
+  @JsonKey(name: 'ten')
   String? ten;
+  @JsonKey(name: 'ma')
+  String? ma;
+  @JsonKey(name: 'nhiemVuChinhPhu')
+  bool? nhiemVuChinhPhu;
 
-  Data({
+  DanhSachNhiemVulichHopResponse(
     this.id,
+    this.ten,
     this.ma,
     this.nhiemVuChinhPhu,
-    this.ten,
-  });
+  );
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['Id'];
-    ma = json['Ma'];
-    nhiemVuChinhPhu = json['NhiemVuChinhPhu'];
-    ten = json['Ten'];
-  }
+  factory DanhSachNhiemVulichHopResponse.fromJson(Map<String, dynamic> json) =>
+      _$DanhSachNhiemVulichHopResponseFromJson(json);
 
-  DanhSachLoaiNhiemVuLichHopModel toDomain() => DanhSachLoaiNhiemVuLichHopModel(
-        id: id ?? '',
-        ma: ma ?? '',
+  Map<String, dynamic> toJson() => _$DanhSachNhiemVulichHopResponseToJson(this);
+
+  @override
+  List<Object?> get props => [];
+
+  DanhSachLoaiNhiemVuLichHopModel toModel() => DanhSachLoaiNhiemVuLichHopModel(
+        id: id,
+        ten: ten,
+        ma: ma,
         nhiemVuChinhPhu: nhiemVuChinhPhu,
-        ten: ten ?? '',
       );
 }

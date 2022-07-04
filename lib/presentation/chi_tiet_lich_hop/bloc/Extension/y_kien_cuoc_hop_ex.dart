@@ -6,13 +6,18 @@ import '../chi_tiet_lich_hop_cubit.dart';
 ///Y kien cuoc hop
 extension YKienCuocHop on DetailMeetCalenderCubit {
   Future<void> getDanhSachYKien(String id, String phienHopId) async {
+    showLoading();
     final result = await hopRp.getDanhSachYKien(id, phienHopId);
     result.when(
       success: (res) {
+        showContent();
         listYKienCuocHop.sink.add(res);
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
+    showContent();
   }
 
   Future<void> themYKien({
@@ -30,6 +35,15 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
       phienHopId: phienHopId.isNotEmpty ? phienHopId : null,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
+    result.when(
+      success: (res) {
+        showContent();
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
   }
 
   // danh sách phiên họp - ý kiến cuộc họp

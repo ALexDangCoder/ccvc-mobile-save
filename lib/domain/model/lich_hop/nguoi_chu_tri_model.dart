@@ -10,6 +10,9 @@ class NguoiChutriModel {
   int? trangThai;
   String? chucVu;
   String? canBoId;
+  String? parentId;
+  String? tenCoQuan;
+  String? tenCanBo;
 
   NguoiChutriModel({
     this.tenDonVi = '',
@@ -23,6 +26,9 @@ class NguoiChutriModel {
     this.trangThai,
     this.chucVu,
     this.canBoId,
+    this.parentId,
+    this.tenCanBo,
+    this.tenCoQuan,
   });
 
   String title() {

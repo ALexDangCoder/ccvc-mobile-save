@@ -1,4 +1,5 @@
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class BaseState extends Equatable {

@@ -1,11 +1,13 @@
-import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/mobile/chi_tiet_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/listview/listview_loadmore.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,21 +25,40 @@ class DanhSachSuCoMobile extends StatefulWidget {
 
 class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
   @override
+  void initState() {
+    widget.cubit.loadMoreListStream.listen((event) {
+      widget.cubit.initListCheckPopup(widget.cubit.loadMoreList.length);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarMobile(),
-      floatingActionButton: floating(),
-    );
-  }
-
-  Widget floating() {
-    return FloatingActionButton(
-      elevation: 0,
-      backgroundColor: labelColor,
-      onPressed: () {},
-      child: const Icon(
-        Icons.add,
-        size: 32,
+      floatingActionButton: floatingHTKT(),
+      body: ListViewLoadMore(
+        cubit: widget.cubit,
+        isListView: true,
+        callApi: (page) => widget.cubit.getListDanhBaCaNhan(
+          page: page,
+        ),
+        viewItem: (value, index) => ItemDanhSachSuCo(
+          cubit: widget.cubit,
+          modelDSSC: value,
+          index: index ?? 0,
+          onClickMore: (value, index) {
+            widget.cubit.onClickPopupMenu(
+              value,
+              index,
+            );
+            setState(() {});
+          },
+          onClose: () {
+            widget.cubit.onClosePopupMenu();
+            setState(() {});
+          },
+        ),
       ),
     );
   }
@@ -79,4 +100,16 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
           ),
         ],
       );
+}
+
+Widget floatingHTKT() {
+  return FloatingActionButton(
+    elevation: 0,
+    backgroundColor: labelColor,
+    onPressed: () {},
+    child: const Icon(
+      Icons.add,
+      size: 32,
+    ),
+  );
 }

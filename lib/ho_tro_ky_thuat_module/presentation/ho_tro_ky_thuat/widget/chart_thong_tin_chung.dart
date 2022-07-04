@@ -10,17 +10,15 @@ import 'package:rxdart/rxdart.dart';
 class ChartThongTinChung extends StatefulWidget {
   final List<List<ChartData>> listData;
   final List<ChartData> listStatusData;
-  final List<String> title;
+  final List<String> listTitle;
   final HoTroKyThuatCubit cubit;
-  final bool isCheck;
 
   const ChartThongTinChung({
     Key? key,
     required this.listData,
     required this.listStatusData,
-    required this.title,
+    required this.listTitle,
     required this.cubit,
-    required this.isCheck,
   }) : super(key: key);
 
   @override
@@ -65,7 +63,7 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
                 padding: const EdgeInsets.only(top: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: List.generate(widget.title.length, (index) {
+                  children: List.generate(widget.listTitle.length, (index) {
                     return Container(
                       margin: const EdgeInsets.only(
                         right: 8,
@@ -74,7 +72,7 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
                         left: 16,
                       ),
                       child: Text(
-                        widget.title[index],
+                        widget.listTitle[index],
                         textAlign: TextAlign.right,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -146,9 +144,28 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
                                                     height: 28,
                                                     width: (e.value) * heSo,
                                                     color: e.color,
+                                                    child: Center(
+                                                      child: Text(
+                                                        e.value
+                                                            .toInt()
+                                                            .toString(),
+                                                        style: textNormal(
+                                                          backgroundColorApp,
+                                                          14.0.textScale(),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 );
                                               }).toList(),
+                                            ),
+                                            spaceW6,
+                                            Text(
+                                              sumRowChart.toString(),
+                                              style: textNormal(
+                                                infoColor,
+                                                14.0,
+                                              ),
                                             ),
                                           ],
                                         ),

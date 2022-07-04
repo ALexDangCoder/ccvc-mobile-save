@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -17,6 +18,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/tablet/edit_work_calendar_tablet.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/create_calendar_work_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -103,7 +105,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                     context,
                                     title: S.current.cho_y_kien,
                                     child: YKienBottomSheet(
-                                      isTablet:  true,
+                                      isTablet: true,
                                       id: widget.id,
                                       isCheck: false,
                                     ),
@@ -130,10 +132,10 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                   );
                                 },
                               ),
-                              if ((dataModel.createBy?.id ?? '') ==
+                              if ((dataModel.canBoChuTri?.id ?? '') ==
                                           (HiveLocal.getDataUser()?.userId ??
                                               '') &&
-                                      ((dataModel.createBy?.id ?? '')
+                                      ((dataModel.canBoChuTri?.id ?? '')
                                           .isNotEmpty) ||
                                   (HiveLocal.getDataUser()?.userId ?? '')
                                       .isNotEmpty) ...[
@@ -265,13 +267,68 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                       ),
                                       spaceH16,
                                       BtnShowChinhSuaBaoCao(
-                                        chiTietLichLamViecCubit: chiTietLichLamViecCubit,
+                                        chiTietLichLamViecCubit:
+                                            chiTietLichLamViecCubit,
                                       ),
                                       DanhSachYKienButtom(
                                         isTablet: true,
                                         id: widget.id,
                                         cubit: chiTietLichLamViecCubit,
                                       ),
+                                      spaceH12,
+                                      StreamBuilder<bool>(
+                                          stream: chiTietLichLamViecCubit
+                                              .showButtonApprove,
+                                          builder: (context, snapshot) {
+                                            final data = snapshot.data ?? false;
+                                            return Visibility(
+                                              visible: data,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: bottomButtonWidget(
+                                                      background: buttonColor
+                                                          .withOpacity(0.1),
+                                                      title: S.current.tu_choi,
+                                                      onTap: () {
+                                                        chiTietLichLamViecCubit
+                                                            .confirmOfficer(
+                                                          ConfirmOfficerRequest(
+                                                            lichId:
+                                                                dataModel.id,
+                                                            isThamGia: false,
+                                                            lyDo: '',
+                                                          ),
+                                                        );
+                                                      },
+                                                      textColor: buttonColor,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 16,
+                                                  ),
+                                                  Expanded(
+                                                    child: bottomButtonWidget(
+                                                      background: buttonColor,
+                                                      title: S.current.tham_du,
+                                                      onTap: () {
+                                                        chiTietLichLamViecCubit
+                                                            .confirmOfficer(
+                                                          ConfirmOfficerRequest(
+                                                            lichId:
+                                                                dataModel.id,
+                                                            isThamGia: true,
+                                                            lyDo: '',
+                                                          ),
+                                                        );
+                                                      },
+                                                      textColor: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          })
                                     ],
                                   ),
                                 ),

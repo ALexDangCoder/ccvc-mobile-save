@@ -149,7 +149,6 @@ extension GetStatusNV on String {
         return StatusNV.CHO_PHAN_XU_LY;
       case 'TRA_LAI':
         return StatusNV.TRA_LAI;
-
       default:
         return StatusNV.QUA_HAN;
     }

@@ -47,6 +47,7 @@ class ThemCanBoWidget extends StatefulWidget {
 }
 
 class _ThemDonViScreenState extends State<ThemCanBoWidget> {
+  final textController =  TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SolidButton(
@@ -66,6 +67,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.8,
           child: ThemCanBoScreen(
+            textController: textController,
             cubit: widget.cubit,
             needCheckTrung: widget.needCheckTrung,
             themCanBoCubit: widget.themCanBoCubit,
@@ -82,6 +84,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         context,
         title: S.current.chon_thanh_phan_tham_gia,
         child: ThemCanBoScreen(
+          textController: textController,
           cubit: widget.cubit,
           needCheckTrung: widget.needCheckTrung,
           themCanBoCubit: widget.themCanBoCubit,
@@ -109,7 +112,7 @@ class ThemCanBoScreen extends StatefulWidget {
   final bool checkStyle;
   final bool checkUiCuCanBo;
   final ThemDonViCubit themDonViCubit;
-
+ final TextEditingController? textController;
   const ThemCanBoScreen({
     Key? key,
     required this.cubit,
@@ -121,6 +124,7 @@ class ThemCanBoScreen extends StatefulWidget {
     this.checkStyle = true,
     this.checkUiCuCanBo = false,
     required this.themDonViCubit,
+    this.textController,
   }) : super(key: key);
 
   @override
@@ -210,6 +214,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                 SelectDonVi(
                   cubit: widget.cubit,
                   onChange: (value) {
+                    widget.textController?.text = '';
                     widget.themCanBoCubit.getCanBo(value);
                   },
                   themDonViCubit: widget.themDonViCubit,
@@ -223,6 +228,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                 ),
                 spaceH16,
                 BaseSearchBar(
+                  controller: widget.textController,
                   hintText: S.current.nhap_ten_can_bo,
                   onChange: (value) {
                     widget.themCanBoCubit.search(value);

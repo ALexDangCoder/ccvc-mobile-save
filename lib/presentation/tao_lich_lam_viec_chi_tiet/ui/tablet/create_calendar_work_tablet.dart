@@ -287,7 +287,7 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                         TextFormWidget(
                                           controller: locationController,
                                           image: ImageAssets.icViTri,
-                                          hint: S.current.dia_diem,
+                                          hint: S.current.nhap_dia_diem,
                                           validator: (value) {
                                             return (value ?? '').pleaseEnter(
                                               S.current.dia_diem,

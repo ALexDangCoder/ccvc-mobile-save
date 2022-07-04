@@ -1207,7 +1207,11 @@
   "chi_tiet_cong_viec_can_phoi_hop": "Chi tiết công việc cần phối hợp",
   "tao_bieu_quyet_thanh_cong": "Tạo biểu quyết thành công",
   "tao_bieu_quyet_khong_thanh_cong": "Tạo biểu quyết không thành công",
-  "danh_sach_ho_tro_ky_thuat": "Danh sách thông tin cán bộ hỗ trợ kỹ thuật"
+  "danh_sach_ho_tro_ky_thuat": "Danh sách thông tin cán bộ hỗ trợ kỹ thuật",
+  "vui_long_tai_anh_len": "Vui lòng tải ảnh lên",
+  "tat_ca": "Tất cả",
+  "dang_ky_thanh_cong": "Đăng ký thành công",
+  "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau"
 }
 
 

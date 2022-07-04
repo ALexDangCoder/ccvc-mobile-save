@@ -45,16 +45,23 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
-      dateFromTmp =
-          DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
-      dateBeginSubject.sink.add(
-        dateFromTmp,
-      );
-      dateToTmp = DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
-      dateEndSubject.sink.add(
-        dateToTmp,
-      );
+      if (dateFromTmp == INIT_DATE_PICK) {
+        dateBeginSubject.sink
+            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
+      } else {
+        dateBeginSubject.sink.add(
+          dateFromTmp,
+        );
+      }
+      if (dateToTmp == INIT_DATE_PICK) {
+        dateEndSubject.sink
+            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
+      } else {
 
+        dateEndSubject.sink.add(
+          dateToTmp,
+        );
+      }
       final date = DateTime.now();
       timeBeginSubject.sink.add(
         DateTime(date.year, date.month, date.day, 08)

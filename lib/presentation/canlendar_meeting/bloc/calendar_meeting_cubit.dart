@@ -156,7 +156,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     getDaysHaveEvent(
       startDate: startDate,
       endDate: endDate,
-      keySearch: keySearch,
     );
   }
 
@@ -318,7 +317,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   Future<void> getDaysHaveEvent({
     required DateTime startDate,
     required DateTime endDate,
-    required String keySearch,
   }) async {
     final result = await hopRepo.postEventCalendar(
       EventCalendarRequest(
@@ -365,7 +363,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   /// lấy danh sách lịch họp
   Future<void> getDanhSachLichHop({
     bool isRefresh = false,
-    String? keySearch,
     bool isLichLanhDao = false,
   }) async {
     showLoading();

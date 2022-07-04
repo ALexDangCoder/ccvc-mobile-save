@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
@@ -191,7 +190,14 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               if (!widget.cubit.isFilter) {
                 widget.cubit.loadMoreGetDSPAKN();
               } else {
-                widget.cubit.loadMoreGetDSPAKNFilter();
+                if(widget.cubit.isFilterTiepNhan) {
+                  widget.cubit.loadMorePAKNVanBanFilter();
+                  widget.cubit.loadMorePAKNVanBanFilter();
+                } else if(widget.cubit.isFilterXuLy) {
+                  widget.cubit.loadMorePAKNXuLyCacYKienFilter();
+                } else {
+                  widget.cubit.loadMoreGetDSPAKNFilter();
+                }
               }
             }
             return true;
@@ -201,6 +207,10 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               widget.cubit.resetBeforeRefresh();
               widget.cubit.getDashBoardPAKNTiepCanXuLy();
               widget.cubit.getDanhSachPAKN();
+              widget.cubit.textFilter.sink.add(TextTrangThai(
+                S.current.all,
+                Colors.black,
+              ),);
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -303,7 +313,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                               Text(
                                 S.current.khong_co_thong_tin_pakn,
                                 style: textNormalCustom(
-                                    fontSize: 16.0, color: grayChart),
+                                  fontSize: 16.0,
+                                  color: grayChart,
+                                ),
                               ),
                               const SizedBox(
                                 height: 10.0,
@@ -336,17 +348,18 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                         ),
                                       ),
                                       Expanded(
-                                        child: StreamBuilder<String>(
-                                          stream: widget.cubit.textFilter,
+                                        child: StreamBuilder<TextTrangThai>(
+                                          stream:
+                                              widget.cubit.textFilter.stream,
                                           builder: (context, snapshot) {
                                             return item(
-                                              title: snapshot.data ?? '',
+                                              title: snapshot.data?.text ?? '',
                                               callBack: (value) {
                                                 widget.cubit.isShowFilterList
                                                     .add(true);
                                               },
-                                              colorBG:
-                                                  Colors.red, //todo get color
+                                              colorBG: snapshot.data?.color ??
+                                                  Colors.red,
                                             );
                                           },
                                         ),
@@ -486,7 +499,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
+                    '${S.current.han_xu_ly}: ${DateTime.parse(dsKetQuaPakn.hanXuLy ?? '').toStringWithListFormat}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,
@@ -562,30 +575,5 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     }
   }
 
-  Widget _item({
-    required Color colorBG,
-    required String title,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(30),
-        ),
-        color: colorBG,
-      ),
-      child: Center(
-        child: Text(
-          title,
-          style: textNormalCustom(
-            color: AppTheme.getInstance().dfBtnTxtColor(),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
+
 }

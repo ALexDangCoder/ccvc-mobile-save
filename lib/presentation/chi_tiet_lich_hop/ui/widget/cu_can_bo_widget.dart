@@ -105,6 +105,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
               checkStyle: false,
               checkUiCuCanBo: true,
               themDonViCubit: widget.themDonViCubit,
+              hindText: S.current.chon_don_vi,
             ),
             spaceH20,
             BlockTextViewLich(

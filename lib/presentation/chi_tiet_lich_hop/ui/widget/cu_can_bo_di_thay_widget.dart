@@ -45,9 +45,11 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
     super.initState();
     widget.themCanBoCubit.titleCanBo.sink.add('');
     widget.cubitThanhPhanTG.listCanBoThamGia.sink.add([]);
+    widget.cubitThanhPhanTG.addCanBoThamGia([]);
+    widget.cubitThanhPhanTG.listCanBo.clear();
     widget.themDonViCubit.validateDonVi.sink.add(false);
     widget.themDonViCubit.themDonViSubject.sink.add(true);
-    widget.themDonViCubit.selectNodeOnlyValue = null;
+    widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
     widget.themDonViCubit.listDonVi.clear();
   }
@@ -109,6 +111,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                 checkStyle: false,
                 checkUiCuCanBo: true,
                 themDonViCubit: widget.themDonViCubit,
+                hindText: S.current.chon_don_vi,
               ),
               spaceH20,
               BlockTextViewLich(

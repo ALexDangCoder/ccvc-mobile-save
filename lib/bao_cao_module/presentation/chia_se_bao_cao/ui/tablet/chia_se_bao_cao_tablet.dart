@@ -17,11 +17,12 @@ class ChiaSeBaoCaoTablet extends StatefulWidget {
   const ChiaSeBaoCaoTablet({
     Key? key,
     required this.idReport,
-    required this.appId,
+    required this.appId, required this.type,
   }) : super(key: key);
 
   final String idReport;
   final String appId;
+  final int type;
 
   @override
   _ChiaSeBaoCaoTabletState createState() => _ChiaSeBaoCaoTabletState();
@@ -37,6 +38,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     cubit = ChiaSeBaoCaoCubit();
+    cubit.sourceType = widget.type;
     cubit.idReport = widget.idReport;
     cubit.appId = widget.appId;
     cubit.getGroup();

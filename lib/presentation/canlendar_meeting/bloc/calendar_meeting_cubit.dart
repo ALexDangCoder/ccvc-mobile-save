@@ -20,7 +20,6 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
-
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -49,7 +48,8 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   List<ChildMenu> listMenuTheoTrangThai = [];
 
-  final BehaviorSubject<String> _titleSubject = BehaviorSubject();
+  final BehaviorSubject<String> _titleSubject =
+      BehaviorSubject.seeded(S.current.lich_cua_toi);
 
   Stream<String> get titleStream => _titleSubject.stream;
 
@@ -154,6 +154,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   void refreshDataDangLich({bool isLichLanhDao = false}) {
     getCountDashboard();
     getDanhSachLichHop(isLichLanhDao: isLichLanhDao);
+    getMenuLichLanhDao();
     getDaysHaveEvent(
       startDate: startDate,
       endDate: endDate,
@@ -183,7 +184,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.LICH_DUOC_MOI,
         ),
-        count: countData.tongLichDuocMoi ?? 0,
+        count: (countData.soLichChoXacNhan ?? 0) +
+            (countData.soLichThamGia ?? 0) +
+            (countData.soLichTuChoi ?? 0),
       ),
       ChildMenu(
         title: StatusWorkCalendar.LICH_TAO_HO.getTitle(),
@@ -211,7 +214,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.CHO_DUYET,
         ),
-        count: countData.tongSoLichDuyetCuaChuTri ?? 0,
+        count: (countData.soLichCanChuTriDuyetCho ?? 0) +
+            (countData.soLichChuTriDaDuyet ?? 0) +
+            (countData.soLichChuTriTuChoi ?? 0),
       ),
       ChildMenu(
         title: StatusWorkCalendar.LICH_HOP_CAN_KLCH.getTitle(),
@@ -225,7 +230,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.LICH_DA_KLCH,
         ),
-        count: countData.tongSoLichCoBaoCao ?? 0,
+        count: (countData.soLichCoBaoCaoTuChoi ?? 0) +
+            (countData.soLichCoBaoCaoDaDuyet ?? 0) +
+            (countData.soLichCoBaoCaoChoDuyet ?? 0),
       ),
     ];
     if (HiveLocal.checkPermissionApp(
@@ -234,12 +241,15 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     )){
       listMenuTheoTrangThai.add(
         ChildMenu(
-        title: StatusWorkCalendar.LICH_DUYET_PHONG.getTitle(),
-        value: StatusDataItem(
-          StatusWorkCalendar.LICH_DUYET_PHONG,
+          title: StatusWorkCalendar.LICH_DUYET_PHONG.getTitle(),
+          value: StatusDataItem(
+            StatusWorkCalendar.LICH_DUYET_PHONG,
+          ),
+          count: (countData.soLichDuyetPhongCho ?? 0) +
+              (countData.soLichDuyetPhongTuChoi ?? 0) +
+              (countData.soLichDuyetPhongXacNhan ?? 0),
         ),
-        count: countData.tongSoLichDuyetPhong ?? 0,
-      ),);
+      );
     }
 
     if (HiveLocal.checkPermissionApp(
@@ -252,7 +262,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           value: StatusDataItem(
             StatusWorkCalendar.LICH_DUYET_THIET_BI,
           ),
-          count: countData.tongSoLichDuyetThietBi ?? 0,
+          count: (countData.soLichDuyetThietBiXacNhan ?? 0) +
+              (countData.soLichDuyetThietBiTuChoi ?? 0) +
+              (countData.soLichDuyetThietBiCho ?? 0),
         ),);
     }
     if (HiveLocal.checkPermissionApp(
@@ -265,8 +277,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           value: StatusDataItem(
             StatusWorkCalendar.LICH_DUYET_KY_THUAT,
           ),
-          count: countData.tongSoLichDuyetKyThuat ?? 0,
-        ),);
+          count: (countData.soLichChoDuyetKyThuat ?? 0) +
+              (countData.soLichDaDuyetKyThuat ?? 0) +
+              (countData.soLichTuChoiDuyetKyThuat ?? 0),
+        ),
+      );
     }
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -278,7 +293,8 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           value: StatusDataItem(
             StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
           ),
-          count: countData.tongSoLichCoYeuCau ?? 0,
+          count: (countData.soLichDaThucHienYC ?? 0) +
+              (countData.soLichChuaThucHienYC ?? 0),
         ),);
     }
 
@@ -318,6 +334,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   Future<void> getDaysHaveEvent({
     required DateTime startDate,
     required DateTime endDate,
+    bool isLichLanhDao = false,
   }) async {
     final result = await hopRepo.postEventCalendar(
       EventCalendarRequest(
@@ -331,25 +348,33 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         PageSize: 1000,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         year: startDate.year,
-        isLichCuaToi: typeCalender == StatusWorkCalendar.LICH_CUA_TOI,
+        IsLichLanhDao: isLichLanhDao,
+        isLichCuaToi: !isLichLanhDao
+            ? typeCalender == StatusWorkCalendar.LICH_CUA_TOI
+            : null,
         isDuyetThietBi: typeCalender == StatusWorkCalendar.LICH_DUYET_THIET_BI,
         isChuaCoBaoCao:
-        typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
-            typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
-        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+            typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
+                typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
+        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO ||
+            typeCalender == StatusWorkCalendar.LICH_DA_KLCH,
         isLichDuocMoi: typeCalender == StatusWorkCalendar.LICH_DUOC_MOI,
         isLichYeuCauChuanBi:
-        typeCalender == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
+            typeCalender == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
         isDuyetPhong: typeCalender == StatusWorkCalendar.LICH_DUYET_PHONG,
         isLichThuHoi: typeCalender == StatusWorkCalendar.LICH_THU_HOI,
         isLichHuyBo: typeCalender == StatusWorkCalendar.LICH_HUY,
         isLichTaoHo: typeCalender == StatusWorkCalendar.LICH_TAO_HO,
         isDuyetLich: typeCalender == StatusWorkCalendar.CHO_DUYET,
-        isLichThamGia: stateType == StateType.THAM_GIA,
+        isLichThamGia:
+            stateType == StateType.THAM_GIA || stateType == StateType.DA_DUYET,
         isLichTuChoi: stateType == StateType.TU_CHOI,
-        isChoXacNhan:
-        stateType != StateType.TU_CHOI && stateType != StateType.THAM_GIA,
-
+        isChoXacNhan: stateType == StateType.CHO_XAC_NHAN ||
+            stateType == StateType.CHO_DUYET ||
+            stateType == StateType.CHUA_THUC_HIEN,
+        isChuaChuanBi: stateType == StateType.CHUA_THUC_HIEN,
+        isDuyetKyThuat: typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT,
+        isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
       ),
     );
     result.when(
@@ -382,7 +407,8 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isChuaCoBaoCao:
             typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
                 typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
-        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO ||
+            typeCalender == StatusWorkCalendar.LICH_DA_KLCH,
         isLichDuocMoi: typeCalender == StatusWorkCalendar.LICH_DUOC_MOI,
         isLichYeuCauChuanBi:
             typeCalender == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
@@ -391,18 +417,26 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isLichHuyBo: typeCalender == StatusWorkCalendar.LICH_HUY,
         isLichTaoHo: typeCalender == StatusWorkCalendar.LICH_TAO_HO,
         isDuyetLich: typeCalender == StatusWorkCalendar.CHO_DUYET,
-        isLichThamGia: stateType == StateType.THAM_GIA,
+        isLichThamGia:
+            stateType == StateType.THAM_GIA || stateType == StateType.DA_DUYET,
         isLichTuChoi: stateType == StateType.TU_CHOI,
-        isChoXacNhan:
-            stateType != StateType.TU_CHOI && stateType != StateType.THAM_GIA,
+        isChoXacNhan: stateType == StateType.CHO_XAC_NHAN ||
+            stateType == StateType.CHO_DUYET ||
+            stateType == StateType.CHUA_THUC_HIEN,
+        isChuaChuanBi: stateType == StateType.CHUA_THUC_HIEN,
+        isDuyetKyThuat: typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT,
+        isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
+        trangThaiDuyetKyThuat:
+            typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT
+                ? stateType?.toInt()
+                : null,
       ),
     );
     result.when(
       success: (value) {
-        if (isRefresh) {}
         _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
@@ -456,6 +490,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     this.startDate = startDate;
     this.endDate = endDate;
     this.keySearch = keySearch;
+    stateType = StateType.CHO_XAC_NHAN;
     fCalendarControllerDay.selectedDate = this.startDate;
     fCalendarControllerDay.displayDate = this.startDate;
     fCalendarControllerWeek.selectedDate = this.startDate;
@@ -470,6 +505,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     DataItemMenu? itemMenu,
     required BaseState state,
   }) {
+    stateType = StateType.CHO_DUYET;
     if (state is ListViewState) {
       emitListViewState();
       _titleSubject.sink.add(oldTitle);
@@ -478,10 +514,14 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       _titleSubject.sink.add(oldTitle);
     } else {
       emitChartViewState();
+      getDataDangChart();
       _titleSubject.sink.add(S.current.bao_cao_thong_ke);
     }
     if (itemMenu != null) {
       idDonViLanhDao = null;
+      if(this.state is ChartViewState){
+        emitCalendarViewState();
+      }
       if (itemMenu is StatusDataItem) {
         _titleSubject.sink.add(itemMenu.value.getTitle());
         typeCalender = itemMenu.value;
@@ -489,6 +529,8 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         refreshDataDangLich();
       }
       if (itemMenu is LeaderDataItem) {
+        typeCalender = StatusWorkCalendar.LICH_LANH_DAO;
+        _statusWorkSubject.sink.add(StatusWorkCalendar.LICH_LANH_DAO);
         _titleSubject.sink.add(itemMenu.title);
         idDonViLanhDao = itemMenu.id;
         refreshDataDangLich(isLichLanhDao: true);
@@ -503,6 +545,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();
+    getDashBoardThongKe();
     getToChucBoiDonVi();
     getTiLeThamDu();
     getCoCauLichHop();
@@ -544,7 +587,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       startDate.formatApiDDMMYYYYSlash,
       endDate.formatApiDDMMYYYYSlash,
     );
-
     result.when(
       success: (value) {
         _tiLeThamGiaSubject.add(value);

@@ -75,7 +75,7 @@
   "chu_nhat": "Chủ nhật",
   "chon_ngay": "Chọn ngày",
   "da_hoan_thanh": "Đã thực hiện",
-  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cập",
+  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cấp",
   "them_moi_doi_tuong": "Thêm mới đối tượng",
   "them_cong_viec": "Thêm công việc",
   "using": "Widgets đang sử dụng",
@@ -1250,5 +1250,6 @@
   "tat_ca": "Tất cả",
   "dang_ky_thanh_cong": "Đăng ký thành công",
   "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau",
-  "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công"
+  "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
+  "thong_ke_su_co": "Thống kê sự cố theo khu vực"
 }

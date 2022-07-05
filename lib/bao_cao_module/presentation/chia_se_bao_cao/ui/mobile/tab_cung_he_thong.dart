@@ -14,7 +14,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widgets/tree_widget.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -56,85 +56,47 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                 stream: widget.cubit.callAPI,
                 builder: (context, snapshot) {
                   return Container(
-                    height: 40.h,
+                    height: 45.h,
                     width: double.infinity,
-                    padding: EdgeInsets.only(right: 15.w, left: 15.w),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(4.r)),
                       border: Border.all(color: containerColorTab),
                     ),
-                    child: Theme(
-                      data: ThemeData(
-                        hintColor: Colors.white24,
-                        selectedRowColor: Colors.white24,
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          buttonDecoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.r)),
-                          ),
-                          items: widget.cubit.listDropDown.map((String model) {
-                            return DropdownMenuItem(
-                              value: model,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 32.w,
-                                    height: 32.h,
-                                    decoration: BoxDecoration(
-                                      color: color4C6FFF.withOpacity(0.1),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      ImageAssets.img_companies_svg,
-                                      height: 5.h,
-                                      width: 5.w,
-                                      color: Colors.blue,
-                                      fit: BoxFit.none,
-                                    ),
-                                  ),
-                                  spaceW5,
-                                  Text(
-                                    model,
-                                    style: textNormal(
-                                      color3D5586,
-                                      14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            widget.cubit.themNhom(newValue ?? '');
-                          },
-                          dropdownMaxHeight: 200,
-                          dropdownWidth:
-                              MediaQuery.of(context).size.width - 32.w,
-                          dropdownDecoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(4.r)),
-                          ),
-                          scrollbarThickness: 0,
-                          scrollbarAlwaysShow: false,
-                          offset: Offset(-16.w, 0),
-                          hint: Text(
+                    child: DropdownSearch<String>(
+                      maxHeight: 250.h,
+                      showSearchBox: true,
+                      mode: Mode.MENU,
+                      popupItemDisabled: (String s) => s.startsWith('I'),
+                      items: widget.cubit.listDropDown,
+                      dropdownBuilder: (context, value) {
+                        return Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: Text(
                             S.current.chon_nhom,
                             style: textNormalCustom(
                               color: color3D5586,
                               fontSize: 14,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: colorA2AEBD,
-                          ),
+                        );
+                      },
+                      dropdownSearchDecoration: InputDecoration(
+                        hintText: S.current.chon_nhom,
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                       ),
+                      onChanged: (value) {
+                        widget.cubit.themNhom(value ?? '');
+                      },
+                      selectedItem: S.current.chon_nhom,
+                      emptyBuilder: (context, value) {
+                        return Center(
+                          child: Text(S.current.no_data),
+                        );
+                      },
                     ),
                   );
                 },

@@ -43,7 +43,7 @@ extension DateFormatString on DateTime {
 
   String get formatDayCalendar {
     final dateString =
-    (DateFormat(' dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');
+        (DateFormat(' dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');
 
     return dateString;
   }
@@ -58,6 +58,10 @@ extension DateFormatString on DateTime {
 
   String get formatApiTaoBieuQuyet {
     return DateFormat('yyyy-MM-ddTHH:mm').format(this);
+  }
+
+  String get formatBieuQuyetChooseTime {
+    return DateFormat('yyyy-MM-dd HH:mm:ss').format(this);
   }
 
   String get formatBE {
@@ -78,6 +82,10 @@ extension DateFormatString on DateTime {
 
   String get formatApiListBieuQuyetMobile {
     return DateFormat('dd/MM/yyyy HH:mm').format(this);
+  }
+
+  String get formatListBieuQuyet {
+    return DateFormat('MM/dd/yyyy HH:mm').format(this);
   }
 
   String get formatApiSSAM {
@@ -135,19 +143,27 @@ extension DateFormatString on DateTime {
 
   String get formatDateTime {
     final dateString =
-    (DateFormat('HH:mm ,dd-MM').format(this)).replaceAll('-', ' tháng ');
+        (DateFormat('HH:mm ,dd-MM').format(this)).replaceAll('-', ' tháng ');
 
     return dateString;
   }
 
   String get formatMonth {
     final dateString =
-    (DateFormat('dd-MM').format(this)).replaceAll('-', ' tháng ');
+        (DateFormat('dd-MM').format(this)).replaceAll('-', ' tháng ');
     return dateString;
   }
 
   String dateTimeFormatter({required String pattern}) {
     return DateFormat(pattern).format(this);
+  }
+
+  String tryDateTimeFormatter({required String pattern}) {
+    try {
+      return DateFormat(pattern).format(this);
+    } catch (_) {
+      return '';
+    }
   }
 
   String getDayofWeekTxt() {
@@ -187,7 +203,7 @@ extension DateFormatString on DateTime {
   List<DateTime> _tuanNay() {
     final startDate = _getDate(subtract(Duration(days: weekday - 1)));
     final endDate =
-    _getDate(add(Duration(days: DateTime.daysPerWeek - weekday)));
+        _getDate(add(Duration(days: DateTime.daysPerWeek - weekday)));
     return [startDate, endDate];
   }
 
@@ -197,13 +213,10 @@ extension DateFormatString on DateTime {
       month,
     );
     final endDate = DateTime.fromMillisecondsSinceEpoch(
-      DateTime
-          .utc(
+      DateTime.utc(
         year,
         month + 1,
-      )
-          .subtract(const Duration(days: 1))
-          .millisecondsSinceEpoch,
+      ).subtract(const Duration(days: 1)).millisecondsSinceEpoch,
     );
     return [startDate, endDate];
   }
@@ -230,4 +243,3 @@ extension TimeFormatString on TimerData {
     return '$hour:$minute';
   }
 }
-

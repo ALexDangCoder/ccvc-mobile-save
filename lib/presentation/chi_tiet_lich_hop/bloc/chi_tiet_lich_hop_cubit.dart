@@ -46,7 +46,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:get/get.dart';
@@ -214,27 +213,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     minutes: 00,
   );
 
-  TimerData dateTimeNowStart() {
-    final TimerData start = TimerData(
-      hour: timeNow.hour,
-      minutes: timeNow.minute,
-    );
-    return start;
-  }
-
   void xoaKhachMoiThamGia(
     DonViModel donViModel,
   ) {
     listDataCanBo.remove(donViModel);
     listDonViModel.sink.add(listDataCanBo);
-  }
-
-  TimerData dateTimeNowEnd() {
-    final TimerData end = TimerData(
-      hour: timeNow.add(const Duration(hours: 1)).hour,
-      minutes: timeNow.minute,
-    );
-    return end;
   }
 
   int dateDiff(String startTime, String endTime) {
@@ -383,7 +366,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }
 
   bool loaiBieuQ = false;
-  String date = DateTime.now().toStringWithListFormat;
+  String date = '';
 
   List<DanhSachNguoiThamGiaModel> listDanhSach = [];
   List<String> listLuaChon = [];

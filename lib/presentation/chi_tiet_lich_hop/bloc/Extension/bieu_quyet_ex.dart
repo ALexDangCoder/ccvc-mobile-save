@@ -40,9 +40,12 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     endTime = '${hourEnd.toString()}:${minuteEnd.toString()}';
   }
 
-  Future<void> themBieuQuyetHop(
-      {required String id, required String tenBieuQuyet}) async {
+  Future<void> themBieuQuyetHop({
+    required String id,
+    required String tenBieuQuyet,
+  }) async {
     showLoading();
+
     final BieuQuyetRequest bieuQuyetRequest = BieuQuyetRequest(
       dateStart: dateBieuQuyet,
       lichHopId: id,
@@ -58,6 +61,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       danhSachThanhPhanThamGia: [],
     );
     final result = await hopRp.themBieuQuyet(bieuQuyetRequest);
+
     result.when(
       success: (res) {
         showContent();
@@ -90,7 +94,11 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   Future<void> postThemBieuQuyetHop(
-      String id, String noidung, String date, bool loaiBieuQuyet) async {
+    String id,
+    String noidung,
+    String date,
+    bool loaiBieuQuyet,
+  ) async {
     await themBieuQuyetHopByLuc(
       dateStart: date,
       thoiGianBatDau: plusTaoBieuQuyet(
@@ -133,7 +141,6 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     required bool? quyenBieuQuyet,
     required List<DanhSachThanhPhanThamGia>? danhSachThanhPhanThamGia,
   }) async {
-    showLoading();
     final BieuQuyetRequest bieuQuyetRequest = BieuQuyetRequest(
       dateStart: dateStart,
       thoiGianBatDau: thoiGianBatDau,
@@ -168,7 +175,6 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         }
       },
     );
-    showContent();
   }
 
   Future<void> callApi(String id) async {
@@ -180,7 +186,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   String plusTaoBieuQuyet(String date, TimerData time) {
-    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
     final dateTime = dateFormat.parse(date);
 
     final times = DateTime(
@@ -216,20 +222,48 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     );
   }
 
+  int coverTime(int time) {
+    if (time < 10) {
+      final String value = '0$time';
+      final timeCover = int.parse(value);
+      return timeCover;
+    } else {
+      return time;
+    }
+  }
+
+  DateTime coverDate(String dates) {
+    final date =
+        DateFormat('dd/MM/yyyy').parse(dates).formatBieuQuyetChooseTime;
+    final dateCover = DateTime.parse(date);
+    return dateCover;
+  }
+
   TimerData dateTimeNowStart() {
+    final timeStart = getChiTietLichHopModel.timeStart;
+    final timeBieuQuyet = DateFormat('HH:mm').parse(timeStart);
     final TimerData start = TimerData(
-      hour: timeNow.hour,
-      minutes: timeNow.minute,
+      hour: coverTime(timeBieuQuyet.hour),
+      minutes: coverTime(timeBieuQuyet.minute),
     );
     return start;
   }
 
   TimerData dateTimeNowEnd() {
+    final timeStart = getChiTietLichHopModel.timeTo;
+    final timeBieuQuyet = DateFormat('HH:mm').parse(timeStart);
     final TimerData end = TimerData(
-      hour: timeNow.add(const Duration(hours: 1)).hour,
-      minutes: timeNow.minute,
+      hour: coverTime(timeBieuQuyet.hour),
+      minutes: coverTime(timeBieuQuyet.minute),
     );
     return end;
+  }
+
+  String paserDateTime(String dateTime) {
+    final date = DateFormat('MM/dd/yyy HH:mm:ss')
+        .parse(dateTime)
+        .formatBieuQuyetChooseTime;
+    return date;
   }
 
   String dateTimeCovert(int time) {

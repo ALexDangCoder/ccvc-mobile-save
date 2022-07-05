@@ -38,6 +38,8 @@ class GroupDataResponse {
 class GroupResponse {
   @JsonKey(name: 'name')
   String? name;
+  @JsonKey(name: 'user_Id')
+  String? userId;
   @JsonKey(name: 'id')
   String? id;
   @JsonKey(name: 'chucVu')
@@ -50,6 +52,7 @@ class GroupResponse {
     this.id,
     this.chucVu,
     this.soDienThoai,
+    this.userId,
   );
 
   factory GroupResponse.fromJson(Map<String, dynamic> json) =>
@@ -62,5 +65,6 @@ class GroupResponse {
         tenThanhVien: name,
         chucVu: chucVu,
         soDienThoai: soDienThoai,
+        userId: userId,
       );
 }

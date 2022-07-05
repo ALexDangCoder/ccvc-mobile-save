@@ -77,7 +77,6 @@ Future<Map<String, dynamic>> pickImageFunc({
   };
   final permission =
       Platform.isIOS ? Permission.photosAddOnly : Permission.storage;
-  print('fuck permission $permission');
   final status = await permission.status;
   if (status.isGranted || status.isLimited) {
     try {

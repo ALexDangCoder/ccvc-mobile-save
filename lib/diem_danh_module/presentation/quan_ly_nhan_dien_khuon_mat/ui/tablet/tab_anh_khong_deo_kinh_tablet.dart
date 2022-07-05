@@ -24,42 +24,47 @@ class _TabAnhKhongDeoKinhTabletState extends State<TabAnhKhongDeoKinhTablet> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<GetAllFilesIdModel>(
-      stream: widget.cubit.allFileKhongDeokinhStream,
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<GetAllFilesIdModel> snapshot,
-      ) {
-        if (snapshot.hasData) {
-          return Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-            child: GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              crossAxisSpacing: 14,
-              childAspectRatio: 1.1,
-              children: widget.cubit.listDataKhongDeoKinh
-                  .map(
-                    (e) => ItemImageWidget(
-                      cubit: widget.cubit,
-                      dataUI: e,
-                      initImage: widget.cubit.getUrlImage(
-                        entityName: e.entityName,
-                        fileTypeUpload: e.fileTypeUpload,
-                      ),
-                      id: widget.cubit.findId(
-                        entityName: e.entityName,
-                        fileTypeUpload: e.fileTypeUpload,
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          );
-        }
-        return Container();
+    return RefreshIndicator(
+      onRefresh: () {
+        return widget.cubit.getAllImageKhongDeoKinhId();
       },
+      child: StreamBuilder<GetAllFilesIdModel>(
+        stream: widget.cubit.allFileKhongDeokinhStream,
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<GetAllFilesIdModel> snapshot,
+        ) {
+          if (snapshot.hasData) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              child: GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                crossAxisSpacing: 14,
+                childAspectRatio: 1.1,
+                children: widget.cubit.listDataKhongDeoKinh
+                    .map(
+                      (e) => ItemImageWidget(
+                        cubit: widget.cubit,
+                        dataUI: e,
+                        initImage: widget.cubit.getUrlImage(
+                          entityName: e.entityName,
+                          fileTypeUpload: e.fileTypeUpload,
+                        ),
+                        id: widget.cubit.findId(
+                          entityName: e.entityName,
+                          fileTypeUpload: e.fileTypeUpload,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

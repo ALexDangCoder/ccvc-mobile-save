@@ -31,6 +31,7 @@ class _DanhSachCongViecTienIchMobileState
   int pageSize = 10;
   bool isInRefresh = false;
   BehaviorSubject<bool> inLoadmore = BehaviorSubject.seeded(false);
+  ScrollController controlerScroll = ScrollController();
 
   @override
   void initState() {
@@ -61,23 +62,26 @@ class _DanhSachCongViecTienIchMobileState
               inLoadmore.sink.add(true);
               if (!isInRefresh &&
                   scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.minScrollExtent) {
+                      scrollInfo.metrics.maxScrollExtent &&
+                  (cubit.listDSCV.valueOrNull ?? []).length >=
+                      10 * cubit.countLoadMore) {
                 cubit.waitToDelay(
                   actionNeedDelay: () {
                     cubit
                         .callAPITheoFilter(
                           textSearch: textSearch,
-                          pageSize: cubit.countLoadMore == 1
-                              ? pageSize * 2
-                              : pageSize * cubit.countLoadMore,
+                          pageIndex: cubit.countLoadMore == 1
+                              ? 2
+                              : cubit.countLoadMore,
                         )
                         .then(
-                          (value) => value ? cubit.countLoadMore++ : '',
+                          (value) => cubit.countLoadMore++,
                         );
                   },
                   timeSecond: 1,
                 );
               }
+
               inLoadmore.sink.add(false);
               return true;
             },
@@ -91,6 +95,7 @@ class _DanhSachCongViecTienIchMobileState
                   actionNeedDelay: () {
                     cubit.callAPITheoFilter(
                       textSearch: textSearch,
+                      pageIndex: cubit.countLoadMore,
                       pageSize: pageSize * cubit.countLoadMore,
                     );
                     isInRefresh = false;
@@ -99,6 +104,7 @@ class _DanhSachCongViecTienIchMobileState
                 );
               },
               child: SingleChildScrollView(
+                controller: controlerScroll,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: StreamBuilder<String>(

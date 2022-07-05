@@ -578,6 +578,12 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   ///======================= bieu quyet =======================
+  bool isDangKyBieuQuyet() {
+    if (isThanhPhanThamGia()) {
+      return true;
+    }
+    return false;
+  }
 
   ///btn them duyet bieu quyet
   bool isThemDuyetBieuQuyet() {

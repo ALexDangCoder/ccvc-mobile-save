@@ -91,7 +91,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                           itemBuilder: (context, index) {
                             final value = dataCountTodoModel[index];
                             final valueChildren = value.childrenTodoViewModel;
-                            if ((value.childrenTodoViewModel ?? []).isEmpty) {
+                            if (value.code != DSCVScreen.NCVM) {
                               return screenDevice(
                                 mobileScreen: TheoDangLichWidgetDSCV(
                                   icon: value.icon(),

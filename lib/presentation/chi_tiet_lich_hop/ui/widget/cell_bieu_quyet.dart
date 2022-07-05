@@ -144,8 +144,8 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   ),
                   spaceH12,
                   Text(
-                    '${DateTime.parse(widget.infoModel.thoiGianBatDau ?? '').formatApiListBieuQuyetMobile} - '
-                    '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiFixMeet}',
+                    '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')} - '
+                    '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}',
                     style: textNormalCustom(
                       fontSize: 16,
                       color: infoColor,
@@ -158,12 +158,18 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   if (widget.cubit.isNotStartYet(
                     startTime: timeDate ?? DateTime.now(),
                   )) ...[
-                    Text(
-                      '00:00:00',
-                      style: textNormalCustom(
-                        color: canceledColor,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 12,
+                        bottom: 10,
+                      ),
+                      child: Text(
+                        '00:00:00',
+                        style: textNormalCustom(
+                          color: canceledColor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     )
                   ] else ...[
@@ -210,14 +216,12 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   spaceH12,
-                  SizedBox(
-                    height: 50,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount:
-                          widget.infoModel.danhSachKetQuaBieuQuyet?.length,
-                      itemBuilder: (context, index) {
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                          widget.infoModel.danhSachKetQuaBieuQuyet?.length ?? 0,
+                          (index) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 16),
                           child: ContainerState(
@@ -233,7 +237,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 0,
                           ),
                         );
-                      },
+                      }),
                     ),
                   )
                 ],

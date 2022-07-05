@@ -109,30 +109,34 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
       ),
     );
   }
+}
 
-  Widget buttonStatePhatBieu({required DetailMeetCalenderCubit cubit}) {
-    return SizedBox(
-      height: 50,
-      child: StreamBuilder<int>(
-        initialData: 0,
-        stream: cubit.typeStatus,
-        builder: (context, snapshot) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.cubit.buttonStatePhatBieu.length,
-            itemBuilder: (context, index) {
-              final data = widget.cubit.buttonStatePhatBieu;
+Widget buttonStatePhatBieu(
+    {required DetailMeetCalenderCubit cubit, bool? isHorizontal}) {
+  return SizedBox(
+    height: 50,
+    child: StreamBuilder<int>(
+      initialData: 0,
+      stream: cubit.typeStatus,
+      builder: (context, snapshot) {
+        return ListView.builder(
+          scrollDirection:
+              (isHorizontal ?? true) ? Axis.horizontal : Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: cubit.buttonStatePhatBieu.length,
+          itemBuilder: (context, index) {
+            final data = cubit.buttonStatePhatBieu;
+            if (isHorizontal ?? true) {
               return Row(
                 children: [
                   buttonPhone(
                     key: data[index].key ?? '',
                     value: data[index].value.toString(),
                     color: data[index].color ?? Colors.white,
-                    backgroup: widget.cubit.bgrColorButton(snapshot.data ?? 0),
+                    backgroup: cubit.bgrColorButton(snapshot.data ?? 0),
                     ontap: () {
-                      widget.cubit.getValueStatus(index);
-                      widget.cubit.selectPhatBieu.clear();
+                      cubit.getValueStatus(index);
+                      cubit.selectPhatBieu.clear();
                     },
                   ),
                   const SizedBox(
@@ -140,12 +144,29 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                   ),
                 ],
               );
-            },
-          );
-        },
-      ),
-    );
-  }
+            }
+            return Column(
+              children: [
+                buttonPhone(
+                  key: data[index].key ?? '',
+                  value: data[index].value.toString(),
+                  color: data[index].color ?? Colors.white,
+                  backgroup: cubit.bgrColorButton(snapshot.data ?? 0),
+                  ontap: () {
+                    cubit.getValueStatus(index);
+                    cubit.selectPhatBieu.clear();
+                  },
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+              ],
+            );
+          },
+        );
+      },
+    ),
+  );
 }
 
 Widget buttonPhatBieu({

@@ -40,11 +40,16 @@ class _DateInputState extends State<DateInput> {
       controller: textController,
       hintText: DateFormatApp.date,
       validator: (value) {
-        if(value?.isEmpty ?? true){
+        if (value?.isEmpty ?? true) {
           return null;
         }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
+          if (DateFormat(DateFormatApp.date).parse(value ?? '').millisecond -
+              DateTime.now().millisecond <
+              0) {
+            return 'Ngày hoàn thành cần lớn hơn ngày hiện tại.';
+          }
           dateSelect = inputDate.toString();
           widget.onSelectDate(dateSelect);
         } catch (_) {
@@ -53,15 +58,7 @@ class _DateInputState extends State<DateInput> {
       },
       suffixIcon: GestureDetector(
         onTap: () {
-          DateTime initDate = DateTime.tryParse(
-                dateSelect ?? '',
-              ) ??
-              DateTime(2000);
-          final dateSince = initDate.millisecondsSinceEpoch;
-          if (dateSince < DateTime(1900).millisecondsSinceEpoch ||
-              dateSince > DateTime.now().millisecondsSinceEpoch) {
-            initDate = DateTime(2000);
-          }
+          final DateTime initDate = DateTime.now();
           showBottomSheetCustom(
             context,
             title: S.current.chon_ngay,
@@ -70,8 +67,7 @@ class _DateInputState extends State<DateInput> {
                 SizedBox(
                   height: 300,
                   child: FlutterRoundedCupertinoDatePickerWidget(
-                    minimumDate: DateTime(1900),
-                    maximumDate: DateTime.now(),
+                    minimumDate: DateTime.now(),
                     onDateTimeChanged: (value) {
                       setState(() {
                         dateSelect = value.toString();

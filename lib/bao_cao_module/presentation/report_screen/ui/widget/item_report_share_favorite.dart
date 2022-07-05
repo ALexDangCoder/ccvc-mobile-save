@@ -158,6 +158,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                           child: ChiaSeBaoCaoTablet(
                             idReport: widget.reportItem.id ?? '',
                             appId: widget.cubit.appId,
+                            type: widget.reportItem.type ?? 0,
                           ),
                         ),
                       );
@@ -172,6 +173,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                       return ChiaSeBaoCaoMobile(
                         idReport: widget.reportItem.id ?? '',
                         appId: widget.cubit.appId,
+                        type: widget.reportItem.type ?? 0,
                       );
                     },
                   );

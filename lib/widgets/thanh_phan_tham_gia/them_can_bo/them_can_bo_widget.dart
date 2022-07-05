@@ -113,6 +113,8 @@ class ThemCanBoScreen extends StatefulWidget {
   final bool checkUiCuCanBo;
   final ThemDonViCubit themDonViCubit;
  final TextEditingController? textController;
+  final String? hindText;
+
   const ThemCanBoScreen({
     Key? key,
     required this.cubit,
@@ -124,6 +126,7 @@ class ThemCanBoScreen extends StatefulWidget {
     this.checkStyle = true,
     this.checkUiCuCanBo = false,
     required this.themDonViCubit,
+    this.hindText,
     this.textController,
   }) : super(key: key);
 
@@ -164,27 +167,29 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                     return ShowRequied(
                       isShow: snapshot.data ?? true,
                       child: StreamBuilder<bool>(
-                          stream: widget.themDonViCubit.themDonViSubject,
-                          builder: (context, snapshot) {
-                            return SelectDonVi(
-                              isRequire: true,
-                              title: S.current.don_vi,
-                              cubit: widget.cubit,
-                              onChange: (value) {
-                                widget.themCanBoCubit.getCanBo(value);
-                                widget.themCanBoCubit.titleCanBo.sink.add('');
-                                widget.themDonViCubit.listDonVi.add(value);
-                                if (widget.themDonViCubit.listDonVi.isEmpty) {
-                                  widget.themDonViCubit.validateDonVi.sink
-                                      .add(true);
-                                } else {
-                                  widget.themDonViCubit.validateDonVi.sink
-                                      .add(false);
-                                }
-                              },
-                              themDonViCubit: widget.themDonViCubit,
-                            );
-                          }),
+                        stream: widget.themDonViCubit.themDonViSubject,
+                        builder: (context, snapshot) {
+                          return SelectDonVi(
+                            isRequire: true,
+                            title: S.current.don_vi,
+                            cubit: widget.cubit,
+                            hintText: widget.hindText,
+                            onChange: (value) {
+                              widget.themCanBoCubit.getCanBo(value);
+                              widget.themCanBoCubit.titleCanBo.sink.add('');
+                              widget.themDonViCubit.listDonVi.add(value);
+                              if (widget.themDonViCubit.listDonVi.isEmpty) {
+                                widget.themDonViCubit.validateDonVi.sink
+                                    .add(true);
+                              } else {
+                                widget.themDonViCubit.validateDonVi.sink
+                                    .add(false);
+                              }
+                            },
+                            themDonViCubit: widget.themDonViCubit,
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

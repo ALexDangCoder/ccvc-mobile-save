@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bi
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/phat_bieu_widget_tablet.dart';
 import 'package:flutter/material.dart';
 
 class StatePhatBieuWidget extends StatefulWidget {
@@ -99,31 +100,9 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   border: Border.all(color: toDayColor),
                 ),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: widget.cubit.buttonStatePhatBieu.length,
-                  itemBuilder: (context, index) {
-                    final data = widget.cubit.buttonStatePhatBieu;
-                    return buttonPhone(
-                      key: data[index].key ?? '',
-                      value: data[index].value.toString(),
-                      color: data[index].color ?? Colors.white,
-                      ontap: () {
-                        widget.cubit.getValueStatus(index);
-                        expand = !expand;
-                        _runExpandCheck();
-                        widget.cubit.buttonStatePhatBieuSubject.sink.add(
-                          ButtonStatePhatBieu(
-                            key: data[index].key ?? '',
-                            value: data[index].value ?? 0,
-                            color: data[index].color ?? Colors.white,
-                          ),
-                        );
-                        widget.cubit.selectPhatBieu.clear();
-                      },
-                    );
-                  },
+                child: buttonStatePhatBieu(
+                  cubit: widget.cubit,
+                  isHorizontal: false,
                 ),
               ),
             ),

@@ -3,7 +3,15 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-enum StateType { CHO_XAC_NHAN, THAM_GIA, TU_CHOI }
+enum StateType {
+  CHO_XAC_NHAN,
+  THAM_GIA,
+  TU_CHOI,
+  CHO_DUYET,
+  DA_DUYET,
+  CHUA_THUC_HIEN,
+  DA_THUC_HIEN
+}
 
 class ItemMenuData {
   StateType type;
@@ -40,11 +48,15 @@ class _PopUpMenuState extends State<PopUpMenu> {
           context,
         );
       },
-      child: Container(
-        width: 140,
-        key: _key,
-        color: Colors.transparent,
-        child: getMenuView(widget.initData, null),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            key: _key,
+            color: Colors.transparent,
+            child: getMenuView(widget.initData, null),
+          ),
+        ],
       ),
     );
   }
@@ -151,7 +163,11 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                         )
                       ],
                     ),
-                    padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    padding: const EdgeInsets.only(
+                      top: 16,
+                      left: 16,
+                      right: 16,
+                    ),
                     child: Column(
                       children: widget.data
                           .map(
@@ -159,10 +175,11 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                               onTap: () {
                                 widget.onDismiss.call(e);
                               },
-                              child: SizedBox(
-                                width: 140,
-                                  child: getMenuView(e, widget.currentItem)
-                              ),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    getMenuView(e, widget.currentItem)
+                                  ]),
                             ),
                           )
                           .toList(),
@@ -201,6 +218,30 @@ extension GetViewByTypeMenu on StateType {
           color: statusCalenderRed,
           value: value,
         );
+      case StateType.CHO_DUYET:
+        return ItemMenuView(
+          title: S.current.cho_duyet,
+          color: choVaoSoColor,
+          value: value,
+        );
+      case StateType.CHUA_THUC_HIEN:
+        return ItemMenuView(
+          title: S.current.chua_thuc_hien,
+          color: choVaoSoColor,
+          value: value,
+        );
+      case StateType.DA_THUC_HIEN:
+        return ItemMenuView(
+          title: S.current.da_thuc_hien,
+          color: itemWidgetUsing,
+          value: value,
+        );
+      case StateType.DA_DUYET:
+        return ItemMenuView(
+          title: S.current.da_duyet,
+          color: itemWidgetUsing,
+          value: value,
+        );
     }
   }
 }
@@ -228,6 +269,34 @@ Widget getMenuView(ItemMenuData dataItem ,ItemMenuData? itemSelect) {
         isSelect: itemSelect?.type == dataItem.type,
         title: S.current.tu_choi,
         color: statusCalenderRed,
+        value: dataItem.value,
+      );
+    case StateType.CHO_DUYET:
+      return ItemMenuView(
+        isSelect: itemSelect?.type == dataItem.type,
+        title: S.current.cho_duyet,
+        color: choVaoSoColor,
+        value: dataItem.value,
+      );
+    case StateType.CHUA_THUC_HIEN:
+      return ItemMenuView(
+        isSelect: itemSelect?.type == dataItem.type,
+        title: S.current.chua_thuc_hien,
+        color: choVaoSoColor,
+        value: dataItem.value,
+      );
+    case StateType.DA_THUC_HIEN:
+      return ItemMenuView(
+        isSelect: itemSelect?.type == dataItem.type,
+        title: S.current.da_thuc_hien,
+        color: itemWidgetUsing,
+        value: dataItem.value,
+      );
+    case StateType.DA_DUYET:
+      return ItemMenuView(
+        isSelect: itemSelect?.type == dataItem.type,
+        title: S.current.da_duyet,
+        color: itemWidgetUsing,
         value: dataItem.value,
       );
   }

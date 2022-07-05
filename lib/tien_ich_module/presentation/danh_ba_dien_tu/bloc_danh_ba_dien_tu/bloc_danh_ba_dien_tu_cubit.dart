@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -41,6 +42,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   BehaviorSubject<String> idDonVi = BehaviorSubject();
   BehaviorSubject<String> isCheckValidate = BehaviorSubject.seeded('  ');
   String searchValue = '';
+  Timer? _debounce;
 
   ////////////////////////////////////////////////////////////////////////
   DanhBaDienTuRepository get tienIchRep => Get.find();
@@ -485,9 +487,9 @@ extension TreeDanhBa on DanhBaDienTuCubit {
       listTreeDanhBaSubject.add(ans);
       return;
     }
-    List<TreeDonViDanhBA> result = [];
+    final List<TreeDonViDanhBA> result = [];
 
-    List<TreeDonViDanhBA> matches = listTreeDanhBa
+    final List<TreeDonViDanhBA> matches = listTreeDanhBa
         .where(
           (x) => x.tenDonVi
               .toLowerCase()
@@ -498,7 +500,8 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         .toList();
 
     void getParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {
-      final parent = treeAlls.where((element) => element.id == node.iDDonViCha).first;
+      final parent =
+          treeAlls.where((element) => element.id == node.iDDonViCha).first;
       if (!result.contains(parent)) {
         result.add(parent);
       }
@@ -514,6 +517,8 @@ extension TreeDanhBa on DanhBaDienTuCubit {
 
     ans.initTree(listNode: result);
     listTreeDanhBaSubject.add(ans);
+
+    print(listTreeDanhBaSubject.value.tree.length);
   }
 
   TreeDonViDanhBA init() {
@@ -521,5 +526,19 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     idDonVi.sink.add(listTreeDanhBa[0].id);
     tenDonVi.sink.add(listTreeDanhBa[0].tenDonVi);
     return listTreeDanhBa[0];
+  }
+
+  /// funtion delay
+  Future<void> waitToDelay({
+    required Function actionNeedDelay,
+    int? timeSecond,
+  }) async {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(
+        Duration(
+          milliseconds: (timeSecond ?? 1) * 1000,
+        ), () {
+      actionNeedDelay();
+    });
   }
 }

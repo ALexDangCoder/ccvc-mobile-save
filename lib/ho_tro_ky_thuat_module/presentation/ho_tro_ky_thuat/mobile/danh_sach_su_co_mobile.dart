@@ -59,8 +59,18 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
             setState(() {});
           },
           onClose: () {
-            widget.cubit.onClosePopupMenu();
-            setState(() {});
+            if (widget.cubit.listCheckPopupMenu[index ?? 0]) {
+              widget.cubit.onClosePopupMenu();
+              setState(() {});
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ChiTietHoTroMobile(
+                    idHoTro: value.id,
+                  ),
+                ),
+              );
+            }
           },
         ),
       ),
@@ -77,13 +87,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ChiTietHoTroMobile(idHoTro: ''),
-                ),
-              );
-            },
+            onTap: () {},
             child: SvgPicture.asset(
               ImageAssets.ic_search,
             ),

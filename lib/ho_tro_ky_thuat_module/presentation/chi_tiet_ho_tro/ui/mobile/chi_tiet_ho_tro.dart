@@ -33,7 +33,6 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
     super.initState();
     cubit = ChiTietHoTroCubit();
     cubit.getSupportDetail(widget.idHoTro);
-    cubit.getNguoiXuLy();
   }
 
   @override
@@ -73,7 +72,6 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
             ),
             retry: () {
               cubit.getSupportDetail(widget.idHoTro);
-              cubit.getNguoiXuLy();
             },
             textEmpty: '',
             child: (state is ChiTietHoTroSuccess)
@@ -124,7 +122,9 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             ),
                             spaceH10,
                             loaiSuCo(
-                              cubit.supportDetail.loaiSuCo ?? [],
+                              [
+                                cubit.supportDetail.loaiSuCo ?? '',
+                              ],
                             ),
                             spaceH20,
                             title(S.current.ket_qua_xu_ly),
@@ -187,7 +187,9 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                           color: Colors.white,
                           child: DoubleButtonBottom(
                             title1: S.current.dong,
-                            title2: S.current.cap_nhat_thxl,
+                            title2: cubit.isItSupport
+                                ? S.current.cap_nhat_thxl
+                                : S.current.danh_gia,
                             onPressed1: () {},
                             onPressed2: () {
                               showModalBottomSheet(
@@ -195,7 +197,15 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                                 isScrollControlled: true,
                                 context: context,
                                 builder: (_) {
-                                  return CapNhatTinhHinhHoTro();
+                                  if (cubit.isItSupport) {
+                                    return CapNhatTinhHinhHoTro(
+                                      cubit: cubit,
+                                    );
+                                  } else {
+                                    return DanhGiaYeuCauHoTro(
+                                      cubit: cubit,
+                                    );
+                                  }
                                 },
                               );
                             },

@@ -15,6 +15,7 @@ class TextFieldValidator extends StatefulWidget {
   final Function()? onTap;
   final TextInputType? textInputType;
   final int maxLine;
+  final int? maxLength;
   final String? hintText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -25,6 +26,7 @@ class TextFieldValidator extends StatefulWidget {
   const TextFieldValidator({
     Key? key,
     this.controller,
+    this.maxLength,
     this.inputFormatters,
     this.isEnabled = true,
     this.onChange,
@@ -86,6 +88,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,
+        maxLength: widget.maxLength,
         inputFormatters: widget.inputFormatters,
         maxLines: widget.maxLine,
         onTap: () {

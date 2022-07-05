@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_state.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart';
@@ -16,7 +17,7 @@ import 'package:rxdart/rxdart.dart';
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
 
-  static const DANG_CHO_XU_LY = 'Đang chờ sử lý';
+  static const DANG_CHO_XU_LY = 'Đang chờ xử lý';
   static const DANG_XU_LY = 'Đang xử lý';
   static const DA_XU_LY = 'Đã xử lý';
   static const TU_CHOI_XU_LY = 'Từ chối xử lý';
@@ -31,6 +32,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   BehaviorSubject<List<TongDaiModel>> listTongDai = BehaviorSubject.seeded([]);
   BehaviorSubject<List<ThanhVien>> listCanCoHTKT = BehaviorSubject.seeded([]);
   BehaviorSubject<List<CategoryModel>> listKhuVuc = BehaviorSubject.seeded([]);
+  BehaviorSubject<List<CategoryModel>> listLoaiSuCo =
+      BehaviorSubject.seeded([]);
   BehaviorSubject<List<ChildCategories>> listToaNha =
       BehaviorSubject.seeded([]);
 
@@ -107,6 +110,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showLoading();
     await getNguoiXuLy();
     await getTongDai();
+    await getCategory(query: 'loai-su-co');
     await getCategory();
     showContent();
   }
@@ -137,14 +141,17 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
-  Future<void> getCategory() async {
-    //todo
+  Future<void> getCategory({String query = 'khu-vuc'}) async {
     final Result<List<CategoryModel>> result =
-        await _hoTroKyThuatRepository.getCategory('khu-vuc');
+        await _hoTroKyThuatRepository.getCategory(query);
     result.when(
       success: (res) {
-        listKhuVuc.add(res);
-        listToaNha.add(res.first.childCategories ?? []);
+        if (query == 'khu-vuc') {
+          listKhuVuc.add(res);
+          listToaNha.add(res.first.childCategories ?? []);
+        } else {
+          listLoaiSuCo.sink.add(res);
+        }
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));
@@ -159,4 +166,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         listText.first.substring(0, 1) + listText.last.substring(0, 1);
     return result;
   }
+
+  ///Huy
+  final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();
 }

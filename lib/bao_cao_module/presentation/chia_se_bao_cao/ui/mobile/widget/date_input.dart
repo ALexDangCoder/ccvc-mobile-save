@@ -40,7 +40,7 @@ class _DateInputState extends State<DateInput> {
       controller: textController,
       hintText: DateFormatApp.date,
       validator: (value) {
-        if(value?.isEmpty ?? true){
+        if (value?.isEmpty ?? true) {
           return null;
         }
         try {
@@ -53,10 +53,9 @@ class _DateInputState extends State<DateInput> {
       },
       suffixIcon: GestureDetector(
         onTap: () {
-          DateTime initDate = DateTime.tryParse(
-                dateSelect ?? '',
-              ) ??
-              DateTime(2000);
+          DateTime initDate = DateFormat(DateFormatApp.date).parse(
+            textController.text,
+          );
           final dateSince = initDate.millisecondsSinceEpoch;
           if (dateSince < DateTime(1900).millisecondsSinceEpoch ||
               dateSince > DateTime.now().millisecondsSinceEpoch) {
@@ -76,9 +75,6 @@ class _DateInputState extends State<DateInput> {
                       setState(() {
                         dateSelect = value.toString();
                       });
-                      textController.text = DateTime.parse(dateSelect ?? '')
-                          .toStringWithListFormat;
-                      widget.onSelectDate(value.toString());
                     },
                     textStyleDate: titleAppbar(),
                     initialDateTime: initDate,
@@ -93,6 +89,8 @@ class _DateInputState extends State<DateInput> {
                     title2: S.current.chon,
                     title1: S.current.dong,
                     onPressed2: () {
+                      textController.text = DateTime.parse(dateSelect ?? '')
+                          .toStringWithListFormat;
                       widget.onSelectDate(dateSelect);
                       Navigator.pop(context);
                     },

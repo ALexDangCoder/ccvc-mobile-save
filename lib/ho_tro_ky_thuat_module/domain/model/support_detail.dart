@@ -13,7 +13,7 @@ class SupportDetail {
   String? nguoiXuLy;
   String? nhanXet;
   String? ngayHoanThanh;
-  String? loaiSuCo;
+  List<String>? danhSachSuCo;
 
   SupportDetail({
     this.id,
@@ -30,6 +30,6 @@ class SupportDetail {
     this.nguoiXuLy,
     this.nhanXet,
     this.ngayHoanThanh,
-    this.loaiSuCo
+    this.danhSachSuCo
   });
 }

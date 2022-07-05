@@ -18,7 +18,6 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
-
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -440,6 +439,7 @@ enum StatusWorkCalendar {
   LICH_DUYET_KY_THUAT,
   LICH_YEU_CAU_CHUAN_BI,
   LICH_CAN_DUYET,
+  LICH_LANH_DAO,
 }
 
 extension StatusWorkCalendarExt on StatusWorkCalendar {
@@ -475,6 +475,8 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
         return S.current.lich_hop_duyet_yeu_cau_tb;
       case StatusWorkCalendar.LICH_CAN_DUYET:
         return S.current.lich_hop_can_duyet;
+      case StatusWorkCalendar.LICH_LANH_DAO:
+        return S.current.lich_hop_lanh_dao;
     }
   }
 }

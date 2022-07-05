@@ -20,7 +20,6 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/menu_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
-
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -391,10 +390,14 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isLichHuyBo: typeCalender == StatusWorkCalendar.LICH_HUY,
         isLichTaoHo: typeCalender == StatusWorkCalendar.LICH_TAO_HO,
         isDuyetLich: typeCalender == StatusWorkCalendar.CHO_DUYET,
-        isLichThamGia: stateType == StateType.THAM_GIA,
+        isLichThamGia:
+            stateType == StateType.THAM_GIA || stateType == StateType.DA_DUYET,
         isLichTuChoi: stateType == StateType.TU_CHOI,
-        isChoXacNhan:
-            stateType != StateType.TU_CHOI && stateType != StateType.THAM_GIA,
+        isChoXacNhan: stateType == StateType.CHO_XAC_NHAN ||
+            stateType == StateType.CHO_DUYET ||
+            stateType == StateType.CHUA_THUC_HIEN,
+        isChuaChuanBi: stateType == StateType.CHUA_THUC_HIEN,
+        isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,

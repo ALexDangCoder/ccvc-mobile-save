@@ -111,7 +111,6 @@ class _ButtonSelectFileLichLamViecState
                   final listSelect =
                       result.paths.map((path) => File(path ?? '')).toList();
                   if (widget.maxSize != null) {
-                    bool isOverSize = false;
                     for (int i = 0; i < listSelect.length; i++) {
                       if (listSelect[i].lengthSync() > widget.maxSize!) {
                         listFileValidate.add(
@@ -120,8 +119,6 @@ class _ButtonSelectFileLichLamViecState
                             isOversize: true,
                           ),
                         );
-                        listSelect.removeAt(i);
-                        isOverSize = true;
                       } else {
                         listFileValidate.add(
                           FileValidate(
@@ -141,7 +138,11 @@ class _ButtonSelectFileLichLamViecState
                       );
                     });
                   }
-                  widget.files?.addAll(listSelect);
+                  listFileValidate.forEach((element) {
+                    if (!element.isOversize) {
+                      widget.files?.add(element.file);
+                    }
+                  });
                 } else {
                   widget.files =
                       result.paths.map((path) => File(path!)).toList();

@@ -6,8 +6,10 @@ class ApiConstants {
   static const String DANH_SACH_SU_CO = '/htkt/api/Task/get-all';
   static const String GET_TONG_DAI = '/htkt/api/CmsSupporters/get-sysconfig';
 
-  static const String GET_SUPPORT_DETAIL = 'api/Task/get-by-id';
+  static const String GET_SUPPORT_DETAIL = '/htkt//api/Task/get-by-id';
   static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
+  static const String GET_CATEGORY='/htkt/api/Category/get-tree';
+  static const String GET_CHART_SU_CO='/htkt/api/Task/thong-ke-khu-vuc';
 }
 
 class ImageConstants {

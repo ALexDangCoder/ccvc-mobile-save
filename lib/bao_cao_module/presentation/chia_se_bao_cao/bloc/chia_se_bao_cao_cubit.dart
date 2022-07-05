@@ -32,6 +32,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   static const int NEW_USER = 2;
 
   String idReport = '';
+  int sourceType = 0;
 
   ReportRepository get _repo => get_dart.Get.find();
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
@@ -122,6 +123,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     String? position,
     String? unit,
     String? description,
+    int? sourceType,
   }) async {
     final Map<String, String> mapData = {
       'email': email ?? '',
@@ -158,6 +160,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
           final ShareReport map = ShareReport(
             groupId: element.idNhom,
             type: COMMON,
+            sourceType: sourceType,
           );
           mapData.add(map);
         }
@@ -169,15 +172,17 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
           final ShareReport map = ShareReport(
             userId: element,
             type: HAS_USER,
+            sourceType: sourceType,
           );
           mapData.add(map);
-          mes = await shareReport(mapData, idReport: idReport);
         }
+        mes = await shareReport(mapData, idReport: idReport);
         break;
       case Share.NEW_USER:
         final ShareReport map = ShareReport(
           newUser: newUser,
           type: NEW_USER,
+          sourceType: sourceType,
         );
         mapData.add(map);
         mes = await shareReport(mapData, idReport: idReport);

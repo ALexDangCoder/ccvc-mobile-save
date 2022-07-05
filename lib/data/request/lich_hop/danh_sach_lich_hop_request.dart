@@ -12,6 +12,7 @@ class DanhSachLichHopRequest {
   int? PageIndex;
   int? PageSize;
   String? Title;
+
   bool? isLichCuaToi;
   bool? isLichDuocMoi;
   bool? isLichHuyBo;
@@ -27,6 +28,12 @@ class DanhSachLichHopRequest {
   bool? isDaCoBaoCao;
   bool? isChoXacNhan;
   bool? isDuyetPhong;
+  bool? isLichDonVi;
+  bool? isPreviewPhong;
+  bool? isChuaChuanBi;
+  bool? isDaChuanBi;
+  bool? isDuyetKyThuat;
+  int? trangThaiDuyetKyThuat;
 
   DanhSachLichHopRequest({
     this.DateFrom,
@@ -52,6 +59,12 @@ class DanhSachLichHopRequest {
     this.isDaCoBaoCao,
     this.isChoXacNhan,
     this.isDuyetPhong,
+    this.isLichDonVi,
+    this.isPreviewPhong,
+    this.isChuaChuanBi,
+    this.isDaChuanBi,
+    this.isDuyetKyThuat,
+    this.trangThaiDuyetKyThuat,
   });
 
   factory DanhSachLichHopRequest.fromJson(Map<String, dynamic> json) =>

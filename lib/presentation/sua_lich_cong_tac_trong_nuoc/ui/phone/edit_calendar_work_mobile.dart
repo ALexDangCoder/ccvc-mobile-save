@@ -381,8 +381,12 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 TaiLieuWidget(
                                   files: createCubit.files ?? [],
                                   onChange: (files, value) {
-                                    createCubit.filesTaoLich = files;
-                                    chooseFileValidatorValue = !value;
+                                    if (!value) {
+                                      createCubit.filesTaoLich = files;
+                                      chooseFileValidatorValue = !value;
+                                    } else {
+                                      chooseFileValidatorValue = !value;
+                                    }
                                   },
                                   idRemove: (String id) {
                                     createCubit.filesDelete.add(id);

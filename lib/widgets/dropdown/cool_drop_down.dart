@@ -10,7 +10,7 @@ class CoolDropDown extends StatefulWidget {
   final Function(int) onChange;
   final List<String> listData;
   final double? setWidth;
-  final useCustomHintColors;
+  final bool useCustomHintColors;
 
   const CoolDropDown({
     Key? key,

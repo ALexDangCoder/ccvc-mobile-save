@@ -65,12 +65,8 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: List.generate(widget.listTitle.length, (index) {
                     return Container(
-                      margin: const EdgeInsets.only(
-                        right: 8,
-                        top: 10,
-                        bottom: 10,
-                        left: 16,
-                      ),
+                      margin:
+                          const EdgeInsets.only(right: 8, top: 20, left: 16),
                       child: Text(
                         widget.listTitle[index],
                         textAlign: TextAlign.right,

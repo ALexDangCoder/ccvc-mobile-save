@@ -26,7 +26,6 @@ class DanhSachCongViecTienIchCubit
   String dateChange = '';
   String? noteChange;
   String? titleChange;
-  String filePath = '';
   int countLoadMore = 1;
   TextEditingController searchControler = TextEditingController();
   Timer? _debounce;
@@ -35,7 +34,7 @@ class DanhSachCongViecTienIchCubit
   String groupId = '';
 
   ///Stream
-  BehaviorSubject<List<TodoDSCVModel>> listDSCV = BehaviorSubject();
+  BehaviorSubject<List<TodoDSCVModel>> listDSCVStream = BehaviorSubject();
 
   BehaviorSubject<String> titleAppBar = BehaviorSubject();
 
@@ -82,7 +81,7 @@ class DanhSachCongViecTienIchCubit
           isLoadmore: isLoadmore,
           inUsed: true,
           pageSize: 10,
-          pageIndex: pageIndex,
+          pageIndex: pageIndex ?? 1,
           searchWord: textSearch,
         );
       case DSCVScreen.CVQT:
@@ -91,7 +90,7 @@ class DanhSachCongViecTienIchCubit
           inUsed: true,
           isImportant: true,
           pageSize: pageSize ?? 10,
-          pageIndex: pageIndex,
+          pageIndex: pageIndex ?? 1,
           searchWord: textSearch,
         );
       case DSCVScreen.DHT:
@@ -100,7 +99,7 @@ class DanhSachCongViecTienIchCubit
           inUsed: true,
           isTicked: true,
           searchWord: textSearch,
-          pageIndex: pageIndex,
+          pageIndex: pageIndex ?? 1,
           pageSize: pageSize ?? 10,
         );
       case DSCVScreen.DG:
@@ -110,7 +109,7 @@ class DanhSachCongViecTienIchCubit
           isLoadmore: isLoadmore,
           inUsed: false,
           searchWord: textSearch,
-          pageIndex: pageIndex,
+          pageIndex: pageIndex ?? 1,
           pageSize: pageSize ?? 10,
         );
       case DSCVScreen.NCVM:
@@ -118,7 +117,7 @@ class DanhSachCongViecTienIchCubit
           isLoadmore: isLoadmore,
           inUsed: true,
           pageSize: pageSize ?? 10,
-          pageIndex: pageIndex,
+          pageIndex: pageIndex ?? 1,
           groupId: groupId ?? this.groupId,
           searchWord: textSearch,
         );
@@ -191,12 +190,11 @@ class DanhSachCongViecTienIchCubit
       success: (res) {
         showContent();
         if (res.isNotEmpty) {
-          listDSCV.sink.add(res);
+          listDSCVStream.sink.add(res);
         }
       },
       error: (err) {
         showError();
-        countLoadMore--;
         return false;
       },
     );
@@ -216,7 +214,7 @@ class DanhSachCongViecTienIchCubit
   }) async {
     showLoading();
     final result = await tienIchRep.getAllListDSCVWithFilter(
-      countLoadMore,
+      pageIndex,
       pageSize ?? 10,
       searchWord,
       isImportant,
@@ -227,12 +225,14 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         showContent();
-        final List<TodoDSCVModel> data = listDSCV.valueOrNull ?? [];
-        if (isLoadmore ?? false) {
+        final List<TodoDSCVModel> data = listDSCVStream.valueOrNull ?? [];
+        if (isLoadmore == true) {
           data.addAll(res);
+        } else {
+          listDSCVStream.sink.add(res);
+          return true;
         }
-
-        listDSCV.sink.add((isLoadmore ?? false) ? res : data);
+        listDSCVStream.sink.add(data);
         return true;
       },
       error: (err) {
@@ -264,7 +264,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// them moi cong viec
-  Future<void> addTodo() async {
+  Future<void> addTodo({String? fileName}) async {
     if (titleChange != '') {
       showLoading();
       final result = await tienIchRep.createTodo(
@@ -280,19 +280,18 @@ class DanhSachCongViecTienIchCubit
           performer: dataNguoiThucHienModel.id == ''
               ? null
               : nguoiThucHienSubject.value.id,
-          filePath: filePath,
+          filePath: fileName,
         ),
       );
-      await result.when(
-        success: (res) async {
+      result.when(
+        success: (res) {
           showContent();
-          final data = listDSCV.value;
+          final data = listDSCVStream.value;
           data.insert(
             0,
             res,
           );
-          listDSCV.sink.add(data);
-          await callAndFillApiAuto();
+          listDSCVStream.sink.add(data);
           closeDialog();
         },
         error: (err) {
@@ -311,8 +310,8 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.createNhomCongViecMoi(label);
     result.when(
       success: (res) {
-        showContent();
         getCountTodoAndMenu();
+        showContent();
       },
       error: (err) {
         showError();
@@ -347,7 +346,6 @@ class DanhSachCongViecTienIchCubit
         showContent();
         titleAppBar.sink.add(S.current.cong_viec_cua_ban);
         statusDSCV.sink.add(DSCVScreen.CVCB);
-        getCountTodoAndMenu();
       },
       error: (err) {
         showError();
@@ -368,6 +366,7 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isDeleted,
     String? filePathTodo,
+    bool? isDeleteFile,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
@@ -410,37 +409,31 @@ class DanhSachCongViecTienIchCubit
         performer: dataNguoiThucHienModel.id == ''
             ? null
             : nguoiThucHienSubject.value.id,
-        filePath: (filePathTodo ?? '').isNotEmpty
-            ? checkDataFile(
-                changeData: filePathTodo,
-                defaultData: todo.filePath,
-              )
-            : filePath,
+        filePath:
+            checkDataFile(changeData: filePathTodo, defaultData: todo.filePath),
       ),
     );
     result.when(
       success: (res) {
-        filePath = '';
-        final data = listDSCV.value;
+        final data = listDSCVStream.valueOrNull ?? [];
         if (isTicked != null) {
-          data.remove(todo);
           data.insert(0, res);
-          listDSCV.sink.add(data);
+          data.remove(todo);
+          listDSCVStream.sink.add(data);
         }
         if (important != null) {
-          data.remove(todo);
-          data[0] = res;
-          listDSCV.sink.add(data);
+          data[data.lastIndexOf(todo)] = res;
+          listDSCVStream.sink.add(data);
         }
         if (inUsed != null) {
           data.remove(todo);
-          listDSCV.sink.add(data);
+          listDSCVStream.sink.add(data);
         }
         if (isDeleted != null) {}
         if (filePathTodo != null) {
-          nameFile.sink.add('');
+          data[data.lastIndexOf(todo)] = res;
+          listDSCVStream.sink.add(data);
         }
-        callAndFillApiAuto();
       },
       error: (err) {
         showError();
@@ -512,19 +505,22 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///up file
-  Future<void> uploadFilesWithFile(File file) async {
+  Future<String> uploadFilesWithFile(File file) async {
+    String filePath = '';
     showLoading();
     final result = await tienIchRep.uploadFileDSCV(file);
     result.when(
       success: (res) {
+        nameFile.sink.add(res.data?.filePath ?? '');
         filePath = res.data?.filePath ?? '';
       },
       error: (error) {},
     );
     showContent();
+    return filePath;
   }
 
-  ///xóa cong viec
+  ///xóa cong viec vinh vien
   Future<void> xoaCongViecVinhVien(
     String idCv,
     TodoDSCVModel todo,
@@ -532,10 +528,9 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        final data = listDSCV.value;
+        final data = listDSCVStream.value;
         data.remove(todo);
-        listDSCV.sink.add(data);
-        callAndFillApiAuto();
+        listDSCVStream.sink.add(data);
       },
       error: (error) {
         showError();

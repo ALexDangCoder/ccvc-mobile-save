@@ -35,18 +35,18 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
           onPressed1: () {
             Navigator.pop(context);
           },
-          onPressed2: () {
-            widget.cubit.themYKien(
+          onPressed2: () async {
+            Navigator.pop(context);
+            await widget.cubit.themYKien(
               yKien: yKien.text,
               idLichHop: widget.id,
               phienHopId: widget.cubit.getPhienHopId,
               scheduleOpinionId: '',
             );
-            widget.cubit.getDanhSachYKien(
+            await widget.cubit.getDanhSachYKien(
               widget.id,
               widget.cubit.getPhienHopId,
             );
-            Navigator.pop(context);
           },
         ),
       ),
@@ -65,27 +65,28 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
             ),
           ),
           StreamBuilder<List<PhienhopModel>>(
-              stream: widget.cubit.phienHop.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                if(data.isNotEmpty && data.first.key != S.current.cuoc_hop){
-                  data.insert(
-                    0,
-                    PhienhopModel(
-                      key: widget.id,
-                      value: S.current.cuoc_hop,
-                    ),
-                  );
-                }
-                final listCuocHop = data.map((e) => e.value ?? '').toList();
-                return CustomDropDown(
-                  value: S.current.cuoc_hop,
-                  items: listCuocHop,
-                  onSelectItem: (value) {
-                    widget.cubit.getPhienHopId = data[value].value ?? '';
-                  },
+            stream: widget.cubit.phienHop.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              if (data.isNotEmpty && data.first.key != S.current.cuoc_hop) {
+                data.insert(
+                  0,
+                  PhienhopModel(
+                    key: widget.id,
+                    value: S.current.cuoc_hop,
+                  ),
                 );
-              }),
+              }
+              final listCuocHop = data.map((e) => e.value ?? '').toList();
+              return CustomDropDown(
+                value: S.current.cuoc_hop,
+                items: listCuocHop,
+                onSelectItem: (value) {
+                  widget.cubit.getPhienHopId = data[value].value ?? '';
+                },
+              );
+            },
+          ),
           HeightSp(16),
           ItemTextFieldWidget(
             hint: '',

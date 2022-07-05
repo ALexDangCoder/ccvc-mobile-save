@@ -31,7 +31,6 @@ class _DanhSachCongViecTienIchMobileState
   int pageSize = 10;
   bool isInRefresh = false;
   BehaviorSubject<bool> inLoadmore = BehaviorSubject.seeded(false);
-  ScrollController controlerScroll = ScrollController();
 
   @override
   void initState() {
@@ -62,26 +61,18 @@ class _DanhSachCongViecTienIchMobileState
               inLoadmore.sink.add(true);
               if (!isInRefresh &&
                   scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent &&
-                  (cubit.listDSCV.valueOrNull ?? []).length >=
-                      10 * cubit.countLoadMore) {
+                      scrollInfo.metrics.maxScrollExtent) {
                 cubit.waitToDelay(
                   actionNeedDelay: () {
-                    cubit
-                        .callAPITheoFilter(
-                          textSearch: textSearch,
-                          pageIndex: cubit.countLoadMore == 1
-                              ? 2
-                              : cubit.countLoadMore,
-                        )
-                        .then(
-                          (value) => cubit.countLoadMore++,
-                        );
+                    cubit.callAPITheoFilter(
+                      isLoadmore: true,
+                      textSearch: textSearch,
+                      pageIndex: ++cubit.countLoadMore,
+                    );
                   },
                   timeSecond: 1,
                 );
               }
-
               inLoadmore.sink.add(false);
               return true;
             },
@@ -95,139 +86,150 @@ class _DanhSachCongViecTienIchMobileState
                   actionNeedDelay: () {
                     cubit.callAPITheoFilter(
                       textSearch: textSearch,
-                      pageIndex: cubit.countLoadMore,
-                      pageSize: pageSize * cubit.countLoadMore,
+                      pageIndex: 1,
+                      pageSize: 10,
                     );
                     isInRefresh = false;
                   },
                   timeSecond: 1,
                 );
+                cubit.countLoadMore = 1;
               },
               child: SingleChildScrollView(
-                controller: controlerScroll,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: StreamBuilder<String>(
                   stream: cubit.statusDSCV.stream,
                   builder: (context, snapshotType) {
                     final dataType = snapshotType.data ?? '';
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
+                    return Stack(
                       children: [
-                        searchWidgetDscv(
-                          cubit: cubit,
-                          textSearch: (value) {
-                            textSearch = value;
-                          },
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            searchWidgetDscv(
+                              cubit: cubit,
+                              textSearch: (value) {
+                                textSearch = value;
+                              },
+                            ),
+
+                            /// list up
+                            if (dataType == DSCVScreen.CVCB ||
+                                dataType == DSCVScreen.CVQT ||
+                                dataType == DSCVScreen.DG ||
+                                dataType == DSCVScreen.NCVM ||
+                                dataType == DSCVScreen.DBX)
+                              StreamBuilder<List<TodoDSCVModel>>(
+                                stream: cubit.listDSCVStream.stream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data
+                                          ?.where(
+                                            (element) =>
+                                                dataType != DSCVScreen.DBX
+                                                    ? element.isTicked == false
+                                                    : element.inUsed == false,
+                                          )
+                                          .toList() ??
+                                      [];
+                                  if (data.isNotEmpty) {
+                                    return Column(
+                                      children: [
+                                        if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.NCVM)
+                                          textTitle(
+                                            S.current.gan_cho_toi,
+                                            data.length,
+                                          ),
+                                        ListUpDSCV(
+                                          data: data,
+                                          cubit: cubit,
+                                          dataType: dataType,
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 30),
+                                    child: Column(
+                                      children: [
+                                        if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.NCVM)
+                                          textTitle(
+                                            S.current.gan_cho_toi,
+                                            data.length,
+                                          ),
+                                        const NodataWidget(),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+
+                            /// list down
+                            if (dataType == DSCVScreen.CVCB ||
+                                dataType == DSCVScreen.DHT ||
+                                dataType == DSCVScreen.NCVM)
+                              StreamBuilder<List<TodoDSCVModel>>(
+                                stream: cubit.listDSCVStream.stream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data
+                                          ?.where(
+                                            (element) =>
+                                                element.isTicked == true,
+                                          )
+                                          .toList() ??
+                                      [];
+                                  if (data.isNotEmpty) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.NCVM)
+                                          textTitle(
+                                            S.current.da_hoan_thanh,
+                                            data.length,
+                                          ),
+                                        ListDownDSCV(
+                                          data: data,
+                                          dataType: dataType,
+                                          cubit: cubit,
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 30),
+                                    child: Column(
+                                      children: [
+                                        if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.NCVM)
+                                          textTitle(
+                                            S.current.da_hoan_thanh,
+                                            data.length,
+                                          ),
+                                        const NodataWidget(),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                          ],
                         ),
-
-                        /// list up
-                        if (dataType == DSCVScreen.CVCB ||
-                            dataType == DSCVScreen.CVQT ||
-                            dataType == DSCVScreen.DG ||
-                            dataType == DSCVScreen.NCVM ||
-                            dataType == DSCVScreen.DBX)
-                          StreamBuilder<List<TodoDSCVModel>>(
-                            stream: cubit.listDSCV.stream,
+                        Positioned(
+                          bottom: 20,
+                          child: StreamBuilder<bool>(
+                            stream: inLoadmore,
                             builder: (context, snapshot) {
-                              final data = snapshot.data
-                                      ?.where(
-                                        (element) => dataType != DSCVScreen.DBX
-                                            ? element.isTicked == false
-                                            : element.inUsed == false,
-                                      )
-                                      .toList() ??
-                                  [];
-                              if (data.isNotEmpty) {
-                                return Column(
-                                  children: [
-                                    if (dataType == DSCVScreen.CVCB ||
-                                        dataType == DSCVScreen.NCVM)
-                                      textTitle(
-                                        S.current.gan_cho_toi,
-                                        data.length,
-                                      ),
-                                    ListUpDSCV(
-                                      data: data,
-                                      cubit: cubit,
-                                      dataType: dataType,
-                                    ),
-                                  ],
-                                );
+                              if (snapshot.data ?? false) {
+                                return LoadingItem();
                               }
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 30),
-                                child: Column(
-                                  children: [
-                                    if (dataType == DSCVScreen.CVCB ||
-                                        dataType == DSCVScreen.NCVM)
-                                      textTitle(
-                                        S.current.gan_cho_toi,
-                                        data.length,
-                                      ),
-                                    const NodataWidget(),
-                                  ],
-                                ),
-                              );
+                              return const SizedBox();
                             },
                           ),
-
-                        /// list down
-                        if (dataType == DSCVScreen.CVCB ||
-                            dataType == DSCVScreen.DHT ||
-                            dataType == DSCVScreen.NCVM)
-                          StreamBuilder<List<TodoDSCVModel>>(
-                            stream: cubit.listDSCV.stream,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data
-                                      ?.where(
-                                        (element) => element.isTicked == true,
-                                      )
-                                      .toList() ??
-                                  [];
-                              if (data.isNotEmpty) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (dataType == DSCVScreen.CVCB ||
-                                        dataType == DSCVScreen.NCVM)
-                                      textTitle(
-                                        S.current.da_hoan_thanh,
-                                        data.length,
-                                      ),
-                                    ListDownDSCV(
-                                      data: data,
-                                      dataType: dataType,
-                                      cubit: cubit,
-                                    ),
-                                  ],
-                                );
-                              }
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 30),
-                                child: Column(
-                                  children: [
-                                    if (dataType == DSCVScreen.CVCB ||
-                                        dataType == DSCVScreen.NCVM)
-                                      textTitle(
-                                        S.current.da_hoan_thanh,
-                                        data.length,
-                                      ),
-                                    const NodataWidget(),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        StreamBuilder<bool>(
-                          stream: inLoadmore,
-                          builder: (context, snapshot) {
-                            return snapshot.data ?? false
-                                ? LoadingItem()
-                                : const SizedBox();
-                          },
                         )
                       ],
                     );

@@ -87,6 +87,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
   List<DonViModel> listDataCanBo = [];
+  Timer? _debounce;
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
       key: S.current.danh_sach_phat_bieu,
@@ -417,4 +418,18 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   bool phuongThucNhan = false;
 
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
+
+  /// funtion delay
+  Future<void> waitToDelay({
+    required Function actionNeedDelay,
+    required int timeSecond,
+  }) async {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(
+        Duration(
+          milliseconds: timeSecond * 1000,
+        ), () {
+      actionNeedDelay();
+    });
+  }
 }

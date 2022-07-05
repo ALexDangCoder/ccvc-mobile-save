@@ -269,7 +269,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                       btnLeftTxt: S.current.huy,
                       btnRightTxt: S.current.dong_y,
                       funcBtnRight: () {
-                        widget.cubit.chiaSeBaoCao(Share.HAS_USER).then((value) {
+                        widget.cubit.chiaSeBaoCao(Share.HAS_USER,).then((value) {
                           if (value == 'Thành công') {
                             MessageConfig.show(title: value);
                           } else {

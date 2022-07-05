@@ -45,6 +45,11 @@ class _DateInputState extends State<DateInput> {
         }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
+          if (DateFormat(DateFormatApp.date).parse(value ?? '').millisecond -
+              DateTime.now().millisecond <
+              0) {
+            return 'Ngày hoàn thành cần lớn hơn ngày hiện tại.';
+          }
           dateSelect = inputDate.toString();
           widget.onSelectDate(dateSelect);
         } catch (_) {
@@ -53,14 +58,7 @@ class _DateInputState extends State<DateInput> {
       },
       suffixIcon: GestureDetector(
         onTap: () {
-          DateTime initDate = DateFormat(DateFormatApp.date).parse(
-            textController.text,
-          );
-          final dateSince = initDate.millisecondsSinceEpoch;
-          if (dateSince < DateTime(1900).millisecondsSinceEpoch ||
-              dateSince > DateTime.now().millisecondsSinceEpoch) {
-            initDate = DateTime(2000);
-          }
+          final DateTime initDate = DateTime.now();
           showBottomSheetCustom(
             context,
             title: S.current.chon_ngay,
@@ -69,12 +67,14 @@ class _DateInputState extends State<DateInput> {
                 SizedBox(
                   height: 300,
                   child: FlutterRoundedCupertinoDatePickerWidget(
-                    minimumDate: DateTime(1900),
-                    maximumDate: DateTime.now(),
+                    minimumDate: DateTime.now(),
                     onDateTimeChanged: (value) {
                       setState(() {
                         dateSelect = value.toString();
                       });
+                      textController.text = DateTime.parse(dateSelect ?? '')
+                          .toStringWithListFormat;
+                      widget.onSelectDate(value.toString());
                     },
                     textStyleDate: titleAppbar(),
                     initialDateTime: initDate,
@@ -89,8 +89,6 @@ class _DateInputState extends State<DateInput> {
                     title2: S.current.chon,
                     title1: S.current.dong,
                     onPressed2: () {
-                      textController.text = DateTime.parse(dateSelect ?? '')
-                          .toStringWithListFormat;
                       widget.onSelectDate(dateSelect);
                       Navigator.pop(context);
                     },

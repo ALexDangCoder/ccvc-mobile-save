@@ -7,7 +7,7 @@
   "error_network": "No internet!",
   "retry": "Retry",
   "unauthorized": "Your session has expired. Please sign in.",
-  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cập",
+  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cấp",
   "them_moi_doi_tuong": "Thêm mới đối tượng",
   "search": "Search...",
   "gui_yc": "Gửi yêu cầu",

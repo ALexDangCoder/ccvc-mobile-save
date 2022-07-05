@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -26,6 +27,7 @@ import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info/package_info.dart';
@@ -127,13 +129,23 @@ class _MenuScreenState extends State<MenuScreen> {
                                   final type = data[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (_, __, ___) =>
-                                              type.getScreen(),
-                                        ),
-                                      );
+                                      if(Platform.isIOS){
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                       builder: (context) =>
+                                                type.getScreen(),
+                                          ),
+                                        );
+                                      }else {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (_, __, ___) =>
+                                                type.getScreen(),
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: MenuCellWidget(
                                       title: type.getItem().title,
@@ -166,13 +178,23 @@ class _MenuScreenState extends State<MenuScreen> {
                                 if (type == MenuType.chuyenPhamVi) {
                                   showChuyenPhamVi();
                                 } else {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) =>
-                                          type.getScreen(),
-                                    ),
-                                  );
+                                  if(Platform.isIOS){
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) =>
+                                            type.getScreen(),
+                                      ),
+                                    );
+                                  }else {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (_, __, ___) =>
+                                            type.getScreen(),
+                                      ),
+                                    );
+                                  }
                                 }
                               },
                               child: MenuCellWidget(

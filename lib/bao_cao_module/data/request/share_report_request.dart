@@ -10,6 +10,8 @@ class ShareReport {
   String? groupId;
   @JsonKey(name: 'type')
   int? type;
+  @JsonKey(name: 'sourceType')
+  int? sourceType;
   @JsonKey(name: 'expiredDate')
   String? expiredDate;
   @JsonKey(name: 'newUser')
@@ -21,6 +23,7 @@ class ShareReport {
     this.type,
     this.expiredDate,
     this.newUser,
+    this.sourceType,
   });
 
   Map<String, dynamic> toJson() => _$ShareReportToJson(this);

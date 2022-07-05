@@ -70,13 +70,12 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () async {
-                if (noiDungController.text.isEmpty) {
+                if (noiDungController.text.isEmpty ||
+                    widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
+                    widget.cubit.listDanhSach.isEmpty) {
                   formKeyNoiDung.currentState!.validate();
                   setState(() {});
-                } else if (widget.cubit.cacLuaChonBieuQuyet.isEmpty) {
                   isShow = true;
-                  setState(() {});
-                } else if (widget.cubit.listDanhSach.isEmpty) {
                   widget.cubit.isValidateSubject.sink.add(true);
                 } else {
                   setState(() {});
@@ -194,7 +193,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                                     urlIcon: ImageAssets.icDocument,
                                     title: S.current.loai_bai_viet,
                                     onChange: (value) {
-                                      if (widget.cubit.listDanhSach.isEmpty) {
+                                      if (value.isEmpty) {
                                         widget.cubit.isValidateSubject.sink
                                             .add(true);
                                       } else {

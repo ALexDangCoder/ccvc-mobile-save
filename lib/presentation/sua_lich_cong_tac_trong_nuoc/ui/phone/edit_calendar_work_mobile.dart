@@ -108,6 +108,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
 
     createCubit.dateRepeat = event.dateRepeat;
 
+
     createCubit.scheduleReminder = event.scheduleReminder;
     createCubit.detailCalendarWorkModel.scheduleCoperatives =
         event.scheduleCoperatives;
@@ -194,12 +195,12 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                   },
                                 ),
                                 LoaiLichWidget(
-                                  taoLichLamViecCubit: createCubit,
-                                  callback: (value) {
-                                    chooseTypeCalendarValidatorValue = value;
-                                  },
-                                  isEdit: true,
-                                ),
+                                    taoLichLamViecCubit: createCubit,
+                                    callback: (value) {
+                                      chooseTypeCalendarValidatorValue = value;
+                                    },
+                                    isEdit: true,
+                                    name: widget.event.typeScheduleName ?? ''),
                                 CupertinoMaterialPicker(
                                   isEdit: true,
                                   isAllDay: widget.event.isAllDay ?? false,

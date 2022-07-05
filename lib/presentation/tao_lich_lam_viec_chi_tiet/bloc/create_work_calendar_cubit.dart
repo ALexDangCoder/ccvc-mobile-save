@@ -384,7 +384,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     );
   }
 
-  Future<void> createWorkCalendar({
+  Future<void> createWorkCalendar
+      ({
     required String title,
     required String content,
     required String location,

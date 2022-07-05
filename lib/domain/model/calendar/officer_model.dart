@@ -42,12 +42,13 @@ class Officer {
 
   DonViModel toDonViModel() => DonViModel(
         id: id ?? '',
-        donViId: donViId ?? '',
+        donViId: donViId ?? id ?? '',
         tenDonVi: tenDonVi ?? '',
         canBoId: canBoId ?? '',
-        name: hoTen ?? '',
+        tenCanBo: hoTen ?? '',
         userId: userId ?? '',
         status: status ?? 0,
         noidung: taskContent ?? '',
+        name: getTitle(),
       );
 }

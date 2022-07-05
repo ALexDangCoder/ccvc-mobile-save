@@ -255,6 +255,8 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                               value;
                                         },
                                         isEdit: true,
+                                        name:
+                                            widget.event.typeScheduleName ?? '',
                                       ),
                                       CupertinoMaterialPicker(
                                         isEdit: true,

@@ -77,6 +77,9 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 value.forEach((element) {
                   element.value.vaiTroThamGia = 1;
                   element.value.type = 2;
+                  if(element.value.donViId.isEmpty){
+                    element.value.donViId = element.value.id;
+                  }
                 });
 
                 _cubit.addPeopleThamGiaDonVi(

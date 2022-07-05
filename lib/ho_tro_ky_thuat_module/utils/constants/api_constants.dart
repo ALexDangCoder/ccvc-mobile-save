@@ -8,6 +8,7 @@ class ApiConstants {
 
   static const String GET_SUPPORT_DETAIL = 'api/Task/get-by-id';
   static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
+  static const String GET_CATEGORY='/htkt/api/Category/get-tree';
 }
 
 class ImageConstants {

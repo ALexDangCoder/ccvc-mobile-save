@@ -1,7 +1,9 @@
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/group_response.dart';
@@ -59,6 +61,18 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
         ApiConstants.DEFAULT_PAGE_SIZE.toString(),
       ),
       (res) => res.data?.toListThanhVien() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<CategoryModel>>> getCategory(
+    String code,
+  ) {
+    return runCatchingAsync<CategoryResponse, List<CategoryModel>>(
+      () => _hoTroKyThuatService.getCategory(
+        code,
+      ),
+      (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 }

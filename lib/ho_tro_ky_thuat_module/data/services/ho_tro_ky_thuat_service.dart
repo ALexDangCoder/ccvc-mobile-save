@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/group_response.dart';
@@ -33,5 +34,10 @@ abstract class HoTroKyThuatService {
     @Query('groupId') String groupId,
     @Query('pageIndex') String pageIndex,
     @Query('pageSize') String pageSize,
+  );
+
+  @GET(ApiConstants.GET_CATEGORY)
+  Future<CategoryResponse> getCategory(
+    @Query('code') String code,
   );
 }

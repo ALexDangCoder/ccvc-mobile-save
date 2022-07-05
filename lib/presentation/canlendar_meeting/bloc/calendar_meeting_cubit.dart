@@ -154,6 +154,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   void refreshDataDangLich({bool isLichLanhDao = false}) {
     getCountDashboard();
     getDanhSachLichHop(isLichLanhDao: isLichLanhDao);
+    getMenuLichLanhDao();
     getDaysHaveEvent(
       startDate: startDate,
       endDate: endDate,
@@ -513,6 +514,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       _titleSubject.sink.add(oldTitle);
     } else {
       emitChartViewState();
+      getDataDangChart();
       _titleSubject.sink.add(S.current.bao_cao_thong_ke);
     }
     if (itemMenu != null) {
@@ -543,6 +545,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();
+    getDashBoardThongKe();
     getToChucBoiDonVi();
     getTiLeThamDu();
     getCoCauLichHop();
@@ -584,7 +587,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       startDate.formatApiDDMMYYYYSlash,
       endDate.formatApiDDMMYYYYSlash,
     );
-
     result.when(
       success: (value) {
         _tiLeThamGiaSubject.add(value);

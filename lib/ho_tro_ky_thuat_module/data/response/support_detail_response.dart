@@ -53,7 +53,7 @@ class GroupResponse {
   @JsonKey(name: 'ngayHoanThanh')
   String? ngayHoanThanh;
   @JsonKey(name: 'loaiSuCo')
-  List<String>? loaiSuCo;
+  String? loaiSuCo;
 
   GroupResponse(
     this.id,

@@ -13,7 +13,7 @@ class SupportDetail {
   String? nguoiXuLy;
   String? nhanXet;
   String? ngayHoanThanh;
-  List<String>? loaiSuCo;
+  String? loaiSuCo;
 
   SupportDetail({
     this.id,

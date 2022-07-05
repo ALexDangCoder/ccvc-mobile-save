@@ -19,9 +19,11 @@ class ChiaSeBaoCaoMobile extends StatefulWidget {
     Key? key,
     required this.idReport,
     required this.appId,
+    required this.type,
   }) : super(key: key);
   final String idReport;
   final String appId;
+  final int type;
 
   @override
   _ChiaSeBaoCaoMobileState createState() => _ChiaSeBaoCaoMobileState();
@@ -37,6 +39,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     cubit = ChiaSeBaoCaoCubit();
+    cubit.sourceType = widget.type;
     cubit.idReport = widget.idReport;
     cubit.appId = widget.appId;
     cubit.getGroup();

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
+import 'package:ccvc_mobile/home_module/data/request/home/tong_hop_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/danh_sach_thiep_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
@@ -143,9 +144,7 @@ class HomeImpl extends HomeRepository {
   ) {
     return runCatchingAsync<TongHopNhiemVuResponse, DocumentDashboardModel>(
       () => _homeServiceGateWay.getTongHopNhiemVu(
-        // userId,
-        canBoId,
-        // donViId,
+        TongHopNhiemVuRequest(canBoID: canBoId),
       ),
       (res) => res.data?.toDomain() ?? DocumentDashboardModel(),
     );

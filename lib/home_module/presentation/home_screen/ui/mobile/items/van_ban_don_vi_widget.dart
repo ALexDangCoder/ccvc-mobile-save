@@ -4,6 +4,8 @@ import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.d
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/views/loading_only.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -57,128 +59,133 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ContainerBackgroundWidget(
-        title: S.current.tinh_hinh_xu_ly_vb_don_vi,
-        onTapIcon: () {
-          // cubit.showDialog(widget.homeItemType);
-        },
-        child: StreamBuilder<VanBanDonViModel>(
-          stream: _vanBanDonViCubit.getVanBanDonVi,
-          builder: (context, snapshot) {
-            if(snapshot.hasData){
-              final data = snapshot.data ??
-                  VanBanDonViModel(vbDen: DocumentDashboardModel(), vbDi: DocumentDashboardModel());
-              final dataVBDen=data.vbDen;
-              final dataVBDi=data.vbDi;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  titleChart(
-                    S.current.document_incoming,
-                    Column(
-                      children: [
-                        PieChart(
-                          paddingTop: 0,
-                          chartData: [
-                            ChartData(
-                              S.current.cho_vao_so,
-                              dataVBDen.soLuongChoVaoSo.toDouble(),
-                              choVaoSoColor,
-                              SelectKey.CHO_VAO_SO,
-                            ),
-                            ChartData(
-                              S.current.dang_xu_ly,
-                              dataVBDen.soLuongDangXuLy.toDouble(),
-                              dangXyLyColor,
-                              SelectKey.DANG_XU_LY,
-                            ),
-                            ChartData(
-                              S.current.da_xu_ly,
-                              dataVBDen.soLuongDaXuLy.toDouble(),
-                              daXuLyColor,
-                              SelectKey.DA_XU_LY,
-                            ),
-                          ],
-                          onTap: (value, key) {},
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        statusWidget(
-                          [
-                            ChartData(
-                              S.current.qua_han,
-                              dataVBDen.soLuongQuaHan.toDouble(),
-                              statusCalenderRed,
-                              SelectKey.CHO_VAO_SO,
-                            ),
-                            ChartData(
-                              S.current.den_han,
-                              dataVBDen.soLuongDenHan.toDouble(),
-                              yellowColor,
-                              SelectKey.DANG_XU_LY,
-                            ),
-                            ChartData(
-                              S.current.trong_han,
-                              dataVBDen.soLuongTrongHan.toDouble(),
-                              choTrinhKyColor,
-                              SelectKey.DA_XU_LY,
-                            ),
-                          ],
-                        )
-                      ],
+    return ContainerBackgroundWidget(
+      title: S.current.tinh_hinh_xu_ly_vb_don_vi,
+      child: Padding(
+        padding: EdgeInsets.zero,
+        child: LoadingOnly(
+          stream: _vanBanDonViCubit.stateStream,
+          child: StreamBuilder<VanBanDonViModel>(
+            stream: _vanBanDonViCubit.getVanBanDonVi,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data ??
+                    VanBanDonViModel(
+                        vbDen: DocumentDashboardModel(),
+                        vbDi: DocumentDashboardModel(),);
+                final dataVBDen = data.vbDen;
+                final dataVBDi = data.vbDi;
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    titleChart(
+                      S.current.document_incoming,
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          PieChart(
+                            paddingTop: 0,
+                            chartData: [
+                              ChartData(
+                                S.current.cho_vao_so,
+                                dataVBDen.soLuongChoVaoSo.toDouble(),
+                                choVaoSoColor,
+                                SelectKey.CHO_VAO_SO,
+                              ),
+                              ChartData(
+                                S.current.dang_xu_ly,
+                                dataVBDen.soLuongDangXuLy.toDouble(),
+                                dangXyLyColor,
+                                SelectKey.DANG_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.da_xu_ly,
+                                dataVBDen.soLuongDaXuLy.toDouble(),
+                                daXuLyColor,
+                                SelectKey.DA_XU_LY,
+                              ),
+                            ],
+                            onTap: (value, key) {},
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          statusWidget(
+                            [
+                              ChartData(
+                                S.current.qua_han,
+                                dataVBDen.soLuongQuaHan.toDouble(),
+                                statusCalenderRed,
+                                SelectKey.CHO_VAO_SO,
+                              ),
+                              ChartData(
+                                S.current.den_han,
+                                dataVBDen.soLuongDenHan.toDouble(),
+                                yellowColor,
+                                SelectKey.DANG_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.trong_han,
+                                dataVBDen.soLuongTrongHan.toDouble(),
+                                choTrinhKyColor,
+                                SelectKey.DA_XU_LY,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  titleChart(
-                    S.current.document_out_going,
-                    PieChart(
-                      chartData: [
-                        ChartData(
-                          S.current.cho_trinh_ky,
-                          dataVBDi.soLuongChoTrinhKy.toDouble(),
-                          choTrinhKyColor,
-                          SelectKey.CHO_TRINH_KY,
-                        ),
-                        ChartData(
-                          S.current.cho_xu_ly,
-                          dataVBDi.soLuongChoXuLy.toDouble(),
-                          choXuLyColor,
-                          SelectKey.CHO_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.da_xu_ly,
-                          dataVBDi.soLuongDaXuLy.toDouble(),
-                          daXuLyColor,
-                          SelectKey.DA_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.cho_cap_so,
-                          dataVBDi.soLuongChoCapSo.toDouble(),
-                          choCapSoColor,
-                          SelectKey.CHO_CAP_SO,
-                        ),
-                        ChartData(
-                          S.current.cho_ban_hanh,
-                          dataVBDi.soLuongChoBanHanh.toDouble(),
-                          choBanHanhColor,
-                          SelectKey.CHO_BAN_HANH,
-                        )
-                      ],
-                      onTap: (value, key) {},
+                    const SizedBox(
+                      height: 20,
                     ),
-                  )
-                ],
-              );
-            }
-            else{
-              return const SizedBox();
-            }
-
-          },
+                    titleChart(
+                      S.current.document_out_going,
+                      PieChart(
+                        chartData: [
+                          ChartData(
+                            S.current.cho_trinh_ky,
+                            dataVBDi.soLuongChoTrinhKy.toDouble(),
+                            choTrinhKyColor,
+                            SelectKey.CHO_TRINH_KY,
+                          ),
+                          ChartData(
+                            S.current.cho_xu_ly,
+                            dataVBDi.soLuongChoXuLy.toDouble(),
+                            choXuLyColor,
+                            SelectKey.CHO_XU_LY,
+                          ),
+                          ChartData(
+                            S.current.da_xu_ly,
+                            dataVBDi.soLuongDaXuLy.toDouble(),
+                            daXuLyColor,
+                            SelectKey.DA_XU_LY,
+                          ),
+                          ChartData(
+                            S.current.cho_cap_so,
+                            dataVBDi.soLuongChoCapSo.toDouble(),
+                            choCapSoColor,
+                            SelectKey.CHO_CAP_SO,
+                          ),
+                          ChartData(
+                            S.current.cho_ban_hanh,
+                            dataVBDi.soLuongChoBanHanh.toDouble(),
+                            choBanHanhColor,
+                            SelectKey.CHO_BAN_HANH,
+                          )
+                        ],
+                        onTap: (value, key) {},
+                      ),
+                    )
+                  ],
+                );
+              } else {
+                return const SizedBox(height: 400,
+                child: NodataWidget(),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -194,16 +201,19 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
           child: Row(
             children: listData
                 .map(
-                  (e) => Expanded(
-                    flex: e.value.toInt()+1,
-                    child: Container(
-                      color: e.color,
-                      child: Center(
-                        child: Text(
-                          e.value.toInt().toString(),
-                          style: textNormal(
-                            backgroundColorApp,
-                            14.0.textScale(),
+                  (e) => Visibility(
+                    visible: !(e.value.toInt()==0),
+                    child: Expanded(
+                      flex:  e.value.toInt(),
+                      child: Container(
+                        color: e.color,
+                        child: Center(
+                          child: Text(
+                            e.value.toInt().toString(),
+                            style: textNormal(
+                              backgroundColorApp,
+                              14.0.textScale(),
+                            ),
                           ),
                         ),
                       ),

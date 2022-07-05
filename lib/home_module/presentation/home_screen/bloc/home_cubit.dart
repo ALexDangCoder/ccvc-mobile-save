@@ -239,6 +239,10 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     HiveLocalHome.removeTag(tag);
     value.remove(tag);
     _getTag.sink.add(value);
+    if(_getTag.value.isNotEmpty){
+      tagKey=_getTag.value.first;
+      callApi();
+    }
   }
 
   void addTag(String value) {
@@ -251,8 +255,9 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
         .where((element) => element.toLowerCase() == value.toLowerCase())
         .isEmpty) {
       HiveLocalHome.addTag(value);
-
       _getTag.sink.add(data..add(value));
+      tagKey=value;
+      callApi();
     }
   }
 
@@ -1413,6 +1418,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
         {}
     }
   }
+
 
   @override
   void selectDate({

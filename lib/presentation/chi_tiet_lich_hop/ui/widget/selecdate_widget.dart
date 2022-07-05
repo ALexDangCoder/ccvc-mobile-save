@@ -58,14 +58,13 @@ class _CustomDropDownState extends State<SelectDateWidget> {
               SizedBox(
                 height: 300,
                 child: FlutterRoundedCupertinoDatePickerWidget(
-                 // maximumDate: DateTime.now(),
+                  // maximumDate: DateTime.now(),
                   onDateTimeChanged: (value) {
                     dateSelect = value.toString();
-                    widget.onSelectDate(dateSelect);
                   },
                   textStyleDate: titleAppbar(),
                   initialDateTime:
-                  widget.initDateTime ?? DateTime.parse(dateSelect),
+                      widget.initDateTime ?? DateTime.parse(dateSelect),
                 ),
               ),
               Container(
@@ -78,7 +77,12 @@ class _CustomDropDownState extends State<SelectDateWidget> {
                   title1: S.current.dong,
                   onPressed2: () {
                     setState(() {
-                      widget.onSelectDate(dateSelect);
+                      if (dateSelect.isNotEmpty) {
+                        widget.onSelectDate(dateSelect);
+                      } else {
+                        dateSelect = widget.value ?? DateTime.now().toString();
+                        widget.onSelectDate(dateSelect);
+                      }
                     });
                     Navigator.pop(context);
                   },
@@ -117,22 +121,22 @@ class _CustomDropDownState extends State<SelectDateWidget> {
                         ),
                         child: widget.value == null
                             ? Text(
-                          widget.hintText ?? S.current.vuiLongChon,
-                          style: tokenDetailAmount(
-                            fontSize: 14.0.textScale(),
-                            color: color3D5586,
-                          ),
-                        )
+                                widget.hintText ?? S.current.vuiLongChon,
+                                style: tokenDetailAmount(
+                                  fontSize: 14.0.textScale(),
+                                  color: color3D5586,
+                                ),
+                              )
                             : Text(
-                          widget.isObligatory
-                              ? '${widget.value}'
-                              : DateTime.parse(dateSelect)
-                              .toStringWithListFormat,
-                          style: tokenDetailAmount(
-                            fontSize: 14.0.textScale(),
-                            color: color3D5586,
-                          ),
-                        ),
+                                widget.isObligatory
+                                    ? '${widget.value}'
+                                    : DateTime.parse(dateSelect)
+                                        .toStringWithListFormat,
+                                style: tokenDetailAmount(
+                                  fontSize: 14.0.textScale(),
+                                  color: color3D5586,
+                                ),
+                              ),
                       )
                     ],
                   ),

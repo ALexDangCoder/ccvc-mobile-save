@@ -33,7 +33,6 @@ import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/da
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,12 +47,10 @@ class EditWorkCalendarTablet extends StatefulWidget {
       : super(key: key);
 
   @override
-  _EditWorkCalendarTabletState createState() =>
-      _EditWorkCalendarTabletState();
+  _EditWorkCalendarTabletState createState() => _EditWorkCalendarTabletState();
 }
 
-class _EditWorkCalendarTabletState
-    extends State<EditWorkCalendarTablet> {
+class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
   final CreateWorkCalCubit createCubit = CreateWorkCalCubit();
   final _formKey = GlobalKey<FormGroupState>();
   TextEditingController titleController = TextEditingController();
@@ -252,29 +249,25 @@ class _EditWorkCalendarTabletState
                                         },
                                       ),
                                       LoaiLichWidget(
-                                        taoLichLamViecCubit:
-                                            createCubit,
+                                        taoLichLamViecCubit: createCubit,
                                         callback: (value) {
-                                          chooseTypeCalendarValidatorValue = value;
+                                          chooseTypeCalendarValidatorValue =
+                                              value;
                                         },
                                         isEdit: true,
                                       ),
                                       CupertinoMaterialPicker(
                                         isEdit: true,
-                                        initDateStart: createCubit
-                                            .dateTimeFrom
+                                        initDateStart: createCubit.dateTimeFrom
                                             ?.convertStringToDate(),
-                                        initTimeStart: createCubit
-                                            .dateTimeFrom
+                                        initTimeStart: createCubit.dateTimeFrom
                                             ?.convertStringToDate(
                                           formatPattern:
                                               DateFormatApp.dateTimeBackEnd,
                                         ),
-                                        initDateEnd: createCubit
-                                            .dateTimeTo
+                                        initDateEnd: createCubit.dateTimeTo
                                             ?.convertStringToDate(),
-                                        initTimeEnd: createCubit
-                                            .dateTimeTo
+                                        initTimeEnd: createCubit.dateTimeTo
                                             ?.convertStringToDate(
                                           formatPattern:
                                               DateFormatApp.dateTimeBackEnd,
@@ -290,12 +283,10 @@ class _EditWorkCalendarTabletState
                                           String dateStart,
                                           String dateEnd,
                                         ) {
-                                          createCubit
-                                              .checkValidateTime();
+                                          createCubit.checkValidateTime();
                                           if (timeEnd != INIT_TIME_PICK &&
                                               dateEnd != INIT_DATE_PICK) {
-                                            createCubit
-                                                .listeningEndDataTime(
+                                            createCubit.listeningEndDataTime(
                                               DateTime.parse(
                                                 timeFormat(
                                                   '$dateEnd $timeEnd',
@@ -308,8 +299,7 @@ class _EditWorkCalendarTabletState
                                           }
                                           if (timeStart != INIT_TIME_PICK &&
                                               dateStart != INIT_DATE_PICK) {
-                                            createCubit
-                                                .listeningStartDataTime(
+                                            createCubit.listeningStartDataTime(
                                               DateTime.parse(
                                                 timeFormat(
                                                   '$dateStart $timeStart',
@@ -322,12 +312,12 @@ class _EditWorkCalendarTabletState
                                           }
                                         },
                                         onSwitchPressed: (value) {
-                                          createCubit
-                                              .isCheckAllDaySubject
+                                          createCubit.isCheckAllDaySubject
                                               .add(value);
                                         },
                                         validateTime: (String value) {
-                                          pickTimeValidatorValue = value.isNotEmpty;
+                                          pickTimeValidatorValue =
+                                              value.isNotEmpty;
                                         },
                                       ),
                                       NhacLaiWidget(
@@ -342,6 +332,7 @@ class _EditWorkCalendarTabletState
                                       ),
                                       LinhVucWidget(
                                         cubit: createCubit,
+                                        isEdit: true,
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -350,17 +341,14 @@ class _EditWorkCalendarTabletState
                                         ),
                                         child: CustomSwitchWidget(
                                           onToggle: (value) {
-                                            createCubit
-                                                .publishSchedule = value;
+                                            createCubit.publishSchedule = value;
                                           },
-                                          value: createCubit
-                                                  .publishSchedule ??
+                                          value: createCubit.publishSchedule ??
                                               false,
                                         ),
                                       ),
                                       StreamBuilder<bool>(
-                                        stream:
-                                            createCubit.checkTrongNuoc,
+                                        stream: createCubit.checkTrongNuoc,
                                         builder: (context, snapshot) {
                                           final data = snapshot.data ?? false;
                                           if (!data) {
@@ -369,20 +357,31 @@ class _EditWorkCalendarTabletState
                                                 ItemTinhWidget(
                                                   taoLichLamViecCubit:
                                                       createCubit,
+                                                  isEdit: true,
+                                                  name: widget.event.tenTinh ??
+                                                      '',
                                                 ),
                                                 ItemHuyenWidget(
                                                   taoLichLamViecCubit:
                                                       createCubit,
+                                                  isEdit: true,
+                                                  name: widget.event.tenHuyen ??
+                                                      '',
                                                 ),
                                                 ItemXaWidget(
                                                   taoLichLamViecCubit:
                                                       createCubit,
+                                                  isEdit: true,
+                                                  name:
+                                                      widget.event.tenXa ?? '',
                                                 ),
                                               ],
                                             );
                                           } else {
                                             return ItemDatNuocWidget(
                                               cubit: createCubit,
+                                              isEdit: true,
+                                              name: widget.event.country ?? '',
                                             );
                                           }
                                         },
@@ -409,11 +408,9 @@ class _EditWorkCalendarTabletState
                                               ? SuaLichLapTuyChinh(
                                                   taoLichLamViecCubit:
                                                       createCubit,
-                                                  initDataTuyChinh:
-                                                      createCubit
-                                                          .listNgayChonTuan(
-                                                    createCubit.days ??
-                                                        '',
+                                                  initDataTuyChinh: createCubit
+                                                      .listNgayChonTuan(
+                                                    createCubit.days ?? '',
                                                   ),
                                                 )
                                               : Container();
@@ -430,8 +427,7 @@ class _EditWorkCalendarTabletState
                                                       createCubit,
                                                   isThem: false,
                                                   initDate: DateTime.parse(
-                                                      createCubit
-                                                              .dateRepeat ??
+                                                      createCubit.dateRepeat ??
                                                           DateTime.now()
                                                               .toString()),
                                                 )
@@ -462,9 +458,12 @@ class _EditWorkCalendarTabletState
                                     TaiLieuWidget(
                                       files: createCubit.files ?? [],
                                       onChange: (files, value) {
-                                        createCubit.filesTaoLich =
-                                            files;
-                                        chooseFileValidatorValue = !value;
+                                        if (!value) {
+                                          createCubit.filesTaoLich = files;
+                                          chooseFileValidatorValue = !value;
+                                        } else {
+                                          chooseFileValidatorValue = !value;
+                                        }
                                       },
                                       idRemove: (String id) {
                                         createCubit.filesDelete.add(id);
@@ -523,7 +522,9 @@ class _EditWorkCalendarTabletState
 
   Future<void> validateField(bool data) async {
     _formKey.currentState!.validator();
-    if (_formKey.currentState!.validator() && !pickTimeValidatorValue && !chooseTypeCalendarValidatorValue) {
+    if (_formKey.currentState!.validator() &&
+        !pickTimeValidatorValue &&
+        !chooseTypeCalendarValidatorValue) {
       checkInside(data);
     }
     if (pickTimeValidatorValue) {

@@ -312,8 +312,12 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             ),
                             TaiLieuWidget(
                               onChange: (files, value) {
-                                createCubit.filesTaoLich = files;
-                                chooseFileValidatorValue = !value;
+                                if (!value) {
+                                  createCubit.filesTaoLich = files;
+                                  chooseFileValidatorValue = !value;
+                                }else {
+                                  chooseFileValidatorValue = !value;
+                                }
                               },
                               idRemove: (String id) {},
                             ),
@@ -362,7 +366,8 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
     _formKey.currentState!.validator();
     if (_formKey.currentState!.validator() &&
         !pickTimeValidatorValue &&
-        !chooseTypeCalendarValidatorValue && chooseFileValidatorValue) {
+        !chooseTypeCalendarValidatorValue &&
+        chooseFileValidatorValue) {
       await createCubit.checkDuplicate(
         context: context,
         title: titleController.value.text.removeSpace,

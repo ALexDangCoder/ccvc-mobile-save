@@ -482,6 +482,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     }
     if (itemMenu != null) {
       idDonViLanhDao = null;
+      if(this.state is ChartViewState){
+        emitCalendarViewState();
+      }
       if (itemMenu is StatusDataItem) {
         _titleSubject.sink.add(itemMenu.value.getTitle());
         typeCalender = itemMenu.value;

@@ -33,7 +33,6 @@ import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +49,10 @@ class EditCalendarWork extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EditCalendarWorkState createState() =>
-      _EditCalendarWorkState();
+  _EditCalendarWorkState createState() => _EditCalendarWorkState();
 }
 
-class _EditCalendarWorkState
-    extends State<EditCalendarWork> {
+class _EditCalendarWorkState extends State<EditCalendarWork> {
   final CreateWorkCalCubit createCubit = CreateWorkCalCubit();
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
@@ -208,11 +205,9 @@ class _EditCalendarWorkState
                                   isAllDay: widget.event.isAllDay ?? false,
                                   isSwitchButtonChecked:
                                       widget.event.isAllDay ?? false,
-                                  initDateStart: createCubit
-                                      .dateTimeFrom
+                                  initDateStart: createCubit.dateTimeFrom
                                       ?.convertStringToDate(),
-                                  initTimeStart: createCubit
-                                      .dateTimeFrom
+                                  initTimeStart: createCubit.dateTimeFrom
                                       ?.convertStringToDate(
                                     formatPattern:
                                         DateFormatApp.dateTimeBackEnd,
@@ -246,8 +241,7 @@ class _EditCalendarWorkState
                                     }
                                     if (timeStart != INIT_TIME_PICK &&
                                         dateStart != INIT_DATE_PICK) {
-                                      createCubit
-                                          .listeningStartDataTime(
+                                      createCubit.listeningStartDataTime(
                                         DateTime.parse(
                                           timeFormat(
                                             '$dateStart $timeStart',
@@ -259,8 +253,7 @@ class _EditCalendarWorkState
                                     }
                                   },
                                   onSwitchPressed: (value) {
-                                    createCubit.isCheckAllDaySubject
-                                        .add(value);
+                                    createCubit.isCheckAllDaySubject.add(value);
                                   },
                                   validateTime: (String value) {
                                     pickTimeValidatorValue = value.isNotEmpty;
@@ -278,6 +271,7 @@ class _EditCalendarWorkState
                                 ),
                                 LinhVucWidget(
                                   cubit: createCubit,
+                                  isEdit: true,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
@@ -286,12 +280,9 @@ class _EditCalendarWorkState
                                   ),
                                   child: CustomSwitchWidget(
                                     onToggle: (value) {
-                                      createCubit.publishSchedule =
-                                          value;
+                                      createCubit.publishSchedule = value;
                                     },
-                                    value:
-                                        createCubit.publishSchedule ??
-                                            false,
+                                    value: createCubit.publishSchedule ?? false,
                                   ),
                                 ),
                                 StreamBuilder<bool>(
@@ -302,22 +293,27 @@ class _EditCalendarWorkState
                                       return Column(
                                         children: [
                                           ItemTinhWidget(
-                                            taoLichLamViecCubit:
-                                                createCubit,
+                                            taoLichLamViecCubit: createCubit,
+                                            isEdit: true,
+                                            name: widget.event.tenTinh ?? '',
                                           ),
                                           ItemHuyenWidget(
-                                            taoLichLamViecCubit:
-                                                createCubit,
+                                            taoLichLamViecCubit: createCubit,
+                                            isEdit: true,
+                                            name: widget.event.tenHuyen ?? '',
                                           ),
                                           ItemXaWidget(
-                                            taoLichLamViecCubit:
-                                                createCubit,
+                                            taoLichLamViecCubit: createCubit,
+                                            isEdit: true,
+                                            name: widget.event.tenXa ?? '',
                                           ),
                                         ],
                                       );
                                     } else {
                                       return ItemDatNuocWidget(
                                         cubit: createCubit,
+                                        isEdit: true,
+                                        name: widget.event.country ?? '',
                                       );
                                     }
                                   },
@@ -336,17 +332,15 @@ class _EditCalendarWorkState
                                   isEdit: true,
                                 ),
                                 StreamBuilder<bool>(
-                                  stream: createCubit
-                                      .lichLapTuyChinhSubject.stream,
+                                  stream:
+                                      createCubit.lichLapTuyChinhSubject.stream,
                                   builder: (context, snapshot) {
                                     final data = snapshot.data ?? false;
                                     return data
                                         ? SuaLichLapTuyChinh(
-                                            taoLichLamViecCubit:
-                                                createCubit,
+                                            taoLichLamViecCubit: createCubit,
                                             initDataTuyChinh:
-                                                createCubit
-                                                    .listNgayChonTuan(
+                                                createCubit.listNgayChonTuan(
                                               createCubit.days ?? '',
                                             ),
                                           )
@@ -360,8 +354,7 @@ class _EditCalendarWorkState
                                     final data = snapshot.data ?? false;
                                     return data
                                         ? ItemLapDenNgayWidget(
-                                            taoLichLamViecCubit:
-                                                createCubit,
+                                            taoLichLamViecCubit: createCubit,
                                             isThem: false,
                                             initDate: DateTime.parse(
                                               createCubit.dateRepeat ??
@@ -381,15 +374,19 @@ class _EditCalendarWorkState
                                 ),
                                 ThanhPhanThamGiaTLWidget(
                                   taoLichLamViecCubit: createCubit,
-                                  listPeopleInit: createCubit
-                                      .detailCalendarWorkModel
-                                      .scheduleCoperatives,
+                                  listPeopleInit: widget.cubit.listOfficer.value
+                                      .map((e) => e.toDonViModel())
+                                      .toList(),
                                 ),
                                 TaiLieuWidget(
                                   files: createCubit.files ?? [],
                                   onChange: (files, value) {
-                                    createCubit.filesTaoLich = files;
-                                    chooseFileValidatorValue = !value;
+                                    if (!value) {
+                                      createCubit.filesTaoLich = files;
+                                      chooseFileValidatorValue = !value;
+                                    } else {
+                                      chooseFileValidatorValue = !value;
+                                    }
                                   },
                                   idRemove: (String id) {
                                     createCubit.filesDelete.add(id);
@@ -397,7 +394,9 @@ class _EditCalendarWorkState
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      bottom: 16.0, top: 16.0),
+                                    bottom: 16.0,
+                                    top: 16.0,
+                                  ),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -414,14 +413,13 @@ class _EditCalendarWorkState
                                         width: 16,
                                       ),
                                       StreamBuilder<bool>(
-                                        stream:
-                                            createCubit.checkTrongNuoc,
+                                        stream: createCubit.checkTrongNuoc,
                                         builder: (context, snapshot) {
                                           final data = snapshot.data ?? false;
                                           return Expanded(
                                             child: StreamBuilder<bool>(
-                                              stream: createCubit
-                                                  .btnSubject.stream,
+                                              stream:
+                                                  createCubit.btnSubject.stream,
                                               builder: (context, snapshot) {
                                                 return buttonEditCalendar(
                                                   name: S.current.luu,

@@ -78,6 +78,7 @@ class ApiConstants {
   static const OFFICER_JOIN = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
+  static const CONFIG_SYSTEM = '/vpdt/api/ConfigSystem/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
   static const DANH_SACH_PHIEN_HOP =
@@ -276,6 +277,8 @@ class ApiConstants {
   static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
   static const POST_Y_KIEN_XU_LY = '/pakn/api/TaskYKien/XinYKien';
   static const POST_CHO_Y_KIEN_XU_LY = '/PAKN/api/TaskYKien/ChoYKien';
+  static const GET_PAKN_TIEP_NHAN_VAN_BAN_DI = '/PAKN/api/Tasks/danh-sach-theo-van-ban-di';
+  static const GET_PAKN_XU_LY_VAN_BAN = '/pakn/api/TaskYKien/danh-sach-kien-nghi-y-kien';
   static const DOWNLOAD_FILE = '/api/Common/DownloadFile';
   static const GET_LOCATION_ADDRESS = '/pakn/api/location';
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/time_config_response.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:equatable/equatable.dart';
@@ -40,4 +41,9 @@ class MessageResponse extends Equatable {
         code: '',
         message: '',
       );
+
+  List<TimeConfigResponse> castData() {
+    final response = data as List<TimeConfigResponse>;
+    return response;
+  }
 }

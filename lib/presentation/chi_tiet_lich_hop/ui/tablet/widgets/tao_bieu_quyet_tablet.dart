@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_ex.dart';
@@ -9,7 +10,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cac_lua_cho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/selecdate_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/radio/custom_radio_button.dart';
@@ -44,11 +44,12 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.cacLuaChonBieuQuyet = [];
     widget.cubit.listDanhSach = [DanhSachNguoiThamGiaModel()];
     widget.cubit.isValidateSubject.sink.add(false);
+    widget.cubit.date =
+        coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
   }
 
   @override
@@ -110,12 +111,12 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   child: SelectDateWidget(
                     paddings: 10,
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                    value: DateTime.now().toString(),
+                    value: widget.cubit.paserDateTime(
+                      widget.cubit.getChiTietLichHopModel.ngayBatDau,
+                    ),
                     onSelectDate: (dateTime) {
                       if (mounted) setState(() {});
-                      final date =
-                          DateTime.parse(dateTime).toStringWithListFormat;
-                      widget.cubit.date = date;
+                      widget.cubit.date = dateTime;
                     },
                   ),
                 ),
@@ -160,15 +161,15 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                       title: S.current.cac_lua_chon_bieu_quyet,
                       child: CacLuaChonDonViWidget(
                         detailMeetCalenderCubit: widget.cubit,
-                        onchange: (vl) {
-                          if (vl.isEmpty) {
+                        onchange: (value) {
+                          if (value.isEmpty) {
                             isShow = true;
                             setState(() {});
                           } else {
                             isShow = false;
                             setState(() {});
                           }
-                          widget.cubit.listLuaChon = vl;
+                          widget.cubit.listLuaChon = value;
                         },
                       ),
                     ),

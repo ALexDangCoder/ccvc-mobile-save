@@ -64,23 +64,12 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
-      if (dateFromTmp == INIT_DATE_PICK) {
-        dateBeginSubject.sink
-            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
-      } else {
-        dateBeginSubject.sink.add(
-          dateFromTmp,
-        );
-      }
-      if (dateToTmp == INIT_DATE_PICK) {
-        dateEndSubject.sink
-            .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
-      } else {
-        dateEndSubject.sink.add(
-          dateToTmp,
-        );
-      }
-      //final date = DateTime.now();
+      dateBeginSubject.sink
+          .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
+
+      dateEndSubject.sink.add(
+        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+      );
       timeBeginSubject.sink.add(timeStartConfigSystem);
       timeEndSubject.sink.add(timeEndConfigSystem);
       validateTime.sink.add('');

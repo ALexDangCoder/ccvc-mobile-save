@@ -97,7 +97,7 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
   String getDate(String dateFrom, String dateTo) {
     String time = '';
     try {
-      time = '${widget.cubit.parseDate(dateFrom)}-'
+      time = '${widget.cubit.parseDate(dateFrom)} - '
           '${widget.cubit.parseDate(dateTo)}';
     } on FormatException catch (_) {
       return '';

@@ -401,9 +401,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             : HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
                 '',
         IsLichLanhDao: isLichLanhDao,
-        isLichCuaToi: !isLichLanhDao
-            ? typeCalender == StatusWorkCalendar.LICH_CUA_TOI
-            : null,
+        isLichCuaToi: typeCalender == StatusWorkCalendar.LICH_CUA_TOI,
         isDuyetThietBi: typeCalender == StatusWorkCalendar.LICH_DUYET_THIET_BI,
         isChuaCoBaoCao:
             typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
@@ -529,6 +527,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         refreshDataDangLich();
       }
       if (itemMenu is LeaderDataItem) {
+        typeCalender = StatusWorkCalendar.LICH_LANH_DAO;
         _statusWorkSubject.sink.add(StatusWorkCalendar.LICH_LANH_DAO);
         _titleSubject.sink.add(itemMenu.title);
         idDonViLanhDao = itemMenu.id;

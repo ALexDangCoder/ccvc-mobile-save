@@ -77,9 +77,14 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 16),
-                      child: Icon(Icons.arrow_back_ios),
+                    child:  Container(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding:const EdgeInsets.symmetric(horizontal: 16),
+                        child: SvgPicture.asset(
+                          ImageAssets.icBack,
+                        ),
+                      ),
                     )),
               ),
               cubit.controller.getIcon(),

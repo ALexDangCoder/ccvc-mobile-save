@@ -1,8 +1,9 @@
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/text_field_validator.dart';
@@ -94,9 +95,34 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                     onChange: (value) {},
                   ),
                   spaceH16,
-                  dropDownField(title: S.current.khu_vuc),
+                  dropDownField(
+                    title: S.current.khu_vuc,
+                    initData: widget.cubit.listKhuVuc.value.first.name ?? '',
+                    listData: widget.cubit.listKhuVuc.value
+                        .map((e) => e.name ?? '')
+                        .toList(),
+                    function: (value) {
+                      widget.cubit.listToaNha.add(
+                        widget.cubit.listKhuVuc.value[value].childCategories ??
+                            [],
+                      );
+                    },
+                  ),
                   spaceH16,
-                  dropDownField(title: S.current.toa_nha),
+                  StreamBuilder<List<ChildCategories>>(
+                    stream: widget.cubit.listToaNha,
+                    builder: (context, snapshot) {
+                      final List<String> listResult =
+                          widget.cubit.getList(snapshot.data ?? []);
+                      final String initData = listResult.first;
+                      return dropDownField(
+                        title: S.current.toa_nha,
+                        initData: initData,
+                        listData: listResult,
+                        function: (value) {},
+                      );
+                    },
+                  ),
                   spaceH16,
                   textField(
                     isHightLight: true,
@@ -105,7 +131,14 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                     onChange: (value) {},
                   ),
                   spaceH16,
-                  dropDownField(title: S.current.loai_su_co),
+                  dropDownField(
+                    title: S.current.khu_vuc,
+                    initData: widget.cubit.listKhuVuc.value.first.name ?? '',
+                    listData: widget.cubit.listKhuVuc.value
+                        .map((e) => e.name ?? '')
+                        .toList(),
+                    function: (value) {},
+                  ),
                   spaceH20,
                   doubleBtn(),
                 ],
@@ -182,7 +215,10 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   Widget dropDownField({
     String? hintText,
     int maxLine = 1,
+    required String initData,
+    required List<String> listData,
     required String title,
+    required Function(int) function,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,10 +239,11 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
         ),
         spaceH8,
         CoolDropDown(
-          initData: 'huy đz',
+          initData: initData,
           placeHoder: S.current.chon,
-          onChange: (value) {},
-          listData: ["huy", "huy1", "huy2"],
+          onChange: (value) => function(value),
+          listData: listData,
+          key: UniqueKey(),
         )
       ],
     );

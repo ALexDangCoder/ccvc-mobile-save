@@ -1,5 +1,7 @@
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_state.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
@@ -28,6 +30,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   List<bool> listCheckPopupMenu = [];
   BehaviorSubject<List<TongDaiModel>> listTongDai = BehaviorSubject.seeded([]);
   BehaviorSubject<List<ThanhVien>> listCanCoHTKT = BehaviorSubject.seeded([]);
+  BehaviorSubject<List<CategoryModel>> listKhuVuc = BehaviorSubject.seeded([]);
+  BehaviorSubject<List<ChildCategories>> listToaNha =
+      BehaviorSubject.seeded([]);
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
@@ -64,6 +69,15 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
+  List<String> getList(List<ChildCategories> listData) {
+    final List<String> list = listData.map((e) => e.name ?? '').toList();
+    final Set<String> listSet = {};
+    listSet.addAll(list);
+    final List<String> listResult = [];
+    listResult.addAll(listSet);
+    return listResult;
+  }
+
   Future<void> getListDanhBaCaNhan({
     required int page,
   }) async {
@@ -93,7 +107,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showLoading();
     await getNguoiXuLy();
     await getTongDai();
-    getCategory();
+    await getCategory();
     showContent();
   }
 
@@ -124,10 +138,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   Future<void> getCategory() async {
-    final result = await _hoTroKyThuatRepository.getCategory('khu-vuc');
+    //todo
+    final Result<List<CategoryModel>> result =
+        await _hoTroKyThuatRepository.getCategory('khu-vuc');
     result.when(
       success: (res) {
-        //todo
+        listKhuVuc.add(res);
+        listToaNha.add(res.first.childCategories ?? []);
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));

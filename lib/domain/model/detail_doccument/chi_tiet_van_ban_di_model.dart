@@ -364,7 +364,7 @@ class NguoiKyDuyetModel {
     this.tenNguoiKy,
     this.donViNguoiKy,
     this.vaiTro,
-    this.loaiBanHanh,
+    this.loaiBanHanh ,
     this.thuTu,
     this.idUser,
   });

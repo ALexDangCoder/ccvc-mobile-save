@@ -82,6 +82,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
             isTablet: widget.isTablet,
             fCalendarController: widget.cubit.fCalendarControllerWeek,
             onMore: (value) {
+              widget.cubit.emitListViewState();
               widget.cubit.controller.calendarType.value = CalendarType.DAY;
               widget.cubit.controller.selectDate.value = value;
               widget.cubit.controller.selectDate.notifyListeners();
@@ -105,6 +106,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
             isTablet: widget.isTablet,
             fCalendarController: widget.cubit.fCalendarControllerMonth,
             onMore: (value) {
+              widget.cubit.emitListViewState();
               widget.cubit.controller.calendarType.value = CalendarType.DAY;
               widget.cubit.controller.selectDate.value = value;
               widget.cubit.controller.selectDate.notifyListeners();

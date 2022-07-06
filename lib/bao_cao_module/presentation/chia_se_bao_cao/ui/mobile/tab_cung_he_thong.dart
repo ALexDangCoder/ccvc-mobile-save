@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_t
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/tree_widget.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -11,9 +12,9 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widgets/tree_widget.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,6 +30,7 @@ class TabCungHeThongMobile extends StatefulWidget {
 
 class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
   final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
+  final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -128,86 +130,162 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                       ),
                     );
                   } else {
-                    return const SizedBox();
+                    return const SizedBox.shrink();
                   }
                 },
               ),
-              spaceH24,
-              StreamBuilder<Object>(
-                stream: _themDonViCubit.selectDonVi,
+              spaceH24, // Stream list nhóm
+              StreamBuilder<bool>(
+                stream: widget.cubit.showTree,
                 builder: (context, snapshot) {
-                  return Visibility(
-                    visible: snapshot.hasData &&
-                        _themDonViCubit.selectNode.isNotEmpty,
-                    child: Container(
-                      width: 341.w,
-                      padding: EdgeInsets.only(
-                        left: 12.w,
-                        bottom: 12.h,
-                        top: 12.h,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: containerColorTab),
-                      ),
-                      child: Wrap(
-                        spacing: 10.w, // gap between adjacent chips
-                        runSpacing: 10.h, // gap between lines
-                        children: _themDonViCubit.selectNode
-                            .map(
-                              (e) => ItemNguoiDung(
-                                name: e.value.name,
-                                hasFunction: true,
-                                delete: () {
-                                  _themDonViCubit.addSelectNode(
-                                    e,
-                                    isCheck: false,
-                                  );
-                                  _themDonViCubit.removeTag(e);
-                                },
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  );
-                },
-              ), // Stream list nhóm
-              Container(
-                height: 300.h,
-                decoration: BoxDecoration(
-                  border: Border.all(color: containerColorTab),
-                ),
-                child: StreamBuilder<List<Node<DonViModel>>>(
-                  stream: _themDonViCubit.getTree,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <Node<DonViModel>>[];
-                    if (data.isNotEmpty) {
-                      return ListView.builder(
-                        padding: EdgeInsets.only(
-                          left: 16.w,
-                          right: 6.w,
-                          bottom: 19.h,
-                          top: 16.h,
-                        ),
-                        keyboardDismissBehavior: isMobile()
-                            ? ScrollViewKeyboardDismissBehavior.onDrag
-                            : ScrollViewKeyboardDismissBehavior.manual,
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return TreeViewWidget(
-                            themDonViCubit: _themDonViCubit,
-                            node: data[index],
-                          );
-                        },
-                      );
-                    }
+                  if (snapshot.data == true) {
                     return Column(
-                      children: const [
-                        NodataWidget(),
+                      children: [
+                        StreamBuilder<Object>(
+                          stream: _themDonViCubit.selectDonVi,
+                          builder: (context, snapshot) {
+                            return Container(
+                              width: 341.w,
+                              padding: EdgeInsets.only(
+                                left: 12.w,
+                                bottom: 12.h,
+                                top: 12.h,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: containerColorTab),
+                              ),
+                              child: Wrap(
+                                spacing: 10.w, // gap between adjacent chips
+                                runSpacing: 10.h, // gap between lines
+                                children: List.generate(
+                                    _themDonViCubit.selectNode.length + 1,
+                                    (index) {
+                                  if (index ==
+                                      _themDonViCubit.selectNode.length) {
+                                    return Container(
+                                      width: 200,
+                                      color: Colors.transparent,
+                                      child: TextField(
+                                        onChanged: (value) {
+                                          _themDonViCubit.onSearch(value);
+                                        },
+                                        controller: controller,
+                                        style: textNormal(
+                                            textTitle, 14.0.textScale()),
+                                        decoration: InputDecoration(
+                                          hintText: S.current.tim_kiem,
+                                          hintStyle: textNormal(
+                                            textTitle,
+                                            14.0.textScale(),
+                                          ),
+                                          isDense: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                          isCollapsed: true,
+                                          border: InputBorder.none,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  final data =
+                                      _themDonViCubit.selectNode[index];
+                                  return ItemNguoiDung(
+                                    name: data.value.name,
+                                    hasFunction: true,
+                                    delete: () {
+                                      _themDonViCubit.addSelectNode(
+                                        data,
+                                        isCheck: false,
+                                      );
+                                      _themDonViCubit.removeTag(data);
+                                    },
+                                  );
+                                }),
+                              ),
+                            );
+                          },
+                        ),
+                        Container(
+                          height: 300.h,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: containerColorTab),
+                          ),
+                          child: StreamBuilder<List<Node<DonViModel>>>(
+                            stream: _themDonViCubit.getTree,
+                            builder: (context, snapshot) {
+                              final data =
+                                  snapshot.data ?? <Node<DonViModel>>[];
+                              if (data.isNotEmpty) {
+                                return ListView.builder(
+                                  padding: EdgeInsets.only(
+                                    left: 16.w,
+                                    right: 6.w,
+                                    bottom: 19.h,
+                                    top: 16.h,
+                                  ),
+                                  keyboardDismissBehavior: isMobile()
+                                      ? ScrollViewKeyboardDismissBehavior.onDrag
+                                      : ScrollViewKeyboardDismissBehavior
+                                          .manual,
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    return TreeViewWidget(
+                                      themDonViCubit: _themDonViCubit,
+                                      node: data[index],
+                                    );
+                                  },
+                                );
+                              }
+                              return Column(
+                                children: const [
+                                  NodataWidget(),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     );
-                  },
-                ),
+                  } else {
+                    return InkWell(
+                      onTap: (){
+                        widget.cubit.showTree.add(true);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                        ),
+                        height: 45.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                          border: Border.all(color: containerColorTab),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.current.chon_nguoi,
+                              style: textNormalCustom(
+                                color: color3D5586,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              size: 24,
+                              color: color3D5586,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                },
               ),
               SizedBox(
                 height: 80.h,

@@ -244,6 +244,20 @@ extension GetViewByTypeMenu on StateType {
         );
     }
   }
+
+  int? toInt(){
+    switch(this){
+      case StateType.CHO_DUYET:
+      case StateType.CHO_XAC_NHAN:
+        return 0;
+      case StateType.DA_DUYET:
+        return 1;
+      case StateType.TU_CHOI:
+        return 2;
+      default:
+        return 0;
+    }
+  }
 }
 
 Widget getMenuView(ItemMenuData dataItem ,ItemMenuData? itemSelect) {

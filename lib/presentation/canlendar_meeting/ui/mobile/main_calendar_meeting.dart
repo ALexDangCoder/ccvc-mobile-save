@@ -80,7 +80,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: ImageAssets.svgAssets(ImageAssets.icBack),
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ImageAssets.svgAssets(ImageAssets.icBack),
+                ),
               ),
               spaceW12,
               cubit.controller.getIcon(),

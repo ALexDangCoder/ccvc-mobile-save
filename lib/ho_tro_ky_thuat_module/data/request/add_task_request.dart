@@ -9,9 +9,9 @@ class AddTaskHTKTRequest {
   String? buildingName;
   String? room;
   String? name;
-  String? type;
+  List<String>? danhSachSuCo;
   String? userInUnit;
-  String? fileUpload;
+  List<String>? fileUpload;
 
   AddTaskHTKTRequest({
     this.id,
@@ -24,7 +24,7 @@ class AddTaskHTKTRequest {
     this.buildingName,
     this.room,
     this.name,
-    this.type,
+    this.danhSachSuCo,
     this.userInUnit,
     this.fileUpload,
   });
@@ -40,9 +40,9 @@ class AddTaskHTKTRequest {
     buildingName = json['buildingName'];
     room = json['room'];
     name = json['name'];
-    type = json['type'];
+    danhSachSuCo = json['danhSachSuCo'].cast<String>();
     userInUnit = json['userInUnit'];
-    fileUpload = json['fileUpload'];
+    fileUpload = json['fileUpload'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -57,7 +57,7 @@ class AddTaskHTKTRequest {
     data['buildingName'] = buildingName;
     data['room'] = room;
     data['name'] = name;
-    data['type'] = type;
+    data['danhSachSuCo'] = danhSachSuCo;
     data['userInUnit'] = userInUnit;
     data['fileUpload'] = fileUpload;
     return data;

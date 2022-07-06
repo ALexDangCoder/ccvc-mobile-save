@@ -67,7 +67,6 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                       maxHeight: 250.h,
                       showSearchBox: true,
                       mode: Mode.MENU,
-                      popupItemDisabled: (String s) => s.startsWith('I'),
                       items: widget.cubit.listDropDown,
                       dropdownBuilder: (context, value) {
                         return Padding(

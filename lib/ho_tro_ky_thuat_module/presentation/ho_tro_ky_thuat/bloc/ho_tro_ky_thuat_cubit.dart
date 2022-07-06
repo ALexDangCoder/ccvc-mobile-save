@@ -187,7 +187,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         return Colors.blue;
       case 'Khu vực B':
         return Colors.yellow;
-      default://todo
+      default: 
         return Colors.red;
     }
   }
@@ -233,4 +233,92 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   ///Huy
   final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();
+  final BehaviorSubject<bool> showHintDropDown = BehaviorSubject.seeded(true);
+  final BehaviorSubject<bool> showErrorLoaiSuCo = BehaviorSubject();
+  final BehaviorSubject<bool> showErrorKhuVuc = BehaviorSubject();
+  final BehaviorSubject<bool> showErrorToaNha = BehaviorSubject();
+  List<String> loaiSuCoValue = [];
+
+  List<String> getIdListLoaiSuCo(List<String> value) {
+    final List<String> listIdSuCo = [];
+    for (final e in value) {
+      for (final element in listLoaiSuCo.value) {
+          if (element.name == e) {
+            listIdSuCo.add(element.id ?? '');
+          } else {
+
+          }
+        }
+    }
+    print(listIdSuCo);
+    return listIdSuCo;
+  }
+
+  void init() {
+    showErrorLoaiSuCo.add(false);
+    showErrorKhuVuc.add(false);
+    showErrorToaNha.add(false);
+  }
+
+  /*
+  * "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "userRequestId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "phone": "string",
+  "description": "string",
+  "districtId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "districtName": "string",
+  "buildingId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "buildingName": "string",
+  "room": "string",
+  "name": "string",
+  "danhSachSuCo": [
+    "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  ],
+  "userInUnit": "string",
+  "fileUpload": [
+    "string"
+  ]
+  * */
+  bool validateAllDropDown = false;
+
+  void checkAllThemMoiYCHoTro() {
+    if (addTaskHTKTRequest.buildingName == null) {
+      validateAllDropDown = false;
+      showErrorToaNha.sink.add(true);
+    }
+    if (addTaskHTKTRequest.districtName == null) {
+      validateAllDropDown = false;
+      showErrorKhuVuc.sink.add(true);
+    }
+    if ((addTaskHTKTRequest.danhSachSuCo ?? []).isEmpty) {
+      validateAllDropDown = false;
+      showErrorLoaiSuCo.sink.add(true);
+    }
+    if (addTaskHTKTRequest.buildingName != null &&
+        addTaskHTKTRequest.districtName != null &&
+        (addTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
+      validateAllDropDown = true;
+      showErrorToaNha.sink.add(false);
+      showErrorKhuVuc.sink.add(false);
+      showErrorLoaiSuCo.sink.add(false);
+    }
+  }
+
+  void addLoaiSuCo(List<String> value) {}
+
+  void checkShowHintDropDown(List<String> value) {
+    if (value.isEmpty) {
+      showErrorLoaiSuCo.sink.add(true);
+      showHintDropDown.sink.add(true);
+    } else {
+      showErrorLoaiSuCo.sink.add(false);
+      showHintDropDown.sink.add(false);
+    }
+  }
+
+  void dispose() {
+    showErrorLoaiSuCo.close();
+    showErrorKhuVuc.close();
+    showErrorToaNha.close();
+  }
 }

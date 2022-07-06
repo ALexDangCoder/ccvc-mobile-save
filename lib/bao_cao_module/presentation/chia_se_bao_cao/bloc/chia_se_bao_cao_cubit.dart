@@ -37,6 +37,8 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   ReportRepository get _repo => get_dart.Get.find();
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
+  BehaviorSubject<bool> showTree =
+  BehaviorSubject.seeded(false);
   BehaviorSubject<String> callAPI = BehaviorSubject.seeded('');
   final BehaviorSubject<bool> _isDuocTruyCapSubject =
       BehaviorSubject.seeded(true);
@@ -84,6 +86,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
       },
     );
   }
+  //https://api-htcs-test.chinhquyendientu.vn/api/Source/source-share-detail/154b42c9-651f-4d95-9361-1e6791d38f96
 
   Future<void> getMemberInGroup(
     String idGroup,

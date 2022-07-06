@@ -2,11 +2,13 @@ import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_su_co_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/nguoi_tiep_nhan_yeu_cau_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/group_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/support_detail_response.dart';
@@ -23,14 +25,34 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   );
 
   @override
-  Future<Result<List<DanhSachSuCoModel>>> postDanhSachSuCo(
-    int pageIndex,
-    int pageSize,
-  ) {
+  Future<Result<List<DanhSachSuCoModel>>> postDanhSachSuCo({
+    required int pageIndex,
+    required int pageSize,
+    String? codeUnit,
+    String? createOn,
+    String? finishDay,
+    String? userRequestId,
+    String? districtId,
+    String? buildingId,
+    String? room,
+    String? processingCode,
+    String? handlerId,
+    String? keyWord,
+  }) {
     return runCatchingAsync<DanhSachSuCoResponse, List<DanhSachSuCoModel>>(
       () => _hoTroKyThuatService.postDanhSachSuCo(
         pageIndex,
         pageSize,
+        codeUnit,
+        createOn,
+        finishDay,
+        userRequestId,
+        districtId,
+        buildingId,
+        room,
+        processingCode,
+        handlerId,
+        keyWord,
       ),
       (res) => res.data?.pageData?.map((e) => e.toModel()).toList() ?? [],
     );
@@ -83,6 +105,15 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
     return runCatchingAsync<ChartSuCoResponse, ChartSuCoModel>(
       () => _hoTroKyThuatService.getChartSuCo(),
       (res) => res.data?.toModel() ?? ChartSuCoModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<NguoiTiepNhanYeuCauModel>>> getNguoiTiepNhanYeuCau() {
+    return runCatchingAsync<NguoiTiepNhanYeuCauResponse,
+        List<NguoiTiepNhanYeuCauModel>>(
+      () => _hoTroKyThuatService.getNguoiTiepNhanYeuCau(),
+      (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 }

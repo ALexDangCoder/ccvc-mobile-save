@@ -1,7 +1,4 @@
-import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
-import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/calendar_chart_tablet.dart';
@@ -13,7 +10,9 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_month.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_week.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_widget.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_day.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_month.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_week.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
@@ -21,7 +20,6 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.d
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ViewDataMeeting extends StatefulWidget {
@@ -57,8 +55,12 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                 typeChoose: Type_Choose_Option_Day.DAY,
               );
             },
-            buildAppointment:
-                widget.isTablet ? itemAppointmentDayTablet : itemAppointmentDay,
+            buildAppointment: (e) => ItemAppointmentDay(
+              appointment: e,
+              onClick: () {
+                pushToDetail(e);
+              },
+            ),
             isTablet: widget.isTablet,
             onMore: (value) {
               widget.cubit.emitListViewState();
@@ -71,7 +73,12 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         builder: (context, snapshot) {
           final data = snapshot.data ?? DataSourceFCalendar.empty();
           return DataViewCalendarWeek(
-            buildAppointment: itemAppointment,
+            buildAppointment:  (e) => ItemAppointmentWeek(
+              appointment: e,
+              onClick: () {
+                pushToDetail(e);
+              },
+            ),
             propertyChanged: (String property) {
               widget.cubit.propertyChanged(
                 property: property,
@@ -95,7 +102,12 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         builder: (context, snapshot) {
           final data = snapshot.data ?? DataSourceFCalendar.empty();
           return DataViewCalendarMonth(
-            buildAppointment: itemAppointmentMonth,
+            buildAppointment:  (e) => ItemAppointmentMonth(
+              appointment: e,
+              onClick: () {
+                pushToDetail(e);
+              },
+            ),
             propertyChanged: (String property) {
               widget.cubit.propertyChanged(
                 property: property,
@@ -212,188 +224,6 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
     );
   }
 
-  Widget itemAppointmentDayTablet(Appointment appointment) {
-    final lessThan1Hour = appointment.endTime.millisecondsSinceEpoch -
-            appointment.startTime.millisecondsSinceEpoch <
-        60 * 60 * 1000;
-    return GestureDetector(
-      onTap: () {
-        pushToDetail(appointment);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: appointment.isAllDay ? 1 : 6,
-        ),
-        decoration: const BoxDecoration(
-          color: textDefault,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              child: Text(
-                appointment.subject.trim(),
-                maxLines: appointment.isAllDay ? 1 : 2,
-                overflow: TextOverflow.ellipsis,
-                style: textNormalCustom(
-                  color: Colors.white,
-                  fontSize: appointment.isAllDay ? 12 : 16,
-                ),
-              ),
-            ),
-            if (!appointment.isAllDay && !lessThan1Hour) spaceH4,
-            if (!appointment.isAllDay && !lessThan1Hour)
-              Text(
-                '${DateFormat.jm('en').format(
-                  appointment.startTime,
-                )} - ${DateFormat.jm('en').format(
-                  appointment.endTime,
-                )}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: textNormalCustom(
-                  fontSize: 16,
-                  color: backgroundColorApp.withOpacity(0.7),
-                  fontWeight: FontWeight.w400,
-                ),
-              )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget itemAppointment(AppointmentWithDuplicate appointment) {
-    return GestureDetector(
-      onTap: () {
-        pushToDetail(appointment);
-      },
-      child: ItemAppointment(appointment: appointment),
-    );
-  }
-
-  Widget itemAppointmentDay(AppointmentWithDuplicate appointment) {
-    final lessThan1Hour = appointment.endTime.millisecondsSinceEpoch -
-            appointment.startTime.millisecondsSinceEpoch <
-        60 * 60 * 1000;
-    return GestureDetector(
-      onTap: () {
-        pushToDetail(appointment);
-      },
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: appointment.isAllDay ? 1 : 6,
-            ),
-            decoration: const BoxDecoration(
-              color: textDefault,
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  child: Text(
-                    appointment.subject.trim(),
-                    maxLines: appointment.isAllDay ? 1 : 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: textNormalCustom(
-                      color: Colors.white,
-                      fontSize: appointment.isAllDay ? 11 : 14,
-                    ),
-                  ),
-                ),
-                if (!appointment.isAllDay && !lessThan1Hour) spaceH4,
-                if (!appointment.isAllDay && !lessThan1Hour)
-                  Text(
-                    '${DateFormat.jm('en').format(
-                      appointment.startTime,
-                    )} - ${DateFormat.jm('en').format(
-                      appointment.endTime,
-                    )}',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: textNormalCustom(
-                      fontSize: 12,
-                      color: backgroundColorApp.withOpacity(0.7),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-              ],
-            ),
-          ),
-          Visibility(
-            visible: appointment.isDuplicate,
-            child: Positioned(
-              top: 2,
-              right: 2,
-              child: Container(
-                width: 5,
-                height: 5,
-                decoration: const BoxDecoration(
-                  color: redChart,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget itemAppointmentMonth(Appointment appointment) {
-    final data = appointment as AppointmentWithDuplicate;
-    return Align(
-      child: GestureDetector(
-        onTap: () {
-          pushToDetail(data);
-        },
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 1),
-          alignment: Alignment.center,
-          height: 20,
-          decoration: const BoxDecoration(
-            color: textDefault,
-            borderRadius: BorderRadius.all(Radius.circular(4)),
-          ),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Center(
-                child: Text(
-                  appointment.subject.trim(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textNormalCustom(color: Colors.white, fontSize: 9),
-                ),
-              ),
-              Visibility(
-                visible: data.isDuplicate,
-                child: Positioned(
-                  top: 3,
-                  right: 3,
-                  child: Container(
-                    width: 5,
-                    height: 5,
-                    decoration: const BoxDecoration(
-                      color: redChart,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   void pushToDetail(Appointment appointment) {
     if (isMobile()) {
@@ -490,25 +320,26 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   }
 
   Widget actionLichDuocMoi(DashBoardLichHopModel data) {
-    return PopUpMenu(
-      initData: ItemMenuData(
+    final itemData = [
+      ItemMenuData(
         StateType.CHO_XAC_NHAN,
         data.soLichChoXacNhan ?? 0,
       ),
-      data: [
-        ItemMenuData(
-          StateType.CHO_XAC_NHAN,
-          data.soLichChoXacNhan ?? 0,
-        ),
-        ItemMenuData(
-          StateType.THAM_GIA,
-          data.soLichThamGia ?? 0,
-        ),
-        ItemMenuData(
-          StateType.TU_CHOI,
-          data.soLichTuChoi ?? 0,
-        ),
-      ],
+      ItemMenuData(
+        StateType.THAM_GIA,
+        data.soLichThamGia ?? 0,
+      ),
+      ItemMenuData(
+        StateType.TU_CHOI,
+        data.soLichTuChoi ?? 0,
+      ),
+    ];
+    return PopUpMenu(
+      initData: itemData.firstWhere(
+        (element) => element.type == widget.cubit.stateType,
+        orElse: () => itemData.first,
+      ),
+      data: itemData,
       onChange: (type) {
         widget.cubit.stateType = type;
         widget.cubit.getDanhSachLichHop();
@@ -517,25 +348,26 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   }
 
   Widget actionLichCanDuyet(List<int> listCount) {
-    return PopUpMenu(
-      initData: ItemMenuData(
+    final itemData  = [
+      ItemMenuData(
         StateType.CHO_DUYET,
         listCount.isNotEmpty ? listCount.first : 0,
       ),
-      data: [
-        ItemMenuData(
-          StateType.CHO_DUYET,
-          listCount.isNotEmpty ? listCount.first : 0,
-        ),
-        ItemMenuData(
-          StateType.DA_DUYET,
-          listCount.length >= 2 ? listCount[1] : 0,
-        ),
-        ItemMenuData(
-          StateType.TU_CHOI,
-          listCount.length >= 3 ? listCount[2] : 0,
-        ),
-      ],
+      ItemMenuData(
+        StateType.DA_DUYET,
+        listCount.length >= 2 ? listCount[1] : 0,
+      ),
+      ItemMenuData(
+        StateType.TU_CHOI,
+        listCount.length >= 3 ? listCount[2] : 0,
+      ),
+    ];
+    return PopUpMenu(
+      initData: itemData.firstWhere(
+            (element) => element.type == widget.cubit.stateType,
+        orElse: () => itemData.first,
+      ),
+      data: itemData,
       onChange: (type) {
         widget.cubit.stateType = type;
         widget.cubit.getDanhSachLichHop();
@@ -544,21 +376,22 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   }
 
   Widget actionDuyetYeuCauChuanBi(List<int> listCount) {
-    return PopUpMenu(
-      initData: ItemMenuData(
+    final itemData = [
+      ItemMenuData(
         StateType.CHUA_THUC_HIEN,
         listCount.isNotEmpty ? listCount.first : 0,
       ),
-      data: [
-        ItemMenuData(
-          StateType.CHUA_THUC_HIEN,
-          listCount.isNotEmpty ? listCount.first : 0,
-        ),
-        ItemMenuData(
-          StateType.DA_THUC_HIEN,
-          listCount.length >= 2 ? listCount[1] : 0,
-        ),
-      ],
+      ItemMenuData(
+        StateType.DA_THUC_HIEN,
+        listCount.length >= 2 ? listCount[1] : 0,
+      ),
+    ];
+    return PopUpMenu(
+      initData: itemData.firstWhere(
+            (element) => element.type == widget.cubit.stateType,
+        orElse: () => itemData.first,
+      ),
+      data: itemData,
       onChange: (type) {
         widget.cubit.stateType = type;
         widget.cubit.getDanhSachLichHop();

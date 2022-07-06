@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_su_co_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -75,13 +74,15 @@ class DataResponse {
 
 @JsonSerializable()
 class ChartSuCoChildResponse {
-  @JsonKey(name: 'tenSuCo')
-  String? tenSuCo;
-  @JsonKey(name: 'danhSachKhuVuc')
+  @JsonKey(name: 'khuVuc')
+  String? khuVuc;
+  @JsonKey(name: 'taskId')
+  String? taskId;
+  @JsonKey(name: 'danhSachSuCo')
   List<DanhSachKhuVucResponse>? danhSachKhuVuc;
 
   ChartSuCoChildResponse(
-    this.tenSuCo,
+    this.khuVuc,
     this.danhSachKhuVuc,
   );
 
@@ -93,21 +94,25 @@ class ChartSuCoChildResponse {
   Map<String, dynamic> toJson() => _$ChartSuCoChildResponseToJson(this);
 
   ChartSuCoChild toModel() => ChartSuCoChild(
-        tenSuCo: tenSuCo,
+        khuVuc: khuVuc,
+        taskId: taskId,
         danhSachKhuVuc: danhSachKhuVuc?.map((e) => e.toModel()).toList() ?? [],
       );
 }
 
 @JsonSerializable()
 class DanhSachKhuVucResponse {
-  @JsonKey(name: 'khuVuc')
-  String? khuVuc;
+  @JsonKey(name: 'loaiSuCoId')
+  String? loaiSuCoId;
   @JsonKey(name: 'soLuong')
   int? soLuong;
+  @JsonKey(name: 'suCo')
+  String? suCo;
 
   DanhSachKhuVucResponse(
-    this.khuVuc,
+    this.loaiSuCoId,
     this.soLuong,
+    this.suCo,
   );
 
   factory DanhSachKhuVucResponse.fromJson(
@@ -118,7 +123,8 @@ class DanhSachKhuVucResponse {
   Map<String, dynamic> toJson() => _$DanhSachKhuVucResponseToJson(this);
 
   DanhSachKhuVuc toModel() => DanhSachKhuVuc(
-        khuVuc: khuVuc,
+        suCo: suCo,
         soLuong: soLuong,
+        loaiSuCoId: loaiSuCoId,
       );
 }

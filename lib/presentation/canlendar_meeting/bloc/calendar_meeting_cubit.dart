@@ -219,22 +219,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             (countData.soLichChuTriDaDuyet ?? 0) +
             (countData.soLichChuTriTuChoi ?? 0),
       ),
-      ChildMenu(
-        title: StatusWorkCalendar.LICH_HOP_CAN_KLCH.getTitle(),
-        value: StatusDataItem(
-          StatusWorkCalendar.LICH_HOP_CAN_KLCH,
-        ),
-        count: countData.soLichCanBaoCao ?? 0,
-      ),
-      ChildMenu(
-        title: StatusWorkCalendar.LICH_DA_KLCH.getTitle(),
-        value: StatusDataItem(
-          StatusWorkCalendar.LICH_DA_KLCH,
-        ),
-        count: (countData.soLichCoBaoCaoTuChoi ?? 0) +
-            (countData.soLichCoBaoCaoDaDuyet ?? 0) +
-            (countData.soLichCoBaoCaoChoDuyet ?? 0),
-      ),
     ];
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -268,6 +252,20 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
               (countData.soLichDuyetThietBiCho ?? 0),
         ),);
     }
+     if (HiveLocal.checkPermissionApp(
+       permissionType: PermissionType.VPDT,
+       permissionTxt: 'yeu-cau-chuan-bi',
+     )) {
+       listMenuTheoTrangThai.add(
+         ChildMenu(
+           title: StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI.getTitle(),
+           value: StatusDataItem(
+             StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
+           ),
+           count: (countData.soLichDaThucHienYC ?? 0) +
+               (countData.soLichChuaThucHienYC ?? 0),
+         ),);
+     }
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
       permissionTxt: 'duyet-ky-thuat',
@@ -284,20 +282,25 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         ),
       );
     }
-    if (HiveLocal.checkPermissionApp(
-      permissionType: PermissionType.VPDT,
-      permissionTxt: 'yeu-cau-chuan-bi',
-    )) {
-      listMenuTheoTrangThai.add(
-        ChildMenu(
-          title: StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI.getTitle(),
-          value: StatusDataItem(
-            StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
-          ),
-          count: (countData.soLichDaThucHienYC ?? 0) +
-              (countData.soLichChuaThucHienYC ?? 0),
-        ),);
-    }
+
+    listMenuTheoTrangThai.addAll([
+      ChildMenu(
+        title: StatusWorkCalendar.LICH_HOP_CAN_KLCH.getTitle(),
+        value: StatusDataItem(
+          StatusWorkCalendar.LICH_HOP_CAN_KLCH,
+        ),
+        count: countData.soLichCanBaoCao ?? 0,
+      ),
+      ChildMenu(
+        title: StatusWorkCalendar.LICH_DA_KLCH.getTitle(),
+        value: StatusDataItem(
+          StatusWorkCalendar.LICH_DA_KLCH,
+        ),
+        count: (countData.soLichCoBaoCaoTuChoi ?? 0) +
+            (countData.soLichCoBaoCaoDaDuyet ?? 0) +
+            (countData.soLichCoBaoCaoChoDuyet ?? 0),
+      ),
+    ]);
 
     return listMenuTheoTrangThai;
   }

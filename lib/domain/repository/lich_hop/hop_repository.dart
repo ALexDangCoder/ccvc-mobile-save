@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/creat_ket_luan_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
@@ -406,8 +407,7 @@ mixin HopRepository {
     String reportStatusId,
     String reportTemplateId,
     String content,
-    // List<File> files,
-    // List<String> filesDelete,
+    List<File> files,
   );
 
   Future<Result<bool>> guiDuyetKetLuanHop(
@@ -418,4 +418,3 @@ mixin HopRepository {
     String meetId,
   );
 }
-

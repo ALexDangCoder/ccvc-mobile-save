@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/creat_ket_luan_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
@@ -74,9 +75,9 @@ extension KetLuanHop on DetailMeetCalenderCubit {
       case 2:
         return TrangThai.DA_DUYET;
       case 0:
-        return TrangThai.CHUA_GUI_DUYET;
+        return TrangThai.NHAP;
       case 3:
-        return TrangThai.HUY_DUYET;
+        return TrangThai.TU_CHOI;
       default:
         return TrangThai.CHO_DUYET;
     }
@@ -176,6 +177,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
+        getXemKetLuanHop(idCuocHop);
         return true;
       },
       error: (err) {
@@ -184,7 +186,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         return false;
       },
     );
-    await getXemKetLuanHop(idCuocHop);
     showContent();
     return true;
   }
@@ -259,8 +260,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
       reportStatusId,
       reportTemplateId,
       noiDung.value,
-      // [],
-      // [],
+      files,
     );
     result.when(
       success: (res) {

@@ -1220,7 +1220,9 @@
   "tat_ca": "Tất cả",
   "dang_ky_thanh_cong": "Đăng ký thành công",
   "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau",
-  "thong_ke_su_co": "Thống kê sự cố theo khu vực"
+  "thong_ke_su_co": "Thống kê sự cố theo khu vực",
+  "chon_tinh_trang": "Chọn tình trạng",
+  "vui_long_chon_tinh_trang": "Vui lòng chọn Tình trạng"
 }
 
 

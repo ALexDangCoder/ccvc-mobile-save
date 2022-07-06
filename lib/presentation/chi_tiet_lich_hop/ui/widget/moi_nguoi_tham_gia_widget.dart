@@ -73,7 +73,19 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   btnRightTxt: S.current.dong_y,
                   funcBtnRight: () {
                     if (widget.cubit.selectedIds.isNotEmpty) {
-                      widget.cubit.postDiemDanh();
+                      widget.cubit.postDiemDanh().then(
+                            (value) => showDiaLog(
+                              context,
+                              title: S.current.diem_danh,
+                              icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+                              btnRightTxt: '',
+                              btnLeftTxt: '',
+                              funcBtnRight: () {
+                                Navigator.pop(context);
+                              },
+                              isColorBlueInOnlyButton: false,
+                            ),
+                          );
                     }
                   },
                   textContent: S.current.conten_diem_danh,

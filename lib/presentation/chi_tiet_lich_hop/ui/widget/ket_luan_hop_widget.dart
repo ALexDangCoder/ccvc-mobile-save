@@ -101,65 +101,67 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   Widget ketLuanHop() => StreamBuilder<KetLuanHopModel>(
         stream: widget.cubit.ketLuanHopSubject.stream,
         builder: (context, snapshot) {
-          final data = snapshot.data;
-          if (data != null && widget.cubit.xemKetLuanHop()) {
-            final data = snapshot.data;
-            return Column(
-              children: [
-                ItemKetLuanHopWidget(
-                  title: '${S.current.ket_luan_hop} (${data?.title ?? ''})',
-                  time: data?.thoiGian ?? '',
-                  trangThai: data?.trangThai ?? TrangThai.CHO_DUYET,
-                  tinhTrang: data?.tinhTrang ?? TinhTrang.TRUNG_BINH,
-                  id: widget.cubit.idCuocHop,
-                  cubit: widget.cubit,
-                  listFile: data?.file ?? [],
-                ),
-                if (!widget.cubit.isDuyetOrHuyKetLuanHop())
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Row(
-                      children: [
-                        if (widget.cubit.isDuyetKL())
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: ButtonOtherWidget(
-                              text: S.current.duyet,
-                              color: itemWidgetUsing,
-                              ontap: () {
-                                widget.cubit
-                                    .xacNhanHoacHuyKetLuanHop(isDuyet: true);
-                              },
-                            ),
-                          ),
-                        if (widget.cubit.isTuCHoiKL())
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: ButtonOtherWidget(
-                              text: S.current.tu_choi,
-                              color: statusCalenderRed,
-                              ontap: () {
-                                widget.cubit
-                                    .xacNhanHoacHuyKetLuanHop(isDuyet: false);
-                              },
-                            ),
-                          ),
-                        if (widget.cubit.isGuiDuyet())
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: ButtonOtherWidget(
-                              text: S.current.gui_duyet,
-                              color: color02C5DD,
-                              ontap: () {
-                                widget.cubit.guiDuyetKetLuanHop();
-                              },
-                            ),
-                          ),
-                      ],
-                    ),
+          final data = snapshot.data ?? KetLuanHopModel();
+
+          if (data.title != '') {
+            if (widget.cubit.xemKetLuanHop()) {
+              return Column(
+                children: [
+                  ItemKetLuanHopWidget(
+                    title: '${S.current.ket_luan_hop} (${data.title ?? ''})',
+                    time: data.thoiGian,
+                    trangThai: data.trangThai,
+                    tinhTrang: data.tinhTrang,
+                    id: widget.cubit.idCuocHop,
+                    cubit: widget.cubit,
+                    listFile: data.file ?? [],
                   ),
-              ],
-            );
+                  if (!widget.cubit.isDuyetOrHuyKetLuanHop())
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Row(
+                        children: [
+                          if (widget.cubit.isDuyetKL())
+                            Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: ButtonOtherWidget(
+                                text: S.current.duyet,
+                                color: itemWidgetUsing,
+                                ontap: () {
+                                  widget.cubit
+                                      .xacNhanHoacHuyKetLuanHop(isDuyet: true);
+                                },
+                              ),
+                            ),
+                          if (widget.cubit.isTuCHoiKL())
+                            Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: ButtonOtherWidget(
+                                text: S.current.tu_choi,
+                                color: statusCalenderRed,
+                                ontap: () {
+                                  widget.cubit
+                                      .xacNhanHoacHuyKetLuanHop(isDuyet: false);
+                                },
+                              ),
+                            ),
+                          if (widget.cubit.isGuiDuyet())
+                            Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: ButtonOtherWidget(
+                                text: S.current.gui_duyet,
+                                color: color02C5DD,
+                                ontap: () {
+                                  widget.cubit.guiDuyetKetLuanHop();
+                                },
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                ],
+              );
+            }
           }
           if (widget.cubit.isSoanKetLuanHop()) {
             return IconWithTiltleWidget(
@@ -176,6 +178,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
               },
             );
           }
+
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 30),
             child: NodataWidget(),
@@ -342,7 +345,6 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           btnLeftTxt: S.current.khong,
                           funcBtnRight: () {
                             cubit.thuHoiKetLuanHop();
-                            Navigator.pop(context);
                           },
                           title: S.current.thu_hoi_ket_luan_hop,
                           btnRightTxt: S.current.dong_y,

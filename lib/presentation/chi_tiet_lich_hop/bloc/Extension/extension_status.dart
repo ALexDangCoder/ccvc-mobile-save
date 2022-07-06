@@ -37,10 +37,10 @@ extension trangThai on TrangThai {
       case TrangThai.CHO_DUYET:
         return status(S.current.cho_duyet, processingColor);
 
-      case TrangThai.CHUA_GUI_DUYET:
+      case TrangThai.NHAP:
         return status(S.current.nhap, subTitle);
 
-      case TrangThai.HUY_DUYET:
+      case TrangThai.TU_CHOI:
         return status(S.current.huy_duyet, canceledColor);
 
       case TrangThai.DA_DUYET:

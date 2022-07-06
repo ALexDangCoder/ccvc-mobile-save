@@ -44,9 +44,7 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
     final result = await hopRp.postDiemDanh(selectedIds);
     result.when(
       success: (value) {
-        if (value.succeeded == true) {
-          getDanhSachCuocHopTPTH();
-        }
+        getDanhSachCuocHopTPTH();
         selectedIds.clear();
       },
       error: (error) {},

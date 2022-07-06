@@ -83,8 +83,8 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
               ),
             )
             .toList();
-        listDataCanBo.addAll(listCanBoMoi);
-        listDonViModel.sink.add(listCanBoMoi);
+        listDataCanBo = listCanBoMoi;
+        listDonViModel.sink.add(listDataCanBo);
         idCanBoDiThay = idCanBo.id ?? '';
       },
       error: (error) {},

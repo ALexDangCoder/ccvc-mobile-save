@@ -48,7 +48,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
   void initState() {
     super.initState();
     widget.cubit.cacLuaChonBieuQuyet = [];
-    widget.cubit.listDanhSach = [DanhSachNguoiThamGiaModel()];
+    widget.cubit.listDanhSach = [];
     widget.cubit.isValidateSubject.sink.add(false);
     widget.cubit.date =
         coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
@@ -132,8 +132,10 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                         onchange: (value) {
                           if (value.isEmpty) {
                             isShow = true;
+                            setState(() {});
                           } else {
                             isShow = false;
+                            setState(() {});
                           }
                           widget.cubit.listLuaChon = value;
                         },
@@ -160,8 +162,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                                 urlIcon: ImageAssets.icDocument,
                                 title: S.current.loai_bai_viet,
                                 onChange: (value) {
-                                  setState(() {});
-                                  if (widget.cubit.listDanhSach.isEmpty) {
+                                  if (value.isEmpty) {
                                     widget.cubit.isValidateSubject.sink
                                         .add(true);
                                   } else {
@@ -192,13 +193,11 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                     if (noiDungController.text.isEmpty ||
                         widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
                         widget.cubit.listDanhSach.isEmpty) {
+                      formKeyNoiDung.currentState!.validate();
+                      setState(() {});
                       isShow = true;
                       widget.cubit.isValidateSubject.sink.add(true);
-                      setState(() {});
-                      formKeyNoiDung.currentState!.validate();
                     } else {
-                      isShow = false;
-                      widget.cubit.isValidateSubject.sink.add(false);
                       setState(() {});
                       await widget.cubit.postThemBieuQuyetHop(
                         widget.id,

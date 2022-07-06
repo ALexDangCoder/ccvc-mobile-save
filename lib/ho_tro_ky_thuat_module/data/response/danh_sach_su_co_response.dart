@@ -92,12 +92,16 @@ class PageDataResponse {
         moTaSuCo: moTaSuCo,
         soDienThoai: soDienThoai,
         diaChi: diaChi,
-        thoiGianYeuCau: DateTime.parse(thoiGianYeuCau ?? '').formatApiLichSu,
+        thoiGianYeuCau: thoiGianYeuCau?.isNotEmpty ?? false
+            ? DateTime.parse(thoiGianYeuCau ?? '').formatApiLichSu
+            : '',
         nguoiYeuCau: nguoiYeuCau,
         donVi: donVi,
         trangThaiXuLy: trangThaiXuLy,
         ketQuaXuLy: ketQuaXuLy,
         nguoiXuLy: nguoiXuLy,
-        ngayHoanThanh: DateTime.parse(ngayHoanThanh ?? '').formatApiLichSu,
+        ngayHoanThanh: ngayHoanThanh?.isNotEmpty ?? false
+            ? DateTime.parse(ngayHoanThanh ?? '').formatApiLichSu
+            : '',
       );
 }

@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/them_moi_yc_ho_tro_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/tim_kiem/mobile/tim_kiem_yc_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/listview/listview_loadmore.dart';
@@ -87,7 +88,20 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              //TimKiemYcHoTro
+              //todo check data
+              if (widget.cubit.listTrangThai.value.isNotEmpty) {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => TimKiemYcHoTro(
+                    cubit: widget.cubit,
+                  ),
+                );
+              }
+            },
             child: SvgPicture.asset(
               ImageAssets.ic_search,
             ),

@@ -491,10 +491,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   ///btn moi nguoi tham gia
   bool isBtnMoiNguoiThamGia() {
-    if (getChiTietLichHopModel.chuTriModel.canBoId ==
-            (dataUser?.userId ?? '') ||
-        isThuKy() ||
-        isTaoLich()) {
+    if (isChuTri() || isThuKy() || isTaoLich()) {
       return true;
     }
     return false;

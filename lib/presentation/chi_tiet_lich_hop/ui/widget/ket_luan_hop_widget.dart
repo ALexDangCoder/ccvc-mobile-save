@@ -102,68 +102,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
         stream: widget.cubit.ketLuanHopSubject.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? KetLuanHopModel();
-
-          if (data.title != '') {
-            if (widget.cubit.xemKetLuanHop()) {
-              return Column(
-                children: [
-                  ItemKetLuanHopWidget(
-                    title: '${S.current.ket_luan_hop} (${data.title ?? ''})',
-                    time: data.thoiGian,
-                    trangThai: data.trangThai,
-                    tinhTrang: data.tinhTrang,
-                    id: widget.cubit.idCuocHop,
-                    cubit: widget.cubit,
-                    listFile: data.file ?? [],
-                  ),
-                  if (!widget.cubit.isDuyetOrHuyKetLuanHop())
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Row(
-                        children: [
-                          if (widget.cubit.isDuyetKL())
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12),
-                              child: ButtonOtherWidget(
-                                text: S.current.duyet,
-                                color: itemWidgetUsing,
-                                ontap: () {
-                                  widget.cubit
-                                      .xacNhanHoacHuyKetLuanHop(isDuyet: true);
-                                },
-                              ),
-                            ),
-                          if (widget.cubit.isTuCHoiKL())
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12),
-                              child: ButtonOtherWidget(
-                                text: S.current.tu_choi,
-                                color: statusCalenderRed,
-                                ontap: () {
-                                  widget.cubit
-                                      .xacNhanHoacHuyKetLuanHop(isDuyet: false);
-                                },
-                              ),
-                            ),
-                          if (widget.cubit.isGuiDuyet())
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12),
-                              child: ButtonOtherWidget(
-                                text: S.current.gui_duyet,
-                                color: color02C5DD,
-                                ontap: () {
-                                  widget.cubit.guiDuyetKetLuanHop();
-                                },
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                ],
-              );
-            }
-          }
-          if (widget.cubit.isSoanKetLuanHop()) {
+          if ((data.title ?? '').isEmpty && widget.cubit.isSoanKetLuanHop()) {
             return IconWithTiltleWidget(
               icon: ImageAssets.icDocument2,
               title: S.current.soan_ket_luan_hop,
@@ -177,8 +116,64 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                 );
               },
             );
+          } else if (widget.cubit.xemKetLuanHop()) {
+            return Column(
+              children: [
+                ItemKetLuanHopWidget(
+                  title: '${S.current.ket_luan_hop} (${data.title ?? ''})',
+                  time: data.thoiGian,
+                  trangThai: data.trangThai,
+                  tinhTrang: data.tinhTrang,
+                  id: widget.cubit.idCuocHop,
+                  cubit: widget.cubit,
+                  listFile: data.file ?? [],
+                ),
+                if (!widget.cubit.isDuyetOrHuyKetLuanHop())
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Row(
+                      children: [
+                        if (widget.cubit.isDuyetKL())
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: ButtonOtherWidget(
+                              text: S.current.duyet,
+                              color: itemWidgetUsing,
+                              ontap: () {
+                                widget.cubit
+                                    .xacNhanHoacHuyKetLuanHop(isDuyet: true);
+                              },
+                            ),
+                          ),
+                        if (widget.cubit.isTuCHoiKL())
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: ButtonOtherWidget(
+                              text: S.current.tu_choi,
+                              color: statusCalenderRed,
+                              ontap: () {
+                                widget.cubit
+                                    .xacNhanHoacHuyKetLuanHop(isDuyet: false);
+                              },
+                            ),
+                          ),
+                        if (widget.cubit.isGuiDuyet())
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: ButtonOtherWidget(
+                              text: S.current.gui_duyet,
+                              color: color02C5DD,
+                              ontap: () {
+                                widget.cubit.guiDuyetKetLuanHop();
+                              },
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+              ],
+            );
           }
-
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 30),
             child: NodataWidget(),

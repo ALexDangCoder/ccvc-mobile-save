@@ -16,6 +16,7 @@ class CustomDropDown extends StatefulWidget {
   final double? paddingRight;
   final double? paddingTop;
   final double? paddingBottom;
+  final double? itemHeight;
 
   CustomDropDown({
     Key? key,
@@ -27,6 +28,7 @@ class CustomDropDown extends StatefulWidget {
     this.paddingRight,
     this.paddingTop,
     this.paddingBottom,
+    this.itemHeight,
   }) : super(key: key);
 
   @override
@@ -77,6 +79,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                         )
                       else
                         DropdownButtonWidget<String>(
+                          itemHeight: widget.itemHeight,
                           underline: Container(),
                           isExpanded: true,
                           value: widget.value,

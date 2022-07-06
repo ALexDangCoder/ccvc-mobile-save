@@ -1253,6 +1253,7 @@
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
   "thong_ke_su_co": "Thống kê sự cố theo khu vực",
   "chon_tinh_trang": "Chọn tình trạng",
-  "vui_long_chon_tinh_trang": "Vui lòng chọn Tình trạng"
+  "vui_long_chon_tinh_trang": "Vui lòng chọn Tình trạng",
+  "diem_danh_ho_nguoi_khac" : "Chọn bên dưới để điểm danh cho những người khác"
 
 }

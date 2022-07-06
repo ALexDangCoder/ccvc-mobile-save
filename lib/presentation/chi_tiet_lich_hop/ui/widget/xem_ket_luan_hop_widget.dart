@@ -134,16 +134,18 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           builder: (context, snapshot) {
                             final data = snapshot.data?.items ?? [];
                             return CustomDropDown(
-                              hint: data.isNotEmpty
-                                  ? Text(
-                                      widget.cubit.getValueMauBienBanWithId(
-                                        widget.cubit.xemKetLuanHopModel
-                                                .reportTemplateId ??
-                                            S.current.chon_mau_bien_ban,
-                                      ),
-                                      style: textNormal(titleItemEdit, 14),
-                                    )
-                                  : const SizedBox(),
+                              hint: Text(
+                                widget.cubit
+                                        .getValueMauBienBanWithId(
+                                          widget.cubit.xemKetLuanHopModel
+                                                  .reportTemplateId ??
+                                              '',
+                                        )
+                                        .isEmpty
+                                    ? S.current.chon_mau_bien_ban
+                                    : '',
+                                style: textNormal(titleItemEdit, 14),
+                              ),
                               items: data.map((e) => e.name).toList(),
                               onSelectItem: (value) {
                                 widget.cubit.getValueMauBienBan(value);

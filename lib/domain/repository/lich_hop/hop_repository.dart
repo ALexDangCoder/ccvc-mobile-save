@@ -307,7 +307,7 @@ mixin HopRepository {
     int type,
   );
 
-  Future<Result<ResponseModel>> postDiemDanh(
+  Future<Result<bool>> postDiemDanh(
     List<String> data,
   );
 
@@ -316,7 +316,7 @@ mixin HopRepository {
     List<ThuHoiHopRequest> thuHoiHopRequest,
   );
 
-  Future<Result<ResponseModel>> postHuyDiemDanh(
+  Future<Result<bool>> postHuyDiemDanh(
     String data,
   );
 

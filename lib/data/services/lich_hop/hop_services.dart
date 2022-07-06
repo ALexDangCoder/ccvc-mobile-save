@@ -386,7 +386,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DIEM_DANH)
-  Future<PhanCongThuKyResponse> postDiemDanh(
+  Future<ThemPhienHopResponse> postDiemDanh(
     @Body() List<String> data,
   );
 
@@ -397,7 +397,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.HUY_DIEM_DANH)
-  Future<PhanCongThuKyResponse> postHuyDiemDanh(
+  Future<ThemPhienHopResponse> postHuyDiemDanh(
     @Query('request') String request,
   );
 
@@ -511,11 +511,11 @@ abstract class HopServices {
 
   @PUT(ApiConstants.GUI_DUYET_KET_LUAN_HOP)
   Future<ThemPhienHopResponse> guiDuyetKetLuanHop(
-    @Field('meetId') String meetId,
+    @Query('meetId') String meetId,
   );
 
   @PUT(ApiConstants.THU_HOI__KET_LUAN_HOP)
   Future<ThemPhienHopResponse> thuHoiKetLuanHop(
-    @Field('meetId') String meetId,
+    @Query('meetId') String meetId,
   );
 }

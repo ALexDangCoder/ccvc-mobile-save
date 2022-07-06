@@ -57,7 +57,9 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit.getListPhienHop(cubit.idCuocHop);
     _cubitThanhPhan.getTree();
     cubit
-        .initDataChiTiet(needCheckPermission: true);
+        .initDataChiTiet(needCheckPermission: true)
+        .then((value) => setState(() {}));
+    cubit.getDanhSachCanBoHop(widget.id);
   }
 
   @override

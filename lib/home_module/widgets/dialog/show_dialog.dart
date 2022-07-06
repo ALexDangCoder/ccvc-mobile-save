@@ -17,6 +17,7 @@ Future<T?> showDiaLog<T>(BuildContext context, {
   bool isBottomShow = true,
   bool isOneButton = true,
   bool isColorBlueInOnlyButton = false,
+  double? widthOnlyButton,
   required Function funcBtnRight,
 }) {
   return showDialog(
@@ -74,7 +75,7 @@ Future<T?> showDiaLog<T>(BuildContext context, {
                   style: titleAppbar(),
                   textAlign: TextAlign.center,
                 ),
-              if (isOneButton && textContent != '')
+              if (isOneButton || textContent != '')
                 Column(
                   children: [
                     SizedBox(
@@ -127,7 +128,7 @@ Future<T?> showDiaLog<T>(BuildContext context, {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 86,
+                      width: widthOnlyButton ?? 86,
                       child: ButtonCustomBottom(
                         isColorBlue: isColorBlueInOnlyButton,
                         title: btnRightTxt,

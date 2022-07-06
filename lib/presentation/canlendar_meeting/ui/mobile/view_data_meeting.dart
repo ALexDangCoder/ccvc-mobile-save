@@ -490,25 +490,26 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   }
 
   Widget actionLichDuocMoi(DashBoardLichHopModel data) {
-    return PopUpMenu(
-      initData: ItemMenuData(
+    final itemData = [
+      ItemMenuData(
         StateType.CHO_XAC_NHAN,
         data.soLichChoXacNhan ?? 0,
       ),
-      data: [
-        ItemMenuData(
-          StateType.CHO_XAC_NHAN,
-          data.soLichChoXacNhan ?? 0,
-        ),
-        ItemMenuData(
-          StateType.THAM_GIA,
-          data.soLichThamGia ?? 0,
-        ),
-        ItemMenuData(
-          StateType.TU_CHOI,
-          data.soLichTuChoi ?? 0,
-        ),
-      ],
+      ItemMenuData(
+        StateType.THAM_GIA,
+        data.soLichThamGia ?? 0,
+      ),
+      ItemMenuData(
+        StateType.TU_CHOI,
+        data.soLichTuChoi ?? 0,
+      ),
+    ];
+    return PopUpMenu(
+      initData: itemData.firstWhere(
+        (element) => element.type == widget.cubit.stateType,
+        orElse: () => itemData.first,
+      ),
+      data: itemData,
       onChange: (type) {
         widget.cubit.stateType = type;
         widget.cubit.getDanhSachLichHop();
@@ -517,25 +518,26 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   }
 
   Widget actionLichCanDuyet(List<int> listCount) {
-    return PopUpMenu(
-      initData: ItemMenuData(
+    final itemData  = [
+      ItemMenuData(
         StateType.CHO_DUYET,
         listCount.isNotEmpty ? listCount.first : 0,
       ),
-      data: [
-        ItemMenuData(
-          StateType.CHO_DUYET,
-          listCount.isNotEmpty ? listCount.first : 0,
-        ),
-        ItemMenuData(
-          StateType.DA_DUYET,
-          listCount.length >= 2 ? listCount[1] : 0,
-        ),
-        ItemMenuData(
-          StateType.TU_CHOI,
-          listCount.length >= 3 ? listCount[2] : 0,
-        ),
-      ],
+      ItemMenuData(
+        StateType.DA_DUYET,
+        listCount.length >= 2 ? listCount[1] : 0,
+      ),
+      ItemMenuData(
+        StateType.TU_CHOI,
+        listCount.length >= 3 ? listCount[2] : 0,
+      ),
+    ];
+    return PopUpMenu(
+      initData: itemData.firstWhere(
+            (element) => element.type == widget.cubit.stateType,
+        orElse: () => itemData.first,
+      ),
+      data: itemData,
       onChange: (type) {
         widget.cubit.stateType = type;
         widget.cubit.getDanhSachLichHop();
@@ -544,21 +546,22 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
   }
 
   Widget actionDuyetYeuCauChuanBi(List<int> listCount) {
-    return PopUpMenu(
-      initData: ItemMenuData(
+    final itemData = [
+      ItemMenuData(
         StateType.CHUA_THUC_HIEN,
         listCount.isNotEmpty ? listCount.first : 0,
       ),
-      data: [
-        ItemMenuData(
-          StateType.CHUA_THUC_HIEN,
-          listCount.isNotEmpty ? listCount.first : 0,
-        ),
-        ItemMenuData(
-          StateType.DA_THUC_HIEN,
-          listCount.length >= 2 ? listCount[1] : 0,
-        ),
-      ],
+      ItemMenuData(
+        StateType.DA_THUC_HIEN,
+        listCount.length >= 2 ? listCount[1] : 0,
+      ),
+    ];
+    return PopUpMenu(
+      initData: itemData.firstWhere(
+            (element) => element.type == widget.cubit.stateType,
+        orElse: () => itemData.first,
+      ),
+      data: itemData,
       onChange: (type) {
         widget.cubit.stateType = type;
         widget.cubit.getDanhSachLichHop();

@@ -44,7 +44,8 @@ class TextFieldValidator extends StatefulWidget {
     this.fillColor,
     this.maxLength,
     this.inputFormatters,
-    this.validatorPaste, this.decoration,
+    this.validatorPaste,
+    this.decoration,
   }) : super(key: key);
 
   @override
@@ -97,7 +98,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
     });
     if (formProvider != null) {
       formProvider?.validator.addAll({key: true});
-
     }
   }
 
@@ -140,40 +140,41 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           color: color3D5586,
         ),
         enabled: widget.isEnabled,
-        decoration: widget.decoration ?? InputDecoration(
-          counterText: '',
-          hintText: widget.hintText,
-          hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
-          contentPadding: widget.maxLine == 1
-              ? const EdgeInsets.symmetric(vertical: 14, horizontal: 10)
-              : null,
-          suffixIcon: widget.suffixIcon,
-          prefixIcon: widget.prefixIcon,
-          fillColor: widget.isEnabled
-              ? widget.fillColor ?? Colors.transparent
-              : borderColor.withOpacity(0.3),
-          filled: true,
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
-          errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
-          focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
-        ),
+        decoration: widget.decoration ??
+            InputDecoration(
+              counterText: '',
+              hintText: widget.hintText,
+              hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
+              contentPadding: widget.maxLine == 1
+                  ? const EdgeInsets.symmetric(vertical: 14, horizontal: 10)
+                  : null,
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
+              fillColor: widget.isEnabled
+                  ? widget.fillColor ?? Colors.transparent
+                  : borderColor.withOpacity(0.3),
+              filled: true,
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
+              focusedErrorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
+            ),
         validator: (value) {
           if (widget.validator != null) {
             return widget.validator!(value);

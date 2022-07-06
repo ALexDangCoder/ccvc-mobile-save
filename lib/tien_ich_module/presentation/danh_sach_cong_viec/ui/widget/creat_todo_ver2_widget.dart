@@ -5,7 +5,9 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/button/button_select_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
@@ -42,17 +44,17 @@ class CreatTodoOrUpdateWidget extends StatefulWidget {
 class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController tieuDeController = TextEditingController();
   final TextEditingController noteControler = TextEditingController();
-  int sizeFile = 0;
   BehaviorSubject<bool> isShow = BehaviorSubject.seeded(false);
+  late String nameFileSelect;
 
   @override
   void initState() {
     // TODO: implement initState
     widget.cubit.titleChange = widget.todo?.label ?? '';
-    widget.cubit.filePath = widget.todo?.filePath ?? '';
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
+    nameFileSelect = '';
   }
 
   @override
@@ -83,22 +85,15 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
 
               return;
             }
-            if (sizeFile > 31457280) {
-              final toast = FToast();
-              toast.init(context);
-              toast.showToast(
-                child: ShowToast(
-                  text: S.current.file_qua_30M,
-                ),
-                gravity: ToastGravity.BOTTOM,
-              );
-              return;
-            }
+
             if (widget.isCreate ?? true) {
-              widget.cubit.addTodo();
+              widget.cubit.addTodo(
+                fileName: nameFileSelect,
+              );
             } else {
               widget.cubit.editWork(
                 todo: widget.todo ?? TodoDSCVModel(),
+                filePathTodo: nameFileSelect,
               );
             }
 
@@ -249,15 +244,16 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
 
                 /// chọn file
                 ButtonSelectFile(
+                  isShowListFile: false,
                   title: S.current.them_tai_lieu_dinh_kem,
                   onChange: (files) {
-                    if (files[0].lengthSync() > 31457280 && files.isNotEmpty) {
-                      sizeFile = files[0].lengthSync();
+                    if (files.first.lengthSync() > widget.cubit.maxSizeFile) {
+                      showToast();
                     } else {
-                      widget.cubit.uploadFilesWithFile(files[0]);
-                      return;
+                      widget.cubit.uploadFilesWithFile(files.first).then(
+                            (value) => nameFileSelect = value,
+                          );
                     }
-                    widget.cubit.nameFile.sink.add('');
                   },
                 ),
 
@@ -266,16 +262,17 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   stream: widget.cubit.nameFile,
                   builder: (context, snapshot) {
                     final data = snapshot.data;
-                    if (snapshot.hasData &&
-                        (widget.todo?.showIconFile() ?? true) &&
-                        data != '') {
+                    if (snapshot.hasData && data != '') {
                       return FileFromAPIWidget(
                         data: data ?? '',
                         onTapDelete: () {
-                          widget.cubit.editWork(
-                            todo: widget.todo ?? TodoDSCVModel(),
-                            filePathTodo: '',
-                          );
+                          widget.cubit
+                              .editWork(
+                                todo: widget.todo ?? TodoDSCVModel(),
+                                filePathTodo: '',
+                              )
+                              .then((value) =>
+                                  widget.cubit.nameFile.sink.add(''));
                         },
                       );
                     }
@@ -301,6 +298,17 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
           ),
         ),
       ),
+    );
+  }
+
+  void showToast() {
+    final toast = FToast();
+    toast.init(context);
+    toast.showToast(
+      child: ShowToast(
+        text: S.current.file_qua_30M,
+      ),
+      gravity: ToastGravity.BOTTOM,
     );
   }
 }

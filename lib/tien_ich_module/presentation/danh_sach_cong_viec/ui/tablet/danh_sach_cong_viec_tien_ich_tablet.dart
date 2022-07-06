@@ -87,7 +87,7 @@ class _DanhSachCongViecTienIchTabletState
                       Padding(
                         padding: const EdgeInsets.only(bottom: 28),
                         child: StreamBuilder<List<TodoDSCVModel>>(
-                          stream: cubit.listDSCV.stream,
+                          stream: cubit.listDSCVStream.stream,
                           builder: (context, snapshot) {
                             final data = snapshot.data
                                     ?.where(
@@ -122,7 +122,7 @@ class _DanhSachCongViecTienIchTabletState
                         dataType == DSCVScreen.DHT ||
                         dataType == DSCVScreen.NCVM)
                       StreamBuilder<List<TodoDSCVModel>>(
-                        stream: cubit.listDSCV.stream,
+                        stream: cubit.listDSCVStream.stream,
                         builder: (context, snapshot) {
                           final data = snapshot.data
                                   ?.where(

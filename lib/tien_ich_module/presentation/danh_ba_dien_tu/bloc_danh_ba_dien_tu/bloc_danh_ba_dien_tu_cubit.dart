@@ -31,7 +31,6 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   BehaviorSubject<TreeDanhBaDienTu> listTreeDanhBaSubject =
       BehaviorSubject<TreeDanhBaDienTu>();
   TreeDanhBaDienTu dataTypeTree = TreeDanhBaDienTu();
-
   List<TreeDonViDanhBA> listTreeDanhBa = [];
   Debouncer debouncer = Debouncer();
   final List<String> _listId = [];
@@ -517,8 +516,6 @@ extension TreeDanhBa on DanhBaDienTuCubit {
 
     ans.initTree(listNode: result);
     listTreeDanhBaSubject.add(ans);
-
-    print(listTreeDanhBaSubject.value.tree.length);
   }
 
   TreeDonViDanhBA init() {

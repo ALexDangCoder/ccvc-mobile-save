@@ -247,10 +247,10 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   isShowListFile: false,
                   title: S.current.them_tai_lieu_dinh_kem,
                   onChange: (files) {
-                    if (files[0].lengthSync() > 31457280) {
+                    if (files.first.lengthSync() > widget.cubit.maxSizeFile) {
                       showToast();
                     } else {
-                      widget.cubit.uploadFilesWithFile(files[0]).then(
+                      widget.cubit.uploadFilesWithFile(files.first).then(
                             (value) => nameFileSelect = value,
                           );
                     }

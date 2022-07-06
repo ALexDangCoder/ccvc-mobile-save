@@ -29,6 +29,8 @@ class DanhSachCongViecTienIchCubit
   int countLoadMore = 1;
   TextEditingController searchControler = TextEditingController();
   Timer? _debounce;
+  final int maxSizeFile = 31457280;
+
 
   ///id nhom nhiem vu
   String groupId = '';

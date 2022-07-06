@@ -404,13 +404,6 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
     reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
   }
 
-  void init(List<TinhTrangBaoCaoModel> list) {
-    if (list.isNotEmpty) {
-      reportStatusId = list.first.id ?? '';
-      tinhTrangBaoCaoModel = list.first;
-    }
-  }
-
   Future<void> createScheduleReport(String scheduleId, String content) async {
     ShowLoadingScreen.show();
     final result = await detailLichLamViec.taoBaoCaoKetQua(

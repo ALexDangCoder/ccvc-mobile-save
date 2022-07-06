@@ -18,6 +18,7 @@ class PickDateWidget extends StatefulWidget {
   final DateTime? minimumDate;
   final Color background;
   final Function(DateTime value) onChange;
+  final bool checkRequire;
 
   const PickDateWidget({
     Key? key,
@@ -27,6 +28,7 @@ class PickDateWidget extends StatefulWidget {
     this.minimumDate,
     this.background = bgrCalendar,
     required this.onChange,
+    this.checkRequire = true,
   }) : super(key: key);
 
   @override
@@ -44,24 +46,34 @@ class _PickDateWidgetState extends State<PickDateWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                widget.title,
-                style: textNormalCustom(
-                  color: titleItemEdit,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14.0.textScale(),
+          if (widget.checkRequire)
+            Row(
+              children: [
+                Text(
+                  widget.title,
+                  style: textNormalCustom(
+                    color: titleItemEdit,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0.textScale(),
+                  ),
                 ),
-              ),
-              Text(
-                ' *',
-                style: textNormalCustom(
-                  color: Colors.red,
+                Text(
+                  ' *',
+                  style: textNormalCustom(
+                    color: Colors.red,
+                  ),
                 ),
+              ],
+            )
+          else
+            Text(
+              widget.title,
+              style: textNormalCustom(
+                color: titleItemEdit,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.0.textScale(),
               ),
-            ],
-          ),
+            ),
           SizedBox(
             height: 8.0.textScale(),
           ),

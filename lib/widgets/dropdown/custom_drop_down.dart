@@ -67,11 +67,14 @@ class _CustomDropDownState extends State<CustomDropDown> {
                       if (widget.items.isEmpty)
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            widget.value ?? '',
-                            style: tokenDetailAmount(
-                              fontSize: 14.0.textScale(),
-                              color: color3D5586,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              widget.value ?? '',
+                              style: tokenDetailAmount(
+                                fontSize: 14.0.textScale(),
+                                color: color3D5586,
+                              ),
                             ),
                           ),
                         )
@@ -128,7 +131,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                 ),
                 Positioned(
                   right: 10,
-                  top: 20,
+                  top: 15,
                   child: SvgPicture.asset(
                     ImageAssets.icEditInfor,
                   ),

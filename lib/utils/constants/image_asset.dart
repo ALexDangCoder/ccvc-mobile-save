@@ -549,6 +549,7 @@ class ImageAssets {
   static const String img_tu_choi_tham_gia =
       '$baseImg/img_tu_choi_tham_gia.svg';
   static const String ic_plus = '$baseImg/ic_plus.svg';
+  static const String ic_phan_hoi = '$baseImg/ic_phan_hoi.svg';
 
   static SvgPicture svgAssets(
     String name, {

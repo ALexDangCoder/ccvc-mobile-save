@@ -1251,5 +1251,7 @@
   "dang_ky_thanh_cong": "Đăng ký thành công",
   "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
-  "thong_ke_su_co": "Thống kê sự cố theo khu vực"
+  "thong_ke_su_co": "Thống kê sự cố theo khu vực",
+  "vui_long_chon": "Vui lòng chọn",
+  "validate_bieu_quyet": "Thời gian biểu quyết phải nằm trong khoảng thời gian họp"
 }

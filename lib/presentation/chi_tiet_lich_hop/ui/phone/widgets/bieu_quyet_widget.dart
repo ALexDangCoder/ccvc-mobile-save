@@ -75,6 +75,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                 if (_list.isNotEmpty) {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
+                    reverse: true,
                     shrinkWrap: true,
                     itemCount: _list.length,
                     itemBuilder: (context, index) {

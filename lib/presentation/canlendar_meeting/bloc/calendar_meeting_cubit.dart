@@ -490,7 +490,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     this.startDate = startDate;
     this.endDate = endDate;
     this.keySearch = keySearch;
-    stateType = StateType.CHO_XAC_NHAN;
     fCalendarControllerDay.selectedDate = this.startDate;
     fCalendarControllerDay.displayDate = this.startDate;
     fCalendarControllerWeek.selectedDate = this.startDate;
@@ -509,7 +508,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     if (state is ListViewState) {
       emitListViewState();
       _titleSubject.sink.add(oldTitle);
-    } else if (state is CalendarViewState) {
+    } else if (state is CalendarViewState)  {
       emitCalendarViewState();
       _titleSubject.sink.add(oldTitle);
     } else {

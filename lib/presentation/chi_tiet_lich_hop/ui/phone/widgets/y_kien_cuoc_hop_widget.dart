@@ -44,19 +44,20 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
         title: S.current.y_kien_cuop_hop,
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
-          child: ThemYKienWidgetForPhoneAndTab(widget.cubit),
+          child: themYKienWidgetForPhoneAndTab(widget.cubit),
         ),
       ),
       tabletScreen: Padding(
         padding: const EdgeInsets.only(top: 60.0),
         child: SingleChildScrollView(
-          child: ThemYKienWidgetForPhoneAndTab(widget.cubit),
+          child: themYKienWidgetForPhoneAndTab(widget.cubit),
         ),
       ),
     );
   }
 
-  Widget ThemYKienWidgetForPhoneAndTab(DetailMeetCalenderCubit cubit) => Column(
+  Widget themYKienWidgetForPhoneAndTab(DetailMeetCalenderCubit cubit) =>
+      Column(
         children: [
           IconWithTiltleWidget(
             icon: ImageAssets.Comment_ic,

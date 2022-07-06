@@ -153,7 +153,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '',
+                  item.vaiTro ?? '',
                   style: textNormalCustom(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,

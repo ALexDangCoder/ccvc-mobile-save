@@ -2,6 +2,8 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/tim_kiem/widget/date_input.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
@@ -13,7 +15,12 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart' as image_utils;
 import 'package:flutter_svg/svg.dart';
 
 class TimKiemYcHoTro extends StatefulWidget {
-  const TimKiemYcHoTro({Key? key}) : super(key: key);
+  final HoTroKyThuatCubit cubit;
+
+  const TimKiemYcHoTro({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   State<TimKiemYcHoTro> createState() => _TimKiemYcHoTroState();
@@ -23,14 +30,13 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   String? ngayYeuCau;
   String? ngayHoanThanh;
 
-
   final Debouncer _debounce = Debouncer(milliseconds: 500);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      //todo đang để tạm
-      height: 600,
+      height: 750,
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -79,7 +85,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                   spaceH20,
                   search(),
                   spaceH16,
-                  dropDownField(title: S.current.don_vi),
+                  //todo donvi dropDownField(title: S.current.don_vi),
                   spaceH16,
                   RichText(
                     text: TextSpan(
@@ -129,17 +135,76 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                     initDateTime: DateTime.tryParse(ngayHoanThanh ?? ''),
                   ),
                   spaceH16,
-                  dropDownField(title: S.current.nguoi_tiep_nhan_yeu_cau),
+                  //listNguoiTiepNhanYeuCau
+                  //todo  dropDownField(title: S.current.nguoi_tiep_nhan_yeu_cau),
+                  dropDownField(
+                    title: S.current.nguoi_tiep_nhan_yeu_cau,
+                    initData: widget.cubit.listNguoiTiepNhanYeuCau.value.first
+                            .hoVaTen ??
+                        '',
+                    listData: widget.cubit.listNguoiTiepNhanYeuCau.value
+                        .map((e) => e.hoVaTen ?? '')
+                        .toList(),
+                    function: (value) {
+                      //todo
+                    },
+                  ),
                   spaceH16,
-                  dropDownField(title: S.current.nguoi_xu_ly),
+                  dropDownField(
+                    title: S.current.nguoi_xu_ly,
+                    initData:
+                        widget.cubit.listCanCoHTKT.value.first.tenThanhVien ??
+                            '',
+                    listData: widget.cubit
+                        .getListThanhVien(widget.cubit.listCanCoHTKT.value),
+                    function: (value) {
+                      //todo
+                    },
+                  ),
                   spaceH16,
-                  dropDownField(title: S.current.khu_vuc),
+                  dropDownField(
+                    title: S.current.khu_vuc,
+                    initData: widget.cubit.listKhuVuc.value.first.name ?? '',
+                    listData: widget.cubit.listKhuVuc.value
+                        .map((e) => e.name ?? '')
+                        .toList(),
+                    function: (value) {
+                      widget.cubit.listToaNha.add(
+                        widget.cubit.listKhuVuc.value[value].childCategories ??
+                            [],
+                      );
+                    },
+                  ),
                   spaceH16,
-                  dropDownField(title: S.current.toa_nha),
+                  StreamBuilder<List<ChildCategories>>(
+                    stream: widget.cubit.listToaNha,
+                    builder: (context, snapshot) {
+                      final List<String> listResult =
+                          widget.cubit.getList(snapshot.data ?? []);
+                      final String initData = listResult.first;
+                      return dropDownField(
+                        title: S.current.toa_nha,
+                        initData: initData,
+                        listData: listResult,
+                        function: (value) {
+                          //todo
+                        },
+                      );
+                    },
+                  ),
                   spaceH16,
-                  dropDownField(title: S.current.so_phong),
+                  //todo  dropDownField(title: S.current.so_phong),
                   spaceH16,
-                  dropDownField(title: S.current.trang_thai_xu_ly),
+                  dropDownField(
+                    title: S.current.trang_thai_xu_ly,
+                    initData: widget.cubit.listTrangThai.value.first.name ?? '',
+                    listData: widget.cubit.listTrangThai.value
+                        .map((e) => e.name ?? '')
+                        .toList(),
+                    function: (value) {
+                      //todo
+                    },
+                  ),
                   spaceH20,
                   doubleBtn(),
                 ],
@@ -154,7 +219,10 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   Widget dropDownField({
     String? hintText,
     int maxLine = 1,
+    required String initData,
+    required List<String> listData,
     required String title,
+    required Function(int) function,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,10 +243,11 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
         ),
         spaceH8,
         CoolDropDown(
-          initData: 'huy đz',
+          initData: initData,
           placeHoder: S.current.chon,
-          onChange: (value) {},
-          listData: ["huy", "huy1", "huy2"],
+          onChange: (value) => function(value),
+          listData: listData,
+          key: UniqueKey(),
         )
       ],
     );
@@ -214,15 +283,14 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
         onChanged: (keySearch) {
           _debounce.run(() {
             setState(() {});
-
           });
         },
       );
 
   Widget doubleBtn() => DoubleButtonBottom(
-    onPressed1: () {},
-    title1: S.current.dong,
-    title2: S.current.gui_yc,
-    onPressed2: () {},
-  );
+        onPressed1: () {},
+        title1: S.current.dong,
+        title2: S.current.gui_yc,
+        onPressed2: () {},
+      );
 }

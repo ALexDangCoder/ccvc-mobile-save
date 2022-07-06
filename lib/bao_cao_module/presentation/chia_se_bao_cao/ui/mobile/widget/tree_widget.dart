@@ -57,10 +57,10 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                         onChange: (isCheck) {
                           widget.node.isCheck.isCheck = !isCheck;
                           if(isCheck){
-                            /// call API getUser and add to list share
-                            /// all children checkbox is true
+                            ///TODO call API getUser and add to list share
+                            ///TODO all children checkbox is true
                           } else {
-                            ///
+
                           }
                           setState(() {});
                           widget.themDonViCubit.addSelectNode(
@@ -74,6 +74,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                       child: InkWell(
                         onTap: () {
                           if (widget.node.children.isEmpty) {
+                            /// TODO call API
                             widget.node.isCheck.isCheck =
                             !widget.node.isCheck.isCheck;
                             setState(() {});

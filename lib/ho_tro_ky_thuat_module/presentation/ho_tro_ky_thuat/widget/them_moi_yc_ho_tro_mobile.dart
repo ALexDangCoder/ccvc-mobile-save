@@ -503,7 +503,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           widget.cubit.checkAllThemMoiYCHoTro();
           if (_groupKey.currentState?.validator() ??
               true && widget.cubit.validateAllDropDown) {
-            print('--hop li-ne');
           } else {
             final toast = FToast();
             toast.init(context);

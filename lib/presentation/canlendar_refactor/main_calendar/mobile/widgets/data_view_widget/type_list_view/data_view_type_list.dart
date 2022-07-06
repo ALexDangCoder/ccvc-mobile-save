@@ -40,14 +40,39 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(
-        horizontal: widget.isTablet ?  30 : 16,
+      padding: EdgeInsets.symmetric(
+        horizontal: widget.isTablet ? 30 : 16,
       ),
       child: StreamBuilder<List<ListLichLVModel>>(
         stream: widget.cubit.listWorkStream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           if (data.isNotEmpty) {
+            for (final element in data){
+              final startBeforeSelected =
+                  element.dateTimeFrom?.checkBeforeAfterDate(
+                    compareDate: widget.cubit.startDate,
+                  ) ??
+                      false;
+              final endAfterSelected =
+                  element.dateTimeTo?.checkBeforeAfterDate(
+                    compareDate: widget.cubit.endDate,
+                    checkBefore: false,
+                  ) ??
+                      false;
+              if (startBeforeSelected) {
+                element.dateTimeFrom =
+                    widget.cubit.startDate.tryDateTimeFormatter(
+                      pattern: DateTimeFormat.DATE_TIME_BE_API_START,
+                    );
+              }
+              if (endAfterSelected) {
+                element.dateTimeTo =
+                    widget.cubit.endDate.tryDateTimeFormatter(
+                      pattern: DateTimeFormat.DATE_TIME_BE_API_END,
+                    );
+              }
+            }
             return GroupedListView<ListLichLVModel, DateTime>(
               elements: data,
               physics: const AlwaysScrollableScrollPhysics(),

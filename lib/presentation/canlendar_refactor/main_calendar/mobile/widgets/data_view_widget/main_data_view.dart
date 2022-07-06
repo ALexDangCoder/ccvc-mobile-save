@@ -69,6 +69,7 @@ class _MainDataViewState extends State<MainDataView> {
               widget.cubit.propertyChangedWeek(property);
             },
             onMore: (value) {
+              widget.cubit.emitList();
               widget.cubit.controller.calendarType.value = CalendarType.DAY;
               widget.cubit.controller.selectDate.value = value;
               widget.cubit.controller.selectDate.notifyListeners();
@@ -88,6 +89,7 @@ class _MainDataViewState extends State<MainDataView> {
                 widget.cubit.propertyChangedMonth(property);
               },
               onMore: (value) {
+                widget.cubit.emitList();
                 widget.cubit.controller.calendarType.value = CalendarType.DAY;
                 widget.cubit.controller.selectDate.value = value;
                 widget.cubit.controller.selectDate.notifyListeners();

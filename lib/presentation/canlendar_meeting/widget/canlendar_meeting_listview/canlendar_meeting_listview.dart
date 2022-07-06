@@ -59,7 +59,8 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '${groupValue.getDayofWeekTxt()}, ${groupValue.formatMonth}',
+                    '${groupValue.getDayofWeekTxt()}, '
+                        '${groupValue.formatMonth}',
                     textAlign: TextAlign.center,
                     style: textNormalCustom(
                       fontSize: 14,
@@ -234,7 +235,6 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                           ),
                         ],
                       ),
-                      if (item.bit_HopTrucTuyen != null)
                         Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.only(
@@ -243,21 +243,23 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                           ),
                           margin: const EdgeInsets.only(right: 15),
                           decoration: BoxDecoration(
-                            color: item.bit_HopTrucTuyen ?? false
-                                ? choVaoSoColor
-                                : dangXyLyColor,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                          color: ((item.bit_HopTrucTuyen ?? false) ||
+                                  (item.linkTrucTuyen?.isNotEmpty ?? false))
+                              ? choVaoSoColor
+                              : dangXyLyColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                           height: 24,
                           child: Text(
-                            item.bit_HopTrucTuyen ?? false
-                                ? S.current.truc_tuyen
-                                : S.current.truc_tiep,
-                            style: textNormalCustom(
-                              color: colorFFFFFF,
-                              fontSize: 12.0,
-                            ),
+                          ((item.bit_HopTrucTuyen ?? false) ||
+                                  (item.linkTrucTuyen?.isNotEmpty ?? false))
+                              ? S.current.truc_tuyen
+                              : S.current.truc_tiep,
+                          style: textNormalCustom(
+                            color: colorFFFFFF,
+                            fontSize: 12.0,
                           ),
+                        ),
                         )
                     ],
                   ),

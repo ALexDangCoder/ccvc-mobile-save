@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -46,6 +47,10 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           icon: ImageAssets.icNotify,
           value: widget.data.scheduleReminder?.nhacLai(),
         ),
+        if (widget.data.publishSchedule == false)
+          const SizedBox()
+        else
+          rowDataNoIcon(value: S.current.cong_khai_lich),
         rowData(
           icon: ImageAssets.icPerson,
           value: widget.data.canBoChuTri?.hoTen ?? '',
@@ -76,6 +81,26 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
               color: textTitle,
               fontWeight: FontWeight.w400,
               fontSize: 16.0.textScale(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget rowDataNoIcon({ dynamic value}) {
+    return Container(
+      padding: const EdgeInsets.only(top: 10),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 31.0.textScale(),
+          ),
+          Text(
+            value,
+            style: textNormalCustom(
+              color: textTitle,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.textScale(),
             ),
           ),
         ],

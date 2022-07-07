@@ -117,19 +117,21 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
               listSelectKey: [
                 DialogData(
                     onSelect: (value, startDate, endDate) {
+                      _xaHoiCubit.editSelectDate(value);
                       _xaHoiCubit.selectDate(
                         selectKey: value,
-                        startDate: startDate,
+                        startDate: _xaHoiCubit.startDate,
                         endDate: endDate,
                       );
                     },
                     title: S.current.time,
                     startDate: _xaHoiCubit.startDate,
                     endDate: _xaHoiCubit.endDate,
-                    initValue: _xaHoiCubit.selectKeyTime)
+                    initValue: _xaHoiCubit.selectKeyTime,
+                )
               ],
             );
-          }),
+          },),
       padding: EdgeInsets.zero,
       child: LoadingOnly(
         stream: _xaHoiCubit.stateStream,

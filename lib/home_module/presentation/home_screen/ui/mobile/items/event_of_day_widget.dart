@@ -41,7 +41,7 @@ class _EventOfDayWidgetState extends State<EventOfDayWidget> {
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
       minHeight: 350,
-      title: S.current.su_kien,
+      title: S.current.su_kien_trong_ngay,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },

@@ -224,6 +224,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   String nameUser = '';
 
   BaoChiMangXaHoiCubit() {
+    startDate=DateTime(startDate.year, startDate.month, startDate.day-1);
     final dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       nameUser = dataUser.userInformation?.hoTen ?? '';
@@ -277,8 +278,8 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     final result = await homeRep.getBaoChiMangXaHoi(
       1,
       5,
-      startDate.formatApiSS,
-      endDate.formatApiSS,
+      startDate.formatApiStartDay,
+      endDate.formatApiEndDay,
       tagKey,
     );
     showContent();
@@ -294,6 +295,25 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     tagKey = tag;
     callApi();
     _getTag.sink.add(_getTag.value);
+  }
+
+  void editSelectDate(SelectKey selectKey){
+    startDate=DateTime.now();
+    switch(selectKey){
+      case SelectKey.HOM_NAY:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-1);
+        break;
+      case SelectKey.TUAN_NAY:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-7);
+        break;
+      case SelectKey.THANG_NAY:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-30);
+        break;
+      case SelectKey.NAM_NAY:
+        startDate=DateTime(startDate.year-1, startDate.month, startDate.day);
+        break;
+    }
+
   }
 
   @override
@@ -334,6 +354,7 @@ class DanhSachCongViecCubit extends HomeCubit {
   int totalItem = 1;
   bool isSearching = false;
   final List<String> danhSachTenNguoiGan = [];
+  Map<String, String>tempName={};
   final List<TodoModel> danhSachNguoiGan = [];
 
   DanhSachCongViecCubit() {
@@ -433,7 +454,10 @@ class DanhSachCongViecCubit extends HomeCubit {
           0,
           res,
         );
-        danhSachTenNguoiGan.insert(0, nameInsert);
+        danhSachTenNguoiGan.insert(0,nameInsert);
+        if(res.id !=null){
+          tempName[res.id!]=nameInsert;
+        }
         _getTodoList.sink.add(data);
       },
       error: (err) {},
@@ -441,8 +465,13 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   void _removeInsertImportant(TodoListModel data, TodoModel todo) async {
-    final String nameInsert = await getName(todo.performer ?? '');
-    danhSachTenNguoiGan.insert(0, nameInsert);
+    if(todo.id !=null){
+      danhSachTenNguoiGan.insert(0, tempName[todo.id]!);
+    }
+    else{
+      danhSachTenNguoiGan.insert(0,'');
+    }
+
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
@@ -718,6 +747,9 @@ class DanhSachCongViecCubit extends HomeCubit {
       String name = '';
       await getName(element.performer ?? '').then((value) => name = value);
       danhSachTenNguoiGan.add(name);
+      if(element.id != null) {
+        tempName[element.id!] = name;
+      }
     }
   }
 

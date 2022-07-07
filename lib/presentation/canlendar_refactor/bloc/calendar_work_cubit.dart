@@ -446,27 +446,27 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
   String getTitle() {
     switch (this) {
       case StatusWorkCalendar.LICH_CUA_TOI:
-        return S.current.lich_cua_toi;
+        return S.current.lich_hop_cua_toi;
       case StatusWorkCalendar.LICH_DUOC_MOI:
-        return S.current.lich_duoc_moi;
+        return S.current.lich_hop_duoc_moi;
       case StatusWorkCalendar.LICH_TAO_HO:
-        return S.current.lich_tao_ho;
+        return S.current.lich_hop_tao_ho;
       case StatusWorkCalendar.LICH_HUY:
-        return S.current.lich_huy;
+        return S.current.lich_hop_huy;
       case StatusWorkCalendar.LICH_THU_HOI:
-        return S.current.lich_thu_hoi;
+        return S.current.lich_hop_thu_hoi;
       case StatusWorkCalendar.LICH_DA_CO_BAO_CAO:
         return S.current.lich_da_co_bao_cao;
       case StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO:
         return S.current.lich_chua_co_bao_cao;
       case StatusWorkCalendar.CHO_DUYET:
-        return S.current.cho_duyet;
+        return S.current.lich_hop_cho_duyet;
       case StatusWorkCalendar.LICH_HOP_CAN_KLCH:
         return S.current.lich_hop_can_klch;
       case StatusWorkCalendar.LICH_DA_KLCH:
-        return S.current.lich_da_klch;
+        return S.current.lich_hop_da_klch;
       case StatusWorkCalendar.LICH_DUYET_PHONG:
-        return S.current.lich_duyet_phong;
+        return S.current.lich_hop_duyet_phong;
       case StatusWorkCalendar.LICH_DUYET_THIET_BI:
         return S.current.lich_hop_duyet_thiet_bi;
       case StatusWorkCalendar.LICH_DUYET_KY_THUAT:

@@ -55,7 +55,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {
-        cubit.refreshDataDangLich();
+        if (cubit.state is CalendarViewState || cubit.state is ListViewState) {
+          cubit.refreshDataDangLich();
+        } else {
+          cubit.getDataDangChart();
+        }
       },
       error: AppException('', S.current.something_went_wrong),
       stream: cubit.stateStream,
@@ -101,10 +105,9 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            if (cubit.state is CalendarViewState) {
+            if (cubit.state is CalendarViewState || cubit.state is ListViewState) {
               cubit.refreshDataDangLich();
-            } else if (cubit.state is ListViewState) {
-            } else {
+            }else {
               cubit.getDataDangChart();
             }
           },

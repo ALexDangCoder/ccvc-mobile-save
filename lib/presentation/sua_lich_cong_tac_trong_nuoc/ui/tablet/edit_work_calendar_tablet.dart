@@ -107,8 +107,6 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
     createCubit.dateRepeat = event.dateRepeat;
 
     createCubit.scheduleReminder = event.scheduleReminder;
-    createCubit.detailCalendarWorkModel.scheduleCoperatives =
-        event.scheduleCoperatives;
     titleController.text = event.title ?? '';
     contentController.text = event.content ?? '';
     locationController.text = event.location ?? '';
@@ -451,9 +449,10 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                   children: [
                                     ThanhPhanThamGiaTLWidget(
                                       taoLichLamViecCubit: createCubit,
-                                      listPeopleInit: createCubit
-                                          .detailCalendarWorkModel
-                                          .scheduleCoperatives,
+                                      listPeopleInit: widget
+                                          .cubit.listOfficer.value
+                                          .map((e) => e.toDonViModel())
+                                          .toList(),
                                     ),
                                     TaiLieuWidget(
                                       files: createCubit.files ?? [],

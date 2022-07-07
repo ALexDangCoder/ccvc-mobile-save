@@ -1123,7 +1123,7 @@
   "nd_cong_viec": "ND công việc",
   "nguoi_phu_trach": "Người phụ trách",
   "sua_lich_lam_viec": "Sửa lịch làm việc",
-  "ban_co_chac_chan_sua_lich": "Bạn có chắc chắn sửa lịch làm việc",
+  "ban_co_chac_chan_sua_lich": "Bạn có chắc chắn sửa lịch làm việc?",
   "chi_lich_nay": "Chỉ sửa lịch này",
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
@@ -1223,7 +1223,9 @@
   "tat_ca": "Tất cả",
   "dang_ky_thanh_cong": "Đăng ký thành công",
   "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau",
-  "thong_ke_su_co": "Thống kê sự cố theo khu vực"
+  "thong_ke_su_co": "Thống kê sự cố theo khu vực",
+  "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
+  "lich_hop_da_klch": "Lịch họp đã KLCH"
 }
 
 

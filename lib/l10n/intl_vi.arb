@@ -220,7 +220,7 @@
   "sdt_lien_he": "Số điện thoại liên hệ",
   "dia_chi_lien_he": "Địa chỉ liên hệ",
   "trang_thai": "Trạng thái",
-  "nhap_mo_ta":"Nhập mô tả",
+  "nhap_mo_ta": "Nhập mô tả",
   "hoat_dong": "Hoạt động",
   "k_hoat_dong": "Không hoạt động",
   "stt": "STT",
@@ -1224,7 +1224,11 @@
   "thong_ke_su_co": "Thống kê sự cố theo khu vực",
   "chon_tinh_trang": "Chọn tình trạng",
   "vui_long_chon_tinh_trang": "Vui lòng chọn Tình trạng",
-  "diem_danh_ho_nguoi_khac" : "Chọn bên dưới để điểm danh cho những người khác"
+  "diem_danh_ho_nguoi_khac" : "Chọn bên dưới để điểm danh cho những người khác",
+  "vui_long_chon": "Vui lòng chọn",
+  "validate_bieu_quyet": "Thời gian biểu quyết phải nằm trong khoảng thời gian họp",
+  "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
+  "lich_hop_da_klch": "Lịch họp đã KLCH"
 }
 
 

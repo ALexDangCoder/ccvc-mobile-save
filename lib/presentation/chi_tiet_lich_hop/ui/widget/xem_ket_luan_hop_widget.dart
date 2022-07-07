@@ -190,6 +190,9 @@ class _CreateOrUpdateKetLuanHopWidgetState
                               stream: widget.cubit.noiDung.stream,
                               builder: (context, snapshot) {
                                 return Html(
+                                  style: {
+                                    'html': Style(textAlign: TextAlign.center)
+                                  },
                                   data: valueEdit != snapshot.data
                                       ? (snapshot.data ?? '')
                                       : valueEdit,

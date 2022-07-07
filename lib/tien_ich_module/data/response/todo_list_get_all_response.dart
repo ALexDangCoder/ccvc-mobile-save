@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 
 class TodoGetAllResponse {

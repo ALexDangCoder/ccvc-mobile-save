@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 
 class TodoListModelTwo {

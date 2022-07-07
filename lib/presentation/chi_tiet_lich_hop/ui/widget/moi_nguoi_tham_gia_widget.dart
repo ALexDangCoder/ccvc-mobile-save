@@ -45,22 +45,22 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               height: 16,
             ),
             if (widget.cubit.isBtnMoiNguoiThamGia())
-              IconWithTiltleWidget(
-                icon: ImageAssets.ic_addUser,
-                title: S.current.moi_nguoi_tham_gia,
-                onPress: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.them_thanh_phan_tham_gia,
-                    child: ThemThanhPhanThamGiaWidget(
-                      cubit: widget.cubit,
-                    ),
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: IconWithTiltleWidget(
+                  icon: ImageAssets.ic_addUser,
+                  title: S.current.moi_nguoi_tham_gia,
+                  onPress: () {
+                    showBottomSheetCustom(
+                      context,
+                      title: S.current.them_thanh_phan_tham_gia,
+                      child: ThemThanhPhanThamGiaWidget(
+                        cubit: widget.cubit,
+                      ),
+                    );
+                  },
+                ),
               ),
-            const SizedBox(
-              height: 16,
-            ),
             IconWithTiltleWidget(
               icon: ImageAssets.ic_diemDanh,
               title: S.current.diem_danh,
@@ -71,12 +71,26 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                   btnLeftTxt: S.current.khong,
                   btnRightTxt: S.current.dong_y,
+                  textContent: S.current.conten_diem_danh,
                   funcBtnRight: () {
                     if (widget.cubit.selectedIds.isNotEmpty) {
-                      widget.cubit.postDiemDanh();
+                      widget.cubit.postDiemDanh().then(
+                            (value) => showDiaLog(
+                              context,
+                              title: S.current.diem_danh,
+                              icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+                              textContent: S.current.diem_danh_ho_nguoi_khac,
+                              btnRightTxt: S.current.dong,
+                              btnLeftTxt: '',
+                              isColorBlueInOnlyButton: false,
+                              isOneButton: false,
+                              widthOnlyButton:
+                                  MediaQuery.of(context).size.width * 0.6,
+                              funcBtnRight: () {},
+                            ),
+                          );
                     }
                   },
-                  textContent: S.current.conten_diem_danh,
                 );
               },
             ),

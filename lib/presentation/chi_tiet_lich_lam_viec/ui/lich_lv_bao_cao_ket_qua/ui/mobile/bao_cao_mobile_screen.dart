@@ -122,8 +122,6 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
         isBottomShow: false,
         funcBtnOk: () {
           Navigator.pop(context);
-
-
         },
       ).then((value) {
         if (value is bool && value) {

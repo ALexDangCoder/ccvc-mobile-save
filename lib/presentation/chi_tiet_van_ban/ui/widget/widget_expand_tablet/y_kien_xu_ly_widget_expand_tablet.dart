@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
@@ -11,8 +10,6 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 
 class YKienSuLyWidgetExpandTablet extends StatefulWidget {
   final CommentsDetailDocumentCubit cubit;
@@ -62,22 +59,23 @@ class _YKienSuLyWidgetExpandTabletState
             child: Column(
               children: [
                 Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 6,
-                      left: 42,
-                      right: 42,
-                      top: 30,
-                    ),
-                    child: WidgetComments(
-                      onSend: (comment, listData) {
-                        widget.cubit.comment(
-                          comment,
-                          listData,
-                          widget.processId,
-                          widget.taskId,
-                        );
-                      },
-                    )),
+                  margin: const EdgeInsets.only(
+                    bottom: 6,
+                    left: 42,
+                    right: 42,
+                    top: 30,
+                  ),
+                  child: WidgetComments(
+                    onSend: (comment, listData) {
+                      widget.cubit.comment(
+                        comment,
+                        listData,
+                        widget.processId,
+                        widget.taskId,
+                      );
+                    },
+                  ),
+                ),
                 StreamBuilder<List<DanhSachYKienXuLy>>(
                   stream: widget.cubit.danhSachYKienXuLyStream,
                   builder: (context, snapshot) {
@@ -205,7 +203,7 @@ class _YKienSuLyWidgetExpandTabletState
           _relayButton(canRelay, index)
         ],
       ),
-      _listRelayIcon(listTraLoi ,canRelay, index),
+      _listRelayIcon(listTraLoi, canRelay, index),
       spaceH12,
     ];
   }
@@ -330,11 +328,11 @@ class _YKienSuLyWidgetExpandTabletState
             .map(
               (e) => GestureDetector(
                 onTap: () {
-                  final baseURL = Get.find<AppConstants>().baseUrlQLNV;
                   saveFile(
-                      fileName: e.fileDinhKem?.ten ?? '',
-                      url: e.fileDinhKem?.duongDan ?? '',
-                      downloadType: DomainDownloadType.QLNV);
+                    fileName: e.fileDinhKem?.ten ?? '',
+                    url: e.fileDinhKem?.duongDan ?? '',
+                    downloadType: DomainDownloadType.QLNV,
+                  );
                 },
                 child: SizedBox(
                   child: Text(

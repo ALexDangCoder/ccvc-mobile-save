@@ -47,13 +47,28 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           icon: ImageAssets.icNotify,
           value: widget.data.scheduleReminder?.nhacLai(),
         ),
-        if (widget.data.publishSchedule == false)
-          const SizedBox()
-        else
-          rowDataNoIcon(value: S.current.cong_khai_lich),
+        if (widget.data.publishSchedule ?? false) ...[
+          spaceH10,
+          Padding(
+            padding: EdgeInsets.only(
+              left: 31.0.textScale(),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                S.current.cong_khai_lich,
+                style: textNormal(
+                  color_667793,
+                  14,
+                ),
+              ),
+            ),
+          ),
+          spaceH8,
+        ],
         rowData(
           icon: ImageAssets.icPerson,
-          value: widget.data.canBoChuTri?.hoTen ?? '',
+          value: widget.data.canBoChuTri?.namePosition() ?? '',
         ),
         rowData(icon: ImageAssets.icWork, value: widget.data.linhVuc ?? ''),
         rowData(icon: ImageAssets.icViTri, value: widget.data.location ?? ''),
@@ -81,26 +96,6 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
               color: textTitle,
               fontWeight: FontWeight.w400,
               fontSize: 16.0.textScale(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget rowDataNoIcon({ dynamic value}) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 31.0.textScale(),
-          ),
-          Text(
-            value,
-            style: textNormalCustom(
-              color: textTitle,
-              fontWeight: FontWeight.w400,
-              fontSize: 14.0.textScale(),
             ),
           ),
         ],

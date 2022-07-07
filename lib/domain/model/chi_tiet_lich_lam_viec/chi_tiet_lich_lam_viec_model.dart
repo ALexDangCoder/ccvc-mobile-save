@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:flutter/material.dart';
 
 class ListPerSon {
@@ -240,6 +239,12 @@ class CreateBy {
 
   String title() {
     return '$hoTen - $tenDonVi';
+  }
+  String nameUnitPosition() {
+    return '$hoTen - $tenDonVi - $chucVu';
+  }
+  String namePosition(){
+    return '$hoTen - $chucVu';
   }
 }
 

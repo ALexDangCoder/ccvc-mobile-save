@@ -253,6 +253,8 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                               value;
                                         },
                                         isEdit: true,
+                                        name:
+                                            widget.event.typeScheduleName ?? '',
                                       ),
                                       CupertinoMaterialPicker(
                                         isEdit: true,
@@ -327,10 +329,15 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                       ),
                                       NguoiChuTriWidget(
                                         cubit: createCubit,
+                                        isEdit: true,
+                                        name: widget.event.canBoChuTri?.nameUnitPosition() ??
+                                            '',
+                                        id: widget.event.canBoChuTri?.id ?? '',
                                       ),
                                       LinhVucWidget(
                                         cubit: createCubit,
                                         isEdit: true,
+                                        name : widget.event.linhVuc ?? '',
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(

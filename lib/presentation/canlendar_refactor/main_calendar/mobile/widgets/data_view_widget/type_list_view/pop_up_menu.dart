@@ -45,17 +45,15 @@ class _PopUpMenuState extends State<PopUpMenu> {
 
   @override
   void initState() {
-    overlayEntry = OverlayEntry(builder: (_)=> const SizedBox.shrink());
+    overlayEntry = OverlayEntry(builder: (_) => const SizedBox.shrink());
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (overlayEntry.mounted){
+        if (overlayEntry.mounted) {
           overlayEntry.remove();
         }
         return true;
@@ -81,6 +79,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
   }
 
   void showSelect(BuildContext context) {
+    // ignore: cast_nullable_to_non_nullable
     final box = _key.currentContext?.findRenderObject() as RenderBox;
     final Offset position = box.localToGlobal(Offset.zero);
     overlayEntry = overlayWidget(position);
@@ -196,10 +195,9 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                                 widget.onDismiss.call(e);
                               },
                               child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    getMenuView(e, widget.currentItem)
-                                  ]),
+                                mainAxisSize: MainAxisSize.min,
+                                children: [getMenuView(e, widget.currentItem)],
+                              ),
                             ),
                           )
                           .toList(),

@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'edit_ket_luan_hop_screen.dart';
@@ -82,45 +84,42 @@ class _CreateOrUpdateKetLuanHopWidgetState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      /// tinh trang
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: TitleWithRedStartWidget(
                           title: S.current.tinh_trang,
                         ),
                       ),
-                      StreamBuilder<bool>(
-                        stream: show,
-                        builder: (context, snapshot) {
-                          return ShowRequied(
-                            isShow: show.value,
-                            child: StreamBuilder<List<StatusKetLuanHopModel>>(
-                              stream: widget.cubit.dataTinhTrangKetLuanHop,
-                              builder: (context, snapshot) {
-                                final dataTinhTrang = snapshot.data ?? [];
-                                return CustomDropDown(
-                                  hint: Text(
-                                    widget.cubit.xemKetLuanHopModel
-                                            .reportStatus ??
-                                        '',
-                                    style: textNormal(titleItemEdit, 14),
-                                  ),
-                                  items: dataTinhTrang
-                                      .map((e) => e.displayName)
-                                      .toList(),
-                                  onSelectItem: (value) {
-                                    final vlSelect = dataTinhTrang[value];
-                                    if (widget.cubit.xemKetLuanHopModel
-                                            .reportStatusId !=
-                                        vlSelect.id) {
-                                      reportStatusId = vlSelect.id ?? '';
-                                    }
-                                  },
-                                );
+                      ShowRequied(
+                        isShow: show.value,
+                        child: StreamBuilder<List<StatusKetLuanHopModel>>(
+                          stream: widget.cubit.dataTinhTrangKetLuanHop,
+                          builder: (context, snapshot) {
+                            final dataTinhTrang = snapshot.data ?? [];
+                            return CustomDropDown(
+                              hint: Text(
+                                widget.cubit.xemKetLuanHopModel.reportStatus ??
+                                    S.current.chon_tinh_trang,
+                                style: textNormal(titleItemEdit, 14),
+                              ),
+                              items: dataTinhTrang
+                                  .map((e) => e.displayName)
+                                  .toList(),
+                              onSelectItem: (value) {
+                                final vlSelect = dataTinhTrang[value];
+                                if (widget.cubit.xemKetLuanHopModel
+                                        .reportStatusId !=
+                                    vlSelect.id) {
+                                  reportStatusId = vlSelect.id ?? '';
+                                }
                               },
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
+
+                      /// chon mau bien ban
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8, top: 20),
                         child: Text(
@@ -133,16 +132,18 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           builder: (context, snapshot) {
                             final data = snapshot.data?.items ?? [];
                             return CustomDropDown(
-                              hint: data.isNotEmpty
-                                  ? Text(
-                                      widget.cubit.getValueMauBienBanWithId(
-                                        widget.cubit.xemKetLuanHopModel
-                                                .reportTemplateId ??
-                                            '',
-                                      ),
-                                      style: textNormal(titleItemEdit, 14),
-                                    )
-                                  : const SizedBox(),
+                              hint: Text(
+                                widget.cubit
+                                        .getValueMauBienBanWithId(
+                                          widget.cubit.xemKetLuanHopModel
+                                                  .reportTemplateId ??
+                                              '',
+                                        )
+                                        .isEmpty
+                                    ? S.current.chon_mau_bien_ban
+                                    : '',
+                                style: textNormal(titleItemEdit, 14),
+                              ),
                               items: data.map((e) => e.name).toList(),
                               onSelectItem: (value) {
                                 widget.cubit.getValueMauBienBan(value);
@@ -199,12 +200,19 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           ),
                         ),
                       ),
+
+                      /// them tai lieu cuoc hop
                       Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: ButtonSelectFile(
                           title: S.current.them_tai_lieu_cuoc_hop,
                           onChange: (List<File> files) {
-                            file = files;
+                            if (files.first.lengthSync() >
+                                widget.cubit.maxSizeFile30) {
+                              showToast();
+                            } else {
+                              file = files;
+                            }
                           },
                           removeFileApi: (int index) {},
                         ),
@@ -313,6 +321,17 @@ class _CreateOrUpdateKetLuanHopWidgetState
             ),
     );
   }
+
+  void showToast() {
+    final toast = FToast();
+    toast.init(context);
+    toast.showToast(
+      child: ShowToast(
+        text: S.current.file_qua_30M,
+      ),
+      gravity: ToastGravity.BOTTOM,
+    );
+  }
 }
 
 class TitleWithRedStartWidget extends StatelessWidget {
@@ -332,6 +351,43 @@ class TitleWithRedStartWidget extends StatelessWidget {
         Text(
           ' *',
           style: textNormalCustom(color: canceledColor),
+        ),
+      ],
+    );
+  }
+}
+
+class ShowRequiedWithStream extends StatelessWidget {
+  final Widget child;
+  final BehaviorSubject<bool> isShow;
+  String textShow;
+
+  ShowRequiedWithStream(
+      {Key? key, required this.child, required this.isShow, this.textShow = ''})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        child,
+        StreamBuilder<bool>(
+          stream: isShow,
+          builder: (context, snapshot) {
+            if (snapshot.data ?? false) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                  left: 10,
+                ),
+                child: Text(
+                  textShow.isEmpty ? S.current.khong_duoc_de_trong : textShow,
+                  style: textDetailHDSD(color: canceledColor, fontSize: 12),
+                ),
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ],
     );
@@ -359,7 +415,7 @@ class ShowRequied extends StatelessWidget {
               left: 10,
             ),
             child: Text(
-              textShow == '' ? S.current.khong_duoc_de_trong : textShow,
+              textShow.isEmpty ? S.current.khong_duoc_de_trong : textShow,
               style: textDetailHDSD(color: canceledColor, fontSize: 12),
             ),
           )

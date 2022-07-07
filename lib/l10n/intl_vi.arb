@@ -287,6 +287,8 @@
   "them": "Thêm",
   "them_don_vi": "Thêm đơn vị",
   "danh_sach_lich_hop": "Danh sách lịch họp",
+  "chon_trang_thai": "Chọn trạng thái",
+  "vui_long_chon": "Vui lòng chọn!",
   "status": "Tình trạng",
   "noidung": "Nội dung",
   "file": "File",
@@ -1222,11 +1224,15 @@
   "dang_ky_thanh_cong": "Đăng ký thành công",
   "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau",
   "thong_ke_su_co": "Thống kê sự cố theo khu vực",
-  "vui_long_chon": "Vui lòng chọn",
+  "chon_tinh_trang": "Chọn tình trạng",
+  "vui_long_chon_tinh_trang": "Vui lòng chọn Tình trạng",
+  "diem_danh_ho_nguoi_khac": "Chọn bên dưới để điểm danh cho những người khác",
+  "vui_long_chon_bieu_quyet": "Vui lòng chọn",
   "validate_bieu_quyet": "Thời gian biểu quyết phải nằm trong khoảng thời gian họp",
   "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
+  "ban_co_chac_chan_muon_xoa_khong": "Bạn có chắc chắn muốn xoá không?",
   "lich_hop_da_klch": "Lịch họp đã KLCH",
-  "ban_co_chac_chan_muon_xoa_khong": "Bạn có chắc chắn muốn xoá không?"
+  "su_kien_trong_ngay": "Sự kiện trong ngày"
 }
 
 

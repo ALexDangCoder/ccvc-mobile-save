@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class ItemImageWidget extends StatefulWidget {
   final NhanDienKhuonMatUIModel dataUI;

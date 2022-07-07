@@ -215,7 +215,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                   builder: (context, snapshot) {
                     return ShowRequied(
                       isShow: snapshot.data ?? true,
-                      textShow: '${S.current.vui_long_chon}'
+                      textShow: '${S.current.vui_long_chon_bieu_quyet}'
                           ' ${S.current.thanh_phan_bieu_quyet}',
                       child: InputInfoUserWidget(
                         isObligatory: true,

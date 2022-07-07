@@ -15,8 +15,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/cupertino.dart';

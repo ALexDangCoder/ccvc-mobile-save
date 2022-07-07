@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
@@ -10,8 +9,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_g
 import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 
 class TepDinhKemMobile extends StatelessWidget {
   final CommonDetailDocumentGoCubit cubit;
@@ -65,7 +62,9 @@ class TepDinhKemMobile extends StatelessWidget {
                   builder: (context, snapshot) {
                     final _list = snapshot.data ?? [];
                     return cellListFile(
-                        S.current.van_ban_ban_hanh_kem_theo_du_an, _list);
+                      S.current.van_ban_ban_hanh_kem_theo_du_an,
+                      _list,
+                    );
                   },
                 ),
                 StreamBuilder<List<FileDinhKemVanBanDiModel>>(

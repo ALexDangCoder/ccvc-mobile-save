@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 
 import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/sinh_nhat_model.dart';

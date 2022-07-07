@@ -8,13 +8,19 @@ extension CalendarExtension on CalendarType {
     switch (this) {
       case CalendarType.DAY:
         return CalendarIcon(
-            icon: ImageAssets.icCalenderDay, title: S.current.ngay);
+          icon: ImageAssets.icCalenderDay,
+          title: S.current.ngay,
+        );
       case CalendarType.WEEK:
         return CalendarIcon(
-            icon: ImageAssets.icDayCalenderWeek, title: S.current.tuan);
+          icon: ImageAssets.icDayCalenderWeek,
+          title: S.current.tuan,
+        );
       case CalendarType.MONTH:
         return CalendarIcon(
-            icon: ImageAssets.icDayCalenderMonth, title: S.current.thang);
+          icon: ImageAssets.icDayCalenderMonth,
+          title: S.current.thang,
+        );
     }
   }
 }

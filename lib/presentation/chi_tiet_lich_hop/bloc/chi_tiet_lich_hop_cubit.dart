@@ -85,6 +85,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String chonNgay = '';
   List<File>? listFile = [];
   PhongHop chosePhongHop = PhongHop();
+  final int maxSizeFile30 = 31457280;
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
   BehaviorSubject<bool> isValidateTimer = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();

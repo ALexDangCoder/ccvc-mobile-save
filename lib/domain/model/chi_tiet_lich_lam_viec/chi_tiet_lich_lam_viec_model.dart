@@ -241,6 +241,9 @@ class CreateBy {
   String title() {
     return '$hoTen - $tenDonVi';
   }
+  String fullTitle() {
+    return '$hoTen - $tenDonVi - $chucVu';
+  }
 }
 
 class UpdateBy {

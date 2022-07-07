@@ -50,7 +50,7 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
               widget.cubit.emitList();
             },
             isTablet: true,
-            buildAppointment:  (e) => ItemAppointmentDay(
+            buildAppointment: (e) => ItemAppointmentDay(
               appointment: e,
               onClick: () {
                 pushToDetail(e);
@@ -65,7 +65,7 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
           final data = snapshot.data ?? DataSourceFCalendar.empty();
           return DataViewCalendarWeek(
             isTablet: true,
-            buildAppointment:  (e) => ItemAppointmentWeek(
+            buildAppointment: (e) => ItemAppointmentWeek(
               appointment: e,
               onClick: () {
                 pushToDetail(e);
@@ -85,29 +85,30 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
         },
       ),
       StreamBuilder<DataSourceFCalendar>(
-          stream: widget.cubit.listCalendarWorkMonthStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? DataSourceFCalendar.empty();
-            return DataViewCalendarMonth(
-              buildAppointment:  (e) => ItemAppointmentMonth(
-                appointment: e,
-                onClick: () {
-                  pushToDetail(e);
-                },
-              ),
-              propertyChanged: (String property) {
-                widget.cubit.propertyChangedMonth(property);
+        stream: widget.cubit.listCalendarWorkMonthStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? DataSourceFCalendar.empty();
+          return DataViewCalendarMonth(
+            buildAppointment: (e) => ItemAppointmentMonth(
+              appointment: e,
+              onClick: () {
+                pushToDetail(e);
               },
-              isTablet: true,
-              onMore: (value) {
-                widget.cubit.controller.calendarType.value = CalendarType.DAY;
-                widget.cubit.controller.selectDate.value = value;
-                widget.cubit.controller.selectDate.notifyListeners();
-              },
-              data: data,
-              fCalendarController: widget.cubit.fCalendarControllerMonth,
-            );
-          }),
+            ),
+            propertyChanged: (String property) {
+              widget.cubit.propertyChangedMonth(property);
+            },
+            isTablet: true,
+            onMore: (value) {
+              widget.cubit.controller.calendarType.value = CalendarType.DAY;
+              widget.cubit.controller.selectDate.value = value;
+              widget.cubit.controller.selectDate.notifyListeners();
+            },
+            data: data,
+            fCalendarController: widget.cubit.fCalendarControllerMonth,
+          );
+        },
+      ),
     ];
     super.initState();
   }
@@ -166,7 +167,7 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
                         ];
                         return PopUpMenu(
                           initData: itemMenu.firstWhere(
-                                (element) => element.type == widget.cubit.stateType,
+                            (element) => element.type == widget.cubit.stateType,
                             orElse: () => ItemMenuData(
                               StateType.CHO_XAC_NHAN,
                               data.soLichChoXacNhan ?? 0,
@@ -224,9 +225,6 @@ class _MainDataViewTabletState extends State<MainDataViewTablet> {
       ),
     );
   }
-
-
-
 
   void pushToDetail(Appointment appointment) {
     final TypeCalendar typeAppointment =

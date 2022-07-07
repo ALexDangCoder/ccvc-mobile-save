@@ -4,14 +4,13 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/choose_calendar_type_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/tablet_calendar_tablet.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-
-import 'choose_calendar_type_widget.dart';
 
 class ChooseTimeCalendarTablet extends StatefulWidget {
   final List<DateTime> calendarDays;
@@ -19,14 +18,15 @@ class ChooseTimeCalendarTablet extends StatefulWidget {
   final ChooseTimeController? controller;
   final Function(DateTime, DateTime, String)? onChangeYear;
   final Function() onTapTao;
-  const ChooseTimeCalendarTablet(
-      {Key? key,
-      this.calendarDays = const [],
-      required this.onChange,
-      this.controller,
-      this.onChangeYear,
-      required this.onTapTao})
-      : super(key: key);
+
+  const ChooseTimeCalendarTablet({
+    Key? key,
+    this.calendarDays = const [],
+    required this.onChange,
+    this.controller,
+    this.onChangeYear,
+    required this.onTapTao,
+  }) : super(key: key);
 
   @override
   _ChooseTimeCalendarTabletState createState() =>
@@ -36,6 +36,7 @@ class ChooseTimeCalendarTablet extends StatefulWidget {
 class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
   late ChooseTimeController controller;
   final TextEditingController textEditingController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -51,12 +52,20 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
         ?.call(timePage.first, timePage.last, textEditingController.text);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       final times = dateTimeRange(controller.selectDate.value);
-      widget.onChange(times[0], times[1], controller.calendarType.value,
-          textEditingController.text);
+      widget.onChange(
+        times[0],
+        times[1],
+        controller.calendarType.value,
+        textEditingController.text,
+      );
       controller.selectDate.addListener(() {
         final times = dateTimeRange(controller.selectDate.value);
-        widget.onChange(times[0], times[1], controller.calendarType.value,
-            textEditingController.text);
+        widget.onChange(
+          times[0],
+          times[1],
+          controller.calendarType.value,
+          textEditingController.text,
+        );
       });
     });
   }
@@ -114,8 +123,12 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
           onChange: (type) {
             controller.calendarType.value = type;
             final times = dateTimeRange(controller.selectDate.value);
-            widget.onChange(times[0], times[1], controller.calendarType.value,
-                textEditingController.text);
+            widget.onChange(
+              times[0],
+              times[1],
+              controller.calendarType.value,
+              textEditingController.text,
+            );
           },
         ),
         Expanded(
@@ -140,11 +153,18 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
                 onSubmitted: (value) {
                   final times = dateTimeRange(controller.selectDate.value);
                   widget.onChange(
-                      times[0], times[1], controller.calendarType.value, value);
+                    times[0],
+                    times[1],
+                    controller.calendarType.value,
+                    value,
+                  );
                   final timePage = controller.pageTableCalendar
                       .dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-                  widget.onChangeYear?.call(timePage.first, timePage.last,
-                      textEditingController.text);
+                  widget.onChangeYear?.call(
+                    timePage.first,
+                    timePage.last,
+                    textEditingController.text,
+                  );
                 },
                 decoration: InputDecoration(
                   prefixIcon: IconButton(
@@ -181,6 +201,7 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
             dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
 
         final dataString =
+            // ignore: lines_longer_than_80_chars
             '${dateTimeFormRange[0].day} - ${dateTimeFormRange[1].formatDayCalendar}';
         return dataString;
     }

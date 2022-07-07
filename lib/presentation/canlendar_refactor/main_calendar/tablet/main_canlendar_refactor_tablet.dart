@@ -126,13 +126,16 @@ class _MainCalendarRefactorTabletState
                     controller: cubit.controller,
                     onChangeYear: (startDate, endDate, keySearch) {
                       cubit.dayHaveEvent(
-                          startDate: startDate, endDate: endDate);
+                        startDate: startDate,
+                        endDate: endDate,
+                      );
                     },
                     onTapTao: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CreateCalendarWorkMobile(),
+                          builder: (context) =>
+                              const CreateCalendarWorkMobile(),
                         ),
                       );
                     },

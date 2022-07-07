@@ -432,7 +432,7 @@ class HopRepositoryImpl implements HopRepository {
   Future<Result<XemKetLuanHopModel>> getXemKetLuanHop(String id) {
     return runCatchingAsync<XemKetLuanHopDataResponse, XemKetLuanHopModel>(
       () => _hopServices.getXemKetLuanHop(id),
-      (res) => res.data!.toModel(),
+      (res) => res.data?.toModel() ?? XemKetLuanHopModel(),
     );
   }
 
@@ -474,9 +474,9 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<MessageModel>> deleteChiTietLichHop(String id) {
+  Future<Result<MessageModel>> deleteChiTietLichHop(String id, bool isMulti) {
     return runCatchingAsync<XoaBaoCaoKetQuaResponse, MessageModel>(
-      () => _hopServices.deleteChiTietLichHop(id),
+      () => _hopServices.deleteChiTietLichHop(id, isMulti),
       (res) => res.toDomain(),
     );
   }
@@ -585,10 +585,10 @@ class HopRepositoryImpl implements HopRepository {
   @override
   Future<Result<List<DanhSachLoaiNhiemVuLichHopModel>>>
       getDanhSachLoaiNhiemVu() {
-    return runCatchingAsync<DanhSachNhiemVulichHopResponse,
+    return runCatchingAsync<List<DanhSachNhiemVulichHopResponse>,
         List<DanhSachLoaiNhiemVuLichHopModel>>(
       () => _hopServices.getDanhSachLoaiNhiemVu(),
-      (response) => response.data?.map((e) => e.toDomain()).toList() ?? [],
+      (response) => response.map((e) => e.toModel()).toList(),
     );
   }
 
@@ -742,12 +742,12 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> postDiemDanh(
+  Future<Result<bool>> postDiemDanh(
     List<String> data,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.postDiemDanh(data),
-      (response) => response.toModel(),
+      (response) => response.isSucces,
     );
   }
 
@@ -763,12 +763,12 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> postHuyDiemDanh(
+  Future<Result<bool>> postHuyDiemDanh(
     String data,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.postHuyDiemDanh(data),
-      (response) => response.toModel(),
+      (response) => response.isSucces,
     );
   }
 
@@ -996,28 +996,38 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<bool>> createKetLuanHop(
-    String lichHopId,
     String scheduleId,
     String reportStatusId,
     String reportTemplateId,
-    String startDate,
-    String endDate,
     String content,
-    List<String> files,
-    List<String> filesDelete,
+    List<File> files,
+    // List<String> filesDelete,
   ) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.createKetLuanHop(
-        lichHopId,
         scheduleId,
         reportStatusId,
         reportTemplateId,
-        startDate,
-        endDate,
         content,
         files,
-        filesDelete,
+        // filesDelete,
       ),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> guiDuyetKetLuanHop(String meetId) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.guiDuyetKetLuanHop(meetId),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> thuHoiKetLuanHop(String meetId) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.thuHoiKetLuanHop(meetId),
       (response) => response.isSucces,
     );
   }

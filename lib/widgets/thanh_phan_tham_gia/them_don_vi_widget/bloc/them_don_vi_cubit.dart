@@ -12,7 +12,9 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   Timer? _debounce;
   final List<Node<DonViModel>> selectNode = [];
   Node<DonViModel>? selectNodeOnlyValue;
-
+  BehaviorSubject<bool> themDonViSubject = BehaviorSubject();
+  BehaviorSubject<bool> validateDonVi = BehaviorSubject();
+  List<DonViModel> listDonVi = [];
   ///
   final BehaviorSubject<List<Node<DonViModel>>> _getTree =
       BehaviorSubject<List<Node<DonViModel>>>();
@@ -24,11 +26,12 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
 
   Stream<List<Node<DonViModel>>> get selectDonVi => _selectDonVi.stream;
 
-  final BehaviorSubject<Node<DonViModel>> _selectOnlyDonVi =
-      BehaviorSubject<Node<DonViModel>>();
+  final BehaviorSubject<Node<DonViModel>?> _selectOnlyDonVi =
+      BehaviorSubject<Node<DonViModel>?>();
 
-  Stream<Node<DonViModel>> get selectOnlyDonVi => _selectOnlyDonVi.stream;
+  Stream<Node<DonViModel>?> get selectOnlyDonVi => _selectOnlyDonVi.stream;
 
+  Sink<Node<DonViModel>?> get sinkSelectOnlyDonVi => _selectOnlyDonVi.sink;
   void getTreeDonVi(List<Node<DonViModel>> tree) {
     final data = <Node<DonViModel>>[];
     for (final vl in tree) {
@@ -148,6 +151,8 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       }
     }
   }
+
+  /// getUserInUnit
 
   void _addParent(Set<Node<DonViModel>> list, Node<DonViModel> node) {
     if (node.parent != null) {

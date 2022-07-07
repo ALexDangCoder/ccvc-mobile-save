@@ -110,6 +110,7 @@ abstract class HomeRepository {
 
   Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
       bool isDonVi);
+  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKNCaNhan();
 
   Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(
       bool isGetAll,int pageSize, int pageIndex,String keySearch,);

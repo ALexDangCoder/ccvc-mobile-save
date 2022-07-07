@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
@@ -92,27 +93,62 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                       YKienNguoiDanCubitt.ChoTiepNhan;
                   widget.cubit.hanXuLy = null;
                   widget.cubit.loaiMenu = "TiepNhan";
+                  widget.cubit.textFilter.add(
+                    TextTrangThai(
+                      S.current.cho_tiep_nhan,
+                      AppTheme.getInstance().choXuLyColor(),
+                    ),
+                  );
+                  widget.cubit.isShowFilterList.add(false);
                   widget.cubit.getDanhSachPAKNFilterChart();
                 } else if (index == 1) {
                   widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.PhanXuLy;
                   widget.cubit.hanXuLy = null;
                   widget.cubit.loaiMenu = "TiepNhan";
+                  widget.cubit.textFilter.add(
+                    TextTrangThai(
+                      S.current.phan_xu_ly,
+                      AppTheme.getInstance().subTitleColor(),
+                    ),
+                  );
+                  widget.cubit.isShowFilterList.add(false);
                   widget.cubit.getDanhSachPAKNFilterChart();
                 } else if (index == 2) {
                   widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.DangXuLy;
                   widget.cubit.hanXuLy = null;
                   widget.cubit.loaiMenu = "TiepNhan";
+                  widget.cubit.textFilter.add(
+                    TextTrangThai(
+                      S.current.dang_xu_ly,
+                      textColorForum,
+                    ),
+                  );
+                  widget.cubit.isShowFilterList.add(false);
                   widget.cubit.getDanhSachPAKNFilterChart();
                 } else if (index == 3) {
                   widget.cubit.trangThaiFilter = YKienNguoiDanCubitt.ChoDuyet;
                   widget.cubit.hanXuLy = null;
                   widget.cubit.loaiMenu = "TiepNhan";
+                  widget.cubit.textFilter.add(
+                    TextTrangThai(
+                      S.current.cho_duyet,
+                      textColorForum,
+                    ),
+                  );
+                  widget.cubit.isShowFilterList.add(false);
                   widget.cubit.getDanhSachPAKNFilterChart();
                 } else {
                   widget.cubit.trangThaiFilter =
                       YKienNguoiDanCubitt.ChoBoSungThongTin;
                   widget.cubit.hanXuLy = null;
                   widget.cubit.loaiMenu = "TiepNhan";
+                  widget.cubit.textFilter.add(
+                    TextTrangThai(
+                      S.current.cho_bo_sung_thong_tin,
+                      AppTheme.getInstance().choXuLyColor(),
+                    ),
+                  );
+                  widget.cubit.isShowFilterList.add(false);
                   widget.cubit.getDanhSachPAKNFilterChart();
                 }
               },
@@ -148,16 +184,37 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               widget.cubit.hanXuLy = -1;
               widget.cubit.loaiMenu = null;
               widget.cubit.trangThaiFilter = null;
+              widget.cubit.textFilter.add(
+                TextTrangThai(
+                  S.current.qua_han,
+                  AppTheme.getInstance().choXuLyColor(),
+                ),
+              );
+              widget.cubit.isShowFilterList.add(false);
               widget.cubit.getDanhSachPAKNFilterChart();
             } else if (index1 == 1) {
               widget.cubit.hanXuLy = 0;
               widget.cubit.loaiMenu = null;
               widget.cubit.trangThaiFilter = null;
+              widget.cubit.textFilter.add(
+                TextTrangThai(
+                  S.current.den_han,
+                  AppTheme.getInstance().choXuLyColor(),
+                ),
+              );
+              widget.cubit.isShowFilterList.add(false);
               widget.cubit.getDanhSachPAKNFilterChart();
             } else {
               widget.cubit.hanXuLy = 1;
               widget.cubit.loaiMenu = null;
               widget.cubit.trangThaiFilter = null;
+              widget.cubit.textFilter.add(
+                TextTrangThai(
+                  S.current.trong_han,
+                  AppTheme.getInstance().choXuLyColor(),
+                ),
+              );
+              widget.cubit.isShowFilterList.add(false);
               widget.cubit.getDanhSachPAKNFilterChart();
             }
           },

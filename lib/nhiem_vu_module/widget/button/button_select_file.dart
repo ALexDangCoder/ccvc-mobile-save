@@ -24,6 +24,7 @@ class ButtonSelectFile extends StatefulWidget {
   final Widget Function(BuildContext, File)? builder;
   List<File> files;
   final double? spacingFile;
+  final bool isShowListFile;
 
   ButtonSelectFile({
     Key? key,
@@ -37,6 +38,7 @@ class ButtonSelectFile extends StatefulWidget {
     this.builder,
     this.files = const [],
     this.spacingFile,
+    this.isShowListFile = true,
   }) : super(key: key);
 
   @override
@@ -104,22 +106,23 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         SizedBox(
           height: widget.spacingFile == null ? 16.0.textScale() : 0,
         ),
-        Column(
-          children: widget.files.isNotEmpty
-              ? widget.files.map((e) {
-                  if (widget.builder == null) {
-                    return itemListFile(
-                        file: e,
-                        onTap: () {
-                          _cubit.deleteFile(e, widget.files);
-                          setState(() {});
-                        },
-                        spacingFile: widget.spacingFile);
-                  }
-                  return widget.builder!(context, e);
-                }).toList()
-              : [Container()],
-        )
+        if (widget.isShowListFile)
+          Column(
+            children: widget.files.isNotEmpty
+                ? widget.files.map((e) {
+                    if (widget.builder == null) {
+                      return itemListFile(
+                          file: e,
+                          onTap: () {
+                            _cubit.deleteFile(e, widget.files);
+                            setState(() {});
+                          },
+                          spacingFile: widget.spacingFile);
+                    }
+                    return widget.builder!(context, e);
+                  }).toList()
+                : [Container()],
+          )
       ],
     );
   }

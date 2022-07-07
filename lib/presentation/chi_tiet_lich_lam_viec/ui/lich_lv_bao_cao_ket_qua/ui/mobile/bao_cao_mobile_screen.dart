@@ -4,13 +4,12 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/bao_cao_item.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/widgets/bottom_sheet_bao_cao.dart';
-
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
-
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -40,35 +39,14 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final data = listData[index];
+
                 return BaoCaoItem(
                   statusColor: data.status.getText().color,
                   files: data.listFile,
                   status: data.status.getText().text,
                   content: data.content,
                   funcEdit: () {
-                    showBottomSheetCustom(
-                      context,
-                      child: BaoCaoBottomSheet(
-                        id: data.id,
-                        cubit: BaoCaoKetQuaCubit(
-                          content: data.content,
-                          tinhTrangBaoCaoModel: TinhTrangBaoCaoModel(
-                            displayName: data.status.getText().text,
-                            id: data.reportStatusId,
-                          ),
-                          fileInit: data.listFile,
-                        ),
-                        scheduleId: widget.cubit.idLichLamViec,
-                        listTinhTrangBaoCao: widget.cubit.listTinhTrang,
-                        isEdit: true,
-                      ),
-                      title: S.current.chinh_sua_bao_cao_ket_qua,
-                    ).then((value) {
-                      if (value is bool && value) {
-                        widget.cubit.getDanhSachBaoCaoKetQua(
-                            widget.cubit.idLichLamViec);
-                      }
-                    });
+                    onEditBaoCao(context,data);
                   },
                   funcDelete: () {
                     showDiaLog(
@@ -76,6 +54,7 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
                       funcBtnRight: () {
                         widget.cubit.xoaBaoCaoKetQua(listData[index].id);
                       },
+                      showTablet: !isMobile(),
                       icon: SvgPicture.asset(
                         ImageAssets.ic_delete_baocao,
                       ),
@@ -96,5 +75,60 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
         }
       },
     );
+  }
+  void onEditBaoCao(BuildContext context,BaoCaoModel data){
+    if(isMobile()){
+      showBottomSheetCustom(
+        context,
+        child: BaoCaoBottomSheet(
+          id: data.id,
+          cubit: BaoCaoKetQuaCubit(
+            content: data.content,
+            tinhTrangBaoCaoModel: TinhTrangBaoCaoModel(
+              displayName: data.status.getText().text,
+              id: data.reportStatusId,
+            ),
+            fileInit: data.listFile,
+          ),
+          scheduleId: widget.cubit.idLichLamViec,
+          listTinhTrangBaoCao: widget.cubit.listTinhTrang,
+          isEdit: true,
+        ),
+        title: S.current.chinh_sua_bao_cao_ket_qua,
+      ).then((value) {
+        if (value is bool && value) {
+          widget.cubit.getDanhSachBaoCaoKetQua(
+              widget.cubit.idLichLamViec);
+        }
+      });
+    }else{
+      showDiaLogTablet(
+        context,
+        title: S.current.bao_cao_ket_qua,
+        child: BaoCaoBottomSheet(
+          id: data.id,
+          cubit: BaoCaoKetQuaCubit(
+            content: data.content,
+            tinhTrangBaoCaoModel: TinhTrangBaoCaoModel(
+              displayName: data.status.getText().text,
+              id: data.reportStatusId,
+            ),
+            fileInit: data.listFile,
+          ),
+          scheduleId: widget.cubit.idLichLamViec,
+          listTinhTrangBaoCao: widget.cubit.listTinhTrang,
+          isEdit: true,
+        ),
+        isBottomShow: false,
+        funcBtnOk: () {
+          Navigator.pop(context);
+        },
+      ).then((value) {
+        if (value is bool && value) {
+          widget.cubit.getDanhSachBaoCaoKetQua(
+              widget.cubit.idLichLamViec);
+        }
+      });
+    }
   }
 }

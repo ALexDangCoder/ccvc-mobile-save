@@ -1,18 +1,25 @@
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:intl/intl.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
 ///Y kien cuoc hop
 extension YKienCuocHop on DetailMeetCalenderCubit {
   Future<void> getDanhSachYKien(String id, String phienHopId) async {
+    showLoading();
     final result = await hopRp.getDanhSachYKien(id, phienHopId);
     result.when(
       success: (res) {
+        showContent();
         listYKienCuocHop.sink.add(res);
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
+    showContent();
   }
 
   Future<void> themYKien({
@@ -30,6 +37,25 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
       phienHopId: phienHopId.isNotEmpty ? phienHopId : null,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
+    result.when(
+      success: (res) {
+        showContent();
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
+  }
+
+  String coverDateFormat(String date) {
+    final dateNow = DateTime.now().toString();
+    final dateNowCover =
+        DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateNow).formatApiListBieuQuyet;
+    final dateCover = DateFormat('yyyy/MM/dd HH:mm')
+        .parse(dateNowCover)
+        .formatYKienChiTietHop;
+    return dateCover;
   }
 
   // danh sách phiên họp - ý kiến cuộc họp

@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -15,10 +18,10 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_s
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
-import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/base_popup.dart';
-import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
+import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/edit_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -41,7 +44,7 @@ class ChiTietLichLamViecScreen extends StatefulWidget {
 
 class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit =
-      ChiTietLichLamViecCubit();
+  ChiTietLichLamViecCubit();
   final CreateWorkCalCubit cubit = CreateWorkCalCubit();
 
   @override
@@ -49,6 +52,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     super.initState();
     chiTietLichLamViecCubit.loadApi(widget.id);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,222 +67,294 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
           final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
+          int check = dataModel.scheduleCoperatives?.indexWhere((
+              element) => element.status == 1,) ?? -1;
           return snapshot.data != null
               ? dataModel.id != null
-                  ? Scaffold(
-                      appBar: BaseAppBar(
-                        title: S.current.chi_tiet_lich_lam_viec,
-                        actions: [
-                          MenuSelectWidget(
-                            listSelect: [
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icHuy,
-                                text: S.current.huy,
-                                onTap: () {
-                                  showDiaLog(
-                                    context,
-                                    textContent:
-                                        S.current.ban_chan_chan_huy_lich_nay,
-                                    btnLeftTxt: S.current.khong,
-                                    funcBtnRight: () async {
-                                      checkCancelDuplicateCal(
-                                        dataModel.isLichLap ?? false,
-                                      );
-                                    },
-                                    title: S.current.huy_lich,
-                                    btnRightTxt: S.current.dong_y,
-                                    icon:
-                                        SvgPicture.asset(ImageAssets.icHuyLich),
-                                  );
-                                },
+              ? Scaffold(
+            appBar: BaseAppBar(
+              title: S.current.chi_tiet_lich_lam_viec,
+              actions: [
+                MenuSelectWidget(
+                  listSelect: [
+                    ///huy
+                    if (((dataModel.canBoChuTri?.id ?? '') == (HiveLocal
+                        .getDataUser()
+                        ?.userId ?? ''))
+                        || ((dataModel.createBy?.id ?? '') == (HiveLocal
+                            .getDataUser()
+                            ?.userId ?? ''))) ...[
+                      CellPopPupMenu(
+                        urlImage: ImageAssets.icHuy,
+                        text: S.current.huy,
+                        onTap: () {
+                          checkCancelDuplicateCal(
+                            dataModel.isLichLap ?? false,
+                          );
+                        },
+                      ),
+                    ],
+                    ///bao cao ket qua
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icChartFocus,
+                      text: S.current.bao_cao_ket_qua,
+                      onTap: () {
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.bao_cao_ket_qua,
+                          child: BaoCaoBottomSheet(
+                            scheduleId: widget.id,
+                            cubit: BaoCaoKetQuaCubit(),
+                            listTinhTrangBaoCao:
+                            chiTietLichLamViecCubit.listTinhTrang,
+                          ),
+                        ).then((value) {
+                          if (value is bool && value) {
+                            chiTietLichLamViecCubit
+                                .getDanhSachBaoCaoKetQua(widget.id);
+                          }
+                        });
+                      },
+                    ),
+                    ///cho y kien
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icChoYKien,
+                      text: S.current.cho_y_kien,
+                      onTap: () {
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.y_kien,
+                          child: YKienBottomSheet(
+                            id: widget.id,
+                          ),
+                        ).then((value) {
+                          if (value == true) {
+                            chiTietLichLamViecCubit
+                                .loadApi(widget.id);
+                          } else if (value == null) {
+                            return;
+                          }
+                        });
+                      },
                               ),
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icChartFocus,
-                                text: S.current.bao_cao_ket_qua,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: S.current.bao_cao_ket_qua,
-                                    child: BaoCaoBottomSheet(
-                                      scheduleId: widget.id,
-                                      cubit: BaoCaoKetQuaCubit(),
-                                      listTinhTrangBaoCao:
-                                          chiTietLichLamViecCubit.listTinhTrang,
-                                    ),
-                                  ).then((value) {
-                                    if (value is bool && value) {
-                                      chiTietLichLamViecCubit
-                                          .getDanhSachBaoCaoKetQua(widget.id);
-                                    }
-                                  });
-                                },
-                              ),
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icChoYKien,
-                                text: S.current.cho_y_kien,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: S.current.y_kien,
-                                    child: YKienBottomSheet(
-                                      id: widget.id,
-                                    ),
-                                  ).then((value) {
-                                    if (value == true) {
-                                      chiTietLichLamViecCubit
-                                          .loadApi(widget.id);
-                                    } else if (value == null) {
-                                      return;
-                                    }
-                                  });
-                                },
-                              ),
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icDelete,
-                                text: S.current.xoa_lich,
-                                onTap: () {
-                                  checkDeleteDuplicateCal(
-                                    dataModel.isLichLap ?? false,
-                                  );
-                                },
-                              ),
-                              if ((dataModel.createBy?.id ?? '') ==
-                                  (HiveLocal.getDataUser()?.userId ??
-                                      '') &&
-                                  ((dataModel.createBy?.id ?? '')
-                                      .isNotEmpty) ||
-                                  (HiveLocal.getDataUser()?.userId ?? '')
-                                      .isNotEmpty) ...[
+                              ///xoa lich
+                              if ((check == -1) &&
+                                  (((dataModel.canBoChuTri?.id ?? '') ==
+                                          (HiveLocal.getDataUser()?.userId ??
+                                              '')) ||
+                                      ((dataModel.createBy?.id ?? '') ==
+                                          (HiveLocal.getDataUser()?.userId ??
+                                              ''))))
                                 CellPopPupMenu(
-                                  urlImage: ImageAssets.icRecall,
-                                  text: S.current.thu_hoi,
+                                  urlImage: ImageAssets.icDelete,
+                                  text: S.current.xoa_lich,
                                   onTap: () {
-                                    showBottomSheetCustom(
-                                      context,
-                                      title: S.current.thu_hoi_lich,
-                                      child: RecallCalendar(
-                                        cubit: chiTietLichLamViecCubit,
-                                        callback: () {
-                                          checkRecallDuplicateCal(
-                                            dataModel.isLichLap ?? false,
-                                          );
-                                        },
-                                      ),
+                                    checkDeleteDuplicateCal(
+                                      dataModel.isLichLap ?? false,
                                     );
                                   },
-                                )
-                              ],
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icEditBlue,
-                                text: S.current.sua_lich,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: '',
-                                    textOption: false,
-                                    child: SuaLichCongTacTrongNuocPhone(
-                                      cubit: chiTietLichLamViecCubit,
-                                      event: dataModel,
-                                    ),
-                                  ).then((value) {
-                                    if (value == true) {
-                                      Navigator.pop(context, true);
-                                    } else if (value == null) {
-                                      return;
-                                    }
-                                  });
-                                },
-                              ),
-                            ],
+                                ),
+                              ///thu hoi lich
+                    if (((dataModel.canBoChuTri?.id ?? '') == (HiveLocal
+                        .getDataUser()
+                        ?.userId ?? ''))
+                        || ((dataModel.createBy?.id ?? '') == (HiveLocal
+                            .getDataUser()
+                            ?.userId ?? ''))) ...[
+                      CellPopPupMenu(
+                        urlImage: ImageAssets.icRecall,
+                        text: S.current.thu_hoi,
+                        onTap: () {
+                          showBottomSheetCustom(
+                            context,
+                            title: S.current.thu_hoi_lich,
+                            child: RecallCalendar(
+                              cubit: chiTietLichLamViecCubit,
+                              callback: () {
+                                checkRecallDuplicateCal(
+                                  dataModel.isLichLap ?? false,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      )
+                    ],
+                    ///sua lich
+                    if (((dataModel.canBoChuTri?.id ?? '') ==
+                        (HiveLocal
+                            .getDataUser()
+                            ?.userId ??
+                            '')) ||
+                        ((dataModel.createBy?.id ?? '') ==
+                            (HiveLocal
+                                .getDataUser()
+                                ?.userId ??
+                                ''))) ...[
+                      CellPopPupMenu(
+                        urlImage: ImageAssets.icEditBlue,
+                        text: S.current.sua_lich,
+                        onTap: () {
+                          showBottomSheetCustom(
+                            context,
+                            title: '',
+                            textOption: false,
+                            child: EditCalendarWork(
+                              cubit: chiTietLichLamViecCubit,
+                              event: dataModel,
+                            ),
+                          ).then((value) {
+                            if (value == true) {
+                              Navigator.pop(context, true);
+                            } else if (value == null) {
+                              return;
+                            }
+                          });
+                        },
+                      ),
+                    ]
+                  ],
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
+              leadingIcon: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AqiColor,
+                ),
+              ),
+            ),
+            body: Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
+              child: SingleChildScrollView(
+                child: ExpandGroup(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.circle,
+                            size: 12,
+                            color: statusCalenderRed,
                           ),
                           const SizedBox(
-                            width: 20,
+                            width: 16,
                           ),
-                        ],
-                        leadingIcon: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            color: AqiColor,
-                          ),
-                        ),
-                      ),
-                      body: Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
-                        child: SingleChildScrollView(
-                          child: ExpandGroup(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 12,
-                                      color: statusCalenderRed,
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                    Text(
-                                      dataModel.title ?? '',
-                                      style: textNormalCustom(
-                                        color: textTitle,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                ItemRowChiTiet(
-                                  data: dataModel,
-                                  cubit: chiTietLichLamViecCubit,
-                                ),
-                                listScheduleCooperatives(),
-                                spaceH8,
-                                BtnShowChinhSuaBaoCao(
-                                  chiTietLichLamViecCubit:
-                                      chiTietLichLamViecCubit,
-                                ),
-                                DanhSachYKienButtom(
-                                  id: widget.id,
-                                  cubit: chiTietLichLamViecCubit,
-                                ),
-                              ],
+                          Text(
+                            dataModel.title ?? '',
+                            style: textNormalCustom(
+                              color: textTitle,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    )
-                  : Scaffold(
-                      appBar: BaseAppBar(
-                        title: S.current.chi_tiet_lich_lam_viec,
-                        leadingIcon: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            color: AqiColor,
-                          ),
-                        ),
+                      ItemRowChiTiet(
+                        data: dataModel,
+                        cubit: chiTietLichLamViecCubit,
                       ),
-                      body: Center(
-                        child: Text(
-                          S.current.no_data,
-                          style: textNormalCustom(
-                            fontSize: 14,
-                            color: AppTheme.getInstance().colorField(),
-                          ),
-                        ),
+                      listScheduleCooperatives(),
+                      spaceH8,
+                      BtnShowChinhSuaBaoCao(
+                        chiTietLichLamViecCubit:
+                        chiTietLichLamViecCubit,
                       ),
-                    )
+                      DanhSachYKienButtom(
+                        id: widget.id,
+                        cubit: chiTietLichLamViecCubit,
+                      ),
+                      spaceH12,
+                      StreamBuilder<bool>(
+                          stream: chiTietLichLamViecCubit
+                              .showButtonApprove,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            return Visibility(
+                              visible: data,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: bottomButtonWidget(
+                                      background: buttonColor
+                                          .withOpacity(0.1),
+                                      title: S.current.tu_choi,
+                                      onTap: () {
+                                        chiTietLichLamViecCubit
+                                            .confirmOfficer(
+                                          ConfirmOfficerRequest(
+                                            lichId: dataModel.id,
+                                            isThamGia: false,
+                                            lyDo: '',
+                                          ),
+                                        );
+                                      },
+                                      textColor: buttonColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  Expanded(
+                                    child: bottomButtonWidget(
+                                      background: buttonColor,
+                                      title: S.current.tham_du,
+                                      onTap: () {
+                                        chiTietLichLamViecCubit
+                                            .confirmOfficer(
+                                          ConfirmOfficerRequest(
+                                            lichId: dataModel.id,
+                                            isThamGia: true,
+                                            lyDo: '',
+                                          ),
+                                        );
+                                      },
+                                      textColor: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          })
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          )
+              : Scaffold(
+            appBar: BaseAppBar(
+              title: S.current.chi_tiet_lich_lam_viec,
+              leadingIcon: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AqiColor,
+                ),
+              ),
+            ),
+            body: Center(
+              child: Text(
+                S.current.no_data,
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+              ),
+            ),
+          )
               : const Scaffold();
         },
       ),
@@ -304,6 +380,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       },
     );
   }
+
   void checkRecallDuplicateCal(bool isDup) {
     if (isDup) {
       showDialog(
@@ -317,7 +394,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           textRadioBelow: S.current.tu_lich_nay,
         ),
       ).then(
-            (value) => chiTietLichLamViecCubit
+        (value) => chiTietLichLamViecCubit
             .recallCalendar(isMulti: !value)
             .then((_) => Navigator.pop(context, true)),
       );
@@ -330,7 +407,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           Navigator.pop(context);
           await chiTietLichLamViecCubit.recallCalendar().then(
                 (_) => Navigator.pop(context, true),
-          );
+              );
         },
         title: S.current.thu_hoi_lich,
         btnRightTxt: S.current.dong_y,
@@ -340,6 +417,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       );
     }
   }
+
   void checkDeleteDuplicateCal(bool isDup) {
     if (isDup) {
       showDialog(
@@ -381,13 +459,12 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       showDialog(
         context: context,
         builder: (context) => ThemLinkHopDialog(
-          title: S.current.huy_lich,
-          isConfirm: false,
-          imageUrl: ImageAssets.icHuyLich,
-          textConfirm: S.current.ban_co_chac_muon_huy_lich,
-          textRadioAbove: S.current.chi_lich_nay,
-          textRadioBelow: S.current.tu_lich_nay,
-        ),
+            title: S.current.huy_lich,
+            isConfirm: false,
+            imageUrl: ImageAssets.icHuyLich,
+            textConfirm: S.current.ban_co_chac_muon_huy_lich,
+            textRadioAbove: S.current.chi_lich_nay,
+            textRadioBelow: S.current.tu_lich_nay),
       ).then(
         (value) => chiTietLichLamViecCubit
             .cancelCalendarWork(widget.id, isMulti: !value)

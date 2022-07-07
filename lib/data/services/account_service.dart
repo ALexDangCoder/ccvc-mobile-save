@@ -11,10 +11,10 @@ import 'package:ccvc_mobile/data/response/account/list_permission_response.dart'
 import 'package:ccvc_mobile/data/response/account/login_response.dart';
 import 'package:ccvc_mobile/data/response/account/permission_menu_response.dart';
 import 'package:ccvc_mobile/data/response/account/tinh_huyen_xa/tinh_huyen_xa_response.dart';
+import 'package:ccvc_mobile/data/response/account/unauthorized_response.dart';
 import 'package:ccvc_mobile/data/response/edit_person_information/edit_person_information_response.dart';
 import 'package:ccvc_mobile/data/response/home/list_birthday_response.dart';
 import 'package:ccvc_mobile/data/response/home/pham_vi_response.dart';
-import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/manager_personal_information/manager_personal_information_response.dart';
 import 'package:ccvc_mobile/data/response/up_load_anh/up_load_anh_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
@@ -66,7 +66,8 @@ abstract class AccountService {
   //   "Origin" :
   // })
   Future<ForgotPasswordResponse> forgotPassword(
-      @Body() ForgotPasswordRequest forgotPasswordRequest,@Header("Origin") String origin);
+      @Body() ForgotPasswordRequest forgotPasswordRequest,
+      @Header("Origin") String origin);
 }
 
 @RestApi()
@@ -92,6 +93,11 @@ abstract class AccountServiceGateWay {
   Future<ListBirthDayResponse> getListBirthday(
       @Query('pageSize') int pageSize,
       @Query('pageIndex') int pageIndex,
+      );
+  @POST(ApiConstants.REFRESH_TOKEN)
+  Future<UnauthorizedResponse> refreshToken(
+      @Field('accessToken') String accessToken,
+      @Field('refreshToken') String refreshToken,
       );
 }
 

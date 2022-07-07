@@ -8,9 +8,9 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_c
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/tablet/widgets/button_save_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/co_quan_chu_tri_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_hop.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tai_lieu_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tao_hop_success.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
@@ -150,7 +150,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               validateTime: (String value) {},
                             ),
                             spaceH5,
-                            NhacLichWidget(
+                            SelectOnlyExpand(
                               urlIcon: ImageAssets.icNhacLai,
                               title: S.current.nhac_lai,
                               value: danhSachThoiGianNhacLich.first.label,
@@ -166,8 +166,12 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                                   _cubit.taoLichHopRequest.isNhacLich = true;
                                 }
                               },
-                              onTogglePressed: (value) {
-                                _cubit.taoLichHopRequest.congKhai = value;
+                            ),
+                            ContainerToggleWidget(
+                              title: S.current.cong_khai_lich,
+                              onChange: (value) {
+                                _cubit.taoLichHopRequest.congKhai =
+                                    value;
                               },
                             ),
                             spaceH5,

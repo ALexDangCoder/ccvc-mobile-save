@@ -1,8 +1,6 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
@@ -28,6 +26,7 @@ class BaoCaoBottomSheet extends StatefulWidget {
   final BaoCaoKetQuaCubit cubit;
   final String scheduleId;
   final bool isEdit;
+
   const BaoCaoBottomSheet(
       {Key? key,
       required this.listTinhTrangBaoCao,
@@ -45,13 +44,14 @@ class BaoCaoBottomSheet extends StatefulWidget {
 class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
   TextEditingController controller = TextEditingController();
   GlobalKey<FormState> globalKey = GlobalKey();
+
+  String? errorText;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (!widget.isEdit) {
-      widget.cubit.init(widget.listTinhTrangBaoCao);
-    } else {
+    if (widget.isEdit) {
       controller.text = widget.cubit.content;
     }
   }
@@ -95,15 +95,31 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   height: 8,
                 ),
                 CoolDropDown(
-                  initData:
-                      widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
+                  showSelectedDecoration: false,
+                  selectedIcon: SvgPicture.asset(
+                    ImageAssets.icV,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
+                  initData: widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
+                  placeHoder: S.current.chon_trang_thai,
                   listData: widget.listTinhTrangBaoCao
                       .map((e) => e.displayName ?? '')
                       .toList(),
                   onChange: (index) {
+                    setState(() {
+                      errorText = null;
+                    });
                     widget.cubit.reportStatusId =
                         widget.listTinhTrangBaoCao[index].id ?? '';
                   },
+                ),
+                Text(
+                  errorText ?? '',
+                  style: textNormalCustom(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: canceledColor,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -121,7 +137,9 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   removeFileApi: (int index) {},
                   isShowFile: false,
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (files,) {
+                  onChange: (
+                    files,
+                  ) {
                     if (widget.cubit.files
                         .map((e) => e.path)
                         .contains(files.first.path)) {
@@ -208,66 +226,79 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
       ),
     );
   }
-  Widget navigatorBar(){
+
+  Widget navigatorBar() {
     return isMobile()
         ? SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: DoubleButtonBottom(
-          onPressed2: () {
-            if (widget.isEdit) {
-              widget.cubit.editScheduleReport(
-                  id: widget.id,
-                  scheduleId: widget.scheduleId,
-                  content: controller.text.trim());
-            } else {
-              widget.cubit.createScheduleReport(
-                  widget.scheduleId, controller.text);
-            }
-          },
-          title2: widget.isEdit ? S.current.luu : S.current.them,
-          title1: S.current.dong,
-          onPressed1: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    )
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: DoubleButtonBottom(
+                onPressed2: () {
+                  if (widget.cubit.reportStatusId.isNotEmpty) {
+                    if (widget.isEdit) {
+                      widget.cubit.editScheduleReport(
+                          id: widget.id,
+                          scheduleId: widget.scheduleId,
+                          content: controller.text.trim());
+                    } else {
+                      widget.cubit.createScheduleReport(
+                          widget.scheduleId, controller.text);
+                    }
+                  } else {
+                    setState(() {
+                      errorText = S.current.vui_long_chon;
+                    });
+                  }
+                },
+                title2: widget.isEdit ? S.current.luu : S.current.them,
+                title1: S.current.dong,
+                onPressed1: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          )
         : Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 142,
-            child: ButtonBottom(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              text: S.current.dong,
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 142,
+                  child: ButtonBottom(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    text: S.current.dong,
+                  ),
+                ),
+                spaceW20,
+                SizedBox(
+                  width: 142,
+                  child: ButtonBottom(
+                    customColor: true,
+                    onPressed: () {
+                      if (widget.cubit.reportStatusId.isNotEmpty){
+                        if (widget.isEdit) {
+                          widget.cubit.editScheduleReport(
+                              id: widget.id,
+                              scheduleId: widget.scheduleId,
+                              content: controller.text.trim());
+                        } else {
+                          widget.cubit.createScheduleReport(
+                              widget.scheduleId, controller.text);
+                        }
+                      }else{
+                        setState(() {
+                          errorText = S.current.vui_long_chon;
+                        });
+                      }
+                    },
+                    text: widget.isEdit ? S.current.them : S.current.luu,
+                  ),
+                ),
+              ],
             ),
-          ),
-          spaceW20,
-          SizedBox(
-            width: 142,
-            child: ButtonBottom(
-              customColor: true,
-              onPressed: () {
-                if (widget.isEdit) {
-                  widget.cubit.editScheduleReport(
-                      id: widget.id,
-                      scheduleId: widget.scheduleId,
-                      content: controller.text.trim());
-                } else {
-                  widget.cubit.createScheduleReport(
-                      widget.scheduleId, controller.text);
-                }
-              },
-              text: widget.isEdit ? S.current.them : S.current.luu,
-            ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

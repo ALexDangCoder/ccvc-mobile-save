@@ -71,15 +71,14 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
             Radius.circular(12),
           ),
         ),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+            Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Text(
                     S.current.ten_bieu_quyet,
                     style: textNormalCustom(
                       fontSize: 14,
@@ -87,52 +86,11 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  spaceH16,
-                  Text(
-                    S.current.thoi_gian,
-                    style: textNormalCustom(
-                      fontSize: 14,
-                      color: color667793,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  spaceH16,
-                  Text(
-                    S.current.thoi_gian_bq,
-                    style: textNormalCustom(
-                      fontSize: 14,
-                      color: color667793,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  spaceH16,
-                  Text(
-                    S.current.loai_bieu_quyet,
-                    style: textNormalCustom(
-                      fontSize: 14,
-                      color: color667793,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  spaceH16,
-                  Text(
-                    S.current.danh_sach_lua_chon,
-                    style: textNormalCustom(
-                      fontSize: 14,
-                      color: color667793,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            spaceW8,
-            Expanded(
-              flex: 6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+                ),
+                spaceW20,
+                Expanded(
+                  flex: 6,
+                  child: Text(
                     ' ${widget.infoModel.noiDung}',
                     style: textNormalCustom(
                       fontSize: 16,
@@ -142,32 +100,79 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  spaceH12,
-                  Text(
-                    '${DateTime.parse(widget.infoModel.thoiGianBatDau ?? '').formatApiListBieuQuyetMobile} - '
-                    '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiFixMeet}',
+                ),
+              ],
+            ),
+            spaceH10,
+            Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    S.current.thoi_gian,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: color667793,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                spaceW20,
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')} - '
+                    '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}',
                     style: textNormalCustom(
                       fontSize: 16,
                       color: infoColor,
                       fontWeight: FontWeight.w400,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    // overflow: TextOverflow.ellipsis,
                   ),
-                  spaceH12,
-                  if (widget.cubit.isNotStartYet(
-                    startTime: timeDate ?? DateTime.now(),
-                  )) ...[
-                    Text(
-                      '00:00:00',
-                      style: textNormalCustom(
-                        color: canceledColor,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                ),
+              ],
+            ),
+            spaceH10,
+            Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    S.current.thoi_gian_bq,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: color667793,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                spaceW20,
+                if (widget.cubit.isNotStartYet(
+                  startTime: timeDate ?? DateTime.now(),
+                )) ...[
+                  Expanded(
+                    flex: 6,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 12,
+                        bottom: 10,
                       ),
-                    )
-                  ] else ...[
-                    Padding(
+                      child: Text(
+                        '00:00:00',
+                        style: textNormalCustom(
+                          color: canceledColor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  )
+                ] else ...[
+                  Expanded(
+                    flex: 6,
+                    child: Padding(
                       padding: const EdgeInsets.only(top: 12, bottom: 12),
                       child: CountdownTimer(
                         controller: endCountdownController,
@@ -195,9 +200,28 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                         },
                       ),
                     ),
-                  ],
-                  spaceH10,
-                  Text(
+                  ),
+                ],
+              ],
+            ),
+            spaceH10,
+            Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    S.current.loai_bieu_quyet,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: color667793,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                spaceW20,
+                Expanded(
+                  flex: 6,
+                  child: Text(
                     loaiBieuQuyetFunc(
                       widget.infoModel.loaiBieuQuyet ?? true,
                     ),
@@ -209,15 +233,32 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  spaceH12,
-                  SizedBox(
-                    height: 50,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount:
-                          widget.infoModel.danhSachKetQuaBieuQuyet?.length,
-                      itemBuilder: (context, index) {
+                ),
+              ],
+            ),
+            spaceH10,
+            Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    S.current.danh_sach_lua_chon,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: color667793,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                spaceW20,
+                Expanded(
+                  flex: 6,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                          widget.infoModel.danhSachKetQuaBieuQuyet?.length ?? 0,
+                          (index) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 16),
                           child: ContainerState(
@@ -233,11 +274,11 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 0,
                           ),
                         );
-                      },
+                      }),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ],
         ),
@@ -254,167 +295,214 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
               Radius.circular(12),
             ),
           ),
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                flex: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${S.current.ten_bieu_quyet} : ${widget.infoModel.noiDung}',
+              Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      S.current.ten_bieu_quyet,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: color667793,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  spaceW20,
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      ' ${widget.infoModel.noiDung}',
                       style: textNormalCustom(
                         fontSize: 16,
                         color: infoColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              spaceH10,
+              Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      S.current.thoi_gian,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: color667793,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    spaceH16,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                S.current.thoi_gian,
-                                style: textNormalCustom(
-                                  fontSize: 14,
-                                  color: color667793,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              spaceH16,
-                              Text(
-                                S.current.thoi_gian_bq,
-                                style: textNormalCustom(
-                                  fontSize: 14,
-                                  color: color667793,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              spaceH16,
-                              Text(
-                                S.current.loai_bieu_quyet,
-                                style: textNormalCustom(
-                                  fontSize: 14,
-                                  color: color667793,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              spaceH16,
-                              Text(
-                                S.current.danh_sach_lua_chon,
-                                style: textNormalCustom(
-                                  fontSize: 14,
-                                  color: color667793,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                  ),
+                  spaceW20,
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')} - '
+                      '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}',
+                      style: textNormalCustom(
+                        fontSize: 16,
+                        color: infoColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      maxLines: 2,
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              spaceH10,
+              Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      S.current.thoi_gian_bq,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: color667793,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  spaceW20,
+                  if (widget.cubit.isNotStartYet(
+                    startTime: timeDate ?? DateTime.now(),
+                  )) ...[
+                    Expanded(
+                      flex: 6,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 12,
+                          bottom: 10,
+                        ),
+                        child: Text(
+                          '00:00:00',
+                          style: textNormalCustom(
+                            color: canceledColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Expanded(
-                          flex: 6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${DateTime.parse(widget.infoModel.thoiGianBatDau ?? '').formatApiListBieuQuyet} - '
-                                '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiListBieuQuyet}',
-                                style: textNormalCustom(
-                                  fontSize: 16,
-                                  color: infoColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              spaceH14,
-                              if (widget.cubit.isNotStartYet(
-                                startTime: timeDate ?? DateTime.now(),
-                              )) ...[
-                                Text(
-                                  '00:00:00',
-                                  style: textNormalCustom(
-                                    color: canceledColor,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                )
-                              ] else ...[
-                                CountdownTimer(
-                                  controller: endCountdownController,
-                                  widgetBuilder:
-                                      (_, CurrentRemainingTime? time) {
-                                    if (time == null) {
-                                      return Text(
-                                        '00:00:00',
-                                        style: textNormalCustom(
-                                          color: canceledColor,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      );
-                                    }
-                                    return Text(
-                                      '${widget.cubit.dateTimeCovert(time.hours ?? 0)}:'
-                                      '${widget.cubit.dateTimeCovert(time.min ?? 0)}:'
-                                      '${widget.cubit.dateTimeCovert(time.sec ?? 0)}',
-                                      style: textNormalCustom(
-                                        color: canceledColor,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                              spaceH14,
-                              Text(
-                                loaiBieuQuyetFunc(
-                                  widget.infoModel.loaiBieuQuyet ?? true,
-                                ),
-                                style: textNormalCustom(
-                                  fontSize: 16,
-                                  color: infoColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              spaceH14,
-                              SizedBox(
-                                height: 70,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: widget.infoModel
-                                      .danhSachKetQuaBieuQuyet?.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: ContainerState(
-                                        name: widget
-                                                .infoModel
-                                                .danhSachKetQuaBieuQuyet?[index]
-                                                .tenLuaChon ??
-                                            '',
-                                        number: widget
-                                                .infoModel
-                                                .danhSachKetQuaBieuQuyet?[index]
-                                                .soLuongLuaChon ??
-                                            0,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     )
+                  ] else ...[
+                    Expanded(
+                      flex: 6,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 12, bottom: 12),
+                        child: CountdownTimer(
+                          controller: endCountdownController,
+                          widgetBuilder: (_, CurrentRemainingTime? time) {
+                            if (time == null) {
+                              return Text(
+                                '00:00:00',
+                                style: textNormalCustom(
+                                  color: canceledColor,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
+                            }
+                            return Text(
+                              '${widget.cubit.dateTimeCovert(time.hours ?? 0)}:'
+                              '${widget.cubit.dateTimeCovert(time.min ?? 0)}:'
+                              '${widget.cubit.dateTimeCovert(time.sec ?? 0)}',
+                              style: textNormalCustom(
+                                color: canceledColor,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
                   ],
-                ),
+                ],
+              ),
+              spaceH10,
+              Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      S.current.loai_bieu_quyet,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: color667793,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  spaceW20,
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      loaiBieuQuyetFunc(
+                        widget.infoModel.loaiBieuQuyet ?? true,
+                      ),
+                      style: textNormalCustom(
+                        fontSize: 16,
+                        color: infoColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              spaceH10,
+              Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      S.current.danh_sach_lua_chon,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: color667793,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  spaceW20,
+                  Expanded(
+                    flex: 6,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                            widget.infoModel.danhSachKetQuaBieuQuyet?.length ??
+                                0, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: ContainerState(
+                              name: widget
+                                      .infoModel
+                                      .danhSachKetQuaBieuQuyet?[index]
+                                      .tenLuaChon ??
+                                  '',
+                              number: widget
+                                      .infoModel
+                                      .danhSachKetQuaBieuQuyet?[index]
+                                      .soLuongLuaChon ??
+                                  0,
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ],
           ),

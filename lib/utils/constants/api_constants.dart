@@ -74,9 +74,11 @@ class ApiConstants {
   static const GET_TREE_DON_VI = '/common/DonVi/get-tree';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
   static const OFFICERS_JOIN = '/vpdt/api/CanBoThamGia/can-bo-tham-gia-tree';
+  static const CONFIRM_OFFICER = '/vpdt/api/CanBoThamGia/confirm-lich';
   static const OFFICER_JOIN = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
+  static const CONFIG_SYSTEM = '/vpdt/api/ConfigSystem/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
   static const DANH_SACH_PHIEN_HOP =
@@ -138,7 +140,7 @@ class ApiConstants {
   static const CO_CAU_LICH_HOP =
       '/vpdt/api/Statistic/statistic-by-type-of-calendar';
   static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list';
-  static const MENU_LICH_LV = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
+  static const MENU_LICH_LV = '/vpdt/api/Schedules/count-lich-don-vi';
   static const TO_CHUC_BOI_DON_VI =
       '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA =
@@ -275,6 +277,8 @@ class ApiConstants {
   static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
   static const POST_Y_KIEN_XU_LY = '/pakn/api/TaskYKien/XinYKien';
   static const POST_CHO_Y_KIEN_XU_LY = '/PAKN/api/TaskYKien/ChoYKien';
+  static const GET_PAKN_TIEP_NHAN_VAN_BAN_DI = '/PAKN/api/Tasks/danh-sach-theo-van-ban-di';
+  static const GET_PAKN_XU_LY_VAN_BAN = '/pakn/api/TaskYKien/danh-sach-kien-nghi-y-kien';
   static const DOWNLOAD_FILE = '/api/Common/DownloadFile';
   static const GET_LOCATION_ADDRESS = '/pakn/api/location';
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
@@ -302,6 +306,12 @@ class ApiConstants {
       '/vpdt/api/ScheduleReport/duyet-bao-cao';
   static const CREATE_KET_LUAN_HOP =
       '/vpdt/api/ScheduleReport/create-meet-report';
+  static const GUI_DUYET_KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/register-meet-report';
+  static const THU_HOI__KET_LUAN_HOP =
+      '/vpdt/api/ScheduleReport/reject-meet-report';
+  static const REFRESH_TOKEN = '/common/auth/refresh-token';
+
 }
 
 class ImageConstants {

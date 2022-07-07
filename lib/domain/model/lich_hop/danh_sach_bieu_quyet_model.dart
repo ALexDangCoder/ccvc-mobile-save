@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:intl/intl.dart';
 
 class DanhSachBietQuyetModel {
   String? id;
@@ -27,6 +29,19 @@ String loaiBieuQuyetFunc(bool loaiBieuQuyet) {
     return S.current.bo_khieu_kin;
   }
   return S.current.bo_phieu_cong_khai;
+}
+
+String coverDateTime(String dates) {
+  final dateCover = DateFormat('yyyy-MM-ddTHH:mm:ss')
+      .parse(dates)
+      .formatApiListBieuQuyetMobile;
+  return dateCover;
+}
+
+String coverDateTimeApi(String dates) {
+  final dateCover =
+      DateFormat('MM/dd/yyyy HH:mm:ss').parse(dates).formatBieuQuyetChooseTime;
+  return dateCover;
 }
 
 class DanhSachKetQuaBieuQuyet {

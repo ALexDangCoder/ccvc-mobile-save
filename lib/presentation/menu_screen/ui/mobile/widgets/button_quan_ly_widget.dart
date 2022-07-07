@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -5,6 +7,7 @@ import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/widget_mange_sc
 import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/widget_mange_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,14 +18,25 @@ class ButtonQuanLyMobileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) => screenDevice(
-              mobileScreen: const WidgetManageScreen(),
-              tabletScreen: const WidgetManageScreenTablet(),
+        if (Platform.isIOS) {
+          Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (context) => screenDevice(
+                mobileScreen: const WidgetManageScreen(),
+                tabletScreen: const WidgetManageScreenTablet(),
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => screenDevice(
+                mobileScreen: const WidgetManageScreen(),
+                tabletScreen: const WidgetManageScreenTablet(),
+              ),
+            ),
+          );
+        }
       },
       child: Container(
           height: 32,

@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 
 class ItemHuyenWidget extends StatefulWidget {
   final CreateWorkCalCubit taoLichLamViecCubit;
+  final bool isEdit;
+  final String name;
 
-  ItemHuyenWidget({Key? key, required this.taoLichLamViecCubit})
+  ItemHuyenWidget(
+      {Key? key, required this.taoLichLamViecCubit, this.isEdit = false, this.name = ''})
       : super(key: key);
 
   @override
@@ -31,7 +34,10 @@ class _ItemHuyenWidgetState extends State<ItemHuyenWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenQuanHuyen ?? '').toList(),
-          hintText: S.current.chon_huyen,
+          hintText: widget.isEdit ? '' : S.current.chon_huyen,
+          value: widget.isEdit
+              ? widget.name
+              : '',
           title: S.current.quan_huyen,
         );
       },

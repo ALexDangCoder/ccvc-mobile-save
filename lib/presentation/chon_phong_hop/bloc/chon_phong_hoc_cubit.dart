@@ -74,6 +74,9 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
     final result = await hopRepository.getListThongTinPhongHop(idHop);
     result.when(
       success: (res) {
+        if(res.id?.isEmpty ?? true){
+          return;
+        }
         phongHopSelectedSubject.sink.add(
           res.convertToPhongHopModel(
             isTTDH: isTTDH,

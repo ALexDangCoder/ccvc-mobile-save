@@ -27,3 +27,54 @@ class DanhSachPAKNRequest {
 
   Map<String, dynamic> toJson() => _$DanhSachPAKNRequestToJson(this);
 }
+
+@JsonSerializable()
+class DanhSachPAKNVanBanDiRequest {
+  @JsonKey(name: 'DonViId')
+  final String donViId;
+  @JsonKey(name: 'TrangThaiVanBanDi')
+  final int trangThaiVanBanDi;
+  @JsonKey(name: 'page')
+  final int page;
+  @JsonKey(name: 'pageSize')
+  final int pageSize;
+  @JsonKey(name: 'tuNgay')
+  final String dateFrom;
+  @JsonKey(name: 'denNgay')
+  final String dateTo;
+
+  DanhSachPAKNVanBanDiRequest(this.donViId, this.trangThaiVanBanDi, this.page,
+      this.pageSize, this.dateFrom, this.dateTo);
+
+  factory DanhSachPAKNVanBanDiRequest.fromJson(Map<String, dynamic> json) =>
+      _$DanhSachPAKNVanBanDiRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DanhSachPAKNVanBanDiRequestToJson(this);
+}
+
+@JsonSerializable()
+class DanhSachPAKNXuLyCacYKienRequest {
+  @JsonKey(name: 'DaChoYKien')
+  final bool daChoYKien;
+  @JsonKey(name: 'page')
+  final int page;
+  @JsonKey(name: 'pageSize')
+  final int pageSize;
+  @JsonKey(name: 'tuNgay')
+  final String dateFrom;
+  @JsonKey(name: 'denNgay')
+  final String dateTo;
+
+  DanhSachPAKNXuLyCacYKienRequest(
+    this.daChoYKien,
+    this.page,
+    this.pageSize,
+    this.dateFrom,
+    this.dateTo,
+  );
+
+  factory DanhSachPAKNXuLyCacYKienRequest.fromJson(Map<String, dynamic> json) =>
+      _$DanhSachPAKNXuLyCacYKienRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DanhSachPAKNXuLyCacYKienRequestToJson(this);
+}

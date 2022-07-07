@@ -80,6 +80,33 @@ extension FormatAddressConfirm on String {
     }
   }
 
+  DateTime getOnlyDate(String dateString) {
+    final date = dateString.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_RECEIVE,
+    );
+    return DateTime(date.year, date.month, date.day);
+  }
+
+  bool checkBeforeAfterDate({
+    required DateTime compareDate,
+    bool checkBefore = true,
+  }) {
+    try {
+      final DateTime currentDate = getOnlyDate(this);
+      final compareDateOnlyDate = DateTime(
+        compareDate.year,
+        compareDate.month,
+        compareDate.day,
+      );
+      final compareValue = currentDate.compareTo(compareDateOnlyDate);
+      if ((compareValue == -1 && checkBefore) ||
+          (compareValue == 1 && !checkBefore)) {
+        return true;
+      }
+    } catch (_) {}
+    return false;
+  }
+
   DateTime convertStringToDate({String formatPattern = 'yyyy-MM-dd'}) {
     try {
       return DateFormat(formatPattern).parse(this);
@@ -160,6 +187,20 @@ extension StringParse on String {
         return 6;
       case 'Chủ nhât':
         return 7;
+    }
+  }
+
+  String formatTime() {
+    /// format 8:00 to 08:00
+    try {
+      String h = split(':').first;
+      final hour = int.parse(split(':').first);
+      if (hour <= 9) {
+        h = '0$hour';
+      }
+      return '$h:${split(':').last}';
+    } catch (e) {
+      return this;
     }
   }
 }

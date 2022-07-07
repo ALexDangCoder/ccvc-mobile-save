@@ -10,7 +10,9 @@ class CoolDropDown extends StatefulWidget {
   final Function(int) onChange;
   final List<String> listData;
   final double? setWidth;
-  final useCustomHintColors;
+  final bool showSelectedDecoration;
+  final bool useCustomHintColors;
+  final Widget? selectedIcon;
 
   const CoolDropDown({
     Key? key,
@@ -19,6 +21,8 @@ class CoolDropDown extends StatefulWidget {
     required this.listData,
     required this.initData,
     this.setWidth,
+    this.showSelectedDecoration = true,
+    this.selectedIcon,
     this.useCustomHintColors = false,
   }) : super(key: key);
 
@@ -65,10 +69,10 @@ class _CoolDropDownState extends State<CoolDropDown> {
         fontSize: 14.0.textScale(),
         color: titleCalenderWork,
       ),
-      selectedItemBD: BoxDecoration(
+      selectedItemBD:widget.showSelectedDecoration ? BoxDecoration(
         color: borderColor,
         borderRadius: BorderRadius.circular(6),
-      ),
+      ) : const  BoxDecoration(),
       resultTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
         color: titleCalenderWork,
@@ -79,6 +83,7 @@ class _CoolDropDownState extends State<CoolDropDown> {
             ? titleCalenderWork.withOpacity(0.5)
             : titleCalenderWork,
       ),
+      selectedIcon: widget.selectedIcon,
       resultBD: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         border: Border.all(color: borderColor),

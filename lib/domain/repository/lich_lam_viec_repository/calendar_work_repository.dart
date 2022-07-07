@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_vie
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/time_config.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/danh_sach_lich_lam_viec.dart';
@@ -185,7 +186,7 @@ mixin CalendarWorkRepository {
     required List<int> days,
   });
 
-  Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
+  Future<Result<MessageModel>> editWorkCalendarWorkAboard(
     String title,
     String typeScheduleId,
     String linhVucId,
@@ -251,4 +252,6 @@ mixin CalendarWorkRepository {
 
   Future<Result<DataDatNuocSelectModel>> getCountry(
       DatNuocSelectRequest datNuocSelectRequest);
+
+  Future<Result<TimeConfig>> getConfigTime();
 }

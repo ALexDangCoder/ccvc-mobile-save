@@ -32,10 +32,13 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   static const int NEW_USER = 2;
 
   String idReport = '';
+  int sourceType = 0;
 
   ReportRepository get _repo => get_dart.Get.find();
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
+  BehaviorSubject<bool> showTree =
+  BehaviorSubject.seeded(false);
   BehaviorSubject<String> callAPI = BehaviorSubject.seeded('');
   final BehaviorSubject<bool> _isDuocTruyCapSubject =
       BehaviorSubject.seeded(true);
@@ -83,6 +86,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
       },
     );
   }
+  //https://api-htcs-test.chinhquyendientu.vn/api/Source/source-share-detail/154b42c9-651f-4d95-9361-1e6791d38f96
 
   Future<void> getMemberInGroup(
     String idGroup,
@@ -122,6 +126,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     String? position,
     String? unit,
     String? description,
+    int? sourceType,
   }) async {
     final Map<String, String> mapData = {
       'email': email ?? '',
@@ -158,6 +163,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
           final ShareReport map = ShareReport(
             groupId: element.idNhom,
             type: COMMON,
+            sourceType: sourceType,
           );
           mapData.add(map);
         }
@@ -169,15 +175,17 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
           final ShareReport map = ShareReport(
             userId: element,
             type: HAS_USER,
+            sourceType: sourceType,
           );
           mapData.add(map);
-          mes = await shareReport(mapData, idReport: idReport);
         }
+        mes = await shareReport(mapData, idReport: idReport);
         break;
       case Share.NEW_USER:
         final ShareReport map = ShareReport(
           newUser: newUser,
           type: NEW_USER,
+          sourceType: sourceType,
         );
         mapData.add(map);
         mes = await shareReport(mapData, idReport: idReport);

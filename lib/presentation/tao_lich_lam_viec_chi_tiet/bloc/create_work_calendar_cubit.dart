@@ -21,7 +21,6 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -160,7 +159,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   bool? publishSchedule;
   List<Files>? files;
   List<File>? filesTaoLich;
-  List<String> filesDelete=[];
+  List<String> filesDelete = [];
   String? id;
   ChiTietLichLamViecModel detailCalendarWorkModel = ChiTietLichLamViecModel();
   final toast = FToast();
@@ -169,27 +168,20 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
 
   void listeningStartDataTime(DateTime dateAndTime) {
     dateFrom = dateAndTime.formatApi;
-    if (isCheckAllDaySubject.value == true) {
-      timeFrom = START_TIME;
-    } else {
-      timeFrom = dateAndTime.formatApiFixMeet;
-    }
+
+    timeFrom = dateAndTime.formatApiFixMeet;
+
     startDateSubject.add(dateAndTime);
   }
 
   void listeningEndDataTime(DateTime dateAndTime) {
     dateEnd = dateAndTime.formatApi;
-    if (isCheckAllDaySubject.value == true) {
-      timeEnd = END_TIME;
-    } else {
-      timeEnd = dateAndTime.formatApiFixMeet;
-    }
+    timeEnd = dateAndTime.formatApiFixMeet;
     endDateSubject.add(dateAndTime);
   }
 
   Future<void> taoMoiBanGhi(TaoMoiBanGhiRequest request) async {
     final result = await _workCal.postTaoMoiBanGhi(request);
-
     result.when(
       success: (value) {
         taoMoiBanGhiSubject.add(value);
@@ -222,10 +214,10 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
   Future<void> loadData() async {
-    final queue = Queue(parallel: 4);
+    final queue = Queue(parallel: 5);
     unawaited(queue.add(() => _getLinhVuc()));
     unawaited(queue.add(() => _dataTypeCalendar()));
-    unawaited(queue.add(() => _getNguoiChuTri()));
+    unawaited(queue.add(() => _getLeader()));
     unawaited(queue.add(() => getDataProvince()));
     unawaited(queue.add(() => getCountry()));
     await queue.onComplete;
@@ -266,18 +258,19 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     final result = await _workCal
         .getLinhVuc(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     result.when(
-        success: (res) {
-          if (res.isNotEmpty) {
-            selectLinhVuc = res.first;
-          }
-          _linhVuc.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        if (res.isNotEmpty) {
+          selectLinhVuc = res.first;
+        }
+        _linhVuc.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   String userId = '';
 
-  Future<void> _getNguoiChuTri() async {
+  Future<void> _getLeader() async {
     final dataUser = HiveLocal.getDataUser();
 
     final result = await _workCal.getNguoiChuTri(
@@ -391,7 +384,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     );
   }
 
-  Future<void> createWorkCalendar({
+  Future<void> createWorkCalendar
+      ({
     required String title,
     required String content,
     required String location,
@@ -421,10 +415,9 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       country: datNuocSelectModel?.name ?? '',
       countryId: datNuocSelectModel?.id ?? '',
       dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      timeFrom: timeFrom ?? timeFrom ?? DateTime.now().formatApiFixMeet,
+      timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
       dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
       timeTo: timeEnd ??
-          timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content: content,
       location: location,
@@ -455,7 +448,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
-        //eventBus.fire(RefreshCalendar());
+        eventBus.fire(RefreshCalendar());
       },
       error: (error) {
         MessageConfig.show(title: S.current.error, messState: MessState.error);
@@ -473,7 +466,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     showLoading();
     final result = await _workCal.suaLichLamViec(
       title: title,
-      typeScheduleId: selectLoaiLich?.id ?? '',
+      typeScheduleId: selectLoaiLichId ?? '',
       linhVucId: selectLinhVuc?.id ?? '',
       TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
       TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
@@ -528,9 +521,9 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     bool only = true,
   }) async {
     showLoading();
-    final result = await _workCal.suaLichLamViecNuocNgoai(
+    final result = await _workCal.editWorkCalendarWorkAboard(
       title,
-      selectLoaiLich?.id ?? '',
+      selectLoaiLichId ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
       huyenSelectModel?.tenQuanHuyen ?? '',
@@ -570,7 +563,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     result.when(
       success: (res) {
         emit(CreateSuccess());
-        //eventBus.fire(RefreshCalendar());
+        eventBus.fire(RefreshCalendar());
       },
       error: (error) {
         MessageConfig.show(title: S.current.error, messState: MessState.error);
@@ -584,10 +577,11 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       TinhSelectRequest(pageIndex: 1, pageSize: 100),
     );
     result.when(
-        success: (res) {
-          tinhSelectSubject.sink.add(res.items ?? []);
-        },
-        error: (error) {});
+      success: (res) {
+        tinhSelectSubject.sink.add(res.items ?? []);
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> getDataDistrict(String provinceId) async {

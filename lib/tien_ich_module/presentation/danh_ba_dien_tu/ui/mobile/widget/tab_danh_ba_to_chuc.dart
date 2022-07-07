@@ -22,7 +22,6 @@ class DanhBaToChuc extends StatefulWidget {
 class _DanhBaToChucState extends State<DanhBaToChuc> {
   DanhBaDienTuCubit cubit = DanhBaDienTuCubit();
   String keySearch = '';
-  Timer? _debounce;
 
   @override
   void initState() {
@@ -126,13 +125,16 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         onChange: (value) {
           keySearch = value;
           if (value.isNotEmpty) {
-            if (_debounce?.isActive ?? false) _debounce?.cancel();
-            _debounce = Timer(const Duration(milliseconds: 1000), () {
-              cubit.callApiDanhBaToChuc(
-                keyWork: value,
-                pageIndexApi: 1,
-              );
-            });
+            cubit.waitToDelay(
+              actionNeedDelay: () {
+                cubit.callApiDanhBaToChuc(
+                  keyWork: value,
+                  pageIndexApi: 1,
+                );
+              },
+              timeSecond: 1,
+            );
+            Timer? _debounce;
           }
         },
       );

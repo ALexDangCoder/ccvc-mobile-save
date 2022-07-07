@@ -60,12 +60,20 @@ extension DateFormatString on DateTime {
     return DateFormat('yyyy-MM-ddTHH:mm').format(this);
   }
 
+  String get formatBieuQuyetChooseTime {
+    return DateFormat('yyyy-MM-dd HH:mm:ss').format(this);
+  }
+
   String get formatBE {
     return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
   }
 
   String get formatApiSuaPhienHop {
     return DateFormat('yyyy-MM-dd HH:mm').format(this);
+  }
+
+  String get formatYKienChiTietHop {
+    return DateFormat('dd/MM/yyyy HH:mm').format(this);
   }
 
   String get formatHourMinute {
@@ -78,6 +86,10 @@ extension DateFormatString on DateTime {
 
   String get formatApiListBieuQuyetMobile {
     return DateFormat('dd/MM/yyyy HH:mm').format(this);
+  }
+
+  String get formatListBieuQuyet {
+    return DateFormat('MM/dd/yyyy HH:mm').format(this);
   }
 
   String get formatApiSSAM {
@@ -148,6 +160,14 @@ extension DateFormatString on DateTime {
 
   String dateTimeFormatter({required String pattern}) {
     return DateFormat(pattern).format(this);
+  }
+
+  String tryDateTimeFormatter({required String pattern}) {
+    try {
+      return DateFormat(pattern).format(this);
+    } catch (_) {
+      return '';
+    }
   }
 
   String getDayofWeekTxt() {

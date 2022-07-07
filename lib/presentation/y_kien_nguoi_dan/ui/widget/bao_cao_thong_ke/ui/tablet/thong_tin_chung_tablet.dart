@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/dropdown_trang_thai_pakn.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/tablet/chi_tiet_pakn_tablet.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
@@ -90,7 +91,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 if (widget.cubit.canLoadMoreList &&
                     scrollInfo.metrics.pixels ==
                         scrollInfo.metrics.maxScrollExtent) {
-                  if(!widget.cubit.isFilter) {
+                  if (!widget.cubit.isFilter) {
                     widget.cubit.loadMoreGetDSPAKN();
                   } else {
                     widget.cubit.loadMoreGetDSPAKNFilter();
@@ -103,6 +104,10 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   widget.cubit.resetBeforeRefresh();
                   widget.cubit.getDashBoardPAKNTiepCanXuLy();
                   widget.cubit.getDanhSachPAKN();
+                  widget.cubit.textFilter.sink.add(TextTrangThai(
+                    S.current.all,
+                    Colors.black,
+                  ),);
                 },
                 child: SingleChildScrollView(
                   child: Column(
@@ -189,7 +194,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                   width: 115,
                                 ),
                                 Expanded(
-                                  child: XuLyWidget(
+                                  child:XuLyWidget(
                                     model: data,
                                     cubit: widget.cubit,
                                   ),
@@ -246,27 +251,69 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                             return Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Stack(
+                                alignment: Alignment.centerRight,
                                 children: [
-                                  Text(
-                                    S.current.danh_sach_pakn,
-                                    style: textNormalCustom(
-                                      color: textTitle,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w500,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              S.current.danh_sach_pakn,
+                                              style: textNormalCustom(
+                                                color: textTitle,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: StreamBuilder<TextTrangThai>(
+                                              stream:
+                                              widget.cubit.textFilter.stream,
+                                              builder: (context, snapshot) {
+                                                return item(
+                                                  title: snapshot.data?.text ?? '',
+                                                  callBack: (value) {
+                                                    widget.cubit.isShowFilterList
+                                                        .add(true);
+                                                  },
+                                                  colorBG: snapshot.data?.color ??
+                                                      Colors.red,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: data.length,
+                                        itemBuilder: (context, index) {
+                                          return _itemDanhSachPAKN(
+                                              dsKetQuaPakn: data[index]);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    child: StreamBuilder<bool>(
+                                      stream: widget.cubit.isShowFilterList,
+                                      builder: (context, snapshot) {
+                                        final isShow = snapshot.data ?? false;
+                                        return isShow
+                                            ? DropDownTrangThaiPAKN(
+                                          cubit: widget.cubit,
+                                        )
+                                            : const SizedBox.shrink();
+                                      },
                                     ),
-                                  ),
-                                  ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      return _itemDanhSachPAKN(
-                                          dsKetQuaPakn: data[index]);
-                                    },
-                                  ),
+                                  )
                                 ],
                               ),
                             );
@@ -382,7 +429,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
+                    '${S.current.han_xu_ly}: ${DateTime.parse(dsKetQuaPakn.hanXuLy ?? '').toStringWithListFormat}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,

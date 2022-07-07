@@ -55,7 +55,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {
-        cubit.refreshDataDangLich();
+        if (cubit.state is CalendarViewState || cubit.state is ListViewState) {
+          cubit.refreshDataDangLich();
+        } else {
+          cubit.getDataDangChart();
+        }
       },
       error: AppException('', S.current.something_went_wrong),
       stream: cubit.stateStream,
@@ -80,7 +84,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: ImageAssets.svgAssets(ImageAssets.icBack),
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ImageAssets.svgAssets(ImageAssets.icBack),
+                ),
               ),
               spaceW12,
               cubit.controller.getIcon(),
@@ -97,10 +105,9 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            if (cubit.state is CalendarViewState) {
+            if (cubit.state is CalendarViewState || cubit.state is ListViewState) {
               cubit.refreshDataDangLich();
-            } else if (cubit.state is ListViewState) {
-            } else {
+            }else {
               cubit.getDataDangChart();
             }
           },
@@ -143,7 +150,6 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                       cubit.getDaysHaveEvent(
                         startDate: startDate,
                         endDate: endDate,
-                        keySearch: keySearch,
                       );
                     },
                   );

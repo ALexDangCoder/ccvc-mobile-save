@@ -8,14 +8,14 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/material.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class TaiLieuWidget extends StatefulWidget {
   List<Files>? files;
-  final Function(List<File>) onChange;
+  final Function(List<File>, bool) onChange;
   Function(String id) idRemove;
 
-  TaiLieuWidget({Key? key, this.files, required this.onChange, required this.idRemove})
+  TaiLieuWidget(
+      {Key? key, this.files, required this.onChange, required this.idRemove})
       : super(key: key);
 
   @override
@@ -69,7 +69,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             maxSize: 20971520,
             title: S.current.dinh_kem_tep_english,
             onChange: (List<File> files, bool validate) {
-              widget.onChange(files);
+              widget.onChange(files, validate);
             },
           ),
         )

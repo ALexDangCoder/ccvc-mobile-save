@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -33,8 +34,10 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
         ),
         rowData(
           icon: ImageAssets.icCalendarUnFocus,
-          value: widget.cubit
-              .parseDate(widget.data.dateTo ?? DateTime.now().formatApi),
+          value: getDate(
+            widget.data.dateFrom ?? '',
+            widget.data.dateTo ?? '',
+          ),
         ),
         rowData(
           icon: ImageAssets.icCalendarUnFocus,
@@ -44,9 +47,28 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           icon: ImageAssets.icNotify,
           value: widget.data.scheduleReminder?.nhacLai(),
         ),
+        if (widget.data.publishSchedule ?? false) ...[
+          spaceH10,
+          Padding(
+            padding: EdgeInsets.only(
+              left: 31.0.textScale(),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                S.current.cong_khai_lich,
+                style: textNormal(
+                  color_667793,
+                  14,
+                ),
+              ),
+            ),
+          ),
+          spaceH8,
+        ],
         rowData(
           icon: ImageAssets.icPerson,
-          value: widget.data.canBoChuTri?.hoTen ?? '',
+          value: widget.data.canBoChuTri?.title() ?? '',
         ),
         rowData(icon: ImageAssets.icWork, value: widget.data.linhVuc ?? ''),
         rowData(icon: ImageAssets.icViTri, value: widget.data.location ?? ''),
@@ -84,9 +106,19 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
   String getDateTime(String timeFrom, String timeTo) {
     String time = '';
     try {
-      time =
-          '${DateTime.parse(widget.data.dateTimeFrom ?? '').toFormat24h}-'
-          '${DateTime.parse(widget.data.dateTimeTo ?? '').toFormat24h}';
+      time = '${DateTime.parse(timeFrom).toFormat24h}-'
+          '${DateTime.parse(timeTo).toFormat24h}';
+    } on FormatException catch (_) {
+      return '';
+    }
+    return time;
+  }
+
+  String getDate(String dateFrom, String dateTo) {
+    String time = '';
+    try {
+      time = '${widget.cubit.parseDate(dateFrom)} - '
+          '${widget.cubit.parseDate(dateTo)}';
     } on FormatException catch (_) {
       return '';
     }

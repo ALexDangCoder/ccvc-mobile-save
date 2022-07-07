@@ -89,11 +89,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
               final AppointmentWithDuplicate appointment =
                   appointmentDetail.appointments.first;
               if (appointmentDetail.appointments.length > 1) {
-                return Center(
-                    child: Text(
-                      expandText(appointmentDetail.appointments.length),
-                      style: textNormal(colorA2AEBD, 13),
-                    ));
+                return const SizedBox();
               }
               if (appointment.isMore) {
                 return GestureDetector(
@@ -145,10 +141,10 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
       final currentTimeTo = item.endTime.millisecondsSinceEpoch;
       if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
         item.startTime = DateTime.fromMillisecondsSinceEpoch(
-          item.endTime.millisecondsSinceEpoch - 20 * 60 * 1000,
+          currentTimeFrom - 600000,
         );
         item.endTime = DateTime.fromMillisecondsSinceEpoch(
-          item.endTime.millisecondsSinceEpoch,
+          currentTimeTo + 600000,
         );
       }
       final listDuplicate = where((element) {
@@ -209,6 +205,9 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
       if (i == (maxShow - 1)) {
         for (final e in checkDuplicate[i]) {
           e.isMore = true;
+          e.endTime = DateTime.fromMillisecondsSinceEpoch(
+            e.startTime.millisecondsSinceEpoch + 1800000,
+          );
           resultList.add(e);
         }
       } else {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/creat_ket_luan_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
@@ -245,7 +246,10 @@ mixin HopRepository {
 
   Future<Result<MessageModel>> deleteKetLuanHop(String id);
 
-  Future<Result<MessageModel>> deleteChiTietLichHop(String id);
+  Future<Result<MessageModel>> deleteChiTietLichHop(
+    String id,
+    bool isMulti,
+  );
 
   Future<Result<MessageModel>> huyChiTietLichHop(
     String scheduleId,
@@ -303,7 +307,7 @@ mixin HopRepository {
     int type,
   );
 
-  Future<Result<ResponseModel>> postDiemDanh(
+  Future<Result<bool>> postDiemDanh(
     List<String> data,
   );
 
@@ -312,7 +316,7 @@ mixin HopRepository {
     List<ThuHoiHopRequest> thuHoiHopRequest,
   );
 
-  Future<Result<ResponseModel>> postHuyDiemDanh(
+  Future<Result<bool>> postHuyDiemDanh(
     String data,
   );
 
@@ -399,14 +403,18 @@ mixin HopRepository {
   );
 
   Future<Result<bool>> createKetLuanHop(
-    String lichHopId,
     String scheduleId,
     String reportStatusId,
     String reportTemplateId,
-    String startDate,
-    String endDate,
     String content,
-    List<String> files,
-    List<String> filesDelete,
+    List<File> files,
+  );
+
+  Future<Result<bool>> guiDuyetKetLuanHop(
+    String meetId,
+  );
+
+  Future<Result<bool>> thuHoiKetLuanHop(
+    String meetId,
   );
 }

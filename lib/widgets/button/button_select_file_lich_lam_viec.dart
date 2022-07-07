@@ -289,7 +289,9 @@ class _ButtonSelectFileLichLamViecState
                 onTap: () {
                   onTap();
                 },
-                child: SvgPicture.asset(ImageAssets.icDelete),
+                child: Container(
+                    padding: const EdgeInsets.all(4),
+                    child: SvgPicture.asset(ImageAssets.icDelete)),
               ),
             ],
           ),

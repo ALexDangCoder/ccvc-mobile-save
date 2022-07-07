@@ -1,15 +1,13 @@
 import 'dart:io';
-
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
-
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import '../chi_tiet_lich_hop_cubit.dart';
 
 ///kết luận hop
@@ -70,39 +68,39 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   TrangThai typeTrangthai(int value) {
     switch (value) {
       case 1:
-        return TrangThai.ChoDuyet;
+        return TrangThai.CHO_DUYET;
       case 2:
-        return TrangThai.DaDuyet;
+        return TrangThai.DA_DUYET;
+      case 0:
+        return TrangThai.NHAP;
       case 3:
-        return TrangThai.ChuaGuiDuyet;
-      case 4:
-        return TrangThai.HuyDuyet;
+        return TrangThai.TU_CHOI;
       default:
-        return TrangThai.ChoDuyet;
+        return TrangThai.CHO_DUYET;
     }
   }
 
   TinhTrang typeTinhTrang(String value) {
     switch (value) {
       case 'trung-binh':
-        return TinhTrang.TrungBinh;
+        return TinhTrang.TRUNG_BINH;
       case 'dat':
-        return TinhTrang.Dat;
+        return TinhTrang.DAT;
       case 'chua-dat':
-        return TinhTrang.ChuaDat;
+        return TinhTrang.CHUA_DAT;
       default:
-        return TinhTrang.TrungBinh;
+        return TinhTrang.TRUNG_BINH;
     }
   }
 
   Future<void> suaKetLuan({
-    required String scheduleId,
     required String reportStatusId,
     required String reportTemplateId,
     List<File>? files,
   }) async {
+    showLoading();
     final result = await hopRp.suaKetLuan(
-      scheduleId,
+      idCuocHop,
       noiDung.value,
       reportStatusId,
       reportTemplateId,
@@ -110,9 +108,16 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     );
 
     result.when(
-      success: (value) {},
-      error: (error) {},
+      success: (value) {
+        showContent();
+        getXemKetLuanHop(idCuocHop);
+      },
+      error: (error) {
+        showContent();
+        MessageConfig.show(title: S.current.that_bai);
+      },
     );
+    showContent();
   }
 
   Future<void> postChonMauHop() async {
@@ -163,9 +168,29 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     return '';
   }
 
-  Future<void> deleteKetLuanHop(String id) async {
+  Future<bool> deleteKetLuanHop(String id) async {
+    bool isCheck = true;
+    showLoading();
     final result = await hopRp.deleteKetLuanHop(id);
-    result.when(success: (res) {}, error: (err) {});
+    result.when(
+      success: (res) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (err) {
+        showContent();
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
+        isCheck = false;
+      },
+    );
+    showContent();
+    return isCheck;
   }
 
   Future<void> sendMailKetLuatHop(String idSendmail) async {
@@ -176,9 +201,11 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         showContent();
       },
       error: (err) {
-        showError();
+        showContent();
+        MessageConfig.show(title: S.current.that_bai);
       },
     );
+    showContent();
   }
 
   Future<void> getDanhSachLoaiNhiemVu() async {
@@ -215,56 +242,90 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
+        getXemKetLuanHop(idCuocHop);
       },
       error: (err) {
-        showError();
+        showContent();
+        MessageConfig.show(title: S.current.that_bai);
       },
     );
     showContent();
   }
 
-  Future<void> createKetLuanHop({
-    required String lichHopId,
-    required String scheduleId,
+  Future<bool> createKetLuanHop({
     required String reportStatusId,
     required String reportTemplateId,
-    required String startDate,
-    required String endDate,
-    required String content,
-    required List<String> files,
-    required List<String> filesDelete,
+    required List<File> files,
   }) async {
     showLoading();
     final result = await hopRp.createKetLuanHop(
-      lichHopId,
-      scheduleId,
+      idCuocHop,
       reportStatusId,
       reportTemplateId,
-      startDate,
-      endDate,
-      content,
+      noiDung.value,
       files,
-      filesDelete,
+      // [],
     );
     result.when(
       success: (res) {
         showContent();
+        if (res) {
+          getXemKetLuanHop(idCuocHop);
+        }
+        return true;
       },
       error: (err) {
-        showError();
+        showContent();
+        MessageConfig.show(title: S.current.that_bai);
+        return false;
+      },
+    );
+    showContent();
+    return true;
+  }
+
+  Future<void> guiDuyetKetLuanHop() async {
+    showLoading();
+    final result = await hopRp.guiDuyetKetLuanHop(
+      idCuocHop,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        getXemKetLuanHop(idCuocHop);
+      },
+      error: (err) {
+        showContent();
+        MessageConfig.show(title: S.current.that_bai);
       },
     );
     showContent();
   }
 
+  Future<void> thuHoiKetLuanHop() async {
+    showLoading();
+    final result = await hopRp.thuHoiKetLuanHop(
+      idCuocHop,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        getXemKetLuanHop(idCuocHop);
+      },
+      error: (err) {
+        showContent();
+        MessageConfig.show(title: S.current.that_bai);
+      },
+    );
+    showContent();
+  }
 
-
-  Future<void> callApiKetLuanHop() async {
-    await getDanhSachNhiemVu(idCuocHop);
-    await getXemKetLuanHop(idCuocHop);
-    await getDanhSachLoaiNhiemVu();
-    await listStatusKetLuanHop();
-    await danhSachCanBoTPTG(id: idCuocHop);
-    await postChonMauHop();
+  void callApiKetLuanHop() {
+    getXemKetLuanHop(idCuocHop);
+    getDanhSachNhiemVu(idCuocHop);
+    getDanhSachLoaiNhiemVu();
+    listStatusKetLuanHop();
+    danhSachCanBoTPTG(id: idCuocHop);
+    postChonMauHop();
   }
 }

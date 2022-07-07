@@ -23,6 +23,7 @@ import 'package:flutter_svg/svg.dart';
 
 class MainCanlendanMobileRefactor extends StatefulWidget {
   final bool isBack;
+
   const MainCanlendanMobileRefactor({Key? key, this.isBack = false})
       : super(key: key);
 
@@ -74,13 +75,19 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
               Visibility(
                 visible: widget.isBack,
                 child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 16),
-                      child: Icon(Icons.arrow_back_ios),
-                    )),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: SvgPicture.asset(
+                        ImageAssets.icBack,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               cubit.controller.getIcon(),
             ],

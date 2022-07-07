@@ -257,7 +257,8 @@ class _EditPersonalInformationScreen
                       InputInfoUserWidget(
                         isObligatory: true,
                         title: user.keys.elementAt(6),
-                        child: CoolDropDown(
+                        child:
+                        CoolDropDown(
                           initData:
                               cubit.managerPersonalInformationModel.gioiTinh ??
                                       false

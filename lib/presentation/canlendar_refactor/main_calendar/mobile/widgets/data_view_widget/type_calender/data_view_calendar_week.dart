@@ -87,7 +87,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         viewHeaderHeight: widget.isTablet ? -1 : 0,
         controller: widget.fCalendarController,
         view: CalendarView.week,
-        todayHighlightColor: labelColor,
+        todayHighlightColor: statusCalenderRed,
         appointmentTimeTextFormat: 'hh:mm:ss',
         resourceViewSettings: ResourceViewSettings(
           displayNameTextStyle: textNormalCustom(
@@ -119,15 +119,12 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
         ),
         selectionDecoration: const BoxDecoration(color: Colors.transparent),
+
         appointmentBuilder: (_, appointmentDetail) {
           final AppointmentWithDuplicate appointment =
               appointmentDetail.appointments.first;
-          if (appointmentDetail.appointments.length > 1) {
-            return Center(
-                child: Text(
-              expandText(appointmentDetail.appointments.length),
-              style: textNormal(colorA2AEBD, 13),
-            ));
+          if (appointmentDetail.isMoreAppointmentRegion) {
+            return const SizedBox();
           }
           if (appointment.isMore) {
             return GestureDetector(
@@ -137,7 +134,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
               child: Container(
                 color: Colors.transparent,
                 child: const Icon(
-                  Icons.more_vert,
+                  Icons.more_horiz,
                   color: textBodyTime,
                 ),
               ),
@@ -150,6 +147,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   }
 
   String expandText(int sum) {
-    return '${sum - 2}+';
+    return '${sum}+';
   }
 }

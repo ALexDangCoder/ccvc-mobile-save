@@ -43,7 +43,7 @@ class ChiTietLichHopModel {
   String? days;
   bool? isDuyetThietBi = false;
   bool? bit_PhongTrungTamDieuHanh;
-  int? trangThaiDuyetKyThuat = -1;
+  int? trangThaiDuyetKyThuat;
   String? lichHop_PhienHopStr = '';
   String? diaDiemHop;
   bool? isCongKhai;

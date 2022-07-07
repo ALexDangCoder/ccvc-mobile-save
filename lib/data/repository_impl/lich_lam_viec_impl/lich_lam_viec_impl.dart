@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:http/http.dart' as http;
+
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_req
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
+import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/data_config_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/huy_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/trang_thai/trang_thai_lv_response.dart';
@@ -44,6 +45,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_vie
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/time_config.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/danh_sach_lich_lam_viec.dart';
@@ -246,7 +248,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
   }
 
   @override
-  Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
+  Future<Result<MessageModel>> editWorkCalendarWorkAboard(
     String title,
     String typeScheduleId,
     String linhVucId,
@@ -346,14 +348,15 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     for (int i = 0; i < days.length; i++) {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
-    files?.forEach((element)async{
+    files?.forEach((element) async {
       final MultipartFile file = await MultipartFile.fromFile(
         element.path,
       );
       _data.files.add(MapEntry('Files', file));
     });
-    for (int i = 0; i < (filesDelete??[]).length; i++) {
-      _data.fields.add(MapEntry('filesDelete', (filesDelete??[])[i].toString()));
+    for (int i = 0; i < (filesDelete ?? []).length; i++) {
+      _data.fields
+          .add(MapEntry('filesDelete', (filesDelete ?? [])[i].toString()));
     }
 
     return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
@@ -502,7 +505,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     required String dateRepeat1,
     required bool only,
     required List<int> days,
-  }) async{
+  }) async {
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
     _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
@@ -540,13 +543,13 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].donViId',
-          scheduleCoperativeRequest[i].id,
+          scheduleCoperativeRequest[i].donViId,
         ),
       );
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].canBoId',
-          scheduleCoperativeRequest[i].canBoId,
+          scheduleCoperativeRequest[i].userId,
         ),
       );
       _data.fields.add(
@@ -570,15 +573,15 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     for (int i = 0; i < days.length; i++) {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
-    files?.forEach((element)async{
+    files?.forEach((element) async {
       final MultipartFile file = await MultipartFile.fromFile(
-          element.path,
+        element.path,
       );
       _data.files.add(MapEntry('Files', file));
     });
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-      () => workCalendarService.createWorkCalendar(_data,files ?? []),
+      () => workCalendarService.createWorkCalendar(_data, files ?? []),
       (res) => res.toDomain(),
     );
   }
@@ -653,13 +656,13 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].donViId',
-          scheduleCoperativeRequest[i].id,
+          scheduleCoperativeRequest[i].donViId,
         ),
       );
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].canBoId',
-          scheduleCoperativeRequest[i].canBoId,
+          scheduleCoperativeRequest[i].userId,
         ),
       );
       _data.fields.add(
@@ -683,14 +686,15 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     for (int i = 0; i < days.length; i++) {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
-    files?.forEach((element)async{
+    files?.forEach((element) async {
       final MultipartFile file = await MultipartFile.fromFile(
         element.path,
       );
       _data.files.add(MapEntry('Files', file));
     });
-    for (int i = 0; i < (filesDelete??[]).length; i++) {
-      _data.fields.add(MapEntry('filesDelete', (filesDelete??[])[i].toString()));
+    for (int i = 0; i < (filesDelete ?? []).length; i++) {
+      _data.fields
+          .add(MapEntry('filesDelete', (filesDelete ?? [])[i].toString()));
     }
 
     return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
@@ -707,6 +711,14 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     return runCatchingAsync<MessageResponse, MessageModel>(
       () => workCalendarService.recallWorkCalendar(request, isMulti),
       (res) => res.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<TimeConfig>> getConfigTime() {
+    return runCatchingAsync<DataConfigResponse, TimeConfig>(
+      () => workCalendarService.getConfigTime(),
+      (res) => res.data?.first.toTimeModel() ?? TimeConfig(),
     );
   }
 }

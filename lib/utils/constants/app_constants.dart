@@ -137,6 +137,8 @@ const _dtFormat13 = 'dd/MM/yyyy HH:mm';
 const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
 const _dtFormat15 = 'yyyy-MM-dd HH:mm';
 const HOUR_MINUTE_FORMAT = 'Hm';
+const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
+const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
 
 const START_TIME='8:00';
 const END_TIME='18:00';
@@ -166,6 +168,8 @@ class DateTimeFormat {
   static const  DATE_TIME_PICKER = _dtFormat13;
   static const  DATE_TIME_PUT = _dtFormat14;
   static const  DATE_TIME_PUT_EDIT = _dtFormat15;
+  static const  DATE_TIME_BE_API_START = _dtFormat16;
+  static const  DATE_TIME_BE_API_END = _dtFormat17;
 }
 
 class ThongBaoTypeConstant {
@@ -193,6 +197,9 @@ class WidgetTypeConstant {
   static const String TINH_HINH_XU_LY_HO_SO_CA_NHAN = 'TinhHinhXuLyHoSoCaNhan';
   static const String DANH_SACH_DICH_VU_CONG = 'DanhSachDichVuCong';
   static const String TiNH_HINH_XU_LY_HO_SO_DON_VI = 'TinhHinhXuLyHoSoDonVi';
+  static const String TiNH_HINH_PAKN_CA_NHAN = 'TinhHinhXuLyPAKNCaNhan';
+  static const String TiNH_HINH_PAKN_DON_VI = 'PhanAnhKienNghiDonVi';
+  static const String DANH_SACH_PAKN = 'YKienNguoiDanTongHop';
 }
 
 class DocumentState {
@@ -238,6 +245,7 @@ class NhiemVuStatus {
 
 class DateFormatApp {
   static String date = 'dd/MM/yyyy';
+  static String dateApp = 'dd/MM/YYYY';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
   static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
@@ -247,6 +255,7 @@ class DateFormatApp {
   static String monthDayFormat = 'MM/dd/yyyy HH:mm';
   static String pickDateFormat = 'dd/MM/yyyy HH:mm';
 }
+
 
 class StatusYKND {
   static const String CHUA_THUC_HIEN_YKND = '1';

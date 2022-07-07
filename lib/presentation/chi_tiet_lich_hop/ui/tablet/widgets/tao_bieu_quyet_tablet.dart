@@ -84,6 +84,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     noiDungController.text,
                     widget.cubit.date,
                     widget.cubit.loaiBieuQ,
+                    widget.cubit.ngayBatDaus,
+                    widget.cubit.ngayKetThucs,
                   );
                   Navigator.pop(context, true);
                 }

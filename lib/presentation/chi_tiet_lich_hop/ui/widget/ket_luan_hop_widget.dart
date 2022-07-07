@@ -360,16 +360,18 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           textContent:
                               S.current.ban_co_chac_chan_muon_xoa_klh_nay,
                           btnLeftTxt: S.current.khong,
-                          funcBtnRight: () {
-                            cubit
+                          funcBtnRight: () async {
+                            await cubit
                                 .deleteKetLuanHop(
-                                  cubit.xemKetLuanHopModel.id ?? '',
-                                )
-                                .then(
-                                  (value) => cubit.getXemKetLuanHop(
-                                    cubit.idCuocHop,
-                                  ),
+                              cubit.xemKetLuanHopModel.id ?? '',
+                            )
+                                .then((value) {
+                              if (value) {
+                                cubit.getXemKetLuanHop(
+                                  cubit.idCuocHop,
                                 );
+                              }
+                            });
                           },
                           title: S.current.xoa_ket_luan_hop,
                           btnRightTxt: S.current.dong_y,
@@ -424,13 +426,14 @@ class ItemKetLuanHopWidget extends StatelessWidget {
   }
 }
 
-void xemOrTaoOrSuaKetLuanHop(
-    {required DetailMeetCalenderCubit cubit,
-    required BuildContext context,
-    required String title,
-    bool? isCreate,
-    bool? isOnlyViewContent,
-    required List<String> listFile}) {
+void xemOrTaoOrSuaKetLuanHop({
+  required DetailMeetCalenderCubit cubit,
+  required BuildContext context,
+  required String title,
+  bool? isCreate,
+  bool? isOnlyViewContent,
+  required List<String> listFile,
+}) {
   if (isMobile()) {
     showBottomSheetCustom(
       context,

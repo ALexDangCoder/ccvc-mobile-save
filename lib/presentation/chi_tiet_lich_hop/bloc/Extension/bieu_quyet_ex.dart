@@ -98,17 +98,13 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     String noidung,
     String date,
     bool loaiBieuQuyet,
+    String ngayBatDaus,
+    String ngayKetThucs,
   ) async {
     await themBieuQuyetHopByLuc(
       dateStart: date,
-      thoiGianBatDau: plusTaoBieuQuyet(
-        date,
-        start,
-      ),
-      thoiGianKetThuc: plusTaoBieuQuyet(
-        date,
-        end,
-      ),
+      thoiGianBatDau: ngayBatDaus,
+      thoiGianKetThuc: ngayKetThucs,
       loaiBieuQuyet: loaiBieuQuyet,
       danhSachLuaChon: listLuaChon
           .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))

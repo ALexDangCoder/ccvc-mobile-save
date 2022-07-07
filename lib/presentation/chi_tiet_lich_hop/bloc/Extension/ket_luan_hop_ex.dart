@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:ccvc_mobile/bao_cao_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
@@ -9,7 +7,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
-
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import '../chi_tiet_lich_hop_cubit.dart';
 
 ///kết luận hop
@@ -171,22 +169,28 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   }
 
   Future<bool> deleteKetLuanHop(String id) async {
+    bool isCheck = true;
     showLoading();
     final result = await hopRp.deleteKetLuanHop(id);
     result.when(
       success: (res) {
         showContent();
-        return true;
+        MessageConfig.show(
+          title: S.current.thanh_cong,
+        );
+        isCheck = true;
       },
       error: (err) {
         showContent();
-        MessageConfig.show(title: S.current.that_bai);
-        return false;
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
+        isCheck = false;
       },
     );
-    await getXemKetLuanHop(idCuocHop);
     showContent();
-    return true;
+    return isCheck;
   }
 
   Future<void> sendMailKetLuatHop(String idSendmail) async {

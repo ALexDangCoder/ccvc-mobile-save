@@ -33,7 +33,10 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
   List<int> listYear = [];
 
   ///current date
-  DateTime currentMonth = DateTime.now();
+  DateTime currentMonth = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+  );
 
   ///current index of page
   late int currentIndex;
@@ -57,6 +60,10 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     );
     currentIndex = indexPageOfYear(currentMonth.year);
     yearPage = currentMonth.year;
+  }
+
+  int getYearFromPage(int page) {
+    return listYear[page];
   }
 
   void initDataYear() {
@@ -94,7 +101,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
   }
 
   void _onPageChange(int index) {
-    yearPage = yearPage + (index - currentIndex);
+    yearPage = getYearFromPage(index);
 
     currentIndex = index;
 

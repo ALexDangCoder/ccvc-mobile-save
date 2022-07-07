@@ -69,6 +69,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             maxSize: 20971520,
             title: S.current.dinh_kem_tep_english,
             onChange: (List<File> files, bool validate) {
+              widget.onChange(files);
             },
           ),
         )

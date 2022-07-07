@@ -192,12 +192,12 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                   },
                                 ),
                                 LoaiLichWidget(
-                                  taoLichLamViecCubit: createCubit,
-                                  callback: (value) {
-                                    chooseTypeCalendarValidatorValue = value;
-                                  },
-                                  isEdit: true,
-                                ),
+                                    taoLichLamViecCubit: createCubit,
+                                    callback: (value) {
+                                      chooseTypeCalendarValidatorValue = value;
+                                    },
+                                    isEdit: true,
+                                    name: widget.event.typeScheduleName ?? ''),
                                 CupertinoMaterialPicker(
                                   isEdit: true,
                                   isAllDay: widget.event.isAllDay ?? false,
@@ -266,6 +266,10 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 ),
                                 NguoiChuTriWidget(
                                   cubit: createCubit,
+                                  isEdit: true,
+                                  name: widget.event.canBoChuTri?.fullTitle() ??
+                                      '',
+                                  id: widget.event.canBoChuTri?.id ?? '',
                                 ),
                                 LinhVucWidget(
                                   cubit: createCubit,

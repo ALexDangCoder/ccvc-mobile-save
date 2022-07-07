@@ -11,10 +11,10 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_req
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
+import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/data_config_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/huy_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/trang_thai/trang_thai_lv_response.dart';
-import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/data_config_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
@@ -543,13 +543,13 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].donViId',
-          scheduleCoperativeRequest[i].id,
+          scheduleCoperativeRequest[i].donViId,
         ),
       );
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].canBoId',
-          scheduleCoperativeRequest[i].canBoId,
+          scheduleCoperativeRequest[i].userId,
         ),
       );
       _data.fields.add(
@@ -656,13 +656,13 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].donViId',
-          scheduleCoperativeRequest[i].id,
+          scheduleCoperativeRequest[i].donViId,
         ),
       );
       _data.fields.add(
         MapEntry(
           'ScheduleCoperativeRequest[$i].canBoId',
-          scheduleCoperativeRequest[i].canBoId,
+          scheduleCoperativeRequest[i].userId,
         ),
       );
       _data.fields.add(

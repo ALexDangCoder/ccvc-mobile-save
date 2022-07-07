@@ -35,6 +35,12 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    widgetManageCubit.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Column(
@@ -244,6 +250,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                           ),
                           const SizedBox(
                             height: 16,
+                          ),
+                          Center(
+                            child: Text(S.current.no_data),
                           ),
                         ],
                       ),

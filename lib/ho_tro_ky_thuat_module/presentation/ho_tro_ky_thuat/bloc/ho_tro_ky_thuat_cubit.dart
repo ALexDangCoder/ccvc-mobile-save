@@ -163,6 +163,23 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
+  Future<bool> deleteTask({required String id}) async {
+    showLoading();
+    final result = await _hoTroKyThuatRepository.deleteTask([id]);
+    late bool isCheckStatus;
+    result.when(
+      success: (res) {
+        isCheckStatus = res;
+        showContent();
+      },
+      error: (error) {
+        isCheckStatus = false;
+        showContent();
+      },
+    );
+    return isCheckStatus;
+  }
+
   Future<void> getChartSuCo() async {
     final Result<ChartSuCoModel> result =
         await _hoTroKyThuatRepository.getChartSuCo();

@@ -5,6 +5,8 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,7 +56,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
                 spaceH10,
                 textRow(
                   textTitle: S.current.mo_ta_su_co,
-                  textContent: modelDSSC.moTaSuCo ?? '',
+                  textContent: (modelDSSC.moTaSuCo ?? '').parseHtml(),
                 ),
                 spaceH10,
                 textRow(
@@ -153,7 +155,22 @@ class ItemDanhSachSuCo extends StatelessWidget {
                         itemMenu(
                           title: S.current.xoa,
                           icon: ImageAssets.ic_delete,
-                          function: (value) {},
+                          function: (value) {
+                            cubit
+                                .deleteTask(id: modelDSSC.id ?? '')
+                                .then((value) {
+                              if (value) {
+                                MessageConfig.show(
+                                  title: S.current.xoa_thanh_cong,
+                                );
+                                cubit.getListDanhBaCaNhan(page: 1);
+                              } else {
+                                MessageConfig.show(
+                                  title: S.current.xoa_that_bai,
+                                );
+                              }
+                            });
+                          },
                         ),
                         line(
                           paddingLeft: 35,
@@ -186,7 +203,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
     required String icon,
     required Function(String) function,
   }) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => function(title),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),

@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/account/forgot_password_model.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_app_model.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_menu_model.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
+import 'package:ccvc_mobile/domain/model/account/unauthorized_model.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/up_load_anh_model.dart';
 import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
@@ -22,7 +23,7 @@ mixin AccountRepository {
     String appCode,
   );
 
-  Future<Result<bool>> refreshToken(
+  Future<Result<UnauthorizedModel>> refreshToken(
       String accessToken,
       String refreshToken,
       );

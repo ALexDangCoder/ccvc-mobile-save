@@ -45,7 +45,7 @@ class _TabThongTinXuLyPAKNTabletState extends State<TabThongTinXuLyPAKNTablet> {
         stream: widget.cubit.listThongTinXuLy.stream,
         builder: (context, snapshot) {
           final data = snapshot.data?.donViDuocPhanXuLy ?? [];
-          if (!data.isEmpty) {
+          if (data.isNotEmpty) {
             return ListView.builder(
               shrinkWrap: true,
               itemCount: data.length,

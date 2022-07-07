@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/main.dart';

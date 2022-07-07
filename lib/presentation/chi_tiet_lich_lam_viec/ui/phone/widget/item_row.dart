@@ -68,7 +68,7 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
         ],
         rowData(
           icon: ImageAssets.icPerson,
-          value: widget.data.canBoChuTri?.title() ?? '',
+          value: widget.data.canBoChuTri?.namePosition() ?? '',
         ),
         rowData(icon: ImageAssets.icWork, value: widget.data.linhVuc ?? ''),
         rowData(icon: ImageAssets.icViTri, value: widget.data.location ?? ''),

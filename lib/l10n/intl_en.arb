@@ -1255,5 +1255,8 @@
   "thong_ke_su_co": "Thống kê sự cố theo khu vực",
   "vui_long_chon": "Vui lòng chọn",
   "validate_bieu_quyet": "Thời gian biểu quyết phải nằm trong khoảng thời gian họp",
-  "chon_nguoi":"Chọn người"
+  "chon_nguoi":"Chọn người",
+  "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
+  "lich_hop_da_klch": "Lịch họp đã KLCH"
+
 }

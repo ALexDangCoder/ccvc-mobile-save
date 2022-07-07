@@ -1253,5 +1253,8 @@
   "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
   "thong_ke_su_co": "Thống kê sự cố theo khu vực",
-  "chon_nguoi":"Chọn người"
+  "chon_nguoi":"Chọn người",
+  "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
+  "lich_hop_da_klch": "Lịch họp đã KLCH"
+
 }

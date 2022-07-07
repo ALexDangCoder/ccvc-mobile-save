@@ -27,7 +27,6 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
 
   @override
   void initState() {
-    print(' chay vao init satete----------------');
     super.initState();
     widgetManageCubit.loadApi();
   }

@@ -224,6 +224,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   String nameUser = '';
 
   BaoChiMangXaHoiCubit() {
+    startDate=DateTime(startDate.year, startDate.month, startDate.day-1);
     final dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       nameUser = dataUser.userInformation?.hoTen ?? '';
@@ -277,8 +278,8 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     final result = await homeRep.getBaoChiMangXaHoi(
       1,
       5,
-      startDate.formatApiSS,
-      endDate.formatApiSS,
+      startDate.formatApiStartDay,
+      endDate.formatApiEndDay,
       tagKey,
     );
     showContent();
@@ -294,6 +295,25 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     tagKey = tag;
     callApi();
     _getTag.sink.add(_getTag.value);
+  }
+
+  void editSelectDate(SelectKey selectKey){
+    startDate=DateTime.now();
+    switch(selectKey){
+      case SelectKey.HOM_NAY:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-1);
+        break;
+      case SelectKey.TUAN_NAY:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-7);
+        break;
+      case SelectKey.THANG_NAY:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-30);
+        break;
+      case SelectKey.NAM_NAY:
+        startDate=DateTime(startDate.year-1, startDate.month, startDate.day);
+        break;
+    }
+
   }
 
   @override

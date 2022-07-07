@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'danh_sach_lich_hop_response.g.dart';
 
 @JsonSerializable()
-class DanhSachLichHopResponse extends Equatable {
+class DanhSachLichHopResponse {
   @JsonKey(name: 'code')
   String? code;
   @JsonKey(name: 'data')
@@ -25,13 +25,10 @@ class DanhSachLichHopResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$DanhSachLichHopResponseToJson(this);
 
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class DanhSachLichHopItemResponse extends Equatable {
+class DanhSachLichHopItemResponse {
   @JsonKey(name: 'items')
   List<ItemDanhSachLichHopResponse>? items;
   @JsonKey(name: 'pageIndex')
@@ -52,7 +49,7 @@ class DanhSachLichHopItemResponse extends Equatable {
   });
 
   DanhSachLichHopModel toModel() => DanhSachLichHopModel(
-        items: items?.map((e) => e.toModel()).toList() ?? [],
+        items: items?.map((e) => e.toModel()).toSet().toList() ?? [],
         pageIndex: pageIndex,
         pageSize: pageSize,
         totalCount: totalCount,
@@ -64,9 +61,6 @@ class DanhSachLichHopItemResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$DanhSachLichHopItemResponseToJson(this);
 
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
@@ -205,7 +199,7 @@ class ItemDanhSachLichHopResponse extends Equatable {
 
   //todo convert to Model to use
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id];
 }
 
 @JsonSerializable()

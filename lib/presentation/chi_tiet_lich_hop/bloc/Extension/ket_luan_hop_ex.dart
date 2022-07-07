@@ -72,9 +72,9 @@ extension KetLuanHop on DetailMeetCalenderCubit {
       case 2:
         return TrangThai.DA_DUYET;
       case 0:
-        return TrangThai.CHUA_GUI_DUYET;
+        return TrangThai.NHAP;
       case 3:
-        return TrangThai.HUY_DUYET;
+        return TrangThai.TU_CHOI;
       default:
         return TrangThai.CHO_DUYET;
     }
@@ -263,7 +263,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
       reportStatusId,
       reportTemplateId,
       noiDung.value,
-      // [],
+      files,
       // [],
     );
     result.when(

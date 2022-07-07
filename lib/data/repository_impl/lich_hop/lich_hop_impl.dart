@@ -742,12 +742,12 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> postDiemDanh(
+  Future<Result<bool>> postDiemDanh(
     List<String> data,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.postDiemDanh(data),
-      (response) => response.toModel(),
+      (response) => response.isSucces,
     );
   }
 
@@ -763,12 +763,12 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<ResponseModel>> postHuyDiemDanh(
+  Future<Result<bool>> postHuyDiemDanh(
     String data,
   ) {
-    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.postHuyDiemDanh(data),
-      (response) => response.toModel(),
+      (response) => response.isSucces,
     );
   }
 
@@ -1000,7 +1000,7 @@ class HopRepositoryImpl implements HopRepository {
     String reportStatusId,
     String reportTemplateId,
     String content,
-    // List<File> files,
+    List<File> files,
     // List<String> filesDelete,
   ) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
@@ -1009,7 +1009,7 @@ class HopRepositoryImpl implements HopRepository {
         reportStatusId,
         reportTemplateId,
         content,
-        // files,
+        files,
         // filesDelete,
       ),
       (response) => response.isSucces,

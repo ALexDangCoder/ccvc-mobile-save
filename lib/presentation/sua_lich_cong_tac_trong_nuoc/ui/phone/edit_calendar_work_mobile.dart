@@ -192,12 +192,13 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                   },
                                 ),
                                 LoaiLichWidget(
-                                    taoLichLamViecCubit: createCubit,
-                                    callback: (value) {
-                                      chooseTypeCalendarValidatorValue = value;
-                                    },
-                                    isEdit: true,
-                                    name: widget.event.typeScheduleName ?? ''),
+                                  taoLichLamViecCubit: createCubit,
+                                  callback: (value) {
+                                    chooseTypeCalendarValidatorValue = value;
+                                  },
+                                  isEdit: true,
+                                  name: widget.event.typeScheduleName ?? '',
+                                ),
                                 CupertinoMaterialPicker(
                                   isEdit: true,
                                   isAllDay: widget.event.isAllDay ?? false,

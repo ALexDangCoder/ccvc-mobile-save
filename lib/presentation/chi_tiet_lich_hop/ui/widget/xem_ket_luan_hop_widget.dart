@@ -380,7 +380,7 @@ class ShowRequiedWithStream extends StatelessWidget {
                   left: 10,
                 ),
                 child: Text(
-                  textShow == '' ? S.current.khong_duoc_de_trong : textShow,
+                  textShow.isEmpty ? S.current.khong_duoc_de_trong : textShow,
                   style: textDetailHDSD(color: canceledColor, fontSize: 12),
                 ),
               );
@@ -414,7 +414,7 @@ class ShowRequied extends StatelessWidget {
               left: 10,
             ),
             child: Text(
-              textShow == '' ? S.current.khong_duoc_de_trong : textShow,
+              textShow.isEmpty ? S.current.khong_duoc_de_trong : textShow,
               style: textDetailHDSD(color: canceledColor, fontSize: 12),
             ),
           )

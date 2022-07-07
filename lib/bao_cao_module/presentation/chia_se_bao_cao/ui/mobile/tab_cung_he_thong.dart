@@ -69,7 +69,6 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                       maxHeight: 250.h,
                       showSearchBox: true,
                       mode: Mode.MENU,
-                      popupItemDisabled: (String s) => s.startsWith('I'),
                       items: widget.cubit.listDropDown,
                       dropdownBuilder: (context, value) {
                         return Padding(
@@ -131,109 +130,162 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                       ),
                     );
                   } else {
-                    return const SizedBox();
+                    return const SizedBox.shrink();
                   }
                 },
               ),
-              spaceH24,
-              StreamBuilder<Object>(
-                stream: _themDonViCubit.selectDonVi,
+              spaceH24, // Stream list nhóm
+              StreamBuilder<bool>(
+                stream: widget.cubit.showTree,
                 builder: (context, snapshot) {
-                  return Container(
-                    width: 341.w,
-                    padding: EdgeInsets.only(
-                      left: 12.w,
-                      bottom: 12.h,
-                      top: 12.h,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: containerColorTab),
-                    ),
-                    child: Wrap(
-                      spacing: 10.w, // gap between adjacent chips
-                      runSpacing: 10.h, // gap between lines
-                      children: List.generate(
-                          _themDonViCubit.selectNode.length + 1, (index) {
-                        if (index == _themDonViCubit.selectNode.length) {
-                          return Container(
-                            width: 200,
-                            color: Colors.transparent,
-                            child: TextField(
-                              onChanged: (value) {
-                                _themDonViCubit.onSearch(value);
-                              },
-                              controller: controller,
-                              style: textNormal(textTitle, 14.0.textScale()),
-                              decoration: InputDecoration(
-                                hintText: _themDonViCubit.selectNode.isEmpty
-                                    ? S.current.chon_nguoi
-                                    : S.current.tim_kiem,
-                                hintStyle: textNormal(
-                                  textTitle,
-                                  14.0.textScale(),
-                                ),
-                                isDense: true,
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                isCollapsed: true,
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          );
-                        }
-                        final data = _themDonViCubit.selectNode[index];
-                        return ItemNguoiDung(
-                          name: data.value.name,
-                          hasFunction: true,
-                          delete: () {
-                            _themDonViCubit.addSelectNode(
-                              data,
-                              isCheck: false,
-                            );
-                            _themDonViCubit.removeTag(data);
-                          },
-                        );
-                      }),
-                    ),
-                  );
-                },
-              ), // Stream list nhóm
-              Container(
-                height: 300.h,
-                decoration: BoxDecoration(
-                  border: Border.all(color: containerColorTab),
-                ),
-                child: StreamBuilder<List<Node<DonViModel>>>(
-                  stream: _themDonViCubit.getTree,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <Node<DonViModel>>[];
-                    if (data.isNotEmpty) {
-                      return ListView.builder(
-                        padding: EdgeInsets.only(
-                          left: 16.w,
-                          right: 6.w,
-                          bottom: 19.h,
-                          top: 16.h,
-                        ),
-                        keyboardDismissBehavior: isMobile()
-                            ? ScrollViewKeyboardDismissBehavior.onDrag
-                            : ScrollViewKeyboardDismissBehavior.manual,
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return TreeViewWidget(
-                            themDonViCubit: _themDonViCubit,
-                            node: data[index],
-                          );
-                        },
-                      );
-                    }
+                  if (snapshot.data == true) {
                     return Column(
-                      children: const [
-                        NodataWidget(),
+                      children: [
+                        StreamBuilder<Object>(
+                          stream: _themDonViCubit.selectDonVi,
+                          builder: (context, snapshot) {
+                            return Container(
+                              width: 341.w,
+                              padding: EdgeInsets.only(
+                                left: 12.w,
+                                bottom: 12.h,
+                                top: 12.h,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: containerColorTab),
+                              ),
+                              child: Wrap(
+                                spacing: 10.w, // gap between adjacent chips
+                                runSpacing: 10.h, // gap between lines
+                                children: List.generate(
+                                    _themDonViCubit.selectNode.length + 1,
+                                    (index) {
+                                  if (index ==
+                                      _themDonViCubit.selectNode.length) {
+                                    return Container(
+                                      width: 200,
+                                      color: Colors.transparent,
+                                      child: TextField(
+                                        onChanged: (value) {
+                                          _themDonViCubit.onSearch(value);
+                                        },
+                                        controller: controller,
+                                        style: textNormal(
+                                            textTitle, 14.0.textScale()),
+                                        decoration: InputDecoration(
+                                          hintText: S.current.tim_kiem,
+                                          hintStyle: textNormal(
+                                            textTitle,
+                                            14.0.textScale(),
+                                          ),
+                                          isDense: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                          isCollapsed: true,
+                                          border: InputBorder.none,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  final data =
+                                      _themDonViCubit.selectNode[index];
+                                  return ItemNguoiDung(
+                                    name: data.value.name,
+                                    hasFunction: true,
+                                    delete: () {
+                                      _themDonViCubit.addSelectNode(
+                                        data,
+                                        isCheck: false,
+                                      );
+                                      _themDonViCubit.removeTag(data);
+                                    },
+                                  );
+                                }),
+                              ),
+                            );
+                          },
+                        ),
+                        Container(
+                          height: 300.h,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: containerColorTab),
+                          ),
+                          child: StreamBuilder<List<Node<DonViModel>>>(
+                            stream: _themDonViCubit.getTree,
+                            builder: (context, snapshot) {
+                              final data =
+                                  snapshot.data ?? <Node<DonViModel>>[];
+                              if (data.isNotEmpty) {
+                                return ListView.builder(
+                                  padding: EdgeInsets.only(
+                                    left: 16.w,
+                                    right: 6.w,
+                                    bottom: 19.h,
+                                    top: 16.h,
+                                  ),
+                                  keyboardDismissBehavior: isMobile()
+                                      ? ScrollViewKeyboardDismissBehavior.onDrag
+                                      : ScrollViewKeyboardDismissBehavior
+                                          .manual,
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    return TreeViewWidget(
+                                      themDonViCubit: _themDonViCubit,
+                                      node: data[index],
+                                    );
+                                  },
+                                );
+                              }
+                              return Column(
+                                children: const [
+                                  NodataWidget(),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     );
-                  },
-                ),
+                  } else {
+                    return InkWell(
+                      onTap: (){
+                        widget.cubit.showTree.add(true);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                        ),
+                        height: 45.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                          border: Border.all(color: containerColorTab),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.current.chon_nguoi,
+                              style: textNormalCustom(
+                                color: color3D5586,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              size: 24,
+                              color: color3D5586,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                },
               ),
               SizedBox(
                 height: 80.h,

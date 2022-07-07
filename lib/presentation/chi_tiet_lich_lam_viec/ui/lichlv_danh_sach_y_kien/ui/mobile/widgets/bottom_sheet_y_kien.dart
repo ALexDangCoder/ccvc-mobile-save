@@ -42,7 +42,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<YKienBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlockTextView(
-                title: S.current.noi_dung,
+                title: S.current.y_kien_cuop_hop,
                 contentController: controller,
                 formKey: globalKey,
                 isRequired: false,

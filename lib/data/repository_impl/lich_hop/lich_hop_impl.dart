@@ -432,7 +432,7 @@ class HopRepositoryImpl implements HopRepository {
   Future<Result<XemKetLuanHopModel>> getXemKetLuanHop(String id) {
     return runCatchingAsync<XemKetLuanHopDataResponse, XemKetLuanHopModel>(
       () => _hopServices.getXemKetLuanHop(id),
-      (res) => res.data!.toModel(),
+      (res) => res.data?.toModel() ?? XemKetLuanHopModel(),
     );
   }
 

@@ -304,7 +304,7 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       },
       onError: (DioError e, handler) async {
         if (e.response?.statusCode == 401) {
-         _onReFreshToken(e, handler);
+          return handler.next(e);
         } else {
           return handler.next(e);
         }

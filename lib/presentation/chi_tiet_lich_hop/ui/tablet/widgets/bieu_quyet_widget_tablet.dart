@@ -70,6 +70,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
+                    reverse: true,
                     itemCount: _list.length,
                     itemBuilder: (context, index) {
                       return Column(

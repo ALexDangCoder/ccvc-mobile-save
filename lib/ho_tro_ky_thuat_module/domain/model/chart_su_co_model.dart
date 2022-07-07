@@ -25,21 +25,25 @@ class ChartSuCoModel {
 }
 
 class ChartSuCoChild {
-  String? tenSuCo;
+  String? khuVuc;
+  String? taskId;
   List<DanhSachKhuVuc>? danhSachKhuVuc;
 
   ChartSuCoChild({
-    this.tenSuCo,
+    this.khuVuc,
     this.danhSachKhuVuc,
+    this.taskId,
   });
 }
 
 class DanhSachKhuVuc {
-  String? khuVuc;
+  String? loaiSuCoId;
   int? soLuong;
+  String? suCo;
 
   DanhSachKhuVuc({
-    this.khuVuc,
+    this.suCo,
     this.soLuong,
+    this.loaiSuCoId,
   });
 }

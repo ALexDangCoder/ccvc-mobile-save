@@ -87,7 +87,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         viewHeaderHeight: widget.isTablet ? -1 : 0,
         controller: widget.fCalendarController,
         view: CalendarView.week,
-        todayHighlightColor: labelColor,
+        todayHighlightColor: statusCalenderRed,
         appointmentTimeTextFormat: 'hh:mm:ss',
         resourceViewSettings: ResourceViewSettings(
           displayNameTextStyle: textNormalCustom(
@@ -103,7 +103,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
             color: colorA2AEBD,
           ),
         ),
-
         monthViewSettings: MonthViewSettings(
           appointmentDisplayCount: 2,
           monthCellStyle: MonthCellStyle(
@@ -135,7 +134,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
               child: Container(
                 color: Colors.transparent,
                 child: const Icon(
-                  Icons.more_vert,
+                  Icons.more_horiz,
                   color: textBodyTime,
                 ),
               ),

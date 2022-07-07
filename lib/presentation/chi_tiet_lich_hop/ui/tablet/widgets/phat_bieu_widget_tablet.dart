@@ -120,6 +120,7 @@ Widget buttonStatePhatBieu(
       stream: cubit.typeStatus,
       builder: (context, snapshot) {
         return ListView.builder(
+          shrinkWrap: true,
           scrollDirection:
               (isHorizontal ?? true) ? Axis.horizontal : Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),

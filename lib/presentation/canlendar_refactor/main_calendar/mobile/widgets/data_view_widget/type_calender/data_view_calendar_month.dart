@@ -20,7 +20,7 @@ class DataViewCalendarMonth extends StatefulWidget {
   final DataSourceFCalendar data;
   final CalendarController fCalendarController;
   final bool isTablet;
-  final Widget Function(Appointment appointment) buildAppointment;
+  final Widget Function(AppointmentWithDuplicate appointment) buildAppointment;
 
   @override
   State<DataViewCalendarMonth> createState() => _DataViewCalendarMonthState();
@@ -134,7 +134,7 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
           ),
           selectionDecoration: const BoxDecoration(color: Colors.transparent),
           appointmentBuilder: (_, appointmentDetail) {
-            final Appointment appointment =
+            final AppointmentWithDuplicate appointment =
                 appointmentDetail.appointments.first;
             return appointmentDetail.appointments.length > 2
                 ? GestureDetector(

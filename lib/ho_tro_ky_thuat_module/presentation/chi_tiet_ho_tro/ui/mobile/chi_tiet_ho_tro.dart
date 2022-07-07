@@ -92,8 +92,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             spaceH10,
                             rowItem(
                               S.current.nguoi_yeu_cau,
-                              (cubit.supportDetail.nguoiYeuCau ?? '') +
-                                  (cubit.supportDetail.chucVu ?? ''),
+                              '${cubit.supportDetail.nguoiYeuCau ?? ''} - ${cubit.supportDetail.chucVu ?? ''}',
                             ),
                             spaceH10,
                             rowItem(
@@ -188,7 +187,9 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             title2: cubit.isItSupport
                                 ? S.current.cap_nhat_thxl
                                 : S.current.danh_gia,
-                            onPressed1: () {},
+                            onPressed1: () {
+                              Navigator.pop(context);
+                            },
                             onPressed2: () {
                               showModalBottomSheet(
                                 backgroundColor: Colors.transparent,

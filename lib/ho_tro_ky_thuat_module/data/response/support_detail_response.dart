@@ -44,6 +44,8 @@ class GroupResponse {
   String? chucVu;
   @JsonKey(name: 'trangThaiXuLy')
   String? trangThaiXuLy;
+  @JsonKey(name: 'codeTrangThai')
+  String? codeTrangThai;
   @JsonKey(name: 'ketQuaXuLy')
   String? ketQuaXuLy;
   @JsonKey(name: 'nguoiXuLy')
@@ -53,7 +55,7 @@ class GroupResponse {
   @JsonKey(name: 'ngayHoanThanh')
   String? ngayHoanThanh;
   @JsonKey(name: 'danhSachSuCo')
-  List<String>? danhSachSuCo;
+  List<DSSuCoResponse>? danhSachSuCo;
 
   GroupResponse(
     this.id,
@@ -88,11 +90,25 @@ class GroupResponse {
         nguoiYeuCau: nguoiYeuCau,
         chucVu: chucVu,
         donVi: donVi,
+        codeTrangThai: codeTrangThai,
         trangThaiXuLy: trangThaiXuLy,
         nhanXet: nhanXet,
         ngayHoanThanh: ngayHoanThanh,
         ketQuaXuLy: ketQuaXuLy,
         nguoiXuLy: nguoiXuLy,
-    danhSachSuCo: danhSachSuCo,
+        danhSachSuCo: danhSachSuCo?.map((e) => e.tenSuCo ?? '').toList(),
       );
+}
+
+@JsonSerializable()
+class DSSuCoResponse {
+  @JsonKey(name: 'tenSuCo')
+  String? tenSuCo;
+
+  DSSuCoResponse(this.tenSuCo);
+
+  factory DSSuCoResponse.fromJson(Map<String, dynamic> json) =>
+      _$DSSuCoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DSSuCoResponseToJson(this);
 }

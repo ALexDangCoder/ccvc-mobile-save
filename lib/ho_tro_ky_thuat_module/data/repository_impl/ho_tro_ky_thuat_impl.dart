@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/post_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
@@ -114,6 +116,16 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
         List<NguoiTiepNhanYeuCauModel>>(
       () => _hoTroKyThuatService.getNguoiTiepNhanYeuCau(),
       (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<String>> updateTaskProcessing(TaskProcessing task) {
+    return runCatchingAsync<PostResponse, String>(
+          () => _hoTroKyThuatService.updateTaskProcessing(
+            task,
+      ),
+          (res) => res.message ?? '',
     );
   }
 }

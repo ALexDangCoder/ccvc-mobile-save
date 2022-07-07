@@ -89,8 +89,6 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         actions: [
           GestureDetector(
             onTap: () {
-              //TimKiemYcHoTro
-              //todo check data
               if (widget.cubit.listTrangThai.value.isNotEmpty) {
                 showModalBottomSheet(
                   context: context,

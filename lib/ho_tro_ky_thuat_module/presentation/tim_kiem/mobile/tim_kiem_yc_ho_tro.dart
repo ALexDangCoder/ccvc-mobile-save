@@ -288,9 +288,16 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
       );
 
   Widget doubleBtn() => DoubleButtonBottom(
-        onPressed1: () {},
+        onPressed1: () {
+          Navigator.of(context).pop();
+        },
         title1: S.current.dong,
-        title2: S.current.gui_yc,
-        onPressed2: () {},
+        title2: S.current.tim_kiem,
+        onPressed2: () {
+          Navigator.of(context).pop();
+          widget.cubit.getListDanhBaCaNhan(
+            page: 1,
+          );
+        },
       );
 }

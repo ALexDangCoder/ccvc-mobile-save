@@ -241,8 +241,11 @@ class CreateBy {
   String title() {
     return '$hoTen - $tenDonVi';
   }
-  String fullTitle() {
+  String nameUnitPosition() {
     return '$hoTen - $tenDonVi - $chucVu';
+  }
+  String namePosition(){
+    return '$hoTen - $chucVu';
   }
 }
 

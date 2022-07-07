@@ -466,7 +466,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     showLoading();
     final result = await _workCal.suaLichLamViec(
       title: title,
-      typeScheduleId: selectLoaiLich?.id ?? '',
+      typeScheduleId: selectLoaiLichId ?? '',
       linhVucId: selectLinhVuc?.id ?? '',
       TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
       TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
@@ -523,7 +523,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     showLoading();
     final result = await _workCal.editWorkCalendarWorkAboard(
       title,
-      selectLoaiLich?.id ?? '',
+      selectLoaiLichId ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
       huyenSelectModel?.tenQuanHuyen ?? '',

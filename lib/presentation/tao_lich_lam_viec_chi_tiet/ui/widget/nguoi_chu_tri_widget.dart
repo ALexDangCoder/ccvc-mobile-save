@@ -3,13 +3,21 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expand_model.dart';
-import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
 
 class NguoiChuTriWidget extends StatefulWidget {
   final CreateWorkCalCubit cubit;
+  final bool isEdit;
+  final String name;
+  final String id;
 
-  const NguoiChuTriWidget({Key? key, required this.cubit}) : super(key: key);
+  const NguoiChuTriWidget(
+      {Key? key,
+      required this.cubit,
+      this.isEdit = false,
+      this.name = '',
+      this.id = ''})
+      : super(key: key);
 
   @override
   _NguoiChuTriWidgetState createState() => _NguoiChuTriWidgetState();
@@ -30,8 +38,12 @@ class _NguoiChuTriWidgetState extends State<NguoiChuTriWidget> {
           },
           urlIcon: ImageAssets.icPeople,
           listSelect: data,
-          userId:  _cubit.selectNguoiChuTri?.userId ?? '',
-          value: _cubit.selectNguoiChuTri?.title() ?? '',
+          userId: widget.isEdit
+              ? widget.id
+              : _cubit.selectNguoiChuTri?.userId ?? '',
+          value: widget.isEdit
+              ? widget.name
+              : _cubit.selectNguoiChuTri?.title() ?? '',
           title: S.current.nguoi_chu_tri,
           maxLine: 2,
         );

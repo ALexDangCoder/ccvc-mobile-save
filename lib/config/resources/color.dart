@@ -22,6 +22,7 @@ const tabUnselected = Color(0xFFA9B8BD);
 //sideTextInactiveColor
 //custom color
 const color_464646 = Color(0xFF464646);
+const color_667793 = Color(0xFF667793);
 const signInRowColor = Color(0xFFA9B8BD);
 const signInTextColor = Color(0xff0ABAB5);
 const colorB9C4D0 = Color(0xFFB9C4D0);

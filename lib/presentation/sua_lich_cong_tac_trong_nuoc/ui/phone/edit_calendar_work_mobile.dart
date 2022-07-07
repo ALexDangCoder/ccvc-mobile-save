@@ -108,7 +108,6 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
 
     createCubit.dateRepeat = event.dateRepeat;
 
-
     createCubit.scheduleReminder = event.scheduleReminder;
     createCubit.detailCalendarWorkModel.scheduleCoperatives =
         event.scheduleCoperatives;
@@ -269,6 +268,10 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 ),
                                 NguoiChuTriWidget(
                                   cubit: createCubit,
+                                  isEdit: true,
+                                  name: widget.event.canBoChuTri?.fullTitle() ??
+                                      '',
+                                  id: widget.event.canBoChuTri?.id ?? '',
                                 ),
                                 LinhVucWidget(
                                   cubit: createCubit,

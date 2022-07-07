@@ -152,6 +152,8 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     }
   }
 
+  /// getUserInUnit
+
   void _addParent(Set<Node<DonViModel>> list, Node<DonViModel> node) {
     if (node.parent != null) {
       list.add(node.parent!);

@@ -38,6 +38,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
   @override
   void initState() {
     super.initState();
+    widget.cubit.getCountTodoAndMenu();
   }
 
   @override

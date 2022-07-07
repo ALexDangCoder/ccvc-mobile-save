@@ -100,7 +100,7 @@ class LuongXuLyVBDiModel {
     return DataRowLuongXuLy(title: '', color: Colors.transparent);
   }
 
-  DataRowLuongXuLy getLoaiBanHanh() {
+  static DataRowLuongXuLy getLoaiBanHanh(int? loaiXuLy) {
     switch (loaiXuLy) {
       case SOAN_THAO:
         return DataRowLuongXuLy(

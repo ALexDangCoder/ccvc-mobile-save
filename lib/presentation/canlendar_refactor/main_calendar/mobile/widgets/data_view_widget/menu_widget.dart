@@ -149,7 +149,7 @@ class MenuWidget extends StatelessWidget {
             width: 12,
           ),
           Text(
-            isLichHop ? S.current.menu_lich_hop : S.current.menu_lich_hop,
+            isLichHop ? S.current.menu_lich_hop : S.current.lich_lam_viec,
             style: textNormalCustom(
               color: backgroundColorApp,
               fontSize: 16,

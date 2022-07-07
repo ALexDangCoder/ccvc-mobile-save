@@ -41,6 +41,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   DateTime endDate = DateTime.now();
   String keySearch = '';
   String? idDonViLanhDao;
+  bool isLichLanhDao = false;
   StateType? stateType;
   StatusWorkCalendar? typeCalender = StatusWorkCalendar.LICH_CUA_TOI;
 
@@ -48,7 +49,8 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   List<ChildMenu> listMenuTheoTrangThai = [];
 
-  final BehaviorSubject<String> _titleSubject = BehaviorSubject();
+  final BehaviorSubject<String> _titleSubject =
+      BehaviorSubject.seeded(S.current.lich_cua_toi);
 
   Stream<String> get titleStream => _titleSubject.stream;
 
@@ -150,9 +152,10 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     getDashBoardThongKe();
   }
 
-  void refreshDataDangLich({bool isLichLanhDao = false}) {
+  void refreshDataDangLich() {
     getCountDashboard();
-    getDanhSachLichHop(isLichLanhDao: isLichLanhDao);
+    getDanhSachLichHop();
+    getMenuLichLanhDao();
     getDaysHaveEvent(
       startDate: startDate,
       endDate: endDate,
@@ -182,7 +185,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.LICH_DUOC_MOI,
         ),
-        count: countData.tongLichDuocMoi ?? 0,
+        count: (countData.soLichChoXacNhan ?? 0) +
+            (countData.soLichThamGia ?? 0) +
+            (countData.soLichTuChoi ?? 0),
       ),
       ChildMenu(
         title: StatusWorkCalendar.LICH_TAO_HO.getTitle(),
@@ -210,7 +215,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.CHO_DUYET,
         ),
-        count: countData.tongSoLichDuyetCuaChuTri ?? 0,
+        count: (countData.soLichCanChuTriDuyetCho ?? 0) +
+            (countData.soLichChuTriDaDuyet ?? 0) +
+            (countData.soLichChuTriTuChoi ?? 0),
       ),
       ChildMenu(
         title: StatusWorkCalendar.LICH_HOP_CAN_KLCH.getTitle(),
@@ -224,7 +231,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.LICH_DA_KLCH,
         ),
-        count: countData.tongSoLichCoBaoCao ?? 0,
+        count: (countData.soLichCoBaoCaoTuChoi ?? 0) +
+            (countData.soLichCoBaoCaoDaDuyet ?? 0) +
+            (countData.soLichCoBaoCaoChoDuyet ?? 0),
       ),
     ];
     if (HiveLocal.checkPermissionApp(
@@ -233,12 +242,15 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     )){
       listMenuTheoTrangThai.add(
         ChildMenu(
-        title: StatusWorkCalendar.LICH_DUYET_PHONG.getTitle(),
-        value: StatusDataItem(
-          StatusWorkCalendar.LICH_DUYET_PHONG,
+          title: StatusWorkCalendar.LICH_DUYET_PHONG.getTitle(),
+          value: StatusDataItem(
+            StatusWorkCalendar.LICH_DUYET_PHONG,
+          ),
+          count: (countData.soLichDuyetPhongCho ?? 0) +
+              (countData.soLichDuyetPhongTuChoi ?? 0) +
+              (countData.soLichDuyetPhongXacNhan ?? 0),
         ),
-        count: countData.tongSoLichDuyetPhong ?? 0,
-      ),);
+      );
     }
 
     if (HiveLocal.checkPermissionApp(
@@ -251,7 +263,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           value: StatusDataItem(
             StatusWorkCalendar.LICH_DUYET_THIET_BI,
           ),
-          count: countData.tongSoLichDuyetThietBi ?? 0,
+          count: (countData.soLichDuyetThietBiXacNhan ?? 0) +
+              (countData.soLichDuyetThietBiTuChoi ?? 0) +
+              (countData.soLichDuyetThietBiCho ?? 0),
         ),);
     }
     if (HiveLocal.checkPermissionApp(
@@ -264,8 +278,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           value: StatusDataItem(
             StatusWorkCalendar.LICH_DUYET_KY_THUAT,
           ),
-          count: countData.tongSoLichDuyetKyThuat ?? 0,
-        ),);
+          count: (countData.soLichChoDuyetKyThuat ?? 0) +
+              (countData.soLichDaDuyetKyThuat ?? 0) +
+              (countData.soLichTuChoiDuyetKyThuat ?? 0),
+        ),
+      );
     }
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -277,7 +294,8 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           value: StatusDataItem(
             StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
           ),
-          count: countData.tongSoLichCoYeuCau ?? 0,
+          count: (countData.soLichDaThucHienYC ?? 0) +
+              (countData.soLichChuaThucHienYC ?? 0),
         ),);
     }
 
@@ -323,32 +341,42 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         Title: keySearch,
         DateFrom: startDate.formatApi,
         DateTo: endDate.formatApi,
-        DonViId:
-            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
+        DonViId: isLichLanhDao
+            ? idDonViLanhDao
+            : HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
+            '',
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         year: startDate.year,
-        isLichCuaToi: typeCalender == StatusWorkCalendar.LICH_CUA_TOI,
+        IsLichLanhDao: isLichLanhDao,
+        isLichCuaToi: !isLichLanhDao
+            ? typeCalender == StatusWorkCalendar.LICH_CUA_TOI
+            : null,
         isDuyetThietBi: typeCalender == StatusWorkCalendar.LICH_DUYET_THIET_BI,
         isChuaCoBaoCao:
-        typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
-            typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
-        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+            typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
+                typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
+        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO ||
+            typeCalender == StatusWorkCalendar.LICH_DA_KLCH,
         isLichDuocMoi: typeCalender == StatusWorkCalendar.LICH_DUOC_MOI,
         isLichYeuCauChuanBi:
-        typeCalender == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
+            typeCalender == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
         isDuyetPhong: typeCalender == StatusWorkCalendar.LICH_DUYET_PHONG,
         isLichThuHoi: typeCalender == StatusWorkCalendar.LICH_THU_HOI,
         isLichHuyBo: typeCalender == StatusWorkCalendar.LICH_HUY,
         isLichTaoHo: typeCalender == StatusWorkCalendar.LICH_TAO_HO,
         isDuyetLich: typeCalender == StatusWorkCalendar.CHO_DUYET,
-        isLichThamGia: stateType == StateType.THAM_GIA,
+        isLichThamGia:
+            stateType == StateType.THAM_GIA || stateType == StateType.DA_DUYET,
         isLichTuChoi: stateType == StateType.TU_CHOI,
-        isChoXacNhan:
-        stateType != StateType.TU_CHOI && stateType != StateType.THAM_GIA,
-
+        isChoXacNhan: stateType == StateType.CHO_XAC_NHAN ||
+            stateType == StateType.CHO_DUYET ||
+            stateType == StateType.CHUA_THUC_HIEN,
+        isChuaChuanBi: stateType == StateType.CHUA_THUC_HIEN,
+        isDuyetKyThuat: typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT,
+        isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
       ),
     );
     result.when(
@@ -363,7 +391,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   /// lấy danh sách lịch họp
   Future<void> getDanhSachLichHop({
     bool isRefresh = false,
-    bool isLichLanhDao = false,
   }) async {
     showLoading();
     final result = await hopRepo.postDanhSachLichHop(
@@ -381,7 +408,8 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isChuaCoBaoCao:
             typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
                 typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
-        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
+        isDaCoBaoCao: typeCalender == StatusWorkCalendar.LICH_DA_CO_BAO_CAO ||
+            typeCalender == StatusWorkCalendar.LICH_DA_KLCH,
         isLichDuocMoi: typeCalender == StatusWorkCalendar.LICH_DUOC_MOI,
         isLichYeuCauChuanBi:
             typeCalender == StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
@@ -397,15 +425,19 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             stateType == StateType.CHO_DUYET ||
             stateType == StateType.CHUA_THUC_HIEN,
         isChuaChuanBi: stateType == StateType.CHUA_THUC_HIEN,
+        isDuyetKyThuat: typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT,
         isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
         PageSize: 1000,
+        trangThaiDuyetKyThuat:
+            typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT
+                ? stateType?.toInt()
+                : null,
       ),
     );
     result.when(
       success: (value) {
-        if (isRefresh) {}
         _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
@@ -473,14 +505,17 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     DataItemMenu? itemMenu,
     required BaseState state,
   }) {
+    stateType = StateType.CHO_DUYET;
     if (state is ListViewState) {
       emitListViewState();
       _titleSubject.sink.add(oldTitle);
-    } else if (state is CalendarViewState) {
+    } else if (state is CalendarViewState)  {
       emitCalendarViewState();
       _titleSubject.sink.add(oldTitle);
     } else {
       emitChartViewState();
+      getDataDangChart();
+      isLichLanhDao = false;
       _titleSubject.sink.add(S.current.bao_cao_thong_ke);
     }
     if (itemMenu != null) {
@@ -489,15 +524,19 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         emitCalendarViewState();
       }
       if (itemMenu is StatusDataItem) {
+        isLichLanhDao = false;
         _titleSubject.sink.add(itemMenu.value.getTitle());
         typeCalender = itemMenu.value;
         _statusWorkSubject.sink.add(itemMenu.value);
         refreshDataDangLich();
       }
       if (itemMenu is LeaderDataItem) {
+        isLichLanhDao = true;
+        typeCalender = StatusWorkCalendar.LICH_LANH_DAO;
+        _statusWorkSubject.sink.add(StatusWorkCalendar.LICH_LANH_DAO);
         _titleSubject.sink.add(itemMenu.title);
         idDonViLanhDao = itemMenu.id;
-        refreshDataDangLich(isLichLanhDao: true);
+        refreshDataDangLich();
       }
     }
     if(state is! ChartViewState){
@@ -509,9 +548,14 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();
+    getDashBoardThongKe();
     getToChucBoiDonVi();
     getTiLeThamDu();
     getCoCauLichHop();
+    getDaysHaveEvent(
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 
   /// lấy số lịch họp trong thời gian
@@ -550,7 +594,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       startDate.formatApiDDMMYYYYSlash,
       endDate.formatApiDDMMYYYYSlash,
     );
-
     result.when(
       success: (value) {
         _tiLeThamGiaSubject.add(value);

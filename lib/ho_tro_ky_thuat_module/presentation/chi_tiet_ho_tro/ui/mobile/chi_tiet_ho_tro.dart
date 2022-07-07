@@ -122,9 +122,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             ),
                             spaceH10,
                             loaiSuCo(
-                              [
-                                cubit.supportDetail.loaiSuCo ?? '',
-                              ],
+                              cubit.supportDetail.danhSachSuCo ?? [],
                             ),
                             spaceH20,
                             title(S.current.ket_qua_xu_ly),

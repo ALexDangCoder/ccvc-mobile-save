@@ -75,7 +75,7 @@
   "chu_nhat": "Chủ nhật",
   "chon_ngay": "Chọn ngày",
   "da_hoan_thanh": "Đã thực hiện",
-  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cập",
+  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cấp",
   "them_moi_doi_tuong": "Thêm mới đối tượng",
   "them_cong_viec": "Thêm công việc",
   "using": "Widgets đang sử dụng",
@@ -199,7 +199,7 @@
   "gioi_tinh": "Giới tính",
   "Email": "Email",
   "sdt_co_quan": "Số điện thoại cơ quan",
-  "sdt_lien_he": "Số điện thoại",
+  "sdt_lien_he": "Số điện thoại liên hệ",
   "dia_chi_lien_he": "Địa chỉ liên hệ",
   "trang_thai": "Trạng thái",
   "hoat_dong": "Hoạt động",
@@ -1234,6 +1234,7 @@
   "cap_nhat_thxl": "Cập nhật THXL",
   "cap_nhat_tinh_hinh_ho_tro": "Cập nhật tình hình yêu cầu hỗ trợ",
   "danh_gia_yeu_cau_ho_tro": "Đánh giá yêu cầu hỗ trợ",
+  "nhap_mo_ta":"Nhập mô tả",
   "noi_dung_danh_gia": "Nội dung đánh giá",
   "nguoi_yeu_cau": "Người yêu cầu",
   "so_dien_thoai_lien_he": "Số điện thoại liên hệ",
@@ -1251,5 +1252,6 @@
   "dang_ky_thanh_cong": "Đăng ký thành công",
   "dang_ky_that_bai": "Đăng ký thất bại, hãy thử lại sau",
   "luu_du_lieu_thanh_cong": "Lưu dữ liệu thành công",
-  "thong_ke_su_co": "Thống kê sự cố theo khu vực"
+  "thong_ke_su_co": "Thống kê sự cố theo khu vực",
+  "chon_nguoi":"Chọn người"
 }

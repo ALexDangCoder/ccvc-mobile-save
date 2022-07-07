@@ -33,6 +33,7 @@ class DanhSachLichHopRequest {
   bool? isChuaChuanBi;
   bool? isDaChuanBi;
   bool? isDuyetKyThuat;
+  int? trangThaiDuyetKyThuat;
 
   DanhSachLichHopRequest({
     this.DateFrom,
@@ -63,6 +64,7 @@ class DanhSachLichHopRequest {
     this.isChuaChuanBi,
     this.isDaChuanBi,
     this.isDuyetKyThuat,
+    this.trangThaiDuyetKyThuat,
   });
 
   factory DanhSachLichHopRequest.fromJson(Map<String, dynamic> json) =>

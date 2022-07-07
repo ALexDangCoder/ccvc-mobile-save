@@ -40,13 +40,12 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   final keyGroup = GlobalKey<FormGroupState>();
   bool isShow = false;
-  bool isShowValidate = false;
 
   @override
   void initState() {
     super.initState();
     widget.cubit.cacLuaChonBieuQuyet = [];
-    widget.cubit.listDanhSach = [DanhSachNguoiThamGiaModel()];
+    widget.cubit.listDanhSach = [];
     widget.cubit.isValidateSubject.sink.add(false);
     widget.cubit.date =
         coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
@@ -74,13 +73,11 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 if (noiDungController.text.isEmpty ||
                     widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
                     widget.cubit.listDanhSach.isEmpty) {
+                  formKeyNoiDung.currentState!.validate();
+                  setState(() {});
                   isShow = true;
                   widget.cubit.isValidateSubject.sink.add(true);
-                  setState(() {});
-                  formKeyNoiDung.currentState!.validate();
                 } else {
-                  isShow = false;
-                  isShowValidate = false;
                   setState(() {});
                   await widget.cubit.postThemBieuQuyetHop(
                     widget.id,
@@ -196,7 +193,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                                     urlIcon: ImageAssets.icDocument,
                                     title: S.current.loai_bai_viet,
                                     onChange: (value) {
-                                      if (widget.cubit.listDanhSach.isEmpty) {
+                                      if (value.isEmpty) {
                                         widget.cubit.isValidateSubject.sink
                                             .add(true);
                                       } else {

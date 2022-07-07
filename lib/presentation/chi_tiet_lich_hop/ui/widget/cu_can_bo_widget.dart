@@ -47,7 +47,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
     widget.cubitThanhPhanTG.listCanBoThamGia.sink.add([]);
     widget.themDonViCubit.validateDonVi.sink.add(false);
     widget.themDonViCubit.themDonViSubject.sink.add(true);
-    widget.themDonViCubit.selectNodeOnlyValue = null;
+    widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
     widget.themDonViCubit.listDonVi.clear();
   }

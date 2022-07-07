@@ -109,8 +109,6 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
     createCubit.dateRepeat = event.dateRepeat;
 
     createCubit.scheduleReminder = event.scheduleReminder;
-    createCubit.detailCalendarWorkModel.scheduleCoperatives =
-        event.scheduleCoperatives;
     titleController.text = event.title ?? '';
     contentController.text = event.content ?? '';
     locationController.text = event.location ?? '';

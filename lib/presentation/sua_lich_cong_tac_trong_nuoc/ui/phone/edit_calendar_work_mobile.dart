@@ -268,13 +268,14 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 NguoiChuTriWidget(
                                   cubit: createCubit,
                                   isEdit: true,
-                                  name: widget.event.canBoChuTri?.fullTitle() ??
+                                  name: widget.event.canBoChuTri?.nameUnitPosition() ??
                                       '',
                                   id: widget.event.canBoChuTri?.id ?? '',
                                 ),
                                 LinhVucWidget(
                                   cubit: createCubit,
                                   isEdit: true,
+                                  name : widget.event.linhVuc ?? '',
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(

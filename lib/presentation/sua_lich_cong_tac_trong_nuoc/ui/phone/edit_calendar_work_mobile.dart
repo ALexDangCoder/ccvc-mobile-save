@@ -197,6 +197,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                     chooseTypeCalendarValidatorValue = value;
                                   },
                                   isEdit: true,
+                                  name: widget.event.typeScheduleName ?? '',
                                 ),
                                 CupertinoMaterialPicker(
                                   isEdit: true,
@@ -266,6 +267,10 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 ),
                                 NguoiChuTriWidget(
                                   cubit: createCubit,
+                                  isEdit: true,
+                                  name: widget.event.canBoChuTri?.fullTitle() ??
+                                      '',
+                                  id: widget.event.canBoChuTri?.id ?? '',
                                 ),
                                 LinhVucWidget(
                                   cubit: createCubit,

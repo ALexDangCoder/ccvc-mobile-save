@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,19 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AttackButtonWidget extends StatefulWidget {
-  AttackButtonWidget(
-      {Key? key,
-      required this.onAddPresss,
-      required this.onRemovePress,
-      this.onSignNumberPress})
-      : super(key: key);
-  List<PlatformFile> listFile = [];
+  AttackButtonWidget({
+    Key? key,
+    required this.onAddPresss,
+    required this.onRemovePress,
+    this.onSignNumberPress,
+  }) : super(key: key);
+  final List<PlatformFile> listFile = [];
 
   // onAddPresss: parameter: (Tong file da upload , danh sach file vua them)
-  void Function(List<PlatformFile>, List<PlatformFile>) onAddPresss;
-  VoidCallback? onSignNumberPress;
-  ValueSetter<int> onRemovePress;
-  ValueNotifier<List<PlatformFile>> listFileNotifier = ValueNotifier([]);
+  final void Function(List<PlatformFile>, List<PlatformFile>) onAddPresss;
+  final VoidCallback? onSignNumberPress;
+  final ValueSetter<int> onRemovePress;
+  final ValueNotifier<List<PlatformFile>> listFileNotifier = ValueNotifier([]);
 
   @override
   _AttackButtonWidgetState createState() => _AttackButtonWidgetState();
@@ -47,42 +48,17 @@ class _AttackButtonWidgetState extends State<AttackButtonWidget> {
               width: 100,
               child: TextButton(
                 onPressed: () async {
-                  // if (await Permission.storage.isDenied) {
-                  //   DialogUtils.showDialogSetting(context);
-                  //   return;
-                  // }
-                  final FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    allowMultiple: true,
-                  );
                   final List<PlatformFile> listFileToSv = [];
-                  // if (result != null) {
-                  //   for (var file in result.files) {
-                  //     final value = widget.listFile.indexWhere((element) {
-                  //       return element.path == file.path;
-                  //     });
-                  //     if (value == -1 || widget.listFile.isEmpty) {
-                  //       widget.listFile.add(file);
-                  //       listFileToSv.add(file);
-                  //       widget.listFileNotifier.value =
-                  //           List.from(widget.listFile);
-                  //     } else {
-                  //       CoolAlert.show(
-                  //           context: context,
-                  //           type: CoolAlertType.warning,
-                  //           text: 'File đã tồn tại');
-                  //     }
-                  //   }
-                  // }
                   if (listFileToSv.isNotEmpty) {
                     widget.onAddPresss([...widget.listFile], listFileToSv);
                   }
                 },
                 child: Text(
-                  'Đính kèm',
+                  S.current.dinh_kem,
                   style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: Colors.white,
-                      fontSize: 14.0.textScale(space: 2.0)),
+                        color: Colors.white,
+                        fontSize: 14.0.textScale(),
+                      ),
                 ),
               ),
             ),
@@ -90,14 +66,13 @@ class _AttackButtonWidgetState extends State<AttackButtonWidget> {
               visible: widget.onSignNumberPress != null,
               child: Container(
                 decoration: const BoxDecoration(
-                    color: Color(0xffDB353A),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                  color: Color(0xffDB353A),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
                 height: 35,
                 width: 100,
                 child: TextButton.icon(
-                  onPressed: () {
-                    widget.onSignNumberPress;
-                  },
+                  onPressed: widget.onSignNumberPress,
                   icon: SvgPicture.asset(
                     'assets/images/ic_sign_number.svg',
                   ),

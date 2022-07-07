@@ -2,6 +2,9 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/delete_task_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/group_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/post_response.dart';
@@ -65,4 +68,9 @@ abstract class HoTroKyThuatService {
   Future<PostResponse> updateTaskProcessing(
       @Body() TaskProcessing task,
       );
+
+  @DELETE(ApiConstants.DELETE_TASK)
+  Future<DeleteTaskResponse> deleteTask(
+    @Body() List<String> listId,
+  );
 }

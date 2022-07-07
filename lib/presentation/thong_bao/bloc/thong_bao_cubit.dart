@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
@@ -12,7 +11,6 @@ import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/type_detail.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

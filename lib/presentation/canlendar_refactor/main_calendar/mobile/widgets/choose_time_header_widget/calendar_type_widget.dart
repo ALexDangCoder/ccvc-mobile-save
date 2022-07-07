@@ -2,18 +2,19 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
-
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'controller/choose_time_calendar_controller.dart';
 
 class ChooseTypeCalendarWidget extends StatefulWidget {
   final Function(CalendarType) onChange;
   final ChooseTimeController controller;
-  const ChooseTypeCalendarWidget(
-      {Key? key, required this.onChange, required this.controller})
-      : super(key: key);
+
+  const ChooseTypeCalendarWidget({
+    Key? key,
+    required this.onChange,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   _ChooseTypeCalendarWidgetState createState() =>
@@ -22,6 +23,7 @@ class ChooseTypeCalendarWidget extends StatefulWidget {
 
 class _ChooseTypeCalendarWidgetState extends State<ChooseTypeCalendarWidget> {
   CalendarType type = CalendarType.DAY;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -65,10 +67,11 @@ class _ChooseTypeCalendarWidgetState extends State<ChooseTypeCalendarWidget> {
                   Text(
                     icon.title,
                     style: textNormal(
-                        type == result
-                            ? AppTheme.getInstance().colorField()
-                            : textBodyTime,
-                        14),
+                      type == result
+                          ? AppTheme.getInstance().colorField()
+                          : textBodyTime,
+                      14,
+                    ),
                   )
                 ],
               ),

@@ -1,18 +1,14 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/calendar_style_phone.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/days_of_week_style_phone.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_base_phone.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_phone.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
-
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/calendar_style_phone.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/days_of_week_style_phone.dart';
-
-import 'controller/choose_time_calendar_controller.dart';
 
 class TabletCalendarWidget extends StatefulWidget {
   final List<DateTime> calendarDays;
@@ -20,14 +16,15 @@ class TabletCalendarWidget extends StatefulWidget {
   final DateTime initDate;
   final ChooseTimeController controller;
   final Function(DateTime) onPageCalendar;
-  const TabletCalendarWidget(
-      {Key? key,
-      required this.calendarDays,
-      required this.onSelect,
-      required this.initDate,
-      required this.controller,
-      required this.onPageCalendar})
-      : super(key: key);
+
+  const TabletCalendarWidget({
+    Key? key,
+    required this.calendarDays,
+    required this.onSelect,
+    required this.initDate,
+    required this.controller,
+    required this.onPageCalendar,
+  }) : super(key: key);
 
   @override
   _TabletCalendarWidgetState createState() => _TabletCalendarWidgetState();
@@ -37,6 +34,7 @@ class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
   DateTime selectDay = DateTime.now();
   final GlobalKey<TableCalendarBaseState> key =
       GlobalKey<TableCalendarBaseState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -65,8 +63,9 @@ class _TabletCalendarWidgetState extends State<TabletCalendarWidget> {
         }
       },
       daysOfWeekStyle: DaysOfWeekStyle(
-          weekdayStyle: textNormalCustom(fontSize: 13, color: textBodyTime),
-          weekendStyle: textNormalCustom(fontSize: 13, color: textBodyTime)),
+        weekdayStyle: textNormalCustom(fontSize: 13, color: textBodyTime),
+        weekendStyle: textNormalCustom(fontSize: 13, color: textBodyTime),
+      ),
       eventLoader: (day) => widget.calendarDays
           .where((element) => isSameDay(element, day))
           .toList(),

@@ -38,6 +38,10 @@ mixin HoTroKyThuatRepository {
 
   Future<Result<List<NguoiTiepNhanYeuCauModel>>> getNguoiTiepNhanYeuCau();
 
+  Future<Result<bool>> deleteTask(
+    List<String> listId,
+  );
+
   Future<Result<String>> updateTaskProcessing(
       TaskProcessing task,
       );

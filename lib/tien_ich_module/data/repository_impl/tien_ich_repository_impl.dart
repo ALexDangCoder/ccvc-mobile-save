@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/count_dscv_response.dart';

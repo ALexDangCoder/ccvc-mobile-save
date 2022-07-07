@@ -502,7 +502,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     fCalendarControllerMonth.displayDate = this.startDate;
   }
 
-  String oldTitle = '';
+  String oldTitle = S.current.lich_cua_toi;
   /// handle menu clicked
   void handleMenuSelect({
     DataItemMenu? itemMenu,

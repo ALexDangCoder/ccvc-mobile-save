@@ -86,6 +86,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
+                    // ignore: lines_longer_than_80_chars
                     '${groupValue.getDayofWeekTxt()}, ${groupValue.formatMonth}',
                     textAlign: TextAlign.center,
                     style: textNormalCustom(

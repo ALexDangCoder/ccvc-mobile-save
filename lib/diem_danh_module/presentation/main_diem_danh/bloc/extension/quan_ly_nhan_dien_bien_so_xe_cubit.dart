@@ -1,10 +1,7 @@
 import 'dart:io';
 import 'package:ccvc_mobile/data/di/module.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
-import 'package:ccvc_mobile/diem_danh_module/data/request/get_all_files_id_request.dart';
-import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/get_all_files_id_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/danh_sach_bien_so_xe_request.dart';

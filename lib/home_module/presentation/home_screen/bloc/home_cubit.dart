@@ -948,7 +948,7 @@ class PhanAnhKienNghiCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
       BehaviorSubject<DocumentDashboardModel>();
 
-  PhanAnhKienNghiCubit() {}
+  PhanAnhKienNghiCubit() ;
   bool isDanhSachDaXuLy = false;
   bool isDanhSachChoTrinhKy = true;
   bool isDanhSachChoXuLy = true;
@@ -1024,7 +1024,7 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
       BehaviorSubject<DocumentDashboardModel>();
 
-  TinhHinhXuLyCubit() {}
+  TinhHinhXuLyCubit() ;
   bool isDanhSachDaXuLy = false;
   bool isDanhSachChoTrinhKy = true;
   bool isDanhSachChoXuLy = true;
@@ -1756,7 +1756,7 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
 
 /// Nhiệm vụ
 class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
-  NhiemVuCubit() {}
+  NhiemVuCubit() ;
   final BehaviorSubject<List<CalendarMeetingModel>> _getNhiemVu =
       BehaviorSubject<List<CalendarMeetingModel>>();
 

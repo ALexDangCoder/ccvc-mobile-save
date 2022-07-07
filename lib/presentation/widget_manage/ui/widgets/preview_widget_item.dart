@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/van_ban_don_vi_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/phan_anh_kien_nghi_don_vi_tablet.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/van_ban_don_vi_tablet.dart';
 import 'package:flutter/cupertino.dart';
 

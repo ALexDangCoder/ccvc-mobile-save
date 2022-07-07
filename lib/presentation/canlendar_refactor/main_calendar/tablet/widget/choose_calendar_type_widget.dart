@@ -8,9 +8,12 @@ import 'package:flutter/material.dart';
 class ChooseTimeCalendarTypeWidget extends StatefulWidget {
   final ChooseTimeController controller;
   final Function(CalendarType) onChange;
-  const ChooseTimeCalendarTypeWidget(
-      {Key? key, required this.controller, required this.onChange})
-      : super(key: key);
+
+  const ChooseTimeCalendarTypeWidget({
+    Key? key,
+    required this.controller,
+    required this.onChange,
+  }) : super(key: key);
 
   @override
   _ChooseTimeCalendarTypeWidgetState createState() =>
@@ -20,6 +23,7 @@ class ChooseTimeCalendarTypeWidget extends StatefulWidget {
 class _ChooseTimeCalendarTypeWidgetState
     extends State<ChooseTimeCalendarTypeWidget> {
   CalendarType type = CalendarType.DAY;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -37,9 +41,10 @@ class _ChooseTimeCalendarTypeWidgetState
       height: 48,
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          color: backgroundColorApp,
-          border: Border.all(color: borderColor.withOpacity(0.5))),
+        borderRadius: BorderRadius.circular(8.0),
+        color: backgroundColorApp,
+        border: Border.all(color: borderColor.withOpacity(0.5)),
+      ),
       child: Row(
         children: List.generate(data.length, (index) {
           final result = data[index];

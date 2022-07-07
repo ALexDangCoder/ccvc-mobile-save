@@ -5,9 +5,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/bloc/chu_de_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/sreach_sheet_btn_tablet.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
-import 'package:ccvc_mobile/presentation/choose_time/ui/widgets/show_drop_down_button.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,9 +48,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
     return Container(
       height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 30),
-      decoration: BoxDecoration(
-        //border: Border.all(color: bgDropDown),
-      ),
+      decoration:const  BoxDecoration(),
       child: Row(
         children: [
           Expanded(

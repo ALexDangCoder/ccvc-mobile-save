@@ -1,7 +1,8 @@
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:equatable/equatable.dart';
 
-class DanhSachLichHopModel {
+class DanhSachLichHopModel{
   List<ItemDanhSachLichHop>? items;
   int? pageIndex;
   int? pageSize;
@@ -41,7 +42,7 @@ class DanhSachLichHopModel {
   }
 }
 
-class ItemDanhSachLichHop {
+class ItemDanhSachLichHop extends Equatable{
   String? id;
   dynamic soNguoiThamDu;
   String? noiDung;
@@ -109,6 +110,9 @@ class ItemDanhSachLichHop {
     required this.canBoDangKyInfo,
     this.isTrung = false,
   });
+
+  @override
+  List<Object?> get props =>[id];
 }
 
 class CanBo {

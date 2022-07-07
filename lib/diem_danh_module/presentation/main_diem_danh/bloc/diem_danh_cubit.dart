@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
@@ -59,7 +60,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   List<File>fileItemBienSoXe=[];
   BehaviorSubject<dynamic> idPicture = BehaviorSubject.seeded(null);
 
-  BehaviorSubject<GetAllFilesIdModel>fileBienSoXeSubject = BehaviorSubject();
+  BehaviorSubject<GetAllFilesIdModel> fileBienSoXeSubject = BehaviorSubject();
 
   Stream<GetAllFilesIdModel> get fileBienSoXeStream =>
       fileBienSoXeSubject.stream;
@@ -77,6 +78,12 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
       BehaviorSubject();
 
   ///Diem danh ca nhan
+  DateTime presentTime = DateTime.now();
+
+
+  BehaviorSubject<DateTime> textSubject = BehaviorSubject();
+  Stream<DateTime> get textStream => textSubject.stream;
+
   BehaviorSubject<ThongKeDiemDanhCaNhanModel> thongKeSubject =
       BehaviorSubject();
   BehaviorSubject<List<BangDiemDanhCaNhanModel>> listBangDiemDanh =

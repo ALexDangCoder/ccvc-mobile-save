@@ -1,7 +1,7 @@
 
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
+import 'package:flutter/cupertino.dart';
 
 class ChooseTimeController {
   ValueNotifier<DateTime> selectDate = ValueNotifier(DateTime.now());
@@ -40,7 +40,7 @@ class ChooseTimeController {
           _nextMonth();
           break;
       }
-    } catch (e) {}
+    } catch (_) {}
   }
 
   void backTime() {
@@ -56,7 +56,7 @@ class ChooseTimeController {
           _nextMonth(isBack: true);
           break;
       }
-    } catch (e) {}
+    } catch (_) {}
   }
 
   void _nextDay({bool isBack = false}) {

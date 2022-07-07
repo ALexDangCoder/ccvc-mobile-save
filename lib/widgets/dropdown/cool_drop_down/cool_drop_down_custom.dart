@@ -17,6 +17,7 @@ class CoolDropdown extends StatefulWidget {
   bool isDropdownLabel; // late
   bool resultIconRotation;
   late Widget resultIcon;
+  Widget? selectedIcon;
   double resultIconRotationValue;
 
   // size
@@ -69,6 +70,7 @@ class CoolDropdown extends StatefulWidget {
     this.onOpen,
     resultIcon,
     placeholderTS,
+    this.selectedIcon,
     this.dropdownItemReverse = false,
     this.resultReverse = false,
     this.resultIconRotation = true,
@@ -231,6 +233,7 @@ class _CoolDropdownState extends State<CoolDropdown>
     return OverlayEntry(
       builder: (BuildContext context) => DropdownBody(
         layerLink: layerLink,
+        selectedIcon : widget.selectedIcon ?? const  SizedBox.shrink(),
         key: dropdownBodyChild,
         inputKey: inputKey,
         onChange: widget.onChange,

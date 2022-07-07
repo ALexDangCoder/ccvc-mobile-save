@@ -355,28 +355,80 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       urlImage: ImageAssets.icDeleteRed,
                       text: S.current.xoa,
                       onTap: () {
-                        showDiaLog(
-                          context,
-                          textContent:
-                              S.current.ban_co_chac_chan_muon_xoa_klh_nay,
-                          btnLeftTxt: S.current.khong,
-                          funcBtnRight: () async {
-                            await cubit
-                                .deleteKetLuanHop(
-                              cubit.xemKetLuanHopModel.id ?? '',
-                            )
-                                .then((value) {
-                              if (value) {
-                                cubit.getXemKetLuanHop(
-                                  cubit.idCuocHop,
-                                );
-                              }
-                            });
-                          },
-                          title: S.current.xoa_ket_luan_hop,
-                          btnRightTxt: S.current.dong_y,
-                          icon: SvgPicture.asset(ImageAssets.XoaKLHop),
-                        );
+                        isMobile()
+                            ? showDiaLog(
+                                context,
+                                textContent:
+                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                btnLeftTxt: S.current.khong,
+                                funcBtnRight: () async {
+                                  await cubit
+                                      .deleteKetLuanHop(
+                                    cubit.xemKetLuanHopModel.id ?? '',
+                                  )
+                                      .then((value) {
+                                    if (value) {
+                                      cubit.getXemKetLuanHop(
+                                        cubit.idCuocHop,
+                                      );
+                                    }
+                                  });
+                                },
+                                title: S.current.xoa,
+                                btnRightTxt: S.current.dong_y,
+                                icon: Container(
+                                  width: 56,
+                                  height: 56,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: statusCalenderRed.withOpacity(0.1),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SvgPicture.asset(
+                                      ImageAssets.ic_delete_do,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : showDiaLog(
+                                context,
+                                textContent:
+                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                btnLeftTxt: S.current.khong,
+                                funcBtnRight: () async {
+                                  await cubit
+                                      .deleteKetLuanHop(
+                                    cubit.xemKetLuanHopModel.id ?? '',
+                                  )
+                                      .then((value) {
+                                    if (value) {
+                                      cubit.getXemKetLuanHop(
+                                        cubit.idCuocHop,
+                                      );
+                                    }
+                                  });
+                                },
+                                showTablet: true,
+                                title: S.current.xoa,
+                                btnRightTxt: S.current.dong_y,
+                                icon: Container(
+                                  width: 56,
+                                  height: 56,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: statusCalenderRed.withOpacity(0.1),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SvgPicture.asset(
+                                      ImageAssets.ic_delete_do,
+                                    ),
+                                  ),
+                                ),
+                              );
                       },
                     ),
                 ],

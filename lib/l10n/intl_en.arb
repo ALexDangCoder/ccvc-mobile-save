@@ -1257,6 +1257,7 @@
   "validate_bieu_quyet": "Thời gian biểu quyết phải nằm trong khoảng thời gian họp",
   "chon_nguoi":"Chọn người",
   "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
-  "lich_hop_da_klch": "Lịch họp đã KLCH"
+  "lich_hop_da_klch": "Lịch họp đã KLCH",
+  "ban_co_chac_chan_muon_xoa_khong" : "Bạn có chắc chắn muốn xoá không?"
 
 }

@@ -47,9 +47,10 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
   final keyGroup = GlobalKey<FormGroupState>();
   bool isShow = false;
   bool isShowValidate = false;
+  bool isShowValidateDanhSach = false;
   late String timeStart;
   late String timeEnd;
-  String thoiGianHop = DateTime.now().formatApi;
+  String thoiGianHop = '';
 
   @override
   void initState() {
@@ -60,8 +61,12 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
     widget.cubit.isValidateTimer.sink.add(false);
     widget.cubit.date =
         coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
-    timeStart = widget.cubit.getChiTietLichHopModel.timeStart.split(' ').last;
-    timeEnd = widget.cubit.getChiTietLichHopModel.timeTo.split(' ').last;
+    timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
+    timeEnd = widget.cubit.getChiTietLichHopModel.timeTo;
+    thoiGianHop =
+        coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau)
+            .split(' ')
+            .first;
   }
 
   @override
@@ -120,13 +125,43 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                             ),
                             timeKetThuc: timeEnd.getTimeData(
                               timeReturnParseFail: TimerData(
-                                hour: DateTime.now().hour + 1,
+                                hour: DateTime.now().hour,
                                 minutes: DateTime.now().minute,
                               ),
                             ),
                             onChange: (start, end) {
                               timeStart = start.timerToString;
                               timeEnd = end.timerToString;
+                              final dateTimeStart =
+                                  '$thoiGianHop $timeStart'.convertStringToDate(
+                                formatPattern:
+                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
+                              );
+                              final dateTimeEnd =
+                                  '$thoiGianHop $timeEnd'.convertStringToDate(
+                                formatPattern:
+                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
+                              );
+                              if (dateTimeStart.isBefore(
+                                    widget.cubit.getTime().convertStringToDate(
+                                          formatPattern:
+                                              DateFormatApp.monthDayFormat,
+                                        ),
+                                  ) ||
+                                  dateTimeEnd.isAfter(
+                                    widget.cubit
+                                        .getTime(isGetDateStart: false)
+                                        .convertStringToDate(
+                                          formatPattern:
+                                              DateFormatApp.monthDayFormat,
+                                        ),
+                                  )) {
+                                widget.cubit.isValidateTimer.sink.add(true);
+                                isShowValidate = true;
+                              } else {
+                                widget.cubit.isValidateTimer.sink.add(false);
+                                isShowValidate = false;
+                              }
                             },
                             validator: (timeBegin, timerEn) {
                               return timeBegin.equalTime(timerEn);
@@ -197,9 +232,11 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                                   if (value.isEmpty) {
                                     widget.cubit.isValidateSubject.sink
                                         .add(true);
+                                    isShowValidateDanhSach = true;
                                   } else {
                                     widget.cubit.isValidateSubject.sink
                                         .add(false);
+                                    isShowValidateDanhSach = false;
                                   }
                                   widget.cubit.listDanhSach = value;
                                 },
@@ -222,49 +259,35 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                     Navigator.pop(context);
                   },
                   onPressed2: () async {
-                    final dateTimeStart =
-                        '$thoiGianHop $timeStart'.convertStringToDate(
-                      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-                    );
-                    final dateTimeEnd =
-                        '$thoiGianHop $timeStart'.convertStringToDate(
-                      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-                    );
-                    if (dateTimeStart.isBefore(
-                          widget.cubit.getTime().convertStringToDate(
-                                formatPattern: DateFormatApp.monthDayFormat,
-                              ),
-                        ) ||
-                        dateTimeEnd.isAfter(
-                          widget.cubit
-                              .getTime(isGetDateStart: false)
-                              .convertStringToDate(
-                                formatPattern: DateFormatApp.monthDayFormat,
-                              ),
-                        )) {
+                    bool isCheckCallApi = true;
+                    final nav = Navigator.of(context);
+                    if (isShowValidate == true) {
+                      isCheckCallApi = false;
                       widget.cubit.isValidateTimer.sink.add(true);
-                      return;
                     }
-                    if (noiDungController.text.isEmpty ||
-                        widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
-                        widget.cubit.listDanhSach.isEmpty) {
+                    if (noiDungController.text.isEmpty) {
+                      isCheckCallApi = false;
                       formKeyNoiDung.currentState!.validate();
+                    }
+                    if (widget.cubit.cacLuaChonBieuQuyet.isEmpty) {
+                      isCheckCallApi = false;
                       setState(() {});
                       isShow = true;
-                      isShowValidate = true;
+                    }
+                    if (widget.cubit.listDanhSach.isEmpty) {
                       widget.cubit.isValidateSubject.sink.add(true);
-                    } else {
-                      setState(() {});
-                      widget.cubit.isValidateTimer.sink.add(false);
+                      isCheckCallApi = false;
+                    }
+                    if (isCheckCallApi) {
                       await widget.cubit.postThemBieuQuyetHop(
                         widget.id,
                         noiDungController.text,
                         widget.cubit.date,
                         widget.cubit.loaiBieuQ,
-                        '$thoiGianHop''T''$timeStart:00',
-                        '$thoiGianHop''T''$timeEnd:00',
+                        '$thoiGianHop' 'T' '$timeStart:00',
+                        '$thoiGianHop' 'T' '$timeEnd:00',
                       );
-                      Navigator.pop(context, true);
+                      nav.pop(true);
                     }
                   },
                 ),

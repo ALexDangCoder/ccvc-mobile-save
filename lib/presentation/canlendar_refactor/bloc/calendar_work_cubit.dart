@@ -29,7 +29,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
-  CalendarWorkCubit() : super( CalendarViewState());
+  CalendarWorkCubit() : super( const CalendarViewState());
 
   CalendarWorkRepository get calendarWorkRepo => Get.find();
 
@@ -258,7 +258,7 @@ extension GetData on CalendarWorkCubit {
   }
 
   Future<void> dayHaveEvent({DateTime? startDate, DateTime? endDate}) async {
-    if (startDate != null && endDate != null && keySearch != null) {
+    if (startDate != null && endDate != null) {
       startDateHaveEvent = startDate;
       endDateHaveEvent = endDate;
     }

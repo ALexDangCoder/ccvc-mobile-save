@@ -130,7 +130,9 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
                     controller: cubit.controller,
                     onChangeYear: (startDate, endDate, keySearch) {
                       cubit.dayHaveEvent(
-                          startDate: startDate, endDate: endDate);
+                        startDate: startDate,
+                        endDate: endDate,
+                      );
                     },
                   );
                 },

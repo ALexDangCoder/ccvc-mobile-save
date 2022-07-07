@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/env/staging.dart';
-import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:get/get.dart';
 

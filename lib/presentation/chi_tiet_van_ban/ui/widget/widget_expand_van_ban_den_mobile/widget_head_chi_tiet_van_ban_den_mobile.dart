@@ -7,12 +7,11 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_in_expand_van_ban.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
-
-import '../widget_in_expand_van_ban.dart';
 
 class WidgetHeadChiTietVanBanDenMobile extends StatefulWidget {
   final CommonDetailDocumentCubit cubit;
@@ -138,7 +137,6 @@ class _WidgetHeadChiTietVanBanDenMobileState
         height: 20,
         width: 41,
         child: CustomCheckBox(
-          title: '',
           isCheck: value,
           onChange: (bool check) {},
         ),

@@ -63,8 +63,8 @@ class DashBroadCountRow extends StatelessWidget {
                       (index) => itemDashBroad(
                         data[index].typeName ?? '',
                         getTypeFromString(
-                                (data[index].typeName ?? '').textToCode)
-                            .getImage(),
+                          (data[index].typeName ?? '').textToCode,
+                        ).getImage(),
                         data[index].numberOfCalendars ?? 0,
                       ),
                     ),
@@ -89,9 +89,11 @@ class DashBroadCountRow extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(isTablet ? 12.0 : 6),
           color: isTablet ? backgroundColorApp : backgroundItemCalender,
-          border: isTablet ?  Border.all(
-            color: borderColor.withOpacity(0.5),
-          ) : null ,
+          border: isTablet
+              ? Border.all(
+                  color: borderColor.withOpacity(0.5),
+                )
+              : null,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -100,9 +102,9 @@ class DashBroadCountRow extends StatelessWidget {
             Container(
               height: 56,
               width: 56,
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color:isTablet ? backgroundItemCalender  : backgroundColorApp ,
+                color: isTablet ? backgroundItemCalender : backgroundColorApp,
               ),
               child: Center(
                 child: SvgPicture.asset(image),

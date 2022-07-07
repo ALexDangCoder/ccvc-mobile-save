@@ -181,6 +181,12 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     /// Format date time:
     taoLichHopRequest.timeStart = taoLichHopRequest.timeStart?.formatTime();
     taoLichHopRequest.timeTo = taoLichHopRequest.timeTo?.formatTime();
+
+    if(taoLichHopRequest.bitYeuCauDuyet ?? false){
+      taoLichHopRequest.status = 1;
+    }else{
+      taoLichHopRequest.status = 2;
+    }
   }
 
   bool checkThoiGianPhienHop() {

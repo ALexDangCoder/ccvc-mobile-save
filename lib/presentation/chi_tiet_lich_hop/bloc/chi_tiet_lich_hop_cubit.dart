@@ -64,6 +64,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
   /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
+  String ngayBatDaus = '';
+  String ngayKetThucs = '';
   bool check = false;
   String startTime = '00:00';
   String endTime = '00:00';
@@ -83,7 +85,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String chonNgay = '';
   List<File>? listFile = [];
   PhongHop chosePhongHop = PhongHop();
+  final int maxSizeFile30 = 31457280;
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
+  BehaviorSubject<bool> isValidateTimer = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
@@ -414,5 +418,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
         ), () {
       actionNeedDelay();
     });
+  }
+
+  String getTime({bool isGetDateStart = true}) {
+    return isGetDateStart
+        ? '${getChiTietLichHopModel.ngayBatDau.split(' ').first} '
+            '${getChiTietLichHopModel.timeStart}'
+        : '${getChiTietLichHopModel.ngayKetThuc.split(' ').first} '
+            '${getChiTietLichHopModel.timeTo}';
   }
 }

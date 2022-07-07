@@ -491,10 +491,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   ///btn moi nguoi tham gia
   bool isBtnMoiNguoiThamGia() {
-    if (getChiTietLichHopModel.chuTriModel.canBoId ==
-            (dataUser?.userId ?? '') ||
-        isThuKy() ||
-        isTaoLich()) {
+    if (isChuTri() || isThuKy() || isTaoLich()) {
       return true;
     }
     return false;
@@ -641,7 +638,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool isDuyetKL() {
     if (isChuTri() &&
         (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
-            getKetLuanHopModel.trangThai == TrangThai.HUY_DUYET)) {
+            getKetLuanHopModel.trangThai == TrangThai.TU_CHOI)) {
       return true;
     }
     return false;
@@ -668,8 +665,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   // gui duyet: thuky, trang thai kl hop = nhap va huy duyet(thu ký gửi chu tri duyet gửi duyet)
   bool isGuiDuyet() {
     if (isThuKy() &&
-        (getKetLuanHopModel.trangThai == TrangThai.CHUA_GUI_DUYET ||
-            getKetLuanHopModel.trangThai == TrangThai.HUY_DUYET)) {
+        (getKetLuanHopModel.trangThai == TrangThai.NHAP ||
+            getKetLuanHopModel.trangThai == TrangThai.TU_CHOI)) {
       return true;
     }
     return false;
@@ -686,7 +683,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
     if (isThuKy()) {
       if (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
-          getKetLuanHopModel.trangThai == TrangThai.CHUA_GUI_DUYET) {
+          getKetLuanHopModel.trangThai == TrangThai.NHAP) {
         return true;
       }
     }
@@ -716,7 +713,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     if (isChuTri()) {
       return true;
     }
-    if (isThuKy() && getKetLuanHopModel.trangThai == TrangThai.CHUA_GUI_DUYET) {
+    if (isThuKy() && getKetLuanHopModel.trangThai == TrangThai.NHAP) {
       return true;
     }
     return false;
@@ -725,7 +722,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   //xem ket ket luan hop
   bool xemKetLuanHop() {
     if (isChuTri()) {
-      if (getKetLuanHopModel.trangThai != TrangThai.CHUA_GUI_DUYET) {
+      if (getKetLuanHopModel.trangThai != TrangThai.NHAP) {
         return true;
       }
     }

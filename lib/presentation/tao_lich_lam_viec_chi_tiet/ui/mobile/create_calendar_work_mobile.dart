@@ -128,229 +128,221 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
               S.current.error,
             ),
             stream: createCubit.stateStream,
-            child: RefreshIndicator(
-              onRefresh: () async {
-                await createCubit.loadData();
-              },
-              child: ProviderWidget<CreateWorkCalCubit>(
-                cubit: createCubit,
-                child: FormGroup(
-                  scrollController: scrollController,
-                  key: _formKey,
-                  child: ExpandGroup(
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        bottom: 16.0,
-                        left: 16.0,
-                        right: 16.0,
-                      ),
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        keyboardDismissBehavior:
-                            ScrollViewKeyboardDismissBehavior.onDrag,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormWidget(
-                              controller: titleController,
-                              image: ImageAssets.icEdit,
-                              hint: S.current.nhap_tieu_de,
-                              validator: (value) {
-                                return (value ?? '')
-                                    .pleaseEnter(S.current.tieu_de);
-                              },
-                            ),
-                            LoaiLichWidget(
-                              taoLichLamViecCubit: createCubit,
-                              callback: (bool value) {
-                                chooseTypeCalendarValidatorValue = value;
-                              },
-                            ),
-                            CupertinoMaterialPicker(
-                              cubit: cupertinoCubit,
-                              onSwitchPressed: (value) {
-                                createCubit.isCheckAllDaySubject.add(value);
-                              },
-                              onDateTimeChanged: (
-                                String timeStart,
-                                String timeEnd,
-                                String dateStart,
-                                String dateEnd,
-                              ) {
-                                createCubit.checkValidateTime();
-                                if (timeEnd != INIT_TIME_PICK &&
-                                    dateEnd != INIT_DATE_PICK) {
-                                  createCubit.listeningEndDataTime(
-                                    DateTime.parse(
-                                      timeFormat(
-                                        '$dateEnd $timeEnd',
-                                        DateTimeFormat.DATE_TIME_PICKER,
-                                        DateTimeFormat.DATE_TIME_PUT,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                if (timeStart != INIT_TIME_PICK &&
-                                    dateStart != INIT_DATE_PICK) {
-                                  createCubit.listeningStartDataTime(
-                                    DateTime.parse(
-                                      timeFormat(
-                                        '$dateStart $timeStart',
-                                        DateTimeFormat.DATE_TIME_PICKER,
-                                        DateTimeFormat.DATE_TIME_PUT,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              validateTime: (String value) {
-                                pickTimeValidatorValue = value.isNotEmpty;
-                              },
-                            ),
-                            NhacLaiWidget(
-                              cubit: createCubit,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            NguoiChuTriWidget(
-                              cubit: createCubit,
-                            ),
-                            LinhVucWidget(
-                              cubit: createCubit,
-                            ),
-                            //cong khai lich
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 16.0, left: 30.0),
-                              child: CustomSwitchWidget(
-                                onToggle: (value) {
-                                  createCubit.publishSchedule = value;
-                                },
-                                value: false,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 30.0),
-                              height: 16,
-                              child: const Divider(
-                                color: dividerColor,
-                                height: 1,
-                              ),
-                            ),
-                            StreamBuilder<bool>(
-                              stream: createCubit.checkTrongNuoc,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ?? false;
-                                if (!data) {
-                                  return Column(
-                                    children: [
-                                      ItemTinhWidget(
-                                        taoLichLamViecCubit: createCubit,
-                                      ),
-                                      ItemHuyenWidget(
-                                        taoLichLamViecCubit: createCubit,
-                                      ),
-                                      ItemXaWidget(
-                                        taoLichLamViecCubit: createCubit,
-                                      ),
-                                    ],
-                                  );
-                                } else {
-                                  return ItemDatNuocWidget(
-                                    cubit: createCubit,
-                                  );
-                                }
-                              },
-                            ),
-                            TextFormWidget(
-                              controller: locationController,
-                              image: ImageAssets.icViTri,
-                              hint: S.current.nhap_dia_diem,
-                              validator: (value) {
-                                return (value ?? '')
-                                    .pleaseEnter(S.current.dia_diem);
-                              },
-                            ),
-                            LichLapWidget(
-                              cubit: createCubit,
-                            ),
-                            StreamBuilder<bool>(
-                              stream: createCubit.lichLapTuyChinhSubject.stream,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ?? false;
-                                return data
-                                    ? LichLapTuyChinh(
-                                        taoLichLamViecCubit: createCubit,
-                                      )
-                                    : Container();
-                              },
-                            ),
-                            StreamBuilder<bool>(
-                              stream:
-                                  createCubit.lichLapKhongLapLaiSubject.stream,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ?? false;
-                                return data
-                                    ? ItemLapDenNgayWidget(
-                                        taoLichLamViecCubit: createCubit,
-                                        isThem: true,
-                                      )
-                                    : Container();
-                              },
-                            ),
-                            TextFormWidget(
-                              controller: contentController,
-                              image: ImageAssets.icDocument,
-                              hint: S.current.noi_dung,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            ThanhPhanThamGiaTLWidget(
-                              taoLichLamViecCubit: createCubit,
-                            ),
-                            TaiLieuWidget(
-                              onChange: (files, value) {
-                                if (!value) {
-                                  createCubit.filesTaoLich = files;
-                                  chooseFileValidatorValue = !value;
-                                }else {
-                                  chooseFileValidatorValue = !value;
-                                }
-                              },
-                              idRemove: (String id) {},
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: bottomButtonWidget(
-                                    background: buttonColor.withOpacity(0.1),
-                                    title: S.current.dong,
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    textColor: buttonColor,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Expanded(
-                                  child: bottomButtonWidget(
-                                    background: buttonColor,
-                                    title: S.current.luu,
-                                    onTap: () {
-                                      validateField();
-                                    },
-                                    textColor: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+            child: FormGroup(
+              scrollController: scrollController,
+              key: _formKey,
+              child: ExpandGroup(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    bottom: 16.0,
+                    left: 16.0,
+                    right: 16.0,
+                  ),
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormWidget(
+                          controller: titleController,
+                          image: ImageAssets.icEdit,
+                          hint: S.current.nhap_tieu_de,
+                          validator: (value) {
+                            return (value ?? '')
+                                .pleaseEnter(S.current.tieu_de);
+                          },
                         ),
-                      ),
+                        LoaiLichWidget(
+                          taoLichLamViecCubit: createCubit,
+                          callback: (bool value) {
+                            chooseTypeCalendarValidatorValue = value;
+                          },
+                        ),
+                        CupertinoMaterialPicker(
+                          cubit: cupertinoCubit,
+                          onSwitchPressed: (value) {
+                            createCubit.isCheckAllDaySubject.add(value);
+                          },
+                          onDateTimeChanged: (
+                            String timeStart,
+                            String timeEnd,
+                            String dateStart,
+                            String dateEnd,
+                          ) {
+                            createCubit.checkValidateTime();
+                            if (timeEnd != INIT_TIME_PICK &&
+                                dateEnd != INIT_DATE_PICK) {
+                              createCubit.listeningEndDataTime(
+                                DateTime.parse(
+                                  timeFormat(
+                                    '$dateEnd $timeEnd',
+                                    DateTimeFormat.DATE_TIME_PICKER,
+                                    DateTimeFormat.DATE_TIME_PUT,
+                                  ),
+                                ),
+                              );
+                            }
+                            if (timeStart != INIT_TIME_PICK &&
+                                dateStart != INIT_DATE_PICK) {
+                              createCubit.listeningStartDataTime(
+                                DateTime.parse(
+                                  timeFormat(
+                                    '$dateStart $timeStart',
+                                    DateTimeFormat.DATE_TIME_PICKER,
+                                    DateTimeFormat.DATE_TIME_PUT,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          validateTime: (String value) {
+                            pickTimeValidatorValue = value.isNotEmpty;
+                          },
+                        ),
+                        NhacLaiWidget(
+                          cubit: createCubit,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        NguoiChuTriWidget(
+                          cubit: createCubit,
+                        ),
+                        LinhVucWidget(
+                          cubit: createCubit,
+                        ),
+                        //cong khai lich
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 16.0, left: 30.0),
+                          child: CustomSwitchWidget(
+                            onToggle: (value) {
+                              createCubit.publishSchedule = value;
+                            },
+                            value: false,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 30.0),
+                          height: 16,
+                          child: const Divider(
+                            color: dividerColor,
+                            height: 1,
+                          ),
+                        ),
+                        StreamBuilder<bool>(
+                          stream: createCubit.checkTrongNuoc,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            if (!data) {
+                              return Column(
+                                children: [
+                                  ItemTinhWidget(
+                                    taoLichLamViecCubit: createCubit,
+                                  ),
+                                  ItemHuyenWidget(
+                                    taoLichLamViecCubit: createCubit,
+                                  ),
+                                  ItemXaWidget(
+                                    taoLichLamViecCubit: createCubit,
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return ItemDatNuocWidget(
+                                cubit: createCubit,
+                              );
+                            }
+                          },
+                        ),
+                        TextFormWidget(
+                          controller: locationController,
+                          image: ImageAssets.icViTri,
+                          hint: S.current.nhap_dia_diem,
+                          validator: (value) {
+                            return (value ?? '')
+                                .pleaseEnter(S.current.dia_diem);
+                          },
+                        ),
+                        LichLapWidget(
+                          cubit: createCubit,
+                        ),
+                        StreamBuilder<bool>(
+                          stream: createCubit.lichLapTuyChinhSubject.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            return data
+                                ? LichLapTuyChinh(
+                                    taoLichLamViecCubit: createCubit,
+                                  )
+                                : Container();
+                          },
+                        ),
+                        StreamBuilder<bool>(
+                          stream:
+                              createCubit.lichLapKhongLapLaiSubject.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            return data
+                                ? ItemLapDenNgayWidget(
+                                    taoLichLamViecCubit: createCubit,
+                                    isThem: true,
+                                  )
+                                : Container();
+                          },
+                        ),
+                        TextFormWidget(
+                          controller: contentController,
+                          image: ImageAssets.icDocument,
+                          hint: S.current.noi_dung,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ThanhPhanThamGiaTLWidget(
+                          taoLichLamViecCubit: createCubit,
+                        ),
+                        TaiLieuWidget(
+                          onChange: (files, value) {
+                            if (!value) {
+                              createCubit.filesTaoLich = files;
+                              chooseFileValidatorValue = !value;
+                            }else {
+                              chooseFileValidatorValue = !value;
+                            }
+                          },
+                          idRemove: (String id) {},
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: bottomButtonWidget(
+                                background: buttonColor.withOpacity(0.1),
+                                title: S.current.dong,
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                textColor: buttonColor,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
+                              child: bottomButtonWidget(
+                                background: buttonColor,
+                                title: S.current.luu,
+                                onTap: () {
+                                  validateField();
+                                },
+                                textColor: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ),

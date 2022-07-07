@@ -420,29 +420,19 @@ class ScheduleCoperativesResponse {
 
   Map<String, dynamic> toJson() => _$ScheduleCoperativesResponseToJson(this);
 
-  DonViModel toModel() => DonViModel(
-        id: id ?? '',
-        donViId: donViId ?? '',
-        tenDonVi: tenDonVi ?? '',
-        canBoId: canBoId ?? '',
-        name: hoTen ?? '',
-        userId: userId ?? '',
-        noidung: taskContent ?? '',
+  ScheduleCoperatives toModel() => ScheduleCoperatives(
+        id: id,
+        donViId: donViId,
+        tenDonVi: tenDonVi,
+        canBoId: canBoId,
+        hoTen: hoTen,
+        userName: userName,
+        userId: userId,
+        scheduleId: scheduleId,
+        isConfirm: isConfirm,
+        status: status,
+        confirmDate: confirmDate,
+        taskContent: taskContent,
+        parentId: parentId,
       );
-
-// ScheduleCoperatives toModel()=>ScheduleCoperatives(
-//   id:id,
-//   donViId:donViId,
-//   tenDonVi:tenDonVi,
-//   canBoId:canBoId,
-//   hoTen:hoTen,
-//   userName:userName,
-//   userId:userId,
-//   scheduleId:scheduleId,
-//   isConfirm:isConfirm,
-//   status:status,
-//   confirmDate:confirmDate,
-//   taskContent:taskContent,
-//   parentId:parentId,
-// );
 }

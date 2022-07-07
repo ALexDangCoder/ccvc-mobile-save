@@ -349,7 +349,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.tai_lieu_dinh_kem,
                   icon: ImageAssets.icShareFile,
                   files: taoPhienHopRequest.Files ?? [],
-                  onChange: ( files,) {
+                  onChange: (
+                    files,
+                  ) {
                     taoPhienHopRequest.Files = files;
                   },
                   hasMultipleFile: true,
@@ -404,8 +406,7 @@ class ItemPhienHop extends StatelessWidget {
               ),
               rowInfo(
                 value: '${phienHop.thoiGian_BatDau}'
-                    '${phienHop.timeEnd?.isNotEmpty ?? false ?
-                ' - ${phienHop.timeEnd}' : ''}',
+                    '${phienHop.timeEnd?.isNotEmpty ?? false ? ' - ${phienHop.timeEnd}' : ''}',
                 key: S.current.thoi_gian,
               ),
               SizedBox(

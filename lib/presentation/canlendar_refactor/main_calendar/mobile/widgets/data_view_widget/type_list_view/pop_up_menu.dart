@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -39,24 +41,41 @@ class PopUpMenu extends StatefulWidget {
 
 class _PopUpMenuState extends State<PopUpMenu> {
   final GlobalKey _key = GlobalKey();
+  late OverlayEntry overlayEntry;
+
+  @override
+  void initState() {
+    overlayEntry = OverlayEntry(builder: (_)=> const SizedBox.shrink());
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showSelect(
-          context,
-        );
+    return WillPopScope(
+      onWillPop: () async {
+        if (overlayEntry.mounted){
+          overlayEntry.remove();
+        }
+        return true;
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            key: _key,
-            color: Colors.transparent,
-            child: getMenuView(widget.initData, null),
-          ),
-        ],
+      child: GestureDetector(
+        onTap: () {
+          showSelect(
+            context,
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              key: _key,
+              color: Colors.transparent,
+              child: getMenuView(widget.initData, null),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -64,27 +83,28 @@ class _PopUpMenuState extends State<PopUpMenu> {
   void showSelect(BuildContext context) {
     final box = _key.currentContext?.findRenderObject() as RenderBox;
     final Offset position = box.localToGlobal(Offset.zero);
-    late OverlayEntry overlayEntry;
-    overlayEntry = OverlayEntry(
-      builder: (BuildContext overlayContext) {
-        return DialogSelectWidget(
-          offset: position,
-          currentItem: widget.initData,
-          onDismiss: (item) {
-            overlayEntry.remove();
-            setState(() {
-              widget.initData = item ?? widget.initData;
-            });
-            if (item != null){
-              widget.onChange.call(item.type);
-            }
-          },
-          data: widget.data,
-        );
-      },
-    );
+    overlayEntry = overlayWidget(position);
     Overlay.of(context)?.insert(overlayEntry);
   }
+
+  OverlayEntry overlayWidget(Offset position) => OverlayEntry(
+        builder: (BuildContext overlayContext) {
+          return DialogSelectWidget(
+            offset: position,
+            currentItem: widget.initData,
+            onDismiss: (item) {
+              overlayEntry.remove();
+              setState(() {
+                widget.initData = item ?? widget.initData;
+              });
+              if (item != null) {
+                widget.onChange.call(item.type);
+              }
+            },
+            data: widget.data,
+          );
+        },
+      );
 }
 
 class DialogSelectWidget extends StatefulWidget {
@@ -132,13 +152,13 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
             },
             child: SizedBox.expand(
               child: Container(
-                color: Colors.transparent ,
+                color: Colors.transparent,
               ),
             ),
           ),
           Positioned(
             right: 16,
-            top: widget.offset.dy  ,
+            top: widget.offset.dy,
             child: AnimatedBuilder(
               animation: _animationController,
               builder: (context, _) => Opacity(
@@ -245,8 +265,8 @@ extension GetViewByTypeMenu on StateType {
     }
   }
 
-  int? toInt(){
-    switch(this){
+  int? toInt() {
+    switch (this) {
       case StateType.CHO_DUYET:
       case StateType.CHO_XAC_NHAN:
         return 0;
@@ -260,7 +280,7 @@ extension GetViewByTypeMenu on StateType {
   }
 }
 
-Widget getMenuView(ItemMenuData dataItem ,ItemMenuData? itemSelect) {
+Widget getMenuView(ItemMenuData dataItem, ItemMenuData? itemSelect) {
   switch (dataItem.type) {
     case StateType.CHO_XAC_NHAN:
       return ItemMenuView(
@@ -322,7 +342,7 @@ class ItemMenuView extends StatelessWidget {
     required this.title,
     required this.value,
     required this.color,
-     this.isSelect = false,
+    this.isSelect = false,
   }) : super(key: key);
 
   final String title;
@@ -341,7 +361,7 @@ class ItemMenuView extends StatelessWidget {
         bottom: 16,
       ),
       decoration: BoxDecoration(
-        color: isSelect ? color: null,
+        color: isSelect ? color : null,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
           color: color,
@@ -353,7 +373,7 @@ class ItemMenuView extends StatelessWidget {
           Text(
             '$title($value)',
             style: textNormalCustom(
-              color: isSelect ? Colors.white: color ,
+              color: isSelect ? Colors.white : color,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),

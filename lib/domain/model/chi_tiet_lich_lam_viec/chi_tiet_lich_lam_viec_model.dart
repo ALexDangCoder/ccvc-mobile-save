@@ -79,7 +79,7 @@ class ChiTietLichLamViecModel {
   CreateBy? createBy;
   UpdateBy? updateBy;
   CreateBy? canBoChuTri;
-  List<DonViModel>? scheduleCoperatives;
+  List<ScheduleCoperatives>? scheduleCoperatives;
   List<Files>? files;
   ScheduleReminder? scheduleReminder;
   String? tinhId;
@@ -240,6 +240,9 @@ class CreateBy {
 
   String title() {
     return '$hoTen - $tenDonVi';
+  }
+  String fullTitle() {
+    return '$hoTen - $tenDonVi - $chucVu';
   }
 }
 

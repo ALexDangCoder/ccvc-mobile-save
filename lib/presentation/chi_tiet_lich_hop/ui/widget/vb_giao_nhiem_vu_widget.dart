@@ -7,7 +7,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,6 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
   TextEditingController trichYeuController = TextEditingController();
 
   late VBGiaoNhiemVuModel vBGiaoNhiemVuModel;
-  bool ngayBatBuoc = false;
 
   @override
   void initState() {
@@ -69,15 +67,10 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
                 bgr: labelColor,
                 colorName: Colors.white,
                 onTap: () {
-                  if (vBGiaoNhiemVuModel.ngayVanBan == null) {
-                    ngayBatBuoc = true;
-                    setState(() {});
-                  } else {
-                    widget.cubit.vBGiaoNhiemVuModel.add(vBGiaoNhiemVuModel);
-                    widget.cubit.listVBGiaoNhiemVu.sink
-                        .add(widget.cubit.vBGiaoNhiemVuModel);
-                    Navigator.pop(context, true);
-                  }
+                  widget.cubit.vBGiaoNhiemVuModel.add(vBGiaoNhiemVuModel);
+                  widget.cubit.listVBGiaoNhiemVu.sink
+                      .add(widget.cubit.vBGiaoNhiemVuModel);
+                  Navigator.pop(context, true);
                 },
               ),
             ),
@@ -98,15 +91,12 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
             validator: (value) {},
           ),
           sb20(),
-          ShowRequied(
-            textShow: 'Chưa chọn ngày tháng',
-            isShow: ngayBatBuoc,
-            child: PickDateWidget(
-              title: S.current.ngay_van_ban,
-              onChange: (value) {
-                vBGiaoNhiemVuModel.ngayVanBan = value.toString();
-              },
-            ),
+          PickDateWidget(
+            checkRequire: false,
+            title: S.current.ngay_van_ban,
+            onChange: (value) {
+              vBGiaoNhiemVuModel.ngayVanBan = value.toString();
+            },
           ),
           sb20(),
           ItemTextFieldWidget(
@@ -122,8 +112,10 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           ButtonSelectFile(
             removeFileApi: (int index) {},
             title: S.current.tai_lieu_dinh_kem,
-            onChange: (List<File> files,) {},
-            files: [],
+            onChange: (
+              List<File> files,
+            ) {},
+            files: const [],
           ),
           SizedBox(
             height: 20.0.textScale(),

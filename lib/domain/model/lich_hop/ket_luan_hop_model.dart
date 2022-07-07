@@ -1,4 +1,4 @@
-enum TrangThai { DA_DUYET, CHO_DUYET, CHUA_GUI_DUYET, HUY_DUYET }
+enum TrangThai { DA_DUYET, CHO_DUYET, NHAP, TU_CHOI }
 enum TinhTrang { TRUNG_BINH, DAT, CHUA_DAT }
 
 class KetLuanHopModel {

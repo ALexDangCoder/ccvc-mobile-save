@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/util/drop_down_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ class DropdownBody extends StatefulWidget {
   bool isDropdownLabel;
   late Map selectedItem;
   late Widget dropdownIcon;
+  Widget selectedIcon;
   bool isAnimation;
 
   // size
@@ -100,6 +100,7 @@ class DropdownBody extends StatefulWidget {
       required this.triangleHeight,
       required this.isAnimation,
       required this.isResultLabel,
+      required this.selectedIcon,
       required this.bodyContext,
       required this.isDropdownLabel,
       required this.layerLink,
@@ -561,22 +562,27 @@ class DropdownBodyState extends State<DropdownBody>
                                                       if (widget
                                                           .isDropdownLabel)
                                                         DefaultTextStyleTransition(
-                                                          child: Flexible(
-                                                            child: Container(
-                                                              child: Text(
-                                                                widget.dropdownList[
-                                                                        index]
-                                                                    ['label'],
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                              ),
-                                                            ),
-                                                          ),
                                                           style: selectedTSTween
                                                               .animate(
                                                                   _DCController[
                                                                       index]),
+                                                          child: Flexible(
+                                                            child: Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    widget.dropdownList[
+                                                                            index]
+                                                                        ['label'],
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                  ),
+                                                                ),
+                                                                if (index == currentIndex)widget.selectedIcon
+                                                              ],
+                                                            ),
+                                                          ),
                                                         ),
                                                       if (widget
                                                           .isDropdownLabel)

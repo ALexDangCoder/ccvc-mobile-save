@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/creat_ket_luan_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
@@ -385,7 +386,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DIEM_DANH)
-  Future<PhanCongThuKyResponse> postDiemDanh(
+  Future<ThemPhienHopResponse> postDiemDanh(
     @Body() List<String> data,
   );
 
@@ -396,7 +397,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.HUY_DIEM_DANH)
-  Future<PhanCongThuKyResponse> postHuyDiemDanh(
+  Future<ThemPhienHopResponse> postHuyDiemDanh(
     @Query('request') String request,
   );
 
@@ -499,22 +500,22 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.CREATE_KET_LUAN_HOP)
+  @FormUrlEncoded()
   Future<ThemPhienHopResponse> createKetLuanHop(
-    @Field('ScheduleId') String scheduleId,
-    @Field('ReportStatusId') String reportStatusId,
-    @Field('ReportTemplateId') String reportTemplateId,
-    @Field('Content') String content,
-    // @Field('Files') List<File> files,
-    // @Field('FilesDelete') List<String> filesDelete,
+    @Part(name: 'scheduleId') String? scheduleId,
+    @Part(name: 'reportStatusId') String? reportStatusId,
+    @Part(name: 'reportTemplateId') String? reportTemplateId,
+    @Part(name: 'content') String? content,
+    @Part(name: 'files') List<File> files,
   );
 
-  @POST(ApiConstants.GUI_DUYET_KET_LUAN_HOP)
+  @PUT(ApiConstants.GUI_DUYET_KET_LUAN_HOP)
   Future<ThemPhienHopResponse> guiDuyetKetLuanHop(
-    @Field('meetId') String meetId,
+    @Query('meetId') String meetId,
   );
 
-  @POST(ApiConstants.THU_HOI__KET_LUAN_HOP)
+  @PUT(ApiConstants.THU_HOI__KET_LUAN_HOP)
   Future<ThemPhienHopResponse> thuHoiKetLuanHop(
-    @Field('meetId') String meetId,
+    @Query('meetId') String meetId,
   );
 }

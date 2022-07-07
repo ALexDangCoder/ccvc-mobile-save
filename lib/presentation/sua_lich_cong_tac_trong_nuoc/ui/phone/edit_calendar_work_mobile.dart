@@ -109,8 +109,6 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
     createCubit.dateRepeat = event.dateRepeat;
 
     createCubit.scheduleReminder = event.scheduleReminder;
-    createCubit.detailCalendarWorkModel.scheduleCoperatives =
-        event.scheduleCoperatives;
     titleController.text = event.title ?? '';
     contentController.text = event.content ?? '';
     locationController.text = event.location ?? '';
@@ -199,6 +197,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                     chooseTypeCalendarValidatorValue = value;
                                   },
                                   isEdit: true,
+                                  name: widget.event.typeScheduleName ?? '',
                                 ),
                                 CupertinoMaterialPicker(
                                   isEdit: true,
@@ -268,6 +267,10 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 ),
                                 NguoiChuTriWidget(
                                   cubit: createCubit,
+                                  isEdit: true,
+                                  name: widget.event.canBoChuTri?.fullTitle() ??
+                                      '',
+                                  id: widget.event.canBoChuTri?.id ?? '',
                                 ),
                                 LinhVucWidget(
                                   cubit: createCubit,

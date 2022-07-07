@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:flutter/material.dart';
 
 class ListPerSon {

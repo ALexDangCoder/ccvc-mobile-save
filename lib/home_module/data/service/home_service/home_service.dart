@@ -1,14 +1,7 @@
-import 'package:ccvc_mobile/data/di/module.dart';
-import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
-import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
-import 'package:ccvc_mobile/home_module/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/home_module/data/request/home/tong_hop_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/nguoi_gan_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart' as Foundation;
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 

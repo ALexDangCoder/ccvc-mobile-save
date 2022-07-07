@@ -50,7 +50,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         ),
         viewItem: (value, index) => ItemDanhSachSuCo(
           cubit: widget.cubit,
-          modelDSSC: value,
+          objlDSSC: value,
           index: index ?? 0,
           onClickMore: (value, index) {
             widget.cubit.onClickPopupMenu(
@@ -89,16 +89,14 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         actions: [
           GestureDetector(
             onTap: () {
-              if (widget.cubit.listTrangThai.value.isNotEmpty) {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => TimKiemYcHoTro(
-                    cubit: widget.cubit,
-                  ),
-                );
-              }
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => TimKiemYcHoTro(
+                  cubit: widget.cubit,
+                ),
+              );
             },
             child: SvgPicture.asset(
               ImageAssets.ic_search,

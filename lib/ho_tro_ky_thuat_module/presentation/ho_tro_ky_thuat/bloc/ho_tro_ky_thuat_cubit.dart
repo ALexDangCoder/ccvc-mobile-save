@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
@@ -63,6 +64,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   String? processingCode;
   String? handlerId;
   String? keyWord;
+  final dataUser = HiveLocal.getDataUser();
+  bool? isCheckUser;
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
@@ -118,10 +121,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     return listResult;
   }
 
+  bool checkUser() {
+    for (final element in listCanCoHTKT.value) {
+      if (element.userId == dataUser?.userId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   Future<void> getListDanhBaCaNhan({
     required int page,
   }) async {
     showLoading();
+    await getNguoiXuLy(
+      isCheck: false,
+    );
     final result = await _hoTroKyThuatRepository.postDanhSachSuCo(
       pageIndex: page,
       pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
@@ -139,7 +154,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         if (res.isEmpty) {
-          showContent();
+          showEmpty();
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
         } else {
           showContent();
@@ -156,7 +171,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Future<void> getAllApiThongTinChung() async {
     showLoading();
     checkDataChart.add(false);
-    await geiApiAddAndSearch(); //todo ké
     await getChartSuCo();
     await getNguoiXuLy();
     await getTongDai();
@@ -169,22 +183,25 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   Future<void> geiApiAddAndSearch() async {
-    showLoading();
     await getCategory(title: KHU_VUC);
     await getCategory(title: LOAI_SU_CO);
     await getCategory(title: TRANG_THAI);
     await getNguoiTiepNhanYeuCau();
-    showContent();
   }
 
-  Future<void> getNguoiXuLy() async {
+  Future<void> getNguoiXuLy({
+    bool isCheck = true,
+  }) async {
     final result = await _hoTroKyThuatRepository.getNguoiXuLy();
     result.when(
       success: (res) {
         listCanCoHTKT.add(res);
+        isCheckUser = checkUser();
       },
       error: (error) {
-        checkDataThongTinChung += 1;
+        if (isCheck) {
+          checkDataThongTinChung += 1;
+        }
       },
     );
   }
@@ -322,7 +339,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         listNguoiTiepNhanYeuCau.add(res);
-        showContent();
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));

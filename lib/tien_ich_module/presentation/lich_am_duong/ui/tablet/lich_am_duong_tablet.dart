@@ -105,6 +105,7 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                             maximumYear: 2060,
                                             initialDate: DateTime.now(),
                                             onTap: (dateTime) async {
+                                              final nav = Navigator.of(context);
                                               await cubit.getLichAmDuong(
                                                 dateTime.formatApiDDMMYYYY,
                                               );
@@ -113,7 +114,7 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                                   .add(dateTime);
                                               cubit.dateTimeSubject.sink
                                                   .add(dateTime);
-                                              Navigator.pop(context);
+                                              nav.pop();
                                             },
                                             textStyle: tokenDetailAmount(
                                               color: titleCalenderWork,
@@ -129,16 +130,17 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                           cubit.startDate =
                                               start.formatApiDDMMYYYY;
                                           cubit.getLichAmDuong(cubit.startDate);
-                                          cubit.dateTimeSubject.sink
-                                              .add(start);
+                                          cubit.dateTimeSubject.sink.add(start);
                                           cubit.selectTime = selectDay;
                                         },
                                         tablet: true,
                                         isCalendar: false,
                                         isFomatMonth: false,
-                                        onChangeRange: (DateTime? start,
-                                            DateTime? end,
-                                            DateTime? focusedDay) {},
+                                        onChangeRange: (
+                                          DateTime? start,
+                                          DateTime? end,
+                                          DateTime? focusedDay,
+                                        ) {},
                                         selectDay: (DateTime day) =>
                                             cubit.selectDay(day),
                                         cubit: cubit,
@@ -179,10 +181,11 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
-                                            border: Border.all(
-                                          width: 0.5,
-                                          color: borderColor.withOpacity(0.5),
-                                        )),
+                                          border: Border.all(
+                                            width: 0.5,
+                                            color: borderColor.withOpacity(0.5),
+                                          ),
+                                        ),
                                         child: Column(
                                           children: [
                                             Container(
@@ -228,13 +231,14 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                                 Expanded(
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                        color: linkColor
-                                                            .withOpacity(0.1),
-                                                        border: Border.all(
-                                                          width: 0.5,
-                                                          color: borderColor
-                                                              .withOpacity(0.5),
-                                                        )),
+                                                      color: linkColor
+                                                          .withOpacity(0.1),
+                                                      border: Border.all(
+                                                        width: 0.5,
+                                                        color: borderColor
+                                                            .withOpacity(0.5),
+                                                      ),
+                                                    ),
                                                     child: TextLichAmHomNay(
                                                       title: S.current.am_lich,
                                                       color: titleColor,
@@ -325,7 +329,10 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                                           color:
                                                               unselectedLabelColor,
                                                           title:
-                                                              '${S.current.thang} ${snapshot.data?.ngayAmLich?.month ?? ''} ${S.current.nam} ${snapshot.data?.ngayAmLich?.year ?? ''}',
+                                                              '${S.current.thang} '
+                                                              '${snapshot.data?.ngayAmLich?.month ?? ''}'
+                                                              ' ${S.current.nam}'
+                                                              ' ${snapshot.data?.ngayAmLich?.year ?? ''}',
                                                           fontWeight:
                                                               FontWeight.w400,
                                                         ),

@@ -94,6 +94,15 @@ class Node<T> {
     value = init;
   }
 
+  List<T> toList() {
+    final res = <T>[];
+    res.add(value);
+    for (final Node<T> e in children) {
+      res.addAll(e.toList());
+    }
+    return res;
+  }
+
   Node.init(Node<T> node) {
     value = node.value;
     parent = node.parent;

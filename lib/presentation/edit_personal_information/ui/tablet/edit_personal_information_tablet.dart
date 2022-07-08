@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
@@ -27,7 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
+
 class EditPersonInformationTabletScreen extends StatefulWidget {
   final String id;
 
@@ -661,7 +662,9 @@ class _EditPersonalInformationTabletScreen
                               )
                                   .then((value) {
                                 if (value) {
-                                  ProviderWidget.of<MenuCubit>(context).cubit.getUserRefresh();
+                                  ProviderWidget.of<MenuCubit>(context)
+                                      .cubit
+                                      .getUserRefresh();
                                   Navigator.pop(context, true);
                                 }
                               });

@@ -103,25 +103,30 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
                         itemCount: widget.cubit.buttonStatePhatBieu.length,
                         itemBuilder: (context, index) {
                           final data = widget.cubit.buttonStatePhatBieu;
-                          return buttonPhone(
-                            backgroup:
-                                widget.cubit.bgrColorButton(snapshot.data ?? 0),
-                            key: data[index].key ?? '',
-                            value: data[index].value.toString(),
-                            color: data[index].color ?? Colors.white,
-                            ontap: () {
-                              widget.cubit.getValueStatus(index);
-                              expand = !expand;
-                              _runExpandCheck();
-                              widget.cubit.buttonStatePhatBieuSubject.sink.add(
-                                ButtonStatePhatBieu(
-                                  key: data[index].key ?? '',
-                                  value: data[index].value ?? 0,
-                                  color: data[index].color ?? Colors.white,
-                                ),
+                          return StreamBuilder<SoLuongPhatBieuModel>(
+                            stream: widget.cubit.dataSoLuongPhatBieuSubject,
+                            builder: (context, snapshotCount) {
+                              return buttonPhone(
+                                backgroup:
+                                    widget.cubit.bgrColorButton(snapshot.data ?? 0),
+                                key: data[index].key ?? '',
+                                value: data[index].value.toString(),
+                                color: data[index].color ?? Colors.white,
+                                ontap: () {
+                                  widget.cubit.getValueStatus(index);
+                                  expand = !expand;
+                                  _runExpandCheck();
+                                  widget.cubit.buttonStatePhatBieuSubject.sink.add(
+                                    ButtonStatePhatBieu(
+                                      key: data[index].key ?? '',
+                                      value: data[index].value ?? 0,
+                                      color: data[index].color ?? Colors.white,
+                                    ),
+                                  );
+                                  widget.cubit.selectPhatBieu.clear();
+                                },
                               );
-                              widget.cubit.selectPhatBieu.clear();
-                            },
+                            }
                           );
                         },
                       ),

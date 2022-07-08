@@ -1266,5 +1266,10 @@
   "lich_hop_da_klch": "Lịch họp đã KLCH",
   "duyet_phat_bieu": "Bạn có chắc muốn duyệt phát biểu không?",
   "huy_duyet_phat_bieu": "Bạn có chắc muốn hủy duyệt phát biểu không?",
-  "su_kien_trong_ngay": "Sự kiện trong ngày"
+  "su_kien_trong_ngay": "Sự kiện trong ngày",
+  "xem_diem_cau": "Xem điểm cầu",
+  "danh_sach_diem_cau" : "Danh sách điểm cầu",
+  "tu_choi_duyet": "Từ chối duyệt",
+  "dang_dien_ra" : "Đang diễn ra",
+  "da_gui_loi_moi" : "Đã gửi lời mời"
 }

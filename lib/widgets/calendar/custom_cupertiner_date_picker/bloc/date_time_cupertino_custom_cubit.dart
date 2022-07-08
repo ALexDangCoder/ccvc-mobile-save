@@ -21,9 +21,8 @@ class DateTimeCupertinoCustomCubit
 
   BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject();
   BehaviorSubject<String> timeBeginSubject = BehaviorSubject();
-  BehaviorSubject<String> dateBeginSubject = BehaviorSubject();
+  BehaviorSubject<String> dateSubject = BehaviorSubject();
   BehaviorSubject<String> timeEndSubject = BehaviorSubject();
-  BehaviorSubject<String> dateEndSubject = BehaviorSubject();
   BehaviorSubject<TypePickerDateTime> typePickerSubjectStart =
       BehaviorSubject.seeded(TypePickerDateTime.TIME_START);
   BehaviorSubject<TypePickerDateTime> typePickerSubjectEnd =
@@ -36,8 +35,7 @@ class DateTimeCupertinoCustomCubit
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;
   String timeFromTmp = INIT_TIME_PICK;
-  String dateFromTmp = INIT_DATE_PICK;
-  String dateToTmp = INIT_DATE_PICK;
+  String dateTmp = INIT_DATE_PICK;
   String timeToTmp = INIT_TIME_PICK;
   String timeStartConfigSystem = '00:00';
   String timeEndConfigSystem = '00:00';
@@ -64,10 +62,10 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
-      dateBeginSubject.sink
+      dateSubject.sink
           .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
 
-      dateEndSubject.sink.add(
+      dateSubject.sink.add(
         DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
       );
       timeBeginSubject.sink.add(timeStartConfigSystem);
@@ -76,8 +74,8 @@ class DateTimeCupertinoCustomCubit
     } else {
       timeBeginSubject.sink.add(timeFromTmp);
       timeEndSubject.sink.add(timeToTmp);
-      dateBeginSubject.sink.add(dateFromTmp);
-      dateEndSubject.sink.add(dateToTmp);
+      dateSubject.sink.add(dateTmp);
+      dateSubject.sink.add(dateTmp);
     }
   }
 
@@ -122,37 +120,37 @@ class DateTimeCupertinoCustomCubit
         );
         break;
       case TypePickerDateTime.DATE_START:
-        dateFromTmp =
+        dateTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink.add(dateFromTmp);
+        dateSubject.sink.add(dateTmp);
         break;
       case TypePickerDateTime.DATE_END:
-        dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateEndSubject.sink.add(dateToTmp);
+        dateTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
+        dateSubject.sink.add(dateTmp);
         break;
     }
   }
 
   bool checkTime() {
     try {
-      if (dateBeginSubject.hasValue &&
+      if (dateSubject.hasValue &&
           timeBeginSubject.hasValue &&
-          dateEndSubject.hasValue &&
+          dateSubject.hasValue &&
           timeEndSubject.hasValue) {
-        if (dateBeginSubject.value != INIT_DATE_PICK &&
+        if (dateSubject.value != INIT_DATE_PICK &&
             timeBeginSubject.value != INIT_TIME_PICK &&
-            dateEndSubject.value != INIT_DATE_PICK &&
+            dateSubject.value != INIT_DATE_PICK &&
             timeEndSubject.value != INIT_TIME_PICK) {
           final begin = DateTime.parse(
             timeFormat(
-              '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
+              '${dateSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
               DateTimeFormat.DATE_TIME_PICKER,
               DateTimeFormat.DATE_TIME_PUT_EDIT,
             ),
           );
           final end = DateTime.parse(
             timeFormat(
-              '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
+              '${dateSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
               DateTimeFormat.DATE_TIME_PICKER,
               DateTimeFormat.DATE_TIME_PUT_EDIT,
             ),
@@ -183,9 +181,9 @@ class DateTimeCupertinoCustomCubit
   int getYearNumber() {
     try {
       return int.parse(
-        dateBeginSubject.value.substring(
-          dateBeginSubject.value.length - 4,
-          dateBeginSubject.value.length,
+        dateSubject.value.substring(
+          dateSubject.value.length - 4,
+          dateSubject.value.length,
         ),
       );
     } catch (e) {
@@ -196,9 +194,9 @@ class DateTimeCupertinoCustomCubit
   void dispose() {
     isSwitchBtnCheckedSubject.close();
     timeBeginSubject.close();
-    dateBeginSubject.close();
+    dateSubject.close();
     timeEndSubject.close();
-    dateEndSubject.close();
+    dateSubject.close();
     typePickerSubjectStart.close();
     isShowBeginPickerSubject.close();
     isShowEndPickerSubject.close();

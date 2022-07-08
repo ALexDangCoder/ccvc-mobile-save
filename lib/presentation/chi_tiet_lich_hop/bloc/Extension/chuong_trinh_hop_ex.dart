@@ -91,7 +91,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> ThemPhienHop(String id) async {
+  Future<void> themPhienHop(String id) async {
     final result = await hopRp.getThemPhienHop(
       id,
       taoPhienHopRepuest.canBoId ?? '',

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -81,22 +82,20 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
     List<TextInputFormatter>? inputFormatters,
     TextInputType? textInputType,
   }) {
-    return TextFormField(
+    return TextFieldValidator(
       key: key,
       validator: (value) {
         return validate?.call((value ?? '').trim());
       },
       controller: widget.controller,
-      onChanged: (value) {
+      onChange: (value) {
         widget.onChange?.call(value.trim());
         key.currentState?.validate();
       },
       initialValue: initValue,
       maxLength: widget.maxLength,
-      maxLines: widget.maxLines,
+      maxLine: widget.maxLines,
       inputFormatters: inputFormatters,
-      style: textNormal(color3D5586, 16),
-      keyboardType: textInputType,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: textNormal(textBodyTime, 16),

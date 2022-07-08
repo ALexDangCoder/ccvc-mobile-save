@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
@@ -314,19 +315,64 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                             );
                             return;
                           }
-                          _cubit.createMeeting().then((value) {
+                          _cubit
+                              .checkLichTrung(
+                            donViId:
+                                _cubit.taoLichHopRequest.chuTri?.donViId ?? '',
+                            canBoId:
+                                _cubit.taoLichHopRequest.chuTri?.canBoId ?? '',
+                          )
+                              .then((value) {
                             if (value) {
-                              Navigator.push(
+                              showDiaLog(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => const TaoHopSuccess(),
+                                title: S.current.lich_trung,
+                                textContent:
+                                    S.current.ban_co_muon_tiep_tuc_khong,
+                                icon: ImageAssets.svgAssets(
+                                  ImageAssets.ic_trung_hop,
                                 ),
-                              ).then((value) => Navigator.pop(context, true));
-                            } else {
-                              MessageConfig.show(
-                                messState: MessState.error,
-                                title: S.current.tao_that_bai,
+                                btnRightTxt: S.current.dong_y,
+                                btnLeftTxt: S.current.khong,
+                                isCenterTitle: true,
+                                funcBtnRight: () {
+                                  _cubit.createMeeting().then((value) {
+                                    if (value) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TaoHopSuccess(),
+                                        ),
+                                      ).then((value) =>
+                                          Navigator.pop(context, true));
+                                    } else {
+                                      MessageConfig.show(
+                                        messState: MessState.error,
+                                        title: S.current.tao_that_bai,
+                                      );
+                                    }
+                                  });
+                                },
                               );
+                            }else{
+                              _cubit.createMeeting().then((value) {
+                                if (value) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                      const TaoHopSuccess(),
+                                    ),
+                                  ).then((value) =>
+                                      Navigator.pop(context, true));
+                                } else {
+                                  MessageConfig.show(
+                                    messState: MessState.error,
+                                    title: S.current.tao_that_bai,
+                                  );
+                                }
+                              });
                             }
                           });
                         }

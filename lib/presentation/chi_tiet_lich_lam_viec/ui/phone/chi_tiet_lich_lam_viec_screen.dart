@@ -51,6 +51,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     chiTietLichLamViecCubit.loadApi(widget.id);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
@@ -64,10 +65,29 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
           final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
+          String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
           int check = dataModel.scheduleCoperatives?.indexWhere(
                 (element) => element.status == 1,
               ) ??
               -1;
+          String nguoiDuocMoi = dataModel.scheduleCoperatives
+                  ?.firstWhere(
+                    (element) => element.canBoId == hiveUserId,
+                    orElse: () => ScheduleCoperatives(),
+                  )
+                  .canBoId ??
+              '';
+          String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
+          String nguoiTaoId = dataModel.createBy?.id ?? '';
+          bool isThuHoi = (canBoChuTri == hiveUserId) ||
+              (nguoiTaoId == hiveUserId); //===sualich===huylich
+          bool isChoYKien =
+              (nguoiTaoId == hiveUserId) || (nguoiDuocMoi == hiveUserId);
+          bool isBaoCaoKetQua = ((DateTime.parse(
+                      dataModel.dateTimeTo ?? DateTime.now().toString())
+                  .isBefore(DateTime.now())) &&
+              (isChoYKien));
+          bool isXoaLich = (check == -1) && (isThuHoi);
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -77,12 +97,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                           MenuSelectWidget(
                             listSelect: [
                               ///huy
-                              if (((dataModel.canBoChuTri?.id ?? '') ==
-                                      (HiveLocal.getDataUser()?.userId ??
-                                          '')) ||
-                                  ((dataModel.createBy?.id ?? '') ==
-                                      (HiveLocal.getDataUser()?.userId ??
-                                          ''))) ...[
+                              if (isThuHoi) ...[
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icHuy,
                                   text: S.current.huy,
@@ -95,58 +110,55 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               ],
 
                               ///bao cao ket qua
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icChartFocus,
-                                text: S.current.bao_cao_ket_qua,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: S.current.bao_cao_ket_qua,
-                                    child: BaoCaoBottomSheet(
-                                      scheduleId: widget.id,
-                                      cubit: BaoCaoKetQuaCubit(),
-                                      listTinhTrangBaoCao:
-                                          chiTietLichLamViecCubit.listTinhTrang,
-                                    ),
-                                  ).then((value) {
-                                    if (value is bool && value) {
-                                      chiTietLichLamViecCubit
-                                          .getDanhSachBaoCaoKetQua(widget.id);
-                                    }
-                                  });
-                                },
-                              ),
+                              if (isBaoCaoKetQua)
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icChartFocus,
+                                  text: S.current.bao_cao_ket_qua,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: S.current.bao_cao_ket_qua,
+                                      child: BaoCaoBottomSheet(
+                                        scheduleId: widget.id,
+                                        cubit: BaoCaoKetQuaCubit(),
+                                        listTinhTrangBaoCao:
+                                            chiTietLichLamViecCubit
+                                                .listTinhTrang,
+                                      ),
+                                    ).then((value) {
+                                      if (value is bool && value) {
+                                        chiTietLichLamViecCubit
+                                            .getDanhSachBaoCaoKetQua(widget.id);
+                                      }
+                                    });
+                                  },
+                                ),
 
                               ///cho y kien
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icChoYKien,
-                                text: S.current.cho_y_kien,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: S.current.y_kien,
-                                    child: YKienBottomSheet(
-                                      id: widget.id,
-                                    ),
-                                  ).then((value) {
-                                    if (value == true) {
-                                      chiTietLichLamViecCubit
-                                          .loadApi(widget.id);
-                                    } else if (value == null) {
-                                      return;
-                                    }
-                                  });
-                                },
-                              ),
+                              if (isChoYKien)
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icChoYKien,
+                                  text: S.current.cho_y_kien,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: S.current.y_kien,
+                                      child: YKienBottomSheet(
+                                        id: widget.id,
+                                      ),
+                                    ).then((value) {
+                                      if (value == true) {
+                                        chiTietLichLamViecCubit
+                                            .loadApi(widget.id);
+                                      } else if (value == null) {
+                                        return;
+                                      }
+                                    });
+                                  },
+                                ),
 
                               ///xoa lich
-                              if ((check == -1) &&
-                                  (((dataModel.canBoChuTri?.id ?? '') ==
-                                          (HiveLocal.getDataUser()?.userId ??
-                                              '')) ||
-                                      ((dataModel.createBy?.id ?? '') ==
-                                          (HiveLocal.getDataUser()?.userId ??
-                                              ''))))
+                              if (isXoaLich)
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icDelete,
                                   text: S.current.xoa_lich,
@@ -158,12 +170,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
 
                               ///thu hoi lich
-                              if (((dataModel.canBoChuTri?.id ?? '') ==
-                                      (HiveLocal.getDataUser()?.userId ??
-                                          '')) ||
-                                  ((dataModel.createBy?.id ?? '') ==
-                                      (HiveLocal.getDataUser()?.userId ??
-                                          ''))) ...[
+                              if (isThuHoi) ...[
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icRecall,
                                   text: S.current.thu_hoi,
@@ -185,12 +192,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               ],
 
                               ///sua lich
-                              if (((dataModel.canBoChuTri?.id ?? '') ==
-                                      (HiveLocal.getDataUser()?.userId ??
-                                          '')) ||
-                                  ((dataModel.createBy?.id ?? '') ==
-                                      (HiveLocal.getDataUser()?.userId ??
-                                          ''))) ...[
+                              if (isThuHoi) ...[
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icEditBlue,
                                   text: S.current.sua_lich,
@@ -266,10 +268,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
                                 listScheduleCooperatives(),
                                 spaceH8,
-                                BtnShowChinhSuaBaoCao(
-                                  chiTietLichLamViecCubit:
-                                      chiTietLichLamViecCubit,
-                                ),
+                                if (isBaoCaoKetQua)
+                                  BtnShowChinhSuaBaoCao(
+                                    chiTietLichLamViecCubit:
+                                        chiTietLichLamViecCubit,
+                                  ),
                                 DanhSachYKienButtom(
                                   id: widget.id,
                                   cubit: chiTietLichLamViecCubit,
@@ -297,7 +300,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                                       isThamGia: false,
                                                       lyDo: '',
                                                     ),
-                                                  );
+                                                  )
+                                                      .then((value) {
+                                                    chiTietLichLamViecCubit
+                                                        .loadApi(widget.id);
+                                                  });
                                                 },
                                                 textColor: buttonColor,
                                               ),
@@ -317,7 +324,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                                       isThamGia: true,
                                                       lyDo: '',
                                                     ),
-                                                  );
+                                                  )
+                                                      .then((value) {
+                                                    chiTietLichLamViecCubit
+                                                        .loadApi(widget.id);
+                                                  });
                                                 },
                                                 textColor: Colors.white,
                                               ),

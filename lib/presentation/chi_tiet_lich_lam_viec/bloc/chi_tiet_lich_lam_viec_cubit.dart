@@ -181,13 +181,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(id);
     rs.when(
       success: (data) {
-        final tmp = data
-            .where((element) => element.status == 0 && element.tenDonVi != null)
-            .toList();
-        listOfficer.sink.add(tmp);
-        listRecall.sink.add(tmp);
-        dataRecall = tmp;
-        officersTmp = tmp;
+        listOfficer.sink.add(data);
+        listRecall.sink.add(data);
+        dataRecall = data;
+        officersTmp = data;
       },
       error: (error) {},
     );
@@ -219,6 +216,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         if (element.userId == currentUserId &&
             (element.userId?.isNotEmpty ?? false) &&
             currentUserId.isNotEmpty &&
+            //Todo: chờ ba xác nhận (status)
             element.isConfirm == false) {
           showButtonApprove.sink.add(true);
         } else {

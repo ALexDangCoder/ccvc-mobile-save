@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_t
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
@@ -61,44 +60,15 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
   BehaviorSubject<bool> isCurrrenUser = BehaviorSubject.seeded(false);
 
   void handleDropDownSelected({required DonViModel donVi, required int index}) {
-    widget.cubit
-        .checkLichTrung(
-      donViId: donVi.donViId,
-      canBoId: donVi.canBoId,
-    )
-        .then((value) {
-      if (value) {
-        showDiaLog(
-          context,
-          title: S.current.lich_trung,
-          textContent: S.current.ban_co_muon_tiep_tuc_khong,
-          icon: ImageAssets.svgAssets(
-            ImageAssets.ic_trung_hop,
-          ),
-          btnRightTxt: S.current.dong_y,
-          btnLeftTxt: S.current.khong,
-          isCenterTitle: true,
-          funcBtnRight: () {
-            widget.cubit.taoLichHopRequest.chuTri
-              ?..tenCanBo = donVi.tenCanBo
-              ..tenCoQuan = donVi.tenDonVi
-              ..canBoId = donVi.userId
-              ..donViId = donVi.donViId;
-            widget.cubit.chuTri = donVi;
-            widget.cubit.danhSachCB.sink.add(
-              widget.cubit.danhSachCB.value,
-            );
-          },
-        );
-      } else {
-        widget.cubit.taoLichHopRequest.chuTri
-          ?..tenCanBo = donVi.tenCanBo
-          ..tenCoQuan = donVi.tenDonVi
-          ..canBoId = donVi.userId
-          ..donViId = donVi.donViId;
-        widget.cubit.chuTri = donVi;
-      }
-    });
+    widget.cubit.taoLichHopRequest.chuTri
+      ?..tenCanBo = donVi.tenCanBo
+      ..tenCoQuan = donVi.tenDonVi
+      ..canBoId = donVi.userId
+      ..donViId = donVi.donViId;
+    widget.cubit.chuTri = donVi;
+    widget.cubit.danhSachCB.sink.add(
+      widget.cubit.danhSachCB.value,
+    );
     if (donVi.userId == HiveLocal.getDataUser()?.userId) {
       isCurrrenUser.add(true);
     } else {
@@ -227,6 +197,8 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 widget.cubit.taoLichHopRequest.bitYeuCauDuyet = false;
               }
               widget.cubit.taoLichHopRequest.bitTrongDonVi = isTrongDonVi;
+              widget.cubit.taoLichHopRequest.chuTri?.tenCoQuan = '';
+              widget.cubit.taoLichHopRequest.chuTri?.tenCanBo = '';
               setState(() {});
             },
           ),

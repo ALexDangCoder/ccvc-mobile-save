@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DropDownTrangThaiPAKN extends StatefulWidget {
@@ -25,7 +26,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 218,
+      width: 230,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
@@ -46,10 +47,12 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
         color: AppTheme.getInstance().dfBtnTxtColor(),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           ExpandPAKNWidget(
             name: S.current.tiep_nhan,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 spaceH12,
@@ -208,6 +211,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
           ExpandPAKNWidget(
             name: S.current.xu_ly,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 spaceH12,
@@ -417,26 +421,32 @@ Widget item({
 }) {
   return InkWell(
     onTap: () => callBack(TextTrangThai(title, colorBG)),
-    child: Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(30),
-        ),
-        color: colorBG,
-      ),
-      child: Center(
-        child: Text(
-          title,
-          style: textNormalCustom(
-            color: AppTheme.getInstance().dfBtnTxtColor(),
-            fontWeight: FontWeight.w500,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(30),
+            ),
+            color: colorBG,
+          ),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              title,
+              style: textNormalCustom(
+                color: AppTheme.getInstance().dfBtnTxtColor(),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     ),
   );
 }

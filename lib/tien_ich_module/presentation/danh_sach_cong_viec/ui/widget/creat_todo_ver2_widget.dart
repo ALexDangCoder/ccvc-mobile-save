@@ -82,7 +82,6 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
           onPressed2: () {
             if ((widget.cubit.titleChange ?? '').isEmpty) {
               isShow.sink.add(true);
-
               return;
             }
 
@@ -268,6 +267,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                         onTapDelete: () {
                           widget.cubit
                               .editWork(
+                                isDeleted: true,
                                 todo: widget.todo ?? TodoDSCVModel(),
                                 filePathTodo: '',
                               )

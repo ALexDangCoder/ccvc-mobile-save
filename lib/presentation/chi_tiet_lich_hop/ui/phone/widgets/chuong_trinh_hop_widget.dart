@@ -224,23 +224,17 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
               keyTxt: S.current.thoi_gian,
               value: listPhienHopModel.dateTimeView(),
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             RowDataWidget(
               keyTxt: S.current.nguoi_phu_trach,
               value: listPhienHopModel.hoTen ?? '',
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             RowDataWidget(
               keyTxt: S.current.noi_dung,
               value: listPhienHopModel.noiDung ?? '',
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             listFileDinhKem(
               keyTxt: S.current.file_dinh_kem,
               listPhienHopModel: listPhienHopModel,
@@ -341,7 +335,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
-                          'Người phụ trách',
+                          S.current.nguoi_phu_trach,
                           style: textDetailHDSD(
                             fontSize: 14.0.textScale(),
                             color: infoColor,

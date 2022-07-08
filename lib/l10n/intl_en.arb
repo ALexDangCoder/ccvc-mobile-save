@@ -1262,5 +1262,7 @@
   "validate_bieu_quyet": "Thời gian biểu quyết phải nằm trong khoảng thời gian họp",
   "chon_nguoi":"Chọn người",
   "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
-  "lich_hop_da_klch": "Lịch họp đã KLCH"
+  "lich_hop_da_klch": "Lịch họp đã KLCH",
+  "duyet_phat_bieu": "Bạn có chắc muốn duyệt phát biểu không?",
+  "huy_duyet_phat_bieu": "Bạn có chắc muốn hủy duyệt phát biểu không?"
 }

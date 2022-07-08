@@ -249,13 +249,13 @@ class PhatBieuChildWidget extends StatelessWidget {
                 },
               ),
 
-            /// itemCenter
+            /// item Center
             itemCenter,
 
             ///
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: buttonDuyet(data, cubit),
+              child: buttonDuyet(data, cubit, context),
             ),
           ],
         );
@@ -263,7 +263,8 @@ class PhatBieuChildWidget extends StatelessWidget {
     );
   }
 
-  Widget buttonDuyet(int data, DetailMeetCalenderCubit cubit) {
+  Widget buttonDuyet(
+      int data, DetailMeetCalenderCubit cubit, BuildContext context) {
     switch (data) {
       case StatePhatBieu.cho_duyet:
         return Padding(
@@ -273,11 +274,13 @@ class PhatBieuChildWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Expanded(child: buttomDuyetPb()),
+              Expanded(child: buttomDuyetPb(context: context)),
               const SizedBox(
                 width: 12,
               ),
-              Expanded(child: buttomHuyPb(text: S.current.tu_choi)),
+              Expanded(
+                  child:
+                      buttomHuyPb(text: S.current.tu_choi, context: context)),
             ],
           ),
         );
@@ -287,7 +290,7 @@ class PhatBieuChildWidget extends StatelessWidget {
             right: isMobile() ? 250 : 350,
             left: isMobile() ? 0 : 350,
           ),
-          child: buttomHuyPb(),
+          child: buttomHuyPb(context: context),
         );
       case StatePhatBieu.huy_duyet:
         return Padding(
@@ -295,40 +298,44 @@ class PhatBieuChildWidget extends StatelessWidget {
             right: isMobile() ? 250 : 350,
             left: isMobile() ? 0 : 350,
           ),
-          child: buttomDuyetPb(),
+          child: buttomDuyetPb(context: context),
         );
     }
     return const SizedBox();
   }
 
-  Widget buttomHuyPb({String? text}) => ButtonBottomCustom(
+  Widget buttomHuyPb({String? text, required BuildContext context}) =>
+      ButtonBottomCustom(
         textColor: statusCalenderRed,
         customColor: statusCalenderRed.withOpacity(0.15),
         text: text ?? S.current.huy_duyet,
         onPressed: () {
-          showXacNhan(isDuyet: true);
+          showXacNhan(isDuyet: false, context: context);
         },
       );
 
-  Widget buttomDuyetPb({String? text}) => ButtonBottomCustom(
+  Widget buttomDuyetPb({String? text, required BuildContext context}) =>
+      ButtonBottomCustom(
         textColor: itemWidgetUsing,
         customColor: itemWidgetUsing.withOpacity(0.15),
         text: text ?? S.current.duyet,
         onPressed: () {
-          showXacNhan(isDuyet: false);
+          showXacNhan(isDuyet: true, context: context);
         },
       );
 
   void showXacNhan({
-    context,
+    required BuildContext context,
     required bool isDuyet,
   }) {
     showDiaLog(
       context,
       title: isDuyet ? S.current.diem_danh : S.current.huy_duyet,
-      icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+      icon: isDuyet
+          ? SvgPicture.asset(ImageAssets.icDiemDanh)
+          : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
       textContent:
-          'Bạn có chắc chắn muốn ${isDuyet ? 'duyệt' : 'hủy duyệt'} phát biểu không',
+          isDuyet ? S.current.duyet_phat_bieu : S.current.huy_duyet_phat_bieu,
       btnRightTxt: S.current.dong_y,
       btnLeftTxt: S.current.khong,
       funcBtnRight: () {

@@ -240,7 +240,7 @@
   "ban_co_chac_chan_xoa": "Bạn có chắc muốn xóa HDSD này!",
   "xoa_hdsd": "Xoá HDSD",
   "danhSach": "Danh sách lịch sẽ được hiển thị những loại lịch nào?",
-  "noi_dung": "Nhập nội dung",
+  "noi_dung": "Nội dung",
   "chinh_sua_hdsd": "Chỉnh sửa hướng dẫn sử dụng",
   "xem_truoc": "Xem trước",
   "chu_de_hdsd": "Chủ đề HDSD",
@@ -1232,6 +1232,8 @@
   "lich_hop_cho_duyet": "Lịch họp chờ duyệt",
   "ban_co_chac_chan_muon_xoa_khong": "Bạn có chắc chắn muốn xoá không?",
   "lich_hop_da_klch": "Lịch họp đã KLCH",
+  "duyet_phat_bieu": "Bạn có chắc muốn duyệt phát biểu không?",
+  "huy_duyet_phat_bieu": "Bạn có chắc muốn hủy duyệt phát biểu không?",
   "su_kien_trong_ngay": "Sự kiện trong ngày"
 }
 

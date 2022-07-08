@@ -166,7 +166,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                                   DoubleButtonBottom(
                                                     title1: S.current.chinh_sua,
                                                     title2: S.current.xoa,
-                                                    onPressed1: () {
+                                                    onClickLeft: () {
                                                       showBottomSheetCustom(
                                                         context,
                                                         title: S.current
@@ -185,7 +185,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                                         }
                                                       });
                                                     },
-                                                    onPressed2: () {
+                                                    onClickRight: () {
                                                       showDiaLog(
                                                         context,
                                                         title: S.current

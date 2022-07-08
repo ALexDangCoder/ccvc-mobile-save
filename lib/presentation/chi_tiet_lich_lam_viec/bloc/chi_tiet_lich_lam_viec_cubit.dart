@@ -124,6 +124,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         MessageConfig.show(title: S.current.xoa_thanh_cong);
         eventBus.fire(RefreshCalendar());
+        Get.back(result: true);
       },
       error: (error) {
         MessageConfig.show(
@@ -144,12 +145,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     bool? isMulti,
   }) async {
     ShowLoadingScreen.show();
-    final rs =
-        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti ?? false);
+    final rs = await detailLichLamViec.cancelCalenderWork(
+        id, statusId, isMulti ?? false);
     rs.when(
       success: (data) {
         if (data.succeeded ?? false) {
           MessageConfig.show(title: S.current.huy_thanh_cong);
+          Get.back(result: true);
           eventBus.fire(RefreshCalendar());
         }
       },
@@ -372,11 +374,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           ),
         )
         .toList();
-    final result = await detailLichLamViec.recallWorkCalendar(isMulti ?? false, request);
+    final result =
+        await detailLichLamViec.recallWorkCalendar(isMulti ?? false, request);
     result.when(
       success: (success) {
         //eventBus.fire(RefreshCalendar());
         MessageConfig.show(title: S.current.thu_hoi_lich_thanh_cong);
+        Get.back(result: true);
         emit(SuccessChiTietLichLamViecState());
       },
       error: (error) {

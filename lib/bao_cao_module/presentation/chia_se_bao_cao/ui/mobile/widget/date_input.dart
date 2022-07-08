@@ -88,13 +88,13 @@ class _DateInputState extends State<DateInput> {
                   child: DoubleButtonBottom(
                     title2: S.current.chon,
                     title1: S.current.dong,
-                    onPressed2: () {
+                    onClickRight: () {
                       textController.text = DateTime.parse(dateSelect ?? '')
                           .toStringWithListFormat;
                       widget.onSelectDate(dateSelect);
                       Navigator.pop(context);
                     },
-                    onPressed1: () {
+                    onClickLeft: () {
                       Navigator.pop(context);
                     },
                   ),

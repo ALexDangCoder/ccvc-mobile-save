@@ -566,18 +566,19 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
         textConfirm: S.current.ban_co_chac_chan_sua_lich,
         textRadioAbove: S.current.chi_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
+        onConfirm: (value) {
+          createCubit.checkDuplicate(
+            context: context,
+            title: titleController.value.text.removeSpace,
+            content: contentController.value.text.removeSpace,
+            location: locationController.value.text.removeSpace,
+            isEdit: true,
+            isOnly: value,
+            isInside: !data,
+          );
+        },
       ),
-    ).then((value) {
-      createCubit.checkDuplicate(
-        context: context,
-        title: titleController.value.text.removeSpace,
-        content: contentController.value.text.removeSpace,
-        location: locationController.value.text.removeSpace,
-        isEdit: true,
-        isOnly: !value,
-        isInside: !data,
-      );
-    });
+    );
   }
 }
 

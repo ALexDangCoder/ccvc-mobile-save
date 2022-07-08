@@ -181,10 +181,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(id);
     rs.when(
       success: (data) {
-        listOfficer.sink.add(data);
-        listRecall.sink.add(data);
-        dataRecall = data;
-        officersTmp = data;
+        final tmp = data.where((element) => element.tenDonVi != null).toList();
+        listOfficer.sink.add(tmp);
+        listRecall.sink.add(tmp);
+        dataRecall = tmp;
+        officersTmp = tmp;
       },
       error: (error) {},
     );

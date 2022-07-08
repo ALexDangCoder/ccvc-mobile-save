@@ -326,7 +326,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 TextFieldStyle(
                                   controller: locationController,
                                   urlIcon: ImageAssets.icViTri,
-                                  hintText: S.current.dia_diem,
+                                  hintText: S.current.nhap_dia_diem,
                                   validate: (value) {
                                     return value
                                         .pleaseEnter(S.current.dia_diem);

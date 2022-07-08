@@ -116,7 +116,9 @@ class PeopleThamGiaWidget extends StatelessWidget {
       onChanged: (value) {
         onChange(value);
       },
-      maxLines: 1.0.textScale(space: 3).toInt(),
+      keyboardType: TextInputType.multiline,
+      maxLines: 3.0.textScale(space: 3).toInt(),
+      minLines: 1.0.textScale(space: 3).toInt(),
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,

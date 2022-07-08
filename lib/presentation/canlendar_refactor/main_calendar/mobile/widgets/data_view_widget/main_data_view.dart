@@ -2,21 +2,20 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_state.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/dashbroad_count_row.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_month.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_week.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_day.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_month.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/item_appoinment_week.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/data_view_type_list.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_list_view/pop_up_menu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-import 'dashbroad_count_row.dart';
-import 'type_list_view/data_view_type_list.dart';
 
 class MainDataView extends StatefulWidget {
   const MainDataView({
@@ -85,29 +84,30 @@ class _MainDataViewState extends State<MainDataView> {
         },
       ),
       StreamBuilder<DataSourceFCalendar>(
-          stream: widget.cubit.listCalendarWorkMonthStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? DataSourceFCalendar.empty();
-            return DataViewCalendarMonth(
-              buildAppointment: (e) => ItemAppointmentMonth(
-                appointment: e,
-                onClick: () {
-                  pushToDetail(e);
-                },
-              ),
-              propertyChanged: (String property) {
-                widget.cubit.propertyChangedMonth(property);
+        stream: widget.cubit.listCalendarWorkMonthStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? DataSourceFCalendar.empty();
+          return DataViewCalendarMonth(
+            buildAppointment: (e) => ItemAppointmentMonth(
+              appointment: e,
+              onClick: () {
+                pushToDetail(e);
               },
-              onMore: (value) {
-                widget.cubit.emitList();
-                widget.cubit.controller.calendarType.value = CalendarType.DAY;
-                widget.cubit.controller.selectDate.value = value;
-                widget.cubit.controller.selectDate.notifyListeners();
-              },
-              data: data,
-              fCalendarController: widget.cubit.fCalendarControllerMonth,
-            );
-          }),
+            ),
+            propertyChanged: (String property) {
+              widget.cubit.propertyChangedMonth(property);
+            },
+            onMore: (value) {
+              widget.cubit.emitList();
+              widget.cubit.controller.calendarType.value = CalendarType.DAY;
+              widget.cubit.controller.selectDate.value = value;
+              widget.cubit.controller.selectDate.notifyListeners();
+            },
+            data: data,
+            fCalendarController: widget.cubit.fCalendarControllerMonth,
+          );
+        },
+      ),
     ];
     super.initState();
   }

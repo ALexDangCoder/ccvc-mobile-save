@@ -4,12 +4,11 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dar
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:intl/intl.dart';
@@ -29,10 +28,11 @@ class CellBieuQuyet extends StatefulWidget {
 }
 
 class _CellBieuQuyetState extends State<CellBieuQuyet> {
-  DateTime start = DateTime.now();
-  DateTime end = DateTime.now();
+  late DateTime start;
 
-  DateTime? timeDate;
+  late DateTime end;
+
+  late DateTime timeDate;
 
   late CountdownTimerController startCountdownController;
   late CountdownTimerController endCountdownController;
@@ -46,9 +46,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
         .parse(widget.infoModel.thoiGianKetThuc ?? '');
     final startMillisec = start.millisecondsSinceEpoch;
     final endMillisec = end.millisecondsSinceEpoch;
-
     timeDate = DateTime.fromMillisecondsSinceEpoch(startMillisec);
-
     startCountdownController = CountdownTimerController(
       endTime: startMillisec,
     );
@@ -150,7 +148,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                 ),
                 spaceW20,
                 if (widget.cubit.isNotStartYet(
-                  startTime: timeDate ?? DateTime.now(),
+                  startTime: timeDate,
                 )) ...[
                   Expanded(
                     flex: 6,
@@ -374,7 +372,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   ),
                   spaceW20,
                   if (widget.cubit.isNotStartYet(
-                    startTime: timeDate ?? DateTime.now(),
+                    startTime: timeDate,
                   )) ...[
                     Expanded(
                       flex: 6,

@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/bao_cao_module/data/services/report_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
-import 'package:ccvc_mobile/data/network/network_handler.dart';
 import 'package:ccvc_mobile/data/network/unauthorized_handle.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_impl.dart';
@@ -304,7 +303,7 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       },
       onError: (DioError e, handler) async {
         if (e.response?.statusCode == 401) {
-          return handler.next(e);
+          return _onReFreshToken(e,handler);
         } else {
           return handler.next(e);
         }

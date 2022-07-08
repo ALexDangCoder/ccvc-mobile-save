@@ -15,8 +15,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,6 +67,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
     // TODO: implement dispose
     super.dispose();
     widget.cubit.dataMauBienBan.close();
+    widget.cubit.noiDung.sink.add('');
   }
 
   @override
@@ -160,7 +159,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8, top: 20),
                         child: Text(
-                          S.current.noi_dung,
+                          S.current.just_noi_dung,
                           style: textNormal(titleItemEdit, 14),
                         ),
                       ),
@@ -207,7 +206,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                       Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: ButtonSelectFile(
-                          title: S.current.them_tai_lieu_cuoc_hop,
+                          title: S.current.tai_lieu_dinh_kem,
                           onChange: (List<File> files) {
                             if (files.first.lengthSync() >
                                 widget.cubit.maxSizeFile30) {

@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_tablet.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/danh_sach_tablet/danh_sach_nhiem_vu_tablet.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -14,7 +13,6 @@ import '/home_module/presentation/home_screen/ui/tablet/widgets/tong_hop_nhiem_v
 import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/nhiem_vu_widget.dart';
 import '/home_module/utils/constants/app_constants.dart';
-import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
 
 class SummaryOfTaskTabletWidget extends StatefulWidget {

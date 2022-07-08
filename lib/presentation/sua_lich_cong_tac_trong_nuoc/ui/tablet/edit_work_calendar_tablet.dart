@@ -330,14 +330,15 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                       NguoiChuTriWidget(
                                         cubit: createCubit,
                                         isEdit: true,
-                                        name: widget.event.canBoChuTri?.nameUnitPosition() ??
+                                        name: widget.event.canBoChuTri
+                                                ?.nameUnitPosition() ??
                                             '',
                                         id: widget.event.canBoChuTri?.id ?? '',
                                       ),
                                       LinhVucWidget(
                                         cubit: createCubit,
                                         isEdit: true,
-                                        name : widget.event.linhVuc ?? '',
+                                        name: widget.event.linhVuc ?? '',
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -427,14 +428,25 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                         builder: (context, snapshot) {
                                           final data = snapshot.data ?? false;
                                           return data
-                                              ? ItemLapDenNgayWidget(
-                                                  taoLichLamViecCubit:
-                                                      createCubit,
-                                                  isThem: false,
-                                                  initDate: DateTime.parse(
-                                                      createCubit.dateRepeat ??
-                                                          DateTime.now()
-                                                              .toString()),
+                                              ? StreamBuilder<DateTime>(
+                                                  stream: createCubit
+                                                      .endDateSubject.stream,
+                                                  initialData: DateTime.parse(
+                                                    createCubit.dateRepeat ??
+                                                        DateTime.now()
+                                                            .toString(),
+                                                  ),
+                                                  builder: (context, snapshot) {
+                                                    final data =
+                                                        snapshot.data ??
+                                                            DateTime.now();
+                                                    return ItemLapDenNgayWidget(
+                                                      taoLichLamViecCubit:
+                                                          createCubit,
+                                                      isThem: false,
+                                                      initDate: data,
+                                                    );
+                                                  },
                                                 )
                                               : Container();
                                         },

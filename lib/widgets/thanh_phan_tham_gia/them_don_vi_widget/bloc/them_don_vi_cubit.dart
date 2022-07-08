@@ -15,6 +15,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   BehaviorSubject<bool> themDonViSubject = BehaviorSubject();
   BehaviorSubject<bool> validateDonVi = BehaviorSubject();
   List<DonViModel> listDonVi = [];
+
   ///
   final BehaviorSubject<List<Node<DonViModel>>> _getTree =
       BehaviorSubject<List<Node<DonViModel>>>();
@@ -39,6 +40,11 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     }
     _getTree.sink.add(data);
     listTree = data;
+  }
+
+  void getTreeInit(List<Node<DonViModel>> tree) {
+    _getTree.sink.add(tree);
+    listTree = tree;
   }
 
   void addSelectNode(Node<DonViModel> node, {required bool isCheck}) {

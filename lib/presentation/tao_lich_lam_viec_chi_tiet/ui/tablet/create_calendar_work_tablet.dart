@@ -311,20 +311,30 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                                   : Container();
                                             }),
                                         StreamBuilder<bool>(
-                                            stream: createCubit
-                                                .lichLapKhongLapLaiSubject
-                                                .stream,
-                                            builder: (context, snapshot) {
-                                              final data =
-                                                  snapshot.data ?? false;
-                                              return data
-                                                  ? ItemLapDenNgayWidget(
-                                                      taoLichLamViecCubit:
-                                                          createCubit,
-                                                      isThem: true,
-                                                    )
-                                                  : Container();
-                                            }),
+                                          stream: createCubit
+                                              .lichLapKhongLapLaiSubject.stream,
+                                          builder: (context, snapshot) {
+                                            final data = snapshot.data ?? false;
+                                            return data
+                                                ? StreamBuilder<DateTime>(
+                                                    stream: createCubit
+                                                        .endDateSubject.stream,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      final initDate =
+                                                          snapshot.data ??
+                                                              DateTime.now();
+                                                      return ItemLapDenNgayWidget(
+                                                        taoLichLamViecCubit:
+                                                            createCubit,
+                                                        isThem: true,
+                                                        initDate: initDate,
+                                                      );
+                                                    },
+                                                  )
+                                                : Container();
+                                          },
+                                        ),
                                         TextFormWidget(
                                           controller: contentController,
                                           image: ImageAssets.icDocument,

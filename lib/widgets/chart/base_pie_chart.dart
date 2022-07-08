@@ -69,32 +69,32 @@ class PieChart extends StatelessWidget {
                     series: [
                       // Renders doughnut chart
                       DoughnutSeries<ChartData, String>(
-                          innerRadius: '45',
-                          dataSource: chartData,
-                          pointColorMapper: (ChartData data, _) => data.color,
-                          pointRadiusMapper: (ChartData data, _) => data.size,
-                          xValueMapper: (ChartData data, _) => data.title,
-                          yValueMapper: (ChartData data, _) => data.value,
-                          dataLabelMapper: (ChartData data, _) =>
-                              percent(data.value),
-                          onPointTap: (value) {
-                            if (onTap != null) {
-                              final key = chartData[value.pointIndex ?? 0];
-
-                              onTap!(
-                                value.pointIndex ?? 0,
-                              );
-                            } else {}
-                          },
-                          dataLabelSettings: DataLabelSettings(
-                            useSeriesColor: true,
-                            isVisible: true,
-                            showZeroValue: false,
-                            textStyle: textNormalCustom(
-                              color: backgroundColorApp,
-                              fontSize: 14,
-                            ),
-                          ))
+                        innerRadius: '45',
+                        dataSource: chartData,
+                        pointColorMapper: (ChartData data, _) => data.color,
+                        pointRadiusMapper: (ChartData data, _) => data.size,
+                        xValueMapper: (ChartData data, _) => data.title,
+                        yValueMapper: (ChartData data, _) => data.value,
+                        dataLabelMapper: (ChartData data, _) =>
+                            percent(data.value),
+                        onPointTap: (value) {
+                          if (onTap != null) {
+                            final key = chartData[value.pointIndex ?? 0];
+                            onTap!(
+                              value.pointIndex ?? 0,
+                            );
+                          } else {}
+                        },
+                        dataLabelSettings: DataLabelSettings(
+                          useSeriesColor: true,
+                          isVisible: true,
+                          showZeroValue: false,
+                          textStyle: textNormalCustom(
+                            color: backgroundColorApp,
+                            fontSize: 14,
+                          ),
+                        ),
+                      )
                     ],
                   ),
           )
@@ -120,35 +120,35 @@ class PieChart extends StatelessWidget {
                           series: [
                             // Renders doughnut chart
                             DoughnutSeries<ChartData, String>(
-                                innerRadius: '45',
-                                dataSource: chartData,
-                                pointColorMapper: (ChartData data, _) =>
-                                    data.color,
-                                pointRadiusMapper: (ChartData data, _) =>
-                                    data.size,
-                                xValueMapper: (ChartData data, _) => data.title,
-                                yValueMapper: (ChartData data, _) => data.value,
-                                dataLabelMapper: (ChartData data, _) =>
-                                    percent(data.value),
-                                onPointTap: (value) {
-                                  if (onTap != null) {
-                                    final key =
-                                        chartData[value.pointIndex ?? 0];
+                              innerRadius: '45',
+                              dataSource: chartData,
+                              pointColorMapper: (ChartData data, _) =>
+                                  data.color,
+                              pointRadiusMapper: (ChartData data, _) =>
+                                  data.size,
+                              xValueMapper: (ChartData data, _) => data.title,
+                              yValueMapper: (ChartData data, _) => data.value,
+                              dataLabelMapper: (ChartData data, _) =>
+                                  percent(data.value),
+                              onPointTap: (value) {
+                                if (onTap != null) {
+                                  final key = chartData[value.pointIndex ?? 0];
 
-                                    onTap!(
-                                      value.pointIndex ?? 0,
-                                    );
-                                  } else {}
-                                },
-                                dataLabelSettings: DataLabelSettings(
-                                  useSeriesColor: true,
-                                  isVisible: true,
-                                  showZeroValue: false,
-                                  textStyle: textNormalCustom(
-                                    color: backgroundColorApp,
-                                    fontSize: 14,
-                                  ),
-                                ))
+                                  onTap!(
+                                    value.pointIndex ?? 0,
+                                  );
+                                } else {}
+                              },
+                              dataLabelSettings: DataLabelSettings(
+                                useSeriesColor: true,
+                                isVisible: true,
+                                showZeroValue: false,
+                                textStyle: textNormalCustom(
+                                  color: backgroundColorApp,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                 ),

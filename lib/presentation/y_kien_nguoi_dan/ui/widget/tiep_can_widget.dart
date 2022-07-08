@@ -199,7 +199,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               widget.cubit.textFilter.add(
                 TextTrangThai(
                   S.current.den_han,
-                  AppTheme.getInstance().choXuLyColor(),
+                  yellowColor,
                 ),
               );
               widget.cubit.isShowFilterList.add(false);

@@ -11,6 +11,7 @@ class ListItemRow extends StatelessWidget {
   final List<String>? nameFile;
   final List<String>? urlFile;
   final String? domainDownload;
+
   const ListItemRow({
     Key? key,
     required this.title,
@@ -54,9 +55,10 @@ class ListItemRow extends StatelessWidget {
                                     final int index =
                                         (content ?? []).indexOf(e);
                                     saveFile(
-                                        url: (urlFile ?? [])[index],
-                                        fileName: (nameFile ?? [])[index],
-                                        downloadType: DomainDownloadType.PAKN);
+                                      url: ('/') + (urlFile ?? [])[index],
+                                      fileName: (nameFile ?? [])[index],
+                                      downloadType: DomainDownloadType.PAKN,
+                                    );
                                   }
                                 : null,
                             child: Text(

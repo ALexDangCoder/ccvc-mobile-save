@@ -38,6 +38,9 @@ class TextTrangThai {
 }
 
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
+
+  bool isExpandedDropDownTiepNhan = true;
+  bool isExpandedDropDownXuLy = true;
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
   BehaviorSubject<List<bool>> selectTypeYKNDSubject =
       BehaviorSubject.seeded([true, false]);
@@ -65,8 +68,24 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int DENHAN = 2;
   static const int QUAHAN = 3;
 
+
+  void resizeDropDown() {
+    print(isExpandedDropDownTiepNhan);
+    print(isExpandedDropDownXuLy);
+    if(!isExpandedDropDownTiepNhan && !isExpandedDropDownXuLy) {
+      print('here');
+      sizeDropDown.sink.add(70);
+    }
+    if(listDanhSachKetQuaPakn.valueOrNull?.length == 1) {
+      sizeDropDown.sink.add(200);
+    } else {
+      sizeDropDown.sink.add(500);
+    }
+  }
+
   final List<ChartData> listChartPhanLoai = [];
   BehaviorSubject<bool> isShowFilterList = BehaviorSubject.seeded(false);
+  BehaviorSubject<double> sizeDropDown = BehaviorSubject.seeded(500);
   BehaviorSubject<TextTrangThai> textFilter = BehaviorSubject.seeded(
     TextTrangThai(
       S.current.all,

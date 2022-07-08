@@ -37,9 +37,13 @@ class ThanhPhanThamGiaImpl extends ThanhPhanThamGiaReponsitory {
   Future<Result<List<Officer>>> getOfficerJoin(String id) {
     return runCatchingAsync<OfficerJoinResponse, List<Officer>>(
           () => _service.getOfficerJoin(id),
-          (res) =>
-      res.data?.map((e) => e.items?.toModel() ?? Officer()).toList() ?? [],
-    );
+          (res){
+            final listOfficer = <Officer>[];
+            for(final DataResponse e in res.data ?? []){
+              listOfficer.addAll(e.toNode().toList()) ;
+            }
+            return listOfficer;
+          });
   }
 
   @override

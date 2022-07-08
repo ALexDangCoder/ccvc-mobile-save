@@ -13,12 +13,12 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_c
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/widgets/bottom_sheet_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/show_bottom_sheet_ds_y_Kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/document_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/edit_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -43,14 +43,12 @@ class ChiTietLichLamViecScreen extends StatefulWidget {
 class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit =
       ChiTietLichLamViecCubit();
-  final CreateWorkCalCubit cubit = CreateWorkCalCubit();
 
   @override
   void initState() {
     super.initState();
     chiTietLichLamViecCubit.loadApi(widget.id);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +63,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
           final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
-          String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
-          int check = dataModel.scheduleCoperatives?.indexWhere(
+          final String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
+          final int check = dataModel.scheduleCoperatives?.indexWhere(
                 (element) => element.status == 1,
               ) ??
               -1;
@@ -77,17 +75,17 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   )
                   .canBoId ??
               '';
-          String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
-          String nguoiTaoId = dataModel.createBy?.id ?? '';
-          bool isThuHoi = (canBoChuTri == hiveUserId) ||
+          final String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
+          final String nguoiTaoId = dataModel.createBy?.id ?? '';
+          final bool isThuHoi = (canBoChuTri == hiveUserId) ||
               (nguoiTaoId == hiveUserId); //===sualich===huylich
-          bool isChoYKien =
+          final bool isChoYKien =
               (nguoiTaoId == hiveUserId) || (nguoiDuocMoi == hiveUserId);
-          bool isBaoCaoKetQua = ((DateTime.parse(
-                      dataModel.dateTimeTo ?? DateTime.now().toString())
-                  .isBefore(DateTime.now())) &&
-              (isChoYKien));
-          bool isXoaLich = (check == -1) && (isThuHoi);
+          final bool isBaoCaoKetQua = (DateTime.parse(
+                dataModel.dateTimeTo ?? DateTime.now().toString(),
+              ).isBefore(DateTime.now())) &&
+              isChoYKien;
+          final bool isXoaLich = (check == -1) && isThuHoi;
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -268,6 +266,18 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
                                 listScheduleCooperatives(),
                                 spaceH8,
+                                StreamBuilder<ChiTietLichLamViecModel>(
+                                  stream: chiTietLichLamViecCubit
+                                      .chiTietLichLamViecStream,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data?.files ?? [];
+                                    return DocumentFile(
+                                      onDelete: (fileDelete) {},
+                                      files: data,
+                                      onChange: (file, validate) {},
+                                    );
+                                  },
+                                ),
                                 if (isBaoCaoKetQua)
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:

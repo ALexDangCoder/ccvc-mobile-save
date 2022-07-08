@@ -98,17 +98,13 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     String noidung,
     String date,
     bool loaiBieuQuyet,
+    String ngayBatDaus,
+    String ngayKetThucs,
   ) async {
     await themBieuQuyetHopByLuc(
       dateStart: date,
-      thoiGianBatDau: plusTaoBieuQuyet(
-        date,
-        start,
-      ),
-      thoiGianKetThuc: plusTaoBieuQuyet(
-        date,
-        end,
-      ),
+      thoiGianBatDau: ngayBatDaus,
+      thoiGianKetThuc: ngayKetThucs,
       loaiBieuQuyet: loaiBieuQuyet,
       danhSachLuaChon: listLuaChon
           .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))
@@ -197,6 +193,14 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       time.minutes,
     );
     return times.formatApiTaoBieuQuyet;
+  }
+
+  bool checkValidateBieuQuyet(String value) {
+    if (value.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   ///handle timer

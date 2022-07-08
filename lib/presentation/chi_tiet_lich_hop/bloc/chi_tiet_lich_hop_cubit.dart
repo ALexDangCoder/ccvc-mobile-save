@@ -53,10 +53,7 @@ import 'package:html_editor_enhanced/html_editor.dart';
 
 import 'package:rxdart/rxdart.dart';
 
-const DANHSACHPHATBIEU = 0;
-const CHODUYET = 1;
-const DADUYET = 2;
-const HUYDUYET = 3;
+import 'Extension/phat_bieu_ex.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
@@ -64,6 +61,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
   /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
+  String ngayBatDaus = '';
+  String ngayKetThucs = '';
   bool check = false;
   String startTime = '00:00';
   String endTime = '00:00';
@@ -83,7 +82,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String chonNgay = '';
   List<File>? listFile = [];
   PhongHop chosePhongHop = PhongHop();
+  final int maxSizeFile30 = 31457280;
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
+  BehaviorSubject<bool> isValidateTimer = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
@@ -104,7 +105,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       color: itemWidgetUsing,
     ),
     ButtonStatePhatBieu(
-      key: S.current.huy_duyet,
+      key: S.current.tu_choi,
       value: 0,
       color: statusCalenderRed,
     ),
@@ -386,7 +387,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   final BehaviorSubject<int> typeStatus = BehaviorSubject.seeded(0);
 
-  SoLuongPhatBieuModel dataSoLuongPhatBieu = SoLuongPhatBieuModel();
+  BehaviorSubject<SoLuongPhatBieuModel> dataSoLuongPhatBieuSubject =
+      BehaviorSubject<SoLuongPhatBieuModel>();
 
   final BehaviorSubject<int> checkRadioSubject = BehaviorSubject();
 
@@ -414,5 +416,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
         ), () {
       actionNeedDelay();
     });
+  }
+
+  String getTime({bool isGetDateStart = true}) {
+    return isGetDateStart
+        ? '${getChiTietLichHopModel.ngayBatDau.split(' ').first} '
+            '${getChiTietLichHopModel.timeStart}'
+        : '${getChiTietLichHopModel.ngayKetThuc.split(' ').first} '
+            '${getChiTietLichHopModel.timeTo}';
   }
 }

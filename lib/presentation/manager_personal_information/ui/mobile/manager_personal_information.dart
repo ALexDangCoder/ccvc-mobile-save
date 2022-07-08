@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -37,7 +35,6 @@ class _ManagerPersonalInformationState
 
   @override
   void initState() {
-    // TODO: implement initState
     _cubit.loadApi(id: widget.id);
     super.initState();
   }
@@ -45,9 +42,8 @@ class _ManagerPersonalInformationState
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-
       onWillPop: () async {
-        Navigator.pop(context,_cubit.checkLoad);
+        Navigator.pop(context, _cubit.checkLoad);
         return true;
       },
       child: Scaffold(
@@ -75,7 +71,6 @@ class _ManagerPersonalInformationState
                   ),
                 ).then((value) {
                   if (value == true) {
-
                     _cubit.loadApi(id: widget.id);
                     _cubit.checkLoad = true;
                   } else if (value == null) {
@@ -115,7 +110,8 @@ class _ManagerPersonalInformationState
                     }
                     return Container(
                       color: backgroundColorApp,
-                      padding: const EdgeInsets.only(top: 2, left: 16, right: 16),
+                      padding:
+                          const EdgeInsets.only(top: 2, left: 16, right: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

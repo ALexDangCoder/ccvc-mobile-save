@@ -107,8 +107,6 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
     createCubit.dateRepeat = event.dateRepeat;
 
     createCubit.scheduleReminder = event.scheduleReminder;
-    createCubit.detailCalendarWorkModel.scheduleCoperatives =
-        event.scheduleCoperatives;
     titleController.text = event.title ?? '';
     contentController.text = event.content ?? '';
     locationController.text = event.location ?? '';
@@ -255,6 +253,8 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                               value;
                                         },
                                         isEdit: true,
+                                        name:
+                                            widget.event.typeScheduleName ?? '',
                                       ),
                                       CupertinoMaterialPicker(
                                         isEdit: true,
@@ -329,10 +329,15 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                       ),
                                       NguoiChuTriWidget(
                                         cubit: createCubit,
+                                        isEdit: true,
+                                        name: widget.event.canBoChuTri?.nameUnitPosition() ??
+                                            '',
+                                        id: widget.event.canBoChuTri?.id ?? '',
                                       ),
                                       LinhVucWidget(
                                         cubit: createCubit,
                                         isEdit: true,
+                                        name : widget.event.linhVuc ?? '',
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -451,9 +456,10 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                   children: [
                                     ThanhPhanThamGiaTLWidget(
                                       taoLichLamViecCubit: createCubit,
-                                      listPeopleInit: createCubit
-                                          .detailCalendarWorkModel
-                                          .scheduleCoperatives,
+                                      listPeopleInit: widget
+                                          .cubit.listOfficer.value
+                                          .map((e) => e.toDonViModel())
+                                          .toList(),
                                     ),
                                     TaiLieuWidget(
                                       files: createCubit.files ?? [],
@@ -538,71 +544,28 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
   }
 
   void checkInside(bool data) {
-    if (!data) {
-      if (widget.event.isLichLap ?? false) {
-        showDialog(
-          context: context,
-          builder: (context) => ThemLinkHopDialog(
-            title: S.current.sua_lich_lam_viec,
-            isConfirm: false,
-            imageUrl: ImageAssets.ic_edit_cal,
-            textConfirm: S.current.ban_co_chac_chan_sua_lich,
-            textRadioAbove: S.current.chi_lich_nay,
-            textRadioBelow: S.current.tu_lich_nay,
-          ),
-        ).then((value) {
-          createCubit.checkDuplicate(
-            context: context,
-            title: titleController.value.text.removeSpace,
-            content: contentController.value.text.removeSpace,
-            location: locationController.value.text.removeSpace,
-            isEdit: true,
-            isOnly: !value,
-          );
-        });
-      } else {
-        createCubit.checkDuplicate(
-          context: context,
-          title: titleController.value.text.removeSpace,
-          content: contentController.value.text.removeSpace,
-          location: locationController.value.text.removeSpace,
-          isEdit: true,
-        );
-      }
-    } else {
-      if (widget.event.isLichLap ?? false) {
-        showDialog(
-          context: context,
-          builder: (context) => ThemLinkHopDialog(
-            title: S.current.sua_lich_lam_viec,
-            isConfirm: false,
-            imageUrl: ImageAssets.ic_edit_cal,
-            textConfirm: S.current.ban_co_chac_chan_sua_lich,
-            textRadioAbove: S.current.chi_lich_nay,
-            textRadioBelow: S.current.tu_lich_nay,
-          ),
-        ).then((value) {
-          createCubit.checkDuplicate(
-            context: context,
-            title: titleController.value.text.removeSpace,
-            content: contentController.value.text.removeSpace,
-            location: locationController.value.text.removeSpace,
-            isEdit: true,
-            isOnly: !value,
-            isInside: false,
-          );
-        });
-      } else {
-        createCubit.checkDuplicate(
-          context: context,
-          title: titleController.value.text.removeSpace,
-          content: contentController.value.text.removeSpace,
-          location: locationController.value.text.removeSpace,
-          isEdit: true,
-          isInside: false,
-        );
-      }
-    }
+    showDialog(
+      context: context,
+      builder: (context) => ThemLinkHopDialog(
+        title: S.current.sua_lich_lam_viec,
+        isConfirm: false,
+        isShowRadio: widget.event.isLichLap ?? false,
+        imageUrl: ImageAssets.ic_edit_cal,
+        textConfirm: S.current.ban_co_chac_chan_sua_lich,
+        textRadioAbove: S.current.chi_lich_nay,
+        textRadioBelow: S.current.tu_lich_nay,
+      ),
+    ).then((value) {
+      createCubit.checkDuplicate(
+        context: context,
+        title: titleController.value.text.removeSpace,
+        content: contentController.value.text.removeSpace,
+        location: locationController.value.text.removeSpace,
+        isEdit: true,
+        isOnly: !value,
+        isInside: !data,
+      );
+    });
   }
 }
 

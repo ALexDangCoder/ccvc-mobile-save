@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/ChuyenVBThanhGiong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_sach_title_hdsd.dart';

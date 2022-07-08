@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -165,7 +166,13 @@ class _ButtonSelectFileLichLamViecState
               // User canceled the picker
             }
 
-            widget.onChange(widget.files ?? [], isValidate);
+            widget.onChange(
+                (listFileValidate
+                            .where((element) => !element.isOversize)
+                            .toList())
+                        .map((e) => e.file)
+                        .toList(),
+                isValidate,);
             setState(() {});
           },
           child: Container(
@@ -223,7 +230,11 @@ class _ButtonSelectFileLichLamViecState
                           _cubit.deleteFile(e.file, widget.files ?? []);
                           listFileValidate.remove(e);
                           if (widget.hasMultipleFile) {
-                            widget.onChange(widget.files ?? [], isValidate);
+                            widget.onChange((listFileValidate
+                                .where((element) => !element.isOversize)
+                                .toList())
+                                .map((e) => e.file)
+                                .toList(), isValidate,);
                           }
                           setState(() {});
                         },

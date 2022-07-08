@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -46,9 +47,28 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           icon: ImageAssets.icNotify,
           value: widget.data.scheduleReminder?.nhacLai(),
         ),
+        if (widget.data.publishSchedule ?? false) ...[
+          spaceH10,
+          Padding(
+            padding: EdgeInsets.only(
+              left: 31.0.textScale(),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                S.current.cong_khai_lich,
+                style: textNormal(
+                  color_667793,
+                  14,
+                ),
+              ),
+            ),
+          ),
+          spaceH8,
+        ],
         rowData(
           icon: ImageAssets.icPerson,
-          value: widget.data.canBoChuTri?.hoTen ?? '',
+          value: widget.data.canBoChuTri?.namePosition() ?? '',
         ),
         rowData(icon: ImageAssets.icWork, value: widget.data.linhVuc ?? ''),
         rowData(icon: ImageAssets.icViTri, value: widget.data.location ?? ''),

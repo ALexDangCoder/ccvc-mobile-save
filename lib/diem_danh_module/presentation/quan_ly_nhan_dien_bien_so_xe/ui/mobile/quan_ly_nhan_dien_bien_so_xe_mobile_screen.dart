@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mo
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/mobile/dang_ky_thong_tin_xe_moi_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/item_loai_xe.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/widget_cap_nhat_thong_tin_dang_ky_xe.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';

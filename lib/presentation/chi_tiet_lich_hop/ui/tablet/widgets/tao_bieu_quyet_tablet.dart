@@ -9,13 +9,17 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cac_lua_chon_don_vi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/selecdate_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/radio/custom_radio_button.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
+import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,6 +44,11 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   final keyGroup = GlobalKey<FormGroupState>();
   bool isShow = false;
+  bool isShowValidate = false;
+  bool isShowValidateDanhSach = false;
+  late String timeStart;
+  late String timeEnd;
+  String thoiGianHop = '';
 
   @override
   void initState() {
@@ -47,8 +56,15 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
     widget.cubit.cacLuaChonBieuQuyet = [];
     widget.cubit.listDanhSach = [];
     widget.cubit.isValidateSubject.sink.add(false);
+    widget.cubit.isValidateTimer.sink.add(false);
     widget.cubit.date =
         coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
+    timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
+    timeEnd = widget.cubit.getChiTietLichHopModel.timeTo;
+    thoiGianHop =
+        coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau)
+            .split(' ')
+            .first;
   }
 
   @override
@@ -70,22 +86,35 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () async {
-                if (noiDungController.text.isEmpty ||
-                    widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
-                    widget.cubit.listDanhSach.isEmpty) {
+                bool isCheckCallApi = true;
+                final nav = Navigator.of(context);
+                if (isShowValidate == true) {
+                  isCheckCallApi = false;
+                  widget.cubit.isValidateTimer.sink.add(true);
+                }
+                if (noiDungController.text.isEmpty) {
+                  isCheckCallApi = false;
                   formKeyNoiDung.currentState!.validate();
+                }
+                if (widget.cubit.cacLuaChonBieuQuyet.isEmpty) {
+                  isCheckCallApi = false;
                   setState(() {});
                   isShow = true;
+                }
+                if (widget.cubit.listDanhSach.isEmpty) {
                   widget.cubit.isValidateSubject.sink.add(true);
-                } else {
-                  setState(() {});
+                  isCheckCallApi = false;
+                }
+                if (isCheckCallApi) {
                   await widget.cubit.postThemBieuQuyetHop(
                     widget.id,
                     noiDungController.text,
                     widget.cubit.date,
                     widget.cubit.loaiBieuQ,
+                    '$thoiGianHop' 'T' '$timeStart:00',
+                    '$thoiGianHop' 'T' '$timeEnd:00',
                   );
-                  Navigator.pop(context, true);
+                  nav.pop(true);
                 }
               },
             ),
@@ -121,13 +150,65 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: SizedBox(
-                    child: BaseChooseTimerWidget(
-                      key: _keyBaseTime,
-                      timeBatDau: widget.cubit.dateTimeNowStart(),
-                      timeKetThuc: widget.cubit.dateTimeNowEnd(),
-                      onChange: (start, end) {
-                        widget.cubit.start = start;
-                        widget.cubit.end = end;
+                    child: StreamBuilder<bool>(
+                      stream: widget.cubit.isValidateTimer,
+                      builder: (context, snapshot) {
+                        return ShowRequied(
+                          isShow: snapshot.data ?? true,
+                          textShow: S.current.validate_bieu_quyet,
+                          child: BaseChooseTimerWidget(
+                            key: _keyBaseTime,
+                            timeBatDau: timeStart.getTimeData(
+                              timeReturnParseFail: TimerData(
+                                hour: DateTime.now().hour,
+                                minutes: DateTime.now().minute,
+                              ),
+                            ),
+                            timeKetThuc: timeEnd.getTimeData(
+                              timeReturnParseFail: TimerData(
+                                hour: DateTime.now().hour,
+                                minutes: DateTime.now().minute,
+                              ),
+                            ),
+                            onChange: (start, end) {
+                              timeStart = start.timerToString;
+                              timeEnd = end.timerToString;
+                              final dateTimeStart =
+                                  '$thoiGianHop $timeStart'.convertStringToDate(
+                                formatPattern:
+                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
+                              );
+                              final dateTimeEnd =
+                                  '$thoiGianHop $timeEnd'.convertStringToDate(
+                                formatPattern:
+                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
+                              );
+                              if (dateTimeStart.isBefore(
+                                    widget.cubit.getTime().convertStringToDate(
+                                          formatPattern:
+                                              DateFormatApp.monthDayFormat,
+                                        ),
+                                  ) ||
+                                  dateTimeEnd.isAfter(
+                                    widget.cubit
+                                        .getTime(isGetDateStart: false)
+                                        .convertStringToDate(
+                                          formatPattern:
+                                              DateFormatApp.monthDayFormat,
+                                        ),
+                                  )) {
+                                widget.cubit.isValidateTimer.sink.add(true);
+                                isShowValidate = true;
+                              } else {
+                                widget.cubit.isValidateTimer.sink.add(false);
+                                isShowValidate = false;
+                              }
+                            },
+                            validator: (timeBegin, timerEn) {
+                              return timeBegin.equalTime(timerEn);
+                            },
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -177,7 +258,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   builder: (context, snapshot) {
                     return ShowRequied(
                       isShow: snapshot.data ?? true,
-                      textShow: '${S.current.vui_long_nhap}'
+                      textShow: '${S.current.vui_long_chon_bieu_quyet}'
                           ' ${S.current.thanh_phan_bieu_quyet}',
                       child: InputInfoUserWidget(
                         isObligatory: true,

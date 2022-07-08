@@ -24,7 +24,7 @@ class FilterDateTimeWidget extends StatefulWidget {
     this.isMobile = true,
     this.initStartDate,
     this.initEndDate,
-  }) : super(key: key) {}
+  }) : super(key: key) ;
 
   @override
   _FilterDateTimeWidgetState createState() => _FilterDateTimeWidgetState();

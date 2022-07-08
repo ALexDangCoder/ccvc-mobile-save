@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 
 extension StatusCooperative on DonViModel {
   String get getTextStatus {

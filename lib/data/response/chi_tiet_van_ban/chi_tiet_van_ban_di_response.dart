@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
+import 'package:ccvc_mobile/domain/model/document/luong_xu_ly_vb_di.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -411,7 +412,7 @@ class NguoiKyDuyetDiResponse {
         idHost: idHost,
         tenNguoiKy: tenNguoiKy,
         donViNguoiKy: donViNguoiKy,
-        vaiTro: vaiTro,
+        vaiTro: LuongXuLyVBDiModel.getLoaiBanHanh(loaiBanHanh).title,
         chucVu: chucVu,
         loaiBanHanh: loaiBanHanh,
         thuTu: thuTu,

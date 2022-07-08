@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/config/base/base_state.dart';
-import 'package:equatable/equatable.dart';
 
 abstract class CreateWorkCalState extends BaseState {
   const CreateWorkCalState();

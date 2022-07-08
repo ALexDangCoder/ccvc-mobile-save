@@ -1,10 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-import 'data_view_calendar_day.dart';
 
 class DataViewCalendarWeek extends StatefulWidget {
   const DataViewCalendarWeek({
@@ -87,7 +86,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         viewHeaderHeight: widget.isTablet ? -1 : 0,
         controller: widget.fCalendarController,
         view: CalendarView.week,
-        todayHighlightColor: labelColor,
+        todayHighlightColor: statusCalenderRed,
         appointmentTimeTextFormat: 'hh:mm:ss',
         resourceViewSettings: ResourceViewSettings(
           displayNameTextStyle: textNormalCustom(
@@ -103,7 +102,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
             color: colorA2AEBD,
           ),
         ),
-
         monthViewSettings: MonthViewSettings(
           appointmentDisplayCount: 2,
           monthCellStyle: MonthCellStyle(
@@ -135,7 +133,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
               child: Container(
                 color: Colors.transparent,
                 child: const Icon(
-                  Icons.more_vert,
+                  Icons.more_horiz,
                   color: textBodyTime,
                 ),
               ),
@@ -148,6 +146,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   }
 
   String expandText(int sum) {
-    return '${sum}+';
+    return '$sum+';
   }
 }

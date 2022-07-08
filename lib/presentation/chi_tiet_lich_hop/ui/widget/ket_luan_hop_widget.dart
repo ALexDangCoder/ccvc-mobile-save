@@ -101,19 +101,32 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   Widget ketLuanHop() => StreamBuilder<KetLuanHopModel>(
         stream: widget.cubit.ketLuanHopSubject.stream,
         builder: (context, snapshot) {
-          final data = snapshot.data;
-          if (data != null && widget.cubit.xemKetLuanHop()) {
-            final data = snapshot.data;
+          final data = snapshot.data ?? KetLuanHopModel();
+          if ((data.title ?? '').isEmpty && widget.cubit.isSoanKetLuanHop()) {
+            return IconWithTiltleWidget(
+              icon: ImageAssets.icDocument2,
+              title: S.current.soan_ket_luan_hop,
+              onPress: () {
+                xemOrTaoOrSuaKetLuanHop(
+                  cubit: widget.cubit,
+                  context: context,
+                  title: S.current.soan_ket_luan_hop,
+                  isCreate: true,
+                  listFile: [],
+                );
+              },
+            );
+          } else if (widget.cubit.xemKetLuanHop()) {
             return Column(
               children: [
                 ItemKetLuanHopWidget(
-                  title: '${S.current.ket_luan_hop} (${data?.title ?? ''})',
-                  time: data?.thoiGian ?? '',
-                  trangThai: data?.trangThai ?? TrangThai.CHO_DUYET,
-                  tinhTrang: data?.tinhTrang ?? TinhTrang.TRUNG_BINH,
+                  title: '${S.current.ket_luan_hop} (${data.title ?? ''})',
+                  time: data.thoiGian,
+                  trangThai: data.trangThai,
+                  tinhTrang: data.tinhTrang,
                   id: widget.cubit.idCuocHop,
                   cubit: widget.cubit,
-                  listFile: data?.file ?? [],
+                  listFile: data.file ?? [],
                 ),
                 if (!widget.cubit.isDuyetOrHuyKetLuanHop())
                   Padding(
@@ -159,21 +172,6 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                     ),
                   ),
               ],
-            );
-          }
-          if (widget.cubit.isSoanKetLuanHop()) {
-            return IconWithTiltleWidget(
-              icon: ImageAssets.icDocument2,
-              title: S.current.soan_ket_luan_hop,
-              onPress: () {
-                xemOrTaoOrSuaKetLuanHop(
-                  cubit: widget.cubit,
-                  context: context,
-                  title: S.current.ket_luan_cuoc_hop,
-                  isCreate: true,
-                  listFile: [],
-                );
-              },
             );
           }
           return const Padding(
@@ -342,7 +340,6 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           btnLeftTxt: S.current.khong,
                           funcBtnRight: () {
                             cubit.thuHoiKetLuanHop();
-                            Navigator.pop(context);
                           },
                           title: S.current.thu_hoi_ket_luan_hop,
                           btnRightTxt: S.current.dong_y,
@@ -355,26 +352,80 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       urlImage: ImageAssets.icDeleteRed,
                       text: S.current.xoa,
                       onTap: () {
-                        showDiaLog(
-                          context,
-                          textContent:
-                              S.current.ban_co_chac_chan_muon_xoa_klh_nay,
-                          btnLeftTxt: S.current.khong,
-                          funcBtnRight: () {
-                            cubit
-                                .deleteKetLuanHop(
-                                  cubit.xemKetLuanHopModel.id ?? '',
-                                )
-                                .then(
-                                  (value) => cubit.getXemKetLuanHop(
-                                    cubit.idCuocHop,
+                        isMobile()
+                            ? showDiaLog(
+                                context,
+                                textContent:
+                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                btnLeftTxt: S.current.khong,
+                                funcBtnRight: () async {
+                                  await cubit
+                                      .deleteKetLuanHop(
+                                    cubit.xemKetLuanHopModel.id ?? '',
+                                  )
+                                      .then((value) {
+                                    if (value) {
+                                      cubit.getXemKetLuanHop(
+                                        cubit.idCuocHop,
+                                      );
+                                    }
+                                  });
+                                },
+                                title: S.current.xoa,
+                                btnRightTxt: S.current.dong_y,
+                                icon: Container(
+                                  width: 56,
+                                  height: 56,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: statusCalenderRed.withOpacity(0.1),
                                   ),
-                                );
-                          },
-                          title: S.current.xoa_ket_luan_hop,
-                          btnRightTxt: S.current.dong_y,
-                          icon: SvgPicture.asset(ImageAssets.XoaKLHop),
-                        );
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SvgPicture.asset(
+                                      ImageAssets.ic_delete_do,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : showDiaLog(
+                                context,
+                                textContent:
+                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                btnLeftTxt: S.current.khong,
+                                funcBtnRight: () async {
+                                  await cubit
+                                      .deleteKetLuanHop(
+                                    cubit.xemKetLuanHopModel.id ?? '',
+                                  )
+                                      .then((value) {
+                                    if (value) {
+                                      cubit.getXemKetLuanHop(
+                                        cubit.idCuocHop,
+                                      );
+                                    }
+                                  });
+                                },
+                                showTablet: true,
+                                title: S.current.xoa,
+                                btnRightTxt: S.current.dong_y,
+                                icon: Container(
+                                  width: 56,
+                                  height: 56,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: statusCalenderRed.withOpacity(0.1),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SvgPicture.asset(
+                                      ImageAssets.ic_delete_do,
+                                    ),
+                                  ),
+                                ),
+                              );
                       },
                     ),
                 ],
@@ -424,13 +475,14 @@ class ItemKetLuanHopWidget extends StatelessWidget {
   }
 }
 
-void xemOrTaoOrSuaKetLuanHop(
-    {required DetailMeetCalenderCubit cubit,
-    required BuildContext context,
-    required String title,
-    bool? isCreate,
-    bool? isOnlyViewContent,
-    required List<String> listFile}) {
+void xemOrTaoOrSuaKetLuanHop({
+  required DetailMeetCalenderCubit cubit,
+  required BuildContext context,
+  required String title,
+  bool? isCreate,
+  bool? isOnlyViewContent,
+  required List<String> listFile,
+}) {
   if (isMobile()) {
     showBottomSheetCustom(
       context,

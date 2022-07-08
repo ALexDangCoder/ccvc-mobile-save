@@ -54,7 +54,7 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
               return Visibility(
                 visible: data,
                 child: SolidButton(
-                  text: S.current.danh_sach_y_kien,
+                  text: S.current.them_y_kien,
                   urlIcon: ImageAssets.ic_danhsachykien,
                   onTap: () {
                     showBottomSheetCustom(

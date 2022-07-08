@@ -77,7 +77,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                                 child: Container(
                                   height: 6,
                                   width: double.infinity,
-                                  color: data.getLoaiBanHanh().color,
+                                  color: LuongXuLyVBDiModel.getLoaiBanHanh(data.loaiXuLy).color,
                                 ),
                               ),
                               const SizedBox(
@@ -141,7 +141,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Text(data.getLoaiBanHanh().title,
+                              Text(LuongXuLyVBDiModel.getLoaiBanHanh(data.loaiXuLy).title,
                                   style: textNormal(borderCaneder, 14)),
                               const SizedBox(
                                 height: 6,

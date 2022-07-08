@@ -38,7 +38,7 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
     this.onSubmit,
     this.onClose,
     this.isBtnClose = false,
-  }) : super(key: key) {}
+  }) : super(key: key) ;
 
   @override
   _FilterDateTimeWidgetTabletState createState() =>

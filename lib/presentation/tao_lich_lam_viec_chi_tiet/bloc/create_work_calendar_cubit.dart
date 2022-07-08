@@ -305,7 +305,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     required String location,
     bool isEdit = false,
     bool isInside = true,
-    bool isOnly = true,
+    bool? isOnly,
   }) async {
     showLoading();
     final result = await _workCal.checkDuplicate(
@@ -384,7 +384,8 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     );
   }
 
-  Future<void> createWorkCalendar({
+  Future<void> createWorkCalendar
+      ({
     required String title,
     required String content,
     required String location,
@@ -460,12 +461,12 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     required String title,
     required String content,
     required String location,
-    bool only = true,
+    bool? only,
   }) async {
     showLoading();
     final result = await _workCal.suaLichLamViec(
       title: title,
-      typeScheduleId: selectLoaiLich?.id ?? '',
+      typeScheduleId: selectLoaiLichId ?? '',
       linhVucId: selectLinhVuc?.id ?? '',
       TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
       TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
@@ -498,7 +499,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       typeRepeat: selectLichLap.id ?? 0,
       dateRepeat: dateFrom ?? DateTime.now().formatApi,
       dateRepeat1: dateTimeLapDenNgay.formatApi,
-      only: only,
+      only: only ?? true,
       days: lichLapItem1,
     );
     result.when(
@@ -517,12 +518,12 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     required String title,
     required String content,
     required String location,
-    bool only = true,
+    bool? only ,
   }) async {
     showLoading();
     final result = await _workCal.editWorkCalendarWorkAboard(
       title,
-      selectLoaiLich?.id ?? '',
+      selectLoaiLichId ?? '',
       selectLinhVuc?.id ?? '',
       tinhSelectModel?.tenTinhThanh ?? '',
       huyenSelectModel?.tenQuanHuyen ?? '',
@@ -556,7 +557,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       selectLichLap.id ?? 0,
       dateFrom ?? DateTime.now().formatApi,
       dateTimeLapDenNgay.formatApi,
-      only,
+      only ?? true,
       lichLapItem1,
     );
     result.when(

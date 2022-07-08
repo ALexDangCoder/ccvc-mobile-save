@@ -22,6 +22,7 @@ const tabUnselected = Color(0xFFA9B8BD);
 //sideTextInactiveColor
 //custom color
 const color_464646 = Color(0xFF464646);
+const color_667793 = Color(0xFF667793);
 const signInRowColor = Color(0xFFA9B8BD);
 const signInTextColor = Color(0xff0ABAB5);
 const colorB9C4D0 = Color(0xFFB9C4D0);
@@ -213,6 +214,10 @@ const grayChart = Color(0xFF667793);
 const textTitleColumn = Color(0xff667793);
 const blueFilterDateWidget = Color(0xFFF1F4FF);
 const enableButton = Color(0xFFc0c0c0);
+const color7966FF = Color(0xFF7966FF);
+const colorF9FAFF = Color(0xFFF9FAFF);
+const colorEA5455 = Color(0xFFEA5455);
+const color20C997 = Color(0xFF20C997);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

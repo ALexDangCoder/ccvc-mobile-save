@@ -36,4 +36,8 @@ mixin HoTroKyThuatRepository {
   Future<Result<ChartSuCoModel>> getChartSuCo();
 
   Future<Result<List<NguoiTiepNhanYeuCauModel>>> getNguoiTiepNhanYeuCau();
+
+  Future<Result<bool>> deleteTask(
+    List<String> listId,
+  );
 }

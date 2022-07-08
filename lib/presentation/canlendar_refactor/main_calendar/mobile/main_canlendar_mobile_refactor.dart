@@ -23,6 +23,7 @@ import 'package:flutter_svg/svg.dart';
 
 class MainCanlendanMobileRefactor extends StatefulWidget {
   final bool isBack;
+
   const MainCanlendanMobileRefactor({Key? key, this.isBack = false})
       : super(key: key);
 
@@ -74,18 +75,19 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
               Visibility(
                 visible: widget.isBack,
                 child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child:  Container(
-                      color: Colors.transparent,
-                      child: Padding(
-                        padding:const EdgeInsets.symmetric(horizontal: 16),
-                        child: SvgPicture.asset(
-                          ImageAssets.icBack,
-                        ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: SvgPicture.asset(
+                        ImageAssets.icBack,
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ),
               cubit.controller.getIcon(),
             ],
@@ -128,7 +130,9 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
                     controller: cubit.controller,
                     onChangeYear: (startDate, endDate, keySearch) {
                       cubit.dayHaveEvent(
-                          startDate: startDate, endDate: endDate);
+                        startDate: startDate,
+                        endDate: endDate,
+                      );
                     },
                   );
                 },

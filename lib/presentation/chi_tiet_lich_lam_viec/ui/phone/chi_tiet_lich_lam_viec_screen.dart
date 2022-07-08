@@ -51,6 +51,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     chiTietLichLamViecCubit.loadApi(widget.id);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
@@ -64,6 +65,29 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
           final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
+          String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
+          int check = dataModel.scheduleCoperatives?.indexWhere(
+                (element) => element.status == 1,
+              ) ??
+              -1;
+          String nguoiDuocMoi = dataModel.scheduleCoperatives
+                  ?.firstWhere(
+                    (element) => element.canBoId == hiveUserId,
+                    orElse: () => ScheduleCoperatives(),
+                  )
+                  .canBoId ??
+              '';
+          String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
+          String nguoiTaoId = dataModel.createBy?.id ?? '';
+          bool isThuHoi = (canBoChuTri == hiveUserId) ||
+              (nguoiTaoId == hiveUserId); //===sualich===huylich
+          bool isChoYKien =
+              (nguoiTaoId == hiveUserId) || (nguoiDuocMoi == hiveUserId);
+          bool isBaoCaoKetQua = ((DateTime.parse(
+                      dataModel.dateTimeTo ?? DateTime.now().toString())
+                  .isBefore(DateTime.now())) &&
+              (isChoYKien));
+          bool isXoaLich = (check == -1) && (isThuHoi);
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -72,72 +96,81 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                         actions: [
                           MenuSelectWidget(
                             listSelect: [
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icHuy,
-                                text: S.current.huy,
-                                onTap: () {
-                                  checkCancelDuplicateCal(
-                                    dataModel.isLichLap ?? false,
-                                  );
-                                },
-                              ),
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icChartFocus,
-                                text: S.current.bao_cao_ket_qua,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: S.current.bao_cao_ket_qua,
-                                    child: BaoCaoBottomSheet(
-                                      scheduleId: widget.id,
-                                      cubit: BaoCaoKetQuaCubit(),
-                                      listTinhTrangBaoCao:
-                                          chiTietLichLamViecCubit.listTinhTrang,
-                                    ),
-                                  ).then((value) {
-                                    if (value is bool && value) {
-                                      chiTietLichLamViecCubit
-                                          .getDanhSachBaoCaoKetQua(widget.id);
-                                    }
-                                  });
-                                },
-                              ),
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icChoYKien,
-                                text: S.current.cho_y_kien,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: S.current.y_kien,
-                                    child: YKienBottomSheet(
-                                      id: widget.id,
-                                    ),
-                                  ).then((value) {
-                                    if (value == true) {
-                                      chiTietLichLamViecCubit
-                                          .loadApi(widget.id);
-                                    } else if (value == null) {
-                                      return;
-                                    }
-                                  });
-                                },
-                              ),
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icDelete,
-                                text: S.current.xoa_lich,
-                                onTap: () {
-                                  checkDeleteDuplicateCal(
-                                    dataModel.isLichLap ?? false,
-                                  );
-                                },
-                              ),
-                              if ((dataModel.canBoChuTri?.id ?? '') ==
-                                          (HiveLocal.getDataUser()?.userId ??
-                                              '') &&
-                                      ((dataModel.canBoChuTri?.id ?? '')
-                                          .isNotEmpty) ||
-                                  (HiveLocal.getDataUser()?.userId ?? '')
-                                      .isNotEmpty) ...[
+                              ///huy
+                              if (isThuHoi) ...[
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icHuy,
+                                  text: S.current.huy,
+                                  onTap: () {
+                                    checkCancelDuplicateCal(
+                                      dataModel.isLichLap ?? false,
+                                    );
+                                  },
+                                ),
+                              ],
+
+                              ///bao cao ket qua
+                              if (isBaoCaoKetQua)
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icChartFocus,
+                                  text: S.current.bao_cao_ket_qua,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: S.current.bao_cao_ket_qua,
+                                      child: BaoCaoBottomSheet(
+                                        scheduleId: widget.id,
+                                        cubit: BaoCaoKetQuaCubit(),
+                                        listTinhTrangBaoCao:
+                                            chiTietLichLamViecCubit
+                                                .listTinhTrang,
+                                      ),
+                                    ).then((value) {
+                                      if (value is bool && value) {
+                                        chiTietLichLamViecCubit
+                                            .getDanhSachBaoCaoKetQua(widget.id);
+                                      }
+                                    });
+                                  },
+                                ),
+
+                              ///cho y kien
+                              if (isChoYKien)
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icChoYKien,
+                                  text: S.current.cho_y_kien,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: S.current.y_kien,
+                                      child: YKienBottomSheet(
+                                        id: widget.id,
+                                      ),
+                                    ).then((value) {
+                                      if (value == true) {
+                                        chiTietLichLamViecCubit
+                                            .loadApi(widget.id);
+                                      } else if (value == null) {
+                                        return;
+                                      }
+                                    });
+                                  },
+                                ),
+
+                              ///xoa lich
+                              if (isXoaLich)
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icDelete,
+                                  text: S.current.xoa_lich,
+                                  onTap: () {
+                                    checkDeleteDuplicateCal(
+                                      dataModel.isLichLap ?? false,
+                                    );
+                                  },
+                                ),
+
+                              ///thu hoi lich
+                              if (isThuHoi) ...[
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icRecall,
                                   text: S.current.thu_hoi,
@@ -157,27 +190,31 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   },
                                 )
                               ],
-                              CellPopPupMenu(
-                                urlImage: ImageAssets.icEditBlue,
-                                text: S.current.sua_lich,
-                                onTap: () {
-                                  showBottomSheetCustom(
-                                    context,
-                                    title: '',
-                                    textOption: false,
-                                    child: EditCalendarWork(
-                                      cubit: chiTietLichLamViecCubit,
-                                      event: dataModel,
-                                    ),
-                                  ).then((value) {
-                                    if (value == true) {
-                                      Navigator.pop(context, true);
-                                    } else if (value == null) {
-                                      return;
-                                    }
-                                  });
-                                },
-                              ),
+
+                              ///sua lich
+                              if (isThuHoi) ...[
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icEditBlue,
+                                  text: S.current.sua_lich,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: '',
+                                      textOption: false,
+                                      child: EditCalendarWork(
+                                        cubit: chiTietLichLamViecCubit,
+                                        event: dataModel,
+                                      ),
+                                    ).then((value) {
+                                      if (value == true) {
+                                        Navigator.pop(context, true);
+                                      } else if (value == null) {
+                                        return;
+                                      }
+                                    });
+                                  },
+                                ),
+                              ]
                             ],
                           ),
                           const SizedBox(
@@ -231,10 +268,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
                                 listScheduleCooperatives(),
                                 spaceH8,
-                                BtnShowChinhSuaBaoCao(
-                                  chiTietLichLamViecCubit:
-                                      chiTietLichLamViecCubit,
-                                ),
+                                if (isBaoCaoKetQua)
+                                  BtnShowChinhSuaBaoCao(
+                                    chiTietLichLamViecCubit:
+                                        chiTietLichLamViecCubit,
+                                  ),
                                 DanhSachYKienButtom(
                                   id: widget.id,
                                   cubit: chiTietLichLamViecCubit,
@@ -262,7 +300,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                                       isThamGia: false,
                                                       lyDo: '',
                                                     ),
-                                                  );
+                                                  )
+                                                      .then((value) {
+                                                    chiTietLichLamViecCubit
+                                                        .loadApi(widget.id);
+                                                  });
                                                 },
                                                 textColor: buttonColor,
                                               ),
@@ -282,7 +324,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                                       isThamGia: true,
                                                       lyDo: '',
                                                     ),
-                                                  );
+                                                  )
+                                                      .then((value) {
+                                                    chiTietLichLamViecCubit
+                                                        .loadApi(widget.id);
+                                                  });
                                                 },
                                                 textColor: Colors.white,
                                               ),

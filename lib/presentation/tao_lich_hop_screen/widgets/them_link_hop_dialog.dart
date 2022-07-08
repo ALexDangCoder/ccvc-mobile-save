@@ -15,6 +15,7 @@ class ThemLinkHopDialog extends StatefulWidget {
     this.textRadioBelow,
     this.isConfirm = true,
     this.textConfirm,
+    this.isShowRadio = true,
   }) : super(key: key);
   final String? title;
   final String? textConfirm;
@@ -22,6 +23,7 @@ class ThemLinkHopDialog extends StatefulWidget {
   final String? textRadioAbove;
   final String? textRadioBelow;
   final bool isConfirm;
+  final bool isShowRadio;
 
   @override
   State<ThemLinkHopDialog> createState() => _ThemLinkHopDialogState();
@@ -69,35 +71,42 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
                 ),
                 spaceH20,
               ],
-              Center(
-                child: RadioButton<bool>(
-                  value: isLinkHeThong,
+              if (widget.isShowRadio) ...[
+                Center(
+                  child: RadioButton<bool>(
+                    value: isLinkHeThong,
+                    groupValue: true,
+                    onChange: (value) {
+                      isLinkHeThong = true;
+                      setState(() {});
+                    },
+                    title:
+                        widget.textRadioAbove ?? S.current.link_trong_he_thong,
+                    mainAxisSize: MainAxisSize.min,
+                  ),
+                ),
+                spaceH20,
+                RadioButton<bool>(
+                  value: !isLinkHeThong,
                   groupValue: true,
                   onChange: (value) {
-                    isLinkHeThong = true;
+                    isLinkHeThong = false;
                     setState(() {});
                   },
-                  title: widget.textRadioAbove ?? S.current.link_trong_he_thong,
+                  title: widget.textRadioBelow ?? S.current.link_ngoai_he_thong,
                   mainAxisSize: MainAxisSize.min,
                 ),
-              ),
-              spaceH20,
-              RadioButton<bool>(
-                value: !isLinkHeThong,
-                groupValue: true,
-                onChange: (value) {
-                  isLinkHeThong = false;
-                  setState(() {});
-                },
-                title: widget.textRadioBelow ?? S.current.link_ngoai_he_thong,
-                mainAxisSize: MainAxisSize.min,
-              ),
-              spaceH30,
+                spaceH30,
+              ],
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: DoubleButtonBottom(
                   onPressed2: () {
-                    Navigator.pop(context, isLinkHeThong);
+                    if (widget.isShowRadio) {
+                      Navigator.pop(context, isLinkHeThong);
+                    } else {
+                      Navigator.pop(context);
+                    }
                   },
                   onPressed1: () {
                     Navigator.pop(context);

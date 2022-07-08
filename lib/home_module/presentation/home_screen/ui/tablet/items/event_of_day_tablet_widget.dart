@@ -40,7 +40,7 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
-      title: S.current.su_kien,
+      title: S.current.su_kien_trong_ngay,
       minHeight: 415,
       maxHeight: 415,
       selectKeyDialog: _suKienTrongNgayCubit,

@@ -99,7 +99,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                     bool isOverSize = false;
                     errText = '';
                     for (int i = 0; i < listSelect.length; i++) {
-                      if (listSelect[i].lengthSync() > widget.maxSize!) {
+                      if (listSelect[i].lengthSync() < widget.maxSize!) {
                         listSelect.removeAt(i);
                         isOverSize = true;
                       }

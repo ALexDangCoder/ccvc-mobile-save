@@ -1,20 +1,27 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/send_comment_widget_lich_hop.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_hoi_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CommentWidget extends StatefulWidget {
   final String id;
   final DetailMeetCalenderCubit cubit;
   final YkienCuocHopModel object;
 
-  const CommentWidget(
-      {Key? key, required this.object, required this.cubit, required this.id})
-      : super(key: key);
+  const CommentWidget({
+    Key? key,
+    required this.object,
+    required this.cubit,
+    required this.id,
+  }) : super(key: key);
 
   @override
   _CommentWidgetState createState() => _CommentWidgetState();
@@ -48,30 +55,24 @@ class _CommentWidgetState extends State<CommentWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              YkienWidget(
+              yKienWidget(
                 nguoiTao: widget.object.nguoiTao ?? '',
-                ngayTao: widget.object.ngayTao ?? '',
+                ngayTao:
+                    widget.cubit.coverDateFormat(widget.object.ngayTao ?? ''),
                 content: widget.object.content ?? '',
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.y_kien,
+                    child: PhanHoiWidget(
+                      cubit: widget.cubit,
+                      id: widget.cubit.idCuocHop,
+                    ),
+                  );
+                },
               ),
               SizedBox(
                 height: 16.0.textScale(space: 4.0),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: GestureDetector(
-                  onTap: () {
-                    showRecoment = !showRecoment;
-                    setState(() {});
-                  },
-                  child: Text(
-                    showRecoment ? 'Ẩn' : 'Hiện',
-                    style: textNormalCustom(
-                      color: color3D5586,
-                      fontSize: 14.0.textScale(),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
               ),
               if (showRecoment)
                 ListView.builder(
@@ -81,7 +82,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(left: 48, bottom: 16),
-                      child: YkienWidget(
+                      child: yKienWidget(
                         nguoiTao: data[index].nguoiTao ?? '',
                         ngayTao: data[index].ngayTao ?? '',
                         content: data[index].content ?? '',
@@ -89,24 +90,24 @@ class _CommentWidgetState extends State<CommentWidget> {
                     );
                   },
                 ),
-              Padding(
-                padding: const EdgeInsets.only(left: 48),
-                child: SendCommentWidgetLichHop(
-                  isReComment: true,
-                  onSendComment: (vl) {
-                    widget.cubit.themYKien(
-                      idLichHop: widget.id,
-                      yKien: vl,
-                      scheduleOpinionId: widget.object.id ?? '',
-                      phienHopId: '',
-                    );
-                    widget.cubit.getDanhSachYKien(
-                      widget.id,
-                      widget.cubit.getPhienHopId,
-                    );
-                  },
-                ),
-              )
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 48),
+              //   child: SendCommentWidgetLichHop(
+              //     isReComment: true,
+              //     onSendComment: (vl) {
+              //       widget.cubit.themYKien(
+              //         idLichHop: widget.id,
+              //         yKien: vl,
+              //         scheduleOpinionId: widget.object.id ?? '',
+              //         phienHopId: '',
+              //       );
+              //       widget.cubit.getDanhSachYKien(
+              //         widget.id,
+              //         widget.cubit.getPhienHopId,
+              //       );
+              //     },
+              //   ),
+              // )
             ],
           ),
         ),
@@ -114,25 +115,24 @@ class _CommentWidgetState extends State<CommentWidget> {
     );
   }
 
-  Widget YkienWidget({
+  Widget yKienWidget({
     required String nguoiTao,
     required String ngayTao,
     required String content,
+    Function()? onTap,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              flex: 3,
-              child: Text(
-                nguoiTao,
-                style: textNormalCustom(
-                  color: color3D5586,
-                  fontSize: 14.0.textScale(),
-                  fontWeight: FontWeight.w500,
-                ),
+            Text(
+              nguoiTao,
+              style: textNormalCustom(
+                color: color3D5586,
+                fontSize: 14.0.textScale(),
+                fontWeight: FontWeight.w500,
               ),
             ),
             // const Spacer(),
@@ -152,13 +152,26 @@ class _CommentWidgetState extends State<CommentWidget> {
         const SizedBox(
           height: 12,
         ),
-        Text(
-          content,
-          style: textNormalCustom(
-            color: color3D5586,
-            fontSize: 14.0.textScale(),
-            fontWeight: FontWeight.w400,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              content,
+              style: textNormalCustom(
+                color: color3D5586,
+                fontSize: 14.0.textScale(),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (onTap != null) {
+                  onTap();
+                }
+              },
+              child: SvgPicture.asset(ImageAssets.ic_phan_hoi),
+            )
+          ],
         ),
       ],
     );

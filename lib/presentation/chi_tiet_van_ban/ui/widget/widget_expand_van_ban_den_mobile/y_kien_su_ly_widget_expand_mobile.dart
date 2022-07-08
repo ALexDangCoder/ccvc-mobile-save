@@ -2,19 +2,15 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-
-import '../comment_widget.dart';
 
 class YKienXuLyExpandWidgetMobile extends StatefulWidget {
   final CommentsDetailDocumentCubit cubit;
@@ -337,11 +333,11 @@ class _YKienXuLyExpandWidgetMobileState
             .map(
               (e) => GestureDetector(
                 onTap: () {
-                  final baseURL = Get.find<AppConstants>().baseUrlQLNV;
                   saveFile(
-                      url: e.fileDinhKem?.duongDan ?? '',
-                      fileName: e.fileDinhKem?.ten ?? '',
-                      downloadType: DomainDownloadType.QLNV);
+                    url: e.fileDinhKem?.duongDan ?? '',
+                    fileName: e.fileDinhKem?.ten ?? '',
+                    downloadType: DomainDownloadType.QLNV,
+                  );
                 },
                 child: SizedBox(
                   child: Text(
@@ -375,7 +371,6 @@ class _YKienXuLyExpandWidgetMobileState
       return Expanded(
         child: InkWell(
           onTap: () {
-            print(index);
             setState(() {
               indexActiveRelay = index;
             });

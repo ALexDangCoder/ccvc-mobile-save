@@ -181,11 +181,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(id);
     rs.when(
       success: (data) {
-        final tmp = data.where((element) => element.status == 0).toList();
-        listOfficer.sink.add(tmp);
-        listRecall.sink.add(tmp);
-        dataRecall = tmp;
-        officersTmp = tmp;
+        listOfficer.sink.add(data);
+        listRecall.sink.add(data);
+        dataRecall = data;
+        officersTmp = data;
       },
       error: (error) {},
     );
@@ -217,6 +216,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         if (element.userId == currentUserId &&
             (element.userId?.isNotEmpty ?? false) &&
             currentUserId.isNotEmpty &&
+            //Todo: chờ ba xác nhận (status)
             element.isConfirm == false) {
           showButtonApprove.sink.add(true);
         } else {
@@ -402,13 +402,6 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       this.tinhTrangBaoCaoModel,
       this.fileInit = const []}) {
     reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
-  }
-
-  void init(List<TinhTrangBaoCaoModel> list) {
-    if (list.isNotEmpty) {
-      reportStatusId = list.first.id ?? '';
-      tinhTrangBaoCaoModel = list.first;
-    }
   }
 
   Future<void> createScheduleReport(String scheduleId, String content) async {

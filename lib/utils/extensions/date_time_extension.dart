@@ -72,6 +72,10 @@ extension DateFormatString on DateTime {
     return DateFormat('yyyy-MM-dd HH:mm').format(this);
   }
 
+  String get formatYKienChiTietHop {
+    return DateFormat('dd/MM/yyyy HH:mm').format(this);
+  }
+
   String get formatHourMinute {
     return DateFormat('HH:mm').format(this);
   }

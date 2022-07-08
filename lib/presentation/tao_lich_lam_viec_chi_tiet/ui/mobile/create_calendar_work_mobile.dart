@@ -183,6 +183,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                                 ),
                               );
                             }
+
                             if (timeStart != INIT_TIME_PICK &&
                                 dateStart != INIT_DATE_PICK) {
                               createCubit.listeningStartDataTime(
@@ -283,9 +284,17 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? false;
                             return data
-                                ? ItemLapDenNgayWidget(
-                                    taoLichLamViecCubit: createCubit,
-                                    isThem: true,
+                                ? StreamBuilder<DateTime>(
+                                    stream: createCubit.endDateSubject.stream,
+                                    builder: (context, snapshot) {
+                                      final initDate =
+                                          snapshot.data ?? DateTime.now();
+                                      return ItemLapDenNgayWidget(
+                                        taoLichLamViecCubit: createCubit,
+                                        isThem: true,
+                                        initDate: initDate,
+                                      );
+                                    },
                                   )
                                 : Container();
                           },
@@ -323,8 +332,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                textColor:  AppTheme.getInstance()
-                                    .colorField(),
+                                textColor: AppTheme.getInstance().colorField(),
                               ),
                             ),
                             const SizedBox(

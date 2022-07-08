@@ -13,9 +13,9 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_c
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/widgets/bottom_sheet_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/show_bottom_sheet_ds_y_Kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/document_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/document_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/edit_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
@@ -403,12 +403,12 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   }
 
   void checkRecallDuplicateCal(bool isDup) {
-    if (isDup) {
       showDialog(
         context: context,
         builder: (context) => ThemLinkHopDialog(
           title: S.current.thu_hoi_lich,
           isConfirm: false,
+          isShowRadio: isDup,
           imageUrl: ImageAssets.icThuHoi,
           textConfirm: S.current.ban_co_chac_muon_thu_hoi_lich,
           textRadioAbove: S.current.chi_lich_nay,
@@ -419,95 +419,44 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
             .recallCalendar(isMulti: !value)
             .then((_) => Navigator.pop(context, true)),
       );
-    } else {
-      showDiaLog(
-        context,
-        textContent: S.current.ban_co_chac_muon_thu_hoi_lich,
-        btnLeftTxt: S.current.khong,
-        funcBtnRight: () async {
-          Navigator.pop(context);
-          await chiTietLichLamViecCubit.recallCalendar().then(
-                (_) => Navigator.pop(context, true),
-              );
-        },
-        title: S.current.thu_hoi_lich,
-        btnRightTxt: S.current.dong_y,
-        icon: SvgPicture.asset(
-          ImageAssets.icThuHoi,
-        ),
-      );
-    }
   }
 
   void checkDeleteDuplicateCal(bool isDup) {
-    if (isDup) {
-      showDialog(
-        context: context,
-        builder: (context) => ThemLinkHopDialog(
-          title: S.current.xoa_lich_lam_viec,
-          isConfirm: false,
-          imageUrl: ImageAssets.icDeleteLichHop,
-          textConfirm: S.current.ban_co_muon_xoa_lich_lam_viec,
-          textRadioAbove: S.current.chi_lich_nay,
-          textRadioBelow: S.current.tu_lich_nay,
-        ),
-      ).then(
-        (value) => chiTietLichLamViecCubit
-            .deleteCalendarWork(widget.id, only: value)
-            .then((_) => Navigator.pop(context, true)),
-      );
-    } else {
-      showDiaLog(
-        context,
-        textContent: S.current.ban_co_muon_xoa_lich_lam_viec,
-        btnLeftTxt: S.current.khong,
-        funcBtnRight: () async {
-          await chiTietLichLamViecCubit.deleteCalendarWork(widget.id).then(
-                (_) => Navigator.pop(context, true),
-              );
-        },
+    showDialog(
+      context: context,
+      builder: (context) => ThemLinkHopDialog(
         title: S.current.xoa_lich_lam_viec,
-        btnRightTxt: S.current.dong_y,
-        icon: SvgPicture.asset(
-          ImageAssets.icDeleteLichHop,
-        ),
-      );
-    }
+        isConfirm: false,
+        isShowRadio: isDup,
+        imageUrl: ImageAssets.icDeleteLichHop,
+        textConfirm: S.current.ban_co_muon_xoa_lich_lam_viec,
+        textRadioAbove: S.current.chi_lich_nay,
+        textRadioBelow: S.current.tu_lich_nay,
+      ),
+    ).then(
+      (value) => chiTietLichLamViecCubit
+          .deleteCalendarWork(widget.id, only: value)
+          .then((_) => Navigator.pop(context, true)),
+    );
   }
 
   void checkCancelDuplicateCal(bool isDup) {
-    if (isDup) {
-      showDialog(
-        context: context,
-        builder: (context) => ThemLinkHopDialog(
-            title: S.current.huy_lich,
-            isConfirm: false,
-            imageUrl: ImageAssets.icHuyLich,
-            textConfirm: S.current.ban_co_chac_muon_huy_lich,
-            textRadioAbove: S.current.chi_lich_nay,
-            textRadioBelow: S.current.tu_lich_nay),
-      ).then(
-        (value) => chiTietLichLamViecCubit
-            .cancelCalendarWork(widget.id, isMulti: !value)
-            .then((_) => Navigator.pop(context, true)),
-      );
-    } else {
-      showDiaLog(
-        context,
-        textContent: S.current.ban_co_chac_muon_huy_lich,
-        btnLeftTxt: S.current.khong,
-        funcBtnRight: () async {
-          await chiTietLichLamViecCubit.cancelCalendarWork(widget.id).then(
-                (_) => Navigator.pop(context, true),
-              );
-        },
+    showDialog(
+      context: context,
+      builder: (context) => ThemLinkHopDialog(
         title: S.current.huy_lich,
-        btnRightTxt: S.current.dong_y,
-        icon: SvgPicture.asset(
-          ImageAssets.icHuyLich,
-        ),
-      );
-    }
+        isConfirm: false,
+        imageUrl: ImageAssets.icHuyLich,
+        textConfirm: S.current.ban_co_chac_muon_huy_lich,
+        textRadioAbove: S.current.chi_lich_nay,
+        textRadioBelow: S.current.tu_lich_nay,
+        isShowRadio: isDup,
+      ),
+    ).then(
+      (value) => chiTietLichLamViecCubit
+          .cancelCalendarWork(widget.id, isMulti: !value)
+          .then((_) => Navigator.pop(context, true)),
+    );
   }
 
   Widget itemScheduleCooperatives(Officer data) {

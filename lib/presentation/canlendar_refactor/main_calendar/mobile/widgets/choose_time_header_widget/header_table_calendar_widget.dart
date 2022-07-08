@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -13,13 +11,14 @@ class HeaderTabletCalendarWidget extends StatefulWidget {
   final Function() onTap;
   final Function(String) onSearch;
   final TextEditingController controller;
-  const HeaderTabletCalendarWidget(
-      {Key? key,
-      required this.time,
-      required this.onTap,
-      required this.onSearch,
-      required this.controller})
-      : super(key: key);
+
+  const HeaderTabletCalendarWidget({
+    Key? key,
+    required this.time,
+    required this.onTap,
+    required this.onSearch,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   State<HeaderTabletCalendarWidget> createState() =>
@@ -39,16 +38,19 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
     // TODO: implement initState
     super.initState();
     expandController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500))
-      ..value = 1;
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..value = 1;
     animation = CurvedAnimation(
       parent: expandController,
       curve: Curves.fastOutSlowIn,
     );
-    animationSearch = Tween<double>(begin: 1, end: 0).animate(CurvedAnimation(
-      parent: expandController,
-      curve: Curves.fastOutSlowIn,
-    ));
+    animationSearch = Tween<double>(begin: 1, end: 0).animate(
+      CurvedAnimation(
+        parent: expandController,
+        curve: Curves.fastOutSlowIn,
+      ),
+    );
   }
 
   @override
@@ -72,7 +74,9 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
                     Text(
                       widget.time,
                       style: textNormalCustom(
-                          fontSize: 14, color: titleCalenderWork),
+                        fontSize: 14,
+                        color: titleCalenderWork,
+                      ),
                     ),
                     const Icon(
                       Icons.arrow_drop_down_sharp,
@@ -85,9 +89,10 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
           ),
           Flexible(
             child: SizeTransition(
-                sizeFactor: animationSearch,
-                axis: Axis.horizontal,
-                child: textFileSearch()),
+              sizeFactor: animationSearch,
+              axis: Axis.horizontal,
+              child: textFileSearch(),
+            ),
           ),
           AnimatedBuilder(
             builder: (context, _) => GestureDetector(
@@ -141,9 +146,7 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
           color: color3D5586,
         ),
         onFieldSubmitted: (value) {
-          if(value.trim().isNotEmpty) {
-            widget.onSearch(value);
-          }
+          widget.onSearch(value.trim());
         },
         decoration: InputDecoration(
           counterText: '',

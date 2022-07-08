@@ -1,19 +1,17 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/calendar_style_phone.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/days_of_week_style_phone.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/table_calendar_phone.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/shared/utils_phone.dart';
-
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/calendar_style_phone.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/days_of_week_style_phone.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TableCalendarTabletWidget extends StatefulWidget {
@@ -21,13 +19,14 @@ class TableCalendarTabletWidget extends StatefulWidget {
   final Function(DateTime) onPageCalendar;
   final Function(DateTime) onSelect;
   final List<DateTime> calendarDays;
-  const TableCalendarTabletWidget(
-      {Key? key,
-        required this.calendarDays,
-      required this.controller,
-      required this.onPageCalendar,
-      required this.onSelect})
-      : super(key: key);
+
+  const TableCalendarTabletWidget({
+    Key? key,
+    required this.calendarDays,
+    required this.controller,
+    required this.onPageCalendar,
+    required this.onSelect,
+  }) : super(key: key);
 
   @override
   _TableCalendarTabletWidgetState createState() =>
@@ -37,6 +36,7 @@ class TableCalendarTabletWidget extends StatefulWidget {
 class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
   DateTime selectDay = DateTime.now();
   ValueNotifier<DateTime> pageDateTime = ValueNotifier(DateTime.now());
+
   @override
   void initState() {
     // TODO: implement initState
@@ -180,14 +180,19 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
       text: TextSpan(
         text: '${S.current.thang} ${dateTime.month} - ',
         style: textNormalCustom(
-            color: color3D5586, fontSize: 32, fontWeight: FontWeight.w700),
+          color: color3D5586,
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+        ),
         children: <TextSpan>[
           TextSpan(
-              text: '${dateTime.year}',
-              style: textNormalCustom(
-                  color: color3D5586,
-                  fontSize: 32,
-                  fontWeight: FontWeight.w400)),
+            text: '${dateTime.year}',
+            style: textNormalCustom(
+              color: color3D5586,
+              fontSize: 32,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ],
       ),
     );
@@ -208,6 +213,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
             dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
 
         final dataString =
+            // ignore: lines_longer_than_80_chars
             '${dateTimeFormRange[0].day} - ${dateTimeFormRange[1].formatDayCalendar}';
         return dataString;
     }

@@ -1,5 +1,3 @@
-import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/van_ban_don_vi_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/mequee_widget.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +14,6 @@ import '/home_module/presentation/home_screen/ui/mobile/widgets/header_widget.da
 import '/home_module/presentation/home_screen/ui/widgets/thong_bao_message_widget.dart';
 import '/widgets/views/state_stream_layout.dart';
 import 'home_icon.dart';
-import 'items/summary_of_task_widget.dart';
-import 'items/work_list_widget.dart';
 
 GlobalKey<HomeScreenMobileState> keyHomeMobile =
     GlobalKey<HomeScreenMobileState>();

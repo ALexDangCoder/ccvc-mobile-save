@@ -40,6 +40,14 @@ class Officer {
     return result;
   }
 
+  String getUnit() {
+    var result = '';
+    if (tenDonVi?.isNotEmpty ?? false) {
+      result = tenDonVi!;
+    }
+    return result;
+  }
+
   DonViModel toDonViModel() => DonViModel(
         id: id ?? '',
         donViId: donViId ?? id ?? '',
@@ -50,5 +58,17 @@ class Officer {
         status: status ?? 0,
         noidung: taskContent ?? '',
         name: getTitle(),
+      );
+
+  DonViModel toUnitName() => DonViModel(
+        id: id ?? '',
+        donViId: donViId ?? id ?? '',
+        tenDonVi: tenDonVi ?? '',
+        canBoId: canBoId ?? '',
+        tenCanBo: hoTen ?? '',
+        userId: userId ?? '',
+        status: status ?? 0,
+        noidung: taskContent ?? '',
+        name: getUnit(),
       );
 }

@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart'
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   List<NhanDienKhuonMatUIModel> get listDataKhongDeoKinh => [

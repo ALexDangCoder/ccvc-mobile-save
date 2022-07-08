@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tabbar_newspaper.dart';
-import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/mobile/tat_ca_chu_de_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -118,19 +117,21 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
               listSelectKey: [
                 DialogData(
                     onSelect: (value, startDate, endDate) {
+                      _xaHoiCubit.editSelectDate(value);
                       _xaHoiCubit.selectDate(
                         selectKey: value,
-                        startDate: startDate,
+                        startDate: _xaHoiCubit.startDate,
                         endDate: endDate,
                       );
                     },
                     title: S.current.time,
                     startDate: _xaHoiCubit.startDate,
                     endDate: _xaHoiCubit.endDate,
-                    initValue: _xaHoiCubit.selectKeyTime)
+                    initValue: _xaHoiCubit.selectKeyTime,
+                )
               ],
             );
-          }),
+          },),
       padding: EdgeInsets.zero,
       child: LoadingOnly(
         stream: _xaHoiCubit.stateStream,

@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';

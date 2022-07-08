@@ -19,7 +19,6 @@ import 'package:ccvc_mobile/data/response/manager_personal_information/manager_p
 import 'package:ccvc_mobile/data/response/up_load_anh/up_load_anh_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/account_service.dart';
-import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/account/forgot_password_model.dart';

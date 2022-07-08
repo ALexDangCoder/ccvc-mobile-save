@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 class LinhVucWidget extends StatefulWidget {
   final CreateWorkCalCubit cubit;
   final bool isEdit;
+  final String name;
 
-  LinhVucWidget({Key? key, required this.cubit, this.isEdit = false})
+  LinhVucWidget(
+      {Key? key, required this.cubit, this.isEdit = false, this.name = ''})
       : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class _LinhVucWidgetState extends State<LinhVucWidget> {
           listSelect: data.map((e) => e.name).toList(),
           hintText: widget.isEdit ? '' : S.current.chon_linh_vuc,
           title: S.current.linh_vuc,
-          value: _cubit.selectLinhVuc?.name ?? '',
+          value: widget.isEdit ? widget.name : _cubit.selectLinhVuc?.name ?? '',
         );
       },
     );

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
@@ -23,7 +24,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/th
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/bloc/date_time_cupertino_custom_cubit.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
@@ -150,8 +150,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                           image: ImageAssets.icEdit,
                           hint: S.current.nhap_tieu_de,
                           validator: (value) {
-                            return (value ?? '')
-                                .pleaseEnter(S.current.tieu_de);
+                            return (value ?? '').pleaseEnter(S.current.tieu_de);
                           },
                         ),
                         LoaiLichWidget(
@@ -184,6 +183,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                                 ),
                               );
                             }
+
                             if (timeStart != INIT_TIME_PICK &&
                                 dateStart != INIT_DATE_PICK) {
                               createCubit.listeningStartDataTime(
@@ -215,8 +215,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                         ),
                         //cong khai lich
                         Padding(
-                          padding:
-                              const EdgeInsets.only(top: 16.0, left: 30.0),
+                          padding: const EdgeInsets.only(top: 16.0, left: 30.0),
                           child: CustomSwitchWidget(
                             onToggle: (value) {
                               createCubit.publishSchedule = value;
@@ -281,14 +280,21 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                           },
                         ),
                         StreamBuilder<bool>(
-                          stream:
-                              createCubit.lichLapKhongLapLaiSubject.stream,
+                          stream: createCubit.lichLapKhongLapLaiSubject.stream,
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? false;
                             return data
-                                ? ItemLapDenNgayWidget(
-                                    taoLichLamViecCubit: createCubit,
-                                    isThem: true,
+                                ? StreamBuilder<DateTime>(
+                                    stream: createCubit.endDateSubject.stream,
+                                    builder: (context, snapshot) {
+                                      final initDate =
+                                          snapshot.data ?? DateTime.now();
+                                      return ItemLapDenNgayWidget(
+                                        taoLichLamViecCubit: createCubit,
+                                        isThem: true,
+                                        initDate: initDate,
+                                      );
+                                    },
                                   )
                                 : Container();
                           },
@@ -309,7 +315,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             if (!value) {
                               createCubit.filesTaoLich = files;
                               chooseFileValidatorValue = !value;
-                            }else {
+                            } else {
                               chooseFileValidatorValue = !value;
                             }
                           },
@@ -319,12 +325,14 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                           children: [
                             Expanded(
                               child: bottomButtonWidget(
-                                background: buttonColor.withOpacity(0.1),
+                                background: AppTheme.getInstance()
+                                    .colorField()
+                                    .withOpacity(0.1),
                                 title: S.current.dong,
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                textColor: buttonColor,
+                                textColor: AppTheme.getInstance().colorField(),
                               ),
                             ),
                             const SizedBox(
@@ -332,7 +340,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             ),
                             Expanded(
                               child: bottomButtonWidget(
-                                background: buttonColor,
+                                background: AppTheme.getInstance().colorField(),
                                 title: S.current.luu,
                                 onTap: () {
                                   validateField();

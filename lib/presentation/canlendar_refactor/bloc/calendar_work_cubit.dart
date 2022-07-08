@@ -349,14 +349,11 @@ extension GetData on CalendarWorkCubit {
       isChuaCoBaoCao: statusType == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
       isDaCoBaoCao: statusType == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
       isChoXacNhan: stateType == StateType.CHO_XAC_NHAN &&
-          isLichDuocMoi &&
-          state is ListViewState,
+          isLichDuocMoi ,
       isLichThamGia: stateType == StateType.THAM_GIA &&
-          isLichDuocMoi &&
-          state is ListViewState,
+          isLichDuocMoi ,
       isLichTuChoi: stateType == StateType.TU_CHOI &&
-          isLichDuocMoi &&
-          state is ListViewState,
+          isLichDuocMoi,
       PageIndex: ApiConstants.PAGE_BEGIN,
       PageSize: 10000,
       Title: keySearch,

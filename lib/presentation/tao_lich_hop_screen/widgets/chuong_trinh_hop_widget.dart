@@ -251,7 +251,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 InputInfoUserWidget(
-                  title: S.current.them_phien_hop,
+                  title: S.current.ten_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
                     initialValue: taoPhienHopRequest.tieuDe,

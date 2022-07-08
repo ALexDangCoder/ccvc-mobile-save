@@ -43,7 +43,8 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
     cubit.idReport = widget.idReport;
     cubit.appId = widget.appId;
     cubit.getGroup();
-    cubit.getTree();
+    cubit.loadTreeDonVi();
+
   }
 
   @override
@@ -65,7 +66,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
         textEmpty: '',
         retry: () {
           cubit.getGroup();
-          cubit.getTree();
+
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Column(

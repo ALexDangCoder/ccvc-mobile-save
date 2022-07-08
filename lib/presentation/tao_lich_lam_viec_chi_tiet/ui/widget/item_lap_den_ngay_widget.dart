@@ -14,12 +14,12 @@ class ItemLapDenNgayWidget extends StatefulWidget {
   final bool isThem;
   final DateTime? initDate;
 
-  const ItemLapDenNgayWidget(
-      {Key? key,
-      required this.taoLichLamViecCubit,
-      required this.isThem,
-      this.initDate})
-      : super(key: key);
+  const ItemLapDenNgayWidget({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    required this.isThem,
+    this.initDate,
+  }) : super(key: key);
 
   @override
   _ItemLapDenNgayWidgetState createState() => _ItemLapDenNgayWidgetState();
@@ -35,6 +35,13 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
     super.initState();
     widget.taoLichLamViecCubit.dateTimeLapDenNgay =
         widget.initDate ?? DateTime.now();
+  }
+
+  @override
+  void didUpdateWidget(covariant ItemLapDenNgayWidget oldWidget) {
+    widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+        widget.initDate ?? DateTime.now();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

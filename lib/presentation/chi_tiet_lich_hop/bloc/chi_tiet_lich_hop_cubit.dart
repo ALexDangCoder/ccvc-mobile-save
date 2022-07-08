@@ -53,10 +53,7 @@ import 'package:html_editor_enhanced/html_editor.dart';
 
 import 'package:rxdart/rxdart.dart';
 
-const DANHSACHPHATBIEU = 0;
-const CHODUYET = 1;
-const DADUYET = 2;
-const HUYDUYET = 3;
+import 'Extension/phat_bieu_ex.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
@@ -108,7 +105,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       color: itemWidgetUsing,
     ),
     ButtonStatePhatBieu(
-      key: S.current.huy_duyet,
+      key: S.current.tu_choi,
       value: 0,
       color: statusCalenderRed,
     ),
@@ -390,7 +387,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   final BehaviorSubject<int> typeStatus = BehaviorSubject.seeded(0);
 
-  SoLuongPhatBieuModel dataSoLuongPhatBieu = SoLuongPhatBieuModel();
+  BehaviorSubject<SoLuongPhatBieuModel> dataSoLuongPhatBieuSubject =
+      BehaviorSubject<SoLuongPhatBieuModel>();
 
   final BehaviorSubject<int> checkRadioSubject = BehaviorSubject();
 

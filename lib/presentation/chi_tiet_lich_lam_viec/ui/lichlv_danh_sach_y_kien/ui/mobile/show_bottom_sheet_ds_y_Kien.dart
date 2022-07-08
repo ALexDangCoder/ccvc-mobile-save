@@ -62,7 +62,7 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
                       title: S.current.y_kien,
                       child: YKienBottomSheet(
                         id: widget.id,
-                        isTablet : widget.isTablet,
+                        isTablet: widget.isTablet,
                       ),
                     ).then((value) {
                       if (value == true) {
@@ -74,7 +74,7 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
                   },
                 ),
               );
-            }
+            },
           ),
           spaceH16,
           DanhSachYKienScreen(

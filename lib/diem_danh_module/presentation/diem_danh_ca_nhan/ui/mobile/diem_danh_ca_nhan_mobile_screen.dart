@@ -77,7 +77,9 @@ class _DiemDanhCaNhanMobileScreenState
             child: Column(
               children: [
                 ChangeDateTimeWidget(
-                  onChange: (DateTime value) {},
+                  onChange: (DateTime value) {
+                    widget.cubit.changeData(value);
+                  },
                   cubit: widget.cubit, endYear: 2025,
                 ),
                 thongKeWiget(),

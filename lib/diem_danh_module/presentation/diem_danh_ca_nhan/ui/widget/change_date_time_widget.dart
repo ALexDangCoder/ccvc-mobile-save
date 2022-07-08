@@ -62,6 +62,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     yearPage = currentMonth.year;
   }
 
+  /// return year number equivalent to page number
   int getYearFromPage(int page) {
     return listYear[page];
   }
@@ -72,6 +73,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     }
   }
 
+  ///return page number equivalent to year number
   int indexPageOfYear(int year) {
     return listYear.indexOf(year);
   }
@@ -81,6 +83,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
       listData: listData(yearPage),
       onChange: (data) {
         currentMonth = data;
+        widget.onChange(data);
         setState(() {});
       },
       changeDay: currentMonth,
@@ -122,16 +125,18 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     if (currentMonth.month == 12 && currentMonth.year < widget.endYear) {
       controller.nextPage(duration: duration, curve: curve);
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+      widget.onChange(currentMonth);
     } else if (currentIndex < _itemCount &&
         currentMonth.year < widget.endYear) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+      widget.onChange(currentMonth);
     } else if (currentIndex == _itemCount - 1 &&
         currentMonth.year == widget.endYear &&
         currentMonth.month < 12) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+      widget.onChange(currentMonth);
     }
     yearPage = currentMonth.year;
-    widget.onChange(currentMonth);
     setState(() {});
   }
 
@@ -141,16 +146,18 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     if (currentMonth.month == 1 && currentMonth.year > widget.startYear) {
       controller.previousPage(duration: duration, curve: curve);
       currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
+      widget.onChange(currentMonth);
     } else if (currentIndex > 0 && currentMonth.year > widget.startYear) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
+      widget.onChange(currentMonth);
     } else if (currentIndex == 0 &&
         currentMonth.year == widget.startYear &&
         currentMonth.month > 1) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
+      widget.onChange(currentMonth);
     }
     yearPage = currentMonth.year;
 
-    widget.onChange(currentMonth);
     setState(() {});
   }
 

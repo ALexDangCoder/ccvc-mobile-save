@@ -70,7 +70,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   BehaviorSubject<TextTrangThai> textFilter = BehaviorSubject.seeded(
     TextTrangThai(
       S.current.all,
-      Colors.black,
+      titleCalenderWork,
     ),
   );
 
@@ -89,6 +89,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   //     BehaviorSubject<DashboardTinhHinhXuLuModel>();
 
   ///dashboard
+
 
   final BehaviorSubject<DocumentDashboardModel> getTinhHinhXuLy =
       BehaviorSubject<DocumentDashboardModel>();
@@ -867,6 +868,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       userId = dataUser.userId ?? '';
     }
   }
+
 
   /*
   * int? pageIndex,

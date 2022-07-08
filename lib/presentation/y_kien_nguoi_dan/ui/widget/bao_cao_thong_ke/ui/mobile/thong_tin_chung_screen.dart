@@ -195,10 +195,10 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 if (!widget.cubit.isFilter) {
                   widget.cubit.loadMoreGetDSPAKN();
                 } else {
-                  if(widget.cubit.isFilterTiepNhan) {
+                  if (widget.cubit.isFilterTiepNhan) {
                     widget.cubit.loadMorePAKNVanBanFilter();
                     widget.cubit.loadMorePAKNVanBanFilter();
-                  } else if(widget.cubit.isFilterXuLy) {
+                  } else if (widget.cubit.isFilterXuLy) {
                     widget.cubit.loadMorePAKNXuLyCacYKienFilter();
                   } else {
                     widget.cubit.loadMoreGetDSPAKNFilter();
@@ -212,10 +212,12 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 widget.cubit.resetBeforeRefresh();
                 widget.cubit.getDashBoardPAKNTiepCanXuLy();
                 widget.cubit.getDanhSachPAKN();
-                widget.cubit.textFilter.sink.add(TextTrangThai(
-                  S.current.all,
-                  Colors.black,
-                ),);
+                widget.cubit.textFilter.sink.add(
+                  TextTrangThai(
+                    S.current.all,
+                    Colors.black,
+                  ),
+                );
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -225,8 +227,10 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     FilterDateTimeWidget(
                       initStartDate: widget.cubit.initStartDate,
                       context: context,
-                      onChooseDateFilter: (DateTime startDate, DateTime endDate) {
-                        widget.cubit.startDate = startDate.toStringWithListFormat;
+                      onChooseDateFilter:
+                          (DateTime startDate, DateTime endDate) {
+                        widget.cubit.startDate =
+                            startDate.toStringWithListFormat;
                         widget.cubit.endDate = endDate.toStringWithListFormat;
                         widget.cubit.clearDSPAKN();
                         widget.cubit.getDashBoardPAKNTiepCanXuLy();
@@ -295,8 +299,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
                                   child: Text(
                                     S.current.danh_sach_pakn,
                                     style: textNormalCustom(
@@ -358,7 +362,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                                 widget.cubit.textFilter.stream,
                                             builder: (context, snapshot) {
                                               return item(
-                                                title: snapshot.data?.text ?? '',
+                                                title:
+                                                    snapshot.data?.text ?? '',
                                                 callBack: (value) {
                                                   widget.cubit.isShowFilterList
                                                       .add(true);
@@ -373,12 +378,14 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                     ),
                                   ),
                                   ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {
                                       return _itemDanhSachPAKN(
-                                          dsKetQuaPakn: data[index]);
+                                        dsKetQuaPakn: data[index],
+                                      );
                                     },
                                   ),
                                 ],
@@ -599,18 +606,25 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           ),
           color: colorBG,
         ),
-        child: Center(
-          child: Text(
-            title,
-            style: textNormalCustom(
-              color: AppTheme.getInstance().dfBtnTxtColor(),
-              fontWeight: FontWeight.w500,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex: 7,
+              child: Text(
+                title,
+                style: textNormalCustom(
+                  color: AppTheme.getInstance().dfBtnTxtColor(),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
-          ),
+            const Expanded(
+              child: Icon(Icons.keyboard_arrow_down_outlined, color: AqiColor),
+            )
+          ],
         ),
       ),
     );
   }
-
-
 }

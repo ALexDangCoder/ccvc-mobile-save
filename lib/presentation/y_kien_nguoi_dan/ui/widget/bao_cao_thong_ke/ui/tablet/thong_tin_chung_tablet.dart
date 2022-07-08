@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
@@ -507,5 +508,44 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
     } else {
       return TextTrangThai(S.current.den_han, choVaoSoColor);
     }
+  }
+
+  Widget item({
+    required Color colorBG,
+    required String title,
+    required Function(TextTrangThai) callBack,
+  }) {
+    return InkWell(
+      onTap: () => callBack(TextTrangThai(title, colorBG)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(30),
+          ),
+          color: colorBG,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: textNormalCustom(
+                  color: AppTheme.getInstance().dfBtnTxtColor(),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Expanded(
+              child: Icon(Icons.keyboard_arrow_down_outlined, color: AqiColor),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

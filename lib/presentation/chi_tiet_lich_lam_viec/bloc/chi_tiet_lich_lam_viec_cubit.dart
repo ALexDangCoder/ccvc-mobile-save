@@ -116,10 +116,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   Future<void> deleteCalendarWork(
     String id, {
-    bool only = true,
+    bool? only,
   }) async {
     ShowLoadingScreen.show();
-    final rs = await detailLichLamViec.deleteCalenderWork(id, only);
+    final rs = await detailLichLamViec.deleteCalenderWork(id, only ?? true);
     rs.when(
       success: (data) {
         MessageConfig.show(title: S.current.xoa_thanh_cong);
@@ -141,11 +141,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<void> cancelCalendarWork(
     String id, {
     int statusId = 8,
-    bool isMulti = false,
+    bool? isMulti,
   }) async {
     ShowLoadingScreen.show();
     final rs =
-        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
+        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti ?? false);
     rs.when(
       success: (data) {
         if (data.succeeded ?? false) {
@@ -181,10 +181,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(id);
     rs.when(
       success: (data) {
-        listOfficer.sink.add(data);
-        listRecall.sink.add(data);
-        dataRecall = data;
-        officersTmp = data;
+        final tmp = data.where((element) => element.tenDonVi != null).toList();
+        listOfficer.sink.add(tmp);
+        listRecall.sink.add(tmp);
+        dataRecall = tmp;
+        officersTmp = tmp;
       },
       error: (error) {},
     );
@@ -199,7 +200,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     unawaited(queue.add(() => getDanhSachYKien(id)));
     unawaited(queue.add(() => getListTinhTrang()));
     unawaited(queue.add(() => getOfficer(id)));
-    dataTrangThai();
+    unawaited(dataTrangThai());
     await queue.onComplete;
     if (isLeader) {
       showButtonAddOpinion.sink.add(true);
@@ -239,10 +240,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       showContent();
     }
     result.when(
-        success: (res) {
-          _listBaoCaoKetQua.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        _listBaoCaoKetQua.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> confirmOfficer(ConfirmOfficerRequest request) async {
@@ -279,22 +281,24 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     showLoading();
     final result = await detailLichLamViec.deleteBaoCaoKetQua(id);
     result.when(
-        success: (res) {
-          if (res.succeeded ?? false) {
-            getDanhSachBaoCaoKetQua(idLichLamViec).whenComplete(() {
-              showContent();
-              MessageConfig.show(title: S.current.xoa_thanh_cong);
-            });
-          } else {
+      success: (res) {
+        if (res.succeeded ?? false) {
+          getDanhSachBaoCaoKetQua(idLichLamViec).whenComplete(() {
             showContent();
-          }
-        },
-        error: (err) {});
+            MessageConfig.show(title: S.current.xoa_thanh_cong);
+          });
+        } else {
+          showContent();
+        }
+      },
+      error: (err) {},
+    );
   }
 
   String parseDate(String date) {
     final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(date);
 
+    // ignore: lines_longer_than_80_chars
     return '${dateTime.day} ${S.current.thang} ${dateTime.month},${dateTime.year}';
   }
 
@@ -309,7 +313,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     showLoading();
     await detailLichLamViec
         .updateBaoCaoKetQua(
-            reportStatusId, scheduleId, content, files, filesDelete, id)
+      reportStatusId,
+      scheduleId,
+      content,
+      files,
+      filesDelete,
+      id,
+    )
         .then((value) {
       value.when(
         success: (res) {
@@ -345,7 +355,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   Future<void> recallCalendar({
-    bool isMulti = false,
+    bool? isMulti,
   }) async {
     ShowLoadingScreen.show();
     final List<Officer> tmp = List.from(
@@ -362,7 +372,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           ),
         )
         .toList();
-    final result = await detailLichLamViec.recallWorkCalendar(isMulti, request);
+    final result = await detailLichLamViec.recallWorkCalendar(isMulti ?? false, request);
     result.when(
       success: (success) {
         //eventBus.fire(RefreshCalendar());
@@ -397,33 +407,42 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
   final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
 
-  BaoCaoKetQuaCubit(
-      {this.content = '',
-      this.tinhTrangBaoCaoModel,
-      this.fileInit = const []}) {
+  BaoCaoKetQuaCubit({
+    this.content = '',
+    this.tinhTrangBaoCaoModel,
+    this.fileInit = const [],
+  }) {
     reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
   }
 
   Future<void> createScheduleReport(String scheduleId, String content) async {
     ShowLoadingScreen.show();
     final result = await detailLichLamViec.taoBaoCaoKetQua(
-        reportStatusId, scheduleId, content, files.toList());
+      reportStatusId,
+      scheduleId,
+      content,
+      files.toList(),
+    );
     ShowLoadingScreen.dismiss();
-    result.when(success: (res) {
-      MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
-      emit(SuccessChiTietLichLamViecState());
-    }, error: (err) {
-      MessageConfig.show(
-        title: S.current.bao_cao_ket_qua_that_bai,
-        messState: MessState.error,
-      );
-    });
+    result.when(
+      success: (res) {
+        MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
+        emit(SuccessChiTietLichLamViecState());
+      },
+      error: (err) {
+        MessageConfig.show(
+          title: S.current.bao_cao_ket_qua_that_bai,
+          messState: MessState.error,
+        );
+      },
+    );
   }
 
-  Future<void> editScheduleReport(
-      {required String scheduleId,
-      required String content,
-      required String id}) async {
+  Future<void> editScheduleReport({
+    required String scheduleId,
+    required String content,
+    required String id,
+  }) async {
     ShowLoadingScreen.show();
     final result = await detailLichLamViec.suaBaoCaoKetQua(
       id: id,
@@ -434,14 +453,17 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       reportStatusId: reportStatusId,
     );
     ShowLoadingScreen.dismiss();
-    result.when(success: (res) {
-      MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
-      emit(SuccessChiTietLichLamViecState());
-    }, error: (err) {
-      MessageConfig.show(
-        title: S.current.sua_bao_cao_ket_qua_that_bai,
-        messState: MessState.error,
-      );
-    });
+    result.when(
+      success: (res) {
+        MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
+        emit(SuccessChiTietLichLamViecState());
+      },
+      error: (err) {
+        MessageConfig.show(
+          title: S.current.sua_bao_cao_ket_qua_that_bai,
+          messState: MessState.error,
+        );
+      },
+    );
   }
 }

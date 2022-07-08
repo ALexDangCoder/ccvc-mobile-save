@@ -104,7 +104,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               validate: (value){
                 if(isHopTrucTiep){
                   if (value.trim().isEmpty) {
-                    return S.current.khong_duoc_de_trong;
+                    return '${S.current.dia_diem_hop} '
+                        '${S.current.khong_duoc_de_trong}';
                   }
                 }
               },

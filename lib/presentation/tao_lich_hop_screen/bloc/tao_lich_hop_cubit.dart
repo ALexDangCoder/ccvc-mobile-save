@@ -101,7 +101,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   LoaiSelectModel? selectLoaiHop;
   LoaiSelectModel? selectLinhVuc;
-  NguoiChutriModel? selectNguoiChuTri;
   TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest(
     ngayBatDau: DateTime.now().dateTimeFormatter(
       pattern: DateTimeFormat.DOB_FORMAT,
@@ -143,7 +142,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   void validateData() {
     taoLichHopRequest.dsDiemCau = dsDiemCauSubject.value;
-
     /// check hình thức họp
     if (taoLichHopRequest.bitHopTrucTuyen != null) {
       if (taoLichHopRequest.bitHopTrucTuyen!) {
@@ -152,24 +150,18 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         //
       }
     }
-
-    taoLichHopRequest.bitTrongDonVi ??= false;
-
     /// check cơ quan chủ trì
     if (!(taoLichHopRequest.bitTrongDonVi ?? true)) {
       taoLichHopRequest.chuTri?.donViId = null;
       taoLichHopRequest.chuTri?.canBoId = null;
     }
-
     if (taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true) {
       taoLichHopRequest.phongHop = null;
     }
-
     /// check tùy chỉnh lịch lặp
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.last.id) {
       taoLichHopRequest.days = '';
     }
-
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.first.id) {
       if (taoLichHopRequest.dateRepeat?.isEmpty ?? true) {
         DateTime.now().dateTimeFormatter(
@@ -177,11 +169,9 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         );
       }
     }
-
     /// Format date time:
     taoLichHopRequest.timeStart = taoLichHopRequest.timeStart?.formatTime();
     taoLichHopRequest.timeTo = taoLichHopRequest.timeTo?.formatTime();
-
     if(taoLichHopRequest.bitYeuCauDuyet ?? false){
       taoLichHopRequest.status = 1;
     }else{
@@ -337,6 +327,9 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     required String donViId,
     required String canBoId,
   }) async {
+    if(donViId.isEmpty){
+      return false;
+    }
     bool isTrung = false;
     showLoading();
     final rs = await hopRp.checkLichHopTrung(

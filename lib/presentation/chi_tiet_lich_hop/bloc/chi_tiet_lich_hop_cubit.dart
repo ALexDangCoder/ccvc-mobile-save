@@ -214,20 +214,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     minutes: 00,
   );
 
-  void xoaKhachMoiThamGia(
-    DonViModel donViModel,
-  ) {
-    listDataCanBo.remove(donViModel);
-    listDonViModel.sink.add(listDataCanBo);
-  }
-
-  int dateDiff(String startTime, String endTime) {
-    final start = DateTime.parse(startTime);
-    final end = DateTime.parse(endTime);
-    final result = end.difference(start).inSeconds;
-    return result;
-  }
-
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     await getChiTietLichHop(idCuocHop);
 
@@ -242,128 +228,16 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     await getDanhSachCanBoHop(idCuocHop);
   }
 
-  Future<void> getDanhSachNTGChuongTrinhHop({
-    required String id,
-  }) async {
-    final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
-
+  /// dùng cho cả bên: tao moi nhiem vu - kl hop
+  Future<void> getDanhSachNguoiChuTriPhienHop(String id) async {
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);
     result.when(
       success: (res) {
-        listData = res;
-        nguoiThamGiaSubject.sink.add(listData);
+        listNguoiCHuTriModel.sink.add(res);
+        dataThuKyOrThuHoiDeFault = res;
       },
       error: (error) {},
     );
-  }
-
-  Future<bool> huyAndDuyetLichHop({
-    required bool isDuyet,
-  }) async {
-    bool isCheck = true;
-    final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
-    result.when(
-      success: (res) {
-        isCheck = true;
-      },
-      error: (error) {
-        isCheck = false;
-      },
-    );
-    return isCheck;
-  }
-
-  Future<bool> cuCanBoDiThay({
-    required List<CanBoDiThay> canBoDiThay,
-  }) async {
-    canBoDiThay.insert(
-      0,
-      CanBoDiThay(
-        id: donViModel.id,
-        donViId: donViModel.donViId,
-        canBoId: donViModel.canBoId,
-        taskContent: '',
-      ),
-    );
-    final listCanBo = listDataCanBo
-        .map(
-          (e) => CanBoDiThay(
-            id: e.id,
-            donViId: e.donViId,
-            canBoId: e.canBoId,
-            taskContent: '',
-          ),
-        )
-        .toSet();
-    canBoDiThay.addAll(listCanBo);
-    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
-      id: idCanBoDiThay,
-      lichHopId: idCuocHop,
-      canBoDiThay: canBoDiThay,
-    );
-    bool isCheck = true;
-    showLoading();
-    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
-    result.when(
-      success: (res) {
-        MessageConfig.show(
-          title: S.current.cu_can_bo_thanh_cong,
-        );
-        isCheck = true;
-      },
-      error: (error) {
-        if (error is TimeoutException || error is NoNetworkException) {
-          MessageConfig.show(
-            title: S.current.no_internet,
-            messState: MessState.error,
-          );
-        } else {
-          MessageConfig.show(
-            title: S.current.cu_can_bo_khong_thanh_cong,
-            messState: MessState.error,
-          );
-        }
-        isCheck = false;
-      },
-    );
-    showContent();
-    return isCheck;
-  }
-
-  Future<bool> cuCanBo({
-    required List<CanBoDiThay> canBoDiThay,
-  }) async {
-    final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
-      id: idDanhSachCanBo,
-      lichHopId: idCuocHop,
-      canBoDiThay: canBoDiThay,
-    );
-    bool isCheck = true;
-    showLoading();
-    final result = await hopRp.cuCanBoDiThay(cuCanBoDiThayRequest);
-    result.when(
-      success: (res) {
-        MessageConfig.show(
-          title: S.current.cu_can_bo_thanh_cong,
-        );
-        isCheck = true;
-      },
-      error: (error) {
-        if (error is TimeoutException || error is NoNetworkException) {
-          MessageConfig.show(
-            title: S.current.no_internet,
-            messState: MessState.error,
-          );
-        } else {
-          MessageConfig.show(
-            title: S.current.cu_can_bo_khong_thanh_cong,
-            messState: MessState.error,
-          );
-        }
-        isCheck = false;
-      },
-    );
-    showContent();
-    return isCheck;
   }
 
   bool loaiBieuQ = false;
@@ -416,13 +290,5 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
         ), () {
       actionNeedDelay();
     });
-  }
-
-  String getTime({bool isGetDateStart = true}) {
-    return isGetDateStart
-        ? '${getChiTietLichHopModel.ngayBatDau.split(' ').first} '
-            '${getChiTietLichHopModel.timeStart}'
-        : '${getChiTietLichHopModel.ngayKetThuc.split(' ').first} '
-            '${getChiTietLichHopModel.timeTo}';
   }
 }

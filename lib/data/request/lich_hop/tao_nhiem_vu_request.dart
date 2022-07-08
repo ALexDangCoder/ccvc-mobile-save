@@ -13,13 +13,13 @@ class ThemNhiemVuRequest {
   List<DanhSachVanBanRequest>? danhSachVanBan;
 
   ThemNhiemVuRequest({
-    required this.hanXuLy,
-    required this.hanXuLyVPCP,
-    required this.idCuocHop,
-    required this.meTaDaTa,
-    required this.processContent,
-    required this.processTypeId,
-    required this.danhSachVanBan,
+     this.hanXuLy,
+     this.hanXuLyVPCP,
+     this.idCuocHop,
+     this.meTaDaTa,
+     this.processContent,
+     this.processTypeId,
+     this.danhSachVanBan,
   });
 
   factory ThemNhiemVuRequest.fromJson(Map<String, dynamic> json) =>

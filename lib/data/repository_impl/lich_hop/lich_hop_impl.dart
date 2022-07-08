@@ -474,10 +474,10 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<MessageModel>> deleteChiTietLichHop(String id, bool isMulti) {
-    return runCatchingAsync<XoaBaoCaoKetQuaResponse, MessageModel>(
+  Future<Result<bool>> deleteChiTietLichHop(String id, bool isMulti) {
+    return runCatchingAsync<CuCanBoDiThayResponse, bool>(
       () => _hopServices.deleteChiTietLichHop(id, isMulti),
-      (res) => res.toDomain(),
+      (res) => res.isSucces,
     );
   }
 
@@ -1028,6 +1028,14 @@ class HopRepositoryImpl implements HopRepository {
   Future<Result<bool>> thuHoiKetLuanHop(String meetId) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.thuHoiKetLuanHop(meetId),
+      (response) => response.isSucces,
+    );
+  }
+
+  @override
+  Future<Result<bool>> deleteFileHop(String id) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.deleteFileHop(id),
       (response) => response.isSucces,
     );
   }

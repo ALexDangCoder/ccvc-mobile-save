@@ -9,7 +9,7 @@ class DropDownWidget extends StatefulWidget {
   final String title;
   final String hint;
   final bool isNote;
-  final Function(String? value) onChange;
+  final Function(int) onChange;
   final List<String> listData;
 
   const DropDownWidget({
@@ -67,13 +67,14 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
+              dropdownColor: colorImageLichHop,
               isExpanded: true,
               elevation: 0,
               value: valueChoose,
               icon: const Icon(Icons.keyboard_arrow_down),
               onChanged: (value) {
+                widget.onChange.call(0);
                 valueChoose = value as String?;
-                widget.onChange(valueChoose);
                 setState(() {});
               },
               hint: Text(
@@ -84,7 +85,6 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              dropdownColor: Colors.white,
               items: widget.listData
                   .map<DropdownMenuItem<String>>(
                     (e) => DropdownMenuItem(

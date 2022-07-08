@@ -1,11 +1,15 @@
-import 'package:ccvc_mobile/bao_cao_module/widget/dialog/message_dialog/message_config.dart';
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
@@ -213,25 +217,29 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isSuccess;
   }
 
-  Future<bool> huyAndDuyetLichHop({
-    required bool isDuyet,
-  }) async {
-    bool isCheck = true;
-    final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
-    result.when(
-      success: (res) {
-        isCheck = true;
-      },
-      error: (error) {
-        isCheck = false;
-      },
-    );
-    return isCheck;
-  }
-
   Future<bool> cuCanBoDiThay({
-    required List<CanBoDiThay>? canBoDiThay,
+    required List<CanBoDiThay> canBoDiThay,
   }) async {
+    canBoDiThay.insert(
+      0,
+      CanBoDiThay(
+        id: donViModel.id,
+        donViId: donViModel.donViId,
+        canBoId: donViModel.canBoId,
+        taskContent: '',
+      ),
+    );
+    final listCanBo = listDataCanBo
+        .map(
+          (e) => CanBoDiThay(
+            id: e.id,
+            donViId: e.donViId,
+            canBoId: e.canBoId,
+            taskContent: '',
+          ),
+        )
+        .toSet();
+    canBoDiThay.addAll(listCanBo);
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
       id: idCanBoDiThay,
       lichHopId: idCuocHop,
@@ -266,8 +274,55 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isCheck;
   }
 
+  Future<void> postFileTaoLichHop({
+    int? entityType = 1,
+    String entityName = ENTITY_TAI_LIEU_HOP,
+    String? entityId,
+    bool isMutil = false,
+    required List<File> files,
+  }) async {
+    if (files.isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await hopRp.postFileTaoLichHop(
+      entityType,
+      entityName,
+      entityId,
+      isMutil,
+      files,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        getChiTietLichHop(idCuocHop);
+        MessageConfig.show(title: S.current.thanh_cong);
+      },
+      error: (err) {
+        MessageConfig.show(title: S.current.that_bai);
+      },
+    );
+    showContent();
+  }
+
+  Future<bool> huyAndDuyetLichHop({
+    required bool isDuyet,
+  }) async {
+    bool isCheck = true;
+    final result = await hopRp.huyAndDuyetLichHop(idCuocHop, isDuyet, '');
+    result.when(
+      success: (res) {
+        isCheck = true;
+      },
+      error: (error) {
+        isCheck = false;
+      },
+    );
+    return isCheck;
+  }
+
   Future<bool> cuCanBo({
-    required List<CanBoDiThay>? canBoDiThay,
+    required List<CanBoDiThay> canBoDiThay,
   }) async {
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
       id: idDanhSachCanBo,
@@ -301,5 +356,32 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     );
     showContent();
     return isCheck;
+  }
+
+  void xoaKhachMoiThamGia(
+    DonViModel donViModel,
+  ) {
+    listDataCanBo.remove(donViModel);
+    listDonViModel.sink.add(listDataCanBo);
+  }
+
+  Future<void> deleteFileHop({
+    required String id,
+  }) async {
+    showLoading();
+    final result = await hopRp.deleteFileHop(
+      id,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        getChiTietLichHop(idCuocHop);
+        MessageConfig.show(title: S.current.thanh_cong);
+      },
+      error: (err) {
+        MessageConfig.show(title: S.current.that_bai);
+      },
+    );
+    showContent();
   }
 }

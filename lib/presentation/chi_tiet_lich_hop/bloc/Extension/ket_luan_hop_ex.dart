@@ -19,7 +19,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         ketLuanHopSubject.sink.add(
           KetLuanHopModel(
             id: res.id ?? '',
-            thoiGian: '',
+            thoiGian: res.createAt ?? '',
             trangThai: typeTrangthai(res.status ?? 0),
             tinhTrang: typeTinhTrang(res.reportStatusCode ?? ''),
             file: res.files?.map((e) => e.Name ?? '').toList() ?? [],
@@ -326,6 +326,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     getDanhSachLoaiNhiemVu();
     listStatusKetLuanHop();
     danhSachCanBoTPTG(id: idCuocHop);
+    getDanhSachNguoiChuTriPhienHop('');
     postChonMauHop();
   }
 }

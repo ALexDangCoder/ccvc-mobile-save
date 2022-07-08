@@ -86,6 +86,7 @@ class Node<T> {
   late T value;
   Node<T>? parent;
   bool expand = false;
+  bool isCallApi = false;
   CheckBox isCheck = CheckBox();
   int level = 0;
   List<Node<T>> children = [];
@@ -117,6 +118,27 @@ class Node<T> {
       return null;
     }
   }
+
+  void setSelected(bool isSelected) {
+    isCheck.isCheck = isSelected;
+    setSelectedAllChild(isSelected, children);
+  }
+
+  void setSelectedAllChild(bool isSelected, List<Node> children) {
+    for (int i = 0; i < children.length; i++) {
+      children[i].isCheck.isCheck = isSelected;
+      if (children[i].children.isNotEmpty) {
+        setSelectedAllChild(isSelected, children[i].children);
+      }
+    }
+  }
+  bool isCheckALl() {
+    if(children.isEmpty){
+      return isCheck.isCheck;
+    }
+    return !children.map((e) => e.isCheck.isCheck).contains(false);
+  }
+
 
   void removeCkeckBox() {
     isCheck.isCheck = false;

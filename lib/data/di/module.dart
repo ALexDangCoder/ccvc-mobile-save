@@ -106,9 +106,6 @@ void configureDependencies() {
     YKienNguoiDanImpl(Get.find()),
   );
   Get.put(ReportService(provideDio(baseOption: BaseURLOption.GATE_WAY)));
-  Get.put<ReportRepository>(
-    ReportImpl(Get.find()),
-  );
 
   Get.put(ReportCommonService(provideDio(baseOption: BaseURLOption.COMMON)));
   Get.put<ReportCommonRepository>(
@@ -207,7 +204,7 @@ void configureDependencies() {
       provideDio(baseOption: BaseURLOption.GATE_WAY),
     ),
   );
-  Get.put<ReportRepository>(ReportImpl(Get.find()));
+  Get.put<ReportRepository>(ReportImpl(Get.find(),Get.find()));
 
   Get.put(
     HoTroKyThuatService(
@@ -304,7 +301,7 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       },
       onError: (DioError e, handler) async {
         if (e.response?.statusCode == 401) {
-          return handler.next(e);
+          return _onReFreshToken(e,handler);
         } else {
           return handler.next(e);
         }

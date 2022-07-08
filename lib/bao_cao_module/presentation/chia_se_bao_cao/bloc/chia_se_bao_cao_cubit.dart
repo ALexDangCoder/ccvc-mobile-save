@@ -3,10 +3,13 @@ import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dar
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_state.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:get/get.dart' as get_dart;
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,8 +23,8 @@ enum Share {
   NEW_USER,
 }
 
-class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
-  ChiaSeBaoCaoCubit() : super(ChiaSeBaoCaoInitial()) {
+class ChiaSeBaoCaoCubit extends ThemDonViCubit {
+  ChiaSeBaoCaoCubit() : super() {
     showContent();
   }
 
@@ -37,8 +40,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   ReportRepository get _repo => get_dart.Get.find();
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
-  BehaviorSubject<bool> showTree =
-  BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> showTree = BehaviorSubject.seeded(false);
   BehaviorSubject<String> callAPI = BehaviorSubject.seeded('');
   final BehaviorSubject<bool> _isDuocTruyCapSubject =
       BehaviorSubject.seeded(true);
@@ -49,24 +51,36 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
 
   bool get valueDuocTruyCap => _isDuocTruyCapSubject.value;
 
-  final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
-      BehaviorSubject<List<Node<DonViModel>>>();
-
-  Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
-
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
 
-  void getTree() {
+  void loadTreeDonVi() {
     hopRp.getTreeDonVi().then((value) {
       value.when(
         success: (res) {
-          _getTreeDonVi.sink.add(res);
+          getTreeInit(res);
+
+          // _getTreeDonVi.sink.add(res);
         },
         error: (err) {
           showError();
         },
       );
     });
+  }
+
+  Future<void> searchCanBoPaging(
+    String donViId,
+    Node<DonViModel> node,
+  ) async {
+    showLoading();
+    final data = await _repo.getUserPaging(donViId: donViId, appId: appId);
+    showContent();
+    data.when(success: (res){
+      for (final element in res) {
+        element.isCheck.isCheck = node.isCheck.isCheck;
+        node.addChild(element);
+      }
+    }, error: (err){});
   }
 
   Future<void> getGroup() async {
@@ -78,7 +92,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     rs.when(
       success: (res) {
         for (int i = 0; i < res.length; i++) {
-          getMemberInGroup(res[i].idNhom ?? '', res[i],res.length);
+          getMemberInGroup(res[i].idNhom ?? '', res[i], res.length);
         }
       },
       error: (error) {
@@ -91,7 +105,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
   Future<void> getMemberInGroup(
     String idGroup,
     NhomCungHeThong nhomCungHeThong,
-      int length,
+    int length,
   ) async {
     final rs = await _repo.getListThanhVien(idGroup);
     rs.when(
@@ -105,7 +119,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
           ),
         );
         listDropDown.add(nhomCungHeThong.tenNhom ?? '');
-        if(listResponse.length == length ) {
+        if (listResponse.length == length) {
           callAPI.add(SUCCESS);
           showContent();
         }
@@ -171,7 +185,7 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
         break;
       case Share.HAS_USER:
         final list = idUsersNgoaiHeTHongDuocTruyCap.toList();
-        for(final element in list){
+        for (final element in list) {
           final ShareReport map = ShareReport(
             userId: element,
             type: HAS_USER,

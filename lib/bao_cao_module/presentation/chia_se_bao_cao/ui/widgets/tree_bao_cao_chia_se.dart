@@ -1,0 +1,141 @@
+import 'dart:developer';
+
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/custom_checkbox.dart';
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+class TreeViewChiaSeBaoCaoWidget extends StatefulWidget {
+  final Node<DonViModel> node;
+  final ChiaSeBaoCaoCubit themDonViCubit;
+  final bool selectOnly;
+  const TreeViewChiaSeBaoCaoWidget({
+    Key? key,
+    required this.themDonViCubit,
+    required this.node,
+    this.selectOnly = false,
+  }) : super(key: key);
+
+  @override
+  _TreeWidgetState createState() => _TreeWidgetState();
+}
+
+class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(
+            left: 32.0 * widget.node.level.toDouble(),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    if (widget.selectOnly)
+                      StreamBuilder<Node<DonViModel>?>(
+                          stream: widget.themDonViCubit.selectOnlyDonVi,
+                          builder: (context, snapshot) {
+                            return CustomCheckBox(
+                              title: '',
+                              onChange: (isCheck) {
+                                widget.themDonViCubit
+                                    .selectNodeOnly(widget.node);
+                              },
+                              isCheck: snapshot.data?.value.id ==
+                                  widget.node.value.id,
+                            );
+                          })
+                    else
+                      CustomCheckBox(
+                        title: '',
+                        onChange: (isCheck) {
+                          widget.node.isCheck.isCheck = !isCheck;
+                          if (isCheck) {
+                            ///TODO call API getUser and add to list share
+                            ///TODO all children checkbox is true
+                          } else {}
+
+                          widget.node.setSelected(widget.node.isCheck.isCheck);
+                          setState(() {});
+                        },
+                        isCheck: widget.node.isCheckALl(),
+                      ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          widget.node.expand = !widget.node.expand;
+                          if (!widget.node.isCallApi) {
+                            widget.node.isCallApi = true;
+
+                            await widget.themDonViCubit.searchCanBoPaging(
+                                widget.node.value.id, widget.node);
+                          }
+                          setState(() {});
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 9),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  title(),
+                                  style:
+                                      textNormal(textTitle, 14.0.textScale()),
+                                ),
+                              ),
+                              if (widget.node.children.isNotEmpty)
+                                Transform.rotate(
+                                  angle: widget.node.expand ? 0 : 3.1,
+                                  child: SvgPicture.asset(
+                                    ImageAssets.icDropDownButton,
+                                  ),
+                                )
+                              else
+                                const SizedBox(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (widget.node.children.isNotEmpty && widget.node.expand)
+          ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(widget.node.children.length, (index) {
+              final node = widget.node.children[index];
+              return TreeViewChiaSeBaoCaoWidget(
+                selectOnly: widget.selectOnly,
+                themDonViCubit: widget.themDonViCubit,
+                node: node,
+              );
+            }),
+          )
+        else
+          const SizedBox()
+      ],
+    );
+  }
+
+  String title() {
+    if (widget.node.value.chucVu.isEmpty) {
+      return widget.node.value.name;
+    }
+    return '${widget.node.value.tenCanBo} ${widget.node.value.chucVu}';
+  }
+}

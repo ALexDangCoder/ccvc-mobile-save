@@ -39,8 +39,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
     if (widget.cubit.taoLichHopRequest.bitTrongDonVi != null) {
       isTrongDonVi = widget.cubit.taoLichHopRequest.bitTrongDonVi!;
       isNgoaiDonVi = !widget.cubit.taoLichHopRequest.bitTrongDonVi!;
-    } else {
-      widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
     }
     widget.cubit.danhSachCB.listen((value) {
       initValue = value
@@ -112,6 +110,16 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
               widget.cubit.taoLichHopRequest.bitTrongDonVi = isTrongDonVi;
               if (value && isNgoaiDonVi) {
                 isNgoaiDonVi = false;
+              }
+              if (!value) {
+                widget.cubit.taoLichHopRequest.chuTri
+                  ?..tenCanBo = null
+                  ..tenCoQuan = null
+                  ..canBoId = null
+                  ..donViId = null;
+              }
+              if(!value && !isNgoaiDonVi){
+                widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
               }
               setState(() {});
             },
@@ -196,9 +204,10 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 isTrongDonVi = false;
                 widget.cubit.taoLichHopRequest.bitYeuCauDuyet = false;
               }
+              if(!value && !isNgoaiDonVi){
+                widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
+              }
               widget.cubit.taoLichHopRequest.bitTrongDonVi = isTrongDonVi;
-              widget.cubit.taoLichHopRequest.chuTri?.tenCoQuan = '';
-              widget.cubit.taoLichHopRequest.chuTri?.tenCanBo = '';
               setState(() {});
             },
           ),
@@ -222,6 +231,12 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     hintText: S.current.ten_co_quan,
                     onChange: (value) {
                       widget.cubit.taoLichHopRequest.chuTri?.tenCoQuan = value;
+                    },
+                    validate: (value) {
+                      if (isNgoaiDonVi && value.isEmpty) {
+                        return '${S.current.ten_co_quan}'
+                            ' ${S.current.khong_duoc_de_trong.toLowerCase()}';
+                      }
                     },
                   ),
                   spaceH12,

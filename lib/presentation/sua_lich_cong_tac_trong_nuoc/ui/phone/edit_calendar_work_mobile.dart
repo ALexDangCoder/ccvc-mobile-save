@@ -360,13 +360,23 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                   builder: (context, snapshot) {
                                     final data = snapshot.data ?? false;
                                     return data
-                                        ? ItemLapDenNgayWidget(
-                                            taoLichLamViecCubit: createCubit,
-                                            isThem: false,
-                                            initDate: DateTime.parse(
+                                        ? StreamBuilder<DateTime>(
+                                            stream: createCubit
+                                                .endDateSubject.stream,
+                                            initialData: DateTime.parse(
                                               createCubit.dateRepeat ??
                                                   DateTime.now().toString(),
                                             ),
+                                            builder: (context, snapshot) {
+                                              final data = snapshot.data ??
+                                                  DateTime.now();
+                                              return ItemLapDenNgayWidget(
+                                                taoLichLamViecCubit:
+                                                    createCubit,
+                                                isThem: false,
+                                                initDate: data,
+                                              );
+                                            },
                                           )
                                         : Container();
                                   },

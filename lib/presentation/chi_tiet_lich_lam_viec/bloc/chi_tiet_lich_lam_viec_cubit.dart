@@ -116,10 +116,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   Future<void> deleteCalendarWork(
     String id, {
-    bool only = true,
+    bool? only,
   }) async {
     ShowLoadingScreen.show();
-    final rs = await detailLichLamViec.deleteCalenderWork(id, only);
+    final rs = await detailLichLamViec.deleteCalenderWork(id, only ?? true);
     rs.when(
       success: (data) {
         MessageConfig.show(title: S.current.xoa_thanh_cong);
@@ -141,11 +141,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<void> cancelCalendarWork(
     String id, {
     int statusId = 8,
-    bool isMulti = false,
+    bool? isMulti,
   }) async {
     ShowLoadingScreen.show();
     final rs =
-        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
+        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti ?? false);
     rs.when(
       success: (data) {
         if (data.succeeded ?? false) {
@@ -355,7 +355,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   Future<void> recallCalendar({
-    bool isMulti = false,
+    bool? isMulti,
   }) async {
     ShowLoadingScreen.show();
     final List<Officer> tmp = List.from(
@@ -372,7 +372,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           ),
         )
         .toList();
-    final result = await detailLichLamViec.recallWorkCalendar(isMulti, request);
+    final result = await detailLichLamViec.recallWorkCalendar(isMulti ?? false, request);
     result.when(
       success: (success) {
         //eventBus.fire(RefreshCalendar());

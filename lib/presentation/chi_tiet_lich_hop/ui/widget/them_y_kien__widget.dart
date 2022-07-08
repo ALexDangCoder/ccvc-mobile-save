@@ -38,14 +38,8 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
           onPressed2: () async {
             Navigator.pop(context);
             await widget.cubit.themYKien(
-              yKien: yKien.text,
+              yKien: yKien.value.text,
               idLichHop: widget.id,
-              phienHopId: widget.cubit.getPhienHopId,
-              scheduleOpinionId: '',
-            );
-            await widget.cubit.getDanhSachYKien(
-              widget.id,
-              widget.cubit.getPhienHopId,
             );
           },
         ),
@@ -67,26 +61,20 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
           StreamBuilder<List<PhienhopModel>>(
               stream: widget.cubit.phienHop.stream,
               builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                List<String>? dataPlus = [S.current.cuoc_hop];
-                dataPlus.addAll(data.map((e) => e.value ?? '').toList());
-                return CustomDropDown(
-                  value: S.current.cuoc_hop,
-                  items: dataPlus,
-                  onSelectItem: (value) {
-                    if (value == 0) {
-                      widget.cubit.getDanhSachYKien(widget.id, '');
-                    } else {
-                      widget.cubit.getDanhSachYKien(
-                        widget.id,
-                        data[value - 1].key ?? '',
-                      );
-                      widget.cubit.getPhienHopId = data[value - 1].key ?? '';
-                    }
-                  },
-                );
-              }),
-          HeightSp(16),
+              final data = snapshot.data ?? [];
+              final listCuocHop = data.map((e) => e.value ?? '').toList();
+              return CustomDropDown(
+                value: S.current.cuoc_hop,
+                items: listCuocHop
+                  ..insert(0, S.current.cuoc_hop)
+                  ..toSet().toList(),
+                onSelectItem: (value) {
+                  widget.cubit.getPhienHopId = data[value].key ?? '';
+                },
+              );
+            },
+          ),
+          spaceH16,
           ItemTextFieldWidget(
             hint: '',
             title: S.current.y_kien_cuop_hop,
@@ -95,13 +83,9 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
             validator: (String? value) {},
             onChange: (String value) {},
           ),
-          HeightSp(24),
+          spaceH24,
         ],
       ),
     );
   }
-
-  Widget HeightSp(double height) => SizedBox(
-        height: height,
-      );
 }

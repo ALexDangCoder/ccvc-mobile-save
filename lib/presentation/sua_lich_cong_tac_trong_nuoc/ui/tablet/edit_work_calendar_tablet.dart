@@ -458,7 +458,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                       taoLichLamViecCubit: createCubit,
                                       listPeopleInit: widget
                                           .cubit.listOfficer.value
-                                          .map((e) => e.toDonViModel())
+                                          .map((e) => e.toUnitName())
                                           .toList(),
                                     ),
                                     TaiLieuWidget(

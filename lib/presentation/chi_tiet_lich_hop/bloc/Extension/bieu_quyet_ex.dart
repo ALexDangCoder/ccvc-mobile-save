@@ -195,6 +195,14 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     return times.formatApiTaoBieuQuyet;
   }
 
+  bool checkValidateBieuQuyet(String value) {
+    if (value.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ///handle timer
   bool isNotStartYet({required DateTime startTime}) {
     if (DateTime.now().isBefore(startTime)) {

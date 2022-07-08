@@ -26,6 +26,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
+import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -47,7 +48,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   String selectedCountryID = '';
   BehaviorSubject<bool> lichLapTuyChinhSubject = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> lichLapKhongLapLaiSubject =
-      BehaviorSubject.seeded(false);
+  BehaviorSubject.seeded(false);
 
   BehaviorSubject<DateTime> startDateSubject = BehaviorSubject.seeded(
     DateTime.now(),
@@ -65,10 +66,10 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   Stream<bool> get isCheckAllDayStream => isCheckAllDaySubject.stream;
 
   BehaviorSubject<List<String>> listItemPersonSubject =
-      BehaviorSubject.seeded(listPerson);
+  BehaviorSubject.seeded(listPerson);
 
   BehaviorSubject<List<ItemSelectModel>> listColorDefaultSubject =
-      BehaviorSubject();
+  BehaviorSubject();
 
   Stream<List<ItemSelectModel>> get listColorDefaultStream =>
       listColorDefaultSubject.stream;
@@ -83,20 +84,20 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   final BehaviorSubject<List<LoaiSelectModel>> _loaiLich1 = BehaviorSubject();
 
   final BehaviorSubject<List<NguoiChutriModel>> _nguoiChuTri =
-      BehaviorSubject();
+  BehaviorSubject();
   final BehaviorSubject<List<LoaiSelectModel>> _linhVuc = BehaviorSubject();
 
   final BehaviorSubject<List<NhacLaiModel>> _nhacLai =
-      BehaviorSubject.seeded(listNhacLai);
+  BehaviorSubject.seeded(listNhacLai);
   final BehaviorSubject<List<LichLapModel>> lichLapModelSubject =
-      BehaviorSubject.seeded(listLichLap);
+  BehaviorSubject.seeded(listLichLap);
 
   final BehaviorSubject<List<TinhSelectModel>> tinhSelectSubject =
-      BehaviorSubject();
+  BehaviorSubject();
   final BehaviorSubject<List<HuyenSelectModel>> disSubject = BehaviorSubject();
   final BehaviorSubject<List<WardModel>> wardSubject = BehaviorSubject();
   final BehaviorSubject<List<DatNuocSelectModel>> countrySubject =
-      BehaviorSubject();
+  BehaviorSubject();
   final BehaviorSubject<bool> showButton = BehaviorSubject();
 
   Stream<List<TinhSelectModel>> get tinhSelect => tinhSelectSubject.stream;
@@ -209,7 +210,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   }
 
   final BehaviorSubject<WidgetType?> _showDialogSetting =
-      BehaviorSubject<WidgetType?>();
+  BehaviorSubject<WidgetType?>();
 
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
@@ -284,7 +285,9 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     result.when(
       success: (res) {
         if (res.isNotEmpty) {
-          userId = HiveLocal.getDataUser()?.userId ?? '';
+          userId = HiveLocal
+              .getDataUser()
+              ?.userId ?? '';
           for (final element in res) {
             if (element.userId.toString() == userId) {
               selectNguoiChuTri = element;
@@ -311,9 +314,19 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     final result = await _workCal.checkDuplicate(
       CheckTrungLichRequest(
         dateFrom:
-            DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-        dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
-        timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
+        DateTime
+            .parse(dateFrom ?? DateTime
+            .now()
+            .formatApi)
+            .formatApi,
+        dateTo: DateTime
+            .parse(dateEnd ?? DateTime
+            .now()
+            .formatApi)
+            .formatApi,
+        timeFrom: timeFrom ?? DateTime
+            .now()
+            .formatApiFixMeet,
         timeTo: timeEnd ??
             (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
         donViId: selectNguoiChuTri?.donViId,
@@ -384,8 +397,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     );
   }
 
-  Future<void> createWorkCalendar
-      ({
+  Future<void> createWorkCalendar({
     required String title,
     required String content,
     required String location,
@@ -414,9 +426,19 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       TenXa: wardModel?.tenXaPhuong ?? '',
       country: datNuocSelectModel?.name ?? '',
       countryId: datNuocSelectModel?.id ?? '',
-      dateFrom: DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
-      timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
-      dateTo: DateTime.parse(dateEnd ?? DateTime.now().formatApi).formatApi,
+      dateFrom: DateTime
+          .parse(dateFrom ?? DateTime
+          .now()
+          .formatApi)
+          .formatApi,
+      timeFrom: timeFrom ?? DateTime
+          .now()
+          .formatApiFixMeet,
+      dateTo: DateTime
+          .parse(dateEnd ?? DateTime
+          .now()
+          .formatApi)
+          .formatApi,
       timeTo: timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content: content,
@@ -440,7 +462,11 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
       dateRepeat:
-          DateTime.parse(dateFrom ?? DateTime.now().formatApi).formatApi,
+      DateTime
+          .parse(dateFrom ?? DateTime
+          .now()
+          .formatApi)
+          .formatApi,
       dateRepeat1: dateTimeLapDenNgay.formatApi,
       only: true,
       days: lichLapItem1,
@@ -471,9 +497,15 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       TenTinh: tinhSelectModel?.tenTinhThanh ?? '',
       TenHuyen: huyenSelectModel?.tenQuanHuyen ?? '',
       TenXa: wardModel?.tenXaPhuong ?? '',
-      dateFrom: dateFrom ?? DateTime.now().formatApi,
-      timeFrom: timeFrom ?? DateTime.now().formatApiFixMeet,
-      dateTo: dateEnd ?? DateTime.now().formatApi,
+      dateFrom: dateFrom ?? DateTime
+          .now()
+          .formatApi,
+      timeFrom: timeFrom ?? DateTime
+          .now()
+          .formatApiFixMeet,
+      dateTo: dateEnd ?? DateTime
+          .now()
+          .formatApi,
       timeTo: timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content: content,
@@ -497,7 +529,9 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       scheduleCoperativeRequest: donviModel ?? [],
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
-      dateRepeat: dateFrom ?? DateTime.now().formatApi,
+      dateRepeat: dateFrom ?? DateTime
+          .now()
+          .formatApi,
       dateRepeat1: dateTimeLapDenNgay.formatApi,
       only: only ?? true,
       days: lichLapItem1,
@@ -518,7 +552,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     required String title,
     required String content,
     required String location,
-    bool? only ,
+    bool? only,
   }) async {
     showLoading();
     final result = await _workCal.editWorkCalendarWorkAboard(
@@ -529,9 +563,15 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       huyenSelectModel?.tenQuanHuyen ?? '',
       wardModel?.tenXaPhuong ?? '',
       selectedCountryID,
-      dateFrom ?? DateTime.now().formatApi,
-      timeFrom ?? DateTime.now().formatApiFixMeet,
-      dateEnd ?? DateTime.now().formatApi,
+      dateFrom ?? DateTime
+          .now()
+          .formatApi,
+      timeFrom ?? DateTime
+          .now()
+          .formatApiFixMeet,
+      dateEnd ?? DateTime
+          .now()
+          .formatApi,
       timeEnd ??
           (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
       content,
@@ -555,7 +595,9 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       donviModel ?? [],
       selectNhacLai.value ?? 1,
       selectLichLap.id ?? 0,
-      dateFrom ?? DateTime.now().formatApi,
+      dateFrom ?? DateTime
+          .now()
+          .formatApi,
       dateTimeLapDenNgay.formatApi,
       only ?? true,
       lichLapItem1,

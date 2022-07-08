@@ -17,16 +17,19 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       idCuocHop,
       isMulti ?? false,
     );
-    result.when(success: (res) {
-      showContent();
-      return true;
-    }, error: (err) {
-      MessageConfig.show(
-        title: S.current.that_bai,
-        messState: MessState.error,
-      );
-      return false;
-    });
+    result.when(
+      success: (res) {
+        showContent();
+        return true;
+      },
+      error: (err) {
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
+        return false;
+      },
+    );
     showContent();
     return true;
   }
@@ -193,8 +196,10 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return 0;
   }
 
-  Future<bool> confirmThamGiaHop(
-      {required String lichHopId, required bool isThamGia}) async {
+  Future<bool> confirmThamGiaHop({
+    required String lichHopId,
+    required bool isThamGia,
+  }) async {
     bool isSuccess = false;
     final rs = await hopRp.xacNhanThamGiaHop(lichHopId, isThamGia);
     rs.when(

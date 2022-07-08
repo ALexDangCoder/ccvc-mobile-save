@@ -91,12 +91,13 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                     ),
                     child: ButtonBottom(
                       onPressed: () async {
+                        final nav = Navigator.of(context);
                         await cubit.getLichAmDuong(
                           cubit.time.formatApiDDMMYYYY,
                         );
                         cubit.selectTime = cubit.time;
                         cubit.changeDateTimeSubject.add(cubit.time);
-                        Navigator.pop(context);
+                        nav.pop();
                       },
                       text: S.current.chon_ngay,
                     ),
@@ -106,24 +107,25 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
             );
           },
           child: StreamBuilder<LichAmDuong>(
-              stream: cubit.lichAmDuongStream,
-              builder: (context, snap) {
-                final date = snap.data?.ngayAmLich?.solarDate ?? DateTime.now();
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${S.current.thang} '
-                      '${DateTime.parse(date.toString()).formatApiMMYYYY} ',
-                      style: textNormalCustom(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500,
-                        color: textTitle,
-                      ),
+            stream: cubit.lichAmDuongStream,
+            builder: (context, snap) {
+              final date = snap.data?.ngayAmLich?.solarDate ?? DateTime.now();
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${S.current.thang} '
+                    '${DateTime.parse(date.toString()).formatApiMMYYYY} ',
+                    style: textNormalCustom(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w500,
+                      color: textTitle,
                     ),
-                  ],
-                );
-              }),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
       body: ProviderWidget<LichAmDuongCubit>(

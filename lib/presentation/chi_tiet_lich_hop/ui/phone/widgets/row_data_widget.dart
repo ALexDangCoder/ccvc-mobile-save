@@ -22,7 +22,7 @@ class RowDataWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 2,
+          flex: 3,
           child: Text(
             keyTxt,
             style: textNormal(infoColor, 14.0.textScale()),
@@ -32,7 +32,7 @@ class RowDataWidget extends StatelessWidget {
           width: 14,
         ),
         Expanded(
-          flex: 6,
+          flex: 7,
           child: isStatus
               ? Align(
                   alignment: Alignment.centerLeft,

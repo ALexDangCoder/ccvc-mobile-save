@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_t
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
@@ -40,8 +39,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
     if (widget.cubit.taoLichHopRequest.bitTrongDonVi != null) {
       isTrongDonVi = widget.cubit.taoLichHopRequest.bitTrongDonVi!;
       isNgoaiDonVi = !widget.cubit.taoLichHopRequest.bitTrongDonVi!;
-    } else {
-      widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
     }
     widget.cubit.danhSachCB.listen((value) {
       initValue = value
@@ -61,44 +58,15 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
   BehaviorSubject<bool> isCurrrenUser = BehaviorSubject.seeded(false);
 
   void handleDropDownSelected({required DonViModel donVi, required int index}) {
-    widget.cubit
-        .checkLichTrung(
-      donViId: donVi.donViId,
-      canBoId: donVi.canBoId,
-    )
-        .then((value) {
-      if (value) {
-        showDiaLog(
-          context,
-          title: S.current.lich_trung,
-          textContent: S.current.ban_co_muon_tiep_tuc_khong,
-          icon: ImageAssets.svgAssets(
-            ImageAssets.ic_trung_hop,
-          ),
-          btnRightTxt: S.current.dong_y,
-          btnLeftTxt: S.current.khong,
-          isCenterTitle: true,
-          funcBtnRight: () {
-            widget.cubit.taoLichHopRequest.chuTri
-              ?..tenCanBo = donVi.tenCanBo
-              ..tenCoQuan = donVi.tenDonVi
-              ..canBoId = donVi.userId
-              ..donViId = donVi.donViId;
-            widget.cubit.chuTri = donVi;
-            widget.cubit.danhSachCB.sink.add(
-              widget.cubit.danhSachCB.value,
-            );
-          },
-        );
-      } else {
-        widget.cubit.taoLichHopRequest.chuTri
-          ?..tenCanBo = donVi.tenCanBo
-          ..tenCoQuan = donVi.tenDonVi
-          ..canBoId = donVi.userId
-          ..donViId = donVi.donViId;
-        widget.cubit.chuTri = donVi;
-      }
-    });
+    widget.cubit.taoLichHopRequest.chuTri
+      ?..tenCanBo = donVi.tenCanBo
+      ..tenCoQuan = donVi.tenDonVi
+      ..canBoId = donVi.userId
+      ..donViId = donVi.donViId;
+    widget.cubit.chuTri = donVi;
+    widget.cubit.danhSachCB.sink.add(
+      widget.cubit.danhSachCB.value,
+    );
     if (donVi.userId == HiveLocal.getDataUser()?.userId) {
       isCurrrenUser.add(true);
     } else {
@@ -142,6 +110,16 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
               widget.cubit.taoLichHopRequest.bitTrongDonVi = isTrongDonVi;
               if (value && isNgoaiDonVi) {
                 isNgoaiDonVi = false;
+              }
+              if (!value) {
+                widget.cubit.taoLichHopRequest.chuTri
+                  ?..tenCanBo = null
+                  ..tenCoQuan = null
+                  ..canBoId = null
+                  ..donViId = null;
+              }
+              if(!value && !isNgoaiDonVi){
+                widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
               }
               setState(() {});
             },
@@ -226,6 +204,9 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 isTrongDonVi = false;
                 widget.cubit.taoLichHopRequest.bitYeuCauDuyet = false;
               }
+              if(!value && !isNgoaiDonVi){
+                widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
+              }
               widget.cubit.taoLichHopRequest.bitTrongDonVi = isTrongDonVi;
               setState(() {});
             },
@@ -250,6 +231,12 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     hintText: S.current.ten_co_quan,
                     onChange: (value) {
                       widget.cubit.taoLichHopRequest.chuTri?.tenCoQuan = value;
+                    },
+                    validate: (value) {
+                      if (isNgoaiDonVi && value.isEmpty) {
+                        return '${S.current.ten_co_quan}'
+                            ' ${S.current.khong_duoc_de_trong.toLowerCase()}';
+                      }
                     },
                   ),
                   spaceH12,

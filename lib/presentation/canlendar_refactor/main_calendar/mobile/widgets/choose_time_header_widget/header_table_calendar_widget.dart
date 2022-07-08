@@ -146,7 +146,7 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
           color: color3D5586,
         ),
         onFieldSubmitted: (value) {
-          widget.onSearch(value);
+          widget.onSearch(value.trim());
         },
         decoration: InputDecoration(
           counterText: '',

@@ -36,9 +36,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.getTreeDonVi.listen((event) {
-      _themDonViCubit.getTreeDonVi(event);
-    });
+
   }
 
   @override

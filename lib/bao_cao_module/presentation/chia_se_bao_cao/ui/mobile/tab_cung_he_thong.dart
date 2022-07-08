@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chi
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/tree_widget.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/widgets/tree_bao_cao_chia_se.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -29,16 +30,12 @@ class TabCungHeThongMobile extends StatefulWidget {
 }
 
 class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
-  final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
   final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.getTreeDonVi.listen((event) {
-      _themDonViCubit.getTreeDonVi(event);
-    });
   }
 
   @override
@@ -142,7 +139,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                     return Column(
                       children: [
                         StreamBuilder<Object>(
-                          stream: _themDonViCubit.selectDonVi,
+                          stream: widget.cubit.selectDonVi,
                           builder: (context, snapshot) {
                             return Container(
                               width: 341.w,
@@ -158,16 +155,15 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                 spacing: 10.w, // gap between adjacent chips
                                 runSpacing: 10.h, // gap between lines
                                 children: List.generate(
-                                    _themDonViCubit.selectNode.length + 1,
+                                    widget.cubit.selectNode.length + 1,
                                     (index) {
-                                  if (index ==
-                                      _themDonViCubit.selectNode.length) {
+                                  if (index == widget.cubit.selectNode.length) {
                                     return Container(
                                       width: 200,
                                       color: Colors.transparent,
                                       child: TextField(
                                         onChanged: (value) {
-                                          _themDonViCubit.onSearch(value);
+                                          widget.cubit.onSearch(value);
                                         },
                                         controller: controller,
                                         style: textNormal(
@@ -188,17 +184,16 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                       ),
                                     );
                                   }
-                                  final data =
-                                      _themDonViCubit.selectNode[index];
+                                  final data = widget.cubit.selectNode[index];
                                   return ItemNguoiDung(
                                     name: data.value.name,
                                     hasFunction: true,
                                     delete: () {
-                                      _themDonViCubit.addSelectNode(
+                                      widget.cubit.addSelectNode(
                                         data,
                                         isCheck: false,
                                       );
-                                      _themDonViCubit.removeTag(data);
+                                      widget.cubit.removeTag(data);
                                     },
                                   );
                                 }),
@@ -212,7 +207,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                             border: Border.all(color: containerColorTab),
                           ),
                           child: StreamBuilder<List<Node<DonViModel>>>(
-                            stream: _themDonViCubit.getTree,
+                            stream: widget.cubit.getTree,
                             builder: (context, snapshot) {
                               final data =
                                   snapshot.data ?? <Node<DonViModel>>[];
@@ -230,8 +225,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                           .manual,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
-                                    return TreeViewWidget(
-                                      themDonViCubit: _themDonViCubit,
+                                    return TreeViewChiaSeBaoCaoWidget(
+                                      themDonViCubit: widget.cubit,
                                       node: data[index],
                                     );
                                   },
@@ -249,7 +244,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                     );
                   } else {
                     return InkWell(
-                      onTap: (){
+                      onTap: () {
                         widget.cubit.showTree.add(true);
                       },
                       child: Container(

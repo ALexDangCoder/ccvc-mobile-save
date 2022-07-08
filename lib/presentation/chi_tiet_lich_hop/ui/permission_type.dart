@@ -235,7 +235,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 btnLeftTxt: S.current.khong,
                 funcBtnRight: () {
                   cubit.deleteChiTietLichHop();
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
                 title: S.current.khong,
                 btnRightTxt: S.current.dong_y,
@@ -253,7 +253,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 imageUrl: ImageAssets.img_sua_lich,
                 onChange: (value) {
                   cubit.deleteChiTietLichHop(isMulti: value).then(
-                        (value) => value ? Navigator.pop(context) : '',
+                        (value) => value ? Navigator.pop(context, true) : '',
                       );
                 },
               ),
@@ -522,7 +522,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 btnLeftTxt: S.current.khong,
                 funcBtnRight: () {
                   cubit.huyChiTietLichHop();
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
                 title: S.current.huy_lich,
                 btnRightTxt: S.current.dong_y,
@@ -540,7 +540,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 imageUrl: ImageAssets.img_sua_lich,
                 onChange: (value) {
                   cubit.huyChiTietLichHop(isMulti: value).then(
-                        (value) => value ? Navigator.pop(context) : '',
+                        (value) => value ? Navigator.pop(context, true) : '',
                       );
                 },
               ),

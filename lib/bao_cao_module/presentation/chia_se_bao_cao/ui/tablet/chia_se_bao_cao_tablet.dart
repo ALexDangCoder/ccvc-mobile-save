@@ -42,7 +42,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
     cubit.idReport = widget.idReport;
     cubit.appId = widget.appId;
     cubit.getGroup();
-    cubit.getTree();
+
   }
 
   @override
@@ -64,7 +64,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
             textEmpty: '',
             retry: () {
               cubit.getGroup();
-              cubit.getTree();
+
             },
             error: AppException(S.current.something_went_wrong, ''),
             child: Column(

@@ -174,8 +174,8 @@ mixin HopRepository {
     String canBoId,
     String donViId,
     int vaiTroThamGia,
-    String thoiGian_BatDau,
-    String thoiGian_KetThuc,
+    String thoiGianBatDau,
+    String thoiGianKetThuc,
     String noiDung,
     String tieuDe,
     String hoTen,
@@ -339,7 +339,7 @@ mixin HopRepository {
   );
 
   Future<Result<bool>> thayDoiPhongHop(
-    bool bit_TTDH,
+    bool bitTTDH,
     String lichHopId,
     String phongHopId,
     String tenPhong,

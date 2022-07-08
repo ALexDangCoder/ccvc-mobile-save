@@ -110,7 +110,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                 xemOrTaoOrSuaKetLuanHop(
                   cubit: widget.cubit,
                   context: context,
-                  title: S.current.ket_luan_cuoc_hop,
+                  title: S.current.soan_ket_luan_hop,
                   isCreate: true,
                   listFile: [],
                 );

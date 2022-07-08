@@ -69,6 +69,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DonViModel donViModel = DonViModel();
   String? dateBieuQuyet;
   String getPhienHopId = '';
+  String tenPhienHop = '';
   List<CanBoModel> dataThanhPhanThamGia = [];
   List<String?> data = [];
   List<String> selectPhatBieu = [];

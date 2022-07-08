@@ -48,8 +48,14 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
           title: '${S.current.them_y_kien} ${S.current.thanh_cong}',
         );
         getDanhSachYKien(
-        id: idLichHop,
-        phienHopId: getPhienHopId,
+          id: idLichHop,
+          phienHopId: getPhienHopId,
+        ).then(
+          (value) {
+            if (danhSachChuongTrinhHop.hasValue) {
+              danhSachChuongTrinhHop.sink.add(danhSachChuongTrinhHop.value);
+            }
+          },
         );
       },
       error: (err) {

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
@@ -179,20 +180,23 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                   Column(
                     children: [
                       spaceH16,
-                      StreamBuilder<List<PhienhopModel>>(
-                        stream: widget.cubit.phienHop.stream,
+                      StreamBuilder<List<ListPhienHopModel>>(
+                        stream: widget.cubit.danhSachChuongTrinhHop.stream,
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? [];
                           final listCuocHop =
-                              data.map((e) => e.value ?? '').toSet().toList();
+                              data.map((e) => e.tieuDe ?? '').toSet().toList();
                           return CustomDropDown(
-                            value:
-                                listCuocHop.isNotEmpty ? listCuocHop.first : '',
+                            value: widget.cubit.tenPhienHop.isNotEmpty
+                                ? widget.cubit.tenPhienHop
+                                : listCuocHop.isNotEmpty
+                                    ? listCuocHop.first
+                                    : '',
                             items: listCuocHop,
                             onSelectItem: (value) {
                               widget.cubit.getDanhSachYKien(
                                 id: widget.cubit.idCuocHop,
-                                phienHopId: data[value].key ?? '',
+                                phienHopId: data[value].id ?? '',
                               );
                             },
                           );

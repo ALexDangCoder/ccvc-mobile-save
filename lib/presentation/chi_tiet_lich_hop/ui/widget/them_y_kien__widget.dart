@@ -1,6 +1,7 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -24,6 +25,11 @@ class ThemYKienWidget extends StatefulWidget {
 class _ThemYKienWidgetState extends State<ThemYKienWidget> {
   final TextEditingController yKien = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    widget.cubit.getPhienHopId = '';
+  }
   @override
   Widget build(BuildContext context) {
     return FollowKeyBoardWidget(
@@ -58,18 +64,24 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
               ),
             ),
           ),
-          StreamBuilder<List<PhienhopModel>>(
-              stream: widget.cubit.phienHop.stream,
+          StreamBuilder<List<ListPhienHopModel>>(
+              stream: widget.cubit.danhSachChuongTrinhHop.stream,
               builder: (context, snapshot) {
               final data = snapshot.data ?? [];
-              final listCuocHop = data.map((e) => e.value ?? '').toList();
+              final listCuocHop = data.map((e) => e.tieuDe ?? '').toList();
               return CustomDropDown(
                 value: S.current.cuoc_hop,
                 items: listCuocHop
                   ..insert(0, S.current.cuoc_hop)
                   ..toSet().toList(),
-                onSelectItem: (value) {
-                  widget.cubit.getPhienHopId = data[value].key ?? '';
+                onSelectItem: (index) {
+                  //index - 1 do listCuocHop insert(0, S.current.cuoc_hop)
+                  if(index > 0) {
+                    widget.cubit.getPhienHopId = data[index - 1].id ?? '';
+                    widget.cubit.tenPhienHop = data[index - 1].tieuDe ?? '';
+                  }else{
+                    widget.cubit.getPhienHopId = '';
+                  }
                 },
               );
             },

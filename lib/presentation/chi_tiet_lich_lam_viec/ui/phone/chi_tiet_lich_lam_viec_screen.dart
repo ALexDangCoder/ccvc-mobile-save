@@ -1,6 +1,6 @@
-import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -51,6 +51,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     chiTietLichLamViecCubit.loadApi(widget.id);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
@@ -60,44 +61,56 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
       },
       error: AppException('', S.current.something_went_wrong),
       stream: chiTietLichLamViecCubit.stateStream,
-      child: RefreshIndicator(
-        onRefresh: () async {
-          await chiTietLichLamViecCubit.loadApi(widget.id);
-        },
-        child: StreamBuilder<ChiTietLichLamViecModel>(
-          stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
-          builder: (context, snapshot) {
-            final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
-            int check = dataModel.scheduleCoperatives?.indexWhere(
-                  (element) => element.status == 1,
-                ) ??
-                -1;
-            return snapshot.data != null && dataModel.id != null
-                    ? Scaffold(
-                        appBar: BaseAppBar(
-                          title: S.current.chi_tiet_lich_lam_viec,
-                          actions: [
-                            MenuSelectWidget(
-                              listSelect: [
-                                ///huy
-                                if (((dataModel.canBoChuTri?.id ?? '') ==
-                                        (HiveLocal.getDataUser()?.userId ??
-                                            '')) ||
-                                    ((dataModel.createBy?.id ?? '') ==
-                                        (HiveLocal.getDataUser()?.userId ??
-                                            ''))) ...[
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icHuy,
-                                    text: S.current.huy,
-                                    onTap: () {
-                                      checkCancelDuplicateCal(
-                                        dataModel.isLichLap ?? false,
-                                      );
-                                    },
-                                  ),
-                                ],
+      child: StreamBuilder<ChiTietLichLamViecModel>(
+        stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
+        builder: (context, snapshot) {
+          final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
+          String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
+          int check = dataModel.scheduleCoperatives?.indexWhere(
+                (element) => element.status == 1,
+              ) ??
+              -1;
+          String nguoiDuocMoi = dataModel.scheduleCoperatives
+                  ?.firstWhere(
+                    (element) => element.canBoId == hiveUserId,
+                    orElse: () => ScheduleCoperatives(),
+                  )
+                  .canBoId ??
+              '';
+          String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
+          String nguoiTaoId = dataModel.createBy?.id ?? '';
+          bool isThuHoi = (canBoChuTri == hiveUserId) ||
+              (nguoiTaoId == hiveUserId); //===sualich===huylich
+          bool isChoYKien =
+              (nguoiTaoId == hiveUserId) || (nguoiDuocMoi == hiveUserId);
+          bool isBaoCaoKetQua = ((DateTime.parse(
+                      dataModel.dateTimeTo ?? DateTime.now().toString())
+                  .isBefore(DateTime.now())) &&
+              (isChoYKien));
+          bool isXoaLich = (check == -1) && (isThuHoi);
+          return snapshot.data != null
+              ? dataModel.id != null
+                  ? Scaffold(
+                      appBar: BaseAppBar(
+                        title: S.current.chi_tiet_lich_lam_viec,
+                        actions: [
+                          MenuSelectWidget(
+                            listSelect: [
+                              ///huy
+                              if (isThuHoi) ...[
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icHuy,
+                                  text: S.current.huy,
+                                  onTap: () {
+                                    checkCancelDuplicateCal(
+                                      dataModel.isLichLap ?? false,
+                                    );
+                                  },
+                                ),
+                              ],
 
-                                ///bao cao ket qua
+                              ///bao cao ket qua
+                              if (isBaoCaoKetQua)
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icChartFocus,
                                   text: S.current.bao_cao_ket_qua,
@@ -121,7 +134,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   },
                                 ),
 
-                                ///cho y kien
+                              ///cho y kien
+                              if (isChoYKien)
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icChoYKien,
                                   text: S.current.cho_y_kien,
@@ -143,226 +157,217 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   },
                                 ),
 
-                                ///xoa lich
-                                if ((check == -1) &&
-                                    (((dataModel.canBoChuTri?.id ?? '') ==
-                                            (HiveLocal.getDataUser()?.userId ??
-                                                '')) ||
-                                        ((dataModel.createBy?.id ?? '') ==
-                                            (HiveLocal.getDataUser()?.userId ??
-                                                ''))))
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icDelete,
-                                    text: S.current.xoa_lich,
-                                    onTap: () {
-                                      checkDeleteDuplicateCal(
-                                        dataModel.isLichLap ?? false,
-                                      );
-                                    },
-                                  ),
+                              ///xoa lich
+                              if (isXoaLich)
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icDelete,
+                                  text: S.current.xoa_lich,
+                                  onTap: () {
+                                    checkDeleteDuplicateCal(
+                                      dataModel.isLichLap ?? false,
+                                    );
+                                  },
+                                ),
 
-                                ///thu hoi lich
-                                if (((dataModel.canBoChuTri?.id ?? '') ==
-                                        (HiveLocal.getDataUser()?.userId ??
-                                            '')) ||
-                                    ((dataModel.createBy?.id ?? '') ==
-                                        (HiveLocal.getDataUser()?.userId ??
-                                            ''))) ...[
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icRecall,
-                                    text: S.current.thu_hoi,
-                                    onTap: () {
-                                      showBottomSheetCustom(
-                                        context,
-                                        title: S.current.thu_hoi_lich,
-                                        child: RecallCalendar(
-                                          cubit: chiTietLichLamViecCubit,
-                                          callback: () {
-                                            checkRecallDuplicateCal(
-                                              dataModel.isLichLap ?? false,
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  )
-                                ],
-
-                                ///sua lich
-                                if (((dataModel.canBoChuTri?.id ?? '') ==
-                                        (HiveLocal.getDataUser()?.userId ??
-                                            '')) ||
-                                    ((dataModel.createBy?.id ?? '') ==
-                                        (HiveLocal.getDataUser()?.userId ??
-                                            ''))) ...[
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icEditBlue,
-                                    text: S.current.sua_lich,
-                                    onTap: () {
-                                      showBottomSheetCustom(
-                                        context,
-                                        title: '',
-                                        textOption: false,
-                                        child: EditCalendarWork(
-                                          cubit: chiTietLichLamViecCubit,
-                                          event: dataModel,
-                                        ),
-                                      ).then((value) {
-                                        if (value == true) {
-                                          Navigator.pop(context, true);
-                                        } else if (value == null) {
-                                          return;
-                                        }
-                                      });
-                                    },
-                                  ),
-                                ]
+                              ///thu hoi lich
+                              if (isThuHoi) ...[
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icRecall,
+                                  text: S.current.thu_hoi,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: S.current.thu_hoi_lich,
+                                      child: RecallCalendar(
+                                        cubit: chiTietLichLamViecCubit,
+                                        callback: () {
+                                          checkRecallDuplicateCal(
+                                            dataModel.isLichLap ?? false,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                )
                               ],
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                          leadingIcon: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              color: AqiColor,
-                            ),
+
+                              ///sua lich
+                              if (isThuHoi) ...[
+                                CellPopPupMenu(
+                                  urlImage: ImageAssets.icEditBlue,
+                                  text: S.current.sua_lich,
+                                  onTap: () {
+                                    showBottomSheetCustom(
+                                      context,
+                                      title: '',
+                                      textOption: false,
+                                      child: EditCalendarWork(
+                                        cubit: chiTietLichLamViecCubit,
+                                        event: dataModel,
+                                      ),
+                                    ).then((value) {
+                                      if (value == true) {
+                                        Navigator.pop(context, true);
+                                      } else if (value == null) {
+                                        return;
+                                      }
+                                    });
+                                  },
+                                ),
+                              ]
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                        leadingIcon: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: AqiColor,
                           ),
                         ),
-                        body: Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          child: SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            child: ExpandGroup(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.circle,
-                                        size: 12,
-                                        color: statusCalenderRed,
+                      ),
+                      body: Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        child: SingleChildScrollView(
+                          child: ExpandGroup(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.circle,
+                                      size: 12,
+                                      color: statusCalenderRed,
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    Text(
+                                      dataModel.title ?? '',
+                                      style: textNormalCustom(
+                                        color: textTitle,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      Text(
-                                        dataModel.title ?? '',
-                                        style: textNormalCustom(
-                                          color: textTitle,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  ItemRowChiTiet(
-                                    data: dataModel,
-                                    cubit: chiTietLichLamViecCubit,
-                                  ),
-                                  listScheduleCooperatives(),
-                                  spaceH8,
+                                    ),
+                                  ],
+                                ),
+                                ItemRowChiTiet(
+                                  data: dataModel,
+                                  cubit: chiTietLichLamViecCubit,
+                                ),
+                                listScheduleCooperatives(),
+                                spaceH8,
+                                if (isBaoCaoKetQua)
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,
                                   ),
-                                  DanhSachYKienButtom(
-                                    id: widget.id,
-                                    cubit: chiTietLichLamViecCubit,
-                                  ),
-                                  spaceH12,
-                                  StreamBuilder<bool>(
-                                      stream: chiTietLichLamViecCubit
-                                          .showButtonApprove,
-                                      builder: (context, snapshot) {
-                                        final data = snapshot.data ?? false;
-                                        return Visibility(
-                                          visible: data,
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: bottomButtonWidget(
-                                                  background: buttonColor
-                                                      .withOpacity(0.1),
-                                                  title: S.current.tu_choi,
-                                                  onTap: () {
+                                DanhSachYKienButtom(
+                                  id: widget.id,
+                                  cubit: chiTietLichLamViecCubit,
+                                ),
+                                spaceH12,
+                                StreamBuilder<bool>(
+                                    stream: chiTietLichLamViecCubit
+                                        .showButtonApprove,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? false;
+                                      return Visibility(
+                                        visible: data,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: bottomButtonWidget(
+                                                background: buttonColor
+                                                    .withOpacity(0.1),
+                                                title: S.current.tu_choi,
+                                                onTap: () {
+                                                  chiTietLichLamViecCubit
+                                                      .confirmOfficer(
+                                                    ConfirmOfficerRequest(
+                                                      lichId: dataModel.id,
+                                                      isThamGia: false,
+                                                      lyDo: '',
+                                                    ),
+                                                  )
+                                                      .then((value) {
                                                     chiTietLichLamViecCubit
-                                                        .confirmOfficer(
-                                                      ConfirmOfficerRequest(
-                                                        lichId: dataModel.id,
-                                                        isThamGia: false,
-                                                        lyDo: '',
-                                                      ),
-                                                    );
-                                                  },
-                                                  textColor: buttonColor,
-                                                ),
+                                                        .loadApi(widget.id);
+                                                  });
+                                                },
+                                                textColor: buttonColor,
                                               ),
-                                              const SizedBox(
-                                                width: 16,
-                                              ),
-                                              Expanded(
-                                                child: bottomButtonWidget(
-                                                  background: buttonColor,
-                                                  title: S.current.tham_du,
-                                                  onTap: () {
+                                            ),
+                                            const SizedBox(
+                                              width: 16,
+                                            ),
+                                            Expanded(
+                                              child: bottomButtonWidget(
+                                                background: buttonColor,
+                                                title: S.current.tham_du,
+                                                onTap: () {
+                                                  chiTietLichLamViecCubit
+                                                      .confirmOfficer(
+                                                    ConfirmOfficerRequest(
+                                                      lichId: dataModel.id,
+                                                      isThamGia: true,
+                                                      lyDo: '',
+                                                    ),
+                                                  )
+                                                      .then((value) {
                                                     chiTietLichLamViecCubit
-                                                        .confirmOfficer(
-                                                      ConfirmOfficerRequest(
-                                                        lichId: dataModel.id,
-                                                        isThamGia: true,
-                                                        lyDo: '',
-                                                      ),
-                                                    );
-                                                  },
-                                                  textColor: Colors.white,
-                                                ),
+                                                        .loadApi(widget.id);
+                                                  });
+                                                },
+                                                textColor: Colors.white,
                                               ),
-                                            ],
-                                          ),
-                                        );
-                                      })
-                                ],
-                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    })
+                              ],
                             ),
                           ),
                         ),
-                      )
-                    : Scaffold(
-                        appBar: BaseAppBar(
-                          title: S.current.chi_tiet_lich_lam_viec,
-                          leadingIcon: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              color: AqiColor,
-                            ),
+                      ),
+                    )
+                  : Scaffold(
+                      appBar: BaseAppBar(
+                        title: S.current.chi_tiet_lich_lam_viec,
+                        leadingIcon: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: AqiColor,
                           ),
                         ),
-                        body:const CustomScrollView(
-                          slivers: [
-                            SliverFillRemaining(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 16.0),
-                                child: NodataWidget(),
-                              ),
-                            ),
-                          ],
+                      ),
+                      body: Center(
+                        child: Text(
+                          S.current.no_data,
+                          style: textNormalCustom(
+                            fontSize: 14,
+                            color: AppTheme.getInstance().colorField(),
+                          ),
                         ),
-                      );
-          },
-        ),
+                      ),
+                    )
+              : const Scaffold();
+        },
       ),
     );
   }

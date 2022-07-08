@@ -500,7 +500,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
             onPressed2: () {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
-                widget.cubit.ThemPhienHop(widget.id);
+                widget.cubit.themPhienHop(widget.id);
                 widget.cubit.startTime = '00:00';
                 widget.cubit.endTime = '00:00';
                 Navigator.pop(context);

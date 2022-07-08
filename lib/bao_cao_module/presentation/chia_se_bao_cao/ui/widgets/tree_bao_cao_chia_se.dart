@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chi
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/custom_checkbox.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -40,44 +41,49 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
               Expanded(
                 child: Row(
                   children: [
-                    if (widget.selectOnly)
-                      StreamBuilder<Node<DonViModel>?>(
-                          stream: widget.themDonViCubit.selectOnlyDonVi,
-                          builder: (context, snapshot) {
-                            return CustomCheckBox(
-                              title: '',
-                              onChange: (isCheck) {
-                                widget.themDonViCubit
-                                    .selectNodeOnly(widget.node);
-                              },
-                              isCheck: snapshot.data?.value.id ==
-                                  widget.node.value.id,
-                            );
-                          })
-                    else
-                      CustomCheckBox(
-                        title: '',
-                        onChange: (isCheck) {
-                          widget.node.isCheck.isCheck = !isCheck;
-                          if (isCheck) {
-                            ///TODO call API getUser and add to list share
-                            ///TODO all children checkbox is true
-                          } else {}
-
-                          widget.node.setSelected(widget.node.isCheck.isCheck);
-                          setState(() {});
-                        },
-                        isCheck: widget.node.isCheckALl(),
-                      ),
+                    StreamBuilder<bool>(
+                        stream: widget.themDonViCubit.selectDonViStream,
+                        builder: (context, snapshot) {
+                          return Stack(
+                            children: [
+                              Container(
+                                width: 18.0.textScale(),
+                                height: 18.0.textScale(),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: widget.node.isTickChildren
+                                      ? AppTheme.getInstance().colorField()
+                                      : Colors.transparent,
+                                ),
+                              ),
+                              CustomCheckBox(
+                                onChange: (isCheck) {
+                                  widget.node.isCheck.isCheck = !isCheck;
+                                  final data = widget.node
+                                      .setSelected(widget.node.isCheck.isCheck);
+                                  if (isCheck == false) {
+                                    widget.node.isTickChildren = false;
+                                  }
+                                  widget.node.isCheckTickChildren();
+                                  widget.themDonViCubit.addSelectDonVi(
+                                      isCheck: widget.node.isCheck.isCheck,
+                                      listDonVi: data);
+                                },
+                                isCheck: widget.node.isCheckALl(),
+                              )
+                            ],
+                          );
+                        }),
                     Expanded(
                       child: InkWell(
                         onTap: () async {
                           widget.node.expand = !widget.node.expand;
                           if (!widget.node.isCallApi) {
                             widget.node.isCallApi = true;
-
-                            await widget.themDonViCubit.searchCanBoPaging(
-                                widget.node.value.id, widget.node);
+                            if (widget.node.value.chucVu.isEmpty) {
+                              await widget.themDonViCubit.searchCanBoPaging(
+                                  widget.node.value.id, widget.node);
+                            }
                           }
                           setState(() {});
                         },

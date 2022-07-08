@@ -45,6 +45,9 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   final BehaviorSubject<bool> _isDuocTruyCapSubject =
       BehaviorSubject.seeded(true);
 
+  Stream<bool> get selectDonViStream => _selectDonVi.stream;
+  final BehaviorSubject<bool> _selectDonVi = BehaviorSubject<bool>();
+
   Stream<bool> get isDuocTruyCapStream => _isDuocTruyCapSubject.stream;
 
   Sink<bool> get isDuocTruyCapSink => _isDuocTruyCapSubject.sink;
@@ -52,6 +55,8 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   bool get valueDuocTruyCap => _isDuocTruyCapSubject.value;
 
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
+
+  final List<DonViModel> listSelect = [];
 
   void loadTreeDonVi() {
     hopRp.getTreeDonVi().then((value) {
@@ -75,12 +80,14 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     showLoading();
     final data = await _repo.getUserPaging(donViId: donViId, appId: appId);
     showContent();
-    data.when(success: (res){
-      for (final element in res) {
-        element.isCheck.isCheck = node.isCheck.isCheck;
-        node.addChild(element);
-      }
-    }, error: (err){});
+    data.when(
+        success: (res) {
+          for (final element in res) {
+            element.isCheck.isCheck = node.isCheck.isCheck;
+            node.addChild(element);
+          }
+        },
+        error: (err) {});
   }
 
   Future<void> getGroup() async {
@@ -128,6 +135,20 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         showError();
       },
     );
+  }
+
+  void addSelectDonVi({
+    bool isCheck = false,
+    List<DonViModel> listDonVi = const [],
+  }) {
+    if (isCheck) {
+      listSelect.addAll(listDonVi);
+    } else {
+      for (final element in listDonVi) {
+        listSelect.remove(element);
+      }
+    }
+    _selectDonVi.sink.add(isCheck);
   }
 
   Future<void> getDonVi() async {}

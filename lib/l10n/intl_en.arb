@@ -1266,5 +1266,7 @@
   "lich_hop_da_klch": "Lịch họp đã KLCH",
   "duyet_phat_bieu": "Bạn có chắc muốn duyệt phát biểu không?",
   "huy_duyet_phat_bieu": "Bạn có chắc muốn hủy duyệt phát biểu không?",
-  "su_kien_trong_ngay": "Sự kiện trong ngày"
+  "su_kien_trong_ngay": "Sự kiện trong ngày",
+  "ten_phien_hop": "Tên phiên họp",
+  "vui_long_chon_chu_tri": "Vui lòng chọn Cơ quan chủ trì"
 }

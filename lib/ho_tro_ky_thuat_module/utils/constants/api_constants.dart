@@ -11,6 +11,7 @@ class ApiConstants {
   static const String GET_CATEGORY='/htkt/api/Category/get-tree';
   static const String GET_CHART_SU_CO='/htkt/api/Task/thong-ke-khu-vuc';
   static const String GET_NGUOI_XU_LY='/htkt/api/Task/get-infor-user';
+  static const String DELETE_TASK='/htkt/api/Task/delete-task';
 }
 
 class ImageConstants {

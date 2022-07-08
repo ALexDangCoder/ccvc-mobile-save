@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 enum TimeRange { HOM_NAY, TUAN_NAY, THANG_NAY, NAM_NAY }
 
 extension DateFormatString on DateTime {
+  String get getMonth => 'Th${this.month}';
+
   String get toStringWithAMPM {
     final dateString = DateFormat.jm('en').format(this);
     return dateString;
@@ -28,6 +30,15 @@ extension DateFormatString on DateTime {
   String get formatDayCalendar {
     final dateString =
         (DateFormat(' dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');
+
+    return dateString;
+  }
+
+  String get dateInAndOut => '$hour:$minute';
+
+  String get formatMonthAndYear {
+    final dateString =
+        (DateFormat('MM-yyyy').format(this)).replaceAll('-', ' năm ');
 
     return dateString;
   }
@@ -188,6 +199,4 @@ extension DateFormatString on DateTime {
   }
 
   DateTime _getDate(DateTime d) => DateTime(d.year, d.month, d.day);
-
-
 }

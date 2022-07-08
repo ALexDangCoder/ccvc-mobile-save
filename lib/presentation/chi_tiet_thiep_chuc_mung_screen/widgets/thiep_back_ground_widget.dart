@@ -6,9 +6,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 
 class ThiepBackgroundWidget extends StatefulWidget {
-  const ThiepBackgroundWidget(
-      {this.isTablet = false, required this.pathImage, Key? key,})
-      : super(key: key);
+  const ThiepBackgroundWidget({
+    this.isTablet = false,
+    required this.pathImage,
+    Key? key,
+  }) : super(key: key);
   final bool isTablet;
   final String pathImage;
 
@@ -36,10 +38,12 @@ class _ThiepBackgroundWidgetState extends State<ThiepBackgroundWidget> {
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.tealAccent,
-              border: widget.isTablet ? Border.all(
-                width: 6,
-                color: backgroundColorApp,
-              ) : null,
+              border: widget.isTablet
+                  ? Border.all(
+                      width: 6,
+                      color: backgroundColorApp,
+                    )
+                  : null,
             ),
             child: ClipRRect(
               borderRadius: widget.isTablet ? BorderRadius.circular(4) : null,
@@ -58,14 +62,15 @@ class _ThiepBackgroundWidgetState extends State<ThiepBackgroundWidget> {
 class Myclipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    Path path = Path();
+    final Path path = Path();
 
     path.moveTo(0, size.height - 150.0.textScale(space: 150));
     path.quadraticBezierTo(
-        size.width / 2,
-        size.height + 0.0.textScale(space: 120),
-        size.width,
-        size.height - 150.0.textScale(space: 150));
+      size.width / 2,
+      size.height + 0.0.textScale(space: 120),
+      size.width,
+      size.height - 150.0.textScale(space: 150),
+    );
     path.lineTo(size.width, 0);
     path.lineTo(0, 0);
     path.close();
@@ -86,13 +91,14 @@ class CurvePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10.0;
 
-    Path path = Path();
+    final Path path = Path();
     path.moveTo(0, size.height - 150.0.textScale(space: 150));
     path.quadraticBezierTo(
-        size.width / 2,
-        size.height + 0.0.textScale(space: 120),
-        size.width,
-        size.height - 150.0.textScale(space: 150));
+      size.width / 2,
+      size.height + 0.0.textScale(space: 120),
+      size.width,
+      size.height - 150.0.textScale(space: 150),
+    );
     canvas.drawShadow(path, shadowContainerColor.withOpacity(0.2), 10.0, true);
     canvas.drawPath(path, paint);
   }

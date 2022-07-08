@@ -368,7 +368,6 @@ class DefaultApp extends AppColor {
     return colorB9C4D0;
   }
 
-  @override
   Color textBodyTimeColor() {
     return textBodyTime;
   }
@@ -516,7 +515,6 @@ class BlueApp extends AppColor {
     return colorB9C4D0;
   }
 
-  @override
   Color textBodyTimeColor() {
     return textBodyTime;
   }
@@ -651,7 +649,6 @@ class PinkApp extends AppColor {
   }
 
 
-  @override
   Color textBodyTimeColor() {
     return textBodyTime;
   }
@@ -783,7 +780,6 @@ class YellowApp extends AppColor {
     return colorB9C4D0;
   }
 
-  @override
   Color textBodyTimeColor() {
     return textBodyTime;
   }

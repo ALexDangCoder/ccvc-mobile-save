@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,9 +32,9 @@ class ItemAppointmentDay extends StatelessWidget {
               horizontal: 8,
               vertical: appointment.isAllDay ? 1 : 6,
             ),
-            decoration: const BoxDecoration(
-              color: textDefault,
-              borderRadius: BorderRadius.all(Radius.circular(4)),
+            decoration:  BoxDecoration(
+              color: AppTheme.getInstance().colorField(),
+              borderRadius: const  BorderRadius.all(Radius.circular(4)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

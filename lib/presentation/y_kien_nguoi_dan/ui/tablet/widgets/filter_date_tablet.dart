@@ -20,7 +20,7 @@ class FilterDateTablet extends StatefulWidget {
     required this.context,
     this.currentStartDate,
     this.currentEndDate,
-  }) : super(key: key) {}
+  }) : super(key: key) ;
 
   @override
   _FilterDateTabletState createState() => _FilterDateTabletState();

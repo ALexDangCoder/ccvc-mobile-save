@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dropdown/custom_drop_down.dart
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -14,7 +13,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/them_y_kien__widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -233,55 +231,6 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
           ),
         ),
       ],
-    );
-  }
-
-  Widget tabYKienCuocHop() {
-    return listYKienWidget();
-  }
-
-  Widget tabYKienPhienHop() {
-    return Column(
-      children: [
-        StreamBuilder<List<PhienhopModel>>(
-          stream: widget.cubit.phienHop.stream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? [];
-            final listPhienHop =
-                data.map((e) => e.value ?? '').toSet().toList();
-            return CoolDropDown(
-              initData: S.current.cuoc_hop,
-              listData: listPhienHop,
-              onChange: (value) {},
-            );
-          },
-        ),
-        listYKienWidget(),
-      ],
-    );
-  }
-
-  Widget listYKienWidget() {
-    return StreamBuilder<List<YkienCuocHopModel>>(
-      stream: widget.cubit.listYKienCuocHop.stream,
-      builder: (context, snapshot) {
-        final data = snapshot.data ?? [];
-        if (data.isEmpty) {
-          return const SizedBox();
-        }
-        return ListView.builder(
-          itemCount: data.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return CommentWidget(
-              yKienCuocHop: data[index],
-              cubit: widget.cubit,
-              id: widget.cubit.idCuocHop,
-            );
-          },
-        );
-      },
     );
   }
 }

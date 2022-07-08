@@ -51,6 +51,7 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceH16,
           ItemTextFieldWidget(
             hint: '',
             title: S.current.y_kien_cuop_hop,

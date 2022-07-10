@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'officer_join_response.g.dart';
@@ -32,17 +33,34 @@ class OfficerJoinResponse {
 
 @JsonSerializable()
 class DataResponse {
+  @JsonKey(name: 'key')
+  String ? key;
   @JsonKey(name: 'data')
-  ItemOfficerResponse? items;
+  ItemOfficerResponse? data;
+  @JsonKey(name: 'children')
+  List<DataResponse>? children;
 
   DataResponse({
-    this.items,
+    this.data,
+    this.key,
+    this.children,
   });
 
   factory DataResponse.fromJson(Map<String, dynamic> json) =>
       _$DataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataResponseToJson(this);
+
+
+  Node<Officer> toNode() {
+    final node = Node(
+        data?.toModel() ?? Officer(),
+    );
+    children?.forEach((element) {
+      node.addChild(element.toNode());
+    });
+    return node;
+  }
 }
 
 @JsonSerializable()
@@ -92,7 +110,8 @@ class ItemOfficerResponse {
     this.scheduleId,
   });
 
-  Officer toModel() => Officer(
+  Officer toModel() =>
+      Officer(
         id: id,
         hoTen: hoTen,
         donViId: donViId,
@@ -105,4 +124,6 @@ class ItemOfficerResponse {
         status: status,
         scheduleId: scheduleId,
       );
+
+  Node<Officer> toNode() => Node(toModel());
 }

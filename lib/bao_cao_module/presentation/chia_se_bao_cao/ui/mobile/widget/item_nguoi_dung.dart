@@ -34,31 +34,31 @@ class ItemNguoiDung extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            height: 32.h,
-            width: 32.w,
-            decoration: const BoxDecoration(
-              color: yellowColor,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                (name.split(' ').length >= 2 ? name
-                    .split(' ')
-                    .elementAt(name.split(' ').length - 2)
-                    .substring(0, 1) +
-                    name
-                        .split(' ')
-                        .elementAt(name.split(' ').length - 1)
-                        .substring(0, 1) : name.substring(0,2)).toUpperCase(),
-                style: textNormalCustom(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   height: 32.h,
+          //   width: 32.w,
+          //   decoration: const BoxDecoration(
+          //     color: yellowColor,
+          //     shape: BoxShape.circle,
+          //   ),
+          //   child: Center(
+          //     child: Text(
+          //       (name.split(' ').length >= 2 ? name
+          //           .split(' ')
+          //           .elementAt(name.split(' ').length - 2)
+          //           .substring(0, 1) +
+          //           name
+          //               .split(' ')
+          //               .elementAt(name.split(' ').length - 1)
+          //               .substring(0, 1) : name.substring(0,2)).toUpperCase(),
+          //       style: textNormalCustom(
+          //         color: Colors.white,
+          //         fontSize: 14,
+          //         fontWeight: FontWeight.w500,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           spaceW8,
           SizedBox(
             width: (name.characters.length * 8).w < 80.w

@@ -20,51 +20,54 @@ Widget statusWidget({
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: listData.map(
             (e) {
-              // final index = listData.indexOf(e);
-              return Row(
-                children: [
-                  Container(
-                    height: 260,
-                    width: 38,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: colorECEEF7,
-                    ),
-                    // color: e.color,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: (total - (e.value)).toInt(),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              FittedBox(
-                                child: Text(
-                                  e.value.toInt().toString(),
-                                  style: textNormal(
-                                    textTitleColumn,
-                                    14.0.textScale(),
+              final index = listData.indexOf(e);
+              return InkWell(
+                onTap: () => callBack(index),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 260,
+                      width: 38,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: colorECEEF7,
+                      ),
+                      // color: e.color,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: (total - (e.value)).toInt(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                FittedBox(
+                                  child: Text(
+                                    e.value.toInt().toString(),
+                                    style: textNormal(
+                                      textTitleColumn,
+                                      14.0.textScale(),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              spaceH6,
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: e.value.toInt(),
-                          child: Container(
-                            width: 38,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: e.color,
+                                spaceH6,
+                              ],
                             ),
                           ),
-                        )
-                      ],
+                          Expanded(
+                            flex: e.value.toInt(),
+                            child: Container(
+                              width: 38,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: e.color,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ).toList(),

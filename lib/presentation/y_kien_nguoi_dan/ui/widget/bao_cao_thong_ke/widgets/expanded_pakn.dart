@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 class ExpandPAKNWidget extends StatefulWidget {
   final String name;
   final Widget child;
-
+  final Function(bool isExpand)? isFuncExpand;
   const ExpandPAKNWidget({
     Key? key,
     required this.name,
     required this.child,
+    this.isFuncExpand,
   }) : super(key: key);
 
   @override
@@ -44,6 +45,7 @@ class _ExpandPAKNWidgetState extends State<ExpandPAKNWidget> {
               child: GestureDetector(
                 onTap: () {
                   isExpand = !isExpand;
+                  if(widget.isFuncExpand != null) widget.isFuncExpand!(isExpand);
                   setState(() {});
                 },
                 child: Icon(

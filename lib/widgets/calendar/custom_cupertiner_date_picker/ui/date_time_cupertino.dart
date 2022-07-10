@@ -125,8 +125,8 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,
                               cubit.timeEndSubject.value,
-                              cubit.dateBeginSubject.value,
-                              cubit.dateEndSubject.value,
+                              cubit.dateSubject.value,
+                              cubit.dateSubject.value,
                             );
                           },
                         );
@@ -183,7 +183,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                 },
               ),
               StreamBuilder<String>(
-                stream: cubit.dateBeginSubject,
+                stream: cubit.dateSubject,
                 builder: (context, snapshot) {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
@@ -224,7 +224,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                           backgroundColor: backgroundColorApp,
                           mode: cubit.getTypePicker(typePicker),
                           use24hFormat: true,
-                          initialDateTime: '${cubit.dateBeginSubject.value} '
+                          initialDateTime: '${cubit.dateSubject.value} '
                                   '${cubit.timeBeginSubject.value}'
                               .convertStringToDate(
                             formatPattern: DateTimeFormat.DATE_DD_MM_HM,
@@ -239,8 +239,8 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                                 widget.onDateTimeChanged(
                                   cubit.timeBeginSubject.value,
                                   cubit.timeEndSubject.value,
-                                  cubit.dateBeginSubject.value,
-                                  cubit.dateEndSubject.value,
+                                  cubit.dateSubject.value,
+                                  cubit.dateSubject.value,
                                 );
                               },
                             );
@@ -299,7 +299,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                 },
               ),
               StreamBuilder<String>(
-                stream: cubit.dateEndSubject,
+                stream: cubit.dateSubject,
                 builder: (context, snapshot) {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
@@ -335,7 +335,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                       ? CupertinoDatePicker(
                           key: UniqueKey(),
                           maximumDate: DateTime(2099, 12, 30),
-                          minimumDate: '${cubit.dateBeginSubject.value} '
+                          minimumDate: '${cubit.dateSubject.value} '
                                   '${cubit.timeBeginSubject.value}'
                               .convertStringToDate(
                             formatPattern: DateTimeFormat.DATE_DD_MM_HM,
@@ -345,7 +345,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                           backgroundColor: backgroundColorApp,
                           mode: cubit.getTypePicker(typePicker),
                           use24hFormat: true,
-                          initialDateTime: '${cubit.dateEndSubject.value} '
+                          initialDateTime: '${cubit.dateSubject.value} '
                                   '${cubit.timeEndSubject.value}'
                               .convertStringToDate(
                             formatPattern: DateTimeFormat.DATE_DD_MM_HM,
@@ -360,8 +360,8 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                                 widget.onDateTimeChanged(
                                   cubit.timeBeginSubject.value,
                                   cubit.timeEndSubject.value,
-                                  cubit.dateBeginSubject.value,
-                                  cubit.dateEndSubject.value,
+                                  cubit.dateSubject.value,
+                                  cubit.dateSubject.value,
                                 );
                               },
                             );

@@ -73,7 +73,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               value: valueChoose,
               icon: const Icon(Icons.keyboard_arrow_down),
               onChanged: (value) {
-                widget.onChange.call(0);
+                widget.onChange.call(int.parse(value.toString()));
                 valueChoose = value as String?;
                 setState(() {});
               },

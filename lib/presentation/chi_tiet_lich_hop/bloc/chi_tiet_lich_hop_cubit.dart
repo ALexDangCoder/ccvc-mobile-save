@@ -4,8 +4,6 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
@@ -46,14 +44,12 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
 import 'package:rxdart/rxdart.dart';
 
-import 'Extension/phat_bieu_ex.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
@@ -137,11 +133,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       danhSachLoaiNhiemVuLichHopModel = BehaviorSubject();
 
   BehaviorSubject<List<VBGiaoNhiemVuModel>> listVBGiaoNhiemVu =
-      BehaviorSubject();
+      BehaviorSubject<List<VBGiaoNhiemVuModel>>();
 
   BehaviorSubject<bool> checkTuyChinh = BehaviorSubject();
-
-  List<VBGiaoNhiemVuModel> vBGiaoNhiemVuModel = [];
 
   BehaviorSubject<List<ListPhienHopModel>> danhSachChuongTrinhHop =
       BehaviorSubject();

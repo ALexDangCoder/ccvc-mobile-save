@@ -341,7 +341,7 @@ abstract class HopServices {
 
   @POST(ApiConstants.THEM_PHIEN_NhIEM_VU)
   Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(
-    @Part() ThemNhiemVuRequest themNhiemVuRequest,
+    @Body() ThemNhiemVuRequest themNhiemVuRequest,
   );
 
   @PUT(ApiConstants.EDIT_CHUONG_TRINH_HOP)

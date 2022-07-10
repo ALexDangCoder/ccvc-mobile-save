@@ -17,13 +17,11 @@ class DanhSachLoaiNhiemVuLichHopModel {
 }
 
 class VBGiaoNhiemVuModel {
-  List<File>? file;
+  List<String>? file;
   String? soVanBan;
   String? ngayVanBan;
   String? trichYeu;
   String? hinhThucVanBan;
-
-  VBGiaoNhiemVuModel.emty();
 
   VBGiaoNhiemVuModel({
     this.file,

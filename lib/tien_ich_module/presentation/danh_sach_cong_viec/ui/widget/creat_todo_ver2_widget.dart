@@ -264,7 +264,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                         onTapDelete: () {
                           widget.cubit
                               .editWork(
-                                isDeleted: true,
+                                isDeleteFile: true,
                                 todo: widget.todo ?? TodoDSCVModel(),
                                 filePathTodo: '',
                               )

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -17,6 +18,7 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
@@ -124,6 +126,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         MessageConfig.show(title: S.current.xoa_thanh_cong);
         eventBus.fire(RefreshCalendar());
+        Get.back(result: true);
       },
       error: (error) {
         MessageConfig.show(
@@ -144,12 +147,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     bool? isMulti,
   }) async {
     ShowLoadingScreen.show();
-    final rs =
-        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti ?? false);
+    final rs = await detailLichLamViec.cancelCalenderWork(
+        id, statusId, isMulti ?? false);
     rs.when(
       success: (data) {
         if (data.succeeded ?? false) {
           MessageConfig.show(title: S.current.huy_thanh_cong);
+          Get.back(result: true);
           eventBus.fire(RefreshCalendar());
         }
       },
@@ -372,11 +376,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           ),
         )
         .toList();
-    final result = await detailLichLamViec.recallWorkCalendar(isMulti ?? false, request);
+    final result =
+        await detailLichLamViec.recallWorkCalendar(isMulti ?? false, request);
     result.when(
       success: (success) {
         //eventBus.fire(RefreshCalendar());
         MessageConfig.show(title: S.current.thu_hoi_lich_thanh_cong);
+        Get.back(result: true);
         emit(SuccessChiTietLichLamViecState());
       },
       error: (error) {
@@ -465,5 +471,16 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         );
       },
     );
+  }
+
+  bool checkLenghtFile() {
+    int sum = 0;
+    for (final element in files) {
+      sum = sum + element.lengthSync();
+    }
+    if (sum > MaxSizeFile.MAX_SIZE_20MB) {
+      return false;
+    }
+    return true;
   }
 }

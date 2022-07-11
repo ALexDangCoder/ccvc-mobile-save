@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/delete_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/post_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
@@ -26,7 +28,7 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   );
 
   @override
-  Future<Result<List<DanhSachSuCoModel>>> postDanhSachSuCo({
+  Future<Result<List<SuCoModel>>> postDanhSachSuCo({
     required int pageIndex,
     required int pageSize,
     String? codeUnit,
@@ -40,7 +42,7 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
     String? handlerId,
     String? keyWord,
   }) {
-    return runCatchingAsync<DanhSachSuCoResponse, List<DanhSachSuCoModel>>(
+    return runCatchingAsync<DanhSachSuCoResponse, List<SuCoModel>>(
       () => _hoTroKyThuatService.postDanhSachSuCo(
         pageIndex,
         pageSize,
@@ -102,10 +104,10 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   }
 
   @override
-  Future<Result<ChartSuCoModel>> getChartSuCo() {
-    return runCatchingAsync<ChartSuCoResponse, ChartSuCoModel>(
+  Future<Result<List<ChartSuCoModel>>> getChartSuCo() {
+    return runCatchingAsync<ChartSuCoResponse, List<ChartSuCoModel>>(
       () => _hoTroKyThuatService.getChartSuCo(),
-      (res) => res.data?.toModel() ?? ChartSuCoModel(),
+      (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 
@@ -131,6 +133,27 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
           return false;
         }
       },
+    );
+  }
+
+  @override
+  Future<Result<String>> updateTaskProcessing(TaskProcessing task) {
+    return runCatchingAsync<PostResponse, String>(
+      () => _hoTroKyThuatService.updateTaskProcessing(
+        task,
+      ),
+      (res) => res.message ?? '',
+    );
+  }
+
+  @override
+  Future<Result<String>> commentTask(String idTask, String comment) {
+    return runCatchingAsync<PostResponse, String>(
+      () => _hoTroKyThuatService.commentTaskProcessing(
+        idTask,
+        comment,
+      ),
+      (res) => res.message ?? '',
     );
   }
 }

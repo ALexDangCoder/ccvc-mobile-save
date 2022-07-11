@@ -1,24 +1,26 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_hoi_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CommentWidget extends StatefulWidget {
   final String id;
   final DetailMeetCalenderCubit cubit;
-  final YkienCuocHopModel object;
+  final YkienCuocHopModel yKienCuocHop;
 
   const CommentWidget({
     Key? key,
-    required this.object,
+    required this.yKienCuocHop,
     required this.cubit,
     required this.id,
   }) : super(key: key);
@@ -28,88 +30,79 @@ class CommentWidget extends StatefulWidget {
 }
 
 class _CommentWidgetState extends State<CommentWidget> {
-  late bool showRecoment;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    showRecoment = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    final data = widget.object.traLoiYKien ?? [];
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: toDayColor.withOpacity(0.1),
-          border: Border.all(
-            color: toDayColor.withOpacity(0.4),
-          ),
-          borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
+    final data = widget.yKienCuocHop.traLoiYKien ?? [];
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      decoration: BoxDecoration(
+        color: toDayColor.withOpacity(0.1),
+        border: Border.all(
+          color: toDayColor.withOpacity(0.4),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0.textScale(space: 4.0)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              yKienWidget(
-                nguoiTao: widget.object.nguoiTao ?? '',
-                ngayTao:
-                    widget.cubit.coverDateFormat(widget.object.ngayTao ?? ''),
-                content: widget.object.content ?? '',
-                onTap: () {
+        borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16.0.textScale(space: 4.0)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            yKienWidget(
+              nguoiTao: widget.yKienCuocHop.nguoiTao ?? '',
+              ngayTao: widget.yKienCuocHop.ngayTao ?? '',
+              content: widget.yKienCuocHop.content ?? '',
+              onTap: () {
+                if (isMobile()) {
                   showBottomSheetCustom(
                     context,
                     title: S.current.y_kien,
                     child: PhanHoiWidget(
                       cubit: widget.cubit,
                       id: widget.cubit.idCuocHop,
+                      scheduleOpinionId: widget.yKienCuocHop.id ?? '',
                     ),
                   );
-                },
-              ),
-              SizedBox(
-                height: 16.0.textScale(space: 4.0),
-              ),
-              if (showRecoment)
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 48, bottom: 16),
-                      child: yKienWidget(
-                        nguoiTao: data[index].nguoiTao ?? '',
-                        ngayTao: data[index].ngayTao ?? '',
-                        content: data[index].content ?? '',
-                      ),
-                    );
-                  },
-                ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 48),
-              //   child: SendCommentWidgetLichHop(
-              //     isReComment: true,
-              //     onSendComment: (vl) {
-              //       widget.cubit.themYKien(
-              //         idLichHop: widget.id,
-              //         yKien: vl,
-              //         scheduleOpinionId: widget.object.id ?? '',
-              //         phienHopId: '',
-              //       );
-              //       widget.cubit.getDanhSachYKien(
-              //         widget.id,
-              //         widget.cubit.getPhienHopId,
-              //       );
-              //     },
-              //   ),
-              // )
-            ],
-          ),
+                } else {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.y_kien,
+                    child: PhanHoiWidget(
+                      cubit: widget.cubit,
+                      id: widget.cubit.idCuocHop,
+                      scheduleOpinionId: widget.yKienCuocHop.id ?? '',
+                    ),
+                    funcBtnOk: () {},
+                    isBottomShow: false,
+                  );
+                }
+              },
+            ),
+            SizedBox(
+              height: 16.0.textScale(space: 4.0),
+            ),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 48, bottom: 16),
+                  child: yKienWidget(
+                    nguoiTao: data[index].nguoiTao ?? '',
+                    ngayTao: data[index].ngayTao ?? '',
+                    content: data[index].content ?? '',
+                    showIcReply: false,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -120,6 +113,7 @@ class _CommentWidgetState extends State<CommentWidget> {
     required String ngayTao,
     required String content,
     Function()? onTap,
+    bool showIcReply = true,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,14 +157,31 @@ class _CommentWidgetState extends State<CommentWidget> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                if (onTap != null) {
-                  onTap();
-                }
-              },
-              child: SvgPicture.asset(ImageAssets.ic_phan_hoi),
-            )
+            if (showIcReply)
+              GestureDetector(
+                onTap: () {
+                  if (onTap != null) {
+                    onTap();
+                  }
+                },
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: borderColor.withOpacity(0.5),
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: SvgPicture.asset(
+                    ImageAssets.ic_phan_hoi,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
+                ),
+              )
           ],
         ),
       ],

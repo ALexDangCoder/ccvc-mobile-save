@@ -36,6 +36,8 @@ extension DateFormatString on DateTime {
 
   String get dateInAndOut => '$hour:$minute';
 
+  String get convertDateTimeApi => toString().replaceFirst(' ', 'T');
+
   String get formatMonthAndYear {
     final dateString =
         (DateFormat('MM-yyyy').format(this)).replaceAll('-', ' năm ');

@@ -62,7 +62,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
       bottomWidget: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
         child: DoubleButtonBottom(
-          onPressed2: () async {
+          onClickRight: () async {
             _keyBaseTime.currentState?.validator();
             if (_key.currentState?.validator() ?? false) {
               await widget.cubit.suaChuongTrinhHop(
@@ -93,7 +93,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
               return;
             }
           },
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
           title1: S.current.dong,

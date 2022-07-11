@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_su_co_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/nguoi_tiep_nhan_yeu_cau_model.dart';
@@ -8,7 +9,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 
 mixin HoTroKyThuatRepository {
-  Future<Result<List<DanhSachSuCoModel>>> postDanhSachSuCo({
+  Future<Result<List<SuCoModel>>> postDanhSachSuCo({
     required int pageIndex,
     required int pageSize,
     String? codeUnit,
@@ -33,11 +34,19 @@ mixin HoTroKyThuatRepository {
     String code,
   );
 
-  Future<Result<ChartSuCoModel>> getChartSuCo();
+  Future<Result<List<ChartSuCoModel>>> getChartSuCo();
 
   Future<Result<List<NguoiTiepNhanYeuCauModel>>> getNguoiTiepNhanYeuCau();
 
   Future<Result<bool>> deleteTask(
     List<String> listId,
   );
+
+  Future<Result<String>> updateTaskProcessing(
+      TaskProcessing task,
+      );
+  Future<Result<String>> commentTask(
+      String idTask,
+      String comment,
+      );
 }

@@ -45,11 +45,6 @@ class _DateInputState extends State<DateInput> {
         }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
-          if (DateFormat(DateFormatApp.date).parse(value ?? '').millisecond -
-              DateTime.now().millisecond <
-              0) {
-            return 'Ngày hoàn thành cần lớn hơn ngày hiện tại.';
-          }
           dateSelect = inputDate.toString();
           widget.onSelectDate(dateSelect);
         } catch (_) {
@@ -67,14 +62,11 @@ class _DateInputState extends State<DateInput> {
                 SizedBox(
                   height: 300,
                   child: FlutterRoundedCupertinoDatePickerWidget(
-                    minimumDate: DateTime.now(),
+                    minimumDate: widget.initDateTime,
                     onDateTimeChanged: (value) {
                       setState(() {
                         dateSelect = value.toString();
                       });
-                      textController.text = DateTime.parse(dateSelect ?? '')
-                          .toStringWithListFormat;
-                      widget.onSelectDate(value.toString());
                     },
                     textStyleDate: titleAppbar(),
                     initialDateTime: initDate,
@@ -88,11 +80,15 @@ class _DateInputState extends State<DateInput> {
                   child: DoubleButtonBottom(
                     title2: S.current.chon,
                     title1: S.current.dong,
-                    onPressed2: () {
-                      widget.onSelectDate(dateSelect);
+                    onClickRight: () {
+                      widget.onSelectDate(
+                        DateTime.parse(dateSelect ?? '').toStringWithListFormat,
+                      );
+                      textController.text = DateTime.parse(dateSelect ?? '')
+                          .toStringWithListFormat;
                       Navigator.pop(context);
                     },
-                    onPressed1: () {
+                    onClickLeft: () {
                       Navigator.pop(context);
                     },
                   ),

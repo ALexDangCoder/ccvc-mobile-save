@@ -139,6 +139,7 @@ const _dtFormat15 = 'yyyy-MM-dd HH:mm';
 const HOUR_MINUTE_FORMAT = 'Hm';
 const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
 const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
+const _dtFormat18 = 'MM/dd/yyyy HH:mm';
 
 const START_TIME='8:00';
 const END_TIME='18:00';
@@ -170,6 +171,7 @@ class DateTimeFormat {
   static const  DATE_TIME_PUT_EDIT = _dtFormat15;
   static const  DATE_TIME_BE_API_START = _dtFormat16;
   static const  DATE_TIME_BE_API_END = _dtFormat17;
+  static const  DATE_TIME_HM = _dtFormat18;
 }
 
 class ThongBaoTypeConstant {
@@ -248,9 +250,9 @@ class DateFormatApp {
   static String dateApp = 'dd/MM/YYYY';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
-  static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
-  static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
+  static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
   static String timeFormat = 'Hm';
   static String monthDayFormat = 'MM/dd/yyyy HH:mm';
   static String pickDateFormat = 'dd/MM/yyyy HH:mm';
@@ -325,4 +327,7 @@ class StatusCodeConst {
 
 class PermissionConst {
   static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
+}
+class MaxSizeFile{
+  static  const MAX_SIZE_20MB  = 20000000;
 }

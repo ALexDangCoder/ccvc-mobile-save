@@ -24,16 +24,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> getDanhSachNguoiChuTriPhienHop(String id) async {
-    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);
-    result.when(
-      success: (res) {
-        listNguoiCHuTriModel.sink.add(res);
-        dataThuKyOrThuHoiDeFault = res;
-      },
-      error: (error) {},
-    );
-  }
+
 
   Future<void> getDanhSachCanBoHop(String id) async {
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);

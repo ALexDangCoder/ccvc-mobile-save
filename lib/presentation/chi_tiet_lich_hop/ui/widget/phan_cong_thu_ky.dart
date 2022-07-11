@@ -57,10 +57,10 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
               child: DoubleButtonBottom(
                 title1: S.current.dong,
                 title2: S.current.xac_nhan,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   widget.cubit.postPhanCongThuKy(widget.id);
                   Navigator.pop(context);
                 },

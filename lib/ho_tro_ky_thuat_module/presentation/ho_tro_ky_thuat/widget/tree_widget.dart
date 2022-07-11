@@ -12,11 +12,14 @@ class TreeViewWidget extends StatefulWidget {
   final Node<DonViModel> node;
   final ThemDonViCubit themDonViCubit;
   final bool selectOnly;
-  const  TreeViewWidget({
+  final Function(DonViModel)? onSelect;
+
+  const TreeViewWidget({
     Key? key,
     required this.themDonViCubit,
     required this.node,
     this.selectOnly = false,
+    this.onSelect,
   }) : super(key: key);
 
   @override
@@ -39,29 +42,28 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                   children: [
                     if (widget.selectOnly)
                       StreamBuilder<Node<DonViModel>?>(
-                          stream: widget.themDonViCubit.selectOnlyDonVi,
-                          builder: (context, snapshot) {
-                            return CustomCheckBox(
-                              title: '',
-                              onChange: (isCheck) {
-                                widget.themDonViCubit
-                                    .selectNodeOnly(widget.node);
-                              },
-                              isCheck: snapshot.data?.value.id ==
-                                  widget.node.value.id,
-                            );
-                          })
+                        stream: widget.themDonViCubit.selectOnlyDonVi,
+                        builder: (context, snapshot) {
+                          return CustomCheckBox(
+                            onChange: (isCheck) {
+                              widget.themDonViCubit.selectNodeOnly(widget.node);
+                              if (widget.onSelect != null) {
+                                widget.onSelect!(widget.node.value);
+                              }
+                            },
+                            isCheck:
+                                snapshot.data?.value.id == widget.node.value.id,
+                          );
+                        },
+                      )
                     else
                       CustomCheckBox(
-                        title: '',
                         onChange: (isCheck) {
                           widget.node.isCheck.isCheck = !isCheck;
-                          if(isCheck){
+                          if (isCheck) {
                             ///TODO call API getUser and add to list share
                             ///TODO all children checkbox is true
-                          } else {
-
-                          }
+                          } else {}
                           setState(() {});
                           widget.themDonViCubit.addSelectNode(
                             widget.node,
@@ -76,7 +78,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                           if (widget.node.children.isEmpty) {
                             /// TODO call API
                             widget.node.isCheck.isCheck =
-                            !widget.node.isCheck.isCheck;
+                                !widget.node.isCheck.isCheck;
                             setState(() {});
                             widget.themDonViCubit.addSelectNode(
                               widget.node,
@@ -96,7 +98,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                                 child: Text(
                                   title(),
                                   style:
-                                  textNormal(textTitle, 14.0.textScale()),
+                                      textNormal(textTitle, 14.0.textScale()),
                                 ),
                               ),
                               if (widget.node.children.isNotEmpty)
@@ -129,6 +131,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                 selectOnly: widget.selectOnly,
                 themDonViCubit: widget.themDonViCubit,
                 node: node,
+                onSelect: widget.onSelect,
               );
             }),
           )

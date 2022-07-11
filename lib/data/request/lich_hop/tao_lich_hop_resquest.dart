@@ -45,6 +45,7 @@ TaoLichHopRequest taoHopFormChiTietHopModel(ChiTietLichHopModel chiTiet) {
     id: chiTiet.id,
   );
 }
+
 class TaoLichHopRequest {
   String? typeScheduleId;
   String? linhVucId;
@@ -159,15 +160,13 @@ class TaoLichHopRequest {
     data['bit_LinkTrongHeThong'] = bitLinkTrongHeThong;
     data['isDuyetKyThuat'] = isDuyetKyThuat;
     if (id != null) {
-      data['id'] =id;
+      data['id'] = id;
     }
     if (isMulti != null) {
       data['isMulti'] = isMulti;
     }
     return data;
   }
-
-
 }
 
 class ChuTri {
@@ -262,6 +261,16 @@ class DsDiemCau {
     this.id_LichHop,
   });
 
+  factory DsDiemCau.fromJson(Map<String, dynamic> json) => DsDiemCau(
+        id: json['id'],
+        canBoDauMoiChucVu: json['canBoDauMoi_ChucVu'],
+        canBoDauMoiHoTen: json['canBoDauMoi_HoTen'],
+        canBoDauMoiSDT: json['canBoDauMoi_SDT'],
+        id_LichHop: json['id_LichHop'],
+        loaiDiemCau: json['loaiDiemCau'],
+        tenDiemCau: json['tenDiemCau'],
+      );
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['tenDiemCau'] = tenDiemCau;
@@ -278,13 +287,62 @@ class DsDiemCau {
     return data;
   }
 
-  String getLoaiDiemCau(){
-    if(loaiDiemCau == 1){
+  String get getLoaiDiemCau {
+    if (loaiDiemCau == LoaiDiemCau.DIEM_CHINH) {
       return S.current.diem_chinh;
-    }else if(loaiDiemCau == 2){
+    } else if (loaiDiemCau == LoaiDiemCau.DIEM_PHU) {
       return S.current.diem_phu;
-    }else{
+    } else {
       return '';
     }
   }
+
+  List<ModelDataDiemCau> get rowData {
+    final List<ModelDataDiemCau> data = [];
+    data.add(
+      ModelDataDiemCau(
+        key: S.current.ten_don_vi,
+        value: tenDiemCau ?? '',
+      ),
+    );
+    data.add(
+      ModelDataDiemCau(
+        key: S.current.can_bo_dau_moi,
+        value: canBoDauMoiHoTen ?? '',
+      ),
+    );
+    data.add(
+      ModelDataDiemCau(
+        key: S.current.chuc_vu,
+        value: canBoDauMoiChucVu ?? '',
+      ),
+    );
+    data.add(
+      ModelDataDiemCau(
+        key: S.current.so_dien_thoai,
+        value: canBoDauMoiSDT ?? '',
+      ),
+    );
+
+    data.add(
+      ModelDataDiemCau(
+        key: S.current.diem_cau_chinh_phu,
+        value: getLoaiDiemCau,
+      ),
+    );
+
+    return data;
+  }
+}
+
+class LoaiDiemCau {
+  static const int DIEM_CHINH = 1;
+  static const int DIEM_PHU = 2;
+}
+
+class ModelDataDiemCau {
+  String key;
+  String value;
+
+  ModelDataDiemCau({required this.key, required this.value});
 }

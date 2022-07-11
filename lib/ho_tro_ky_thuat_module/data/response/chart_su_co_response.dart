@@ -6,7 +6,7 @@ part 'chart_su_co_response.g.dart';
 @JsonSerializable()
 class ChartSuCoResponse {
   @JsonKey(name: 'data')
-  DataResponse? data;
+  List<ChartSuCoChildResponse>? data;
   @JsonKey(name: 'message')
   String? message;
 
@@ -24,66 +24,21 @@ class ChartSuCoResponse {
 }
 
 @JsonSerializable()
-class DataResponse {
-  @JsonKey(name: 'result')
-  List<ChartSuCoChildResponse>? result;
-  @JsonKey(name: 'id')
-  int? id;
-  @JsonKey(name: 'status')
-  int? status;
-  @JsonKey(name: 'isCanceled')
-  bool? isCanceled;
-  @JsonKey(name: 'isCompleted')
-  bool? isCompleted;
-  @JsonKey(name: 'isCompletedSuccessfully')
-  bool? isCompletedSuccessfully;
-  @JsonKey(name: 'creationOptions')
-  int? creationOptions;
-  @JsonKey(name: 'isFaulted')
-  bool? isFaulted;
-
-  DataResponse(
-    this.result,
-    this.id,
-    this.status,
-    this.isCanceled,
-    this.isCompleted,
-    this.isCompletedSuccessfully,
-    this.creationOptions,
-    this.isFaulted,
-  );
-
-  factory DataResponse.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$DataResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DataResponseToJson(this);
-
-  ChartSuCoModel toModel() => ChartSuCoModel(
-        id: id,
-        chartSuCoChild: result?.map((e) => e.toModel()).toList() ?? [],
-        creationOptions: creationOptions,
-        isCanceled: isCanceled,
-        isCompleted: isCompleted,
-        isCompletedSuccessfully: isCompletedSuccessfully,
-        isFaulted: isFaulted,
-        status: status,
-      );
-}
-
-@JsonSerializable()
 class ChartSuCoChildResponse {
-  @JsonKey(name: 'khuVuc')
-  String? khuVuc;
-  @JsonKey(name: 'taskId')
-  String? taskId;
+  @JsonKey(name: 'khuVucId')
+  String? khuVucId;
+  @JsonKey(name: 'tenKhuVuc')
+  String? tenKhuVuc;
+  @JsonKey(name: 'codeKhuVuc')
+  String? codeKhuVuc;
   @JsonKey(name: 'danhSachSuCo')
-  List<DanhSachKhuVucResponse>? danhSachKhuVuc;
+  List<DanhSachKhuVucResponse>? danhSachSuCo;
 
   ChartSuCoChildResponse(
-    this.khuVuc,
-    this.danhSachKhuVuc,
+    this.khuVucId,
+    this.tenKhuVuc,
+    this.codeKhuVuc,
+    this.danhSachSuCo,
   );
 
   factory ChartSuCoChildResponse.fromJson(
@@ -93,26 +48,24 @@ class ChartSuCoChildResponse {
 
   Map<String, dynamic> toJson() => _$ChartSuCoChildResponseToJson(this);
 
-  ChartSuCoChild toModel() => ChartSuCoChild(
-        khuVuc: khuVuc,
-        taskId: taskId,
-        danhSachKhuVuc: danhSachKhuVuc?.map((e) => e.toModel()).toList() ?? [],
+  ChartSuCoModel toModel() => ChartSuCoModel(
+        khuVucId: khuVucId,
+        codeKhuVuc: codeKhuVuc,
+        tenKhuVuc: tenKhuVuc,
+        danhSachSuCo: danhSachSuCo?.map((e) => e.toModel()).toList() ?? [],
       );
 }
 
 @JsonSerializable()
 class DanhSachKhuVucResponse {
-  @JsonKey(name: 'loaiSuCoId')
-  String? loaiSuCoId;
+  @JsonKey(name: 'tenSuCo')
+  String? tenSuCo;
   @JsonKey(name: 'soLuong')
   int? soLuong;
-  @JsonKey(name: 'suCo')
-  String? suCo;
 
   DanhSachKhuVucResponse(
-    this.loaiSuCoId,
+    this.tenSuCo,
     this.soLuong,
-    this.suCo,
   );
 
   factory DanhSachKhuVucResponse.fromJson(
@@ -122,9 +75,8 @@ class DanhSachKhuVucResponse {
 
   Map<String, dynamic> toJson() => _$DanhSachKhuVucResponseToJson(this);
 
-  DanhSachKhuVuc toModel() => DanhSachKhuVuc(
-        suCo: suCo,
+  DanhSachSuCo toModel() => DanhSachSuCo(
+        tenSuCo: tenSuCo,
         soLuong: soLuong,
-        loaiSuCoId: loaiSuCoId,
       );
 }

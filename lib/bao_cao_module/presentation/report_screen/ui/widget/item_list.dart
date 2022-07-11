@@ -45,8 +45,8 @@ class ItemList extends StatelessWidget {
           ItemFolder(
             type: item.type ?? 0,
             isShare: cubit.checkStatus(
-              item.status ?? 0,
-              item.type ?? 0,
+              shareToMe: item.shareToMe ?? false,
+              shareByMe: item.shareByMe ?? false,
             ),
             fileNumber: item.childrenTotal ?? 0,
             isListView: true,

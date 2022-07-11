@@ -314,10 +314,10 @@ class _HinhThucHopState extends State<HinhThucHop> {
               DoubleButtonBottom(
                 title1: S.current.dong,
                 title2: S.current.xac_nhan,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   if (_key.currentState?.validate() ?? false) {
                     final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
                     diemCau.loaiDiemCau ??= 1;
@@ -464,7 +464,7 @@ class ItemDiemCau extends StatelessWidget {
                   height: 10.0.textScale(space: 10),
                 ),
                 rowInfo(
-                  value: diemCau.getLoaiDiemCau(),
+                  value: diemCau.getLoaiDiemCau,
                   key: S.current.diem_cau_chinh_phu,
                 ),
                 SizedBox(

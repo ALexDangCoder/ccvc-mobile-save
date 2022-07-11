@@ -9,9 +9,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 class RowDataWidget extends StatelessWidget {
   final String urlIcon;
   final String text;
+  final TextStyle? styleText;
 
-  const RowDataWidget({Key? key, required this.text, required this.urlIcon})
-      : super(key: key);
+  const RowDataWidget({
+    Key? key,
+    required this.text,
+    required this.urlIcon,
+    this.styleText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +26,12 @@ class RowDataWidget extends StatelessWidget {
           width: 17.0.textScale(),
           height: 17.0.textScale(),
           child: Center(
-              child: SvgPicture.asset(
-            urlIcon,
-            width: 17.0.textScale(),
-            height: 17.0.textScale(),
-          )),
+            child: SvgPicture.asset(
+              urlIcon,
+              width: 17.0.textScale(),
+              height: 17.0.textScale(),
+            ),
+          ),
         ),
         const SizedBox(
           width: 14,
@@ -42,7 +48,7 @@ class RowDataWidget extends StatelessWidget {
 
   Widget textVl() => Text(
         text,
-        style: textNormal(textTitle, 16),
+        style: styleText ?? textNormal(textTitle, 16),
         overflow: TextOverflow.ellipsis,
       );
 }

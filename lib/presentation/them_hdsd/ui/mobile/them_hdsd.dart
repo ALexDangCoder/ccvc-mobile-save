@@ -105,7 +105,7 @@ class _ThemHDSDScreenState extends State<ThemHDSDScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 32, left: 17, right: 17),
         child: DoubleButtonBottom(
-          onPressed2: () {
+          onClickRight: () {
             if (formKeyChuDe.currentState!.validate() &&
                 formKeyLoaiHD.currentState!.validate() &&
                 formKeyDanhSach.currentState!.validate() &&
@@ -113,7 +113,7 @@ class _ThemHDSDScreenState extends State<ThemHDSDScreen> {
             } else {}
           },
           title2: S.current.them_moi,
-          onPressed1: () {},
+          onClickLeft: () {},
           title1: S.current.xem_truoc,
         ),
       ),

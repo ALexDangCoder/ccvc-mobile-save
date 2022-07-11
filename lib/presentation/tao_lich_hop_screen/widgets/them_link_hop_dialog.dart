@@ -16,6 +16,7 @@ class ThemLinkHopDialog extends StatefulWidget {
     this.isConfirm = true,
     this.textConfirm,
     this.isShowRadio = true,
+    this.onConfirm,
   }) : super(key: key);
   final String? title;
   final String? textConfirm;
@@ -24,6 +25,7 @@ class ThemLinkHopDialog extends StatefulWidget {
   final String? textRadioBelow;
   final bool isConfirm;
   final bool isShowRadio;
+  final Function(bool?)? onConfirm;
 
   @override
   State<ThemLinkHopDialog> createState() => _ThemLinkHopDialogState();
@@ -101,14 +103,16 @@ class _ThemLinkHopDialogState extends State<ThemLinkHopDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: DoubleButtonBottom(
-                  onPressed2: () {
+                  onClickRight: () {
                     if (widget.isShowRadio) {
                       Navigator.pop(context, isLinkHeThong);
+                      widget.onConfirm?.call(isLinkHeThong);
                     } else {
                       Navigator.pop(context);
+                      widget.onConfirm?.call(null);
                     }
                   },
-                  onPressed1: () {
+                  onClickLeft: () {
                     Navigator.pop(context);
                   },
                   title1: S.current.khong,

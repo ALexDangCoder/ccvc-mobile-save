@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
@@ -15,19 +16,16 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
 
 import 'chon_ngay_widget.dart';
 import 'dropdown_widget.dart';
 import 'ket_luan_hop_widget.dart';
-import 'package:path/path.dart';
 
 class TaoMoiNhiemVuWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -85,32 +83,35 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
           children: [
             Expanded(
               child: FollowKeyBoardWidget(
-                bottomWidget: DoubleButtonBottom(
-                  title1: S.current.dong,
-                  title2: S.current.xac_nhan,
-                  onPressed1: () {
-                    Navigator.pop(context);
-                  },
-                  onPressed2: () {
-                    if (keyGroup.currentState!.validator()) {
-                      themNhiemVuRequest.meTaDaTa = [
-                        MeTaDaTaRequest(
-                          key: 'NguoiGiaoId',
-                          value: ngGiaoNvId,
-                        ),
-                        MeTaDaTaRequest(
-                          key: 'DonViTheoDoi',
-                          value: ngTheoDoiController.text,
-                        ),
-                        MeTaDaTaRequest(
-                          key: 'NguoiTheoDoi',
-                          value: ngTheoDoiController.text,
-                        )
-                      ];
-                      widget.cubit.themNhiemVu(themNhiemVuRequest);
+                bottomWidget: Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: DoubleButtonBottom(
+                    title1: S.current.dong,
+                    title2: S.current.xac_nhan,
+                    onPressed1: () {
                       Navigator.pop(context);
-                    }
-                  },
+                    },
+                    onPressed2: () {
+                      if (keyGroup.currentState!.validator()) {
+                        themNhiemVuRequest.meTaDaTa = [
+                          MeTaDaTaRequest(
+                            key: 'NguoiGiaoId',
+                            value: ngGiaoNvId,
+                          ),
+                          MeTaDaTaRequest(
+                            key: 'DonViTheoDoi',
+                            value: ngTheoDoiController.text,
+                          ),
+                          MeTaDaTaRequest(
+                            key: 'NguoiTheoDoi',
+                            value: ngTheoDoiController.text,
+                          )
+                        ];
+                        widget.cubit.themNhiemVu(themNhiemVuRequest);
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
                 child: SingleChildScrollView(
                   child: Column(
@@ -157,7 +158,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       ),
                       sb20(),
 
-                      /// boi dung
+                      /// noi dung
                       ItemTextFieldWidget(
                         hint: '',
                         title: S.current.noi_dung_theo_doi,
@@ -165,7 +166,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         isRequired: true,
                         maxLine: 8,
                         validator: (String? value) {
-                          return value?.checkNull();
+                          return value?.checkNull(showText: 'Bạn phải nhập trường Nội dung theo dõi !');
                         },
                         onChange: (String value) {
                           themNhiemVuRequest.processContent = value;
@@ -208,6 +209,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.van_ban_giao_nhiem_vu,
                         context: context,
                       ),
+                      sb20(),
 
                       /// van ban khac
                       buttonThemVb(
@@ -215,12 +217,12 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.van_ban_khac,
                         context: context,
                       ),
+                      sb20(),
                     ],
                   ),
                 ),
               ),
             ),
-            sb20(),
           ],
         ),
       ),
@@ -249,36 +251,46 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
             },
           ),
           StreamBuilder<List<VBGiaoNhiemVuModel>>(
-              stream: widget.cubit.listVBGiaoNhiemVu.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data
-                        ?.where(
-                            (element) => element.hinhThucVanBan == loaiVbThem)
-                        .toList() ??
-                    [];
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return ItemVbGIaoNhiemVuWidget(
-                      cubit: widget.cubit,
-                      soKyHieu: data[index].soVanBan ?? '',
-                      ngayVB: DateTime.parse(
-                        data[index].ngayVanBan ?? DateTime.now().toString(),
-                      ).toStringWithListFormat,
-                      trichYeu: data[index].trichYeu ?? '',
-                      file: data[index].file?.first ?? '',
-                      onTap: () {
-                        onTapRemoveVb(
-                          cubit: widget.cubit,
-                          data: data[index],
-                        );
-                      },
-                    );
-                  },
-                );
-              }),
+            stream: widget.cubit.listVBGiaoNhiemVu.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data
+                      ?.where((element) => element.hinhThucVanBan == loaiVbThem)
+                      .toList() ??
+                  [];
+              return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return ItemVbGIaoNhiemVuWidget(
+                    cubit: widget.cubit,
+                    soKyHieu: data[index].soVanBan ?? '',
+                    ngayVB: DateTime.parse(
+                      data[index].ngayVanBan ?? DateTime.now().toString(),
+                    ).toStringWithListFormat,
+                    trichYeu: data[index].trichYeu ?? '',
+                    file: data[index].file?.first ?? '',
+                    onTap: () {
+                      showDiaLog(
+                        context,
+                        textContent: S.current.ban_co_chac_chan_muon_xoa_khong,
+                        btnLeftTxt: S.current.xoa,
+                        funcBtnRight: () {
+                          onTapRemoveVb(
+                            cubit: widget.cubit,
+                            data: data[index],
+                          );
+                        },
+                        title: S.current.gui_email,
+                        btnRightTxt: S.current.dong_y,
+                        icon: SvgPicture.asset(ImageAssets.ic_delete_do),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          ),
         ],
       );
 

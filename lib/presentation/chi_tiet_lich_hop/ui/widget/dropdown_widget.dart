@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -56,52 +57,14 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         SizedBox(
           height: 10.0.textScale(),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.0.textScale(),
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: toDayColor),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-              dropdownColor: colorImageLichHop,
-              isExpanded: true,
-              elevation: 0,
-              value: valueChoose,
-              icon: const Icon(Icons.keyboard_arrow_down),
-              onChanged: (value) {
-                widget.onChange.call(int.parse(value.toString()));
-                valueChoose = value as String?;
-                setState(() {});
-              },
-              hint: Text(
-                widget.hint,
-                style: textNormalCustom(
-                  color: titleItemEdit,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              items: widget.listData
-                  .map<DropdownMenuItem<String>>(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(
-                        e,
-                        style: textNormalCustom(
-                          fontWeight: FontWeight.w400,
-                          color: textTitle,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
+        CoolDropDown(
+          useCustomHintColors: true,
+          initData: widget.listData.first,
+          placeHoder: widget.hint,
+          onChange: (value) {
+            widget.onChange.call(value);
+          },
+          listData: widget.listData,
         ),
       ],
     );

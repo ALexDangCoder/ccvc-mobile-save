@@ -241,20 +241,20 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 btnRightTxt: S.current.dong_y,
                 icon: SvgPicture.asset(ImageAssets.icHuyLich),
                 showTablet: true,
+                isThisPopAfter: true,
               );
               return;
             }
             showDialog(
               context: context,
               builder: (context) => RadioOptionDialog(
-                title: S.current.huy_lich_hop,
+                title: S.current.xoa_chi_tiet_lich_hop,
                 textRadioBelow: S.current.chi_lich_hien_tai,
                 textRadioAbove: S.current.tu_hien_tai_ve_sau,
                 imageUrl: ImageAssets.img_sua_lich,
                 onChange: (value) {
-                  cubit.deleteChiTietLichHop(isMulti: value).then(
-                        (value) => value ? Navigator.pop(context, true) : '',
-                      );
+                  cubit.deleteChiTietLichHop(isMulti: value);
+                  Navigator.pop(context, true);
                 },
               ),
             );
@@ -539,9 +539,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textRadioAbove: S.current.tu_hien_tai_ve_sau,
                 imageUrl: ImageAssets.img_sua_lich,
                 onChange: (value) {
-                  cubit.huyChiTietLichHop(isMulti: value).then(
-                        (value) => value ? Navigator.pop(context, true) : '',
-                      );
+                  cubit.huyChiTietLichHop(isMulti: value);
+                  Navigator.pop(context, true);
                 },
               ),
             );

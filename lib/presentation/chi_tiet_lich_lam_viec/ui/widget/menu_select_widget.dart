@@ -7,9 +7,13 @@ import 'package:flutter_svg/svg.dart';
 
 class MenuSelectWidget extends StatefulWidget {
   final List<CellPopPupMenu> listSelect;
+  final double paddingAll;
 
-  const MenuSelectWidget({Key? key, required this.listSelect})
-      : super(key: key);
+  const MenuSelectWidget({
+    Key? key,
+    required this.listSelect,
+    this.paddingAll = 0.0,
+  }) : super(key: key);
 
   @override
   State<MenuSelectWidget> createState() => _MenuSelectWidgetState();
@@ -28,12 +32,13 @@ class _MenuSelectWidgetState extends State<MenuSelectWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         showSelect(context);
       },
       child: Container(
+        padding: EdgeInsets.all(widget.paddingAll),
         key: _key,
-        color: Colors.transparent,
         child: SvgPicture.asset(ImageAssets.icMenuDot),
       ),
     );

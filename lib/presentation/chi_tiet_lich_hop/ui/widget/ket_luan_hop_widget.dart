@@ -267,6 +267,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                 ),
               ),
               MenuSelectWidget(
+                paddingAll: 6,
                 listSelect: [
                   if (cubit.isTaoMoiNhiemVu())
                     CellPopPupMenu(

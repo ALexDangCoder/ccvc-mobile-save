@@ -66,8 +66,10 @@ class _CreateOrUpdateKetLuanHopWidgetState
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    widget.cubit.dataMauBienBan.close();
-    widget.cubit.noiDung.sink.add('');
+    if (widget.isCreate) {
+      widget.cubit.dataMauBienBan.close();
+      widget.cubit.noiDung.sink.add('');
+    }
   }
 
   @override
@@ -92,8 +94,9 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           title: S.current.tinh_trang,
                         ),
                       ),
-                      ShowRequied(
-                        isShow: show.value,
+                      ShowRequiedWithStream(
+                        textShow: S.current.vui_long_chon_tinh_trang,
+                        isShow: show,
                         child: StreamBuilder<List<StatusKetLuanHopModel>>(
                           stream: widget.cubit.dataTinhTrangKetLuanHop,
                           builder: (context, snapshot) {
@@ -113,6 +116,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                                         .reportStatusId !=
                                     vlSelect.id) {
                                   reportStatusId = vlSelect.id ?? '';
+                                  show.sink.add(false);
                                 }
                               },
                             );

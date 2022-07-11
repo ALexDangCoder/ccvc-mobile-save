@@ -157,7 +157,8 @@ class _DiemDanhCaNhanTabletScreenState
                               widget.cubit.changeData(value);
                             },
                             cubit: widget.cubit,
-                            endYear: 2025,
+                            endYear: widget.cubit.endYear,
+                            startYear: widget.cubit.startYear,
                           ),
                         ),
                       ),

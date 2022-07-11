@@ -91,7 +91,7 @@ class HeaderStyle {
       border:  Border.fromBorderSide(BorderSide()),
       borderRadius:  BorderRadius.all(Radius.circular(12.0)),
     ),
-    this.headerMargin =  EdgeInsets.all(0.0),
+    this.headerMargin =  EdgeInsets.zero,
     this.headerPadding = const EdgeInsets.symmetric(vertical: 8.0),
     this.formatButtonPadding =
         const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),

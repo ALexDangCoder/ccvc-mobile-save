@@ -51,10 +51,10 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.xac_nhan,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () {
+          onClickRight: () {
             if (_formKey.currentState?.validator() ?? false) {
               widget.cubit.taoPhatBieu(taoBieuQuyetRequest);
               Navigator.pop(context);

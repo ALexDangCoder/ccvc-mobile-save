@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
@@ -23,10 +24,12 @@ import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_bieu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/cap_nhat_trang_thai_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
@@ -277,7 +280,7 @@ abstract class HopServices {
   Future<XoaBaoCaoKetQuaResponse> deleteKetLuanHop(@Query('id') String id);
 
   @DELETE(ApiConstants.DELETE_DETAIL_CELENDER_MEET)
-  Future<XoaBaoCaoKetQuaResponse> deleteChiTietLichHop(
+  Future<CuCanBoDiThayResponse> deleteChiTietLichHop(
     @Query('lstLichHopId') String id,
     @Query('isMulti') bool isMulti,
   );
@@ -341,7 +344,7 @@ abstract class HopServices {
 
   @POST(ApiConstants.THEM_PHIEN_NhIEM_VU)
   Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(
-    @Part() ThemNhiemVuRequest themNhiemVuRequest,
+    @Body() ThemNhiemVuRequest themNhiemVuRequest,
   );
 
   @PUT(ApiConstants.EDIT_CHUONG_TRINH_HOP)
@@ -513,8 +516,21 @@ abstract class HopServices {
     @Query('meetId') String meetId,
   );
 
-  @PUT(ApiConstants.THU_HOI__KET_LUAN_HOP)
+  @PUT(ApiConstants.THU_HOI_KET_LUAN_HOP)
   Future<ThemPhienHopResponse> thuHoiKetLuanHop(
     @Query('meetId') String meetId,
+  );
+
+  @DELETE(ApiConstants.DELETE_FILE)
+  Future<ThemPhienHopResponse> deleteFileHop(
+    @Query('id') String id,
+  );
+
+  @GET(ApiConstants.LIST_STATUS_ROOM)
+  Future<ListStatusRoomResponse> getListStatusRoom();
+
+  @PUT(ApiConstants.SUA_TRANG_THAI)
+  Future<CapNhatTrangThaiResponse> suaTrangThai(
+    @Body() CapNhatTrangThaiRequest capNhatTrangThaiRequest,
   );
 }

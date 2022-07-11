@@ -5,13 +5,13 @@ part 'danh_sach_nhiem_vu_kl_hop_response.g.dart';
 
 @JsonSerializable()
 class DanhSachNhiemVulichHopResponse {
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'Id')
   String? id;
-  @JsonKey(name: 'ten')
+  @JsonKey(name: 'Ten')
   String? ten;
-  @JsonKey(name: 'ma')
+  @JsonKey(name: 'Ma')
   String? ma;
-  @JsonKey(name: 'nhiemVuChinhPhu')
+  @JsonKey(name: 'NhiemVuChinhPhu')
   bool? nhiemVuChinhPhu;
 
   DanhSachNhiemVulichHopResponse(

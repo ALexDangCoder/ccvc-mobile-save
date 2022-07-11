@@ -139,6 +139,7 @@ const _dtFormat15 = 'yyyy-MM-dd HH:mm';
 const HOUR_MINUTE_FORMAT = 'Hm';
 const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
 const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
+const _dtFormat18 = 'MM/dd/yyyy HH:mm';
 
 const START_TIME='8:00';
 const END_TIME='18:00';
@@ -170,6 +171,7 @@ class DateTimeFormat {
   static const  DATE_TIME_PUT_EDIT = _dtFormat15;
   static const  DATE_TIME_BE_API_START = _dtFormat16;
   static const  DATE_TIME_BE_API_END = _dtFormat17;
+  static const  DATE_TIME_HM = _dtFormat18;
 }
 
 class ThongBaoTypeConstant {

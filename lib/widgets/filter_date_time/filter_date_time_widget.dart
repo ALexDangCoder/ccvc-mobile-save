@@ -97,14 +97,14 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                                     child: DoubleButtonBottom(
                                       title2: S.current.chon,
                                       title1: S.current.dong,
-                                      onPressed2: () {
+                                      onClickRight: () {
                                         setState(() {});
                                         currentStartDate = chooseTime;
                                         widget.onChooseDateFilter(
                                             currentStartDate, DateTime.now());
                                         Navigator.pop(context);
                                       },
-                                      onPressed1: () {
+                                      onClickLeft: () {
                                         Navigator.pop(context);
                                       },
                                     ),

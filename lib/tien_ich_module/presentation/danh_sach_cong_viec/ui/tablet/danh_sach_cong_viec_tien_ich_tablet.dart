@@ -37,7 +37,7 @@ class _DanhSachCongViecTienIchTabletState
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        cubit.callAPITheoFilter(
+        await cubit.callAPITheoFilter(
           textSearch: textSearch,
         );
       },

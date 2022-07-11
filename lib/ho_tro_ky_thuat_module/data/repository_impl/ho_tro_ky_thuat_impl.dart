@@ -26,7 +26,7 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   );
 
   @override
-  Future<Result<List<DanhSachSuCoModel>>> postDanhSachSuCo({
+  Future<Result<List<SuCoModel>>> postDanhSachSuCo({
     required int pageIndex,
     required int pageSize,
     String? codeUnit,
@@ -40,7 +40,7 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
     String? handlerId,
     String? keyWord,
   }) {
-    return runCatchingAsync<DanhSachSuCoResponse, List<DanhSachSuCoModel>>(
+    return runCatchingAsync<DanhSachSuCoResponse, List<SuCoModel>>(
       () => _hoTroKyThuatService.postDanhSachSuCo(
         pageIndex,
         pageSize,
@@ -102,10 +102,10 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   }
 
   @override
-  Future<Result<ChartSuCoModel>> getChartSuCo() {
-    return runCatchingAsync<ChartSuCoResponse, ChartSuCoModel>(
+  Future<Result<List<ChartSuCoModel>>> getChartSuCo() {
+    return runCatchingAsync<ChartSuCoResponse, List<ChartSuCoModel>>(
       () => _hoTroKyThuatService.getChartSuCo(),
-      (res) => res.data?.toModel() ?? ChartSuCoModel(),
+      (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 

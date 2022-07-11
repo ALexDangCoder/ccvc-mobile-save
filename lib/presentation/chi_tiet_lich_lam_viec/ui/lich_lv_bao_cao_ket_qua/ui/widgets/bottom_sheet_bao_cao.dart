@@ -255,12 +255,12 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: DoubleButtonBottom(
-                onPressed2: () {
+                onClickRight: () {
                   btnThem();
                 },
                 title2: widget.isEdit ? S.current.luu : S.current.them,
                 title1: S.current.dong,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
               ),

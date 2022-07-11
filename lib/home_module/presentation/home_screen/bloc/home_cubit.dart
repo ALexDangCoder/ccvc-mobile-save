@@ -316,6 +316,9 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
         startDate =
             DateTime(startDate.year - 1, startDate.month, startDate.day);
         break;
+      default:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-1);
+        break;
     }
   }
 

@@ -75,7 +75,7 @@ class _CustomDropDownState extends State<SelectDateWidget> {
                 child: DoubleButtonBottom(
                   title2: S.current.chon,
                   title1: S.current.dong,
-                  onPressed2: () {
+                  onClickRight: () {
                     setState(() {
                       if (dateSelect.isNotEmpty) {
                         widget.onSelectDate(dateSelect);
@@ -86,7 +86,7 @@ class _CustomDropDownState extends State<SelectDateWidget> {
                     });
                     Navigator.pop(context);
                   },
-                  onPressed1: () {
+                  onClickLeft: () {
                     Navigator.pop(context);
                   },
                 ),

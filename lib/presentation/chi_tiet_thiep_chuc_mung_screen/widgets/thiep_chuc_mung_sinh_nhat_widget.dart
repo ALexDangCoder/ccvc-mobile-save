@@ -84,6 +84,7 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
             ],
           ),
           Container(
+            width: double.maxFinite,
             padding: const EdgeInsets.all(16),
             margin: const EdgeInsets.only(top: 24),
             decoration: BoxDecoration(

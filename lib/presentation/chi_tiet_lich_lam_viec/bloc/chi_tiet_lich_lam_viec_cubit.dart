@@ -126,6 +126,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         MessageConfig.show(title: S.current.xoa_thanh_cong);
         eventBus.fire(RefreshCalendar());
+        Get.back(result: true);
       },
       error: (error) {
         MessageConfig.show(
@@ -152,6 +153,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         if (data.succeeded ?? false) {
           MessageConfig.show(title: S.current.huy_thanh_cong);
+          Get.back(result: true);
           eventBus.fire(RefreshCalendar());
         }
       },
@@ -380,6 +382,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (success) {
         //eventBus.fire(RefreshCalendar());
         MessageConfig.show(title: S.current.thu_hoi_lich_thanh_cong);
+        Get.back(result: true);
         emit(SuccessChiTietLichLamViecState());
       },
       error: (error) {

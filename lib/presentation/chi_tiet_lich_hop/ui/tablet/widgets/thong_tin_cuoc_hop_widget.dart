@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -70,12 +71,17 @@ class ThongTinCuocHopWidget extends StatelessWidget {
                       )
                       .toList(),
                 ),
+                spaceH24,
+                StatusWidget(
+                  status: data.getStatus,
+                ),
                 spaceW16,
                 Padding(
                   padding: const EdgeInsets.only(top: 24),
                   child: ThongTinLienHeWidget(
                     thongTinTxt: data.chuTriModel.dauMoiLienHe,
                     sdtTxt: data.chuTriModel.soDienThoai,
+                    dsDiemCau: data.dsDiemCau ?? [],
                   ),
                 )
               ],

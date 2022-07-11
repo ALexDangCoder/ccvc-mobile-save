@@ -558,7 +558,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
   void checkInside(bool data) {
     showDialog(
       context: context,
-      builder: (context) => ThemLinkHopDialog(
+      builder: (dialogContext) => ThemLinkHopDialog(
         title: S.current.sua_lich_lam_viec,
         isConfirm: false,
         isShowRadio: widget.event.isLichLap ?? false,

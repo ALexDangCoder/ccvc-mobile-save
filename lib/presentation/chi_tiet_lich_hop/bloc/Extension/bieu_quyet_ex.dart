@@ -281,4 +281,12 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop);
   }
+
+  String getTime({bool isGetDateStart = true}) {
+    return isGetDateStart
+        ? '${getChiTietLichHopModel.ngayBatDau.split(' ').first} '
+            '${getChiTietLichHopModel.timeStart}'
+        : '${getChiTietLichHopModel.ngayKetThuc.split(' ').first} '
+            '${getChiTietLichHopModel.timeTo}';
+  }
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
@@ -37,7 +38,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    vBGiaoNhiemVuModel = VBGiaoNhiemVuModel.emty();
+    vBGiaoNhiemVuModel = VBGiaoNhiemVuModel();
   }
 
   @override
@@ -46,35 +47,19 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
     return FollowKeyBoardWidget(
       bottomWidget: Padding(
         padding: const EdgeInsets.only(bottom: 16),
-        child: Row(
-          children: [
-            Expanded(
-              child: btnSuaLich(
-                name: S.current.dong,
-                bgr: buttonColor.withOpacity(0.1),
-                colorName: textDefault,
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            SizedBox(
-              width: 16.0.textScale(),
-            ),
-            Expanded(
-              child: btnSuaLich(
-                name: S.current.luu,
-                bgr: labelColor,
-                colorName: Colors.white,
-                onTap: () {
-                  widget.cubit.vBGiaoNhiemVuModel.add(vBGiaoNhiemVuModel);
-                  widget.cubit.listVBGiaoNhiemVu.sink
-                      .add(widget.cubit.vBGiaoNhiemVuModel);
-                  Navigator.pop(context, true);
-                },
-              ),
-            ),
-          ],
+        child: DoubleButtonBottom(
+          title1: S.current.dong,
+          title2: S.current.luu,
+          onPressed1: () {
+            Navigator.pop(context);
+          },
+          onPressed2: () {
+            final List<VBGiaoNhiemVuModel> list =
+                widget.cubit.listVBGiaoNhiemVu.valueOrNull ?? [];
+            list.add(vBGiaoNhiemVuModel);
+            widget.cubit.listVBGiaoNhiemVu.sink.add(list);
+            Navigator.pop(context, true);
+          },
         ),
       ),
       child: Column(
@@ -112,9 +97,10 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           ButtonSelectFile(
             removeFileApi: (int index) {},
             title: S.current.tai_lieu_dinh_kem,
-            onChange: (
-              List<File> files,
-            ) {},
+            onChange: (files) {
+              vBGiaoNhiemVuModel.file =
+                  files.map((e) => e.path.split('/').last).toList();
+            },
             files: const [],
           ),
           SizedBox(

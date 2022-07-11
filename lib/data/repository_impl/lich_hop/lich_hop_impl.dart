@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
@@ -23,10 +24,12 @@ import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_bieu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/cap_nhat_trang_thai_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
@@ -86,6 +89,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_dang_theo_doi.dart';
@@ -474,10 +478,10 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<MessageModel>> deleteChiTietLichHop(String id, bool isMulti) {
-    return runCatchingAsync<XoaBaoCaoKetQuaResponse, MessageModel>(
+  Future<Result<bool>> deleteChiTietLichHop(String id, bool isMulti) {
+    return runCatchingAsync<CuCanBoDiThayResponse, bool>(
       () => _hopServices.deleteChiTietLichHop(id, isMulti),
-      (res) => res.toDomain(),
+      (res) => res.isSuccess,
     );
   }
 
@@ -747,7 +751,7 @@ class HopRepositoryImpl implements HopRepository {
   ) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.postDiemDanh(data),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
     );
   }
 
@@ -768,7 +772,7 @@ class HopRepositoryImpl implements HopRepository {
   ) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.postHuyDiemDanh(data),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
     );
   }
 
@@ -944,7 +948,7 @@ class HopRepositoryImpl implements HopRepository {
     }
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.themPhienHop(lichHopId, _data),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
     );
   }
 
@@ -966,7 +970,7 @@ class HopRepositoryImpl implements HopRepository {
   ) {
     return runCatchingAsync<CuCanBoDiThayResponse, bool>(
       () => _hopServices.cuCanBoDiThay(cuCanBoDiThayRequest),
-      (res) => res.isSucces,
+      (res) => res.isSuccess,
     );
   }
 
@@ -974,7 +978,7 @@ class HopRepositoryImpl implements HopRepository {
   Future<Result<bool>> xacNhanThamGiaHop(String lichHopId, bool isThamGia) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.xacNhanThamGiaHop(lichHopId, isThamGia),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
     );
   }
 
@@ -990,7 +994,7 @@ class HopRepositoryImpl implements HopRepository {
         isDuyet,
         noiDung,
       ),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
     );
   }
 
@@ -1012,7 +1016,7 @@ class HopRepositoryImpl implements HopRepository {
         files,
         // filesDelete,
       ),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
     );
   }
 
@@ -1020,7 +1024,7 @@ class HopRepositoryImpl implements HopRepository {
   Future<Result<bool>> guiDuyetKetLuanHop(String meetId) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.guiDuyetKetLuanHop(meetId),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
     );
   }
 
@@ -1028,7 +1032,33 @@ class HopRepositoryImpl implements HopRepository {
   Future<Result<bool>> thuHoiKetLuanHop(String meetId) {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.thuHoiKetLuanHop(meetId),
-      (response) => response.isSucces,
+      (response) => response.isSuccess,
+    );
+  }
+
+  @override
+  Future<Result<bool>> deleteFileHop(String id) {
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.deleteFileHop(id),
+      (response) => response.isSuccess,
+    );
+  }
+
+  @override
+  Future<Result<ListStatusModel>> listStatusRoom() {
+    return runCatchingAsync<ListStatusRoomResponse, ListStatusModel>(
+      () => _hopServices.getListStatusRoom(),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<bool>> capNhatTrangThai(
+    CapNhatTrangThaiRequest capNhatTrangThaiRequest,
+  ) {
+    return runCatchingAsync<CapNhatTrangThaiResponse, bool>(
+      () => _hopServices.suaTrangThai(capNhatTrangThaiRequest),
+      (response) => response.isSuccess,
     );
   }
 }

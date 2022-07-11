@@ -80,7 +80,7 @@ class _DateInputState extends State<DateInput> {
                   child: DoubleButtonBottom(
                     title2: S.current.chon,
                     title1: S.current.dong,
-                    onPressed2: () {
+                    onClickRight: () {
                       widget.onSelectDate(
                         DateTime.parse(dateSelect ?? '').toStringWithListFormat,
                       );
@@ -88,7 +88,7 @@ class _DateInputState extends State<DateInput> {
                           .toStringWithListFormat;
                       Navigator.pop(context);
                     },
-                    onPressed1: () {
+                    onClickLeft: () {
                       Navigator.pop(context);
                     },
                   ),

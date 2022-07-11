@@ -103,13 +103,13 @@ class _RadioOptionDialogState extends State<RadioOptionDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: DoubleButtonBottom(
-                  onPressed2: () {
+                  onClickRight: () {
                     /// return true if radio above selected
                     /// return false if radio below selected
                     widget.onChange?.call(valueSelected);
                     Navigator.pop(context, valueSelected);
                   },
-                  onPressed1: () {
+                  onClickLeft: () {
                     Navigator.pop(context);
                   },
                   title1: widget.textLeftButton ?? S.current.khong,

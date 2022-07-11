@@ -36,8 +36,11 @@ class ImageAssets {
   static const String ic_more = '$baseImg/ic_more.svg';
   static const String ic_up = '$baseImg/ic_up.svg';
   static const String ic_drop_down = '$baseImg/ic_drop_down.svg';
+  static const String icCalenders = '$baseImg/ic_calendar.svg';
   static const String icError = '$baseImg/ic_error.svg';
   static const String icSucces = '$baseImg/ic_succes.svg';
+  static const String icClose = '$baseImg/ic_close.svg';
+  static const String icSearchColor = '$baseImg/ic_search_color.svg';
 
   static SvgPicture svgAssets(
     String name, {

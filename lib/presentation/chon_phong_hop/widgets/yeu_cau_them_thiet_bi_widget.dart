@@ -219,10 +219,10 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                 isTablet: isMobile() == false,
                 title1: S.current.dong,
                 title2: S.current.xac_nhan,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   if (_key.currentState!.validator()) {
                     Navigator.pop(
                       context,

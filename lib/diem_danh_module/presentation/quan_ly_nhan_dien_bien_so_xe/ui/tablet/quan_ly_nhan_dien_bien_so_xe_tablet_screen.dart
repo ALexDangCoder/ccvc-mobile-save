@@ -161,7 +161,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                       child: DoubleButtonBottom(
                                         title1: S.current.chinh_sua,
                                         title2: S.current.xoa,
-                                        onPressed1: () {
+                                        onClickLeft: () {
                                           showDiaLogTablet(
                                             context,
                                             title: S.current.cap_nhat_tong_tin_dang_ky_xe,
@@ -177,7 +177,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                             }
                                           });
                                         },
-                                        onPressed2: () {
+                                        onClickRight: () {
                                           showDiaLog(
                                             context,
                                             title: S.current.xoa_nhan_bien_so_xe,

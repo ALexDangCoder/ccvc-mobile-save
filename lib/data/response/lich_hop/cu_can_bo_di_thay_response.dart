@@ -16,5 +16,5 @@ class CuCanBoDiThayResponse {
 
   Map<String, dynamic> toJson() => _$CuCanBoDiThayResponseToJson(this);
 
-  bool get isSucces => succeeded ?? false;
+  bool get isSuccess => succeeded ?? false;
 }

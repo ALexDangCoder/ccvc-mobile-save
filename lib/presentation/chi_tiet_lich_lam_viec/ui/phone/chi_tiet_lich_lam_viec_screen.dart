@@ -13,9 +13,9 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_c
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/widgets/bottom_sheet_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/show_bottom_sheet_ds_y_Kien.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/document_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/document_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/edit_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
@@ -68,7 +68,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                 (element) => element.status == 1,
               ) ??
               -1;
-          String nguoiDuocMoi = dataModel.scheduleCoperatives
+          final String nguoiDuocMoi = dataModel.scheduleCoperatives
                   ?.firstWhere(
                     (element) => element.canBoId == hiveUserId,
                     orElse: () => ScheduleCoperatives(),
@@ -101,7 +101,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   text: S.current.huy,
                                   onTap: () {
                                     checkCancelDuplicateCal(
-                                      dataModel.isLichLap ?? false,
+                                      isDup: dataModel.isLichLap ?? false,
                                     );
                                   },
                                 ),
@@ -162,7 +162,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   text: S.current.xoa_lich,
                                   onTap: () {
                                     checkDeleteDuplicateCal(
-                                      dataModel.isLichLap ?? false,
+                                      isDup: dataModel.isLichLap ?? false,
                                     );
                                   },
                                 ),
@@ -180,7 +180,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                         cubit: chiTietLichLamViecCubit,
                                         callback: () {
                                           checkRecallDuplicateCal(
-                                            dataModel.isLichLap ?? false,
+                                            isDup: dataModel.isLichLap ?? false,
                                           );
                                         },
                                       ),
@@ -272,9 +272,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   builder: (context, snapshot) {
                                     final data = snapshot.data?.files ?? [];
                                     return DocumentFile(
-                                      onDelete: (fileDelete) {},
                                       files: data,
-                                      onChange: (file, validate) {},
                                     );
                                   },
                                 ),
@@ -289,64 +287,65 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
                                 spaceH12,
                                 StreamBuilder<bool>(
-                                    stream: chiTietLichLamViecCubit
-                                        .showButtonApprove,
-                                    builder: (context, snapshot) {
-                                      final data = snapshot.data ?? false;
-                                      return Visibility(
-                                        visible: data,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: bottomButtonWidget(
-                                                background: buttonColor
-                                                    .withOpacity(0.1),
-                                                title: S.current.tu_choi,
-                                                onTap: () {
+                                  stream:
+                                      chiTietLichLamViecCubit.showButtonApprove,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? false;
+                                    return Visibility(
+                                      visible: data,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: bottomButtonWidget(
+                                              background:
+                                                  buttonColor.withOpacity(0.1),
+                                              title: S.current.tu_choi,
+                                              onTap: () {
+                                                chiTietLichLamViecCubit
+                                                    .confirmOfficer(
+                                                  ConfirmOfficerRequest(
+                                                    lichId: dataModel.id,
+                                                    isThamGia: false,
+                                                    lyDo: '',
+                                                  ),
+                                                )
+                                                    .then((value) {
                                                   chiTietLichLamViecCubit
-                                                      .confirmOfficer(
-                                                    ConfirmOfficerRequest(
-                                                      lichId: dataModel.id,
-                                                      isThamGia: false,
-                                                      lyDo: '',
-                                                    ),
-                                                  )
-                                                      .then((value) {
-                                                    chiTietLichLamViecCubit
-                                                        .loadApi(widget.id);
-                                                  });
-                                                },
-                                                textColor: buttonColor,
-                                              ),
+                                                      .loadApi(widget.id);
+                                                });
+                                              },
+                                              textColor: buttonColor,
                                             ),
-                                            const SizedBox(
-                                              width: 16,
-                                            ),
-                                            Expanded(
-                                              child: bottomButtonWidget(
-                                                background: buttonColor,
-                                                title: S.current.tham_du,
-                                                onTap: () {
+                                          ),
+                                          const SizedBox(
+                                            width: 16,
+                                          ),
+                                          Expanded(
+                                            child: bottomButtonWidget(
+                                              background: buttonColor,
+                                              title: S.current.tham_du,
+                                              onTap: () {
+                                                chiTietLichLamViecCubit
+                                                    .confirmOfficer(
+                                                  ConfirmOfficerRequest(
+                                                    lichId: dataModel.id,
+                                                    isThamGia: true,
+                                                    lyDo: '',
+                                                  ),
+                                                )
+                                                    .then((value) {
                                                   chiTietLichLamViecCubit
-                                                      .confirmOfficer(
-                                                    ConfirmOfficerRequest(
-                                                      lichId: dataModel.id,
-                                                      isThamGia: true,
-                                                      lyDo: '',
-                                                    ),
-                                                  )
-                                                      .then((value) {
-                                                    chiTietLichLamViecCubit
-                                                        .loadApi(widget.id);
-                                                  });
-                                                },
-                                                textColor: Colors.white,
-                                              ),
+                                                      .loadApi(widget.id);
+                                                });
+                                              },
+                                              textColor: Colors.white,
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    })
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -402,7 +401,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     );
   }
 
-  void checkRecallDuplicateCal(bool isDup) {
+  void checkRecallDuplicateCal({required bool isDup}) {
     if (isDup) {
       showDialog(
         context: context,
@@ -439,7 +438,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     }
   }
 
-  void checkDeleteDuplicateCal(bool isDup) {
+  void checkDeleteDuplicateCal({required bool isDup}) {
     if (isDup) {
       showDialog(
         context: context,
@@ -475,17 +474,18 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     }
   }
 
-  void checkCancelDuplicateCal(bool isDup) {
+  void checkCancelDuplicateCal({required bool isDup}) {
     if (isDup) {
       showDialog(
         context: context,
         builder: (context) => ThemLinkHopDialog(
-            title: S.current.huy_lich,
-            isConfirm: false,
-            imageUrl: ImageAssets.icHuyLich,
-            textConfirm: S.current.ban_co_chac_muon_huy_lich,
-            textRadioAbove: S.current.chi_lich_nay,
-            textRadioBelow: S.current.tu_lich_nay),
+          title: S.current.huy_lich,
+          isConfirm: false,
+          imageUrl: ImageAssets.icHuyLich,
+          textConfirm: S.current.ban_co_chac_muon_huy_lich,
+          textRadioAbove: S.current.chi_lich_nay,
+          textRadioBelow: S.current.tu_lich_nay,
+        ),
       ).then(
         (value) => chiTietLichLamViecCubit
             .cancelCalendarWork(widget.id, isMulti: !value)

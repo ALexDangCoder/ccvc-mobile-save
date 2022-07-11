@@ -19,7 +19,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         ketLuanHopSubject.sink.add(
           KetLuanHopModel(
             id: res.id ?? '',
-            thoiGian: '',
+            thoiGian: res.createAt ?? '',
             trangThai: typeTrangthai(res.status ?? 0),
             tinhTrang: typeTinhTrang(res.reportStatusCode ?? ''),
             file: res.files?.map((e) => e.Name ?? '').toList() ?? [],
@@ -178,6 +178,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.thanh_cong,
         );
+        getDanhSachNhiemVu(idCuocHop);
         isCheck = true;
       },
       error: (err) {
@@ -221,13 +222,32 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   }
 
   Future<void> themNhiemVu(ThemNhiemVuRequest themNhiemVuRequest) async {
+    showLoading();
+    for (final value in listVBGiaoNhiemVu.value) {
+      themNhiemVuRequest.danhSachVanBan?.add(
+        DanhSachVanBanRequest(
+          hinhThucVanBan: value.hinhThucVanBan,
+          ngayVanBan: value.ngayVanBan,
+          soVanBan: value.soVanBan,
+          trichYeu: value.trichYeu,
+        ),
+      );
+    }
     final result = await hopRp.postThemNhiemVu(themNhiemVuRequest);
     result.when(
-      success: (res) {},
+      success: (res) {
+        showContent();
+        getDanhSachNhiemVu(idCuocHop);
+        MessageConfig.show(title: S.current.thanh_cong);
+      },
       error: (err) {
-        return;
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
       },
     );
+    showContent();
   }
 
   Future<void> xacNhanHoacHuyKetLuanHop({
@@ -326,6 +346,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     getDanhSachLoaiNhiemVu();
     listStatusKetLuanHop();
     danhSachCanBoTPTG(id: idCuocHop);
+    getDanhSachNguoiChuTriPhienHop('');
     postChonMauHop();
   }
 }

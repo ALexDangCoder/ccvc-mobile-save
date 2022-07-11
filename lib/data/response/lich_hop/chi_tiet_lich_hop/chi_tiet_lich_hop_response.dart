@@ -8,7 +8,8 @@ class ChiTietLichHopResponse {
   String? code;
   String? message;
 
-  ChiTietLichHopResponse({this.data, this.statusCode, this.succeeded, this.code, this.message});
+  ChiTietLichHopResponse(
+      {this.data, this.statusCode, this.succeeded, this.code, this.message});
 
   ChiTietLichHopResponse.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -149,7 +150,7 @@ class Data {
     lichDonVi = json['lichDonVi'];
     chuTri = json['chuTri'] != null ? ChuTri.fromJson(json['chuTri']) : null;
     phongHop =
-    json['phongHop'] != null ? PhongHop.fromJson(json['phongHop']) : null;
+        json['phongHop'] != null ? PhongHop.fromJson(json['phongHop']) : null;
     mucDo = json['mucDo'];
     typeRepeat = json['typeRepeat'];
     thoiGianKetThuc = json['thoiGianKetThuc'];
@@ -182,7 +183,7 @@ class Data {
   }
 
   ChiTietLichHopModel toDomain() => ChiTietLichHopModel(
-    id: id ?? '',
+        id: id ?? '',
         typeScheduleId: typeScheduleId ?? '',
         chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
         linhVuc: tenLinhVuc ?? '',
@@ -243,15 +244,16 @@ class ChuTri {
 
   String? canBoTenChucVu;
 
-  ChuTri({this.donViId,
-    this.canBoId,
-    this.vaiTroThamGia,
-    this.soDienThoai,
-    this.dauMoiLienHe,
-    this.tenCanBo,
-    this.tenCoQuan,
-    this.id,
-    this.canBoTenChucVu});
+  ChuTri(
+      {this.donViId,
+      this.canBoId,
+      this.vaiTroThamGia,
+      this.soDienThoai,
+      this.dauMoiLienHe,
+      this.tenCanBo,
+      this.tenCoQuan,
+      this.id,
+      this.canBoTenChucVu});
 
   ChuTri.fromJson(Map<String, dynamic> json) {
     donViId = json['donViId'];
@@ -268,14 +270,14 @@ class ChuTri {
   }
 
   ChuTriModel toDomain() => ChuTriModel(
-    id: id ?? '',
-    tenCanBo: tenCanBo ?? '',
-    tenCoQuan: tenCoQuan ?? '',
-    dauMoiLienHe: dauMoiLienHe ?? '',
-    soDienThoai: soDienThoai ?? '',
-    canBoId: canBoId ?? '',
-    donViId: donViId ?? '',
-  );
+        id: id ?? '',
+        tenCanBo: tenCanBo ?? '',
+        tenCoQuan: tenCoQuan ?? '',
+        dauMoiLienHe: dauMoiLienHe ?? '',
+        soDienThoai: soDienThoai ?? '',
+        canBoId: canBoId ?? '',
+        donViId: donViId ?? '',
+      );
 }
 
 class PhongHop {
@@ -389,5 +391,9 @@ class FileData {
     updatedBy = json['updatedBy'];
   }
 
-  file toDomain() => file(name: name, path: path);
+  file toDomain() => file(
+        name: name,
+        path: path,
+        id: id,
+      );
 }

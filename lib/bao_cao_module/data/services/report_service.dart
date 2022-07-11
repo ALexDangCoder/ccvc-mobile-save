@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/appid_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/can_bo_chia_se_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/folder_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/group_response.dart';
@@ -99,4 +100,6 @@ abstract class ReportService {
     @Header('AppId') String appId,
     @Query('id') String idReport,
   );
+
+
 }

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
@@ -78,249 +79,263 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           )
         ],
       ),
-      body: StateStreamLayout(
-        textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
-        error: AppException('1', S.current.something_went_wrong),
-        stream: widget.cubit.stateStream,
-        child: SizedBox.expand(
-          child: Container(
-            color: homeColor,
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification scrollInfo) {
-                if (widget.cubit.canLoadMoreList &&
-                    scrollInfo.metrics.pixels ==
-                        scrollInfo.metrics.maxScrollExtent) {
-                  if (!widget.cubit.isFilter) {
-                    widget.cubit.loadMoreGetDSPAKN();
-                  } else {
-                    widget.cubit.loadMoreGetDSPAKNFilter();
+      body: GestureDetector(
+        onTap: () {
+          widget.cubit.isShowFilterList.add(false);
+        },
+        child: StateStreamLayout(
+          textEmpty: S.current.khong_co_du_lieu,
+          retry: () {},
+          error: AppException('1', S.current.something_went_wrong),
+          stream: widget.cubit.stateStream,
+          child: SizedBox.expand(
+            child: Container(
+              color: homeColor,
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollInfo) {
+                  if (widget.cubit.canLoadMoreList &&
+                      scrollInfo.metrics.pixels ==
+                          scrollInfo.metrics.maxScrollExtent) {
+                    if (!widget.cubit.isFilter) {
+                      widget.cubit.loadMoreGetDSPAKN();
+                    } else {
+                      widget.cubit.loadMoreGetDSPAKNFilter();
+                    }
                   }
-                }
-                return true;
-              },
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  widget.cubit.resetBeforeRefresh();
-                  widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                  widget.cubit.getDanhSachPAKN();
-                  widget.cubit.textFilter.sink.add(TextTrangThai(
-                    S.current.all,
-                    Colors.black,
-                  ),);
+                  return true;
                 },
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        height: 8,
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    widget.cubit.resetBeforeRefresh();
+                    widget.cubit.getDashBoardPAKNTiepCanXuLy();
+                    widget.cubit.getDanhSachPAKN();
+                    widget.cubit.textFilter.sink.add(
+                      TextTrangThai(
+                        S.current.all,
+                        Colors.black,
                       ),
-                      FilterDateTimeWidgetTablet(
-                        initStartDate: widget.cubit.initStartDate,
-                        context: context,
-                        onChooseDateFilter: (startDate, endDate) {
-                          widget.cubit.startDate =
-                              startDate.toStringWithListFormat;
-                          widget.cubit.endDate = endDate.toStringWithListFormat;
-                          widget.cubit.clearDSPAKN();
-                          widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                          widget.cubit.getDanhSachPAKN();
-                        },
-                        controller: textcontroller,
-                        onChange: (searchText) {
-                          if (searchText.isEmpty) {
-                            setState(() {});
-                            widget.cubit.showCleanText = false;
-                            widget.cubit.tuKhoa = '';
+                    );
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        FilterDateTimeWidgetTablet(
+                          initStartDate: widget.cubit.initStartDate,
+                          context: context,
+                          onChooseDateFilter: (startDate, endDate) {
+                            widget.cubit.startDate =
+                                startDate.toStringWithListFormat;
+                            widget.cubit.endDate =
+                                endDate.toStringWithListFormat;
                             widget.cubit.clearDSPAKN();
-                            widget.cubit.getDanhSachPAKN(isSearch: true);
-                          } else {
-                            widget.cubit.debouncer.run(() {
+                            widget.cubit.getDashBoardPAKNTiepCanXuLy();
+                            widget.cubit.getDanhSachPAKN();
+                          },
+                          controller: textcontroller,
+                          onChange: (searchText) {
+                            if (searchText.isEmpty) {
                               setState(() {});
-                              widget.cubit.tuKhoa = searchText.trim();
+                              widget.cubit.showCleanText = false;
+                              widget.cubit.tuKhoa = '';
                               widget.cubit.clearDSPAKN();
                               widget.cubit.getDanhSachPAKN(isSearch: true);
-                              widget.cubit.showCleanText = true;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 22,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 66),
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: borderColor.withOpacity(0.5),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: shadowContainerColor.withOpacity(0.05),
-                              offset: const Offset(0, 4),
-                              blurRadius: 10,
-                            )
-                          ],
-                        ),
-
-                        ///hia
-                        child: StreamBuilder<DashBoardPAKNModel>(
-                          stream:
-                              widget.cubit.dashBoardPAKNTiepCanXuLyBHVSJ.stream,
-                          builder: (ctx, snapshot) {
-                            final data = snapshot.data ??
-                                DashBoardPAKNModel(
-                                  dashBoardHanXuLyPAKNModel:
-                                      DashBoardHanXuLyPAKNModel(),
-                                  dashBoardTiepNhanPAKNModel:
-                                      DashBoardTiepNhanPAKNModel(),
-                                  dashBoardXuLyPAKNModelModel:
-                                      DashBoardXuLyPAKNModel(),
-                                );
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: TiepCanWidget(
-                                    model: data,
-                                    cubit: widget.cubit,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 115,
-                                ),
-                                Expanded(
-                                  child:XuLyWidget(
-                                    model: data,
-                                    cubit: widget.cubit,
-                                  ),
-                                ),
-                              ],
-                            );
+                            } else {
+                              widget.cubit.debouncer.run(() {
+                                setState(() {});
+                                widget.cubit.tuKhoa = searchText.trim();
+                                widget.cubit.clearDSPAKN();
+                                widget.cubit.getDanhSachPAKN(isSearch: true);
+                                widget.cubit.showCleanText = true;
+                              });
+                            }
                           },
                         ),
-                      ),
-                      spaceH20,
-                      StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
-                        stream: widget.cubit.listDanhSachKetQuaPakn.stream,
-                        initialData: const [],
-                        builder: (context, snapShot) {
-                          final data = snapShot.data ?? [];
-                          if (data.isEmpty) {
-                            widget.cubit.isEmptyData = true;
-                            return Center(
-                              child: Column(
+                        const SizedBox(
+                          height: 22,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(bottom: 66),
+                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: borderColor.withOpacity(0.5),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: shadowContainerColor.withOpacity(0.05),
+                                offset: const Offset(0, 4),
+                                blurRadius: 10,
+                              )
+                            ],
+                          ),
+
+                          ///hia
+                          child: StreamBuilder<DashBoardPAKNModel>(
+                            stream: widget
+                                .cubit.dashBoardPAKNTiepCanXuLyBHVSJ.stream,
+                            builder: (ctx, snapshot) {
+                              final data = snapshot.data ??
+                                  DashBoardPAKNModel(
+                                    dashBoardHanXuLyPAKNModel:
+                                        DashBoardHanXuLyPAKNModel(),
+                                    dashBoardTiepNhanPAKNModel:
+                                        DashBoardTiepNhanPAKNModel(),
+                                    dashBoardXuLyPAKNModelModel:
+                                        DashBoardXuLyPAKNModel(),
+                                  );
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: Text(
-                                      S.current.danh_sach_pakn,
-                                      style: textNormalCustom(
-                                        color: textTitle,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                  Expanded(
+                                    child: TiepCanWidget(
+                                      model: data,
+                                      cubit: widget.cubit,
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 30.0,
+                                    width: 115,
                                   ),
-                                  SvgPicture.asset(
-                                    ImageAssets.icNoDataNhiemVu,
-                                  ),
-                                  const SizedBox(
-                                    height: 30.0,
-                                  ),
-                                  Text(
-                                    S.current.khong_co_thong_tin_pakn,
-                                    style: textNormalCustom(
-                                        fontSize: 16.0, color: grayChart),
-                                  ),
-                                  const SizedBox(
-                                    height: 10.0,
+                                  Expanded(
+                                    child: XuLyWidget(
+                                      model: data,
+                                      cubit: widget.cubit,
+                                    ),
                                   ),
                                 ],
-                              ),
-                            );
-                          } else {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30.0),
-                              child: Stack(
-                                alignment: Alignment.centerRight,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              S.current.danh_sach_pakn,
-                                              style: textNormalCustom(
-                                                color: textTitle,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.w500,
+                              );
+                            },
+                          ),
+                        ),
+                        spaceH20,
+                        StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
+                          stream: widget.cubit.listDanhSachKetQuaPakn.stream,
+                          initialData: const [],
+                          builder: (context, snapShot) {
+                            final data = snapShot.data ?? [];
+                            if (data.isEmpty) {
+                              widget.cubit.isEmptyData = true;
+                              return Center(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: Text(
+                                        S.current.danh_sach_pakn,
+                                        style: textNormalCustom(
+                                          color: textTitle,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30.0,
+                                    ),
+                                    SvgPicture.asset(
+                                      ImageAssets.icNoDataNhiemVu,
+                                    ),
+                                    const SizedBox(
+                                      height: 30.0,
+                                    ),
+                                    Text(
+                                      S.current.khong_co_thong_tin_pakn,
+                                      style: textNormalCustom(
+                                          fontSize: 16.0, color: grayChart),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0),
+                                child: Stack(
+                                  alignment: Alignment.centerRight,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                S.current.danh_sach_pakn,
+                                                style: textNormalCustom(
+                                                  color: textTitle,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: StreamBuilder<TextTrangThai>(
-                                              stream:
-                                              widget.cubit.textFilter.stream,
-                                              builder: (context, snapshot) {
-                                                return item(
-                                                  title: snapshot.data?.text ?? '',
-                                                  callBack: (value) {
-                                                    widget.cubit.isShowFilterList
-                                                        .add(true);
-                                                  },
-                                                  colorBG: snapshot.data?.color ??
-                                                      Colors.red,
-                                                );
-                                              },
+                                            Expanded(
+                                              child:
+                                                  StreamBuilder<TextTrangThai>(
+                                                stream: widget
+                                                    .cubit.textFilter.stream,
+                                                builder: (context, snapshot) {
+                                                  return item(
+                                                    title:
+                                                        snapshot.data?.text ??
+                                                            '',
+                                                    callBack: (value) {
+                                                      widget.cubit
+                                                          .isShowFilterList
+                                                          .add(true);
+                                                    },
+                                                    colorBG:
+                                                        snapshot.data?.color ??
+                                                            Colors.red,
+                                                  );
+                                                },
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      ListView.builder(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: data.length,
-                                        itemBuilder: (context, index) {
-                                          return _itemDanhSachPAKN(
-                                              dsKetQuaPakn: data[index]);
+                                          ],
+                                        ),
+                                        ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: data.length,
+                                          itemBuilder: (context, index) {
+                                            return _itemDanhSachPAKN(
+                                                dsKetQuaPakn: data[index]);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    Positioned(
+                                      top: 0,
+                                      child: StreamBuilder<bool>(
+                                        stream: widget.cubit.isShowFilterList,
+                                        builder: (context, snapshot) {
+                                          final isShow = snapshot.data ?? false;
+                                          return isShow
+                                              ? DropDownTrangThaiPAKN(
+                                                  cubit: widget.cubit,
+                                                )
+                                              : const SizedBox.shrink();
                                         },
                                       ),
-                                    ],
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    child: StreamBuilder<bool>(
-                                      stream: widget.cubit.isShowFilterList,
-                                      builder: (context, snapshot) {
-                                        final isShow = snapshot.data ?? false;
-                                        return isShow
-                                            ? DropDownTrangThaiPAKN(
-                                          cubit: widget.cubit,
-                                        )
-                                            : const SizedBox.shrink();
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -493,5 +508,44 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
     } else {
       return TextTrangThai(S.current.den_han, choVaoSoColor);
     }
+  }
+
+  Widget item({
+    required Color colorBG,
+    required String title,
+    required Function(TextTrangThai) callBack,
+  }) {
+    return InkWell(
+      onTap: () => callBack(TextTrangThai(title, colorBG)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(30),
+          ),
+          color: colorBG,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: textNormalCustom(
+                  color: AppTheme.getInstance().dfBtnTxtColor(),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Expanded(
+              child: Icon(Icons.keyboard_arrow_down_outlined, color: AqiColor),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

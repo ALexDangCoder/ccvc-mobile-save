@@ -90,7 +90,7 @@
   "hello": "Xin chào",
   "chu_nhat": "Chủ nhật",
   "chon_ngay": "Chọn ngày",
-  "da_hoan_thanh": "Đã thực hiện",
+  "da_hoan_thanh": "Đã hoàn thành",
   "them_cong_viec": "Thêm công việc",
   "using": "Widgets đang sử dụng",
   "not_use": "Widgets chưa sử dụng",
@@ -865,7 +865,7 @@
   "ghi_chu": "Ghi chú",
   "cho_tiep_nha_xu_ly": "Chờ tiếp nhận xử lý",
   "cho_bo_sung_thong_tin": "Chờ bổ sung thông tin",
-  "cho_phan_cong_xu_ly": "Chờ phân công xử lý",
+  "cho_phan_cong_xu_ly": "Chờ phân công và xử lý",
   "cho_cho_y_kien": "Chờ cho ý kiến",
   "tong_hop_yknd_da_nhan": "Tổng số YKND đã nhận",
   "cho_tiep_nhan_xu_ly": "Chờ tiếp nhận xử lý",
@@ -881,7 +881,7 @@
   "cv_quan_trong": "Công việc quan trọng",
   "noi_dung_thu_hoi": "Nội dung thu hồi",
   "tinh_trang_thuc_hien_yknd": "Tình trạng thực hiện ý kiến người dân",
-  "chuyen_xu_ly": "chuyển xử lý",
+  "chuyen_xu_ly": "Chuyển xử lý",
   "yeu_cau_phoi_hop": " yêu cầu phối hợp",
   "cho_bo_sung_tt": "chờ bổ sung thông tin",
   "linh_vuc_xu_ly": "Lĩnh vực xử lý",
@@ -1236,7 +1236,8 @@
   "huy_duyet_phat_bieu": "Bạn có chắc muốn hủy duyệt phát biểu không?",
   "su_kien_trong_ngay": "Sự kiện trong ngày",
   "ten_phien_hop": "Tên phiên họp",
-  "vui_long_chon_chu_tri": "Vui lòng chọn Cơ quan chủ trì"
+  "vui_long_chon_chu_tri": "Vui lòng chọn Cơ quan chủ trì",
+  "co_loi_xay_ra": "Có lỗi xảy ra, vui lòng thử lại sau"
 }
 
 

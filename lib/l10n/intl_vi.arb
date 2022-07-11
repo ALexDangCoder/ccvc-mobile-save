@@ -1236,7 +1236,9 @@
   "huy_duyet_phat_bieu": "Bạn có chắc muốn hủy duyệt phát biểu không?",
   "su_kien_trong_ngay": "Sự kiện trong ngày",
   "ten_phien_hop": "Tên phiên họp",
-  "vui_long_chon_chu_tri": "Vui lòng chọn Cơ quan chủ trì"
+  "vui_long_chon_chu_tri": "Vui lòng chọn Cơ quan chủ trì",
+  "tong_file_khong_vuot_qua" : "Tổng file không vượt quá"
+
 }
 
 

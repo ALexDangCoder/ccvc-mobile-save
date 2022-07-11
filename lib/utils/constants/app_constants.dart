@@ -326,3 +326,6 @@ class StatusCodeConst {
 class PermissionConst {
   static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }
+class MaxSizeFile{
+  static  const MAX_SIZE_20MB  = 20000000;
+}

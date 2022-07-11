@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -8,10 +9,15 @@ import 'package:flutter/material.dart';
 
 class PhanHoiWidget extends StatefulWidget {
   final String id;
+  final String scheduleOpinionId;
   final DetailMeetCalenderCubit cubit;
 
-  const PhanHoiWidget({Key? key, required this.cubit, required this.id})
-      : super(key: key);
+  const PhanHoiWidget({
+    Key? key,
+    required this.cubit,
+    required this.id,
+    required this.scheduleOpinionId,
+  }) : super(key: key);
 
   @override
   _PhanHoiWidgetState createState() => _PhanHoiWidgetState();
@@ -36,12 +42,7 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
             await widget.cubit.themYKien(
               yKien: yKien.text,
               idLichHop: widget.id,
-              phienHopId: widget.cubit.getPhienHopId,
-              scheduleOpinionId: '',
-            );
-            await widget.cubit.getDanhSachYKien(
-              widget.id,
-              widget.cubit.getPhienHopId,
+              scheduleOpinionId: widget.scheduleOpinionId,
             );
           },
         ),
@@ -50,6 +51,7 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceH16,
           ItemTextFieldWidget(
             hint: '',
             title: S.current.y_kien_cuop_hop,
@@ -58,13 +60,9 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
             validator: (String? value) {},
             onChange: (String value) {},
           ),
-          HeightSp(24),
+          spaceH24,
         ],
       ),
     );
   }
-
-  Widget HeightSp(double height) => SizedBox(
-        height: height,
-      );
 }

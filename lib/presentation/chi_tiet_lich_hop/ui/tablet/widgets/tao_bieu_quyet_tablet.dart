@@ -82,10 +82,10 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
               isTablet: true,
               title1: S.current.dong,
               title2: S.current.luu,
-              onPressed1: () {
+              onClickLeft: () {
                 Navigator.pop(context);
               },
-              onPressed2: () async {
+              onClickRight: () async {
                 bool isCheckCallApi = true;
                 final nav = Navigator.of(context);
                 if (isShowValidate == true) {

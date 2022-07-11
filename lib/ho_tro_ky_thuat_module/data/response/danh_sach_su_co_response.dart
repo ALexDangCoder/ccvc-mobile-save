@@ -26,7 +26,7 @@ class DanhSachSuCoResponse {
 
 @JsonSerializable()
 class DataResponse {
-  @JsonKey(name: 'pageData')
+  @JsonKey(name: 'items')
   List<PageDataResponse>? pageData;
 
   DataResponse(
@@ -47,18 +47,34 @@ class PageDataResponse {
   String? id;
   @JsonKey(name: 'moTaSuCo')
   String? moTaSuCo;
+  @JsonKey(name: 'tenThietBi')
+  String? tenThietBi;
   @JsonKey(name: 'soDienThoai')
   String? soDienThoai;
   @JsonKey(name: 'diaChi')
   String? diaChi;
   @JsonKey(name: 'thoiGianYeuCau')
   String? thoiGianYeuCau;
+  @JsonKey(name: 'districtId')
+  String? districtId;
+  @JsonKey(name: 'ibuildingIdd')
+  String? buildingId;
+  @JsonKey(name: 'room')
+  String? room;
+  @JsonKey(name: 'donViId')
+  String? donViId;
+  @JsonKey(name: 'idNguoiYeuCau')
+  String? idNguoiYeuCau;
   @JsonKey(name: 'nguoiYeuCau')
   String? nguoiYeuCau;
   @JsonKey(name: 'donVi')
   String? donVi;
+  @JsonKey(name: 'chucVu')
+  String? chucVu;
   @JsonKey(name: 'trangThaiXuLy')
   String? trangThaiXuLy;
+  @JsonKey(name: 'codeTrangThai')
+  String? codeTrangThai;
   @JsonKey(name: 'ketQuaXuLy')
   String? ketQuaXuLy;
   @JsonKey(name: 'nguoiXuLy')
@@ -69,12 +85,20 @@ class PageDataResponse {
   PageDataResponse(
     this.id,
     this.moTaSuCo,
+    this.tenThietBi,
     this.soDienThoai,
     this.diaChi,
     this.thoiGianYeuCau,
+    this.districtId,
+    this.buildingId,
+    this.room,
+    this.donViId,
+    this.idNguoiYeuCau,
     this.nguoiYeuCau,
     this.donVi,
+    this.chucVu,
     this.trangThaiXuLy,
+    this.codeTrangThai,
     this.ketQuaXuLy,
     this.nguoiXuLy,
     this.ngayHoanThanh,
@@ -87,7 +111,11 @@ class PageDataResponse {
 
   Map<String, dynamic> toJson() => _$PageDataResponseToJson(this);
 
-  DanhSachSuCoModel toModel() => DanhSachSuCoModel(
+  SuCoModel toModel() => SuCoModel(
+        codeTrangThai: codeTrangThai,
+        chucVu: chucVu,
+        idNguoiYeuCau: idNguoiYeuCau,
+        districtId: districtId,
         id: id,
         moTaSuCo: moTaSuCo,
         soDienThoai: soDienThoai,

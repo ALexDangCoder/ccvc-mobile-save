@@ -66,10 +66,10 @@ class DialogUtils {
                   padding: const EdgeInsets.only(left: 24, right: 24),
                   child: DoubleButtonBottom(
                     title2: S.current.xoa,
-                    onPressed1: () {
+                    onClickLeft: () {
                       Navigator.pop(context);
                     },
-                    onPressed2: () {
+                    onClickRight: () {
                       okBtnFunction();
                     },
                     title1: S.current.huy,

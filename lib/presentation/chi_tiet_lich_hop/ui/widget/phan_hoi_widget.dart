@@ -34,10 +34,10 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.them,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () async {
+          onClickRight: () async {
             Navigator.pop(context);
             await widget.cubit.themYKien(
               yKien: yKien.text,

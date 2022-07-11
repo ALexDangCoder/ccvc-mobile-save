@@ -1,5 +1,8 @@
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
@@ -16,16 +19,19 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as get_dart;
 import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
 
-  static const DANG_CHO_XU_LY = 'Đang chờ xử lý';
-  static const DANG_XU_LY = 'Đang xử lý';
-  static const DA_XU_LY = 'Đã xử lý';
-  static const TU_CHOI_XU_LY = 'Từ chối xử lý';
+//code status
+  static const CHUA_XU_LY = 'chua-xu-ly';
+  static const CHO_XU_LY = 'cho-xu-ly';
+  static const DANG_XU_LY = 'dang-xu-ly';
+  static const DA_XU_LY = 'da-xu-ly';
+  static const TU_CHOI_XU_LY = 'tu-choi-xu-ly';
+
   static const LOAI_SU_CO = 'loai-su-co';
   static const TRANG_THAI = 'trang-thai';
   static const KHU_VUC = 'khu-vuc';
@@ -44,6 +50,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       BehaviorSubject.seeded([]);
   BehaviorSubject<List<ThanhVien>> listCanCoHTKT = BehaviorSubject.seeded([]);
   BehaviorSubject<bool> checkDataChart = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> isShowDonVi = BehaviorSubject.seeded(false);
+  BehaviorSubject<String> donViSearch = BehaviorSubject.seeded(S.current.chon);
   BehaviorSubject<List<CategoryModel>> listKhuVuc = BehaviorSubject.seeded([]);
   BehaviorSubject<List<CategoryModel>> listLoaiSuCo =
       BehaviorSubject.seeded([]);
@@ -58,16 +66,40 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   String? createOn;
   String? finishDay;
   String? userRequestId;
+  String? userRequestIdName;
   String? districtId;
+  String? districtIdName;
   String? buildingId;
+  String? buildingIdName;
   String? room;
   String? processingCode;
+  String? processingCodeName;
   String? handlerId;
+  String? handlerIdName;
   String? keyWord;
   final dataUser = HiveLocal.getDataUser();
   bool? isCheckUser;
+  final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
+      BehaviorSubject<List<Node<DonViModel>>>();
 
-  HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
+  Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
+
+  ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
+
+  HoTroKyThuatRepository get _hoTroKyThuatRepository => get_dart.Get.find();
+
+  void getTree() {
+    hopRp.getTreeDonVi().then((value) {
+      value.when(
+        success: (res) {
+          _getTreeDonVi.sink.add(res);
+        },
+        error: (err) {
+          showError();
+        },
+      );
+    });
+  }
 
   void initListCheckPopup(int length) {
     listCheckPopupMenu = List<bool>.filled(
@@ -85,7 +117,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     return 0xfffffff;
   }
 
-  void onClickPopupMenu(DanhSachSuCoModel value, int index) {
+  void onClickPopupMenu(SuCoModel value, int index) {
     listCheckPopupMenu = List<bool>.filled(
       loadMoreList.length,
       false,
@@ -170,7 +202,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   Future<void> getAllApiThongTinChung() async {
     showLoading();
-    checkDataChart.add(false);
     await getChartSuCo();
     await getNguoiXuLy();
     await getTongDai();
@@ -183,10 +214,11 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   Future<void> geiApiAddAndSearch() async {
+    getTree();
+    await getNguoiTiepNhanYeuCau();
     await getCategory(title: KHU_VUC);
     await getCategory(title: LOAI_SU_CO);
     await getCategory(title: TRANG_THAI);
-    await getNguoiTiepNhanYeuCau();
   }
 
   Future<void> getNguoiXuLy({
@@ -224,7 +256,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   Future<void> getChartSuCo() async {
-    final Result<ChartSuCoModel> result =
+    checkDataChart.add(false);
+    final Result<List<ChartSuCoModel>> result =
         await _hoTroKyThuatRepository.getChartSuCo();
     result.when(
       success: (res) {
@@ -233,35 +266,32 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         listStatusData = [];
         listTitle = [];
         //get list title chart
-        if (res.chartSuCoChild?.isNotEmpty ?? false) {
-          listTitle = res.chartSuCoChild?.first.danhSachKhuVuc
-                  ?.map((e) => e.suCo.toString())
+        if (res.isNotEmpty) {
+          listTitle = res.first.danhSachSuCo
+                  ?.map((e) => e.tenSuCo.toString())
                   .toList() ??
               [];
           //get list status chart
-          listStatusData = res.chartSuCoChild
-                  ?.map(
-                    (value) => ChartData(
-                      value.khuVuc ?? '',
-                      0,
-                      getColorChart(value.khuVuc ?? ''),
-                    ),
-                  )
-                  .toList() ??
-              [];
+          listStatusData = res
+              .map(
+                (value) => ChartData(
+                  value.tenKhuVuc ?? '',
+                  0,
+                  getColorChart(value.codeKhuVuc ?? ''),
+                ),
+              )
+              .toList();
           //get list data chart
-
           for (final title in listTitle) {
             final List<ChartData> listChart = [];
-            for (final ChartSuCoChild value in res.chartSuCoChild ?? []) {
-              for (final DanhSachKhuVuc valueChild
-                  in value.danhSachKhuVuc ?? []) {
-                if (title == valueChild.suCo) {
+            for (final ChartSuCoModel value in res) {
+              for (final DanhSachSuCo valueChild in value.danhSachSuCo ?? []) {
+                if (title == valueChild.tenSuCo) {
                   listChart.add(
                     ChartData(
-                      valueChild.suCo ?? '',
+                      valueChild.tenSuCo ?? '',
                       (valueChild.soLuong ?? 0).toDouble(),
-                      getColorChart(value.khuVuc ?? ''),
+                      getColorChart(value.codeKhuVuc ?? ''),
                     ),
                   );
                 }
@@ -269,41 +299,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
             }
             listDataChart.add(listChart);
           }
-//check data
-
-          //
           checkDataChart.add(true);
         }
-        //         //get list title chart
-//         listTitle =
-//             res.chartSuCoChild?.map((e) => e.tenSuCo ?? '').toList() ?? [];
-//         //get list status chart
-//         listStatusData = res.chartSuCoChild?.first.danhSachKhuVuc
-//                 ?.map(
-//                   (value) => ChartData(
-//                     value.khuVuc ?? '',
-//                     (value.soLuong ?? 0).toDouble(),
-//                     getColorChart(value.khuVuc ?? ''),
-//                   ),
-//                 )
-//                 .toList() ??
-//             [];
-//         //get list data chart
-//         listDataChart = res.chartSuCoChild
-//                 ?.map(
-//                   (e) => (e.danhSachKhuVuc ?? [])
-//                       .map(
-//                         (valueChild) => ChartData(
-//                           valueChild.khuVuc ?? '',
-//                           (valueChild.soLuong ?? 0).toDouble(),
-//                           getColorChart(valueChild.khuVuc ?? ''),
-//                         ),
-//                       )
-//                       .toList(),
-//                 )
-//                 .toList() ??
-//             [];
-// //
       },
       error: (error) {
         checkDataThongTinChung += 1;
@@ -313,9 +310,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   Color getColorChart(String title) {
     switch (title) {
-      case 'Khu vực A':
+      case 'HN':
         return const Color(0xff5A8DEE);
-      case 'Khu vực B':
+      case 'HCM':
         return const Color(0xffFF9F43);
       default: //todo
         return Colors.red;

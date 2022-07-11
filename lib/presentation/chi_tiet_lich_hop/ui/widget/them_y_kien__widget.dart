@@ -38,10 +38,10 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.them,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () async {
+          onClickRight: () async {
             Navigator.pop(context);
             await widget.cubit.themYKien(
               yKien: yKien.value.text,

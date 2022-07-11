@@ -87,7 +87,6 @@ class WidgetModel {
     this.widgetType,
   }) {
     widgetType = fromEnum();
-    imagePre = getStringImage();
   } //
 
   WidgetType? fromEnum() {
@@ -120,35 +119,6 @@ class WidgetModel {
         return WidgetType.situationHandlingPeople;
       case WidgetTypeConstant.VAN_BAN_DON_VI:
         return WidgetType.vanBanDonVi;
-    }
-  }
-
-  String? getStringImage() {
-    switch (component) {
-      case WidgetTypeConstant.TINH_HINH_XU_LY_VAN_BAN:
-        return ImageAssets.preTinhHinhXuLyVaNBanMobile;
-      case WidgetTypeConstant.VAN_BAN:
-        return ImageAssets.preVanBanMobile;
-      case WidgetTypeConstant.TONG_HOP_NHIEM_VU:
-        return ImageAssets.preTongHopNhiemVu;
-      case WidgetTypeConstant.Y_KIEN_NGUOI_DAN:
-        return ImageAssets.preDanhSachPAKN;
-      case WidgetTypeConstant.LICH_LAM_VIEC:
-        return ImageAssets.preLichLamViec;
-      case WidgetTypeConstant.LICH_HOP:
-        return ImageAssets.preLichHop;
-      case WidgetTypeConstant.BAO_CHI:
-        return ImageAssets.preBXMXH;
-      case WidgetTypeConstant.DANH_SANH_CONG_VIEC:
-        return ImageAssets.preDanhSachCongViec;
-      case WidgetTypeConstant.SU_KIEN_TRONG_NGAY:
-        return ImageAssets.preSuKienTrongNgay;
-      case WidgetTypeConstant.SINH_NHAT:
-        return ImageAssets.preSinhNhat;
-      case WidgetTypeConstant.TINH_HINH_XU_LY_Y_KIEN:
-        return ImageAssets.preTinhHinhPAKNCaNhan;
-      case WidgetTypeConstant.NHIEM_VU:
-        return ImageAssets.preNhiemVu;
     }
   }
 }

@@ -17,8 +17,8 @@ class DanhGiaYeuCauHoTro extends StatefulWidget {
 }
 
 class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
-
   String? note;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +67,11 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
                   onChange: (value) {
                     note = value;
                   },
+                  validate: (value){
+                    if ((value ?? '').isEmpty) {
+                      return S.current.khong_duoc_de_trong;
+                    }
+                  },
                   maxLine: 4,
                 ),
                 spaceH16,
@@ -76,7 +81,9 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
                   onPressed1: () {
                     Navigator.pop(context);
                   },
-                  onPressed2: () {},
+                  onPressed2: () {
+                    widget.cubit.commentTask(note ?? '');
+                  },
                   noPadding: true,
                 ),
               ],
@@ -86,6 +93,7 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
       ),
     );
   }
+
   Widget textField({
     String? hintText,
     int maxLine = 1,

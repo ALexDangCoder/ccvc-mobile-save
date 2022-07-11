@@ -7,7 +7,6 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_state.dart';
-import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -51,15 +50,14 @@ class ReportListCubit extends BaseCubit<BaseState> {
 
   ReportCommonRepository get _reportCommonService => Get.find();
 
-  bool checkStatus(int status, int type) {
-    if (type != FOLDER) {
-      if (status == STATUS_DA_XUAT_BAN) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
+  bool checkStatus({
+    required bool shareByMe,
+    required bool shareToMe,
+  }) {
+    if (shareByMe || shareToMe) {
       return true;
+    } else {
+      return false;
     }
   }
 

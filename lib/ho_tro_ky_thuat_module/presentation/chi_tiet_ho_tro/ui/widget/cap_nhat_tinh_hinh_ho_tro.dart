@@ -82,11 +82,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                         spaceH16,
                         dropDownField(
                           title: S.current.trang_thai_xu_ly,
-                          listDropdown: [
-                            'Chờ xử lý',
-                            'Đang xử lý',
-                            'Đã xử lý',
-                          ],
+                          listDropdown: widget.cubit.listTrangThai,
                         ),
                         spaceH16,
                         textField(

@@ -3,8 +3,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_respon
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/delete_task_response.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/group_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/post_response.dart';
@@ -73,4 +71,10 @@ abstract class HoTroKyThuatService {
   Future<DeleteTaskResponse> deleteTask(
     @Body() List<String> listId,
   );
+
+  @POST(ApiConstants.COMMENT_TASK_PROCESSING)
+  Future<PostResponse> commentTaskProcessing(
+      @Query('taskId') String taskId,
+      @Query('comment') String comment,
+      );
 }

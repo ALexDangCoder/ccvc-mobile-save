@@ -139,10 +139,21 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   @override
   Future<Result<String>> updateTaskProcessing(TaskProcessing task) {
     return runCatchingAsync<PostResponse, String>(
-          () => _hoTroKyThuatService.updateTaskProcessing(
-            task,
+      () => _hoTroKyThuatService.updateTaskProcessing(
+        task,
       ),
-          (res) => res.message ?? '',
+      (res) => res.message ?? '',
+    );
+  }
+
+  @override
+  Future<Result<String>> commentTask(String idTask, String comment) {
+    return runCatchingAsync<PostResponse, String>(
+      () => _hoTroKyThuatService.commentTaskProcessing(
+        idTask,
+        comment,
+      ),
+      (res) => res.message ?? '',
     );
   }
 }

@@ -310,7 +310,8 @@ class ApiConstants {
       '/vpdt/api/ScheduleReport/register-meet-report';
   static const THU_HOI__KET_LUAN_HOP =
       '/vpdt/api/ScheduleReport/reject-meet-report';
-  static const REFRESH_TOKEN = '/common/auth/refresh-token';
+  static const REFRESH_TOKEN = '/api/auth/refresh-token';
+  static const GET_LIST_USER_IN_UNIT = '/htcs/api/users/get-paging';
 
 }
 

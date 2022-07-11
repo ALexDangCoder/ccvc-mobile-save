@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'support_detail_response.g.dart';
@@ -82,7 +83,7 @@ class GroupResponse {
 
   SupportDetail toDomain() => SupportDetail(
         id: id,
-        moTaSuCo: moTaSuCo,
+        moTaSuCo: (moTaSuCo ?? '').parseHtml() ,
         tenThietBi: tenThietBi,
         soDienThoai: soDienThoai,
         diaChi: diaChi,

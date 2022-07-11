@@ -2,9 +2,9 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/tree_widget.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/widget/item_chon_nhom_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/widget/item_nguoi_dung_tablet.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/widgets/tree_bao_cao_chia_se.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -233,8 +233,8 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                           .manual,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
-                                    return TreeViewWidget(
-                                      themDonViCubit: _themDonViCubit,
+                                    return TreeViewChiaSeBaoCaoWidget(
+                                      themDonViCubit: widget.cubit,
                                       node: data[index],
                                     );
                                   },

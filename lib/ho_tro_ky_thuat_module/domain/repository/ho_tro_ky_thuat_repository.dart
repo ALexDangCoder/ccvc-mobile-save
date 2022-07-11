@@ -45,4 +45,8 @@ mixin HoTroKyThuatRepository {
   Future<Result<String>> updateTaskProcessing(
       TaskProcessing task,
       );
+  Future<Result<String>> commentTask(
+      String idTask,
+      String comment,
+      );
 }

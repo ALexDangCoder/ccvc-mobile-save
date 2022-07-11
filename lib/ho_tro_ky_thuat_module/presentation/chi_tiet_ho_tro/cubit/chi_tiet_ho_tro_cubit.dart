@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart' as HiveLc;
+import 'package:ccvc_mobile/domain/locals/hive_local.dart' as hive_lc;
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
@@ -31,16 +31,23 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         return DANG_XU_LY;
       case 'Từ chối xử lý':
         return TU_CHOI_XU_LY;
-      case 'Chờ xử lý':
-        return CHUA_XU_LY;
+      case 'Đang chờ xử lý':
+        return CHO_XU_LY;
       default:
         return '';
     }
   }
 
+  List<String> listTrangThai = [
+    'Đang chờ xử lý',
+    'Đang xử lý',
+    'Đã xử lý',
+    'Từ chối xử lý'
+  ];
+
   static const String DA_XU_LY = 'da-xu-ly';
   static const String DANG_XU_LY = 'dang-xu-ly';
-  static const String CHUA_XU_LY = 'chua-xu-ly';
+  static const String CHO_XU_LY = 'cho-xu-ly';
   static const String TU_CHOI_XU_LY = 'tu_choi-xu-ly';
 
   BehaviorSubject<String> selectDate = BehaviorSubject.seeded('');
@@ -79,7 +86,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   bool isItSupport = false;
 
-  final dataUser = HiveLc.HiveLocal.getDataUser();
+  final dataUser = hive_lc.HiveLocal.getDataUser();
 
   void checkUser(
     List<ThanhVien> list,
@@ -108,7 +115,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     required String handlerId,
     required String description,
   }) async {
-    print(finishDay);
     final TaskProcessing model = TaskProcessing(
       id: id,
       taskId: taskId,
@@ -128,6 +134,18 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
       success: (res) {
         getSupportDetail(supportDetail.id ?? '');
       },
+      error: (error) {},
+    );
+  }
+
+  Future<void> commentTask(String comment) async {
+    showLoading();
+    final result = await _hoTroKyThuatRepository.commentTask(
+      supportDetail.id ?? '',
+      comment,
+    );
+    result.when(
+      success: (success) {},
       error: (error) {},
     );
   }

@@ -1,14 +1,11 @@
-import 'package:ccvc_mobile/bao_cao_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_state.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:get/get.dart' as get_dart;
 import 'package:meta/meta.dart';
@@ -56,6 +53,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
 
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
 
+  /// List chọn đơn vị vs người
   final List<DonViModel> listSelect = [];
 
   void loadTreeDonVi() {
@@ -81,13 +79,14 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     final data = await _repo.getUserPaging(donViId: donViId, appId: appId);
     showContent();
     data.when(
-        success: (res) {
-          for (final element in res) {
-            element.isCheck.isCheck = node.isCheck.isCheck;
-            node.addChild(element);
-          }
-        },
-        error: (err) {});
+      success: (res) {
+        for (final element in res) {
+          element.isCheck.isCheck = node.isCheck.isCheck;
+          node.addChild(element);
+        }
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> getGroup() async {
@@ -107,6 +106,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       },
     );
   }
+
   //https://api-htcs-test.chinhquyendientu.vn/api/Source/source-share-detail/154b42c9-651f-4d95-9361-1e6791d38f96
 
   Future<void> getMemberInGroup(
@@ -117,7 +117,6 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     final rs = await _repo.getListThanhVien(idGroup);
     rs.when(
       success: (res) {
-        getUsersNgoaiHeThongDuocTruyCap();
         listResponse.add(
           NhomCungHeThong(
             tenNhom: nhomCungHeThong.tenNhom,
@@ -137,12 +136,52 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
+  void checkUser(Node<DonViModel> node) {
+    if (node.isCheck.isCheck) {
+      bool checkAllTrue = false;
+      for (final element in node.children) {
+        if (element.isCheck.isCheck) {
+          checkAllTrue = element.isCheck.isCheck;
+        } else {
+          checkAllTrue = false;
+          break;
+        }
+      }
+      if (!checkAllTrue && node.parent?.value.id != '') {
+        node.isCheck.isCheck = false;
+        addSelectNode(
+          node,
+          isCheck: false,
+        );
+        for (final element in node.children) {
+          if (element.isCheck.isCheck == true &&
+              !selectNode.contains(element)) {
+            addSelectNode(
+              element,
+              isCheck: element.isCheck.isCheck,
+            );
+          }
+        }
+      }
+    }
+  }
+
   void addSelectDonVi({
     bool isCheck = false,
     List<DonViModel> listDonVi = const [],
+    required DonViModel node,
   }) {
     if (isCheck) {
-      listSelect.addAll(listDonVi);
+      if (!listSelect.contains(node)) {
+        listSelect.add(node);
+      }
+      for (final element in listDonVi) {
+        if (listSelect.contains(element)) {
+          break;
+        } else {
+          listSelect.add(element);
+        }
+      }
     } else {
       for (final element in listDonVi) {
         listSelect.remove(element);
@@ -150,8 +189,6 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     }
     _selectDonVi.sink.add(isCheck);
   }
-
-  Future<void> getDonVi() async {}
 
   Future<String> themMoiDoiTuong({
     String? email,
@@ -201,6 +238,23 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
             sourceType: sourceType,
           );
           mapData.add(map);
+        }
+        for (final element in listSelect) {
+          if (element.tenCanBo != '') {
+            final ShareReport map = ShareReport(
+              userId: element.id,
+              type: COMMON,
+              sourceType: sourceType,
+            );
+            mapData.add(map);
+          } else {
+            final ShareReport map = ShareReport(
+              donViId: element.id,
+              type: COMMON,
+              sourceType: sourceType,
+            );
+            mapData.add(map);
+          }
         }
         mes = await shareReport(mapData, idReport: idReport);
         break;
@@ -295,20 +349,11 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   Future<void> loadMoreUsersNgoaiHeThongTruyCap() async {
     if (loadMore == false) {
       pageNumber += 1;
-      canLoadMoreList = true;
+      canLoadMoreList = false;
       loadMore = true;
       await getUsersNgoaiHeThongDuocTruyCap();
     } else {
       //nothing
-    }
-
-    Future<void> refreshGetUsersNgoaiHeThongTruyCap() async {
-      canLoadMoreList = true;
-      if (refresh == false) {
-        pageSize = 0;
-        refresh = true;
-        await getUsersNgoaiHeThongDuocTruyCap();
-      }
     }
   }
 

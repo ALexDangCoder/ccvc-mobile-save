@@ -68,8 +68,8 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                   ItemFolder(
                     type: widget.reportItem.type ?? 0,
                     isShare: widget.cubit.checkStatus(
-                      widget.reportItem.status ?? 0,
-                      widget.reportItem.type ?? 0,
+                      shareToMe: widget.reportItem.shareToMe ?? false,
+                      shareByMe: widget.reportItem.shareByMe ?? false,
                     ),
                     isListView: true,
                     fileNumber: widget.reportItem.childrenTotal ?? 0,
@@ -135,10 +135,6 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
           width: MediaQuery.of(context).size.width,
           color: borderColor.withOpacity(0.5),
         ),
-        if (widget.cubit.checkStatus(
-          widget.reportItem.status ?? 0,
-          widget.reportItem.type ?? 0,
-        ))
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -204,10 +200,6 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               ),
             ),
           ),
-        if (widget.cubit.checkStatus(
-          widget.reportItem.status ?? 0,
-          widget.reportItem.type ?? 0,
-        ))
           reportLine(),
         if (widget.reportItem.type == REPORT) spaceH18,
         if (widget.reportItem.type == REPORT)

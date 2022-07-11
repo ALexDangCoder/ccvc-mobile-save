@@ -3,6 +3,10 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -24,7 +28,7 @@ class FilterDateTimeWidget extends StatefulWidget {
     this.isMobile = true,
     this.initStartDate,
     this.initEndDate,
-  }) : super(key: key) ;
+  }) : super(key: key);
 
   @override
   _FilterDateTimeWidgetState createState() => _FilterDateTimeWidgetState();
@@ -34,37 +38,13 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
     with SingleTickerProviderStateMixin {
   late DateTime currentStartDate;
   late DateTime currentEndDate;
+  DateTime chooseTime = DateTime.now();
 
   @override
   void initState() {
     currentStartDate = widget.initStartDate ?? DateTime.now();
     currentEndDate = widget.initEndDate ?? DateTime.now();
     super.initState();
-  }
-
-  Future<void> _showDatePicker({required DateTime initialDate}) async {
-    final selectedDate = await showDatePicker(
-      context: widget.context,
-      initialDate: initialDate,
-      firstDate: DateTime(1930),
-      lastDate: DateTime.now(),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light().copyWith(
-              primary: purpleChart,
-            ),
-          ),
-          child: child ?? Container(),
-        );
-      },
-    );
-    if (selectedDate != null) {
-      widget.onChooseDateFilter(selectedDate, DateTime.now());
-      setState(() {
-        currentStartDate = selectedDate;
-      });
-    }
   }
 
   @override
@@ -90,8 +70,47 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                         ),
                         GestureDetector(
                           onTap: () {
-                            _showDatePicker(
-                              initialDate: currentStartDate,
+                            showBottomSheetCustom(
+                              context,
+                              title: S.current.chon_ngay,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 300,
+                                    child:
+                                        FlutterRoundedCupertinoDatePickerWidget(
+                                      maximumDate: DateTime.now(),
+                                      onDateTimeChanged: (value) {
+                                        setState(() {
+                                          chooseTime = value;
+                                        });
+                                      },
+                                      textStyleDate: titleAppbar(),
+                                      initialDateTime: currentStartDate,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                      top: 24,
+                                      bottom: 32,
+                                    ),
+                                    child: DoubleButtonBottom(
+                                      title2: S.current.chon,
+                                      title1: S.current.dong,
+                                      onClickRight: () {
+                                        setState(() {});
+                                        currentStartDate = chooseTime;
+                                        widget.onChooseDateFilter(
+                                            currentStartDate, DateTime.now());
+                                        Navigator.pop(context);
+                                      },
+                                      onClickLeft: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
                             );
                           },
                           child: Container(
@@ -161,10 +180,16 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                                 flex: 4,
                                 child: Text(
                                   currentEndDate.toStringWithListFormat,
-                                  style: textNormalCustom(color: color3D5586, fontSize: 14.0, fontWeight: FontWeight.w400,),
+                                  style: textNormalCustom(
+                                    color: color3D5586,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
-                              Expanded(child: SvgPicture.asset(ImageAssets.icCalendarUnFocus)),
+                              Expanded(
+                                  child: SvgPicture.asset(
+                                      ImageAssets.icCalendarUnFocus)),
                             ],
                           ),
                         )
@@ -187,8 +212,40 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                       ),
                       GestureDetector(
                         onTap: () {
-                          _showDatePicker(
-                            initialDate: currentStartDate,
+                          showDiaLogTablet(
+                            context,
+                            title: S.current.chon_ngay,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 300,
+                                    child:
+                                        FlutterRoundedCupertinoDatePickerWidget(
+                                      maximumDate: DateTime.now(),
+                                      onDateTimeChanged: (value) {
+                                        setState(() {
+                                          chooseTime = value;
+                                        });
+                                      },
+                                      textStyleDate: titleAppbar(),
+                                      initialDateTime: currentStartDate,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            isBottomShow: true,
+                            btnLeftTxt: S.current.dong,
+                            btnRightTxt: S.current.chon,
+                            funcBtnOk: () {
+                              setState(() {});
+                              currentStartDate = chooseTime;
+                              widget.onChooseDateFilter(
+                                  currentStartDate, DateTime.now());
+                              Navigator.pop(context);
+                            },
+                            setHeight: 400,
                           );
                         },
                         child: Container(

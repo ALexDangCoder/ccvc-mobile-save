@@ -1,6 +1,7 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -25,6 +26,11 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
   final TextEditingController yKien = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    widget.cubit.getPhienHopId = '';
+  }
+  @override
   Widget build(BuildContext context) {
     return FollowKeyBoardWidget(
       bottomWidget: Padding(
@@ -32,20 +38,14 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.them,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () async {
+          onClickRight: () async {
             Navigator.pop(context);
             await widget.cubit.themYKien(
-              yKien: yKien.text,
+              yKien: yKien.value.text,
               idLichHop: widget.id,
-              phienHopId: widget.cubit.getPhienHopId,
-              scheduleOpinionId: '',
-            );
-            await widget.cubit.getDanhSachYKien(
-              widget.id,
-              widget.cubit.getPhienHopId,
             );
           },
         ),
@@ -64,30 +64,29 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
               ),
             ),
           ),
-          StreamBuilder<List<PhienhopModel>>(
-            stream: widget.cubit.phienHop.stream,
-            builder: (context, snapshot) {
+          StreamBuilder<List<ListPhienHopModel>>(
+              stream: widget.cubit.danhSachChuongTrinhHop.stream,
+              builder: (context, snapshot) {
               final data = snapshot.data ?? [];
-              if (data.isNotEmpty && data.first.key != S.current.cuoc_hop) {
-                data.insert(
-                  0,
-                  PhienhopModel(
-                    key: widget.id,
-                    value: S.current.cuoc_hop,
-                  ),
-                );
-              }
-              final listCuocHop = data.map((e) => e.value ?? '').toList();
+              final listCuocHop = data.map((e) => e.tieuDe ?? '').toList();
               return CustomDropDown(
                 value: S.current.cuoc_hop,
-                items: listCuocHop,
-                onSelectItem: (value) {
-                  widget.cubit.getPhienHopId = data[value].value ?? '';
+                items: listCuocHop
+                  ..insert(0, S.current.cuoc_hop)
+                  ..toSet().toList(),
+                onSelectItem: (index) {
+                  //index - 1 do listCuocHop insert(0, S.current.cuoc_hop)
+                  if(index > 0) {
+                    widget.cubit.getPhienHopId = data[index - 1].id ?? '';
+                    widget.cubit.tenPhienHop = data[index - 1].tieuDe ?? '';
+                  }else{
+                    widget.cubit.getPhienHopId = '';
+                  }
                 },
               );
             },
           ),
-          HeightSp(16),
+          spaceH16,
           ItemTextFieldWidget(
             hint: '',
             title: S.current.y_kien_cuop_hop,
@@ -96,13 +95,9 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
             validator: (String? value) {},
             onChange: (String value) {},
           ),
-          HeightSp(24),
+          spaceH24,
         ],
       ),
     );
   }
-
-  Widget HeightSp(double height) => SizedBox(
-        height: height,
-      );
 }

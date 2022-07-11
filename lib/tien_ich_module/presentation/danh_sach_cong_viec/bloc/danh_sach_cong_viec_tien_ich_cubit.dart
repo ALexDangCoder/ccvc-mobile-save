@@ -31,7 +31,6 @@ class DanhSachCongViecTienIchCubit
   Timer? _debounce;
   final int maxSizeFile = 31457280;
 
-
   ///id nhom nhiem vu
   String groupId = '';
 
@@ -380,16 +379,6 @@ class DanhSachCongViecTienIchCubit
       }
     }
 
-    dynamic checkDataFile({dynamic changeData, dynamic defaultData}) {
-      if (changeData == '') {
-        return null;
-      } else if (changeData == defaultData) {
-        return defaultData;
-      } else {
-        return changeData;
-      }
-    }
-
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,
@@ -411,8 +400,9 @@ class DanhSachCongViecTienIchCubit
         performer: dataNguoiThucHienModel.id == ''
             ? null
             : nguoiThucHienSubject.value.id,
-        filePath:
-            checkDataFile(changeData: filePathTodo, defaultData: todo.filePath),
+        filePath: (isDeleteFile ?? false)
+            ? null
+            : checkData(changeData: filePathTodo, defaultData: todo.filePath),
       ),
     );
     result.when(
@@ -566,7 +556,6 @@ class DanhSachCongViecTienIchCubit
         case DSCVScreen.DG:
           return [
             IconDSCV.icCheckBox,
-            IconDSCV.icImportant,
             IconDSCV.icClose,
           ];
         case DSCVScreen.DBX:

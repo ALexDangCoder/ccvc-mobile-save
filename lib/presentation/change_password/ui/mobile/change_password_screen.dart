@@ -235,10 +235,10 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                       DoubleButtonBottom(
                         title1: S.current.cancel,
                         title2: S.current.cap_nhat,
-                        onPressed1: () {
+                        onClickLeft: () {
                           Navigator.of(context).pop();
                         },
-                        onPressed2: () async {
+                        onClickRight: () async {
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(

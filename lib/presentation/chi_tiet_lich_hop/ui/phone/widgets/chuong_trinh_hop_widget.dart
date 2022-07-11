@@ -84,27 +84,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
             const SizedBox(
               height: 24,
             ),
-            StreamBuilder<List<ListPhienHopModel>>(
-              stream: widget.cubit.danhSachChuongTrinhHop.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                if (!snapshot.hasData) {
-                  return Container();
-                }
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return cellDetailMeet(
-                      listPhienHopModel: data[index],
-                      context: context,
-                      id: widget.cubit.idCuocHop,
-                    );
-                  },
-                );
-              },
-            ),
+            listPhienHopWidget()
           ],
         ),
       ),
@@ -131,31 +111,33 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
               text: S.current.them_phien_hop,
               urlIcon: ImageAssets.icAddButtonCalenderTablet,
             ),
-            StreamBuilder<List<ListPhienHopModel>>(
-              stream: widget.cubit.danhSachChuongTrinhHop.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                if (!snapshot.hasData) {
-                  return Container();
-                }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return cellDetailMeet(
-                      listPhienHopModel: data[index],
-                      context: context,
-                      id: widget.cubit.idCuocHop,
-                    );
-                  },
-                );
-              },
-            ),
+            listPhienHopWidget()
           ],
         ),
       ),
     );
   }
+
+  Widget listPhienHopWidget() => StreamBuilder<List<ListPhienHopModel>>(
+        stream: widget.cubit.danhSachChuongTrinhHop.stream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          if (!snapshot.hasData) {
+            return Container();
+          }
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return cellDetailMeet(
+                listPhienHopModel: data[index],
+                context: context,
+                id: widget.cubit.idCuocHop,
+              );
+            },
+          );
+        },
+      );
 
   Widget cellDetailMeet({
     required ListPhienHopModel listPhienHopModel,
@@ -242,14 +224,17 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
               keyTxt: S.current.thoi_gian,
               value: listPhienHopModel.dateTimeView(),
             ),
+            const SizedBox(height: 8),
             RowDataWidget(
-              keyTxt: 'Người phụ trách',
+              keyTxt: S.current.nguoi_phu_trach,
               value: listPhienHopModel.hoTen ?? '',
             ),
+            const SizedBox(height: 8),
             RowDataWidget(
               keyTxt: S.current.noi_dung,
               value: listPhienHopModel.noiDung ?? '',
             ),
+            const SizedBox(height: 8),
             listFileDinhKem(
               keyTxt: S.current.file_dinh_kem,
               listPhienHopModel: listPhienHopModel,
@@ -350,7 +335,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
-                          'Người phụ trách',
+                          S.current.nguoi_phu_trach,
                           style: textDetailHDSD(
                             fontSize: 14.0.textScale(),
                             color: infoColor,
@@ -512,16 +497,16 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
         bottomWidget: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
           child: DoubleButtonBottom(
-            onPressed2: () {
+            onClickRight: () {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
-                widget.cubit.ThemPhienHop(widget.id);
+                widget.cubit.themPhienHop(widget.id);
                 widget.cubit.startTime = '00:00';
                 widget.cubit.endTime = '00:00';
                 Navigator.pop(context);
               }
             },
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
             title1: S.current.dong,

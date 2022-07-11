@@ -14,12 +14,12 @@ class ItemLapDenNgayWidget extends StatefulWidget {
   final bool isThem;
   final DateTime? initDate;
 
-  const ItemLapDenNgayWidget(
-      {Key? key,
-      required this.taoLichLamViecCubit,
-      required this.isThem,
-      this.initDate})
-      : super(key: key);
+  const ItemLapDenNgayWidget({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    required this.isThem,
+    this.initDate,
+  }) : super(key: key);
 
   @override
   _ItemLapDenNgayWidgetState createState() => _ItemLapDenNgayWidgetState();

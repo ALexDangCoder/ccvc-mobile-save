@@ -187,7 +187,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               widget.cubit.textFilter.add(
                 TextTrangThai(
                   S.current.qua_han,
-                  AppTheme.getInstance().choXuLyColor(),
+                  statusCalenderRed,
                 ),
               );
               widget.cubit.isShowFilterList.add(false);
@@ -199,7 +199,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               widget.cubit.textFilter.add(
                 TextTrangThai(
                   S.current.den_han,
-                  AppTheme.getInstance().choXuLyColor(),
+                  yellowColor,
                 ),
               );
               widget.cubit.isShowFilterList.add(false);
@@ -211,7 +211,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               widget.cubit.textFilter.add(
                 TextTrangThai(
                   S.current.trong_han,
-                  AppTheme.getInstance().choXuLyColor(),
+                  choTrinhKyColor,
                 ),
               );
               widget.cubit.isShowFilterList.add(false);

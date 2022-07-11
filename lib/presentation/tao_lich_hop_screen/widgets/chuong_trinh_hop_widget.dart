@@ -195,7 +195,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
           child: DoubleButtonBottom(
             isTablet: isMobile() == false,
-            onPressed2: () {
+            onClickRight: () {
               final dateTimeStart =
                   '$thoiGianHop $timeStart'.convertStringToDate(
                 formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
@@ -236,7 +236,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 Navigator.pop(context);
               }
             },
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
             title1: S.current.dong,
@@ -251,7 +251,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 InputInfoUserWidget(
-                  title: S.current.them_phien_hop,
+                  title: S.current.ten_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
                     initialValue: taoPhienHopRequest.tieuDe,

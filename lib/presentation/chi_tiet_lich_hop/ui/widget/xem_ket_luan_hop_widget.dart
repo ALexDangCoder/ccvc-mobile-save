@@ -67,6 +67,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
     // TODO: implement dispose
     super.dispose();
     widget.cubit.dataMauBienBan.close();
+    widget.cubit.noiDung.sink.add('');
   }
 
   @override
@@ -158,7 +159,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8, top: 20),
                         child: Text(
-                          S.current.noi_dung,
+                          S.current.just_noi_dung,
                           style: textNormal(titleItemEdit, 14),
                         ),
                       ),
@@ -205,7 +206,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                       Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: ButtonSelectFile(
-                          title: S.current.them_tai_lieu_cuoc_hop,
+                          title: S.current.tai_lieu_dinh_kem,
                           onChange: (List<File> files) {
                             if (files.first.lengthSync() >
                                 widget.cubit.maxSizeFile30) {
@@ -224,11 +225,11 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         child: DoubleButtonBottom(
                           title1: S.current.dong,
                           title2: S.current.xac_nhan,
-                          onPressed1: () {
+                          onClickLeft: () {
                             widget.cubit.noiDung.add('');
                             Navigator.pop(context);
                           },
-                          onPressed2: () {
+                          onClickRight: () {
                             if (reportStatusId.isNotEmpty) {
                               if (widget.isCreate) {
                                 widget.cubit

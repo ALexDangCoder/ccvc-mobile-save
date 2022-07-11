@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,13 +51,13 @@ class NotifyWidget extends StatelessWidget {
                   vertical: 12.0.textScale(),
                 ),
                 decoration: BoxDecoration(
-                  color: bgButtonDropDown.withOpacity(0.1),
+                  color: AppTheme.getInstance().colorField().withOpacity(0.1),
                   borderRadius: BorderRadius.circular(4.0.textScale()),
                 ),
                 child: Text(
                   textButtom,
                   style: textNormalCustom(
-                    color: labelColor,
+                    color: AppTheme.getInstance().colorField(),
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0.textScale(),
                   ),

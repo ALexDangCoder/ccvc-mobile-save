@@ -337,7 +337,7 @@ class ImageAssets {
   static const String soLichHopTrucTuyen =
       '$baseImg/so_lich_hop_truc_tuyen.svg';
 
-  static const String icDiemDanh = '$baseImg/ic_diem_danh_top_menu.svg';
+  static const String icDiemDanh = '$baseImg/ic_diem_danh.svg';
   static const String icHuyDiemDanh = '$baseImg/ic_huy_diem_danh.svg';
 
   static const String ic_delete_do = '$baseImg/delete_do.svg';
@@ -550,6 +550,7 @@ class ImageAssets {
       '$baseImg/img_tu_choi_tham_gia.svg';
   static const String ic_plus = '$baseImg/ic_plus.svg';
   static const String ic_phan_hoi = '$baseImg/ic_phan_hoi.svg';
+  static const String ic_send_y_kien = '$baseImg/ic_send_y_kien.svg';
 
   static SvgPicture svgAssets(
     String name, {

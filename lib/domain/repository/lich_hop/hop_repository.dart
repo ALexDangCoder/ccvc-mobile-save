@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
@@ -38,6 +39,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_dang_theo_doi.dart';
@@ -172,8 +174,8 @@ mixin HopRepository {
     String canBoId,
     String donViId,
     int vaiTroThamGia,
-    String thoiGian_BatDau,
-    String thoiGian_KetThuc,
+    String thoiGianBatDau,
+    String thoiGianKetThuc,
     String noiDung,
     String tieuDe,
     String hoTen,
@@ -337,7 +339,7 @@ mixin HopRepository {
   );
 
   Future<Result<bool>> thayDoiPhongHop(
-    bool bit_TTDH,
+    bool bitTTDH,
     String lichHopId,
     String phongHopId,
     String tenPhong,
@@ -415,5 +417,11 @@ mixin HopRepository {
 
   Future<Result<bool>> thuHoiKetLuanHop(
     String meetId,
+  );
+
+  Future<Result<ListStatusModel>> listStatusRoom();
+
+  Future<Result<bool>> capNhatTrangThai(
+    CapNhatTrangThaiRequest capNhatTrangThaiRequest,
   );
 }

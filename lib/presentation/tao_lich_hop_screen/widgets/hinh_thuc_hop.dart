@@ -104,7 +104,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               validate: (value){
                 if(isHopTrucTiep){
                   if (value.trim().isEmpty) {
-                    return S.current.khong_duoc_de_trong;
+                    return '${S.current.dia_diem_hop} '
+                        '${S.current.khong_duoc_de_trong}';
                   }
                 }
               },
@@ -313,10 +314,10 @@ class _HinhThucHopState extends State<HinhThucHop> {
               DoubleButtonBottom(
                 title1: S.current.dong,
                 title2: S.current.xac_nhan,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   if (_key.currentState?.validate() ?? false) {
                     final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
                     diemCau.loaiDiemCau ??= 1;

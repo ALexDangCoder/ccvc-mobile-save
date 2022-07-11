@@ -73,13 +73,12 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.luu,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () {
+          onClickRight: () {
             if ((widget.cubit.titleChange ?? '').isEmpty) {
               isShow.sink.add(true);
-
               return;
             }
 
@@ -265,6 +264,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                         onTapDelete: () {
                           widget.cubit
                               .editWork(
+                                isDeleted: true,
                                 todo: widget.todo ?? TodoDSCVModel(),
                                 filePathTodo: '',
                               )

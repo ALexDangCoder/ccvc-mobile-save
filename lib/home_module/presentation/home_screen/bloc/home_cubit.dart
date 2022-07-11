@@ -43,7 +43,7 @@ import '/home_module/presentation/home_screen/bloc/home_state.dart';
 import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/extensions/date_time_extension.dart';
 
-class  HomeCubit extends BaseCubit<HomeState> {
+class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
 
   HomeRepository get homeRep => Get.find();
@@ -224,6 +224,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   String nameUser = '';
 
   BaoChiMangXaHoiCubit() {
+    startDate = DateTime(startDate.year, startDate.month, startDate.day - 1);
     final dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       nameUser = dataUser.userInformation?.hoTen ?? '';
@@ -239,8 +240,8 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     HiveLocalHome.removeTag(tag);
     value.remove(tag);
     _getTag.sink.add(value);
-    if(_getTag.value.isNotEmpty){
-      tagKey=_getTag.value.first;
+    if (_getTag.value.isNotEmpty) {
+      tagKey = _getTag.value.first;
       callApi();
     }
   }
@@ -256,7 +257,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
         .isEmpty) {
       HiveLocalHome.addTag(value);
       _getTag.sink.add(data..add(value));
-      tagKey=value;
+      tagKey = value;
       callApi();
     }
   }
@@ -277,8 +278,8 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     final result = await homeRep.getBaoChiMangXaHoi(
       1,
       5,
-      startDate.formatApiSS,
-      endDate.formatApiSS,
+      startDate.formatApiStartDay,
+      endDate.formatApiEndDay,
       tagKey,
     );
     showContent();
@@ -294,6 +295,31 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     tagKey = tag;
     callApi();
     _getTag.sink.add(_getTag.value);
+  }
+
+  void editSelectDate(SelectKey selectKey) {
+    startDate = DateTime.now();
+    switch (selectKey) {
+      case SelectKey.HOM_NAY:
+        startDate =
+            DateTime(startDate.year, startDate.month, startDate.day - 1);
+        break;
+      case SelectKey.TUAN_NAY:
+        startDate =
+            DateTime(startDate.year, startDate.month, startDate.day - 7);
+        break;
+      case SelectKey.THANG_NAY:
+        startDate =
+            DateTime(startDate.year, startDate.month, startDate.day - 30);
+        break;
+      case SelectKey.NAM_NAY:
+        startDate =
+            DateTime(startDate.year - 1, startDate.month, startDate.day);
+        break;
+      default:
+        startDate=DateTime(startDate.year, startDate.month, startDate.day-1);
+        break;
+    }
   }
 
   @override
@@ -334,6 +360,7 @@ class DanhSachCongViecCubit extends HomeCubit {
   int totalItem = 1;
   bool isSearching = false;
   final List<String> danhSachTenNguoiGan = [];
+  Map<String, String> tempName = {};
   final List<TodoModel> danhSachNguoiGan = [];
 
   DanhSachCongViecCubit() {
@@ -434,6 +461,9 @@ class DanhSachCongViecCubit extends HomeCubit {
           res,
         );
         danhSachTenNguoiGan.insert(0, nameInsert);
+        if (res.id != null) {
+          tempName[res.id!] = nameInsert;
+        }
         _getTodoList.sink.add(data);
       },
       error: (err) {},
@@ -441,8 +471,12 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   void _removeInsertImportant(TodoListModel data, TodoModel todo) async {
-    final String nameInsert = await getName(todo.performer ?? '');
-    danhSachTenNguoiGan.insert(0, nameInsert);
+    if (todo.id != null) {
+      danhSachTenNguoiGan.insert(0, tempName[todo.id]!);
+    } else {
+      danhSachTenNguoiGan.insert(0, '');
+    }
+
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
@@ -564,7 +598,7 @@ class DanhSachCongViecCubit extends HomeCubit {
 
   Widget setIconLoadMore(int index, Widget itemListView) {
     if (index == inforCanBo.length - 1) {
-      if (inforCanBo.length + 1 ==totalItem) {
+      if (inforCanBo.length + 1 == totalItem) {
         return const SizedBox();
       } else {
         return Column(
@@ -573,15 +607,13 @@ class DanhSachCongViecCubit extends HomeCubit {
             itemListView,
             Center(
               child: CircularProgressIndicator(
-                color: AppTheme.getInstance()
-                    .primaryColor(),
+                color: AppTheme.getInstance().primaryColor(),
               ),
             ),
           ],
         );
       }
-    }
-   else {
+    } else {
       return itemListView;
     }
   }
@@ -718,6 +750,9 @@ class DanhSachCongViecCubit extends HomeCubit {
       String name = '';
       await getName(element.performer ?? '').then((value) => name = value);
       danhSachTenNguoiGan.add(name);
+      if (element.id != null) {
+        tempName[element.id!] = name;
+      }
     }
   }
 
@@ -749,13 +784,14 @@ class DanhSachCongViecCubit extends HomeCubit {
 class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getTongHopNhiemVu =
       BehaviorSubject<DocumentDashboardModel>();
-  bool isCaNhan=true;
+  bool isCaNhan = true;
+
   // List<String> mangTrangThai = [];
   int? trangThaiHanXuLy;
   String donViId = '';
   String userId = '';
   String canBoId = '';
-  String mangTrangThai='';
+  String mangTrangThai = '';
 
   TongHopNhiemVuCubit() {
     dataUser = HiveLc.HiveLocal.getDataUser();
@@ -768,14 +804,13 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
     showLoading();
     String canBoIdDepartment = '';
     if (selectKeyDonVi == SelectKey.DON_VI) {
-    }
-    else {
+    } else {
       canBoIdDepartment = canBoId;
     }
     final result = await homeRep.getTongHopNhiemVu(
       //userId,
       canBoIdDepartment,
-     // donViId,
+      // donViId,
     );
     showContent();
     result.when(
@@ -813,16 +848,16 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
       // trangThaiHanXuLy = 2;
       //    break;
       case TongHopNhiemVuType.choPhanXuLy:
-           mangTrangThai='CHO_PHAN_XU_LY';
-           break;
+        mangTrangThai = 'CHO_PHAN_XU_LY';
+        break;
       case TongHopNhiemVuType.chuaThucHien:
-        mangTrangThai='CHUA_THUC_HIEN';
+        mangTrangThai = 'CHUA_THUC_HIEN';
         break;
       case TongHopNhiemVuType.dangThucHien:
-        mangTrangThai='DANG_THUC_HIEN';
+        mangTrangThai = 'DANG_THUC_HIEN';
         break;
       case TongHopNhiemVuType.hoanThanhNhiemVu:
-        mangTrangThai='DA_HOAN_THANH';
+        mangTrangThai = 'DA_HOAN_THANH';
         break;
     }
   }
@@ -830,11 +865,11 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   @override
   void selectDonVi({required SelectKey selectKey}) {
     selectKeyDonVi = selectKey;
-    if(selectKeyDonVi==SelectKey.CA_NHAN){
-      isCaNhan=true;
+    if (selectKeyDonVi == SelectKey.CA_NHAN) {
+      isCaNhan = true;
     }
-    if(selectKeyDonVi==SelectKey.DON_VI){
-      isCaNhan=false;
+    if (selectKeyDonVi == SelectKey.DON_VI) {
+      isCaNhan = false;
     }
     getDataTongHopNhiemVu();
     selectKeyDialog.sink.add(true);
@@ -948,7 +983,8 @@ class PhanAnhKienNghiCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
       BehaviorSubject<DocumentDashboardModel>();
 
-  PhanAnhKienNghiCubit() ;
+  PhanAnhKienNghiCubit();
+
   bool isDanhSachDaXuLy = false;
   bool isDanhSachChoTrinhKy = true;
   bool isDanhSachChoXuLy = true;
@@ -1024,7 +1060,8 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
       BehaviorSubject<DocumentDashboardModel>();
 
-  TinhHinhXuLyCubit() ;
+  TinhHinhXuLyCubit();
+
   bool isDanhSachDaXuLy = false;
   bool isDanhSachChoTrinhKy = true;
   bool isDanhSachChoXuLy = true;
@@ -1419,7 +1456,6 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
     }
   }
 
-
   @override
   void selectDate({
     required SelectKey selectKey,
@@ -1729,7 +1765,6 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
   }
 
   Future<void> callApi(bool isDonVi) async {
-
     if (!isDonVi) {
       showLoading();
       final result = await homeRep.getDashboardTinhHinhXuLyPAKNCaNhan();
@@ -1756,7 +1791,8 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
 
 /// Nhiệm vụ
 class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
-  NhiemVuCubit() ;
+  NhiemVuCubit();
+
   final BehaviorSubject<List<CalendarMeetingModel>> _getNhiemVu =
       BehaviorSubject<List<CalendarMeetingModel>>();
 

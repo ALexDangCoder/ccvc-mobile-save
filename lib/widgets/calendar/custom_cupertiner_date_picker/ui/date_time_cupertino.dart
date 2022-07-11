@@ -217,10 +217,10 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   duration: Duration(milliseconds: cubit.duration),
                   child: isShowPicker
                       ? CupertinoDatePicker(
-                    maximumDate: DateTime(2099, 12, 30),
-                    minimumDate: DateTime(1900),
-                    maximumYear: 2099,
-                    minimumYear: 1900,
+                    maximumDate: MAXIMUM_DATE,
+                    minimumDate:MINIMUM_DATE,
+                    maximumYear: MAXIMUM_YEAR,
+                    minimumYear: MINIMUM_YEAR,
                     backgroundColor: backgroundColorApp,
                     mode: cubit.getTypePicker(typePicker),
                     use24hFormat: true,
@@ -334,13 +334,13 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   child: isShowPicker
                       ? CupertinoDatePicker(
                     key: UniqueKey(),
-                    maximumDate: DateTime(2099, 12, 30),
+                    maximumDate: MAXIMUM_DATE,
                     minimumDate: '${cubit.dateBeginSubject.value} '
                         '${cubit.timeBeginSubject.value}'
                         .convertStringToDate(
                       formatPattern: DateTimeFormat.DATE_DD_MM_HM,
                     ),
-                    maximumYear: 2099,
+                    maximumYear: MAXIMUM_YEAR,
                     minimumYear: cubit.getYearNumber(),
                     backgroundColor: backgroundColorApp,
                     mode: cubit.getTypePicker(typePicker),

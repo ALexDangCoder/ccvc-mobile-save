@@ -648,6 +648,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<ChuongTrinhHopModel>> getDanhSachCuocHopTPTH(String id) {
     return runCatchingAsync<ChuongTrinhHopResponse, ChuongTrinhHopModel>(
       () => _hopServices.getDanhSachCuocHopTPTH(id),
@@ -841,6 +842,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<String>> checkLichHopTrung(
     String? scheduleId,
     String donViId,
@@ -882,6 +884,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<List<CanBoModel>>> moiHop(String lichHopId, bool IsMultipe,
       bool isSendMail, List<MoiThamGiaHopRequest> body) {
     return runCatchingAsync<ThanhPhanThamGiaResponse, List<CanBoModel>>(
@@ -900,6 +903,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<bool>> themPhienHop(
       String lichHopId, List<TaoPhienHopRequest> phienHops) async {
     final _data = FormData();

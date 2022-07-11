@@ -390,7 +390,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         } else {}
       }
     }
-    print(listIdSuCo);
     return listIdSuCo;
   }
 

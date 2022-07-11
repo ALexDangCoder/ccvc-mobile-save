@@ -70,10 +70,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
 
   void resizeDropDown() {
-    print(isExpandedDropDownTiepNhan);
-    print(isExpandedDropDownXuLy);
     if(!isExpandedDropDownTiepNhan && !isExpandedDropDownXuLy) {
-      print('here');
       sizeDropDown.sink.add(70);
     }
     if(listDanhSachKetQuaPakn.valueOrNull?.length == 1) {

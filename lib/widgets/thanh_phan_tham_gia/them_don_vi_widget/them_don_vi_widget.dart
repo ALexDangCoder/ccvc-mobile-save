@@ -169,10 +169,10 @@ class TreeDonVi extends StatelessWidget {
                 title2: themDonViCubit.selectNode.isEmpty
                     ? S.current.them
                     : S.current.cap_nhat,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   Navigator.pop(context, themDonViCubit.selectNode);
                 },
               ),

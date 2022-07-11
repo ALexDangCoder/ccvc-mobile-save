@@ -153,6 +153,6 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
     if (widget.node.value.chucVu.isEmpty) {
       return widget.node.value.name;
     }
-    return '${widget.node.value.tenCanBo} ${widget.node.value.chucVu}';
+    return '${widget.node.value.name} ${widget.node.value.chucVu}';
   }
 }

@@ -70,7 +70,19 @@ class HomeCubit extends BaseCubit<HomeState> {
   //     BehaviorSubject<DataUser>();
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
   final PublishSubject<bool> refreshListen = PublishSubject<bool>();
-
+  final BehaviorSubject<bool> _tinBuon=BehaviorSubject<bool>();
+  Stream<bool> get tinBuon => _tinBuon.stream;
+  
+  void checkShowTinBuon(List<WidgetModel> listWidget) {
+     bool isShowTinBuon=false;
+    final listTypeWidget=listWidget.map((e) => e.component);
+    listTypeWidget.forEach((element) {
+    });
+    if(listTypeWidget.contains(WidgetTypeConstant.Tin_BUON)){
+      isShowTinBuon=true;
+    }
+    _tinBuon.sink.add(isShowTinBuon);
+  }
   Future<void> _getTinhHuongKhanCap() async {
     final result = await homeRep.getTinBuon();
     result.when(
@@ -204,6 +216,10 @@ extension GetConfigWidget on HomeCubit {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
+        print('-------------------------------- getDashboard');
+        res.forEach((element) {
+           print('----------elemet ${element.component}');
+        });
         final data =
             res.where((element) => element.widgetType != null).toList();
         _getConfigWidget.sink.add(data);

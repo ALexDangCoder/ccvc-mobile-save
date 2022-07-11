@@ -120,7 +120,6 @@ class WidgetModel {
         return WidgetType.situationHandlingPeople;
       case WidgetTypeConstant.VAN_BAN_DON_VI:
         return WidgetType.vanBanDonVi;
-
     }
   }
 

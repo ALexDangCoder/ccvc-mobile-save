@@ -134,6 +134,7 @@ class HomeScreenMobileState extends State<HomeScreenMobile> {
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? <WidgetModel>[];
                           if (data.isNotEmpty) {
+                            homeCubit.checkShowTinBuon(data);
                             return Column(
                               children: List.generate(data.length, (index) {
                                 final type = data[index];
@@ -148,10 +149,19 @@ class HomeScreenMobileState extends State<HomeScreenMobile> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Container(
-                        color: backgroundColorApp,
-                        padding: const EdgeInsets.symmetric(vertical: 25),
-                        child: const MarqueeWidget(),
+                      StreamBuilder<bool>(
+                        stream: homeCubit.tinBuon,
+                        builder: (context, snapshot){
+                          final data=snapshot.data??false;
+                          return Visibility(
+                            visible: data,
+                            child:  Container(
+                              color: backgroundColorApp,
+                              padding: const EdgeInsets.symmetric(vertical: 25),
+                              child: const MarqueeWidget(),
+                            ),
+                          );
+                        },
                       )
                     ],
                   ),

@@ -148,9 +148,6 @@ Dio provideDio({
       onError: (DioError e, handler) => handler.next(e),
     ),
   );
-  // if (Foundation.kDebugMode) {
-  //   dio.interceptors.add(dioLogger());
-  // }
   return dio;
 }
 

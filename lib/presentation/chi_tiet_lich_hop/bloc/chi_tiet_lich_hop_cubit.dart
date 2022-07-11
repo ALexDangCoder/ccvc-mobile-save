@@ -50,7 +50,6 @@ import 'package:html_editor_enhanced/html_editor.dart';
 
 import 'package:rxdart/rxdart.dart';
 
-
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
@@ -67,6 +66,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DonViModel donViModel = DonViModel();
   String? dateBieuQuyet;
   String getPhienHopId = '';
+  String tenPhienHop = '';
   List<CanBoModel> dataThanhPhanThamGia = [];
   List<String?> data = [];
   List<String> selectPhatBieu = [];
@@ -155,6 +155,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   ChiTietLichHopModel get getChiTietLichHopModel =>
       chiTietLichHopSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
+  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop = BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>
       danhSachPhatbieuLichHopModelSubject = BehaviorSubject();

@@ -225,11 +225,11 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         child: DoubleButtonBottom(
                           title1: S.current.dong,
                           title2: S.current.xac_nhan,
-                          onPressed1: () {
+                          onClickLeft: () {
                             widget.cubit.noiDung.add('');
                             Navigator.pop(context);
                           },
-                          onPressed2: () {
+                          onClickRight: () {
                             if (reportStatusId.isNotEmpty) {
                               if (widget.isCreate) {
                                 widget.cubit

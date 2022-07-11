@@ -63,10 +63,10 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.luu,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () async {
+          onClickRight: () async {
             if (widget.themDonViCubit.listDonVi.isEmpty) {
               widget.themDonViCubit.validateDonVi.sink.add(true);
             } else {

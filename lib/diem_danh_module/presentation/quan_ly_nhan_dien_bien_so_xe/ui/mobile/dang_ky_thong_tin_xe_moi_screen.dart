@@ -50,10 +50,10 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
           child: DoubleButtonBottom(
             title1: S.current.huy_bo,
             title2: S.current.them_moi,
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
-            onPressed2: () async {
+            onClickRight: () async {
               if (keyGroup.currentState!.validator()) {
                 if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
                   await widget.cubit.dangKyThongTinXeMoi(
@@ -298,10 +298,10 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         child: DoubleButtonBottom(
                           title1: S.current.huy_bo,
                           title2: S.current.them_moi,
-                          onPressed1: () {
+                          onClickLeft: () {
                             Navigator.pop(context);
                           },
-                          onPressed2: () async {
+                          onClickRight: () async {
                             if (keyGroup.currentState!.validator()) {
                               if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
                                 await widget.cubit.dangKyThongTinXeMoi(

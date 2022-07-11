@@ -25,6 +25,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.d
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/moi_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
@@ -37,12 +38,9 @@ import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
-
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
-
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
@@ -50,7 +48,6 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-
 import 'package:rxdart/rxdart.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
@@ -73,6 +70,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<CanBoModel> dataThanhPhanThamGia = [];
   List<String?> data = [];
   List<String> selectPhatBieu = [];
+  String idCapNhatTrangThai = '';
   String idCuocHop = '';
   String idDanhSachCanBo = '';
   String idCanBoDiThay = '';
@@ -85,6 +83,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
   BehaviorSubject<bool> isValidateTimer = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
+  List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
@@ -175,6 +174,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Stream<ThongTinPhongHopModel> get getThongTinPhongHop =>
       getThongTinPhongHopSb.stream;
+  BehaviorSubject<ThongTinPhongHopModel> getThongTinYeuCauChuanBi =
+      BehaviorSubject();
 
   ThongTinPhongHopModel get getThongTinPhongHopForPermision =>
       getThongTinPhongHopSb.valueOrNull ?? ThongTinPhongHopModel();

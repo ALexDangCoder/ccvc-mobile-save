@@ -30,6 +30,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   static const int COMMON = 0;
   static const int HAS_USER = 1;
   static const int NEW_USER = 2;
+  static const String success = 'Thành công';
 
   String idReport = '';
   int sourceType = 0;

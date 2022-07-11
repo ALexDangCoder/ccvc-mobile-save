@@ -273,7 +273,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                           Share.HAS_USER,
                         )
                             .then((value) {
-                          if (value == 'Thành công') {
+                          if (value == ChiaSeBaoCaoCubit.success) {
                             MessageConfig.show(title: value);
                           } else {
                             MessageConfig.show(
@@ -307,7 +307,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                           description: note,
                         )
                             .then((value) {
-                          if (value == 'Thành công') {
+                          if (value == ChiaSeBaoCaoCubit.success) {
                             MessageConfig.show(title: value);
                           } else {
                             MessageConfig.show(

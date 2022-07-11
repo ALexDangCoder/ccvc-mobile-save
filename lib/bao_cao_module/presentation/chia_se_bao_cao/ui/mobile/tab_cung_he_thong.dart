@@ -181,7 +181,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                           ),
                                           isCollapsed: true,
                                           border: InputBorder.none,
-                                        ), 
+                                        ),
                                       ),
                                     );
                                   }
@@ -329,7 +329,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                   btnRightTxt: S.current.dong_y,
                   funcBtnRight: () {
                     widget.cubit.chiaSeBaoCao(Share.COMMON).then((value) {
-                      if (value == 'Thành công') {
+                      if (value == ChiaSeBaoCaoCubit.success) {
                         MessageConfig.show(title: value);
                         Navigator.pop(context);
                         Navigator.pop(context);

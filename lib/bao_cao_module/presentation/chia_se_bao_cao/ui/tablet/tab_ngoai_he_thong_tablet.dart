@@ -282,7 +282,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                 btnRightTxt: S.current.dong_y,
                 funcBtnRight: () {
                   widget.cubit.chiaSeBaoCao(Share.HAS_USER).then((value) {
-                    if (value == 'Thành công') {
+                    if (value == ChiaSeBaoCaoCubit.success) {
                       MessageConfig.show(title: value);
                     } else {
                       MessageConfig.show(
@@ -316,7 +316,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                     description: note,
                   )
                       .then((value) {
-                    if (value == 'Thành công') {
+                    if (value == ChiaSeBaoCaoCubit.success) {
                       MessageConfig.show(title: value);
                     } else {
                       MessageConfig.show(

@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 class ReportDetailMobile extends StatefulWidget {
   final String title;
   final ReportListCubit cubit;
-  final String idFolder;
+  final ReportItem reportModel;
   final bool isListView;
 
   const ReportDetailMobile({
     Key? key,
     required this.title,
     required this.cubit,
-    required this.idFolder,
+    required this.reportModel,
     required this.isListView,
   }) : super(key: key);
 
@@ -32,12 +32,17 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
   bool isCheckData = false;
   bool isInit = false;
 
+  Future<void> getApi() async {
+    await widget.cubit.getListReport(
+      idFolder: widget.reportModel.id ?? '',
+      isTree: true,
+      isTreeShareToMe: widget.reportModel.isShareToMe ?? false,
+    );
+  }
+
   @override
   void initState() {
-    widget.cubit.getListReport(
-      idFolder: widget.idFolder,
-      isTree: true,
-    );
+    getApi();
     super.initState();
     isInit = true;
     if (isCheckInit) {
@@ -61,10 +66,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
           Expanded(
             child: StateStreamLayout(
               retry: () {
-                widget.cubit.getListReport(
-                  idFolder: widget.idFolder,
-                  isTree: true,
-                );
+                getApi();
               },
               error: AppException(
                 S.current.error,
@@ -76,10 +78,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                 onRefresh: () async {
                   isCheckData = true;
                   isInit = true;
-                  await widget.cubit.getListReport(
-                    idFolder: widget.idFolder,
-                    isTree: true,
-                  );
+                  await getApi();
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
@@ -99,7 +98,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                               listReport: listReportDetail,
                               cubit: widget.cubit,
                               isTree: true,
-                              idFolder: widget.idFolder,
+                              idFolder: widget.reportModel.id ?? '',
                             );
                     },
                   ),

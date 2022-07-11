@@ -102,7 +102,7 @@ class ReportListTablet extends StatelessWidget {
             return ReportDetailTablet(
               title: value.name ?? '',
               cubit: cubit,
-              idFolder: value.id ?? '',
+              reportModel: value,
               isListView: isListView,
             );
           },

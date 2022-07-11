@@ -16,11 +16,14 @@ class ReportItem {
   String? createdBy;
   String? updatedAt;
   int? status;
+  bool? isShareToMe;
+
   //updatedBy: null,
   //parentId: null,
   // String? name;
   bool? isDeleted;
   bool? isRoot;
+
   //level: 0,
   String? tree;
 
@@ -52,5 +55,6 @@ class ReportItem {
     this.dateTime,
     this.isPin,
     this.status,
+    this.isShareToMe,
   });
 }

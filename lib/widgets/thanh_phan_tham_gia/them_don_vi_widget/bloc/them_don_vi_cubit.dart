@@ -33,6 +33,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   Stream<Node<DonViModel>?> get selectOnlyDonVi => _selectOnlyDonVi.stream;
 
   Sink<Node<DonViModel>?> get sinkSelectOnlyDonVi => _selectOnlyDonVi.sink;
+
   void getTreeDonVi(List<Node<DonViModel>> tree) {
     final data = <Node<DonViModel>>[];
     for (final vl in tree) {
@@ -158,7 +159,6 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     }
   }
 
-  /// getUserInUnit
 
   void _addParent(Set<Node<DonViModel>> list, Node<DonViModel> node) {
     if (node.parent != null) {

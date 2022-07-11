@@ -247,7 +247,7 @@ mixin HopRepository {
 
   Future<Result<MessageModel>> deleteKetLuanHop(String id);
 
-  Future<Result<MessageModel>> deleteChiTietLichHop(
+  Future<Result<bool>> deleteChiTietLichHop(
     String id,
     bool isMulti,
   );
@@ -417,6 +417,10 @@ mixin HopRepository {
 
   Future<Result<bool>> thuHoiKetLuanHop(
     String meetId,
+  );
+
+  Future<Result<bool>> deleteFileHop(
+    String id,
   );
 
   Future<Result<ListStatusModel>> listStatusRoom();

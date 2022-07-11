@@ -224,6 +224,7 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     );
   }
 
+  @override
   Future<Result<List<TrangThaiLvModel>>> trangThaiLV() {
     return runCatchingAsync<TrangThaiLVResponse, List<TrangThaiLvModel>>(
       () => workCalendarService.detailTrangThai(),

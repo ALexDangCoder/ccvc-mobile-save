@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -17,6 +18,7 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
@@ -469,5 +471,16 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         );
       },
     );
+  }
+
+  bool checkLenghtFile() {
+    int sum = 0;
+    for (final element in files) {
+      sum = sum + element.lengthSync();
+    }
+    if (sum > MaxSizeFile.MAX_SIZE_20MB) {
+      return false;
+    }
+    return true;
   }
 }

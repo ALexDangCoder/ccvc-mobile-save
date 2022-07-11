@@ -81,6 +81,8 @@ class XemKetLuanHopDataResponseData extends Equatable {
   String? noiDungHuy;
   @JsonKey(name: 'title')
   String? title;
+  @JsonKey(name: 'createAt')
+  String? createAt;
 
   XemKetLuanHopDataResponseData();
 
@@ -120,6 +122,7 @@ class XemKetLuanHopDataResponseData extends Equatable {
       reportTemplateId: reportTemplateId ?? '',
       noiDungHuy: noiDungHuy ?? '',
       title: title ?? '',
+      createAt: createAt,
     );
   }
 }

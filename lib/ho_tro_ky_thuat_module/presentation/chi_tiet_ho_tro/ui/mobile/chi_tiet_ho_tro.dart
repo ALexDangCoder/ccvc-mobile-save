@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/base_app_bar.da
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,8 +93,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             spaceH10,
                             rowItem(
                               S.current.nguoi_yeu_cau,
-                              (cubit.supportDetail.nguoiYeuCau ?? '') +
-                                  (cubit.supportDetail.chucVu ?? ''),
+                              '${cubit.supportDetail.nguoiYeuCau ?? ''} - ${cubit.supportDetail.chucVu ?? ''}',
                             ),
                             spaceH10,
                             rowItem(
@@ -170,7 +170,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                               S.current.nhan_xet,
                               cubit.supportDetail.nhanXet,
                             ),
-                            spaceH20,
+                            spaceH50,
                           ],
                         ),
                       ),
@@ -188,24 +188,35 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             title2: cubit.isItSupport
                                 ? S.current.cap_nhat_thxl
                                 : S.current.danh_gia,
-                            onPressed1: () {},
+                            onPressed1: () {
+                              Navigator.pop(context);
+                            },
                             onPressed2: () {
-                              showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (_) {
-                                  if (cubit.isItSupport) {
-                                    return CapNhatTinhHinhHoTro(
-                                      cubit: cubit,
-                                    );
-                                  } else {
-                                    return DanhGiaYeuCauHoTro(
-                                      cubit: cubit,
-                                    );
-                                  }
-                                },
-                              );
+                              if (!cubit.isItSupport &&
+                                  cubit.supportDetail.codeTrangThai ==
+                                      ChiTietHoTroCubit.DA_XU_LY) {
+                                MessageConfig.show(
+                                  title: S.current.chua_duoc_danh_gia,
+                                  messState: MessState.error,
+                                );
+                              } else {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (_) {
+                                    if (cubit.isItSupport) {
+                                      return CapNhatTinhHinhHoTro(
+                                        cubit: cubit,
+                                      );
+                                    } else {
+                                      return DanhGiaYeuCauHoTro(
+                                        cubit: cubit,
+                                      );
+                                    }
+                                  },
+                                );
+                              }
                             },
                             noPadding: true,
                           ),

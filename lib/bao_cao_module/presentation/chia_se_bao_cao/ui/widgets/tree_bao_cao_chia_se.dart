@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/custom_checkbox.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -8,7 +6,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,6 +13,7 @@ class TreeViewChiaSeBaoCaoWidget extends StatefulWidget {
   final Node<DonViModel> node;
   final ChiaSeBaoCaoCubit themDonViCubit;
   final bool selectOnly;
+
   const TreeViewChiaSeBaoCaoWidget({
     Key? key,
     required this.themDonViCubit,
@@ -64,10 +62,21 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                                   if (isCheck == false) {
                                     widget.node.isTickChildren = false;
                                   }
+                                  if(widget.node.parent?.value.id != ''){
+                                    widget.themDonViCubit.checkUser(
+                                      widget.node.parent!,
+                                    );
+                                  }
+                                  widget.themDonViCubit.addSelectNode(
+                                    widget.node,
+                                    isCheck: widget.node.isCheck.isCheck,
+                                  );
                                   widget.node.isCheckTickChildren();
                                   widget.themDonViCubit.addSelectDonVi(
-                                      isCheck: widget.node.isCheck.isCheck,
-                                      listDonVi: data);
+                                    isCheck: widget.node.isCheck.isCheck,
+                                    listDonVi: data,
+                                    node: widget.node.value,
+                                  );
                                 },
                                 isCheck: widget.node.isCheckALl(),
                               )
@@ -82,7 +91,9 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                             widget.node.isCallApi = true;
                             if (widget.node.value.chucVu.isEmpty) {
                               await widget.themDonViCubit.searchCanBoPaging(
-                                  widget.node.value.id, widget.node);
+                                widget.node.value.id,
+                                widget.node,
+                              );
                             }
                           }
                           setState(() {});
@@ -142,6 +153,6 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
     if (widget.node.value.chucVu.isEmpty) {
       return widget.node.value.name;
     }
-    return '${widget.node.value.tenCanBo} ${widget.node.value.chucVu}';
+    return '${widget.node.value.name} ${widget.node.value.chucVu}';
   }
 }

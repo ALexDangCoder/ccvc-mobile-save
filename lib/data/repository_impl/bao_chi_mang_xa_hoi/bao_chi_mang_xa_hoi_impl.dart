@@ -90,6 +90,7 @@ class BaoChiMangXaHoiImpl implements BaoChiMangXaHoiRepository {
     );
   }
 
+  @override
   Future<Result<TuongTacThongKeResponseModel>> getTuongTacThongKe(
     int pageIndex,
     int pageSize,

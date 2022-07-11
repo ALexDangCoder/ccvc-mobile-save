@@ -280,7 +280,7 @@ abstract class HopServices {
   Future<XoaBaoCaoKetQuaResponse> deleteKetLuanHop(@Query('id') String id);
 
   @DELETE(ApiConstants.DELETE_DETAIL_CELENDER_MEET)
-  Future<XoaBaoCaoKetQuaResponse> deleteChiTietLichHop(
+  Future<CuCanBoDiThayResponse> deleteChiTietLichHop(
     @Query('lstLichHopId') String id,
     @Query('isMulti') bool isMulti,
   );
@@ -344,7 +344,7 @@ abstract class HopServices {
 
   @POST(ApiConstants.THEM_PHIEN_NhIEM_VU)
   Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(
-    @Part() ThemNhiemVuRequest themNhiemVuRequest,
+    @Body() ThemNhiemVuRequest themNhiemVuRequest,
   );
 
   @PUT(ApiConstants.EDIT_CHUONG_TRINH_HOP)
@@ -516,9 +516,14 @@ abstract class HopServices {
     @Query('meetId') String meetId,
   );
 
-  @PUT(ApiConstants.THU_HOI__KET_LUAN_HOP)
+  @PUT(ApiConstants.THU_HOI_KET_LUAN_HOP)
   Future<ThemPhienHopResponse> thuHoiKetLuanHop(
     @Query('meetId') String meetId,
+  );
+
+  @DELETE(ApiConstants.DELETE_FILE)
+  Future<ThemPhienHopResponse> deleteFileHop(
+    @Query('id') String id,
   );
 
   @GET(ApiConstants.LIST_STATUS_ROOM)

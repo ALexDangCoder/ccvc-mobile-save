@@ -83,7 +83,6 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                 ExpandPAKNWidget(
                   isFuncExpand: (value) {
                     dropDownTC = value;
-                    print(dropDownTC);
                     if (dropDownTC == false && dropDownXL == false) {
                       height = 120;
                     } else {

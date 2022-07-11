@@ -263,6 +263,8 @@ class _CreateOrUpdateKetLuanHopWidgetState
                 ),
               ),
             )
+
+          /// chỉ xem biên bản họp
           : Column(
               children: [
                 SizedBox(

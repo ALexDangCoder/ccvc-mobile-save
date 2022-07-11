@@ -17,15 +17,11 @@ class ReportItem {
   String? updatedAt;
   int? status;
   bool? isShareToMe;
-
-  //updatedBy: null,
-  //parentId: null,
-  // String? name;
   bool? isDeleted;
   bool? isRoot;
-
-  //level: 0,
   String? tree;
+  bool? shareByMe;
+  bool? shareToMe;
 
   ReportItem.forderModel({
     this.id,
@@ -56,5 +52,7 @@ class ReportItem {
     this.isPin,
     this.status,
     this.isShareToMe,
+    this.shareToMe,
+    this.shareByMe,
   });
 }

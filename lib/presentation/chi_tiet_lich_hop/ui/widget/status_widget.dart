@@ -1,21 +1,16 @@
+import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/detail_status.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
-class RowDataWidget extends StatelessWidget {
-  final String urlIcon;
-  final String text;
-  final TextStyle? styleText;
+class StatusWidget extends StatelessWidget {
+  final StatusDetail status;
 
-  const RowDataWidget({
+  const StatusWidget({
     Key? key,
-    required this.text,
-    required this.urlIcon,
-    this.styleText,
+    required this.status,
   }) : super(key: key);
 
   @override
@@ -27,7 +22,7 @@ class RowDataWidget extends StatelessWidget {
           height: 17.0.textScale(),
           child: Center(
             child: SvgPicture.asset(
-              urlIcon,
+              status.getIcon,
               width: 17.0.textScale(),
               height: 17.0.textScale(),
             ),
@@ -47,8 +42,8 @@ class RowDataWidget extends StatelessWidget {
   }
 
   Widget textVl() => Text(
-        text,
-        style: styleText ?? textNormal(textTitle, 16),
+        status.getText,
+        style: textNormal(status.getColorText, 16),
         overflow: TextOverflow.ellipsis,
       );
 }

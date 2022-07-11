@@ -181,7 +181,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   List<ChildMenu> getMenuLichTheoTrangThai(DashBoardLichHopModel countData) {
      listMenuTheoTrangThai = [
       ChildMenu(
-        title: StatusWorkCalendar.LICH_DUOC_MOI.getTitle(),
+        title: StatusWorkCalendar.LICH_DUOC_MOI.getTitleMeeting(),
         value: StatusDataItem(
           StatusWorkCalendar.LICH_DUOC_MOI,
         ),
@@ -190,28 +190,28 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             (countData.soLichTuChoi ?? 0),
       ),
       ChildMenu(
-        title: StatusWorkCalendar.LICH_TAO_HO.getTitle(),
+        title: StatusWorkCalendar.LICH_TAO_HO.getTitleMeeting(),
         value: StatusDataItem(
           StatusWorkCalendar.LICH_TAO_HO,
         ),
         count: countData.soLichTaoHo ?? 0,
       ),
       ChildMenu(
-        title: StatusWorkCalendar.LICH_HUY.getTitle(),
+        title: StatusWorkCalendar.LICH_HUY.getTitleMeeting(),
         value: StatusDataItem(
           StatusWorkCalendar.LICH_HUY,
         ),
         count: countData.soLichHuyBo ?? 0,
       ),
       ChildMenu(
-        title: StatusWorkCalendar.LICH_THU_HOI.getTitle(),
+        title: StatusWorkCalendar.LICH_THU_HOI.getTitleMeeting(),
         value: StatusDataItem(
           StatusWorkCalendar.LICH_THU_HOI,
         ),
         count: countData.soLichThuHoi ?? 0,
       ),
       ChildMenu(
-        title: StatusWorkCalendar.CHO_DUYET.getTitle(),
+        title: StatusWorkCalendar.CHO_DUYET.getTitleMeeting(),
         value: StatusDataItem(
           StatusWorkCalendar.CHO_DUYET,
         ),
@@ -226,7 +226,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     )){
       listMenuTheoTrangThai.add(
         ChildMenu(
-          title: StatusWorkCalendar.LICH_DUYET_PHONG.getTitle(),
+          title: StatusWorkCalendar.LICH_DUYET_PHONG.getTitleMeeting(),
           value: StatusDataItem(
             StatusWorkCalendar.LICH_DUYET_PHONG,
           ),
@@ -243,7 +243,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     )) {
       listMenuTheoTrangThai.add(
         ChildMenu(
-          title: StatusWorkCalendar.LICH_DUYET_THIET_BI.getTitle(),
+          title: StatusWorkCalendar.LICH_DUYET_THIET_BI.getTitleMeeting(),
           value: StatusDataItem(
             StatusWorkCalendar.LICH_DUYET_THIET_BI,
           ),
@@ -258,7 +258,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
      )) {
        listMenuTheoTrangThai.add(
          ChildMenu(
-           title: StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI.getTitle(),
+           title: StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI.getTitleMeeting(),
            value: StatusDataItem(
              StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
            ),
@@ -272,7 +272,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     )) {
       listMenuTheoTrangThai.add(
         ChildMenu(
-          title: StatusWorkCalendar.LICH_DUYET_KY_THUAT.getTitle(),
+          title: StatusWorkCalendar.LICH_DUYET_KY_THUAT.getTitleMeeting(),
           value: StatusDataItem(
             StatusWorkCalendar.LICH_DUYET_KY_THUAT,
           ),
@@ -285,14 +285,14 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
     listMenuTheoTrangThai.addAll([
       ChildMenu(
-        title: StatusWorkCalendar.LICH_HOP_CAN_KLCH.getTitle(),
+        title: StatusWorkCalendar.LICH_HOP_CAN_KLCH.getTitleMeeting(),
         value: StatusDataItem(
           StatusWorkCalendar.LICH_HOP_CAN_KLCH,
         ),
         count: countData.soLichCanBaoCao ?? 0,
       ),
       ChildMenu(
-        title: StatusWorkCalendar.LICH_DA_KLCH.getTitle(),
+        title: StatusWorkCalendar.LICH_DA_KLCH.getTitleMeeting(),
         value: StatusDataItem(
           StatusWorkCalendar.LICH_DA_KLCH,
         ),
@@ -528,7 +528,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       }
       if (itemMenu is StatusDataItem) {
         isLichLanhDao = false;
-        _titleSubject.sink.add(itemMenu.value.getTitle());
+        _titleSubject.sink.add(itemMenu.value.getTitleMeeting());
         typeCalender = itemMenu.value;
         _statusWorkSubject.sink.add(itemMenu.value);
         refreshDataDangLich();

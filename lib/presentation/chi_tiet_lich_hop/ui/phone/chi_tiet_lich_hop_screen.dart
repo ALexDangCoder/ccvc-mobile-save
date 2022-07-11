@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_ki
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -137,9 +138,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                     .toList(),
                               ),
                               spaceH16,
+                              StatusWidget(
+                                status: data.getStatus,
+                              ),
+                              spaceH16,
                               ThongTinLienHeWidget(
                                 thongTinTxt: data.chuTriModel.dauMoiLienHe,
                                 sdtTxt: data.chuTriModel.soDienThoai,
+                                dsDiemCau: data.dsDiemCau ?? [],
                               )
                             ],
                           );

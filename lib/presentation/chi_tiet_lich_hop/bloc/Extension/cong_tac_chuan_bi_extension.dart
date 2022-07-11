@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -9,10 +10,13 @@ import '../chi_tiet_lich_hop_cubit.dart';
 ///Công tác chuẩn bị
 extension CongTacChuanBi on DetailMeetCalenderCubit {
   Future<void> getThongTinPhongHopApi() async {
+    showLoading();
     final result = await hopRp.getListThongTinPhongHop(idCuocHop);
     result.when(
       success: (res) {
         getThongTinPhongHopSb.sink.add(res);
+        getThongTinYeuCauChuanBi.sink.add(res);
+        showContent();
       },
       error: (err) {},
     );
@@ -220,6 +224,49 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     await getThongTinPhongHopApi();
     await getDanhSachThietBi();
     await getDanhSachPhongHop();
+    showContent();
+  }
+
+  Future<bool> capNhatTrangThai({
+    required String id,
+    required String ghiChu,
+    required String trangThai,
+  }) async {
+    bool isSuccess = false;
+    final CapNhatTrangThaiRequest capNhatTrangThaiRequest =
+        CapNhatTrangThaiRequest(
+      id: id,
+      ghiChu: ghiChu,
+      trangThaiChuanBiId: trangThai,
+    );
+    final rs = await hopRp.capNhatTrangThai(capNhatTrangThaiRequest);
+    rs.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.thanh_cong,
+        );
+        isSuccess = true;
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
+        isSuccess = false;
+      },
+    );
+    return isSuccess;
+  }
+
+  Future<void> getListStatusRoom() async {
+    final result = await hopRp.listStatusRoom();
+    result.when(
+      success: (res) {
+        listStatusRom = res.data ?? [];
+        showContent();
+      },
+      error: (err) {},
+    );
     showContent();
   }
 }

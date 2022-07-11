@@ -116,9 +116,9 @@ class _EditHDSDScreenState extends State<EditHDSDScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 32, left: 17, right: 17),
         child: DoubleButtonBottom(
-          onPressed2: () {},
+          onClickRight: () {},
           title2: S.current.cap_nhat,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.push(
               context,
               MaterialPageRoute(

@@ -21,19 +21,43 @@ extension StatusCooperative on DonViModel {
     }
   }
 }
+//TODO:chờ chị BA sửa srs
 extension OfficersExtension on Officer {
   String get getTextStatus {
     switch (status) {
-      case 1: return S.current.tham_gia;
-      case 2: return S.current.tu_choi;
-      default : return S.current.cho_xac_nhan;
+      case 0:
+        return S.current.cho_xac_nhan;
+      case 1:
+        return S.current.tham_gia;
+      case 2:
+        return S.current.tu_choi;
+      case 4:
+        return S.current.thu_hoi;
+      case 10:
+        return 'Cử cán bộ đi thay';
+      case 11:
+        return 'Đi với';
+      default:
+        return S.current.cho_xac_nhan;
     }
   }
+
   Color get getColorStatus {
     switch (status) {
-      case 1: return itemWidgetUsing;
-      case 2: return statusCalenderRed;
-      default : return color02C5DD;
+      case 0:
+        return color02C5DD;
+      case 1:
+        return itemWidgetUsing;
+      case 2:
+        return statusCalenderRed;
+      case 4:
+        return choVaoSoColor;
+      case 10:
+        return statusCalenderRed;
+      case 11:
+        return statusCalenderRed;
+      default:
+        return color02C5DD;
     }
   }
 }

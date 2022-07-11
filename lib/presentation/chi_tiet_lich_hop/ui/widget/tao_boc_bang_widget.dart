@@ -48,10 +48,10 @@ class _TaoBocBangWidgetState extends State<TaoBocBangWidget> {
           child: DoubleButtonBottom(
             title1: S.current.dong,
             title2: S.current.xac_nhan,
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
-            onPressed2: () {
+            onClickRight: () {
               Navigator.pop(context);
             },
           ),

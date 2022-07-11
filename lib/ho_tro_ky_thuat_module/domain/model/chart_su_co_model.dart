@@ -1,49 +1,23 @@
 class ChartSuCoModel {
-  List<ChartSuCoChild>? chartSuCoChild;
-  int? id;
-
-  //Null exception;
-  int? status;
-  bool? isCanceled;
-  bool? isCompleted;
-  bool? isCompletedSuccessfully;
-  int? creationOptions;
-
-  //Null asyncState;
-  bool? isFaulted;
+  String? khuVucId;
+  String? tenKhuVuc;
+  String? codeKhuVuc;
+  List<DanhSachSuCo>? danhSachSuCo;
 
   ChartSuCoModel({
-    this.chartSuCoChild,
-    this.id,
-    this.status,
-    this.isCanceled,
-    this.isCompleted,
-    this.isCompletedSuccessfully,
-    this.creationOptions,
-    this.isFaulted,
+    this.khuVucId,
+    this.tenKhuVuc,
+    this.codeKhuVuc,
+    this.danhSachSuCo,
   });
 }
 
-class ChartSuCoChild {
-  String? khuVuc;
-  String? taskId;
-  List<DanhSachKhuVuc>? danhSachKhuVuc;
-
-  ChartSuCoChild({
-    this.khuVuc,
-    this.danhSachKhuVuc,
-    this.taskId,
-  });
-}
-
-class DanhSachKhuVuc {
-  String? loaiSuCoId;
+class DanhSachSuCo {
+  String? tenSuCo;
   int? soLuong;
-  String? suCo;
 
-  DanhSachKhuVuc({
-    this.suCo,
+  DanhSachSuCo({
+    this.tenSuCo,
     this.soLuong,
-    this.loaiSuCoId,
   });
 }

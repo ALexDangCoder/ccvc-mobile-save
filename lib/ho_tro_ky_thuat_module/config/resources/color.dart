@@ -257,6 +257,7 @@ abstract class AppColor {
   Color sideTextInactiveColor();
 
   Color infoColors();
+
 }
 
 class DefaultApp extends AppColor {

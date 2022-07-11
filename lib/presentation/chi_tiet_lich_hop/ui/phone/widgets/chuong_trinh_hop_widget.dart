@@ -497,7 +497,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
         bottomWidget: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
           child: DoubleButtonBottom(
-            onPressed2: () {
+            onClickRight: () {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
                 widget.cubit.themPhienHop(widget.id);
@@ -506,7 +506,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 Navigator.pop(context);
               }
             },
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
             title1: S.current.dong,

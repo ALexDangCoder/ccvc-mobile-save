@@ -53,7 +53,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<YKienBottomSheet> {
                   height: 44,
                   width: widget.isTablet ? 300 : double.infinity,
                   child: DoubleButtonBottom(
-                    onPressed2: () async {
+                    onClickRight: () async {
                       await chiTietLichLamViecCubit
                           .themYKien(
                         content: controller.text,
@@ -75,7 +75,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<YKienBottomSheet> {
                     },
                     title2: S.current.them,
                     title1: S.current.dong,
-                    onPressed1: () {
+                    onClickLeft: () {
                       Navigator.pop(context);
                     },
                   ),

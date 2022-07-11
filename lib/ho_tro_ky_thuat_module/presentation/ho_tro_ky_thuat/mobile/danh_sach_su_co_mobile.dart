@@ -4,9 +4,9 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/mobile/chi_tiet_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/them_moi_yc_ho_tro_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tim_kiem/mobile/tim_kiem_yc_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/them_moi_yc_ho_tro_mobile.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/tim_kiem/mobile/tim_kiem_yc_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/listview/listview_loadmore.dart';
@@ -50,7 +50,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         ),
         viewItem: (value, index) => ItemDanhSachSuCo(
           cubit: widget.cubit,
-          objlDSSC: value,
+          objDSSC: value,
           index: index ?? 0,
           onClickMore: (value, index) {
             widget.cubit.onClickPopupMenu(

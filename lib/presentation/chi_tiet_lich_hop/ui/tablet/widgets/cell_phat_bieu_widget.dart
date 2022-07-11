@@ -76,11 +76,14 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                           widget.isthePhatBieu == true) {
                         return CustomCheckBox(
                           title: '',
-                          isCheck: check,
+
+                          /// check if id is in list selectPhatBieu == true
+                          isCheck: widget.cubit.selectPhatBieu
+                              .contains(widget.infoModel.id),
                           onChange: (isCheck) {
                             check = !check;
                             setState(() {});
-                            widget.onChangeCheckBox!(isCheck);
+                            widget.onChangeCheckBox?.call(isCheck);
                           },
                         );
                       }
@@ -147,10 +150,11 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                         final data = snapshot.data ?? 0;
                         if (data != StatePhatBieu.danh_Sach_phat_bieu) {
                           return CustomCheckBox(
-                            isCheck: check,
+                            isCheck: widget.cubit.selectPhatBieu
+                                .contains(widget.infoModel.id),
                             onChange: (isCheck) {
                               check = !check;
-                              widget.onChangeCheckBox!(isCheck);
+                              widget.onChangeCheckBox?.call(isCheck);
                               setState(() {});
                             },
                           );

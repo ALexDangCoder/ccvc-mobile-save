@@ -8,7 +8,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 
 mixin HoTroKyThuatRepository {
-  Future<Result<List<DanhSachSuCoModel>>> postDanhSachSuCo({
+  Future<Result<List<SuCoModel>>> postDanhSachSuCo({
     required int pageIndex,
     required int pageSize,
     String? codeUnit,
@@ -33,7 +33,7 @@ mixin HoTroKyThuatRepository {
     String code,
   );
 
-  Future<Result<ChartSuCoModel>> getChartSuCo();
+  Future<Result<List<ChartSuCoModel>>> getChartSuCo();
 
   Future<Result<List<NguoiTiepNhanYeuCauModel>>> getNguoiTiepNhanYeuCau();
 

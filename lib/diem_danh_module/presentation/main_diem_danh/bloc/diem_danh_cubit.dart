@@ -91,4 +91,5 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
 class DiemDanhConstant {
   static const int THANG_12 = 12;
+  static const int THANG_1 = 1;
 }

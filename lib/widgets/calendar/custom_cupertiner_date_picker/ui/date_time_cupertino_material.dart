@@ -193,7 +193,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                 },
               ),
               StreamBuilder<String>(
-                stream: _cubit.dateSubject.stream,
+                stream: _cubit.dateEndSubject.stream,
                 initialData: INIT_DATE_PICK,
                 builder: (context, snapshot) {
                   final String date = snapshot.data ?? S.current.ddmmyy;
@@ -325,7 +325,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                 },
               ),
               StreamBuilder<String>(
-                stream: _cubit.dateSubject,
+                stream: _cubit.dateBeginSubject,
                 initialData: INIT_DATE_PICK,
                 builder: (context, snapshot) {
                   final String date = snapshot.data ?? S.current.ddmmyy;
@@ -409,7 +409,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       DateTimeFormat.DAY_MONTH_YEAR_BETWEEN,
       DateTimeFormat.DAY_MONTH_YEAR,
     );
-    _cubit.dateSubject.sink.add(convertDate);
+    _cubit.dateBeginSubject.sink.add(convertDate);
     _cubit.onTimeChanged(
       timeSelected: convertDate.convertStringToDate(
         formatPattern: DateFormatApp.date,
@@ -425,7 +425,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       DateTimeFormat.DAY_MONTH_YEAR_BETWEEN,
       DateTimeFormat.DAY_MONTH_YEAR,
     );
-    _cubit.dateSubject.sink.add(convertDate);
+    _cubit.dateEndSubject.sink.add(convertDate);
     _cubit.onTimeChanged(
       timeSelected: convertDate.convertStringToDate(
         formatPattern: DateFormatApp.date,
@@ -528,9 +528,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   String get now =>
       DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
 
-  String get dateFrom => _cubit.dateSubject.valueOrNull ?? now;
+  String get dateFrom => _cubit.dateBeginSubject.valueOrNull ?? now;
 
-  String get dateTo => _cubit.dateSubject.valueOrNull ?? now;
+  String get dateTo => _cubit.dateEndSubject.valueOrNull ?? now;
 
   String get timeTo => _cubit.timeEndSubject.valueOrNull ?? '00:00';
 

@@ -102,8 +102,8 @@ class _DiemDanhCaNhanTabletScreenState
                             ],
                           ),
                           child: ExpandOnlyWidget(
-                            padingSize: 8,
-                            isPadingIcon: true,
+                            paddingSize: 8,
+                            isPaddingIcon: true,
                             initExpand: true,
                             header: Container(
                               color: Colors.transparent,

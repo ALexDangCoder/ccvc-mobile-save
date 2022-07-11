@@ -119,7 +119,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                 ],
               ),
               child: ExpandOnlyWidget(
-                isPadingIcon: true,
+                isPaddingIcon: true,
                 initExpand: true,
                 header: Container(
                   color: Colors.transparent,

@@ -8,8 +8,8 @@ class DoubleButtonBottom extends StatelessWidget {
   final String title1;
   final String title2;
 
-  final Function onPressed1;
-  final Function onPressed2;
+  final Function onClickLeft;
+  final Function onClickRight;
   final bool isTablet;
   final bool noPadding;
 
@@ -17,8 +17,8 @@ class DoubleButtonBottom extends StatelessWidget {
     Key? key,
     required this.title1,
     required this.title2,
-    required this.onPressed1,
-    required this.onPressed2,
+    required this.onClickLeft,
+    required this.onClickRight,
     this.isTablet = false,
     this.noPadding = false,
   }) : super(key: key);
@@ -33,14 +33,14 @@ class DoubleButtonBottom extends StatelessWidget {
               children: [
                 button(
                   onTap: () {
-                    onPressed1();
+                    onClickLeft();
                   },
                   title: title1,
                 ),
                 spaceW20,
                 button(
                   onTap: () {
-                    onPressed2();
+                    onClickRight();
                   },
                   title: title2,
                   isLeft: false,
@@ -56,7 +56,7 @@ class DoubleButtonBottom extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    onPressed1();
+                    onClickLeft();
                   },
                   child: Container(
                     height: 40.0.textScale(space: 16.0),
@@ -82,7 +82,7 @@ class DoubleButtonBottom extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    onPressed2();
+                    onClickRight();
                   },
                   child: Container(
                     height: 40.0.textScale(space: 16.0),

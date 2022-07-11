@@ -78,7 +78,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
               ),
               widgetRow(
                 name: S.current.vai_tro,
-                child: textCell(widget.infoModel.vaiTro.toString()),
+                child: textCell(widget.infoModel.getNameVaiTro()),
               ),
               widgetRow(
                 name: S.current.noi_dung_cong_viec,
@@ -126,7 +126,6 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                           isSelected: isChecked,
                           id: widget.infoModel.id ?? '',
                         );
-                        // widget.cubit.checkAllSelect();
                         setState(() {});
                       },
                     ),
@@ -148,7 +147,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       children: [
                         widgetRow(
                           name: S.current.vai_tro,
-                          child: textCell(widget.infoModel.vaiTro.toString()),
+                          child: textCell(widget.infoModel.getNameVaiTro()),
                         ),
                         widgetRow(
                           name: S.current.noi_dung,

@@ -60,10 +60,10 @@ class _WidgetCapNhatThongTinDangKyXeState
             child: DoubleButtonBottom(
               title1: S.current.huy,
               title2: S.current.cap_nhat,
-              onPressed1: () {
+              onClickLeft: () {
                 Navigator.pop(widget.context);
               },
-              onPressed2: () {
+              onClickRight: () {
                 if (keyGroup.currentState!.validator()) {
                   widget.cubit.capNhatBienSoxe(
                       bienKiemSoatController.value.text,

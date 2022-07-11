@@ -13,13 +13,13 @@ class ThemNhiemVuRequest {
   List<DanhSachVanBanRequest>? danhSachVanBan;
 
   ThemNhiemVuRequest({
-    required this.hanXuLy,
-    required this.hanXuLyVPCP,
-    required this.idCuocHop,
-    required this.meTaDaTa,
-    required this.processContent,
-    required this.processTypeId,
-    required this.danhSachVanBan,
+    this.hanXuLy,
+    this.hanXuLyVPCP,
+    this.idCuocHop,
+    this.meTaDaTa,
+    this.processContent,
+    this.processTypeId,
+    this.danhSachVanBan,
   });
 
   factory ThemNhiemVuRequest.fromJson(Map<String, dynamic> json) =>
@@ -34,8 +34,8 @@ class MeTaDaTaRequest {
   String? value;
 
   MeTaDaTaRequest({
-    required this.key,
-    required this.value,
+    this.key,
+    this.value,
   });
 
   factory MeTaDaTaRequest.fromJson(Map<String, dynamic> json) =>
@@ -46,18 +46,18 @@ class MeTaDaTaRequest {
 
 @JsonSerializable()
 class DanhSachVanBanRequest {
-  String? HinhThucVanBan;
-  String? NgayVanBan;
-  String? SoVanBan;
-  String? TrichYeu;
+  String? hinhThucVanBan;
+  String? ngayVanBan;
+  String? soVanBan;
+  String? trichYeu;
   List<FileRequest>? file;
 
   DanhSachVanBanRequest({
-    required this.HinhThucVanBan,
-    required this.NgayVanBan,
-    required this.SoVanBan,
-    required this.TrichYeu,
-    required this.file,
+    this.hinhThucVanBan,
+    this.ngayVanBan,
+    this.soVanBan,
+    this.trichYeu,
+    this.file,
   });
 
   factory DanhSachVanBanRequest.fromJson(Map<String, dynamic> json) =>
@@ -68,36 +68,36 @@ class DanhSachVanBanRequest {
 
 @JsonSerializable()
 class FileRequest {
-  String? DungLuong;
-  String? DuoiMoRong;
-  String? DuongDan;
-  String? Id;
-  String? IdFileGoc;
-  int? Index;
-  bool? IsSign;
-  String? KieuDinhKem;
-  String? NguoiTao;
-  String? NguoiTaoId;
-  String? PathIOC;
-  String? ProcessId;
-  bool? QrCreated;
-  String? Ten;
+  String? dungLuong;
+  String? duoiMoRong;
+  String? duongDan;
+  String? id;
+  String? idFileGoc;
+  int? index;
+  bool? isSign;
+  String? kieuDinhKem;
+  String? nguoiTao;
+  String? nguoiTaoId;
+  String? pathIOC;
+  String? processId;
+  bool? qrCreated;
+  String? ten;
 
   FileRequest({
-    required this.DungLuong,
-    required this.DuoiMoRong,
-    required this.DuongDan,
-    required this.Id,
-    required this.IdFileGoc,
-    required this.Index,
-    required this.IsSign,
-    required this.KieuDinhKem,
-    required this.NguoiTao,
-    required this.NguoiTaoId,
-    required this.PathIOC,
-    required this.ProcessId,
-    required this.QrCreated,
-    required this.Ten,
+    required this.dungLuong,
+    required this.duoiMoRong,
+    required this.duongDan,
+    required this.id,
+    required this.idFileGoc,
+    required this.index,
+    required this.isSign,
+    required this.kieuDinhKem,
+    required this.nguoiTao,
+    required this.nguoiTaoId,
+    required this.pathIOC,
+    required this.processId,
+    required this.qrCreated,
+    required this.ten,
   });
 
   factory FileRequest.fromJson(Map<String, dynamic> json) =>

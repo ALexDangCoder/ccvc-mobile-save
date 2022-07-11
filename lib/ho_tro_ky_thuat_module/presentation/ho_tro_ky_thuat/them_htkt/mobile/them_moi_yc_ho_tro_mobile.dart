@@ -168,7 +168,8 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                     spaceH16,
                     TaiLieuWidget(
                       idRemove: (String id) {},
-                      onChange: (files, value) {},
+                      onChange: (files, value) {
+                      },
                     ),
                     spaceH20,
                     doubleBtn(),

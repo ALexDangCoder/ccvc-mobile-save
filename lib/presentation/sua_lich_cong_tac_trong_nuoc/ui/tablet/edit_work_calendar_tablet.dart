@@ -330,14 +330,15 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                       NguoiChuTriWidget(
                                         cubit: createCubit,
                                         isEdit: true,
-                                        name: widget.event.canBoChuTri?.nameUnitPosition() ??
+                                        name: widget.event.canBoChuTri
+                                                ?.nameUnitPosition() ??
                                             '',
                                         id: widget.event.canBoChuTri?.id ?? '',
                                       ),
                                       LinhVucWidget(
                                         cubit: createCubit,
                                         isEdit: true,
-                                        name : widget.event.linhVuc ?? '',
+                                        name: widget.event.linhVuc ?? '',
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -427,14 +428,25 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                         builder: (context, snapshot) {
                                           final data = snapshot.data ?? false;
                                           return data
-                                              ? ItemLapDenNgayWidget(
-                                                  taoLichLamViecCubit:
-                                                      createCubit,
-                                                  isThem: false,
-                                                  initDate: DateTime.parse(
-                                                      createCubit.dateRepeat ??
-                                                          DateTime.now()
-                                                              .toString()),
+                                              ? StreamBuilder<DateTime>(
+                                                  stream: createCubit
+                                                      .endDateSubject.stream,
+                                                  initialData: DateTime.parse(
+                                                    createCubit.dateRepeat ??
+                                                        DateTime.now()
+                                                            .toString(),
+                                                  ),
+                                                  builder: (context, snapshot) {
+                                                    final data =
+                                                        snapshot.data ??
+                                                            DateTime.now();
+                                                    return ItemLapDenNgayWidget(
+                                                      taoLichLamViecCubit:
+                                                          createCubit,
+                                                      isThem: false,
+                                                      initDate: data,
+                                                    );
+                                                  },
                                                 )
                                               : Container();
                                         },
@@ -458,7 +470,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                       taoLichLamViecCubit: createCubit,
                                       listPeopleInit: widget
                                           .cubit.listOfficer.value
-                                          .map((e) => e.toDonViModel())
+                                          .map((e) => e.toUnitName())
                                           .toList(),
                                     ),
                                     TaiLieuWidget(
@@ -546,7 +558,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
   void checkInside(bool data) {
     showDialog(
       context: context,
-      builder: (context) => ThemLinkHopDialog(
+      builder: (dialogContext) => ThemLinkHopDialog(
         title: S.current.sua_lich_lam_viec,
         isConfirm: false,
         isShowRadio: widget.event.isLichLap ?? false,
@@ -554,18 +566,19 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
         textConfirm: S.current.ban_co_chac_chan_sua_lich,
         textRadioAbove: S.current.chi_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
+        onConfirm: (value) {
+          createCubit.checkDuplicate(
+            context: context,
+            title: titleController.value.text.removeSpace,
+            content: contentController.value.text.removeSpace,
+            location: locationController.value.text.removeSpace,
+            isEdit: true,
+            isOnly: value,
+            isInside: !data,
+          );
+        },
       ),
-    ).then((value) {
-      createCubit.checkDuplicate(
-        context: context,
-        title: titleController.value.text.removeSpace,
-        content: contentController.value.text.removeSpace,
-        location: locationController.value.text.removeSpace,
-        isEdit: true,
-        isOnly: !value,
-        isInside: !data,
-      );
-    });
+    );
   }
 }
 

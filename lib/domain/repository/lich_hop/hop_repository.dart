@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
@@ -38,6 +39,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_dang_theo_doi.dart';
@@ -245,7 +247,7 @@ mixin HopRepository {
 
   Future<Result<MessageModel>> deleteKetLuanHop(String id);
 
-  Future<Result<MessageModel>> deleteChiTietLichHop(
+  Future<Result<bool>> deleteChiTietLichHop(
     String id,
     bool isMulti,
   );
@@ -415,5 +417,15 @@ mixin HopRepository {
 
   Future<Result<bool>> thuHoiKetLuanHop(
     String meetId,
+  );
+
+  Future<Result<bool>> deleteFileHop(
+    String id,
+  );
+
+  Future<Result<ListStatusModel>> listStatusRoom();
+
+  Future<Result<bool>> capNhatTrangThai(
+    CapNhatTrangThaiRequest capNhatTrangThaiRequest,
   );
 }

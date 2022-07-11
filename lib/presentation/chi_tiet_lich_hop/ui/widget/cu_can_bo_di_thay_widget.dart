@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
@@ -62,10 +63,10 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.luu,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () async {
+          onClickRight: () async {
             if (widget.themDonViCubit.listDonVi.isEmpty) {
               widget.themDonViCubit.validateDonVi.sink.add(true);
             } else {

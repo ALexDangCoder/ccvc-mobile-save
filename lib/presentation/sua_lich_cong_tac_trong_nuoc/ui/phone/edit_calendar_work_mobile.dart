@@ -98,6 +98,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
     createCubit.datNuocSelectModel?.id = event.countryId;
     createCubit.typeScheduleId = event.typeScheduleId;
     createCubit.dateTimeFrom = event.dateTimeFrom;
+    createCubit.selectNguoiChuTri?.donViId = event.canBoChuTri?.donViId ?? '';
+    createCubit.selectNguoiChuTri?.userId = event.canBoChuTri?.id ?? '';
     createCubit.dateTimeTo = event.dateTimeTo;
     createCubit.linhVucString = event.linhVuc;
     createCubit.days = event.days;
@@ -326,7 +328,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 TextFieldStyle(
                                   controller: locationController,
                                   urlIcon: ImageAssets.icViTri,
-                                  hintText: S.current.dia_diem,
+                                  hintText: S.current.nhap_dia_diem,
                                   validate: (value) {
                                     return value
                                         .pleaseEnter(S.current.dia_diem);
@@ -358,13 +360,23 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                   builder: (context, snapshot) {
                                     final data = snapshot.data ?? false;
                                     return data
-                                        ? ItemLapDenNgayWidget(
-                                            taoLichLamViecCubit: createCubit,
-                                            isThem: false,
-                                            initDate: DateTime.parse(
+                                        ? StreamBuilder<DateTime>(
+                                            stream: createCubit
+                                                .endDateSubject.stream,
+                                            initialData: DateTime.parse(
                                               createCubit.dateRepeat ??
                                                   DateTime.now().toString(),
                                             ),
+                                            builder: (context, snapshot) {
+                                              final data = snapshot.data ??
+                                                  DateTime.now();
+                                              return ItemLapDenNgayWidget(
+                                                taoLichLamViecCubit:
+                                                    createCubit,
+                                                isThem: false,
+                                                initDate: data,
+                                              );
+                                            },
                                           )
                                         : Container();
                                   },
@@ -380,7 +392,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                 ThanhPhanThamGiaTLWidget(
                                   taoLichLamViecCubit: createCubit,
                                   listPeopleInit: widget.cubit.listOfficer.value
-                                      .map((e) => e.toDonViModel())
+                                      .map((e) => e.toUnitName())
                                       .toList(),
                                 ),
                                 TaiLieuWidget(
@@ -479,7 +491,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
   void checkInside(bool data) {
     showDialog(
       context: context,
-      builder: (context) => ThemLinkHopDialog(
+      builder: (dialogContext) => ThemLinkHopDialog(
         title: S.current.sua_lich_lam_viec,
         isConfirm: false,
         isShowRadio: widget.event.isLichLap ?? false,
@@ -487,18 +499,19 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
         textConfirm: S.current.ban_co_chac_chan_sua_lich,
         textRadioAbove: S.current.chi_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
+        onConfirm: (value) {
+          createCubit.checkDuplicate(
+            context: context,
+            title: titleController.value.text.removeSpace,
+            content: contentController.value.text.removeSpace,
+            location: locationController.value.text.removeSpace,
+            isEdit: true,
+            isOnly: value,
+            isInside: !data,
+          );
+        },
       ),
-    ).then((value) {
-      createCubit.checkDuplicate(
-        context: context,
-        title: titleController.value.text.removeSpace,
-        content: contentController.value.text.removeSpace,
-        location: locationController.value.text.removeSpace,
-        isEdit: true,
-        isOnly: value,
-        isInside: !data,
-      );
-    });
+    );
   }
 }
 

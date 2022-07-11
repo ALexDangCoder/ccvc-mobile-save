@@ -43,6 +43,7 @@ class EditPersonInformationTabletScreen extends StatefulWidget {
 
 class _EditPersonalInformationTabletScreen
     extends State<EditPersonInformationTabletScreen> {
+  final ScrollController scrollController = ScrollController();
   ManagerPersonalInformationCubit cubit = ManagerPersonalInformationCubit();
   TextEditingController nameController = TextEditingController();
   TextEditingController maCanBoController = TextEditingController();
@@ -101,6 +102,7 @@ class _EditPersonalInformationTabletScreen
             } else {}
           },
           child: SingleChildScrollView(
+            controller: scrollController,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Container(
               decoration: BoxDecoration(
@@ -116,6 +118,7 @@ class _EditPersonalInformationTabletScreen
               ),
               padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
               child: FormGroup(
+                scrollController: scrollController,
                 key: keyGroup,
                 child: StreamBuilder<ManagerPersonalInformationModel>(
                   stream: cubit.managerStream,

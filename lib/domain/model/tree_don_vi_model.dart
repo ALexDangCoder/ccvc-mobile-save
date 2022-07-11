@@ -86,6 +86,8 @@ class Node<T> {
   late T value;
   Node<T>? parent;
   bool expand = false;
+  bool isTickChildren = false;
+  bool isCallApi = false;
   CheckBox isCheck = CheckBox();
   int level = 0;
   List<Node<T>> children = [];
@@ -125,6 +127,56 @@ class Node<T> {
       }
       return null;
     }
+  }
+
+  List<DonViModel> setSelected(bool isSelected) {
+    final listChildren = <DonViModel>[];
+    isCheck.isCheck = isSelected;
+    setSelectedAllChild(isSelected, children, listChildren);
+    return listChildren;
+  }
+
+  void setSelectedAllChild(
+      bool isSelected, List<Node> children, List<DonViModel> listChildren) {
+    for (int i = 0; i < children.length; i++) {
+      children[i].isCheck.isCheck = isSelected;
+      listChildren.add(children[i].value);
+      if (children[i].children.isNotEmpty) {
+        setSelectedAllChild(isSelected, children[i].children, listChildren);
+      }
+    }
+  }
+
+  bool isCheckALl() {
+    if (children.isEmpty) {
+      return isCheck.isCheck;
+    }
+    final dataCheck = children.map((e) => e.isCheck.isCheck);
+    isCheck.isCheck = !dataCheck.contains(false);
+    return !children.map((e) => e.isCheck.isCheck).contains(false);
+  }
+
+  void isCheckTickChildren() {
+    if (parent == null) {
+      if (children
+          .where((element) => element.isCheck.isCheck || element.isTickChildren)
+          .isNotEmpty) {
+        isTickChildren = true;
+      } else {
+        isTickChildren = false;
+      }
+      return;
+    } else {
+      if (parent!.children
+          .where((element) => element.isCheck.isCheck  || element.isTickChildren)
+          .isNotEmpty) {
+        parent!.isTickChildren = true;
+      } else {
+        parent!.isTickChildren = false;
+      }
+      parent!.isCheckTickChildren();
+    }
+
   }
 
   void removeCkeckBox() {

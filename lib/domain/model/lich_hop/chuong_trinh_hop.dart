@@ -122,4 +122,22 @@ class CanBoModel {
       return backgroundColorApp;
     }
   }
+
+  String getNameVaiTro() {
+    switch (vaiTroThamGia) {
+      case 0:
+        return 'Cán bộ chủ trì';
+      case 1:
+        return 'Khách mời trong đơn vị';
+      case 2:
+        return 'Khách mời cán bộ trong đơn vị';
+      case 3:
+        return 'Cử đi';
+      case 4:
+        return 'Khách mời ngoài đơn vị';
+      case 5:
+        return 'Khách mời cán bộ ngoài đơn vị';
+    }
+    return '';
+  }
 }

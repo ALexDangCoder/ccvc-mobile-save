@@ -384,8 +384,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     );
   }
 
-  Future<void> createWorkCalendar
-      ({
+  Future<void> createWorkCalendar({
     required String title,
     required String content,
     required String location,
@@ -518,7 +517,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     required String title,
     required String content,
     required String location,
-    bool? only ,
+    bool? only,
   }) async {
     showLoading();
     final result = await _workCal.editWorkCalendarWorkAboard(

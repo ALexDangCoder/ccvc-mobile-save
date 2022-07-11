@@ -288,9 +288,9 @@ class DsDiemCau {
   }
 
   String get getLoaiDiemCau {
-    if (loaiDiemCau == 1) {   /// điểm cầu chính
+    if (loaiDiemCau == LoaiDiemCau.DIEM_CHINH) {   /// điểm cầu chính
       return S.current.diem_chinh;
-    } else if (loaiDiemCau == 2) {  /// điểm cầu phụ
+    } else if (loaiDiemCau == LoaiDiemCau.DIEM_PHU) {  /// điểm cầu phụ
       return S.current.diem_phu;
     } else {
       return '';
@@ -333,6 +333,11 @@ class DsDiemCau {
 
     return data;
   }
+}
+
+class LoaiDiemCau {
+  static const int DIEM_CHINH = 1;
+  static const int DIEM_PHU = 2;
 }
 
 class ModelDataDiemCau {

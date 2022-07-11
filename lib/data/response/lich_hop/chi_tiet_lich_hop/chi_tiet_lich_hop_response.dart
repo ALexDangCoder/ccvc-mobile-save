@@ -66,7 +66,7 @@ class Data {
   int? trangThaiDuyetKyThuat;
   String? lichHop_PhienHopStr;
   bool? isDuyetKyThuat;
-  List<dynamic>? dsDiemCau;
+  List<DsDiemCau>? dsDiemCau;
   List<dynamic>? phongHopThietBi;
   bool? bit_LinkTrongHeThong;
   String? thuMoiFiles;
@@ -176,7 +176,12 @@ class Data {
     lichHop_PhienHopStr = json['lichHop_PhienHopStr'];
     isDuyetKyThuat = json['isDuyetKyThuat'];
     linkTrucTuyen = json['linkTrucTuyen'];
-    dsDiemCau = json['dsDiemCau'];
+    if (json['dsDiemCau'] != null) {
+      dsDiemCau = <DsDiemCau>[];
+      json['dsDiemCau'].forEach((rs) {
+        dsDiemCau!.add(DsDiemCau.fromJson(rs));
+      });
+    }
     bit_LinkTrongHeThong = json['bit_LinkTrongHeThong'];
     phongHopThietBi = json['phongHop_ThietBi'];
     thuMoiFiles = json['thuMoiFiles'];
@@ -220,8 +225,7 @@ class Data {
         isCongKhai: congKhai,
         isDuyetKyThuat: isDuyetKyThuat,
         linkTrucTuyen: linkTrucTuyen,
-        dsDiemCau:
-            dsDiemCau?.map((e) => DiemCau.fromJson(e).toDomain()).toList(),
+        dsDiemCau: dsDiemCau,
         bit_LinkTrongHeThong: bit_LinkTrongHeThong,
         isLichLap: isLichLap,
         phongHopThietBi:

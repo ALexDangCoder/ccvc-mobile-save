@@ -290,8 +290,9 @@ class _ButtonSelectFileLichLamViecState
                   onTap();
                 },
                 child: Container(
+                  margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(4),
-                    child: SvgPicture.asset(ImageAssets.icDelete)),
+                    child: SvgPicture.asset(ImageAssets.icDelete,),),
               ),
             ],
           ),

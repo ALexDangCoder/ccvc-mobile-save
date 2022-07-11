@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/detail_status.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -158,6 +159,31 @@ class ChiTietLichHopModel {
         return 'Trước 1 tuần';
     }
     return '';
+  }
+
+  StatusDetail get getStatus {
+    switch (status) {
+      case 0:
+        return StatusDetail.NHAP;
+      case 1:
+        return StatusDetail.CHO_DUYET;
+      case 2:
+        return StatusDetail.DA_DUYET;
+      case 3:
+        return StatusDetail.TU_CHOI_DUYET;
+      case 4:
+        return StatusDetail.THU_HOI;
+      case 5:
+        return StatusDetail.DANG_DIEN_RA;
+      case 6:
+        return StatusDetail.DA_GUI_LOI_MOI;
+      case 7:
+        return StatusDetail.XOA;
+      case 8:
+        return StatusDetail.HUY;
+      default:
+        return StatusDetail.NHAP;
+    }
   }
 
   String lichLap() {

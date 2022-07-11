@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_t
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/tree_widget.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/widgets/tree_bao_cao_chia_se.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
@@ -15,7 +14,6 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -167,7 +165,9 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                         },
                                         controller: controller,
                                         style: textNormal(
-                                            textTitle, 14.0.textScale()),
+                                          textTitle,
+                                          14.0.textScale(),
+                                        ),
                                         decoration: InputDecoration(
                                           hintText: S.current.tim_kiem,
                                           hintStyle: textNormal(
@@ -177,7 +177,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                           isDense: true,
                                           contentPadding:
                                               const EdgeInsets.symmetric(
-                                                  vertical: 5),
+                                            vertical: 5,
+                                          ),
                                           isCollapsed: true,
                                           border: InputBorder.none,
                                         ),
@@ -186,7 +187,9 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                   }
                                   final data = widget.cubit.selectNode[index];
                                   return ItemNguoiDung(
-                                    name: data.value.name,
+                                    name: data.value.name != ''
+                                        ? data.value.name
+                                        : data.value.tenCanBo,
                                     hasFunction: true,
                                     delete: () {
                                       widget.cubit.addSelectNode(
@@ -326,7 +329,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                   btnRightTxt: S.current.dong_y,
                   funcBtnRight: () {
                     widget.cubit.chiaSeBaoCao(Share.COMMON).then((value) {
-                      if (value == 'Thành công') {
+                      if (value == ChiaSeBaoCaoCubit.success) {
                         MessageConfig.show(title: value);
                         Navigator.pop(context);
                         Navigator.pop(context);

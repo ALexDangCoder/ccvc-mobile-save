@@ -311,6 +311,7 @@ class ApiConstants {
   static const REFRESH_TOKEN = '/common/auth/refresh-token';
   static const DELETE_FILE = '/vpdt/api/Files/delete-file-with-meeting';
   static const LIST_STATUS_ROOM = '/vpdt/api/ReportStatus/list-status-room';
+  static const GET_LIST_USER_IN_UNIT = '/htcs/api/users/get-paging';
   static const SUA_TRANG_THAI = '/vpdt/api/MeetingRoom/update-trang-thai';
 }
 

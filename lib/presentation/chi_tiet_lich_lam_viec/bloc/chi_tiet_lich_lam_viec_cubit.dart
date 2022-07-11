@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -457,5 +458,16 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         );
       },
     );
+  }
+
+  bool checkLenghtFile() {
+    int sum = 0;
+    for (final element in files) {
+      sum = sum + element.lengthSync();
+    }
+    if (sum > MaxSizeFile.MAX_SIZE_20MB) {
+      return false;
+    }
+    return true;
   }
 }

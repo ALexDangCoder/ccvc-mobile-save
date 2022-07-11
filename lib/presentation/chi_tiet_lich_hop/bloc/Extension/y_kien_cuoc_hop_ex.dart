@@ -39,7 +39,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
       scheduleId: idLichHop,
       scheduleOpinionId:
           scheduleOpinionId,
-      phienHopId: getPhienHopId.isEmpty  ? null : getPhienHopId,
+      phienHopId: phienHopId.isEmpty  ? null : phienHopId,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
     result.when(
@@ -49,7 +49,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
         );
         getDanhSachYKien(
           id: idLichHop,
-          phienHopId: getPhienHopId,
+          phienHopId: phienHopId,
         ).then(
           (value) {
             if (danhSachChuongTrinhHop.hasValue) {

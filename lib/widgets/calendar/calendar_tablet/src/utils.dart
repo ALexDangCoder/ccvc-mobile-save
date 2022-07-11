@@ -30,7 +30,7 @@ final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
   ..addAll({
     kToday: [
       const Event("Today's Event 1"),
-      const Event("Today's Event 2""),
+      const Event("Today's Event 2"),
     ],
   });
 

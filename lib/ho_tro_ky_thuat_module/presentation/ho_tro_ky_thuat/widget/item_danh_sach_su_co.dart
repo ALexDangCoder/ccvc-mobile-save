@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemDanhSachSuCo extends StatelessWidget {
-  final DanhSachSuCoModel objlDSSC;
+  final SuCoModel objlDSSC;
   final HoTroKyThuatCubit cubit;
-  final Function(DanhSachSuCoModel, int) onClickMore;
+  final Function(SuCoModel, int) onClickMore;
   final int index;
   final Function onClose;
 
@@ -81,8 +81,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
                 spaceH10,
                 textStatusRow(
                   textTitle: S.current.trang_thai_xu_ly,
-                  textContent: objlDSSC.trangThaiXuLy ?? '',
-                  statusColor: statusColor(objlDSSC.trangThaiXuLy ?? ''),
+                  textContent: getTextStatus(objlDSSC.codeTrangThai ?? ''),
+                  statusColor: statusColor(objlDSSC.codeTrangThai ?? ''),
                 ),
                 spaceH10,
                 textRow(
@@ -144,16 +144,26 @@ class ItemDanhSachSuCo extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        if (objlDSSC.trangThaiXuLy ==
-                            HoTroKyThuatCubit.DANG_CHO_XU_LY)
+                        if (objlDSSC.codeTrangThai ==
+                                HoTroKyThuatCubit.CHUA_XU_LY ||
+                            objlDSSC.codeTrangThai ==
+                                HoTroKyThuatCubit.CHO_XU_LY)
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
                             function: (value) {},
                           ),
+                        if (objlDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.CHUA_XU_LY ||
+                            objlDSSC.codeTrangThai ==
+                                HoTroKyThuatCubit.CHO_XU_LY)
                         line(
                           paddingLeft: 35,
                         ),
+                        if (objlDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.CHUA_XU_LY ||
+                            objlDSSC.codeTrangThai ==
+                                HoTroKyThuatCubit.CHO_XU_LY)
                         itemMenu(
                           title: S.current.xoa,
                           icon: ImageAssets.ic_delete,
@@ -174,6 +184,10 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             });
                           },
                         ),
+                        if (objlDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.CHUA_XU_LY ||
+                            objlDSSC.codeTrangThai ==
+                                HoTroKyThuatCubit.CHO_XU_LY)
                         line(
                           paddingLeft: 35,
                         ),
@@ -183,11 +197,12 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             icon: ImageAssets.ic_document_blue,
                             function: (value) {},
                           ),
+                        if (!(cubit.isCheckUser ?? true))
                         line(
                           paddingLeft: 35,
                         ),
                         if ((cubit.isCheckUser ?? false) ||
-                            !(objlDSSC.trangThaiXuLy ==
+                            !(objlDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.DA_XU_LY))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
@@ -242,7 +257,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
     switch (status) {
       case HoTroKyThuatCubit.DA_XU_LY:
         return daXuLyLuongColor;
-      case HoTroKyThuatCubit.DANG_CHO_XU_LY:
+      case HoTroKyThuatCubit.CHO_XU_LY:
+      case HoTroKyThuatCubit.CHUA_XU_LY:
         return processingColor;
       case HoTroKyThuatCubit.TU_CHOI_XU_LY:
         return statusCalenderRed;
@@ -250,6 +266,22 @@ class ItemDanhSachSuCo extends StatelessWidget {
         return blueColor;
       default:
         return statusCalenderRed;
+    }
+  }
+
+  String getTextStatus(String status) {
+    switch (status) {
+      case HoTroKyThuatCubit.DA_XU_LY:
+        return S.current.da_xu_ly;
+      case HoTroKyThuatCubit.CHO_XU_LY:
+      case HoTroKyThuatCubit.CHUA_XU_LY:
+        return S.current.dang_cho_xu_ly;
+      case HoTroKyThuatCubit.TU_CHOI_XU_LY:
+        return S.current.tu_choi_xu_ly;
+      case HoTroKyThuatCubit.DANG_XU_LY:
+        return S.current.dang_xu_ly;
+      default:
+        return '';
     }
   }
 }

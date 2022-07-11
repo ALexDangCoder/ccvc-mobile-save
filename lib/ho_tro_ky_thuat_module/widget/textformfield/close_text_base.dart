@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CloseTextBase extends StatefulWidget {
@@ -33,12 +32,12 @@ class _CloseTextBaseState extends State<CloseTextBase> {
       child: widget.textEditingController.text.isNotEmpty
           ? SvgPicture.asset(
               ImageAssets.icClose,
-              width: 20.w,
-              height: 20.h,
+              width: 20,
+              height: 20,
             )
-          : SizedBox(
-              height: 20.h,
-              width: 20.w,
+          : const SizedBox(
+              height: 20,
+              width: 20,
             ),
     );
   }

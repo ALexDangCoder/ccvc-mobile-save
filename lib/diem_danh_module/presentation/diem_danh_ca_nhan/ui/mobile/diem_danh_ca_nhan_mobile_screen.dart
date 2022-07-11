@@ -80,7 +80,8 @@ class _DiemDanhCaNhanMobileScreenState
                   onChange: (DateTime value) {
                     widget.cubit.changeData(value);
                   },
-                  cubit: widget.cubit, endYear: 2025,
+                  cubit: widget.cubit, endYear: widget.cubit.endYear,
+                  startYear: widget.cubit.startYear,
                 ),
                 thongKeWiget(),
                 const CalendarChamCong(),

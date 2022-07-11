@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extensio
 import 'package:queue/queue.dart';
 
 extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
+
   Future<void> initData() async {
     final DateTime initData =
         DateTime(DateTime.now().year, DateTime.now().month);
@@ -20,6 +21,9 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     showContent();
   }
 
+  int get endYear => DateTime.now().year + 5;
+  int get startYear => DateTime.now().year - 5;
+
   Future<void> changeData(DateTime date) async {
     final Queue queue = Queue();
     showLoading();
@@ -30,19 +34,15 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
   }
 
   bool isMatchDay(
-    DateTime a,
-    DateTime b,
+    DateTime dateNew,
+    DateTime dateOld,
   ) {
-    if (a.year == b.year && a.month == b.month && a.day == b.day) {
+    if (dateNew.year == dateOld.year &&
+        dateNew.month == dateOld.month &&
+        dateNew.day == dateOld.day) {
       return true;
     }
     return false;
-  }
-
-  DateTime? stringToDate(String date, String time) {
-    if (date.isEmpty || time.isEmpty) {
-      return null;
-    } else {}
   }
 
   TypeStateDiemDanh getStateDiemDanh(BangDiemDanhCaNhanModel model) {

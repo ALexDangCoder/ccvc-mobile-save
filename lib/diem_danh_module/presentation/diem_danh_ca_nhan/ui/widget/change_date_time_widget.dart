@@ -122,7 +122,8 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
 
   void nextMonth() {
     moveCurrentPage();
-    if (currentMonth.month == 12 && currentMonth.year < widget.endYear) {
+    if (currentMonth.month == DiemDanhConstant.THANG_12 &&
+        currentMonth.year < widget.endYear) {
       controller.nextPage(duration: duration, curve: curve);
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
       widget.onChange(currentMonth);
@@ -132,7 +133,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
       widget.onChange(currentMonth);
     } else if (currentIndex == _itemCount - 1 &&
         currentMonth.year == widget.endYear &&
-        currentMonth.month < 12) {
+        currentMonth.month < DiemDanhConstant.THANG_12) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
       widget.onChange(currentMonth);
     }

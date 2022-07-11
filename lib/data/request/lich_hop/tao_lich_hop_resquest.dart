@@ -288,9 +288,9 @@ class DsDiemCau {
   }
 
   String get getLoaiDiemCau {
-    if (loaiDiemCau == LoaiDiemCau.DIEM_CHINH) {   /// điểm cầu chính
+    if (loaiDiemCau == LoaiDiemCau.DIEM_CHINH) {
       return S.current.diem_chinh;
-    } else if (loaiDiemCau == LoaiDiemCau.DIEM_PHU) {  /// điểm cầu phụ
+    } else if (loaiDiemCau == LoaiDiemCau.DIEM_PHU) {
       return S.current.diem_phu;
     } else {
       return '';

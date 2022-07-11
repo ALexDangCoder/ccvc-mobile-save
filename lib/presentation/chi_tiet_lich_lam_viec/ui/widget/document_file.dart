@@ -68,7 +68,6 @@ class _DocumentFileState extends State<DocumentFile> {
         await saveFile(
           fileName: file.name  ?? '',
           url: file.path ?? '',
-          useBaseURL:  false,
           downloadType: DomainDownloadType.QLNV,
         );
       },

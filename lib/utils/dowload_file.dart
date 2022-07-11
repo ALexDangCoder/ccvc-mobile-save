@@ -21,16 +21,14 @@ Future<String?> saveFile({
   required String fileName,
   required String url,
   Map<String, dynamic>? query,
-  bool useBaseURL = true,
   DomainDownloadType downloadType = DomainDownloadType.GATEWAY,
 }) async {
-  late OverlayEntry overlayEntry = _showLoading();
+  late final OverlayEntry overlayEntry = _showLoading();
   try {
     final OverlayState? overlayState = Overlay.of(MessageConfig.contextConfig!);
     overlayState?.insert(overlayEntry);
     final response = await provideDio(
       baseOption: downloadType,
-      useBaseURL: useBaseURL,
     ).get(url, queryParameters: query);
     await _saveFile(fileName, response.data);
     overlayEntry.remove();
@@ -90,7 +88,6 @@ int _connectTimeOut = 60000;
 
 Dio provideDio({
   DomainDownloadType baseOption = DomainDownloadType.CCVC,
-  bool useBaseURL = true,
 }) {
   String url = '';
   final appConstants = Get.find<AppConstants>();
@@ -114,7 +111,7 @@ Dio provideDio({
       break;
   }
   final options = BaseOptions(
-    baseUrl: useBaseURL ? url : '',
+    baseUrl: url ,
     receiveTimeout: _connectTimeOut,
     connectTimeout: _connectTimeOut,
     followRedirects: false,

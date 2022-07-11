@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 class ReportDetailTablet extends StatefulWidget {
   final String title;
   final ReportListCubit cubit;
-  final String idFolder;
+  final ReportItem reportModel;
   final bool isListView;
 
   const ReportDetailTablet({
     Key? key,
     required this.title,
     required this.cubit,
-    required this.idFolder,
+    required this.reportModel,
     required this.isListView,
   }) : super(key: key);
 
@@ -32,12 +32,17 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
   bool isCheckData = false;
   bool isInit = false;
 
+  Future<void> getApi() async {
+    await widget.cubit.getListReport(
+      idFolder: widget.reportModel.id ?? '',
+      isTree: true,
+      isTreeShareToMe: widget.reportModel.isShareToMe ?? false,
+    );
+  }
+
   @override
   void initState() {
-    widget.cubit.getListReport(
-      idFolder: widget.idFolder,
-      isTree: true,
-    );
+    getApi();
     super.initState();
     isInit = true;
     if (isCheckInit) {
@@ -71,10 +76,7 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
           Expanded(
             child: StateStreamLayout(
               retry: () {
-                widget.cubit.getListReport(
-                  idFolder: widget.idFolder,
-                  isTree: true,
-                );
+                getApi();
               },
               error: AppException(
                 S.current.error,
@@ -86,10 +88,7 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
                 onRefresh: () async {
                   isCheckData = true;
                   isInit = true;
-                  await widget.cubit.getListReport(
-                    idFolder: widget.idFolder,
-                    isTree: true,
-                  );
+                  await getApi();
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
@@ -109,7 +108,7 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
                               listReport: listReportDetail,
                               cubit: widget.cubit,
                               isTree: true,
-                              idFolder: widget.idFolder,
+                              idFolder: widget.reportModel.id ?? "",
                             );
                     },
                   ),

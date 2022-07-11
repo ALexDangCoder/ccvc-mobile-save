@@ -17,7 +17,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ReportScreenTablet extends StatefulWidget {
-  const ReportScreenTablet({Key? key}) : super(key: key);
+  final String? title;
+
+  const ReportScreenTablet({
+    Key? key,
+    this.title,
+  }) : super(key: key);
 
   @override
   _ReportScreenTabletState createState() => _ReportScreenTabletState();
@@ -37,6 +42,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
+      title: widget.title,
       retry: () {
         cubit.getAppID();
       },
@@ -299,6 +305,14 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
   ) {
     return BaseAppBarMobile(
       title: isSearch ? S.current.bac_cao : '',
+      leadingIcon: widget.title?.isNotEmpty ?? false
+          ? IconButton(
+              onPressed: () => {Navigator.pop(context)},
+              icon: SvgPicture.asset(
+                ImageAssets.icBack,
+              ),
+            )
+          : null,
       actions: [
         if (isSearch)
           GestureDetector(

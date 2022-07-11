@@ -4,6 +4,7 @@ class ApiConstants {
   static const int NOT_SAVED_ID = -1;
   static const int TIME_OUT = 30;
   static const LIST_REPORT = '/htcs/api/Folder/list';
+  static const LIST_REPORT_SHARE_TO_ME = '/htcs/api/Folder/share-to-me';
   static const LIST_GROUP_BAO_CAO = '/common/Group/search';
   static const LIST_THANH_VIEN_BAO_CAO = '/common/users/ingroup';
   static const GET_APP_ID = '/api/App/search';

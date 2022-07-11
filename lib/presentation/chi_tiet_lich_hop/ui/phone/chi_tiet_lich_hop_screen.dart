@@ -88,12 +88,12 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
               onRefresh: () async {
                 await cubit.initDataChiTiet();
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      StreamBuilder<ChiTietLichHopModel>(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: StreamBuilder<ChiTietLichHopModel>(
                         stream: cubit.chiTietLichHopSubject.stream,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
@@ -151,15 +151,18 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           );
                         },
                       ),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: listWidgetChiTietHop(cubit).length,
-                        itemBuilder: (context, index) {
-                          return listWidgetChiTietHop(cubit)[index];
-                        },
-                      ),
-                      StreamBuilder<List<PERMISSION_DETAIL>>(
+                    ),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: listWidgetChiTietHop(cubit).length,
+                      itemBuilder: (context, index) {
+                        return listWidgetChiTietHop(cubit)[index];
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: StreamBuilder<List<PERMISSION_DETAIL>>(
                         stream: cubit.listButtonSubject.stream,
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? [];
@@ -258,8 +261,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           return const SizedBox.shrink();
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -364,27 +367,49 @@ PreferredSizeWidget appbarChiTietHop(
       ],
     );
 
-List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
-      CongTacChuanBiWidget(
-        cubit: cubit,
+List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) =>
+    [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: CongTacChuanBiWidget(
+          cubit: cubit,
+        ),
       ),
-      ChuongTrinhHopWidget(
-        cubit: cubit,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: ChuongTrinhHopWidget(
+          cubit: cubit,
+        ),
       ),
-      ThanhPhanThamGiaWidget(
-        cubit: cubit,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: ThanhPhanThamGiaWidget(
+          cubit: cubit,
+        ),
       ),
-      TaiLieuWidget(
-        cubit: cubit,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: TaiLieuWidget(
+          cubit: cubit,
+        ),
       ),
-      PhatBieuWidget(
-        cubit: cubit,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: PhatBieuWidget(
+          cubit: cubit,
+        ),
       ),
-      BieuQuyetWidget(
-        cubit: cubit,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: BieuQuyetWidget(
+          cubit: cubit,
+        ),
       ),
-      KetLuanHopWidget(
-        cubit: cubit,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: KetLuanHopWidget(
+          cubit: cubit,
+        ),
       ),
       YKienCuocHopWidget(
         cubit: cubit,

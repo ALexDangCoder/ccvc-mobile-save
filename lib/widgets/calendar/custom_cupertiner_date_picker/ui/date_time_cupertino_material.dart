@@ -220,9 +220,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                       height: 200,
                       child: CupertinoDatePicker(
                         key: UniqueKey(),
-                        maximumDate: DateTime(2099, 12, 30),
-                        maximumYear: 2099,
-                        minimumYear: _cubit.getYearNumber(),
+                        maximumDate: MAXIMUM_DATE,
+                        minimumDate: MINIMUM_DATE,
+                        maximumYear: MAXIMUM_YEAR,
+                        minimumYear: MINIMUM_YEAR,
                         backgroundColor: backgroundColorApp,
                         mode: _cubit.getTypePicker(typePicker),
                         use24hFormat: true,
@@ -351,10 +352,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   ? SizedBox(
                       height: 200,
                       child: CupertinoDatePicker(
-                        maximumDate: DateTime(2099, 12, 30),
-                        minimumDate: DateTime(1900),
-                        maximumYear: 2099,
-                        minimumYear: 1900,
+                        maximumDate: MAXIMUM_DATE,
+                        minimumDate: MINIMUM_DATE,
+                        maximumYear: MAXIMUM_YEAR,
+                        minimumYear: MINIMUM_YEAR,
                         backgroundColor: backgroundColorApp,
                         mode: _cubit.getTypePicker(typePicker),
                         use24hFormat: true,

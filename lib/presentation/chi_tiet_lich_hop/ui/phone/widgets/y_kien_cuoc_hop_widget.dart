@@ -184,6 +184,17 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                           final data = snapshot.data ?? [];
                           final listCuocHop =
                               data.map((e) => e.tieuDe ?? '').toSet().toList();
+                          if (listCuocHop.isEmpty) {
+                            return CustomDropDown(
+                              value: S.current.khong_co_du_lieu,
+                              items: [S.current.khong_co_du_lieu],
+                              onSelectItem: (value) {
+                                widget.cubit.getDanhSachPhienHop(
+                                  widget.cubit.idCuocHop,
+                                );
+                              },
+                            );
+                          }
                           return CustomDropDown(
                             value: widget.cubit.tenPhienHop.isNotEmpty
                                 ? widget.cubit.tenPhienHop
@@ -192,6 +203,8 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                                     : '',
                             items: listCuocHop,
                             onSelectItem: (value) {
+                              widget.cubit.tenPhienHop = listCuocHop[value];
+                              widget.cubit.getPhienHopId = data[value].id ?? '';
                               widget.cubit.getDanhSachYKien(
                                 id: widget.cubit.idCuocHop,
                                 phienHopId: data[value].id ?? '',

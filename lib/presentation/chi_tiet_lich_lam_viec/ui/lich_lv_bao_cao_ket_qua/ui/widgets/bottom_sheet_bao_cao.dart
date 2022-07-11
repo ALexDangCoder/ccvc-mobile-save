@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -5,6 +7,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -96,11 +99,13 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                 ),
                 CoolDropDown(
                   showSelectedDecoration: false,
+                  useCustomHintColors: true,
                   selectedIcon: SvgPicture.asset(
                     ImageAssets.icV,
                     color: AppTheme.getInstance().colorField(),
                   ),
-                  initData: widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
+                  initData:
+                      widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
                   placeHoder: S.current.chon_trang_thai,
                   listData: widget.listTinhTrangBaoCao
                       .map((e) => e.displayName ?? '')
@@ -173,12 +178,16 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                     builder: (context, snapshot) {
                       return Column(
                         children: widget.cubit.files
-                            .map((e) => itemListFile(
-                                onTap: () {
-                                  widget.cubit.files.remove(e);
-                                  widget.cubit.updateFilePicker.sink.add(true);
-                                },
-                                fileTxt: e.path.convertNameFile()))
+                            .map(
+                              (e) => itemListFile(
+                                  onTap: () {
+                                    widget.cubit.files.remove(e);
+                                    widget.cubit.updateFilePicker.sink
+                                        .add(true);
+                                  },
+                                  fileTxt: e.path.convertNameFile(),
+                                  lengthFile: e.lengthSync().getFileSize(2)),
+                            )
                             .toList(),
                       );
                     })
@@ -193,6 +202,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
   Widget itemListFile({
     required String fileTxt,
     required Function onTap,
+    String? lengthFile,
     double? spacingFile,
   }) {
     return Container(
@@ -207,13 +217,25 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Text(
-              fileTxt,
-              style: textNormalCustom(
-                color: color5A8DEE,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.textScale(),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  fileTxt,
+                  style: textNormalCustom(
+                    color: color5A8DEE,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0.textScale(),
+                  ),
+                ),
+                Visibility(
+                  visible: lengthFile != null,
+                  child: Text(
+                    '$lengthFile',
+                    style: textNormal(redChart, 14),
+                  ),
+                ),
+              ],
             ),
           ),
           GestureDetector(
@@ -234,21 +256,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: DoubleButtonBottom(
                 onClickRight: () {
-                  if (widget.cubit.reportStatusId.isNotEmpty) {
-                    if (widget.isEdit) {
-                      widget.cubit.editScheduleReport(
-                          id: widget.id,
-                          scheduleId: widget.scheduleId,
-                          content: controller.text.trim());
-                    } else {
-                      widget.cubit.createScheduleReport(
-                          widget.scheduleId, controller.text);
-                    }
-                  } else {
-                    setState(() {
-                      errorText = S.current.vui_long_chon;
-                    });
-                  }
+                  btnThem();
                 },
                 title2: widget.isEdit ? S.current.luu : S.current.them,
                 title1: S.current.dong,
@@ -278,21 +286,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   child: ButtonBottom(
                     customColor: true,
                     onPressed: () {
-                      if (widget.cubit.reportStatusId.isNotEmpty){
-                        if (widget.isEdit) {
-                          widget.cubit.editScheduleReport(
-                              id: widget.id,
-                              scheduleId: widget.scheduleId,
-                              content: controller.text.trim());
-                        } else {
-                          widget.cubit.createScheduleReport(
-                              widget.scheduleId, controller.text);
-                        }
-                      }else{
-                        setState(() {
-                          errorText = S.current.vui_long_chon;
-                        });
-                      }
+                      btnThem();
                     },
                     text: widget.isEdit ? S.current.them : S.current.luu,
                   ),
@@ -300,5 +294,30 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               ],
             ),
           );
+  }
+
+  void btnThem() {
+    if (!widget.cubit.checkLenghtFile()) {
+      MessageConfig.show(
+        title:
+            '${S.current.tong_file_khong_vuot_qua} ${MaxSizeFile.MAX_SIZE_20MB.getFileSize(0)}',
+        messState: MessState.error,
+      );
+      return;
+    }
+    if (widget.cubit.reportStatusId.isNotEmpty) {
+      if (widget.isEdit) {
+        widget.cubit.editScheduleReport(
+            id: widget.id,
+            scheduleId: widget.scheduleId,
+            content: controller.text.trim());
+      } else {
+        widget.cubit.createScheduleReport(widget.scheduleId, controller.text);
+      }
+    } else {
+      setState(() {
+        errorText = S.current.vui_long_chon;
+      });
+    }
   }
 }

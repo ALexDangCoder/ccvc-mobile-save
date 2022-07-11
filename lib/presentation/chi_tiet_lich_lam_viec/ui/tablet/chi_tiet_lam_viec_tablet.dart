@@ -23,12 +23,9 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
-import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ChiTietLamViecTablet extends StatefulWidget {
   final String id;
@@ -272,12 +269,16 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                               const SizedBox(
                                                 width: 16,
                                               ),
-                                              Text(
-                                                dataModel.title ?? '',
-                                                style: textNormalCustom(
-                                                  color: textTitle,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
+                                              Expanded(
+                                                child: Text(
+                                                  dataModel.title ?? '',
+                                                  style: textNormalCustom(
+                                                    color: textTitle,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ],
@@ -392,116 +393,64 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
     );
   }
 
-  void checkDeleteDuplicateCal(bool isDup) {
-    if (isDup) {
-      showDialog(
-        context: context,
-        builder: (context) => ThemLinkHopDialog(
-          title: S.current.xoa_lich_lam_viec,
-          isConfirm: false,
-          imageUrl: ImageAssets.icDeleteLichHop,
-          textConfirm: S.current.ban_co_muon_xoa_lich_lam_viec,
-          textRadioAbove: S.current.chi_lich_nay,
-          textRadioBelow: S.current.tu_lich_nay,
-        ),
-      ).then(
-        (value) => chiTietLichLamViecCubit
-            .deleteCalendarWork(widget.id, only: value)
-            .then((_) => Navigator.pop(context, true)),
-      );
-    } else {
-      showDiaLog(
-        context,
-        textContent: S.current.ban_co_muon_xoa_lich_lam_viec,
-        btnLeftTxt: S.current.khong,
-        funcBtnRight: () async {
-          await chiTietLichLamViecCubit.deleteCalendarWork(widget.id).then(
-                (_) => Navigator.pop(context, true),
-              );
+  void checkRecallDuplicateCal(bool isDup) {
+    showDialog(
+      context: context,
+      builder: (context) => ThemLinkHopDialog(
+        title: S.current.thu_hoi_lich,
+        isConfirm: false,
+        isShowRadio: isDup,
+        imageUrl: ImageAssets.icThuHoi,
+        textConfirm: S.current.ban_co_chac_muon_thu_hoi_lich,
+        textRadioAbove: S.current.chi_lich_nay,
+        textRadioBelow: S.current.tu_lich_nay,
+        onConfirm: (value) {
+          chiTietLichLamViecCubit.recallCalendar(isMulti: !(value ?? true));
         },
+      ),
+    );
+  }
+
+  void checkDeleteDuplicateCal(bool isDup) {
+    showDialog(
+      context: context,
+      builder: (context) => ThemLinkHopDialog(
         title: S.current.xoa_lich_lam_viec,
-        btnRightTxt: S.current.dong_y,
-        icon: SvgPicture.asset(
-          ImageAssets.icDeleteLichHop,
-        ),
-      );
-    }
+        isConfirm: false,
+        isShowRadio: isDup,
+        imageUrl: ImageAssets.icDeleteLichHop,
+        textConfirm: S.current.ban_co_muon_xoa_lich_lam_viec,
+        textRadioAbove: S.current.chi_lich_nay,
+        textRadioBelow: S.current.tu_lich_nay,
+        onConfirm: (value) {
+          chiTietLichLamViecCubit.deleteCalendarWork(
+            widget.id,
+            only: value,
+          );
+        },
+      ),
+    );
   }
 
   void checkCancelDuplicateCal(bool isDup) {
-    if (isDup) {
-      showDialog(
-        context: context,
-        builder: (context) => ThemLinkHopDialog(
-          title: S.current.huy_lich,
-          isConfirm: false,
-          imageUrl: ImageAssets.icHuyLich,
-          textConfirm: S.current.ban_co_chac_muon_huy_lich,
-          textRadioAbove: S.current.chi_lich_nay,
-          textRadioBelow: S.current.tu_lich_nay,
-        ),
-      ).then(
-        (value) => chiTietLichLamViecCubit
-            .cancelCalendarWork(widget.id, isMulti: !value)
-            .then((_) => Navigator.pop(context, true)),
-      );
-    } else {
-      showDiaLog(
-        context,
-        textContent: S.current.ban_co_chac_muon_huy_lich,
-        btnLeftTxt: S.current.khong,
-        funcBtnRight: () async {
-          await chiTietLichLamViecCubit.cancelCalendarWork(widget.id).then(
-                (_) => Navigator.pop(context, true),
-              );
-        },
+    showDialog(
+      context: context,
+      builder: (context) => ThemLinkHopDialog(
         title: S.current.huy_lich,
-        btnRightTxt: S.current.dong_y,
-        icon: SvgPicture.asset(
-          ImageAssets.icHuyLich,
-        ),
-      );
-    }
-  }
-
-  void checkRecallDuplicateCal(bool isDup) {
-    if (isDup) {
-      showDialog(
-        context: context,
-        builder: (context) => ThemLinkHopDialog(
-          title: S.current.thu_hoi_lich,
-          isConfirm: false,
-          imageUrl: ImageAssets.icThuHoi,
-          textConfirm: S.current.ban_co_chac_muon_thu_hoi_lich,
-          textRadioAbove: S.current.chi_lich_nay,
-          textRadioBelow: S.current.tu_lich_nay,
-        ),
-      ).then(
-        (value) {
-          Navigator.pop(context);
-          return chiTietLichLamViecCubit
-              .recallCalendar(isMulti: !value)
-              .then((_) => Navigator.pop(context, true));
+        isConfirm: false,
+        imageUrl: ImageAssets.icHuyLich,
+        textConfirm: S.current.ban_co_chac_muon_huy_lich,
+        textRadioAbove: S.current.chi_lich_nay,
+        textRadioBelow: S.current.tu_lich_nay,
+        isShowRadio: isDup,
+        onConfirm: (value) {
+          chiTietLichLamViecCubit.cancelCalendarWork(
+            widget.id,
+            isMulti: !(value ?? true),
+          );
         },
-      );
-    } else {
-      showDiaLog(
-        context,
-        textContent: S.current.ban_co_chac_muon_thu_hoi_lich,
-        btnLeftTxt: S.current.khong,
-        funcBtnRight: () async {
-          Navigator.pop(context);
-          await chiTietLichLamViecCubit.recallCalendar().then(
-                (_) => Navigator.pop(context, true),
-              );
-        },
-        title: S.current.thu_hoi_lich,
-        btnRightTxt: S.current.dong_y,
-        icon: SvgPicture.asset(
-          ImageAssets.icThuHoi,
-        ),
-      );
-    }
+      ),
+    );
   }
 
   Widget listScheduleCooperatives() {

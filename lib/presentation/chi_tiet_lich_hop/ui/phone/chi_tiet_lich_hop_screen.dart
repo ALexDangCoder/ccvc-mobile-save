@@ -174,7 +174,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                               child: DoubleButtonBottom(
                                 title1: S.current.tham_du,
                                 title2: S.current.tu_choi,
-                                onPressed1: () {
+                                onClickLeft: () {
                                   showDiaLog(
                                     context,
                                     btnLeftTxt: S.current.khong,
@@ -213,7 +213,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                     textContent: S.current.confirm_tham_gia,
                                   );
                                 },
-                                onPressed2: () {
+                                onClickRight: () {
                                   showDiaLog(
                                     context,
                                     btnLeftTxt: S.current.khong,

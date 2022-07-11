@@ -46,7 +46,8 @@ class _ThiepBackgroundWidgetState extends State<ThiepBackgroundWidget> {
                   : null,
             ),
             child: ClipRRect(
-              borderRadius: widget.isTablet ? BorderRadius.circular(4) : null,
+
+              borderRadius: widget.isTablet ? BorderRadius.circular(4) :  BorderRadius.zero,
               child: Image.network(
                 '${appConstants.baseUrlCCVC}/${widget.pathImage}',
                 fit: BoxFit.cover,

@@ -395,5 +395,9 @@ class FileData {
     updatedBy = json['updatedBy'];
   }
 
-  file toDomain() => file(name: name, path: path);
+  file toDomain() => file(
+        name: name,
+        path: path,
+        id: id,
+      );
 }

@@ -325,11 +325,11 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                 spaceH15,
                 DoubleButtonBottom(
                   title1: S.current.dong,
-                  onPressed1: () {
+                  onClickLeft: () {
                     Navigator.pop(context);
                   },
                   title2: S.current.luu,
-                  onPressed2: () {
+                  onClickRight: () {
                     if ((_formKey.currentState?.validate() ?? false) &&
                         (_timerPickerKey.currentState?.validator() ?? false)) {
                       _cubitTaoLichHop.editMeeting().then((value) {

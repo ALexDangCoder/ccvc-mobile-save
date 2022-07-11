@@ -124,7 +124,7 @@ class DateTimeCupertinoCustomCubit
         dateFromTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
         dateBeginSubject.sink.add(dateFromTmp);
-        if (!isSwitchBtnCheckedSubject.value) {
+        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
           dateToTmp = dateFromTmp;
           dateEndSubject.sink.add(dateFromTmp);
         }
@@ -132,7 +132,7 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
         dateEndSubject.sink.add(dateToTmp);
-        if (!isSwitchBtnCheckedSubject.value) {
+        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
           dateFromTmp = dateToTmp;
           dateBeginSubject.sink.add(dateToTmp);
         }

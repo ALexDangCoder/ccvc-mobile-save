@@ -19,6 +19,10 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 
+const CUOC_HOP = 0;
+const PHIEN_HOP = 1;
+
+
 class YKienCuocHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
@@ -99,17 +103,17 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
 
   void changeCurrentIndexOfTabbar({required bool isPhienHop}){
     if (isPhienHop) {
-      if (_tabController.previousIndex == 1) {
+      if (_tabController.previousIndex == PHIEN_HOP) {
         _pageController.animateToPage(
-          1,
+          PHIEN_HOP,
           duration: const Duration(milliseconds: 300),
           curve: Curves.ease,
         );
       }
     } else {
-      if (_tabController.previousIndex == 0) {
+      if (_tabController.previousIndex == CUOC_HOP) {
         _pageController.animateToPage(
-          0,
+          CUOC_HOP,
           duration: const Duration(milliseconds: 300),
           curve: Curves.ease,
         );

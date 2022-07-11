@@ -675,10 +675,10 @@ class _ChonPhongHopScreenOnlyState extends State<_ChonPhongHopScreenOnly> {
           child: DoubleButtonBottom(
             title1: S.current.dong,
             title2: S.current.xac_nhan,
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
-            onPressed2: () {
+            onClickRight: () {
               widget.cubit.thayDoiPhongHop();
               Navigator.pop(context);
             },

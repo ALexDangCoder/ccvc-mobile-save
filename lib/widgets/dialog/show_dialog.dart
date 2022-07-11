@@ -22,7 +22,7 @@ Future<T?> showDiaLog<T>(
   return showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (context) {
+    builder: (dialogContext) {
       return Dialog(
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
@@ -31,7 +31,7 @@ Future<T?> showDiaLog<T>(
         clipBehavior: Clip.antiAlias,
         child: Container(
           width: showTablet
-              ? MediaQuery.of(context).size.width / 2
+              ? MediaQuery.of(dialogContext).size.width / 2
               : double.maxFinite,
           // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           padding: EdgeInsets.fromLTRB(

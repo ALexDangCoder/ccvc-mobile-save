@@ -153,8 +153,7 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
-  static const THU_HOI_LICH_LAM_VIEC =
-      'vpdt/api/ScheduleCoperative/change-status-multi';
+  static const THU_HOI_LICH_LAM_VIEC = '/vpdt/api/ScheduleCoperative/change-status-multi';
   static const CAN_BO_THU_HOI_LICH = ' /CanBoThamGia/can-bo-tham-gia-hop-tree';
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';

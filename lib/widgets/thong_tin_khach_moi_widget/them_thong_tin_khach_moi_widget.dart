@@ -159,10 +159,10 @@ class _ThemDonViPhoiHopKhacScreenState
             isTablet: isMobile() == false,
             title1: S.current.dong,
             title2: S.current.them,
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
-            onPressed2: () {
+            onClickRight: () {
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(

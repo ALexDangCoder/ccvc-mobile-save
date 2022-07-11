@@ -351,10 +351,10 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                       mobileScreen: DoubleButtonBottom(
                         title1: S.current.dong,
                         title2: S.current.them,
-                        onPressed1: () {
+                        onClickLeft: () {
                           Navigator.pop(context);
                         },
-                        onPressed2: () {
+                        onClickRight: () {
                           Navigator.pop(
                             context,
                             widget.themCanBoCubit.listSelectCanBo,

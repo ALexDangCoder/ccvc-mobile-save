@@ -487,7 +487,7 @@ class _EditPersonalInformationScreen
                       ),
                       spaceH20,
                       DoubleButtonBottom(
-                        onPressed1: () {
+                        onClickLeft: () {
                           showDiaLogTablet(
                             context,
                             title: S.current.ban_muon_thoat,
@@ -504,7 +504,7 @@ class _EditPersonalInformationScreen
                             isCallApi: false,
                           );
                         },
-                        onPressed2: () async {
+                        onClickRight: () async {
                           if (keyGroup.currentState?.validator() ?? true) {
                             await cubit
                                 .getEditPerson(

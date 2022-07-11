@@ -52,10 +52,10 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
             child: DoubleButtonBottom(
               title1: S.current.dong,
               title2: S.current.thu_hoi,
-              onPressed1: () {
+              onClickLeft: () {
                 Navigator.pop(context);
               },
-              onPressed2: () {
+              onClickRight: () {
                 widget.cubit.postThuHoiHop(
                   widget.id,
                 );

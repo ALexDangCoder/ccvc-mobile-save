@@ -20,14 +20,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ItemReportShareFavorite extends StatefulWidget {
-  final ReportItem reportItem;
+  final ReportItem item;
   final ReportListCubit cubit;
   final bool isFavorite;
   final bool isIconClose;
 
   const ItemReportShareFavorite({
     Key? key,
-    required this.reportItem,
+    required this.item,
     required this.cubit,
     required this.isFavorite,
     this.isIconClose = false,
@@ -66,13 +66,10 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               Row(
                 children: [
                   ItemFolder(
-                    type: widget.reportItem.type ?? 0,
-                    isShare: widget.cubit.checkStatus(
-                      shareToMe: widget.reportItem.shareToMe ?? false,
-                      shareByMe: widget.reportItem.shareByMe ?? false,
-                    ),
+                    type: widget.item.type ?? 0,
+                    isShare: widget.item.isShareToMe ?? false,
                     isListView: true,
-                    fileNumber: widget.reportItem.childrenTotal ?? 0,
+                    fileNumber: widget.item.childrenTotal ?? 0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -87,7 +84,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                               ? MediaQuery.of(context).size.width / 4
                               : MediaQuery.of(context).size.width / 2,
                           child: Text(
-                            widget.reportItem.name ?? '',
+                            widget.item.name ?? '',
                             maxLines: 1,
                             style: textNormalCustom(
                               color: textTitle,
@@ -99,8 +96,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                         ),
                         spaceH4,
                         Text(
-                          (widget.reportItem.dateTime ?? '')
-                              .changeToNewPatternDate(
+                          (widget.item.dateTime ?? '').changeToNewPatternDate(
                             DateFormatApp.dateTimeBackEnd,
                             DateFormatApp.date,
                           ),
@@ -135,6 +131,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
           width: MediaQuery.of(context).size.width,
           color: borderColor.withOpacity(0.5),
         ),
+        if (!(widget.item.isShareToMe ?? false))
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -152,9 +149,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                         backgroundColor: Colors.transparent,
                         body: Center(
                           child: ChiaSeBaoCaoTablet(
-                            idReport: widget.reportItem.id ?? '',
+                            idReport: widget.item.id ?? '',
                             appId: widget.cubit.appId,
-                            type: widget.reportItem.type ?? 0,
+                            type: widget.item.type ?? 0,
                           ),
                         ),
                       );
@@ -167,9 +164,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                     context: context,
                     builder: (_) {
                       return ChiaSeBaoCaoMobile(
-                        idReport: widget.reportItem.id ?? '',
+                        idReport: widget.item.id ?? '',
                         appId: widget.cubit.appId,
-                        type: widget.reportItem.type ?? 0,
+                        type: widget.item.type ?? 0,
                       );
                     },
                   );
@@ -200,9 +197,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               ),
             ),
           ),
-          reportLine(),
-        if (widget.reportItem.type == REPORT) spaceH18,
-        if (widget.reportItem.type == REPORT)
+        if (!(widget.item.isShareToMe ?? false)) reportLine(),
+        if (widget.item.type == REPORT) spaceH18,
+        if (widget.item.type == REPORT)
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -253,7 +250,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                           },
                           funcBtnRight: () {
                             widget.cubit.postFavorite(
-                              idReport: [widget.reportItem.id ?? ''],
+                              idReport: [widget.item.id ?? ''],
                             ).then((value) {
                               if (value) {
                                 MessageConfig.show(
@@ -282,7 +279,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                           ),
                           funcBtnRight: () {
                             widget.cubit.putDislikeFavorite(
-                              idReport: [widget.reportItem.id ?? ''],
+                              idReport: [widget.item.id ?? ''],
                             ).then((value) {
                               if (value) {
                                 MessageConfig.show(

@@ -50,7 +50,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
         ),
         viewItem: (value, index) => ItemDanhSachSuCo(
           cubit: widget.cubit,
-          objlDSSC: value,
+          objDSSC: value,
           index: index ?? 0,
           onClickMore: (value, index) {
             widget.cubit.onClickPopupMenu(

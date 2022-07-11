@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemDanhSachSuCo extends StatelessWidget {
-  final SuCoModel objlDSSC;
+  final SuCoModel objDSSC;
   final HoTroKyThuatCubit cubit;
   final Function(SuCoModel, int) onClickMore;
   final int index;
@@ -20,7 +20,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
 
   const ItemDanhSachSuCo({
     Key? key,
-    required this.objlDSSC,
+    required this.objDSSC,
     required this.cubit,
     required this.onClickMore,
     required this.index,
@@ -51,53 +51,53 @@ class ItemDanhSachSuCo extends StatelessWidget {
               children: [
                 textRow(
                   textTitle: S.current.thoi_gian_yeu_cau,
-                  textContent: objlDSSC.thoiGianYeuCau ?? '',
+                  textContent: objDSSC.thoiGianYeuCau ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.mo_ta_su_co,
-                  textContent: (objlDSSC.moTaSuCo ?? '').parseHtml(),
+                  textContent: (objDSSC.moTaSuCo ?? '').parseHtml(),
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.nguoi_yeu_cau,
-                  textContent: objlDSSC.nguoiYeuCau ?? '',
+                  textContent: objDSSC.nguoiYeuCau ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.don_vi,
-                  textContent: objlDSSC.donVi ?? '',
+                  textContent: objDSSC.donVi ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.dia_chi,
-                  textContent: objlDSSC.diaChi ?? '',
+                  textContent: objDSSC.diaChi ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.dien_thoai,
-                  textContent: objlDSSC.soDienThoai ?? '',
+                  textContent: objDSSC.soDienThoai ?? '',
                 ),
                 spaceH10,
                 textStatusRow(
                   textTitle: S.current.trang_thai_xu_ly,
-                  textContent: getTextStatus(objlDSSC.codeTrangThai ?? ''),
-                  statusColor: statusColor(objlDSSC.codeTrangThai ?? ''),
+                  textContent: getTextStatus(objDSSC.codeTrangThai ?? ''),
+                  statusColor: statusColor(objDSSC.codeTrangThai ?? ''),
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.ket_qua_xu_ly,
-                  textContent: objlDSSC.ketQuaXuLy ?? '',
+                  textContent: objDSSC.ketQuaXuLy ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.nguoi_xu_ly,
-                  textContent: objlDSSC.nguoiXuLy ?? '',
+                  textContent: objDSSC.nguoiXuLy ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.ngay_hoan_thanh,
-                  textContent: objlDSSC.ngayHoanThanh ?? '',
+                  textContent: objDSSC.ngayHoanThanh ?? '',
                 ),
               ],
             ),
@@ -106,7 +106,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
             top: 20,
             right: 24,
             child: InkWell(
-              onTap: () => onClickMore(objlDSSC, index),
+              onTap: () => onClickMore(objDSSC, index),
               child: SvgPicture.asset(
                 ImageAssets.ic_more,
                 height: 20,
@@ -144,32 +144,32 @@ class ItemDanhSachSuCo extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        if (objlDSSC.codeTrangThai ==
+                        if (objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objlDSSC.codeTrangThai ==
+                            objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.CHO_XU_LY)
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
                             function: (value) {},
                           ),
-                        if (objlDSSC.codeTrangThai ==
+                        if (objDSSC.codeTrangThai ==
                             HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objlDSSC.codeTrangThai ==
+                            objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.CHO_XU_LY)
                         line(
                           paddingLeft: 35,
                         ),
-                        if (objlDSSC.codeTrangThai ==
+                        if (objDSSC.codeTrangThai ==
                             HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objlDSSC.codeTrangThai ==
+                            objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.CHO_XU_LY)
                         itemMenu(
                           title: S.current.xoa,
                           icon: ImageAssets.ic_delete,
                           function: (value) {
                             cubit
-                                .deleteTask(id: objlDSSC.id ?? '')
+                                .deleteTask(id: objDSSC.id ?? '')
                                 .then((value) {
                               if (value) {
                                 MessageConfig.show(
@@ -184,9 +184,9 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             });
                           },
                         ),
-                        if (objlDSSC.codeTrangThai ==
+                        if (objDSSC.codeTrangThai ==
                             HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objlDSSC.codeTrangThai ==
+                            objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.CHO_XU_LY)
                         line(
                           paddingLeft: 35,
@@ -202,7 +202,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           paddingLeft: 35,
                         ),
                         if ((cubit.isCheckUser ?? false) ||
-                            !(objlDSSC.codeTrangThai ==
+                            !(objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.DA_XU_LY))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,

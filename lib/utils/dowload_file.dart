@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 enum DomainDownloadType { GATEWAY, COMMON, CCVC, QLNV, PAKN }
@@ -23,6 +24,12 @@ Future<String?> saveFile({
   Map<String, dynamic>? query,
   DomainDownloadType downloadType = DomainDownloadType.GATEWAY,
 }) async {
+  final permission =  Permission.storage;
+  final status = await permission.status;
+  if (!(status.isGranted || status.isLimited)) {
+    await MessageConfig.showDialogSetting();
+    return '';
+  }
   late final OverlayEntry overlayEntry = _showLoading();
   try {
     final OverlayState? overlayState = Overlay.of(MessageConfig.contextConfig!);
@@ -77,8 +84,10 @@ Future<void> writeFile(String path, String _fileName, dynamic data) async {
   while (file.existsSync()) {
     fullPath = '$path/$nameFile($count).$extension';
     count += 1;
+
     file = File(fullPath);
   }
+
   final raf = file.openSync(mode: FileMode.write);
   raf.writeFromSync(data);
   await raf.close();
@@ -111,7 +120,7 @@ Dio provideDio({
       break;
   }
   final options = BaseOptions(
-    baseUrl: url ,
+    baseUrl: url,
     receiveTimeout: _connectTimeOut,
     connectTimeout: _connectTimeOut,
     followRedirects: false,
@@ -139,9 +148,6 @@ Dio provideDio({
       onError: (DioError e, handler) => handler.next(e),
     ),
   );
-  if (Foundation.kDebugMode) {
-    dio.interceptors.add(dioLogger());
-  }
   return dio;
 }
 
@@ -163,3 +169,4 @@ OverlayEntry _showLoading() {
     },
   );
 }
+

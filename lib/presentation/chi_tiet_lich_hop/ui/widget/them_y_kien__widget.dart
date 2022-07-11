@@ -28,7 +28,7 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.getPhienHopId = '';
+    widget.cubit.phienHopId = '';
   }
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,10 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
             Navigator.pop(context);
           },
           onClickRight: () async {
-            Navigator.pop(context);
+            Navigator.pop(
+              context,
+              widget.cubit.phienHopId.isNotEmpty,
+            );
             await widget.cubit.themYKien(
               yKien: yKien.value.text,
               idLichHop: widget.id,
@@ -77,10 +80,10 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
                 onSelectItem: (index) {
                   //index - 1 do listCuocHop insert(0, S.current.cuoc_hop)
                   if(index > 0) {
-                    widget.cubit.getPhienHopId = data[index - 1].id ?? '';
+                    widget.cubit.phienHopId = data[index - 1].id ?? '';
                     widget.cubit.tenPhienHop = data[index - 1].tieuDe ?? '';
                   }else{
-                    widget.cubit.getPhienHopId = '';
+                    widget.cubit.phienHopId = '';
                   }
                 },
               );

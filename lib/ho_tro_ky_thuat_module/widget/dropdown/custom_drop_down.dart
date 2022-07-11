@@ -16,6 +16,7 @@ class CustomDropDown extends StatefulWidget {
   final double? paddingRight;
   final double? paddingTop;
   final double? paddingBottom;
+  final double? itemHeight;
 
   CustomDropDown({
     Key? key,
@@ -27,6 +28,7 @@ class CustomDropDown extends StatefulWidget {
     this.paddingRight,
     this.paddingTop,
     this.paddingBottom,
+    this.itemHeight,
   }) : super(key: key);
 
   @override
@@ -58,8 +60,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   padding: EdgeInsets.only(
                     left: widget.paddingLeft ?? 8,
                     right: widget.paddingRight ?? 24,
-                    top: widget.paddingTop ?? 2,
-                    bottom: widget.paddingBottom ?? 2,
+                    top: widget.paddingTop ?? 0,
+                    bottom: widget.paddingBottom ?? 0,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,24 +69,24 @@ class _CustomDropDownState extends State<CustomDropDown> {
                       if (widget.items.isEmpty)
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            widget.value ?? '',
-                            style: tokenDetailAmount(
-                              fontSize: 14.0.textScale(),
-                              color: color3D5586,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              widget.value ?? '',
+                              style: tokenDetailAmount(
+                                fontSize: 14.0.textScale(),
+                                color: color3D5586,
+                              ),
                             ),
                           ),
                         )
                       else
                         DropdownButtonWidget<String>(
+                          itemHeight: widget.itemHeight,
                           underline: Container(),
                           isExpanded: true,
                           value: widget.value,
-                          hint: widget.hint ??
-                              Text(
-                                S.current.select_validate,
-                                style: textNormal(infoColor, 14),
-                              ),
+                          hint: widget.hint ?? Text(S.current.select_validate),
                           icon: Container(),
                           focusColor: statusCalenderRed,
                           onChanged: (value) {

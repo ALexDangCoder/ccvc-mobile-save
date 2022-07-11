@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
@@ -57,7 +58,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   final showButtonApprove = BehaviorSubject.seeded(false);
   final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
   String createUserId = '';
-  bool isLeader = false;
 
   Future<void> dataChiTietLichLamViec(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
@@ -69,11 +69,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         chiTietLichLamViecModel = data;
         chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
         createUserId = data.canBoChuTri?.id ?? '';
-        if (currentUserId.isNotEmpty &&
-            createUserId.isNotEmpty &&
-            createUserId == currentUserId) {
-          isLeader = true;
-        }
       },
       error: (error) {
         chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
@@ -204,29 +199,22 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     unawaited(queue.add(() => getOfficer(id)));
     unawaited(dataTrangThai());
     await queue.onComplete;
-    if (isLeader) {
-      showButtonAddOpinion.sink.add(true);
-      showButtonApprove.sink.add(false);
-    } else {
-      for (final element in officersTmp) {
-        if (element.userId == currentUserId &&
-            (element.userId?.isNotEmpty ?? false) &&
-            currentUserId.isNotEmpty) {
-          showButtonAddOpinion.sink.add(true);
-        } else {
-          showButtonAddOpinion.sink.add(false);
-        }
-        if (element.userId == currentUserId &&
-            (element.userId?.isNotEmpty ?? false) &&
-            currentUserId.isNotEmpty &&
-            //Todo: chờ ba xác nhận (status)
-            element.isConfirm == false) {
-          showButtonApprove.sink.add(true);
-        } else {
-          showButtonApprove.sink.add(false);
-        }
+
+    bool? isThamGia;
+    for (final element in officersTmp) {
+      if (element.userId == currentUserId &&
+          (element.userId?.isNotEmpty ?? false) &&
+          currentUserId.isNotEmpty) {
+        showButtonAddOpinion.sink.add(true);
+      } else {
+        showButtonAddOpinion.sink.add(false);
+      }
+      if (element.canBoId == currentUserId) {
+        isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
+            element.isThamGia == true;
       }
     }
+    showButtonApprove.sink.add(isThamGia ?? false);
     showContent();
   }
 

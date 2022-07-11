@@ -7,8 +7,13 @@ class ThongTinPhongHopResponse {
   String? code;
   String? message;
 
-  ThongTinPhongHopResponse(
-      {this.data, this.statusCode, this.succeeded, this.code, this.message});
+  ThongTinPhongHopResponse({
+    this.data,
+    this.statusCode,
+    this.succeeded,
+    this.code,
+    this.message,
+  });
 
   ThongTinPhongHopResponse.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -29,20 +34,24 @@ class Data {
   String? noiDungYeuCau;
   int? trangThai;
   String? tenTrangThai;
-
+  String? ghiChu;
+  String? trangThaiChuanBiId;
   String? trangThaiChuanBi;
 
   Data(
-      {this.id,
-      this.lichHopPhongHopId,
-      this.tenPhong,
-      this.sucChua,
-      this.diaDiem,
-      this.thietBiCoSan,
-      this.noiDungYeuCau,
-      this.trangThai,
-      this.tenTrangThai,
-      this.trangThaiChuanBi});
+    this.id,
+    this.lichHopPhongHopId,
+    this.tenPhong,
+    this.sucChua,
+    this.diaDiem,
+    this.thietBiCoSan,
+    this.noiDungYeuCau,
+    this.trangThai,
+    this.tenTrangThai,
+    this.ghiChu,
+    this.trangThaiChuanBiId,
+    this.trangThaiChuanBi,
+  );
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,15 +63,23 @@ class Data {
     noiDungYeuCau = json['noiDungYeuCau'];
     trangThai = json['trangThai'];
     tenTrangThai = json['tenTrangThai'];
+    ghiChu = json['ghiChu'];
+    trangThaiChuanBiId = json['trangThaiChuanBiId'];
     trangThaiChuanBi = json['trangThaiChuanBi'];
   }
 
   ThongTinPhongHopModel toDomain() => ThongTinPhongHopModel(
         id: id ?? '',
+        sucChua: sucChua ?? '',
+        diaDiem: diaDiem ?? '',
         trangThai: trangThai ?? 0,
         thietBiSanCo: thietBiCoSan ?? '',
         tenPhong: tenPhong ?? '',
-        diaDiem: diaDiem ?? '',
-        sucChua: sucChua ?? '0',
+        lichHopPhongHopId: lichHopPhongHopId ?? '',
+        noiDungYeuCau: noiDungYeuCau ?? '',
+        tenTrangThai: tenTrangThai ?? '',
+        ghiChu: ghiChu ?? '',
+        trangThaiChuanBiId: trangThaiChuanBiId ?? '',
+        trangThaiChuanBi: trangThaiChuanBi ?? '',
       );
 }

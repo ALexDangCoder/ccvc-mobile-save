@@ -12,12 +12,14 @@ import 'package:ccvc_mobile/nhiem_vu_module/widget/textformfield/follow_key_boar
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cap_nhat_trang_thai_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cong_tac_chuan_bi_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -25,6 +27,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CongTacChuanBiWidget extends StatefulWidget {
@@ -39,6 +42,13 @@ class CongTacChuanBiWidget extends StatefulWidget {
 class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
   final TaoLichHopCubit _cubitTaoLichHop = TaoLichHopCubit();
   List<ThietBiPhongHopModel> listTHietBiDuocChon = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.cubit.getListStatusRoom();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +75,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /// thong tin phong
         titleType(
           title: S.current.thong_tin_phong,
           child: StreamBuilder<ThongTinPhongHopModel>(
@@ -72,7 +83,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
             builder: (context, snapshot) {
               final data = snapshot.data ?? ThongTinPhongHopModel();
               if (widget.cubit.isChonPhongHop()) {
-                ///nếu chua có phòng nào và là người chủ trì thì hiện button chọn phòng họp
+                ///nếu chua có phòng nào và là người
+                ///chủ trì thì hiện button chọn phòng họp
                 return ChonPhongHopScreen(
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
@@ -99,7 +111,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              /// check quyền hiển thị từ trạng thái phòng họp và quyền của app
+                              /// check quyền hiển thị từ
+                              /// trạng thái phòng họp và quyền của app
                               if (widget.cubit.checkDuyetPhong())
                                 Padding(
                                   padding: const EdgeInsets.only(right: 12),
@@ -144,6 +157,30 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
             },
           ),
         ),
+
+        /// thong tin yeu cau chuan bi
+        StreamBuilder<ThongTinPhongHopModel>(
+          stream: widget.cubit.getThongTinYeuCauChuanBi,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? ThongTinPhongHopModel();
+            if (widget.cubit.isHasPhong() &&
+                widget.cubit.isButtonYeuCauChuanBiPhong()) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: titleType(
+                  title: S.current.thong_tin_yeu_cau_chuan_bi,
+                  child: itemThongTinYeuCauChuanBi(
+                    model: data,
+                    cubit: widget.cubit,
+                  ),
+                ),
+              );
+            }
+            return const SizedBox();
+          },
+        ),
+
+        /// list phong
         spaceH20,
         titleType(
           title: S.current.thong_tin_yeu_cau_thiet_bi,
@@ -164,35 +201,35 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: StreamBuilder<ChiTietLichHopModel>(
-                            stream: widget.cubit.chiTietLichHopSubject.stream,
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData &&
-                                  widget.cubit
-                                      .checkPermissionQuyenDuyetPhong()) {
-                                return const SizedBox();
-                              }
-                              return Row(
-                                children: [
-                                  ButtonOtherWidget(
-                                    text: S.current.duyet,
-                                    color: itemWidgetUsing,
+                          stream: widget.cubit.chiTietLichHopSubject.stream,
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData &&
+                                widget.cubit.checkPermissionQuyenDuyetPhong()) {
+                              return const SizedBox();
+                            }
+                            return Row(
+                              children: [
+                                ButtonOtherWidget(
+                                  text: S.current.duyet,
+                                  color: itemWidgetUsing,
+                                  ontap: () {
+                                    duyetOrhuyDuyetThietBi(true);
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: ButtonOtherWidget(
+                                    text: S.current.tu_choi,
+                                    color: statusCalenderRed,
                                     ontap: () {
-                                      duyetOrhuyDuyetThietBi(true);
+                                      duyetOrhuyDuyetThietBi(false);
                                     },
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 12),
-                                    child: ButtonOtherWidget(
-                                      text: S.current.tu_choi,
-                                      color: statusCalenderRed,
-                                      ontap: () {
-                                        duyetOrhuyDuyetThietBi(false);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       ),
                       Column(
                         children: List.generate(
@@ -217,7 +254,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 },
               ),
 
-              /// button duyet ky thuat hiển thị khi có quyền và trạng thái phòng họp đã duyệt
+              /// button duyet ky thuat hiển thị khi có quyền và
+              /// trạng thái phòng họp đã duyệt
               StreamBuilder<ThongTinPhongHopModel>(
                 stream: widget.cubit.getThongTinPhongHop,
                 builder: (context, snapshotPhongHop) {
@@ -268,6 +306,138 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget itemThongTinYeuCauChuanBi({
+    required ThongTinPhongHopModel model,
+    required DetailMeetCalenderCubit cubit,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        color: containerColorTab.withOpacity(0.1),
+        border: Border.all(
+          color: containerColorTab,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Text(
+                  S.current.noi_dung_yeu_cau,
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: color667793,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              spaceW10,
+              Expanded(
+                flex: 8,
+                child: Text(
+                  ' ${model.noiDungYeuCau ?? ''}',
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: titleCalenderWork,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (widget.cubit.isButtonYeuCauChuanBiPhong())
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      showBottomSheetCustom(
+                        context,
+                        title: S.current.cap_nhat_trang_thai,
+                        child: CapNhapTrangThaiWidget(
+                          cubit: widget.cubit,
+                          model: model,
+                        ),
+                      );
+                    },
+                    child: SvgPicture.asset(ImageAssets.ic_edit),
+                  ),
+                ),
+            ],
+          ),
+          spaceH10,
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Text(
+                  S.current.trang_thai,
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: color667793,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              spaceW10,
+              Expanded(
+                flex: 8,
+                child: Text(
+                  ' ${model.trangThaiChuanBi ?? ''}',
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: model.getColor(model.trangThaiChuanBi ?? ''),
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                child: Container(),
+              ),
+            ],
+          ),
+          spaceH10,
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Text(
+                  S.current.ghi_chu,
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: color667793,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              spaceW10,
+              Expanded(
+                flex: 8,
+                child: Text(
+                  ' ${model.ghiChu ?? ''}',
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: titleCalenderWork,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                child: Container(),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -380,9 +550,11 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
   final Function(bool) onChange;
   final ThietBiPhongHopModel model;
 
-  const ThongTinYeuCauThietBiWidget(
-      {Key? key, required this.model, required this.onChange})
-      : super(key: key);
+  const ThongTinYeuCauThietBiWidget({
+    Key? key,
+    required this.model,
+    required this.onChange,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -407,17 +579,18 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
                 children: [
                   const Expanded(child: SizedBox()),
                   StreamBuilder<bool>(
-                      stream: _check,
-                      builder: (context, snapshot) {
-                        return CustomCheckBox(
-                          isOnlyCheckbox: true,
-                          isCheck: _check.value,
-                          onChange: (value) {
-                            onChange(_check.value);
-                            _check.sink.add(!_check.value);
-                          },
-                        );
-                      }),
+                    stream: _check,
+                    builder: (context, snapshot) {
+                      return CustomCheckBox(
+                        isOnlyCheckbox: true,
+                        isCheck: _check.value,
+                        onChange: (value) {
+                          onChange(_check.value);
+                          _check.sink.add(!_check.value);
+                        },
+                      );
+                    },
+                  ),
                 ],
               )
             ],
@@ -445,9 +618,12 @@ class ButtonOtherWidget extends StatelessWidget {
   final Color color;
   final Function() ontap;
 
-  const ButtonOtherWidget(
-      {Key? key, required this.text, required this.color, required this.ontap})
-      : super(key: key);
+  const ButtonOtherWidget({
+    Key? key,
+    required this.text,
+    required this.color,
+    required this.ontap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

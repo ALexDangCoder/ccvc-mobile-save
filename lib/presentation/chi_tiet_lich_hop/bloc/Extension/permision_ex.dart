@@ -440,6 +440,14 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         );
   }
 
+  /// quyen duyet yeu cau chuan bi phong
+  bool isButtonYeuCauChuanBiPhong() {
+    return HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.VPDT,
+      permissionTxt: 'yeu-cau-chuan-bi',
+    );
+  }
+
   ///check quyen btn tu choi dkt va huy dkt: check ẩn hiện hai nút
   bool checkDuyetKyThuat() {
     return (getChiTietLichHopModel.isDuyetKyThuat ?? true) &&

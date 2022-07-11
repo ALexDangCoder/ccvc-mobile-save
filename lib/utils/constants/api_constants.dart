@@ -310,6 +310,8 @@ class ApiConstants {
       '/vpdt/api/ScheduleReport/reject-meet-report';
   static const REFRESH_TOKEN = '/common/auth/refresh-token';
   static const DELETE_FILE = '/vpdt/api/Files/delete-file-with-meeting';
+  static const LIST_STATUS_ROOM = '/vpdt/api/ReportStatus/list-status-room';
+  static const SUA_TRANG_THAI = '/vpdt/api/MeetingRoom/update-trang-thai';
 }
 
 class ImageConstants {

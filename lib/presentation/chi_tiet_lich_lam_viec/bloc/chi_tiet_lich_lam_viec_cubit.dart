@@ -59,7 +59,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   final showButtonApprove = BehaviorSubject.seeded(false);
   final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
   String createUserId = '';
-  bool isLeader = false;
 
   Future<void> dataChiTietLichLamViec(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
@@ -71,11 +70,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         chiTietLichLamViecModel = data;
         chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
         createUserId = data.canBoChuTri?.id ?? '';
-        if (currentUserId.isNotEmpty &&
-            createUserId.isNotEmpty &&
-            createUserId == currentUserId) {
-          isLeader = true;
-        }
       },
       error: (error) {
         chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
@@ -206,29 +200,22 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     unawaited(queue.add(() => getOfficer(id)));
     unawaited(dataTrangThai());
     await queue.onComplete;
-    if (isLeader) {
-      showButtonAddOpinion.sink.add(true);
-      showButtonApprove.sink.add(false);
-    } else {
-      for (final element in officersTmp) {
-        if (element.userId == currentUserId &&
-            (element.userId?.isNotEmpty ?? false) &&
-            currentUserId.isNotEmpty) {
-          showButtonAddOpinion.sink.add(true);
-        } else {
-          showButtonAddOpinion.sink.add(false);
-        }
-        if (element.userId == currentUserId &&
-            (element.userId?.isNotEmpty ?? false) &&
-            currentUserId.isNotEmpty &&
-            //Todo: chờ ba xác nhận (status)
-            element.isConfirm == false) {
-          showButtonApprove.sink.add(true);
-        } else {
-          showButtonApprove.sink.add(false);
-        }
+
+    bool? isThamGia;
+    for (final element in officersTmp) {
+      if (element.userId == currentUserId &&
+          (element.userId?.isNotEmpty ?? false) &&
+          currentUserId.isNotEmpty) {
+        showButtonAddOpinion.sink.add(true);
+      } else {
+        showButtonAddOpinion.sink.add(false);
+      }
+      if (element.canBoId == currentUserId) {
+        isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
+            element.isThamGia == true;
       }
     }
+    showButtonApprove.sink.add(isThamGia ?? false);
     showContent();
   }
 

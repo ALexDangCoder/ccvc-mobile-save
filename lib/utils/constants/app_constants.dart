@@ -335,6 +335,13 @@ class PermissionConst {
   static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }
 
+class StatusOfficersConst {
+  static const int STATUS_CHO_XAC_NHAN = 0;
+  static const int STATUS_THAM_GIA = 1;
+  static const int STATUS_TU_CHOI = 2;
+  static const int STATUS_THU_HOI = 4;
+}
+
 class MaxSizeFile {
   static const MAX_SIZE_20MB = 20000000;
 }

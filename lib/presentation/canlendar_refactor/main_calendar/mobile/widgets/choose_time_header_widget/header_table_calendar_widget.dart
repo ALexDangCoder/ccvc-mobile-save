@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -156,9 +157,10 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
           filled: true,
           fillColor: Colors.white,
           hintText: S.current.nhap_tu_khoa_tim_kiem,
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.search,
-            color: color5F63E8,
+            color: AppTheme.getInstance()
+                .colorField(),
           ),
           border: const OutlineInputBorder(
             borderSide: BorderSide(color: borderItemCalender),

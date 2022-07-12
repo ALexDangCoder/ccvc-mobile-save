@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -420,7 +421,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                         child: buttonEditCalendar(
                                           name: S.current.dong,
                                           bgr: buttonColor.withOpacity(0.1),
-                                          colorName: textDefault,
+                                          colorName: AppTheme.getInstance()
+                                              .colorField(),
                                           onTap: () {
                                             Navigator.of(context).pop();
                                           },
@@ -440,7 +442,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                               builder: (context, snapshot) {
                                                 return buttonEditCalendar(
                                                   name: S.current.luu,
-                                                  bgr: labelColor,
+                                                  bgr: AppTheme.getInstance()
+                                                      .colorField(),
                                                   colorName: Colors.white,
                                                   onTap: () {
                                                     validateField(data);

@@ -340,6 +340,7 @@ class StatusOfficersConst {
   static const int STATUS_THAM_GIA = 1;
   static const int STATUS_TU_CHOI = 2;
   static const int STATUS_THU_HOI = 4;
+  static const int STATUS_DEFAULT = -1;
 }
 
 class MaxSizeFile {

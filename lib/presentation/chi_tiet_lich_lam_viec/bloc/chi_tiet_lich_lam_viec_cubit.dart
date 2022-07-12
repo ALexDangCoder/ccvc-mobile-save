@@ -181,8 +181,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         final tmp = data.where((element) => element.tenDonVi != null).toList();
         listOfficer.sink.add(tmp);
-        listRecall.sink.add(tmp.where((element) => element.status==0).toList());
-        dataRecall = tmp.where((element) => element.status==0).toList();
+        listRecall.sink
+            .add(tmp.where((element) => element.status == 0).toList());
+        dataRecall = tmp.where((element) => element.status == 0).toList();
         officersTmp = tmp;
       },
       error: (error) {},
@@ -384,15 +385,15 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   // check hiển thị popup
   int checkXoa(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
-          (element) => element.status == 1,
+          (element) => element.status == StatusOfficersConst.STATUS_THAM_GIA,
         ) ??
-        -1;
+        StatusOfficersConst.STATUS_DEFAULT;
   }
   int checkThuHoi(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
-          (element) => element.status == 0,
+          (element) => element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN,
     ) ??
-        -1;
+        StatusOfficersConst.STATUS_DEFAULT;
   }
 
   String nguoiDuocMoi(ChiTietLichLamViecModel dataModel) {
@@ -417,13 +418,16 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return canBoChuTri(dataModel) == currentUserId ||
         nguoiTaoId(dataModel) == currentUserId; //===sualich===huylich
   }
+
   bool checkChoThuHoi(ChiTietLichLamViecModel dataModel) {
-    return (checkThuHoi(dataModel) == 0 && (canBoChuTri(dataModel) == currentUserId ||
-        nguoiTaoId(dataModel) == currentUserId));
+    return (checkThuHoi(dataModel) == 0 &&
+        (canBoChuTri(dataModel) == currentUserId ||
+            nguoiTaoId(dataModel) == currentUserId));
   }
 
   bool checkChoYKien(ChiTietLichLamViecModel dataModel) {
-    return nguoiTaoId(dataModel) == currentUserId || nguoiDuocMoi(dataModel) == currentUserId;
+    return nguoiTaoId(dataModel) == currentUserId ||
+        nguoiDuocMoi(dataModel) == currentUserId;
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {

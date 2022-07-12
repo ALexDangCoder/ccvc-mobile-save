@@ -26,7 +26,7 @@ class ComplexLoadMore extends StatefulWidget {
   final bool? shrinkWap;
   final bool isTitle;
   final String? titleNoData;
-  final bool isLoadmore;
+  final bool isLoadMore;
   final ScrollPhysics? physics;
 
   const ComplexLoadMore({
@@ -42,7 +42,7 @@ class ComplexLoadMore extends StatefulWidget {
     this.isTitle = true,
     this.titleNoData,
     this.mainAxisExtent,
-    this.isLoadmore = true,
+    this.isLoadMore = true,
     this.physics,
   }) : super(key: key);
 
@@ -95,7 +95,9 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
               widget.cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
               } else {
-                widget.cubit.showContent();
+                if (widget.isLoadMore) {
+                  widget.cubit.showContent();
+                }
               }
             }
           } else {
@@ -123,7 +125,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
           stream: widget.cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (widget.isLoadmore) {
+              if (widget.isLoadMore) {
                 if (widget.cubit.canLoadMore &&
                     scrollInfo.metrics.pixels ==
                         scrollInfo.metrics.maxScrollExtent) {

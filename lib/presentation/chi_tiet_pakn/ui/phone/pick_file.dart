@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
+import 'package:permission_handler/permission_handler.dart';
 
 const String TYPE_OF_FILE = 'type';
 const String PATH_OF_FILE = 'path';
@@ -27,10 +29,7 @@ Future<Map<String, dynamic>> pickFile() async {
   String _fileExtension = '';
   int _fileSize = 0;
   String _fileName = '';
-  final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      //type: FileType.custom,
-      // allowedExtensions: ['jpg', 'pdf', 'doc', 'png', 'exec', 'jpeg'],
-      );
+  final FilePickerResult? result = await FilePicker.platform.pickFiles();
   if (result != null) {
     _fileExtension = (result.files.single.extension ?? '').toUpperCase();
     _filePath = result.files.single.path ?? '';
@@ -56,22 +55,31 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
     NAME_OF_FILE: '',
     FILE_RESULT: '',
   };
-  try {
-    final newImage = await ImagePicker().pickImage(
-      source: fromCamera ? ImageSource.camera : ImageSource.gallery,
-    );
-    if (newImage == null) {
+  final permission = !fromCamera
+      ? (Platform.isIOS ? Permission.photosAddOnly : Permission.storage)
+      : (Permission.camera);
+  final status = await permission.status;
+  if (status.isGranted || status.isLimited) {
+    try {
+      final newImage = await ImagePicker().pickImage(
+        source: fromCamera ? ImageSource.camera : ImageSource.gallery,
+      );
+      if (newImage == null) {
+        return _resultMap;
+      }
+      final extension = (p.extension(newImage.path)).replaceAll('.', '');
+      _resultMap[EXTENSION_OF_FILE] = extension.toUpperCase();
+      _resultMap[SIZE_OF_FILE] =
+          File(newImage.path).readAsBytesSync().lengthInBytes;
+      _resultMap[PATH_OF_FILE] = newImage.path;
+      _resultMap[NAME_OF_FILE] = p.basename(p.basename(newImage.path));
+      _resultMap[FILE_RESULT] = [File(newImage.path)];
       return _resultMap;
+    } on PlatformException catch (e) {
+      throw 'Cant upload images $e';
     }
-    final extension = (p.extension(newImage.path)).replaceAll('.', '');
-    _resultMap[EXTENSION_OF_FILE] = extension.toUpperCase();
-    _resultMap[SIZE_OF_FILE] =
-        File(newImage.path).readAsBytesSync().lengthInBytes;
-    _resultMap[PATH_OF_FILE] = newImage.path;
-    _resultMap[NAME_OF_FILE] = p.basename(p.basename(newImage.path));
-    _resultMap[FILE_RESULT] = [File(newImage.path)];
-    return _resultMap;
-  } on PlatformException catch (e) {
-    throw 'Cant upload images $e';
+  } else {
+    await MessageConfig.showDialogSetting();
+    return {};
   }
 }

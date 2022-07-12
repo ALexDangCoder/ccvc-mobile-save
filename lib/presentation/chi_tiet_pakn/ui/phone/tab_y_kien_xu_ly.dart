@@ -94,7 +94,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
         error: AppException('', S.current.something_went_wrong),
         stream: widget.cubit.stateStream,
         child: ComplexLoadMore(
-          isLoadmore: false,
+          isLoadMore: false,
           physics: const AlwaysScrollableScrollPhysics(),
           titleNoData: S.current.khong_co_du_lieu,
           isTitle: false,

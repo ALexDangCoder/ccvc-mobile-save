@@ -59,7 +59,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         ),
         CoolDropDown(
           useCustomHintColors: true,
-          initData: widget.listData.first,
+          initData: '',
           placeHoder: widget.hint,
           onChange: (value) {
             widget.onChange.call(value);

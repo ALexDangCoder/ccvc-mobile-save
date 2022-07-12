@@ -556,7 +556,7 @@ class DanhSachCongViecTienIchCubit
         case DSCVScreen.DG:
           return [
             IconDSCV.icCheckBox,
-            IconDSCV.icClose,
+            IconDSCV.icImportant,
           ];
         case DSCVScreen.DBX:
           return [

@@ -307,6 +307,13 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     getCanBo();
   }
 
+  void loadDonViId() {
+    final dataUser = HiveLocal.getDataUser();
+    donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
+    _getPhamVi();
+    getCanBo();
+  }
+
   Future<void> _getLoaiLich() async {
     showLoading();
     final result = await hopRp

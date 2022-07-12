@@ -51,7 +51,7 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
               child: widget.tree.children.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(left: 26),
-                      child: widget.builder(widget.tree.value),
+                      child: widget.builder(widget.tree),
                     )
                   : GraphView(
                       graph: graph,
@@ -64,10 +64,10 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
                         ..strokeCap = StrokeCap.round,
                       builder: (Node node) {
                         // I can decide what widget should be shown here based on the id
-                        var value = node.key!.value as NodePhanXuLy<T>;
+                        final value = node.key!.value as NodePhanXuLy<T>;
                         return widget.builder(value);
                       },
-                    )),
+                    ),),
         ),
       ],
     );

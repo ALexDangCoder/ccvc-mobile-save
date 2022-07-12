@@ -1273,5 +1273,6 @@
   "su_kien_trong_ngay": "Sự kiện trong ngày",
   "ten_phien_hop": "Tên phiên họp",
   "vui_long_chon_chu_tri": "Vui lòng chọn Cơ quan chủ trì",
-  "co_loi_xay_ra": "Có lỗi xảy ra, vui lòng thử lại sau"
+  "co_loi_xay_ra": "Có lỗi xảy ra, vui lòng thử lại sau",
+  "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !"
 }

@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
@@ -11,6 +10,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -22,6 +22,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:rxdart/subjects.dart';
 
 import 'chon_ngay_widget.dart';
 import 'dropdown_widget.dart';
@@ -45,6 +46,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
   final keyGroup = GlobalKey<FormGroupState>();
   late ThemNhiemVuRequest themNhiemVuRequest;
   late String ngGiaoNvId;
+  BehaviorSubject<bool> showRequiedLoaiNV = BehaviorSubject.seeded(false);
 
   @override
   void initState() {
@@ -54,10 +56,6 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
     themNhiemVuRequest = ThemNhiemVuRequest(
       idCuocHop: widget.cubit.idCuocHop,
       hanXuLy: DateTime.now().toStringWithListFormat,
-      processTypeId:
-          (widget.cubit.danhSachLoaiNhiemVuLichHopModel.valueOrNull ?? [])
-              .first
-              .id,
     );
   }
 
@@ -92,6 +90,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       Navigator.pop(context);
                     },
                     onPressed2: () {
+                      if (!showRequiedLoaiNV.value) {
+                        showRequiedLoaiNV.sink.add(true);
+                      }
                       if (keyGroup.currentState!.validator()) {
                         themNhiemVuRequest.meTaDaTa = [
                           MeTaDaTaRequest(
@@ -120,21 +121,21 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       sb20(),
 
                       /// loai nhiem vu
-                      StreamBuilder<List<DanhSachLoaiNhiemVuLichHopModel>>(
-                        stream:
-                            widget.cubit.danhSachLoaiNhiemVuLichHopModel.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return DropDownWidget(
-                            isNote: true,
-                            title: S.current.loai_nhiem_vu,
-                            hint: S.current.loai_nhiem_vu,
-                            listData: data.map((e) => e.ten ?? '').toList(),
-                            onChange: (value) {
-                              themNhiemVuRequest.processTypeId = data[value].id;
-                            },
-                          );
-                        },
+                      ShowRequiedWithStream(
+                        isShow: showRequiedLoaiNV,
+                        child: DropDownWidget(
+                          listData: widget.cubit.danhSachLoaiNhiemVuLichHopModel
+                              .map((e) => e.ten ?? '')
+                              .toList(),
+                          isNote: true,
+                          title: S.current.loai_nhiem_vu,
+                          hint: S.current.loai_nhiem_vu,
+                          onChange: (value) {
+                            themNhiemVuRequest.processTypeId = widget.cubit
+                                .danhSachLoaiNhiemVuLichHopModel[value].id;
+                            showRequiedLoaiNV.sink.add(false);
+                          },
+                        ),
                       ),
                       sb20(),
 
@@ -166,7 +167,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         isRequired: true,
                         maxLine: 8,
                         validator: (String? value) {
-                          return value?.checkNull(showText: 'Bạn phải nhập trường Nội dung theo dõi !');
+                          return value?.checkNull(
+                              showText: S.current
+                                  .ban_phai_nhap_truong_noi_dung_theo_doi);
                         },
                         onChange: (String value) {
                           themNhiemVuRequest.processContent = value;
@@ -186,19 +189,14 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       sb20(),
 
                       /// người giao nhiem vu
-                      StreamBuilder<List<NguoiChutriModel>>(
-                        stream: widget.cubit.listNguoiCHuTriModel,
-                        builder: (context, snapshot) {
-                          final List<NguoiChutriModel> data =
-                              snapshot.data ?? [];
-                          return DropDownWidget(
-                            title: S.current.nguoi_giao_nhiem_vu,
-                            hint: S.current.nguoi_giao_nhiem_vu,
-                            listData: data.map((e) => e.hoTen ?? '').toList(),
-                            onChange: (value) {
-                              ngGiaoNvId = data[value].id ?? '';
-                            },
-                          );
+                      DropDownWidget(
+                        title: S.current.nguoi_giao_nhiem_vu,
+                        hint: S.current.nguoi_giao_nhiem_vu,
+                        listData: widget.cubit.dataThuKyOrThuHoiDeFault
+                            .map((e) => e.hoTen ?? '')
+                            .toList(),
+                        onChange: (value) {
+                          // data.map((e) => e.hoTen ?? '').toList().length;
                         },
                       ),
                       sb20(),
@@ -274,16 +272,30 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       showDiaLog(
                         context,
                         textContent: S.current.ban_co_chac_chan_muon_xoa_khong,
-                        btnLeftTxt: S.current.xoa,
+                        btnLeftTxt: S.current.dong,
                         funcBtnRight: () {
                           onTapRemoveVb(
                             cubit: widget.cubit,
                             data: data[index],
                           );
                         },
-                        title: S.current.gui_email,
+                        title: S.current.xoa,
                         btnRightTxt: S.current.dong_y,
-                        icon: SvgPicture.asset(ImageAssets.ic_delete_do),
+                        icon: Container(
+                          width: 56,
+                          height: 56,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: statusCalenderRed.withOpacity(0.1),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset(
+                              ImageAssets.ic_delete_do,
+                            ),
+                          ),
+                        ),
                       );
                     },
                   );

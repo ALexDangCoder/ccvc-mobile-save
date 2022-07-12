@@ -105,6 +105,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       color: statusCalenderRed,
     ),
   ];
+  List<DanhSachLoaiNhiemVuLichHopModel> danhSachLoaiNhiemVuLichHopModel = [];
 
   BehaviorSubject<ButtonStatePhatBieu> buttonStatePhatBieuSubject =
       BehaviorSubject();
@@ -127,9 +128,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<String> noiDung = BehaviorSubject();
 
   HtmlEditorController? controller = keyEditKetLuanHop.currentState?.controller;
-
-  BehaviorSubject<List<DanhSachLoaiNhiemVuLichHopModel>>
-      danhSachLoaiNhiemVuLichHopModel = BehaviorSubject();
 
   BehaviorSubject<List<VBGiaoNhiemVuModel>> listVBGiaoNhiemVu =
       BehaviorSubject<List<VBGiaoNhiemVuModel>>();
@@ -154,7 +152,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   ChiTietLichHopModel get getChiTietLichHopModel =>
       chiTietLichHopSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
-  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop = BehaviorSubject();
+  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop =
+      BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>
       danhSachPhatbieuLichHopModelSubject = BehaviorSubject();
@@ -211,6 +210,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   );
 
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
+    showLoading();
     await getChiTietLichHop(idCuocHop);
 
     ///check permission button
@@ -222,6 +222,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getDanhSachCanBoHop(idCuocHop);
+    showContent();
   }
 
   /// dùng cho cả bên: tao moi nhiem vu - kl hop

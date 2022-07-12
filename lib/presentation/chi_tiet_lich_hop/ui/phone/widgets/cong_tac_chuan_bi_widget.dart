@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dar
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
@@ -57,7 +58,6 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
         onchange: (value) {
           if (value) {
             widget.cubit.callApiCongTacChuanBi();
-            _cubitTaoLichHop.loadData();
             _cubitTaoLichHop.taoLichHopRequest =
                 taoHopFormChiTietHopModel(widget.cubit.getChiTietLichHopModel);
           }
@@ -83,12 +83,17 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
             builder: (context, snapshot) {
               final data = snapshot.data ?? ThongTinPhongHopModel();
               if (widget.cubit.isChonPhongHop()) {
+                /// button chon phong hop
                 ///nếu chua có phòng nào và là người
                 ///chủ trì thì hiện button chọn phòng họp
                 return ChonPhongHopScreen(
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
-                  id: _cubitTaoLichHop.donViId,
+                  id: HiveLocal.getDataUser()
+                          ?.userInformation
+                          ?.donViTrucThuoc
+                          ?.id ??
+                      '',
                   onChange: (value) {
                     _cubitTaoLichHop.chonPhongHopMetting(
                       widget.cubit.taoLichHopRequest,
@@ -140,7 +145,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                   text: S.current.thay_doi_phong,
                                   color: bgButtonDropDown,
                                   ontap: () {
-                                    showBottomSheet();
+                                    showChonDanhSachPhong();
                                   },
                                 ),
                             ],
@@ -474,7 +479,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     }
   }
 
-  void showBottomSheet() {
+  void showChonDanhSachPhong() {
     if (isMobile()) {
       showBottomSheetCustom<ChonPhongHopModel>(
         context,

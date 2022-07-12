@@ -28,7 +28,6 @@ class TabThongTinPAKNTablet extends StatefulWidget {
 class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
   }
@@ -39,7 +38,9 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
+      },
       child: _content(),
     );
   }
@@ -76,12 +77,12 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return ListItemRow(
-                      title: data[index].title,
-                      content: data[index].content,
+                        title: data[index].title,
+                        content: data[index].content,
                         nameFile: data[index].nameFile,
                         urlFile: data[index].urlDownload,
-                        domainDownload: '${Get.find<AppConstants>().baseUrlPAKN}/'
-                    );
+                        domainDownload:
+                            '${Get.find<AppConstants>().baseUrlPAKN}/');
                   },
                 ),
               );

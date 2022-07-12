@@ -47,15 +47,13 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
   // late TextEditingController _nhapYkienController;
   late TextEditingController _nhapYMainController;
 
-  // final FocusNode _nodeYMain = FocusNode();
-  // final FocusNode _nodeYkien = FocusNode();
+
 
   @override
   void initState() {
     super.initState();
     widget.cubit.idYkien = widget.id;
     widget.cubit.refreshPosts();
-    //_nhapYkienController = TextEditingController();
     _nhapYMainController = TextEditingController();
   }
 
@@ -342,12 +340,12 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                             await Permission.manageExternalStorage.request();
                           }
                           await saveFile(
-                            fileName: dataSnb.ten.toString(),
-                            url: dataSnb.duongDan.toString()
-                            // dataSnb.ten.toString(),
-                            // dataSnb.duongDan.toString(),
-                            // http: true,
-                          )
+                                  fileName: dataSnb.ten.toString(),
+                                  url: dataSnb.duongDan.toString()
+                                  // dataSnb.ten.toString(),
+                                  // dataSnb.duongDan.toString(),
+                                  // http: true,
+                                  )
                               .then(
                                 (value) => MessageConfig.show(
                                     title: S.current.tai_file_thanh_cong),

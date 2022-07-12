@@ -39,7 +39,12 @@ class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN> {
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getThongTinXuLyPAKN(
+          widget.id,
+          widget.taskId,
+        );
+      },
       child: StreamBuilder<ThongTinXuLyPAKNModel>(
         stream: widget.cubit.listThongTinXuLy.stream,
         builder: (context, snapshot) {

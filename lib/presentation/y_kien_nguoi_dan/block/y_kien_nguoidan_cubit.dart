@@ -439,8 +439,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     }
   }
 
-
-
   Future<void> loadMorePAKNXuLyCacYKienFilter() async {
     if (loadMore == false) {
       pageNumberDSPAKN += 1;
@@ -451,8 +449,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       //nothing
     }
   }
-
-
 
   Future<void> refreshGetDSPAKN() async {
     canLoadMoreList = true;
@@ -884,7 +880,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       userId = dataUser.userId ?? '';
     }
   }
-
 
   /*
   * int? pageIndex,

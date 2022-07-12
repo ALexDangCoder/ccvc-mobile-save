@@ -34,7 +34,8 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getTienTrinhXyLy(widget.id);},
       child: _content(),
     );
   }

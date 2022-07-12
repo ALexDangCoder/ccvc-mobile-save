@@ -280,6 +280,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                   return;
                 }
                 if (value) {
+                  cubit.needRefreshMainMeeting = value;
                   cubit.initDataChiTiet();
                 }
               });
@@ -312,6 +313,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                   return;
                 }
                 if (value) {
+                  cubit.needRefreshMainMeeting = value;
                   cubit.initDataChiTiet();
                 }
               });

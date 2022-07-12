@@ -9,6 +9,7 @@ class SelectOnlyWidget extends StatefulWidget {
   final Widget child;
   final Function(bool)? onchange;
   final EdgeInsets paddingTitle;
+  final bool isPaddingIcon;
 
   const SelectOnlyWidget({
     Key? key,
@@ -16,6 +17,7 @@ class SelectOnlyWidget extends StatefulWidget {
     required this.child,
     this.onchange,
     this.paddingTitle = EdgeInsets.zero,
+    this.isPaddingIcon = false,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class _SelectOnlyWidgetState extends State<SelectOnlyWidget>
         onchange: (vl) {
           widget.onchange?.call(vl);
         },
+        isPaddingIcon: widget.isPaddingIcon,
         header: headerWidget(),
         child: widget.child,
       ),

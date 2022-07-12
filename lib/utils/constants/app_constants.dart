@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:core';
+
 enum AppMode { MAC_DINH, XANH, HONG, VANG }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -115,7 +117,11 @@ const String TRANSACTION_NFT = '1';
 const EN_CODE = 'en';
 const VI_CODE = 'vi';
 const VI_LANG = 'vn';
+DateTime MAXIMUM_DATE = DateTime(2099, 12, 30);
+DateTime MINIMUM_DATE = DateTime(1900);
 
+const int MAXIMUM_YEAR = 2099;
+const int MINIMUM_YEAR = 1900;
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
@@ -337,6 +343,7 @@ class StatusOfficersConst {
   static const int STATUS_THAM_GIA = 1;
   static const int STATUS_TU_CHOI = 2;
   static const int STATUS_THU_HOI = 4;
+  static const int STATUS_DEFAULT = -1;
 }
 
 class MaxSizeFile {

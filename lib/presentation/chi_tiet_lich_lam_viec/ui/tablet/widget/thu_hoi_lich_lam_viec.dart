@@ -125,7 +125,7 @@ class SelectTHuHoiCell extends StatelessWidget {
                 showHintText: dataSN.isEmpty,
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
-                hintText: 'Chọn cán bộ hoặc đơn vị để thu hồi',
+                hintText:S.current.chon_can_bo_hoac_don_vi_de_thu_hoi,
                 onChange: (vl) {
                   if (cubit.dataRecall[vl].status == 4) {
                     cubit.dataRecall[vl].status = 0;

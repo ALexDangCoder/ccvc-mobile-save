@@ -227,7 +227,7 @@ class MenuWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 2),
       child: ExpandOnlyWidget(
-        isPadingIcon: true,
+        isPaddingIcon: true,
         header: itemMenuView(
           icon: item.iconAsset,
           title: item.title,

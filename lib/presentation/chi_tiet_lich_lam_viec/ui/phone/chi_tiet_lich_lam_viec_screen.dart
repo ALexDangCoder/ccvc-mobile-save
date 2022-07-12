@@ -61,29 +61,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
           final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
-          final String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
-          final int check = dataModel.scheduleCoperatives?.indexWhere(
-                (element) => element.status == 1,
-              ) ??
-              -1;
-          final String nguoiDuocMoi = dataModel.scheduleCoperatives
-                  ?.firstWhere(
-                    (element) => element.canBoId == hiveUserId,
-                    orElse: () => ScheduleCoperatives(),
-                  )
-                  .canBoId ??
-              '';
-          final String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
-          final String nguoiTaoId = dataModel.createBy?.id ?? '';
-          final bool isThuHoi = (canBoChuTri == hiveUserId) ||
-              (nguoiTaoId == hiveUserId); //===sualich===huylich
-          final bool isChoYKien =
-              (nguoiTaoId == hiveUserId) || (nguoiDuocMoi == hiveUserId);
-          final bool isBaoCaoKetQua = (DateTime.parse(
-                dataModel.dateTimeTo ?? DateTime.now().toString(),
-              ).isBefore(DateTime.now())) &&
-              isChoYKien;
-          final bool isXoaLich = (check == -1) && isThuHoi;
+          chiTietLichLamViecCubit.checkXoa(dataModel);
+          chiTietLichLamViecCubit.nguoiDuocMoi(dataModel);
+          chiTietLichLamViecCubit.canBoChuTri(dataModel);
+          chiTietLichLamViecCubit.nguoiTaoId(dataModel);
+
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -93,7 +75,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                           MenuSelectWidget(
                             listSelect: [
                               ///huy
-                              if (isThuHoi) ...[
+                              if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icHuy,
                                   text: S.current.huy,
@@ -106,7 +88,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               ],
 
                               ///bao cao ket qua
-                              if (isBaoCaoKetQua)
+                              if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icChartFocus,
                                   text: S.current.bao_cao_ket_qua,
@@ -131,7 +113,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
 
                               ///cho y kien
-                              if (isChoYKien)
+                              if (chiTietLichLamViecCubit.checkChoYKien(dataModel))
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icChoYKien,
                                   text: S.current.cho_y_kien,
@@ -154,7 +136,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
 
                               ///xoa lich
-                              if (isXoaLich)
+                              if (chiTietLichLamViecCubit.checkChoxoa(dataModel))
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icDelete,
                                   text: S.current.xoa_lich,
@@ -166,7 +148,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                 ),
 
                               ///thu hoi lich
-                              if (isThuHoi) ...[
+                              if (chiTietLichLamViecCubit.checkChoThuHoi(dataModel)) ...[
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icRecall,
                                   text: S.current.thu_hoi,
@@ -188,7 +170,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                               ],
 
                               ///sua lich
-                              if (isThuHoi) ...[
+                              if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
                                 CellPopPupMenu(
                                   urlImage: ImageAssets.icEditBlue,
                                   text: S.current.sua_lich,
@@ -277,12 +259,13 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     );
                                   },
                                 ),
-                                if (isBaoCaoKetQua)
+                                if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,
                                   ),
                                 DanhSachYKienButtom(
+                                  dataModel: dataModel,
                                   id: widget.id,
                                   cubit: chiTietLichLamViecCubit,
                                 ),

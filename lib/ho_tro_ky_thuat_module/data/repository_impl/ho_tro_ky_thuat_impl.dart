@@ -26,9 +26,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants
 class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   final HoTroKyThuatService _hoTroKyThuatService;
 
-  HoTroKyThuatImpl(
-    this._hoTroKyThuatService,
-  );
+  HoTroKyThuatImpl(this._hoTroKyThuatService,);
 
   @override
   Future<Result<List<SuCoModel>>> postDanhSachSuCo({
@@ -141,17 +139,35 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
 
   @override
   Future<Result<AddTaskResponseModel>> addTask(
-    AddTaskHTKTRequest request,
-    // List<File>? files,
-  ) {
+      {required String? id,
+      required String? userRequestId,
+      required String? phone,
+      required String? description,
+      required String? districtId,
+      required String? districtName,
+      required String? buildingId,
+      required String? buildingName,
+      required String? room,
+      required String? name,
+      required List<String>? danhSachSuCo,
+      required String? userInUnit,
+      required List<File> fileUpload}) {
     return runCatchingAsync<AddTaskResponse, AddTaskResponseModel>(
-      () => _hoTroKyThuatService.addTask(
-        request,
-        // files,
-      ),
-      (res) {
-        return res.toModel();
-      },
-    );
+        () => _hoTroKyThuatService.addTask(
+            id,
+            userRequestId,
+            phone,
+            description,
+            districtId,
+            districtName,
+            buildingId,
+            buildingName,
+            room,
+            name,
+            danhSachSuCo,
+            userInUnit,
+            fileUpload), (res) {
+      return res.toModel();
+    });
   }
 }

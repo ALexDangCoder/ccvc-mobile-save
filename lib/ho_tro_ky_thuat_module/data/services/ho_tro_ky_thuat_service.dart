@@ -24,39 +24,32 @@ abstract class HoTroKyThuatService {
 
   @POST(ApiConstants.DANH_SACH_SU_CO)
   Future<DanhSachSuCoResponse> postDanhSachSuCo(
-    @Field('pageIndex') int pageIndex,
-    @Field('pageSize') int pageSize,
-    @Field('codeUnit') String? codeUnit,
-    @Field('createOn') String? createOn,
-    @Field('finishDay') String? finishDay,
-    @Field('userRequestId') String? userRequestId,
-    @Field('districtId') String? districtId,
-    @Field('buildingId') String? buildingId,
-    @Field('room') String? room,
-    @Field('processingCode') String? processingCode,
-    @Field('handlerId') String? handlerId,
-    @Field('keyWord') String? keyWord,
-  );
+      @Field('pageIndex') int pageIndex,
+      @Field('pageSize') int pageSize,
+      @Field('codeUnit') String? codeUnit,
+      @Field('createOn') String? createOn,
+      @Field('finishDay') String? finishDay,
+      @Field('userRequestId') String? userRequestId,
+      @Field('districtId') String? districtId,
+      @Field('buildingId') String? buildingId,
+      @Field('room') String? room,
+      @Field('processingCode') String? processingCode,
+      @Field('handlerId') String? handlerId,
+      @Field('keyWord') String? keyWord,);
 
   @GET(ApiConstants.GET_TONG_DAI)
   Future<TongDaiResponse> getTongDai();
 
   @GET(ApiConstants.GET_SUPPORT_DETAIL)
-  Future<SupportDetailResponse> getSupportDetail(
-    @Query('id') String id,
-  );
+  Future<SupportDetailResponse> getSupportDetail(@Query('id') String id,);
 
   @GET(ApiConstants.LIST_THANH_VIEN_BAO_CAO)
-  Future<GroupImplResponse> getListThanhVien(
-    @Query('groupId') String groupId,
-    @Query('pageIndex') String pageIndex,
-    @Query('pageSize') String pageSize,
-  );
+  Future<GroupImplResponse> getListThanhVien(@Query('groupId') String groupId,
+      @Query('pageIndex') String pageIndex,
+      @Query('pageSize') String pageSize,);
 
   @GET(ApiConstants.GET_CATEGORY)
-  Future<CategoryResponse> getCategory(
-    @Query('code') String code,
-  );
+  Future<CategoryResponse> getCategory(@Query('code') String code,);
 
   @GET(ApiConstants.GET_CHART_SU_CO)
   Future<ChartSuCoResponse> getChartSuCo();
@@ -65,14 +58,23 @@ abstract class HoTroKyThuatService {
   Future<NguoiTiepNhanYeuCauResponse> getNguoiTiepNhanYeuCau();
 
   @DELETE(ApiConstants.DELETE_TASK)
-  Future<DeleteTaskResponse> deleteTask(
-    @Body() List<String> listId,
-  );
+  Future<DeleteTaskResponse> deleteTask(@Body() List<String> listId,);
 
   @POST(ApiConstants.ADD_TASK)
-  @FormUrlEncoded()
+   @MultiPart()
   Future<AddTaskResponse> addTask(
-    @Body() AddTaskHTKTRequest request,
-    // @Path() List<File>? fileUpload,
+ @Part(name: "Id")      String? Id,
+ @Part(name: "UserRequestId") String? UserRequestId,
+ @Part(name: "Phone") String? Phone,
+ @Part(name: "Description") String? Description,
+ @Part(name: "DistrictId") String? DistrictId,
+ @Part(name: "DistrictName") String? DistrictName,
+ @Part(name: "BuildingId") String? BuildingId,
+ @Part(name: "BuildingName") String? BuildingName,
+ @Part(name: "Room") String? Room,
+ @Part(name: "Name") String? Name,
+ @Part(name: "DanhSachSuCo") List<String>? DanhSachSuCo,
+ @Part(name: "UserInUnit") String? UserInUnit,
+ @Part(name: "fileUpload") List<File> FileUpload,
   );
 }

@@ -45,8 +45,19 @@ mixin HoTroKyThuatRepository {
     List<String> listId,
   );
 
-  Future<Result<AddTaskResponseModel>> addTask(
-    AddTaskHTKTRequest request,
-    // List<File>? files,
-  );
+  Future<Result<AddTaskResponseModel>> addTask({
+   required String? id,
+   required String? userRequestId,
+   required String? phone,
+   required String? description,
+   required String? districtId,
+   required String? districtName,
+   required String? buildingId,
+   required String? buildingName,
+   required String? room,
+   required String? name,
+   required List<String>? danhSachSuCo,
+   required String? userInUnit,
+   required List<File> fileUpload,
+  });
 }

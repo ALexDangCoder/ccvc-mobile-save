@@ -1,3 +1,7 @@
+
+
+import 'dart:io';
+
 class AddTaskHTKTRequest {
   String? id;
   String? userRequestId;
@@ -11,7 +15,7 @@ class AddTaskHTKTRequest {
   String? name;
   List<String>? danhSachSuCo;
   String? userInUnit;
-  List<String>? fileUpload;
+  List<File>? fileUpload;
 
   AddTaskHTKTRequest({
     this.id,
@@ -42,7 +46,7 @@ class AddTaskHTKTRequest {
     name = json['name'];
     danhSachSuCo = json['danhSachSuCo'].cast<String>();
     userInUnit = json['userInUnit'];
-    fileUpload = json['fileUpload'].cast<String>();
+    fileUpload = json['fileUpload'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,5 +65,10 @@ class AddTaskHTKTRequest {
     data['userInUnit'] = userInUnit;
     data['fileUpload'] = fileUpload;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'AddTaskHTKTRequest{id: $id, userRequestId: $userRequestId, phone: $phone, description: $description, districtId: $districtId, districtName: $districtName, buildingId: $buildingId, buildingName: $buildingName, room: $room, name: $name, danhSachSuCo: $danhSachSuCo, userInUnit: $userInUnit,fileUpload: $fileUpload}';
   }
 }

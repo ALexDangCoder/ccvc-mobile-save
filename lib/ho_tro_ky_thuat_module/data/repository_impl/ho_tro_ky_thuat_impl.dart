@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/add_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
@@ -6,6 +10,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/delete_task_res
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/add_task_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_su_co_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
@@ -130,6 +135,22 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
         } else {
           return false;
         }
+      },
+    );
+  }
+
+  @override
+  Future<Result<AddTaskResponseModel>> addTask(
+    AddTaskHTKTRequest request,
+    // List<File>? files,
+  ) {
+    return runCatchingAsync<AddTaskResponse, AddTaskResponseModel>(
+      () => _hoTroKyThuatService.addTask(
+        request,
+        // files,
+      ),
+      (res) {
+        return res.toModel();
       },
     );
   }

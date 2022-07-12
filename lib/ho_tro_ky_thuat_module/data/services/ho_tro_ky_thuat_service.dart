@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/add_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
@@ -63,5 +67,12 @@ abstract class HoTroKyThuatService {
   @DELETE(ApiConstants.DELETE_TASK)
   Future<DeleteTaskResponse> deleteTask(
     @Body() List<String> listId,
+  );
+
+  @POST(ApiConstants.ADD_TASK)
+  @FormUrlEncoded()
+  Future<AddTaskResponse> addTask(
+    @Body() AddTaskHTKTRequest request,
+    // @Path() List<File>? fileUpload,
   );
 }

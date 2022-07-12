@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/add_task_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_su_co_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/nguoi_tiep_nhan_yeu_cau_model.dart';
@@ -39,5 +43,10 @@ mixin HoTroKyThuatRepository {
 
   Future<Result<bool>> deleteTask(
     List<String> listId,
+  );
+
+  Future<Result<AddTaskResponseModel>> addTask(
+    AddTaskHTKTRequest request,
+    // List<File>? files,
   );
 }

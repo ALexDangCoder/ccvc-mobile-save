@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -24,6 +26,7 @@ import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  List<File>? filesThemMoiYCHTKT = [];
 
 //code status
   static const CHUA_XU_LY = 'chua-xu-ly';
@@ -216,9 +219,33 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Future<void> geiApiAddAndSearch() async {
     getTree();
     await getNguoiTiepNhanYeuCau();
+    // await getCategory(title: KHU_VUC);
+    // await getCategory(title: LOAI_SU_CO);
+    await getCategory(title: TRANG_THAI);
+  }
+
+  Future<void> getApiThemMoiYCHT() async {
+    showLoading();
     await getCategory(title: KHU_VUC);
     await getCategory(title: LOAI_SU_CO);
-    await getCategory(title: TRANG_THAI);
+    if (_flagLoadThemMoiYCHT) {
+      showContent();
+    } else {
+      //nothing
+    }
+  }
+
+  Future<void> postDataThemMoiHTKT() async {
+    showLoading();
+    final result = await _hoTroKyThuatRepository.addTask(
+        addTaskHTKTRequest,);
+        // addTaskHTKTRequest, filesThemMoiYCHTKT,);
+    result.when(success: (success) {
+      print('--sucess--');
+    }, error: (error) {
+      print('--fail--');
+    });
+
   }
 
   Future<void> getNguoiXuLy({
@@ -344,6 +371,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
+  bool _flagLoadThemMoiYCHT = false;
+
   Future<void> getCategory({
     required String title,
   }) async {
@@ -352,12 +381,14 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         if (title == KHU_VUC) {
-          listKhuVuc.add(res);
-          listToaNha.add(res.first.childCategories ?? []);
+          listKhuVuc.sink.add(res);
+          listToaNha.sink.add(res.first.childCategories ?? []);
+          _flagLoadThemMoiYCHT = true;
         } else if (title == LOAI_SU_CO) {
           listLoaiSuCo.add(res);
+          _flagLoadThemMoiYCHT = true;
         } else {
-          listTrangThai.add(res);
+          listTrangThai.sink.add(res);
         }
       },
       error: (error) {
@@ -404,20 +435,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   void checkAllThemMoiYCHoTro() {
     if (addTaskHTKTRequest.buildingName == null) {
+      print('vao day');
       validateAllDropDown = false;
       showErrorToaNha.sink.add(true);
     }
     if (addTaskHTKTRequest.districtName == null) {
+      print('vao day1');
       validateAllDropDown = false;
       showErrorKhuVuc.sink.add(true);
     }
-    if ((addTaskHTKTRequest.danhSachSuCo ?? []).isEmpty) {
+    if ((filesThemMoiYCHTKT ?? []).isEmpty) {
       validateAllDropDown = false;
       showErrorLoaiSuCo.sink.add(true);
     }
     if (addTaskHTKTRequest.buildingName != null &&
         addTaskHTKTRequest.districtName != null &&
-        (addTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
+        (filesThemMoiYCHTKT ?? []).isNotEmpty) {
       validateAllDropDown = true;
       showErrorToaNha.sink.add(false);
       showErrorKhuVuc.sink.add(false);

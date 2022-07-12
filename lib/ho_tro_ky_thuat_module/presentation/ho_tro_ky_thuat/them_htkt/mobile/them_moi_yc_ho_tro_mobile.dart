@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -6,9 +8,10 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -36,6 +39,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   void initState() {
     super.initState();
     widget.cubit.init();
+    widget.cubit.getApiThemMoiYCHT();
   }
 
   @override
@@ -45,140 +49,153 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(32),
-          topRight: Radius.circular(32),
-        ),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            spaceH20,
-            Center(
-              child: Container(
-                height: 6,
-                width: 48,
-                decoration: const BoxDecoration(
-                  color: colorECEEF7,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-              ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: StateStreamLayout(
+        stream: widget.cubit.stateStream,
+        textEmpty: '',
+        retry: () {
+          //todo
+        },
+        error: AppException(S.current.something_went_wrong, ''),
+        child: Container(
+          height: 750,
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 22.5,
-                bottom: 16,
-              ),
-              child: FormGroup(
-                key: _groupKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.current.them_moi_yc_ho_tro,
-                      style: p.textNormalCustom(
-                        color: textTitle,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                spaceH20,
+                Center(
+                  child: Container(
+                    height: 6,
+                    width: 48,
+                    decoration: const BoxDecoration(
+                      color: colorECEEF7,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
                       ),
                     ),
-                    spaceH20,
-                    textField(
-                      isHightLight: true,
-                      title: S.current.ten_thiet_bi,
-                      hintText: S.current.ten_thiet_bi,
-                      isEnable: true,
-                      maxLength: 150,
-                      onChange: (value) {
-                        widget.cubit.addTaskHTKTRequest.name = value;
-                      },
-                      validate: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return S.current.khong_duoc_de_trong;
-                        }
-                      },
-                    ),
-                    spaceH16,
-                    textField(
-                      isHightLight: true,
-                      title: S.current.sdt_lien_he,
-                      hintText: S.current.sdt_lien_he,
-                      inputFormatter: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      maxLength: 11,
-                      textInputType: TextInputType.number,
-                      onChange: (value) {
-                        widget.cubit.addTaskHTKTRequest.phone = value;
-                      },
-                      validate: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return S.current.khong_duoc_de_trong;
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    spaceH16,
-                    textField(
-                      isHightLight: true,
-                      maxLine: 3,
-                      title: S.current.nhap_mo_ta,
-                      hintText: S.current.nhap_mo_ta,
-                      onChange: (value) {
-                        widget.cubit.addTaskHTKTRequest.description = value;
-                      },
-                      validate: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return S.current.khong_duoc_de_trong;
-                        }
-                      },
-                    ),
-                    spaceH16,
-                    _dropDownKhuVuc(),
-                    spaceH16,
-                    _dropDownToaNha(),
-                    spaceH16,
-                    textField(
-                      isHightLight: true,
-                      title: S.current.so_phong,
-                      hintText: S.current.so_phong,
-                      onChange: (value) {
-                        widget.cubit.addTaskHTKTRequest.room = value;
-                      },
-                      validate: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return S.current.khong_duoc_de_trong;
-                        }
-                      },
-                    ),
-                    spaceH16,
-                    _loaiSuCoMultiSelect(),
-                    spaceH16,
-                    TaiLieuWidget(
-                      idRemove: (String id) {},
-                      onChange: (files, value) {
-                        print(files);
-                      },
-                    ),
-                    spaceH20,
-                    doubleBtn(),
-                  ],
+                  ),
                 ),
-              ),
-            )
-          ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 22.5,
+                    bottom: 16,
+                  ),
+                  child: FormGroup(
+                    key: _groupKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          S.current.them_moi_yc_ho_tro,
+                          style: p.textNormalCustom(
+                            color: textTitle,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        spaceH20,
+                        textField(
+                          isHightLight: true,
+                          title: S.current.ten_thiet_bi,
+                          hintText: S.current.ten_thiet_bi,
+                          isEnable: true,
+                          maxLength: 150,
+                          onChange: (value) {
+                            widget.cubit.addTaskHTKTRequest.name = value;
+                          },
+                          validate: (value) {
+                            if ((value ?? '').isEmpty) {
+                              return S.current.khong_duoc_de_trong;
+                            }
+                          },
+                        ),
+                        spaceH16,
+                        textField(
+                          isHightLight: true,
+                          title: S.current.sdt_lien_he,
+                          hintText: S.current.sdt_lien_he,
+                          inputFormatter: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          maxLength: 11,
+                          textInputType: TextInputType.number,
+                          onChange: (value) {
+                            widget.cubit.addTaskHTKTRequest.phone = value;
+                          },
+                          validate: (value) {
+                            if ((value ?? '').isEmpty) {
+                              return S.current.khong_duoc_de_trong;
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        spaceH16,
+                        textField(
+                          isHightLight: true,
+                          maxLine: 3,
+                          title: S.current.nhap_mo_ta,
+                          hintText: S.current.nhap_mo_ta,
+                          onChange: (value) {
+                            widget.cubit.addTaskHTKTRequest.description = value;
+                          },
+                          validate: (value) {
+                            if ((value ?? '').isEmpty) {
+                              return S.current.khong_duoc_de_trong;
+                            }
+                          },
+                        ),
+                        spaceH16,
+                        // _dropDownKhuVuc(),
+                        spaceH16,
+                        // _dropDownToaNha(),
+                        spaceH16,
+                        textField(
+                          isHightLight: true,
+                          title: S.current.so_phong,
+                          hintText: S.current.so_phong,
+                          onChange: (value) {
+                            widget.cubit.addTaskHTKTRequest.room = value;
+                          },
+                          validate: (value) {
+                            if ((value ?? '').isEmpty) {
+                              return S.current.khong_duoc_de_trong;
+                            }
+                          },
+                        ),
+                        spaceH16,
+                        _loaiSuCoMultiSelect(),
+                        spaceH16,
+                        TaiLieuWidget(
+                          idRemove: (String id) {},
+                          onChange: (files, value) {
+                            // widget.cubit.filesThemMoiYCHTKT = files;
+                            widget.cubit.addTaskHTKTRequest.fileUpload=files;
+                          },
+                        ),
+                        spaceH20,
+                        doubleBtn(),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -189,22 +206,50 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        StreamBuilder<List<ChildCategories>>(
-          stream: widget.cubit.listToaNha,
-          builder: (context, snapshot) {
-            final List<String> listResult =
-                widget.cubit.getList(snapshot.data ?? []);
-            return dropDownField(
-              title: S.current.toa_nha,
-              listData: listResult,
-              function: (value) {
-                widget.cubit.addTaskHTKTRequest.buildingName =
-                    widget.cubit.listKhuVuc.value[value].name;
-                widget.cubit.addTaskHTKTRequest.buildingId =
-                    widget.cubit.listKhuVuc.value[value].id;
-              },
-            );
+        RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: S.current.toa_nha,
+                style: tokenDetailAmount(
+                  fontSize: 14,
+                  color: color3D5586,
+                ),
+              ),
+              TextSpan(
+                text: ' *',
+                style: tokenDetailAmount(
+                  fontSize: 14,
+                  color: Colors.red,
+                ),
+              )
+            ],
+          ),
+        ),
+        spaceH8,
+        CustomDropDown(
+          hint: RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: S.current.chon,
+                  style: tokenDetailAmount(
+                    fontSize: 14,
+                    color: color3D5586,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          value: widget.cubit.addTaskHTKTRequest.buildingName,
+          onSelectItem: (value) {
+            widget.cubit.addTaskHTKTRequest.buildingName =
+                widget.cubit.listToaNha.value[value].name;
+            // widget.cubit.addTaskHTKTRequest.buildingId =
+            //     widget.cubit.listKhuVuc.value[value].id;
           },
+          items:
+              widget.cubit.listToaNha.value.map((e) => e.name ?? '').toList(),
         ),
         StreamBuilder<bool>(
           initialData: false,
@@ -234,12 +279,43 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        dropDownField(
-          hintText: S.current.chon,
-          title: S.current.khu_vuc,
-          listData:
-              widget.cubit.listKhuVuc.value.map((e) => e.name ?? '').toList(),
-          function: (value) {
+        RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: S.current.khu_vuc,
+                style: tokenDetailAmount(
+                  fontSize: 14,
+                  color: color3D5586,
+                ),
+              ),
+              TextSpan(
+                text: ' *',
+                style: tokenDetailAmount(
+                  fontSize: 14,
+                  color: Colors.red,
+                ),
+              )
+            ],
+          ),
+        ),
+        spaceH8,
+        CustomDropDown(
+          hint: RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: S.current.chon,
+                  style: tokenDetailAmount(
+                    fontSize: 14,
+                    color: color3D5586,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          value: widget.cubit.addTaskHTKTRequest.districtName,
+          onSelectItem: (value) {
             widget.cubit.addTaskHTKTRequest.districtName =
                 widget.cubit.listKhuVuc.value[value].name;
             widget.cubit.addTaskHTKTRequest.districtId =
@@ -248,6 +324,8 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
               widget.cubit.listKhuVuc.value[value].childCategories ?? [],
             );
           },
+          items:
+              widget.cubit.listKhuVuc.value.map((e) => e.name ?? '').toList(),
         ),
         StreamBuilder<bool>(
           initialData: false,
@@ -464,6 +542,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
     String? hintText,
     int maxLine = 1,
     String? initData,
+    required String value,
     required List<String> listData,
     required String title,
     required Function(int) function,
@@ -486,13 +565,32 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           ),
         ),
         spaceH8,
-        CoolDropDown(
-          initData: initData ?? S.current.chon,
-          placeHoder: S.current.chon,
-          onChange: (value) => function(value),
-          listData: listData,
-          key: UniqueKey(),
+        CustomDropDown(
+          hint: RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: S.current.chon,
+                  style: tokenDetailAmount(
+                    fontSize: 14,
+                    color: color3D5586,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          value: value,
+          onSelectItem: (value) => function(value),
+          // value: S.current.chon,
+          items: listData,
         )
+        // CoolDropDown(
+        //   initData: initData ?? S.current.chon,
+        //   placeHoder: S.current.chon,
+        //   onChange: (value) => function(value),
+        //   listData: listData,
+        //   key: UniqueKey(),
+        // )
       ],
     );
   }
@@ -503,8 +601,24 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
         },
         onPressed2: () {
           widget.cubit.checkAllThemMoiYCHoTro();
+          ///test
+          widget.cubit.addTaskHTKTRequest.districtId =
+          'b6630734-88e1-4938-acc4-c18918624d72';
+          widget.cubit.addTaskHTKTRequest.districtName = 'Hà Nội';
+          widget.cubit.addTaskHTKTRequest.buildingId =
+          'bfa578bb-b98f-4ea9-a790-2302b87dcb26';
+          widget.cubit.addTaskHTKTRequest.buildingName = 'Tòa A';
+          widget.cubit.addTaskHTKTRequest.userInUnit =
+              HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
+                  '';
+          print(widget.cubit.addTaskHTKTRequest.toString());
+          print(widget.cubit.filesThemMoiYCHTKT);
+          widget.cubit.postDataThemMoiHTKT();
+          ///end
           if (_groupKey.currentState?.validator() ??
               true && widget.cubit.validateAllDropDown) {
+
+            // widget.cubit.postDataThemMoiHTKT();
           } else {
             final toast = FToast();
             toast.init(context);

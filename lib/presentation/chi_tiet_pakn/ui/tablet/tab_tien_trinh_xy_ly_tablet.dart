@@ -23,21 +23,24 @@ class TabTienTrinhXuLyTablet extends StatefulWidget {
   State<TabTienTrinhXuLyTablet> createState() => _TabTienTrinhXuLyTabletState();
 }
 
-class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
+class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getTienTrinhXyLy(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getTienTrinhXyLy(widget.id);
+      },
       child: _content(),
     );
   }
@@ -62,7 +65,7 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
                   decoration: BoxDecoration(
                     color: bgTabletItem,
                     border: Border.all(color: cellColorborder),
-                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    borderRadius: const BorderRadius.all(Radius.circular(6)),
                     boxShadow: [
                       BoxShadow(
                         color: shadowContainerColor.withOpacity(0.05),
@@ -104,22 +107,34 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
       child: Column(
         children: [
           RowTitleFeatDescription(
-              title: S.current.thoi_gian_thao_tac,
-              description: '23:27 16/09/2021'),
+            title: S.current.thoi_gian_thao_tac,
+            description: '23:27 16/09/2021',
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.don_vi_thao_tac, description: 'UBND Đồng Nai'),
+            title: S.current.don_vi_thao_tac,
+            description: 'UBND Đồng Nai',
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.tai_khoan_thao_tac, description: 'Chuyên viên'),
+            title: S.current.tai_khoan_thao_tac,
+            description: 'Chuyên viên',
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.trang_thai_xu_ly, description: 'Đã tạo PAKN'),
+            title: S.current.trang_thai_xu_ly,
+            description: 'Đã tạo PAKN',
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.noi_dung_xu_ly, description: 'Không có'),
+            title: S.current.noi_dung_xu_ly,
+            description: 'Không có',
+          ),
         ],
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

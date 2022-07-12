@@ -80,9 +80,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
   @override
   void initState() {
     super.initState();
-    if (widget.isLoadmore) {
-      initData();
-    }
+    initData();
   }
 
   @override

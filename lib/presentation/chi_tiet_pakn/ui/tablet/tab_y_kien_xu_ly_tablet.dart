@@ -35,10 +35,11 @@ class TabYKienXuLyTablet extends StatefulWidget {
   State<TabYKienXuLyTablet> createState() => _TabYKienXuLyTabletState();
 }
 
-class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
+class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
+    with AutomaticKeepAliveClientMixin {
   late TextEditingController _nhapYMainController;
 
-  void _getApi() => widget.cubit.getDanhSachYKienXuLyPAKN();
+  Future<void> _getApi() => widget.cubit.getDanhSachYKienXuLyPAKN();
 
   @override
   void initState() {
@@ -82,6 +83,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final cubit = widget.cubit;
     return Scaffold(
       body: StateStreamLayout(
@@ -92,6 +94,10 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
         error: AppException('', S.current.something_went_wrong),
         stream: widget.cubit.stateStream,
         child: ComplexLoadMore(
+          isLoadmore: false,
+          physics: const AlwaysScrollableScrollPhysics(),
+          titleNoData: S.current.khong_co_du_lieu,
+          isTitle: false,
           viewItem: (value, index) => _itemViewDetail(
             sizeImage: 32,
             avatar: value.anhDaiDienNguoiCho ?? '',
@@ -100,6 +106,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
             file: value.dSFile ?? [],
             isViewData: value.dSFile?.isNotEmpty ?? false,
             noiDung: value.noiDung ?? '',
+            isMarginBottom: index == widget.cubit.loadMoreList.length - 1,
           ),
           cubit: cubit,
           callApi: (int page) => _getApi(),
@@ -120,11 +127,14 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
     required String noiDung,
     required List<FileModel> file,
     required String time,
+    required bool isMarginBottom,
   }) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
+      margin: EdgeInsets.only(
+        right: 16,
+        left: 16,
+        top: 8,
+        bottom: isMarginBottom ? 16 : 8,
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -419,15 +429,12 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                     currentFocus.unfocus();
                   }
                   if (_nhapYMainController.text.trim().isNotEmpty) {
-                    for (final PickImageFileModel value
-                        in widget.cubit.listPickFileMain) {
-                      widget.cubit.size += value.size ?? 0;
-                    }
-                    if (widget.cubit.size / widget.cubit.byteToMb > 30) {
+                    if (widget.cubit.checkMaxSize()) {
                       MessageConfig.show(
                         title: S.current.file_dinh_kem_mb,
                         messState: MessState.error,
                       );
+                      widget.cubit.sizeFile = 0;
                     } else {
                       final String result = await widget.cubit.postYKienXuLy(
                         noiDung: _nhapYMainController.text,
@@ -439,20 +446,18 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                         _nhapYMainController.text = '';
                         widget.cubit.listFileMain.clear();
                         widget.cubit.listPickFileMain.clear();
+                        widget.cubit.sizeFile = 0;
                         setState(() {});
                       }
                     }
                   } else {
                     if (widget.cubit.listPickFileMain.isNotEmpty) {
-                      for (final PickImageFileModel value
-                          in widget.cubit.listPickFileMain) {
-                        widget.cubit.size += value.size ?? 0;
-                      }
-                      if (widget.cubit.size / widget.cubit.byteToMb > 30) {
+                      if (widget.cubit.checkMaxSize()) {
                         MessageConfig.show(
                           title: S.current.file_dinh_kem_mb,
                           messState: MessState.error,
                         );
+                        widget.cubit.sizeFile = 0;
                       } else {
                         final String result = await widget.cubit.postYKienXuLy(
                           noiDung: _nhapYMainController.text,
@@ -460,18 +465,11 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                           file: widget.cubit.listFileMain,
                         );
                         if (result.isNotEmpty) {
-                          // MessageConfig.show(
-                          //   title: S.current.tao_y_kien_xu_ly_thanh_cong,
-                          // );
                           _nhapYMainController.text = '';
                           widget.cubit.listFileMain.clear();
                           widget.cubit.listPickFileMain.clear();
+                          widget.cubit.sizeFile = 0;
                           setState(() {});
-                        } else {
-                          // MessageConfig.show(
-                          //   title: S.current.tao_y_kien_xu_ly_that_bai,
-                          //   messState: MessState.error,
-                          // );
                         }
                       }
                     } else {
@@ -579,4 +577,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

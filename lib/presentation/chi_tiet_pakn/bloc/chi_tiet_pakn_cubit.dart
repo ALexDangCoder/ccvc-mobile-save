@@ -47,8 +47,9 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
       BehaviorSubject<ChiTietYKNDModel>();
 
 //tab y kien xu ly
-  int byteToMb = 1048576;
-  int size = 0;
+  static const int byteToMb = 1048576;
+  static const int maxMb = 30;
+  int sizeFile = 0;
   final List<PickImageFileModel> listPickFileMain = [];
   final List<YKienXuLyYKNDModel> listYKienXuLy = [];
 
@@ -56,6 +57,13 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
   final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
   String mess = '';
   String idYkien = '';
+
+  bool checkMaxSize() {
+    for (final PickImageFileModel value in listPickFileMain) {
+      sizeFile += value.size ?? 0;
+    }
+    return sizeFile / byteToMb > maxMb;
+  }
 
   ///Function
   Future<void> getTienTrinhXyLy(String kienNghiId) async {

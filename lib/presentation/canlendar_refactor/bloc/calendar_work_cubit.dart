@@ -122,6 +122,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       _titleSubject.sink.add(statusType.getTitleWork());
     }
     if (idDonViLanhDao != null) {
+      _statusWorkSubject.sink.add(null );
       this.idDonViLanhDao = idDonViLanhDao;
       this.statusType = null;
     }

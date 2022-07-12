@@ -51,7 +51,7 @@ class _ShowMoreBottomSheetMobileState extends State<ShowMoreBottomSheetMobile> {
             ),
           ),
           ItemReportShareFavorite(
-            reportItem: widget.reportItem,
+            item: widget.reportItem,
             cubit: widget.cubit,
             isFavorite: widget.isFavorite,
           ),

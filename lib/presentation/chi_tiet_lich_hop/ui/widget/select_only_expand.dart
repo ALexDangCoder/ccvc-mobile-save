@@ -8,12 +8,16 @@ class SelectOnlyWidget extends StatefulWidget {
   final String title;
   final Widget child;
   final Function(bool)? onchange;
+  final EdgeInsets paddingTitle;
+  final bool isPaddingIcon;
 
   const SelectOnlyWidget({
     Key? key,
     required this.title,
     required this.child,
     this.onchange,
+    this.paddingTitle = EdgeInsets.zero,
+    this.isPaddingIcon = false,
   }) : super(key: key);
 
   @override
@@ -30,6 +34,7 @@ class _SelectOnlyWidgetState extends State<SelectOnlyWidget>
         onchange: (vl) {
           widget.onchange?.call(vl);
         },
+        isPaddingIcon: widget.isPaddingIcon,
         header: headerWidget(),
         child: widget.child,
       ),
@@ -40,12 +45,15 @@ class _SelectOnlyWidgetState extends State<SelectOnlyWidget>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          widget.title,
-          style: textNormalCustom(
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0.textScale(),
-            color: dateColor,
+        Padding(
+          padding: widget.paddingTitle,
+          child: Text(
+            widget.title,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w500,
+              fontSize: 16.0.textScale(),
+              color: dateColor,
+            ),
           ),
         ),
       ],

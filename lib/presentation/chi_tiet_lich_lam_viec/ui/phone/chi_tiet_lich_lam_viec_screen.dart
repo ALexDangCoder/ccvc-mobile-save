@@ -61,162 +61,145 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
           final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
-          final String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
-          final int check = dataModel.scheduleCoperatives?.indexWhere(
-                (element) => element.status == 1,
-              ) ??
-              -1;
-          String nguoiDuocMoi = dataModel.scheduleCoperatives
-                  ?.firstWhere(
-                    (element) => element.canBoId == hiveUserId,
-                    orElse: () => ScheduleCoperatives(),
-                  )
-                  .canBoId ??
-              '';
-          final String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
-          final String nguoiTaoId = dataModel.createBy?.id ?? '';
-          final bool isThuHoi = (canBoChuTri == hiveUserId) ||
-              (nguoiTaoId == hiveUserId); //===sualich===huylich
-          final bool isChoYKien =
-              (nguoiTaoId == hiveUserId) || (nguoiDuocMoi == hiveUserId);
-          final bool isBaoCaoKetQua = (DateTime.parse(
-                dataModel.dateTimeTo ?? DateTime.now().toString(),
-              ).isBefore(DateTime.now())) &&
-              isChoYKien;
-          final bool isXoaLich = (check == -1) && isThuHoi;
+          chiTietLichLamViecCubit.checkXoa(dataModel);
+          chiTietLichLamViecCubit.nguoiDuocMoi(dataModel);
+          chiTietLichLamViecCubit.canBoChuTri(dataModel);
+          chiTietLichLamViecCubit.nguoiTaoId(dataModel);
+          final listAction = [
+            ///huy
+            if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
+              CellPopPupMenu(
+                urlImage: ImageAssets.icHuy,
+                text: S.current.huy,
+                onTap: () {
+                  checkCancelDuplicateCal(
+                    isDup: dataModel.isLichLap ?? false,
+                  );
+                },
+              ),
+            ],
+
+            ///bao cao ket qua
+            if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icChartFocus,
+                text: S.current.bao_cao_ket_qua,
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.bao_cao_ket_qua,
+                    child: BaoCaoBottomSheet(
+                      scheduleId: widget.id,
+                      cubit: BaoCaoKetQuaCubit(),
+                      listTinhTrangBaoCao:
+                      chiTietLichLamViecCubit
+                          .listTinhTrang,
+                    ),
+                  ).then((value) {
+                    if (value is bool && value) {
+                      chiTietLichLamViecCubit
+                          .getDanhSachBaoCaoKetQua(widget.id);
+                    }
+                  });
+                },
+              ),
+
+            ///cho y kien
+            if (chiTietLichLamViecCubit.checkChoYKien(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icChoYKien,
+                text: S.current.cho_y_kien,
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.y_kien,
+                    child: YKienBottomSheet(
+                      id: widget.id,
+                    ),
+                  ).then((value) {
+                    if (value == true) {
+                      chiTietLichLamViecCubit
+                          .loadApi(widget.id);
+                    } else if (value == null) {
+                      return;
+                    }
+                  });
+                },
+              ),
+
+            ///xoa lich
+            if (chiTietLichLamViecCubit.checkChoxoa(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icDelete,
+                text: S.current.xoa_lich,
+                onTap: () {
+                  checkDeleteDuplicateCal(
+                    isDup: dataModel.isLichLap ?? false,
+                  );
+                },
+              ),
+
+            ///thu hoi lich
+            if (chiTietLichLamViecCubit.checkChoThuHoi(dataModel)) ...[
+              CellPopPupMenu(
+                urlImage: ImageAssets.icRecall,
+                text: S.current.thu_hoi,
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.thu_hoi_lich,
+                    child: RecallCalendar(
+                      cubit: chiTietLichLamViecCubit,
+                      callback: () {
+                        checkRecallDuplicateCal(
+                          isDup: dataModel.isLichLap ?? false,
+                        );
+                      },
+                    ),
+                  );
+                },
+              )
+            ],
+
+            ///sua lich
+            if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
+              CellPopPupMenu(
+                urlImage: ImageAssets.icEditBlue,
+                text: S.current.sua_lich,
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: '',
+                    textOption: false,
+                    child: EditCalendarWork(
+                      cubit: chiTietLichLamViecCubit,
+                      event: dataModel,
+                    ),
+                  ).then((value) {
+                    if (value == true) {
+                      Navigator.pop(context, true);
+                    } else if (value == null) {
+                      return;
+                    }
+                  });
+                },
+              ),
+            ]
+          ];
+
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
                       appBar: BaseAppBar(
                         title: S.current.chi_tiet_lich_lam_viec,
-                        actions: [
+                        actions:listAction.isNotEmpty ? [
                           MenuSelectWidget(
-                            listSelect: [
-                              ///huy
-                              if (isThuHoi) ...[
-                                CellPopPupMenu(
-                                  urlImage: ImageAssets.icHuy,
-                                  text: S.current.huy,
-                                  onTap: () {
-                                    checkCancelDuplicateCal(
-                                      dataModel.isLichLap ?? false,
-                                    );
-                                  },
-                                ),
-                              ],
-
-                              ///bao cao ket qua
-                              if (isBaoCaoKetQua)
-                                CellPopPupMenu(
-                                  urlImage: ImageAssets.icChartFocus,
-                                  text: S.current.bao_cao_ket_qua,
-                                  onTap: () {
-                                    showBottomSheetCustom(
-                                      context,
-                                      title: S.current.bao_cao_ket_qua,
-                                      child: BaoCaoBottomSheet(
-                                        scheduleId: widget.id,
-                                        cubit: BaoCaoKetQuaCubit(),
-                                        listTinhTrangBaoCao:
-                                            chiTietLichLamViecCubit
-                                                .listTinhTrang,
-                                      ),
-                                    ).then((value) {
-                                      if (value is bool && value) {
-                                        chiTietLichLamViecCubit
-                                            .getDanhSachBaoCaoKetQua(widget.id);
-                                      }
-                                    });
-                                  },
-                                ),
-
-                              ///cho y kien
-                              if (isChoYKien)
-                                CellPopPupMenu(
-                                  urlImage: ImageAssets.icChoYKien,
-                                  text: S.current.cho_y_kien,
-                                  onTap: () {
-                                    showBottomSheetCustom(
-                                      context,
-                                      title: S.current.y_kien,
-                                      child: YKienBottomSheet(
-                                        id: widget.id,
-                                      ),
-                                    ).then((value) {
-                                      if (value == true) {
-                                        chiTietLichLamViecCubit
-                                            .loadApi(widget.id);
-                                      } else if (value == null) {
-                                        return;
-                                      }
-                                    });
-                                  },
-                                ),
-
-                              ///xoa lich
-                              if (isXoaLich)
-                                CellPopPupMenu(
-                                  urlImage: ImageAssets.icDelete,
-                                  text: S.current.xoa_lich,
-                                  onTap: () {
-                                    checkDeleteDuplicateCal(
-                                      dataModel.isLichLap ?? false,
-                                    );
-                                  },
-                                ),
-
-                              ///thu hoi lich
-                              if (isThuHoi) ...[
-                                CellPopPupMenu(
-                                  urlImage: ImageAssets.icRecall,
-                                  text: S.current.thu_hoi,
-                                  onTap: () {
-                                    showBottomSheetCustom(
-                                      context,
-                                      title: S.current.thu_hoi_lich,
-                                      child: RecallCalendar(
-                                        cubit: chiTietLichLamViecCubit,
-                                        callback: () {
-                                          checkRecallDuplicateCal(
-                                            dataModel.isLichLap ?? false,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                )
-                              ],
-
-                              ///sua lich
-                              if (isThuHoi) ...[
-                                CellPopPupMenu(
-                                  urlImage: ImageAssets.icEditBlue,
-                                  text: S.current.sua_lich,
-                                  onTap: () {
-                                    showBottomSheetCustom(
-                                      context,
-                                      title: '',
-                                      textOption: false,
-                                      child: EditCalendarWork(
-                                        cubit: chiTietLichLamViecCubit,
-                                        event: dataModel,
-                                      ),
-                                    ).then((value) {
-                                      if (value == true) {
-                                        Navigator.pop(context, true);
-                                      } else if (value == null) {
-                                        return;
-                                      }
-                                    });
-                                  },
-                                ),
-                              ]
-                            ],
+                            listSelect: listAction,
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ],
+                          // const SizedBox(
+                          //   width: 20,
+                          // ),
+                        ] : null,
                         leadingIcon: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -273,81 +256,81 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   builder: (context, snapshot) {
                                     final data = snapshot.data?.files ?? [];
                                     return DocumentFile(
-                                      onDelete: (fileDelete) {},
                                       files: data,
-                                      onChange: (file, validate) {},
                                     );
                                   },
                                 ),
-                                if (isBaoCaoKetQua)
+                                if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,
                                   ),
                                 DanhSachYKienButtom(
+                                  dataModel: dataModel,
                                   id: widget.id,
                                   cubit: chiTietLichLamViecCubit,
                                 ),
                                 spaceH12,
                                 StreamBuilder<bool>(
-                                    stream: chiTietLichLamViecCubit
-                                        .showButtonApprove,
-                                    builder: (context, snapshot) {
-                                      final data = snapshot.data ?? false;
-                                      return Visibility(
-                                        visible: data,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: bottomButtonWidget(
-                                                background: buttonColor
-                                                    .withOpacity(0.1),
-                                                title: S.current.tu_choi,
-                                                onTap: () {
+                                  stream:
+                                      chiTietLichLamViecCubit.showButtonApprove,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? false;
+                                    return Visibility(
+                                      visible: data,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: bottomButtonWidget(
+                                              background:
+                                                  buttonColor.withOpacity(0.1),
+                                              title: S.current.tu_choi,
+                                              onTap: () {
+                                                chiTietLichLamViecCubit
+                                                    .confirmOfficer(
+                                                  ConfirmOfficerRequest(
+                                                    lichId: dataModel.id,
+                                                    isThamGia: false,
+                                                    lyDo: '',
+                                                  ),
+                                                )
+                                                    .then((value) {
                                                   chiTietLichLamViecCubit
-                                                      .confirmOfficer(
-                                                    ConfirmOfficerRequest(
-                                                      lichId: dataModel.id,
-                                                      isThamGia: false,
-                                                      lyDo: '',
-                                                    ),
-                                                  )
-                                                      .then((value) {
-                                                    chiTietLichLamViecCubit
-                                                        .loadApi(widget.id);
-                                                  });
-                                                },
-                                                textColor: buttonColor,
-                                              ),
+                                                      .loadApi(widget.id);
+                                                });
+                                              },
+                                              textColor: buttonColor,
                                             ),
-                                            const SizedBox(
-                                              width: 16,
-                                            ),
-                                            Expanded(
-                                              child: bottomButtonWidget(
-                                                background: buttonColor,
-                                                title: S.current.tham_du,
-                                                onTap: () {
+                                          ),
+                                          const SizedBox(
+                                            width: 16,
+                                          ),
+                                          Expanded(
+                                            child: bottomButtonWidget(
+                                              background: buttonColor,
+                                              title: S.current.tham_du,
+                                              onTap: () {
+                                                chiTietLichLamViecCubit
+                                                    .confirmOfficer(
+                                                  ConfirmOfficerRequest(
+                                                    lichId: dataModel.id,
+                                                    isThamGia: true,
+                                                    lyDo: '',
+                                                  ),
+                                                )
+                                                    .then((value) {
                                                   chiTietLichLamViecCubit
-                                                      .confirmOfficer(
-                                                    ConfirmOfficerRequest(
-                                                      lichId: dataModel.id,
-                                                      isThamGia: true,
-                                                      lyDo: '',
-                                                    ),
-                                                  )
-                                                      .then((value) {
-                                                    chiTietLichLamViecCubit
-                                                        .loadApi(widget.id);
-                                                  });
-                                                },
-                                                textColor: Colors.white,
-                                              ),
+                                                      .loadApi(widget.id);
+                                                });
+                                              },
+                                              textColor: Colors.white,
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    })
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -403,7 +386,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     );
   }
 
-  void checkRecallDuplicateCal(bool isDup) {
+  void checkRecallDuplicateCal({required bool isDup}) {
     showDialog(
       context: context,
       builder: (context) => ThemLinkHopDialog(
@@ -421,7 +404,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     );
   }
 
-  void checkDeleteDuplicateCal(bool isDup) {
+  void checkDeleteDuplicateCal({required bool isDup}) {
     showDialog(
       context: context,
       builder: (context) => ThemLinkHopDialog(
@@ -442,7 +425,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
     );
   }
 
-  void checkCancelDuplicateCal(bool isDup) {
+  void checkCancelDuplicateCal({required bool isDup}) {
     showDialog(
       context: context,
       builder: (context) => ThemLinkHopDialog(

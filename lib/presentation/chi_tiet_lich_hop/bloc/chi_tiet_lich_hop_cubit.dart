@@ -62,7 +62,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   bool? loaiBieuQuyet;
   DonViModel donViModel = DonViModel();
   String? dateBieuQuyet;
-  String getPhienHopId = '';
+  String phienHopId = '';
   String tenPhienHop = '';
   List<CanBoModel> dataThanhPhanThamGia = [];
   List<String?> data = [];
@@ -83,6 +83,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
+  bool needRefreshMainMeeting = false;
+
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
       key: S.current.danh_sach_phat_bieu,

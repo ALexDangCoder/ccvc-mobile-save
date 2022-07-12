@@ -464,7 +464,7 @@ class ItemDiemCau extends StatelessWidget {
                   height: 10.0.textScale(space: 10),
                 ),
                 rowInfo(
-                  value: diemCau.getLoaiDiemCau(),
+                  value: diemCau.getLoaiDiemCau,
                   key: S.current.diem_cau_chinh_phu,
                 ),
                 SizedBox(

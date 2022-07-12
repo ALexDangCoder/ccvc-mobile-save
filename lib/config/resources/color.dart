@@ -23,6 +23,8 @@ const tabUnselected = Color(0xFFA9B8BD);
 //custom color
 const color_464646 = Color(0xFF464646);
 const color_667793 = Color(0xFF667793);
+const colorFF9F43 = Color(0xFFFF9F43);
+const color28C76F = Color(0xFF28C76F);
 const signInRowColor = Color(0xFFA9B8BD);
 const signInTextColor = Color(0xff0ABAB5);
 const colorB9C4D0 = Color(0xFFB9C4D0);
@@ -218,6 +220,7 @@ const color7966FF = Color(0xFF7966FF);
 const colorF9FAFF = Color(0xFFF9FAFF);
 const colorEA5455 = Color(0xFFEA5455);
 const color20C997 = Color(0xFF20C997);
+const colorE2E8F0 = Color(0xFFE2E8F0);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

@@ -154,6 +154,7 @@ class ImageAssets {
   static const String icChoYKien = '$baseImg/ic_cho_y_kien.svg';
   static const String icHuyLich = '$baseImg/ic_huy_lich.svg';
   static const String icCalling = '$baseImg/ic_calling.svg';
+  static const String icDiemCau = '$baseImg/ic_diem_cau.svg';
   static const String icError = '$baseImg/ic_error.svg';
   static const String icVoiceMini = '$baseImg/ic_voice_mini.svg';
   static const String icVn = '$baseImg/ic_vn.svg';
@@ -165,6 +166,15 @@ class ImageAssets {
   static const String previewPink = '$baseImg/perview_pink.png';
   static const String previewYellow = '$baseImg/perview_yellow.png';
   static const String ic_tick = '$baseImg/ic_tick.svg';
+  static const String icNhapDetail = '$baseImg/ic_nhap_detail.svg';
+  static const String icChoDuyetDetail = '$baseImg/ic_cho_duyet_detail.svg';
+  static const String icDaDuyetDetail = '$baseImg/ic_da_duyet_detail.svg';
+  static const String icTuChoiDuyetDetail = '$baseImg/ic_tu_choi_duyet_detail.svg';
+  static const String icThuHoiDetail = '$baseImg/ic_thu_hoi_detail.svg';
+  static const String icDangDienRaDetail = '$baseImg/ic_dang_dien_ra_detail.svg';
+  static const String icDaGuiLoiMoiDetail = '$baseImg/ic_da_gui_loi_moi_detail.svg';
+  static const String icXoaDetail = '$baseImg/ic_xoa_detail.svg';
+  static const String icHuyDetail = '$baseImg/ic_huy_detail.svg';
 
   ///SvgImage
   static const String appBarBackground = '$baseImg/app_bar_background.png';
@@ -426,28 +436,6 @@ class ImageAssets {
 
   ///SvgImage
   static const String icStar = '$baseImg/ic_start.png';
-
-  static const String preTinhHinhXuLyVaNBanMobile =
-      '$baseImg/tinh_hinh_xu_ly_van_ban_mobile.svg';
-  static const String preVanBanMobile = '$baseImg/van_ban_mobile.svg';
-  static const String preTongHopNhiemVu =
-      '$baseImg/tong_hop_nhiem_vu_mobile.svg';
-  static const String preNhiemVu = '$baseImg/nhiem_vu_mobile.svg';
-  static const String preTinhHinhPAKNCaNhan =
-      '$baseImg/tinh_hinh_xu_ly_pakn_ca_nhan_mobile.svg';
-  static const String preTinhHinhPAKNDonVi =
-      '$baseImg/tinh_hinh_pakn_don_vi_mobile.svg';
-  static const String preDanhSachPAKN = '$baseImg/danh_sach_pakn_mobile.svg';
-  static const String preLichLamViec = '$baseImg/lich_lam_viec_mobile.svg';
-  static const String preLichHop = '$baseImg/lich_hop_mobile.svg';
-  static const String preBXMXH = '$baseImg/bcmxh_mobile.svg';
-  static const String preDanhSachCongViec =
-      '$baseImg/danh_sach_cong_viec_mobile.svg';
-  static const String preSuKienTrongNgay =
-      '$baseImg/su_kien_trrong_ngay_mobile.svg';
-  static const String preSinhNhat = '$baseImg/sinh_nhat_mobile.svg';
-  static const String preHeaderNhiemVu = '$baseImg/header_nhiem_vu.svg';
-
   static const String bgAppBarTablet = '$baseImg/bg_app_bar.png';
   static const String imgHeaderTablet = '$baseImg/ic_header_tablet.png';
   static const String imgHeaderMenuTablet = '$baseImg/ic_header_menu_ipad.png';

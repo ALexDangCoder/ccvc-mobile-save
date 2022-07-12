@@ -88,10 +88,10 @@ class HeaderStyle {
     this.titleTextStyle = const TextStyle(fontSize: 17.0),
     this.formatButtonTextStyle = const TextStyle(),
     this.formatButtonDecoration = const BoxDecoration(
-      border: const Border.fromBorderSide(BorderSide()),
-      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+      border:  Border.fromBorderSide(BorderSide()),
+      borderRadius:  BorderRadius.all(Radius.circular(12.0)),
     ),
-    this.headerMargin = const EdgeInsets.all(0.0),
+    this.headerMargin =  EdgeInsets.zero,
     this.headerPadding = const EdgeInsets.symmetric(vertical: 8.0),
     this.formatButtonPadding =
         const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),

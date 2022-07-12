@@ -77,7 +77,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 value.forEach((element) {
                   element.value.vaiTroThamGia = 1;
                   element.value.type = 2;
-                  if(element.value.donViId.isEmpty){
+                  if (element.value.donViId.isEmpty) {
                     element.value.donViId = element.value.id;
                   }
                 });
@@ -144,7 +144,9 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               children: List.generate(
                 data.length,
                 (index) => Padding(
-                  padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 16.0.textScale(space: -2),
+                  ),
                   child: widget.isTaoHop
                       ? StreamBuilder<bool>(
                           stream: _cubit.phuongThucNhanStream,

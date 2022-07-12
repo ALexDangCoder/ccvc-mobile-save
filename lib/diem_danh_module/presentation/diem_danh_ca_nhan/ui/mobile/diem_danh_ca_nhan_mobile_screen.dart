@@ -77,8 +77,12 @@ class _DiemDanhCaNhanMobileScreenState
             child: Column(
               children: [
                 ChangeDateTimeWidget(
-                  onChange: (DateTime value) {},
-                  cubit: widget.cubit, endYear: 2025,
+                  onChange: (DateTime value) {
+                    widget.cubit.changeData(value);
+                  },
+                  cubit: widget.cubit,
+                  endYear: widget.cubit.endYear,
+                  startYear: widget.cubit.startYear,
                 ),
                 thongKeWiget(),
                 const CalendarChamCong(),
@@ -107,8 +111,8 @@ class _DiemDanhCaNhanMobileScreenState
           ],
         ),
         child: ExpandOnlyWidget(
-          padingSize: 8,
-          isPadingIcon: true,
+          paddingSize: 8,
+          isPaddingIcon: true,
           initExpand: true,
           header: Container(
             color: Colors.transparent,

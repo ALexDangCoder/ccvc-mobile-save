@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_di_thay_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_widget.dart';
@@ -266,24 +267,49 @@ extension GetDataPermission on PERMISSION_DETAIL {
           text: PERMISSION_DETAIL.SUA.getString(),
           onTap: () {
             if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
-              showBottomSheetCustom(
-                context,
-                title: S.current.sua_lich_hop,
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: SuaLichHopWidget(
-                    chiTietHop: cubit.getChiTietLichHopModel,
+              if (isMobile()) {
+                showBottomSheetCustom(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                    ),
                   ),
-                ),
-              ).then((value) {
-                if (value == null) {
-                  return;
-                }
-                if (value) {
-                  cubit.needRefreshMainMeeting = value;
-                  cubit.initDataChiTiet();
-                }
-              });
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              } else {
+                showDiaLogTablet(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                    ),
+                  ),
+                  funcBtnOk: () {},
+                  isBottomShow: false,
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              }
               return;
             }
             showDialog(
@@ -298,25 +324,51 @@ extension GetDataPermission on PERMISSION_DETAIL {
               if (value == null) {
                 return;
               }
-              showBottomSheetCustom(
-                context,
-                title: S.current.sua_lich_hop,
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: SuaLichHopWidget(
-                    chiTietHop: cubit.getChiTietLichHopModel,
-                    isMulti: value,
+              if (isMobile()) {
+                showBottomSheetCustom(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                      isMulti: value,
+                    ),
                   ),
-                ),
-              ).then((value) {
-                if (value == null) {
-                  return;
-                }
-                if (value) {
-                  cubit.needRefreshMainMeeting = value;
-                  cubit.initDataChiTiet();
-                }
-              });
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              } else {
+                showDiaLogTablet(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                      isMulti: value,
+                    ),
+                  ),
+                  funcBtnOk: () {},
+                  isBottomShow: false,
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              }
             });
           },
         );

@@ -13,6 +13,7 @@ class Officer {
   int? status;
   String? confirmDate = '';
   String? taskContent = '';
+  bool? isThamGia;
 
   Officer({
     this.id,
@@ -27,6 +28,7 @@ class Officer {
     this.status = 0,
     this.confirmDate,
     this.taskContent,
+    this.isThamGia,
   });
 
   String getTitle() {

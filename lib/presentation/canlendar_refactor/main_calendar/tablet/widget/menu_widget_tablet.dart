@@ -270,7 +270,7 @@ class MenuWidgetTablet extends StatelessWidget {
       ),
       child: ExpandOnlyWidget(
         headerDecoration: customDecoration,
-        isPadingIcon: true,
+        isPaddingIcon: true,
         header: itemMenuView(
           padding: 20,
           haveBorder: false,

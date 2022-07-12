@@ -1,11 +1,13 @@
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/delete_task_response.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/group_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/post_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/support_detail_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -60,8 +62,19 @@ abstract class HoTroKyThuatService {
   @GET(ApiConstants.GET_NGUOI_XU_LY)
   Future<NguoiTiepNhanYeuCauResponse> getNguoiTiepNhanYeuCau();
 
+  @POST(ApiConstants.POST_UPDATE_TASK_PROCESSING)
+  Future<PostResponse> updateTaskProcessing(
+      @Body() TaskProcessing task,
+      );
+
   @DELETE(ApiConstants.DELETE_TASK)
   Future<DeleteTaskResponse> deleteTask(
     @Body() List<String> listId,
   );
+
+  @POST(ApiConstants.COMMENT_TASK_PROCESSING)
+  Future<PostResponse> commentTaskProcessing(
+      @Query('taskId') String taskId,
+      @Query('comment') String comment,
+      );
 }

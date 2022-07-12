@@ -108,5 +108,6 @@ class Items {
         id: id ?? '',
         chucVu: chucVu?.parseHtml() ?? '',
         tenCanBo: fullName ?? '',
+    name: fullName ?? '',
       );
 }

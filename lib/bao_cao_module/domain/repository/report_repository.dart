@@ -14,6 +14,13 @@ mixin ReportRepository {
     String appID,
   );
 
+  Future<Result<List<ReportItem>>> getListReportShareToMe(
+    String folderId,
+    int sort,
+    String keyWord,
+    String appID,
+  );
+
   Future<Result<List<NhomCungHeThong>>> getListGroup(String appId);
 
   Future<Result<List<ThanhVien>>> getListThanhVien(
@@ -67,6 +74,7 @@ mixin ReportRepository {
     String appId,
     String idReport,
   );
+
   Future<Result<List<Node<DonViModel>>>> getUserPaging({
     required String donViId,
     required String appId,

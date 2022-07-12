@@ -227,6 +227,7 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
           height: 24,
         ),
         GridView.count(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,

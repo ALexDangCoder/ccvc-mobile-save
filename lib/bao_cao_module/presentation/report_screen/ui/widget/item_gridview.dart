@@ -1,8 +1,9 @@
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/show_dialog_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -54,56 +55,58 @@ class ItemGridView extends StatelessWidget {
           Positioned(
             top: 0,
             right: 0,
-            child: InkWell(
-              onTap: () {
-                if (isTablet) {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return ShowMoreBottomSheetTablet(
-                        reportItem: item,
-                        cubit: cubit,
-                        isFavorite: item.isPin ?? false,
-                      );
+            child: cubit.checkHideIcMore(
+              isReportShareToMe: item.isShareToMe ?? false,
+              typeReport: item.type ?? REPORT,
+            )
+                ? InkWell(
+                    onTap: () {
+                      if (isTablet) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return ShowMoreBottomSheetTablet(
+                              reportItem: item,
+                              cubit: cubit,
+                              isFavorite: item.isPin ?? false,
+                            );
+                          },
+                        );
+                      } else {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) => ShowMoreBottomSheetMobile(
+                            reportItem: item,
+                            cubit: cubit,
+                            isFavorite: item.isPin ?? false,
+                          ),
+                        );
+                      }
                     },
-                  );
-                } else {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => ShowMoreBottomSheetMobile(
-                      reportItem: item,
-                      cubit: cubit,
-                      isFavorite: item.isPin ?? false,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        top: 16,
+                        right: 16,
+                      ),
+                      child: SvgPicture.asset(
+                        ImageAssets.icMore,
+                        width: 16,
+                        height: 16,
+                      ),
                     ),
-                  );
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 16,
-                  right: 16,
-                ),
-                child: SvgPicture.asset(
-                  ImageAssets.icMore,
-                  width: 16,
-                  height: 16,
-                ),
-              ),
-            ),
+                  )
+                : const SizedBox.shrink(),
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ItemFolder(
                 type: item.type ?? 0,
-                isShare: cubit.checkStatus(
-                  item.status ?? 0,
-                  item.type ?? 0,
-                ),
+                isShare: item.isShareToMe ?? false,
                 fileNumber: item.childrenTotal ?? 0,
               ),
               spaceH18,

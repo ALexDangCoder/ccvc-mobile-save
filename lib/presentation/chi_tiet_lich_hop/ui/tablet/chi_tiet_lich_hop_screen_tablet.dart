@@ -49,6 +49,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
     cubit.idCuocHop = widget.id;
     cubitThanhPhan.getTree();
     cubit.initDataChiTiet(needCheckPermission: true);
+    cubit.getListPhienHop(cubit.idCuocHop);
     cubit.getDanhSachCanBoHop(widget.id);
     _controller = TabController(vsync: this, length: listTextTab.length);
     super.initState();
@@ -119,7 +120,6 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                 ),
                 stream: cubit.stateStream,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: backgroundColorApp,
                     borderRadius: const BorderRadius.only(

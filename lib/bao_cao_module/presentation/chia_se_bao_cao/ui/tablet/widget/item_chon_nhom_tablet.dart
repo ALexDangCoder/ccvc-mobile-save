@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ChonNhomTabletWidget extends StatelessWidget {
+class ChonNhomTabletWidget extends StatefulWidget {
   const ChonNhomTabletWidget({
     Key? key,
     required this.item,
@@ -16,6 +16,13 @@ class ChonNhomTabletWidget extends StatelessWidget {
 
   final NhomCungHeThong item;
   final Function delete;
+
+  @override
+  State<ChonNhomTabletWidget> createState() => _ChonNhomTabletWidgetState();
+}
+
+class _ChonNhomTabletWidgetState extends State<ChonNhomTabletWidget> {
+  bool showFull = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,7 @@ class ChonNhomTabletWidget extends StatelessWidget {
             ),
             spaceW5,
             Text(
-              item.tenNhom ?? '',
+              widget.item.tenNhom ?? '',
               style: textNormalCustom(
                 color: color3D5586,
                 fontSize: 14,
@@ -51,7 +58,7 @@ class ChonNhomTabletWidget extends StatelessWidget {
             spaceW12,
             InkWell(
               onTap: () {
-                delete();
+                widget.delete();
               },
               child: Icon(
                 Icons.close,
@@ -62,65 +69,95 @@ class ChonNhomTabletWidget extends StatelessWidget {
           ],
         ),
         spaceH12,
-        if ((item.listThanhVien?.length ?? 0) > 0)
-          Row(
-            children: [
-              if ((item.listThanhVien?.length ?? 0) > 3) ...[
-                ItemNguoiDungTablet(
-                  hasFunction: false,
-                  name: item.listThanhVien?[0].tenThanhVien ?? '',
-                ),
-                spaceW12,
-                ItemNguoiDungTablet(
-                  hasFunction: false,
-                  name: item.listThanhVien?[1].tenThanhVien ?? '',
-                ),
-                spaceW12,
-                ItemNguoiDungTablet(
-                  hasFunction: false,
-                  name: item.listThanhVien?[2].tenThanhVien ?? '',
-                ),
-                spaceW12,
-                Container(
-                  width: 32.w,
-                  height: 32.h,
-                  decoration: BoxDecoration(
-                    color: color4C6FFF.withOpacity(0.1),
-                    shape: BoxShape.circle,
+        if ((widget.item.listThanhVien?.length ?? 0) > 0)
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                if ((widget.item.listThanhVien?.length ?? 0) > 3) ...[
+                  ItemNguoiDungTablet(
+                    hasFunction: false,
+                    name: widget.item.listThanhVien?[0].tenThanhVien ?? '',
                   ),
-                  child: Center(
-                    child: Text(
-                      '+${(item.listThanhVien?.length ?? 0) - 3}',
-                      style: textNormalCustom(
-                        color: color4C6FFF,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                  spaceW12,
+                  ItemNguoiDungTablet(
+                    hasFunction: false,
+                    name: widget.item.listThanhVien?[1].tenThanhVien ?? '',
+                  ),
+                  spaceW12,
+                  ItemNguoiDungTablet(
+                    hasFunction: false,
+                    name: widget.item.listThanhVien?[2].tenThanhVien ?? '',
+                  ),
+                  spaceW12,
+                  if (!showFull)
+                    InkWell(
+                      child: Container(
+                        width: 32.w,
+                        height: 32.h,
+                        decoration: BoxDecoration(
+                          color: color4C6FFF.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '+${(widget.item.listThanhVien?.length ?? 0) - 3}',
+                            style: textNormalCustom(
+                              color: color4C6FFF,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    SizedBox(
+                      height: 40.h,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: (widget.item.listThanhVien?.length ?? 0) - 3,
+                        itemBuilder: (context, int index) {
+                          return Row(
+                            children: [
+                              ItemNguoiDungTablet(
+                                hasFunction: false,
+                                name: widget.item.listThanhVien?[index + 3]
+                                        .tenThanhVien ??
+                                    '',
+                              ),
+                              spaceW12,
+                            ],
+                          );
+                        },
                       ),
                     ),
+                ] else
+                  SizedBox(
+                    height: 40.h,
+                    width: 544.w,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: widget.item.listThanhVien?.length ?? 0,
+                      itemBuilder: (context, int index) {
+                        return Row(
+                          children: [
+                            ItemNguoiDungTablet(
+                              hasFunction: false,
+                              name: widget.item.listThanhVien?[index]
+                                      .tenThanhVien ??
+                                  '',
+                            ),
+                            spaceW12,
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ] else
-                SizedBox(
-                  height: 40.h,
-                  width: 544.w,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: item.listThanhVien?.length ?? 0,
-                    itemBuilder: (context, int index) {
-                      return Row(
-                        children: [
-                          ItemNguoiDungTablet(
-                            hasFunction: false,
-                            name: item.listThanhVien?[index].tenThanhVien ?? '',
-                          ),
-                          spaceW12,
-                        ],
-                      );
-                    },
-                  ),
-                ),
-            ],
+              ],
+            ),
           ),
       ],
     );

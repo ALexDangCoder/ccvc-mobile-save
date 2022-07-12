@@ -28,7 +28,6 @@ class TabKetQuaXuLy extends StatefulWidget {
 class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getKetQuaXuLy(widget.id, widget.taskId);
   }
@@ -39,7 +38,8 @@ class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getKetQuaXuLy(widget.id, widget.taskId);},
       child: _content(),
     );
   }

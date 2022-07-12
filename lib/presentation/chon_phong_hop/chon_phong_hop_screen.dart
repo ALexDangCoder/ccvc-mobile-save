@@ -28,6 +28,7 @@ import 'package:flutter/material.dart';
 
 class ChonPhongHopScreen extends StatefulWidget {
   final Function(ChonPhongHopModel) onChange;
+  final Function()? onDelete;
   final String? id;
   final String? dateFrom;
   final String? dateTo;
@@ -46,6 +47,7 @@ class ChonPhongHopScreen extends StatefulWidget {
     this.initThietBi,
     this.needShowSelectedRoom = false,
     this.idHop,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -62,13 +64,14 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
       _cubit.getDonViConPhong(widget.id!);
     }
     if (widget.initPhongHop != null) {
-      _cubit.getThongTinPhongHop(
-        isTTDH: widget.initPhongHop!.bitTTDH ?? false,
-        listThietBi: [],
-        trangThai: -1,
-        idHop: widget.idHop ?? '',
+      _cubit.thongTinPhongHopSubject.sink.add(
+        ChonPhongHopModel(
+          loaiPhongHopEnum: LoaiPhongHopEnum.PHONG_HOP_THUONG,
+          listThietBi: [],
+          yeuCauKhac: widget.initPhongHop?.noiDungYeuCau ?? '',
+          phongHop: widget.initPhongHop,
+        ),
       );
-      _cubit.initListThietBi(widget.initThietBi ?? []);
     }
   }
 
@@ -77,84 +80,47 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        StreamBuilder<PhongHopModel>(
-          stream: _cubit.phongHopSelectedSubject,
+        StreamBuilder<ChonPhongHopModel>(
+          stream: _cubit.thongTinPhongHopSubject,
           builder: (context, snapshot) {
-            return SolidButton(
-              onTap: () {
-                showBottomSheet();
-              },
-              text: snapshot.hasData
-                  ? S.current.doi_phong
-                  : S.current.chon_phong_hop,
-              urlIcon: ImageAssets.icChonPhongHop,
+            final thongTinPhong = snapshot.data;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SolidButton(
+                  onTap: () {
+                    showBottomSheet();
+                  },
+                  text: snapshot.hasData
+                      ? S.current.doi_phong
+                      : S.current.chon_phong_hop,
+                  urlIcon: ImageAssets.icChonPhongHop,
+                ),
+                if (widget.needShowSelectedRoom &&
+                    (thongTinPhong?.phongHop?.phongHopId?.isNotEmpty ??
+                        false)) ...[
+                  spaceH16,
+                  Text(
+                    S.current.thong_tin_phong,
+                    style: textNormal(color667793, 14).copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  spaceH12,
+                  phongHopSelected(
+                    phongHop: thongTinPhong?.phongHop?.ten ?? '',
+                    yeuCauKhac: thongTinPhong?.phongHop?.noiDungYeuCau ?? '',
+                    yeuCauPhongHop: '',
+                    onDelete: () {
+                      widget.onDelete?.call();
+                      _cubit.thongTinPhongHopSubject.addError('');
+                    },
+                  ),
+                ],
+              ],
             );
           },
         ),
-        if (widget.needShowSelectedRoom) ...[
-          spaceH16,
-          StreamBuilder<PhongHopModel>(
-            stream: _cubit.phongHopSelectedSubject,
-            builder: (context, snapshot) {
-              final phongHop = snapshot.data;
-              if (phongHop != null) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.current.thong_tin_phong,
-                      style: textNormal(color667793, 14).copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    spaceH12,
-                    itemPhongHop(
-                      phongHop: phongHop,
-                      index: 0,
-                      groupValue: 0,
-                      isShowCheckBox: false,
-                      onChange: (index) {},
-                    ),
-                  ],
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
-          StreamBuilder<List<ThietBiValue>>(
-            stream: _cubit.listThietBiStream,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <ThietBiValue>[];
-              if (data.isNotEmpty) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.current.thong_tin_yeu_cau_thiet_bi,
-                      style: textNormal(color667793, 14).copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    ...List.generate(
-                      data.length,
-                      (index) => Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: thietBiWidget(
-                          value: data[index],
-                          onDelete: () {
-                            _cubit.removeThietBi(data[index]);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }
-              return const SizedBox();
-            },
-          ),
-        ],
       ],
     );
   }
@@ -173,6 +139,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
         title: S.current.chon_phong_hop,
       ).then((value) {
         if (value != null) {
+          _cubit.thongTinPhongHopSubject.add(value);
           widget.onChange(value);
         }
       });
@@ -191,6 +158,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
         funcBtnOk: () {},
       ).then((value) {
         if (value != null) {
+          _cubit.thongTinPhongHopSubject.add(value);
           widget.onChange(value);
         }
       });
@@ -389,9 +357,6 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                                     index: index,
                                     groupValue: groupValue,
                                     onChange: (index) {
-                                      widget.chonPhongHopCubit
-                                          .phongHopSelectedSubject
-                                          .add(listData[index]);
                                       widget.chonPhongHopCubit.phongHop
                                         ..donViId = listData[index].donViDuyetId
                                         ..ten = listData[index].ten
@@ -545,6 +510,67 @@ Widget itemPhongHop({
               ),
             ),
           )
+      ],
+    ),
+  );
+}
+
+Widget phongHopSelected({
+  required String phongHop,
+  required String yeuCauPhongHop,
+  required String yeuCauKhac,
+  required Function() onDelete,
+}) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    margin: const EdgeInsets.only(bottom: 12),
+    decoration: BoxDecoration(
+      color: borderButtomColor.withOpacity(0.1),
+      border: Border.all(color: borderButtomColor),
+      borderRadius: const BorderRadius.all(Radius.circular(6)),
+    ),
+    child: Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 28.0),
+          child: Column(
+            children: [
+              rowInfo(
+                value: phongHop,
+                key: S.current.phong_chon,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              rowInfo(
+                value: yeuCauPhongHop,
+                key: S.current.yeu_cau_phong_hop,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              rowInfo(
+                value: yeuCauKhac,
+                key: S.current.yeu_cau_thiet_bi_khac,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: GestureDetector(
+            onTap: () {
+              onDelete();
+            },
+            child: ImageAssets.svgAssets(
+              ImageAssets.icDelete,
+            ),
+          ),
+        )
       ],
     ),
   );

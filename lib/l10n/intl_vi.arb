@@ -1245,7 +1245,10 @@
   "thong_tin_yeu_cau_chuan_bi": "Thông tin yêu cầu chuẩn bị",
   "noi_dung_yeu_cau": "Nội dung yêu cầu",
   "cap_nhat_trang_thai": "Cập nhật trạng thái",
-  "nhap_ghi_chu": "Nhập ghi chú"
+  "nhap_ghi_chu": "Nhập ghi chú",
+  "phong_chon": "Phòng chọn",
+  "yeu_cau_phong_hop": "Yêu cầu phòng họp",
+  "yeu_cau_thiet_bi_khac": "Yêu cầu thiết bị khác"
 }
 
 

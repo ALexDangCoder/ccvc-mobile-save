@@ -47,8 +47,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
   // late TextEditingController _nhapYkienController;
   late TextEditingController _nhapYMainController;
 
-  // final FocusNode _nodeYMain = FocusNode();
-  // final FocusNode _nodeYkien = FocusNode();
+
 
   @override
   void initState() {

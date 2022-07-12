@@ -149,12 +149,14 @@ class _CommentWidgetState extends State<CommentWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              content,
-              style: textNormalCustom(
-                color: color3D5586,
-                fontSize: 14.0.textScale(),
-                fontWeight: FontWeight.w400,
+            Expanded(
+              child: Text(
+                content,
+                style: textNormalCustom(
+                  color: color3D5586,
+                  fontSize: 14.0.textScale(),
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             if (showIcReply)

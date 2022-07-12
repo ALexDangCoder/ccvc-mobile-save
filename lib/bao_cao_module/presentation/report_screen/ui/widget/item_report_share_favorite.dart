@@ -197,7 +197,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               ),
             ),
           ),
-        if (!(widget.item.isShareToMe ?? false)) reportLine(),
+        if (widget.item.type == REPORT) reportLine(),
         if (widget.item.type == REPORT) spaceH18,
         if (widget.item.type == REPORT)
           Padding(

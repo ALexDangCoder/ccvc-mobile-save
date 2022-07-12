@@ -150,7 +150,8 @@ class ApiConstants {
   static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
-  static const THU_HOI_LICH_LAM_VIEC = '/vpdt/api/ScheduleCoperative/change-status-multi';
+  static const THU_HOI_LICH_LAM_VIEC =
+      '/vpdt/api/ScheduleCoperative/change-status-multi';
   static const CAN_BO_THU_HOI_LICH = ' /CanBoThamGia/can-bo-tham-gia-hop-tree';
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
@@ -313,6 +314,7 @@ class ApiConstants {
   static const LIST_STATUS_ROOM = '/vpdt/api/ReportStatus/list-status-room';
   static const GET_LIST_USER_IN_UNIT = '/htcs/api/users/get-paging';
   static const SUA_TRANG_THAI = '/vpdt/api/MeetingRoom/update-trang-thai';
+  static const THEM_MOI_VOTE = '/vpdt/api/BieuQuyet/them-moi-votes';
 }
 
 class ImageConstants {

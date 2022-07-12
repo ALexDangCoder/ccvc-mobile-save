@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
@@ -427,5 +428,9 @@ mixin HopRepository {
 
   Future<Result<bool>> capNhatTrangThai(
     CapNhatTrangThaiRequest capNhatTrangThaiRequest,
+  );
+
+  Future<Result<bool>> themMoiVote(
+    ThemMoiVoteRequest themMoiVoteRequest,
   );
 }

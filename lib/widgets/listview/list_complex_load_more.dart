@@ -27,6 +27,7 @@ class ComplexLoadMore extends StatefulWidget {
   final bool isTitle;
   final String? titleNoData;
   final bool isLoadmore;
+  final ScrollPhysics? physics;
 
   const ComplexLoadMore({
     Key? key,
@@ -42,6 +43,7 @@ class ComplexLoadMore extends StatefulWidget {
     this.titleNoData,
     this.mainAxisExtent,
     this.isLoadmore = true,
+    this.physics,
   }) : super(key: key);
 
   @override
@@ -77,7 +79,6 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.isLoadmore) {
       initData();
@@ -143,6 +144,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                 ) {
                   if (widget.isListView == true) {
                     return SingleChildScrollView(
+                      physics: widget.physics,
                       child: Column(
                         children: [
                           ...widget.childrenView,

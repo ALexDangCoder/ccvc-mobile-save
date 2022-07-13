@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/di/module.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/firebase_config.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/data/di/module.dart';
 import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
@@ -33,14 +34,10 @@ Future<void> mainApp() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await PrefsService.init();
   await Firebase.initializeApp();
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
-  FirebaseMessaging.onBackgroundMessage(_messageHandler);
+
+  await FirebaseConfig.setForegroundNotificationPresentationOptions();
+  await FirebaseConfig.onBackgroundMessage();
 
   final appDocumentDirectory =
   await path_provider.getApplicationDocumentsDirectory();
@@ -76,9 +73,7 @@ class _MyAppState extends State<MyApp> {
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      if (message.notification != null) {}
-    });
+    FirebaseConfig.onMessenge();
   }
 
   @override

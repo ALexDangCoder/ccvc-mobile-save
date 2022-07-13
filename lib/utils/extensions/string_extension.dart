@@ -318,9 +318,9 @@ extension CheckValidate on String {
     }
   }
 
-  String? checkNull() {
+  String? checkNull({String? showText}) {
     if (trim().isEmpty) {
-      return S.current.khong_duoc_de_trong;
+      return showText ?? S.current.khong_duoc_de_trong;
     }
     return null;
   }

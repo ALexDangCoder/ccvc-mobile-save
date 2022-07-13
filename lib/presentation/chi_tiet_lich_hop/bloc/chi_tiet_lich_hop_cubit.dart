@@ -131,8 +131,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   HtmlEditorController? controller = keyEditKetLuanHop.currentState?.controller;
 
-  BehaviorSubject<List<DanhSachLoaiNhiemVuLichHopModel>>
-      danhSachLoaiNhiemVuLichHopModel = BehaviorSubject();
+  List<DanhSachLoaiNhiemVuLichHopModel> danhSachLoaiNhiemVuLichHopModel = [];
 
   BehaviorSubject<List<VBGiaoNhiemVuModel>> listVBGiaoNhiemVu =
       BehaviorSubject<List<VBGiaoNhiemVuModel>>();

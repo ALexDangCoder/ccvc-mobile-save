@@ -374,7 +374,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                     }
                                   });
                                 },
-                                title: S.current.xoa,
+                                title: S.current.xoa_ket_luan_hop,
                                 btnRightTxt: S.current.dong_y,
                                 icon: Container(
                                   width: 56,
@@ -387,7 +387,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: SvgPicture.asset(
-                                      ImageAssets.ic_delete_do,
+                                      ImageAssets.ic_xoa_ket_luan_hop,
                                     ),
                                   ),
                                 ),
@@ -411,7 +411,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   });
                                 },
                                 showTablet: true,
-                                title: S.current.xoa,
+                                title: S.current.xoa_ket_luan_hop,
                                 btnRightTxt: S.current.dong_y,
                                 icon: Container(
                                   width: 56,
@@ -424,7 +424,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: SvgPicture.asset(
-                                      ImageAssets.ic_delete_do,
+                                      ImageAssets.ic_xoa_ket_luan_hop,
                                     ),
                                   ),
                                 ),

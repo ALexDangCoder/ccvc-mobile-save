@@ -226,8 +226,8 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     showLoading();
     final Result<DanhSachKetQuaYKXLModel> result =
         await YKNDRepo.getDanhSachYKienPAKN(
-      idYkienParam,
-      2,
+      kienNghiId: idYkienParam,
+      type: 2,
     );
     showContent();
     result.when(

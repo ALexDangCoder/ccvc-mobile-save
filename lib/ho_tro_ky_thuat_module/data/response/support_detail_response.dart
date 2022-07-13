@@ -95,7 +95,7 @@ class GroupResponse {
         trangThaiXuLy: trangThaiXuLy,
         nhanXet: nhanXet,
         ngayHoanThanh: ngayHoanThanh,
-        ketQuaXuLy: ketQuaXuLy,
+        ketQuaXuLy: (ketQuaXuLy ?? '').parseHtml(),
         nguoiXuLy: nguoiXuLy,
         danhSachSuCo: danhSachSuCo?.map((e) => e.tenSuCo ?? '').toList(),
       );

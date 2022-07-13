@@ -74,14 +74,30 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 24,
+                    top: 24,
                   ),
-                  child: Text(
-                    S.current.chia_se,
-                    style: textNormalCustom(
-                      color: color3D5586,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        S.current.chia_se,
+                        style: textNormalCustom(
+                          color: color3D5586,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.close,
+                          size: 24.sp,
+                          color: colorA2AEBD,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 spaceH20,

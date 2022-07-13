@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_b
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kien_su_ly_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/bloc/chi_tiet_nv_state.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/app_constants.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -202,13 +203,12 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
 
   final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
   final List<PickImageFileModel> listPickFileMain = [];
-  int byteToMb = 1048576;
   int size = 0;
   String idNhiemVu = '';
   List<Map<String, String>> listFileId = [];
 
   bool checkFile(int size) {
-    if (size / byteToMb > 30) {
+    if (size / BYTE_TO_MB > 30) {
       return false;
     } else {
       return true;

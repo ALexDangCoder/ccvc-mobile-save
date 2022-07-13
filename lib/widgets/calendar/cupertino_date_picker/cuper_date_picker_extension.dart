@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/build_picker.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
@@ -22,9 +24,18 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
           continue;
         }
       }
+      if (widget.minimumDate != null) {
+        final day = i + 1;
+        if (day < widget.minimumDate!.day &&
+            selectedYear == widget.minimumDate?.year &&
+            selectedMonth == widget.minimumDate?.month) {
+          continue;
+        }
+      }
 
       dataDay.add(i);
     }
+    days = dataDay;
     return BuildPicker(
       offAxisFraction: offAxisFraction,
       controller: dayController,
@@ -76,7 +87,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       }
       if (widget.minimumDate != null) {
         if (month < widget.minimumDate!.month &&
-            selectedYear == widget.maximumDate?.year) {
+            selectedYear == widget.minimumDate?.year) {
           continue;
         }
       }
@@ -94,9 +105,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         );
       }),
       onSelectItem: (index) {
-        dayController.jumpToItem(selectedDay -1);
         selectedMonth = dataMonth[index];
-
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
           widget.onDateTimeChanged(
@@ -124,8 +133,6 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       ),
       onSelectedItemChanged: (int index) {
         selectedYear = index;
-        dayController.jumpToItem(selectedDay -1);
-
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
           widget.onDateTimeChanged(

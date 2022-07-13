@@ -24,7 +24,8 @@ class TabThongTinNguoiPhanAnhTablet extends StatefulWidget {
 }
 
 class _TabThongTinNguoiPhanAnhTabletState
-    extends State<TabThongTinNguoiPhanAnhTablet> {
+    extends State<TabThongTinNguoiPhanAnhTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -33,6 +34,7 @@ class _TabThongTinNguoiPhanAnhTabletState
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
@@ -70,4 +72,7 @@ class _TabThongTinNguoiPhanAnhTabletState
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

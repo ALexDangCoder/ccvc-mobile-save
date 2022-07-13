@@ -99,11 +99,15 @@ class _CustomGroupRadioState<T> extends State<CustomGroupRadio<T>> {
                   ),
                 ),
                 spaceW16,
-                Text(
-                  e.title,
-                  style: tokenDetailAmount(
-                    fontSize: 14,
-                    color: color3D5586,
+                SizedBox(
+                  width: 280,
+                  child: Text(
+                    e.title,
+                    style: tokenDetailAmount(
+                      fontSize: 14,
+                      color: color3D5586,
+                    ),
+                    overflow: TextOverflow.clip,
                   ),
                 )
               ],

@@ -57,6 +57,55 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     _selectDonVi.sink.add(selectNode);
   }
 
+  void addSelectParent(Node<DonViModel> node, {required bool isCheck}) {
+    if (isCheck) {
+      if ((node.parent?.children.isNotEmpty ?? false) &&
+          node.parent?.children
+                  .where((element) => element.isCheck.isCheck)
+                  .length ==
+              node.parent?.children.length) {
+        _addParentSelectNode(node);
+      } else if (_isCheckChildrenIsSelectNode(node)) {
+        _addNodeParentChildren(node);
+      } else {
+        selectNode.add(node);
+      }
+    } else {
+      selectNode.remove(node);
+    }
+    _selectDonVi.sink.add(selectNode);
+  }
+
+  bool _isCheckChildrenIsSelectNode(Node<DonViModel> node) {
+    if (node.children.isNotEmpty) {
+      for (final element in node.children) {
+        final check  = selectNode.contains(element);
+        if(check){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  void _addNodeParentChildren(Node<DonViModel> node) {
+    for (final element in node.children) {
+      if (selectNode.contains(element)) {
+        selectNode.remove(element);
+      }
+    }
+    selectNode.add(node);
+  }
+
+  void _addParentSelectNode(Node<DonViModel> node) {
+    for (final element in node.parent?.children ?? []) {
+      if (selectNode.contains(element)) {
+        selectNode.remove(element);
+      }
+    }
+    selectNode.add(node.parent!);
+  }
+
   void selectNodeOnly(Node<DonViModel> node) {
     selectNodeOnlyValue = node;
     _selectOnlyDonVi.sink.add(node);
@@ -158,7 +207,6 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       }
     }
   }
-
 
   void _addParent(Set<Node<DonViModel>> list, Node<DonViModel> node) {
     if (node.parent != null) {

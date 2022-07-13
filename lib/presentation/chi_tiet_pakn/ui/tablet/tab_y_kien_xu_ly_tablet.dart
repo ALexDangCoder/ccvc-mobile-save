@@ -330,7 +330,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                                   Navigator.pop(context);
                                                   final Map<String, dynamic>
                                                       mediaMapImage =
-                                                      await pickImage(
+                                                      await pickImageIos(
                                                     fromCamera: true,
                                                   );
                                                   addDataListPick(
@@ -346,7 +346,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                                   Navigator.pop(context);
                                                   final Map<String, dynamic>
                                                       mediaMapImage =
-                                                      await pickImage();
+                                                      await pickImageIos();
                                                   addDataListPick(
                                                     mediaMapImage,
                                                   );
@@ -368,7 +368,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                       );
                                     } else {
                                       final Map<String, dynamic> mediaMapImage =
-                                          await pickImage(fromCamera: true);
+                                          await pickImageAndroid();
                                       addDataListPick(
                                         mediaMapImage,
                                       );

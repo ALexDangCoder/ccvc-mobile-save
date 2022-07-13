@@ -453,7 +453,7 @@ Widget noData() {
           height: 30.0,
         ),
         Text(
-          S.current.khong_co_bao_cao,
+          S.current.khong_co_du_lieu,
           style: textNormalCustom(
             fontSize: 16.0.textScale(space: 4.0),
             color: grayChart,

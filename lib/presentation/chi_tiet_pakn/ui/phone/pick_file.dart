@@ -29,25 +29,34 @@ Future<Map<String, dynamic>> pickFile() async {
   String _fileExtension = '';
   int _fileSize = 0;
   String _fileName = '';
-  final FilePickerResult? result = await FilePicker.platform.pickFiles();
-  if (result != null) {
-    _fileExtension = (result.files.single.extension ?? '').toUpperCase();
-    _filePath = result.files.single.path ?? '';
-    _fileSize = result.files.single.size;
-    _fileName = p.basename(_filePath);
-  } else {
-    return {};
+  try {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      _fileExtension = (result.files.single.extension ?? '').toUpperCase();
+      _filePath = result.files.single.path ?? '';
+      _fileSize = result.files.single.size;
+      _fileName = p.basename(_filePath);
+    } else {
+      return {};
+    }
+    return {
+      PATH_OF_FILE: _filePath,
+      SIZE_OF_FILE: _fileSize,
+      EXTENSION_OF_FILE: _fileExtension,
+      NAME_OF_FILE: _fileName,
+      FILE_RESULT: result.paths.map((path) => File(path!)).toList()
+    };
+  } on PlatformException catch (e) {
+    const permission = Permission.storage;
+    final status = await permission.status;
+    if (status.isPermanentlyDenied) {
+      await MessageConfig.showDialogSetting();
+    }
+    throw 'Cant pick file $e';
   }
-  return {
-    PATH_OF_FILE: _filePath,
-    SIZE_OF_FILE: _fileSize,
-    EXTENSION_OF_FILE: _fileExtension,
-    NAME_OF_FILE: _fileName,
-    FILE_RESULT: result.paths.map((path) => File(path!)).toList()
-  };
 }
 
-Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
+Future<Map<String, dynamic>> pickImageAndroid() async {
   final Map<String, dynamic> _resultMap = {
     PATH_OF_FILE: '',
     SIZE_OF_FILE: 0,
@@ -55,14 +64,12 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
     NAME_OF_FILE: '',
     FILE_RESULT: '',
   };
-  final permission = !fromCamera
-      ? (Platform.isIOS ? Permission.photosAddOnly : Permission.storage)
-      : (Permission.camera);
+  const permission = Permission.storage;
   final status = await permission.status;
   if (status.isGranted || status.isLimited) {
     try {
       final newImage = await ImagePicker().pickImage(
-        source: fromCamera ? ImageSource.camera : ImageSource.gallery,
+        source: ImageSource.camera,
       );
       if (newImage == null) {
         return _resultMap;
@@ -81,5 +88,39 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
   } else {
     await MessageConfig.showDialogSetting();
     return {};
+  }
+}
+
+Future<Map<String, dynamic>> pickImageIos({bool fromCamera = false}) async {
+  final Map<String, dynamic> _resultMap = {
+    PATH_OF_FILE: '',
+    SIZE_OF_FILE: 0,
+    EXTENSION_OF_FILE: '',
+    NAME_OF_FILE: '',
+    FILE_RESULT: '',
+  };
+  try {
+    final newImage = await ImagePicker().pickImage(
+      source: fromCamera ? ImageSource.camera : ImageSource.gallery,
+    );
+    if (newImage == null) {
+      return _resultMap;
+    }
+    final extension = (p.extension(newImage.path)).replaceAll('.', '');
+    _resultMap[EXTENSION_OF_FILE] = extension.toUpperCase();
+    _resultMap[SIZE_OF_FILE] =
+        File(newImage.path).readAsBytesSync().lengthInBytes;
+    _resultMap[PATH_OF_FILE] = newImage.path;
+    _resultMap[NAME_OF_FILE] = p.basename(p.basename(newImage.path));
+    _resultMap[FILE_RESULT] = [File(newImage.path)];
+    return _resultMap;
+  } on PlatformException catch (e) {
+    final permission =
+        !fromCamera ? Permission.photosAddOnly : Permission.camera;
+    final status = await permission.status;
+    if (status.isDenied) {
+      await MessageConfig.showDialogSetting();
+    }
+    throw 'Cant upload images $e';
   }
 }

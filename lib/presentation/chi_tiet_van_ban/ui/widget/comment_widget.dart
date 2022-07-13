@@ -43,7 +43,7 @@ class WidgetComments extends StatefulWidget {
 
 class _WidgetCommentsState extends State<WidgetComments> {
   late FocusNode _focusNode;
-  late  TextEditingController controller;
+  late TextEditingController controller;
 
   final Set<PickImageFileModel> listFile = {};
   String comment = '';
@@ -60,10 +60,10 @@ class _WidgetCommentsState extends State<WidgetComments> {
     super.initState();
   }
 
-  void removeData (){
+  void removeData() {
     setState(() {
-      comment= '';
-      controller.text ='';
+      comment = '';
+      controller.text = '';
       listFile.clear();
       _focusNode.unfocus();
     });

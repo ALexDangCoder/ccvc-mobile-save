@@ -71,7 +71,7 @@ class Data {
       id: id,
       ngayTao: ngayTao?.changeToNewPatternDate(
           DateTimeFormat.DATE_TIME_RECEIVE,
-          DateTimeFormat.DATE_TIME_HM,
+          DateTimeFormat.DATE_TIME_PICKER,
       ),
       nguoiTaoId: nguoiTaoId ?? '',
       nguoiTao: nguoiTao ?? '',
@@ -112,7 +112,7 @@ class DataTraLoiYKien {
     return YkienCuocHopModel(
       ngayTao: ngayTao?.changeToNewPatternDate(
         DateTimeFormat.DATE_TIME_RECEIVE,
-        DateTimeFormat.DATE_TIME_HM,
+        DateTimeFormat.DATE_TIME_PICKER,
       ),
       nguoiTao: nguoiTao ?? '',
       content: content?.parseHtml() ?? '',

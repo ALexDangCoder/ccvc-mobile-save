@@ -59,6 +59,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String startTime = '00:00';
   String endTime = '00:00';
   String? tenBieuQuyet;
+  String idPhienHop = '';
   bool? loaiBieuQuyet;
   DonViModel donViModel = DonViModel();
   String? dateBieuQuyet;
@@ -83,6 +84,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
+  bool needRefreshMainMeeting = false;
+
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
       key: S.current.danh_sach_phat_bieu,
@@ -154,7 +157,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   ChiTietLichHopModel get getChiTietLichHopModel =>
       chiTietLichHopSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
-  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop = BehaviorSubject();
+  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop =
+      BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>
       danhSachPhatbieuLichHopModelSubject = BehaviorSubject();
@@ -254,7 +258,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<DanhSachBietQuyetModel>> streamBieuQuyet =
       BehaviorSubject();
-
+  BehaviorSubject<List<int>> streamListVoteBieuQuyet = BehaviorSubject();
+  List<DanhSachBietQuyetModel> listBieuQuyet = [];
   final BehaviorSubject<int> typeStatus = BehaviorSubject.seeded(0);
 
   BehaviorSubject<SoLuongPhatBieuModel> dataSoLuongPhatBieuSubject =

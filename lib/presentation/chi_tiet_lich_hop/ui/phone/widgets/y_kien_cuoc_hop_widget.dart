@@ -67,6 +67,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
     super.build(context);
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
+        isPaddingIcon: true,
         paddingTitle: const EdgeInsets.symmetric(horizontal: 16),
         onchange: (value) {
           if (value && !widget.cubit.listYKienCuocHop.hasValue) {

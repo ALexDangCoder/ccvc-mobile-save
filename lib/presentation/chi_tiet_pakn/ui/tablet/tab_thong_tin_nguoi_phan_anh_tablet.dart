@@ -27,7 +27,6 @@ class _TabThongTinNguoiPhanAnhTabletState
     extends State<TabThongTinNguoiPhanAnhTablet> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinNguoiPhanAnh(widget.id, widget.taskId);
   }
@@ -38,7 +37,9 @@ class _TabThongTinNguoiPhanAnhTabletState
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getThongTinNguoiPhanAnh(widget.id, widget.taskId);
+      },
       child: _content(),
     );
   }

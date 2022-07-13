@@ -88,6 +88,10 @@ extension DateFormatString on DateTime {
     return DateFormat('dd/MM/yyyy HH:mm').format(this);
   }
 
+  String get formatPAKN {
+    return DateFormat('HH:mm dd/MM/yyyy ').format(this);
+  }
+
   String get formatListBieuQuyet {
     return DateFormat('MM/dd/yyyy HH:mm').format(this);
   }

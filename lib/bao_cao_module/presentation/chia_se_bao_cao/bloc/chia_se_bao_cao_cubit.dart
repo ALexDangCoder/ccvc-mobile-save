@@ -393,4 +393,13 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       },
     );
   }
+
+  @override
+  void removeTag(Node<DonViModel> node) {
+    node.isCheck.isCheck = false;
+    final data = node.setSelected(false);
+    node.isCheckTickChildren();
+    // node.isTickChildren = false;
+    super.removeTag(node);
+  }
 }

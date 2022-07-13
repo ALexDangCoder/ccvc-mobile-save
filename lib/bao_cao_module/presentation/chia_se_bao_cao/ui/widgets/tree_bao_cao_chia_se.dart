@@ -59,24 +59,21 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                                   widget.node.isCheck.isCheck = !isCheck;
                                   final data = widget.node
                                       .setSelected(widget.node.isCheck.isCheck);
-                                  if (isCheck == false) {
-                                    widget.node.isTickChildren = false;
-                                  }
                                   if(widget.node.parent?.value.id != ''){
                                     widget.themDonViCubit.checkUser(
                                       widget.node.parent!,
                                     );
                                   }
+                                  widget.node.isCheckTickChildren();
                                   widget.themDonViCubit.addSelectNode(
                                     widget.node,
                                     isCheck: widget.node.isCheck.isCheck,
                                   );
-                                  widget.node.isCheckTickChildren();
-                                  widget.themDonViCubit.addSelectDonVi(
-                                    isCheck: widget.node.isCheck.isCheck,
-                                    listDonVi: data,
-                                    node: widget.node.value,
-                                  );
+                                  // widget.themDonViCubit.addSelectDonVi(
+                                  //   isCheck: widget.node.isCheck.isCheck,
+                                  //   listDonVi: data,
+                                  //   node: widget.node.value,
+                                  // );
                                 },
                                 isCheck: widget.node.isCheckALl(),
                               )

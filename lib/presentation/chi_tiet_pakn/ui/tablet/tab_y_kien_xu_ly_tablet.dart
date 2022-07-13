@@ -44,7 +44,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
   @override
   void initState() {
     super.initState();
-    widget.cubit.idYkien = widget.id;
+    widget.cubit.idYkienParam = widget.id;
     _nhapYMainController = TextEditingController();
   }
 
@@ -438,7 +438,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                     } else {
                       final String result = await widget.cubit.postYKienXuLy(
                         noiDung: _nhapYMainController.text,
-                        kienNghiId: widget.cubit.idYkien,
+                        kienNghiId: widget.cubit.idYkienParam,
                         file: widget.cubit.listFileMain,
                       );
 
@@ -461,7 +461,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                       } else {
                         final String result = await widget.cubit.postYKienXuLy(
                           noiDung: _nhapYMainController.text,
-                          kienNghiId: widget.cubit.idYkien,
+                          kienNghiId: widget.cubit.idYkienParam,
                           file: widget.cubit.listFileMain,
                         );
                         if (result.isNotEmpty) {

@@ -50,6 +50,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
 //tab y kien xu ly
   static const int BYTE_TO_MB = 1048576;
   static const int MAX_MB = 30;
+  static const String SUCCESS = 'success';
   int sizeFile = 0;
   final List<PickImageFileModel> listPickFileMain = [];
   final List<YKienXuLyYKNDModel> listYKienXuLy = [];
@@ -57,7 +58,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
   List<File> listFileMain = [];
   final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
   String mess = '';
-  String idYkien = '';
+  String idYkienParam = '';
 
   bool checkMaxSize() {
     for (final PickImageFileModel value in listPickFileMain) {
@@ -225,7 +226,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     showLoading();
     final Result<DanhSachKetQuaYKXLModel> result =
         await YKNDRepo.getDanhSachYKienPAKN(
-      idYkien,
+      idYkienParam,
       2,
     );
     showContent();
@@ -415,7 +416,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        status = 'success';
+        status = SUCCESS;
         showContent();
         getDanhSachYKienXuLyPAKN();
       },

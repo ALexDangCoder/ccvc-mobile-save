@@ -15,14 +15,13 @@ const String VALID_FORMAT_OF_FILE = 'valid_format';
 const String NAME_OF_FILE = 'name';
 const String FILE_RESULT = 'file_result';
 
-const String MEDIA_VIDEO_FILE = 'video';
-const String MEDIA_IMAGE_FILE = 'images';
-const String MEDIA_AUDIO_FILE = 'audio';
-const String DOCUMENT_FILE = 'document';
-const String AVATAR_PHOTO = 'AVATAR';
-const String COVER_PHOTO = 'COVER_PHOTO';
-const String FEATURE_PHOTO = 'FEATURE_PHOTO';
-const String VIDEO_ACTIVITY = 'video/MP4';
+const String MEDIA_VIDEO = 'VIDEO';
+const String MP3 = 'MP3';
+const String MP4 = 'MP4';
+const String APK = 'APK';
+const String IPA = 'IPA';
+const String DEB = 'DEB';
+const String GIF = 'GIF';
 
 Future<Map<String, dynamic>> pickFile() async {
   String _filePath = '';

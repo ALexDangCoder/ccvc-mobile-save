@@ -44,20 +44,20 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
   @override
   void initState() {
     super.initState();
-    widget.cubit.idYkien = widget.id;
+    widget.cubit.idYkienParam = widget.id;
     _nhapYMainController = TextEditingController();
   }
 
   void addDataListPick(Map<String, dynamic> mediaMap) {
     if (mediaMap.getStringValue(NAME_OF_FILE).isNotEmpty) {
       final _extensionName = mediaMap.getStringValue(EXTENSION_OF_FILE);
-      if (_extensionName == 'VIDEO' ||
-          _extensionName == 'MP3' ||
-          _extensionName == 'MP4' ||
-          _extensionName == 'APK' ||
-          _extensionName == 'IPA' ||
-          _extensionName == 'DEB' ||
-          _extensionName == 'GIF') {
+      if (_extensionName == MEDIA_VIDEO ||
+          _extensionName == MP3 ||
+          _extensionName == MP4 ||
+          _extensionName == APK ||
+          _extensionName == IPA ||
+          _extensionName == DEB ||
+          _extensionName == GIF) {
         MessageConfig.show(
           title: S.current.file_khong_hop_le,
           messState: MessState.error,
@@ -438,7 +438,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                     } else {
                       final String result = await widget.cubit.postYKienXuLy(
                         noiDung: _nhapYMainController.text,
-                        kienNghiId: widget.cubit.idYkien,
+                        kienNghiId: widget.cubit.idYkienParam,
                         file: widget.cubit.listFileMain,
                       );
 
@@ -461,7 +461,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                       } else {
                         final String result = await widget.cubit.postYKienXuLy(
                           noiDung: _nhapYMainController.text,
-                          kienNghiId: widget.cubit.idYkien,
+                          kienNghiId: widget.cubit.idYkienParam,
                           file: widget.cubit.listFileMain,
                         );
                         if (result.isNotEmpty) {

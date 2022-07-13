@@ -60,13 +60,11 @@ class _ThongKeLichHopTabletState extends State<ThongKeLichHopTablet> {
                     ),
                   ],
                 ),
-                Expanded(
-                  child: containerChart(
-                    children: [
-                      textviewTitle(S.current.co_cau_lich_hop),
-                      coCauLichHop(),
-                    ],
-                  ),
+                containerChart(
+                  children: [
+                    textviewTitle(S.current.co_cau_lich_hop),
+                    coCauLichHop(),
+                  ],
                 ),
                 containerChart(
                   children: [
@@ -102,6 +100,7 @@ class _ThongKeLichHopTabletState extends State<ThongKeLichHopTablet> {
           final data = snapshot.data ?? [];
           return PieChart(
             chartData: data,
+            useVerticalLegend: true,
             onTap: (value) {
               widget.cubit.handleChartPicked(
                 id: data[value].id ?? '',

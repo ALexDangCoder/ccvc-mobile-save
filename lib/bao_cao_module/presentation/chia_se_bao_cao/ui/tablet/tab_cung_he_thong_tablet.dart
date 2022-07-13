@@ -64,40 +64,44 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                       borderRadius: BorderRadius.all(Radius.circular(4.r)),
                       border: Border.all(color: containerColorTab),
                     ),
-                    child: DropdownSearch<String>(
-                      maxHeight: 250.h,
-                      showSearchBox: true,
-                      mode: Mode.MENU,
-                      popupItemDisabled: (String s) => s.startsWith('I'),
-                      items: widget.cubit.listDropDown,
-                      dropdownBuilder: (context, value) {
-                        return Padding(
-                          padding: EdgeInsets.only(left: 16.w),
-                          child: Text(
-                            S.current.chon_nhom,
-                            style: textNormalCustom(
-                              color: color3D5586,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                    child: Stack(
+                      children: [
+                        DropdownSearch<String>(
+                          maxHeight: 250.h,
+                          showSearchBox: true,
+                          mode: Mode.MENU,
+                          popupItemDisabled: (String s) => s.startsWith('I'),
+                          items: widget.cubit.listDropDown,
+                          dropdownSearchDecoration: const InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                           ),
-                        );
-                      },
-                      dropdownSearchDecoration: InputDecoration(
-                        hintText: S.current.chon_nhom,
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                          onChanged: (value) {
+                            widget.cubit.themNhom(value ?? '');
+                          },
+                          selectedItem: S.current.chon_nhom,
+                          emptyBuilder: (context, value) {
+                            return Center(
+                              child: Text(S.current.no_data),
+                            );
+                          },
                         ),
-                      ),
-                      onChanged: (value) {
-                        widget.cubit.themNhom(value ?? '');
-                      },
-                      selectedItem: S.current.chon_nhom,
-                      emptyBuilder: (context, value) {
-                        return Center(
-                          child: Text(S.current.no_data),
-                        );
-                      },
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.w),
+                            child: Text(
+                              S.current.chon_nhom,
+                              style: textNormalCustom(
+                                color: color3D5586,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },

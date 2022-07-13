@@ -73,6 +73,7 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           return PieChart(
+            useVerticalLegend: true,
             chartData: data,
             onTap: (value) {
               widget.cubit.handleChartPicked(

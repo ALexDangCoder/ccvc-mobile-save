@@ -83,9 +83,11 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
                   },
                   onPressed2: () {
                     widget.cubit.commentTask(note ?? '');
+                    Navigator.pop(context);
                   },
                   noPadding: true,
                 ),
+                spaceH16,
               ],
             ),
           ),
@@ -124,6 +126,7 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
           maxLine: maxLine,
           validator: validate,
           textInputType: textInputType,
+          onlyTextField: true,
         )
       ],
     );

@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 
 part 'share_report_request.g.dart';
 
@@ -17,7 +19,7 @@ class ShareReport {
   @JsonKey(name: 'expiredDate')
   String? expiredDate;
   @JsonKey(name: 'newUser')
-  Map<String, String>? newUser;
+  NewUserRequest? newUser;
 
   ShareReport({
     this.userId,

@@ -17,12 +17,16 @@ class ItemList extends StatelessWidget {
   final ReportItem item;
   final ReportListCubit cubit;
   final bool isTablet;
+  final bool isTree;
+  final String idFolder;
 
   const ItemList({
     Key? key,
     required this.item,
     required this.cubit,
     this.isTablet = false,
+    required this.isTree,
+    required this.idFolder,
   }) : super(key: key);
 
   @override
@@ -97,6 +101,7 @@ class ItemList extends StatelessWidget {
           ))
             InkWell(
               onTap: () {
+                cubit.isCheckPostFavorite = false;
                 if (isTablet) {
                   showDialog(
                     context: context,
@@ -108,6 +113,11 @@ class ItemList extends StatelessWidget {
                         isFavorite: item.isPin ?? false,
                       );
                     },
+                  ).then(
+                    (value) => cubit.reloadDataWhenFavorite(
+                      isTree: isTree,
+                      idFolder: idFolder,
+                    ),
                   );
                 } else {
                   showModalBottomSheet(
@@ -118,6 +128,11 @@ class ItemList extends StatelessWidget {
                       reportItem: item,
                       cubit: cubit,
                       isFavorite: item.isPin ?? false,
+                    ),
+                  ).then(
+                    (value) => cubit.reloadDataWhenFavorite(
+                      isTree: isTree,
+                      idFolder: idFolder,
                     ),
                   );
                 }

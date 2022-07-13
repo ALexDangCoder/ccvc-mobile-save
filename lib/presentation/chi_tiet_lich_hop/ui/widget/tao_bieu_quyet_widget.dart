@@ -148,7 +148,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                                               DateFormatApp.monthDayFormat,
                                         ),
                                   ) ||
-                                  dateTimeEnd.isAfter(
+                                  dateTimeStart.isAfter(
                                     widget.cubit
                                         .getTime(isGetDateStart: false)
                                         .convertStringToDate(

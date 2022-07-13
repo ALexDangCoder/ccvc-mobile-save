@@ -196,6 +196,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                         data,
                                         isCheck: false,
                                       );
+
                                       widget.cubit.removeTag(data);
                                     },
                                   );

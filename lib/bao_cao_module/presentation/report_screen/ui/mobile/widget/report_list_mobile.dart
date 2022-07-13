@@ -43,7 +43,7 @@ class ReportListMobile extends StatelessWidget {
                   mainAxisSpacing: 17,
                   crossAxisSpacing: 17,
                   childAspectRatio: 1.5,
-                  mainAxisExtent: 134,
+                  mainAxisExtent: 170,
                 ),
                 itemCount: listReport.length,
                 itemBuilder: (context, index) {

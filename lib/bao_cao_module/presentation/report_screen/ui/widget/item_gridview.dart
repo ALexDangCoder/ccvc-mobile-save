@@ -137,13 +137,14 @@ class ItemGridView extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               spaceH4,
               AutoSizeText(
-                (item.dateTime ?? '').changeToNewPatternDate(
+                (item.dateTime ?? item.updatedAt ?? '').changeToNewPatternDate(
                   DateFormatApp.dateTimeBackEnd,
                   DateFormatApp.date,
                 ),

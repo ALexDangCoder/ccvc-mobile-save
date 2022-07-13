@@ -351,6 +351,7 @@ class ImageAssets {
   static const String icHuyDiemDanh = '$baseImg/ic_huy_diem_danh.svg';
 
   static const String ic_delete_do = '$baseImg/delete_do.svg';
+  static const String ic_xoa_kl_hop = '$baseImg/ic_xoa_kl_hop.svg';
   static const String ic_edit = '$baseImg/Edit.svg';
   static const String icDayCalenderWeek = '$baseImg/ic_calender_work_week.svg';
   static const String icDayCalenderMonth =

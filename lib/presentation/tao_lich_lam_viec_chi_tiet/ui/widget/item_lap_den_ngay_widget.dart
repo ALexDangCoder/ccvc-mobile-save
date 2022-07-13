@@ -102,7 +102,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                   value;
                               widget.taoLichLamViecCubit.changeDateTimeSubject
                                   .add(value);
-                              setState(() {});
+                              //setState(() {});
                             });
                           },
                         )
@@ -168,13 +168,9 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   ),
                   height: isShowDatePicker ? 200 : 1,
                   child: isShowDatePicker
-                      ? CupertinoDatePicker(
-                          maximumDate: DateTime(2099, 12, 30),
-                          maximumYear: 2099,
-                          minimumYear: DateTime.now().year,
-                          backgroundColor: backgroundColorApp,
-                          mode: CupertinoDatePickerMode.date,
-                          use24hFormat: true,
+                      ? FlutterRoundedCupertinoDatePickerWidget(
+                          textStyleDate: textNormal(color3D5586, 16),
+                          minimumDate: DateTime.now(),
                           initialDateTime: widget.initDate,
                           onDateTimeChanged: (value) {
                             deboucer.run(() {
@@ -182,7 +178,6 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                   value;
                               widget.taoLichLamViecCubit.changeDateTimeSubject
                                   .add(value);
-                              setState(() {});
                             });
                           },
                         )

@@ -146,7 +146,7 @@ const HOUR_MINUTE_FORMAT = 'Hm';
 const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
 const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
 const _dtFormat18 = 'MM/dd/yyyy HH:mm';
-
+const _dtFormat19 = 'yyyy-MM-ddTHH:mm:ss';
 const START_TIME = '8:00';
 const END_TIME = '18:00';
 const INIT_TIME_PICK = 'hh:mm';
@@ -159,6 +159,8 @@ const String AVATAR_DEFAULT =
 const String BASE_URL_MEETING = 'https://emeeting.vn/';
 const String ENTITY_THU_MOI_HOP = 'ThuMoiHop';
 const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
+const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
+const String TIME = '00:00:00';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -179,6 +181,7 @@ class DateTimeFormat {
   static const DATE_TIME_BE_API_START = _dtFormat16;
   static const DATE_TIME_BE_API_END = _dtFormat17;
   static const DATE_TIME_HM = _dtFormat18;
+  static const DATE_TIME_HHT = _dtFormat19;
 }
 
 class ThongBaoTypeConstant {

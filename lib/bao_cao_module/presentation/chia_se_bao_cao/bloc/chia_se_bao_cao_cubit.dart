@@ -109,8 +109,6 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
-  //https://api-htcs-test.chinhquyendientu.vn/api/Source/source-share-detail/154b42c9-651f-4d95-9361-1e6791d38f96
-
   Future<void> getMemberInGroup(
     String idGroup,
     NhomCungHeThong nhomCungHeThong,

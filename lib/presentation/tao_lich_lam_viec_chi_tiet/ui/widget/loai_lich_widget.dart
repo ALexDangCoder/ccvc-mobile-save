@@ -26,6 +26,12 @@ class LoaiLichWidget extends StatefulWidget {
 }
 
 class _LoaiLichWidgetState extends State<LoaiLichWidget> {
+  var _tmpName = '';
+  @override
+  void initState() {
+    _tmpName = widget.name;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<LoaiSelectModel>>(
@@ -45,9 +51,10 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
                 }
                 widget.taoLichLamViecCubit.changeOption.sink
                     .add(data[value].name);
+                _tmpName = data[value].name;
                 widget.taoLichLamViecCubit.checkChooseTypeCal.sink.add(false);
               },
-              value: widget.isEdit ? widget.name : '',
+              value: widget.isEdit ? _tmpName : '',
               hintText: S.current.chon_loai_lich,
               urlIcon: ImageAssets.icCalendarUnFocus,
               listSelect: data.map((e) => e.name).toList(),

@@ -25,10 +25,6 @@ import 'package:hive/hive.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-Future<void> _messageHandler(RemoteMessage message) async {
-
-}
-
 Future<void> mainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

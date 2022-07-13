@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
@@ -64,7 +65,7 @@ class ThongTinLienHeWidget extends StatelessWidget {
             text: S.current.xem_diem_cau,
             styleText: textNormalCustom(
               fontSize: 16,
-              color: color7966FF,
+              color: AppTheme.getInstance().colorField(),
               fontWeight: FontWeight.w400,
             ),
           ),

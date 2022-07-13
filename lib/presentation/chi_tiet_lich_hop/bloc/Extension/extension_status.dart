@@ -58,8 +58,8 @@ extension tinhTrang on TinhTrang {
       case TinhTrang.DAT:
         return status(S.current.dat, itemWidgetUsing);
 
-      case TinhTrang.CHUA_DAT:
-        return status(S.current.chua_dat, canceledColor);
+      case TinhTrang.KHONG_DAT:
+        return status(S.current.khong_dat, canceledColor);
     }
   }
 }

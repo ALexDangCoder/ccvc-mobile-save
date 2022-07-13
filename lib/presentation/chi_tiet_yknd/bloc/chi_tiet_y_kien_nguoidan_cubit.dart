@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
@@ -281,8 +280,8 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
   Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
     showLoading();
     final result = await _YKNDRepo.getDanhSachYKienPAKN(
-      kienNghiId,
-      2,
+      kienNghiId: kienNghiId,
+      type: 2,
     );
     showContent();
     result.when(

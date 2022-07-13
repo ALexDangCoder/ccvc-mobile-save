@@ -163,7 +163,6 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                   if (index ==
                                       _themDonViCubit.selectNode.length) {
                                     return Container(
-                                      width: 200,
                                       color: Colors.transparent,
                                       child: TextField(
                                         onChanged: (value) {

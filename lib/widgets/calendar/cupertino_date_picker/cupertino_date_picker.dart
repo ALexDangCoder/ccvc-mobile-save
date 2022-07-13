@@ -284,11 +284,8 @@ class CupertinoDatePickerDateState
   }
 
   bool _keepInValidRange(ScrollEndNotification notification) {
-    final int daysInCurrentMonth =
-        DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
     final int desiredDay =
         DateTime(selectedYear, selectedMonth, selectedDay).day;
-    setState(() {});
     if (desiredDay != selectedDay) {
       SchedulerBinding.instance!.addPostFrameCallback((Duration timestamp) {
         dayController.animateToItem(
@@ -311,11 +308,13 @@ class CupertinoDatePickerDateState
           widget.minimumDate!.year == selectedYear &&
           widget.minimumDate!.month == selectedMonth &&
           selectedDay < widget.minimumDate!.day) {
-        dayController.animateToItem(
-          days.indexOf(widget.minimumDate!.day - 1),
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-        );
+        WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+          dayController.animateToItem(
+            days.indexOf(widget.minimumDate!.day - 1),
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+          );
+        });
       } else {
         WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
           jumpToDay();

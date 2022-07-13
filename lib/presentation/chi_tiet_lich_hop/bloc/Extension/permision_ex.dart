@@ -648,12 +648,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   // huy duyet kl hop
   bool isTuCHoiKL() {
-    if (isChuTri() &&
-        (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
-            getKetLuanHopModel.trangThai == TrangThai.DA_DUYET)) {
-      return true;
-    }
-    return false;
+    return isChuTri() && getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET;
   }
 
   // tọa nhiệm vụ: thu ky, chu tri;(nếu tt là nháp, chỉ hiển thị kết luận với thư ký)

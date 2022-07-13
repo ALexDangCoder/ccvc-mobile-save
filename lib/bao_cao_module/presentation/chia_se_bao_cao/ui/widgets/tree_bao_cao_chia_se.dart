@@ -57,6 +57,9 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                               CustomCheckBox(
                                 onChange: (isCheck) {
                                   widget.node.isCheck.isCheck = !isCheck;
+                                  if( widget.node.isCheck.isCheck  == false ){
+                                    widget.node.isTickChildren = false;
+                                  }
                                   final data = widget.node
                                       .setSelected(widget.node.isCheck.isCheck);
                                   if(widget.node.parent?.value.id != ''){
@@ -65,15 +68,15 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                                     );
                                   }
                                   widget.node.isCheckTickChildren();
-                                  widget.themDonViCubit.addSelectNode(
+                                  widget.themDonViCubit.addSelectDonVi(
+                                    isCheck: widget.node.isCheck.isCheck,
+                                    listDonVi: data,
+                                    node: widget.node.value,
+                                  );
+                                  widget.themDonViCubit.addSelectParent(
                                     widget.node,
                                     isCheck: widget.node.isCheck.isCheck,
                                   );
-                                  // widget.themDonViCubit.addSelectDonVi(
-                                  //   isCheck: widget.node.isCheck.isCheck,
-                                  //   listDonVi: data,
-                                  //   node: widget.node.value,
-                                  // );
                                 },
                                 isCheck: widget.node.isCheckALl(),
                               )

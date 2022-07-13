@@ -160,26 +160,30 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
             );
           },
         ),
-        StreamBuilder<StatusWorkCalendar?>(
-          stream: widget.cubit.statusWorkSubjectStream,
-          builder: (context, snapshot) {
-            final typeCalendar =
-                snapshot.data ?? StatusWorkCalendar.LICH_CUA_TOI;
-            return Padding(
-              padding: const EdgeInsets.only(top: 16, right: 16),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: StreamBuilder<DashBoardLichHopModel>(
-                  stream: widget.cubit.totalWorkStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? DashBoardLichHopModel.empty();
-                    return getActionMenu(
-                      typeCalendar: typeCalendar,
-                      data: data,
-                    );
-                  },
-                ),
-              ),
+        BlocBuilder(
+          bloc: widget.cubit,
+          buildWhen: (prev, state) => state is ChartViewState && prev != state,
+          builder: (context, state) {
+            return StreamBuilder<StatusWorkCalendar?>(
+              stream: widget.cubit.statusWorkSubjectStream,
+              builder: (context, snapshot) {
+                final typeCalendar =
+                    snapshot.data ?? StatusWorkCalendar.LICH_CUA_TOI;
+                return Align(
+                  alignment: Alignment.centerRight,
+                  child: StreamBuilder<DashBoardLichHopModel>(
+                    stream: widget.cubit.totalWorkStream,
+                    builder: (context, snapshot) {
+                      final data =
+                          snapshot.data ?? DashBoardLichHopModel.empty();
+                      return getActionMenu(
+                        typeCalendar: typeCalendar,
+                        data: data,
+                      );
+                    },
+                  ),
+                );
+              },
             );
           },
         ),
@@ -269,6 +273,9 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
     required StatusWorkCalendar typeCalendar,
     required DashBoardLichHopModel data,
   }) {
+    if (widget.cubit.state is ChartViewState) {
+      return const SizedBox.shrink();
+    }
     final List<int> listCount = [];
     switch (typeCalendar) {
       case StatusWorkCalendar.CHO_DUYET:
@@ -334,16 +341,19 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         data.soLichTuChoi ?? 0,
       ),
     ];
-    return PopUpMenu(
-      initData: itemData.firstWhere(
-        (element) => element.type == widget.cubit.stateType,
-        orElse: () => itemData.first,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, right: 16),
+      child: PopUpMenu(
+        initData: itemData.firstWhere(
+          (element) => element.type == widget.cubit.stateType,
+          orElse: () => itemData.first,
+        ),
+        data: itemData,
+        onChange: (type) {
+          widget.cubit.stateType = type;
+          widget.cubit.getDanhSachLichHop();
+        },
       ),
-      data: itemData,
-      onChange: (type) {
-        widget.cubit.stateType = type;
-        widget.cubit.getDanhSachLichHop();
-      },
     );
   }
 
@@ -362,16 +372,19 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         listCount.length >= 3 ? listCount[2] : 0,
       ),
     ];
-    return PopUpMenu(
-      initData: itemData.firstWhere(
-            (element) => element.type == widget.cubit.stateType,
-        orElse: () => itemData.first,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, right: 16),
+      child: PopUpMenu(
+        initData: itemData.firstWhere(
+              (element) => element.type == widget.cubit.stateType,
+          orElse: () => itemData.first,
+        ),
+        data: itemData,
+        onChange: (type) {
+          widget.cubit.stateType = type;
+          widget.cubit.getDanhSachLichHop();
+        },
       ),
-      data: itemData,
-      onChange: (type) {
-        widget.cubit.stateType = type;
-        widget.cubit.getDanhSachLichHop();
-      },
     );
   }
 
@@ -386,16 +399,19 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         listCount.length >= 2 ? listCount[1] : 0,
       ),
     ];
-    return PopUpMenu(
-      initData: itemData.firstWhere(
-            (element) => element.type == widget.cubit.stateType,
-        orElse: () => itemData.first,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, right: 16),
+      child: PopUpMenu(
+        initData: itemData.firstWhere(
+              (element) => element.type == widget.cubit.stateType,
+          orElse: () => itemData.first,
+        ),
+        data: itemData,
+        onChange: (type) {
+          widget.cubit.stateType = type;
+          widget.cubit.getDanhSachLichHop();
+        },
       ),
-      data: itemData,
-      onChange: (type) {
-        widget.cubit.stateType = type;
-        widget.cubit.getDanhSachLichHop();
-      },
     );
   }
 }

@@ -196,9 +196,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                           MenuSelectWidget(
                             listSelect: listAction,
                           ),
-                          // const SizedBox(
-                          //   width: 20,
-                          // ),
+                          const SizedBox(
+                            width: 20,
+                          ),
                         ] : null,
                         leadingIcon: GestureDetector(
                           onTap: () {

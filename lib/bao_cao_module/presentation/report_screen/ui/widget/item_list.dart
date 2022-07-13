@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
@@ -16,12 +17,16 @@ class ItemList extends StatelessWidget {
   final ReportItem item;
   final ReportListCubit cubit;
   final bool isTablet;
+  final bool isTree;
+  final String idFolder;
 
   const ItemList({
     Key? key,
     required this.item,
     required this.cubit,
     this.isTablet = false,
+    required this.isTree,
+    required this.idFolder,
   }) : super(key: key);
 
   @override
@@ -58,7 +63,7 @@ class ItemList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AutoSizeText(
                     item.name ?? '',
                     maxLines: 1,
                     style: textNormalCustom(
@@ -69,7 +74,7 @@ class ItemList extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   spaceH4,
-                  Text(
+                  AutoSizeText(
                     (item.dateTime ?? '').changeToNewPatternDate(
                       DateFormatApp.dateTimeBackEnd,
                       DateFormatApp.date,
@@ -96,6 +101,7 @@ class ItemList extends StatelessWidget {
           ))
             InkWell(
               onTap: () {
+                cubit.isCheckPostFavorite = false;
                 if (isTablet) {
                   showDialog(
                     context: context,
@@ -107,6 +113,11 @@ class ItemList extends StatelessWidget {
                         isFavorite: item.isPin ?? false,
                       );
                     },
+                  ).then(
+                    (value) => cubit.reloadDataWhenFavorite(
+                      isTree: isTree,
+                      idFolder: idFolder,
+                    ),
                   );
                 } else {
                   showModalBottomSheet(
@@ -117,6 +128,11 @@ class ItemList extends StatelessWidget {
                       reportItem: item,
                       cubit: cubit,
                       isFavorite: item.isPin ?? false,
+                    ),
+                  ).then(
+                    (value) => cubit.reloadDataWhenFavorite(
+                      isTree: isTree,
+                      idFolder: idFolder,
                     ),
                   );
                 }

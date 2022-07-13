@@ -16,12 +16,16 @@ class ItemGridView extends StatelessWidget {
   final ReportItem item;
   final bool isTablet;
   final ReportListCubit cubit;
+  final bool isTree;
+  final String idFolder;
 
   const ItemGridView({
     Key? key,
     required this.item,
     required this.cubit,
     this.isTablet = false,
+    required this.isTree,
+    required this.idFolder,
   }) : super(key: key);
 
   @override
@@ -61,6 +65,7 @@ class ItemGridView extends StatelessWidget {
             )
                 ? InkWell(
                     onTap: () {
+                      cubit.isCheckPostFavorite = false;
                       if (isTablet) {
                         showDialog(
                           context: context,
@@ -72,6 +77,11 @@ class ItemGridView extends StatelessWidget {
                               isFavorite: item.isPin ?? false,
                             );
                           },
+                        ).then(
+                          (value) => cubit.reloadDataWhenFavorite(
+                            isTree: isTree,
+                            idFolder: idFolder,
+                          ),
                         );
                       } else {
                         showModalBottomSheet(
@@ -82,6 +92,11 @@ class ItemGridView extends StatelessWidget {
                             reportItem: item,
                             cubit: cubit,
                             isFavorite: item.isPin ?? false,
+                          ),
+                        ).then(
+                          (value) => cubit.reloadDataWhenFavorite(
+                            isTree: isTree,
+                            idFolder: idFolder,
                           ),
                         );
                       }

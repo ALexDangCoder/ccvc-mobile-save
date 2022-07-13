@@ -30,7 +30,6 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
   List<ReportItem> listReportDetail = [];
   bool isCheckInit = true;
   bool isCheckData = false;
-  bool isInit = false;
 
   Future<void> getApi() async {
     await widget.cubit.getListReport(
@@ -44,7 +43,6 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
   void initState() {
     getApi();
     super.initState();
-    isInit = true;
     if (isCheckInit) {
       widget.cubit.isCheckData.listen((value) {
         if (value) {
@@ -77,7 +75,6 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
               child: RefreshIndicator(
                 onRefresh: () async {
                   isCheckData = true;
-                  isInit = true;
                   await getApi();
                 },
                 child: Padding(
@@ -85,11 +82,10 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                   child: StreamBuilder<List<ReportItem>?>(
                     stream: widget.cubit.listReportTree,
                     builder: (context, snapshot) {
-                      if (isCheckData && isInit) {
+                      if (isCheckData) {
                         listReportDetail.addAll(snapshot.data ?? []);
                         isCheckInit = false;
                         isCheckData = false;
-                        isInit = false;
                       }
                       return snapshot.data == null
                           ? const SizedBox.shrink()

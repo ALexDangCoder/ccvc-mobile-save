@@ -46,6 +46,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
   BehaviorSubject<bool> isCheckData = BehaviorSubject.seeded(false);
   List<ReportItem> listReport = [];
   List<ReportItem> listReportSearch = [];
+  bool isCheckPostFavorite = false;
 
   ReportRepository get _reportService => Get.find();
 
@@ -171,11 +172,10 @@ class ReportListCubit extends BaseCubit<BaseState> {
         isStatus = res;
       },
       error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
         isStatus = false;
       },
     );
+    isCheckPostFavorite = isStatus;
     return isStatus;
   }
 
@@ -194,11 +194,10 @@ class ReportListCubit extends BaseCubit<BaseState> {
         isStatus = res;
       },
       error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
         isStatus = false;
       },
     );
+    isCheckPostFavorite = isStatus;
     return isStatus;
   }
 
@@ -217,6 +216,22 @@ class ReportListCubit extends BaseCubit<BaseState> {
     }
   }
 
+  void reloadDataWhenFavorite({
+    String idFolder = '',
+    bool isTree = false,
+  }) {
+    if (isCheckPostFavorite) {
+      if (isTree) {
+        getListReport(
+          isTree: isTree,
+          idFolder: idFolder,
+        );
+      } else {
+        getListReport();
+      }
+    }
+  }
+
   void filterBox(String value) {
     textFilterBox.add(value);
     getStatus(value);
@@ -225,29 +240,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
   }
 
-  Future<void> getListTree({required String folderId}) async {
-    showLoading();
-    final Result<List<ReportItem>> result =
-        await _reportService.getListReportTree(
-      appId,
-      folderId,
-    );
-    result.when(
-      success: (res) {
-        if (!res.isNotEmpty) {
-          showEmpty();
-          emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
-        } else {
-          showContent();
-          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res));
-        }
-      },
-      error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
-      },
-    );
-  }
 
   Future<void> getListFavorite() async {
     listReportFavorite.clear();

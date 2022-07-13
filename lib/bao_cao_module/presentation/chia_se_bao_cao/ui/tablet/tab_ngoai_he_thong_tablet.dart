@@ -155,7 +155,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.ho_ten}!';
                 }
               },
             ),
@@ -187,7 +187,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.email}!';
                 }
                 if (!(value ?? '').isValidEmail()) {
                   return S.current.dinh_dang_email;
@@ -215,7 +215,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.chuc_vu}!';
                 }
               },
             ),
@@ -228,7 +228,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.don_vi}!';
                 }
               },
             ),

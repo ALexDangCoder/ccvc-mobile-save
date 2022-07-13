@@ -35,6 +35,16 @@ class _DateInputState extends State<DateInput> {
   final textController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    if(widget.initDateTime?.toIso8601String().isNotEmpty ?? false){
+      textController.text = DateFormat(DateTimeFormat.DATE_DD_MM_YYYY)
+          .format(widget.initDateTime!);
+      dateSelect = textController.text;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFieldValidator(
       controller: textController,
@@ -62,7 +72,7 @@ class _DateInputState extends State<DateInput> {
                 SizedBox(
                   height: 300,
                   child: FlutterRoundedCupertinoDatePickerWidget(
-                    minimumDate: widget.initDateTime,
+                    minimumDate: widget.initDateTime ?? DateTime.now(),
                     onDateTimeChanged: (value) {
                       setState(() {
                         dateSelect = value.toString();

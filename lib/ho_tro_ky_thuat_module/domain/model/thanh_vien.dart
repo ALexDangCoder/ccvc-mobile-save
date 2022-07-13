@@ -1,5 +1,6 @@
 class ThanhVien {
   String? tenThanhVien;
+  String? userName;
   String? idThanhVien;
   String? userId;
   String? chucVu;
@@ -8,6 +9,7 @@ class ThanhVien {
   ThanhVien({
     this.tenThanhVien,
     this.idThanhVien,
+    this.userName,
     this.chucVu,
     this.soDienThoai,
     this.userId,

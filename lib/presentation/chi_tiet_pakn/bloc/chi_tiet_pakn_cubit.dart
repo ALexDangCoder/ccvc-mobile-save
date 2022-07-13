@@ -48,8 +48,8 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
       BehaviorSubject<ChiTietYKNDModel>();
 
 //tab y kien xu ly
-  static const int byteToMb = 1048576;
-  static const int maxMb = 30;
+  static const int BYTE_TO_MB = 1048576;
+  static const int MAX_MB = 30;
   int sizeFile = 0;
   final List<PickImageFileModel> listPickFileMain = [];
   final List<YKienXuLyYKNDModel> listYKienXuLy = [];
@@ -63,7 +63,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     for (final PickImageFileModel value in listPickFileMain) {
       sizeFile += value.size ?? 0;
     }
-    return sizeFile / byteToMb > maxMb;
+    return sizeFile / BYTE_TO_MB > MAX_MB;
   }
 
   ///Function

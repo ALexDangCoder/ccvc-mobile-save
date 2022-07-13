@@ -145,19 +145,15 @@ class ItemDanhSachSuCo extends StatelessWidget {
                     child: Column(
                       children: [
                         if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY)
+                            HoTroKyThuatCubit.CHUA_XU_LY) ...[
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
                             function: (value) {},
                           ),
-                        if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY)
                           line(
                             paddingLeft: 35,
                           ),
-                        if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY)
                           itemMenu(
                             title: S.current.xoa,
                             icon: ImageAssets.ic_delete,
@@ -178,11 +174,10 @@ class ItemDanhSachSuCo extends StatelessWidget {
                               });
                             },
                           ),
-                        if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY)
                           line(
                             paddingLeft: 35,
                           ),
+                        ],
                         if (!(cubit.isCheckUser ?? true))
                           itemMenu(
                             title: S.current.danh_gia,
@@ -195,7 +190,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           ),
                         if ((cubit.isCheckUser ?? false) ||
                             !(objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.DA_HOANG_THANH))
+                                HoTroKyThuatCubit.DA_HOAN_THANH))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,
@@ -247,7 +242,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
 
   Color statusColor(String status) {
     switch (status) {
-      case HoTroKyThuatCubit.DA_HOANG_THANH:
+      case HoTroKyThuatCubit.DA_HOAN_THANH:
         return daXuLyLuongColor;
       case HoTroKyThuatCubit.CHUA_XU_LY:
         return processingColor;
@@ -262,7 +257,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
 
   String getTextStatus(String status) {
     switch (status) {
-      case HoTroKyThuatCubit.DA_HOANG_THANH:
+      case HoTroKyThuatCubit.DA_HOAN_THANH:
         return S.current.da_xu_ly;
       case HoTroKyThuatCubit.CHUA_XU_LY:
         return S.current.dang_cho_xu_ly;

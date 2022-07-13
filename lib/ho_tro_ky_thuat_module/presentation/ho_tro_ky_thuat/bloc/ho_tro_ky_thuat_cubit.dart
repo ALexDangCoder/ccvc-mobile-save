@@ -28,7 +28,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 //code status
   static const CHUA_XU_LY = 'chua-xu-ly';
   static const DANG_XU_LY = 'dang-xu-ly';
-  static const DA_HOANG_THANH = 'da-hoan-thanh';
+  static const DA_HOAN_THANH = 'da-hoan-thanh';
   static const TU_CHOI_XU_LY = 'tu-choi-xu-ly';
 
   static const LOAI_SU_CO = 'loai-su-co';

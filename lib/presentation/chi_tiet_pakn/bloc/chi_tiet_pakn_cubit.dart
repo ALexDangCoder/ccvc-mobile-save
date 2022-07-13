@@ -233,7 +233,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
       success: (res) {
         if (res.danhSachKetQua?.isEmpty ?? false) {
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
-          showEmpty();
+          showContent();
         } else {
           emit(
             CompletedLoadMore(

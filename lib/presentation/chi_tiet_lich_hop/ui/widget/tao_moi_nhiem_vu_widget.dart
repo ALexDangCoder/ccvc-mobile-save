@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
@@ -270,9 +271,20 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       trichYeu: data[index].trichYeu ?? '',
                       file: data[index].file?.first ?? '',
                       onTap: () {
-                        onTapRemoveVb(
-                          cubit: widget.cubit,
-                          data: data[index],
+                        showDiaLog(
+                          context,
+                          textContent:
+                              S.current.ban_co_chac_chan_muon_xoa_khong,
+                          btnLeftTxt: S.current.xoa,
+                          funcBtnRight: () {
+                            onTapRemoveVb(
+                              cubit: widget.cubit,
+                              data: data[index],
+                            );
+                          },
+                          title: S.current.gui_email,
+                          btnRightTxt: S.current.dong_y,
+                          icon: SvgPicture.asset(ImageAssets.ic_delete_do),
                         );
                       },
                     );

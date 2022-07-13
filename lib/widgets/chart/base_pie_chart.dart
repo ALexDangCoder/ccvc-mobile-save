@@ -10,6 +10,7 @@ class PieChart extends StatelessWidget {
   final String title;
   final double paddingTop;
   final Function(int)? onTap;
+  final Function(int)? onTapStatus;
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
   final bool isThongKeLichHop;
@@ -23,6 +24,7 @@ class PieChart extends StatelessWidget {
     this.title = '',
     this.paddingTop = 20,
     this.onTap,
+    this.onTapStatus,
     this.isSubjectInfo = true,
     this.paddingLeftSubTitle = 0,
     this.isThongKeLichHop = true,
@@ -255,7 +257,7 @@ class PieChart extends StatelessWidget {
   Widget itemLegend({required ChartData chartData, required int index}) {
     return GestureDetector(
       onTap: () {
-        onTap?.call(index);
+        onTapStatus?.call(index);
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

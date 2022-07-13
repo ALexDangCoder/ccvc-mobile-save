@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_filter_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -16,7 +16,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ReportScreenMobile extends StatefulWidget {
-  const ReportScreenMobile({Key? key}) : super(key: key);
+  final String? title;
+
+  const ReportScreenMobile({
+    Key? key,
+    this.title,
+  }) : super(key: key);
 
   @override
   _ReportScreenMobileState createState() => _ReportScreenMobileState();
@@ -36,6 +41,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
+      title: widget.title,
       retry: () {
         cubit.getAppID();
       },
@@ -296,6 +302,14 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
   ) {
     return BaseAppBarMobile(
       title: isSearch ? S.current.bac_cao : '',
+      leadingIcon: widget.title?.isNotEmpty ?? false
+          ? IconButton(
+              onPressed: () => {Navigator.pop(context)},
+              icon: SvgPicture.asset(
+                ImageAssets.icBack,
+              ),
+            )
+          : null,
       actions: [
         if (isSearch)
           GestureDetector(

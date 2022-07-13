@@ -1,11 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_pakn/widgets/row_title_ft_description.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_row_data.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +24,6 @@ class TabTienTrinhXuLyTablet extends StatefulWidget {
 class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getTienTrinhXyLy(widget.id);
   }
@@ -37,7 +34,9 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getTienTrinhXyLy(widget.id);
+      },
       child: _content(),
     );
   }
@@ -93,33 +92,4 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
     );
   }
 
-  Container _itemTienTrinhXuLy() {
-    return Container(
-      width: 343,
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      decoration: const BoxDecoration(
-        color: containerColorTab,
-        borderRadius: BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Column(
-        children: [
-          RowTitleFeatDescription(
-              title: S.current.thoi_gian_thao_tac,
-              description: '23:27 16/09/2021'),
-          spaceH10,
-          RowTitleFeatDescription(
-              title: S.current.don_vi_thao_tac, description: 'UBND Đồng Nai'),
-          spaceH10,
-          RowTitleFeatDescription(
-              title: S.current.tai_khoan_thao_tac, description: 'Chuyên viên'),
-          spaceH10,
-          RowTitleFeatDescription(
-              title: S.current.trang_thai_xu_ly, description: 'Đã tạo PAKN'),
-          spaceH10,
-          RowTitleFeatDescription(
-              title: S.current.noi_dung_xu_ly, description: 'Không có'),
-        ],
-      ),
-    );
-  }
 }

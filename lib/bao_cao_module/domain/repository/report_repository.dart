@@ -15,6 +15,13 @@ mixin ReportRepository {
     String appID,
   );
 
+  Future<Result<List<ReportItem>>> getListReportShareToMe(
+    String folderId,
+    int sort,
+    String keyWord,
+    String appID,
+  );
+
   Future<Result<List<NhomCungHeThong>>> getListGroup(String appId);
 
   Future<Result<List<ThanhVien>>> getListThanhVien(

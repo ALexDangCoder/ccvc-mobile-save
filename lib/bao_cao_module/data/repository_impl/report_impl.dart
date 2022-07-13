@@ -214,8 +214,34 @@ class ReportImpl implements ReportRepository {
   }) {
     return runCatchingAsync<CanBoChiaSeResponse, List<Node<DonViModel>>>(
       () => _reportCommonService.getUserPaging(
-          donViId, appId, hoTen, isGetAll, pageIndex, pageSize),
+        donViId,
+        appId,
+        hoTen,
+        isGetAll,
+        pageIndex,
+        pageSize,
+      ),
       (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<List<ReportItem>>> getListReportShareToMe(
+    String folderId,
+    int sort,
+    String keyWord,
+    String appId,
+  ) {
+    return runCatchingAsync<ReportResponse, List<ReportItem>>(
+      () => _reportService.getListReportShareToMe(
+        folderId,
+        sort,
+        keyWord,
+        appId,
+      ),
+      (res) =>
+          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
+          [],
     );
   }
 }

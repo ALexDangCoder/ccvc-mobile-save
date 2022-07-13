@@ -59,6 +59,7 @@ class DataResponse {
     children?.forEach((element) {
       node.addChild(element.toNode());
     });
+    node.value.isThamGia=node.children.isEmpty;
     return node;
   }
 }

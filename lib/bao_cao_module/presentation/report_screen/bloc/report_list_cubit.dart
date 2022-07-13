@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_state.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -49,17 +50,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
   ReportRepository get _reportService => Get.find();
 
   ReportCommonRepository get _reportCommonService => Get.find();
-
-  bool checkStatus({
-    required bool shareByMe,
-    required bool shareToMe,
-  }) {
-    if (shareByMe || shareToMe) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   void getStatus(String title) {
     if (S.current.all == title) {
@@ -216,6 +206,17 @@ class ReportListCubit extends BaseCubit<BaseState> {
     isStatusSearch.add(true);
   }
 
+  bool checkHideIcMore({
+    required int typeReport,
+    required bool isReportShareToMe,
+  }) {
+    if (typeReport == REPORT || !isReportShareToMe) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void filterBox(String value) {
     textFilterBox.add(value);
     getStatus(value);
@@ -270,8 +271,10 @@ class ReportListCubit extends BaseCubit<BaseState> {
     String idFolder = '',
     bool isTree = false,
     bool isSearch = false,
+    bool isTreeShareToMe = false,
   }) async {
     showLoading();
+    emit(const CompletedLoadMore(CompleteType.ERROR, posts: []));
     if (isTree) {
       isCheckData.add(false);
       listReportTree.add(null);
@@ -281,6 +284,11 @@ class ReportListCubit extends BaseCubit<BaseState> {
       listReport.clear();
       await getListFavorite();
     }
+    await getListReportShareToMe(
+      idFolder: idFolder,
+      isSearch: isSearch,
+      isTree: isTree,
+    );
     final Result<List<ReportItem>> result = await _reportService.getListReport(
       idFolder.isNotEmpty ? idFolder : folderId,
       sort,
@@ -289,16 +297,19 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        if (!res.isNotEmpty) {
+        if (res.isEmpty) {
           showContent();
-          listReportTree.add([]);
+          if (!isTreeShareToMe) {
+            listReportTree.add([]);
+          }
           if (isSearch) {
-            listReportSearch.clear();
             listReportSearch.addAll([]);
           }
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
         } else {
-          listReportTree.add(res);
+          if (!isTreeShareToMe) {
+            listReportTree.add(res);
+          }
           final List<ReportItem> list = [];
           if (!isTree) {
             for (final value in res) {
@@ -309,18 +320,82 @@ class ReportListCubit extends BaseCubit<BaseState> {
             if (!isSearch) {
               listReport.addAll(list);
             }
-            listReportSearch.clear();
             listReportSearch.addAll(res);
           }
           showContent();
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
         }
-        isCheckData.add(true);
+        if (!isTreeShareToMe) {
+          isCheckData.add(true);
+        }
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));
         showError();
       },
+    );
+  }
+
+  Future<void> getListReportShareToMe({
+    String idFolder = '',
+    bool isTree = false,
+    bool isSearch = false,
+  }) async {
+    final Result<List<ReportItem>> resultReportShareToMe =
+        await _reportService.getListReportShareToMe(
+      idFolder.isNotEmpty ? idFolder : folderId,
+      sort,
+      textSearch.value,
+      appId,
+    );
+    resultReportShareToMe.when(
+      success: (res) {
+        final resultFinal = res
+            .map(
+              (e) => ReportItem(
+                id: e.id,
+                name: e.name,
+                description: e.description,
+                order: e.order,
+                parentId: e.parentId,
+                numberReport: e.numberReport,
+                childrenTotal: e.childrenTotal,
+                type: e.type,
+                typeTitle: e.typeTitle,
+                level: e.level,
+                isOwner: e.isOwner,
+                dateTime: e.createdAt,
+                isPin: e.isPin,
+                status: e.status,
+                isShareToMe: true,
+              ),
+            )
+            .toList();
+        if (resultFinal.isEmpty) {
+          listReportTree.add([]);
+          if (isSearch) {
+            listReportSearch.clear();
+            listReportSearch.addAll([]);
+          }
+        } else {
+          listReportTree.add(resultFinal);
+          final List<ReportItem> list = [];
+          if (!isTree) {
+            for (final value in resultFinal) {
+              if (value.isPin == false) {
+                list.add(value);
+              }
+            }
+            if (!isSearch) {
+              listReport.addAll(list);
+            }
+            listReportSearch.clear();
+            listReportSearch.addAll(resultFinal);
+          }
+          isCheckData.add(true);
+        }
+      },
+      error: (error) {},
     );
   }
 }

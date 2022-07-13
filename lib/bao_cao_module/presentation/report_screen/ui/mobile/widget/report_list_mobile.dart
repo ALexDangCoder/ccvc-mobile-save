@@ -100,8 +100,8 @@ class ReportListMobile extends StatelessWidget {
             return ReportDetailMobile(
               title: value.name ?? '',
               cubit: cubit,
-              idFolder: value.id ?? '',
               isListView: isListView,
+              reportModel: value,
             );
           },
         ),

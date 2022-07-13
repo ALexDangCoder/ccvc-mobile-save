@@ -22,7 +22,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
             thoiGian: res.createAt ?? '',
             trangThai: typeTrangthai(res.status ?? 0),
             tinhTrang: typeTinhTrang(res.reportStatusCode ?? ''),
-            file: res.files?.map((e) => e.Name ?? '').toList() ?? [],
+            file:res.files ?? [],
             title: res.title,
           ),
         );
@@ -209,7 +209,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachLoaiNhiemVu();
     result.when(
       success: (res) {
-        danhSachLoaiNhiemVuLichHopModel.sink.add(res);
+        danhSachLoaiNhiemVuLichHopModel = res;
       },
       error: (err) {
         return;

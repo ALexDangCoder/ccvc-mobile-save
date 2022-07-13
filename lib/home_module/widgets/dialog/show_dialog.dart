@@ -7,7 +7,8 @@ import '/home_module/config/resources/styles.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/widgets/text/button/button_custom_bottom.dart';
 
-Future<T?> showDiaLog<T>(BuildContext context, {
+Future<T?> showDiaLog<T>(
+  BuildContext context, {
   required String title,
   String textContent = '',
   required Widget icon,
@@ -19,6 +20,7 @@ Future<T?> showDiaLog<T>(BuildContext context, {
   bool isColorBlueInOnlyButton = false,
   double? widthOnlyButton,
   required Function funcBtnRight,
+  bool? isThisPopAfter,
 }) {
   return showDialog(
     barrierDismissible: false,
@@ -32,10 +34,7 @@ Future<T?> showDiaLog<T>(BuildContext context, {
         clipBehavior: Clip.antiAlias,
         child: Container(
           width: showTablet
-              ? MediaQuery
-              .of(context)
-              .size
-              .width / 2
+              ? MediaQuery.of(context).size.width / 2
               : double.maxFinite,
           // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           padding: EdgeInsets.fromLTRB(
@@ -116,8 +115,13 @@ Future<T?> showDiaLog<T>(BuildContext context, {
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          funcBtnRight();
-                          Navigator.pop(context);
+                          if (isThisPopAfter ?? false) {
+                            Navigator.pop(context);
+                            funcBtnRight();
+                          } else {
+                            funcBtnRight();
+                            Navigator.pop(context);
+                          }
                         },
                       ),
                     ),

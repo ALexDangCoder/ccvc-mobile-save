@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/can_bo_chia_se_response.dart';
@@ -145,9 +146,7 @@ class ReportImpl implements ReportRepository {
 
   @override
   Future<Result<String>> addNewMember(
-    Map<String, String> mapMember,
-    String appId,
-  ) {
+      NewUserRequest mapMember, String appId) {
     return runCatchingAsync<PostDataResponse, String>(
       () => _reportService.addNewUser(
         mapMember,
@@ -176,11 +175,7 @@ class ReportImpl implements ReportRepository {
   @override
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(
-    String appId,
-    int pageIndex,
-    int pageSize,
-    String keyword,
-  ) {
+          String appId, int pageIndex, int pageSize, String keyword, int status, bool isLock) {
     return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse,
         List<UserNgoaiHeThongDuocTruyCapModel>>(
       () => _reportService.getUsersNgoaiHeThongDuocTruyCap(
@@ -189,6 +184,8 @@ class ReportImpl implements ReportRepository {
           pageIndex: pageIndex,
           pageSize: pageSize,
           keyword: keyword,
+          status: status,
+          isLock: isLock
         ),
       ),
       (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],

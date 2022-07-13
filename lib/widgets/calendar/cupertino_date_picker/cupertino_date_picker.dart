@@ -189,7 +189,7 @@ class CupertinoDatePickerDateState
     extends State<FlutterRoundedCupertinoDatePickerWidget> {
   late int textDirectionFactor;
   late CupertinoLocalizations localizations;
-
+  List<int> days = <int>[];
   Alignment? alignCenterLeft;
   Alignment? alignCenterRight;
 
@@ -214,9 +214,13 @@ class CupertinoDatePickerDateState
     selectedYear = widget.initialDateTime.year;
     lunarController = FixedExtentScrollController();
     dayController = FixedExtentScrollController(initialItem: selectedDay - 1);
+
     monthController =
         FixedExtentScrollController(initialItem: selectedMonth - 1);
     yearController = FixedExtentScrollController(initialItem: selectedYear);
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      initDateTimeDayMinDate();
+    });
   }
 
   @override
@@ -243,6 +247,7 @@ class CupertinoDatePickerDateState
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeOut,
     );
+    // initDateTimeDayMinDate();
   }
 
   @override
@@ -283,7 +288,7 @@ class CupertinoDatePickerDateState
         DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
     final int desiredDay =
         DateTime(selectedYear, selectedMonth, selectedDay).day;
-
+    setState(() {});
     if (desiredDay != selectedDay) {
       SchedulerBinding.instance!.addPostFrameCallback((Duration timestamp) {
         dayController.animateToItem(
@@ -295,18 +300,30 @@ class CupertinoDatePickerDateState
     } else {
       if (widget.maximumDate != null &&
           widget.maximumDate!.year == selectedYear &&
-          widget.maximumDate!.month == selectedMonth
-      && selectedDay > widget.maximumDate!.day
-      ) {
+          widget.maximumDate!.month == selectedMonth &&
+          selectedDay > widget.maximumDate!.day) {
         dayController.animateToItem(
           widget.maximumDate!.day - 1,
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOut,
         );
+      } else if (widget.minimumDate != null &&
+          widget.minimumDate!.year == selectedYear &&
+          widget.minimumDate!.month == selectedMonth &&
+          selectedDay < widget.minimumDate!.day) {
+        dayController.animateToItem(
+          days.indexOf(widget.minimumDate!.day - 1),
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      } else {
+        WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+          jumpToDay();
+        });
       }
     }
-
     setState(() {});
+
     return false;
   }
 
@@ -340,6 +357,20 @@ class CupertinoDatePickerDateState
           ),
         ),
       ),
+    );
+  }
+
+  void initDateTimeDayMinDate() {
+    if (widget.minimumDate != null) {
+      dayController.jumpToItem(days.indexOf(selectedDay - 1));
+    }
+  }
+
+  void jumpToDay() {
+    dayController.animateToItem(
+      days.indexOf(selectedDay - 1),
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
     );
   }
 }

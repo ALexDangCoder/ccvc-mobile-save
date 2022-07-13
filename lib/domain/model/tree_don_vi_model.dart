@@ -176,6 +176,9 @@ class Node<T> {
       }
       parent!.isCheckTickChildren();
     }
+    if(!isCheck.isCheck) {
+      isTickChildren = false;
+    }
 
   }
 

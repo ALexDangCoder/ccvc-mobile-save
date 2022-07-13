@@ -1,9 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -42,9 +43,9 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
   @override
   void initState() {
     super.initState();
-    start = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+    start = DateFormat(DateTimeFormat.DATE_TIME_HHT)
         .parse(widget.infoModel.thoiGianBatDau ?? '');
-    end = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+    end = DateFormat(DateTimeFormat.DATE_TIME_HHT)
         .parse(widget.infoModel.thoiGianKetThuc ?? '');
     final startMillisec = start.millisecondsSinceEpoch;
     final endMillisec = end.millisecondsSinceEpoch;
@@ -56,6 +57,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
     endCountdownController = CountdownTimerController(
       endTime: endMillisec,
     );
+    widget.infoModel.idPhienHopCanBo = widget.cubit.idPhienHop;
   }
 
   @override
@@ -160,7 +162,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                         bottom: 10,
                       ),
                       child: Text(
-                        '00:00:00',
+                        TIME,
                         style: textNormalCustom(
                           color: canceledColor,
                           fontSize: 13,
@@ -179,7 +181,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                         widgetBuilder: (_, CurrentRemainingTime? time) {
                           if (time == null) {
                             return Text(
-                              '00:00:00',
+                              TIME,
                               style: textNormalCustom(
                                 color: canceledColor,
                                 fontSize: 13,
@@ -272,6 +274,30 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                     .danhSachKetQuaBieuQuyet?[index]
                                     .soLuongLuaChon ??
                                 0,
+                            onTap: () async {
+                              await widget.cubit.themMoiVote(
+                                lichHopId: widget.cubit.idCuocHop,
+                                bieuQuyetId: widget.infoModel.id ?? '',
+                                donViId: HiveLocal.getDataUser()
+                                        ?.userInformation
+                                        ?.donViTrucThuoc
+                                        ?.id ??
+                                    '',
+                                canBoId: HiveLocal.getDataUser()?.userId,
+                                luaChonBietQuyetId: widget
+                                        .infoModel
+                                        .danhSachKetQuaBieuQuyet?[index]
+                                        .luaChonId ??
+                                    '',
+                                idPhienhopCanbo: widget.cubit.checkIdPhienHop(
+                                  widget.infoModel.idPhienHopCanBo,
+                                ),
+                              );
+                            },
+                            isVote: widget.infoModel
+                                    .danhSachKetQuaBieuQuyet?[index].isVote ??
+                                true,
+                            cubit: widget.cubit,
                           ),
                         );
                       }),
@@ -345,7 +371,8 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')} - '
+                      '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')} '
+                      '- '
                       '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}',
                       style: textNormalCustom(
                         fontSize: 16,
@@ -384,7 +411,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                           bottom: 10,
                         ),
                         child: Text(
-                          '00:00:00',
+                          TIME,
                           style: textNormalCustom(
                             color: canceledColor,
                             fontSize: 13,
@@ -403,7 +430,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                           widgetBuilder: (_, CurrentRemainingTime? time) {
                             if (time == null) {
                               return Text(
-                                '00:00:00',
+                                TIME,
                                 style: textNormalCustom(
                                   color: canceledColor,
                                   fontSize: 13,
@@ -496,6 +523,30 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                       .danhSachKetQuaBieuQuyet?[index]
                                       .soLuongLuaChon ??
                                   0,
+                              onTap: () async {
+                                await widget.cubit.themMoiVote(
+                                  lichHopId: widget.cubit.idCuocHop,
+                                  bieuQuyetId: widget.infoModel.id ?? '',
+                                  donViId: HiveLocal.getDataUser()
+                                          ?.userInformation
+                                          ?.donViTrucThuoc
+                                          ?.id ??
+                                      '',
+                                  canBoId: HiveLocal.getDataUser()?.userId,
+                                  luaChonBietQuyetId: widget
+                                          .infoModel
+                                          .danhSachKetQuaBieuQuyet?[index]
+                                          .luaChonId ??
+                                      '',
+                                  idPhienhopCanbo: widget.cubit.checkIdPhienHop(
+                                    widget.infoModel.idPhienHopCanBo,
+                                  ),
+                                );
+                              },
+                              isVote: widget.infoModel
+                                      .danhSachKetQuaBieuQuyet?[index].isVote ??
+                                  true,
+                              cubit: widget.cubit,
                             ),
                           );
                         }),
@@ -515,11 +566,17 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
 class ContainerState extends StatelessWidget {
   final int number;
   final String name;
+  final Function() onTap;
+  final bool isVote;
+  final DetailMeetCalenderCubit cubit;
 
   const ContainerState({
     Key? key,
     required this.number,
     required this.name,
+    required this.onTap,
+    required this.isVote,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -527,36 +584,38 @@ class ContainerState extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 8.0.textScale(),
-            vertical: 4.0.textScale(),
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: AppTheme.getInstance().colorField(),
-            border: Border.all(
-              color: AppTheme.getInstance().colorField(),
+        GestureDetector(
+          onTap: () => onTap(),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8.0.textScale(),
+              vertical: 4.0.textScale(),
             ),
-          ),
-          child: Text(
-            name,
-            style: textNormalCustom(
-              color: backgroundColorApp,
-              fontSize: 14.0.textScale(),
-              fontWeight: FontWeight.w500,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+              border: Border.all(
+                color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+              ),
+            ),
+            child: Text(
+              name,
+              style: textNormalCustom(
+                color: backgroundColorApp,
+                fontSize: 14.0.textScale(),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),
-        spaceH6,
         Text(
           '$number',
           style: textNormalCustom(
-            color: AppTheme.getInstance().colorField(),
+            color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w500,
           ),
-        )
+        ),
       ],
     );
   }

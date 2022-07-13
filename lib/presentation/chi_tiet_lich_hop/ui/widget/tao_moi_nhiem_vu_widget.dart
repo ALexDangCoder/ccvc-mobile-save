@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
@@ -245,36 +246,47 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
             },
           ),
           StreamBuilder<List<VBGiaoNhiemVuModel>>(
-            stream: widget.cubit.listVBGiaoNhiemVu.stream,
-            builder: (context, snapshot) {
-              final data = snapshot.data
-                      ?.where((element) => element.hinhThucVanBan == loaiVbThem)
-                      .toList() ??
-                  [];
-              return ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return ItemVbGIaoNhiemVuWidget(
-                    cubit: widget.cubit,
-                    soKyHieu: data[index].soVanBan ?? '',
-                    ngayVB: DateTime.parse(
-                      data[index].ngayVanBan ?? DateTime.now().toString(),
-                    ).toStringWithListFormat,
-                    trichYeu: data[index].trichYeu ?? '',
-                    file: data[index].file?.first ?? '',
-                    onTap: () {
-                      onTapRemoveVb(
-                        cubit: widget.cubit,
-                        data: data[index],
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
+              stream: widget.cubit.listVBGiaoNhiemVu.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data
+                        ?.where(
+                            (element) => element.hinhThucVanBan == loaiVbThem)
+                        .toList() ??
+                    [];
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return ItemVbGIaoNhiemVuWidget(
+                      cubit: widget.cubit,
+                      soKyHieu: data[index].soVanBan ?? '',
+                      ngayVB: DateTime.parse(
+                        data[index].ngayVanBan ?? DateTime.now().toString(),
+                      ).toStringWithListFormat,
+                      trichYeu: data[index].trichYeu ?? '',
+                      file: data[index].file?.first ?? '',
+                      onTap: () {
+                        showDiaLog(
+                          context,
+                          textContent:
+                              S.current.ban_co_chac_chan_muon_xoa_khong,
+                          btnLeftTxt: S.current.xoa,
+                          funcBtnRight: () {
+                            onTapRemoveVb(
+                              cubit: widget.cubit,
+                              data: data[index],
+                            );
+                          },
+                          title: S.current.gui_email,
+                          btnRightTxt: S.current.dong_y,
+                          icon: SvgPicture.asset(ImageAssets.ic_delete_do),
+                        );
+                      },
+                    );
+                  },
+                );
+              }),
         ],
       );
 

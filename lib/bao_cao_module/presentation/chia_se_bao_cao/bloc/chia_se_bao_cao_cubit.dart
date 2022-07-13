@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
@@ -128,6 +129,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         listDropDown.add(nhomCungHeThong.tenNhom ?? '');
         if (listResponse.length == length) {
           callAPI.add(SUCCESS);
+          getUsersNgoaiHeThongDuocTruyCap();
           showContent();
         }
       },
@@ -199,33 +201,28 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     String? position,
     String? unit,
     String? description,
-    int? sourceType,
   }) async {
-    final Map<String, String> mapData = {
-      'email': email ?? '',
-      'fullname': fullName ?? '',
-      'birthday': birthday ?? '',
-      'phone': phone ?? '',
-      'position': position ?? '',
-      'unit': unit ?? '',
-      'description': description ?? '',
-    };
+    final NewUserRequest mapData = NewUserRequest(
+      email: email,
+      fullName: fullName,
+      birthday: birthday,
+      phone: phone,
+      position: position,
+      unit: unit,
+      description: description,
+    );
+    final result = await _repo.addNewMember(mapData, appId);
     final rs = await chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
-    // rs.when(
-    //   success: (res) {
-    //     message = res;
-    //     chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
-    //   },
-    //   error: (error) {
-    //     message = S.current.error;
-    //   },
-    // );
+    result.when(
+      success: (res) {},
+      error: (error) {},
+    );
     return rs;
   }
 
   Future<String> chiaSeBaoCao(
     Share enumShare, {
-    Map<String, String>? newUser,
+    NewUserRequest? newUser,
   }) async {
     String mes = '';
     showLoading();
@@ -331,6 +328,8 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   int pageSize = 10;
   int pageNumber = 0;
   bool loadMore = false;
+  int status = 1;
+  bool isLock = false;
   String keySearch = '';
   bool canLoadMoreList = true;
   bool refresh = false;
@@ -372,6 +371,8 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       pageNumber,
       pageSize,
       keySearch,
+      status,
+      isLock,
     );
     result.when(
       success: (success) {
@@ -391,5 +392,14 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         showError();
       },
     );
+  }
+
+  @override
+  void removeTag(Node<DonViModel> node) {
+    node.isCheck.isCheck = false;
+    final data = node.setSelected(false);
+    node.isCheckTickChildren();
+    // node.isTickChildren = false;
+    super.removeTag(node);
   }
 }

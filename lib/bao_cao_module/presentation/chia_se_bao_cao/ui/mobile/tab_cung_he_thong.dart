@@ -75,6 +75,9 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                               ),
                             ),
                           ),
+                          dropdownBuilder: (context,value){
+                            return const SizedBox();
+                          },
                           onChanged: (value) {
                             widget.cubit.themNhom(value ?? '');
                           },
@@ -103,7 +106,6 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                   );
                 },
               ),
-              spaceH20,
               StreamBuilder<List<NhomCungHeThong>>(
                 stream: widget.cubit.themNhomStream,
                 builder: (context, snapshot) {
@@ -320,7 +322,6 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                     Navigator.pop(context);
                     Navigator.pop(this.context);
                   },
-                  showTablet: true,
                   textContent: S.current.xac_nhan_dong_pop_up,
                   icon: const SizedBox(),
                 ).then((value) {});

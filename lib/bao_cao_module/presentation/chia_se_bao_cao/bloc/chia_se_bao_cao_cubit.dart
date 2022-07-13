@@ -330,8 +330,6 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   int status = 1;
   bool isLock = false;
   bool loadMore = false;
-  int status = 1;
-  bool isLock = false;
   String keySearch = '';
   bool canLoadMoreList = true;
   bool refresh = false;

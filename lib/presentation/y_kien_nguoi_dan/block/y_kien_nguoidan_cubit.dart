@@ -38,9 +38,9 @@ class TextTrangThai {
 }
 
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
-
   bool isExpandedDropDownTiepNhan = true;
   bool isExpandedDropDownXuLy = true;
+
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
   BehaviorSubject<List<bool>> selectTypeYKNDSubject =
       BehaviorSubject.seeded([true, false]);
@@ -68,16 +68,20 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int DENHAN = 2;
   static const int QUAHAN = 3;
 
+  final List<bool> constListValueDropdown = List.filled(24, false)
+    ..setAll(
+      0,
+      [true],
+    );
+  final BehaviorSubject<List<bool>> listValueDropDownBHVSJ = BehaviorSubject();
 
-  void resizeDropDown() {
-    if(!isExpandedDropDownTiepNhan && !isExpandedDropDownXuLy) {
-      sizeDropDown.sink.add(70);
-    }
-    if(listDanhSachKetQuaPakn.valueOrNull?.length == 1) {
-      sizeDropDown.sink.add(200);
-    } else {
-      sizeDropDown.sink.add(500);
-    }
+  void setColorWhenChooseDropDown(int index) {
+    final List<bool> tmpList = List.filled(24, false)
+      ..setAll(
+        index,
+        [true],
+      );
+    listValueDropDownBHVSJ.sink.add(tmpList);
   }
 
   final List<ChartData> listChartPhanLoai = [];
@@ -105,7 +109,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   //     BehaviorSubject<DashboardTinhHinhXuLuModel>();
 
   ///dashboard
-
 
   final BehaviorSubject<DocumentDashboardModel> getTinhHinhXuLy =
       BehaviorSubject<DocumentDashboardModel>();
@@ -196,11 +199,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ChartData(S.current.da_hoan_thanh, 12, daXuLyColor),
     ChartData(S.current.chua_thuc_hien, 14, choVaoSoColor),
   ];
-  DocumentDashboardModel dashboardModel = DocumentDashboardModel(
-    soLuongTrongHan: 0,
-    soLuongDenHan: 0,
-    soLuongQuaHan: 0,
-  );
+  DocumentDashboardModel dashboardModel = DocumentDashboardModel();
   List<ItemIndicator> listIndicator = [
     ItemIndicator(color: numberOfCalenders, title: S.current.cong_dvc_quoc_gia),
     ItemIndicator(color: labelColor, title: S.current.thu_dien_tu),
@@ -261,12 +260,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         ngheNghiep: 'Nhan vien van phong that nghiep',
         ngayThang: '18/10/2021',
         ten: 'Ha Kieu Anh',
-        statusData: StatusYKien.DANG_XU_LY),
+        statusData: StatusYKien.DANG_XU_LY,),
     NguoiDanModel(
         ngheNghiep: 'Nhan vien van phong that nghiep',
         ngayThang: '18/10/2021',
         ten: 'Ha Kieu Anh',
-        statusData: StatusYKien.QUA_HAN),
+        statusData: StatusYKien.QUA_HAN,),
     NguoiDanModel(
       ngheNghiep: 'Nhan vien van phong that nghiep',
       ngayThang: '18/10/2021',
@@ -459,8 +458,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     }
   }
 
-
-
   BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn =
       BehaviorSubject();
 
@@ -518,7 +515,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         loaiMenu: loaiMenu,
         dateTo: startDate,
         dateFrom: endDate,
-        hanXuLy: hanXuLy);
+        hanXuLy: hanXuLy,);
     data.when(
       success: (success) {
         if (listDanhSachKetQuaPakn.hasValue) {
@@ -540,6 +537,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   int trangThaiVanBanDi = 1;
   bool isFilterTiepNhan = false;
+
   Future<void> getPAKNTiepNhanCacVanBan({bool flagLoadMore = false}) async {
     isFilterTiepNhan = true;
     if (!flagLoadMore) {
@@ -575,6 +573,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   bool isFilterXuLy = false;
   bool daChoYKien = false;
+
   Future<void> getDSPAKNXuLyChoVaDaChoYKien({bool flagLoadMore = false}) async {
     isFilterXuLy = true;
     if (!flagLoadMore) {
@@ -606,11 +605,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
     );
   }
+
   final BehaviorSubject<DashBoardPAKNModel> dashBoardPAKNTiepCanXuLyBHVSJ =
       BehaviorSubject();
-
-
-
 
   Future<void> getDashBoardPAKNTiepCanXuLy() async {
     showLoading();
@@ -900,6 +897,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   void dispose() {
     listDanhSachKetQuaPakn.value.clear();
   }
+
+
 
   static const String ChoTiepNhan = '1';
   static const String ChoChuyenXuLy = '2';

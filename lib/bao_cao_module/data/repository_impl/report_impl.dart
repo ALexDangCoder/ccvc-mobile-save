@@ -175,7 +175,13 @@ class ReportImpl implements ReportRepository {
   @override
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(
-          String appId, int pageIndex, int pageSize, String keyword, int status, bool isLock) {
+    String appId,
+    int pageIndex,
+    int pageSize,
+    String keyword,
+    int status,
+    bool isLock,
+  ) {
     return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse,
         List<UserNgoaiHeThongDuocTruyCapModel>>(
       () => _reportService.getUsersNgoaiHeThongDuocTruyCap(
@@ -185,7 +191,7 @@ class ReportImpl implements ReportRepository {
           pageSize: pageSize,
           keyword: keyword,
           status: status,
-          isLock: isLock
+          isLock: isLock,
         ),
       ),
       (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],

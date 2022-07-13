@@ -56,6 +56,8 @@ class ReportListMobile extends StatelessWidget {
                     child: ItemGridView(
                       item: listReport[index],
                       cubit: cubit,
+                      idFolder: idFolder,
+                      isTree: isTree,
                     ),
                   );
                 },
@@ -77,6 +79,8 @@ class ReportListMobile extends StatelessWidget {
                         value: listReport[index],
                       ),
                       child: ItemList(
+                        idFolder: idFolder,
+                        isTree: isTree,
                         item: listReport[index],
                         cubit: cubit,
                       ),

@@ -106,6 +106,12 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       }),
       onSelectItem: (index) {
         selectedMonth = dataMonth[index];
+        if (widget.minimumDate != null &&
+            widget.minimumDate!.year == selectedYear &&
+            widget.minimumDate!.month == selectedMonth &&
+            selectedDay < widget.minimumDate!.day) {
+          selectedDay = widget.minimumDate!.day;
+        }
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
           widget.onDateTimeChanged(

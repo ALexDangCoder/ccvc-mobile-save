@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -397,7 +399,9 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       .toList(),
                                 ),
                                 TaiLieuWidget(
-                                  files: createCubit.files ?? [],
+                                  files: (createCubit.files ?? [])
+                                      .map((e) => File(e.path ?? ''))
+                                      .toList(),
                                   onChange: (files, value) {
                                     if (!value) {
                                       createCubit.filesTaoLich = files;

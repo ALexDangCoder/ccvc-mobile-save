@@ -69,11 +69,11 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                                     widget.node,
                                     isCheck: widget.node.isCheck.isCheck,
                                   );
-                                  // widget.themDonViCubit.addSelectDonVi(
-                                  //   isCheck: widget.node.isCheck.isCheck,
-                                  //   listDonVi: data,
-                                  //   node: widget.node.value,
-                                  // );
+                                  widget.themDonViCubit.addSelectDonVi(
+                                    isCheck: widget.node.isCheck.isCheck,
+                                    listDonVi: data,
+                                    node: widget.node.value,
+                                  );
                                 },
                                 isCheck: widget.node.isCheckALl(),
                               )

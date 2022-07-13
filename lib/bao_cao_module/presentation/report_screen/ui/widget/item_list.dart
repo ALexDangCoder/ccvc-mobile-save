@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
@@ -58,7 +59,7 @@ class ItemList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AutoSizeText(
                     item.name ?? '',
                     maxLines: 1,
                     style: textNormalCustom(
@@ -69,7 +70,7 @@ class ItemList extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   spaceH4,
-                  Text(
+                  AutoSizeText(
                     (item.dateTime ?? '').changeToNewPatternDate(
                       DateFormatApp.dateTimeBackEnd,
                       DateFormatApp.date,

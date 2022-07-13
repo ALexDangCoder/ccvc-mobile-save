@@ -524,7 +524,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
     for (final element in files) {
       sum = sum + element.lengthSync();
     }
-    if (sum > MaxSizeFile.MAX_SIZE_20MB) {
+    if (sum > MaxSizeFile.MAX_SIZE_30MB) {
       return false;
     }
     return true;

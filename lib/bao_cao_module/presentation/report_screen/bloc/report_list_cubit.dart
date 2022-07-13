@@ -43,6 +43,8 @@ class ReportListCubit extends BaseCubit<BaseState> {
   List<ReportItem> listReportFavorite = [];
   BehaviorSubject<List<ReportItem>?> listReportTree =
       BehaviorSubject.seeded(null);
+  BehaviorSubject<List<ReportItem>?> listReportTreeUpdate =
+      BehaviorSubject.seeded(null);
   BehaviorSubject<bool> isCheckData = BehaviorSubject.seeded(false);
   List<ReportItem> listReport = [];
   List<ReportItem> listReportSearch = [];
@@ -216,18 +218,19 @@ class ReportListCubit extends BaseCubit<BaseState> {
     }
   }
 
-  void reloadDataWhenFavorite({
+  Future<void> reloadDataWhenFavorite({
     String idFolder = '',
     bool isTree = false,
-  }) {
+  }) async {
     if (isCheckPostFavorite) {
       if (isTree) {
-        getListReport(
+        await getListReport(
           isTree: isTree,
           idFolder: idFolder,
         );
+        listReportTreeUpdate.add(listReportTree.value);
       } else {
-        getListReport();
+        await getListReport();
       }
     }
   }
@@ -239,7 +242,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
       isSearch: true,
     );
   }
-
 
   Future<void> getListFavorite() async {
     listReportFavorite.clear();
@@ -289,6 +291,9 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
+        if (!isTreeShareToMe) {
+          isCheckData.add(true);
+        }
         if (res.isEmpty) {
           showContent();
           if (!isTreeShareToMe) {
@@ -316,9 +321,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
           }
           showContent();
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
-        }
-        if (!isTreeShareToMe) {
-          isCheckData.add(true);
         }
       },
       error: (error) {

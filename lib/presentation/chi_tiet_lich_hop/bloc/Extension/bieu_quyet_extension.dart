@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -36,7 +35,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     );
   }
 
-  Future<bool> themMoiVote({
+  Future<void> themMoiVote({
     required String? lichHopId,
     required String? bieuQuyetId,
     required String? donViId,
@@ -53,37 +52,34 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       luaChonBietQuyetId: luaChonBietQuyetId,
       idPhienhopCanbo: idPhienhopCanbo,
     );
-    bool isSuccess = false;
     final result = await hopRp.themMoiVote(themMoiVote);
     result.when(
       success: (res) {
         MessageConfig.show(
           title: S.current.bieu_quyet_thanh_cong,
         );
-        isSuccess = true;
+        callApi(
+          idCuocHop,
+          checkIdPhienHop(
+            phienHopId,
+          ),
+        );
       },
       error: (err) {
-        MessageConfig.show(
-          title: S.current.bieu_quyet_that_bai,
-          messState: MessState.error,
-        );
-        isSuccess = false;
+        if (err is NoNetworkException || err is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.bieu_quyet_that_bai,
+            messState: MessState.error,
+          );
+        }
       },
     );
-    return isSuccess;
-  }
-
-  void addDataList(int index) {
-    for (final DanhSachKetQuaBieuQuyet value
-        in listBieuQuyet[index].danhSachKetQuaBieuQuyet ?? []) {
-      value.isVote = true;
-      final List<int> list = List<int>.filled(
-        (listBieuQuyet[index].danhSachKetQuaBieuQuyet ?? []).length,
-        0,
-      );
-      list[index] = 1;
-      streamListVoteBieuQuyet.sink.add(list);
-    }
+    showContent();
   }
 
   void getTimeHour({required TimerData startT, required TimerData endT}) {
@@ -270,19 +266,23 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
     result.when(
       success: (res) {
-        final userId = HiveLocal.getDataUser()?.userId ?? '';
         listData = res;
-        final id = listData.firstWhere(
-          (element) => element.canBoId == userId,
-          orElse: () {
-            return DanhSachNguoiThamGiaModel();
-          },
-        ).id;
-        idPhienHop = id ?? '';
+        findIdPhienHop(listData);
         nguoiThamGiaSubject.sink.add(listData);
       },
       error: (error) {},
     );
+  }
+
+  void findIdPhienHop(List<DanhSachNguoiThamGiaModel> mList) {
+    final userId = HiveLocal.getDataUser()?.userId ?? '';
+    final id = listData.firstWhere(
+      (element) => element.canBoId == userId,
+      orElse: () {
+        return DanhSachNguoiThamGiaModel();
+      },
+    ).id;
+    idPhienHop = id ?? '';
   }
 
   String checkIdPhienHop(String? id) {

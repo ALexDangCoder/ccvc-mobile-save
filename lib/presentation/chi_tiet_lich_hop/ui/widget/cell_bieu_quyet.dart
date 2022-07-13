@@ -56,6 +56,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
     endCountdownController = CountdownTimerController(
       endTime: endMillisec,
     );
+    widget.infoModel.idPhienHopCanBo = widget.cubit.idPhienHop;
   }
 
   @override
@@ -273,8 +274,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                     .soLuongLuaChon ??
                                 0,
                             onTap: () async {
-                              await widget.cubit
-                                  .themMoiVote(
+                              await widget.cubit.themMoiVote(
                                 lichHopId: widget.cubit.idCuocHop,
                                 bieuQuyetId: widget.infoModel.id ?? '',
                                 donViId: HiveLocal.getDataUser()
@@ -291,17 +291,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 idPhienhopCanbo: widget.cubit.checkIdPhienHop(
                                   widget.infoModel.idPhienHopCanBo,
                                 ),
-                              )
-                                  .then((value) {
-                                if (value) {
-                                  widget.cubit.callApi(
-                                    widget.cubit.idCuocHop,
-                                    widget.cubit.checkIdPhienHop(
-                                      widget.infoModel.idPhienHopCanBo,
-                                    ),
-                                  );
-                                }
-                              });
+                              );
                             },
                             isVote: widget.infoModel
                                     .danhSachKetQuaBieuQuyet?[index].isVote ??
@@ -533,8 +523,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                       .soLuongLuaChon ??
                                   0,
                               onTap: () async {
-                                await widget.cubit
-                                    .themMoiVote(
+                                await widget.cubit.themMoiVote(
                                   lichHopId: widget.cubit.idCuocHop,
                                   bieuQuyetId: widget.infoModel.id ?? '',
                                   donViId: HiveLocal.getDataUser()
@@ -551,17 +540,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                   idPhienhopCanbo: widget.cubit.checkIdPhienHop(
                                     widget.infoModel.idPhienHopCanBo,
                                   ),
-                                )
-                                    .then((value) {
-                                  if (value) {
-                                    widget.cubit.callApi(
-                                      widget.cubit.idCuocHop,
-                                      widget.cubit.checkIdPhienHop(
-                                        widget.infoModel.idPhienHopCanBo,
-                                      ),
-                                    );
-                                  }
-                                });
+                                );
                               },
                               isVote: widget.infoModel
                                       .danhSachKetQuaBieuQuyet?[index].isVote ??

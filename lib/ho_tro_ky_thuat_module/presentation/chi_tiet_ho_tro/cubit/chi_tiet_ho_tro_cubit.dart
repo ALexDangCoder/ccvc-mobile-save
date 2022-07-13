@@ -25,13 +25,13 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   String getCode(String value) {
     switch (value) {
-      case 'Đã hoàn thành':
+      case DA_HOAN_THANH_VALUE:
         return DA_HOAN_THANH;
-      case 'Đang xử lý':
+      case DANG_XU_LY_VALUE:
         return DANG_XU_LY;
-      case 'Từ chối xử lý':
+      case TU_CHOI_XU_LY_VALUE:
         return TU_CHOI_XU_LY;
-      case 'Đang chờ xử lý':
+      case CHUA_XU_LY_VALUE:
         return CHUA_XU_LY;
       default:
         return '';
@@ -39,11 +39,15 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   }
 
   List<String> listTrangThai = [
-    'Đang chờ xử lý',
-    'Đang xử lý',
-    'Đã hoàn thành',
-    'Từ chối xử lý'
+    CHUA_XU_LY_VALUE,
+    DANG_XU_LY_VALUE,
+    DA_HOAN_THANH_VALUE,
+    TU_CHOI_XU_LY_VALUE,
   ];
+  static const String DA_HOAN_THANH_VALUE = 'Đã hoàn thành';
+  static const String DANG_XU_LY_VALUE = 'Đang xử lý';
+  static const String CHUA_XU_LY_VALUE = 'Đang chờ xử lý';
+  static const String TU_CHOI_XU_LY_VALUE = 'Từ chối xử lý';
 
   static const String DA_HOAN_THANH = 'da-hoan-thanh';
   static const String DANG_XU_LY = 'dang-xu-ly';

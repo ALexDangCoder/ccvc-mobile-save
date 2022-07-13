@@ -86,10 +86,8 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         return TinhTrang.TRUNG_BINH;
       case 'dat':
         return TinhTrang.DAT;
-      case 'chua-dat':
-        return TinhTrang.CHUA_DAT;
       default:
-        return TinhTrang.TRUNG_BINH;
+        return TinhTrang.KHONG_DAT;
     }
   }
 

@@ -25,7 +25,8 @@ class TabKetQuaXuLyTablet extends StatefulWidget {
   State<TabKetQuaXuLyTablet> createState() => _TabKetQuaXuLyTabletState();
 }
 
-class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
+class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -34,6 +35,7 @@ class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
@@ -76,7 +78,8 @@ class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
                       content: data[indexItem][index].content,
                       urlFile: data[indexItem][index].urlDownload ?? [],
                       nameFile: data[indexItem][index].nameFile ?? [],
-                      domainDownload: '${Get.find<AppConstants>().baseUrlPAKN}/',
+                      domainDownload:
+                          '${Get.find<AppConstants>().baseUrlPAKN}/',
                     );
                   },
                 ),
@@ -93,4 +96,6 @@ class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
     );
   }
 
+  @override
+  bool get wantKeepAlive => true;
 }

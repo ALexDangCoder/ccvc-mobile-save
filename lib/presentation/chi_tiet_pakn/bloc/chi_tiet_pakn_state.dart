@@ -1,30 +1,10 @@
-part of 'chi_tiet_pakn_cubit.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
 
-abstract class ChiTietPaknState extends Equatable {
-  const ChiTietPaknState();
+abstract class ChiTietPAKNState extends BaseState {
+  const ChiTietPAKNState();
 }
 
-class ChiTietPaknInitial extends ChiTietPaknState {
+class ChiTietPAKNStateInitial extends ChiTietPAKNState {
   @override
   List<Object> get props => [];
-}
-
-class ChiTietPaknLoading extends ChiTietPaknState {
-  @override
-  List<Object?> get props => [];
-}
-
-class ChiTietPaknSuccess extends ChiTietPaknState {
-  final CompleteType completeType;
-  final List<YKienXuLyYKNDModel>? list;
-  final String? message;
-
-  ChiTietPaknSuccess(
-    this.completeType, {
-    this.list,
-    this.message,
-  });
-
-  @override
-  List<Object?> get props => [completeType, list, message];
 }

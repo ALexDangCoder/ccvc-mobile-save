@@ -63,6 +63,7 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
+const int BYTE_TO_MB = 1048576;
 const String HOAN_THANH = 'HOAN_THANH';
 const String DEN_HAN = 'DEN_HAN';
 const String QUA_HAN = 'QUA_HAN';

@@ -384,7 +384,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: SvgPicture.asset(
-                                      ImageAssets.ic_xoa_kl_hop,
+                                      ImageAssets.ic_xoa_ket_luan_hop,
                                     ),
                                   ),
                                 ),
@@ -421,7 +421,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: SvgPicture.asset(
-                                      ImageAssets.ic_xoa_kl_hop,
+                                      ImageAssets.ic_xoa_ket_luan_hop,
                                     ),
                                   ),
                                 ),

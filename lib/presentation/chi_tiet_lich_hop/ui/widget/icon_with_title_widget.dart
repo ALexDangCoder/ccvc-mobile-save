@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,7 +35,7 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
           decoration: BoxDecoration(
             color: widget.type2
                 ? statusCalenderRed.withOpacity(0.1)
-                : textDefault.withOpacity(0.1),
+                : AppTheme.getInstance().colorSelect().withOpacity(0.1),
             borderRadius: const BorderRadius.all(
               Radius.circular(4.0),
             ),
@@ -46,14 +47,19 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
               },
               child: Row(
                 children: [
-                  SvgPicture.asset(widget.icon),
+                  SvgPicture.asset(
+                    widget.icon,
+                    color: AppTheme.getInstance().colorSelect(),
+                  ),
                   const SizedBox(
                     width: 8,
                   ),
                   Text(
                     widget.title,
                     style: textNormalCustom(
-                      color: widget.type2 ? statusCalenderRed : textDefault,
+                      color: widget.type2
+                          ? statusCalenderRed
+                          : AppTheme.getInstance().colorSelect(),
                     ),
                   ),
                 ],

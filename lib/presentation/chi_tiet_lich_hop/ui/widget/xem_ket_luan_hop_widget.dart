@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/button/button_custom_bottom.da
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -295,7 +296,10 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Row(
                           children: [
-                            SvgPicture.asset(ImageAssets.icShareFile),
+                            SvgPicture.asset(
+                              ImageAssets.icShareFile,
+                              color: AppTheme.getInstance().colorField(),
+                            ),
                             const SizedBox(width: 8),
                             Text(
                               data[index],

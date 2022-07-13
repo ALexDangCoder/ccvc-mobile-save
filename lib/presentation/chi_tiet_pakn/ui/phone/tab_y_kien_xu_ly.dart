@@ -436,13 +436,13 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                       );
                       widget.cubit.sizeFile = 0;
                     } else {
-                      final String result = await widget.cubit.postYKienXuLy(
+                      final bool result = await widget.cubit.postYKienXuLy(
                         noiDung: _nhapYMainController.text,
                         kienNghiId: widget.cubit.idYkienParam,
                         file: widget.cubit.listFileMain,
                       );
 
-                      if (result.isNotEmpty) {
+                      if (result) {
                         _nhapYMainController.text = '';
                         widget.cubit.listFileMain.clear();
                         widget.cubit.listPickFileMain.clear();
@@ -459,12 +459,12 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                         );
                         widget.cubit.sizeFile = 0;
                       } else {
-                        final String result = await widget.cubit.postYKienXuLy(
+                        final bool result = await widget.cubit.postYKienXuLy(
                           noiDung: _nhapYMainController.text,
                           kienNghiId: widget.cubit.idYkienParam,
                           file: widget.cubit.listFileMain,
                         );
-                        if (result.isNotEmpty) {
+                        if (result) {
                           _nhapYMainController.text = '';
                           widget.cubit.listFileMain.clear();
                           widget.cubit.listPickFileMain.clear();

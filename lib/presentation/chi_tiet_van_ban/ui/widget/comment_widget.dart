@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
 import 'package:flutter/material.dart';
@@ -205,7 +206,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
             for (final PickImageFileModel item in listFile) {
               totalSize += item.size ?? 0;
             }
-            if (totalSize / 1048576 > widget.maxSizeMB) {
+            if (totalSize / BYTE_TO_MB > widget.maxSizeMB) {
               //todo popup
             } else {
               if (widget.onSend != null) {

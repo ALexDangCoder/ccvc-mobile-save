@@ -48,9 +48,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
       BehaviorSubject<ChiTietYKNDModel>();
 
 //tab y kien xu ly
-  static const int BYTE_TO_MB = 1048576;
   static const int MAX_MB = 30;
-  static const String SUCCESS = 'success';
   int sizeFile = 0;
   final List<PickImageFileModel> listPickFileMain = [];
   final List<YKienXuLyYKNDModel> listYKienXuLy = [];
@@ -401,27 +399,26 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     return result;
   }
 
-  Future<String> postYKienXuLy({
+  Future<bool> postYKienXuLy({
     required String kienNghiId,
     required String noiDung,
     required List<File> file,
   }) async {
-    String status = '';
+    bool status = false;
     showLoading();
     final result = await YKNDRepo.postChoYKienYKienXuLy(
-      //  nguoiChoYKien,
       kienNghiId,
       noiDung,
       file,
     );
     result.when(
       success: (res) {
-        status = SUCCESS;
+        status = true;
         showContent();
         getDanhSachYKienXuLyPAKN();
       },
       error: (error) {
-        status = '';
+        status = false;
         showContent();
         getDanhSachYKienXuLyPAKN();
       },

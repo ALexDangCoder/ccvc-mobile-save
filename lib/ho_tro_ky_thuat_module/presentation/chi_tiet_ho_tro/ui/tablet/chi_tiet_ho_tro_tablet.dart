@@ -215,45 +215,7 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                                 Navigator.pop(context);
                               },
                               onPressed2: () {
-                                if (cubit.isItSupport &&
-                                    cubit.supportDetail.codeTrangThai !=
-                                        ChiTietHoTroCubit.DA_HOAN_THANH) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) {
-                                      return Scaffold(
-                                        backgroundColor: Colors.transparent,
-                                        body: Center(
-                                          child: CapNhatTinhHinhHoTroTabLet(
-                                            cubit: cubit,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  if (cubit.supportDetail.codeTrangThai ==
-                                      ChiTietHoTroCubit.DA_HOAN_THANH) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return Scaffold(
-                                          backgroundColor: Colors.transparent,
-                                          body: Center(
-                                            child: DanhGiaYeuCauHoTroTabLet(
-                                              cubit: cubit,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    MessageConfig.show(
-                                      title: S.current.chua_duoc_danh_gia,
-                                      messState: MessState.error,
-                                    );
-                                  }
-                                }
+                                onPressConfirm();
                               },
                               isTablet: true,
                               noPadding: true,
@@ -268,6 +230,47 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
         );
       },
     );
+  }
+  void onPressConfirm(){
+    if (cubit.isItSupport &&
+        cubit.supportDetail.codeTrangThai !=
+            ChiTietHoTroCubit.DA_HOAN_THANH) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: CapNhatTinhHinhHoTroTabLet(
+                cubit: cubit,
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      if (cubit.supportDetail.codeTrangThai ==
+          ChiTietHoTroCubit.DA_HOAN_THANH) {
+        showDialog(
+          context: context,
+          builder: (_) {
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: DanhGiaYeuCauHoTroTabLet(
+                  cubit: cubit,
+                ),
+              ),
+            );
+          },
+        );
+      } else {
+        MessageConfig.show(
+          title: S.current.chua_duoc_danh_gia,
+          messState: MessState.error,
+        );
+      }
+    }
   }
 
   Widget title(String title) {

@@ -103,7 +103,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.trang_thai_xu_ly,
-              content: [value.trangThaiXuLy],
+              content: [getTextByStatus(value.trangThaiXuLy)],
             ),
           );
           rowData.add(
@@ -509,12 +509,6 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
             content: [data.hanXuLy],
           ),
         );
-        // listRowHeaderData.add(
-        //   ListRowYKND(
-        //     title: S.current.lien_quan_quy_dinh,
-        //     content: [data.tenLuat],
-        //   ),
-        // );
 
         listRowHeaderData.add(
           ListRowYKND(
@@ -665,4 +659,82 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     );
     return listData;
   }
+
+  String getTextByStatus(String status) {
+    switch (status) {
+      case ChoTiepNhan:
+        return S.current.cho_tiep_nhan;
+      case ChoChuyenXuLy:
+        return S.current.cho_chuyen_xu_ly;
+      case ChoTiepNhanXuLy:
+        return S.current.cho_tiep_nhan_xu_ly;
+      case ChoPhanCongXuLy:
+        return S.current.cho_phan_cong_xu_ly;
+      case ChoDonViDuyet:
+        return S.current.cho_don_vi_duyet;
+      case ChoBoDuyet:
+        return S.current.cho_bo_duyet;
+      case ChoDuyet:
+        return S.current.cho_duyet;
+      case ChoChuyenDonVi:
+        return S.current.cho_chuyen_don_vi;
+      case DaHoanThanh:
+        return S.current.da_hoan_thanh;
+      case ChoBoSungThongTin:
+        return S.current.cho_bo_sung_thong_tin;
+      case TuChoiTiepNhan:
+        return S.current.tu_choi_tiep_nhan;
+      case HuyBo:
+        return S.current.huy_bo;
+      case ChoXuLy:
+        return S.current.cho_xu_ly;
+      case ChoDuyetChuyenDonViXuLy:
+        return S.current.cho_duyet_chuyen_dv_xu_ly;
+      case ChoXacNhanChuyenDonViXuLy:
+        return S.current.cho_xac_nhan;
+      case HuyTrinh:
+        return S.current.huy_trinh;
+      case HuyDuyet:
+        return S.current.huy_duyet;
+      case ThuHoi:
+        return S.current.thu_hoi;
+      case ChoDuyetYCPH:
+        return S.current.cho_duyet;
+      case ChuyenXuLy:
+        return S.current.chuyen_xu_ly;
+      case DaPhanCong:
+        return S.current.da_phan_cong;
+      case PhanXuLy:
+        return S.current.phan_xu_ly;
+      case DangXuLy:
+        return S.current.dang_xu_ly;
+      default:
+        return S.current.cho_nguoi_dan_bo_sung_thong_tin;
+    }
+  }
+
+  static const String ChoTiepNhan = '1';
+  static const String ChoChuyenXuLy = '2';
+  static const String ChoTiepNhanXuLy = '3';
+  static const String ChoPhanCongXuLy = '4,12';
+  static const String ChoDonViDuyet = '5';
+  static const String ChoBoDuyet = '6';
+  static const String ChoDuyet = '6,13,18';
+  static const String ChoChuyenDonVi = '7';
+  static const String DaHoanThanh = '8';
+  static const String ChoBoSungThongTin = '9,22';
+  static const String TuChoiTiepNhan = '10';
+  static const String HuyBo = '11';
+  static const String ChoXuLy = '12';
+  static const String ChoDuyetChuyenDonViXuLy = '13';
+  static const String ChoXacNhanChuyenDonViXuLy = '14';
+  static const String HuyTrinh = '15';
+  static const String HuyDuyet = '16';
+  static const String ThuHoi = '17';
+  static const String ChoDuyetYCPH = '18';
+  static const String ChuyenXuLy = '19';
+  static const String DaPhanCong = '20';
+  static const String PhanXuLy = '21';
+  static const String DangXuLy = '3,4,12';
+  static const String ChoNguoiDanBoSungThongTin = '22';
 }

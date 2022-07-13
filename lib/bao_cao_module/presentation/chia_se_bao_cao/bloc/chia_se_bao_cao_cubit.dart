@@ -325,9 +325,9 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   ///huy
   int pageSize = 10;
   int pageNumber = 0;
-  bool loadMore = false;
   int status = 1;
   bool isLock = false;
+  bool loadMore = false;
   String keySearch = '';
   bool canLoadMoreList = true;
   bool refresh = false;

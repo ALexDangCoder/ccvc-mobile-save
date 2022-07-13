@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -83,7 +84,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.thoi_gian_thao_tac,
-              content: [value.ngayBatDau],
+              content: [(DateTime.parse(value.ngayBatDau).formatPAKN)],
             ),
           );
 
@@ -112,12 +113,6 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
               content: [value.noiDungXuLy],
             ),
           );
-          // rowData.add(
-          //   ListRowYKND(
-          //     title: S.current.file_dinh_kem,
-          //     content: value.taiLieus.map((e) => e.ten).toList(),
-          //   ),
-          // );
           listData.add(rowData);
           tienTrinhXuLyRowData.sink.add(listData);
         }
@@ -141,26 +136,26 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         final List<List<ListRowYKND>> listData = [];
-        for (final value in res) {
+        for (final element in res) {
           final List<ListRowYKND> rowData = [];
           rowData.add(
             ListRowYKND(
               title: S.current.chuyen_vien_xu_ly,
-              content: [value.nguoiKyDuyet],
+              content: [element.nguoiKyDuyet],
             ),
           );
 
           rowData.add(
             ListRowYKND(
               title: S.current.don_vi_xu_ly,
-              content: [value.tenDonVi],
+              content: [element.tenDonVi],
             ),
           );
 
           rowData.add(
             ListRowYKND(
               title: S.current.vai_tro_xu_ly,
-              content: value.isChuTri
+              content: element.isChuTri
                   ? [S.current.chu_tri]
                   : [S.current.chuyen_vien],
             ),
@@ -168,53 +163,52 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.trang_thai_xu_ly,
-              content: [value.trangThai.toString()],
+              content: [element.trangThai.toString()],
             ),
           );
           rowData.add(
             ListRowYKND(
               title: S.current.noi_dung_xu_ly,
-              content: [value.taskContent.parseHtml()],
+              content: [element.taskContent.parseHtml()],
             ),
           );
           rowData.add(
             ListRowYKND(
               title: S.current.so_hieu_van_ban,
-              content: [value.soVanBanDi],
+              content: [element.soVanBanDi],
             ),
           );
 
           rowData.add(
             ListRowYKND(
               title: S.current.so_hieu_van_ban,
-              content: [value.soVanBanDi],
+              content: [element.soVanBanDi],
             ),
           );
           rowData.add(
             ListRowYKND(
               title: S.current.ngay_ban_hanh,
-              content: [value.ngayKyVanBanDi],
+              content: [element.ngayKyVanBanDi],
             ),
           );
           rowData.add(
             ListRowYKND(
               title: S.current.trich_yeu,
-              content: [value.trichYeu.parseHtml()],
+              content: [element.trichYeu.parseHtml()],
             ),
           );
           rowData.add(
             ListRowYKND(
               title: S.current.co_quan_ban_hanh,
-              content: [value.coQuanBanHanh],
+              content: [element.coQuanBanHanh],
             ),
           );
-
           rowData.add(
             ListRowYKND(
               title: S.current.file_dinh_kem,
-              content: value.dSFile.map((e) => e.ten).toList(),
-              urlDownload: value.dSFile.map((e) => e.duongDan).toList(),
-              nameFile: value.dSFile.map((e) => e.ten).toList(),
+              content: element.dSFile.map((e) => e.ten).toList(),
+              urlDownload: element.dSFile.map((e) => e.duongDan).toList(),
+              nameFile: element.dSFile.map((e) => e.ten).toList(),
             ),
           );
           listData.add(rowData);
@@ -625,7 +619,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
     );
     listData.add(
       DataRowChiTietKienNghi(
-        title: S.current.ten_ca_nhan_tc,
+        title: S.current.ten_ca_nhan_tc_full,
         content: nguoiPhanAnhModel.tenCaNhan ?? '',
       ),
     );

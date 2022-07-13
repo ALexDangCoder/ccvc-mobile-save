@@ -70,10 +70,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
 
   void resizeDropDown() {
-    print(isExpandedDropDownTiepNhan);
-    print(isExpandedDropDownXuLy);
     if(!isExpandedDropDownTiepNhan && !isExpandedDropDownXuLy) {
-      print('here');
       sizeDropDown.sink.add(70);
     }
     if(listDanhSachKetQuaPakn.valueOrNull?.length == 1) {
@@ -442,8 +439,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     }
   }
 
-
-
   Future<void> loadMorePAKNXuLyCacYKienFilter() async {
     if (loadMore == false) {
       pageNumberDSPAKN += 1;
@@ -454,8 +449,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       //nothing
     }
   }
-
-
 
   Future<void> refreshGetDSPAKN() async {
     canLoadMoreList = true;
@@ -887,7 +880,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       userId = dataUser.userId ?? '';
     }
   }
-
 
   /*
   * int? pageIndex,

@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:core';
+
 enum AppMode { MAC_DINH, XANH, HONG, VANG }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -115,7 +117,11 @@ const String TRANSACTION_NFT = '1';
 const EN_CODE = 'en';
 const VI_CODE = 'vi';
 const VI_LANG = 'vn';
+DateTime MAXIMUM_DATE = DateTime(2099, 12, 30);
+DateTime MINIMUM_DATE = DateTime(1900);
 
+const int MAXIMUM_YEAR = 2099;
+const int MINIMUM_YEAR = 1900;
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
@@ -141,18 +147,19 @@ const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
 const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
 const _dtFormat18 = 'MM/dd/yyyy HH:mm';
 
-const START_TIME='8:00';
-const END_TIME='18:00';
-const INIT_TIME_PICK='hh:mm';
-const INIT_DATE_PICK='DD/MM/YYYY';
+const START_TIME = '8:00';
+const END_TIME = '18:00';
+const INIT_TIME_PICK = 'hh:mm';
+const INIT_DATE_PICK = 'DD/MM/YYYY';
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
 const String AVATAR_DEFAULT =
     'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
-const String BASE_URL_MEETING  = 'https://emeeting.vn/';
-const String ENTITY_THU_MOI_HOP  = 'ThuMoiHop';
-const String ENTITY_TAI_LIEU_HOP  = 'TaiLieuHop';
+const String BASE_URL_MEETING = 'https://emeeting.vn/';
+const String ENTITY_THU_MOI_HOP = 'ThuMoiHop';
+const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
+
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
   static const HOUR_FORMAT = _dtFormat2;
@@ -162,16 +169,16 @@ class DateTimeFormat {
   static const DATE_MM_DD_YYYY = _dtFormat6;
   static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
   static const DATE_DD_MM_YYYY = _dtFormat8;
-  static const  DATE_DD_MM_HM = _dtFormat9;
-  static const  DAY_MONTH_YEAR = _dtFormat10;
-  static const  DAY_MONTH_YEAR_BETWEEN = _dtFormat11;
-  static const  DATE_TIME_RECEIVE = _dtFormat12;
-  static const  DATE_TIME_PICKER = _dtFormat13;
-  static const  DATE_TIME_PUT = _dtFormat14;
-  static const  DATE_TIME_PUT_EDIT = _dtFormat15;
-  static const  DATE_TIME_BE_API_START = _dtFormat16;
-  static const  DATE_TIME_BE_API_END = _dtFormat17;
-  static const  DATE_TIME_HM = _dtFormat18;
+  static const DATE_DD_MM_HM = _dtFormat9;
+  static const DAY_MONTH_YEAR = _dtFormat10;
+  static const DAY_MONTH_YEAR_BETWEEN = _dtFormat11;
+  static const DATE_TIME_RECEIVE = _dtFormat12;
+  static const DATE_TIME_PICKER = _dtFormat13;
+  static const DATE_TIME_PUT = _dtFormat14;
+  static const DATE_TIME_PUT_EDIT = _dtFormat15;
+  static const DATE_TIME_BE_API_START = _dtFormat16;
+  static const DATE_TIME_BE_API_END = _dtFormat17;
+  static const DATE_TIME_HM = _dtFormat18;
 }
 
 class ThongBaoTypeConstant {
@@ -250,14 +257,13 @@ class DateFormatApp {
   static String dateApp = 'dd/MM/YYYY';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
-  static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
-  static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
+  static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
   static String timeFormat = 'Hm';
   static String monthDayFormat = 'MM/dd/yyyy HH:mm';
   static String pickDateFormat = 'dd/MM/yyyy HH:mm';
 }
-
 
 class StatusYKND {
   static const String CHUA_THUC_HIEN_YKND = '1';
@@ -281,8 +287,8 @@ class MenuItemConst {
   static const TUONG_TAC_NOI_BO = 'tuong-tac-noi-bo';
   static const LICH_LAM_VIEC = 'lichlamviec';
   static const BAO_CAO = 'bao-cao';
-  static const DIEM_DANH='dashboard';
-  static const HO_TRO_KY_THUAT='ho_tro_ky_thuat';
+  static const DIEM_DANH = 'dashboard';
+  static const HO_TRO_KY_THUAT = 'ho_tro_ky_thuat';
 }
 
 class StatusCodeConst {
@@ -328,6 +334,15 @@ class StatusCodeConst {
 class PermissionConst {
   static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }
-class MaxSizeFile{
-  static  const MAX_SIZE_20MB  = 20000000;
+
+class StatusOfficersConst {
+  static const int STATUS_CHO_XAC_NHAN = 0;
+  static const int STATUS_THAM_GIA = 1;
+  static const int STATUS_TU_CHOI = 2;
+  static const int STATUS_THU_HOI = 4;
+  static const int STATUS_DEFAULT = -1;
+}
+
+class MaxSizeFile {
+  static const MAX_SIZE_20MB = 20000000;
 }

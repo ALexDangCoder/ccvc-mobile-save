@@ -145,7 +145,9 @@ class ReportImpl implements ReportRepository {
 
   @override
   Future<Result<String>> addNewMember(
-      Map<String, String> mapMember, String appId) {
+    Map<String, String> mapMember,
+    String appId,
+  ) {
     return runCatchingAsync<PostDataResponse, String>(
       () => _reportService.addNewUser(
         mapMember,
@@ -174,7 +176,11 @@ class ReportImpl implements ReportRepository {
   @override
   Future<Result<List<UserNgoaiHeThongDuocTruyCapModel>>>
       getUsersNgoaiHeThongTruyCap(
-          String appId, int pageIndex, int pageSize, String keyword) {
+    String appId,
+    int pageIndex,
+    int pageSize,
+    String keyword,
+  ) {
     return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse,
         List<UserNgoaiHeThongDuocTruyCapModel>>(
       () => _reportService.getUsersNgoaiHeThongDuocTruyCap(
@@ -211,8 +217,34 @@ class ReportImpl implements ReportRepository {
   }) {
     return runCatchingAsync<CanBoChiaSeResponse, List<Node<DonViModel>>>(
       () => _reportCommonService.getUserPaging(
-          donViId, appId, hoTen, isGetAll, pageIndex, pageSize),
+        donViId,
+        appId,
+        hoTen,
+        isGetAll,
+        pageIndex,
+        pageSize,
+      ),
       (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<List<ReportItem>>> getListReportShareToMe(
+    String folderId,
+    int sort,
+    String keyWord,
+    String appId,
+  ) {
+    return runCatchingAsync<ReportResponse, List<ReportItem>>(
+      () => _reportService.getListReportShareToMe(
+        folderId,
+        sort,
+        keyWord,
+        appId,
+      ),
+      (res) =>
+          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
+          [],
     );
   }
 }

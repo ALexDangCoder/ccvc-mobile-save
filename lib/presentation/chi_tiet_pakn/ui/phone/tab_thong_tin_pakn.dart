@@ -37,7 +37,9 @@ class _TabThongTinPAKNState extends State<TabThongTinPAKN> {
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
+      },
       child: _content(),
     );
   }

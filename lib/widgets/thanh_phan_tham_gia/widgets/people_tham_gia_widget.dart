@@ -52,7 +52,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
                     : CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 2.0.textScale().toInt(),
+                    flex: 3.0.textScale().toInt(),
                     child: Text(
                       S.current.noi_dung,
                       style: textNormal(infoColor, 14),
@@ -89,7 +89,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 2.0.textScale().toInt(),
+          flex: 3.0.textScale().toInt(),
           child: Text(
             key,
             style: textNormal(infoColor, 14.0.textScale()),

@@ -225,6 +225,7 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
         () => nhiemVuService.getLuongXuLyNhiemVu(id), (res) => res.toDomain());
   }
 
+  @override
   Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuGiaoViec(
       String congViecID) {
     return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,

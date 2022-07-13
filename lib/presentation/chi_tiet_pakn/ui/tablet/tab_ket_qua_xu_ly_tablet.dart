@@ -28,7 +28,6 @@ class TabKetQuaXuLyTablet extends StatefulWidget {
 class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getKetQuaXuLy(widget.id, widget.taskId);
   }
@@ -39,7 +38,9 @@ class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getKetQuaXuLy(widget.id, widget.taskId);
+      },
       child: Padding(
         padding: const EdgeInsets.only(right: 30.0, left: 30.0, bottom: 30.0),
         child: _content(),

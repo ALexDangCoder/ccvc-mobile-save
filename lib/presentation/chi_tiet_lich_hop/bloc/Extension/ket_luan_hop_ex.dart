@@ -67,8 +67,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
   TrangThai typeTrangthai(int value) {
     switch (value) {
-      case 1:
-        return TrangThai.CHO_DUYET;
       case 2:
         return TrangThai.DA_DUYET;
       case 0:

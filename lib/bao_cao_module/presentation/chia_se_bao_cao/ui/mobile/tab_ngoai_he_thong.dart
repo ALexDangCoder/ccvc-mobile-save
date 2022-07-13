@@ -131,7 +131,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             textField(
-              title: '${S.current.ho_ten}(*)',
+              isRequired: true,
+              title: S.current.ho_ten,
               hintText: S.current.ho_ten,
               onChange: (value) {
                 name = value;
@@ -166,7 +167,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               inputFormatter: [
                 FilteringTextInputFormatter.deny(' '),
               ],
-              title: '${S.current.email}(*)',
+              isRequired: true,
+              title: S.current.email,
               hintText: S.current.email,
               onChange: (value) {
                 email = value;
@@ -195,8 +197,9 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
+              isRequired: true,
               hintText: S.current.chuc_vu,
-              title: '${S.current.chuc_vu}(*)',
+              title: S.current.chuc_vu,
               onChange: (value) {
                 position = value;
               },
@@ -208,7 +211,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
-              title: '${S.current.don_vi}(*)',
+              isRequired: true,
+              title: S.current.don_vi,
               hintText: S.current.don_vi,
               onChange: (value) {
                 unit = value;
@@ -221,6 +225,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
+              isRequired: true,
               title: S.current.ghi_chu,
               onChange: (value) {
                 note = value;
@@ -399,6 +404,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   Widget textField({
     String? hintText,
     int maxLine = 1,
+    bool isRequired = false,
     required String title,
     required Function(String) onChange,
     String? Function(String?)? validate,
@@ -410,12 +416,24 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          child: Text(
-            title,
-            textAlign: TextAlign.start,
-            style: tokenDetailAmount(
-              fontSize: 14,
-              color: color3D5586,
+          child: RichText(
+            text: TextSpan(
+              style: tokenDetailAmount(
+                fontSize: 14,
+                color: color3D5586,
+              ),
+              text: title,
+              children: isRequired
+                  ? [
+                      TextSpan(
+                        text: ' *',
+                        style: tokenDetailAmount(
+                          fontSize: 14,
+                          color: redChart,
+                        ),
+                      ),
+                    ]
+                  : [],
             ),
           ),
         ),

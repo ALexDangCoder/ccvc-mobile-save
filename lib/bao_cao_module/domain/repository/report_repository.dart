@@ -68,6 +68,8 @@ mixin ReportRepository {
     int pageIndex,
     int pageSize,
     String keyword,
+    int status,
+    bool isLock,
   );
 
   Future<Result<ReportDetailModel>> getReportDetail(

@@ -61,7 +61,7 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
                   decoration: BoxDecoration(
                     color: bgTabletItem,
                     border: Border.all(color: cellColorborder),
-                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    borderRadius: const BorderRadius.all(Radius.circular(6)),
                     boxShadow: [
                       BoxShadow(
                         color: shadowContainerColor.withOpacity(0.05),

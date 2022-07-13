@@ -125,7 +125,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
           rowData.add(
             ListRowYKND(
               title: S.current.trang_thai_xu_ly,
-              content: [element.trangThaiXuLy],
+              content: [getTextByStatus(element.trangThaiXuLy)],
             ),
           );
           rowData.add(
@@ -329,23 +329,28 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     );
 
     final tinhThanhPhoResponse = await YKNDRepo.getLocationAddress();
-    tinhThanhPhoResponse.when(success: (success) {
-      nguoiPhanAnhModel.tinhThanhPho = getTinhQuanXa(
+    tinhThanhPhoResponse.when(
+      success: (success) {
+        nguoiPhanAnhModel.tinhThanhPho = getTinhQuanXa(
           typeDiaChi: DIACHI.TINHTHANHPHO,
           listLocationModel: success,
-          id: int.parse(nguoiPhanAnhModel.idTinhTp ?? '0'));
-    }, error: (error) {
-      nguoiPhanAnhModel.tinhThanhPho = '';
-    });
+          id: int.parse(nguoiPhanAnhModel.idTinhTp ?? '0'),
+        );
+      },
+      error: (error) {
+        nguoiPhanAnhModel.tinhThanhPho = '';
+      },
+    );
 
     final quanHuyenXaResponse =
         await YKNDRepo.getLocationAddress(id: nguoiPhanAnhModel.idTinhTp);
     quanHuyenXaResponse.when(
       success: (success) {
         nguoiPhanAnhModel.quanHuyen = getTinhQuanXa(
-            typeDiaChi: DIACHI.QUANHUYEN,
-            listLocationModel: success,
-            id: int.parse(nguoiPhanAnhModel.idQuanHuyen ?? '0'));
+          typeDiaChi: DIACHI.QUANHUYEN,
+          listLocationModel: success,
+          id: int.parse(nguoiPhanAnhModel.idQuanHuyen ?? '0'),
+        );
       },
       error: (error) {
         nguoiPhanAnhModel.quanHuyen = '';
@@ -386,29 +391,29 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     switch (typeDiaChi) {
       case DIACHI.TINHTHANHPHO:
         {
-          listLocationModel.forEach((element) {
+          for (final element in listLocationModel) {
             if (element.id == id) {
               result = element.name ?? '';
             }
-          });
+          }
         }
         break;
       case DIACHI.QUANHUYEN:
         {
-          listLocationModel.forEach((element) {
+          for (final element in listLocationModel) {
             if (element.id == id) {
               result = element.name ?? '';
             }
-          });
+          }
         }
         break;
       default:
         {
-          listLocationModel.forEach((element) {
+          for (final element in listLocationModel) {
             if (element.id == id) {
               result = element.name ?? '';
             }
-          });
+          }
         }
         break;
     }
@@ -419,10 +424,11 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     List<LocationModel> result = [];
     final resultResponse = await YKNDRepo.getLocationAddress(id: id);
     resultResponse.when(
-        success: (success) {
-          result = success;
-        },
-        error: (error) {});
+      success: (success) {
+        result = success;
+      },
+      error: (error) {},
+    );
     return result;
   }
 
@@ -540,12 +546,6 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             content: [data.hanXuLy],
           ),
         );
-        // listRowHeaderData.add(
-        //   ListRowYKND(
-        //     title: S.current.lien_quan_quy_dinh,
-        //     content: [data.tenLuat],
-        //   ),
-        // );
 
         listRowHeaderData.add(
           ListRowYKND(
@@ -624,8 +624,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         );
         listRowHeaderData.add(
           ListRowYKND(
-              title: S.current.tai_lieu_dinh_kem_cong_dan,
-              content: listFileName),
+            title: S.current.tai_lieu_dinh_kem_cong_dan,
+            content: listFileName,
+          ),
         );
         headerRowData.sink.add(listRowHeaderData);
       },
@@ -636,21 +637,26 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   }
 
   List<DataRowChiTietKienNghi> getMapDataNguoiPhananh(
-      NguoiPhanAnhModel nguoiPhanAnhModel) {
+    NguoiPhanAnhModel nguoiPhanAnhModel,
+  ) {
     final List<DataRowChiTietKienNghi> listData = [];
     listData.add(
       DataRowChiTietKienNghi(
-          title: S.current.doi_tuong_nop,
-          content: nguoiPhanAnhModel.doiTuongNop ?? ''),
+        title: S.current.doi_tuong_nop,
+        content: nguoiPhanAnhModel.doiTuongNop ?? '',
+      ),
     );
     listData.add(
       DataRowChiTietKienNghi(
-          title: S.current.ten_ca_nhan_tc_full,
-          content: nguoiPhanAnhModel.tenCaNhan ?? ''),
+        title: S.current.ten_ca_nhan_tc_full,
+        content: nguoiPhanAnhModel.tenCaNhan ?? '',
+      ),
     );
     listData.add(
       DataRowChiTietKienNghi(
-          title: S.current.cmt_can_cuoc, content: nguoiPhanAnhModel.cmnd ?? ''),
+        title: S.current.cmt_can_cuoc,
+        content: nguoiPhanAnhModel.cmnd ?? '',
+      ),
     );
     listData.add(
       DataRowChiTietKienNghi(
@@ -690,4 +696,82 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     );
     return listData;
   }
+
+  String getTextByStatus(String status) {
+    switch (status) {
+      case ChoTiepNhan:
+        return S.current.cho_tiep_nhan;
+      case ChoChuyenXuLy:
+        return S.current.cho_chuyen_xu_ly;
+      case ChoTiepNhanXuLy:
+        return S.current.cho_tiep_nhan_xu_ly;
+      case ChoPhanCongXuLy:
+        return S.current.cho_phan_cong_xu_ly;
+      case ChoDonViDuyet:
+        return S.current.cho_don_vi_duyet;
+      case ChoBoDuyet:
+        return S.current.cho_bo_duyet;
+      case ChoDuyet:
+        return S.current.cho_duyet;
+      case ChoChuyenDonVi:
+        return S.current.cho_chuyen_don_vi;
+      case DaHoanThanh:
+        return S.current.da_hoan_thanh;
+      case ChoBoSungThongTin:
+        return S.current.cho_bo_sung_thong_tin;
+      case TuChoiTiepNhan:
+        return S.current.tu_choi_tiep_nhan;
+      case HuyBo:
+        return S.current.huy_bo;
+      case ChoXuLy:
+        return S.current.cho_xu_ly;
+      case ChoDuyetChuyenDonViXuLy:
+        return S.current.cho_duyet_chuyen_dv_xu_ly;
+      case ChoXacNhanChuyenDonViXuLy:
+        return S.current.cho_xac_nhan;
+      case HuyTrinh:
+        return S.current.huy_trinh;
+      case HuyDuyet:
+        return S.current.huy_duyet;
+      case ThuHoi:
+        return S.current.thu_hoi;
+      case ChoDuyetYCPH:
+        return S.current.cho_duyet;
+      case ChuyenXuLy:
+        return S.current.chuyen_xu_ly;
+      case DaPhanCong:
+        return S.current.da_phan_cong;
+      case PhanXuLy:
+        return S.current.phan_xu_ly;
+      case DangXuLy:
+        return S.current.dang_xu_ly;
+      default:
+        return S.current.cho_nguoi_dan_bo_sung_thong_tin;
+    }
+  }
+
+  static const String ChoTiepNhan = '1';
+  static const String ChoChuyenXuLy = '2';
+  static const String ChoTiepNhanXuLy = '3';
+  static const String ChoPhanCongXuLy = '4,12';
+  static const String ChoDonViDuyet = '5';
+  static const String ChoBoDuyet = '6';
+  static const String ChoDuyet = '6,13,18';
+  static const String ChoChuyenDonVi = '7';
+  static const String DaHoanThanh = '8';
+  static const String ChoBoSungThongTin = '9,22';
+  static const String TuChoiTiepNhan = '10';
+  static const String HuyBo = '11';
+  static const String ChoXuLy = '12';
+  static const String ChoDuyetChuyenDonViXuLy = '13';
+  static const String ChoXacNhanChuyenDonViXuLy = '14';
+  static const String HuyTrinh = '15';
+  static const String HuyDuyet = '16';
+  static const String ThuHoi = '17';
+  static const String ChoDuyetYCPH = '18';
+  static const String ChuyenXuLy = '19';
+  static const String DaPhanCong = '20';
+  static const String PhanXuLy = '21';
+  static const String DangXuLy = '3,4,12';
+  static const String ChoNguoiDanBoSungThongTin = '22';
 }

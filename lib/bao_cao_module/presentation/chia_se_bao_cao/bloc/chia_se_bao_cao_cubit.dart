@@ -128,6 +128,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         listDropDown.add(nhomCungHeThong.tenNhom ?? '');
         if (listResponse.length == length) {
           callAPI.add(SUCCESS);
+          getUsersNgoaiHeThongDuocTruyCap();
           showContent();
         }
       },
@@ -330,6 +331,8 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   ///huy
   int pageSize = 10;
   int pageNumber = 0;
+  int status = 1;
+  bool isLock = false;
   bool loadMore = false;
   String keySearch = '';
   bool canLoadMoreList = true;
@@ -372,6 +375,8 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       pageNumber,
       pageSize,
       keySearch,
+      status,
+      isLock,
     );
     result.when(
       success: (success) {

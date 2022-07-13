@@ -180,6 +180,8 @@ class ReportImpl implements ReportRepository {
     int pageIndex,
     int pageSize,
     String keyword,
+    int status,
+    bool isLock,
   ) {
     return runCatchingAsync<UserNgoaiHeThongTruyCapTotalResponse,
         List<UserNgoaiHeThongDuocTruyCapModel>>(
@@ -189,6 +191,8 @@ class ReportImpl implements ReportRepository {
           pageIndex: pageIndex,
           pageSize: pageSize,
           keyword: keyword,
+          status: status,
+          isLock: isLock,
         ),
       ),
       (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],

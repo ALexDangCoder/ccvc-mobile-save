@@ -21,7 +21,8 @@ class TabTienTrinhXuLy extends StatefulWidget {
   State<TabTienTrinhXuLy> createState() => _TabTienTrinhXuLyState();
 }
 
-class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
+class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -30,12 +31,14 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
       retry: () {
-        widget.cubit.getTienTrinhXyLy(widget.id);},
+        widget.cubit.getTienTrinhXyLy(widget.id);
+      },
       child: _content(),
     );
   }
@@ -83,4 +86,6 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
     );
   }
 
+  @override
+  bool get wantKeepAlive => true;
 }

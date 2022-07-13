@@ -10,20 +10,23 @@ import 'package:ccvc_mobile/presentation/chi_tiet_pakn/widgets/row_title_ft_desc
 import 'package:flutter/material.dart';
 
 class TabThongTinXuLyPAKN extends StatefulWidget {
-  const TabThongTinXuLyPAKN({Key? key, required this.cubit,
+  const TabThongTinXuLyPAKN({
+    Key? key,
+    required this.cubit,
     required this.id,
-    required this.taskId,}) : super(key: key);
-
+    required this.taskId,
+  }) : super(key: key);
 
   final ChiTietPaknCubit cubit;
   final String id;
   final String taskId;
+
   @override
   State<TabThongTinXuLyPAKN> createState() => _TabThongTinXuLyPAKNState();
 }
 
-class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN> {
-
+class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -35,6 +38,7 @@ class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
@@ -67,7 +71,7 @@ class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN> {
 
   Widget itemThongTinXuLyPAKN(DonViDuocPhanXuLyModel model) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
         color: containerColorTab,
@@ -76,19 +80,29 @@ class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN> {
       child: Column(
         children: [
           RowTitleFeatDescription(
-              title: S.current.ten_don_vi_cheo_phong_ban,
-              description: model.tenDonVi),
+            title: S.current.ten_don_vi_cheo_phong_ban,
+            description: model.tenDonVi,
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.vai_tro, description: model.vaiTro),
+            title: S.current.vai_tro,
+            description: model.vaiTro,
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.hoat_dong, description: model.hoatDong),
+            title: S.current.hoat_dong,
+            description: model.hoatDong,
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.noi_dung_xu_ly, description: model.noiDungXuLy),
+            title: S.current.noi_dung_xu_ly,
+            description: model.noiDungXuLy,
+          ),
         ],
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

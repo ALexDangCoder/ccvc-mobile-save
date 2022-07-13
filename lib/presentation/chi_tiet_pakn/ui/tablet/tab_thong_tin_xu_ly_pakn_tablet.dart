@@ -19,12 +19,14 @@ class TabThongTinXuLyPAKNTablet extends StatefulWidget {
   final ChiTietPaknCubit cubit;
   final String id;
   final String taskId;
+
   @override
   State<TabThongTinXuLyPAKNTablet> createState() =>
       _TabThongTinXuLyPAKNTabletState();
 }
 
-class _TabThongTinXuLyPAKNTabletState extends State<TabThongTinXuLyPAKNTablet> {
+class _TabThongTinXuLyPAKNTabletState extends State<TabThongTinXuLyPAKNTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -36,6 +38,7 @@ class _TabThongTinXuLyPAKNTabletState extends State<TabThongTinXuLyPAKNTablet> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
@@ -68,7 +71,7 @@ class _TabThongTinXuLyPAKNTabletState extends State<TabThongTinXuLyPAKNTablet> {
 
   Widget itemThongTinXuLyPAKN(DonViDuocPhanXuLyModel model) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
         color: containerColorTab,
@@ -77,19 +80,29 @@ class _TabThongTinXuLyPAKNTabletState extends State<TabThongTinXuLyPAKNTablet> {
       child: Column(
         children: [
           RowTitleFeatDescription(
-              title: S.current.ten_don_vi_cheo_phong_ban,
-              description: model.tenDonVi),
+            title: S.current.ten_don_vi_cheo_phong_ban,
+            description: model.tenDonVi,
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.vai_tro, description: model.vaiTro),
+            title: S.current.vai_tro,
+            description: model.vaiTro,
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.hoat_dong, description: model.hoatDong),
+            title: S.current.hoat_dong,
+            description: model.hoatDong,
+          ),
           spaceH10,
           RowTitleFeatDescription(
-              title: S.current.noi_dung_xu_ly, description: model.noiDungXuLy),
+            title: S.current.noi_dung_xu_ly,
+            description: model.noiDungXuLy,
+          ),
         ],
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -213,7 +213,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachLoaiNhiemVu();
     result.when(
       success: (res) {
-        danhSachLoaiNhiemVuLichHopModel.sink.add(res);
+        danhSachLoaiNhiemVuLichHopModel = res;
       },
       error: (err) {
         return;

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/appid_response.dart';
@@ -78,7 +79,7 @@ abstract class ReportService {
 
   @POST(ApiConstants.CREATE_NEW_USER)
   Future<PostDataResponse> addNewUser(
-    @Body() Map<String, String> mapUser,
+    @Body() NewUserRequest mapUser,
     @Header('AppId') String appId,
   );
 

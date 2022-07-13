@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_detail_model.dart';
@@ -21,7 +22,7 @@ mixin ReportRepository {
   );
 
   Future<Result<String>> addNewMember(
-    Map<String, String> mapMember,
+      NewUserRequest mapMember,
     String appId,
   );
 
@@ -61,12 +62,15 @@ mixin ReportRepository {
     int pageIndex,
     int pageSize,
     String keyword,
+    int status,
+    bool isLock,
   );
 
   Future<Result<ReportDetailModel>> getReportDetail(
     String appId,
     String idReport,
   );
+
   Future<Result<List<Node<DonViModel>>>> getUserPaging({
     required String donViId,
     required String appId,

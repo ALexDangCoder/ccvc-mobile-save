@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/material.dart';
 
 class TaiLieuWidget extends StatefulWidget {
-  List<Files>? files;
+  List<File>? files;
   final Function(List<File>, bool) onChange;
   Function(String id) idRemove;
 
@@ -67,6 +67,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
           child: ButtonSelectFileLichLamViec(
             hasMultipleFile: true,
             maxSize: 20971520,
+            files: widget.files,
             title: S.current.dinh_kem_tep_english,
             onChange: (List<File> files, bool validate) {
               widget.onChange(files, validate);

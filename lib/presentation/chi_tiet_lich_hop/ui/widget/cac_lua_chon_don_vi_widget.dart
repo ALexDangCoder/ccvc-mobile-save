@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -28,23 +27,16 @@ class _CacLuaChonDonViWidgetState extends State<CacLuaChonDonViWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
-      stream: widget.detailMeetCalenderCubit.themBieuQuyet,
+    return StreamBuilder<List<String>>(
+      stream: widget.detailMeetCalenderCubit.themLuaChonBieuQuyet,
       builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
         return SelectDonViCell(
           controller: controller,
-          listSelect: widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet,
-          onSubmitted: (value) {
-            if (value != '') {
-              widget.detailMeetCalenderCubit.addValueToList(value);
-              controller.text = '';
-              widget
-                  .onchange(widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet);
-            }
-          },
-          onDelete: (value) {
-            widget.detailMeetCalenderCubit.removeTag(value);
-            widget.onchange(widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet);
+          listSelect: data,
+          cubit: widget.detailMeetCalenderCubit,
+          onchange: (value) {
+            widget.onchange(value);
           },
         );
       },
@@ -52,20 +44,25 @@ class _CacLuaChonDonViWidgetState extends State<CacLuaChonDonViWidget> {
   }
 }
 
-class SelectDonViCell extends StatelessWidget {
+class SelectDonViCell extends StatefulWidget {
   final List<String> listSelect;
-  final Function(String) onDelete;
   final TextEditingController controller;
-  final Function(String) onSubmitted;
+  final DetailMeetCalenderCubit cubit;
+  final Function(List<String>) onchange;
 
   const SelectDonViCell({
     Key? key,
     required this.listSelect,
-    required this.onDelete,
     required this.controller,
-    required this.onSubmitted,
+    required this.cubit,
+    required this.onchange,
   }) : super(key: key);
 
+  @override
+  State<SelectDonViCell> createState() => _SelectDonViCellState();
+}
+
+class _SelectDonViCellState extends State<SelectDonViCell> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,34 +89,57 @@ class SelectDonViCell extends StatelessWidget {
       child: Wrap(
         spacing: 10,
         runSpacing: 10,
-        children: List.generate(listSelect.length + 1, (index) {
-          if (index == listSelect.length) {
-            return Container(
-              width: double.infinity,
-              color: Colors.transparent,
-              child: TextField(
-                maxLength: 30,
-                onSubmitted: onSubmitted,
-                controller: controller,
-                style: textNormal(textTitle, 14.0.textScale()),
-                decoration: const InputDecoration(
-                  isDense: true,
-                  counter: SizedBox(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 5),
-                  isCollapsed: true,
-                  border: InputBorder.none,
+        children: [
+          ...widget.listSelect
+              .map(
+                (e) => tag(
+                  title: e,
+                  onDelete: () {
+                    final mList = widget.cubit.listThemLuaChon;
+                    mList.remove(e);
+                    widget.cubit.themLuaChonBieuQuyet.sink.add(mList);
+                    widget.onchange(mList);
+                  },
+                ),
+              )
+              .toList(),
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                color: Colors.transparent,
+                child: TextField(
+                  maxLength: 30,
+                  controller: widget.controller,
+                  style: textNormal(textTitle, 14.0.textScale()),
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    counter: SizedBox(),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    isCollapsed: true,
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
-            );
-          }
-          final data = listSelect[index];
-          return tag(
-            title: data,
-            onDelete: () {
-              onDelete(data);
-            },
-          );
-        }),
+              Positioned(
+                right: 5,
+                top: 5,
+                child: GestureDetector(
+                  onTap: () {
+                    if (widget.controller.text.isNotEmpty) {
+                      widget.cubit.listThemLuaChon.add(widget.controller.text);
+                      widget.cubit.themLuaChonBieuQuyet.sink
+                          .add(widget.cubit.listThemLuaChon);
+                      widget.onchange(widget.cubit.listThemLuaChon);
+                      widget.controller.text = '';
+                    }
+                  },
+                  child: SvgPicture.asset(ImageAssets.ic_plus_bieu_quyet),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

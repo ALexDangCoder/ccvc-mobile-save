@@ -561,5 +561,6 @@ abstract class HopServices {
   @DELETE(ApiConstants.XOA_BIEU_QUYET)
   Future<XoaBieuQuyetResponse> xoaBieuQuyet(
     @Query('bieuQuyetId') String bieuQuyetId,
+    @Query('canboId') String canboId,
   );
 }

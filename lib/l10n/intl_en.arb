@@ -1292,5 +1292,6 @@
   "bieu_quyet_thanh_cong": "Biểu quyết thành công",
   "bieu_quyet_that_bai": "Biểu quyết thất bại",
   "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !",
-  "sua_bieu_quyet": "Sửa biểu quyết"
+  "sua_bieu_quyet": "Sửa biểu quyết",
+  "xoa_bieu_quyet": "Xoá biểu quyết"
 }

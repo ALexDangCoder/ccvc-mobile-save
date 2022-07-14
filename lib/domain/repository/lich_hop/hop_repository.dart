@@ -442,6 +442,7 @@ mixin HopRepository {
 
   Future<Result<bool>> xoaBieuQuyet(
     String bieuQuyetId,
+    String canboId,
   );
 
   Future<Result<ChiTietBieuQuyetModel>> chiTietBieuQuyet(

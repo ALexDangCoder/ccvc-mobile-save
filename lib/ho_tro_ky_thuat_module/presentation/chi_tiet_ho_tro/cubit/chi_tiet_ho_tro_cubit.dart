@@ -52,7 +52,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   static const String DA_HOAN_THANH = 'da-hoan-thanh';
   static const String DANG_XU_LY = 'dang-xu-ly';
   static const String CHUA_XU_LY = 'chua-xu-ly';
-  static const String TU_CHOI_XU_LY = 'tu_choi-xu-ly';
+  static const String TU_CHOI_XU_LY = 'tu-choi-xu-ly';
 
   BehaviorSubject<String> selectDate = BehaviorSubject.seeded('');
 

@@ -1,4 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
@@ -47,10 +47,11 @@ class ItemList extends StatelessWidget {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ItemFolder(
             type: item.type ?? 0,
-            isShare: item.isShareToMe ?? false,
+            isShare: item.shareToMe ?? false,
             fileNumber: item.childrenTotal ?? 0,
             isListView: true,
           ),
@@ -62,20 +63,24 @@ class ItemList extends StatelessWidget {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  AutoSizeText(
-                    item.name ?? '',
-                    maxLines: 2,
-                    style: textNormalCustom(
-                      color: textTitle,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
+                  SizedBox(
+                    height: 40,
+                    child: Text(
+                      item.name ?? '',
+                      maxLines: 2,
+                      style: textNormalCustom(
+                        color: textTitle,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
                   ),
                   spaceH4,
-                  AutoSizeText(
+                  Text(
                     (item.dateTime ?? item.updatedAt ?? '').changeToNewPatternDate(
                       DateFormatApp.dateTimeBackEnd,
                       DateFormatApp.date,
@@ -97,7 +102,7 @@ class ItemList extends StatelessWidget {
               height: 16,
             ),
           if (cubit.checkHideIcMore(
-            isReportShareToMe: item.isShareToMe ?? false,
+            isReportShareToMe: item.shareToMe ?? false,
             typeReport: item.type ?? REPORT,
           ))
             InkWell(

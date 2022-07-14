@@ -436,17 +436,6 @@ class ItemKetLuanHopWidget extends StatelessWidget {
             ],
           ),
           widgetRow(
-            name: S.current.thoi_gian,
-            child: Text(
-              time,
-              style: textNormalCustom(
-                color: textTitle,
-                fontSize: 14.0.textScale(),
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
-          widgetRow(
             name: S.current.trang_thai,
             child: trangThai.getWidget(),
           ),

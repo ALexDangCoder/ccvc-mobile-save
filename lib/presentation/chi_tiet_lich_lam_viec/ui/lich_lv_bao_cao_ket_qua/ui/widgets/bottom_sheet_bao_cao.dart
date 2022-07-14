@@ -300,7 +300,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
     if (!widget.cubit.checkLenghtFile()) {
       MessageConfig.show(
         title:
-            '${S.current.tong_file_khong_vuot_qua} ${MaxSizeFile.MAX_SIZE_20MB.getFileSize(0)}',
+            S.current.dung_luong_toi_da_30,
         messState: MessState.error,
       );
       return;

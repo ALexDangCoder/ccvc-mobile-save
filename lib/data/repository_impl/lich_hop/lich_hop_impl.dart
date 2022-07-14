@@ -1075,4 +1075,13 @@ class HopRepositoryImpl implements HopRepository {
       (response) => response.isSuccess,
     );
   }
+
+  @override
+  Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
+      DanhSachLichHopRequest request,) {
+    return runCatchingAsync<DanhSachLichHopResponse, DanhSachLichHopModel>(
+      () => _hopServices.getLichCanKLCH(request),
+      (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),
+    );
+  }
 }

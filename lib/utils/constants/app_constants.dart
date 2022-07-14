@@ -348,5 +348,10 @@ class StatusOfficersConst {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_20MB = 20000000;
+  static const MAX_SIZE_30MB = 30000000;
+}
+class TypeTaskYKien
+{
+  static const int XinYKien = 1;
+  static const int ChoYKien = 2;
 }

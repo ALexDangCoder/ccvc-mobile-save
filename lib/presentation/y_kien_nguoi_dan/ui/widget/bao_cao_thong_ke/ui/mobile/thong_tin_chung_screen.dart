@@ -296,8 +296,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         if (data.isEmpty) {
                           widget.cubit.isEmptyData = true;
                           return Stack(
-                            // fit: StackFit.expand,
-                            // clipBehavior: Clip.antiAliasWithSaveLayer,
                             alignment: Alignment.centerRight,
                             children: [
                               Column(
@@ -357,7 +355,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                      horizontal: 16,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -658,7 +657,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
-          color: colorBG,
+          color: textDefault,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

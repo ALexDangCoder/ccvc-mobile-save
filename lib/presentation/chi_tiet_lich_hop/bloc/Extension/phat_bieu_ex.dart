@@ -56,15 +56,18 @@ extension PhatBieu on DetailMeetCalenderCubit {
         buttonStatePhatBieu[StatePhatBieu.cho_duyet].value = res.choDuyet;
         buttonStatePhatBieu[StatePhatBieu.da_duyet].value = res.daDuyet;
         buttonStatePhatBieu[StatePhatBieu.huy_duyet].value = res.huyDuyet;
-        final currentStateButton = buttonStatePhatBieuSubject.value;
-        final newStateButton = buttonStatePhatBieu.firstWhere(
-          (
-            element,
-          ) =>
-              element.key == currentStateButton.key,
-          orElse: () => currentStateButton,
-        );
-        buttonStatePhatBieuSubject.sink.add(newStateButton);
+        final currentStateButton = buttonStatePhatBieuSubject.valueOrNull;
+        if (currentStateButton != null){
+          final newStateButton = buttonStatePhatBieu.firstWhere(
+                (
+                element,
+                ) =>
+            element.key == currentStateButton.key,
+            orElse: () => currentStateButton,
+          );
+          buttonStatePhatBieuSubject.sink.add(newStateButton);
+        }
+
         dataSoLuongPhatBieuSubject.sink.add(res);
       },
       error: (err) {},

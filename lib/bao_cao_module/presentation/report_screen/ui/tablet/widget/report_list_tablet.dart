@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class ReportListTablet extends StatelessWidget {
   final bool isListView;
-  final List<ReportItem> listReport;
+  final List<ReportItem>? listReport;
   final ScrollPhysics? scrollPhysics;
   final ReportListCubit cubit;
   final String idFolder;
@@ -28,7 +28,7 @@ class ReportListTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return listReport.isNotEmpty
+    return listReport?.isNotEmpty ?? false
         ? isListView
             ? GridView.builder(
                 padding: const EdgeInsets.only(
@@ -45,17 +45,17 @@ class ReportListTablet extends StatelessWidget {
                   childAspectRatio: 1.5,
                   mainAxisExtent: 170,
                 ),
-                itemCount: listReport.length,
+                itemCount: listReport?.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () => clickItemDetail(
                       context: context,
                       idFolder: idFolder,
-                      value: listReport[index],
+                      value: listReport?[index] ?? ReportItem(),
                     ),
                     child: ItemGridView(
                       isTablet: true,
-                      item: listReport[index],
+                      item:listReport?[index] ?? ReportItem(),
                       cubit: cubit,
                       idFolder: idFolder,
                       isTree: isTree,
@@ -69,7 +69,7 @@ class ReportListTablet extends StatelessWidget {
                   right: 16,
                 ),
                 child: ListView.builder(
-                  itemCount: listReport.length,
+                  itemCount: listReport?.length,
                   physics: scrollPhysics,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
@@ -77,11 +77,12 @@ class ReportListTablet extends StatelessWidget {
                       onTap: () => clickItemDetail(
                         context: context,
                         idFolder: idFolder,
-                        value: listReport[index],
+                        value: listReport?[index] ?? ReportItem(),
                       ),
-                      child: ItemList( idFolder: idFolder,
+                      child: ItemList(
+                        idFolder: idFolder,
                         isTree: isTree,
-                        item: listReport[index],
+                        item: listReport?[index] ?? ReportItem(),
                         cubit: cubit,
                         isTablet: true,
                       ),

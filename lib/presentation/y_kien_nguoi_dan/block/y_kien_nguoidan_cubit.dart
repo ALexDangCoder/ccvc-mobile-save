@@ -220,10 +220,10 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   ];
 
   String formatDateTime(String dt) {
-    final inputFormat = DateFormat('dd/MM/yyyy');
+    final inputFormat = DateFormat(DateFormatApp.date);
     final inputDate = inputFormat.parse(dt); // <-- dd/MM 24H format
 
-    final outputFormat = DateFormat('dd/MM/yyyy');
+    final outputFormat = DateFormat(DateFormatApp.date);
     final outputDate = outputFormat.format(inputDate);
     return outputDate; // 12/31/2000 11:59 PM <-- MM/dd 12H format
   }
@@ -810,8 +810,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   String formatDateApi(String valueDate) {
-    final tmp = DateFormat("dd/MM/yyyy").parse(valueDate);
-    final result = DateFormat('yyyy-MM-dd').format(tmp);
+    final tmp = DateFormat(DateFormatApp.date).parse(valueDate);
+    final result = DateFormat(DateTimeFormat.DOB_FORMAT).format(tmp);
     return result;
   }
 

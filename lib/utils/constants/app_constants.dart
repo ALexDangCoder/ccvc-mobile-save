@@ -88,6 +88,7 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
+const int BYTE_TO_MB = 1048576;
 const String DEVICE_ID = '';
 const String DEVICE_ANDROID = 'ANDROID';
 const String DEVICE_IOS = 'IOS';
@@ -348,5 +349,10 @@ class StatusOfficersConst {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_20MB = 20000000;
+  static const MAX_SIZE_30MB = 30000000;
+}
+class TypeTaskYKien
+{
+  static const int XinYKien = 1;
+  static const int ChoYKien = 2;
 }

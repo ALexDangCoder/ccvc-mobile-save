@@ -43,7 +43,7 @@ class ReportListMobile extends StatelessWidget {
                   mainAxisSpacing: 17,
                   crossAxisSpacing: 17,
                   childAspectRatio: 1.5,
-                  mainAxisExtent: 130,
+                  mainAxisExtent: 170,
                 ),
                 itemCount: listReport.length,
                 itemBuilder: (context, index) {
@@ -56,6 +56,8 @@ class ReportListMobile extends StatelessWidget {
                     child: ItemGridView(
                       item: listReport[index],
                       cubit: cubit,
+                      idFolder: idFolder,
+                      isTree: isTree,
                     ),
                   );
                 },
@@ -77,6 +79,8 @@ class ReportListMobile extends StatelessWidget {
                         value: listReport[index],
                       ),
                       child: ItemList(
+                        idFolder: idFolder,
+                        isTree: isTree,
                         item: listReport[index],
                         cubit: cubit,
                       ),

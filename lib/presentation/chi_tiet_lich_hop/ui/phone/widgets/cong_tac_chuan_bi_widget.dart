@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dar
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
@@ -88,7 +89,11 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 return ChonPhongHopScreen(
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
-                  id: _cubitTaoLichHop.donViId,
+                  id: HiveLocal.getDataUser()
+                      ?.userInformation
+                      ?.donViTrucThuoc
+                      ?.id ??
+                      '',
                   onChange: (value) {
                     _cubitTaoLichHop.chonPhongHopMetting(
                       widget.cubit.taoLichHopRequest,

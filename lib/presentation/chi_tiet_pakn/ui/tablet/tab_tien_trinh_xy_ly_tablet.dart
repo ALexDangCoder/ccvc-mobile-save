@@ -21,7 +21,8 @@ class TabTienTrinhXuLyTablet extends StatefulWidget {
   State<TabTienTrinhXuLyTablet> createState() => _TabTienTrinhXuLyTabletState();
 }
 
-class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
+class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,7 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
@@ -61,7 +63,7 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
                   decoration: BoxDecoration(
                     color: bgTabletItem,
                     border: Border.all(color: cellColorborder),
-                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    borderRadius: const BorderRadius.all(Radius.circular(6)),
                     boxShadow: [
                       BoxShadow(
                         color: shadowContainerColor.withOpacity(0.05),
@@ -92,4 +94,6 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
     );
   }
 
+  @override
+  bool get wantKeepAlive => true;
 }

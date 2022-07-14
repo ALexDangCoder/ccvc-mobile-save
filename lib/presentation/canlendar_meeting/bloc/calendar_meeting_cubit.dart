@@ -154,7 +154,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   void refreshDataDangLich() {
     getCountDashboard();
-    getDanhSachLichHop();
+    if(typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH){
+      getDanhSachLichCanKLCH();
+    }else {
+      getDanhSachLichHop();
+    }
     getMenuLichLanhDao();
     getDaysHaveEvent(
       startDate: startDate,
@@ -350,7 +354,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             '',
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
-        PageSize: 1000,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         year: startDate.year,
         IsLichLanhDao: isLichLanhDao,
@@ -432,11 +435,39 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
-        PageSize: 1000,
         trangThaiDuyetKyThuat:
             typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT
                 ? stateType?.toInt()
                 : null,
+      ),
+    );
+    result.when(
+      success: (value) {
+        _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
+        _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
+        _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+        checkDuplicate(value.items ?? []);
+        _danhSachLichHopSubject.sink.add(value);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  /// lấy danh sách lịch họp cần KLCH
+  Future<void> getDanhSachLichCanKLCH() async {
+    showLoading();
+    final result = await hopRepo.getLichCanKLCH(
+      DanhSachLichHopRequest(
+        Title: keySearch,
+        DateFrom: startDate.formatApi,
+        DateTo: endDate.formatApi,
+        DonViId: HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id,
+        isChuaCoBaoCao:
+        typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
+            typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
+        UserId: HiveLocal.getDataUser()?.userId ?? '',
+        PageIndex: ApiConstants.PAGE_BEGIN,
       ),
     );
     result.when(
@@ -521,6 +552,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       isLichLanhDao = false;
       _titleSubject.sink.add(S.current.bao_cao_thong_ke);
     }
+
     if (itemMenu != null) {
       idDonViLanhDao = null;
       if(this.state is ChartViewState){

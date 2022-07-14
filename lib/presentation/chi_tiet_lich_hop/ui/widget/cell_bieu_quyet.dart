@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -686,9 +687,9 @@ class ContainerState extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
-              color: isVote ? colorLineSearch : textDefault,
+              color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
               border: Border.all(
-                color: isVote ? colorLineSearch : textDefault,
+                color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
               ),
             ),
             child: Text(
@@ -704,7 +705,7 @@ class ContainerState extends StatelessWidget {
         Text(
           '$number',
           style: textNormalCustom(
-            color: isVote ? colorLineSearch : textDefault,
+            color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w500,
           ),

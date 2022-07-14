@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dar
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/xem_luong_xu_ly_nhiem_vu.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_moi_nhi
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -120,7 +122,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
             return Column(
               children: [
                 ItemKetLuanHopWidget(
-                  title: '${S.current.ket_luan_hop} (${data.title ?? ''})',
+                  title: data.title ?? '',
                   time: data.thoiGian,
                   trangThai: data.trangThai,
                   tinhTrang: data.tinhTrang,
@@ -229,7 +231,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
   final TinhTrang tinhTrang;
   final DetailMeetCalenderCubit cubit;
   final String id;
-  final List<String> listFile;
+  final List<FileDetailMeetModel> listFile;
 
   const ItemKetLuanHopWidget({
     Key? key,
@@ -267,6 +269,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                 ),
               ),
               MenuSelectWidget(
+                paddingAll: 6,
                 listSelect: [
                   if (cubit.isTaoMoiNhiemVu())
                     CellPopPupMenu(
@@ -292,7 +295,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           context: context,
                           title: S.current.ket_luan_cuoc_hop,
                           isOnlyViewContent: true,
-                          listFile: listFile,
+                          listFile: listFile.map((e) => e.Name ?? '').toList(),
                         );
                       },
                     ),
@@ -305,7 +308,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           cubit: cubit,
                           context: context,
                           title: S.current.ket_luan_cuoc_hop,
-                          listFile: listFile,
+                          listFile: listFile.map((e) => e.Name ?? '').toList(),
                         );
                       },
                     ),
@@ -371,7 +374,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                     }
                                   });
                                 },
-                                title: S.current.xoa,
+                                title: S.current.xoa_ket_luan_hop,
                                 btnRightTxt: S.current.dong_y,
                                 icon: Container(
                                   width: 56,
@@ -384,7 +387,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: SvgPicture.asset(
-                                      ImageAssets.ic_delete_do,
+                                      ImageAssets.ic_xoa_ket_luan_hop,
                                     ),
                                   ),
                                 ),
@@ -408,7 +411,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   });
                                 },
                                 showTablet: true,
-                                title: S.current.xoa,
+                                title: S.current.xoa_ket_luan_hop,
                                 btnRightTxt: S.current.dong_y,
                                 icon: Container(
                                   width: 56,
@@ -421,7 +424,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: SvgPicture.asset(
-                                      ImageAssets.ic_delete_do,
+                                      ImageAssets.ic_xoa_ket_luan_hop,
                                     ),
                                   ),
                                 ),
@@ -458,12 +461,20 @@ class ItemKetLuanHopWidget extends StatelessWidget {
               itemCount: listFile.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                final data = listFile;
-                return Text(
-                  data[index],
-                  style: textDetailHDSD(
-                    fontSize: 14.0.textScale(),
-                    color: color5A8DEE,
+                final data = listFile[index];
+                return GestureDetector(
+                  onTap: () async {
+                    await saveFile(
+                      fileName: data.Name ?? '',
+                      url: data.Path ?? '',
+                    );
+                  },
+                  child: Text(
+                    data.Name ?? '',
+                    style: textDetailHDSD(
+                      fontSize: 14.0.textScale(),
+                      color: color5A8DEE,
+                    ),
                   ),
                 );
               },

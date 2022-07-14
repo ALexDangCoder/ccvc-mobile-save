@@ -43,7 +43,7 @@ class ReportListTablet extends StatelessWidget {
                   mainAxisSpacing: 17,
                   crossAxisSpacing: 17,
                   childAspectRatio: 1.5,
-                  mainAxisExtent: 140,
+                  mainAxisExtent: 170,
                 ),
                 itemCount: listReport.length,
                 itemBuilder: (context, index) {
@@ -57,6 +57,8 @@ class ReportListTablet extends StatelessWidget {
                       isTablet: true,
                       item: listReport[index],
                       cubit: cubit,
+                      idFolder: idFolder,
+                      isTree: isTree,
                     ),
                   );
                 },
@@ -77,7 +79,8 @@ class ReportListTablet extends StatelessWidget {
                         idFolder: idFolder,
                         value: listReport[index],
                       ),
-                      child: ItemList(
+                      child: ItemList( idFolder: idFolder,
+                        isTree: isTree,
                         item: listReport[index],
                         cubit: cubit,
                         isTablet: true,

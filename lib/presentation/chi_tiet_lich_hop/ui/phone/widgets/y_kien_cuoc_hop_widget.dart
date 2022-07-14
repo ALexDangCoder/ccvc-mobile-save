@@ -102,9 +102,10 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
     );
   }
 
-  void changeCurrentIndexOfTabbar({required bool isPhienHop}){
+  void changeCurrentIndexOfTabbar({required bool isPhienHop}) {
     if (isPhienHop) {
-      if (_tabController.previousIndex == PHIEN_HOP) {
+      if (_tabController.previousIndex == PHIEN_HOP ||
+          widget.cubit.phienHopId.isNotEmpty) {
         _pageController.animateToPage(
           PHIEN_HOP,
           duration: const Duration(milliseconds: 300),
@@ -264,8 +265,8 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                               value: widget.cubit.tenPhienHop.isNotEmpty
                                   ? widget.cubit.tenPhienHop
                                   : listCuocHop.isNotEmpty
-                                      ? listCuocHop.first
-                                      : '',
+                                  ? listCuocHop.first
+                                  : '',
                               items: listCuocHop,
                               onSelectItem: (value) {
                                 widget.cubit.tenPhienHop = listCuocHop[value];

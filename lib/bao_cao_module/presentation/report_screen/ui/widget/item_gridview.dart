@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
@@ -16,12 +17,16 @@ class ItemGridView extends StatelessWidget {
   final ReportItem item;
   final bool isTablet;
   final ReportListCubit cubit;
+  final bool isTree;
+  final String idFolder;
 
   const ItemGridView({
     Key? key,
     required this.item,
     required this.cubit,
     this.isTablet = false,
+    required this.isTree,
+    required this.idFolder,
   }) : super(key: key);
 
   @override
@@ -61,6 +66,7 @@ class ItemGridView extends StatelessWidget {
             )
                 ? InkWell(
                     onTap: () {
+                      cubit.isCheckPostFavorite = false;
                       if (isTablet) {
                         showDialog(
                           context: context,
@@ -72,6 +78,11 @@ class ItemGridView extends StatelessWidget {
                               isFavorite: item.isPin ?? false,
                             );
                           },
+                        ).then(
+                          (value) => cubit.reloadDataWhenFavorite(
+                            isTree: isTree,
+                            idFolder: idFolder,
+                          ),
                         );
                       } else {
                         showModalBottomSheet(
@@ -82,6 +93,11 @@ class ItemGridView extends StatelessWidget {
                             reportItem: item,
                             cubit: cubit,
                             isFavorite: item.isPin ?? false,
+                          ),
+                        ).then(
+                          (value) => cubit.reloadDataWhenFavorite(
+                            isTree: isTree,
+                            idFolder: idFolder,
                           ),
                         );
                       }
@@ -114,20 +130,21 @@ class ItemGridView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                 ),
-                child: Text(
+                child: AutoSizeText(
                   item.name ?? '',
-                  maxLines: 1,
                   style: textNormalCustom(
                     color: textTitle,
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
                   ),
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               spaceH4,
-              Text(
-                (item.dateTime ?? '').changeToNewPatternDate(
+              AutoSizeText(
+                (item.dateTime ?? item.updatedAt ?? '').changeToNewPatternDate(
                   DateFormatApp.dateTimeBackEnd,
                   DateFormatApp.date,
                 ),

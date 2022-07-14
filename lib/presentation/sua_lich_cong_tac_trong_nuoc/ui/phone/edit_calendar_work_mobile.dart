@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -397,7 +399,9 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       .toList(),
                                 ),
                                 TaiLieuWidget(
-                                  files: createCubit.files ?? [],
+                                  files: (createCubit.files ?? [])
+                                      .map((e) => File(e.path ?? ''))
+                                      .toList(),
                                   onChange: (files, value) {
                                     if (!value) {
                                       createCubit.filesTaoLich = files;
@@ -420,7 +424,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       Expanded(
                                         child: buttonEditCalendar(
                                           name: S.current.dong,
-                                          bgr: buttonColor.withOpacity(0.1),
+                                          bgr: AppTheme.getInstance()
+                                              .colorField().withOpacity(0.1),
                                           colorName: AppTheme.getInstance()
                                               .colorField(),
                                           onTap: () {
@@ -500,7 +505,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
         isShowRadio: widget.event.isLichLap ?? false,
         imageUrl: ImageAssets.ic_edit_cal,
         textConfirm: S.current.ban_co_chac_chan_sua_lich,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_sua_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         onConfirm: (value) {
           createCubit.checkDuplicate(

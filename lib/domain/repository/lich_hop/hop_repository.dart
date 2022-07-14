@@ -30,7 +30,6 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/them_y_kien_mode
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
@@ -434,6 +433,10 @@ mixin HopRepository {
 
   Future<Result<bool>> themMoiVote(
     ThemMoiVoteRequest themMoiVoteRequest,
+  );
+
+  Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
+      DanhSachLichHopRequest request,
   );
 
   Future<Result<ChiTietBieuQuyetModel>> chiTietBieuQuyet(

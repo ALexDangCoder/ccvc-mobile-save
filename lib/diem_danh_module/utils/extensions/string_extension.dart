@@ -100,9 +100,7 @@ extension StringParse on String {
 
 extension CheckValidate on String {
   String? checkEmail() {
-    final isCheck = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
-        .hasMatch(this);
+    final isCheck = RegExp(EMAIL_REGEX).hasMatch(this);
     if (isCheck) {
       return null;
     } else {
@@ -112,7 +110,7 @@ extension CheckValidate on String {
 
   String? checkEmailBoolean() {
     final isCheck = RegExp(
-      r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$',
+      EMAIL_REGEX,
     ).hasMatch(this);
     if (isCheck) {
       if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {
@@ -137,7 +135,7 @@ extension CheckValidate on String {
   }
 
   bool? checkSdtDinhDangTruong() {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return true;
     } else {
@@ -170,7 +168,7 @@ extension CheckValidate on String {
   }
 
   String? checkSdtRequire() {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return null;
     } else {

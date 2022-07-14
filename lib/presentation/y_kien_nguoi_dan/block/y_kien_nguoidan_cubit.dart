@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
@@ -257,15 +258,17 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   ];
   List<NguoiDanModel> listYKienNguoiDan = [
     NguoiDanModel(
-        ngheNghiep: 'Nhan vien van phong that nghiep',
-        ngayThang: '18/10/2021',
-        ten: 'Ha Kieu Anh',
-        statusData: StatusYKien.DANG_XU_LY,),
+      ngheNghiep: 'Nhan vien van phong that nghiep',
+      ngayThang: '18/10/2021',
+      ten: 'Ha Kieu Anh',
+      statusData: StatusYKien.DANG_XU_LY,
+    ),
     NguoiDanModel(
-        ngheNghiep: 'Nhan vien van phong that nghiep',
-        ngayThang: '18/10/2021',
-        ten: 'Ha Kieu Anh',
-        statusData: StatusYKien.QUA_HAN,),
+      ngheNghiep: 'Nhan vien van phong that nghiep',
+      ngayThang: '18/10/2021',
+      ten: 'Ha Kieu Anh',
+      statusData: StatusYKien.QUA_HAN,
+    ),
     NguoiDanModel(
       ngheNghiep: 'Nhan vien van phong that nghiep',
       ngayThang: '18/10/2021',
@@ -501,6 +504,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   int? hanXuLy;
   String? trangThaiFilter;
   String? loaiMenu;
+  static const String TiepNhan = 'TiepNhan';
 
   Future<void> getDanhSachPAKNFilterChart({bool flagLoadMore = false}) async {
     isFilter = true;
@@ -509,13 +513,14 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     } else {}
     showLoading();
     final data = await _YKNDRepo.getDanhSachPaknFilter(
-        pageIndex: pageNumberDSPAKN,
-        pageSize: pageSizeDSPAKN,
-        trangThai: trangThaiFilter,
-        loaiMenu: loaiMenu,
-        dateTo: startDate,
-        dateFrom: endDate,
-        hanXuLy: hanXuLy,);
+      pageIndex: pageNumberDSPAKN,
+      pageSize: pageSizeDSPAKN,
+      trangThai: trangThaiFilter,
+      loaiMenu: loaiMenu,
+      dateTo: startDate,
+      dateFrom: endDate,
+      hanXuLy: hanXuLy,
+    );
     data.when(
       success: (success) {
         if (listDanhSachKetQuaPakn.hasValue) {
@@ -635,6 +640,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   //     error: (error) {},
   //   );
   // }
+
+
 
   Future<void> getDashBoardTinhHinhXuLy(
     String donViID,
@@ -898,7 +905,137 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     listDanhSachKetQuaPakn.value.clear();
   }
 
+  static const int Cho_Tiep_Nhan_TC = 0;
+  static const int Phan_Xu_Ly_TC = 1;
+  static const int Dang_Xu_Ly_TC = 2;
+  static const int Cho_Duyet_TC = 3;
+  static const int Cho_Bo_Sung_TT_TC = 4;
 
+  static const int CHO_TIEP_NHAN_XU_LY_XLY = 0;
+  static const int CHO_XU_LY_XLY = 1;
+  static const int CHO_PHAN_XU_LY_XLY = 2;
+  static const int CHO_DUYET_XLY = 3;
+  static const int DA_PHAN_CONG_XLY = 4;
+  static const int DA_THUC_HIEN_XLY = 5;
+  static const String XULY = 'XuLy';
+
+  void getPAKNXuLy(int index) {
+    hanXuLy = null;
+    loaiMenu = XULY;
+    switch (index) {
+      case CHO_TIEP_NHAN_XU_LY_XLY:
+        trangThaiFilter = YKienNguoiDanCubitt.ChoTiepNhanXuLy;
+        textFilter.add(
+          TextTrangThai(
+            S.current.cho_tiep_nhan_xu_ly,
+            AppTheme.getInstance().choXuLyColor(),
+          ),
+        );
+        break;
+      case CHO_XU_LY_XLY:
+        trangThaiFilter = YKienNguoiDanCubitt.ChoXuLy;
+        textFilter.add(
+          TextTrangThai(
+            S.current.cho_xu_ly,
+            textColorForum,
+          ),
+        );
+        break;
+      case CHO_PHAN_XU_LY_XLY:
+        trangThaiFilter = YKienNguoiDanCubitt.ChoPhanCongXuLy;
+        textFilter.add(
+          TextTrangThai(
+            S.current.cho_phan_cong_xu_ly,
+            AppTheme.getInstance().choXuLyColor(),
+          ),
+        );
+        break;
+      case CHO_DUYET_XLY:
+        trangThaiFilter = YKienNguoiDanCubitt.ChoDuyet;
+        textFilter.add(
+          TextTrangThai(
+            S.current.cho_duyet,
+            textColorForum,
+          ),
+        );
+        break;
+      case DA_PHAN_CONG_XLY:
+        trangThaiFilter = YKienNguoiDanCubitt.DaPhanCong;
+        textFilter.add(
+          TextTrangThai(
+            S.current.da_phan_cong,
+            daXuLyColor,
+          ),
+        );
+        break;
+      default:
+        trangThaiFilter = YKienNguoiDanCubitt.DaHoanThanh;
+        textFilter.add(
+          TextTrangThai(
+            S.current.da_hoan_thanh,
+            greenChart,
+          ),
+        );
+        clearDSPAKN();
+        break;
+    }
+    isShowFilterList.add(false);
+    getDanhSachPAKNFilterChart();
+  }
+
+  void getPaknTiepCan(int index) {
+    switch (index) {
+      case Cho_Tiep_Nhan_TC:
+        trangThaiFilter = YKienNguoiDanCubitt.ChoTiepNhan;
+        textFilter.add(
+          TextTrangThai(
+            S.current.cho_tiep_nhan,
+            AppTheme.getInstance().choXuLyColor(),
+          ),
+        );
+        break;
+      case Phan_Xu_Ly_TC:
+        trangThaiFilter = YKienNguoiDanCubitt.PhanXuLy;
+        textFilter.add(
+          TextTrangThai(
+            S.current.phan_xu_ly,
+            AppTheme.getInstance().subTitleColor(),
+          ),
+        );
+        break;
+      case Dang_Xu_Ly_TC:
+        trangThaiFilter = YKienNguoiDanCubitt.DangXuLy;
+        textFilter.add(
+          TextTrangThai(
+            S.current.dang_xu_ly,
+            textColorForum,
+          ),
+        );
+        break;
+      case Cho_Duyet_TC:
+        trangThaiFilter = YKienNguoiDanCubitt.ChoDuyet;
+        textFilter.add(
+          TextTrangThai(
+            S.current.cho_duyet,
+            textColorForum,
+          ),
+        );
+        break;
+      default:
+        trangThaiFilter = YKienNguoiDanCubitt.ChoBoSungThongTin;
+        textFilter.add(
+          TextTrangThai(
+            S.current.cho_bo_sung_thong_tin,
+            AppTheme.getInstance().choXuLyColor(),
+          ),
+        );
+        break;
+    }
+    hanXuLy = null;
+    loaiMenu = TiepNhan;
+    isShowFilterList.add(false);
+    getDanhSachPAKNFilterChart();
+  }
 
   static const String ChoTiepNhan = '1';
   static const String ChoChuyenXuLy = '2';

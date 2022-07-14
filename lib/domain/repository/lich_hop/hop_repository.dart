@@ -433,4 +433,8 @@ mixin HopRepository {
   Future<Result<bool>> themMoiVote(
     ThemMoiVoteRequest themMoiVoteRequest,
   );
+
+  Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
+      DanhSachLichHopRequest request,
+  );
 }

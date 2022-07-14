@@ -373,6 +373,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
       );
 
   Widget get search => TextField(
+        controller: controller,
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
           color: color3D5586,

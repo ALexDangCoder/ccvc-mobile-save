@@ -43,6 +43,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     widget.cubit.initTimeRange();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
     widget.cubit.getDanhSachPAKN();
+
   }
 
   @override
@@ -634,7 +635,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   TextTrangThai statusTrangThai(int soNgayToiHan) {
     if (soNgayToiHan < 0) {
       return TextTrangThai(S.current.qua_han, statusCalenderRed);
-    } else if (soNgayToiHan >= 3) {
+    } else if (soNgayToiHan > 3) {
       return TextTrangThai(S.current.trong_han, choTrinhKyColor);
     } else {
       return TextTrangThai(S.current.den_han, choVaoSoColor);

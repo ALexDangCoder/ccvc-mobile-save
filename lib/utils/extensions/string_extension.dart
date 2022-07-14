@@ -291,12 +291,12 @@ extension CheckValidate on String {
     }
   }
 
-  String? checkSdtRequire() {
+  String? checkSdtRequire({String? messageError}) {
     final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
     if (isCheckSdt) {
       return null;
     } else {
-      return S.current.nhap_sai_dinh_dang;
+      return messageError ?? S.current.nhap_sai_dinh_dang;
     }
   }
 

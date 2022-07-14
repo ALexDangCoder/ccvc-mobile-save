@@ -126,6 +126,8 @@ const int MINIMUM_YEAR = 1900;
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
+const PHONE_REGEX = r'^0+([0-9]{9})$';
+
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';
@@ -162,6 +164,7 @@ const String ENTITY_THU_MOI_HOP = 'ThuMoiHop';
 const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
+const String PRIMARY = 'primary';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -258,6 +261,8 @@ class NhiemVuStatus {
 
 class DateFormatApp {
   static String date = 'dd/MM/yyyy';
+  static String dateNormal = 'dd/mm/yyyy';
+  static String dateUpperCase = 'DD/MM/YYYY';
   static String dateApp = 'dd/MM/YYYY';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';

@@ -296,10 +296,12 @@ class _CreateOrUpdateKetLuanHopWidgetState
                                       reportTemplateId: reportTemplateId,
                                       files: listFiles,
                                     )
-                                    .then(
-                                      (value) =>
-                                          value ? Navigator.pop(context) : '',
-                                    );
+                                    .then((value) {
+                                  if (value) {
+                                    Navigator.pop(context);
+                                    widget.cubit.needRefreshMainMeeting = true;
+                                  }
+                                });
                                 return;
                               }
                               widget.cubit.suaKetLuan(

@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/bao_cao_module/data/response/can_bo_chia_se_response
 import 'package:ccvc_mobile/bao_cao_module/data/response/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/folder_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/group_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/list_tree_report_respose.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_detail_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/services/report_common_service.dart';
@@ -34,10 +33,10 @@ class ReportImpl implements ReportRepository {
   ) {
     return runCatchingAsync<ReportResponse, List<ReportItem>>(
       () => _reportService.getListReport(
+        appId,
         folderId,
         sort,
         keyWord,
-        appId,
       ),
       (res) =>
           res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
@@ -121,9 +120,14 @@ class ReportImpl implements ReportRepository {
   Future<Result<List<ReportItem>>> getListReportFavorite(
     String appId,
     String folderId,
+    int sort,
   ) {
     return runCatchingAsync<ReportResponse, List<ReportItem>>(
-      () => _reportService.getListReportFavorite(appId, folderId),
+      () => _reportService.getListReportFavorite(
+        appId,
+        folderId,
+        sort,
+      ),
       (res) =>
           res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
           [],
@@ -131,22 +135,7 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<List<ReportItem>>> getListReportTree(
-    String appId,
-    String folderId,
-  ) {
-    return runCatchingAsync<ListTreeReportResponse, List<ReportItem>>(
-      () => _reportService.getListReportTree(
-        appId,
-        folderId,
-      ),
-      (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
-    );
-  }
-
-  @override
-  Future<Result<String>> addNewMember(
-      NewUserRequest mapMember, String appId) {
+  Future<Result<String>> addNewMember(NewUserRequest mapMember, String appId) {
     return runCatchingAsync<PostDataResponse, String>(
       () => _reportService.addNewUser(
         mapMember,
@@ -228,26 +217,6 @@ class ReportImpl implements ReportRepository {
         pageSize,
       ),
       (res) => res.toDomain(),
-    );
-  }
-
-  @override
-  Future<Result<List<ReportItem>>> getListReportShareToMe(
-    String folderId,
-    int sort,
-    String keyWord,
-    String appId,
-  ) {
-    return runCatchingAsync<ReportResponse, List<ReportItem>>(
-      () => _reportService.getListReportShareToMe(
-        folderId,
-        sort,
-        keyWord,
-        appId,
-      ),
-      (res) =>
-          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
-          [],
     );
   }
 }

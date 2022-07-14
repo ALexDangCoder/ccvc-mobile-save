@@ -399,9 +399,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       .toList(),
                                 ),
                                 TaiLieuWidget(
-                                  files: (createCubit.files ?? [])
-                                      .map((e) => File(e.path ?? ''))
-                                      .toList(),
+                                  files: createCubit.files ?? [],
                                   onChange: (files, value) {
                                     if (!value) {
                                       createCubit.filesTaoLich = files;
@@ -425,7 +423,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                         child: buttonEditCalendar(
                                           name: S.current.dong,
                                           bgr: AppTheme.getInstance()
-                                              .colorField().withOpacity(0.1),
+                                              .colorField()
+                                              .withOpacity(0.1),
                                           colorName: AppTheme.getInstance()
                                               .colorField(),
                                           onTap: () {

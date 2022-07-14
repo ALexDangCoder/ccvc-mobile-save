@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/widget/report_filter_tablet.dart';
@@ -98,7 +97,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                           text: TextSpan(
                             children: <WidgetSpan>[
                               WidgetSpan(
-                                child: AutoSizeText(
+                                child: Text(
                                   snapshot.data ?? '',
                                   style: textNormalCustom(
                                     fontSize: 14.0,
@@ -182,7 +181,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          if (cubit.listReportFavorite.isNotEmpty)
+                          if (cubit.listReportFavorite?.isNotEmpty ?? false)
                             Column(
                               children: [
                                 titleBaoCao(S.current.yeu_thich),
@@ -302,14 +301,16 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
             child: BlocBuilder(
               bloc: cubit,
               builder: (BuildContext context, Object? state) {
-                return cubit.listReportSearch.isNotEmpty
-                    ? ReportListTablet(
-                        idFolder: cubit.folderId,
-                        listReport: cubit.listReportSearch,
-                        isListView: cubit.isListView.value,
-                        cubit: cubit,
-                      )
-                    : noData();
+                return cubit.listReportSearch != null
+                    ? cubit.listReportSearch?.isNotEmpty ?? false
+                        ? ReportListTablet(
+                            idFolder: cubit.folderId,
+                            listReport: cubit.listReportSearch,
+                            isListView: cubit.isListView.value,
+                            cubit: cubit,
+                          )
+                        : noData()
+                    : const SizedBox.shrink();
               },
             ),
           ),
@@ -335,8 +336,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
         if (isSearch)
           GestureDetector(
             onTap: () {
-              _searchController.text = cubit.textSearch.value;
-              cubit.isStatusSearch.add(false);
+              cubit.clickIconSearch();
             },
             child: Container(
               padding: const EdgeInsets.only(

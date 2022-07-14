@@ -529,6 +529,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         (HiveLocal.getDataUser()?.userId ?? '');
   }
 
+  bool isCreateKLH() =>
+      xemKetLuanHopModel.createBy == (HiveLocal.getDataUser()?.userId ?? '');
+
   List<CanBoThamGiaStr> donViThamGiaPhatBieu() {
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -649,12 +652,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   // tọa nhiệm vụ: thu ky, chu tri;(nếu tt là nháp, chỉ hiển thị kết luận với thư ký)
-  bool isTaoMoiNhiemVu() {
-    if (isChuTri() || isThuKy()) {
-      return true;
-    }
-    return false;
-  }
+  bool isTaoMoiNhiemVu() => isChuTri() || isThuKy();
 
   // gui duyet: thuky, trang thai kl hop = nhap va huy duyet(thu ký gửi chu tri duyet gửi duyet)
   bool isGuiDuyet() {
@@ -669,10 +667,10 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   // sua ket laun: chu tri(khi trạng thái là cho duyet) thu ky(khi trạng thái là nháp hoặc cho duyet)
   //=> chủ trì sua khi tt là cho duyet hoăc da duyet
   bool isSuaKetLuan() {
-    if (isChuTri()) {
+    if (isChuTri() && isCreateKLH()) {
       return getKetLuanHopModel.trangThai == TrangThai.DA_DUYET;
     }
-    if (isThuKy()) {
+    if (isThuKy() && isCreateKLH()) {
       return getKetLuanHopModel.trangThai == TrangThai.TU_CHOI ||
           getKetLuanHopModel.trangThai == TrangThai.NHAP;
     }
@@ -698,15 +696,13 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   // xóa: thu ký, tt = nháp(0)
   // => người tạo là chủ tri thi dc xoa
-  bool isXoaKetLuanHop() {
-    if (isChuTri()) {
-      return true;
-    }
-    if (isThuKy() && getKetLuanHopModel.trangThai == TrangThai.NHAP) {
-      return true;
-    }
-    return false;
-  }
+  bool isXoaKetLuanHop() =>
+      (isChuTri() &&
+          getKetLuanHopModel.trangThai == TrangThai.DA_DUYET &&
+          isCreateKLH()) ||
+      (isThuKy() &&
+          getKetLuanHopModel.trangThai == TrangThai.NHAP &&
+          isCreateKLH());
 
   //xem ket ket luan hop
   bool xemKetLuanHop() {

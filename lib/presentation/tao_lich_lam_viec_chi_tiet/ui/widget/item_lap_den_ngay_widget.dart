@@ -39,6 +39,13 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
   }
 
   @override
+  void didUpdateWidget(covariant ItemLapDenNgayWidget oldWidget) {
+    widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+        widget.initDate ?? DateTime.now();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return widget.isThem
         ? Padding(
@@ -170,8 +177,10 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   child: isShowDatePicker
                       ? FlutterRoundedCupertinoDatePickerWidget(
                           textStyleDate: textNormal(color3D5586, 16),
-                          minimumDate: DateTime.now(),
-                          initialDateTime: widget.initDate,
+                          minimumDate:
+                              widget.taoLichLamViecCubit.dateTimeLapDenNgay,
+                          initialDateTime:
+                              widget.taoLichLamViecCubit.dateTimeLapDenNgay,
                           onDateTimeChanged: (value) {
                             deboucer.run(() {
                               widget.taoLichLamViecCubit.dateTimeLapDenNgay =

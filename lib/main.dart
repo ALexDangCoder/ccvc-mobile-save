@@ -124,6 +124,12 @@ class _MyAppState extends State<MyApp> {
                 ],
                 supportedLocales: S.delegate.supportedLocales,
                 onGenerateRoute: AppRouter.generateRoute,
+                builder: (context, child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+                    child: child ?? const SizedBox(),
+                  );
+                },
                 initialRoute: AppRouter.splash,
               ),
         ),

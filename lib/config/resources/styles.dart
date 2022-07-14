@@ -110,7 +110,7 @@ TextStyle titleText({Color color = Colors.white, double fontSize = 20}) {
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: fontSize,
-  );
+  ).copyWith();
 }
 
 TextStyle textValidateStrikethrough({Color? color,

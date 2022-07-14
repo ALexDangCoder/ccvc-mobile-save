@@ -18,7 +18,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'cell_phat_bieu_widget.dart';
 
-
 class PhatBieuWidgetTablet extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
@@ -252,11 +251,18 @@ class PhatBieuChildWidget extends StatelessWidget {
 
             /// item Center
             itemCenter,
-
-            ///
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: buttonDuyet(data, cubit, context),
+            StreamBuilder<List<PhatBieuModel>>(
+              stream: cubit.streamPhatBieu,
+              builder: (_, snapshot) {
+                final dataListPhatBieu = snapshot.data ?? [];
+                if (dataListPhatBieu.isNotEmpty){
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: buttonDuyet(data, cubit, context),
+                  );
+                }
+                return const  SizedBox.shrink();
+              },
             ),
           ],
         );

@@ -42,7 +42,7 @@ class GroupResponse {
   String? userId;
   @JsonKey(name: 'userName')
   String? userName;
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'canBoId')
   String? id;
   @JsonKey(name: 'chucVu')
   String? chucVu;

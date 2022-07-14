@@ -38,7 +38,7 @@ class _DateInputState extends State<DateInput> {
   Widget build(BuildContext context) {
     return TextFieldValidator(
       controller: textController,
-      hintText: DateFormatApp.date,
+      hintText: DateFormatApp.dateNormal,
       validator: (value) {
         if (value?.isEmpty ?? true) {
           return null;

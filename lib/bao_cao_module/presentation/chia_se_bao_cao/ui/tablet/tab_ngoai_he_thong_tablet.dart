@@ -335,15 +335,6 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                 textContent: S.current.chia_se_thu_muc_chac_chua,
               ).then((value) {});
             }
-          } else {
-            final toast = FToast();
-            toast.init(context);
-            toast.showToast(
-              child: ShowToast(
-                text: S.current.sai_dinh_dang_truong,
-              ),
-              gravity: ToastGravity.BOTTOM,
-            );
           }
         },
       );

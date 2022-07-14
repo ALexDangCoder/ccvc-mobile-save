@@ -259,6 +259,8 @@ class NhiemVuStatus {
 
 class DateFormatApp {
   static String date = 'dd/MM/yyyy';
+  static String dateNormal = 'dd/mm/yyyy';
+  static String dateUpperCase = 'DD/MM/YYYY';
   static String dateApp = 'dd/MM/YYYY';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';

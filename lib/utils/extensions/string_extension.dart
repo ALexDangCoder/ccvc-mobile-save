@@ -164,19 +164,22 @@ extension StringParse on String {
   }
 
   String get nameOfFile {
-    final document = this;
+    var fileName = '';
+    if (isNotEmpty) {
+      final document = this;
 
-    final parts = document.split('/');
+      final parts = document.split('/');
 
-    final lastName = parts.last;
+      final lastName = parts.last;
 
-    final partsNameFile = lastName.split('.');
-
-    if (partsNameFile[0].length > 30) {
-      partsNameFile[0] = '${partsNameFile[0].substring(0, 20)}... ';
+      final partsNameFile = lastName.split('.');
+      if (partsNameFile.isNotEmpty) {
+        if (partsNameFile[0].length > 30) {
+          partsNameFile[0] = '${partsNameFile[0].substring(0, 20)}... ';
+        }
+        fileName = '${partsNameFile.first}.${partsNameFile[1]}';
+      }
     }
-    final fileName = '${partsNameFile[0]}.${partsNameFile[1]}';
-
     return fileName;
   }
 

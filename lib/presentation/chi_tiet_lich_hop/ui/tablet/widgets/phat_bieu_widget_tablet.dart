@@ -18,6 +18,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'cell_phat_bieu_widget.dart';
 
+
 class PhatBieuWidgetTablet extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
@@ -330,7 +331,7 @@ class PhatBieuChildWidget extends StatelessWidget {
   }) {
     showDiaLog(
       context,
-      title: isDuyet ? S.current.diem_danh : S.current.huy_duyet,
+      title: isDuyet ? S.current.duyet : S.current.tu_choi,
       icon: isDuyet
           ? SvgPicture.asset(ImageAssets.icDiemDanh)
           : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
@@ -341,7 +342,7 @@ class PhatBieuChildWidget extends StatelessWidget {
       funcBtnRight: () {
         cubit.duyetOrHuyDuyetPhatBieu(
           lichHopId: cubit.idCuocHop,
-          type: isDuyet ? 2 : 1,
+          type: isDuyet ? DUYET_TYPE : HUY_DUYET_TYPE,
         );
       },
     );

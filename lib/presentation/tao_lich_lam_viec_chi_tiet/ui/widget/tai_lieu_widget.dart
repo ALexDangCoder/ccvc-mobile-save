@@ -10,13 +10,18 @@ import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/material.dart';
 
 class TaiLieuWidget extends StatefulWidget {
-  List<File>? files;
+  List<Files>? files;
   final Function(List<File>, bool) onChange;
   Function(String id) idRemove;
+  String size;
 
-  TaiLieuWidget(
-      {Key? key, this.files, required this.onChange, required this.idRemove})
-      : super(key: key);
+  TaiLieuWidget({
+    Key? key,
+    this.files,
+    required this.onChange,
+    required this.idRemove,
+    this.size = '',
+  }) : super(key: key);
 
   @override
   _TaiLieuWidgetState createState() => _TaiLieuWidgetState();
@@ -25,6 +30,7 @@ class TaiLieuWidget extends StatefulWidget {
 class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   bool isExpand = false;
   double maxSize20MB = 20971520;
+
   @override
   Widget build(BuildContext context) {
     return Column(

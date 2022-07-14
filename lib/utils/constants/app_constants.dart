@@ -162,6 +162,7 @@ const String ENTITY_THU_MOI_HOP = 'ThuMoiHop';
 const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
+const String PRIMARY = 'primary';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -258,6 +259,8 @@ class NhiemVuStatus {
 
 class DateFormatApp {
   static String date = 'dd/MM/yyyy';
+  static String dateNormal = 'dd/mm/yyyy';
+  static String dateUpperCase = 'DD/MM/YYYY';
   static String dateApp = 'dd/MM/YYYY';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';

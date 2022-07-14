@@ -81,7 +81,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               },
                               validate: (value) {
                                 return value.isEmpty
-                                    ? S.current.khong_duoc_de_trong
+                                    ?'${S.current.vui_long_nhap} '
+                                    '${S.current.tieu_de.toLowerCase()}'
                                     : null;
                               },
                               maxLength: 200,

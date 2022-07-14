@@ -354,7 +354,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             '',
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
-        PageSize: 1000,
+        PageSize: ApiConstants.MAXIMUM_PAGE_SIZE,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         year: startDate.year,
         IsLichLanhDao: isLichLanhDao,
@@ -436,7 +436,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
-        PageSize: 1000,
+        PageSize: ApiConstants.MAXIMUM_PAGE_SIZE,
         trangThaiDuyetKyThuat:
             typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT
                 ? stateType?.toInt()
@@ -470,7 +470,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
-        PageSize: 1000,
+        PageSize: ApiConstants.MAXIMUM_PAGE_SIZE,
       ),
     );
     result.when(
@@ -674,7 +674,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         dateFrom: startDate.formatApiDDMMYYYYSlash,
         dateTo: endDate.formatApiDDMMYYYYSlash,
         pageIndex: ApiConstants.PAGE_BEGIN,
-        pageSize: 1000,
+        pageSize: ApiConstants.MAXIMUM_PAGE_SIZE,
         typeCalendarId: idThongKe,
       ),
     );

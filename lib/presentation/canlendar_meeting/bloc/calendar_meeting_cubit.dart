@@ -154,7 +154,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   void refreshDataDangLich() {
     getCountDashboard();
-    getDanhSachLichHop();
+    if (typeCalender != StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+      getDanhSachLichHop();
+    }
     getMenuLichLanhDao();
     getDaysHaveEvent(
       startDate: startDate,
@@ -307,14 +309,16 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   /// Lấy số lượng các loại lịch
   Future<void> getCountDashboard() async {
+    if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+      showLoading();
+    }
     final result = await hopRepo.getDashBoardLichHop(
       startDate.formatApi,
       endDate.formatApi,
     );
     result.when(
       success: (value) {
-        getMenuLichTheoTrangThai(value);
-        _totalWorkSubject.sink.add(value);
+        getDanhSachLichCanKLCH(dashBoard: value);
       },
       error: (error) {},
     );
@@ -350,7 +354,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
             '',
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
-        PageSize: 1000,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         year: startDate.year,
         IsLichLanhDao: isLichLanhDao,
@@ -432,7 +435,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         isDaChuanBi: stateType == StateType.DA_THUC_HIEN,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
-        PageSize: 1000,
         trangThaiDuyetKyThuat:
             typeCalender == StatusWorkCalendar.LICH_DUYET_KY_THUAT
                 ? stateType?.toInt()
@@ -450,6 +452,41 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       error: (error) {},
     );
     showContent();
+  }
+
+  /// lấy danh sách lịch họp cần KLCH
+  Future<void> getDanhSachLichCanKLCH(
+      {required DashBoardLichHopModel dashBoard,}) async {
+    final result = await hopRepo.getLichCanKLCH(
+      DanhSachLichHopRequest(
+        Title: keySearch,
+        DateFrom: startDate.formatApi,
+        DateTo: endDate.formatApi,
+        DonViId: HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id,
+        isChuaCoBaoCao: true,
+        UserId: HiveLocal.getDataUser()?.userId ?? '',
+        PageIndex: ApiConstants.PAGE_BEGIN,
+      ),
+    );
+    result.when(
+      success: (value) {
+        if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+          _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
+          _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
+          _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+          checkDuplicate(value.items ?? []);
+          _danhSachLichHopSubject.sink.add(value);
+        }
+        final dashBoardModel = dashBoard;
+        dashBoardModel.soLichChuaCoBaoCao = value.items?.length ?? 0;
+        dashBoardModel.soLichCanBaoCao = value.items?.length ?? 0;
+        _totalWorkSubject.add(dashBoardModel);
+      },
+      error: (error) {},
+    );
+    if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+      showContent();
+    }
   }
 
   DateTime getDate(String time) =>
@@ -521,6 +558,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       isLichLanhDao = false;
       _titleSubject.sink.add(S.current.bao_cao_thong_ke);
     }
+
     if (itemMenu != null) {
       idDonViLanhDao = null;
       if(this.state is ChartViewState){

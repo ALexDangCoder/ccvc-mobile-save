@@ -1136,7 +1136,10 @@
   "nguoi_phu_trach": "Người phụ trách",
   "sua_lich_lam_viec": "Sửa lịch làm việc",
   "ban_co_chac_chan_sua_lich": "Bạn có chắc chắn sửa lịch làm việc?",
-  "chi_lich_nay": "Chỉ sửa lịch này",
+  "chi_sua_lich_nay": "Chỉ sửa lịch này",
+  "chi_xoa_lich_nay": "Chỉ xóa lịch này",
+  "chi_thu_hoi_lich_nay": "Chỉ thu hồi lịch này",
+  "chi_huy_lich_nay": "Chỉ hủy lịch này",
   "tu_lich_nay": "Từ lịch này trở đi",
   "khong_co_bao_cao": "Không có báo cáo",
   "cho_chuyen_xu_ly": "Chờ chuyển xử lý",
@@ -1203,7 +1206,6 @@
   "thang_nay": "Tháng này",
   "cu_can_bo_thanh_cong": "Cử cán bộ thành công",
   "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
-  "dung_luong_toi_da_30": "Dung lượng tối đa 30MB",
   "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
   "da_gan": "Đã gán",
   "danh_sach_can_bo": "Danh sách cán bộ",
@@ -1289,5 +1291,6 @@
   "yeu_cau_thiet_bi_khac": "Yêu cầu thiết bị khác",
   "bieu_quyet_thanh_cong": "Biểu quyết thành công",
   "bieu_quyet_that_bai": "Biểu quyết thất bại",
-  "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !"
+  "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !",
+  "sua_bieu_quyet": "Sửa biểu quyết"
 }

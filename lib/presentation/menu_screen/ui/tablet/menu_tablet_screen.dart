@@ -284,7 +284,6 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                           .appState
                                           .setToken('');
                                       HiveLocal.clearData();
-                                      Navigator.pop(context);
                                     },
                                     showTablet: true,
                                     icon: Image.asset(ImageAssets.icDangXuat),

@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -84,20 +85,16 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                     ),
                   ],
                 ),
+                spaceH10,
                 AnimatedContainer(
                   duration: const Duration(
                     milliseconds: 300,
                   ),
-                  height: isShowDatePicker ? 200 : 1,
+                  height: isShowDatePicker ? 300 : 1,
                   child: isShowDatePicker
-                      ? CupertinoDatePicker(
-                          maximumDate: DateTime(2099, 12, 30),
-                          maximumYear: 2099,
-                          minimumYear: DateTime.now().year,
+                      ? FlutterRoundedCupertinoDatePickerWidget(
                           minimumDate: DateTime.now(),
-                          backgroundColor: backgroundColorApp,
-                          mode: CupertinoDatePickerMode.date,
-                          use24hFormat: true,
+                          textStyleDate: textNormal(color3D5586, 16),
                           initialDateTime: widget.initDate,
                           onDateTimeChanged: (value) {
                             deboucer.run(() {
@@ -105,7 +102,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                   value;
                               widget.taoLichLamViecCubit.changeDateTimeSubject
                                   .add(value);
-                              setState(() {});
+                              //setState(() {});
                             });
                           },
                         )
@@ -171,13 +168,9 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   ),
                   height: isShowDatePicker ? 200 : 1,
                   child: isShowDatePicker
-                      ? CupertinoDatePicker(
-                          maximumDate: DateTime(2099, 12, 30),
-                          maximumYear: 2099,
-                          minimumYear: DateTime.now().year,
-                          backgroundColor: backgroundColorApp,
-                          mode: CupertinoDatePickerMode.date,
-                          use24hFormat: true,
+                      ? FlutterRoundedCupertinoDatePickerWidget(
+                          textStyleDate: textNormal(color3D5586, 16),
+                          minimumDate: DateTime.now(),
                           initialDateTime: widget.initDate,
                           onDateTimeChanged: (value) {
                             deboucer.run(() {
@@ -185,7 +178,6 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                   value;
                               widget.taoLichLamViecCubit.changeDateTimeSubject
                                   .add(value);
-                              setState(() {});
                             });
                           },
                         )

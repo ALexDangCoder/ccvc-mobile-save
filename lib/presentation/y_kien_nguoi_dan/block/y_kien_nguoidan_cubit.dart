@@ -491,11 +491,13 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       clearDSPAKN();
     } else {}
     showLoading();
+    final String startDateFormat = formatDateApi(startDate);
+    final String endDateFormat = formatDateApi(endDate);
     final data = await _YKNDRepo.getDanhSachChoTaoVBDi(
       pageIndex: pageNumberDSPAKN,
       pageSize: pageSizeDSPAKN,
-      dateFrom: startDate,
-      dateTo: endDate,
+      dateFrom: startDateFormat,
+      dateTo: endDateFormat,
       donViId: userIdLocal,
       trangThaiVanBanDi: trangThaiVanBanDi,
     );
@@ -805,6 +807,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     startDate =
         DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;
+  }
+
+  String formatDateApi(String valueDate) {
+    final tmp = DateFormat("dd/MM/yyyy").parse(valueDate);
+    final result = DateFormat('yyyy-MM-dd').format(tmp);
+    return result;
   }
 
   void getUserData() {

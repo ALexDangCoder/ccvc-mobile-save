@@ -395,7 +395,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         isShowRadio: isDup,
         imageUrl: ImageAssets.icThuHoi,
         textConfirm: S.current.ban_co_chac_muon_thu_hoi_lich,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_thu_hoi_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         onConfirm: (value) {
           chiTietLichLamViecCubit.recallCalendar(isMulti: !(value ?? true));
@@ -413,7 +413,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         isShowRadio: isDup,
         imageUrl: ImageAssets.icDeleteLichHop,
         textConfirm: S.current.ban_co_muon_xoa_lich_lam_viec,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_xoa_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         onConfirm: (value) {
           chiTietLichLamViecCubit.deleteCalendarWork(
@@ -433,7 +433,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
         isConfirm: false,
         imageUrl: ImageAssets.icHuyLich,
         textConfirm: S.current.ban_co_chac_muon_huy_lich,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_huy_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         isShowRadio: isDup,
         onConfirm: (value) {

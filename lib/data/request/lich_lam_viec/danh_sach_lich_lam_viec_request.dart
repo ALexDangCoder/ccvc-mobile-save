@@ -1,10 +1,6 @@
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'danh_sach_lich_lam_viec_request.g.dart';
 
-@JsonSerializable()
-class DanhSachLichLamViecRequest extends Equatable {
+class DanhSachLichLamViecRequest {
   String? DateFrom;
   String? Title;
   String? DateTo;
@@ -48,15 +44,30 @@ class DanhSachLichLamViecRequest extends Equatable {
     this.isDaCoBaoCao,
     this.ListUserId,
   });
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{
+        'DateFrom': DateFrom,
+        'Title': Title,
+        'DateTo': DateTo,
+        'UserId': UserId,
+        'DonViId': DonViId,
+        'IsLichLanhDao': IsLichLanhDao,
+        if (PageIndex!= null)'PageIndex': PageIndex,
+        if (PageIndex!= null)'PageSize': PageSize,
+        'isLichCuaToi': isLichCuaToi,
+        'isLichDuocMoi': isLichDuocMoi,
+        'isLichHuyBo': isLichHuyBo,
+        'isLichTaoHo': isLichTaoHo,
+        'isLichThamGia': isLichThamGia,
+        'isLichThuHoi': isLichThuHoi,
+        'isLichTuChoi': isLichTuChoi,
+        'isPublish': isPublish,
+        'isChoXacNhan': isChoXacNhan,
+        'isChuaCoBaoCao': isChuaCoBaoCao,
+        'isDaCoBaoCao': isDaCoBaoCao,
+        'ListUserId': ListUserId,
+      };
 
-  factory DanhSachLichLamViecRequest.fromJson(Map<String, dynamic> json) =>
-      _$DanhSachLichLamViecRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DanhSachLichLamViecRequestToJson(this);
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 DanhSachLichLamViecRequest dataBodyRequetDanhSachLLV =

@@ -170,7 +170,7 @@ abstract class HopServices {
     @Part(name: '[0].tieuDe') String tieuDe,
     @Part(name: '[0].hoTen') String hoTen,
     @Part(name: '[0].IsMultipe') bool IsMultipe,
-    @Part(name: '[0].file') List<FilesRepuest> file,
+    @Body() FormData? file,
   );
 
   @GET(ApiConstants.CHUONG_TRINH_HOP)

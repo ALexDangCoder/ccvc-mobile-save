@@ -245,8 +245,15 @@ class HopRepositoryImpl implements HopRepository {
     String tieuDe,
     String hoTen,
     bool IsMultipe,
-    List<FilesRepuest> file,
+    List<File>? files,
   ) {
+    final _dataFile = FormData();
+    files?.forEach((element) async {
+      final MultipartFile file = await MultipartFile.fromFile(
+        element.path,
+      );
+      _dataFile.files.add(MapEntry('[0].Files', file));
+    });
     return runCatchingAsync<TaoPhienHopResponse, List<TaoPhienHopModel>>(
       () => _hopServices.getThemPhienHop(
         lichHopId,
@@ -259,7 +266,7 @@ class HopRepositoryImpl implements HopRepository {
         tieuDe,
         hoTen,
         IsMultipe,
-        file,
+        _dataFile,
       ),
       (res) => res.toMoDel(),
     );
@@ -930,12 +937,12 @@ class HopRepositoryImpl implements HopRepository {
         MapEntry('[$i].hoTen', phienHops[i].hoTen),
       );
       _data.fields.add(
-        MapEntry('[$i].IsMultipe', phienHops[i].IsMultipe.toString()),
+        MapEntry('[$i].IsMultipe', phienHops[i].isMultipe.toString()),
       );
-      if (phienHops[i].Files?.isNotEmpty ?? false) {
-        for (int j = 0; j < phienHops[i].Files!.length; j++) {
+      if (phienHops[i].files?.isNotEmpty ?? false) {
+        for (int j = 0; j < phienHops[i].files!.length; j++) {
           final MultipartFile file = await MultipartFile.fromFile(
-            phienHops[i].Files![j].path,
+            phienHops[i].files![j].path,
           );
           _data.files.add(
             MapEntry(

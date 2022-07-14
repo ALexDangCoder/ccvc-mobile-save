@@ -159,7 +159,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   ChiTietLichHopModel get getChiTietLichHopModel =>
       chiTietLichHopSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
-  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop = BehaviorSubject();
+  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop =
+      BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>
       danhSachPhatbieuLichHopModelSubject = BehaviorSubject();
@@ -397,7 +398,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest();
 
-  TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest();
+  TaoPhienHopDetailRepuest taoPhienHopRepuest = TaoPhienHopDetailRepuest();
 
   List<MoiHopRequest> moiHopRequest = [];
 

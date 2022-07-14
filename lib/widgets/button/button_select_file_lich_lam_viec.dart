@@ -149,7 +149,9 @@ class _ButtonSelectFileLichLamViecState
             }
             widget.onChange(
               List.generate(
-                  selectFiles.length, (index) => selectFiles[index].file),
+                selectFiles.length,
+                (index) => selectFiles[index].file,
+              ),
               isOverSize,
             );
           },
@@ -218,7 +220,9 @@ class _ButtonSelectFileLichLamViecState
                   sumListFileSize(selectFiles);
                   widget.onChange(
                     List.generate(
-                        selectFiles.length, (index) => selectFiles[index].file),
+                      selectFiles.length,
+                      (index) => selectFiles[index].file,
+                    ),
                     isOverSize,
                   );
                 },

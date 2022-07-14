@@ -330,7 +330,7 @@ class PhatBieuChildWidget extends StatelessWidget {
   }) {
     showDiaLog(
       context,
-      title: isDuyet ? S.current.diem_danh : S.current.huy_duyet,
+      title: isDuyet ? S.current.duyet : S.current.tu_choi,
       icon: isDuyet
           ? SvgPicture.asset(ImageAssets.icDiemDanh)
           : SvgPicture.asset(ImageAssets.icHuyDiemDanh),

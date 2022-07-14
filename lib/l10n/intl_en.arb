@@ -1206,7 +1206,6 @@
   "thang_nay": "Tháng này",
   "cu_can_bo_thanh_cong": "Cử cán bộ thành công",
   "cu_can_bo_khong_thanh_cong": "Cử cán bộ không thành công",
-  "dung_luong_toi_da_30": "Dung lượng tối đa 30MB",
   "confirm_xoa_chuong_trinh_hop": "Bạn có muốn xóa chương trình họp này?",
   "da_gan": "Đã gán",
   "danh_sach_can_bo": "Danh sách cán bộ",
@@ -1292,5 +1291,6 @@
   "yeu_cau_thiet_bi_khac": "Yêu cầu thiết bị khác",
   "bieu_quyet_thanh_cong": "Biểu quyết thành công",
   "bieu_quyet_that_bai": "Biểu quyết thất bại",
-  "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !"
+  "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !",
+  "sua_bieu_quyet": "Sửa biểu quyết"
 }

@@ -352,8 +352,8 @@ extension GetData on CalendarWorkCubit {
       isChoXacNhan: stateType == StateType.CHO_XAC_NHAN && isLichDuocMoi,
       isLichThamGia: stateType == StateType.THAM_GIA && isLichDuocMoi,
       isLichTuChoi: stateType == StateType.TU_CHOI && isLichDuocMoi,
-      PageIndex: ApiConstants.PAGE_BEGIN,
-      PageSize: 10000,
+      PageIndex: null,
+      PageSize: null,
       Title: keySearch,
       UserId: HiveLocal.getDataUser()?.userId ?? '',
     );

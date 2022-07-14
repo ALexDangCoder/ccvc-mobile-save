@@ -170,7 +170,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                               S.current.nhan_xet,
                               cubit.supportDetail.nhanXet,
                             ),
-                            spaceH50,
+                            spaceH70,
                           ],
                         ),
                       ),
@@ -194,39 +194,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                               Navigator.pop(context);
                             },
                             onPressed2: () {
-                              if (cubit.isItSupport &&
-                                  cubit.supportDetail.codeTrangThai !=
-                                      ChiTietHoTroCubit.DA_HOAN_THANH) {
-                                showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (_) {
-                                    return CapNhatTinhHinhHoTro(
-                                      cubit: cubit,
-                                    );
-                                  },
-                                );
-                              } else {
-                                if (cubit.supportDetail.codeTrangThai ==
-                                    ChiTietHoTroCubit.DA_HOAN_THANH) {
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    isScrollControlled: true,
-                                    context: context,
-                                    builder: (_) {
-                                      return DanhGiaYeuCauHoTro(
-                                        cubit: cubit,
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  MessageConfig.show(
-                                    title: S.current.chua_duoc_danh_gia,
-                                    messState: MessState.error,
-                                  );
-                                }
-                              }
+                              confirmUpdateTask();
                             },
                             noPadding: true,
                           ),
@@ -239,6 +207,41 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
         },
       ),
     );
+  }
+  void confirmUpdateTask(){
+    if (cubit.isItSupport &&
+        cubit.supportDetail.codeTrangThai !=
+            ChiTietHoTroCubit.DA_HOAN_THANH) {
+      showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        context: context,
+        builder: (_) {
+          return CapNhatTinhHinhHoTro(
+            cubit: cubit,
+          );
+        },
+      );
+    } else {
+      if (cubit.supportDetail.codeTrangThai ==
+          ChiTietHoTroCubit.DA_HOAN_THANH) {
+        showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+          context: context,
+          builder: (_) {
+            return DanhGiaYeuCauHoTro(
+              cubit: cubit,
+            );
+          },
+        );
+      } else {
+        MessageConfig.show(
+          title: S.current.chua_duoc_danh_gia,
+          messState: MessState.error,
+        );
+      }
+    }
   }
 
   Widget title(String title) {
@@ -389,7 +392,7 @@ extension StatusChiTietNV on StatusHoTro {
       case StatusHoTro.TU_CHOI_XU_LY:
         return statusTrangThaiXuLy(
           name: S.current.tu_choi_xu_ly,
-          background: specialPriceColor,
+          background: canceledColor,
         );
       case StatusHoTro.NONE:
         return const SizedBox();

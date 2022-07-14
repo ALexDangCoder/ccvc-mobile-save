@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -9,42 +10,37 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CacLuaChonDonViWidget extends StatefulWidget {
-  final Function(List<String>) onchange;
+class DanhSachLuaChonWidget extends StatefulWidget {
+  final Function(List<SuaDanhSachLuaChonModel>) onchange;
   final DetailMeetCalenderCubit detailMeetCalenderCubit;
+  final List<SuaDanhSachLuaChonModel> initData;
 
-  const CacLuaChonDonViWidget({
+  const DanhSachLuaChonWidget({
     Key? key,
     required this.detailMeetCalenderCubit,
     required this.onchange,
+    required this.initData,
   }) : super(key: key);
 
   @override
-  State<CacLuaChonDonViWidget> createState() => _CacLuaChonDonViWidgetState();
+  State<DanhSachLuaChonWidget> createState() => _DanhSachLuaChonWidgetState();
 }
 
-class _CacLuaChonDonViWidgetState extends State<CacLuaChonDonViWidget> {
+class _DanhSachLuaChonWidgetState extends State<DanhSachLuaChonWidget> {
   final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
-      stream: widget.detailMeetCalenderCubit.themBieuQuyet,
+    return StreamBuilder<List<SuaDanhSachLuaChonModel>>(
+      stream: widget.detailMeetCalenderCubit.suaDanhSachLuaChon,
       builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
         return SelectDonViCell(
           controller: controller,
-          listSelect: widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet,
-          onSubmitted: (value) {
-            if (value != '') {
-              widget.detailMeetCalenderCubit.addValueToList(value);
-              controller.text = '';
-              widget
-                  .onchange(widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet);
-            }
-          },
-          onDelete: (value) {
-            widget.detailMeetCalenderCubit.removeTag(value);
-            widget.onchange(widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet);
+          initData: data,
+          cubit: widget.detailMeetCalenderCubit,
+          onchange: (value) {
+            widget.onchange(value);
           },
         );
       },
@@ -52,19 +48,30 @@ class _CacLuaChonDonViWidgetState extends State<CacLuaChonDonViWidget> {
   }
 }
 
-class SelectDonViCell extends StatelessWidget {
-  final List<String> listSelect;
-  final Function(String) onDelete;
+class SelectDonViCell extends StatefulWidget {
   final TextEditingController controller;
-  final Function(String) onSubmitted;
+  late List<SuaDanhSachLuaChonModel> initData;
+  final DetailMeetCalenderCubit cubit;
+  final Function(List<SuaDanhSachLuaChonModel>) onchange;
 
-  const SelectDonViCell({
+  SelectDonViCell({
     Key? key,
-    required this.listSelect,
-    required this.onDelete,
     required this.controller,
-    required this.onSubmitted,
+    required this.initData,
+    required this.cubit,
+    required this.onchange,
   }) : super(key: key);
+
+  @override
+  State<SelectDonViCell> createState() => _SelectDonViCellState();
+}
+
+class _SelectDonViCellState extends State<SelectDonViCell> {
+  @override
+  void initState() {
+    widget.cubit.addLuaChon.clear();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,34 +99,61 @@ class SelectDonViCell extends StatelessWidget {
       child: Wrap(
         spacing: 10,
         runSpacing: 10,
-        children: List.generate(listSelect.length + 1, (index) {
-          if (index == listSelect.length) {
-            return Container(
-              width: double.infinity,
-              color: Colors.transparent,
-              child: TextField(
-                maxLength: 30,
-                onSubmitted: onSubmitted,
-                controller: controller,
-                style: textNormal(textTitle, 14.0.textScale()),
-                decoration: const InputDecoration(
-                  isDense: true,
-                  counter: SizedBox(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 5),
-                  isCollapsed: true,
-                  border: InputBorder.none,
+        children: [
+          ...widget.initData
+              .map(
+                (e) => tag(
+                  title: e.tenLuaChon ?? '',
+                  onDelete: () {
+                    final listOld =
+                        widget.cubit.suaDanhSachLuaChon.valueOrNull ?? [];
+                    listOld.removeWhere(
+                      (element) => e.tenLuaChon == element.tenLuaChon,
+                    );
+                    widget.cubit.suaDanhSachLuaChon.sink.add(listOld);
+                    widget.onchange(listOld);
+                  },
+                ),
+              )
+              .toList(),
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                color: Colors.transparent,
+                child: TextField(
+                  maxLength: 30,
+                  controller: widget.controller,
+                  style: textNormal(textTitle, 14.0.textScale()),
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    counter: SizedBox(),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    isCollapsed: true,
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
-            );
-          }
-          final data = listSelect[index];
-          return tag(
-            title: data,
-            onDelete: () {
-              onDelete(data);
-            },
-          );
-        }),
+              Positioned(
+                right: 5,
+                top: 5,
+                child: GestureDetector(
+                  onTap: () {
+                    if (widget.controller.text.isNotEmpty) {
+                      final mList = widget.cubit
+                          .paserListString([widget.controller.text]);
+                      widget.cubit.suaDanhSachLuaChon.sink
+                          .add([...widget.initData, ...mList]);
+                      widget.controller.text = '';
+                      widget.onchange([...widget.initData, ...mList]);
+                    }
+                  },
+                  child: SvgPicture.asset(ImageAssets.ic_plus_bieu_quyet),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -138,10 +138,10 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                               name: trangThai ?? '',
                               description: note ?? '',
                               code: trangThai ?? '',
-                              finishDay:
-                                  (widget.cubit.supportDetail.ngayHoanThanh ??
-                                          birthday) ??
-                                      '',
+                              finishDay: (birthday ??
+                                      widget
+                                          .cubit.supportDetail.ngayHoanThanh) ??
+                                  '',
                               handlerId: nguoiXuLy ?? '',
                               id: widget.cubit.supportDetail.id ?? '',
                               comment: '',

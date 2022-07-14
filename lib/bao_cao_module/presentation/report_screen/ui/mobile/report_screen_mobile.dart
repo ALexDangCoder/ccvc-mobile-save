@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_filter_mobile.dart';
@@ -96,7 +95,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                           text: TextSpan(
                             children: <WidgetSpan>[
                               WidgetSpan(
-                                child: AutoSizeText(
+                                child: Text(
                                   snapshot.data ?? '',
                                   style: textNormalCustom(
                                     fontSize: 14.0,
@@ -111,6 +110,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                     left: 16,
+                                    bottom: 4,
                                   ),
                                   child: SvgPicture.asset(
                                     ImageAssets.icDropDown,
@@ -180,7 +180,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          if (cubit.listReportFavorite.isNotEmpty)
+                          if (cubit.listReportFavorite?.isNotEmpty ?? false)
                             Column(
                               children: [
                                 titleBaoCao(S.current.yeu_thich),
@@ -300,14 +300,16 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             child: BlocBuilder(
               bloc: cubit,
               builder: (BuildContext context, Object? state) {
-                return cubit.listReportSearch.isNotEmpty
-                    ? ReportListMobile(
-                        idFolder: cubit.folderId,
-                        listReport: cubit.listReportSearch,
-                        isListView: cubit.isListView.value,
-                        cubit: cubit,
-                      )
-                    : noData();
+                return cubit.listReportSearch != null
+                    ? cubit.listReportSearch?.isNotEmpty ?? false
+                        ? ReportListMobile(
+                            idFolder: cubit.folderId,
+                            listReport: cubit.listReportSearch,
+                            isListView: cubit.isListView.value,
+                            cubit: cubit,
+                          )
+                        : noData()
+                    : const SizedBox.shrink();
               },
             ),
           ),
@@ -333,8 +335,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         if (isSearch)
           GestureDetector(
             onTap: () {
-              _searchController.text = cubit.textSearch.value;
-              cubit.isStatusSearch.add(false);
+              cubit.clickIconSearch();
             },
             child: Container(
               padding: const EdgeInsets.only(

@@ -35,7 +35,6 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
     await widget.cubit.getListReport(
       idFolder: widget.reportModel.id ?? '',
       isTree: true,
-      isTreeShareToMe: widget.reportModel.isShareToMe ?? false,
     );
   }
 
@@ -44,7 +43,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
     getApi();
     super.initState();
     isInit = true;
-    widget.cubit.isCheckData.listen((value) {
+    widget.cubit.isCheckDataDetailScreen.listen((value) {
       if (value) {
         isCheckData = true;
       }

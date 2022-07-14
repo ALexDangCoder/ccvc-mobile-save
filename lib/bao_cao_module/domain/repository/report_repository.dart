@@ -15,13 +15,6 @@ mixin ReportRepository {
     String appID,
   );
 
-  Future<Result<List<ReportItem>>> getListReportShareToMe(
-    String folderId,
-    int sort,
-    String keyWord,
-    String appID,
-  );
-
   Future<Result<List<NhomCungHeThong>>> getListGroup(String appId);
 
   Future<Result<List<ThanhVien>>> getListThanhVien(
@@ -29,7 +22,7 @@ mixin ReportRepository {
   );
 
   Future<Result<String>> addNewMember(
-      NewUserRequest mapMember,
+    NewUserRequest mapMember,
     String appId,
   );
 
@@ -50,11 +43,7 @@ mixin ReportRepository {
   Future<Result<List<ReportItem>>> getListReportFavorite(
     String appId,
     String folderId,
-  );
-
-  Future<Result<List<ReportItem>>> getListReportTree(
-    String appId,
-    String folderId,
+    int sort,
   );
 
   Future<Result<String>> shareReport(

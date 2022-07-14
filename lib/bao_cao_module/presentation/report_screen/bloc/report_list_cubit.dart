@@ -40,19 +40,30 @@ class ReportListCubit extends BaseCubit<BaseState> {
   BehaviorSubject<String> textFilterBox = BehaviorSubject.seeded(S.current.all);
   BehaviorSubject<bool> isListView = BehaviorSubject.seeded(true);
   BehaviorSubject<bool> isStatusSearch = BehaviorSubject.seeded(true);
-  List<ReportItem> listReportFavorite = [];
+  List<ReportItem>? listReportFavorite;
+
   BehaviorSubject<List<ReportItem>?> listReportTree =
       BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReportItem>?> listReportTreeUpdate =
       BehaviorSubject.seeded(null);
-  BehaviorSubject<bool> isCheckData = BehaviorSubject.seeded(false);
-  List<ReportItem> listReport = [];
-  List<ReportItem> listReportSearch = [];
+  BehaviorSubject<bool> isCheckDataDetailScreen = BehaviorSubject.seeded(false);
+  List<ReportItem>? listReport;
+  List<ReportItem>? listReportSearch;
   bool isCheckPostFavorite = false;
 
   ReportRepository get _reportService => Get.find();
 
   ReportCommonRepository get _reportCommonService => Get.find();
+
+  void clickIconSearch() {
+    sort = ALL;
+    textSearch.add('');
+    textFilterBox.sink.add(S.current.all);
+    getListReport(
+      isSearch: true,
+    );
+    isStatusSearch.add(false);
+  }
 
   void getStatus(String title) {
     if (S.current.all == title) {
@@ -244,45 +255,48 @@ class ReportListCubit extends BaseCubit<BaseState> {
   }
 
   Future<void> getListFavorite() async {
-    listReportFavorite.clear();
+    listReportFavorite = null;
     final Result<List<ReportItem>> result =
         await _reportService.getListReportFavorite(
       appId,
       folderId,
+      sort,
     );
     result.when(
       success: (res) {
-        listReportFavorite.addAll(res);
+        listReportFavorite = checkListReportStatus(res);
       },
-      error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
-      },
+      error: (error) {},
     );
+  }
+
+  int checkFilterBox(int sort) {
+    switch (sort) {
+      case REPORT_SORT:
+        return REPORT;
+      case FOLDER_SORT:
+        return FOLDER;
+      default:
+        return All;
+    }
   }
 
   Future<void> getListReport({
     String idFolder = '',
     bool isTree = false,
     bool isSearch = false,
-    bool isTreeShareToMe = false,
   }) async {
     showLoading();
-    emit(const CompletedLoadMore(CompleteType.ERROR, posts: []));
+    emit(const CompletedLoadMore(CompleteType.ERROR));
     if (isTree) {
-      isCheckData.add(false);
+      isCheckDataDetailScreen.add(false);
       listReportTree.add(null);
     } else if (isSearch) {
-      // listReportSearch.clear();
+      listReportSearch = null;
     } else {
-      listReport.clear();
+      listReport = null;
       await getListFavorite();
     }
-    await getListReportShareToMe(
-      idFolder: idFolder,
-      isSearch: isSearch,
-      isTree: isTree,
-    );
     final Result<List<ReportItem>> result = await _reportService.getListReport(
       idFolder.isNotEmpty ? idFolder : folderId,
       sort,
@@ -291,37 +305,35 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        if (!isTreeShareToMe) {
-          isCheckData.add(true);
-        }
+        isCheckDataDetailScreen.add(true);
         if (res.isEmpty) {
-          showContent();
-          if (!isTreeShareToMe) {
-            listReportTree.add([]);
-          }
           if (isSearch) {
-            listReportSearch.addAll([]);
+            listReportSearch = [];
+          } else {
+            listReportTree.add([]);
           }
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
         } else {
-          if (!isTreeShareToMe) {
-            listReportTree.add(res);
-          }
-          final List<ReportItem> list = [];
+          final listRes = checkListReport(res);
+          final listStatus = checkListReportStatus(res);
           if (!isTree) {
-            for (final value in res) {
-              if (value.isPin == false) {
-                list.add(value);
+            if (!isSearch) {
+              listReport = listRes;
+            } else {
+              if (sort == ALL) {
+                listReportSearch = listStatus;
+              } else {
+                listReportSearch = checkListSearch(listStatus);
               }
             }
-            if (!isSearch) {
-              listReport.addAll(list);
-            }
-            listReportSearch.addAll(res);
+          } else {
+            listReportTree.add(listStatus);
           }
-          showContent();
-          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
+          emit(
+            CompletedLoadMore(CompleteType.SUCCESS, posts: listRes),
+          );
         }
+        showContent();
       },
       error: (error) {
         emit(const CompletedLoadMore(CompleteType.ERROR));
@@ -330,66 +342,50 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
   }
 
-  Future<void> getListReportShareToMe({
-    String idFolder = '',
-    bool isTree = false,
-    bool isSearch = false,
-  }) async {
-    final Result<List<ReportItem>> resultReportShareToMe =
-        await _reportService.getListReportShareToMe(
-      idFolder.isNotEmpty ? idFolder : folderId,
-      sort,
-      textSearch.value,
-      appId,
-    );
-    resultReportShareToMe.when(
-      success: (res) {
-        final resultFinal = res
-            .map(
-              (e) => ReportItem(
-                id: e.id,
-                name: e.name,
-                description: e.description,
-                order: e.order,
-                parentId: e.parentId,
-                numberReport: e.numberReport,
-                childrenTotal: e.childrenTotal,
-                type: e.type,
-                typeTitle: e.typeTitle,
-                level: e.level,
-                isOwner: e.isOwner,
-                dateTime: e.createdAt,
-                isPin: e.isPin,
-                status: e.status,
-                isShareToMe: true,
-              ),
-            )
-            .toList();
-        if (resultFinal.isEmpty) {
-          listReportTree.add([]);
-          if (isSearch) {
-            listReportSearch.clear();
-            listReportSearch.addAll([]);
+  List<ReportItem> checkListSearch(List<ReportItem> listStatus) {
+    final List<ReportItem> listSearch = [];
+    for (final value in listStatus) {
+      if (value.type == checkFilterBox(sort)) {
+        listSearch.add(value);
+      }
+    }
+    return listSearch;
+  }
+
+  bool checkStatusReport(ReportItem reportItem) {
+    if (reportItem.status == STATUS_DA_XUAT_BAN) {
+      return true;
+    }
+    return false;
+  }
+
+  List<ReportItem> checkListReportStatus(List<ReportItem> listRes) {
+    final List<ReportItem> list = [];
+    for (final value in listRes) {
+      if (value.type == REPORT) {
+        if (checkStatusReport(value)) {
+          list.add(value);
+        }
+      } else {
+        list.add(value);
+      }
+    }
+    return list;
+  }
+
+  List<ReportItem> checkListReport(List<ReportItem> listRes) {
+    final List<ReportItem> list = [];
+    for (final value in listRes) {
+      if (value.isPin == false) {
+        if (value.type == REPORT) {
+          if (checkStatusReport(value)) {
+            list.add(value);
           }
         } else {
-          listReportTree.add(resultFinal);
-          final List<ReportItem> list = [];
-          if (!isTree) {
-            for (final value in resultFinal) {
-              if (value.isPin == false) {
-                list.add(value);
-              }
-            }
-            if (!isSearch) {
-              listReport.addAll(list);
-            }
-            listReportSearch.clear();
-            listReportSearch.addAll(resultFinal);
-          }
-          isCheckData.add(true);
+          list.add(value);
         }
-      },
-      error: (error) {},
-    );
+      }
+    }
+    return list;
   }
 }

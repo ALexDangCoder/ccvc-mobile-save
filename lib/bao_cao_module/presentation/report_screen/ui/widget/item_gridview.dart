@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
@@ -32,6 +31,7 @@ class ItemGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: backgroundColorApp,
@@ -49,7 +49,7 @@ class ItemGridView extends StatelessWidget {
         children: [
           if (item.isPin ?? false)
             Positioned(
-              top: 16,
+              top: 0,
               left: 16,
               child: SvgPicture.asset(
                 ImageAssets.icStarFocus,
@@ -61,7 +61,7 @@ class ItemGridView extends StatelessWidget {
             top: 0,
             right: 0,
             child: cubit.checkHideIcMore(
-              isReportShareToMe: item.isShareToMe ?? false,
+              isReportShareToMe: item.shareToMe ?? false,
               typeReport: item.type ?? REPORT,
             )
                 ? InkWell(
@@ -105,7 +105,6 @@ class ItemGridView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
-                        top: 16,
                         right: 16,
                       ),
                       child: SvgPicture.asset(
@@ -122,36 +121,48 @@ class ItemGridView extends StatelessWidget {
             children: [
               ItemFolder(
                 type: item.type ?? 0,
-                isShare: item.isShareToMe ?? false,
+                isShare: item.shareToMe ?? false,
                 fileNumber: item.childrenTotal ?? 0,
               ),
-              spaceH18,
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: AutoSizeText(
-                  item.name ?? '',
-                  style: textNormalCustom(
-                    color: textTitle,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              spaceH4,
-              AutoSizeText(
-                (item.dateTime ?? item.updatedAt ?? '').changeToNewPatternDate(
-                  DateFormatApp.dateTimeBackEnd,
-                  DateFormatApp.date,
-                ),
-                style: textNormalCustom(
-                  color: infoColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
+              spaceH16,
+              Expanded(
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 11,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Text(
+                          item.name ?? '',
+                          style: textNormalCustom(
+                            color: textTitle,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Text(
+                        (item.dateTime ?? item.updatedAt ?? '')
+                            .changeToNewPatternDate(
+                          DateFormatApp.dateTimeBackEnd,
+                          DateFormatApp.date,
+                        ),
+                        style: textNormalCustom(
+                          color: infoColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

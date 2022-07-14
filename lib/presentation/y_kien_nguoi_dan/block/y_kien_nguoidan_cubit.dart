@@ -5,12 +5,10 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
-import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/dashboard_pakn_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/yknd_dash_board_item.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
@@ -106,9 +104,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     tuKhoa = '';
   }
 
-  // final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
-  //     BehaviorSubject<DashboardTinhHinhXuLuModel>();
-
   ///dashboard
 
   final BehaviorSubject<DocumentDashboardModel> getTinhHinhXuLy =
@@ -148,9 +143,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Stream<List<ChartData>> get chartPhanLoai => _chartPhanLoai.stream;
 
-  // Stream<DashboardTinhHinhXuLuModel> get dashBoardTinhHinhXuLy =>
-  //     _dashBoardTinhHinhXuLy.stream;
-
   String search = '';
 
   void setSelectSearch() {
@@ -164,42 +156,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   ImageThongTinYKienNguoiDan imageThongTinYKienNguoiDan =
       ImageThongTinYKienNguoiDan();
 
-  List<DashboardSchedule> list = [
-    DashboardSchedule(1, '22ssads2', 'Chờ duyệt'),
-    DashboardSchedule(2, '2dasdsd22', 'Thời gian'),
-    DashboardSchedule(3, '2dasdsd22', 'Thời gian'),
-  ];
   List<String> img = [
     ImageAssets.icChoDuyetYKND,
     ImageAssets.ic_cho_tiep_nhan_xu_ly,
     ImageAssets.ic_cho_cho_bo_sung_y_kien,
   ];
 
-  List<ChartData> chartYKienNduoiDan = [
-    ChartData(S.current.cong_dvc_quoc_gia, 10, choTrinhKyColor),
-    ChartData(S.current.thu_dien_tu, 10, labelColor),
-    ChartData(S.current.thu_dien_tu_hai, 10, colorA2AEBD),
-    ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, itemWidgetUsing),
-    ChartData(S.current.he_thong_quan_ly_van_ban, 5, itemWidgetNotUse),
-  ];
-  List<ChartData> chartYKienNduoiDanTablet = [
-    ChartData(S.current.thu_dien_tu, 10, labelColor),
-    ChartData(S.current.cong_dvc_quoc_gia, 10, numberOfCalenders),
-    ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, itemWidgetUsing),
-    ChartData(S.current.thu_dien_tu_hai, 10, colorA2AEBD),
-    ChartData(S.current.he_thong_quan_ly_van_ban, 5, itemWidgetNotUse),
-  ];
-  List<ChartData> chartColorPhanLoaiYKND = [
-    ChartData(S.current.dang_xu_ly, 30, color5A8DEE),
-    ChartData(S.current.da_hoan_thanh, 12, daXuLyColor),
-    ChartData(S.current.chua_thuc_hien, 14, choVaoSoColor),
-  ];
-
-  List<ChartData> chartPhanLoaiYKND = [
-    ChartData(S.current.dang_xu_ly, 30, color5A8DEE),
-    ChartData(S.current.da_hoan_thanh, 12, daXuLyColor),
-    ChartData(S.current.chua_thuc_hien, 14, choVaoSoColor),
-  ];
   DocumentDashboardModel dashboardModel = DocumentDashboardModel();
   List<ItemIndicator> listIndicator = [
     ItemIndicator(color: numberOfCalenders, title: S.current.cong_dvc_quoc_gia),
@@ -254,26 +216,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       img: ImageAssets.ic_tong_so_yknd,
       numberOfCalendars: 0,
       typeName: S.current.tong_hop_yknd_da_nhan,
-    ),
-  ];
-  List<NguoiDanModel> listYKienNguoiDan = [
-    NguoiDanModel(
-      ngheNghiep: 'Nhan vien van phong that nghiep',
-      ngayThang: '18/10/2021',
-      ten: 'Ha Kieu Anh',
-      statusData: StatusYKien.DANG_XU_LY,
-    ),
-    NguoiDanModel(
-      ngheNghiep: 'Nhan vien van phong that nghiep',
-      ngayThang: '18/10/2021',
-      ten: 'Ha Kieu Anh',
-      statusData: StatusYKien.QUA_HAN,
-    ),
-    NguoiDanModel(
-      ngheNghiep: 'Nhan vien van phong that nghiep',
-      ngayThang: '18/10/2021',
-      ten: 'Ha Kieu Anh',
-      statusData: StatusYKien.DANG_XU_LY,
     ),
   ];
 
@@ -631,18 +573,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
-  // Future<void> getDashBoardPAKN() async {
-  //   final result = await _YKNDRepo.getDashboardTinhHinhXuLyPAKN(false);
-  //   result.when(
-  //     success: (success) {
-  //       getTinhHinhXuLy.sink.add(success);
-  //     },
-  //     error: (error) {},
-  //   );
-  // }
-
-
-
   Future<void> getDashBoardTinhHinhXuLy(
     String donViID,
     String startDate,
@@ -884,22 +814,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       userId = dataUser.userId ?? '';
     }
   }
-
-  /*
-  * int? pageIndex,
-    int? pageSize,
-    String? trangThai,
-    String? loaiMenu,
-    String? dateFrom,
-    String? dateTo,
-    int? hanXuLy,
-    * "PageIndex": 1,
-        "PageSize": 10,
-        "TrangThai": "1",
-        "LoaiMenu": "TiepNhan",
-        "DateFrom": string (dd/MM/yyyy)
-        "DateFrom": string3 (dd/MM/yyyy)
-    * */
 
   void dispose() {
     listDanhSachKetQuaPakn.value.clear();

@@ -18,6 +18,9 @@ class StatePhatBieu {
   static const int huy_duyet = 3;
 }
 
+const  DUYET_TYPE = 1;
+const  HUY_DUYET_TYPE = 2;
+
 extension PhatBieu on DetailMeetCalenderCubit {
   Future<void> getDanhSachPhatBieuLichHop({
     int? status,

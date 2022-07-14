@@ -18,8 +18,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'cell_phat_bieu_widget.dart';
 
-const  DUYET_TYPE = 1;
-const  HUY_DUYET_TYPE = 2;
 
 class PhatBieuWidgetTablet extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;

@@ -51,7 +51,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
   void initState() {
     super.initState();
     if (widget.chiTietHop != null) {
-      isHopTrucTiep = !widget.chiTietHop!.bit_HopTrucTuyen;
+      isHopTrucTiep = widget.chiTietHop!.diaDiemHop?.isNotEmpty ?? false;
       isHopTrucTuyen = widget.chiTietHop!.bit_HopTrucTuyen;
       isDuyetKyThuat = widget.chiTietHop!.isDuyetKyThuat ?? false;
       if(widget.chiTietHop!.bit_LinkTrongHeThong != null){

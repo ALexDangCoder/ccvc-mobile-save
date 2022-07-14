@@ -48,20 +48,34 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Stream<TypeHoTroKyThuat> get typeHoTroKyThuatStream =>
       typeHoTroKyThuatSubject.stream;
   List<bool> listCheckPopupMenu = [];
+
   BehaviorSubject<List<TongDaiModel>> listTongDai = BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<NguoiTiepNhanYeuCauModel>> listNguoiTiepNhanYeuCau =
   BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<ThanhVien>> listCanCoHTKT = BehaviorSubject.seeded([]);
+
   BehaviorSubject<bool> checkDataChart = BehaviorSubject.seeded(false);
+
   BehaviorSubject<bool> isShowDonVi = BehaviorSubject.seeded(false);
+
   BehaviorSubject<String> donViSearch = BehaviorSubject.seeded(S.current.chon);
+
   BehaviorSubject<List<CategoryModel>> listKhuVuc = BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<CategoryModel>> listLoaiSuCo =
   BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<CategoryModel>> listTrangThai =
   BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<ChildCategories>> listToaNha =
   BehaviorSubject.seeded([]);
+
+  BehaviorSubject<List<String>> buildingListStream =
+  BehaviorSubject.seeded([]);
+
   List<List<ChartData>> listDataChart = [];
   List<ChartData> listStatusData = [];
   List<String> listTitle = [];
@@ -216,24 +230,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     }
   }
 
-  Future<void> geiApiAddAndSearch() async {
-    getTree();
-    await getNguoiTiepNhanYeuCau();
-    // await getCategory(title: KHU_VUC);
-    // await getCategory(title: LOAI_SU_CO);
-    await getCategory(title: TRANG_THAI);
-  }
 
-  Future<void> getApiThemMoiYCHT() async {
-    showLoading();
-    await getCategory(title: KHU_VUC);
-    await getCategory(title: LOAI_SU_CO);
-    if (_flagLoadThemMoiYCHT) {
-      showContent();
-    } else {
-      //nothing
-    }
-  }
 
   Future<void> postDataThemMoiHTKT() async {
     showLoading();
@@ -381,7 +378,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
-  bool _flagLoadThemMoiYCHT = false;
+  bool flagLoadThemMoiYCHT = false;
 
   Future<void> getCategory({
     required String title,
@@ -393,10 +390,10 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         if (title == KHU_VUC) {
           listKhuVuc.sink.add(res);
           listToaNha.sink.add(res.first.childCategories ?? []);
-          _flagLoadThemMoiYCHT = true;
+          flagLoadThemMoiYCHT = true;
         } else if (title == LOAI_SU_CO) {
           listLoaiSuCo.add(res);
-          _flagLoadThemMoiYCHT = true;
+          flagLoadThemMoiYCHT = true;
         } else {
           listTrangThai.sink.add(res);
         }

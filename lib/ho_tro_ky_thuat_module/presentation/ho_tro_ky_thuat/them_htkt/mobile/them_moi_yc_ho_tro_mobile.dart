@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
@@ -160,9 +160,9 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                         ),
                         spaceH16,
-                        // _dropDownKhuVuc(),
+                        _dropDownKhuVuc(),
                         spaceH16,
-                        // _dropDownToaNha(),
+                        _dropDownToaNha(),
                         spaceH16,
                         textField(
                           isHightLight: true,
@@ -184,7 +184,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           idRemove: (String id) {},
                           onChange: (files, value) {
                             // widget.cubit.filesThemMoiYCHTKT = files;
-                            widget.cubit.addTaskHTKTRequest.fileUpload=files;
+                            widget.cubit.addTaskHTKTRequest.fileUpload = files;
                           },
                         ),
                         spaceH20,
@@ -227,29 +227,33 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           ),
         ),
         spaceH8,
-        CustomDropDown(
-          hint: RichText(
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: S.current.chon,
-                  style: tokenDetailAmount(
-                    fontSize: 14,
-                    color: color3D5586,
-                  ),
+        StreamBuilder<List<String>>(
+          stream: widget.cubit.buildingListStream,
+          builder: (context, snapshot) {
+            final _buildingList = snapshot.data ?? [];
+            return CustomDropDown(
+              hint: RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: S.current.chon,
+                      style: tokenDetailAmount(
+                        fontSize: 14,
+                        color: color3D5586,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          value: widget.cubit.addTaskHTKTRequest.buildingName,
-          onSelectItem: (value) {
-            widget.cubit.addTaskHTKTRequest.buildingName =
-                widget.cubit.listToaNha.value[value].name;
-            // widget.cubit.addTaskHTKTRequest.buildingId =
-            //     widget.cubit.listKhuVuc.value[value].id;
+              ),
+              onSelectItem: (value) {
+                widget.cubit.addTaskHTKTRequest.buildingName =
+                    widget.cubit.listToaNha.value[value].name;
+                // widget.cubit.addTaskHTKTRequest.buildingId =
+                //     widget.cubit.listKhuVuc.value[value].id;
+              },
+              items: _buildingList,
+            );
           },
-          items:
-              widget.cubit.listToaNha.value.map((e) => e.name ?? '').toList(),
         ),
         StreamBuilder<bool>(
           initialData: false,
@@ -316,13 +320,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           ),
           value: widget.cubit.addTaskHTKTRequest.districtName,
           onSelectItem: (value) {
-            widget.cubit.addTaskHTKTRequest.districtName =
-                widget.cubit.listKhuVuc.value[value].name;
-            widget.cubit.addTaskHTKTRequest.districtId =
-                widget.cubit.listKhuVuc.value[value].id;
-            widget.cubit.listToaNha.add(
-              widget.cubit.listKhuVuc.value[value].childCategories ?? [],
-            );
+            widget.cubit.selectArea(value);
           },
           items:
               widget.cubit.listKhuVuc.value.map((e) => e.name ?? '').toList(),
@@ -601,12 +599,13 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
         },
         onPressed2: () {
           widget.cubit.checkAllThemMoiYCHoTro();
+
           ///test
           widget.cubit.addTaskHTKTRequest.districtId =
-          'b6630734-88e1-4938-acc4-c18918624d72';
+              'b6630734-88e1-4938-acc4-c18918624d72';
           widget.cubit.addTaskHTKTRequest.districtName = 'Hà Nội';
           widget.cubit.addTaskHTKTRequest.buildingId =
-          'bfa578bb-b98f-4ea9-a790-2302b87dcb26';
+              'bfa578bb-b98f-4ea9-a790-2302b87dcb26';
           widget.cubit.addTaskHTKTRequest.buildingName = 'Tòa A';
           widget.cubit.addTaskHTKTRequest.userInUnit =
               HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
@@ -614,10 +613,10 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           print(widget.cubit.addTaskHTKTRequest.toString());
           print(widget.cubit.filesThemMoiYCHTKT);
           widget.cubit.postDataThemMoiHTKT();
+
           ///end
           if (_groupKey.currentState?.validator() ??
               true && widget.cubit.validateAllDropDown) {
-
             // widget.cubit.postDataThemMoiHTKT();
           } else {
             final toast = FToast();

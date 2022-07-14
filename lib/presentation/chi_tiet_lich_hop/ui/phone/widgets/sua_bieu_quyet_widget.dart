@@ -97,7 +97,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                     spaceH20,
                     CustomRadioSuaBieuQuyet(
                       initValue: widget.cubit.checkLoaiBieuQuyet(
-                        loaiBieuQuyet: widget.cubit.loaiBieuQ,
+                        loaiBieuQuyet: dataChiTiet.data?.loaiBieuQuyet ?? true,
                       ),
                       title: S.current.loai_bieu_quyet,
                       onchange: (value) {
@@ -152,11 +152,6 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                                     formatPattern:
                                         DateTimeFormat.DATE_TIME_PUT_EDIT,
                                   );
-                                  final dateTimeEnd = '$thoiGianHop $timeEnd'
-                                      .convertStringToDate(
-                                    formatPattern:
-                                        DateTimeFormat.DATE_TIME_PUT_EDIT,
-                                  );
                                   if (dateTimeStart.isBefore(
                                         widget.cubit
                                             .getTime()
@@ -165,7 +160,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                                                   DateFormatApp.monthDayFormat,
                                             ),
                                       ) ||
-                                      dateTimeEnd.isAfter(
+                                      dateTimeStart.isAfter(
                                         widget.cubit
                                             .getTime(isGetDateStart: false)
                                             .convertStringToDate(
@@ -285,9 +280,11 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                         Navigator.pop(context);
                       },
                       onClickRight: () async {
+                        final listLuaChonNew =
+                            widget.cubit.suaDanhSachLuaChon.valueOrNull ?? [];
                         bool isCheckCallApi = true;
                         final nav = Navigator.of(context);
-                        if (isShowValidate == true) {
+                        if (isShowValidate) {
                           isCheckCallApi = false;
                           widget.cubit.isValidateTimer.sink.add(true);
                         }
@@ -295,7 +292,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                           isCheckCallApi = false;
                           formKeyNoiDung.currentState!.validate();
                         }
-                        if (widget.cubit.listLuaChonNew.isEmpty) {
+                        if (listLuaChonNew.isEmpty) {
                           isCheckCallApi = false;
                           setState(() {});
                           isShow = true;
@@ -317,7 +314,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                                 .dateTimeFormat(thoiGianHop, timeEnd),
                             danhSachLuaChonNew:
                                 widget.cubit.paserListLuaChonNew(
-                              widget.cubit.listLuaChonNew,
+                              listLuaChonNew,
                             ),
                             danhSachThanhPhanThamGia: [],
                             ngayHop: thoiGianHop,

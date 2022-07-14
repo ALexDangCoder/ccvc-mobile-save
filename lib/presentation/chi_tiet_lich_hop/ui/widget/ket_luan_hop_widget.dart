@@ -261,7 +261,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                title,
+                S.current.ket_luan_cuoc_hop,
                 style: textNormalCustom(
                   color: textTitle,
                   fontSize: 16,

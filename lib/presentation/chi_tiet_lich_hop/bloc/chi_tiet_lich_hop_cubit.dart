@@ -175,7 +175,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Stream<DanhSachPhatBieuLichHopModel> get danhSachPhatbieuLichHopStream =>
       danhSachPhatbieuLichHopModelSubject.stream;
 
-  final BehaviorSubject<String> themBieuQuyet = BehaviorSubject();
+  final BehaviorSubject<List<String>> themLuaChonBieuQuyet = BehaviorSubject();
+  final List<String> listThemLuaChon = [];
   final BehaviorSubject<List<SuaDanhSachLuaChonModel>> suaDanhSachLuaChon =
       BehaviorSubject();
   BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
@@ -288,6 +289,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   bool phuongThucNhan = false;
   List<String> addLuaChon = [];
+  List<SuaDanhSachLuaChonModel> danhSachLuaChonNew = [];
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
   /// funtion delay

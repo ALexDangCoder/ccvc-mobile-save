@@ -279,7 +279,7 @@ extension CheckValidate on String {
   }
 
   bool? checkSdtDinhDangTruong() {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return true;
     } else {
@@ -312,7 +312,7 @@ extension CheckValidate on String {
   }
 
   String? checkSdtRequire({String? messageError}) {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return null;
     } else {
@@ -321,7 +321,7 @@ extension CheckValidate on String {
   }
 
   String? checkSdtRequire2(String text) {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return null;
     } else {

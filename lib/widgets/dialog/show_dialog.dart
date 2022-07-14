@@ -51,7 +51,7 @@ Future<T?> showDiaLog<T>(
                     GestureDetector(
                       child: SvgPicture.asset(ImageAssets.icClose),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pop(dialogContext);
                       },
                     ),
                     const SizedBox(
@@ -98,7 +98,7 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: false,
                         title: btnLeftTxt,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(dialogContext);
                         },
                       ),
                     ),
@@ -110,7 +110,7 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(dialogContext);
                           funcBtnRight();
                         },
                       ),
@@ -127,7 +127,7 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          Navigator.pop(context, true);
+                          Navigator.pop(dialogContext, true);
                           funcBtnRight();
                         },
                       ),

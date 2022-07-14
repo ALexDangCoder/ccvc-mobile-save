@@ -24,9 +24,11 @@ import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/row_column_tablet.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +41,7 @@ class TaoLichHopMobileTabletScreen extends StatefulWidget {
 
 class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
   late TaoLichHopCubit _cubit;
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormGroupState>();
   final _timerPickerKey = GlobalKey<CupertinoMaterialPickerState>();
 
   @override
@@ -64,7 +66,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               RowColunmTabletWidget(
-                widgetLeft: Form(
+                widgetLeft: FormGroup(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +83,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               },
                               validate: (value) {
                                 return value.isEmpty
-                                    ? S.current.khong_duoc_de_trong
+                                    ?'${S.current.vui_long_nhap} '
+                                    '${S.current.tieu_de.toLowerCase()}'
                                     : null;
                               },
                               maxLength: 200,
@@ -123,6 +126,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               },
                             ),
                             CupertinoMaterialPicker(
+                              key: _timerPickerKey,
                               initTimeEnd:
                                   DateTime.now().add(const Duration(hours: 1)),
                               onDateTimeChanged: (
@@ -315,26 +319,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                     leftTxt: S.current.huy,
                     rightTxt: S.current.tao_lich_hop,
                     funcBtnOk: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        if (_timerPickerKey.currentState?.validator() ??
-                            false) {
-                          _cubit.createMeeting().then((value) {
-                            if (value) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const TaoHopSuccess(),
-                                ),
-                              ).then((value) => Navigator.pop(context, true));
-                            } else {
-                              MessageConfig.show(
-                                messState: MessState.error,
-                                title: S.current.tao_that_bai,
-                              );
-                            }
-                          });
-                        }
-                      }
+                      handleButtonCreatePressed();
                     },
                   ),
                 ),
@@ -344,5 +329,69 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
         ),
       ),
     );
+  }
+
+  void handleButtonCreatePressed() {
+    final bool validateTime =
+        _timerPickerKey.currentState?.validator() ?? false;
+    final bool validateTextField = _formKey.currentState?.validator() ?? false;
+
+    if (validateTime && validateTextField) {
+      if(_cubit.taoLichHopRequest.bitTrongDonVi == null){
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.vui_long_chon_chu_tri,
+        );
+        return;
+      }
+      if (!_cubit.checkThoiGianPhienHop()) {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.validate_thoi_gian_phien_hop,
+        );
+        return;
+      }
+      _cubit.checkLichTrung(
+        donViId: _cubit.taoLichHopRequest.chuTri?.donViId ?? '',
+        canBoId: _cubit.taoLichHopRequest.chuTri?.canBoId ?? '',
+      ).then((value) {
+        if (value) {
+          showDiaLog(
+            context,
+            title: S.current.lich_trung,
+            textContent: S.current.ban_co_muon_tiep_tuc_khong,
+            icon: ImageAssets.svgAssets(
+              ImageAssets.ic_trung_hop,
+            ),
+            btnRightTxt: S.current.dong_y,
+            btnLeftTxt: S.current.khong,
+            isCenterTitle: true,
+            funcBtnRight: () {
+              createMeeting();
+            },
+          );
+        } else {
+          createMeeting();
+        }
+      });
+    }
+  }
+
+  void createMeeting() {
+    _cubit.createMeeting().then((value) {
+      if (value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TaoHopSuccess(),
+          ),
+        ).then((value) => Navigator.pop(context, true));
+      } else {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.tao_that_bai,
+        );
+      }
+    });
   }
 }

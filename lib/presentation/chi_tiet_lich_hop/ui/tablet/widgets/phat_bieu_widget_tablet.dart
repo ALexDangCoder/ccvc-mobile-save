@@ -341,7 +341,7 @@ class PhatBieuChildWidget extends StatelessWidget {
       funcBtnRight: () {
         cubit.duyetOrHuyDuyetPhatBieu(
           lichHopId: cubit.idCuocHop,
-          type: isDuyet ? 2 : 1,
+          type: isDuyet ? 1 : 2,
         );
       },
     );

@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
-import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:queue/queue.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
@@ -55,6 +56,15 @@ extension PhatBieu on DetailMeetCalenderCubit {
         buttonStatePhatBieu[StatePhatBieu.cho_duyet].value = res.choDuyet;
         buttonStatePhatBieu[StatePhatBieu.da_duyet].value = res.daDuyet;
         buttonStatePhatBieu[StatePhatBieu.huy_duyet].value = res.huyDuyet;
+        final currentStateButton = buttonStatePhatBieuSubject.value;
+        final newStateButton = buttonStatePhatBieu.firstWhere(
+          (
+            element,
+          ) =>
+              element.key == currentStateButton.key,
+          orElse: () => currentStateButton,
+        );
+        buttonStatePhatBieuSubject.sink.add(newStateButton);
         dataSoLuongPhatBieuSubject.sink.add(res);
       },
       error: (err) {},
@@ -122,11 +132,21 @@ extension PhatBieu on DetailMeetCalenderCubit {
 
   Future<void> callApiPhatBieu() async {
     showLoading();
-    await getDanhSachPhatBieuLichHop(
-      status: typeStatus.valueOrNull ?? 0,
-      lichHopId: idCuocHop,
+    final queue = Queue();
+    unawaited(
+      queue.add(
+        () => getDanhSachPhatBieuLichHop(
+          status: typeStatus.valueOrNull ?? 0,
+          lichHopId: idCuocHop,
+        ),
+      ),
     );
-    await soLuongPhatBieuData(id: idCuocHop);
+    unawaited(
+      queue.add(
+        () => soLuongPhatBieuData(id: idCuocHop),
+      ),
+    );
+    await queue.onComplete;
     showContent();
   }
 }

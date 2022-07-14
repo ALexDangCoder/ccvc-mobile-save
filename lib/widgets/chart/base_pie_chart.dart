@@ -10,7 +10,7 @@ class PieChart extends StatelessWidget {
   final String title;
   final double paddingTop;
   final Function(int)? onTap;
-  final Function(int)? onTapStatus;
+  final Function(int)? onTapPAKN;
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
   final bool isThongKeLichHop;
@@ -24,7 +24,7 @@ class PieChart extends StatelessWidget {
     this.title = '',
     this.paddingTop = 20,
     this.onTap,
-    this.onTapStatus,
+    this.onTapPAKN,
     this.isSubjectInfo = true,
     this.paddingLeftSubTitle = 0,
     this.isThongKeLichHop = true,
@@ -87,7 +87,12 @@ class PieChart extends StatelessWidget {
                             onTap!(
                               value.pointIndex ?? 0,
                             );
-                          } else {}
+                          } else {
+                            final key = chartData[value.pointIndex ?? 0];
+                            onTapPAKN!(
+                              value.pointIndex ?? 0,
+                            );
+                          }
                         },
                         dataLabelSettings: DataLabelSettings(
                           useSeriesColor: true,
@@ -234,7 +239,7 @@ class PieChart extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Column(
-              crossAxisAlignment:CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: List.generate(
                 chartData.length,
@@ -257,7 +262,11 @@ class PieChart extends StatelessWidget {
   Widget itemLegend({required ChartData chartData, required int index}) {
     return GestureDetector(
       onTap: () {
-        onTapStatus?.call(index);
+        if(onTap != null) {
+          onTap?.call(index);
+        } else {
+          onTapPAKN!(index);
+        }
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

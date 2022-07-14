@@ -154,9 +154,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   void refreshDataDangLich() {
     getCountDashboard();
-    if(typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH){
-      getDanhSachLichCanKLCH();
-    }else {
+    if (typeCalender != StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
       getDanhSachLichHop();
     }
     getMenuLichLanhDao();
@@ -311,14 +309,16 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   /// Lấy số lượng các loại lịch
   Future<void> getCountDashboard() async {
+    if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+      showLoading();
+    }
     final result = await hopRepo.getDashBoardLichHop(
       startDate.formatApi,
       endDate.formatApi,
     );
     result.when(
       success: (value) {
-        getMenuLichTheoTrangThai(value);
-        _totalWorkSubject.sink.add(value);
+        getDanhSachLichCanKLCH(dashBoard: value);
       },
       error: (error) {},
     );
@@ -455,32 +455,38 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }
 
   /// lấy danh sách lịch họp cần KLCH
-  Future<void> getDanhSachLichCanKLCH() async {
-    showLoading();
+  Future<void> getDanhSachLichCanKLCH(
+      {required DashBoardLichHopModel dashBoard,}) async {
     final result = await hopRepo.getLichCanKLCH(
       DanhSachLichHopRequest(
         Title: keySearch,
         DateFrom: startDate.formatApi,
         DateTo: endDate.formatApi,
         DonViId: HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id,
-        isChuaCoBaoCao:
-        typeCalender == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO ||
-            typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH,
+        isChuaCoBaoCao: true,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
         PageIndex: ApiConstants.PAGE_BEGIN,
       ),
     );
     result.when(
       success: (value) {
-        _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
-        _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
-        _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
-        checkDuplicate(value.items ?? []);
-        _danhSachLichHopSubject.sink.add(value);
+        if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+          _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
+          _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
+          _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+          checkDuplicate(value.items ?? []);
+          _danhSachLichHopSubject.sink.add(value);
+        }
+        final dashBoardModel = dashBoard;
+        dashBoardModel.soLichChuaCoBaoCao = value.items?.length ?? 0;
+        dashBoardModel.soLichCanBaoCao = value.items?.length ?? 0;
+        _totalWorkSubject.add(dashBoardModel);
       },
       error: (error) {},
     );
-    showContent();
+    if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+      showContent();
+    }
   }
 
   DateTime getDate(String time) =>

@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -116,6 +119,108 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     showContent();
   }
 
+  Future<void> chiTietBieuQuyet({
+    required String idBieuQuyet,
+  }) async {
+    showLoading();
+    final result = await hopRp.chiTietBieuQuyet(idBieuQuyet);
+    result.when(
+      success: (res) {
+        chiTietBieuQuyetModel = res;
+        chiTietBieuQuyetSubject.sink.add(chiTietBieuQuyetModel);
+        final dsChon = getListLuaChon(
+          res.data?.dsLuaChon ?? [],
+        );
+        suaDanhSachLuaChon.sink.add(dsChon);
+        listBieuQuyetSubject.sink.add(res.data?.dsThanhPhanThamGia ?? []);
+      },
+      error: (err) {},
+    );
+    danhSachLuaChon.clear();
+    showContent();
+  }
+
+  Future<void> suaBieuQuyet({
+    required String idBieuQuyet,
+    required String lichHopId,
+    required bool loaiBieuQuyets,
+    required String noiDung,
+    required bool quyenBieuQuyet,
+    required String thoiGianBatDau,
+    required String thoiGianKetThuc,
+    required List<DanhSachLuaChonNew> danhSachLuaChonNew,
+    required List<dynamic> danhSachThanhPhanThamGia,
+    required String ngayHop,
+    required bool isPublish,
+    required List<DsLuaChonOld> dsLuaChonOld,
+    required List<ThanhPhanThamGiaOld> thanhPhanThamGiaOld,
+    required String dateStart,
+    required List<DanhSachThanhPhanThamGiaNew> danhSachThanhPhanThamGiaNew,
+  }) async {
+    showLoading();
+    final SuaBieuQuyetRequest suaBieuQuyetRequest = SuaBieuQuyetRequest(
+      id: idBieuQuyet,
+      lichHopId: lichHopId,
+      loaiBieuQuyet: loaiBieuQuyets,
+      noiDung: noiDung,
+      quyenBieuQuyet: quyenBieuQuyet,
+      thoiGianBatDau: thoiGianBatDau,
+      thoiGianKetThuc: thoiGianKetThuc,
+      danhSachLuaChon: danhSachLuaChonNew,
+      danhSachThanhPhanThamGia: danhSachThanhPhanThamGia,
+      ngayHop: ngayHop,
+      isPublish: isPublish,
+      dsLuaChonOld: dsLuaChonOld,
+      thanhPhanThamGiaOld: thanhPhanThamGiaOld,
+      dateStart: dateStart,
+      danhSachThanhPhanThamGiaNew: danhSachThanhPhanThamGiaNew,
+    );
+    final result = await hopRp.suaBieuQuyet(suaBieuQuyetRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.sua_thanh_cong,
+        );
+        callApi(
+          idCuocHop,
+          checkIdPhienHop(
+            phienHopId,
+          ),
+        );
+      },
+      error: (err) {
+        if (err is NoNetworkException || err is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.sua_that_bai,
+            messState: MessState.error,
+          );
+        }
+      },
+    );
+
+    showContent();
+  }
+
+  List<SuaDanhSachLuaChonModel> getListLuaChon(
+    List<DanhSachLuaChonModel> mlist,
+  ) {
+    final data = mlist
+        .map(
+          (e) => SuaDanhSachLuaChonModel(
+            id: e.luaChonId,
+            tenLuaChon: e.tenLuaChon,
+            mauBieuQuyet: PRIMARY,
+          ),
+        )
+        .toList();
+    return data;
+  }
+
   void getTimeHour({required TimerData startT, required TimerData endT}) {
     final int hourStart = startT.hour;
     final int minuteStart = startT.minutes;
@@ -123,6 +228,18 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     final int minuteEnd = endT.minutes;
     startTime = '${hourStart.toString()}:${minuteStart.toString()}';
     endTime = '${hourEnd.toString()}:${minuteEnd.toString()}';
+  }
+
+  String checkLoaiBieuQuyet({bool loaiBieuQuyet = true}) {
+    if (loaiBieuQuyet == true) {
+      return S.current.bo_phieu_cong_khai;
+    } else {
+      return S.current.bo_khieu_kin;
+    }
+  }
+
+  String dateTimeFormat(String date, String time) {
+    return '$date' 'T' '$time:00';
   }
 
   Future<void> themBieuQuyetHop({
@@ -141,7 +258,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       thoiGianKetThuc: endTime,
       trangThai: 0,
       danhSachLuaChon: cacLuaChonBieuQuyet
-          .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))
+          .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: PRIMARY))
           .toList(),
       danhSachThanhPhanThamGia: [],
     );
@@ -157,6 +274,14 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     );
   }
 
+  void clearData() {
+    danhSachLuaChon = [];
+    cacLuaChonBieuQuyet = [];
+    listDanhSach = [];
+    isValidateSubject.sink.add(false);
+    isValidateTimer.sink.add(false);
+  }
+
   void checkRadioButton(int _index) {
     checkRadioSubject.sink.add(_index);
     if (_index == 1) {
@@ -166,8 +291,85 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     }
   }
 
+  List<DsLuaChonOld> paserListLuaChon(List<DanhSachLuaChonModel> mlist) {
+    final value = mlist
+        .map(
+          (e) => DsLuaChonOld(
+            tenLuaChon: e.tenLuaChon,
+            color: PRIMARY,
+            dsCanBo: e.dsCanBo,
+            count: e.count,
+            luaChonId: e.luaChonId,
+          ),
+        )
+        .toList();
+    return value;
+  }
+
+  List<DanhSachLuaChonNew> paserListLuaChonNew(
+    List<SuaDanhSachLuaChonModel> mlist,
+  ) {
+    final value = mlist
+        .map(
+          (e) => DanhSachLuaChonNew(
+            tenLuaChon: e.tenLuaChon,
+            mauBieuQuyet: e.mauBieuQuyet,
+            id: e.id,
+          ),
+        )
+        .toList();
+    return value;
+  }
+
+  List<ThanhPhanThamGiaOld> paserThanhPhanThamGia(
+    List<DanhSachThanhPhanThamGiaModel> mlist,
+  ) {
+    final value = mlist
+        .map(
+          (e) => ThanhPhanThamGiaOld(
+            bieuQuyetId: e.bieuQuyetId,
+            lichHopId: e.lichHopId,
+            canBoId: e.canBoId,
+            hoTen: e.hoTen,
+            tenDonVi: e.tenDonVi,
+            donViId: e.donViId,
+            id: e.id,
+          ),
+        )
+        .toList();
+    return value;
+  }
+
+  List<DanhSachThanhPhanThamGiaNew> paserThanhPhanThamGiaNew(
+    List<DanhSachNguoiThamGiaModel> mlist,
+  ) {
+    final value = mlist
+        .map(
+          (e) => DanhSachThanhPhanThamGiaNew(
+            donViId: e.donViId,
+            canBoId: e.canBoId,
+            idPhienhopCanbo: idPhienHop,
+          ),
+        )
+        .toList();
+    return value;
+  }
+
   void addValueToList(String value) {
     cacLuaChonBieuQuyet.add(value);
+  }
+
+  List<SuaDanhSachLuaChonModel> paserListString(List<String> mlist) {
+    final data = mlist
+        .map(
+          (e) => SuaDanhSachLuaChonModel(tenLuaChon: e, mauBieuQuyet: PRIMARY),
+        )
+        .toList();
+    return data;
+  }
+
+  void addValueToListLuaChon(SuaDanhSachLuaChonModel value) {
+    suaLuaChonBieuQuyet.add(value);
   }
 
   void removeTag(String value) {
@@ -188,7 +390,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       thoiGianKetThuc: ngayKetThucs,
       loaiBieuQuyet: loaiBieuQuyet,
       danhSachLuaChon: listLuaChon
-          .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))
+          .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: PRIMARY))
           .toList(),
       noiDung: noidung,
       lichHopId: id,
@@ -263,7 +465,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   String plusTaoBieuQuyet(String date, TimerData time) {
-    final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final DateFormat dateFormat = DateFormat(DateTimeFormat.DEFAULT_FORMAT);
     final dateTime = dateFormat.parse(date);
 
     final times = DateTime(

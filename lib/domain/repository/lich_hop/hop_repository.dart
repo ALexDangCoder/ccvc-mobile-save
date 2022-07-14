@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
@@ -29,6 +30,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/them_y_kien_mode
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
@@ -440,5 +442,13 @@ mixin HopRepository {
 
   Future<Result<bool>> xoaBieuQuyet(
     String bieuQuyetId,
+  );
+
+  Future<Result<ChiTietBieuQuyetModel>> chiTietBieuQuyet(
+    String id,
+  );
+
+  Future<Result<bool>> suaBieuQuyet(
+    SuaBieuQuyetRequest suaBieuQuyetRequest,
   );
 }

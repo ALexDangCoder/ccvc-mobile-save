@@ -9,6 +9,7 @@ class SupportDetail {
   String? chucVu;
   String? donVi;
   String? trangThaiXuLy;
+  String? codeTrangThai;
   String? ketQuaXuLy;
   String? nguoiXuLy;
   String? nhanXet;
@@ -29,6 +30,7 @@ class SupportDetail {
     this.ketQuaXuLy,
     this.nguoiXuLy,
     this.nhanXet,
+    this.codeTrangThai,
     this.ngayHoanThanh,
     this.danhSachSuCo
   });

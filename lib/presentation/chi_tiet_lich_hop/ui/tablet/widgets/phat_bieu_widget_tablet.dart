@@ -251,11 +251,18 @@ class PhatBieuChildWidget extends StatelessWidget {
 
             /// item Center
             itemCenter,
-
-            ///
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: buttonDuyet(data, cubit, context),
+            StreamBuilder<List<PhatBieuModel>>(
+              stream: cubit.streamPhatBieu,
+              builder: (_, snapshot) {
+                final dataListPhatBieu = snapshot.data ?? [];
+                if (dataListPhatBieu.isNotEmpty){
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: buttonDuyet(data, cubit, context),
+                  );
+                }
+                return const  SizedBox.shrink();
+              },
             ),
           ],
         );
@@ -330,7 +337,7 @@ class PhatBieuChildWidget extends StatelessWidget {
   }) {
     showDiaLog(
       context,
-      title: isDuyet ? S.current.diem_danh : S.current.huy_duyet,
+      title: isDuyet ? S.current.duyet : S.current.tu_choi,
       icon: isDuyet
           ? SvgPicture.asset(ImageAssets.icDiemDanh)
           : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
@@ -341,7 +348,7 @@ class PhatBieuChildWidget extends StatelessWidget {
       funcBtnRight: () {
         cubit.duyetOrHuyDuyetPhatBieu(
           lichHopId: cubit.idCuocHop,
-          type: isDuyet ? 2 : 1,
+          type: isDuyet ? DUYET_TYPE : HUY_DUYET_TYPE,
         );
       },
     );

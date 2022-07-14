@@ -4,11 +4,13 @@ import 'package:ccvc_mobile/bao_cao_module/widget/button/button_custom_bottom.da
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -48,10 +50,11 @@ class CreateOrUpdateKetLuanHopWidget extends StatefulWidget {
 class _CreateOrUpdateKetLuanHopWidgetState
     extends State<CreateOrUpdateKetLuanHopWidget> {
   final BehaviorSubject<bool> show = BehaviorSubject.seeded(false);
+  BehaviorSubject<List<String>> listFile = BehaviorSubject();
   late String valueEdit;
   late String reportStatusId;
   late String reportTemplateId;
-  List<File> file = [];
+  List<File> listFiles = [];
 
   @override
   void initState() {
@@ -60,6 +63,10 @@ class _CreateOrUpdateKetLuanHopWidgetState
     valueEdit = '';
     reportStatusId = '';
     reportTemplateId = '';
+    listFile.sink.add(widget.listFile);
+    if ((widget.cubit.xemKetLuanHopModel.reportStatus ?? '').isNotEmpty) {
+      reportStatusId = widget.cubit.xemKetLuanHopModel.reportStatusId ?? '';
+    }
   }
 
   @override
@@ -68,6 +75,11 @@ class _CreateOrUpdateKetLuanHopWidgetState
     super.dispose();
     widget.cubit.dataMauBienBan.close();
     widget.cubit.noiDung.sink.add('');
+    if (widget.isCreate) {
+      widget.cubit.dataMauBienBan.close();
+      widget.cubit.noiDung.sink.add('');
+    }
+    listFile.sink.add([]);
   }
 
   @override
@@ -102,7 +114,14 @@ class _CreateOrUpdateKetLuanHopWidgetState
                               hint: Text(
                                 widget.cubit.xemKetLuanHopModel.reportStatus ??
                                     S.current.chon_tinh_trang,
-                                style: textNormal(titleItemEdit, 14),
+                                style: textNormal(
+                                    (widget.cubit.xemKetLuanHopModel
+                                                    .reportStatus ??
+                                                '')
+                                            .isNotEmpty
+                                        ? titleItemEdit
+                                        : signInTextSecondaryColor,
+                                    14),
                               ),
                               items: dataTinhTrang
                                   .map((e) => e.displayName)
@@ -208,16 +227,55 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         child: ButtonSelectFile(
                           title: S.current.tai_lieu_dinh_kem,
                           onChange: (List<File> files) {
-                            if (files.first.lengthSync() >
-                                widget.cubit.maxSizeFile30) {
+                            bool checkMaxFile = false;
+
+                            /// duyet file
+                            for (final data in files) {
+                              if (data.lengthSync() >
+                                  widget.cubit.maxSizeFile30) {
+                                checkMaxFile = true;
+                              } else {
+                                listFiles.add(data);
+                                final List<String> thisListFile =
+                                    listFile.value;
+                                thisListFile.add(data.path.split('/').last);
+                                listFile.sink.add(thisListFile);
+                              }
+                            }
+                            if (checkMaxFile) {
                               showToast();
-                            } else {
-                              file = files;
                             }
                           },
                           removeFileApi: (int index) {},
                         ),
                       ),
+
+                      /// list file
+                      StreamBuilder<List<String>>(
+                          stream: listFile.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            return ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final dataIndex = data[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: FileFromAPIWidget(
+                                    data: dataIndex,
+                                    onTapDelete: () {
+                                      final List<String> thisListFile =
+                                          listFile.value;
+                                      thisListFile.removeAt(index);
+                                      listFile.sink.add(thisListFile);
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          }),
                       Padding(
                         padding: APP_DEVICE == DeviceType.MOBILE
                             ? EdgeInsets.zero
@@ -236,12 +294,14 @@ class _CreateOrUpdateKetLuanHopWidgetState
                                     .createKetLuanHop(
                                       reportStatusId: reportStatusId,
                                       reportTemplateId: reportTemplateId,
-                                      files: file,
+                                      files: listFiles,
                                     )
-                                    .then(
-                                      (value) =>
-                                          value ? Navigator.pop(context) : '',
-                                    );
+                                    .then((value) {
+                                  if (value) {
+                                    Navigator.pop(context);
+                                    widget.cubit.needRefreshMainMeeting = true;
+                                  }
+                                });
                                 return;
                               }
                               widget.cubit.suaKetLuan(
@@ -263,6 +323,8 @@ class _CreateOrUpdateKetLuanHopWidgetState
                 ),
               ),
             )
+
+          /// chỉ xem biên bản họp
           : Column(
               children: [
                 SizedBox(
@@ -293,7 +355,10 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Row(
                           children: [
-                            SvgPicture.asset(ImageAssets.icShareFile),
+                            SvgPicture.asset(
+                              ImageAssets.icShareFile,
+                              color: AppTheme.getInstance().colorField(),
+                            ),
                             const SizedBox(width: 8),
                             Text(
                               data[index],

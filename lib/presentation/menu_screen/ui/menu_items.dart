@@ -291,8 +291,12 @@ extension GetScreen on MenuType {
         );
       case MenuType.baoCao:
         return screenDevice(
-          mobileScreen: const Scaffold(body: ReportScreenMobile()),
-          tabletScreen: const Scaffold(body: ReportScreenTablet()),
+          mobileScreen: ReportScreenMobile(
+            title: S.current.bac_cao,
+          ),
+          tabletScreen: ReportScreenTablet(
+            title: S.current.bac_cao,
+          ),
         );
       case MenuType.hoTroKyThuat:
         return screenDevice(

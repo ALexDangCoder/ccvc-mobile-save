@@ -19,10 +19,10 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         ketLuanHopSubject.sink.add(
           KetLuanHopModel(
             id: res.id ?? '',
-            thoiGian: '',
+            thoiGian: res.createAt ?? '',
             trangThai: typeTrangthai(res.status ?? 0),
             tinhTrang: typeTinhTrang(res.reportStatusCode ?? ''),
-            file: res.files?.map((e) => e.Name ?? '').toList() ?? [],
+            file:res.files ?? [],
             title: res.title,
           ),
         );
@@ -67,8 +67,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
   TrangThai typeTrangthai(int value) {
     switch (value) {
-      case 1:
-        return TrangThai.CHO_DUYET;
       case 2:
         return TrangThai.DA_DUYET;
       case 0:
@@ -86,10 +84,8 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         return TinhTrang.TRUNG_BINH;
       case 'dat':
         return TinhTrang.DAT;
-      case 'chua-dat':
-        return TinhTrang.CHUA_DAT;
       default:
-        return TinhTrang.TRUNG_BINH;
+        return TinhTrang.KHONG_DAT;
     }
   }
 
@@ -178,6 +174,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.thanh_cong,
         );
+        getDanhSachNhiemVu(idCuocHop);
         isCheck = true;
       },
       error: (err) {
@@ -212,7 +209,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachLoaiNhiemVu();
     result.when(
       success: (res) {
-        danhSachLoaiNhiemVuLichHopModel.sink.add(res);
+        danhSachLoaiNhiemVuLichHopModel = res;
       },
       error: (err) {
         return;
@@ -221,13 +218,32 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   }
 
   Future<void> themNhiemVu(ThemNhiemVuRequest themNhiemVuRequest) async {
+    showLoading();
+    for (final value in listVBGiaoNhiemVu.value) {
+      themNhiemVuRequest.danhSachVanBan?.add(
+        DanhSachVanBanRequest(
+          hinhThucVanBan: value.hinhThucVanBan,
+          ngayVanBan: value.ngayVanBan,
+          soVanBan: value.soVanBan,
+          trichYeu: value.trichYeu,
+        ),
+      );
+    }
     final result = await hopRp.postThemNhiemVu(themNhiemVuRequest);
     result.when(
-      success: (res) {},
+      success: (res) {
+        showContent();
+        getDanhSachNhiemVu(idCuocHop);
+        MessageConfig.show(title: S.current.thanh_cong);
+      },
       error: (err) {
-        return;
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
       },
     );
+    showContent();
   }
 
   Future<void> xacNhanHoacHuyKetLuanHop({
@@ -326,6 +342,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     getDanhSachLoaiNhiemVu();
     listStatusKetLuanHop();
     danhSachCanBoTPTG(id: idCuocHop);
+    getDanhSachNguoiChuTriPhienHop('');
     postChonMauHop();
   }
 }

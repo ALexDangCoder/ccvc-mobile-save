@@ -23,21 +23,24 @@ class TabThongTinNguoiPhanAnh extends StatefulWidget {
       _TabThongTinNguoiPhanAnhState();
 }
 
-class _TabThongTinNguoiPhanAnhState extends State<TabThongTinNguoiPhanAnh> {
+class _TabThongTinNguoiPhanAnhState extends State<TabThongTinNguoiPhanAnh>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinNguoiPhanAnh(widget.id, widget.taskId);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getThongTinNguoiPhanAnh(widget.id, widget.taskId);
+      },
       child: _content(),
     );
   }
@@ -68,4 +71,7 @@ class _TabThongTinNguoiPhanAnhState extends State<TabThongTinNguoiPhanAnh> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

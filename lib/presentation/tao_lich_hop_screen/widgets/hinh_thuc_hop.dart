@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -21,6 +22,7 @@ import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HinhThucHop extends StatefulWidget {
@@ -51,7 +53,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
   void initState() {
     super.initState();
     if (widget.chiTietHop != null) {
-      isHopTrucTiep = !widget.chiTietHop!.bit_HopTrucTuyen;
+      isHopTrucTiep = widget.chiTietHop!.diaDiemHop?.isNotEmpty ?? false;
       isHopTrucTuyen = widget.chiTietHop!.bit_HopTrucTuyen;
       isDuyetKyThuat = widget.chiTietHop!.isDuyetKyThuat ?? false;
       if(widget.chiTietHop!.bit_LinkTrongHeThong != null){
@@ -104,8 +106,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               validate: (value){
                 if(isHopTrucTiep){
                   if (value.trim().isEmpty) {
-                    return '${S.current.dia_diem_hop} '
-                        '${S.current.khong_duoc_de_trong}';
+                    return '${S.current.vui_long_nhap} '
+                        '${S.current.dia_diem_hop.toLowerCase()}';
                   }
                 }
               },
@@ -297,6 +299,26 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 hint: S.current.chuc_vu,
               ),
               spaceH20,
+              textField(
+                onChange: (value) {
+                  diemCau.canBoDauMoiSDT = value;
+                },
+                validator: (value) {
+                  if (value.trim().isEmpty) {
+                    return null;
+                  }
+                  return value.trim().checkSdtRequire(
+                        messageError: S.current.dinh_dang_sdt,
+                      );
+                },
+                inputFormatter: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                keyboardType: TextInputType.number,
+                title: S.current.so_dien_thoai,
+                hint: S.current.so_dien_thoai,
+              ),
+              spaceH20,
               CoolDropDown(
                 onChange: (index) {
                   /// điểm chính = 1
@@ -345,6 +367,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
     bool isRequired = false,
     String hint = '',
     String? initValue,
+    List<TextInputFormatter>? inputFormatter,
+    TextInputType? keyboardType,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,6 +396,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
           onChanged: (value) {
             onChange(value);
           },
+          inputFormatters: inputFormatter,
+          keyboardType: keyboardType,
           initialValue: initValue,
           decoration: InputDecoration(
             filled: true,
@@ -464,7 +490,7 @@ class ItemDiemCau extends StatelessWidget {
                   height: 10.0.textScale(space: 10),
                 ),
                 rowInfo(
-                  value: diemCau.getLoaiDiemCau(),
+                  value: diemCau.getLoaiDiemCau,
                   key: S.current.diem_cau_chinh_phu,
                 ),
                 SizedBox(

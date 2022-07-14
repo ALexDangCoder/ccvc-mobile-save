@@ -24,6 +24,15 @@ abstract class ThanhPhanThamGiaService {
   Future<SearchCanBoResponse> searchCanBo(
       @Body() SearchCanBoRequest searchCanBoRequest);
 
+  @GET(ApiConstants.GET_LIST_USER_IN_UNIT)
+  Future<SearchCanBoResponse> getUser(
+      @Query('donViId') String id,
+      @Query('appId') String appId,
+      @Query('isGetAll') String isGetAll,
+      @Query('pageIndex') String ipageIndexd,
+      @Query('pageSize') String pageSize,
+      );
+
   @GET(ApiConstants.OFFICERS_JOIN)
   Future<OfficerJoinResponse> getOfficerJoin(
     @Query('lichId') String id,

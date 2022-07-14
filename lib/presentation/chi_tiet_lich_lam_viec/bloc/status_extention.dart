@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 extension StatusCooperative on DonViModel {
   String get getTextStatus {
@@ -21,22 +22,17 @@ extension StatusCooperative on DonViModel {
     }
   }
 }
-//TODO:chờ chị BA sửa srs
 extension OfficersExtension on Officer {
   String get getTextStatus {
     switch (status) {
-      case 0:
+      case StatusOfficersConst.STATUS_CHO_XAC_NHAN:
         return S.current.cho_xac_nhan;
-      case 1:
+      case StatusOfficersConst.STATUS_THAM_GIA:
         return S.current.tham_gia;
-      case 2:
+      case StatusOfficersConst.STATUS_TU_CHOI:
         return S.current.tu_choi;
-      case 4:
+      case StatusOfficersConst.STATUS_THU_HOI:
         return S.current.thu_hoi;
-      case 10:
-        return 'Cử cán bộ đi thay';
-      case 11:
-        return 'Đi với';
       default:
         return S.current.cho_xac_nhan;
     }
@@ -44,17 +40,13 @@ extension OfficersExtension on Officer {
 
   Color get getColorStatus {
     switch (status) {
-      case 0:
+      case StatusOfficersConst.STATUS_CHO_XAC_NHAN:
         return color02C5DD;
-      case 1:
+      case StatusOfficersConst.STATUS_THAM_GIA:
         return itemWidgetUsing;
-      case 2:
+      case StatusOfficersConst.STATUS_TU_CHOI:
         return statusCalenderRed;
-      case 4:
-        return choVaoSoColor;
-      case 10:
-        return statusCalenderRed;
-      case 11:
+      case StatusOfficersConst.STATUS_THU_HOI:
         return statusCalenderRed;
       default:
         return color02C5DD;

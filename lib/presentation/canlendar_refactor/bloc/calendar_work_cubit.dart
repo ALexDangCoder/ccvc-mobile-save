@@ -29,7 +29,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
-  CalendarWorkCubit() : super( const CalendarViewState());
+  CalendarWorkCubit() : super(const CalendarViewState());
 
   CalendarWorkRepository get calendarWorkRepo => Get.find();
 
@@ -119,9 +119,10 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       if (statusType == StatusWorkCalendar.LICH_DUOC_MOI) {
         stateType = StateType.CHO_XAC_NHAN;
       }
-      _titleSubject.sink.add(statusType.getTitle());
+      _titleSubject.sink.add(statusType.getTitleWork());
     }
     if (idDonViLanhDao != null) {
+      _statusWorkSubject.sink.add(null );
       this.idDonViLanhDao = idDonViLanhDao;
       this.statusType = null;
     }
@@ -348,14 +349,11 @@ extension GetData on CalendarWorkCubit {
       isLichThuHoi: statusType == StatusWorkCalendar.LICH_THU_HOI,
       isChuaCoBaoCao: statusType == StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO,
       isDaCoBaoCao: statusType == StatusWorkCalendar.LICH_DA_CO_BAO_CAO,
-      isChoXacNhan: stateType == StateType.CHO_XAC_NHAN &&
-          isLichDuocMoi ,
-      isLichThamGia: stateType == StateType.THAM_GIA &&
-          isLichDuocMoi ,
-      isLichTuChoi: stateType == StateType.TU_CHOI &&
-          isLichDuocMoi,
-      PageIndex: ApiConstants.PAGE_BEGIN,
-      PageSize: 10000,
+      isChoXacNhan: stateType == StateType.CHO_XAC_NHAN && isLichDuocMoi,
+      isLichThamGia: stateType == StateType.THAM_GIA && isLichDuocMoi,
+      isLichTuChoi: stateType == StateType.TU_CHOI && isLichDuocMoi,
+      PageIndex: null,
+      PageSize: null,
       Title: keySearch,
       UserId: HiveLocal.getDataUser()?.userId ?? '',
     );
@@ -440,7 +438,7 @@ enum StatusWorkCalendar {
 }
 
 extension StatusWorkCalendarExt on StatusWorkCalendar {
-  String getTitle() {
+  String getTitleMeeting() {
     switch (this) {
       case StatusWorkCalendar.LICH_CUA_TOI:
         return S.current.lich_hop_cua_toi;
@@ -474,6 +472,25 @@ extension StatusWorkCalendarExt on StatusWorkCalendar {
         return S.current.lich_hop_can_duyet;
       case StatusWorkCalendar.LICH_LANH_DAO:
         return S.current.lich_hop_lanh_dao;
+    }
+  }
+
+  String getTitleWork() {
+    switch (this) {
+      case StatusWorkCalendar.LICH_DUOC_MOI:
+        return S.current.lich_duoc_moi;
+      case StatusWorkCalendar.LICH_TAO_HO:
+        return S.current.lich_tao_ho;
+      case StatusWorkCalendar.LICH_HUY:
+        return S.current.lich_huy;
+      case StatusWorkCalendar.LICH_THU_HOI:
+        return S.current.lich_thu_hoi;
+      case StatusWorkCalendar.LICH_DA_CO_BAO_CAO:
+        return S.current.lich_da_co_bao_cao;
+      case StatusWorkCalendar.LICH_CHUA_CO_BAO_CAO:
+        return S.current.lich_chua_co_bao_cao;
+      default:
+        return S.current.lich_cua_toi;
     }
   }
 }

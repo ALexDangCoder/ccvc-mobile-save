@@ -20,14 +20,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ItemReportShareFavorite extends StatefulWidget {
-  final ReportItem reportItem;
+  final ReportItem item;
   final ReportListCubit cubit;
   final bool isFavorite;
   final bool isIconClose;
 
   const ItemReportShareFavorite({
     Key? key,
-    required this.reportItem,
+    required this.item,
     required this.cubit,
     required this.isFavorite,
     this.isIconClose = false,
@@ -66,13 +66,10 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               Row(
                 children: [
                   ItemFolder(
-                    type: widget.reportItem.type ?? 0,
-                    isShare: widget.cubit.checkStatus(
-                      widget.reportItem.status ?? 0,
-                      widget.reportItem.type ?? 0,
-                    ),
+                    type: widget.item.type ?? 0,
+                    isShare: widget.item.shareToMe ?? false,
                     isListView: true,
-                    fileNumber: widget.reportItem.childrenTotal ?? 0,
+                    fileNumber: widget.item.childrenTotal ?? 0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -85,9 +82,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                         SizedBox(
                           width: widget.isIconClose
                               ? MediaQuery.of(context).size.width / 4
-                              : MediaQuery.of(context).size.width / 2,
+                              : MediaQuery.of(context).size.width / 1.5,
                           child: Text(
-                            widget.reportItem.name ?? '',
+                            widget.item.name ?? '',
                             maxLines: 1,
                             style: textNormalCustom(
                               color: textTitle,
@@ -99,8 +96,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                         ),
                         spaceH4,
                         Text(
-                          (widget.reportItem.dateTime ?? '')
-                              .changeToNewPatternDate(
+                          (widget.item.dateTime ?? '').changeToNewPatternDate(
                             DateFormatApp.dateTimeBackEnd,
                             DateFormatApp.date,
                           ),
@@ -135,10 +131,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
           width: MediaQuery.of(context).size.width,
           color: borderColor.withOpacity(0.5),
         ),
-        if (widget.cubit.checkStatus(
-          widget.reportItem.status ?? 0,
-          widget.reportItem.type ?? 0,
-        ))
+        if (!(widget.item.shareToMe ?? true))
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -156,9 +149,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                         backgroundColor: Colors.transparent,
                         body: Center(
                           child: ChiaSeBaoCaoTablet(
-                            idReport: widget.reportItem.id ?? '',
+                            idReport: widget.item.id ?? '',
                             appId: widget.cubit.appId,
-                            type: widget.reportItem.type ?? 0,
+                            type: widget.item.type ?? 0,
                           ),
                         ),
                       );
@@ -171,9 +164,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                     context: context,
                     builder: (_) {
                       return ChiaSeBaoCaoMobile(
-                        idReport: widget.reportItem.id ?? '',
+                        idReport: widget.item.id ?? '',
                         appId: widget.cubit.appId,
-                        type: widget.reportItem.type ?? 0,
+                        type: widget.item.type ?? 0,
                       );
                     },
                   );
@@ -204,13 +197,10 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               ),
             ),
           ),
-        if (widget.cubit.checkStatus(
-          widget.reportItem.status ?? 0,
-          widget.reportItem.type ?? 0,
-        ))
+        if (widget.item.type == REPORT && !(widget.item.shareToMe ?? true))
           reportLine(),
-        if (widget.reportItem.type == REPORT) spaceH18,
-        if (widget.reportItem.type == REPORT)
+        if (widget.item.type == REPORT) ...[
+          spaceH18,
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -261,17 +251,19 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                           },
                           funcBtnRight: () {
                             widget.cubit.postFavorite(
-                              idReport: [widget.reportItem.id ?? ''],
+                              idReport: [widget.item.id ?? ''],
                             ).then((value) {
                               if (value) {
                                 MessageConfig.show(
                                   title: S.current.yeu_thich_thanh_cong,
                                 );
+                                Navigator.pop(context);
                               } else {
                                 MessageConfig.show(
                                   title: S.current.yeu_thich_that_bai,
                                   messState: MessState.error,
                                 );
+                                Navigator.pop(context);
                               }
                             });
                           },
@@ -290,17 +282,19 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                           ),
                           funcBtnRight: () {
                             widget.cubit.putDislikeFavorite(
-                              idReport: [widget.reportItem.id ?? ''],
+                              idReport: [widget.item.id ?? ''],
                             ).then((value) {
                               if (value) {
                                 MessageConfig.show(
                                   title: S.current.huy_yeu_thich_thanh_cong,
                                 );
+                                Navigator.pop(context);
                               } else {
                                 MessageConfig.show(
                                   title: S.current.huy_yeu_thich_that_bai,
                                   messState: MessState.error,
                                 );
+                                Navigator.pop(context);
                               }
                             });
                           },
@@ -316,6 +310,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               ],
             ),
           ),
+        ],
         spaceH30,
       ],
     );

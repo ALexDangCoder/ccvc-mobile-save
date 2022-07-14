@@ -16,5 +16,5 @@ class CapNhatTrangThaiResponse {
 
   Map<String, dynamic> toJson() => _$CapNhatTrangThaiResponseToJson(this);
 
-  bool get isSucces => succeeded ?? false;
+  bool get isSuccess => succeeded ?? false;
 }

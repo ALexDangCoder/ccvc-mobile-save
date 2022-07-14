@@ -80,10 +80,14 @@ class KetQuaXuLyData {
   Map<String, dynamic> toJson() => _$KetQuaXuLyDataToJson(this);
 
   KetQuaXuLyModel toDomain() {
-    final data = json.decode(dSFile ?? '') as List<dynamic>;
     final List<TaiLieuDinhKemModel> listFileDinhKem = [];
-    for (final element in data) {
-      listFileDinhKem.add(FileDinhKemKQXL.fromJson(element).toDomain());
+    if((dSFile ?? '').isNotEmpty) {
+      final data = json.decode(dSFile ?? '') as List<dynamic>;
+      for (final element in data) {
+        listFileDinhKem.add(FileDinhKemKQXL.fromJson(element).toDomain());
+      }
+    } else {
+
     }
     return KetQuaXuLyModel(
       iD: id ?? '',

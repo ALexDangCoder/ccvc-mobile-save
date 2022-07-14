@@ -75,6 +75,8 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
                 value: data.value.toString(),
                 color: data.color ?? Colors.white,
                 ontap: () {
+                  /// reset list when change list
+                  widget.cubit.selectPhatBieu = [];
                   expand = !expand;
                   _runExpandCheck();
                 },
@@ -104,30 +106,31 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
                         itemBuilder: (context, index) {
                           final data = widget.cubit.buttonStatePhatBieu;
                           return StreamBuilder<SoLuongPhatBieuModel>(
-                            stream: widget.cubit.dataSoLuongPhatBieuSubject,
-                            builder: (context, snapshotCount) {
-                              return buttonPhone(
-                                backgroup:
-                                    widget.cubit.bgrColorButton(snapshot.data ?? 0),
-                                key: data[index].key ?? '',
-                                value: data[index].value.toString(),
-                                color: data[index].color ?? Colors.white,
-                                ontap: () {
-                                  widget.cubit.getValueStatus(index);
-                                  expand = !expand;
-                                  _runExpandCheck();
-                                  widget.cubit.buttonStatePhatBieuSubject.sink.add(
-                                    ButtonStatePhatBieu(
-                                      key: data[index].key ?? '',
-                                      value: data[index].value ?? 0,
-                                      color: data[index].color ?? Colors.white,
-                                    ),
-                                  );
-                                  widget.cubit.selectPhatBieu.clear();
-                                },
-                              );
-                            }
-                          );
+                              stream: widget.cubit.dataSoLuongPhatBieuSubject,
+                              builder: (context, snapshotCount) {
+                                return buttonPhone(
+                                  backgroup: widget.cubit
+                                      .bgrColorButton(snapshot.data ?? 0),
+                                  key: data[index].key ?? '',
+                                  value: data[index].value.toString(),
+                                  color: data[index].color ?? Colors.white,
+                                  ontap: () {
+                                    widget.cubit.getValueStatus(index);
+                                    expand = !expand;
+                                    _runExpandCheck();
+                                    widget.cubit.buttonStatePhatBieuSubject.sink
+                                        .add(
+                                      ButtonStatePhatBieu(
+                                        key: data[index].key ?? '',
+                                        value: data[index].value ?? 0,
+                                        color:
+                                            data[index].color ?? Colors.white,
+                                      ),
+                                    );
+                                    widget.cubit.selectPhatBieu.clear();
+                                  },
+                                );
+                              });
                         },
                       ),
                     ),

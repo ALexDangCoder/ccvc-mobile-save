@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 class ReportDetailMobile extends StatefulWidget {
   final String title;
   final ReportListCubit cubit;
-  final String idFolder;
+  final ReportItem reportModel;
   final bool isListView;
 
   const ReportDetailMobile({
     Key? key,
     required this.title,
     required this.cubit,
-    required this.idFolder,
+    required this.reportModel,
     required this.isListView,
   }) : super(key: key);
 
@@ -28,25 +28,30 @@ class ReportDetailMobile extends StatefulWidget {
 
 class _ReportDetailMobileState extends State<ReportDetailMobile> {
   List<ReportItem> listReportDetail = [];
-  bool isCheckInit = true;
   bool isCheckData = false;
   bool isInit = false;
 
-  @override
-  void initState() {
-    widget.cubit.getListReport(
-      idFolder: widget.idFolder,
+  Future<void> getApi() async {
+    await widget.cubit.getListReport(
+      idFolder: widget.reportModel.id ?? '',
       isTree: true,
     );
+  }
+
+  @override
+  void initState() {
+    getApi();
     super.initState();
     isInit = true;
-    if (isCheckInit) {
-      widget.cubit.isCheckData.listen((value) {
-        if (value) {
-          isCheckData = true;
-        }
-      });
-    }
+    widget.cubit.isCheckDataDetailScreen.listen((value) {
+      if (value) {
+        isCheckData = true;
+      }
+    });
+    widget.cubit.listReportTreeUpdate.listen((value) {
+      listReportDetail = value ?? [];
+      widget.cubit.listReportTree.add(value);
+    });
   }
 
   @override
@@ -61,10 +66,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
           Expanded(
             child: StateStreamLayout(
               retry: () {
-                widget.cubit.getListReport(
-                  idFolder: widget.idFolder,
-                  isTree: true,
-                );
+                getApi();
               },
               error: AppException(
                 S.current.error,
@@ -76,10 +78,8 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                 onRefresh: () async {
                   isCheckData = true;
                   isInit = true;
-                  await widget.cubit.getListReport(
-                    idFolder: widget.idFolder,
-                    isTree: true,
-                  );
+                  await getApi();
+                  listReportDetail = widget.cubit.listReportTree.value ?? [];
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
@@ -87,8 +87,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                     stream: widget.cubit.listReportTree,
                     builder: (context, snapshot) {
                       if (isCheckData && isInit) {
-                        listReportDetail.addAll(snapshot.data ?? []);
-                        isCheckInit = false;
+                        listReportDetail = snapshot.data ?? [];
                         isCheckData = false;
                         isInit = false;
                       }
@@ -99,7 +98,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                               listReport: listReportDetail,
                               cubit: widget.cubit,
                               isTree: true,
-                              idFolder: widget.idFolder,
+                              idFolder: widget.reportModel.id ?? '',
                             );
                     },
                   ),

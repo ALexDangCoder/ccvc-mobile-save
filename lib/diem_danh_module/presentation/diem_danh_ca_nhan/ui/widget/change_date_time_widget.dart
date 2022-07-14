@@ -62,6 +62,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     yearPage = currentMonth.year;
   }
 
+  /// return year number equivalent to page number
   int getYearFromPage(int page) {
     return listYear[page];
   }
@@ -72,6 +73,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     }
   }
 
+  ///return page number equivalent to year number
   int indexPageOfYear(int year) {
     return listYear.indexOf(year);
   }
@@ -81,6 +83,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
       listData: listData(yearPage),
       onChange: (data) {
         currentMonth = data;
+        widget.onChange(data);
         setState(() {});
       },
       changeDay: currentMonth,
@@ -119,38 +122,64 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
 
   void nextMonth() {
     moveCurrentPage();
-    if (currentMonth.month == 12 && currentMonth.year < widget.endYear) {
+
+    /// nếu như thời gian đang ở tháng 12 và phải nhỏ hơn thời gian kết thúc
+    /// thì chuyển page và sang tháng 1 năm tiếp theo
+    if (currentMonth.month == DiemDanhConstant.THANG_12 &&
+        currentMonth.year < widget.endYear) {
       controller.nextPage(duration: duration, curve: curve);
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
-    } else if (currentIndex < _itemCount &&
-        currentMonth.year < widget.endYear) {
+      widget.onChange(currentMonth);
+    }
+
+    /// nếu như page khác page cuối cùng và thời gian phải nhỏ hơn thời gian
+    /// kết thúc thì sang tháng tiếp theo
+    else if (currentIndex < _itemCount && currentMonth.year < widget.endYear) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
-    } else if (currentIndex == _itemCount - 1 &&
+      widget.onChange(currentMonth);
+    }
+
+    /// nếu như page là page cuối cùng và thời gian bằng thời gian
+    /// kết thúc và tháng nhỏ hơn tháng 12 thì sang tháng tiếp theo
+    else if (currentIndex == _itemCount - 1 &&
         currentMonth.year == widget.endYear &&
-        currentMonth.month < 12) {
+        currentMonth.month < DiemDanhConstant.THANG_12) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+      widget.onChange(currentMonth);
     }
     yearPage = currentMonth.year;
-    widget.onChange(currentMonth);
     setState(() {});
   }
 
   void previousMonth() {
     moveCurrentPage();
 
-    if (currentMonth.month == 1 && currentMonth.year > widget.startYear) {
+    /// nếu như thời gian đang ở tháng 1 và phải lớn hơn thời gian bắt
+    /// đầu thì chuyển page và trở về tháng 12 năm trước đó
+    if (currentMonth.month == DiemDanhConstant.THANG_1 &&
+        currentMonth.year > widget.startYear) {
       controller.previousPage(duration: duration, curve: curve);
       currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
-    } else if (currentIndex > 0 && currentMonth.year > widget.startYear) {
+      widget.onChange(currentMonth);
+    }
+
+    /// nếu như page khác page đầu tiên và thời gian phải lớn hơn thời gian
+    /// bắt đầu thì sang tháng trước đó
+    else if (currentIndex > 0 && currentMonth.year > widget.startYear) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
-    } else if (currentIndex == 0 &&
+      widget.onChange(currentMonth);
+    }
+
+    /// nếu như page đang ở page đầu tiên và thời gian bằng thời gian
+    /// bắt đầu và tháng hiện tại lớn hơn 1 thì sang tháng trước đó
+    else if (currentIndex == 0 &&
         currentMonth.year == widget.startYear &&
         currentMonth.month > 1) {
       currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
+      widget.onChange(currentMonth);
     }
     yearPage = currentMonth.year;
 
-    widget.onChange(currentMonth);
     setState(() {});
   }
 

@@ -20,6 +20,7 @@ class XemKetLuanHopModel {
   String? reportTemplateId;
   String? noiDungHuy;
   String? title;
+  String? createAt;
 
   XemKetLuanHopModel.emty();
 
@@ -43,5 +44,6 @@ class XemKetLuanHopModel {
     this.reportTemplateId,
     this.noiDungHuy,
     this.title,
+    this.createAt
   });
 }

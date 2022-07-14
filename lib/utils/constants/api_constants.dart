@@ -149,11 +149,9 @@ class ApiConstants {
 
   static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall';
 
-  static const String POST_FILE_TAO_LICH_HOP =
-      '/vpdt/api/Files/add-file-with-meeting';
-
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
-  static const THU_HOI_LICH_LAM_VIEC = '/vpdt/api/ScheduleCoperative/change-status-multi';
+  static const THU_HOI_LICH_LAM_VIEC =
+      '/vpdt/api/ScheduleCoperative/change-status-multi';
   static const CAN_BO_THU_HOI_LICH = ' /CanBoThamGia/can-bo-tham-gia-hop-tree';
   static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/Check-trung-lich';
@@ -309,11 +307,18 @@ class ApiConstants {
       '/vpdt/api/ScheduleReport/create-meet-report';
   static const GUI_DUYET_KET_LUAN_HOP =
       '/vpdt/api/ScheduleReport/register-meet-report';
-  static const THU_HOI__KET_LUAN_HOP =
+  static const THU_HOI_KET_LUAN_HOP =
       '/vpdt/api/ScheduleReport/reject-meet-report';
   static const REFRESH_TOKEN = '/common/auth/refresh-token';
+  static const DELETE_FILE = '/vpdt/api/Files/delete-file-with-meeting';
   static const LIST_STATUS_ROOM = '/vpdt/api/ReportStatus/list-status-room';
+  static const GET_LIST_USER_IN_UNIT = '/htcs/api/users/get-paging';
   static const SUA_TRANG_THAI = '/vpdt/api/MeetingRoom/update-trang-thai';
+  static const THEM_MOI_VOTE = '/vpdt/api/BieuQuyet/them-moi-votes';
+  static const GET_LICH_CAN_KLCH = '/vpdt/api/MeetingSchedule/danh-sach-lich-can-kl-hop';
+  static const CHI_TIET_BIEU_QUYET = '/vpdt/api/BieuQuyet/{id}';
+  static const SUA_BIEU_QUYET = '/vpdt/api/BieuQuyet/sua-bieu-quyet';
+  static const XOA_BIEU_QUYET = '/vpdt/api/BieuQuyet/xoa-bieu-quyet';
 }
 
 class ImageConstants {

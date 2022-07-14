@@ -94,17 +94,10 @@ class _ButtonSelectFileLichLamViecState
     for (final element in files) {
       total += element.size;
     }
-    if (total > widget.maxSize!) {
-      setState(() {
-        isOverSize = true;
-        total = 0;
-      });
-    } else {
-      setState(() {
-        isOverSize = false;
-        total = 0;
-      });
-    }
+    setState(() {
+      isOverSize = total > widget.maxSize!;
+      total = 0;
+    });
   }
 
   @override

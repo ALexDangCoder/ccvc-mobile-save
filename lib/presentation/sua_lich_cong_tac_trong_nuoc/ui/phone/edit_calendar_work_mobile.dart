@@ -424,7 +424,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       Expanded(
                                         child: buttonEditCalendar(
                                           name: S.current.dong,
-                                          bgr: buttonColor.withOpacity(0.1),
+                                          bgr: AppTheme.getInstance()
+                                              .colorField().withOpacity(0.1),
                                           colorName: AppTheme.getInstance()
                                               .colorField(),
                                           onTap: () {

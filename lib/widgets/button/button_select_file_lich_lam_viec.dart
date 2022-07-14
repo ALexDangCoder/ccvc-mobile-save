@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -25,7 +26,7 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
   final bool childDiffence;
   final Function(List<File> files, bool validate) onChange;
   final Widget Function(BuildContext, File)? builder;
-  List<File>? files;
+  List<Files>? files;
   final double? spacingFile;
   final bool hasMultipleFile;
   final bool isShowFile;
@@ -55,7 +56,7 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
 
 class _ButtonSelectFileLichLamViecState
     extends State<ButtonSelectFileLichLamViec> {
-  List<File> selectFiles = [];
+  List<FileModel> selectFiles = [];
   bool isOverSize = false;
   double total = 0;
 
@@ -63,7 +64,14 @@ class _ButtonSelectFileLichLamViecState
   void initState() {
     super.initState();
     widget.files ??= [];
-    selectFiles = widget.files!;
+    selectFiles = widget.files!
+        .map(
+          (file) => FileModel(
+            file: File(file.path ?? ''),
+            size: double.tryParse(file.size ?? '')?.toInt() ?? 0,
+          ),
+        )
+        .toList();
   }
 
   bool isFileError(List<String?> files) {
@@ -82,9 +90,9 @@ class _ButtonSelectFileLichLamViecState
     return value.toInt().toString();
   }
 
-  void sumListFileSize(List<File> files) {
+  void sumListFileSize(List<FileModel> files) {
     for (final element in files) {
-      total += element.lengthSync();
+      total += element.size;
     }
     if (total > widget.maxSize!) {
       setState(() {
@@ -110,16 +118,22 @@ class _ButtonSelectFileLichLamViecState
                 await FilePicker.platform.pickFiles(
               allowMultiple: true,
             );
-
             if (result != null) {
               if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
-                  selectFiles.addAll(
-                    result.paths
-                        .map((path) => File(path ?? ''))
-                        .toSet()
-                        .toList(),
-                  );
+                  setState(() {
+                    selectFiles.addAll(
+                      result.files
+                          .map(
+                            (file) => FileModel(
+                              file: File(file.path ?? ''),
+                              size: file.size,
+                            ),
+                          )
+                          .toSet()
+                          .toList(),
+                    );
+                  });
                   if (widget.maxSize != null) {
                     sumListFileSize(selectFiles);
                   }
@@ -134,10 +148,10 @@ class _ButtonSelectFileLichLamViecState
               // User canceled the picker
             }
             widget.onChange(
-              selectFiles,
+              List.generate(
+                  selectFiles.length, (index) => selectFiles[index].file),
               isOverSize,
             );
-            setState(() {});
           },
           child: Container(
             decoration: BoxDecoration(
@@ -195,19 +209,23 @@ class _ButtonSelectFileLichLamViecState
           ),
         ),
         if (selectFiles.isNotEmpty)
-          ...selectFiles.map((file) {
+          ...selectFiles.map((item) {
             if (widget.builder == null) {
               return itemListFile(
-                file: file,
+                file: item.file,
                 onTap: () {
-                  selectFiles.remove(file);
-                  widget.onChange(selectFiles, isOverSize);
+                  selectFiles.remove(item);
                   sumListFileSize(selectFiles);
+                  widget.onChange(
+                    List.generate(
+                        selectFiles.length, (index) => selectFiles[index].file),
+                    isOverSize,
+                  );
                 },
                 spacingFile: widget.spacingFile,
               );
             }
-            return widget.builder!(context, file);
+            return widget.builder!(context, item.file);
           }).toList()
       ],
     );
@@ -262,9 +280,9 @@ class _ButtonSelectFileLichLamViecState
   }
 }
 
-class FileValidate {
-  File file;
-  bool isOversize;
+class FileModel {
+  final File file;
+  final int size;
 
-  FileValidate({required this.file, required this.isOversize});
+  FileModel({required this.file, required this.size});
 }

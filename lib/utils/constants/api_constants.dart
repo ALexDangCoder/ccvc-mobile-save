@@ -315,7 +315,9 @@ class ApiConstants {
   static const GET_LIST_USER_IN_UNIT = '/htcs/api/users/get-paging';
   static const SUA_TRANG_THAI = '/vpdt/api/MeetingRoom/update-trang-thai';
   static const THEM_MOI_VOTE = '/vpdt/api/BieuQuyet/them-moi-votes';
-  static const GET_LICH_CAN_KLCH = '/vpdt/api/MeetingSchedule/danh-sach-lich-can-kl-hop';
+  static const GET_LICH_CAN_KLCH =
+      '/vpdt/api/MeetingSchedule/danh-sach-lich-can-kl-hop';
+  static const XOA_BIEU_QUYET = '/vpdt/api/BieuQuyet/xoa-bieu-quyet';
 }
 
 class ImageConstants {

@@ -37,6 +37,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/them_moi_vo
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_luan_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xoa_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
@@ -1078,10 +1079,19 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
-      DanhSachLichHopRequest request,) {
+    DanhSachLichHopRequest request,
+  ) {
     return runCatchingAsync<DanhSachLichHopResponse, DanhSachLichHopModel>(
       () => _hopServices.getLichCanKLCH(request),
       (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),
+    );
+  }
+
+  @override
+  Future<Result<bool>> xoaBieuQuyet(String bieuQuyetId) {
+    return runCatchingAsync<XoaBieuQuyetResponse, bool>(
+      () => _hopServices.xoaBieuQuyet(bieuQuyetId),
+      (response) => response.isSuccess,
     );
   }
 }

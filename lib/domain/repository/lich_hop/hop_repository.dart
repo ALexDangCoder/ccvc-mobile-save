@@ -435,6 +435,10 @@ mixin HopRepository {
   );
 
   Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
-      DanhSachLichHopRequest request,
+    DanhSachLichHopRequest request,
+  );
+
+  Future<Result<bool>> xoaBieuQuyet(
+    String bieuQuyetId,
   );
 }

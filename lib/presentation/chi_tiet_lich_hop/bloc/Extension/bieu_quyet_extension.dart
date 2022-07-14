@@ -82,6 +82,40 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     showContent();
   }
 
+  Future<void> xoaBieuQuyet({
+    required String bieuQuyetId,
+  }) async {
+    showLoading();
+    final result = await hopRp.xoaBieuQuyet(bieuQuyetId);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.xoa_thanh_cong,
+        );
+        callApi(
+          idCuocHop,
+          checkIdPhienHop(
+            phienHopId,
+          ),
+        );
+      },
+      error: (err) {
+        if (err is NoNetworkException || err is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.xoa_that_bai,
+            messState: MessState.error,
+          );
+        }
+      },
+    );
+    showContent();
+  }
+
   void getTimeHour({required TimerData startT, required TimerData endT}) {
     final int hourStart = startT.hour;
     final int minuteStart = startT.minutes;

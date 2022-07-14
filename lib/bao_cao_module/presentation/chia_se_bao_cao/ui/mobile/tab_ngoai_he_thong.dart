@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart' as image_utils;
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -23,7 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class TabNgoaiHeThongMobile extends StatefulWidget {
   const TabNgoaiHeThongMobile({
@@ -62,6 +60,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (widget.cubit.canLoadMoreList &&
@@ -71,68 +70,67 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           }
           return true;
         },
-        child: Stack(
+        child: Column(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  spaceH20,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 21),
-                    child: StreamBuilder<bool>(
-                      initialData: false,
-                      stream: widget.cubit.isDuocTruyCapStream,
-                      builder: (context, snapshot) {
-                        final isDuocTruyCap = snapshot.data ?? false;
-                        return CustomGroupRadio<bool>(
-                          listData: [
-                            ItemCustomGroupRadio(
-                              title: S.current.doi_tuong_da_duoc_truy_cap,
-                              value: true,
-                            ),
-                            ItemCustomGroupRadio(
-                              title: S.current.them_moi_doi_tuong,
-                              value: false,
-                            ),
-                          ],
-                          groupValue: isDuocTruyCap,
-                          onchange: (value) {
-                            widget.cubit.isDuocTruyCapSink.add(value ?? false);
-                          },
-                        );
-                      },
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    spaceH20,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 21),
+                      child: StreamBuilder<bool>(
+                        initialData: false,
+                        stream: widget.cubit.isDuocTruyCapStream,
+                        builder: (context, snapshot) {
+                          final isDuocTruyCap = snapshot.data ?? false;
+                          return CustomGroupRadio<bool>(
+                            listData: [
+                              ItemCustomGroupRadio(
+                                title: S.current.doi_tuong_da_duoc_truy_cap,
+                                value: true,
+                              ),
+                              ItemCustomGroupRadio(
+                                title: S.current.them_moi_doi_tuong,
+                                value: false,
+                              ),
+                            ],
+                            groupValue: isDuocTruyCap,
+                            onchange: (value) {
+                              widget.cubit.isDuocTruyCapSink.add(value ?? false);
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 21),
-                    child: StreamBuilder<bool>(
-                      initialData: false,
-                      stream: widget.cubit.isDuocTruyCapStream,
-                      builder: (context, snapshot) {
-                        final isDuocTruyCap = snapshot.data ?? false;
-                        if (isDuocTruyCap) {
-                          return objectAccessed;
-                        } else {
-                          return newObject;
-                        }
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 21),
+                      child: StreamBuilder<bool>(
+                        initialData: false,
+                        stream: widget.cubit.isDuocTruyCapStream,
+                        builder: (context, snapshot) {
+                          final isDuocTruyCap = snapshot.data ?? false;
+                          if (isDuocTruyCap) {
+                            return objectAccessed;
+                          } else {
+                            return newObject;
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                  spaceH10,
-                ],
+                    spaceH10,
+                  ],
+                ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: 16.w,
-                  right: 16.w,
-                ),
-                height: 63.h,
-                color: Colors.white,
-                child: buttonBottom,
+            Container(
+              padding: EdgeInsets.only(
+                left: 16.w,
+                right: 16.w,
               ),
+              height: 63.h,
+              color: Colors.white,
+              child: buttonBottom,
             ),
           ],
         ),
@@ -248,7 +246,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               },
               maxLine: 6,
             ),
-            spaceH70,
+            spaceH30,
           ],
         ),
       );

@@ -37,6 +37,7 @@ class TabNgoaiHeThongTablet extends StatefulWidget {
 class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   final _groupKey = GlobalKey<FormGroupState>();
 
+  late TextEditingController controller;
   final Debouncer _debounce = Debouncer(milliseconds: 1000);
 
   String? name;
@@ -50,6 +51,10 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController();
+    if (widget.cubit.keySearch != '') {
+      controller.text = widget.cubit.keySearch;
+    }
   }
 
   @override

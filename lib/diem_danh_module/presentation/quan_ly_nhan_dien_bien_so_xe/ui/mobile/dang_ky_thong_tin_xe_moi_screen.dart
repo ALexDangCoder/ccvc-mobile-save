@@ -17,7 +17,6 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -39,287 +38,285 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   void initState() {
     super.initState();
     widget.cubit.toast.init(context);
+    widget.cubit.loaiSoHuu =DanhSachBienSoXeConst.XE_CAN_BO;
+    widget.cubit.xeMay =DanhSachBienSoXeConst.XE_MAY;
   }
 
   @override
   Widget build(BuildContext context) {
     return screenDevice(
-      mobileScreen: Scaffold(
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
-          child: DoubleButtonBottom(
-            title1: S.current.huy_bo,
-            title2: S.current.them_moi,
-            onClickLeft: () {
-              Navigator.pop(context);
-            },
-            onClickRight: () async {
-              if (keyGroup.currentState!.validator()) {
-                if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
-                  await widget.cubit.dangKyThongTinXeMoi(
-                    bienKiemSoatController.value.text,
-                    context,
-                  );
-                } else {
-                  widget.cubit.toast.showToast(
-                    child:  ShowToast(
-                      text: S.current.vui_long_tai_anh_len,
-                    ),
-                    gravity: ToastGravity.TOP_RIGHT,
-                  );
-                }
-              }
-            },
-          ),
+      mobileScreen: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException(
+          S.current.error,
+          S.current.error,
         ),
-        resizeToAvoidBottomInset: true,
-        appBar: AppBarDefaultBack(
-          S.current.dang_ky_thong_tin_xe_moi,
-        ),
-        body: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException(
-            S.current.error,
-            S.current.error,
-          ),
-          stream: widget.cubit.stateStream,
-          child: ProviderWidget<DiemDanhCubit>(
-            cubit: widget.cubit,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: FormGroup(
-                  key: keyGroup,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SelectImageDangKyXe(
-                        isPhone: true,
-                        onTapImage: (image) {
-                          if (image != null) {
-                            widget.cubit.fileItemBienSoXe.clear();
-                            widget.cubit.fileItemBienSoXe.add(image);
-                          }
-                        },
-                        removeImage: () {
-                          widget.cubit.fileItemBienSoXe.clear();
-                        },
-                        isTao: true,
+        stream: widget.cubit.stateStream,
+        child: Scaffold(
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
+            child: DoubleButtonBottom(
+              title1: S.current.huy_bo,
+              title2: S.current.them_moi,
+              onClickLeft: () {
+                Navigator.pop(context);
+              },
+              onClickRight: () async {
+                if (keyGroup.currentState!.validator()) {
+                  if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
+                    await widget.cubit.postImageResgiter(
+                      bienKiemSoat:   bienKiemSoatController.value.text,
+                      context: context, isTao: true,
+                    );
+                  } else {
+                    widget.cubit.toast.showToast(
+                      child:  ShowToast(
+                        text: S.current.vui_long_tai_anh_len,
                       ),
-                      spaceH12,
-                      Text(
-                        S.current.giay_dang_ky_xe,
+                      gravity: ToastGravity.TOP_RIGHT,
+                    );
+                  }
+                }
+              },
+            ),
+          ),
+          resizeToAvoidBottomInset: true,
+          appBar: AppBarDefaultBack(
+            S.current.dang_ky_thong_tin_xe_moi,
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: FormGroup(
+                key: keyGroup,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SelectImageDangKyXe(
+                      isPhone: true,
+                      onTapImage: (image) {
+                        if (image != null) {
+                          widget.cubit.fileItemBienSoXe.clear();
+                          widget.cubit.fileItemBienSoXe.add(image);
+                        }
+                      },
+                      removeImage: () {
+                        widget.cubit.fileItemBienSoXe.clear();
+                      },
+                      isTao: true,
+                    ),
+                    spaceH12,
+                    Text(
+                      S.current.giay_dang_ky_xe,
+                      style: textNormalCustom(
+                        color: color3D5586,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    spaceH20,
+                    ItemTextNote(title: S.current.loai_xe),
+                    StreamBuilder<List<LoaiXeModel>>(
+                      initialData: [
+                        LoaiXeModel(ten: S.current.xe_may),
+                        LoaiXeModel(ten: S.current.xe_o_to),
+                      ],
+                      stream: widget.cubit.loaiXeSubject,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return CoolDropDown(
+                          initData: data.map((e) => e.ten ?? '').first,
+                          listData: data.map((e) => e.ten ?? '').toList(),
+                          onChange: (vl) {
+                            vl == 0
+                                ? widget.cubit.xeMay =
+                                    DanhSachBienSoXeConst.XE_MAY
+                                : widget.cubit.xeMay =
+                                    DanhSachBienSoXeConst.O_TO;
+                          },
+                        );
+                      },
+                    ),
+                    spaceH20,
+                    ItemTextNote(title: S.current.bien_kiem_soat),
+                    TextFieldValidator(
+                      controller: bienKiemSoatController,
+                      hintText: S.current.bien_kiem_soat,
+                      onChange: (value) {},
+                      validator: (value) {
+                        return (value ?? '')
+                            .checkTruongNull('${S.current.bien_kiem_soat}!');
+                      },
+                    ),
+                    spaceH20,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        S.current.loai_so_huu,
                         style: textNormalCustom(
                           color: color3D5586,
-                          fontSize: 16.0,
                           fontWeight: FontWeight.w400,
+                          fontSize: 14.0,
                         ),
                       ),
-                      spaceH20,
-                      ItemTextNote(title: S.current.loai_xe),
-                      StreamBuilder<List<LoaiXeModel>>(
-                        initialData: [
-                          LoaiXeModel(ten: S.current.xe_may),
-                          LoaiXeModel(ten: S.current.xe_o_to),
-                        ],
-                        stream: widget.cubit.loaiXeSubject,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return CoolDropDown(
-                            initData: data.map((e) => e.ten ?? '').first,
-                            listData: data.map((e) => e.ten ?? '').toList(),
-                            onChange: (vl) {
-                              vl == 0
-                                  ? widget.cubit.xeMay =
-                                      DanhSachBienSoXeConst.XE_MAY
-                                  : widget.cubit.xeMay =
-                                      DanhSachBienSoXeConst.O_TO;
-                            },
-                          );
-                        },
-                      ),
-                      spaceH20,
-                      ItemTextNote(title: S.current.bien_kiem_soat),
-                      TextFieldValidator(
-                        controller: bienKiemSoatController,
-                        hintText: S.current.bien_kiem_soat,
-                        onChange: (value) {},
-                        validator: (value) {
-                          return (value ?? '')
-                              .checkTruongNull('${S.current.bien_kiem_soat}!');
-                        },
-                      ),
-                      spaceH20,
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          S.current.loai_so_huu,
-                          style: textNormalCustom(
-                            color: color3D5586,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                      ),
-                      CustomRadioLoaiSoHuu(onchange: (onchange) {
-                        onchange
-                            ? widget.cubit.loaiSoHuu =
-                                DanhSachBienSoXeConst.XE_LANH_DAO
-                            : widget.cubit.loaiSoHuu =
-                                DanhSachBienSoXeConst.XE_CAN_BO;
-                      }),
-                    ],
-                  ),
+                    ),
+                    CustomRadioLoaiSoHuu(onchange: (onchange) {
+                      onchange
+                          ? widget.cubit.loaiSoHuu =
+                              DanhSachBienSoXeConst.XE_LANH_DAO
+                          : widget.cubit.loaiSoHuu =
+                              DanhSachBienSoXeConst.XE_CAN_BO;
+                    }),
+                  ],
                 ),
               ),
             ),
           ),
         ),
       ),
-      tabletScreen: Scaffold(
-        backgroundColor: colorF9FAFF,
-        resizeToAvoidBottomInset: true,
-        appBar: AppBarDefaultBack(
-          S.current.dang_ky_thong_tin_xe_moi,
+      tabletScreen: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException(
+          S.current.error,
+          S.current.error,
         ),
-        body: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException(
-            S.current.error,
-            S.current.error,
+        stream: widget.cubit.stateStream,
+        child: Scaffold(
+          backgroundColor: colorF9FAFF,
+          resizeToAvoidBottomInset: true,
+          appBar: AppBarDefaultBack(
+            S.current.dang_ky_thong_tin_xe_moi,
           ),
-          stream: widget.cubit.stateStream,
-          child: ProviderWidget<DiemDanhCubit>(
-            cubit: widget.cubit,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 28),
-              child: Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.8,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FormGroup(
-                        key: keyGroup,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SelectImageDangKyXe(
-                              isPhone: false,
-                              onTapImage: (image) {
-                                if (image != null) {
-                                  widget.cubit.fileItemBienSoXe.clear();
-                                  widget.cubit.fileItemBienSoXe.add(image);
-                                }
-                              },
-                              removeImage: () {},
-                              isTao: true,
+          body: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 28),
+            child: Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.8,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FormGroup(
+                      key: keyGroup,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SelectImageDangKyXe(
+                            isPhone: false,
+                            onTapImage: (image) {
+                              if (image != null) {
+                                widget.cubit.fileItemBienSoXe.clear();
+                                widget.cubit.fileItemBienSoXe.add(image);
+                              }
+                            },
+                            removeImage: () {},
+                            isTao: true,
+                          ),
+                          spaceH12,
+                          Text(
+                            S.current.giay_dang_ky_xe,
+                            style: textNormalCustom(
+                              color: color3D5586,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w400,
                             ),
-                            spaceH12,
-                            Text(
-                              S.current.giay_dang_ky_xe,
+                          ),
+                          spaceH20,
+                          ItemTextNote(title: S.current.loai_xe),
+                          StreamBuilder<List<LoaiXeModel>>(
+                            initialData: [
+                              LoaiXeModel(ten: S.current.xe_may),
+                              LoaiXeModel(ten: S.current.xe_o_to),
+                            ],
+                            stream: widget.cubit.loaiXeSubject,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? [];
+                              return Container(
+                                color: colorFFFFFF,
+                                child: CoolDropDown(
+                                  initData:
+                                      data.map((e) => e.ten ?? '').first,
+                                  listData:
+                                      data.map((e) => e.ten ?? '').toList(),
+                                  onChange: (vl) {
+                                    vl == 0
+                                        ? widget.cubit.xeMay =
+                                            DanhSachBienSoXeConst.XE_MAY
+                                        : widget.cubit.xeMay =
+                                            DanhSachBienSoXeConst.O_TO;
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          spaceH20,
+                          ItemTextNote(title: S.current.bien_kiem_soat),
+                          TextFieldValidator(
+                            fillColor: colorFFFFFF,
+                            controller: bienKiemSoatController,
+                            hintText: S.current.bien_kiem_soat,
+                            onChange: (value) {},
+                            validator: (value) {
+                              return (value ?? '').checkTruongNull(
+                                  '${S.current.bien_kiem_soat}!');
+                            },
+                          ),
+                          spaceH20,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              S.current.loai_so_huu,
                               style: textNormalCustom(
                                 color: color3D5586,
-                                fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
+                                fontSize: 14.0,
                               ),
                             ),
-                            spaceH20,
-                            ItemTextNote(title: S.current.loai_xe),
-                            StreamBuilder<List<LoaiXeModel>>(
-                              initialData: [
-                                LoaiXeModel(ten: S.current.xe_may),
-                                LoaiXeModel(ten: S.current.xe_o_to),
-                              ],
-                              stream: widget.cubit.loaiXeSubject,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ?? [];
-                                return Container(
-                                  color: colorFFFFFF,
-                                  child: CoolDropDown(
-                                    initData:
-                                        data.map((e) => e.ten ?? '').first,
-                                    listData:
-                                        data.map((e) => e.ten ?? '').toList(),
-                                    onChange: (vl) {
-                                      vl == 0
-                                          ? widget.cubit.xeMay =
-                                              DanhSachBienSoXeConst.XE_MAY
-                                          : widget.cubit.xeMay =
-                                              DanhSachBienSoXeConst.O_TO;
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                            spaceH20,
-                            ItemTextNote(title: S.current.bien_kiem_soat),
-                            TextFieldValidator(
-                              fillColor: colorFFFFFF,
-                              controller: bienKiemSoatController,
-                              hintText: S.current.bien_kiem_soat,
-                              onChange: (value) {},
-                              validator: (value) {
-                                return (value ?? '').checkTruongNull(
-                                    '${S.current.bien_kiem_soat}!');
-                              },
-                            ),
-                            spaceH20,
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                S.current.loai_so_huu,
-                                style: textNormalCustom(
-                                  color: color3D5586,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14.0,
+                          ),
+                          CustomRadioLoaiSoHuu(onchange: (onchange) {
+                            onchange
+                                ? widget.cubit.loaiSoHuu =
+                                    DanhSachBienSoXeConst.XE_LANH_DAO
+                                : widget.cubit.loaiSoHuu =
+                                    DanhSachBienSoXeConst.XE_CAN_BO;
+                          }),
+                        ],
+                      ),
+                    ),
+                    spaceH32,
+                    SizedBox(
+                      width: 300,
+                      height: 44,
+                      child: DoubleButtonBottom(
+                        title1: S.current.huy_bo,
+                        title2: S.current.them_moi,
+                        onClickLeft: () {
+                          Navigator.pop(context);
+                        },
+                        onClickRight: () async {
+                          if (keyGroup.currentState!.validator()) {
+                            if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
+                              await widget.cubit.postImageResgiter(
+                                bienKiemSoat:   bienKiemSoatController.value.text,
+                                context: context, isTao: true,
+                              );
+                            } else {
+                              widget.cubit.toast.showToast(
+                                child:  ShowToast(
+                                  text: S.current.vui_long_tai_anh_len,
                                 ),
-                              ),
-                            ),
-                            CustomRadioLoaiSoHuu(onchange: (onchange) {
-                              onchange
-                                  ? widget.cubit.loaiSoHuu =
-                                      DanhSachBienSoXeConst.XE_LANH_DAO
-                                  : widget.cubit.loaiSoHuu =
-                                      DanhSachBienSoXeConst.XE_CAN_BO;
-                            }),
-                          ],
-                        ),
-                      ),
-                      spaceH32,
-                      SizedBox(
-                        width: 300,
-                        height: 44,
-                        child: DoubleButtonBottom(
-                          title1: S.current.huy_bo,
-                          title2: S.current.them_moi,
-                          onClickLeft: () {
-                            Navigator.pop(context);
-                          },
-                          onClickRight: () async {
-                            if (keyGroup.currentState!.validator()) {
-                              if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
-                                await widget.cubit.dangKyThongTinXeMoi(
-                                    bienKiemSoatController.value.text, context);
-                              } else {
-                                widget.cubit.toast.showToast(
-                                  child:  ShowToast(
-                                    text: S.current.vui_long_tai_anh_len,
-                                  ),
-                                  gravity: ToastGravity.TOP_RIGHT,
-                                );
-                              }
+                                gravity: ToastGravity.TOP_RIGHT,
+                              );
                             }
-                          },
-                        ),
+                          }
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

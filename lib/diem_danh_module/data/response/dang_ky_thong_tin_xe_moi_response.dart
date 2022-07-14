@@ -42,6 +42,8 @@ class ThongTinXeMoiResponse {
   String? bienKiemSoat;
   @JsonKey(name: 'loaiSoHuu')
   String? loaiSoHuu;
+  @JsonKey(name: 'fileId')
+  String? fileId;
 
   ThongTinXeMoiResponse({
     this.id,
@@ -49,6 +51,7 @@ class ThongTinXeMoiResponse {
     this.loaiXeMay,
     this.bienKiemSoat,
     this.loaiSoHuu,
+    this.fileId,
   });
 
   factory ThongTinXeMoiResponse.fromJson(Map<String, dynamic> json) =>
@@ -62,6 +65,7 @@ class ThongTinXeMoiResponse {
     loaiXeMay: loaiXeMay,
     bienKiemSoat: bienKiemSoat,
     loaiSoHuu: loaiSoHuu,
+    fileId: fileId,
   );
 }
 

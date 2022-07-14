@@ -637,32 +637,21 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 //huy duyet 3
 
   // button duyet kl
-  bool isDuyetKL() {
-    if (isChuTri() &&
-        (getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET ||
-            getKetLuanHopModel.trangThai == TrangThai.TU_CHOI)) {
-      return true;
-    }
-    return false;
-  }
+  bool isDuyetKL() =>
+      isChuTri() && getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET;
 
   // huy duyet kl hop
-  bool isTuCHoiKL() {
-    return isChuTri() && getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET;
-  }
+  bool isTuCHoiKL() =>
+      isChuTri() && getKetLuanHopModel.trangThai == TrangThai.CHO_DUYET;
 
   // tọa nhiệm vụ: thu ky, chu tri;(nếu tt là nháp, chỉ hiển thị kết luận với thư ký)
   bool isTaoMoiNhiemVu() => isChuTri() || isThuKy();
 
   // gui duyet: thuky, trang thai kl hop = nhap va huy duyet(thu ký gửi chu tri duyet gửi duyet)
-  bool isGuiDuyet() {
-    if (isThuKy() &&
-        (getKetLuanHopModel.trangThai == TrangThai.NHAP ||
-            getKetLuanHopModel.trangThai == TrangThai.TU_CHOI)) {
-      return true;
-    }
-    return false;
-  }
+  bool isGuiDuyet() =>
+      isThuKy() &&
+      (getKetLuanHopModel.trangThai == TrangThai.NHAP ||
+          getKetLuanHopModel.trangThai == TrangThai.TU_CHOI);
 
   // sua ket laun: chu tri(khi trạng thái là cho duyet) thu ky(khi trạng thái là nháp hoặc cho duyet)
   //=> chủ trì sua khi tt là cho duyet hoăc da duyet

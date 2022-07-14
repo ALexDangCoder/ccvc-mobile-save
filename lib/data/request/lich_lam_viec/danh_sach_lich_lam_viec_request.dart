@@ -1,5 +1,7 @@
 
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class DanhSachLichLamViecRequest {
   String? DateFrom;
   String? Title;

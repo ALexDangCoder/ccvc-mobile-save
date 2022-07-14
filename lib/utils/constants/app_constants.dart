@@ -162,6 +162,7 @@ const String ENTITY_THU_MOI_HOP = 'ThuMoiHop';
 const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
+const String PRIMARY = 'primary';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -349,7 +350,7 @@ class StatusOfficersConst {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_20MB = 20000000;
+  static const MAX_SIZE_30MB = 30000000;
 }
 class TypeTaskYKien
 {

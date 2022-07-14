@@ -65,17 +65,18 @@ class ItemList extends StatelessWidget {
                 children: [
                   AutoSizeText(
                     item.name ?? '',
-                    maxLines: 1,
+                    maxLines: 2,
                     style: textNormalCustom(
                       color: textTitle,
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                     ),
+                    textAlign: TextAlign.left,
                     overflow: TextOverflow.ellipsis,
                   ),
                   spaceH4,
                   AutoSizeText(
-                    (item.dateTime ?? '').changeToNewPatternDate(
+                    (item.dateTime ?? item.updatedAt ?? '').changeToNewPatternDate(
                       DateFormatApp.dateTimeBackEnd,
                       DateFormatApp.date,
                     ),

@@ -41,8 +41,10 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   void initState() {
     super.initState();
     thamGiaCubit.getTree();
+    final DateTime now= DateTime.now();
+    final DateTime preveOneMounth=DateTime(now.year, now.month-1, now.day);
     baoCaoCubit.callApi(
-      DateTime.now().toStringWithListFormat,
+      preveOneMounth.toStringWithListFormat,
       DateTime.now().toStringWithListFormat,
     );
   }

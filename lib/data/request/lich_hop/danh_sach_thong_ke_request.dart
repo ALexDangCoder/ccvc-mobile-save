@@ -14,12 +14,23 @@ class DanhSachThongKeRequest {
     required this.dateFrom,
     required this.dateTo,
     required this.pageIndex,
-    required this.pageSize,
+    this.pageSize,
     required this.typeCalendarId,
   });
 
   factory DanhSachThongKeRequest.fromJson(Map<String, dynamic> json) =>
       _$DanhSachThongKeRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DanhSachThongKeRequestToJson(this);
+  Map<String, dynamic> toJson(){
+    final Map<String, dynamic> json = {
+      'dateFrom': dateFrom,
+      'dateTo': dateTo,
+      'pageIndex': pageIndex,
+      'typeCalendarId': typeCalendarId,
+    };
+    if(pageSize != null){
+      json.putIfAbsent('pageSize', () => pageSize);
+    }
+    return json;
+  }
 }

@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -56,33 +55,21 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
 
 class _ButtonSelectFileLichLamViecState
     extends State<ButtonSelectFileLichLamViec> {
-  final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
-  List<FileValidate> listFileValidate = [];
+  List<File> selectFiles = [];
+  bool isOverSize = false;
+  double total = 0;
 
   @override
   void initState() {
     super.initState();
     widget.files ??= [];
-    importDataValidate();
+    selectFiles = widget.files!;
   }
-
-  void importDataValidate() {
-    (widget.files ?? []).forEach((element) {
-      listFileValidate.add(FileValidate(file: element, isOversize: false));
-    });
-  }
-
-  bool get isValidate => listFileValidate
-      .firstWhere(
-        (element) => element.isOversize == true,
-        orElse: () => FileValidate(file: File(''), isOversize: false),
-      )
-      .isOversize;
 
   bool isFileError(List<String?> files) {
-    for (final i in files) {
-      if (i != null || (i ?? '').isNotEmpty) {
-        if (!i!.isExensionOfFile) {
+    for (final file in files) {
+      if (file != null || (file ?? '').isNotEmpty) {
+        if (!file!.isExensionOfFile) {
           return true;
         }
       }
@@ -93,6 +80,23 @@ class _ButtonSelectFileLichLamViecState
   String get convertData {
     final double value = (widget.maxSize ?? 0.0) / BYTE_TO_MB;
     return value.toInt().toString();
+  }
+
+  void sumListFileSize(List<File> files) {
+    for (final element in files) {
+      total += element.lengthSync();
+    }
+    if (total > widget.maxSize!) {
+      setState(() {
+        isOverSize = true;
+        total = 0;
+      });
+    } else {
+      setState(() {
+        isOverSize = false;
+        total = 0;
+      });
+    }
   }
 
   @override
@@ -110,70 +114,29 @@ class _ButtonSelectFileLichLamViecState
             if (result != null) {
               if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
-                  final listSelect =
-                      result.paths.map((path) => File(path ?? '')).toList();
+                  selectFiles.addAll(
+                    result.paths
+                        .map((path) => File(path ?? ''))
+                        .toSet()
+                        .toList(),
+                  );
                   if (widget.maxSize != null) {
-                    for (int i = 0; i < listSelect.length; i++) {
-                      if (listSelect[i].lengthSync() > widget.maxSize!) {
-                        listFileValidate.add(
-                          FileValidate(
-                            file: listSelect[i],
-                            isOversize: true,
-                          ),
-                        );
-                      } else {
-                        listFileValidate.add(
-                          FileValidate(
-                            file: listSelect[i],
-                            isOversize: false,
-                          ),
-                        );
-                      }
-                    }
-                  } else {
-                    listSelect.forEach((e) {
-                      listFileValidate.add(
-                        FileValidate(
-                          file: e,
-                          isOversize: false,
-                        ),
-                      );
-                    });
+                    sumListFileSize(selectFiles);
                   }
-                  listFileValidate.forEach((element) {
-                    if (!element.isOversize) {
-                      widget.files?.add(element.file);
-                    }
-                  });
-                } else {
-                  widget.files =
-                      result.paths.map((path) => File(path!)).toList();
-                  widget.files?.forEach((element) {
-                    listFileValidate
-                        .add(FileValidate(file: element, isOversize: false));
-                  });
                 }
               } else {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      S.current.file_khong_hop_le,
-                      style: textNormalCustom(fontSize: 14),
-                    ),
-                  ),
+                MessageConfig.show(
+                  messState: MessState.error,
+                  title: S.current.file_khong_hop_le,
                 );
               }
             } else {
               // User canceled the picker
             }
-
             widget.onChange(
-                (listFileValidate
-                            .where((element) => !element.isOversize)
-                            .toList())
-                        .map((e) => e.file)
-                        .toList(),
-                isValidate,);
+              selectFiles,
+              isOverSize,
+            );
             setState(() {});
           },
           child: Container(
@@ -217,35 +180,35 @@ class _ButtonSelectFileLichLamViecState
             ),
           ),
         ),
-        if (!widget.isShowFile)
-          const SizedBox()
-        else
-          Column(
-            children: listFileValidate.isNotEmpty
-                ? listFileValidate.map((e) {
-                    if (widget.builder == null) {
-                      return itemListFile(
-                        isOverSize: e.isOversize,
-                        file: e.file,
-                        onTap: () {
-                          _cubit.deleteFile(e.file, widget.files ?? []);
-                          listFileValidate.remove(e);
-                          if (widget.hasMultipleFile) {
-                            widget.onChange((listFileValidate
-                                .where((element) => !element.isOversize)
-                                .toList())
-                                .map((e) => e.file)
-                                .toList(), isValidate,);
-                          }
-                          setState(() {});
-                        },
-                        spacingFile: widget.spacingFile,
-                      );
-                    }
-                    return widget.builder!(context, e.file);
-                  }).toList()
-                : [Container()],
-          )
+        Visibility(
+          visible: isOverSize,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Text(
+              '${S.current.tong_file_khong_vuot_qua} $convertData MB',
+              style: textNormalCustom(
+                color: Colors.red,
+                fontSize: 12.0.textScale(),
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ),
+        if (selectFiles.isNotEmpty)
+          ...selectFiles.map((file) {
+            if (widget.builder == null) {
+              return itemListFile(
+                file: file,
+                onTap: () {
+                  selectFiles.remove(file);
+                  widget.onChange(selectFiles, isOverSize);
+                  sumListFileSize(selectFiles);
+                },
+                spacingFile: widget.spacingFile,
+              );
+            }
+            return widget.builder!(context, file);
+          }).toList()
       ],
     );
   }
@@ -253,12 +216,11 @@ class _ButtonSelectFileLichLamViecState
   Widget itemListFile({
     required File file,
     required Function onTap,
-    bool isOverSize = false,
     double? spacingFile,
   }) {
     return Container(
       margin: EdgeInsets.only(top: spacingFile ?? 16.0.textScale()),
-      padding: EdgeInsets.all(16.0.textScale()),
+      padding: EdgeInsets.symmetric(vertical: 16.0.textScale()),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.0.textScale()),
         border: Border.all(color: bgDropDown),
@@ -270,20 +232,15 @@ class _ButtonSelectFileLichLamViecState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              spaceW16,
               Expanded(
                 child: Text(
-                  file.path.convertNameFile(),
-                  style: isOverSize
-                      ? textValidateStrikethrough(
-                          color: color5A8DEE,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0.textScale(),
-                        )
-                      : textNormalCustom(
-                          color: color5A8DEE,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0.textScale(),
-                        ),
+                  file.path.nameOfFile,
+                  style: textNormalCustom(
+                    color: color5A8DEE,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0.textScale(),
+                  ),
                 ),
               ),
               GestureDetector(
@@ -291,23 +248,14 @@ class _ButtonSelectFileLichLamViecState
                   onTap();
                 },
                 child: Container(
-                  margin: const EdgeInsets.all(5),
-                    padding: const EdgeInsets.all(4),
-                    child: SvgPicture.asset(ImageAssets.icDelete,),),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SvgPicture.asset(
+                    ImageAssets.icDelete,
+                  ),
+                ),
               ),
             ],
           ),
-          if (isOverSize)
-            Text(
-              '${S.current.file_khong_vuot_qua} $convertData MB',
-              style: textNormalCustom(
-                color: Colors.red,
-                fontSize: 12.0.textScale(),
-                fontStyle: FontStyle.italic,
-              ),
-            )
-          else
-            Container(),
         ],
       ),
     );

@@ -148,14 +148,15 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             textField(
-              title: '${S.current.ho_ten}(*)',
+              isRequired: true,
+              title: S.current.ho_ten,
               hintText: S.current.ho_ten,
               onChange: (value) {
                 name = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.ho_ten}!';
                 }
               },
             ),
@@ -180,14 +181,15 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             ),
             spaceH16,
             textField(
-              title: '${S.current.email}(*)',
+              isRequired: true,
+              title: S.current.email,
               hintText: S.current.email,
               onChange: (value) {
                 email = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.email}!';
                 }
                 if (!(value ?? '').isValidEmail()) {
                   return S.current.dinh_dang_email;
@@ -208,32 +210,35 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             ),
             spaceH16,
             textField(
+              isRequired: true,
               hintText: S.current.chuc_vu,
-              title: '${S.current.chuc_vu}(*)',
+              title: S.current.chuc_vu,
               onChange: (value) {
                 position = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.chuc_vu}!';
                 }
               },
             ),
             spaceH16,
             textField(
-              title: '${S.current.don_vi}(*)',
+              isRequired: true,
+              title: S.current.don_vi,
               hintText: S.current.don_vi,
               onChange: (value) {
                 unit = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.don_vi}!';
                 }
               },
             ),
             spaceH16,
             textField(
+              isRequired: true,
               title: S.current.ghi_chu,
               onChange: (value) {
                 note = value;
@@ -282,7 +287,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                 btnRightTxt: S.current.dong_y,
                 funcBtnRight: () {
                   widget.cubit.chiaSeBaoCao(Share.HAS_USER).then((value) {
-                    if (value == 'Thành công') {
+                    if (value == ChiaSeBaoCaoCubit.success) {
                       MessageConfig.show(title: value);
                     } else {
                       MessageConfig.show(
@@ -316,7 +321,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                     description: note,
                   )
                       .then((value) {
-                    if (value == 'Thành công') {
+                    if (value == ChiaSeBaoCaoCubit.success) {
                       MessageConfig.show(title: value);
                     } else {
                       MessageConfig.show(
@@ -330,15 +335,6 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                 textContent: S.current.chia_se_thu_muc_chac_chua,
               ).then((value) {});
             }
-          } else {
-            final toast = FToast();
-            toast.init(context);
-            toast.showToast(
-              child: ShowToast(
-                text: S.current.sai_dinh_dang_truong,
-              ),
-              gravity: ToastGravity.BOTTOM,
-            );
           }
         },
       );
@@ -403,6 +399,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   Widget textField({
     String? hintText,
     int maxLine = 1,
+    bool isRequired = false,
     required String title,
     required Function(String) onChange,
     String? Function(String?)? validate,
@@ -414,12 +411,24 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          child: Text(
-            title,
-            textAlign: TextAlign.start,
-            style: tokenDetailAmount(
-              fontSize: 14,
-              color: color3D5586,
+          child: RichText(
+            text: TextSpan(
+              style: tokenDetailAmount(
+                fontSize: 14,
+                color: color3D5586,
+              ),
+              text: title,
+              children: isRequired
+                  ? [
+                TextSpan(
+                  text: ' *',
+                  style: tokenDetailAmount(
+                    fontSize: 14,
+                    color: redChart,
+                  ),
+                ),
+              ]
+                  : [],
             ),
           ),
         ),

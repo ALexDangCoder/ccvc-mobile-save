@@ -13,6 +13,8 @@ class ApiConstants {
   static const String GET_NGUOI_XU_LY='/htkt/api/Task/get-infor-user';
   static const String DELETE_TASK='/htkt/api/Task/delete-task';
   static const String ADD_TASK = '/htkt/api/Task/add-task';
+  static const String POST_UPDATE_TASK_PROCESSING='/htkt/api/TaskProcessing/edit-task-processing';
+  static const String COMMENT_TASK_PROCESSING='/htkt/api/TaskProcessing/danh-gia';
 }
 
 class ImageConstants {

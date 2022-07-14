@@ -70,10 +70,10 @@ mixin YKienNguoiDanRepository {
     String donViId,
   );
 
-  Future<Result<DanhSachKetQuaYKXLModel>> getDanhSachYKienPAKN(
-    String KienNghiId,
-    int type,
-  );
+  Future<Result<DanhSachKetQuaYKXLModel>> getDanhSachYKienPAKN({
+    String? kienNghiId,
+    int? type,
+  });
 
   Future<Result<ThongKeYKNDModel>> baoCaoYKienNguoiDan(
     String startDate,
@@ -145,7 +145,6 @@ mixin YKienNguoiDanRepository {
     int? trangThaiVanBanDi,
   });
 
-
   Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKNXuLyCacYKien({
     int? pageIndex,
     int? pageSize,
@@ -172,5 +171,4 @@ mixin YKienNguoiDanRepository {
     String dateFrom,
     String dateTo,
   );
-
 }

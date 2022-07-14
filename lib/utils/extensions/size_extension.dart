@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,15 @@ extension SizeInt on int {
   int textScale({int space = 2}) {
     return APP_DEVICE == DeviceType.MOBILE ? this : this + space;
   }
+
+  String getFileSize(int decimals) {
+    const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    if (this <= 0) return '0 B';
+    final i = (log(this) / log(1024)).floor();
+    return '${(this / pow(1000, i)).toStringAsFixed(decimals)} ${suffixes[i]}';
+  }
+
+
 }
 
 extension SizeDouble on double {

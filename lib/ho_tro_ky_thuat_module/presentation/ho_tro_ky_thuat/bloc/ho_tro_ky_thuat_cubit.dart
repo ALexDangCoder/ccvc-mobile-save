@@ -30,9 +30,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
 //code status
   static const CHUA_XU_LY = 'chua-xu-ly';
-  static const CHO_XU_LY = 'cho-xu-ly';
   static const DANG_XU_LY = 'dang-xu-ly';
-  static const DA_XU_LY = 'da-xu-ly';
+  static const DA_HOAN_THANH = 'da-hoan-thanh';
   static const TU_CHOI_XU_LY = 'tu-choi-xu-ly';
 
   static const LOAI_SU_CO = 'loai-su-co';
@@ -428,7 +427,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         } else {}
       }
     }
-    print(listIdSuCo);
     return listIdSuCo;
   }
 

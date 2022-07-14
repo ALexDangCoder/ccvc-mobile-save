@@ -70,5 +70,40 @@ class DanhSachLichHopRequest {
   factory DanhSachLichHopRequest.fromJson(Map<String, dynamic> json) =>
       _$DanhSachLichHopRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DanhSachLichHopRequestToJson(this);
+  Map<String, dynamic> toJson(){
+    final Map<String, dynamic> json = {
+      'DateFrom': DateFrom,
+      'DateTo': DateTo,
+      'UserId': UserId,
+      'DonViId': DonViId,
+      'IsLichLanhDao': IsLichLanhDao,
+      'PageIndex': PageIndex,
+      'Title': Title,
+      'isLichCuaToi': isLichCuaToi,
+      'isLichDuocMoi': isLichDuocMoi,
+      'isLichHuyBo': isLichHuyBo,
+      'isLichTaoHo': isLichTaoHo,
+      'isLichThamGia': isLichThamGia,
+      'isLichThuHoi': isLichThuHoi,
+      'isLichTuChoi': isLichTuChoi,
+      'isPublish': isPublish,
+      'isDuyetLich': isDuyetLich,
+      'isDuyetThietBi': isDuyetThietBi,
+      'isLichYeuCauChuanBi': isLichYeuCauChuanBi,
+      'isChuaCoBaoCao': isChuaCoBaoCao,
+      'isDaCoBaoCao': isDaCoBaoCao,
+      'isChoXacNhan': isChoXacNhan,
+      'isDuyetPhong': isDuyetPhong,
+      'isLichDonVi': isLichDonVi,
+      'isPreviewPhong': isPreviewPhong,
+      'isChuaChuanBi': isChuaChuanBi,
+      'isDaChuanBi': isDaChuanBi,
+      'isDuyetKyThuat': isDuyetKyThuat,
+      'trangThaiDuyetKyThuat': trangThaiDuyetKyThuat,
+    };
+    if(PageSize != null){
+      json.putIfAbsent('PageSize', () => PageSize);
+    }
+    return json;
+  }
 }

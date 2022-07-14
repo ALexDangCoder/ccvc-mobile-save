@@ -25,28 +25,31 @@ class TabThongTinPAKNTablet extends StatefulWidget {
   State<TabThongTinPAKNTablet> createState() => _TabThongTinPAKNTabletState();
 }
 
-class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
+class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
+      },
       child: _content(),
     );
   }
 
   Widget _content() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 13.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 13.0),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
@@ -78,9 +81,10 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
                     return ListItemRow(
                       title: data[index].title,
                       content: data[index].content,
-                        nameFile: data[index].nameFile,
-                        urlFile: data[index].urlDownload,
-                        domainDownload: '${Get.find<AppConstants>().baseUrlPAKN}/'
+                      nameFile: data[index].nameFile,
+                      urlFile: data[index].urlDownload,
+                      domainDownload:
+                          '${Get.find<AppConstants>().baseUrlPAKN}/',
                     );
                   },
                 ),
@@ -93,4 +97,7 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -38,7 +38,7 @@ class _DateInputState extends State<DateInput> {
   Widget build(BuildContext context) {
     return TextFieldValidator(
       controller: textController,
-      hintText: DateFormatApp.date,
+      hintText: DateFormatApp.dateNormal,
       validator: (value) {
         if (value?.isEmpty ?? true) {
           return null;
@@ -53,9 +53,12 @@ class _DateInputState extends State<DateInput> {
       },
       suffixIcon: GestureDetector(
         onTap: () {
-          DateTime initDate = DateFormat(DateFormatApp.date).parse(
-            textController.text,
-          );
+          DateTime initDate = DateTime.now();
+          if(textController.text != '') {
+             initDate = DateFormat(DateFormatApp.date).parse(
+              textController.text,
+            );
+          }
           final dateSince = initDate.millisecondsSinceEpoch;
           if (dateSince < DateTime(1900).millisecondsSinceEpoch ||
               dateSince > DateTime.now().millisecondsSinceEpoch) {

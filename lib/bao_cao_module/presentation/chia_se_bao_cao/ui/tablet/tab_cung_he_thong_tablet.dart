@@ -2,9 +2,9 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/tree_widget.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/widget/item_chon_nhom_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/widget/item_nguoi_dung_tablet.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/widgets/tree_bao_cao_chia_se.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -64,40 +64,44 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                       borderRadius: BorderRadius.all(Radius.circular(4.r)),
                       border: Border.all(color: containerColorTab),
                     ),
-                    child: DropdownSearch<String>(
-                      maxHeight: 250.h,
-                      showSearchBox: true,
-                      mode: Mode.MENU,
-                      popupItemDisabled: (String s) => s.startsWith('I'),
-                      items: widget.cubit.listDropDown,
-                      dropdownBuilder: (context, value) {
-                        return Padding(
-                          padding: EdgeInsets.only(left: 16.w),
-                          child: Text(
-                            S.current.chon_nhom,
-                            style: textNormalCustom(
-                              color: color3D5586,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                    child: Stack(
+                      children: [
+                        DropdownSearch<String>(
+                          maxHeight: 250.h,
+                          showSearchBox: true,
+                          mode: Mode.MENU,
+                          popupItemDisabled: (String s) => s.startsWith('I'),
+                          items: widget.cubit.listDropDown,
+                          dropdownSearchDecoration: const InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                           ),
-                        );
-                      },
-                      dropdownSearchDecoration: InputDecoration(
-                        hintText: S.current.chon_nhom,
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                          onChanged: (value) {
+                            widget.cubit.themNhom(value ?? '');
+                          },
+                          selectedItem: S.current.chon_nhom,
+                          emptyBuilder: (context, value) {
+                            return Center(
+                              child: Text(S.current.no_data),
+                            );
+                          },
                         ),
-                      ),
-                      onChanged: (value) {
-                        widget.cubit.themNhom(value ?? '');
-                      },
-                      selectedItem: S.current.chon_nhom,
-                      emptyBuilder: (context, value) {
-                        return Center(
-                          child: Text(S.current.no_data),
-                        );
-                      },
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.w),
+                            child: Text(
+                              S.current.chon_nhom,
+                              style: textNormalCustom(
+                                color: color3D5586,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },
@@ -163,7 +167,6 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                   if (index ==
                                       _themDonViCubit.selectNode.length) {
                                     return Container(
-                                      width: 200,
                                       color: Colors.transparent,
                                       child: TextField(
                                         onChanged: (value) {
@@ -233,8 +236,8 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                           .manual,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
-                                    return TreeViewWidget(
-                                      themDonViCubit: _themDonViCubit,
+                                    return TreeViewChiaSeBaoCaoWidget(
+                                      themDonViCubit: widget.cubit,
                                       node: data[index],
                                     );
                                   },
@@ -335,7 +338,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                   btnRightTxt: S.current.dong_y,
                   funcBtnRight: () {
                     widget.cubit.chiaSeBaoCao(Share.COMMON).then((value) {
-                      if (value == 'Thành công') {
+                      if (value == ChiaSeBaoCaoCubit.success) {
                         MessageConfig.show(title: value);
                         Navigator.pop(context);
                         Navigator.pop(context);

@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/base_app_bar.da
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,8 +93,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             spaceH10,
                             rowItem(
                               S.current.nguoi_yeu_cau,
-                              (cubit.supportDetail.nguoiYeuCau ?? '') +
-                                  (cubit.supportDetail.chucVu ?? ''),
+                              '${cubit.supportDetail.nguoiYeuCau ?? ''} - ${cubit.supportDetail.chucVu ?? ''}',
                             ),
                             spaceH10,
                             rowItem(
@@ -144,7 +144,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                                 Expanded(
                                   flex: 3,
                                   child:
-                                      (cubit.supportDetail.trangThaiXuLy ?? '')
+                                      (cubit.supportDetail.codeTrangThai ?? '')
                                           .getStatusNV()
                                           .getStatus(),
                                 ),
@@ -170,7 +170,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                               S.current.nhan_xet,
                               cubit.supportDetail.nhanXet,
                             ),
-                            spaceH20,
+                            spaceH70,
                           ],
                         ),
                       ),
@@ -185,27 +185,16 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                           color: Colors.white,
                           child: DoubleButtonBottom(
                             title1: S.current.dong,
-                            title2: cubit.isItSupport
+                            title2: (cubit.isItSupport &&
+                                    cubit.supportDetail.codeTrangThai !=
+                                        ChiTietHoTroCubit.DA_HOAN_THANH)
                                 ? S.current.cap_nhat_thxl
                                 : S.current.danh_gia,
-                            onPressed1: () {},
+                            onPressed1: () {
+                              Navigator.pop(context);
+                            },
                             onPressed2: () {
-                              showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (_) {
-                                  if (cubit.isItSupport) {
-                                    return CapNhatTinhHinhHoTro(
-                                      cubit: cubit,
-                                    );
-                                  } else {
-                                    return DanhGiaYeuCauHoTro(
-                                      cubit: cubit,
-                                    );
-                                  }
-                                },
-                              );
+                              confirmUpdateTask();
                             },
                             noPadding: true,
                           ),
@@ -218,6 +207,41 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
         },
       ),
     );
+  }
+  void confirmUpdateTask(){
+    if (cubit.isItSupport &&
+        cubit.supportDetail.codeTrangThai !=
+            ChiTietHoTroCubit.DA_HOAN_THANH) {
+      showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        context: context,
+        builder: (_) {
+          return CapNhatTinhHinhHoTro(
+            cubit: cubit,
+          );
+        },
+      );
+    } else {
+      if (cubit.supportDetail.codeTrangThai ==
+          ChiTietHoTroCubit.DA_HOAN_THANH) {
+        showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+          context: context,
+          builder: (_) {
+            return DanhGiaYeuCauHoTro(
+              cubit: cubit,
+            );
+          },
+        );
+      } else {
+        MessageConfig.show(
+          title: S.current.chua_duoc_danh_gia,
+          messState: MessState.error,
+        );
+      }
+    }
   }
 
   Widget title(String title) {
@@ -342,7 +366,7 @@ Widget statusTrangThaiXuLy({required String name, required Color background}) {
 enum StatusHoTro {
   DANG_CHO_XU_LY,
   DANG_XU_LY,
-  DA_XU_LY,
+  DA_HOAN_THANH,
   TU_CHOI_XU_LY,
   NONE,
 }
@@ -360,7 +384,7 @@ extension StatusChiTietNV on StatusHoTro {
           name: S.current.dang_xu_ly,
           background: blueNhatChart,
         );
-      case StatusHoTro.DA_XU_LY:
+      case StatusHoTro.DA_HOAN_THANH:
         return statusTrangThaiXuLy(
           name: S.current.da_xu_ly,
           background: daXuLyColor,
@@ -368,7 +392,7 @@ extension StatusChiTietNV on StatusHoTro {
       case StatusHoTro.TU_CHOI_XU_LY:
         return statusTrangThaiXuLy(
           name: S.current.tu_choi_xu_ly,
-          background: specialPriceColor,
+          background: canceledColor,
         );
       case StatusHoTro.NONE:
         return const SizedBox();
@@ -379,13 +403,13 @@ extension StatusChiTietNV on StatusHoTro {
 extension GetStatusNV on String {
   StatusHoTro getStatusNV() {
     switch (this) {
-      case 'Đang chờ xử lý':
+      case ChiTietHoTroCubit.CHUA_XU_LY:
         return StatusHoTro.DANG_CHO_XU_LY;
-      case 'Đang xử lý':
+      case ChiTietHoTroCubit.DANG_XU_LY:
         return StatusHoTro.DANG_XU_LY;
-      case 'Đã xử lý':
-        return StatusHoTro.DA_XU_LY;
-      case 'Từ chối xử lý':
+      case ChiTietHoTroCubit.DA_HOAN_THANH:
+        return StatusHoTro.DA_HOAN_THANH;
+      case ChiTietHoTroCubit.TU_CHOI_XU_LY:
         return StatusHoTro.TU_CHOI_XU_LY;
       default:
         return StatusHoTro.NONE;

@@ -51,7 +51,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
   void initState() {
     super.initState();
     if (widget.chiTietHop != null) {
-      isHopTrucTiep = !widget.chiTietHop!.bit_HopTrucTuyen;
+      isHopTrucTiep = widget.chiTietHop!.diaDiemHop?.isNotEmpty ?? false;
       isHopTrucTuyen = widget.chiTietHop!.bit_HopTrucTuyen;
       isDuyetKyThuat = widget.chiTietHop!.isDuyetKyThuat ?? false;
       if(widget.chiTietHop!.bit_LinkTrongHeThong != null){
@@ -104,8 +104,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               validate: (value){
                 if(isHopTrucTiep){
                   if (value.trim().isEmpty) {
-                    return '${S.current.dia_diem_hop} '
-                        '${S.current.khong_duoc_de_trong}';
+                    return '${S.current.vui_long_nhap} '
+                        '${S.current.dia_diem_hop.toLowerCase()}';
                   }
                 }
               },
@@ -464,7 +464,7 @@ class ItemDiemCau extends StatelessWidget {
                   height: 10.0.textScale(space: 10),
                 ),
                 rowInfo(
-                  value: diemCau.getLoaiDiemCau(),
+                  value: diemCau.getLoaiDiemCau,
                   key: S.current.diem_cau_chinh_phu,
                 ),
                 SizedBox(

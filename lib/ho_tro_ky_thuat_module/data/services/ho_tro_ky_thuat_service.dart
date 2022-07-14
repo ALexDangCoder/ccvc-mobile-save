@@ -2,14 +2,16 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/add_task_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/delete_task_response.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/group_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/post_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/support_detail_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -24,18 +26,19 @@ abstract class HoTroKyThuatService {
 
   @POST(ApiConstants.DANH_SACH_SU_CO)
   Future<DanhSachSuCoResponse> postDanhSachSuCo(
-      @Field('pageIndex') int pageIndex,
-      @Field('pageSize') int pageSize,
-      @Field('codeUnit') String? codeUnit,
-      @Field('createOn') String? createOn,
-      @Field('finishDay') String? finishDay,
-      @Field('userRequestId') String? userRequestId,
-      @Field('districtId') String? districtId,
-      @Field('buildingId') String? buildingId,
-      @Field('room') String? room,
-      @Field('processingCode') String? processingCode,
-      @Field('handlerId') String? handlerId,
-      @Field('keyWord') String? keyWord,);
+    @Field('pageIndex') int pageIndex,
+    @Field('pageSize') int pageSize,
+    @Field('codeUnit') String? codeUnit,
+    @Field('createOn') String? createOn,
+    @Field('finishDay') String? finishDay,
+    @Field('userRequestId') String? userRequestId,
+    @Field('districtId') String? districtId,
+    @Field('buildingId') String? buildingId,
+    @Field('room') String? room,
+    @Field('processingCode') String? processingCode,
+    @Field('handlerId') String? handlerId,
+    @Field('keyWord') String? keyWord,
+  );
 
   @GET(ApiConstants.GET_TONG_DAI)
   Future<TongDaiResponse> getTongDai();
@@ -57,6 +60,11 @@ abstract class HoTroKyThuatService {
   @GET(ApiConstants.GET_NGUOI_XU_LY)
   Future<NguoiTiepNhanYeuCauResponse> getNguoiTiepNhanYeuCau();
 
+  @POST(ApiConstants.POST_UPDATE_TASK_PROCESSING)
+  Future<PostResponse> updateTaskProcessing(
+      @Body() TaskProcessing task,
+      );
+
   @DELETE(ApiConstants.DELETE_TASK)
   Future<DeleteTaskResponse> deleteTask(@Body() List<String> listId,);
 
@@ -77,4 +85,10 @@ abstract class HoTroKyThuatService {
  @Part(name: "UserInUnit") String? UserInUnit,
  @Part(name: "fileUpload") List<File> FileUpload,
   );
+
+  @POST(ApiConstants.COMMENT_TASK_PROCESSING)
+  Future<PostResponse> commentTaskProcessing(
+      @Query('taskId') String taskId,
+      @Query('comment') String comment,
+      );
 }

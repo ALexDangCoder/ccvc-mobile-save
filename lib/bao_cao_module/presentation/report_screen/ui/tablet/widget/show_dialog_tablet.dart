@@ -32,7 +32,7 @@ class ShowMoreBottomSheetTablet extends StatelessWidget {
           isIconClose: true,
           cubit: cubit,
           isFavorite: isFavorite,
-          reportItem: reportItem,
+          item: reportItem,
         ),
       ),
     );

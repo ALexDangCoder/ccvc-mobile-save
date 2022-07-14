@@ -31,7 +31,9 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   final BehaviorSubject<List<PhongHopModel>> phongHopSubject =
       BehaviorSubject();
 
-  final BehaviorSubject<PhongHopModel> phongHopSelectedSubject = BehaviorSubject();
+  final BehaviorSubject<ChonPhongHopModel> thongTinPhongHopSubject =
+      BehaviorSubject();
+
   HopRepository get hopRepository => Get.find();
 
   PhongHop phongHop = PhongHop();
@@ -62,30 +64,6 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
         phongHopSubject.add(res);
       },
       error: (error) {},
-    );
-  }
-
-  Future<void> getThongTinPhongHop({
-    required bool isTTDH,
-    required int trangThai,
-    required List<ThietBiModel> listThietBi,
-    required String idHop,
-  }) async {
-    final result = await hopRepository.getListThongTinPhongHop(idHop);
-    result.when(
-      success: (res) {
-        if(res.id?.isEmpty ?? true){
-          return;
-        }
-        phongHopSelectedSubject.sink.add(
-          res.convertToPhongHopModel(
-            isTTDH: isTTDH,
-            trangThai: trangThai,
-            listThietBi: listThietBi,
-          ),
-        );
-      },
-      error: (err) {},
     );
   }
 

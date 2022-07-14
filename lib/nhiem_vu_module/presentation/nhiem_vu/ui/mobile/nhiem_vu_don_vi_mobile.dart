@@ -272,7 +272,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
               },
             ),
             ExpandOnlyWidget(
-              isPadingIcon: true,
+              isPaddingIcon: true,
               initExpand: true,
               header: Container(
                 color: Colors.transparent,

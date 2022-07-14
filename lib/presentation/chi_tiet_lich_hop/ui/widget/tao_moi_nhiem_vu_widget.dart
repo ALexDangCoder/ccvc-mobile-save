@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
@@ -7,27 +8,25 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chon_ngay_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/dropdown_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
-
-import 'chon_ngay_widget.dart';
-import 'dropdown_widget.dart';
-import 'ket_luan_hop_widget.dart';
-import 'package:path/path.dart';
+import 'package:rxdart/rxdart.dart';
 
 class TaoMoiNhiemVuWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -44,6 +43,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
   final TextEditingController ndTheoDoiController = TextEditingController();
   final TextEditingController soKyHieuController = TextEditingController();
   final TextEditingController trichYeuController = TextEditingController();
+  BehaviorSubject<bool> showRequiedLoaiNV = BehaviorSubject.seeded(false);
   final keyGroup = GlobalKey<FormGroupState>();
   late ThemNhiemVuRequest themNhiemVuRequest;
   late String ngGiaoNvId;
@@ -56,10 +56,6 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
     themNhiemVuRequest = ThemNhiemVuRequest(
       idCuocHop: widget.cubit.idCuocHop,
       hanXuLy: DateTime.now().toStringWithListFormat,
-      processTypeId:
-          (widget.cubit.danhSachLoaiNhiemVuLichHopModel.valueOrNull ?? [])
-              .first
-              .id,
     );
   }
 
@@ -88,11 +84,14 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                 bottomWidget: DoubleButtonBottom(
                   title1: S.current.dong,
                   title2: S.current.xac_nhan,
-                  onPressed1: () {
+                  onClickLeft: () {
                     Navigator.pop(context);
                   },
-                  onPressed2: () {
+                  onClickRight: () {
                     if (keyGroup.currentState!.validator()) {
+                      if (!showRequiedLoaiNV.value) {
+                        showRequiedLoaiNV.sink.add(true);
+                      }
                       themNhiemVuRequest.meTaDaTa = [
                         MeTaDaTaRequest(
                           key: 'NguoiGiaoId',
@@ -116,26 +115,26 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      sb20(),
+                      sb20,
 
                       /// loai nhiem vu
-                      StreamBuilder<List<DanhSachLoaiNhiemVuLichHopModel>>(
-                        stream:
-                            widget.cubit.danhSachLoaiNhiemVuLichHopModel.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return DropDownWidget(
-                            isNote: true,
-                            title: S.current.loai_nhiem_vu,
-                            hint: S.current.loai_nhiem_vu,
-                            listData: data.map((e) => e.ten ?? '').toList(),
-                            onChange: (value) {
-                              themNhiemVuRequest.processTypeId = data[value].id;
-                            },
-                          );
-                        },
+                      ShowRequiedWithStream(
+                        isShow: showRequiedLoaiNV,
+                        child: DropDownWidget(
+                          listData: widget.cubit.danhSachLoaiNhiemVuLichHopModel
+                              .map((e) => e.ten ?? '')
+                              .toList(),
+                          isNote: true,
+                          title: S.current.loai_nhiem_vu,
+                          hint: S.current.loai_nhiem_vu,
+                          onChange: (value) {
+                            themNhiemVuRequest.processTypeId = widget.cubit
+                                .danhSachLoaiNhiemVuLichHopModel[value].id;
+                            showRequiedLoaiNV.sink.add(false);
+                          },
+                        ),
                       ),
-                      sb20(),
+                      sb20,
 
                       /// don vi theo doi
                       ItemTextFieldWidget(
@@ -145,7 +144,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         validator: (String? value) {},
                         onChange: (String value) {},
                       ),
-                      sb20(),
+                      sb20,
 
                       /// nguoi theo doi
                       ItemTextFieldWidget(
@@ -155,9 +154,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         validator: (String? value) {},
                         onChange: (String value) {},
                       ),
-                      sb20(),
+                      sb20,
 
-                      /// boi dung
+                      /// Noi dung
                       ItemTextFieldWidget(
                         hint: '',
                         title: S.current.noi_dung_theo_doi,
@@ -165,13 +164,15 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         isRequired: true,
                         maxLine: 8,
                         validator: (String? value) {
-                          return value?.checkNull();
+                          return value?.checkNull(
+                              showText: S.current
+                                  .ban_phai_nhap_truong_noi_dung_theo_doi);
                         },
                         onChange: (String value) {
                           themNhiemVuRequest.processContent = value;
                         },
                       ),
-                      sb20(),
+                      sb20,
 
                       /// hạn xu ly
                       PickDateWidget(
@@ -182,25 +183,22 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                               value.toStringWithListFormat;
                         },
                       ),
-                      sb20(),
+                      sb20,
 
                       /// người giao nhiem vu
-                      StreamBuilder<List<NguoiChutriModel>>(
-                        stream: widget.cubit.listNguoiCHuTriModel,
-                        builder: (context, snapshot) {
-                          final List<NguoiChutriModel> data =
-                              snapshot.data ?? [];
-                          return DropDownWidget(
-                            title: S.current.nguoi_giao_nhiem_vu,
-                            hint: S.current.nguoi_giao_nhiem_vu,
-                            listData: data.map((e) => e.hoTen ?? '').toList(),
-                            onChange: (value) {
-                              ngGiaoNvId = data[value].id ?? '';
-                            },
-                          );
+                      DropDownWidget(
+                        title: S.current.nguoi_giao_nhiem_vu,
+                        hint: S.current.nguoi_giao_nhiem_vu,
+                        listData: widget.cubit.dataThuKyOrThuHoiDeFault
+                            .map((e) => e.hoTen ?? '')
+                            .toList(),
+                        onChange: (value) {
+                          ngGiaoNvId = widget.cubit.dataThuKyOrThuHoiDeFault
+                              .map((e) => e.id ?? '')
+                              .toList()[value];
                         },
                       ),
-                      sb20(),
+                      sb20,
 
                       /// van ban giao nhiem vu
                       buttonThemVb(
@@ -220,7 +218,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                 ),
               ),
             ),
-            sb20(),
+            sb20,
           ],
         ),
       ),
@@ -270,9 +268,34 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       trichYeu: data[index].trichYeu ?? '',
                       file: data[index].file?.first ?? '',
                       onTap: () {
-                        onTapRemoveVb(
-                          cubit: widget.cubit,
-                          data: data[index],
+                        showDiaLog(
+                          context,
+                          textContent:
+                              S.current.ban_co_chac_chan_muon_xoa_khong,
+                          btnLeftTxt: S.current.dong,
+                          funcBtnRight: () {
+                            onTapRemoveVb(
+                              cubit: widget.cubit,
+                              data: data[index],
+                            );
+                          },
+                          title: S.current.gui_email,
+                          btnRightTxt: S.current.dong_y,
+                          icon: Container(
+                            width: 56,
+                            height: 56,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: statusCalenderRed.withOpacity(0.1),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SvgPicture.asset(
+                                ImageAssets.ic_delete_do,
+                              ),
+                            ),
+                          ),
                         );
                       },
                     );
@@ -282,11 +305,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
         ],
       );
 
-  Widget sb20() {
-    return SizedBox(
-      height: 20.0.textScale(),
-    );
-  }
+  Widget sb20 = SizedBox(
+    height: 20.0.textScale(),
+  );
 
   void onTapRemoveVb({
     required DetailMeetCalenderCubit cubit,

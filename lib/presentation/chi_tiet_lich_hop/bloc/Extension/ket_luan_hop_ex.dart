@@ -22,7 +22,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
             thoiGian: res.createAt ?? '',
             trangThai: typeTrangthai(res.status ?? 0),
             tinhTrang: typeTinhTrang(res.reportStatusCode ?? ''),
-            file: res.files?.map((e) => e.Name ?? '').toList() ?? [],
+            file:res.files ?? [],
             title: res.title,
           ),
         );
@@ -67,8 +67,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
   TrangThai typeTrangthai(int value) {
     switch (value) {
-      case 1:
-        return TrangThai.CHO_DUYET;
       case 2:
         return TrangThai.DA_DUYET;
       case 0:
@@ -86,10 +84,8 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         return TinhTrang.TRUNG_BINH;
       case 'dat':
         return TinhTrang.DAT;
-      case 'chua-dat':
-        return TinhTrang.CHUA_DAT;
       default:
-        return TinhTrang.TRUNG_BINH;
+        return TinhTrang.KHONG_DAT;
     }
   }
 
@@ -213,7 +209,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachLoaiNhiemVu();
     result.when(
       success: (res) {
-        danhSachLoaiNhiemVuLichHopModel.sink.add(res);
+        danhSachLoaiNhiemVuLichHopModel = res;
       },
       error: (err) {
         return;

@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -90,7 +91,7 @@ class _ButtonSelectFileLichLamViecState
   }
 
   String get convertData {
-    final double value = (widget.maxSize ?? 0.0) / 1048576;
+    final double value = (widget.maxSize ?? 0.0) / BYTE_TO_MB;
     return value.toInt().toString();
   }
 
@@ -290,8 +291,9 @@ class _ButtonSelectFileLichLamViecState
                   onTap();
                 },
                 child: Container(
+                  margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(4),
-                    child: SvgPicture.asset(ImageAssets.icDelete)),
+                    child: SvgPicture.asset(ImageAssets.icDelete,),),
               ),
             ],
           ),

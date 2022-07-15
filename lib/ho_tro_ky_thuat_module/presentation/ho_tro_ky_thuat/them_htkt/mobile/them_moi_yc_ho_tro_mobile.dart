@@ -1,20 +1,21 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/create_tech_suport.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
+import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -37,9 +38,9 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
 
   @override
   void initState() {
-    super.initState();
     widget.cubit.init();
     widget.cubit.getApiThemMoiYCHT();
+    super.initState();
   }
 
   @override
@@ -160,9 +161,9 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                         ),
                         spaceH16,
-                        _dropDownKhuVuc(),
+                        AreaDropDown(cubit: widget.cubit),
                         spaceH16,
-                        _dropDownToaNha(),
+                        BuildingDropDown(cubit: widget.cubit),
                         spaceH16,
                         textField(
                           isHightLight: true,
@@ -178,7 +179,22 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                         ),
                         spaceH16,
-                        _loaiSuCoMultiSelect(),
+                        StreamBuilder<List<String>>(
+                          stream: widget.cubit.issueListStream,
+                          builder: (context, snapshot) {
+                            final _issueList = snapshot.data ?? [];
+                            return MultiSelectList(
+                              title: S.current.loai_su_co,
+                              isRequire: true,
+                              items: _issueList,
+                              onChange: (selectIndexList) {
+                                widget.cubit
+                                    .addIssueListRequest(selectIndexList);
+                              },
+                            );
+                          },
+                        ),
+                        // IssueDropDown(cubit: widget.cubit),
                         spaceH16,
                         TaiLieuWidget(
                           idRemove: (String id) {},
@@ -198,275 +214,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _dropDownToaNha() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        RichText(
-          text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                text: S.current.toa_nha,
-                style: tokenDetailAmount(
-                  fontSize: 14,
-                  color: color3D5586,
-                ),
-              ),
-              TextSpan(
-                text: ' *',
-                style: tokenDetailAmount(
-                  fontSize: 14,
-                  color: Colors.red,
-                ),
-              )
-            ],
-          ),
-        ),
-        spaceH8,
-        StreamBuilder<List<String>>(
-          stream: widget.cubit.buildingListStream,
-          builder: (context, snapshot) {
-            final _buildingList = snapshot.data ?? [];
-            return CustomDropDown(
-              hint: RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: S.current.chon,
-                      style: tokenDetailAmount(
-                        fontSize: 14,
-                        color: color3D5586,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              onSelectItem: (value) {
-                widget.cubit.addTaskHTKTRequest.buildingName =
-                    widget.cubit.listToaNha.value[value].name;
-                // widget.cubit.addTaskHTKTRequest.buildingId =
-                //     widget.cubit.listKhuVuc.value[value].id;
-              },
-              items: _buildingList,
-            );
-          },
-        ),
-        StreamBuilder<bool>(
-          initialData: false,
-          stream: widget.cubit.showErrorToaNha.stream,
-          builder: (context, snapshot) {
-            return snapshot.data ?? false
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                    child: Text(
-                      S.current.khong_duoc_de_trong,
-                      style: textNormalCustom(
-                        color: redChart,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink();
-          },
-        )
-      ],
-    );
-  }
-
-  Widget _dropDownKhuVuc() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        RichText(
-          text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                text: S.current.khu_vuc,
-                style: tokenDetailAmount(
-                  fontSize: 14,
-                  color: color3D5586,
-                ),
-              ),
-              TextSpan(
-                text: ' *',
-                style: tokenDetailAmount(
-                  fontSize: 14,
-                  color: Colors.red,
-                ),
-              )
-            ],
-          ),
-        ),
-        spaceH8,
-        CustomDropDown(
-          hint: RichText(
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: S.current.chon,
-                  style: tokenDetailAmount(
-                    fontSize: 14,
-                    color: color3D5586,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          value: widget.cubit.addTaskHTKTRequest.districtName,
-          onSelectItem: (value) {
-            widget.cubit.selectArea(value);
-          },
-          items:
-              widget.cubit.listKhuVuc.value.map((e) => e.name ?? '').toList(),
-        ),
-        StreamBuilder<bool>(
-          initialData: false,
-          stream: widget.cubit.showErrorKhuVuc.stream,
-          builder: (context, snapshot) {
-            return snapshot.data ?? false
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                    child: Text(
-                      S.current.khong_duoc_de_trong,
-                      style: textNormalCustom(
-                        color: redChart,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink();
-          },
-        )
-      ],
-    );
-  }
-
-  Widget _loaiSuCoMultiSelect() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        RichText(
-          text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                text: S.current.loai_su_co,
-                style: tokenDetailAmount(
-                  fontSize: 14,
-                  color: color3D5586,
-                ),
-              ),
-              TextSpan(
-                text: ' *',
-                style: tokenDetailAmount(
-                  fontSize: 14,
-                  color: Colors.red,
-                ),
-              )
-            ],
-          ),
-        ),
-        spaceH8,
-        StreamBuilder<bool>(
-          stream: widget.cubit.showHintDropDown.stream,
-          builder: (context, snapshot) {
-            return DropdownSearch<String>.multiSelection(
-              dropdownSearchBaseStyle: textNormalCustom(
-                color: color3D5586,
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              items: widget.cubit.listLoaiSuCo.value
-                  .map((e) => e.name ?? '')
-                  .toList(),
-              mode: Mode.MENU,
-              dropdownBuilder: (context, value) {
-                Widget item(String i) => Text(
-                      '$i,',
-                      style: textNormalCustom(
-                        color: color3D5586,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    );
-                return (snapshot.data ?? true)
-                    ? Text(
-                        S.current.chon,
-                        style: textNormalCustom(
-                          color: color3D5586,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-                    : Wrap(
-                        children: value.map((e) => item(e)).toList(),
-                      );
-              },
-              popupSelectionWidget: (cnt, String item, bool isSelected) {
-                return isSelected
-                    ? const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          Icons.check_circle,
-                          color: borderColor,
-                        ),
-                      )
-                    : Container();
-              },
-              onChanged: (value) {
-                widget.cubit.loaiSuCoValue = value;
-                widget.cubit.addTaskHTKTRequest.danhSachSuCo =
-                    widget.cubit.getIdListLoaiSuCo(value);
-                widget.cubit.checkShowHintDropDown(value);
-              },
-              dropdownSearchDecoration: InputDecoration(
-                hintText: S.current.chon,
-                hintStyle: textNormalCustom(
-                  color: titleItemEdit.withOpacity(0.5),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-                fillColor: borderColor.withOpacity(0.3),
-                filled: false,
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: borderColor),
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: borderColor),
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                ),
-              ),
-            );
-          },
-        ),
-        StreamBuilder<bool>(
-          initialData: false,
-          stream: widget.cubit.showErrorLoaiSuCo.stream,
-          builder: (context, snapshot) {
-            return snapshot.data ?? false
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                    child: Text(
-                      S.current.khong_duoc_de_trong,
-                      style: textNormalCustom(
-                        color: redChart,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink();
-          },
-        ),
-      ],
     );
   }
 
@@ -594,30 +341,16 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   }
 
   Widget doubleBtn() => DoubleButtonBottom(
-        onPressed1: () {
+        onClickLeft: () {
           Navigator.pop(context);
         },
-        onPressed2: () {
+        onClickRight: () {
           widget.cubit.checkAllThemMoiYCHoTro();
-
-          ///test
-          widget.cubit.addTaskHTKTRequest.districtId =
-              'b6630734-88e1-4938-acc4-c18918624d72';
-          widget.cubit.addTaskHTKTRequest.districtName = 'Hà Nội';
-          widget.cubit.addTaskHTKTRequest.buildingId =
-              'bfa578bb-b98f-4ea9-a790-2302b87dcb26';
-          widget.cubit.addTaskHTKTRequest.buildingName = 'Tòa A';
-          widget.cubit.addTaskHTKTRequest.userInUnit =
-              HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
-                  '';
-          print(widget.cubit.addTaskHTKTRequest.toString());
-          print(widget.cubit.filesThemMoiYCHTKT);
-          widget.cubit.postDataThemMoiHTKT();
-
-          ///end
-          if (_groupKey.currentState?.validator() ??
-              true && widget.cubit.validateAllDropDown) {
-            // widget.cubit.postDataThemMoiHTKT();
+          if ((_groupKey.currentState?.validator() ?? true) &&
+              widget.cubit.validateAllDropDown) {
+            widget.cubit
+                .postDataThemMoiHTKT()
+                .then((value) => value ? Navigator.pop(context) : null);
           } else {
             final toast = FToast();
             toast.init(context);

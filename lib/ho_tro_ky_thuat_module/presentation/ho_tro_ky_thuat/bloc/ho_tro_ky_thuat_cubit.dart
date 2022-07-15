@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/nguoi_tiep_nhan_
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_state.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/type_ho_tro_ky_thuat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
@@ -42,16 +43,17 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   ///variable menu
   BehaviorSubject<TypeHoTroKyThuat> typeHoTroKyThuatSubject =
-  BehaviorSubject.seeded(TypeHoTroKyThuat.THONG_TIN_CHUNG);
+      BehaviorSubject.seeded(TypeHoTroKyThuat.THONG_TIN_CHUNG);
 
   Stream<TypeHoTroKyThuat> get typeHoTroKyThuatStream =>
       typeHoTroKyThuatSubject.stream;
+
   List<bool> listCheckPopupMenu = [];
 
   BehaviorSubject<List<TongDaiModel>> listTongDai = BehaviorSubject.seeded([]);
 
   BehaviorSubject<List<NguoiTiepNhanYeuCauModel>> listNguoiTiepNhanYeuCau =
-  BehaviorSubject.seeded([]);
+      BehaviorSubject.seeded([]);
 
   BehaviorSubject<List<ThanhVien>> listCanCoHTKT = BehaviorSubject.seeded([]);
 
@@ -64,16 +66,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   BehaviorSubject<List<CategoryModel>> listKhuVuc = BehaviorSubject.seeded([]);
 
   BehaviorSubject<List<CategoryModel>> listLoaiSuCo =
-  BehaviorSubject.seeded([]);
+      BehaviorSubject.seeded([]);
 
   BehaviorSubject<List<CategoryModel>> listTrangThai =
-  BehaviorSubject.seeded([]);
+      BehaviorSubject.seeded([]);
 
   BehaviorSubject<List<ChildCategories>> listToaNha =
-  BehaviorSubject.seeded([]);
+      BehaviorSubject.seeded([]);
 
-  BehaviorSubject<List<String>> buildingListStream =
-  BehaviorSubject.seeded([]);
+  BehaviorSubject<List<String>> buildingListStream = BehaviorSubject.seeded([]);
+
+  BehaviorSubject<List<String>> issueListStream = BehaviorSubject.seeded([]);
+
+  List<CategoryModel> areaList = [];
+  List<CategoryModel> issueList = [];
+  List<ChildCategories> buildingList = [];
+  String? tempBuildingName;
 
   List<List<ChartData>> listDataChart = [];
   List<ChartData> listStatusData = [];
@@ -95,8 +103,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   String? keyWord;
   final dataUser = HiveLocal.getDataUser();
   bool? isCheckUser;
+
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
-  BehaviorSubject<List<Node<DonViModel>>>();
+      BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
 
@@ -161,7 +170,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   List<String> getListThanhVien(List<ThanhVien> listData) {
     final List<String> list =
-    listData.map((e) => e.tenThanhVien ?? '').toList();
+        listData.map((e) => e.tenThanhVien ?? '').toList();
     final Set<String> listSet = {};
     listSet.addAll(list);
     final List<String> listResult = [];
@@ -229,28 +238,32 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     }
   }
 
-
-
-  Future<void> postDataThemMoiHTKT() async {
+  Future<bool> postDataThemMoiHTKT() async {
     showLoading();
-    final result = await _hoTroKyThuatRepository.addTask(id: addTaskHTKTRequest.id,
-        userRequestId: addTaskHTKTRequest.userRequestId,
-        phone: addTaskHTKTRequest.phone,
-        description: addTaskHTKTRequest.description,
-        districtId: addTaskHTKTRequest.districtId,
-        districtName: addTaskHTKTRequest.districtName,
-        buildingId: addTaskHTKTRequest.buildingId,
-        buildingName: addTaskHTKTRequest.buildingName,
-        room: addTaskHTKTRequest.room,
-        name: addTaskHTKTRequest.name,
-        danhSachSuCo: addTaskHTKTRequest.danhSachSuCo,
-        userInUnit: addTaskHTKTRequest.userInUnit,
-        fileUpload: addTaskHTKTRequest.fileUpload??[],);
-    result.when(success: (success) {
-      print('--sucess--');
-    }, error: (error) {
-      print('--fail--');
-    });
+    final result = await _hoTroKyThuatRepository.addTask(
+      id: addTaskHTKTRequest.id,
+      userRequestId: addTaskHTKTRequest.userRequestId,
+      phone: addTaskHTKTRequest.phone,
+      description: addTaskHTKTRequest.description,
+      districtId: addTaskHTKTRequest.districtId,
+      districtName: addTaskHTKTRequest.districtName,
+      buildingId: addTaskHTKTRequest.buildingId,
+      buildingName: addTaskHTKTRequest.buildingName,
+      room: addTaskHTKTRequest.room,
+      name: addTaskHTKTRequest.name,
+      danhSachSuCo: addTaskHTKTRequest.danhSachSuCo,
+      userInUnit: addTaskHTKTRequest.userInUnit,
+      fileUpload: addTaskHTKTRequest.fileUpload ?? [],
+    );
+    result.when(
+      success: (success) {
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
+    return true;
   }
 
   Future<void> getNguoiXuLy({
@@ -290,7 +303,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Future<void> getChartSuCo() async {
     checkDataChart.add(false);
     final Result<List<ChartSuCoModel>> result =
-    await _hoTroKyThuatRepository.getChartSuCo();
+        await _hoTroKyThuatRepository.getChartSuCo();
     result.when(
       success: (res) {
         //clean data chart
@@ -300,19 +313,18 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         //get list title chart
         if (res.isNotEmpty) {
           listTitle = res.first.danhSachSuCo
-              ?.map((e) => e.tenSuCo.toString())
-              .toList() ??
+                  ?.map((e) => e.tenSuCo.toString())
+                  .toList() ??
               [];
           //get list status chart
           listStatusData = res
               .map(
-                (value) =>
-                ChartData(
+                (value) => ChartData(
                   value.tenKhuVuc ?? '',
                   0,
                   getColorChart(value.codeKhuVuc ?? ''),
                 ),
-          )
+              )
               .toList();
           //get list data chart
           for (final title in listTitle) {
@@ -383,15 +395,18 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     required String title,
   }) async {
     final Result<List<CategoryModel>> result =
-    await _hoTroKyThuatRepository.getCategory(title);
+        await _hoTroKyThuatRepository.getCategory(title);
     result.when(
       success: (res) {
         if (title == KHU_VUC) {
           listKhuVuc.sink.add(res);
+          areaList = res;
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
         } else if (title == LOAI_SU_CO) {
           listLoaiSuCo.add(res);
+          issueList = res;
+          sinkIssue();
           flagLoadThemMoiYCHT = true;
         } else {
           listTrangThai.sink.add(res);
@@ -440,12 +455,10 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   void checkAllThemMoiYCHoTro() {
     if (addTaskHTKTRequest.buildingName == null) {
-      print('vao day');
       validateAllDropDown = false;
       showErrorToaNha.sink.add(true);
     }
     if (addTaskHTKTRequest.districtName == null) {
-      print('vao day1');
       validateAllDropDown = false;
       showErrorKhuVuc.sink.add(true);
     }
@@ -454,8 +467,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       showErrorLoaiSuCo.sink.add(true);
     }
     if (addTaskHTKTRequest.buildingName != null &&
-        addTaskHTKTRequest.districtName != null &&
-        (filesThemMoiYCHTKT ?? []).isNotEmpty) {
+        addTaskHTKTRequest.districtName != null) {
       validateAllDropDown = true;
       showErrorToaNha.sink.add(false);
       showErrorKhuVuc.sink.add(false);

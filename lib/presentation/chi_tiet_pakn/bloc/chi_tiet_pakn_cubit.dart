@@ -415,12 +415,10 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
       success: (res) {
         status = true;
         showContent();
-        getDanhSachYKienXuLyPAKN();
       },
       error: (error) {
         status = false;
         showContent();
-        getDanhSachYKienXuLyPAKN();
       },
     );
     return status;

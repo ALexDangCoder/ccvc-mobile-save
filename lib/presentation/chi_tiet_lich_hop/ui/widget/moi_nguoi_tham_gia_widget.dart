@@ -111,7 +111,19 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                         cubit: widget.cubit,
                         infoModel: list[index],
                         ontap: () {
-                          widget.cubit.postHuyDiemDanh(list[index].id ?? '');
+                          showDiaLog(
+                            context,
+                            title: S.current.huy_diem_danh,
+                            icon: SvgPicture.asset(ImageAssets.icHuyDiemDanh),
+                            btnLeftTxt: S.current.khong,
+                            btnRightTxt: S.current.dong_y,
+                            funcBtnRight: () {
+                              widget.cubit
+                                  .postHuyDiemDanh(list[index].id ?? '');
+                            },
+                            showTablet: true,
+                            textContent: S.current.conten_huy_diem_danh,
+                          );
                         },
                       );
                     },

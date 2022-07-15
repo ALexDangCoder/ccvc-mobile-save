@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -515,6 +513,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
             isEdit: true,
             isOnly: value,
             isInside: !data,
+            scheduleId: widget.event.id,
           );
         },
       ),

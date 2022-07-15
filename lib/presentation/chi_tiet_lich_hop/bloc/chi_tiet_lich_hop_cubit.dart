@@ -83,6 +83,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   final int maxSizeFile30 = 31457280;
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
   BehaviorSubject<bool> isValidateTimer = BehaviorSubject();
+  BehaviorSubject<bool> isValidateThoiGianBatDauKetThuc = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
   List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
@@ -283,7 +284,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest();
 
-  TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest();
+  TaoPhienHopDetailRepuest taoPhienHopRepuest = TaoPhienHopDetailRepuest();
 
   List<MoiHopRequest> moiHopRequest = [];
 

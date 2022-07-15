@@ -1258,7 +1258,8 @@
   "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !",
   "yeu_cau_thiet_bi_khac": "Yêu cầu thiết bị khác",
   "sua_bieu_quyet": "Sửa biểu quyết",
-  "xoa_bieu_quyet": "Xoá biểu quyết"
+  "xoa_bieu_quyet": "Xoá biểu quyết",
+  "thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc": "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc"
 }
 
 

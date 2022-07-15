@@ -75,9 +75,6 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                       if (data != StatePhatBieu.danh_Sach_phat_bieu &&
                           widget.isthePhatBieu == true) {
                         return CustomCheckBox(
-                          title: '',
-
-                          /// check if id is in list selectPhatBieu == true
                           isCheck: widget.cubit.selectPhatBieu
                               .contains(widget.infoModel.id),
                           onChange: (isCheck) {
@@ -104,9 +101,9 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
               ),
             ),
             widgetRow(
-              name: S.current.noi_dung,
+              name: S.current.nd_phat_bieu,
               child: Text(
-                '${widget.infoModel.ndPhatBieu}',
+                widget.infoModel.ndPhatBieu ?? '',
                 style: textNormalCustom(
                   fontSize: 14,
                   color: infoColor,
@@ -114,14 +111,15 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
               ),
             ),
             widgetRow(
-                name: S.current.thoi_gian,
-                child: Text(
-                  '${widget.infoModel.tthoiGian}',
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: infoColor,
-                  ),
-                )),
+              name: S.current.thoi_gian,
+              child: Text(
+                '${widget.infoModel.tthoiGian} ${S.current.phut_lower_case}',
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: infoColor,
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/date_input.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chia_se_co_tk.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/validate_email.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -196,12 +197,24 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                   return '${S.current.ban_phai_nhap_truong} ${S.current.email}!';
                 }
                 if (!(value ?? '').isValidEmail()) {
-                  return S.current.dinh_dang_email;
+                  return '${S.current.dinh_dang_email}!';
+                }
+                if ((value ?? '').indexOf('@') > lengthEmailName) {
+                  return '${S.current.dinh_dang_email}!';
+                }
+                if ((value ?? '').split('@').last.characters.length >
+                    lengthEmailDomain) {
+                  return '${S.current.dinh_dang_email}!';
                 }
               },
             ),
             spaceH16,
             textField(
+              validate: (value) {
+                if ((value ?? '').characters.length > lengthEmailDomain) {
+                  return '${S.current.sai_dinh_dang_truong} ${S.current.so_dien_thoai}!';
+                }
+              },
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
@@ -243,6 +256,11 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               isRequired: true,
+              validate: (value) {
+                if ((value ?? '').isEmpty) {
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.ghi_chu}!';
+                }
+              },
               title: S.current.ghi_chu,
               onChange: (value) {
                 note = value;

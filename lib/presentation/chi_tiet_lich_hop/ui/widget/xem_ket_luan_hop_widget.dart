@@ -74,8 +74,6 @@ class _CreateOrUpdateKetLuanHopWidgetState
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    widget.cubit.dataMauBienBan.close();
-    widget.cubit.noiDung.sink.add('');
     if (widget.isCreate) {
       widget.cubit.dataMauBienBan.close();
       widget.cubit.noiDung.sink.add('');
@@ -333,73 +331,80 @@ class _CreateOrUpdateKetLuanHopWidgetState
             )
 
           /// chỉ xem biên bản họp
-          : Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 400,
-                  child: SingleChildScrollView(
-                    child: StreamBuilder<String>(
-                      stream: widget.cubit.noiDung.stream,
-                      builder: (context, snapshot) {
-                        return Html(
-                          data: valueEdit != snapshot.data
-                              ? (snapshot.data ?? '')
-                              : valueEdit,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.listFile.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final data = widget.listFile;
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              ImageAssets.icShareFile,
-                              color: AppTheme.getInstance().colorField(),
-                            ),
-                            const SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: () {
-                                saveFile(
-                                  fileName: data[index].Name ?? '',
-                                  url: data[index].Path ?? '',
-                                );
-                              },
-                              child: Text(
-                                data[index].Name ?? '',
-                                style: textDetailHDSD(
-                                  fontSize: 14.0.textScale(),
-                                  color: color5A8DEE,
-                                ),
-                              ),
-                            ),
-                          ],
+          : Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.7,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: 400,
+                      child: SingleChildScrollView(
+                        child: StreamBuilder<String>(
+                          stream: widget.cubit.noiDung.stream,
+                          builder: (context, snapshot) {
+                            return Html(
+                              data: valueEdit != snapshot.data
+                                  ? (snapshot.data ?? '')
+                                  : valueEdit,
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: widget.listFile.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final data = widget.listFile;
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  ImageAssets.icShareFile,
+                                  color: AppTheme.getInstance().colorField(),
+                                ),
+                                const SizedBox(width: 8),
+                                GestureDetector(
+                                  onTap: () {
+                                    saveFile(
+                                      fileName: data[index].Name ?? '',
+                                      url: data[index].Path ?? '',
+                                    );
+                                  },
+                                  child: Text(
+                                    data[index].Name ?? '',
+                                    style: textDetailHDSD(
+                                      fontSize: 14.0.textScale(),
+                                      color: color5A8DEE,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: ButtonCustomBottom(
+                        isColorBlue: false,
+                        title: S.current.dong,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: ButtonCustomBottom(
-                    isColorBlue: false,
-                    title: S.current.dong,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
     );
   }

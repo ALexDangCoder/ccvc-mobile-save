@@ -59,7 +59,7 @@ class PhienDichTuDongCubit {
   ) async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['txt'],
+      allowedExtensions: PickerType.TXT.fileType,
     );
     if (result != null) {
       final File file = File(result.files.single.path ?? '');

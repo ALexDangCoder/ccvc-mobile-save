@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
@@ -15,6 +14,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -50,18 +50,18 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     ngGiaoNvId = '';
     themNhiemVuRequest = ThemNhiemVuRequest(
       idCuocHop: widget.cubit.idCuocHop,
       hanXuLy: DateTime.now().toStringWithListFormat,
     );
+
+    widget.cubit.clearData();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     widget.cubit.listVBGiaoNhiemVu.sink.add([]);
     themNhiemVuRequest = ThemNhiemVuRequest();
@@ -88,26 +88,27 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                     Navigator.pop(context);
                   },
                   onClickRight: () {
-                    if (keyGroup.currentState!.validator()) {
-                      if (!showRequiedLoaiNV.value) {
-                        showRequiedLoaiNV.sink.add(true);
-                      }
+                    if (keyGroup.currentState!.validator() &&
+                        widget.cubit.dataLoaiNhiemVu.isNotEmpty) {
+                      widget.cubit.checkValidateLoaiNV.sink.add(false);
                       themNhiemVuRequest.meTaDaTa = [
                         MeTaDaTaRequest(
-                          key: 'NguoiGiaoId',
+                          key: NGUOI_GIAO_ID,
                           value: ngGiaoNvId,
                         ),
                         MeTaDaTaRequest(
-                          key: 'DonViTheoDoi',
+                          key: DON_VI_THEO_DOI,
                           value: ngTheoDoiController.text,
                         ),
                         MeTaDaTaRequest(
-                          key: 'NguoiTheoDoi',
+                          key: NGUOI_THEO_DOI,
                           value: ngTheoDoiController.text,
                         )
                       ];
                       widget.cubit.themNhiemVu(themNhiemVuRequest);
                       Navigator.pop(context);
+                    } else {
+                      widget.cubit.checkValidateLoaiNV.sink.add(true);
                     }
                   },
                 ),
@@ -118,21 +119,37 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       sb20,
 
                       /// loai nhiem vu
-                      ShowRequiedWithStream(
-                        isShow: showRequiedLoaiNV,
-                        child: DropDownWidget(
-                          listData: widget.cubit.danhSachLoaiNhiemVuLichHopModel
-                              .map((e) => e.ten ?? '')
-                              .toList(),
-                          isNote: true,
-                          title: S.current.loai_nhiem_vu,
-                          hint: S.current.loai_nhiem_vu,
-                          onChange: (value) {
-                            themNhiemVuRequest.processTypeId = widget.cubit
-                                .danhSachLoaiNhiemVuLichHopModel[value].id;
-                            showRequiedLoaiNV.sink.add(false);
-                          },
-                        ),
+                      StreamBuilder<bool>(
+                        stream: widget.cubit.checkValidateLoaiNV.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? false;
+                          return ShowRequied(
+                            textShow:
+                                S.current.ban_phai_chon_truong_loai_nhiem_vu,
+                            isShow: data,
+                            child: DropDownWidget(
+                              listData: widget
+                                  .cubit.danhSachLoaiNhiemVuLichHopModel
+                                  .map((e) => e.ten ?? '')
+                                  .toList(),
+                              isNote: true,
+                              title: S.current.loai_nhiem_vu,
+                              hint: S.current.loai_nhiem_vu,
+                              onChange: (value) {
+                                themNhiemVuRequest.processTypeId = widget.cubit
+                                    .danhSachLoaiNhiemVuLichHopModel[value].id;
+                                widget.cubit.dataLoaiNhiemVu.add(value);
+                                if (widget.cubit.dataLoaiNhiemVu.isEmpty) {
+                                  widget.cubit.checkValidateLoaiNV.sink
+                                      .add(true);
+                                } else {
+                                  widget.cubit.checkValidateLoaiNV.sink
+                                      .add(false);
+                                }
+                              },
+                            ),
+                          );
+                        },
                       ),
                       sb20,
 
@@ -165,8 +182,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         maxLine: 8,
                         validator: (String? value) {
                           return value?.checkNull(
-                              showText: S.current
-                                  .ban_phai_nhap_truong_noi_dung_theo_doi);
+                            showText: S
+                                .current.ban_phai_nhap_truong_noi_dung_theo_doi,
+                          );
                         },
                         onChange: (String value) {
                           themNhiemVuRequest.processContent = value;
@@ -202,14 +220,14 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
 
                       /// van ban giao nhiem vu
                       buttonThemVb(
-                        loaiVbThem: 'lienquan',
+                        loaiVbThem: LIEN_QUAN,
                         title: S.current.van_ban_giao_nhiem_vu,
                         context: context,
                       ),
 
                       /// van ban khac
                       buttonThemVb(
-                        loaiVbThem: 'khac',
+                        loaiVbThem: KHAC,
                         title: S.current.van_ban_khac,
                         context: context,
                       ),
@@ -247,61 +265,62 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
             },
           ),
           StreamBuilder<List<VBGiaoNhiemVuModel>>(
-              stream: widget.cubit.listVBGiaoNhiemVu.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data
-                        ?.where(
-                            (element) => element.hinhThucVanBan == loaiVbThem)
-                        .toList() ??
-                    [];
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return ItemVbGIaoNhiemVuWidget(
-                      cubit: widget.cubit,
-                      soKyHieu: data[index].soVanBan ?? '',
-                      ngayVB: DateTime.parse(
-                        data[index].ngayVanBan ?? DateTime.now().toString(),
-                      ).toStringWithListFormat,
-                      trichYeu: data[index].trichYeu ?? '',
-                      file: data[index].file?.first ?? '',
-                      onTap: () {
-                        showDiaLog(
-                          context,
-                          textContent:
-                              S.current.ban_co_chac_chan_muon_xoa_khong,
-                          btnLeftTxt: S.current.dong,
-                          funcBtnRight: () {
-                            onTapRemoveVb(
-                              cubit: widget.cubit,
-                              data: data[index],
-                            );
-                          },
-                          title: S.current.xoa,
-                          btnRightTxt: S.current.dong_y,
-                          icon: Container(
-                            width: 56,
-                            height: 56,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: statusCalenderRed.withOpacity(0.1),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                ImageAssets.ic_delete_do,
-                              ),
+            stream: widget.cubit.listVBGiaoNhiemVu.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data
+                      ?.where(
+                        (element) => element.hinhThucVanBan == loaiVbThem,
+                      )
+                      .toList() ??
+                  [];
+              return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return ItemVbGIaoNhiemVuWidget(
+                    cubit: widget.cubit,
+                    soKyHieu: data[index].soVanBan ?? '',
+                    ngayVB: DateTime.parse(
+                      data[index].ngayVanBan ?? DateTime.now().toString(),
+                    ).toStringWithListFormat,
+                    trichYeu: data[index].trichYeu ?? '',
+                    file: data[index].file?.first ?? '',
+                    onTap: () {
+                      showDiaLog(
+                        context,
+                        textContent: S.current.ban_co_chac_chan_muon_xoa_khong,
+                        btnLeftTxt: S.current.dong,
+                        funcBtnRight: () {
+                          onTapRemoveVb(
+                            cubit: widget.cubit,
+                            data: data[index],
+                          );
+                        },
+                        title: S.current.xoa,
+                        btnRightTxt: S.current.dong_y,
+                        icon: Container(
+                          width: 56,
+                          height: 56,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: statusCalenderRed.withOpacity(0.1),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset(
+                              ImageAssets.ic_delete_do,
                             ),
                           ),
-                        );
-                      },
-                    );
-                  },
-                );
-              }),
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          ),
         ],
       );
 

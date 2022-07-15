@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
@@ -13,7 +15,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart' as image_utils;
-import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/radio/group_radio_button.dart';
@@ -38,7 +39,7 @@ class TabNgoaiHeThongMobile extends StatefulWidget {
 class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   final _groupKey = GlobalKey<FormGroupState>();
 
-  final Debouncer _debounce = Debouncer(milliseconds: 500);
+  Timer? debounce;
   late TextEditingController controller;
 
   String? name;
@@ -414,11 +415,13 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           focusedBorder: borderSearch,
         ),
         onChanged: (keySearch) {
-          _debounce.run(() {
-            setState(() {});
-            widget.cubit.keySearch = keySearch;
-            widget.cubit.clearUsersNgoaiHeThongDuocTruyCap();
-            widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+          if (debounce != null) debounce!.cancel();
+          setState(() {
+            debounce = Timer(const Duration(seconds: 1), () {
+              widget.cubit.keySearch = keySearch;
+              widget.cubit.clearUsersNgoaiHeThongDuocTruyCap();
+              widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+            });
           });
         },
       );

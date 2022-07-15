@@ -259,9 +259,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
       BehaviorSubject<List<CanBoModel>>();
-
+  List<CanBoModel> listCanBo = [];
   BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
-
+  BehaviorSubject<bool> isCheckDiemDanhSubject = BehaviorSubject();
   List<String> selectedIds = [];
 
   BehaviorSubject<List<PhatBieuModel>> streamPhatBieu =

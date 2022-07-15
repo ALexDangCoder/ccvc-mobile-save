@@ -265,54 +265,96 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                       flex: 6,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(
-                              widget.infoModel.danhSachKetQuaBieuQuyet
-                                      ?.length ??
-                                  0, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 16),
-                              child: ContainerState(
-                                name: widget
-                                        .infoModel
-                                        .danhSachKetQuaBieuQuyet?[index]
-                                        .tenLuaChon ??
-                                    '',
-                                number: widget
-                                        .infoModel
-                                        .danhSachKetQuaBieuQuyet?[index]
-                                        .soLuongLuaChon ??
-                                    0,
-                                onTap: () async {
-                                  await widget.cubit.themMoiVote(
-                                    lichHopId: widget.cubit.idCuocHop,
-                                    bieuQuyetId: widget.infoModel.id ?? '',
-                                    donViId: HiveLocal.getDataUser()
-                                            ?.userInformation
-                                            ?.donViTrucThuoc
-                                            ?.id ??
-                                        '',
-                                    canBoId: HiveLocal.getDataUser()?.userId,
-                                    luaChonBietQuyetId: widget
-                                            .infoModel
-                                            .danhSachKetQuaBieuQuyet?[index]
-                                            .luaChonId ??
-                                        '',
-                                    idPhienhopCanbo:
-                                        widget.cubit.checkIdPhienHop(
-                                      widget.infoModel.idPhienHopCanBo,
-                                    ),
+                        child: StreamBuilder<bool>(
+                          stream: widget.cubit.isCheckDiemDanhSubject.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            return data
+                                ? Row(
+                                    children: List.generate(
+                                        widget.infoModel.danhSachKetQuaBieuQuyet
+                                                ?.length ??
+                                            0, (index) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16),
+                                        child: ContainerState(
+                                          name: widget
+                                                  .infoModel
+                                                  .danhSachKetQuaBieuQuyet?[
+                                                      index]
+                                                  .tenLuaChon ??
+                                              '',
+                                          number: widget
+                                                  .infoModel
+                                                  .danhSachKetQuaBieuQuyet?[
+                                                      index]
+                                                  .soLuongLuaChon ??
+                                              0,
+                                          onTap: () async {
+                                            await widget.cubit.themMoiVote(
+                                              lichHopId: widget.cubit.idCuocHop,
+                                              bieuQuyetId:
+                                                  widget.infoModel.id ?? '',
+                                              donViId: HiveLocal.getDataUser()
+                                                      ?.userInformation
+                                                      ?.donViTrucThuoc
+                                                      ?.id ??
+                                                  '',
+                                              canBoId: HiveLocal.getDataUser()
+                                                  ?.userId,
+                                              luaChonBietQuyetId: widget
+                                                      .infoModel
+                                                      .danhSachKetQuaBieuQuyet?[
+                                                          index]
+                                                      .luaChonId ??
+                                                  '',
+                                              idPhienhopCanbo:
+                                                  widget.cubit.checkIdPhienHop(
+                                                widget
+                                                    .infoModel.idPhienHopCanBo,
+                                              ),
+                                            );
+                                          },
+                                          isVote: widget
+                                                  .infoModel
+                                                  .danhSachKetQuaBieuQuyet?[
+                                                      index]
+                                                  .isVote ??
+                                              true,
+                                          cubit: widget.cubit,
+                                        ),
+                                      );
+                                    }),
+                                  )
+                                : Row(
+                                    children: List.generate(
+                                        widget.infoModel.danhSachKetQuaBieuQuyet
+                                                ?.length ??
+                                            0, (index) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16),
+                                        child: ContainerUnColor(
+                                          name: widget
+                                                  .infoModel
+                                                  .danhSachKetQuaBieuQuyet?[
+                                                      index]
+                                                  .tenLuaChon ??
+                                              '',
+                                          number: widget
+                                                  .infoModel
+                                                  .danhSachKetQuaBieuQuyet?[
+                                                      index]
+                                                  .soLuongLuaChon ??
+                                              0,
+                                          onTap: () {},
+                                          cubit: widget.cubit,
+                                        ),
+                                      );
+                                    }),
                                   );
-                                },
-                                isVote: widget
-                                        .infoModel
-                                        .danhSachKetQuaBieuQuyet?[index]
-                                        .isVote ??
-                                    true,
-                                cubit: widget.cubit,
-                              ),
-                            );
-                          }),
+                          },
                         ),
                       ),
                     )
@@ -687,9 +729,13 @@ class ContainerState extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
-              color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+              color: isVote
+                  ? colorLineSearch
+                  : AppTheme.getInstance().colorField(),
               border: Border.all(
-                color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+                color: isVote
+                    ? colorLineSearch
+                    : AppTheme.getInstance().colorField(),
               ),
             ),
             child: Text(
@@ -705,7 +751,64 @@ class ContainerState extends StatelessWidget {
         Text(
           '$number',
           style: textNormalCustom(
-            color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+            color:
+                isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+            fontSize: 14.0.textScale(),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ContainerUnColor extends StatelessWidget {
+  final int number;
+  final String name;
+  final Function() onTap;
+  final DetailMeetCalenderCubit cubit;
+
+  const ContainerUnColor({
+    Key? key,
+    required this.number,
+    required this.name,
+    required this.onTap,
+    required this.cubit,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: () => onTap(),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8.0.textScale(),
+              vertical: 4.0.textScale(),
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: colorLineSearch,
+              border: Border.all(
+                color: colorLineSearch,
+              ),
+            ),
+            child: Text(
+              name,
+              style: textNormalCustom(
+                color: backgroundColorApp,
+                fontSize: 14.0.textScale(),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+        Text(
+          '$number',
+          style: textNormalCustom(
+            color: AppTheme.getInstance().colorField(),
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w500,
           ),

@@ -31,9 +31,9 @@ class TaoPhienHopDetailRepuest {
   });
 
   factory TaoPhienHopDetailRepuest.fromJson(Map<String, dynamic> json) =>
-      _$TaoPhienHopRepuestFromJson(json);
+      _$TaoPhienHopDetailRepuestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TaoPhienHopRepuestToJson(this);
+  Map<String, dynamic> toJson() => _$TaoPhienHopDetailRepuestToJson(this);
 }
 
 @JsonSerializable()

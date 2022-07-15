@@ -342,6 +342,7 @@ class PhatBieuChildWidget extends StatelessWidget {
     if (cubit.selectPhatBieu.isEmpty) {
       final toast = FToast();
       toast.init(context);
+      toast.removeCustomToast();
       toast.showToast(
         child: ShowToast(
           text: isDuyet

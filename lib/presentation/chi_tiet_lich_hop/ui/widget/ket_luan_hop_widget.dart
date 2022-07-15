@@ -359,7 +359,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                             ? showDiaLog(
                                 context,
                                 textContent:
-                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                    S.current.ban_co_chac_chan_muon_xoa_klh_nay,
                                 btnLeftTxt: S.current.khong,
                                 funcBtnRight: () async {
                                   await cubit
@@ -395,7 +395,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                             : showDiaLog(
                                 context,
                                 textContent:
-                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                    S.current.ban_co_chac_chan_muon_xoa_klh_nay,
                                 btnLeftTxt: S.current.khong,
                                 funcBtnRight: () async {
                                   await cubit

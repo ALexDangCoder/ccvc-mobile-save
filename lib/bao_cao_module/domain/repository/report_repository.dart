@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_detail_model.dart';
@@ -14,13 +15,6 @@ mixin ReportRepository {
     String appID,
   );
 
-  Future<Result<List<ReportItem>>> getListReportShareToMe(
-    String folderId,
-    int sort,
-    String keyWord,
-    String appID,
-  );
-
   Future<Result<List<NhomCungHeThong>>> getListGroup(String appId);
 
   Future<Result<List<ThanhVien>>> getListThanhVien(
@@ -28,7 +22,7 @@ mixin ReportRepository {
   );
 
   Future<Result<String>> addNewMember(
-    Map<String, String> mapMember,
+    NewUserRequest mapMember,
     String appId,
   );
 
@@ -49,11 +43,7 @@ mixin ReportRepository {
   Future<Result<List<ReportItem>>> getListReportFavorite(
     String appId,
     String folderId,
-  );
-
-  Future<Result<List<ReportItem>>> getListReportTree(
-    String appId,
-    String folderId,
+    int sort,
   );
 
   Future<Result<String>> shareReport(
@@ -68,6 +58,8 @@ mixin ReportRepository {
     int pageIndex,
     int pageSize,
     String keyword,
+    int status,
+    bool isLock,
   );
 
   Future<Result<ReportDetailModel>> getReportDetail(

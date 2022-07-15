@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
@@ -13,10 +14,12 @@ import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/can_bo_tham_gia_str.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
@@ -59,6 +62,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String startTime = '00:00';
   String endTime = '00:00';
   String? tenBieuQuyet;
+  String idPhienHop = '';
   bool? loaiBieuQuyet;
   DonViModel donViModel = DonViModel();
   String? dateBieuQuyet;
@@ -84,7 +88,14 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
   bool needRefreshMainMeeting = false;
-
+  ChiTietBieuQuyetModel chiTietBieuQuyetModel = ChiTietBieuQuyetModel();
+  List<DsLuaChonOld> listLuaChonOld = [];
+  BehaviorSubject<ChiTietBieuQuyetModel> chiTietBieuQuyetSubject =
+      BehaviorSubject();
+  BehaviorSubject<List<DanhSachThanhPhanThamGiaModel>> listBieuQuyetSubject =
+      BehaviorSubject();
+  List<String> listLuaChon = [];
+  List<SuaDanhSachLuaChonModel> listLuaChonNew = [];
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
       key: S.current.danh_sach_phat_bieu,
@@ -130,8 +141,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   HtmlEditorController? controller = keyEditKetLuanHop.currentState?.controller;
 
-  BehaviorSubject<List<DanhSachLoaiNhiemVuLichHopModel>>
-      danhSachLoaiNhiemVuLichHopModel = BehaviorSubject();
+  List<DanhSachLoaiNhiemVuLichHopModel> danhSachLoaiNhiemVuLichHopModel = [];
 
   BehaviorSubject<List<VBGiaoNhiemVuModel>> listVBGiaoNhiemVu =
       BehaviorSubject<List<VBGiaoNhiemVuModel>>();
@@ -156,7 +166,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   ChiTietLichHopModel get getChiTietLichHopModel =>
       chiTietLichHopSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
-  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop = BehaviorSubject();
+  BehaviorSubject<List<YkienCuocHopModel>> listYKienPhienHop =
+      BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>
       danhSachPhatbieuLichHopModelSubject = BehaviorSubject();
@@ -164,8 +175,10 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Stream<DanhSachPhatBieuLichHopModel> get danhSachPhatbieuLichHopStream =>
       danhSachPhatbieuLichHopModelSubject.stream;
 
-  final BehaviorSubject<String> themBieuQuyet = BehaviorSubject<String>();
-
+  final BehaviorSubject<List<String>> themLuaChonBieuQuyet = BehaviorSubject();
+  final List<String> listThemLuaChon = [];
+  final BehaviorSubject<List<SuaDanhSachLuaChonModel>> suaDanhSachLuaChon =
+      BehaviorSubject();
   BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
       BehaviorSubject();
 
@@ -173,6 +186,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       getThongTinPhongHopSb.stream;
   BehaviorSubject<ThongTinPhongHopModel> getThongTinYeuCauChuanBi =
       BehaviorSubject();
+  List<DanhSachLuaChonModel> lisLuaChonOld = [];
 
   ThongTinPhongHopModel get getThongTinPhongHopForPermision =>
       getThongTinPhongHopSb.valueOrNull ?? ThongTinPhongHopModel();
@@ -201,7 +215,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<DanhSachNguoiThamGiaModel> listData = [];
 
   List<String> cacLuaChonBieuQuyet = [];
-
+  List<SuaDanhSachLuaChonModel> suaLuaChonBieuQuyet = [];
   List<NguoiChutriModel> dataThuKyOrThuHoiDeFault = [];
 
   List<NguoiChutriModel> dataThuHoi = [];
@@ -242,7 +256,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String date = '';
 
   List<DanhSachNguoiThamGiaModel> listDanhSach = [];
-  List<String> listLuaChon = [];
+  List<String> danhSachLuaChon = [];
 
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
       BehaviorSubject<List<CanBoModel>>();
@@ -256,7 +270,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<DanhSachBietQuyetModel>> streamBieuQuyet =
       BehaviorSubject();
-
+  BehaviorSubject<List<int>> streamListVoteBieuQuyet = BehaviorSubject();
+  List<DanhSachBietQuyetModel> listBieuQuyet = [];
   final BehaviorSubject<int> typeStatus = BehaviorSubject.seeded(0);
 
   BehaviorSubject<SoLuongPhatBieuModel> dataSoLuongPhatBieuSubject =
@@ -273,7 +288,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<MoiHopRequest> moiHopRequest = [];
 
   bool phuongThucNhan = false;
-
+  List<String> addLuaChon = [];
+  List<SuaDanhSachLuaChonModel> danhSachLuaChonNew = [];
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
   /// funtion delay

@@ -88,6 +88,7 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
+const int BYTE_TO_MB = 1048576;
 const String DEVICE_ID = '';
 const String DEVICE_ANDROID = 'ANDROID';
 const String DEVICE_IOS = 'IOS';
@@ -125,6 +126,8 @@ const int MINIMUM_YEAR = 1900;
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
+const PHONE_REGEX = r'^0+([0-9]{9})$';
+
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';
@@ -146,7 +149,7 @@ const HOUR_MINUTE_FORMAT = 'Hm';
 const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
 const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
 const _dtFormat18 = 'MM/dd/yyyy HH:mm';
-
+const _dtFormat19 = 'yyyy-MM-ddTHH:mm:ss';
 const START_TIME = '8:00';
 const END_TIME = '18:00';
 const INIT_TIME_PICK = 'hh:mm';
@@ -159,6 +162,9 @@ const String AVATAR_DEFAULT =
 const String BASE_URL_MEETING = 'https://emeeting.vn/';
 const String ENTITY_THU_MOI_HOP = 'ThuMoiHop';
 const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
+const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
+const String TIME = '00:00:00';
+const String PRIMARY = 'primary';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -179,6 +185,7 @@ class DateTimeFormat {
   static const DATE_TIME_BE_API_START = _dtFormat16;
   static const DATE_TIME_BE_API_END = _dtFormat17;
   static const DATE_TIME_HM = _dtFormat18;
+  static const DATE_TIME_HHT = _dtFormat19;
 }
 
 class ThongBaoTypeConstant {
@@ -254,6 +261,8 @@ class NhiemVuStatus {
 
 class DateFormatApp {
   static String date = 'dd/MM/yyyy';
+  static String dateNormal = 'dd/mm/yyyy';
+  static String dateUpperCase = 'DD/MM/YYYY';
   static String dateApp = 'dd/MM/YYYY';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
@@ -344,5 +353,10 @@ class StatusOfficersConst {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_20MB = 20000000;
+  static const MAX_SIZE_30MB = 30000000;
+}
+class TypeTaskYKien
+{
+  static const int XinYKien = 1;
+  static const int ChoYKien = 2;
 }

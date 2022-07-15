@@ -168,10 +168,10 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   }
 
   @override
-  Future<Result<DanhSachKetQuaYKXLModel>> getDanhSachYKienPAKN(
-    String kienNghiId,
-    int type,
-  ) {
+  Future<Result<DanhSachKetQuaYKXLModel>> getDanhSachYKienPAKN({
+    String? kienNghiId,
+    int? type,
+  }) {
     return runCatchingAsync<DanhSachKetQuaYKXLModelResponse,
         DanhSachKetQuaYKXLModel>(
       () => _yKienNguoiDanService.getDanhSachYKienPAKN(
@@ -459,7 +459,8 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       {int? pageIndex,
       int? pageSize,
       String? dateFrom,
-      String? dateTo, bool? daChoYKien}) {
+      String? dateTo,
+      bool? daChoYKien}) {
     return runCatchingAsync<DataDanhSachPAKNFilterResponse,
         List<DanhSachKetQuaPAKNModel>>(
       () => _yKienNguoiDanService.getDanhSachPAKNXuLyCacYKien(

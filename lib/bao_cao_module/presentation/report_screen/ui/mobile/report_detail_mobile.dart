@@ -28,7 +28,6 @@ class ReportDetailMobile extends StatefulWidget {
 
 class _ReportDetailMobileState extends State<ReportDetailMobile> {
   List<ReportItem> listReportDetail = [];
-  bool isCheckInit = true;
   bool isCheckData = false;
   bool isInit = false;
 
@@ -36,7 +35,6 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
     await widget.cubit.getListReport(
       idFolder: widget.reportModel.id ?? '',
       isTree: true,
-      isTreeShareToMe: widget.reportModel.isShareToMe ?? false,
     );
   }
 
@@ -45,13 +43,15 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
     getApi();
     super.initState();
     isInit = true;
-    if (isCheckInit) {
-      widget.cubit.isCheckData.listen((value) {
-        if (value) {
-          isCheckData = true;
-        }
-      });
-    }
+    widget.cubit.isCheckDataDetailScreen.listen((value) {
+      if (value) {
+        isCheckData = true;
+      }
+    });
+    widget.cubit.listReportTreeUpdate.listen((value) {
+      listReportDetail = value ?? [];
+      widget.cubit.listReportTree.add(value);
+    });
   }
 
   @override
@@ -79,6 +79,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                   isCheckData = true;
                   isInit = true;
                   await getApi();
+                  listReportDetail = widget.cubit.listReportTree.value ?? [];
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
@@ -86,8 +87,7 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
                     stream: widget.cubit.listReportTree,
                     builder: (context, snapshot) {
                       if (isCheckData && isInit) {
-                        listReportDetail.addAll(snapshot.data ?? []);
-                        isCheckInit = false;
+                        listReportDetail = snapshot.data ?? [];
                         isCheckData = false;
                         isInit = false;
                       }

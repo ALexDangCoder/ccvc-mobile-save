@@ -43,6 +43,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     widget.cubit.initTimeRange();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
     widget.cubit.getDanhSachPAKN();
+
   }
 
   @override
@@ -296,8 +297,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         if (data.isEmpty) {
                           widget.cubit.isEmptyData = true;
                           return Stack(
-                            // fit: StackFit.expand,
-                            // clipBehavior: Clip.antiAliasWithSaveLayer,
                             alignment: Alignment.centerRight,
                             children: [
                               Column(
@@ -357,7 +356,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                      horizontal: 16,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -635,7 +635,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   TextTrangThai statusTrangThai(int soNgayToiHan) {
     if (soNgayToiHan < 0) {
       return TextTrangThai(S.current.qua_han, statusCalenderRed);
-    } else if (soNgayToiHan >= 3) {
+    } else if (soNgayToiHan > 3) {
       return TextTrangThai(S.current.trong_han, choTrinhKyColor);
     } else {
       return TextTrangThai(S.current.den_han, choVaoSoColor);
@@ -658,7 +658,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
-          color: colorBG,
+          color: textDefault,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -13,10 +13,15 @@ class TaiLieuWidget extends StatefulWidget {
   List<Files>? files;
   final Function(List<File>, bool) onChange;
   Function(String id) idRemove;
+  String size;
 
-  TaiLieuWidget(
-      {Key? key, this.files, required this.onChange, required this.idRemove})
-      : super(key: key);
+  TaiLieuWidget({
+    Key? key,
+    this.files,
+    required this.onChange,
+    required this.idRemove,
+    this.size = '',
+  }) : super(key: key);
 
   @override
   _TaiLieuWidgetState createState() => _TaiLieuWidgetState();
@@ -24,6 +29,7 @@ class TaiLieuWidget extends StatefulWidget {
 
 class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   bool isExpand = false;
+  double maxSize20MB = 20971520;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +72,8 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
           expand: isExpand,
           child: ButtonSelectFileLichLamViec(
             hasMultipleFile: true,
-            maxSize: 20971520,
+            maxSize: maxSize20MB,
+            files: widget.files,
             title: S.current.dinh_kem_tep_english,
             onChange: (List<File> files, bool validate) {
               widget.onChange(files, validate);

@@ -28,7 +28,6 @@ class ReportDetailTablet extends StatefulWidget {
 
 class _ReportDetailTabletState extends State<ReportDetailTablet> {
   List<ReportItem> listReportDetail = [];
-  bool isCheckInit = true;
   bool isCheckData = false;
   bool isInit = false;
 
@@ -36,7 +35,6 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
     await widget.cubit.getListReport(
       idFolder: widget.reportModel.id ?? '',
       isTree: true,
-      isTreeShareToMe: widget.reportModel.isShareToMe ?? false,
     );
   }
 
@@ -45,13 +43,15 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
     getApi();
     super.initState();
     isInit = true;
-    if (isCheckInit) {
-      widget.cubit.isCheckData.listen((value) {
-        if (value) {
-          isCheckData = true;
-        }
-      });
-    }
+    widget.cubit.isCheckDataDetailScreen.listen((value) {
+      if (value) {
+        isCheckData = true;
+      }
+    });
+    widget.cubit.listReportTreeUpdate.listen((value) {
+      listReportDetail = value ?? [];
+      widget.cubit.listReportTree.add(value);
+    });
   }
 
   @override
@@ -89,6 +89,7 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
                   isCheckData = true;
                   isInit = true;
                   await getApi();
+                  listReportDetail = widget.cubit.listReportTree.value ?? [];
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
@@ -96,8 +97,7 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
                     stream: widget.cubit.listReportTree,
                     builder: (context, snapshot) {
                       if (isCheckData && isInit) {
-                        listReportDetail.addAll(snapshot.data ?? []);
-                        isCheckInit = false;
+                        listReportDetail = snapshot.data ?? [];
                         isCheckData = false;
                         isInit = false;
                       }
@@ -108,7 +108,7 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
                               listReport: listReportDetail,
                               cubit: widget.cubit,
                               isTree: true,
-                              idFolder: widget.reportModel.id ?? "",
+                              idFolder: widget.reportModel.id ?? '',
                             );
                     },
                   ),

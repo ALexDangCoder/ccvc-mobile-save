@@ -67,7 +67,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                 children: [
                   ItemFolder(
                     type: widget.item.type ?? 0,
-                    isShare: widget.item.isShareToMe ?? false,
+                    isShare: widget.item.shareToMe ?? false,
                     isListView: true,
                     fileNumber: widget.item.childrenTotal ?? 0,
                   ),
@@ -82,7 +82,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                         SizedBox(
                           width: widget.isIconClose
                               ? MediaQuery.of(context).size.width / 4
-                              : MediaQuery.of(context).size.width / 2,
+                              : MediaQuery.of(context).size.width / 1.5,
                           child: Text(
                             widget.item.name ?? '',
                             maxLines: 1,
@@ -131,7 +131,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
           width: MediaQuery.of(context).size.width,
           color: borderColor.withOpacity(0.5),
         ),
-        if (!(widget.item.isShareToMe ?? false))
+        if (!(widget.item.shareToMe ?? true))
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -197,116 +197,120 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
               ),
             ),
           ),
-        if (widget.item.type == REPORT)
-          ...[
-            reportLine(),
-            spaceH18,
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 16,
-                left: 16,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        ImageAssets.icStarFocus,
-                        width: 16,
-                        height: 16,
-                        color: AppTheme.getInstance().unselectColor(),
-                      ),
-                      spaceW13,
-                      Text(
-                        S.current.yeu_thich,
-                        style: textNormalCustom(
-                          color: AppTheme.getInstance().unselectedColor(),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  customSwitch(
-                    isLove,
-                        (value) {
-                      isLove = !isLove;
-                      setState(() {
-                        if (isLove) {
-                          showDiaLog(
-                            context,
-                            title: S.current.yeu_thich_thu_muc,
-                            isClose: false,
-                            btnLeftTxt: S.current.huy,
-                            btnRightTxt: S.current.dong_y,
-                            showTablet: true,
-                            textContent: S.current.ban_co_chac_chan_yeu_thich,
-                            icon: SvgPicture.asset(
-                              bao_cao.ImageAssets.ic_star_bold,
-                            ),
-                            funcBtnLeft: () {
-                              isLove = widget.isFavorite;
-                              setState(() {});
-                            },
-                            funcBtnRight: () {
-                              widget.cubit.postFavorite(
-                                idReport: [widget.item.id ?? ''],
-                              ).then((value) {
-                                if (value) {
-                                  MessageConfig.show(
-                                    title: S.current.yeu_thich_thanh_cong,
-                                  );
-                                } else {
-                                  MessageConfig.show(
-                                    title: S.current.yeu_thich_that_bai,
-                                    messState: MessState.error,
-                                  );
-                                }
-                              });
-                            },
-                          ).then((value) {});
-                        } else {
-                          showDiaLog(
-                            context,
-                            isClose: false,
-                            title: S.current.yeu_thich_thu_muc,
-                            btnLeftTxt: S.current.huy,
-                            btnRightTxt: S.current.dong_y,
-                            showTablet: true,
-                            textContent: S.current.ban_co_bo_chac_chan_yeu_thich,
-                            icon: SvgPicture.asset(
-                              bao_cao.ImageAssets.ic_star_bold,
-                            ),
-                            funcBtnRight: () {
-                              widget.cubit.putDislikeFavorite(
-                                idReport: [widget.item.id ?? ''],
-                              ).then((value) {
-                                if (value) {
-                                  MessageConfig.show(
-                                    title: S.current.huy_yeu_thich_thanh_cong,
-                                  );
-                                } else {
-                                  MessageConfig.show(
-                                    title: S.current.huy_yeu_thich_that_bai,
-                                    messState: MessState.error,
-                                  );
-                                }
-                              });
-                            },
-                            funcBtnLeft: () {
-                              isLove = widget.isFavorite;
-                              setState(() {});
-                            },
-                          ).then((value) {});
-                        }
-                      });
-                    },
-                  ),
-                ],
-              ),
+        if (widget.item.type == REPORT && !(widget.item.shareToMe ?? true))
+          reportLine(),
+        if (widget.item.type == REPORT) ...[
+          spaceH18,
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 16,
+              left: 16,
             ),
-          ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      ImageAssets.icStarFocus,
+                      width: 16,
+                      height: 16,
+                      color: AppTheme.getInstance().unselectColor(),
+                    ),
+                    spaceW13,
+                    Text(
+                      S.current.yeu_thich,
+                      style: textNormalCustom(
+                        color: AppTheme.getInstance().unselectedColor(),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+                customSwitch(
+                  isLove,
+                  (value) {
+                    isLove = !isLove;
+                    setState(() {
+                      if (isLove) {
+                        showDiaLog(
+                          context,
+                          title: S.current.yeu_thich_thu_muc,
+                          isClose: false,
+                          btnLeftTxt: S.current.huy,
+                          btnRightTxt: S.current.dong_y,
+                          showTablet: true,
+                          textContent: S.current.ban_co_chac_chan_yeu_thich,
+                          icon: SvgPicture.asset(
+                            bao_cao.ImageAssets.ic_star_bold,
+                          ),
+                          funcBtnLeft: () {
+                            isLove = widget.isFavorite;
+                            setState(() {});
+                          },
+                          funcBtnRight: () {
+                            widget.cubit.postFavorite(
+                              idReport: [widget.item.id ?? ''],
+                            ).then((value) {
+                              if (value) {
+                                MessageConfig.show(
+                                  title: S.current.yeu_thich_thanh_cong,
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                MessageConfig.show(
+                                  title: S.current.yeu_thich_that_bai,
+                                  messState: MessState.error,
+                                );
+                                Navigator.pop(context);
+                              }
+                            });
+                          },
+                        ).then((value) {});
+                      } else {
+                        showDiaLog(
+                          context,
+                          isClose: false,
+                          title: S.current.yeu_thich_thu_muc,
+                          btnLeftTxt: S.current.huy,
+                          btnRightTxt: S.current.dong_y,
+                          showTablet: true,
+                          textContent: S.current.ban_co_bo_chac_chan_yeu_thich,
+                          icon: SvgPicture.asset(
+                            bao_cao.ImageAssets.ic_star_bold,
+                          ),
+                          funcBtnRight: () {
+                            widget.cubit.putDislikeFavorite(
+                              idReport: [widget.item.id ?? ''],
+                            ).then((value) {
+                              if (value) {
+                                MessageConfig.show(
+                                  title: S.current.huy_yeu_thich_thanh_cong,
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                MessageConfig.show(
+                                  title: S.current.huy_yeu_thich_that_bai,
+                                  messState: MessState.error,
+                                );
+                                Navigator.pop(context);
+                              }
+                            });
+                          },
+                          funcBtnLeft: () {
+                            isLove = widget.isFavorite;
+                            setState(() {});
+                          },
+                        ).then((value) {});
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
         spaceH30,
       ],
     );

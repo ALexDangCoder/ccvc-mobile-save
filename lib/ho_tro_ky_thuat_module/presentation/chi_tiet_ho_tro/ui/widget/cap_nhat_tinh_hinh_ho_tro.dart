@@ -115,11 +115,15 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           onSelectDate: (dateTime) {
                             birthday = dateTime;
                           },
-                          initDateTime:
-                              DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT)
-                                  .parse(
-                            widget.cubit.supportDetail.thoiGianYeuCau ?? '',
-                          ),
+                          initDateTime: (widget.cubit.supportDetail
+                                      .ngayHoanThanh?.isNotEmpty ??
+                                  false)
+                              ? DateFormat(
+                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                ).parse(
+                                  widget.cubit.supportDetail.ngayHoanThanh!,
+                                )
+                              : null,
                         ),
                         spaceH30,
                         DoubleButtonBottom(
@@ -131,10 +135,13 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           onPressed2: () {
                             widget.cubit.capNhatTHXL(
                               taskId: widget.cubit.supportDetail.id ?? '',
-                              name: '',
+                              name: trangThai ?? '',
                               description: note ?? '',
                               code: trangThai ?? '',
-                              finishDay: birthday ?? '',
+                              finishDay: (birthday ??
+                                      widget
+                                          .cubit.supportDetail.ngayHoanThanh) ??
+                                  '',
                               handlerId: nguoiXuLy ?? '',
                               id: widget.cubit.supportDetail.id ?? '',
                               comment: '',

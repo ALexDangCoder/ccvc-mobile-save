@@ -16,17 +16,22 @@ class ItemGridView extends StatelessWidget {
   final ReportItem item;
   final bool isTablet;
   final ReportListCubit cubit;
+  final bool isTree;
+  final String idFolder;
 
   const ItemGridView({
     Key? key,
     required this.item,
     required this.cubit,
     this.isTablet = false,
+    required this.isTree,
+    required this.idFolder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: backgroundColorApp,
@@ -44,7 +49,7 @@ class ItemGridView extends StatelessWidget {
         children: [
           if (item.isPin ?? false)
             Positioned(
-              top: 16,
+              top: 0,
               left: 16,
               child: SvgPicture.asset(
                 ImageAssets.icStarFocus,
@@ -56,11 +61,12 @@ class ItemGridView extends StatelessWidget {
             top: 0,
             right: 0,
             child: cubit.checkHideIcMore(
-              isReportShareToMe: item.isShareToMe ?? false,
+              isReportShareToMe: item.shareToMe ?? false,
               typeReport: item.type ?? REPORT,
             )
                 ? InkWell(
                     onTap: () {
+                      cubit.isCheckPostFavorite = false;
                       if (isTablet) {
                         showDialog(
                           context: context,
@@ -72,6 +78,11 @@ class ItemGridView extends StatelessWidget {
                               isFavorite: item.isPin ?? false,
                             );
                           },
+                        ).then(
+                          (value) => cubit.reloadDataWhenFavorite(
+                            isTree: isTree,
+                            idFolder: idFolder,
+                          ),
                         );
                       } else {
                         showModalBottomSheet(
@@ -83,13 +94,17 @@ class ItemGridView extends StatelessWidget {
                             cubit: cubit,
                             isFavorite: item.isPin ?? false,
                           ),
+                        ).then(
+                          (value) => cubit.reloadDataWhenFavorite(
+                            isTree: isTree,
+                            idFolder: idFolder,
+                          ),
                         );
                       }
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
-                        top: 16,
                         right: 16,
                       ),
                       child: SvgPicture.asset(
@@ -106,35 +121,48 @@ class ItemGridView extends StatelessWidget {
             children: [
               ItemFolder(
                 type: item.type ?? 0,
-                isShare: item.isShareToMe ?? false,
+                isShare: item.shareToMe ?? false,
                 fileNumber: item.childrenTotal ?? 0,
               ),
-              spaceH18,
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Text(
-                  item.name ?? '',
-                  maxLines: 1,
-                  style: textNormalCustom(
-                    color: textTitle,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              spaceH4,
-              Text(
-                (item.dateTime ?? '').changeToNewPatternDate(
-                  DateFormatApp.dateTimeBackEnd,
-                  DateFormatApp.date,
-                ),
-                style: textNormalCustom(
-                  color: infoColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
+              spaceH16,
+              Expanded(
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 11,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Text(
+                          item.name ?? '',
+                          style: textNormalCustom(
+                            color: textTitle,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Text(
+                        (item.dateTime ?? item.updatedAt ?? '')
+                            .changeToNewPatternDate(
+                          DateFormatApp.dateTimeBackEnd,
+                          DateFormatApp.date,
+                        ),
+                        style: textNormalCustom(
+                          color: infoColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

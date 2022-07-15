@@ -25,30 +25,34 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   String getCode(String value) {
     switch (value) {
-      case 'Đã xử lý':
-        return DA_XU_LY;
-      case 'Đang xử lý':
+      case DA_HOAN_THANH_VALUE:
+        return DA_HOAN_THANH;
+      case DANG_XU_LY_VALUE:
         return DANG_XU_LY;
-      case 'Từ chối xử lý':
+      case TU_CHOI_XU_LY_VALUE:
         return TU_CHOI_XU_LY;
-      case 'Đang chờ xử lý':
-        return CHO_XU_LY;
+      case CHUA_XU_LY_VALUE:
+        return CHUA_XU_LY;
       default:
         return '';
     }
   }
 
   List<String> listTrangThai = [
-    'Đang chờ xử lý',
-    'Đang xử lý',
-    'Đã xử lý',
-    'Từ chối xử lý'
+    CHUA_XU_LY_VALUE,
+    DANG_XU_LY_VALUE,
+    DA_HOAN_THANH_VALUE,
+    TU_CHOI_XU_LY_VALUE,
   ];
+  static const String DA_HOAN_THANH_VALUE = 'Đã hoàn thành';
+  static const String DANG_XU_LY_VALUE = 'Đang xử lý';
+  static const String CHUA_XU_LY_VALUE = 'Đang chờ xử lý';
+  static const String TU_CHOI_XU_LY_VALUE = 'Từ chối xử lý';
 
-  static const String DA_XU_LY = 'da-xu-ly';
+  static const String DA_HOAN_THANH = 'da-hoan-thanh';
   static const String DANG_XU_LY = 'dang-xu-ly';
-  static const String CHO_XU_LY = 'cho-xu-ly';
-  static const String TU_CHOI_XU_LY = 'tu_choi-xu-ly';
+  static const String CHUA_XU_LY = 'chua-xu-ly';
+  static const String TU_CHOI_XU_LY = 'tu-choi-xu-ly';
 
   BehaviorSubject<String> selectDate = BehaviorSubject.seeded('');
 
@@ -95,6 +99,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     for (final element in list) {
       if (element.userId == dataUser?.userId) {
         isItSupport = true;
+        break;
       }
     }
     emit(
@@ -121,8 +126,9 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
       comment: comment,
       code: getCode(code),
       name: name,
-      finishDay:
-          DateFormat(DateTimeFormat.DATE_FORMAT_TEXT_FIELD).parse(finishDay),
+      finishDay: (finishDay != '')
+          ? DateFormat(DateTimeFormat.DATE_FORMAT_TEXT_FIELD).parse(finishDay)
+          : null,
       handlerId: getHandlerId(handlerId),
       description: description,
     );
@@ -145,7 +151,9 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
       comment,
     );
     result.when(
-      success: (success) {},
+      success: (success) {
+        getSupportDetail(supportDetail.id ?? '');
+      },
       error: (error) {},
     );
   }
@@ -154,12 +162,10 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   List<ThanhVien> listThanhVien = [];
 
   String getHandlerId(String name) {
-    for (final element in listThanhVien) {
-      if (element.tenThanhVien == name) {
-        return element.idThanhVien ?? '';
-      }
-    }
-    return '';
+    return listThanhVien[
+                listItSupport.indexWhere((element) => element.contains(name))]
+            .idThanhVien ??
+        '';
   }
 
   Future<void> getNguoiXuLy(SupportDetail? supportDetail) async {
@@ -168,19 +174,14 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     final result = await _hoTroKyThuatRepository.getNguoiXuLy();
     result.when(
       success: (res) {
-        for (int i = 0; i < res.length - 1; i++) {
-          for (int j = 1; j < res.length; j++) {
-            if (res[i].tenThanhVien == res[j].tenThanhVien) {
-              res.removeAt(j);
-            }
-          }
-        }
         checkUser(
           res,
           supportDetail,
         );
         for (final element in res) {
-          listItSupport.add(element.tenThanhVien ?? '');
+          listItSupport.add(
+            '${element.tenThanhVien ?? ''} - ${element.userName ?? ''} - ${element.chucVu ?? ''}',
+          );
           listThanhVien.add(element);
         }
       },

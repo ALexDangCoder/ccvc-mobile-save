@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class ReportListMobile extends StatelessWidget {
   final bool isListView;
-  final List<ReportItem> listReport;
+  final List<ReportItem>? listReport;
   final ScrollPhysics? scrollPhysics;
   final ReportListCubit cubit;
   final String idFolder;
@@ -28,63 +28,70 @@ class ReportListMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return listReport.isNotEmpty
-        ? isListView
-            ? GridView.builder(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: 16,
-                ),
-                shrinkWrap: true,
-                physics: scrollPhysics,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 17,
-                  crossAxisSpacing: 17,
-                  childAspectRatio: 1.5,
-                  mainAxisExtent: 130,
-                ),
-                itemCount: listReport.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => clickItemDetail(
-                      context: context,
-                      idFolder: idFolder,
-                      value: listReport[index],
+    return listReport != null
+        ? listReport?.isNotEmpty ?? false
+            ? isListView
+                ? GridView.builder(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      bottom: 16,
                     ),
-                    child: ItemGridView(
-                      item: listReport[index],
-                      cubit: cubit,
+                    shrinkWrap: true,
+                    physics: scrollPhysics,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 17,
+                      crossAxisSpacing: 17,
+                      childAspectRatio: 1.5,
+                      mainAxisExtent: 170,
                     ),
-                  );
-                },
-              )
-            : Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                ),
-                child: ListView.builder(
-                  itemCount: listReport.length,
-                  physics: scrollPhysics,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () => clickItemDetail(
-                        context: context,
-                        idFolder: idFolder,
-                        value: listReport[index],
-                      ),
-                      child: ItemList(
-                        item: listReport[index],
-                        cubit: cubit,
-                      ),
-                    );
-                  },
-                ),
-              )
-        : noData();
+                    itemCount: listReport?.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => clickItemDetail(
+                          context: context,
+                          idFolder: idFolder,
+                          value: listReport?[index] ?? ReportItem(),
+                        ),
+                        child: ItemGridView(
+                          item: listReport?[index] ?? ReportItem(),
+                          cubit: cubit,
+                          idFolder: idFolder,
+                          isTree: isTree,
+                        ),
+                      );
+                    },
+                  )
+                : Container(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: ListView.builder(
+                      itemCount: listReport?.length,
+                      physics: scrollPhysics,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () => clickItemDetail(
+                            context: context,
+                            idFolder: idFolder,
+                            value: listReport?[index] ?? ReportItem(),
+                          ),
+                          child: ItemList(
+                            idFolder: idFolder,
+                            isTree: isTree,
+                            item: listReport?[index] ?? ReportItem(),
+                            cubit: cubit,
+                          ),
+                        );
+                      },
+                    ),
+                  )
+            : noData()
+        : const SizedBox();
   }
 
   void clickItemDetail({

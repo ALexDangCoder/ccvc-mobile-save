@@ -105,7 +105,8 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            if (cubit.state is CalendarViewState || cubit.state is ListViewState) {
+            if (cubit.state is CalendarViewState ||
+                cubit.state is ListViewState) {
               cubit.refreshDataDangLich();
             }else {
               cubit.getDataDangChart();

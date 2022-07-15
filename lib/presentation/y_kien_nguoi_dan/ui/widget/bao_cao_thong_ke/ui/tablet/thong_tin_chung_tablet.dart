@@ -225,7 +225,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
+                                        horizontal: 16,
+                                      ),
                                       child: Text(
                                         S.current.danh_sach_pakn,
                                         style: textNormalCustom(
@@ -247,7 +248,9 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                     Text(
                                       S.current.khong_co_thong_tin_pakn,
                                       style: textNormalCustom(
-                                          fontSize: 16.0, color: grayChart),
+                                        fontSize: 16.0,
+                                        color: grayChart,
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 10.0,
@@ -258,7 +261,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                             } else {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 30.0),
+                                  horizontal: 30.0,
+                                ),
                                 child: Stack(
                                   alignment: Alignment.centerRight,
                                   children: [
@@ -309,7 +313,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                           itemCount: data.length,
                                           itemBuilder: (context, index) {
                                             return _itemDanhSachPAKN(
-                                                dsKetQuaPakn: data[index]);
+                                              dsKetQuaPakn: data[index],
+                                            );
                                           },
                                         ),
                                       ],
@@ -468,7 +473,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 92,
                   ),
                   Container(
@@ -522,11 +527,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           horizontal: 16,
           vertical: 8,
         ),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(
             Radius.circular(30),
           ),
-          color: colorBG,
+          color: textDefault,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

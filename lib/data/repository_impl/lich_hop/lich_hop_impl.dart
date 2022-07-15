@@ -14,10 +14,12 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
@@ -25,6 +27,7 @@ import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_b
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/cap_nhat_trang_thai_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
@@ -32,9 +35,12 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/sua_bieu_quyet_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/them_moi_vote_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_luan_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xoa_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
@@ -78,6 +84,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/them_y_kien_mode
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
@@ -1062,6 +1069,48 @@ class HopRepositoryImpl implements HopRepository {
   ) {
     return runCatchingAsync<CapNhatTrangThaiResponse, bool>(
       () => _hopServices.suaTrangThai(capNhatTrangThaiRequest),
+      (response) => response.isSuccess,
+    );
+  }
+
+  @override
+  Future<Result<bool>> themMoiVote(ThemMoiVoteRequest themMoiVoteRequest) {
+    return runCatchingAsync<ThemMoiVoteResponse, bool>(
+      () => _hopServices.themMoiVote(themMoiVoteRequest),
+      (response) => response.isSuccess,
+    );
+  }
+
+  @override
+  Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
+    DanhSachLichHopRequest request,
+  ) {
+    return runCatchingAsync<DanhSachLichHopResponse, DanhSachLichHopModel>(
+      () => _hopServices.getLichCanKLCH(request),
+      (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),
+    );
+  }
+
+  @override
+  Future<Result<ChiTietBieuQuyetModel>> chiTietBieuQuyet(String id) {
+    return runCatchingAsync<ChiTietBieuQuyetResponse, ChiTietBieuQuyetModel>(
+      () => _hopServices.chiTietBieuQuyet(id),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<bool>> suaBieuQuyet(SuaBieuQuyetRequest suaBieuQuyetRequest) {
+    return runCatchingAsync<SuaBieuQuyetResponse, bool>(
+      () => _hopServices.suaBieuQuyet(suaBieuQuyetRequest),
+      (response) => response.isSuccess,
+    );
+  }
+
+  @override
+  Future<Result<bool>> xoaBieuQuyet(String bieuQuyetId, String canboId) {
+    return runCatchingAsync<XoaBieuQuyetResponse, bool>(
+      () => _hopServices.xoaBieuQuyet(bieuQuyetId, canboId),
       (response) => response.isSuccess,
     );
   }

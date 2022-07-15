@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/custom_checkbox_list_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
@@ -59,6 +59,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
     widget.cubit.listDanhSach = [];
     widget.cubit.isValidateSubject.sink.add(false);
     widget.cubit.isValidateTimer.sink.add(false);
+    widget.cubit.listThemLuaChon.clear();
     widget.cubit.date =
         coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
     timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
@@ -137,18 +138,13 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                                 formatPattern:
                                     DateTimeFormat.DATE_TIME_PUT_EDIT,
                               );
-                              final dateTimeEnd =
-                                  '$thoiGianHop $timeEnd'.convertStringToDate(
-                                formatPattern:
-                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
-                              );
                               if (dateTimeStart.isBefore(
                                     widget.cubit.getTime().convertStringToDate(
                                           formatPattern:
                                               DateFormatApp.monthDayFormat,
                                         ),
                                   ) ||
-                                  dateTimeEnd.isAfter(
+                                  dateTimeStart.isAfter(
                                     widget.cubit
                                         .getTime(isGetDateStart: false)
                                         .convertStringToDate(
@@ -269,7 +265,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                       isCheckCallApi = false;
                       formKeyNoiDung.currentState!.validate();
                     }
-                    if (widget.cubit.cacLuaChonBieuQuyet.isEmpty) {
+                    if (widget.cubit.listThemLuaChon.isEmpty) {
                       isCheckCallApi = false;
                       setState(() {});
                       isShow = true;

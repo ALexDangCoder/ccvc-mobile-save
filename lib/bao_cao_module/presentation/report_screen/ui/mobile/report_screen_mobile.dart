@@ -35,6 +35,12 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
   void initState() {
     cubit = ReportListCubit();
     _searchController = TextEditingController();
+    cubit.isStatusSearch.listen((value) {
+      if (value) {
+        cubit.textSearch.add('');
+        cubit.sort = cubit.sortHome;
+      }
+    });
     super.initState();
   }
 
@@ -303,6 +309,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                 return cubit.listReportSearch != null
                     ? cubit.listReportSearch?.isNotEmpty ?? false
                         ? ReportListMobile(
+                            isSearch: true,
                             idFolder: cubit.folderId,
                             listReport: cubit.listReportSearch,
                             isListView: cubit.isListView.value,

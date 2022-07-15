@@ -373,6 +373,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
         title: titleController.value.text.removeSpace,
         content: contentController.value.text.removeSpace,
         location: locationController.value.text.removeSpace,
+        scheduleId: null
       );
     }
     if (pickTimeValidatorValue) {

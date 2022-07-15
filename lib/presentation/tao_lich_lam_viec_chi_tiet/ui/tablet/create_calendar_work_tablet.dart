@@ -428,6 +428,7 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
         title: titleController.value.text.removeSpace,
         content: contentController.value.text.removeSpace,
         location: locationController.value.text.removeSpace,
+        scheduleId: null,
       );
     }
     if (pickTimeValidatorValue) {

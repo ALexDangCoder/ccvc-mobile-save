@@ -32,12 +32,14 @@ class ThanhPhanThamGiaWidgetTablet extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetTabletState
     extends State<ThanhPhanThamGiaWidgetTablet> {
+  final thanhPhanThamGiaCubit =  ThanhPhanThamGiaHopCubit();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     if (!isMobile()) {
-      widget.cubit.callApiThanhPhanThamGia();
+      thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
+      thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
     }
   }
 
@@ -58,7 +60,7 @@ class _ThanhPhanThamGiaWidgetTabletState
                 context,
                 title: S.current.them_thanh_phan_tham_gia,
                 child: ThemThanhPhanThamGiaWidget(
-                  cubit: widget.cubit,
+                  cubit: thanhPhanThamGiaCubit,
                 ),
                 isBottomShow: false,
                 funcBtnOk: () {
@@ -77,20 +79,7 @@ class _ThanhPhanThamGiaWidgetTabletState
                   icon: ImageAssets.ic_diemDanh,
                   title: S.current.diem_danh,
                   onPress: () {
-                    showDiaLog(
-                      context,
-                      title: S.current.diem_danh,
-                      icon: SvgPicture.asset(ImageAssets.icDiemDanh),
-                      btnLeftTxt: S.current.khong,
-                      btnRightTxt: S.current.dong_y,
-                      funcBtnRight: () {
-                        if (widget.cubit.selectedIds.isNotEmpty) {
-                          widget.cubit.postDiemDanh();
-                        }
-                      },
-                      showTablet: true,
-                      textContent: S.current.conten_diem_danh,
-                    );
+                    thanhPhanThamGiaCubit.postDiemDanh();
                   },
                 ),
               ),
@@ -176,7 +165,7 @@ class _ThanhPhanThamGiaWidgetTabletState
                   itemCount: _list.length,
                   itemBuilder: (context, index) {
                     return CellThanhPhanThamGia(
-                      cubit: widget.cubit,
+                      cubit: thanhPhanThamGiaCubit,
                       infoModel: _list[index],
                       ontap: () {
                         widget.cubit.postHuyDiemDanh(_list[index].id ?? '');

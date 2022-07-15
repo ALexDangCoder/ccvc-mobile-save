@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
@@ -18,15 +20,17 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   }
 
   Future<void> themThanhPhanThamGia() async {
-    final result =
-        await hopRp.postMoiHop(idCuocHop, false, phuongThucNhan, moiHopRequest);
-    result.when(
-      success: (res) {
-        getDanhSachCuocHopTPTH();
-        moiHopRequest.clear();
-      },
-      error: (error) {},
-    );
+   final data  = moiHopRequest;
+   log('${data}');
+    // final result =
+    //     await hopRp.postMoiHop(idCuocHop, false, phuongThucNhan, moiHopRequest);
+    // result.when(
+    //   success: (res) {
+    //     getDanhSachCuocHopTPTH();
+    //     moiHopRequest.clear();
+    //   },
+    //   error: (error) {},
+    // );
   }
 
   Future<void> danhSachCanBoTPTG({required String id}) async {

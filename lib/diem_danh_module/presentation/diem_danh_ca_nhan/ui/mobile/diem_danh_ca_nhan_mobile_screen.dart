@@ -85,7 +85,7 @@ class _DiemDanhCaNhanMobileScreenState
                   startYear: widget.cubit.startYear,
                 ),
                 thongKeWiget(),
-                const CalendarChamCong(),
+                CalendarChamCong(cubit: widget.cubit,),
               ],
             ),
           ),

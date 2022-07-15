@@ -6,10 +6,13 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/type_state_diem_danh.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:queue/queue.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
-
   Future<void> initData() async {
     final DateTime initData =
         DateTime(DateTime.now().year, DateTime.now().month);
@@ -22,6 +25,7 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
   }
 
   int get endYear => DateTime.now().year + 5;
+
   int get startYear => DateTime.now().year - 5;
 
   Future<void> changeData(DateTime date) async {
@@ -71,26 +75,6 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     return TypeStateDiemDanh.NGHI_LAM;
   }
 
-  String getStringDate(String? timeIn, String? timeOut) {
-    if (timeIn == null && timeOut != null) {
-      return '??:$timeOut';
-    }
-
-    if (timeOut == null && timeIn != null) {
-      return '$timeIn:??';
-    }
-
-    if (timeIn == null && timeOut == null) {
-      return '??:??';
-    }
-
-    if (timeIn != null && timeOut != null) {
-      return '$timeIn:$timeOut';
-    }
-
-    return '??:??';
-  }
-
   Future<void> postDiemDanhThongKe(DateTime date) async {
     final thongKeDiemDanhCaNhanRequest = ThongKeDiemDanhCaNhanRequest(
       thoiGian: date.convertDateTimeApi,
@@ -119,6 +103,38 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
       error: (err) {},
     );
   }
+
+  List<AppointmentWithDuplicate> toDataFCalenderSource() {
+    final List<AppointmentWithDuplicate> appointments = [];
+    if ((listBangDiemDanh.valueOrNull ?? []).isNotEmpty) {
+      for (final BangDiemDanhCaNhanModel e
+          in listBangDiemDanh.valueOrNull ?? []) {
+        appointments.add(
+          AppointmentWithDuplicate(
+            date: e.date ?? '',
+            model: e,
+          ),
+        );
+      }
+    }
+    return appointments;
+  }
+}
+
+class AppointmentWithDuplicate extends Appointment {
+  final BangDiemDanhCaNhanModel model;
+
+  AppointmentWithDuplicate({
+    required String date,
+    required this.model,
+  }) : super(
+          startTime: date.convertStringToDate(
+            formatPattern: 'dd/MM/yyyy',
+          ),
+          endTime: date.convertStringToDate(
+            formatPattern: 'dd/MM/yyyy',
+          ),
+        );
 }
 
 class LeaveType {

@@ -14,7 +14,8 @@ const secondTxtColor = Color(0xFF808FA8);
 const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
-
+const colorEA5455 = Color(0xFFEA5455);
+const color20C997 = Color(0xFF20C997);
 const color3D5586 = Color(0xff3D5586);
 const colorE2E8F0 = Color(0xffE2E8F0);
 const colorFFFFFF = Color(0xffffffff);

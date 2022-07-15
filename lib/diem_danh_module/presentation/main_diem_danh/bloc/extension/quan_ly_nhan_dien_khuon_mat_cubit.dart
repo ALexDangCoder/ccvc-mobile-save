@@ -233,7 +233,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     String? id,
   }) {
     if (id != null) {
-      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$id/$tokken';
+      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.HIEN_THI_ANH}/$id/$tokken';
     }
 
     String? idImg;
@@ -246,7 +246,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     }
 
     if (idImg != null) {
-      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$idImg/$tokken';
+      return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.HIEN_THI_ANH}/$idImg/$tokken';
     } else {
       return null;
     }

@@ -54,7 +54,7 @@ class ReportItemsResponse {
   String? parentId;
   @JsonKey(name: 'numberReport')
   int? numberReport;
-  @JsonKey(name: 'childrenTotal')
+  @JsonKey(name: 'allFolderAndPublicReportTotal')
   int? childrenTotal;
   @JsonKey(name: 'type')
   int? type;

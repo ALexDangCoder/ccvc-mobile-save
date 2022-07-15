@@ -1,4 +1,6 @@
+
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
@@ -34,6 +36,7 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
     result.when(
       success: (value) {
         dataThanhPhanThamGia = value.listCanBo ?? [];
+        isCheckDiemDanh(value.listCanBo ?? []);
         thanhPhanThamGia.sink.add(value.listCanBo ?? []);
       },
       error: (error) {},

@@ -59,6 +59,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
   String idYkienParam = '';
 
   bool checkMaxSize() {
+    sizeFile = 0;
     for (final PickImageFileModel value in listPickFileMain) {
       sizeFile += value.size ?? 0;
     }
@@ -140,7 +141,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.chuyen_vien_xu_ly,
-              content: [element.nguoiKyDuyet],
+              content: [element.tenCanBo],
             ),
           );
 
@@ -162,7 +163,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.trang_thai_xu_ly,
-              content: [element.trangThai.toString()],
+              content: [getTextByStatus(element.trangThai.toString())],
             ),
           );
           rowData.add(
@@ -415,12 +416,10 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
       success: (res) {
         status = true;
         showContent();
-        getDanhSachYKienXuLyPAKN();
       },
       error: (error) {
         status = false;
         showContent();
-        getDanhSachYKienXuLyPAKN();
       },
     );
     return status;

@@ -8,9 +8,8 @@ import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
-
-import '../chi_tiet_lich_hop_cubit.dart';
 
 ///permission
 extension PermissionLichHop on DetailMeetCalenderCubit {
@@ -73,14 +72,15 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool isThuKy() {
-    if (thamGia().isEmpty) return false;
-
-    for (final i in thamGia()) {
-      if (i.isThuKy != null) {
-        return i.isThuKy ?? false;
-      }
-    }
-    return false;
+    return thamGia()
+            .firstWhere(
+              (element) =>
+                  (element.CanBoId ?? '').toLowerCase() ==
+                  (HiveLocal.getDataUser()?.userId ?? ''),
+              orElse: () => CanBoThamGiaStr.empty(),
+            )
+            .isThuKy ??
+        false;
   }
 
   bool isLichThuHoi() {
@@ -99,10 +99,12 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
     value.addAll(
       scheduleCoperatives
-          .where((e) =>
-              (e.CanBoId ?? '').isNotEmpty &&
-              e.CanBoId?.toUpperCase() ==
-                  (dataUser?.userId ?? '').toUpperCase())
+          .where(
+            (e) =>
+                (e.CanBoId ?? '').isNotEmpty &&
+                e.CanBoId?.toUpperCase() ==
+                    (dataUser?.userId ?? '').toUpperCase(),
+          )
           .toList(),
     );
 
@@ -355,7 +357,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return getThongTinPhongHopForPermision.trangThai ?? 0;
   }
 
-  ///======================= check quyen tab cong tac chuan bi =======================
+  ///==================== check quyen tab cong tac chuan bi ================
   ///1. check phong hop
 
   ///check button duyet phong
@@ -460,7 +462,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return true;
   }
 
-  ///======================= check tab chuong trinh hop ==============================
+  ///=============== check tab chuong trinh hop ===================
 
   ///btn them phien hop
   bool isBtnThemSuaXoaPhienHop() {
@@ -590,20 +592,16 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   ///btn soan ket luan hop
   bool isSoanKetLuanHop() {
-    if (isChuTri() || isThuKy()) {
-      if (getChiTietLichHopModel.status == STATUS_DETAIL.DA_DUYET) {
-        return true;
-      }
-    }
-    return false;
+    return (isThuKy() || isChuTri()) &&
+        getChiTietLichHopModel.status == STATUS_DETAIL.DA_DUYET;
   }
 
   //check cuoc hop da ket thuc hay chua
   bool isCuocHopDaKetThuc() {
     final int timeNow = DateTime.now().millisecondsSinceEpoch;
     final int dayEnd = DateTime.parse(
-            DateTime.parse(getChiTietLichHopModel.ngayKetThuc).formatDdMMYYYY)
-        .millisecondsSinceEpoch;
+      DateTime.parse(getChiTietLichHopModel.ngayKetThuc).formatDdMMYYYY,
+    ).millisecondsSinceEpoch;
 
     final int hourEnd =
         DateTime.parse(getChiTietLichHopModel.timeTo).millisecondsSinceEpoch;

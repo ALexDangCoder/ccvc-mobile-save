@@ -283,7 +283,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest();
 
-  TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest();
+  TaoPhienHopDetailRepuest taoPhienHopRepuest = TaoPhienHopDetailRepuest();
 
   List<MoiHopRequest> moiHopRequest = [];
 

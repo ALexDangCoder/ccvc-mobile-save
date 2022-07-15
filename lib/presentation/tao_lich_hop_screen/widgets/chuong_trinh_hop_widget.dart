@@ -370,11 +370,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                   title: S.current.tai_lieu_dinh_kem,
                   icon: ImageAssets.icShareFile,
-                  files: taoPhienHopRequest.Files ?? [],
+                  files: taoPhienHopRequest.files ?? [],
                   onChange: (
                     files,
                   ) {
-                    taoPhienHopRequest.Files = files;
+                    taoPhienHopRequest.files = files;
                   },
                   hasMultipleFile: true,
                   removeFileApi: (int index) {},
@@ -464,11 +464,11 @@ class ItemPhienHop extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: List.generate(
-                        phienHop.Files?.length ?? 0,
+                        phienHop.files?.length ?? 0,
                         (index) => Padding(
                           padding: const EdgeInsets.only(bottom: 4.0),
                           child: Text(
-                            phienHop.Files?[index].path.convertNameFile() ?? '',
+                            phienHop.files?[index].path.convertNameFile() ?? '',
                             style: textNormalCustom(
                               color: color5A8DEE,
                               fontWeight: FontWeight.w400,

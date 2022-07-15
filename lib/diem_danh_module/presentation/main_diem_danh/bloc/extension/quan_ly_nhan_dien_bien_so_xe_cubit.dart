@@ -1,11 +1,11 @@
-import 'dart:io';
+
 import 'package:ccvc_mobile/data/di/module.dart';
-import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/danh_sach_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -49,36 +49,31 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   }
 
   Future<void> dangKyThongTinXeMoi(
-      String bienKiemSoat, BuildContext context) async {
+      {required String bienKiemSoat,
+      required String fileId,
+      required BuildContext context}) async {
     final dangKyThongTinXeMoiRequest = DangKyThongTinXeMoiRequest(
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
       userId: HiveLocal.getDataUser()?.userId ?? '',
       bienKiemSoat: bienKiemSoat,
       loaiXeMay: xeMay ?? DanhSachBienSoXeConst.XE_MAY,
+      fileId: fileId,
     );
     showLoading();
     final result =
         await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
-        if(fileItemBienSoXe.isNotEmpty==true) {
-          postImageResgiter(
-            idCreateResgiter: res.id,
-            entityName: ApiConstants.BIEN_SO_XE_ENTITY,
-            fileTypeUpload: ApiConstants.BIEN_SO_XE_TYPE,
-            files: fileItemBienSoXe,
-          );
-        }
         showContent();
         toast.showToast(
           child: ShowToast(
-            color:colorE9F9F1 ,
+            color: colorE9F9F1,
             icon: ImageAssets.ic_tick_showToast,
             text: S.current.luu_du_lieu_thanh_cong,
           ),
           gravity: ToastGravity.BOTTOM,
         );
-        Navigator.pop(context,true);
+        Navigator.pop(context, true);
       },
       error: (error) {
         showContent();
@@ -88,37 +83,32 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
 
   ///update number plate, driver license
   Future<void> capNhatBienSoxe(
-      String bienKiemSoat, String id,String idPicture, BuildContext context) async {
+      {required String bienKiemSoat,
+      required String id,
+      required String fileId,
+      required BuildContext context}) async {
     final capNhatBienSoXeRequest = CapNhatBienSoXeRequest(
       id: id,
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
       userId: HiveLocal.getDataUser()?.userId ?? '',
       bienKiemSoat: bienKiemSoat,
       loaiXeMay: xeMay ?? DanhSachBienSoXeConst.XE_MAY,
+      fileId: fileId,
     );
     showLoading();
     final result = await diemDanhRepo.capNhatBienSoXe(capNhatBienSoXeRequest);
     result.when(
         success: (res) {
-          if (fileItemBienSoXe.isNotEmpty == true) {
-            deleteImage(idPicture);
-            postImageResgiter(
-              idCreateResgiter: res.id,
-              entityName: ApiConstants.BIEN_SO_XE_ENTITY,
-              fileTypeUpload: ApiConstants.BIEN_SO_XE_TYPE,
-              files: fileItemBienSoXe,
-            );
-          }
           showContent();
           toast.showToast(
             child: ShowToast(
-              color:colorE9F9F1 ,
+              color: colorE9F9F1,
               icon: ImageAssets.ic_tick_showToast,
               text: S.current.luu_du_lieu_thanh_cong,
             ),
             gravity: ToastGravity.BOTTOM,
           );
-          Navigator.pop(context,true);
+          Navigator.pop(context, true);
         },
         error: (error) {});
   }
@@ -138,23 +128,35 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   }
 
   /// post image select
-  Future<String> postImageResgiter({
-  required  dynamic idCreateResgiter,
-  required  String fileTypeUpload,
-  required  String entityName,
-  required  List<File> files,}
-  ) async {
+  Future<String> postImageResgiter(
+      {required bool isTao,
+      required String bienKiemSoat,
+      String? id,
+      String? fileId,
+      required BuildContext context}) async {
     final result = await diemDanhRepo.postFileModel(
-      idCreateResgiter,
-      fileTypeUpload,
-      entityName,
+      '',
+      ApiConstants.BIEN_SO_XE_TYPE,
+      ApiConstants.BIEN_SO_XE_ENTITY,
       false,
-      files,
+      fileItemBienSoXe,
     );
     result.when(
       success: (success) {
-        idPicture.sink.add(success.data?.first);
-        return success.data?.first;
+        if (isTao) {
+          dangKyThongTinXeMoi(
+              bienKiemSoat: bienKiemSoat,
+              fileId: success.data?.first ?? '',
+              context: context);
+        } else {
+          capNhatBienSoxe(
+              bienKiemSoat: bienKiemSoat,
+              id: id ?? '',
+              fileId: success.data!.isEmpty
+                  ? (fileId ?? '')
+                  : success.data?.first ?? '',
+              context: context);
+        }
       },
       error: (error) {
         return '';
@@ -162,8 +164,9 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     );
     return '';
   }
+
   ///get url bien so xe
-  String? getUrlImageBienSoXe( String? id) {
+  String? getUrlImageBienSoXe(String? id) {
     if (id != null) {
       return '${getUrlDomain(baseOption: BaseURLOption.GATE_WAY)}${ApiConstants.GET_FILE}/$id/$tokken';
     }

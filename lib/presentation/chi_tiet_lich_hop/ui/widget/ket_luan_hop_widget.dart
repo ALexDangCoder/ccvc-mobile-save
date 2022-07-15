@@ -261,7 +261,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                title,
+                S.current.ket_luan_cuoc_hop,
                 style: textNormalCustom(
                   color: textTitle,
                   fontSize: 16,
@@ -295,7 +295,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           context: context,
                           title: S.current.ket_luan_cuoc_hop,
                           isOnlyViewContent: true,
-                          listFile: listFile.map((e) => e.Name ?? '').toList(),
+                          listFile: listFile,
                         );
                       },
                     ),
@@ -308,7 +308,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           cubit: cubit,
                           context: context,
                           title: S.current.ket_luan_cuoc_hop,
-                          listFile: listFile.map((e) => e.Name ?? '').toList(),
+                          listFile: listFile,
                         );
                       },
                     ),
@@ -481,7 +481,7 @@ void xemOrTaoOrSuaKetLuanHop({
   required String title,
   bool? isCreate,
   bool? isOnlyViewContent,
-  required List<String> listFile,
+  required List<FileDetailMeetModel> listFile,
 }) {
   if (isMobile()) {
     showBottomSheetCustom(

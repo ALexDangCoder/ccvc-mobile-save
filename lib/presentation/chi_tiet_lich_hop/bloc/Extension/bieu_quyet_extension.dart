@@ -65,7 +65,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         callApi(
           idCuocHop,
           checkIdPhienHop(
-            phienHopId,
+            idPhienHop,
           ),
         );
       },
@@ -84,6 +84,53 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       },
     );
     showContent();
+  }
+
+  Future<void> xoaBieuQuyet({
+    required String bieuQuyetId,
+    required String canboId,
+  }) async {
+    showLoading();
+    final result = await hopRp.xoaBieuQuyet(bieuQuyetId, canboId);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.xoa_thanh_cong,
+        );
+        callApi(
+          idCuocHop,
+          checkIdPhienHop(
+            idPhienHop,
+          ),
+        );
+      },
+      error: (err) {
+        if (err is NoNetworkException || err is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.xoa_that_bai,
+            messState: MessState.error,
+          );
+        }
+      },
+    );
+    showContent();
+  }
+
+  bool compareTime(String timeBieuQuyet) {
+    final timeNow = DateTime.now();
+    final timePaser =
+        DateFormat(DateTimeFormat.DATE_TIME_RECEIVE).parse(timeBieuQuyet);
+    final dateBieuQuyetMillisec = timeNow.millisecondsSinceEpoch;
+    final dateNowMillisec = timePaser.millisecondsSinceEpoch;
+    if (dateBieuQuyetMillisec < dateNowMillisec) {
+      return true;
+    }
+    return false;
   }
 
   Future<void> chiTietBieuQuyet({
@@ -188,7 +235,6 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     return data;
   }
 
-  // todo
   void isCheckDiemDanh(List<CanBoModel> mList) {
     final idCanBo = HiveLocal.getDataUser()?.userId;
     final diemDanh =
@@ -255,6 +301,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     listDanhSach = [];
     isValidateSubject.sink.add(false);
     isValidateTimer.sink.add(false);
+    danhSachLuaChonNew.clear();
   }
 
   void checkRadioButton(int _index) {
@@ -264,6 +311,14 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     } else {
       loaiBieuQuyet = false;
     }
+  }
+
+  void clearDataTaoBieuQuyet() {
+    cacLuaChonBieuQuyet = [];
+    listDanhSach = [];
+    isValidateSubject.sink.add(false);
+    isValidateTimer.sink.add(false);
+    listThemLuaChon.clear();
   }
 
   List<DsLuaChonOld> paserListLuaChon(List<DanhSachLuaChonModel> mlist) {
@@ -557,7 +612,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
   Future<void> callAPiBieuQuyet() async {
     await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
-    await callApi(idCuocHop, '');
+    await callApi(idCuocHop, idPhienHop);
   }
 
   String getTime({bool isGetDateStart = true}) {

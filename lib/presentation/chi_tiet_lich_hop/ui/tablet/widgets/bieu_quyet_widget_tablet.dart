@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/tao_bieu_quyet_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cell_bieu_quyet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cell_bieu_quyet_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -27,6 +29,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
     super.initState();
     if (!isMobile()) {
       widget.cubit.callAPiBieuQuyet();
+      widget.cubit.callApiThanhPhanThamGia();
     }
   }
 
@@ -38,30 +41,31 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconWithTiltleWidget(
-              icon: ImageAssets.icBieuQuyet,
-              title: S.current.them_bieu_quyet,
-              onPress: () {
-                showDiaLogTablet(
-                  context,
-                  title: S.current.tao_bieu_quyet,
-                  child: TaoBieuQuyetTabletWidget(
-                    id: widget.cubit.idCuocHop,
-                    cubit: widget.cubit,
-                  ),
-                  isBottomShow: false,
-                  funcBtnOk: () {
-                    Navigator.pop(context);
-                  },
-                ).then((value) {
-                  if (value == true) {
-                    widget.cubit.callAPiBieuQuyet();
-                  } else if (value == null) {
-                    return;
-                  }
-                });
-              },
-            ),
+            if (widget.cubit.isBtnMoiNguoiThamGia())
+              IconWithTiltleWidget(
+                icon: ImageAssets.icBieuQuyet,
+                title: S.current.them_bieu_quyet,
+                onPress: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.tao_bieu_quyet,
+                    child: TaoBieuQuyetTabletWidget(
+                      id: widget.cubit.idCuocHop,
+                      cubit: widget.cubit,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  ).then((value) {
+                    if (value == true) {
+                      widget.cubit.callAPiBieuQuyet();
+                    } else if (value == null) {
+                      return;
+                    }
+                  });
+                },
+              ),
             StreamBuilder<List<DanhSachBietQuyetModel>>(
               stream: widget.cubit.streamBieuQuyet,
               builder: (context, snapshot) {
@@ -75,7 +79,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          CellBieuQuyet(
+                          CellBieuQuyetTablet(
                             infoModel: _list[index],
                             cubit: widget.cubit,
                           ),

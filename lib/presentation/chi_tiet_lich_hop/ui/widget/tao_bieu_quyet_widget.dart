@@ -59,6 +59,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
     widget.cubit.listDanhSach = [];
     widget.cubit.isValidateSubject.sink.add(false);
     widget.cubit.isValidateTimer.sink.add(false);
+    widget.cubit.listThemLuaChon.clear();
     widget.cubit.date =
         coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
     timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
@@ -134,11 +135,6 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                               timeEnd = end.timerToString;
                               final dateTimeStart =
                                   '$thoiGianHop $timeStart'.convertStringToDate(
-                                formatPattern:
-                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
-                              );
-                              final dateTimeEnd =
-                                  '$thoiGianHop $timeEnd'.convertStringToDate(
                                 formatPattern:
                                     DateTimeFormat.DATE_TIME_PUT_EDIT,
                               );
@@ -269,7 +265,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                       isCheckCallApi = false;
                       formKeyNoiDung.currentState!.validate();
                     }
-                    if (widget.cubit.cacLuaChonBieuQuyet.isEmpty) {
+                    if (widget.cubit.listThemLuaChon.isEmpty) {
                       isCheckCallApi = false;
                       setState(() {});
                       isShow = true;
@@ -284,8 +280,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                         noiDungController.text,
                         widget.cubit.date,
                         widget.cubit.loaiBieuQ,
-                        '$thoiGianHop' 'T' '$timeStart:00',
-                        '$thoiGianHop' 'T' '$timeEnd:00',
+                        widget.cubit.dateTimeFormat(thoiGianHop, timeStart),
+                        widget.cubit.dateTimeFormat(thoiGianHop, timeEnd),
                       );
                       nav.pop(true);
                     }

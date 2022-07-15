@@ -70,6 +70,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
   @override
   void initState() {
     widget.cubit.addLuaChon.clear();
+    widget.cubit.danhSachLuaChonNew.clear();
     super.initState();
   }
 
@@ -140,12 +141,17 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
                 child: GestureDetector(
                   onTap: () {
                     if (widget.controller.text.isNotEmpty) {
-                      final mList = widget.cubit
+                      widget.cubit.danhSachLuaChonNew = widget.cubit
                           .paserListString([widget.controller.text]);
-                      widget.cubit.suaDanhSachLuaChon.sink
-                          .add([...widget.initData, ...mList]);
+                      widget.cubit.suaDanhSachLuaChon.sink.add([
+                        ...widget.initData,
+                        ...widget.cubit.danhSachLuaChonNew
+                      ]);
                       widget.controller.text = '';
-                      widget.onchange([...widget.initData, ...mList]);
+                      widget.onchange([
+                        ...widget.initData,
+                        ...widget.cubit.danhSachLuaChonNew
+                      ]);
                     }
                   },
                   child: SvgPicture.asset(ImageAssets.ic_plus_bieu_quyet),

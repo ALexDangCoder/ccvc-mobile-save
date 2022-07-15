@@ -12,9 +12,11 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/state_phat_
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/onButtonCustom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'cell_phat_bieu_widget.dart';
 
@@ -216,9 +218,11 @@ class PhatBieuChildWidget extends StatelessWidget {
   final DetailMeetCalenderCubit cubit;
   final Widget itemCenter;
 
-  const PhatBieuChildWidget(
-      {Key? key, required this.cubit, required this.itemCenter})
-      : super(key: key);
+  const PhatBieuChildWidget({
+    Key? key,
+    required this.cubit,
+    required this.itemCenter,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -255,13 +259,13 @@ class PhatBieuChildWidget extends StatelessWidget {
               stream: cubit.streamPhatBieu,
               builder: (_, snapshot) {
                 final dataListPhatBieu = snapshot.data ?? [];
-                if (dataListPhatBieu.isNotEmpty){
+                if (dataListPhatBieu.isNotEmpty) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 16),
                     child: buttonDuyet(data, cubit, context),
                   );
                 }
-                return const  SizedBox.shrink();
+                return const SizedBox.shrink();
               },
             ),
           ],
@@ -335,22 +339,35 @@ class PhatBieuChildWidget extends StatelessWidget {
     required BuildContext context,
     required bool isDuyet,
   }) {
-    showDiaLog(
-      context,
-      title: isDuyet ? S.current.duyet : S.current.tu_choi,
-      icon: isDuyet
-          ? SvgPicture.asset(ImageAssets.icDiemDanh)
-          : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
-      textContent:
-          isDuyet ? S.current.duyet_phat_bieu : S.current.huy_duyet_phat_bieu,
-      btnRightTxt: S.current.dong_y,
-      btnLeftTxt: S.current.khong,
-      funcBtnRight: () {
-        cubit.duyetOrHuyDuyetPhatBieu(
-          lichHopId: cubit.idCuocHop,
-          type: isDuyet ? DUYET_TYPE : HUY_DUYET_TYPE,
-        );
-      },
-    );
+    if (cubit.selectPhatBieu.isEmpty) {
+      final toast = FToast();
+      toast.init(context);
+      toast.showToast(
+        child: ShowToast(
+          text: isDuyet
+              ? S.current.ban_phai_tick_chon_bieu_quyet_muon_duyet
+              : S.current.ban_phai_tick_chon_bieu_quyet_muon_huy_duyet,
+        ),
+        gravity: ToastGravity.BOTTOM,
+      );
+    } else {
+      showDiaLog(
+        context,
+        title: isDuyet ? S.current.duyet : S.current.tu_choi,
+        icon: isDuyet
+            ? SvgPicture.asset(ImageAssets.icDiemDanh)
+            : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
+        textContent:
+            isDuyet ? S.current.duyet_phat_bieu : S.current.huy_duyet_phat_bieu,
+        btnRightTxt: S.current.dong_y,
+        btnLeftTxt: S.current.khong,
+        funcBtnRight: () {
+          cubit.duyetOrHuyDuyetPhatBieu(
+            lichHopId: cubit.idCuocHop,
+            type: isDuyet ? DUYET_TYPE : HUY_DUYET_TYPE,
+          );
+        },
+      );
+    }
   }
 }

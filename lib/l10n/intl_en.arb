@@ -13,6 +13,8 @@
   "unauthorized": "Your session has expired. Please sign in.",
   "don_vi_nhan_va_theo_doi_van_ban": "Đơn vị nhận và theo dõi văn bản",
   "van_ban_lien_quan_kbh": "Văn bản liên quan(không ban hành) ",
+  "ban_phai_tick_chon_bieu_quyet_muon_duyet" : "Bạn phải tick chọn phát biểu muốn duyệt",
+  "ban_phai_tick_chon_bieu_quyet_muon_huy_duyet" : "Bạn phải tick chọn phát biểu muốn hủy duyệt",
   "vui_long_chon": "Vui lòng chọn!",
   "search": "Search...",
   "chon_trang_thai": "Chọn trạng thái",

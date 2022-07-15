@@ -463,14 +463,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   ///======================= check tab chuong trinh hop ==============================
 
   ///btn them phien hop
-  bool isBtnThemPhienHop() {
-    if ((getChiTietLichHopModel.chuTriModel.canBoId.isNotEmpty) &&
-        (getChiTietLichHopModel.chuTriModel.canBoId ==
-                (dataUser?.userId ?? '') ||
-            isThuKy())) {
-      return true;
-    }
-    return false;
+  bool isBtnThemSuaXoaPhienHop() {
+    return isChuTri() || isThuKy();
   }
 
   ///======================= check tab thanh phan tham gia =====================

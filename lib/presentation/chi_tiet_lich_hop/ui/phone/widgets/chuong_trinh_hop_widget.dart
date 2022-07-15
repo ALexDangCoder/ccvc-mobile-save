@@ -78,7 +78,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
   }
 
   Widget buttonThemPhienHop() {
-    if (widget.cubit.isBtnThemPhienHop()) {
+    if (widget.cubit.isBtnThemSuaXoaPhienHop()) {
       return SolidButton(
         text: S.current.them_phien_hop,
         urlIcon: ImageAssets.icAddButtonCalenderTablet,
@@ -158,58 +158,63 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   ),
                 ),
                 const Expanded(child: SizedBox()),
-                GestureDetector(
-                  onTap: () {
-                    showBottomSheetCustom(
-                      context,
-                      child: Container(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.8,
+
+                /// button sửa phiên họp
+                if (widget.cubit.isBtnThemSuaXoaPhienHop()) ...[
+                  GestureDetector(
+                    onTap: () {
+                      showBottomSheetCustom(
+                        context,
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.8,
+                          ),
+                          child: SuaPhienHopScreen(
+                            id: listPhienHopModel.id ?? '',
+                            cubit: widget.cubit,
+                            phienHopModel: listPhienHopModel,
+                            lichHopId: id,
+                          ),
                         ),
-                        child: SuaPhienHopScreen(
-                          id: listPhienHopModel.id ?? '',
-                          cubit: widget.cubit,
-                          phienHopModel: listPhienHopModel,
-                          lichHopId: id,
-                        ),
-                      ),
-                      title: S.current.sua_phien_hop,
-                    ).then((value) {
-                      if (value == true) {
-                        widget.cubit.callApiChuongTrinhHop();
-                      } else if (value == null) {
-                        return;
-                      }
-                    });
-                  },
-                  child: SvgPicture.asset(ImageAssets.icEditBlue),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    showDiaLog(
-                      context,
-                      title: S.current.xoa_chuong_trinh_hop,
-                      icon: SvgPicture.asset(ImageAssets.deleteChuongTrinhHop),
-                      btnLeftTxt: S.current.khong,
-                      btnRightTxt: S.current.dong_y,
-                      funcBtnRight: () {
-                        widget.cubit
-                            .xoaChuongTrinhHop(id: listPhienHopModel.id ?? '')
-                            .then((value) {
-                          if (value) {
-                            widget.cubit.callApiChuongTrinhHop();
-                          }
-                        });
-                      },
-                      showTablet: false,
-                      textContent: S.current.conten_xoa_chuong_trinh,
-                    );
-                  },
-                  child: SvgPicture.asset(ImageAssets.ic_delete_do),
-                )
+                        title: S.current.sua_phien_hop,
+                      ).then((value) {
+                        if (value == true) {
+                          widget.cubit.callApiChuongTrinhHop();
+                        } else if (value == null) {
+                          return;
+                        }
+                      });
+                    },
+                    child: SvgPicture.asset(ImageAssets.icEditBlue),
+                  ),
+                  spaceW16,
+                  GestureDetector(
+                    onTap: () {
+                      showDiaLog(
+                        context,
+                        title: S.current.xoa_chuong_trinh_hop,
+                        icon:
+                            SvgPicture.asset(ImageAssets.deleteChuongTrinhHop),
+                        btnLeftTxt: S.current.khong,
+                        btnRightTxt: S.current.dong_y,
+                        funcBtnRight: () {
+                          widget.cubit
+                              .xoaChuongTrinhHop(id: listPhienHopModel.id ?? '')
+                              .then((value) {
+                            if (value) {
+                              widget.cubit.callApiChuongTrinhHop();
+                            }
+                          });
+                        },
+                        showTablet: false,
+                        textContent: S.current.conten_xoa_chuong_trinh,
+                      );
+                    },
+                    child: SvgPicture.asset(ImageAssets.ic_delete_do),
+                  )
+                ]
+
+                /// button xóa phiên họp
               ],
             ),
             const SizedBox(

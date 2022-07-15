@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -201,13 +202,14 @@ class _TreeDonViState extends State<TreeDonVi> {
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                  value: DateFormat('dd/MM/yyyy')
+                  value: DateFormat(DateFormatApp.date)
                       .parse(widget.startDate)
                       .toString(),
                   onSelectDate: (dateTime) {
-                    selectStartDate = DateFormat('yyyy-MM-dd')
-                        .parse(dateTime)
-                        .toStringWithListFormat;
+                    selectStartDate =
+                        DateFormat(DateFormatApp.pickDateSearchFormat)
+                            .parse(dateTime)
+                            .toStringWithListFormat;
                   },
                 ),
               ),
@@ -222,12 +224,13 @@ class _TreeDonViState extends State<TreeDonVi> {
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                  value:
-                      DateFormat('dd/MM/yyyy').parse(widget.endDate).toString(),
+                  value: DateFormat(DateFormatApp.date)
+                      .parse(widget.endDate)
+                      .toString(),
                   onSelectDate: (dateTime) {
-                    selectEndDate = DateFormat('yyyy-MM-dd')
-                        .parse(dateTime)
-                        .toStringWithListFormat;
+                    selectEndDate = DateFormat(
+                      DateFormatApp.pickDateSearchFormat,
+                    ).parse(dateTime).toStringWithListFormat;
                   },
                 ),
               )

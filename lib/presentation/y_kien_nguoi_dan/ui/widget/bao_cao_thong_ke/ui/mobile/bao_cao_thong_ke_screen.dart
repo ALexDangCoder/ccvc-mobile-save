@@ -145,7 +145,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
             endDate,
           );
         },
-        error: AppException('1', S.current.something_went_wrong),
+        error: AppException(S.current.error, S.current.something_went_wrong),
         stream: baoCaoCubit.stateStream,
         child: RefreshIndicator(
           onRefresh: () async {

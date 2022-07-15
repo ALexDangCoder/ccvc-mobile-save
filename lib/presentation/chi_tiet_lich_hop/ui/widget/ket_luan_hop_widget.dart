@@ -358,7 +358,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                             ? showDiaLog(
                                 context,
                                 textContent:
-                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                    S.current.ban_co_chac_chan_muon_xoa_klh_nay,
                                 btnLeftTxt: S.current.khong,
                                 funcBtnRight: () async {
                                   await cubit
@@ -375,26 +375,14 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                 },
                                 title: S.current.xoa_ket_luan_hop,
                                 btnRightTxt: S.current.dong_y,
-                                icon: Container(
-                                  width: 56,
-                                  height: 56,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    color: statusCalenderRed.withOpacity(0.1),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: SvgPicture.asset(
-                                      ImageAssets.ic_xoa_ket_luan_hop,
-                                    ),
-                                  ),
+                                icon: SvgPicture.asset(
+                                  ImageAssets.ic_xoa_ket_luan_hop,
                                 ),
                               )
                             : showDiaLog(
                                 context,
                                 textContent:
-                                    S.current.ban_co_chac_chan_muon_xoa_khong,
+                                    S.current.ban_co_chac_chan_muon_xoa_klh_nay,
                                 btnLeftTxt: S.current.khong,
                                 funcBtnRight: () async {
                                   await cubit
@@ -412,20 +400,8 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                                 showTablet: true,
                                 title: S.current.xoa_ket_luan_hop,
                                 btnRightTxt: S.current.dong_y,
-                                icon: Container(
-                                  width: 56,
-                                  height: 56,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    color: statusCalenderRed.withOpacity(0.1),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: SvgPicture.asset(
-                                      ImageAssets.ic_xoa_ket_luan_hop,
-                                    ),
-                                  ),
+                                icon: SvgPicture.asset(
+                                  ImageAssets.ic_xoa_ket_luan_hop,
                                 ),
                               );
                       },

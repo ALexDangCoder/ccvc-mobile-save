@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -64,7 +65,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         callApi(
           idCuocHop,
           checkIdPhienHop(
-            phienHopId,
+            idPhienHop,
           ),
         );
       },
@@ -83,6 +84,53 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       },
     );
     showContent();
+  }
+
+  Future<void> xoaBieuQuyet({
+    required String bieuQuyetId,
+    required String canboId,
+  }) async {
+    showLoading();
+    final result = await hopRp.xoaBieuQuyet(bieuQuyetId, canboId);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.xoa_thanh_cong,
+        );
+        callApi(
+          idCuocHop,
+          checkIdPhienHop(
+            idPhienHop,
+          ),
+        );
+      },
+      error: (err) {
+        if (err is NoNetworkException || err is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.xoa_that_bai,
+            messState: MessState.error,
+          );
+        }
+      },
+    );
+    showContent();
+  }
+
+  bool compareTime(String timeBieuQuyet) {
+    final timeNow = DateTime.now();
+    final timePaser =
+        DateFormat(DateTimeFormat.DATE_TIME_RECEIVE).parse(timeBieuQuyet);
+    final dateBieuQuyetMillisec = timeNow.millisecondsSinceEpoch;
+    final dateNowMillisec = timePaser.millisecondsSinceEpoch;
+    if (dateBieuQuyetMillisec < dateNowMillisec) {
+      return true;
+    }
+    return false;
   }
 
   Future<void> chiTietBieuQuyet({
@@ -187,6 +235,13 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     return data;
   }
 
+  void isCheckDiemDanh(List<CanBoModel> mList) {
+    final idCanBo = HiveLocal.getDataUser()?.userId;
+    final diemDanh =
+        mList.firstWhere((element) => element.canBoId == idCanBo).diemDanh;
+    isCheckDiemDanhSubject.sink.add(diemDanh ?? false);
+  }
+
   void getTimeHour({required TimerData startT, required TimerData endT}) {
     final int hourStart = startT.hour;
     final int minuteStart = startT.minutes;
@@ -246,6 +301,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     listDanhSach = [];
     isValidateSubject.sink.add(false);
     isValidateTimer.sink.add(false);
+    danhSachLuaChonNew.clear();
   }
 
   void checkRadioButton(int _index) {
@@ -255,6 +311,14 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     } else {
       loaiBieuQuyet = false;
     }
+  }
+
+  void clearDataTaoBieuQuyet() {
+    cacLuaChonBieuQuyet = [];
+    listDanhSach = [];
+    isValidateSubject.sink.add(false);
+    isValidateTimer.sink.add(false);
+    listThemLuaChon.clear();
   }
 
   List<DsLuaChonOld> paserListLuaChon(List<DanhSachLuaChonModel> mlist) {
@@ -548,7 +612,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
   Future<void> callAPiBieuQuyet() async {
     await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
-    await callApi(idCuocHop, '');
+    await callApi(idCuocHop, idPhienHop);
   }
 
   String getTime({bool isGetDateStart = true}) {

@@ -83,7 +83,10 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   final int maxSizeFile30 = 31457280;
   BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
   BehaviorSubject<bool> isValidateTimer = BehaviorSubject();
+  BehaviorSubject<bool> isValidateThoiGianBatDauKetThuc = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
+  BehaviorSubject<bool> checkValidateLoaiNV = BehaviorSubject();
+  List<int> dataLoaiNhiemVu = [];
   List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
@@ -175,7 +178,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Stream<DanhSachPhatBieuLichHopModel> get danhSachPhatbieuLichHopStream =>
       danhSachPhatbieuLichHopModelSubject.stream;
 
-  final BehaviorSubject<String> themBieuQuyet = BehaviorSubject();
+  final BehaviorSubject<List<String>> themLuaChonBieuQuyet = BehaviorSubject();
+  final List<String> listThemLuaChon = [];
   final BehaviorSubject<List<SuaDanhSachLuaChonModel>> suaDanhSachLuaChon =
       BehaviorSubject();
   BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
@@ -259,9 +263,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
       BehaviorSubject<List<CanBoModel>>();
-
+  List<CanBoModel> listCanBo = [];
   BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
-
+  BehaviorSubject<bool> isCheckDiemDanhSubject = BehaviorSubject();
   List<String> selectedIds = [];
 
   BehaviorSubject<List<PhatBieuModel>> streamPhatBieu =
@@ -282,12 +286,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest();
 
-  TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest();
+  TaoPhienHopDetailRepuest taoPhienHopRepuest = TaoPhienHopDetailRepuest();
 
   List<MoiHopRequest> moiHopRequest = [];
 
   bool phuongThucNhan = false;
   List<String> addLuaChon = [];
+  List<SuaDanhSachLuaChonModel> danhSachLuaChonNew = [];
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
   /// funtion delay

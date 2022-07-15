@@ -8,8 +8,8 @@ class TaoPhienHopRequest {
   String noiDung;
   String tieuDe;
   String hoTen;
-  bool IsMultipe;
-  List<File>? Files;
+  bool isMultipe;
+  List<File>? files;
 
   //sử dụng để xử lý UI
   String? timeEnd;
@@ -25,7 +25,7 @@ class TaoPhienHopRequest {
     this.noiDung = '',
     this.tieuDe = '',
     this.hoTen = '',
-    this.IsMultipe = false,
-    this.Files,
+    this.isMultipe = false,
+    this.files,
   });
 }

@@ -83,6 +83,8 @@ class ChiTietBienSoXeModelResponse {
   String? bienKiemSoat;
   @JsonKey(name: 'loaiSoHuu')
   String? loaiSoHuu;
+  @JsonKey(name: 'fileId')
+  String? fileId;
 
   ChiTietBienSoXeModelResponse({
     this.id,
@@ -105,5 +107,6 @@ class ChiTietBienSoXeModelResponse {
         loaiXeMay: loaiXeMay,
         bienKiemSoat: bienKiemSoat,
         loaiSoHuu: loaiSoHuu,
+        fileId: fileId,
       );
 }

@@ -88,6 +88,63 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
+
+enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL,DOCUMENT_IMG }
+
+extension GetTypeByName on PickerType {
+  List<String> get fileType {
+    switch (this) {
+      case PickerType.MEDIA_FILE:
+        return [
+          'MP4',
+          'WEBM',
+          'MP3',
+          'WAV',
+          'OGG',
+          'PNG',
+          'JPG',
+          'JPEG',
+          'GIF'
+        ];
+      case PickerType.IMAGE_FILE:
+        return ['JPG', 'PNG', 'GIF', 'JPEG'];
+      case PickerType.DOCUMENT:
+        return ['DOC', 'DOCX', 'PDF', 'XLS', 'XLSX'];
+      case PickerType.ALL:
+        return [
+          'MP4',
+          'WEBM',
+          'MP3',
+          'WAV',
+          'OGG',
+          'PNG',
+          'JPG',
+          'JPEG',
+          'GIF',
+          'JPG',
+          'PNG',
+          'GIF',
+          'JPEG',
+          'DOC',
+          'DOCX',
+          'PDF',
+          'XLS',
+          'XLSX'
+        ];
+      case PickerType.DOCUMENT_IMG:
+        return [
+          'jpg',
+          'pdf',
+          'doc',
+          'docx',
+          'xls',
+          'xlsx',
+        ];
+    }
+  }
+}
+
+
 const int BYTE_TO_MB = 1048576;
 const String DEVICE_ID = '';
 const String DEVICE_ANDROID = 'ANDROID';
@@ -126,6 +183,8 @@ const int MINIMUM_YEAR = 1900;
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
+const PHONE_REGEX = r'^0+([0-9]{9})$';
+
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';

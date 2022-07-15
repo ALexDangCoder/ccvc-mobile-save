@@ -434,21 +434,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                         title: S.current.file_dinh_kem_mb,
                         messState: MessState.error,
                       );
-                      widget.cubit.sizeFile = 0;
                     } else {
-                      final bool result = await widget.cubit.postYKienXuLy(
-                        noiDung: _nhapYMainController.text,
-                        kienNghiId: widget.cubit.idYkienParam,
-                        file: widget.cubit.listFileMain,
-                      );
-
-                      if (result) {
-                        _nhapYMainController.text = '';
-                        widget.cubit.listFileMain.clear();
-                        widget.cubit.listPickFileMain.clear();
-                        widget.cubit.sizeFile = 0;
-                        setState(() {});
-                      }
+                      await postYKienXuLy();
                     }
                   } else {
                     if (widget.cubit.listPickFileMain.isNotEmpty) {
@@ -457,20 +444,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                           title: S.current.file_dinh_kem_mb,
                           messState: MessState.error,
                         );
-                        widget.cubit.sizeFile = 0;
                       } else {
-                        final bool result = await widget.cubit.postYKienXuLy(
-                          noiDung: _nhapYMainController.text,
-                          kienNghiId: widget.cubit.idYkienParam,
-                          file: widget.cubit.listFileMain,
-                        );
-                        if (result) {
-                          _nhapYMainController.text = '';
-                          widget.cubit.listFileMain.clear();
-                          widget.cubit.listPickFileMain.clear();
-                          widget.cubit.sizeFile = 0;
-                          setState(() {});
-                        }
+                        await postYKienXuLy();
                       }
                     } else {
                       widget.cubit.validateNhapYkien
@@ -576,6 +551,25 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
         ),
       ],
     );
+  }
+
+  Future<void> postYKienXuLy() async {
+    final bool result = await widget.cubit.postYKienXuLy(
+      noiDung: _nhapYMainController.text,
+      kienNghiId: widget.cubit.idYkienParam,
+      file: widget.cubit.listFileMain,
+    );
+    if (result) {
+      _nhapYMainController.text = '';
+      widget.cubit.listFileMain.clear();
+      widget.cubit.listPickFileMain.clear();
+      setState(() {});
+    } else {
+      MessageConfig.show(
+        title: S.current.that_bai,
+        messState: MessState.error,
+      );
+    }
   }
 
   @override

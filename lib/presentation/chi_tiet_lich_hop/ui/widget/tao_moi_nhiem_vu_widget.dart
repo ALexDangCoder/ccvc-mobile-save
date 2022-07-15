@@ -279,7 +279,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                               data: data[index],
                             );
                           },
-                          title: S.current.gui_email,
+                          title: S.current.xoa,
                           btnRightTxt: S.current.dong_y,
                           icon: Container(
                             width: 56,

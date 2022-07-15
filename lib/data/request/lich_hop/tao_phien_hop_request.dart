@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'tao_phien_hop_request.g.dart';
 
 @JsonSerializable()
-class TaoPhienHopRepuest {
+class TaoPhienHopDetailRepuest {
   String? canBoId;
   String? donViId;
   int? vaiTroThamGia;
@@ -13,11 +13,10 @@ class TaoPhienHopRepuest {
   String? tieuDe;
   String? hoTen;
   bool IsMultipe;
-  List<FilesRepuest>? file;
   String? gioBatDau;
   String? gioKetThuc;
 
-  TaoPhienHopRepuest({
+  TaoPhienHopDetailRepuest({
     this.canBoId,
     this.donViId,
     this.vaiTroThamGia,
@@ -27,15 +26,14 @@ class TaoPhienHopRepuest {
     this.tieuDe,
     this.hoTen,
     this.IsMultipe = false,
-    this.file,
     this.gioBatDau,
     this.gioKetThuc,
   });
 
-  factory TaoPhienHopRepuest.fromJson(Map<String, dynamic> json) =>
-      _$TaoPhienHopRepuestFromJson(json);
+  factory TaoPhienHopDetailRepuest.fromJson(Map<String, dynamic> json) =>
+      _$TaoPhienHopDetailRepuestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TaoPhienHopRepuestToJson(this);
+  Map<String, dynamic> toJson() => _$TaoPhienHopDetailRepuestToJson(this);
 }
 
 @JsonSerializable()

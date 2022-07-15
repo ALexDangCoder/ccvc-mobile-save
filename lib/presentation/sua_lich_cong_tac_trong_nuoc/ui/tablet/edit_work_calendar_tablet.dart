@@ -476,9 +476,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                           .toList(),
                                     ),
                                     TaiLieuWidget(
-                                      files: (createCubit.files ?? [])
-                                          .map((e) => File(e.path ?? ''))
-                                          .toList(),
+                                      files: createCubit.files ?? [],
                                       onChange: (files, value) {
                                         if (!value) {
                                           createCubit.filesTaoLich = files;
@@ -579,6 +577,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
             isEdit: true,
             isOnly: value,
             isInside: !data,
+            scheduleId: widget.event.id,
           );
         },
       ),

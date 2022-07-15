@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_lu
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_moi_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
@@ -26,12 +27,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'icon_with_title_widget.dart';
-
 class KetLuanHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
-  KetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
+  const KetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _KetLuanHopWidgetState createState() => _KetLuanHopWidgetState();
@@ -104,7 +103,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
         stream: widget.cubit.ketLuanHopSubject.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? KetLuanHopModel();
-          if ((data.title ?? '').isEmpty && widget.cubit.isSoanKetLuanHop()) {
+          if ((data.title ?? '').isEmpty &&  widget.cubit.isSoanKetLuanHop()) {
             return IconWithTiltleWidget(
               icon: ImageAssets.icDocument2,
               title: S.current.soan_ket_luan_hop,

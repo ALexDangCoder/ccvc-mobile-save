@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/date_input.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chia_se_co_tk.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/validate_email.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -52,7 +53,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-    if(widget.cubit.keySearch != ''){
+    if (widget.cubit.keySearch != '') {
       controller.text = widget.cubit.keySearch;
     }
   }
@@ -102,8 +103,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                             ],
                             groupValue: isDuocTruyCap,
                             onchange: (value) {
-                              widget.cubit.isDuocTruyCapSink.add(
-                                  value ?? false);
+                              widget.cubit.isDuocTruyCapSink
+                                  .add(value ?? false);
                             },
                           );
                         },
@@ -144,8 +145,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
     );
   }
 
-  Widget get newObject =>
-      FormGroup(
+  Widget get newObject => FormGroup(
         key: _groupKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -160,8 +160,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return '${S.current.ban_phai_nhap_truong} ${S.current
-                      .ho_ten}!';
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.ho_ten}!';
                 }
               },
             ),
@@ -178,7 +177,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             DateInput(
               paddings: 10,
               leadingIcon:
-              SvgPicture.asset(image_utils.ImageAssets.icCalenders),
+                  SvgPicture.asset(image_utils.ImageAssets.icCalenders),
               onSelectDate: (dateTime) {
                 birthday = dateTime;
               },
@@ -197,17 +196,27 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return '${S.current.ban_phai_nhap_truong} ${S.current
-                      .email}!';
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.email}!';
                 }
                 if (!(value ?? '').isValidEmail()) {
-                  return S.current.dinh_dang_email;
+                  return '${S.current.dinh_dang_email}!';
                 }
-                if ((value ?? '').indexOf('@') > 64) {}
+                if ((value ?? '').indexOf('@') > lengthEmailName) {
+                  return '${S.current.dinh_dang_email}!';
+                }
+                if ((value ?? '').split('@').last.characters.length >
+                    lengthEmailDomain) {
+                  return '${S.current.dinh_dang_email}!';
+                }
               },
             ),
             spaceH16,
             textField(
+              validate: (value) {
+                if ((value ?? '').characters.length > lengthEmailDomain) {
+                  return '${S.current.sai_dinh_dang_truong} ${S.current.so_dien_thoai}!';
+                }
+              },
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
@@ -228,8 +237,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return '${S.current.ban_phai_nhap_truong} ${S.current
-                      .chuc_vu}!';
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.chuc_vu}!';
                 }
               },
             ),
@@ -243,8 +251,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return '${S.current.ban_phai_nhap_truong} ${S.current
-                      .don_vi}!';
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.don_vi}!';
                 }
               },
             ),
@@ -256,15 +263,21 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                 note = value;
               },
               maxLine: 6,
+              validate: (value) {
+                if ((value ?? '').isEmpty) {
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.ghi_chu}!';
+                }
+              },
             ),
-            spaceH30,
+            spaceH70,
           ],
         ),
       );
 
+  void validateEmail(String? value) {}
+
   ///các đối tượng được truy cấp
-  Widget get objectAccessed =>
-      Column(
+  Widget get objectAccessed => Column(
         // mainAxisSize: MainAxisSize.min,
         children: [
           search,
@@ -272,14 +285,12 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
         ],
       );
 
-  InputBorder get borderSearch =>
-      const OutlineInputBorder(
+  InputBorder get borderSearch => const OutlineInputBorder(
         borderSide: BorderSide(color: borderColor),
         borderRadius: BorderRadius.all(Radius.circular(6)),
       );
 
-  Widget get buttonBottom =>
-      StreamBuilder<bool>(
+  Widget get buttonBottom => StreamBuilder<bool>(
         stream: widget.cubit.isDuocTruyCapStream,
         builder: (context, snapshot) {
           return DoubleButtonBottom(
@@ -387,9 +398,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
         },
       );
 
-  Widget get search =>
-      TextField(
-        controller:controller,
+  Widget get search => TextField(
+        controller: controller,
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
           color: color3D5586,
@@ -398,7 +408,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           hintText: S.current.tim_kiem_nhanh,
           hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
           contentPadding:
-          const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+              const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
           prefixIcon: Icon(
             Icons.search,
             color: AppTheme.getInstance().colorField(),
@@ -441,14 +451,14 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               text: title,
               children: isRequired
                   ? [
-                TextSpan(
-                  text: ' *',
-                  style: tokenDetailAmount(
-                    fontSize: 14,
-                    color: redChart,
-                  ),
-                ),
-              ]
+                      TextSpan(
+                        text: ' *',
+                        style: tokenDetailAmount(
+                          fontSize: 14,
+                          color: redChart,
+                        ),
+                      ),
+                    ]
                   : [],
             ),
           ),

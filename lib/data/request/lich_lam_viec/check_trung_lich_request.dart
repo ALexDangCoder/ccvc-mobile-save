@@ -11,14 +11,17 @@ class CheckTrungLichRequest extends Equatable {
   String? timeFrom;
   String? timeTo;
   String? userId;
+  String? scheduleId;
 
-  CheckTrungLichRequest(
-      {this.dateFrom,
-      this.dateTo,
-      this.donViId,
-      this.timeFrom,
-      this.timeTo,
-      this.userId});
+  CheckTrungLichRequest({
+    this.dateFrom,
+    this.dateTo,
+    this.donViId,
+    this.timeFrom,
+    this.timeTo,
+    this.userId,
+    this.scheduleId,
+  });
 
   factory CheckTrungLichRequest.fromJson(Map<String, dynamic> json) =>
       _$CheckTrungLichRequestFromJson(json);

@@ -437,7 +437,6 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                         title: S.current.file_dinh_kem_mb,
                         messState: MessState.error,
                       );
-                      widget.cubit.sizeFile = 0;
                     } else {
                       await postYKienXuLy();
                     }
@@ -448,7 +447,6 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                           title: S.current.file_dinh_kem_mb,
                           messState: MessState.error,
                         );
-                        widget.cubit.sizeFile = 0;
                       } else {
                         await postYKienXuLy();
                       }
@@ -569,7 +567,6 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
       _nhapYMainController.text = '';
       widget.cubit.listFileMain.clear();
       widget.cubit.listPickFileMain.clear();
-      widget.cubit.sizeFile = 0;
       setState(() {});
       if (controller.hasClients) {
         Future.delayed(const Duration(milliseconds: 50), () {

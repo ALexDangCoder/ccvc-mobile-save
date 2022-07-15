@@ -1,23 +1,26 @@
 class UsersNgoaiHeThongTruyCapRequest {
-  int? pageIndex;
-  int? pageSize;
-  String? keyword;
+  String? fullname;
+  String? email;
+  String? position;
+  String? unit;
   int? status;
   bool? isLock;
 
   UsersNgoaiHeThongTruyCapRequest({
-    this.pageIndex,
-    this.pageSize,
-    this.keyword,
+    this.fullname,
     this.status,
     this.isLock,
+    this.email,
+    this.position,
+    this.unit,
   });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['pageIndex'] = pageIndex;
-    data['pageSize'] = pageSize;
-    data['keyword'] = keyword;
+    data['fullname'] = fullname;
+    data['email'] = email;
+    data['position'] = position;
+    data['unit'] = unit;
     data['status'] = status;
     data['isLock'] = isLock;
     return data;

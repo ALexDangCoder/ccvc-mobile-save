@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sh
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/dang_ky_phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/state_phat_bieu_widget.dart';
@@ -17,8 +18,6 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'cell_phat_bieu_widget.dart';
 
 class PhatBieuWidgetTablet extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -155,8 +154,10 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
   }
 }
 
-Widget buttonStatePhatBieu(
-    {required DetailMeetCalenderCubit cubit, bool? isHorizontal}) {
+Widget buttonStatePhatBieu({
+  required DetailMeetCalenderCubit cubit,
+  bool? isHorizontal,
+}) {
   return SizedBox(
     height: 50,
     child: StreamBuilder<int>(
@@ -275,7 +276,10 @@ class PhatBieuChildWidget extends StatelessWidget {
   }
 
   Widget buttonDuyet(
-      int data, DetailMeetCalenderCubit cubit, BuildContext context) {
+    int data,
+    DetailMeetCalenderCubit cubit,
+    BuildContext context,
+  ) {
     switch (data) {
       case StatePhatBieu.cho_duyet:
         return Padding(
@@ -290,8 +294,8 @@ class PhatBieuChildWidget extends StatelessWidget {
                 width: 12,
               ),
               Expanded(
-                  child:
-                      buttomHuyPb(text: S.current.tu_choi, context: context)),
+                child: buttomHuyPb(text: S.current.tu_choi, context: context),
+              ),
             ],
           ),
         );

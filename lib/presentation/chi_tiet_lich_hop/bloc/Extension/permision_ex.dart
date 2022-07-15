@@ -464,10 +464,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   ///btn them phien hop
   bool isBtnThemSuaXoaPhienHop() {
-    if (isChuTri() || isThuKy()) {
-      return true;
-    }
-    return false;
+    return isChuTri() || isThuKy();
   }
 
   ///======================= check tab thanh phan tham gia =====================

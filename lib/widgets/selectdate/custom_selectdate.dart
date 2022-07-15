@@ -69,7 +69,6 @@ class _CustomDropDownState extends State<CustomSelectDate> {
                   child: FlutterRoundedCupertinoDatePickerWidget(
                     onDateTimeChanged: (value) {
                       dateSelect = value;
-                      widget.onSelectDate(value);
                     },
                     textStyleDate: titleAppbar(),
                     initialDateTime: dateSelect,
@@ -109,7 +108,6 @@ class _CustomDropDownState extends State<CustomSelectDate> {
                     child: FlutterRoundedCupertinoDatePickerWidget(
                       onDateTimeChanged: (value) {
                         dateSelect = value;
-                        widget.onSelectDate(dateSelect);
                       },
                       textStyleDate: titleAppbar(),
                       initialDateTime: dateSelect,

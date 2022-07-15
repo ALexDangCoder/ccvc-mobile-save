@@ -1,6 +1,6 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
@@ -20,17 +20,15 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   }
 
   Future<void> themThanhPhanThamGia() async {
-   final data  = moiHopRequest;
-   log('${data}');
-    // final result =
-    //     await hopRp.postMoiHop(idCuocHop, false, phuongThucNhan, moiHopRequest);
-    // result.when(
-    //   success: (res) {
-    //     getDanhSachCuocHopTPTH();
-    //     moiHopRequest.clear();
-    //   },
-    //   error: (error) {},
-    // );
+    final result =
+        await hopRp.postMoiHop(idCuocHop, false, phuongThucNhan, moiHopRequest);
+    result.when(
+      success: (res) {
+        getDanhSachCuocHopTPTH();
+        moiHopRequest.clear();
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> danhSachCanBoTPTG({required String id}) async {
@@ -38,6 +36,7 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
     result.when(
       success: (value) {
         dataThanhPhanThamGia = value.listCanBo ?? [];
+        isCheckDiemDanh(value.listCanBo ?? []);
         thanhPhanThamGia.sink.add(value.listCanBo ?? []);
       },
       error: (error) {},

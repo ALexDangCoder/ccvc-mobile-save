@@ -1304,6 +1304,7 @@
   "them_thanh_phan_tham_gia_that_bai" : "Thêm thành phần tham gia thất bại",
   "ban_chua_chon_nguoi_diem_danh" : "Bạn chưa chọn người điểm danh!",
   "diem_danh_thanh_cong" : "Điểm danh thành công!",
-  "xoa_diem_danh_thanh_cong" : "Xóa điểm danh thành công"
+  "xoa_diem_danh_thanh_cong" : "Xóa điểm danh thành công",
+  "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!"
 
 }

@@ -89,6 +89,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<bool> isValidateTimer = BehaviorSubject();
   BehaviorSubject<bool> isValidateThoiGianBatDauKetThuc = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
+  BehaviorSubject<bool> checkValidateLoaiNV = BehaviorSubject();
+  List<int> dataLoaiNhiemVu = [];
   List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
   Timer? _debounce;
@@ -265,9 +267,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
       BehaviorSubject<List<CanBoModel>>();
-
+  List<CanBoModel> listCanBo = [];
   BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
-
+  BehaviorSubject<bool> isCheckDiemDanhSubject = BehaviorSubject();
   List<String> selectedIds = [];
 
   BehaviorSubject<List<PhatBieuModel>> streamPhatBieu =

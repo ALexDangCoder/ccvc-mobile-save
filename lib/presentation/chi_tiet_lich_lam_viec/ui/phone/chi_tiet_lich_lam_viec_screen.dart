@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -22,11 +23,17 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_h
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class ChiTietLichLamViecScreen extends StatefulWidget {
   final String id;
@@ -92,8 +99,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                       scheduleId: widget.id,
                       cubit: BaoCaoKetQuaCubit(),
                       listTinhTrangBaoCao:
-                      chiTietLichLamViecCubit
-                          .listTinhTrang,
+                          chiTietLichLamViecCubit.listTinhTrang,
                     ),
                   ).then((value) {
                     if (value is bool && value) {
@@ -118,8 +124,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     ),
                   ).then((value) {
                     if (value == true) {
-                      chiTietLichLamViecCubit
-                          .loadApi(widget.id);
+                      chiTietLichLamViecCubit.loadApi(widget.id);
                     } else if (value == null) {
                       return;
                     }
@@ -184,7 +189,96 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   });
                 },
               ),
-            ]
+            ],
+
+            ///Xac nhan lai
+            if (chiTietLichLamViecCubit.checkChoXacNhanLai(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icXacNhanLai,
+                text: S.current.xac_nhan_lai,
+                onTap: () {
+                  showDiaLog(
+                    context,
+                    btnLeftTxt: S.current.khong,
+                    funcBtnRight: () {
+                      chiTietLichLamViecCubit
+                          .confirmOfficerOrDismissconfirmOfficer(
+                        ConfirmOfficerRequest(
+                          lichId: dataModel.id,
+                          isThamGia: true,
+                          lyDo: '',
+                        ),
+                      )
+                          .then((value) {
+                        if (value) {
+                          MessageConfig.show(
+                            title: '${S.current.xac_nhan_lai}'
+                                ' ${S.current.thanh_cong.toLowerCase()}',
+                          );
+                          eventBus.fire(RefreshCalendar());
+                          Get.back(result: true);
+                        } else {
+                          MessageConfig.show(
+                            messState: MessState.error,
+                            title: ' ${S.current.xac_nhan_lai}'
+                                ' ${S.current.that_bai.toLowerCase()}',
+                          );
+                        }
+                      });
+                    },
+                    title: S.current.xac_nhan_lai,
+                    btnRightTxt: S.current.dong_y,
+                    icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+                    textContent: S.current.confirm_tham_gia,
+                  );
+                },
+              ),
+            if (chiTietLichLamViecCubit.checkChoHuyXacNhan(dataModel))
+
+              ///Huy xac nhan
+              CellPopPupMenu(
+                urlImage: ImageAssets.icHuy,
+                text: S.current.huy_xac_nhan,
+                onTap: () {
+                  showDiaLog(
+                    context,
+                    btnLeftTxt: S.current.khong,
+                    funcBtnRight: () {
+                      chiTietLichLamViecCubit
+                          .confirmOfficerOrDismissconfirmOfficer(
+                        ConfirmOfficerRequest(
+                          lichId: dataModel.id,
+                          isThamGia: false,
+                          lyDo: '',
+                        ),
+                      )
+                          .then((value) {
+                        if (value) {
+                          MessageConfig.show(
+                            title: '${S.current.huy}'
+                                ' ${S.current.xac_nhan.toLowerCase()}'
+                                ' ${S.current.thanh_cong.toLowerCase()}',
+                          );
+                          eventBus.fire(RefreshCalendar());
+                          Get.back(result: true);
+                        } else {
+                          MessageConfig.show(
+                            messState: MessState.error,
+                            title: '${S.current.huy}'
+                                ' ${S.current.xac_nhan.toLowerCase()}'
+                                ' ${S.current.that_bai.toLowerCase()}',
+                          );
+                        }
+                      });
+                    },
+                    title: '${S.current.huy}'
+                        ' ${S.current.xac_nhan.toLowerCase()}',
+                    btnRightTxt: S.current.dong_y,
+                    icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+                    textContent: S.current.confirm_huy_tham_gia,
+                  );
+                },
+              )
           ];
 
           return snapshot.data != null
@@ -192,14 +286,16 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   ? Scaffold(
                       appBar: BaseAppBar(
                         title: S.current.chi_tiet_lich_lam_viec,
-                        actions:listAction.isNotEmpty ? [
-                          MenuSelectWidget(
-                            listSelect: listAction,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ] : null,
+                        actions: listAction.isNotEmpty
+                            ? [
+                                MenuSelectWidget(
+                                  listSelect: listAction,
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                              ]
+                            : null,
                         leadingIcon: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -260,7 +356,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     );
                                   },
                                 ),
-                                if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
+                                if (chiTietLichLamViecCubit
+                                    .checkChoBaoCaoKetQua(dataModel))
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,
@@ -330,7 +427,101 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                       ),
                                     );
                                   },
-                                )
+                                ),
+                                if (chiTietLichLamViecCubit
+                                    .checkChoHuyXacNhan(dataModel))
+                                  bottomButtonWidget(
+                                    background: statusCalenderRed,
+                                    title: S.current.huy_xac_nhan,
+                                    onTap: () {
+                                      showDiaLog(
+                                        context,
+                                        btnLeftTxt: S.current.khong,
+                                        funcBtnRight: () {
+                                          chiTietLichLamViecCubit
+                                              .confirmOfficerOrDismissconfirmOfficer(
+                                            ConfirmOfficerRequest(
+                                              lichId: dataModel.id,
+                                              isThamGia: false,
+                                              lyDo: '',
+                                            ),
+                                          )
+                                              .then((value) {
+                                            if (value) {
+                                              MessageConfig.show(
+                                                title: '${S.current.huy}'
+                                                    ' ${S.current.xac_nhan.toLowerCase()}'
+                                                    ' ${S.current.thanh_cong.toLowerCase()}',
+                                              );
+                                              eventBus.fire(RefreshCalendar());
+                                              Get.back(result: true);
+                                            } else {
+                                              MessageConfig.show(
+                                                messState: MessState.error,
+                                                title: '${S.current.huy}'
+                                                    ' ${S.current.xac_nhan.toLowerCase()}'
+                                                    ' ${S.current.that_bai.toLowerCase()}',
+                                              );
+                                            }
+                                          });
+                                        },
+                                        title: '${S.current.huy}'
+                                            ' ${S.current.xac_nhan.toLowerCase()}',
+                                        btnRightTxt: S.current.dong_y,
+                                        icon: SvgPicture.asset(
+                                            ImageAssets.img_tham_gia),
+                                        textContent:
+                                            S.current.confirm_huy_tham_gia,
+                                      );
+                                    },
+                                    textColor: Colors.white,
+                                  ),
+                                if (chiTietLichLamViecCubit
+                                    .checkChoXacNhanLai(dataModel))
+                                  bottomButtonWidget(
+                                    background: itemWidgetUsing,
+                                    title: S.current.xac_nhan_lai,
+                                    onTap: () {
+                                      showDiaLog(
+                                        context,
+                                        btnLeftTxt: S.current.khong,
+                                        funcBtnRight: () {
+                                          chiTietLichLamViecCubit
+                                              .confirmOfficerOrDismissconfirmOfficer(
+                                            ConfirmOfficerRequest(
+                                              lichId: dataModel.id,
+                                              isThamGia: true,
+                                              lyDo: '',
+                                            ),
+                                          )
+                                              .then((value) {
+                                            if (value) {
+                                              MessageConfig.show(
+                                                title:
+                                                    '${S.current.xac_nhan_lai}'
+                                                    ' ${S.current.thanh_cong.toLowerCase()}',
+                                              );
+                                              eventBus.fire(RefreshCalendar());
+                                              Get.back(result: true);
+                                            } else {
+                                              MessageConfig.show(
+                                                messState: MessState.error,
+                                                title:
+                                                    ' ${S.current.xac_nhan_lai}'
+                                                    ' ${S.current.that_bai.toLowerCase()}',
+                                              );
+                                            }
+                                          });
+                                        },
+                                        title: S.current.xac_nhan_lai,
+                                        btnRightTxt: S.current.dong_y,
+                                        icon: SvgPicture.asset(
+                                            ImageAssets.img_tham_gia),
+                                        textContent: S.current.confirm_tham_gia,
+                                      );
+                                    },
+                                    textColor: Colors.white,
+                                  ),
                               ],
                             ),
                           ),
@@ -367,22 +558,34 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   }
 
   Widget listScheduleCooperatives() {
-    return StreamBuilder<List<Officer>>(
-      stream: chiTietLichLamViecCubit.listOfficer.stream,
-      builder: (context, snapshot) {
-        final data = snapshot.data ?? [];
-        return ListView.builder(
-          padding: const EdgeInsets.only(
-            top: 24,
+    return ExpandOnlyWidget(
+      header: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Text(
+          S.current.thanh_phan_tham_gia,
+          style: textNormalCustom(
+            color: titleColumn,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
-          shrinkWrap: true,
-          itemCount: data.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (_, index) {
-            return itemScheduleCooperatives(data[index]);
-          },
-        );
-      },
+        ),
+      ),
+      child: StreamBuilder<List<Officer>>(
+        stream: chiTietLichLamViecCubit.listOfficer.stream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: data.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, index) {
+              return itemScheduleCooperatives(data[index]);
+            },
+          );
+        },
+      ),
     );
   }
 

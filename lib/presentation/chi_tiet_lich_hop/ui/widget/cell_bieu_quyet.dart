@@ -5,8 +5,10 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -320,43 +322,77 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                 ),
               ],
             ),
-            Positioned(
-              right: 5,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showBottomSheetCustom(
-                        context,
-                        title: S.current.sua_bieu_quyet,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * 0.8,
+            if (widget.cubit.isSuaXoaDuyetBieuQuyet() &&
+                widget.cubit.compareTime(widget.infoModel.thoiGianBatDau ?? ''))
+              Positioned(
+                right: 5,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.sua_bieu_quyet,
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.8,
+                            ),
+                            child: SuaBieuQuyetWidget(
+                              idBieuQuyet: widget.infoModel.id ?? '',
+                              cubit: widget.cubit,
+                            ),
                           ),
-                          child: SuaBieuQuyetWidget(
-                            idBieuQuyet: widget.infoModel.id ?? '',
-                            cubit: widget.cubit,
+                        ).then((value) {
+                          if (value == null) {
+                            return;
+                          }
+                          if (value) {
+                            widget.cubit.callApi(widget.cubit.idCuocHop, '');
+                          }
+                        });
+                      },
+                      child: SvgPicture.asset(ImageAssets.ic_edit),
+                    ),
+                    spaceW10,
+                    GestureDetector(
+                      onTap: () {
+                        showDiaLog(
+                          context,
+                          showTablet: false,
+                          textContent:
+                              S.current.ban_co_chac_chan_muon_xoa_khong,
+                          btnLeftTxt: S.current.khong,
+                          funcBtnRight: () async {
+                            await widget.cubit.xoaBieuQuyet(
+                              bieuQuyetId: widget.infoModel.id ?? '',
+                              canboId: '',
+                            );
+                          },
+                          title: S.current.xoa_bieu_quyet,
+                          btnRightTxt: S.current.dong_y,
+                          icon: Container(
+                            width: 56,
+                            height: 56,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: statusCalenderRed.withOpacity(0.1),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SvgPicture.asset(
+                                ImageAssets.ic_delete_do,
+                              ),
+                            ),
                           ),
-                        ),
-                      ).then((value) {
-                        if (value == null) {
-                          return;
-                        }
-                        if (value) {
-                          widget.cubit.callApi(widget.cubit.idCuocHop, '');
-                        }
-                      });
-                    },
-                    child: SvgPicture.asset(ImageAssets.ic_edit),
-                  ),
-                  spaceW10,
-                  GestureDetector(
-                    onTap: () {},
-                    child: SvgPicture.asset(ImageAssets.ic_delete_do),
-                  )
-                ],
-              ),
-            )
+                        );
+                      },
+                      child: SvgPicture.asset(ImageAssets.ic_delete_do),
+                    )
+                  ],
+                ),
+              )
           ],
         ),
       ),
@@ -614,41 +650,75 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   ),
                 ],
               ),
-              Positioned(
-                right: 5,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        showDiaLogTablet(
-                          context,
-                          title: S.current.sua_bieu_quyet,
-                          child: SuaBieuQuyetWidget(
-                            idBieuQuyet: widget.infoModel.id ?? '',
-                            cubit: widget.cubit,
-                          ),
-                          isBottomShow: false,
-                          funcBtnOk: () {
-                            Navigator.pop(context);
-                          },
-                        ).then((value) {
-                          if (value == true) {
-                            widget.cubit.callAPiBieuQuyet();
-                          } else if (value == null) {
-                            return;
-                          }
-                        });
-                      },
-                      child: SvgPicture.asset(ImageAssets.ic_edit),
-                    ),
-                    spaceW10,
-                    GestureDetector(
-                      onTap: () {},
-                      child: SvgPicture.asset(ImageAssets.ic_delete_do),
-                    )
-                  ],
-                ),
-              )
+              if (widget.cubit.isSuaXoaDuyetBieuQuyet() &&
+                  widget.cubit
+                      .compareTime(widget.infoModel.thoiGianBatDau ?? ''))
+                Positioned(
+                  right: 5,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showDiaLogTablet(
+                            context,
+                            title: S.current.sua_bieu_quyet,
+                            child: SuaBieuQuyetWidget(
+                              idBieuQuyet: widget.infoModel.id ?? '',
+                              cubit: widget.cubit,
+                            ),
+                            isBottomShow: false,
+                            funcBtnOk: () {
+                              Navigator.pop(context);
+                            },
+                          ).then((value) {
+                            if (value == true) {
+                              widget.cubit.callAPiBieuQuyet();
+                            } else if (value == null) {
+                              return;
+                            }
+                          });
+                        },
+                        child: SvgPicture.asset(ImageAssets.ic_edit),
+                      ),
+                      spaceW10,
+                      GestureDetector(
+                        onTap: () {
+                          showDiaLog(
+                            context,
+                            showTablet: true,
+                            textContent:
+                                S.current.ban_co_chac_chan_muon_xoa_khong,
+                            btnLeftTxt: S.current.khong,
+                            funcBtnRight: () async {
+                              await widget.cubit.xoaBieuQuyet(
+                                bieuQuyetId: widget.infoModel.id ?? '',
+                                canboId: '',
+                              );
+                            },
+                            title: S.current.xoa_bieu_quyet,
+                            btnRightTxt: S.current.dong_y,
+                            icon: Container(
+                              width: 56,
+                              height: 56,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: statusCalenderRed.withOpacity(0.1),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  ImageAssets.ic_delete_do,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(ImageAssets.ic_delete_do),
+                      )
+                    ],
+                  ),
+                )
             ],
           ),
         ),
@@ -687,9 +757,13 @@ class ContainerState extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
-              color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+              color: isVote
+                  ? colorLineSearch
+                  : AppTheme.getInstance().colorField(),
               border: Border.all(
-                color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+                color: isVote
+                    ? colorLineSearch
+                    : AppTheme.getInstance().colorField(),
               ),
             ),
             child: Text(
@@ -705,7 +779,8 @@ class ContainerState extends StatelessWidget {
         Text(
           '$number',
           style: textNormalCustom(
-            color: isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
+            color:
+                isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w500,
           ),

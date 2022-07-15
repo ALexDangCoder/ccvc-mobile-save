@@ -19,14 +19,15 @@ import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 
 class WidgetCapNhatThongTinDangKyXe extends StatefulWidget {
- final BuildContext context;
+  final BuildContext context;
   final DiemDanhCubit cubit;
   final ChiTietBienSoXeModel chiTietBienSoXeModel;
 
   const WidgetCapNhatThongTinDangKyXe({
     Key? key,
     required this.cubit,
-    required this.chiTietBienSoXeModel, required this.context,
+    required this.chiTietBienSoXeModel,
+    required this.context,
   }) : super(key: key);
 
   @override
@@ -46,6 +47,7 @@ class _WidgetCapNhatThongTinDangKyXeState
     bienKiemSoatController.text =
         widget.chiTietBienSoXeModel.bienKiemSoat ?? '';
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,11 +67,12 @@ class _WidgetCapNhatThongTinDangKyXeState
               },
               onClickRight: () {
                 if (keyGroup.currentState!.validator()) {
-                  widget.cubit.capNhatBienSoxe(
-                      bienKiemSoatController.value.text,
-                      widget.chiTietBienSoXeModel.id ?? '',
-                      widget.chiTietBienSoXeModel.pictureId ?? '',
-                      widget.context);
+                  widget.cubit.postImageResgiter(
+                      bienKiemSoat: bienKiemSoatController.value.text,
+                      isTao: false,
+                      id: widget.chiTietBienSoXeModel.id ?? '',
+                      fileId: widget.chiTietBienSoXeModel.fileId ?? '',
+                      context: widget.context);
                 }
               },
             ),
@@ -94,7 +97,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                             SelectImageDangKyXe(
                               isPhone: true,
                               image: widget.cubit.getUrlImageBienSoXe(
-                                  widget.chiTietBienSoXeModel.pictureId),
+                                  widget.chiTietBienSoXeModel.fileId),
                               onTapImage: (image) {
                                 if (image != null) {
                                   widget.cubit.fileItemBienSoXe.clear();

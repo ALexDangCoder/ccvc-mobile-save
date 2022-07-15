@@ -183,7 +183,7 @@ mixin HopRepository {
     String tieuDe,
     String hoTen,
     bool IsMultipe,
-    List<FilesRepuest> file,
+    List<File> file,
   );
 
   Future<Result<BieuQuyetModel>> themBieuQuyet(
@@ -437,7 +437,12 @@ mixin HopRepository {
   );
 
   Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
-      DanhSachLichHopRequest request,
+    DanhSachLichHopRequest request,
+  );
+
+  Future<Result<bool>> xoaBieuQuyet(
+    String bieuQuyetId,
+    String canboId,
   );
 
   Future<Result<ChiTietBieuQuyetModel>> chiTietBieuQuyet(

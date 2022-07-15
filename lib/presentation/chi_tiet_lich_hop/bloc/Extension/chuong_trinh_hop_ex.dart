@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -82,19 +84,13 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> themPhienHop(String id) async {
-    final result = await hopRp.getThemPhienHop(
+  Future<void> themPhienHop({
+    required String id,
+    required TaoPhienHopRequest taoPhienHopRequest,
+  }) async {
+    final result = await hopRp.themPhienHop(
       id,
-      taoPhienHopRepuest.canBoId ?? '',
-      taoPhienHopRepuest.donViId ?? '',
-      taoPhienHopRepuest.vaiTroThamGia ?? 0,
-      '${taoPhienHopRepuest.thoiGian_BatDau ?? DateTime.parse(DateTime.now().toString()).formatApi} $startTime',
-      '${taoPhienHopRepuest.thoiGian_KetThuc ?? DateTime.parse(DateTime.now().toString()).formatApi} $endTime',
-      taoPhienHopRepuest.noiDung ?? '',
-      taoPhienHopRepuest.tieuDe ?? '',
-      taoPhienHopRepuest.hoTen ?? '',
-      taoPhienHopRepuest.IsMultipe,
-      [],
+      [taoPhienHopRequest],
     );
     result.when(
       success: (res) {
@@ -239,8 +235,10 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
   }
 
   Future<void> callApiChuongTrinhHop() async {
+    showLoading();
     await getDanhSachCanBoHop(idCuocHop);
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getListPhienHop(idCuocHop);
+    showContent();
   }
 }

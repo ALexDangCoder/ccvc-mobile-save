@@ -39,13 +39,13 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
     with AutomaticKeepAliveClientMixin {
   late TextEditingController _nhapYMainController;
   late ScrollController controller;
+
   Future<void> _getApi() => widget.cubit.getDanhSachYKienXuLyPAKN();
 
   @override
   void initState() {
     super.initState();
-    controller=ScrollController();
-
+    controller = ScrollController();
     widget.cubit.idYkienParam = widget.id;
     _nhapYMainController = TextEditingController();
   }

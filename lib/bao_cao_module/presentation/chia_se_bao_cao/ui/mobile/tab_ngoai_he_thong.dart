@@ -212,7 +212,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
-              maxLength: 256,
+              maxLength: 255,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {

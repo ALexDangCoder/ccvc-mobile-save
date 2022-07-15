@@ -59,10 +59,11 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
   String idYkienParam = '';
 
   bool checkMaxSize() {
+    sizeFile = 0;
     for (final PickImageFileModel value in listPickFileMain) {
       sizeFile += value.size ?? 0;
     }
-    return sizeFile / BYTE_TO_MB > MAX_MB;
+    return (sizeFile / BYTE_TO_MB) > MAX_MB;
   }
 
   ///Function

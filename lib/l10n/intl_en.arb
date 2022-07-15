@@ -1298,5 +1298,6 @@
   "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !",
   "sua_bieu_quyet": "Sửa biểu quyết",
   "xoa_bieu_quyet": "Xoá biểu quyết",
-  "thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc": "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc"
+  "thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc": "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
+  "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!"
 }

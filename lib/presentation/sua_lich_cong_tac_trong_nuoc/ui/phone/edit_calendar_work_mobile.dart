@@ -515,7 +515,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
             isEdit: true,
             isOnly: value,
             isInside: !data,
-            scheduleId: widget.event.id ?? ''
+            scheduleId: widget.event.id
           );
         },
       ),

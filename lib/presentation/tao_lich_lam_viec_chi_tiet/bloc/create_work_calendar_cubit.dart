@@ -303,6 +303,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
     required String title,
     required String content,
     required String location,
+    String? scheduleId,
     bool isEdit = false,
     bool isInside = true,
     bool? isOnly,
@@ -318,6 +319,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
             (DateTime.now().add(const Duration(minutes: 30))).formatApiFixMeet,
         donViId: selectNguoiChuTri?.donViId,
         userId: selectNguoiChuTri?.userId,
+        scheduleId: scheduleId,
       ),
     );
     result.when(

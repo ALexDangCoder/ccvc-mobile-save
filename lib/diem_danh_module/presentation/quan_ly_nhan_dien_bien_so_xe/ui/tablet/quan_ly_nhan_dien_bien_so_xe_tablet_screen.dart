@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_dia_log_tablet.dart';
+
 // import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -41,6 +42,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
     widget.cubit.postDanhSachBienSoXe();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
@@ -51,250 +53,262 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
         S.current.error,
       ),
       stream: widget.cubit.stateStream,
-      child:  ProviderWidget<DiemDanhCubit>(
+      child: ProviderWidget<DiemDanhCubit>(
         cubit: widget.cubit,
         child: StreamBuilder<List<ChiTietBienSoXeModel>>(
             stream: widget.cubit.danhSachBienSoXeSubject.stream,
-          builder: (context, snapshotChiTiet) {
-            final dataChiTiet = snapshotChiTiet.data ?? [];
-            return StreamBuilder<bool>(
-              stream: widget.cubit.nhanDienbienSoxeSubject,
-              builder: (context, snapshot) {
-                final data = snapshot.data;
-                return snapshotChiTiet.data != null
-                    ? data == true
-                    ? Scaffold(
-                  backgroundColor: colorF9FAFF,
-                  appBar: BaseAppBar(
-                    title: S.current.quan_ly_nhan_dien_bien_so_xe,
-                    leadingIcon: IconButton(
-                      onPressed: () => {Navigator.pop(context)},
-                      icon: SvgPicture.asset(
-                        ImageAssets.icBack,
-                      ),
-                    ),
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          DrawerSlide.navigatorSlide(
-                            context: context,
-                            screen: DiemDanhMenuTablet(
-                              cubit: widget.cubit,
-                            ),
-                          );
-                        },
-                        icon: SvgPicture.asset(
-                          ImageAssets.icMenuCalender,
-                        ),
-                      )
-                    ],
-                  ),
-                  body: RefreshIndicator(
-                    onRefresh: ()async{
-                      await widget.cubit.postDanhSachBienSoXe();
-                    },
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 28.0, left: 30.0, right: 30.0),
-                        child: StreamBuilder<dynamic>(
-                            stream: widget.cubit.idPicture,
-                          builder: (context, idPictureSnapShot) {
-                            return ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: dataChiTiet.length,
-                              itemBuilder: (context,index){
-                                dataChiTiet.first.pictureId ??=
-                                    idPictureSnapShot.data;
-                                return Column(
-                                  children: [
-                                    Container(
-                                      height: MediaQuery.of(context).size.height*0.4,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: colorE2E8F0),
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color.fromRGBO(0, 0, 0, 0.05),
-                                            blurRadius: 2,
-                                            spreadRadius: 2,
-                                          ),
-                                        ],
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              '${widget.cubit.getUrlImageBienSoXe(dataChiTiet[index].pictureId)}'),
-                                          fit: BoxFit.cover,
+            builder: (context, snapshotChiTiet) {
+              final dataChiTiet = snapshotChiTiet.data ?? [];
+              return StreamBuilder<bool>(
+                stream: widget.cubit.nhanDienbienSoxeSubject,
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  return snapshotChiTiet.data != null
+                      ? data == true
+                          ? Scaffold(
+                              backgroundColor: colorF9FAFF,
+                              appBar: BaseAppBar(
+                                title: S.current.quan_ly_nhan_dien_bien_so_xe,
+                                leadingIcon: IconButton(
+                                  onPressed: () => {Navigator.pop(context)},
+                                  icon: SvgPicture.asset(
+                                    ImageAssets.icBack,
+                                  ),
+                                ),
+                                actions: [
+                                  IconButton(
+                                    onPressed: () {
+                                      DrawerSlide.navigatorSlide(
+                                        context: context,
+                                        screen: DiemDanhMenuTablet(
+                                          cubit: widget.cubit,
                                         ),
-                                      ),
+                                      );
+                                    },
+                                    icon: SvgPicture.asset(
+                                      ImageAssets.icMenuCalender,
                                     ),
-                                    spaceH12,
-                                    Text(
-                                      S.current.giay_dang_ky_xe,
-                                      style: textNormalCustom(
-                                        color: color3D5586,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    spaceH20,
-                                    ItemLoaiXe(
-                                      titleXeMay: dataChiTiet[index]
-                                          .loaiXeMay
-                                          ?.loaiXe() ??
-                                          '',
-                                      titleBienKiemSoat:
-                                      dataChiTiet[index]
-                                          .bienKiemSoat ??
-                                          '',
-                                      titleLoaiSoHuu:
-                                      dataChiTiet[index]
-                                          .loaiSoHuu
-                                          ?.loaiSoHuu() ??
-                                          '',
-                                    ),
-                                    spaceH28,
-                                    SizedBox(
-                                      width: 300,
-                                      height: 44,
-                                      child: DoubleButtonBottom(
-                                        title1: S.current.chinh_sua,
-                                        title2: S.current.xoa,
-                                        onClickLeft: () {
-                                          showDiaLogTablet(
-                                            context,
-                                            title: S.current.cap_nhat_tong_tin_dang_ky_xe,
-                                            isBottomShow: false,
-                                            child:WidgetCapNhatThongTinDangKyXe(
-                                              context: context,
-                                              cubit: widget.cubit, chiTietBienSoXeModel:dataChiTiet[index],
+                                  )
+                                ],
+                              ),
+                              body: RefreshIndicator(
+                                onRefresh: () async {
+                                  await widget.cubit.postDanhSachBienSoXe();
+                                },
+                                child: SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 28.0, left: 30.0, right: 30.0),
+                                    child: ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: dataChiTiet.length,
+                                      itemBuilder: (context, index) {
+                                        return Column(
+                                          children: [
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.4,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: colorE2E8F0),
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 0.05),
+                                                    blurRadius: 2,
+                                                    spreadRadius: 2,
+                                                  ),
+                                                ],
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      '${widget.cubit.getUrlImageBienSoXe(dataChiTiet[index].fileId)}'),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                             ),
-                                            funcBtnOk: () {},
-                                          ).then((value) {
-                                            if (value == true) {
-                                              widget.cubit.postDanhSachBienSoXe();
-                                            }
-                                          });
-                                        },
-                                        onClickRight: () {
-                                          showDiaLog(
-                                            context,
-                                            title: S.current.xoa_nhan_bien_so_xe,
-                                            icon: SvgPicture.asset(
-                                              ImageAssets.icXoaNhanhDienBienSoXe,
+                                            spaceH12,
+                                            Text(
+                                              S.current.giay_dang_ky_xe,
+                                              style: textNormalCustom(
+                                                color: color3D5586,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
-                                            btnLeftTxt: S.current.khong,
-                                            btnRightTxt: S.current.dong_y,
-                                            funcBtnRight: () async {
-                                              await widget.cubit
-                                                  .xoaBienSoXe(
+                                            spaceH20,
+                                            ItemLoaiXe(
+                                              titleXeMay: dataChiTiet[index]
+                                                      .loaiXeMay
+                                                      ?.loaiXe() ??
+                                                  '',
+                                              titleBienKiemSoat:
                                                   dataChiTiet[index]
-                                                      .id ??
-                                                      '')
-                                                  .then((value) {
-                                                widget.cubit
-                                                    .postDanhSachBienSoXe();
-                                              });
-                                            },
-                                            showTablet: true,
-                                            textContent:
-                                            S.current.ban_co_muon_xoa_nhan_dien_bien_so_xe,
-                                          );
-                                        },
+                                                          .bienKiemSoat ??
+                                                      '',
+                                              titleLoaiSoHuu: dataChiTiet[index]
+                                                      .loaiSoHuu
+                                                      ?.loaiSoHuu() ??
+                                                  '',
+                                            ),
+                                            spaceH28,
+                                            SizedBox(
+                                              width: 300,
+                                              height: 44,
+                                              child: DoubleButtonBottom(
+                                                title1: S.current.chinh_sua,
+                                                title2: S.current.xoa,
+                                                onClickLeft: () {
+                                                  showDiaLogTablet(
+                                                    context,
+                                                    title: S.current
+                                                        .cap_nhat_tong_tin_dang_ky_xe,
+                                                    isBottomShow: false,
+                                                    child:
+                                                        WidgetCapNhatThongTinDangKyXe(
+                                                      context: context,
+                                                      cubit: widget.cubit,
+                                                      chiTietBienSoXeModel:
+                                                          dataChiTiet[index],
+                                                    ),
+                                                    funcBtnOk: () {},
+                                                  ).then((value) {
+                                                    if (value == true) {
+                                                      widget.cubit
+                                                          .postDanhSachBienSoXe();
+                                                    }
+                                                  });
+                                                },
+                                                onClickRight: () {
+                                                  showDiaLog(
+                                                    context,
+                                                    title: S.current
+                                                        .xoa_nhan_bien_so_xe,
+                                                    icon: SvgPicture.asset(
+                                                      ImageAssets
+                                                          .icXoaNhanhDienBienSoXe,
+                                                    ),
+                                                    btnLeftTxt: S.current.khong,
+                                                    btnRightTxt:
+                                                        S.current.dong_y,
+                                                    funcBtnRight: () async {
+                                                      await widget.cubit
+                                                          .xoaBienSoXe(
+                                                              dataChiTiet[index]
+                                                                      .id ??
+                                                                  '')
+                                                          .then((value) {
+                                                        widget.cubit
+                                                            .postDanhSachBienSoXe();
+                                                      });
+                                                    },
+                                                    showTablet: true,
+                                                    textContent: S.current
+                                                        .ban_co_muon_xoa_nhan_dien_bien_so_xe,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            spaceH28,
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              floatingActionButton: FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DangKyThongTinXeMoi(
+                                        cubit: widget.cubit,
                                       ),
                                     ),
-                                    spaceH28,
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        ),
-                      ),
-                    ),
-                  ),
-                  floatingActionButton: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DangKyThongTinXeMoi(
-                            cubit: widget.cubit,
-                          ),
-                        ),
-                      ).then((value) {
-                        if (value == true) {
-                          widget.cubit.postDanhSachBienSoXe();
-                        }
-                      });
-                    },
-                    backgroundColor: AppTheme.getInstance().colorField(),
-                    child: SvgPicture.asset(ImageAssets.icVectorFloatAction),
-                  ),
-                )
-                    : Scaffold(
-                  appBar: BaseAppBar(
-                    title: S.current.dang_ky_xe_ra_vao_bo,
-                    leadingIcon: IconButton(
-                      onPressed: () => {Navigator.pop(context)},
-                      icon: SvgPicture.asset(
-                        ImageAssets.icBack,
-                      ),
-                    ),
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          DrawerSlide.navigatorSlide(
-                            context: context,
-                            screen: DiemDanhMenuTablet(
-                              cubit: widget.cubit,
-                            ),
-                          );
-                        },
-                        icon: SvgPicture.asset(
-                          ImageAssets.icMenuCalender,
-                        ),
-                      )
-                    ],
-                  ),
-                  body: SingleChildScrollView(
-                    child: Center(
-                      child: SizedBox(
-                        width: 590.0,
-                        child: Column(
-                          children: [
-                            spaceH60,
-                            SvgPicture.asset(
-                              ImageAssets.imgDangKyXeSvg,
-                            ),
-                            spaceH48,
-                            SizedBox(
-                              width: 163,
-                              child: ButtonCustomBottom(
-                                  title: S.current.dang_ky_xe_moi,
-                                  isColorBlue: true,
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            DangKyThongTinXeMoi(cubit: widget.cubit),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-                    : const Scaffold();
-              },
-            );
-          }
-        ),
+                                  ).then((value) {
+                                    if (value == true) {
+                                      widget.cubit.postDanhSachBienSoXe();
+                                    }
+                                  });
+                                },
+                                backgroundColor:
+                                    AppTheme.getInstance().colorField(),
+                                child: SvgPicture.asset(
+                                    ImageAssets.icVectorFloatAction),
+                              ),
+                            )
+                          : Scaffold(
+                              appBar: BaseAppBar(
+                                title: S.current.dang_ky_xe_ra_vao_bo,
+                                leadingIcon: IconButton(
+                                  onPressed: () => {Navigator.pop(context)},
+                                  icon: SvgPicture.asset(
+                                    ImageAssets.icBack,
+                                  ),
+                                ),
+                                actions: [
+                                  IconButton(
+                                    onPressed: () {
+                                      DrawerSlide.navigatorSlide(
+                                        context: context,
+                                        screen: DiemDanhMenuTablet(
+                                          cubit: widget.cubit,
+                                        ),
+                                      );
+                                    },
+                                    icon: SvgPicture.asset(
+                                      ImageAssets.icMenuCalender,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              body: SingleChildScrollView(
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 590.0,
+                                    child: Column(
+                                      children: [
+                                        spaceH60,
+                                        SvgPicture.asset(
+                                          ImageAssets.imgDangKyXeSvg,
+                                        ),
+                                        spaceH48,
+                                        SizedBox(
+                                          width: 163,
+                                          child: ButtonCustomBottom(
+                                              title: S.current.dang_ky_xe_moi,
+                                              isColorBlue: true,
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DangKyThongTinXeMoi(
+                                                            cubit:
+                                                                widget.cubit),
+                                                  ),
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                      : const Scaffold();
+                },
+              );
+            }),
       ),
     );
   }

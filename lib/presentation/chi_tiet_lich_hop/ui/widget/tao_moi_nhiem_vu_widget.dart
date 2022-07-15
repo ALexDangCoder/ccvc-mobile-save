@@ -268,9 +268,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
             stream: widget.cubit.listVBGiaoNhiemVu.stream,
             builder: (context, snapshot) {
               final data = snapshot.data
-                      ?.where(
-                        (element) => element.hinhThucVanBan == loaiVbThem,
-                      )
+                      ?.where((element) => element.hinhThucVanBan == loaiVbThem)
                       .toList() ??
                   [];
               return ListView.builder(

@@ -175,13 +175,30 @@ class ReportImpl implements ReportRepository {
         List<UserNgoaiHeThongDuocTruyCapModel>>(
       () => _reportService.getUsersNgoaiHeThongDuocTruyCap(
         appId,
-        UsersNgoaiHeThongTruyCapRequest(
-          pageIndex: pageIndex,
-          pageSize: pageSize,
-          keyword: keyword,
-          status: status,
-          isLock: isLock,
-        ),
+        [
+          UsersNgoaiHeThongTruyCapRequest(
+            fullname: keyword,
+            status: status,
+            isLock: isLock,
+          ),
+          UsersNgoaiHeThongTruyCapRequest(
+            email: keyword,
+            status: status,
+            isLock: isLock,
+          ),
+          UsersNgoaiHeThongTruyCapRequest(
+            position: keyword,
+            status: status,
+            isLock: isLock,
+          ),
+          UsersNgoaiHeThongTruyCapRequest(
+            unit: keyword,
+            status: status,
+            isLock: isLock,
+          ),
+        ],
+        pageIndex,
+        pageSize,
       ),
       (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],
     );

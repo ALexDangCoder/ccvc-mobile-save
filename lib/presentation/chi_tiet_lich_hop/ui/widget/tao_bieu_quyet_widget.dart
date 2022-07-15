@@ -320,8 +320,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                         noiDungController.text,
                         widget.cubit.date,
                         widget.cubit.loaiBieuQ,
-                        '$thoiGianHop' 'T' '$timeStart:00',
-                        '$thoiGianHop' 'T' '$timeEnd:00',
+                        widget.cubit.dateTimeFormat(thoiGianHop, timeStart),
+                        widget.cubit.dateTimeFormat(thoiGianHop, timeEnd),
                       );
                       nav.pop(true);
                     }

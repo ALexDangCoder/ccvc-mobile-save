@@ -532,8 +532,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     final data = await _YKNDRepo.getDanhSachPAKNXuLyCacYKien(
       pageIndex: pageNumberDSPAKN,
       pageSize: pageSizeDSPAKN,
-      dateFrom: startDate,
-      dateTo: endDate,
+      dateFrom: startDate.split('/').reversed.join('/'),
+      dateTo: endDate.split('/').reversed.join('/'),
       daChoYKien: daChoYKien,
     );
     data.when(

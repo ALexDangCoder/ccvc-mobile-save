@@ -141,7 +141,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.chuyen_vien_xu_ly,
-              content: [element.nguoiKyDuyet],
+              content: [element.tenCanBo],
             ),
           );
 
@@ -163,7 +163,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.trang_thai_xu_ly,
-              content: [element.trangThai.toString()],
+              content: [getTextByStatus(element.trangThai.toString())],
             ),
           );
           rowData.add(

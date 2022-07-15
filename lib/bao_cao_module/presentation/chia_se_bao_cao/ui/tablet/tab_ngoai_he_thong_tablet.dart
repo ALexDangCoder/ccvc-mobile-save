@@ -210,11 +210,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             ),
             spaceH16,
             textField(
-              validate: (value) {
-                if ((value ?? '').characters.length > lengthEmailDomain) {
-                  return '${S.current.sai_dinh_dang_truong} ${S.current.so_dien_thoai}!';
-                }
-              },
+              maxLength: 256,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
@@ -422,6 +418,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   Widget textField({
     String? hintText,
     int maxLine = 1,
+    int? maxLength,
     bool isRequired = false,
     required String title,
     required Function(String) onChange,
@@ -463,6 +460,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
           validator: validate,
           inputFormatters: inputFormatter,
           textInputType: textInputType,
+          maxLength: maxLength,
         )
       ],
     );

@@ -212,11 +212,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
-              validate: (value) {
-                if ((value ?? '').characters.length > lengthEmailDomain) {
-                  return '${S.current.sai_dinh_dang_truong} ${S.current.so_dien_thoai}!';
-                }
-              },
+              maxLength: 256,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
@@ -431,6 +427,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
     String? hintText,
     int maxLine = 1,
     bool isRequired = false,
+    int? maxLength,
     required String title,
     required Function(String) onChange,
     String? Function(String?)? validate,
@@ -471,6 +468,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           validator: validate,
           inputFormatters: inputFormatter,
           textInputType: textInputType,
+          maxLength: maxLength,
         )
       ],
     );

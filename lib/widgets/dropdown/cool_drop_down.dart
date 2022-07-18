@@ -76,7 +76,6 @@ class _CoolDropDownState extends State<CoolDropDown> {
         widget.onChange(listSelect.indexOf(value));
       },
       placeholder: widget.placeHoder,
-
       selectedItemTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
         color: titleCalenderWork,

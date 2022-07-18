@@ -258,6 +258,7 @@ abstract class HopServices {
     @Part() String reportStatusId,
     @Part() String reportTemplateId,
     @Part() List<File> files,
+    @Part() List<String> filesDelete
   );
 
   @POST(ApiConstants.CHON_MAU_BIEN_BAN)

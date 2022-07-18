@@ -472,7 +472,7 @@ void xemOrTaoOrSuaKetLuanHop({
   } else {
     showDiaLogTablet(
       context,
-      maxHeight: 280,
+      maxHeight: 500,
       title: title,
       child: CreateOrUpdateKetLuanHopWidget(
         cubit: cubit,

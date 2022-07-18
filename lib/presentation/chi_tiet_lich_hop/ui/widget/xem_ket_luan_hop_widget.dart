@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/bao_cao_module/widget/button/button_custom_bottom.dart';
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -11,23 +10,24 @@ import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CreateOrUpdateKetLuanHopWidget extends StatefulWidget {
@@ -52,23 +52,17 @@ class CreateOrUpdateKetLuanHopWidget extends StatefulWidget {
 class _CreateOrUpdateKetLuanHopWidgetState
     extends State<CreateOrUpdateKetLuanHopWidget> {
   final BehaviorSubject<bool> show = BehaviorSubject.seeded(false);
-  BehaviorSubject<List<String>> listFile = BehaviorSubject();
-  late String valueEdit;
-  late String reportStatusId;
-  late String reportTemplateId;
-  List<File> listFiles = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    valueEdit = '';
-    reportStatusId = '';
-    reportTemplateId = '';
-    listFile.sink.add(widget.listFile.map((e) => e.Name ?? '').toList());
+    widget.cubit.ketLuanHopState = KetLuanHopState();
     if ((widget.cubit.xemKetLuanHopModel.reportStatus ?? '').isNotEmpty) {
-      reportStatusId = widget.cubit.xemKetLuanHopModel.reportStatusId ?? '';
+      widget.cubit.ketLuanHopState.reportStatusId =
+          widget.cubit.xemKetLuanHopModel.reportStatusId ?? '';
     }
+    widget.cubit.ketLuanHopState.filesApi.addAll(widget.listFile);
   }
 
   @override
@@ -79,331 +73,343 @@ class _CreateOrUpdateKetLuanHopWidgetState
       widget.cubit.dataMauBienBan.close();
       widget.cubit.noiDung.sink.add('');
     }
-    listFile.sink.add([]);
+    widget.cubit.ketLuanHopState.listFileDefault.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: !widget.isOnlyViewContent
-          ? FollowKeyBoardWidget(
-              child: Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.8,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      /// tinh trang
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: TitleWithRedStartWidget(
-                          title: S.current.tinh_trang,
-                        ),
-                      ),
-                      ShowRequied(
-                        isShow: show.value,
-                        child: StreamBuilder<List<StatusKetLuanHopModel>>(
-                          stream: widget.cubit.dataTinhTrangKetLuanHop,
-                          builder: (context, snapshot) {
-                            final dataTinhTrang = snapshot.data ?? [];
-                            return CoolDropDown(
-                              initData: widget
-                                      .cubit.xemKetLuanHopModel.reportStatus ??
-                                  '',
-                              placeHoder: S.current.chon_tinh_trang,
-                              listData: dataTinhTrang
-                                  .map((e) => e.displayName)
-                                  .toList(),
-                              onChange: (value) {
-                                final vlSelect = dataTinhTrang[value];
-                                if (widget.cubit.xemKetLuanHopModel
-                                        .reportStatusId !=
-                                    vlSelect.id) {
-                                  reportStatusId = vlSelect.id ?? '';
-                                }
-                              },
-                            );
-                          },
-                        ),
-                      ),
-
-                      /// chon mau bien ban
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8, top: 20),
-                        child: Text(
-                          S.current.chon_mau_bien_ban,
-                          style: textNormal(titleItemEdit, 14),
-                        ),
-                      ),
-                      StreamBuilder<ChonBienBanCuocHopModel>(
-                        stream: widget.cubit.dataMauBienBan,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data?.items ?? [];
-                          return CoolDropDown(
-                            placeHoder: S.current.chon_mau_bien_ban,
-                            initData: widget.cubit.getValueMauBienBanWithId(
-                              widget.cubit.xemKetLuanHopModel
-                                      .reportTemplateId ??
-                                  '',
-                            ),
-                            listData: data.map((e) => e.name).toList(),
-                            onChange: (value) {
-                              widget.cubit.getValueMauBienBan(value);
-                              if (widget.cubit.xemKetLuanHopModel
-                                      .reportTemplateId !=
-                                  data[value].id) {
-                                reportTemplateId = data[value].id ?? '';
-                              }
-                            },
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8, top: 20),
-                        child: Text(
-                          S.current.just_noi_dung,
-                          style: textNormal(titleItemEdit, 14),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditKetLuanHopScreen(
-                                key: keyEditKetLuanHop,
-                                cubit: widget.cubit,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 300,
-                          padding: const EdgeInsets.only(
-                            bottom: 8,
-                            top: 10,
-                            left: 8,
-                            right: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: borderColor),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: SingleChildScrollView(
-                            child: StreamBuilder<String>(
-                              stream: widget.cubit.noiDung.stream,
-                              builder: (context, snapshot) {
-                                return Html(
-                                  style: {
-                                    'html': Style(textAlign: TextAlign.center)
-                                  },
-                                  data: valueEdit != snapshot.data
-                                      ? (snapshot.data ?? '')
-                                      : valueEdit,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      /// them tai lieu cuoc hop
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 10),
-                        child: ButtonSelectFile(
-                          title: S.current.tai_lieu_dinh_kem,
-                          onChange: (List<File> files) {
-                            bool checkMaxFile = false;
-
-                            /// duyet file
-                            for (final data in files) {
-                              if (data.lengthSync() >
-                                  widget.cubit.maxSizeFile30) {
-                                checkMaxFile = true;
-                              } else {
-                                listFiles.add(data);
-                                final List<String> thisListFile =
-                                    listFile.value;
-                                thisListFile.add(data.path.split('/').last);
-                                listFile.sink.add(thisListFile);
-                              }
-                            }
-                            if (checkMaxFile) {
-                              showToast();
-                            }
-                          },
-                          removeFileApi: (int index) {},
-                        ),
-                      ),
-
-                      /// list file
-                      StreamBuilder<List<String>>(
-                        stream: listFile.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              final dataIndex = data[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 16),
-                                child: FileFromAPIWidget(
-                                  data: dataIndex,
-                                  onTapDelete: () {
-                                    final List<String> thisListFile =
-                                        listFile.value;
-                                    thisListFile.removeAt(index);
-                                    listFile.sink.add(thisListFile);
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: APP_DEVICE == DeviceType.MOBILE
-                            ? EdgeInsets.zero
-                            : const EdgeInsets.symmetric(horizontal: 100),
-                        child: DoubleButtonBottom(
-                          title1: S.current.dong,
-                          title2: S.current.xac_nhan,
-                          onClickLeft: () {
-                            widget.cubit.noiDung.add('');
-                            Navigator.pop(context);
-                          },
-                          onClickRight: () {
-                            if (reportStatusId.isNotEmpty) {
-                              if (widget.isCreate) {
-                                widget.cubit
-                                    .createKetLuanHop(
-                                  reportStatusId: reportStatusId,
-                                  reportTemplateId: reportTemplateId,
-                                  files: listFiles,
-                                )
-                                    .then((value) {
-                                  if (value) {
-                                    Navigator.pop(context);
-                                    widget.cubit.needRefreshMainMeeting = true;
-                                  }
-                                });
-                                return;
-                              }
-                              widget.cubit.suaKetLuan(
-                                reportStatusId: reportStatusId,
-                                reportTemplateId: reportTemplateId,
-                              );
-                              Navigator.pop(context);
-                            } else {
-                              show.sink.add(true);
-                            }
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-
-          /// chỉ xem biên bản họp
-          : Container(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.7,
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: 400,
-                      child: SingleChildScrollView(
-                        child: StreamBuilder<String>(
-                          stream: widget.cubit.noiDung.stream,
-                          builder: (context, snapshot) {
-                            return Html(
-                              data: valueEdit != snapshot.data
-                                  ? (snapshot.data ?? '')
-                                  : valueEdit,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: widget.listFile.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final data = widget.listFile;
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  ImageAssets.icShareFile,
-                                  color: AppTheme.getInstance().colorField(),
-                                ),
-                                const SizedBox(width: 8),
-                                GestureDetector(
-                                  onTap: () {
-                                    saveFile(
-                                      fileName: data[index].Name ?? '',
-                                      url: data[index].Path ?? '',
-                                    );
-                                  },
-                                  child: Text(
-                                    data[index].Name ?? '',
-                                    style: textDetailHDSD(
-                                      fontSize: 14.0.textScale(),
-                                      color: color5A8DEE,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: ButtonCustomBottom(
-                        isColorBlue: false,
-                        title: S.current.dong,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+    final state = widget.cubit.ketLuanHopState;
+    return BlocListener(
+        bloc: widget.cubit,
+        listener: (context, state) {
+          if (state is Success) {
+            Navigator.pop(context);
+            widget.cubit.needRefreshMainMeeting = true;
+            widget.cubit.emit(DetailMeetCalenderInitial());
+          }
+        },
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.8,
+          ),
+          child: FollowKeyBoardWidget(
+            bottomWidget: Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: 20, horizontal: 5.0.textScale(space: 100)),
+              child: DoubleButtonBottom(
+                title1: S.current.dong,
+                title2: S.current.xac_nhan,
+                onClickLeft: () {
+                  widget.cubit.noiDung.add('');
+                  Navigator.pop(context);
+                },
+                onClickRight: () {
+                  if (state.reportStatusId.isNotEmpty) {
+                    btnThem();
+                  } else {
+                    MessageConfig.show(
+                        title: S.current.vui_long_chon_tinh_trang,
+                        messState: MessState.error);
+                  }
+                },
               ),
             ),
-    );
+            child: SingleChildScrollView(
+              child: !widget.isOnlyViewContent
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        /// tinh trang
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: TitleWithRedStartWidget(
+                            title: S.current.tinh_trang,
+                          ),
+                        ),
+                        ShowRequied(
+                          isShow: show.value,
+                          child: StreamBuilder<List<StatusKetLuanHopModel>>(
+                            stream: widget.cubit.dataTinhTrangKetLuanHop,
+                            builder: (context, snapshot) {
+                              final dataTinhTrang = snapshot.data ?? [];
+                              return CoolDropDown(
+                                useCustomHintColors: true,
+                                key: UniqueKey(),
+                                initData: widget.cubit.xemKetLuanHopModel
+                                        .reportStatus ??
+                                    '',
+                                placeHoder: S.current.chon_tinh_trang,
+                                listData: dataTinhTrang
+                                    .map((e) => e.displayName)
+                                    .toList(),
+                                onChange: (value) {
+                                  final vlSelect = dataTinhTrang[value];
+
+                                  state.reportStatusId = vlSelect.id ?? '';
+                                },
+                              );
+                            },
+                          ),
+                        ),
+
+                        /// chon mau bien ban
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8, top: 20),
+                          child: Text(
+                            S.current.chon_mau_bien_ban,
+                            style: textNormal(titleItemEdit, 14),
+                          ),
+                        ),
+                        StreamBuilder<ChonBienBanCuocHopModel>(
+                          stream: widget.cubit.dataMauBienBan,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data?.items ?? [];
+                            return CoolDropDown(
+                              useCustomHintColors: true,
+                              key: UniqueKey(),
+                              placeHoder: S.current.chon_mau_bien_ban,
+                              initData: widget.cubit.getValueMauBienBanWithId(
+                                widget.cubit.xemKetLuanHopModel
+                                        .reportTemplateId ??
+                                    '',
+                              ),
+                              listData: data.map((e) => e.name).toList(),
+                              onChange: (value) {
+                                widget.cubit.getValueMauBienBan(value);
+
+                                state.reportTemplateId = data[value].id ?? '';
+                              },
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8, top: 20),
+                          child: Text(
+                            S.current.just_noi_dung,
+                            style: textNormal(titleItemEdit, 14),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditKetLuanHopScreen(
+                                  key: keyEditKetLuanHop,
+                                  cubit: widget.cubit,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 300,
+                            padding: const EdgeInsets.only(
+                              bottom: 8,
+                              top: 10,
+                              left: 8,
+                              right: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: borderColor),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: SingleChildScrollView(
+                              child: StreamBuilder<String>(
+                                stream: widget.cubit.noiDung.stream,
+                                builder: (context, snapshot) {
+                                  return Html(
+                                    style: {
+                                      'html': Style(textAlign: TextAlign.center)
+                                    },
+                                    data: state.valueEdit != snapshot.data
+                                        ? (snapshot.data ?? '')
+                                        : state.valueEdit,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        /// them tai lieu cuoc hop
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                          child: ButtonSelectFile(
+                            isShowFile: false,
+                            title: S.current.tai_lieu_dinh_kem,
+                            onChange: (List<File> files) {
+                              for (final element in files) {
+                                if (state.listFiles
+                                    .where((e) => e.path == element.path)
+                                    .isEmpty) {
+                                  state.listFiles.add(element);
+                                }
+                              }
+                              state.listFileSelect.sink.add(state.listFiles);
+                            },
+                            removeFileApi: (int index) {},
+                          ),
+                        ),
+
+                        /// list file
+                        StreamBuilder<List<FileDetailMeetModel>>(
+                            initialData: state.filesApi,
+                            stream: state.listFileDefault.stream,
+                            builder: (context, _) => ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: state.filesApi.length,
+                                  itemBuilder: (context, index) {
+                                    final dataIndex = state.filesApi[index];
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
+                                      child: FileFromAPIWidget(
+                                        data: dataIndex.Name ?? '',
+                                        onTapDelete: () {
+                                          widget.cubit.fileDeleteKetLuanHop
+                                              .add(dataIndex.Id ?? '');
+                                          state.filesApi.remove(dataIndex);
+                                          state.fileDelete
+                                              .add(dataIndex.Id ?? '');
+                                          state.listFileDefault.sink
+                                              .add(state.filesApi);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                )),
+                        StreamBuilder<List<File>>(
+                            initialData: [],
+                            stream: state.listFileSelect.stream,
+                            builder: (context, _) => ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: state.listFiles.length,
+                                  itemBuilder: (context, index) {
+                                    final dataIndex = state.listFiles[index];
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
+                                      child: FileFromAPIWidget(
+                                        data: dataIndex.path.convertNameFile(),
+                                        onTapDelete: () {
+                                          state.listFiles.remove(dataIndex);
+                                          state.listFileSelect.sink
+                                              .add(state.listFiles);
+                                        },
+                                        lengthFile: dataIndex
+                                            .lengthSync()
+                                            .getFileSize(2),
+                                      ),
+                                    );
+                                  },
+                                )),
+
+                        const SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    )
+
+                  /// chỉ xem biên bản họp
+                  : Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.7,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              height: 400,
+                              child: SingleChildScrollView(
+                                child: StreamBuilder<String>(
+                                  stream: widget.cubit.noiDung.stream,
+                                  builder: (context, snapshot) {
+                                    return Html(
+                                      data: state.valueEdit != snapshot.data
+                                          ? (snapshot.data ?? '')
+                                          : state.valueEdit,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: widget.listFile.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  final data = widget.listFile;
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          ImageAssets.icShareFile,
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        GestureDetector(
+                                          onTap: () {
+                                            saveFile(
+                                              fileName: data[index].Name ?? '',
+                                              url: data[index].Path ?? '',
+                                            );
+                                          },
+                                          child: Text(
+                                            data[index].Name ?? '',
+                                            style: textDetailHDSD(
+                                              fontSize: 14.0.textScale(),
+                                              color: color5A8DEE,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: ButtonCustomBottom(
+                                isColorBlue: false,
+                                title: S.current.dong,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+        ));
   }
 
-  void showToast() {
-    final toast = FToast();
-    toast.init(context);
-    toast.showToast(
-      child: ShowToast(
-        text: S.current.file_qua_30M,
-      ),
-      gravity: ToastGravity.BOTTOM,
-    );
+  void btnThem() {
+    if (!widget.cubit.checkLenghtFile()) {
+      MessageConfig.show(
+        title: S.current.dung_luong_toi_da_30,
+        messState: MessState.error,
+      );
+      return;
+    }
+    if (widget.isCreate) {
+      widget.cubit.createKetLuanHop();
+    } else {
+      widget.cubit.suaKetLuan();
+    }
   }
 }
 

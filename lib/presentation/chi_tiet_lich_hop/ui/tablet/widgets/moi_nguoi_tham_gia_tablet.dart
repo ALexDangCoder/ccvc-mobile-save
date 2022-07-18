@@ -16,7 +16,7 @@ import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'cell_thanh_phan_tham_gia_widget.dart';
 
 class ThanhPhanThamGiaWidgetTablet extends StatefulWidget {
@@ -32,13 +32,22 @@ class ThanhPhanThamGiaWidgetTablet extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetTabletState
     extends State<ThanhPhanThamGiaWidgetTablet> {
+  final thanhPhanThamGiaCubit =  ThanhPhanThamGiaHopCubit();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     if (!isMobile()) {
-      widget.cubit.callApiThanhPhanThamGia();
+      thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
+      thanhPhanThamGiaCubit.detailMeetCalenderCubit = widget.cubit;
+      thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
     }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    thanhPhanThamGiaCubit.dispose();
   }
 
   @override
@@ -58,7 +67,7 @@ class _ThanhPhanThamGiaWidgetTabletState
                 context,
                 title: S.current.them_thanh_phan_tham_gia,
                 child: ThemThanhPhanThamGiaWidget(
-                  cubit: widget.cubit,
+                  cubit: thanhPhanThamGiaCubit,
                 ),
                 isBottomShow: false,
                 funcBtnOk: () {
@@ -77,50 +86,24 @@ class _ThanhPhanThamGiaWidgetTabletState
                   icon: ImageAssets.ic_diemDanh,
                   title: S.current.diem_danh,
                   onPress: () {
-                    showDiaLog(
-                      context,
-                      title: S.current.diem_danh,
-                      icon: SvgPicture.asset(ImageAssets.icDiemDanh),
-                      btnLeftTxt: S.current.khong,
-                      btnRightTxt: S.current.dong_y,
-                      funcBtnRight: () {
-                        if (widget.cubit.selectedIds.isNotEmpty) {
-                          widget.cubit.postDiemDanh();
-                        }
-                      },
-                      showTablet: true,
-                      textContent: S.current.conten_diem_danh,
-                    );
+                    if (thanhPhanThamGiaCubit.diemDanhIds.isEmpty) {
+                      MessageConfig.show(
+                        title: S.current.ban_chua_chon_nguoi_diem_danh,
+                        messState: MessState.error,);
+                      return;
+                    }
+                    thanhPhanThamGiaCubit.postDiemDanh();
                   },
                 ),
               ),
               const Expanded(child: SizedBox()),
-              SizedBox(
-                child: IconWithTiltleWidget(
-                  type2: true,
-                  icon: ImageAssets.ic_huyDiemDanh,
-                  title: S.current.huy_diem_danh,
-                  onPress: () {
-                    showDiaLog(
-                      context,
-                      title: S.current.huy_diem_danh,
-                      icon: SvgPicture.asset(ImageAssets.icHuyDiemDanh),
-                      btnLeftTxt: S.current.khong,
-                      btnRightTxt: S.current.dong_y,
-                      funcBtnRight: () {},
-                      showTablet: true,
-                      textContent: S.current.conten_huy_diem_danh,
-                    );
-                  },
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 16),
           BaseSearchBar(
             hintText: S.current.tim_kiem_can_bo,
             onChange: (value) {
-              widget.cubit.search(value);
+              thanhPhanThamGiaCubit.search(value);
             },
           ),
           StreamBuilder<List<CanBoModel>>(
@@ -166,7 +149,7 @@ class _ThanhPhanThamGiaWidgetTabletState
           ),
           spaceH16,
           StreamBuilder<List<CanBoModel>>(
-            stream: widget.cubit.thanhPhanThamGia,
+            stream: thanhPhanThamGiaCubit.thanhPhanThamGia,
             builder: (context, snapshot) {
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {
@@ -176,10 +159,10 @@ class _ThanhPhanThamGiaWidgetTabletState
                   itemCount: _list.length,
                   itemBuilder: (context, index) {
                     return CellThanhPhanThamGia(
-                      cubit: widget.cubit,
+                      cubit: thanhPhanThamGiaCubit,
                       infoModel: _list[index],
                       ontap: () {
-                        widget.cubit.postHuyDiemDanh(_list[index].id ?? '');
+                        thanhPhanThamGiaCubit.postHuyDiemDanh(_list[index].id ?? '');
                       },
                     );
                   },

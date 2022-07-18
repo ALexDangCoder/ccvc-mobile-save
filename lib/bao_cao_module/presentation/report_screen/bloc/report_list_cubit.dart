@@ -23,6 +23,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
   String appId = '';
   String folderId = '';
   int sort = A_Z_SORT;
+  int sortHome = A_Z_SORT;
   static const String CODE = 'HTCS';
   static const int ALL = 0;
   static const int A_Z_SORT = 4;
@@ -232,6 +233,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
   Future<void> reloadDataWhenFavorite({
     String idFolder = '',
     bool isTree = false,
+    bool isSearch = false,
   }) async {
     if (isCheckPostFavorite) {
       if (isTree) {
@@ -240,6 +242,10 @@ class ReportListCubit extends BaseCubit<BaseState> {
           idFolder: idFolder,
         );
         listReportTreeUpdate.add(listReportTree.value);
+      } else if (isSearch) {
+        await getListReport(
+          isSearch: isSearch,
+        );
       } else {
         await getListReport();
       }
@@ -289,11 +295,14 @@ class ReportListCubit extends BaseCubit<BaseState> {
     showLoading();
     emit(const CompletedLoadMore(CompleteType.ERROR));
     if (isTree) {
+      sort=A_Z_SORT;
+      textSearch.add('');
       isCheckDataDetailScreen.add(false);
       listReportTree.add(null);
     } else if (isSearch) {
       listReportSearch = null;
     } else {
+      sortHome=sort;
       listReport = null;
       await getListFavorite();
     }
@@ -309,8 +318,10 @@ class ReportListCubit extends BaseCubit<BaseState> {
         if (res.isEmpty) {
           if (isSearch) {
             listReportSearch = [];
-          } else {
+          } else if (isTree) {
             listReportTree.add([]);
+          } else {
+            listReport = [];
           }
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
         } else {

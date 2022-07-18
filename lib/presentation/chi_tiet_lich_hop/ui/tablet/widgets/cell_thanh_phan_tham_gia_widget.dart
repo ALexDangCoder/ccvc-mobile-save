@@ -15,7 +15,7 @@ import 'package:flutter_svg/svg.dart';
 
 class CellThanhPhanThamGia extends StatefulWidget {
   final CanBoModel infoModel;
-  final DetailMeetCalenderCubit cubit;
+  final ThanhPhanThamGiaHopCubit cubit;
   final Function()? ontap;
 
   CellThanhPhanThamGia(
@@ -29,7 +29,6 @@ class CellThanhPhanThamGia extends StatefulWidget {
 class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
   @override
   Widget build(BuildContext context) {
-    final isChecked = widget.cubit.checkIsSelected(widget.infoModel.id ?? '');
     return screenDevice(
       mobileScreen: Padding(
         padding: const EdgeInsets.only(bottom: 16),
@@ -45,7 +44,6 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
           ),
           child: Column(
             children: [
-
               widgetRow(
                 name: S.current.ten_don_vi,
                 child: Row(
@@ -56,10 +54,11 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                     if (widget.infoModel.showCheckBox())
                       CustomCheckBox(
                         isOnlyCheckbox: true,
-                        isCheck: isChecked,
+                        isCheck: widget.cubit.diemDanhIds
+                            .contains(widget.infoModel.id ?? ''),
                         onChange: (isCheck) {
                           widget.cubit.addOrRemoveId(
-                            isSelected: isChecked,
+                            isSelected: !isCheck,
                             id: widget.infoModel.id ?? '',
                           );
                           setState(() {});
@@ -121,10 +120,11 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                 children: [
                   if (widget.infoModel.showCheckBox())
                     CustomCheckBox(
-                      isCheck: isChecked,
+                      isCheck: widget.cubit.diemDanhIds
+                          .contains(widget.infoModel.id ?? ''),
                       onChange: (isCheck) {
                         widget.cubit.addOrRemoveId(
-                          isSelected: isChecked,
+                          isSelected: !isCheck,
                           id: widget.infoModel.id ?? '',
                         );
                         setState(() {});

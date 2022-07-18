@@ -21,74 +21,60 @@ class ChartByMeetingNumberWidget extends StatelessWidget {
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
         return cubit.checkDataList(data)
-            ? SizedBox(
-                height: 70.0 * data.length,
-                child: SfCartesianChart(
-                  tooltipBehavior: TooltipBehavior(
-                    enable: true,
-                    textStyle: textNormalCustom(
-                      color: infoColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 10,
-                    ),
+            ? Container(
+          height: 70.0 * data.length,
+          padding: const EdgeInsets.only(right: 12),
+          child: SfCartesianChart(
+            plotAreaBorderWidth: 0,
+            primaryXAxis: CategoryAxis(
+              maximumLabelWidth: 100,
+              majorGridLines: const MajorGridLines(width: 0),
+              labelStyle: textNormalCustom(
+                color: color667793,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+              majorTickLines: const MajorTickLines(size: 0),
+              axisLine: const AxisLine(width: 0.5, dashArray: [5, 5]),
+            ),
+            primaryYAxis: NumericAxis(
+              minimum: 0,
+              majorGridLines: const MajorGridLines(
+                width: 0.34,
+                color: colorA2AEBD,
+                dashArray: [5, 5],
+              ),
+              labelStyle: textNormalCustom(
+                color: AqiColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+              axisLine: const AxisLine(width: 0),
+              majorTickLines: const MajorTickLines(size: 0),
+            ),
+            series: <ChartSeries<ToChucBoiDonViModel, String>>[
+              BarSeries<ToChucBoiDonViModel, String>(
+                color: bgrChart,
+                width: 0.5,
+                dataLabelSettings: DataLabelSettings(
+                  isVisible: true,
+                  textStyle: textNormalCustom(
+                    color: infoColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 11,
                   ),
-                  primaryXAxis: CategoryAxis(
-                    placeLabelsNearAxisLine: true,
-                    labelStyle: textNormalCustom(
-                      color: AqiColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    minorGridLines: const MinorGridLines(width: 0),
-                    minorTickLines: const MinorTickLines(
-                      size: 0,
-                      width: 0,
-                    ),
-                    maximumLabelWidth: 60,
-                    majorGridLines: const MajorGridLines(width: 0),
-                  ),
-                  primaryYAxis: CategoryAxis(
-                    labelStyle: textNormalCustom(
-                      color: AqiColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    placeLabelsNearAxisLine: true,
-                    axisLine: const AxisLine(
-                      color: AqiColor,
-                      width: 0.41,
-                    ),
-                    interval: cubit.getMax(data),
-                    minimum: 0,
-                    majorGridLines: const MajorGridLines(
-                      width: 0.34,
-                      color: AqiColor,
-                      dashArray: [5, 5],
-                    ),
-                  ),
-                  series: <ChartSeries<ToChucBoiDonViModel, String>>[
-                    BarSeries<ToChucBoiDonViModel, String>(
-                      color: bgrChart,
-                      width: 0.5,
-                      dataLabelSettings: DataLabelSettings(
-                        isVisible: true,
-                        textStyle: textNormalCustom(
-                          color: infoColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 11,
-                        ),
-                        labelAlignment: ChartDataLabelAlignment.outer,
-                        labelPosition: ChartDataLabelPosition.outside,
-                      ),
-                      dataSource: data,
-                      xValueMapper: (ToChucBoiDonViModel data, _) =>
-                          data.tenDonVi,
-                      yValueMapper: (ToChucBoiDonViModel data, _) =>
-                          data.quantities,
-                    ),
-                  ],
+                  labelAlignment: ChartDataLabelAlignment.outer,
+                  labelPosition: ChartDataLabelPosition.outside,
                 ),
-              )
+                dataSource: data,
+                xValueMapper: (ToChucBoiDonViModel data, _) =>
+                data.tenDonVi,
+                yValueMapper: (ToChucBoiDonViModel data, _) =>
+                data.quantities,
+              ),
+            ],
+          ),
+        )
             : Container(
                 margin: const EdgeInsets.all(30),
                 child: Row(

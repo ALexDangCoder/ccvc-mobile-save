@@ -109,8 +109,13 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                   spaceH12,
                   phongHopSelected(
                     phongHop: thongTinPhong?.phongHop?.ten ?? '',
-                    yeuCauKhac: thongTinPhong?.phongHop?.noiDungYeuCau ?? '',
-                    yeuCauPhongHop: '',
+                    yeuCauKhac: thongTinPhong?.listThietBi
+                            .map((e) => e.convertToString)
+                            .toList()
+                            .join(', ') ??
+                        '',
+                    yeuCauPhongHop:
+                        thongTinPhong?.phongHop?.noiDungYeuCau ?? '',
                     onDelete: () {
                       widget.onDelete?.call();
                       _cubit.thongTinPhongHopSubject.addError('');

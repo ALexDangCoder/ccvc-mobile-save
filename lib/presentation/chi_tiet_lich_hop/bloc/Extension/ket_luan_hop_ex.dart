@@ -22,7 +22,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
             thoiGian: res.createAt ?? '',
             trangThai: typeTrangthai(res.status ?? 0),
             tinhTrang: typeTinhTrang(res.reportStatusCode ?? ''),
-            file:res.files ?? [],
+            file: res.files ?? [],
             title: res.title,
           ),
         );
@@ -162,6 +162,11 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
   void getValueMauBienBan(int value) {
     noiDung.sink.add(data[value] ?? '');
+  }
+
+  void clearData() {
+    dataLoaiNhiemVu.clear();
+    checkValidateLoaiNV.sink.add(false);
   }
 
   String getTextAfterEdit(String value) {

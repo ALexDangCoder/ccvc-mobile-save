@@ -154,7 +154,11 @@ const String THU_HOI = 'THU_HOI';
 const String LIEN_THONG = 'LIEN_THONG';
 
 const String HOAN_THANH = 'HOAN_THANH';
-
+const String NGUOI_GIAO_ID = 'NguoiGiaoId';
+const String DON_VI_THEO_DOI = 'DonViTheoDoi';
+const String NGUOI_THEO_DOI = 'NguoiTheoDoi';
+const String LIEN_QUAN = 'lienquan';
+const String KHAC = 'khac';
 const String CHO_TIEP_NHAN = 'CHO_TIEP_NHAN';
 const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
@@ -327,6 +331,7 @@ class DateFormatApp {
   static String timeFormat = 'Hm';
   static String monthDayFormat = 'MM/dd/yyyy HH:mm';
   static String pickDateFormat = 'dd/MM/yyyy HH:mm';
+  static String pickDateSearchFormat = 'yyyy-MM-dd';
 }
 
 class StatusYKND {

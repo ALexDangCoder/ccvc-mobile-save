@@ -19,45 +19,36 @@ class TiLeThamDuWidget extends StatelessWidget {
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
         return cubit.checkDataRateList(data)
-            ? SizedBox(
+            ? Container(
           height: 70.0 * data.length,
+          padding: const EdgeInsets.only(right: 12),
           child: SfCartesianChart(
-            tooltipBehavior: TooltipBehavior(
-              enable: true,
-              textStyle: textNormalCustom(
-                color: infoColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 10,
-              ),
-            ),
+            plotAreaBorderWidth: 0,
             primaryXAxis: CategoryAxis(
-              placeLabelsNearAxisLine: true,
-              labelStyle: textNormalCustom(
-                color: AqiColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-              maximumLabelWidth: 60,
+              maximumLabelWidth: 100,
               majorGridLines: const MajorGridLines(width: 0),
-            ),
-            primaryYAxis: CategoryAxis(
               labelStyle: textNormalCustom(
-                color: AqiColor,
+                color: color667793,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
-              placeLabelsNearAxisLine: true,
-              axisLine: const AxisLine(
-                color: AqiColor,
-                width: 0.41,
-              ),
-              interval: cubit.getMaxTiLe(data),
+              majorTickLines: const MajorTickLines(size: 0),
+              axisLine: const AxisLine(width: 0.5, dashArray: [5, 5]),
+            ),
+            primaryYAxis: NumericAxis(
               minimum: 0,
               majorGridLines: const MajorGridLines(
                 width: 0.34,
-                color: AqiColor,
+                color: colorA2AEBD,
                 dashArray: [5, 5],
               ),
+              labelStyle: textNormalCustom(
+                color: AqiColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+              axisLine: const AxisLine(width: 0),
+              majorTickLines: const MajorTickLines(size: 0),
             ),
             series: <ChartSeries<TiLeThamGiaModel, String>>[
               BarSeries<TiLeThamGiaModel, String>(

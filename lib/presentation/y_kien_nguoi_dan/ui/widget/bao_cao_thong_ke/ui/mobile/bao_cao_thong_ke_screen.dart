@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
@@ -36,17 +37,35 @@ class BaoCaoThongKeScreen extends StatefulWidget {
 class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+  String startDate = '';
+  String endDate = '';
+  List<String> listDonViID = [];
 
   @override
   void initState() {
     super.initState();
     thamGiaCubit.getTree();
-    final DateTime now= DateTime.now();
-    final DateTime preveOneMounth=DateTime(now.year, now.month-1, now.day);
+    final DateTime now = DateTime.now();
+    final DateTime preOneMonth = DateTime(now.year, now.month, now.day - 30);
+    startDate = preOneMonth.toStringWithListFormat;
+    endDate = DateTime.now().toStringWithListFormat;
     baoCaoCubit.callApi(
-      preveOneMounth.toStringWithListFormat,
-      DateTime.now().toStringWithListFormat,
+      startDate,
+      endDate,
     );
+    _handleDateSearch();
+  }
+
+  void _handleDateSearch() {
+    eventBus.on<DateSearchEvent>().listen((event) {
+      startDate = event.startDate;
+      endDate = event.endDate;
+      baoCaoCubit.callApi(
+        startDate,
+        endDate,
+        listDonVi: listDonViID,
+      );
+    });
   }
 
   @override
@@ -85,16 +104,12 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                               );
                             },
                             onSearch: (
-                              String startDate,
-                              String endDate,
                               List<String> donViID,
                             ) {
-                              baoCaoCubit.callApi(
-                                startDate,
-                                endDate,
-                                listDonVi: donViID,
-                              );
+                              listDonViID = donViID;
                             },
+                            startDate: startDate,
+                            endDate: endDate,
                           ),
                         );
                       },
@@ -126,17 +141,17 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {
           baoCaoCubit.callApi(
-            DateTime.now().toStringWithListFormat,
-            DateTime.now().toStringWithListFormat,
+            startDate,
+            endDate,
           );
         },
-        error: AppException('1', S.current.something_went_wrong),
+        error: AppException(S.current.error, S.current.something_went_wrong),
         stream: baoCaoCubit.stateStream,
         child: RefreshIndicator(
           onRefresh: () async {
             await baoCaoCubit.callApi(
-              DateTime.now().toStringWithListFormat,
-              DateTime.now().toStringWithListFormat,
+              startDate,
+              endDate,
             );
           },
           child: SingleChildScrollView(

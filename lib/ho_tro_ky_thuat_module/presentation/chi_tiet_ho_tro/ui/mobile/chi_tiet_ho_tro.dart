@@ -208,10 +208,10 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
       ),
     );
   }
-  void confirmUpdateTask(){
+
+  void confirmUpdateTask() {
     if (cubit.isItSupport &&
-        cubit.supportDetail.codeTrangThai !=
-            ChiTietHoTroCubit.DA_HOAN_THANH) {
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH) {
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         isScrollControlled: true,

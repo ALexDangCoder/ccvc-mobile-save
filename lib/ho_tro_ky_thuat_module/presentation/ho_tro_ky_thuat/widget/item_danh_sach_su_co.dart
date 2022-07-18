@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/them_moi_yc_ho_tro_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -149,7 +150,18 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
-                            function: (value) {},
+                            function: (value) {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => ThemMoiYCHoTroMobile(
+                                  cubit: cubit,
+                                  statusHTKT: StatusHTKT.CHINH_SUA,
+                                  modelEdit: objDSSC,
+                                ),
+                              );
+                            },
                           ),
                           line(
                             paddingLeft: 35,

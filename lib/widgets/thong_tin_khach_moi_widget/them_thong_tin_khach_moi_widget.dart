@@ -27,6 +27,7 @@ class ThemThongTinKhachMoiWidget extends StatefulWidget {
   final bool isMoiHop;
   final bool isCheckedEmail;
   final List<ItemTypeThanhPhan>? showType;
+
   const ThemThongTinKhachMoiWidget({
     Key? key,
     required this.onChange,
@@ -172,7 +173,8 @@ class _ThemDonViPhoiHopKhacScreenState
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _sdtController = TextEditingController();
   final TextEditingController _soLuongController = TextEditingController();
-final scroll = ScrollController();
+  final scroll = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -141,7 +141,7 @@ Widget floatingHTKT(
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
           builder: (context) => ThemMoiYCHoTroMobile(
-            cubit: cubit,
+            cubit: cubit, statusHTKT: StatusHTKT.THEM_MOI,
           ),
         );
       // }

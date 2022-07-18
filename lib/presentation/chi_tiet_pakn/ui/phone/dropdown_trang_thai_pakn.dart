@@ -83,8 +83,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                           );
                         },
                         title: S.current.all,
-                        index: 0,
-                        isChoosing: data[0],
+                        index: YKienNguoiDanCubitt.INDEX_FILTER_ALL,
+                        isChoosing: data[YKienNguoiDanCubitt.INDEX_FILTER_ALL],
                       ),
                       spaceH20,
                       ExpandPAKNWidget(
@@ -111,7 +111,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.ChoTiepNhan;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = 'TiepNhan';
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -119,8 +120,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.cho_tiep_nhan,
-                                index: 1,
-                                isChoosing: data[1],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_TIEP_NHAN,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_TIEP_NHAN],
                               ),
                               spaceH16,
                               item(
@@ -130,7 +133,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.PhanXuLy;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = 'TiepNhan';
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -138,8 +142,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.phan_xu_ly,
-                                index: 2,
-                                isChoosing: data[2],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_PHAN_XU_LY,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_PHAN_XU_LY],
                               ),
                               spaceH16,
                               item(
@@ -149,7 +155,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.DangXuLy;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = 'TiepNhan';
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -157,8 +164,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.dang_xu_ly,
-                                index: 3,
-                                isChoosing: data[3],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_DANG_XU_LY,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_DANG_XU_LY],
                               ),
                               spaceH16,
                               item(
@@ -177,8 +186,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.cho_duyet,
-                                index: 24,
-                                isChoosing: data[24],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_DUYET,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_DUYET],
                               ),
                               spaceH16,
                               item(
@@ -192,8 +203,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getPAKNTiepNhanCacVanBan();
                                 },
                                 title: S.current.cho_tao_van_ban_di,
-                                index: 4,
-                                isChoosing: data[4],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_TAO_VB_DI,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_TAO_VB_DI],
                               ),
                               spaceH16,
                               item(
@@ -207,8 +220,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getPAKNTiepNhanCacVanBan();
                                 },
                                 title: S.current.da_cho_van_ban_di,
-                                index: 5,
-                                isChoosing: data[5],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_DA_CHO_VB_DI,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_DA_CHO_VB_DI],
                               ),
                               spaceH16,
                               item(
@@ -218,7 +233,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.DaHoanThanh;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = 'TiepNhan';
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -226,8 +242,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.da_hoan_thanh,
-                                index: 6,
-                                isChoosing: data[6],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_DA_HOAN_THANH,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_DA_HOAN_THANH],
                               ),
                               spaceH16,
                               item(
@@ -237,7 +255,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.ChoBoSungThongTin;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = 'TiepNhan';
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -245,8 +264,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.cho_bo_sung_thong_tin,
-                                index: 7,
-                                isChoosing: data[7],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_BSTT,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHO_BSTT],
                               ),
                               spaceH16,
                               item(
@@ -256,7 +277,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.TuChoiTiepNhan;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = 'TiepNhan';
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -264,8 +286,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.bi_tu_choi_tiep_nhan,
-                                index: 8,
-                                isChoosing: data[8],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_BI_TU_CHOI_TIEP_NHAN,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_BI_TU_CHOI_TIEP_NHAN],
                               ),
                               spaceH16,
                               item(
@@ -275,7 +299,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.HuyBo;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = 'TiepNhan';
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -283,8 +308,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.bi_huy_bo,
-                                index: 9,
-                                isChoosing: data[9],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_BI_HUY_BO,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_BI_HUY_BO],
                               ),
                               spaceH16,
                               item(
@@ -294,7 +321,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.trangThaiFilter =
                                       YKienNguoiDanCubitt.ChuyenXuLy;
                                   widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu = "TiepNhan";
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
                                   widget.cubit.isFilterXuLy = false;
                                   widget.cubit.isFilterTiepNhan = false;
                                   widget.cubit
@@ -302,8 +330,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                   widget.cubit.getDanhSachPAKNFilterChart();
                                 },
                                 title: S.current.chuyen_xu_ly,
-                                index: 10,
-                                isChoosing: data[10],
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHUYEN_XU_LY,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_CHUYEN_XU_LY],
                               ),
                             ],
                           ),
@@ -331,7 +361,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChoTiepNhanXuLy;
                                 widget.cubit.isFilterXuLy = false;
@@ -340,8 +371,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
                               title: S.current.cho_tiep_nhan_xu_ly,
-                              index: 11,
-                              isChoosing: data[11],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_TIEP_NHAN_XL,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_TIEP_NHAN_XL],
                             ),
                             spaceH16,
                             item(
@@ -358,8 +391,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
                               title: S.current.cho_phan_cong_xu_ly,
-                              index: 12,
-                              isChoosing: data[12],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_PHAN_CONG_XL,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_PHAN_CONG_XL],
                             ),
                             spaceH16,
                             item(
@@ -376,8 +411,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
                               title: S.current.da_phan_cong,
-                              index: 13,
-                              isChoosing: data[13],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_PHAN_CONG,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_PHAN_CONG],
                             ),
                             spaceH16,
                             item(
@@ -394,8 +431,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
                               title: S.current.cho_xu_ly,
-                              index: 14,
-                              isChoosing: data[14],
+                              index:
+                                  YKienNguoiDanCubitt.INDEX_FILTER_XL_CHO_XU_LY,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_XU_LY],
                             ),
                             spaceH16,
                             item(
@@ -412,8 +451,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
                               title: S.current.cho_duyet,
-                              index: 15,
-                              isChoosing: data[15],
+                              index:
+                                  YKienNguoiDanCubitt.INDEX_FILTER_XL_CHO_DUYET,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_DUYET],
                             ),
                             spaceH16,
                             item(
@@ -426,8 +467,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getPAKNTiepNhanCacVanBan();
                               },
                               title: S.current.cho_tao_van_ban_di,
-                              index: 16,
-                              isChoosing: data[16],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_TAO_VB_DI,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_TAO_VB_DI],
                             ),
                             spaceH16,
                             item(
@@ -440,8 +483,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getPAKNTiepNhanCacVanBan();
                               },
                               title: S.current.da_cho_van_ban_di,
-                              index: 17,
-                              isChoosing: data[17],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_CHO_VB_DI,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_CHO_VB_DI],
                             ),
                             spaceH16,
                             item(
@@ -458,8 +503,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
                               title: S.current.da_hoan_thanh,
-                              index: 18,
-                              isChoosing: data[18],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_HOAN_THANH,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_HOAN_THANH],
                             ),
                             spaceH16,
                             item(
@@ -472,8 +519,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.getDSPAKNXuLyChoVaDaChoYKien();
                               },
                               title: S.current.cho_cho_y_kien,
-                              index: 19,
-                              isChoosing: data[19],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_CHO_Y_KIEN,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHO_CHO_Y_KIEN],
                             ),
                             spaceH16,
                             item(
@@ -485,8 +534,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.setColorWhenChooseDropDown(index);
                                 widget.cubit.getDSPAKNXuLyChoVaDaChoYKien();
                               },
-                              index: 20,
-                              isChoosing: data[20],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_CHO_Y_KIEN,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_DA_CHO_Y_KIEN],
                               title: S.current.da_cho_y_kien,
                             ),
                             spaceH16,
@@ -504,8 +555,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.setColorWhenChooseDropDown(index);
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
-                              index: 21,
-                              isChoosing: data[21],
+                              index:
+                                  YKienNguoiDanCubitt.INDEX_FILTER_XL_THU_HOI,
+                              isChoosing: data[
+                                  YKienNguoiDanCubitt.INDEX_FILTER_XL_THU_HOI],
                               title: S.current.thu_hoi,
                             ),
                             spaceH16,
@@ -523,8 +576,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.setColorWhenChooseDropDown(index);
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
-                              index: 22,
-                              isChoosing: data[22],
+                              index:
+                                  YKienNguoiDanCubitt.INDEX_FILTER_XL_TRA_LAI,
+                              isChoosing: data[
+                                  YKienNguoiDanCubitt.INDEX_FILTER_XL_TRA_LAI],
                               title: S.current.tra_lai,
                             ),
                             spaceH16,
@@ -541,8 +596,10 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.setColorWhenChooseDropDown(index);
                                 widget.cubit.getDanhSachPAKNFilterChart();
                               },
-                              index: 23,
-                              isChoosing: data[23],
+                              index: YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHUYEN_XU_LY,
+                              isChoosing: data[YKienNguoiDanCubitt
+                                  .INDEX_FILTER_XL_CHUYEN_XU_LY],
                               title: S.current.chuyen_xu_ly,
                             ),
                           ],

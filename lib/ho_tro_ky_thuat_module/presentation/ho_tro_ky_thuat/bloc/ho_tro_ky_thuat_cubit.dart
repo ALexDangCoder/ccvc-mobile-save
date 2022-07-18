@@ -92,6 +92,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   String? handlerId;
   String? handlerIdName;
   String? keyWord;
+  bool isSearch =false;
   final dataUser = HiveLocal.getDataUser();
   bool? isCheckUser;
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
@@ -436,91 +437,5 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorLoaiSuCo.close();
     showErrorKhuVuc.close();
     showErrorToaNha.close();
-  }
-}
-
-extension onChangeSearch on HoTroKyThuatCubit {
-  void onChangeTimKiem(String value) {
-    keyWord = value;
-  }
-
-  void onChangeNgayYeuCau(DateTime dateTime) {
-    createOn = dateTime.toString();
-  }
-
-  void onChangeNgayHoanThanh(DateTime dateTime) {
-    finishDay = dateTime.toString();
-  }
-
-  void onChangeNguoiTiepNhan(int index) {
-    userRequestId = listNguoiTiepNhanYeuCau.value[index].userId;
-    userRequestIdName = listNguoiTiepNhanYeuCau.value[index].hoVaTen;
-  }
-
-  void onChangeKhuVuc(int index) {
-    listToaNha.add(
-      listKhuVuc.value[index].childCategories ?? [],
-    );
-    buildingIdName = null;
-    districtId = listKhuVuc.value[index].id;
-    districtIdName = listKhuVuc.value[index].name;
-    buildingIdName = null;
-  }
-
-  void onChangeToaNha(int index) {
-    buildingId = listToaNha.value[index].id;
-    buildingIdName = listToaNha.value[index].name;
-  }
-
-  void onChangeTrangThaiXuLy(int index) {
-    processingCode = listTrangThai.value[index].code;
-    processingCodeName = listTrangThai.value[index].name;
-  }
-
-  void onChangeNguoiXuLy(int index) {
-    handlerId = listCanCoHTKT.value[index].userId;
-    handlerIdName = getListThanhVien(
-      listCanCoHTKT.value,
-    )[index];
-  }
-
-  void onChangeDonVi(DonViModel value) {
-    isShowDonVi.add(false);
-    codeUnit = value.id;
-    donViSearch.add(
-      value.name,
-    );
-  }
-
-  void onChangeRoom(String value) {
-    room = value;
-  }
-}
-
-extension getItemsSearch on HoTroKyThuatCubit {
-  List<String> getItemsNguoiTiepNhanYeuCau() {
-    return listNguoiTiepNhanYeuCau.value
-        .map(
-          (e) => '${e.hoVaTen} (${e.userId})',
-        )
-        .toList();
-  }
-
-  List<String> getItemsThanhVien() {
-    return listCanCoHTKT.value
-        .map((e) => '${e.tenThanhVien.toString()} (${e.userId.toString()})')
-        .toList();
-  }
-
-  List<String> getItemsKhuVuc() {
-    return listKhuVuc.value.map((e) => e.name ?? '').toList();
-  }
-
-  List<String> getItemsToaNha(List<ChildCategories> listData) {
-    return listData.map((e) => '${e.name}(${e.code})').toList();
-  }
-
-  List<String> getItemsTrangThai() {
-    return listTrangThai.value.map((e) => e.name ?? '').toList();
   }
 }

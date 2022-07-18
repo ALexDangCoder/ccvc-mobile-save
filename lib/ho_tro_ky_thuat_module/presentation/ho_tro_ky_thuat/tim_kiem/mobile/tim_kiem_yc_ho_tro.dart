@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extention_cubit/search_extention.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/date_input.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/tree_widget.dart';
@@ -13,6 +14,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_b
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/form_input_base.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -248,8 +250,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               },
                                               value: cubit.userRequestIdName,
                                               items: cubit
-                                                  .getItemsNguoiTiepNhanYeuCau()
-                                            ,),
+                                                  .getItemsNguoiTiepNhanYeuCau(),
+                                            ),
                                             spaceH16,
                                             _textTitle(S.current.nguoi_xu_ly),
                                             spaceH8,
@@ -336,7 +338,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                     : const Padding(
                                         padding: EdgeInsets.only(top: 180.0),
                                         child: Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CupertinoLoading(),
                                         ),
                                       );
                               },
@@ -423,14 +425,13 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   Widget _doubleBtn(BuildContext context) => DoubleButtonBottom(
         onPressed1: () {
           Navigator.of(context).pop();
+          widget.cubit.onCancelSearch();
         },
         title1: S.current.dong,
         title2: S.current.tim_kiem,
         onPressed2: () {
           Navigator.of(context).pop();
-          widget.cubit.getListDanhBaCaNhan(
-            page: 1,
-          );
+          widget.cubit.onSaveSearch();
         },
       );
 

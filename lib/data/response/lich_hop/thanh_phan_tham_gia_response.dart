@@ -41,7 +41,7 @@ class ThanhPhanThamGiaData extends Equatable {
   @JsonKey(name: 'createAt')
   String? createAt;
   @JsonKey(name: 'dauMoiLienHe')
-  int? dauMoiLienHe;
+  String? dauMoiLienHe;
   @JsonKey(name: 'donViId')
   String? donViId;
   @JsonKey(name: 'email')

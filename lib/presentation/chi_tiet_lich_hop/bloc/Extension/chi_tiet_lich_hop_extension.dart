@@ -292,14 +292,15 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       isMutil,
       files,
     );
-    result.when(
-      success: (res) {
+   await result.when(
+      success: (res) async {
         showContent();
-        getChiTietLichHop(idCuocHop);
-        MessageConfig.show(title: S.current.thanh_cong);
+       await getChiTietLichHop(idCuocHop);
+        MessageConfig.show(title: S.current.thao_tac_thanh_cong);
       },
       error: (err) {
-        MessageConfig.show(title: S.current.that_bai);
+        MessageConfig.show(
+            title: S.current.thao_tac_that_bai, messState: MessState.error);
       },
     );
     showContent();
@@ -372,14 +373,15 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     final result = await hopRp.deleteFileHop(
       id,
     );
-    result.when(
-      success: (res) {
+    await result.when(
+      success: (res) async {
         showContent();
-        getChiTietLichHop(idCuocHop);
-        MessageConfig.show(title: S.current.thanh_cong);
+        await getChiTietLichHop(idCuocHop);
+        MessageConfig.show(title: S.current.thao_tac_thanh_cong);
       },
       error: (err) {
-        MessageConfig.show(title: S.current.that_bai);
+        MessageConfig.show(
+            title: S.current.thao_tac_that_bai, messState: MessState.error);
       },
     );
     showContent();

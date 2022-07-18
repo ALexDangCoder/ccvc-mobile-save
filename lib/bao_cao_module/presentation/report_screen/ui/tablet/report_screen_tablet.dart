@@ -304,6 +304,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                 return cubit.listReportSearch != null
                     ? cubit.listReportSearch?.isNotEmpty ?? false
                         ? ReportListTablet(
+                            isSearch: true,
                             idFolder: cubit.folderId,
                             listReport: cubit.listReportSearch,
                             isListView: cubit.isListView.value,

@@ -29,7 +29,6 @@ const color000000 = Color(0xff000000);
 const colorE5E5E5 = Color(0xffE5E5E5);
 const colorE9F9F1 = Color(0xffE9F9F1);
 
-
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
   Color titleColor();
@@ -37,6 +36,7 @@ abstract class AppColor {
   Color borderItemCalender();
 
   Color backgroundColorApp();
+
   Color contentColor();
 }
 
@@ -77,6 +77,7 @@ class DarkApp extends AppColor {
   Color backgroundColorApp() {
     return colorFFFFFF;
   }
+
   @override
   Color contentColor() {
     return color667793;
@@ -98,6 +99,7 @@ class DefaultApp extends AppColor {
   Color backgroundColorApp() {
     return colorFFFFFF;
   }
+
   @override
   Color contentColor() {
     return color667793;
@@ -119,6 +121,7 @@ class BlueApp extends AppColor {
   Color backgroundColorApp() {
     return colorFFFFFF;
   }
+
   @override
   Color contentColor() {
     return color667793;
@@ -140,6 +143,7 @@ class PinkApp extends AppColor {
   Color backgroundColorApp() {
     return colorFFFFFF;
   }
+
   @override
   Color contentColor() {
     return color667793;
@@ -161,6 +165,7 @@ class YellowApp extends AppColor {
   Color backgroundColorApp() {
     return colorFFFFFF;
   }
+
   @override
   Color contentColor() {
     return color667793;

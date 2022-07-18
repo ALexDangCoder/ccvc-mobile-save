@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
@@ -34,22 +35,32 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         title: S.current.tai_lieu,
         child: Padding(
           padding: const EdgeInsets.only(top: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              selectFile(),
-              listFileFromApi(),
-            ],
+          child: StreamBuilder<ChiTietLichHopModel>(
+            stream: widget.cubit.chiTietLichHopSubject,
+            builder: (context, snapshot) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!widget.cubit.isNguoiThamGia()) selectFile(),
+                  listFileFromApi(),
+                ],
+              );
+            },
           ),
         ),
       ),
       tabletScreen: Padding(
         padding: const EdgeInsets.only(top: 60, left: 13.5),
-        child: Column(
-          children: [
-            selectFile(),
-            listFileFromApi(),
-          ],
+        child: StreamBuilder<ChiTietLichHopModel>(
+          stream: widget.cubit.chiTietLichHopSubject,
+          builder: (context, snapshot) {
+            return Column(
+              children: [
+                if (!widget.cubit.isNguoiThamGia()) selectFile(),
+                listFileFromApi(),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -84,6 +95,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: FileFromAPIWidget(
+                  canDelete: !widget.cubit.isNguoiThamGia(),
                   data: dataIndex.name ?? '',
                   onTapDelete: () {
                     widget.cubit.deleteFileHop(id: dataIndex.id ?? '');
@@ -110,10 +122,14 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
 class FileFromAPIWidget extends StatelessWidget {
   final Function onTapDelete;
   final String data;
+  final bool canDelete;
 
-  const FileFromAPIWidget(
-      {Key? key, required this.onTapDelete, required this.data})
-      : super(key: key);
+  const FileFromAPIWidget({
+    Key? key,
+    required this.onTapDelete,
+    required this.data,
+    this.canDelete = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,12 +153,13 @@ class FileFromAPIWidget extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              onTapDelete();
-            },
-            child: SvgPicture.asset(ImageAssets.icDelete),
-          ),
+          if (canDelete)
+            GestureDetector(
+              onTap: () {
+                onTapDelete();
+              },
+              child: SvgPicture.asset(ImageAssets.icDelete),
+            ),
         ],
       ),
     );

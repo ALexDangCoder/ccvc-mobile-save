@@ -38,8 +38,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   void initState() {
     super.initState();
     widget.cubit.toast.init(context);
-    widget.cubit.loaiSoHuu =DanhSachBienSoXeConst.XE_CAN_BO;
-    widget.cubit.xeMay =DanhSachBienSoXeConst.XE_MAY;
+    widget.cubit.loaiSoHuu = DanhSachBienSoXeConst.XE_CAN_BO;
+    widget.cubit.xeMay = DanhSachBienSoXeConst.XE_MAY;
   }
 
   @override
@@ -55,7 +55,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
         stream: widget.cubit.stateStream,
         child: Scaffold(
           bottomNavigationBar: Padding(
-            padding: const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
+            padding:
+                const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
             child: DoubleButtonBottom(
               title1: S.current.huy_bo,
               title2: S.current.them_moi,
@@ -66,12 +67,13 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                 if (keyGroup.currentState!.validator()) {
                   if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
                     await widget.cubit.postImageResgiter(
-                      bienKiemSoat:   bienKiemSoatController.value.text,
-                      context: context, isTao: true,
+                      bienKiemSoat: bienKiemSoatController.value.text,
+                      context: context,
+                      isTao: true,
                     );
                   } else {
                     widget.cubit.toast.showToast(
-                      child:  ShowToast(
+                      child: ShowToast(
                         text: S.current.vui_long_tai_anh_len,
                       ),
                       gravity: ToastGravity.TOP_RIGHT,
@@ -190,8 +192,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
             S.current.dang_ky_thong_tin_xe_moi,
           ),
           body: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 28),
+            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 28),
             child: Container(
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -238,8 +239,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               return Container(
                                 color: colorFFFFFF,
                                 child: CoolDropDown(
-                                  initData:
-                                      data.map((e) => e.ten ?? '').first,
+                                  initData: data.map((e) => e.ten ?? '').first,
                                   listData:
                                       data.map((e) => e.ten ?? '').toList(),
                                   onChange: (vl) {
@@ -301,12 +301,13 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           if (keyGroup.currentState!.validator()) {
                             if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
                               await widget.cubit.postImageResgiter(
-                                bienKiemSoat:   bienKiemSoatController.value.text,
-                                context: context, isTao: true,
+                                bienKiemSoat: bienKiemSoatController.value.text,
+                                context: context,
+                                isTao: true,
                               );
                             } else {
                               widget.cubit.toast.showToast(
-                                child:  ShowToast(
+                                child: ShowToast(
                                   text: S.current.vui_long_tai_anh_len,
                                 ),
                                 gravity: ToastGravity.TOP_RIGHT,

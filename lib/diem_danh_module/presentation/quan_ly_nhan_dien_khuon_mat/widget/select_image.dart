@@ -89,7 +89,9 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
                         ),
                       ],
                       image: DecorationImage(
-                        image: NetworkImage(widget.image!,),
+                        image: NetworkImage(
+                          widget.image!,
+                        ),
                         fit: BoxFit.cover,
                       ),
                     ),

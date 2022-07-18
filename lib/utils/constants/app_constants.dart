@@ -79,7 +79,8 @@ enum DocumentStatus {
   BINH_THUONG,
   THUONG_KHAN,
   CHUA_THUC_HIEN,
-  DANG_THUC_HIEN
+  DANG_THUC_HIEN,
+  DA_THUC_HIEN
 }
 enum PageTransitionType {
   FADE,
@@ -138,6 +139,8 @@ extension GetTypeByName on PickerType {
           'docx',
           'xls',
           'xlsx',
+          'png',
+          'heic',
         ];
     }
   }
@@ -330,6 +333,7 @@ class DateFormatApp {
   static String timeFormat = 'Hm';
   static String monthDayFormat = 'MM/dd/yyyy HH:mm';
   static String pickDateFormat = 'dd/MM/yyyy HH:mm';
+  static String pickDateSearchFormat = 'yyyy-MM-dd';
 }
 
 class StatusYKND {

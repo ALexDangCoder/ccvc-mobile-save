@@ -6,12 +6,11 @@ class ThongKeDiemDanhCaNhanModel {
   int? soNgayVangMatKhongLyDo;
   int? soNgayNghiCoLyDo;
 
-  ThongKeDiemDanhCaNhanModel({
-    this.soLanDiMuon,
-    this.soLanVeSom,
-    this.soNgayLamViec,
-    this.soLanChamCongThuCong,
-    this.soNgayVangMatKhongLyDo,
-    this.soNgayNghiCoLyDo
-  });
+  ThongKeDiemDanhCaNhanModel(
+      {this.soLanDiMuon,
+      this.soLanVeSom,
+      this.soNgayLamViec,
+      this.soLanChamCongThuCong,
+      this.soNgayVangMatKhongLyDo,
+      this.soNgayNghiCoLyDo});
 }

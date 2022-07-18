@@ -86,7 +86,9 @@ abstract class ReportService {
   @POST(ApiConstants.GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP)
   Future<UserNgoaiHeThongTruyCapTotalResponse> getUsersNgoaiHeThongDuocTruyCap(
     @Header('AppId') String appId,
-    @Body() UsersNgoaiHeThongTruyCapRequest request,
+    @Field('filders') List<UsersNgoaiHeThongTruyCapRequest> request,
+  @Field('pageIndex') int pageIndex,
+      @Field('pageSize') int pageSize,
   );
 
   @GET(ApiConstants.REPORT_DETAIL)

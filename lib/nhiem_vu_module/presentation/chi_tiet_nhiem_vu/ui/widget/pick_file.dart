@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/app_constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,14 +21,7 @@ Future<Map<String, dynamic>> pickFile() async {
   String _fileName = '';
   final FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
-    allowedExtensions: [
-      'jpg',
-      'pdf',
-      'doc',
-      'docx',
-      'xls',
-      'xlsx',
-    ],
+    allowedExtensions: PickerType.DOCUMENT_IMG.fileType,
   );
   if (result != null) {
     _fileExtension = (result.files.single.extension ?? '').toUpperCase();

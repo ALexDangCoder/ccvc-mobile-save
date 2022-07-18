@@ -239,6 +239,21 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     );
   }
 
+  Future<bool> confirmOfficerOrDismissconfirmOfficer(
+      ConfirmOfficerRequest request) async {
+    bool isSucess = false;
+    final result = await dataRepo.confirmOfficer(request);
+    result.when(
+      success: (res) {
+        isSucess = true;
+      },
+      error: (err) {
+        isSucess = false;
+      },
+    );
+    return isSucess;
+  }
+
   Future<void> confirmOfficer(ConfirmOfficerRequest request) async {
     ShowLoadingScreen.show();
     final result = await dataRepo.confirmOfficer(request);
@@ -414,31 +429,59 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.createBy?.id ?? '';
   }
 
+  int checkHuyXacNhan(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives?.indexWhere(
+          (element) =>
+              element.status == StatusOfficersConst.STATUS_THAM_GIA &&
+              element.canBoId == currentUserId,
+        ) ??
+        StatusOfficersConst.STATUS_DEFAULT;
+  }
+
+  int checkXacNhanLai(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives?.indexWhere(
+          (element) =>
+              element.status == StatusOfficersConst.STATUS_TU_CHOI &&
+              element.canBoId == currentUserId,
+        ) ??
+        StatusOfficersConst.STATUS_DEFAULT;
+  }
+
   bool checkChoSuaLich(ChiTietLichLamViecModel dataModel) {
     return canBoChuTri(dataModel) == currentUserId ||
         nguoiTaoId(dataModel) == currentUserId; //===sualich===huylich
   }
 
   bool checkChoThuHoi(ChiTietLichLamViecModel dataModel) {
-    return (checkThuHoi(dataModel) == 0 &&
+    return (checkThuHoi(dataModel) == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
         (canBoChuTri(dataModel) == currentUserId ||
             nguoiTaoId(dataModel) == currentUserId));
   }
 
   bool checkChoYKien(ChiTietLichLamViecModel dataModel) {
     return nguoiTaoId(dataModel) == currentUserId ||
-        nguoiDuocMoi(dataModel) == currentUserId;
+        nguoiDuocMoi(dataModel) == currentUserId||canBoChuTri(dataModel) == currentUserId;
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {
     return (DateTime.parse(
           dataModel.dateTimeTo ?? DateTime.now().toString(),
-        ).isBefore(DateTime.now())) &&
-        checkChoYKien(dataModel);
+        ).isBefore(DateTime.now())) &&(nguoiTaoId(dataModel) == currentUserId ||
+        nguoiDuocMoi(dataModel) == currentUserId);
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
-    return (checkXoa(dataModel) == -1) && checkChoSuaLich(dataModel); //=
+    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) && checkChoSuaLich(dataModel); //=
+  }
+
+  bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
+    return checkHuyXacNhan(dataModel) >=
+        StatusOfficersConst.STATUS_CHO_XAC_NHAN;
+  }
+
+  bool checkChoXacNhanLai(ChiTietLichLamViecModel dataModel) {
+    return checkXacNhanLai(dataModel) >=
+        StatusOfficersConst.STATUS_CHO_XAC_NHAN;
   }
 
   void dispose() {

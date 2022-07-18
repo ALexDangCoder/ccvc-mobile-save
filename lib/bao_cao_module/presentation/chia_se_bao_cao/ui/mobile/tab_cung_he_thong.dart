@@ -76,7 +76,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                 ),
                               ),
                             ),
-                            dropdownBuilder: (context,value){
+                            dropdownBuilder: (context, value) {
                               return const SizedBox();
                             },
                             onChanged: (value) {
@@ -164,7 +164,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                   children: List.generate(
                                       widget.cubit.selectNode.length + 1,
                                       (index) {
-                                    if (index == widget.cubit.selectNode.length) {
+                                    if (index ==
+                                        widget.cubit.selectNode.length) {
                                       return Container(
                                         width: 200,
                                         color: Colors.transparent,
@@ -233,7 +234,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                       top: 16.h,
                                     ),
                                     keyboardDismissBehavior: isMobile()
-                                        ? ScrollViewKeyboardDismissBehavior.onDrag
+                                        ? ScrollViewKeyboardDismissBehavior
+                                            .onDrag
                                         : ScrollViewKeyboardDismissBehavior
                                             .manual,
                                     itemCount: data.length,
@@ -269,7 +271,9 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(4.r),
+                            ),
                             border: Border.all(color: containerColorTab),
                           ),
                           child: Row(

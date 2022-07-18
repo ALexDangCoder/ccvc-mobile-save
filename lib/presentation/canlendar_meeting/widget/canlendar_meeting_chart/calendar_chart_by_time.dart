@@ -27,13 +27,16 @@ class ChartByTimeWidget extends StatelessWidget {
             controller: _scrollController,
             isAlwaysShown: true,
             child: SingleChildScrollView(
-              controller: _scrollController,
               scrollDirection: Axis.horizontal,
-              child: SizedBox(
-                width: 600,
+              controller: _scrollController,
+              child: Container(
+                padding: const EdgeInsets.only(right: 30),
+                width: 725,
                 child: SfCartesianChart(
-                  margin: const EdgeInsets.only(top: 20),
-                  primaryXAxis: CategoryAxis(
+                  plotAreaBorderWidth: 0,
+                  primaryXAxis: NumericAxis(
+                    majorGridLines: const MajorGridLines(width: 0),
+                    edgeLabelPlacement: EdgeLabelPlacement.none,
                     title: AxisTitle(
                       alignment: ChartAlignment.near,
                       text: S.current.thang,
@@ -49,28 +52,24 @@ class ChartByTimeWidget extends StatelessWidget {
                       fontSize: 12.0.textScale(space: 4),
                       fontWeight: FontWeight.w400,
                     ),
-                    axisLine: const AxisLine(
-                      color: AqiColor,
-                      width: 0.41,
-                    ),
-                    majorGridLines: const MajorGridLines(width: 0),
+                    labelAlignment: LabelAlignment.start,
+                    interval: 1,
+                    minimum: 0,
+                    majorTickLines: const MajorTickLines(size: 0),
+                    axisLine: const AxisLine(width: 0),
                   ),
-                  primaryYAxis: CategoryAxis(
+                  primaryYAxis: NumericAxis(
+                    axisLine: const AxisLine(width: 0),
+                    majorGridLines: const MajorGridLines(
+                      width: 0.41,
+                      dashArray: [5, 5],
+                      color: colorA2AEBD,
+                    ),
+                    majorTickLines: const MajorTickLines(size: 0),
                     labelStyle: textNormalCustom(
                       color: AqiColor,
                       fontSize: 12.0.textScale(space: 4),
                       fontWeight: FontWeight.w400,
-                    ),
-                    placeLabelsNearAxisLine: true,
-                    axisLine: const AxisLine(
-                      color: AqiColor,
-                      width: 0.41,
-                    ),
-                    interval: 10,
-                    minimum: 0,
-                    majorGridLines: const MajorGridLines(
-                      width: 0.41,
-                      dashArray: [5, 5],
                     ),
                   ),
                   series: <ChartSeries<StatisticByMonthModel, int>>[
@@ -78,8 +77,7 @@ class ChartByTimeWidget extends StatelessWidget {
                       color: color5A8DEE,
                       dataSource: dataByMonth,
                       xValueMapper: (StatisticByMonthModel sales, _) => sales.month,
-                      yValueMapper: (StatisticByMonthModel sales, _) =>
-                      sales.quantities,
+                      yValueMapper: (StatisticByMonthModel sales, _) => sales.quantities,
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,
                         textStyle: textNormalCustom(

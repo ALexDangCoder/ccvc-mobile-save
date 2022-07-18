@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -194,12 +195,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.sua_thanh_cong,
         );
-        callApi(
-          idCuocHop,
-          checkIdPhienHop(
-            phienHopId,
-          ),
-        );
+        callSuaAPiBieuQuyet();
       },
       error: (err) {
         if (err is NoNetworkException || err is TimeoutException) {
@@ -232,6 +228,13 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         )
         .toList();
     return data;
+  }
+
+  void isCheckDiemDanh(List<CanBoModel> mList) {
+    final idCanBo = HiveLocal.getDataUser()?.userId;
+    final diemDanh =
+        mList.firstWhere((element) => element.canBoId == idCanBo).diemDanh;
+    isCheckDiemDanhSubject.sink.add(diemDanh ?? false);
   }
 
   void getTimeHour({required TimerData startT, required TimerData endT}) {
@@ -605,6 +608,11 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   Future<void> callAPiBieuQuyet() async {
     await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop, '');
+  }
+
+  Future<void> callSuaAPiBieuQuyet() async {
+  //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
+    await callApi(idCuocHop, idPhienHop);
   }
 
   String getTime({bool isGetDateStart = true}) {

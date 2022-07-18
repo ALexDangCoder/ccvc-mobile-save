@@ -10,7 +10,11 @@ import 'package:flutter/material.dart';
 
 class ThongKeLichHopScreen extends StatefulWidget {
   final CalendarMeetingCubit cubit;
-  const ThongKeLichHopScreen({Key? key, required this.cubit,}) : super(key: key);
+
+  const ThongKeLichHopScreen({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   _ThongKeLichHopScreenState createState() => _ThongKeLichHopScreenState();

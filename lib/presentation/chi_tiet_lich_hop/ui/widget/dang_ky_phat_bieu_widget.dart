@@ -33,13 +33,14 @@ class DangKyPhatBieuWidget extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   final TaoBieuQuyetRequest taoBieuQuyetRequest = TaoBieuQuyetRequest();
   final _formKey = GlobalKey<FormGroupState>();
-  final userName = HiveLocal.getDataUser()?.username ?? '';
+  final userName = HiveLocal.getDataUser()?.userInformation?.hoTen ?? '';
+  final unitName = HiveLocal.getDataUser()?.userInformation?.donVi ?? '';
 
   @override
   void initState() {
     super.initState();
     taoBieuQuyetRequest.lichHopId = widget.id;
-    taoBieuQuyetRequest.unitName = 'UBND TỈNH ĐỒNG NAI';
+    taoBieuQuyetRequest.unitName = unitName;
     taoBieuQuyetRequest.personName = userName;
   }
 
@@ -107,9 +108,9 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                     child: TextFieldValidator(
                       textInputType: TextInputType.number,
                       onChange: (vl) {
-                        try{
+                        try {
                           taoBieuQuyetRequest.time = int.parse(vl);
-                        }catch(e){
+                        } catch (e) {
                           _formKey.currentState?.validator();
                         }
                       },
@@ -120,9 +121,9 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                         if (value?.trim().isEmpty ?? true) {
                           return S.current.khong_duoc_de_trong;
                         }
-                        try{
+                        try {
                           int.parse(value?.trim() ?? '');
-                        }catch(e){
+                        } catch (e) {
                           return S.current.check_so_luong;
                         }
                       },

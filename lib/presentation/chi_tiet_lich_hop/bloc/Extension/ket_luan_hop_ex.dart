@@ -22,7 +22,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
             thoiGian: res.createAt ?? '',
             trangThai: typeTrangthai(res.status ?? 0),
             tinhTrang: typeTinhTrang(res.reportStatusCode ?? ''),
-            file:res.files ?? [],
+            file: res.files ?? [],
             title: res.title,
           ),
         );
@@ -58,11 +58,26 @@ extension KetLuanHop on DetailMeetCalenderCubit {
               id: e.id,
             ),
           );
-          danhSachNhiemVuLichHopSubject.sink.add(danhSachNhiemVuLichHopModel);
         }
+        danhSachNhiemVuLichHopSubject.sink.add(danhSachNhiemVuLichHopModel);
+
       },
       error: (err) {},
     );
+  }
+
+  TrangThaiNhiemVu trangThaiNhiemVu(String tt) {
+    switch (tt) {
+      case 'CHO_PHAN_XU_LY':
+        return TrangThaiNhiemVu.ChoPhanXuLy;
+      case 'CHUA_THUC_HIEN':
+        return TrangThaiNhiemVu.ChuaThucHien;
+      case 'DANG_THUC_HIEN':
+        return TrangThaiNhiemVu.DangThucHien;
+      case 'DA_THUC_HIEN':
+        return TrangThaiNhiemVu.DaThucHien;
+    }
+    return TrangThaiNhiemVu.ChoPhanXuLy;
   }
 
   TrangThai typeTrangthai(int value) {
@@ -147,6 +162,11 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
   void getValueMauBienBan(int value) {
     noiDung.sink.add(data[value] ?? '');
+  }
+
+  void clearData() {
+    dataLoaiNhiemVu.clear();
+    checkValidateLoaiNV.sink.add(false);
   }
 
   String getTextAfterEdit(String value) {

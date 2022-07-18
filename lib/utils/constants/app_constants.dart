@@ -139,6 +139,8 @@ extension GetTypeByName on PickerType {
           'docx',
           'xls',
           'xlsx',
+          'png',
+          'heic',
         ];
     }
   }

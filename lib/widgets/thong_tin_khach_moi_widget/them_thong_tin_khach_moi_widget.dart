@@ -239,10 +239,10 @@ final scroll = ScrollController();
                         title: S.current.ten_don_vi,
                         child: TextFieldValidator(
                           controller: _tenDonViController,
-                          hintText: S.current.dau_moi_lam_viec,
+                          hintText: S.current.ten_don_vi,
                           validator: (value) {
                             return (value ?? '').pleaseEnter(
-                              S.current.dau_moi_lam_viec,
+                              S.current.ten_don_vi,
                             );
                           },
                         ),
@@ -314,9 +314,12 @@ final scroll = ScrollController();
                                   SvgPicture.asset(ImageAssets.icGroupPeople),
                             ),
                           ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           validator: (value) {
                             return (value ?? '').pleaseEnter(
-                              S.current.nhap_so_luong,
+                              S.current.nhap_so_luong.toLowerCase(),
                             );
                           },
                         ),

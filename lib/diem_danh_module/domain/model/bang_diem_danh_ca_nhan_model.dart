@@ -15,19 +15,19 @@ class ListItemBangDiemDanhCaNhanModel {
 }
 
 class BangDiemDanhCaNhanModel {
-  String? date;// ngày
-  String? timeIn;//giờ vào
-  String? timeOut;//giờ ra
-  String? type;//??
-  double? dayWage;//số ngày lương
-  double? leave;//??
-  int? isLeaveRequest;//??
-  String? leaveRequestReasonCode;//??
-  String? leaveRequestReasonTakeLeaveCode;//??
-  String? leaveRequestReasonName;//??
+  String? date; // ngày
+  String? timeIn; //giờ vào
+  String? timeOut; //giờ ra
+  String? type; //??
+  double? dayWage; //số ngày lương
+  double? leave; //??
+  int? isLeaveRequest; //??
+  String? leaveRequestReasonCode; //??
+  String? leaveRequestReasonTakeLeaveCode; //??
+  String? leaveRequestReasonName; //??
   bool? isLate; //hiển thị muộn
-  bool? isComeBackEarly;//??
-  String? leaveType;//??
+  bool? isComeBackEarly; //??
+  String? leaveType; //??
 
   BangDiemDanhCaNhanModel({
     this.date,

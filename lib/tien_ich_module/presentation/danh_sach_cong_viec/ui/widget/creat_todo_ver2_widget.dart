@@ -260,7 +260,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                     final data = snapshot.data;
                     if (snapshot.hasData && data != '') {
                       return FileFromAPIWidget(
-                        data: data ?? '',
+                        data: data?.split('/').toList().last ?? '',
                         onTapDelete: () {
                           widget.cubit
                               .editWork(

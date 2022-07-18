@@ -79,7 +79,8 @@ enum DocumentStatus {
   BINH_THUONG,
   THUONG_KHAN,
   CHUA_THUC_HIEN,
-  DANG_THUC_HIEN
+  DANG_THUC_HIEN,
+  DA_THUC_HIEN
 }
 enum PageTransitionType {
   FADE,

@@ -91,17 +91,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
     );
   }
 
-  TrangThaiNhiemVu trangThaiNhiemVu(String tt) {
-    switch (tt) {
-      case 'CHO_PHAN_XU_LY':
-        return TrangThaiNhiemVu.ChoPhanXuLy;
-      case 'DANG_THUC_HIEN':
-        return TrangThaiNhiemVu.DangThucHien;
-      case 'DA_THUC_HIEN':
-        return TrangThaiNhiemVu.DaThucHien;
-    }
-    return TrangThaiNhiemVu.ChoPhanXuLy;
-  }
+
 
   void callApiYkienCuocHop()  {
     getDanhSachPhienHop(idCuocHop);

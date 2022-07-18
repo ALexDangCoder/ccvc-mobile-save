@@ -555,6 +555,20 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return false;
   }
 
+  bool isNguoiThamGia() {
+    return thamGia().where(
+      (element) {
+        final userLogin = (HiveLocal.getDataUser()?.userId ?? '').toLowerCase();
+        final isCurrentUser =
+            (element.CanBoId ?? '').toLowerCase() == userLogin;
+        final isThuKy = element.isThuKy ?? false;
+        final isUserCreate =
+            (element.createdBy ?? '').toLowerCase() == userLogin;
+        return isCurrentUser && !isThuKy && !isUserCreate;
+      },
+    ).isNotEmpty;
+  }
+
   ///check btn dang ky phat bieu
   bool isDangKyPhatBieu() {
     if (isThanhPhanThamGia()) {

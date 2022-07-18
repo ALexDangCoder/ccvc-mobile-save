@@ -71,16 +71,12 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
       thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
           .parse(value.data?.thoiGianBatDau ?? '')
           .formatApi;
-      try {
-        timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
-            .parse(value.data?.thoiGianBatDau ?? '')
-            .formatTime;
-        timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
-            .parse(value.data?.thoiGianKetThuc ?? '')
-            .formatTime;
-      } catch (e) {
-        return;
-      }
+      timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianBatDau ?? '')
+          .formatTime;
+      timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianKetThuc ?? '')
+          .formatTime;
     });
   }
 

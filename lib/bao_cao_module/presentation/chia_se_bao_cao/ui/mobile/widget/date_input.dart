@@ -38,12 +38,6 @@ class _DateInputState extends State<DateInput> {
   final _groupKey = GlobalKey<FormGroupState>();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   @override
   Widget build(BuildContext context) {
     return FormGroup(

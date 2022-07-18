@@ -44,9 +44,10 @@ mixin DiemDanhRepository {
   Future<Result<ChiTietBienSoXeModel>> dangKyThongTinXeMoi(
     DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest,
   );
+
   Future<Result<ChiTietBienSoXeModel>> capNhatBienSoXe(
-      CapNhatBienSoXeRequest capNhatBienSoXeRequest,
-      );
+    CapNhatBienSoXeRequest capNhatBienSoXeRequest,
+  );
 
   Future<Result<MessageModel>> deleteImage(String id);
 }

@@ -110,6 +110,7 @@ const String FAIL = 'fail';
 const String CHO_TRINH_KY_STRING = 'CHO_TRINH_KY';
 const String CHO_XU_LY_STRING = 'CHO_XU_LY';
 const String DA_XU_LY_STRING = 'DA_XU_LY';
+const String DISPLAY_DATE = 'displayDate';
 
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
@@ -134,14 +135,16 @@ const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
 const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
 const _dtFormat8 = 'd/MM/yyyy';
 const _dtFormat9 = 'dd/MM/yyyy HH:mm';
+const _dtFormat10 = 'dd/MM/yyyy';
+const _dtFormat11 = 'yyyy-MM-ddTHH:mm:ss';
 const HOUR_MINUTE_FORMAT = 'Hm';
-
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
 const String AVATAR_DEFAULT =
     'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
-const String BASE_URL_MEETING  = 'https://emeeting.vn/';
+const String BASE_URL_MEETING = 'https://emeeting.vn/';
+
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
   static const HOUR_FORMAT = _dtFormat2;
@@ -151,7 +154,9 @@ class DateTimeFormat {
   static const DATE_MM_DD_YYYY = _dtFormat6;
   static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
   static const DATE_DD_MM_YYYY = _dtFormat8;
-  static const  DATE_DD_MM_HM = _dtFormat9;
+  static const DATE_DD_MM_HM = _dtFormat9;
+  static const DAY_MONTH_YEAR = _dtFormat10;
+  static const FORMAT_REQUEST = _dtFormat11;
 }
 
 class ThongBaoTypeConstant {
@@ -290,11 +295,12 @@ class StatusCodeConst {
   static int STATUS_HTTP_VERSION_NOT_SUPPORTED = 505;
 }
 const Color shadow =Color.fromRGBO(0, 0, 0, 0.05);
-class DanhSachBienSoXeConst{
-  static const String XE_MAY='XE_MAY';
-  static const String O_TO='O_TO';
-  static const String XE_CAN_BO='XE_CAN_BO';
-  static const String XE_LANH_DAO='XE_LANH_DAO';
-  static const int PAGE_INDEX=1;
-  static const int PAGE_SIZE=10;
+
+class DanhSachBienSoXeConst {
+  static const String XE_MAY = 'XE_MAY';
+  static const String O_TO = 'O_TO';
+  static const String XE_CAN_BO = 'XE_CAN_BO';
+  static const String XE_LANH_DAO = 'XE_LANH_DAO';
+  static const int PAGE_INDEX = 1;
+  static const int PAGE_SIZE = 10;
 }

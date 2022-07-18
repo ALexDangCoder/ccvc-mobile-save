@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/data/di/module.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';

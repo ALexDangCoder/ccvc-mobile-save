@@ -191,28 +191,18 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     return idImg;
   }
 
-  ///delete image
-  Future<void> deleteImage({
-    required String entityName,
-    required String fileTypeUpload,
-  }) async {
+  Future<void> deleteImageCallApi() async {
     showLoading();
-    // await getAllImageId(entityName: entityName);
-
-    await deleteImageCallApi(idImg);
-    // await getAllImageId(entityName: entityName);
-    showContent();
-  }
-
-  Future<void> deleteImageCallApi(String id) async {
-    final result = await diemDanhRepo.deleteImage(id);
+    final result = await diemDanhRepo.deleteImage(idImg);
 
     result.when(
       success: (success) {
         MessageConfig.show(title: success.message ?? '');
+        showContent();
       },
       error: (error) {
         MessageConfig.show(title: error.message);
+        showContent();
       },
     );
   }

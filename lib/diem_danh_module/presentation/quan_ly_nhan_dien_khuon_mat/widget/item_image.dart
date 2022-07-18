@@ -131,10 +131,7 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                             id: idImage,
                           ),
                     removeImage: () {
-                      widget.cubit.deleteImage(
-                        entityName: widget.dataUI.entityName,
-                        fileTypeUpload: widget.dataUI.fileTypeUpload,
-                      );
+                      widget.cubit.deleteImageCallApi();
 
                       idImage = '';
                     },

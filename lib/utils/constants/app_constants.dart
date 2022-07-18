@@ -79,7 +79,8 @@ enum DocumentStatus {
   BINH_THUONG,
   THUONG_KHAN,
   CHUA_THUC_HIEN,
-  DANG_THUC_HIEN
+  DANG_THUC_HIEN,
+  DA_THUC_HIEN
 }
 enum PageTransitionType {
   FADE,
@@ -88,8 +89,7 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
-
-enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL,DOCUMENT_IMG }
+enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL, DOCUMENT_IMG }
 
 extension GetTypeByName on PickerType {
   List<String> get fileType {
@@ -144,7 +144,6 @@ extension GetTypeByName on PickerType {
   }
 }
 
-
 const int BYTE_TO_MB = 1048576;
 const String DEVICE_ID = '';
 const String DEVICE_ANDROID = 'ANDROID';
@@ -184,7 +183,6 @@ const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
 const PHONE_REGEX = r'^0+([0-9]{9})$';
-
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';
@@ -412,8 +410,8 @@ class StatusOfficersConst {
 class MaxSizeFile {
   static const MAX_SIZE_30MB = 30000000;
 }
-class TypeTaskYKien
-{
+
+class TypeTaskYKien {
   static const int XinYKien = 1;
   static const int ChoYKien = 2;
 }

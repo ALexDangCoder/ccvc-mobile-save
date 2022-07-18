@@ -17,7 +17,10 @@ Future<T?> showDiaLog<T>(
   bool showTablet = false,
   bool isBottomShow = true,
   bool isOneButton = true,
+  bool isColorBlueInOnlyButton = false,
+  double? widthOnlyButton,
   required Function funcBtnRight,
+  bool? isThisPopAfter,
 }) {
   return showDialog(
     barrierDismissible: false,
@@ -71,7 +74,7 @@ Future<T?> showDiaLog<T>(
                   style: titleAppbar(),
                   textAlign: TextAlign.center,
                 ),
-              if (isOneButton && textContent != '')
+              if (isOneButton || textContent != '')
                 Column(
                   children: [
                     SizedBox(
@@ -112,8 +115,13 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          funcBtnRight();
-                          Navigator.pop(context);
+                          if (isThisPopAfter ?? false) {
+                            Navigator.pop(context);
+                            funcBtnRight();
+                          } else {
+                            funcBtnRight();
+                            Navigator.pop(context);
+                          }
                         },
                       ),
                     ),
@@ -124,9 +132,9 @@ Future<T?> showDiaLog<T>(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 86,
+                      width: widthOnlyButton ?? 86,
                       child: ButtonCustomBottom(
-                        isColorBlue: true,
+                        isColorBlue: isColorBlueInOnlyButton,
                         title: btnRightTxt,
                         onPressed: () {
                           funcBtnRight();

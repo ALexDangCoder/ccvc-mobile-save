@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/main.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/xem_luong_xu_ly_nhiem_vu.dart';
 
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/manager_personal_information.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
@@ -18,7 +17,6 @@ import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/widgets/header_menu_widget.dart';
 
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
-import 'package:ccvc_mobile/presentation/tabbar_screen/ui/main_screen.dart';
 
 import 'package:ccvc_mobile/tien_ich_module/presentation/sua_danh_ba_ca_nhan/widget/input_infor_user_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -26,8 +24,10 @@ import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info/package_info.dart';
 
 import 'widgets/button_quan_ly_widget.dart';
 
@@ -40,12 +40,17 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   MenuCubit menuCubit = MenuCubit();
-
+  String version = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     menuCubit.getUser();
+    PackageInfo.fromPlatform().then((packageInfo) {
+      setState(() {
+        version = 'v${packageInfo.version}#${packageInfo.buildNumber}';
+      });
+    });
   }
 
   @override
@@ -121,13 +126,23 @@ class _MenuScreenState extends State<MenuScreen> {
                                   final type = data[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (_, __, ___) =>
-                                              type.getScreen(),
-                                        ),
-                                      );
+                                      if(Platform.isIOS){
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                       builder: (context) =>
+                                                type.getScreen(),
+                                          ),
+                                        );
+                                      }else {
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (_, __, ___) =>
+                                                type.getScreen(),
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: MenuCellWidget(
                                       title: type.getItem().title,
@@ -160,13 +175,23 @@ class _MenuScreenState extends State<MenuScreen> {
                                 if (type == MenuType.chuyenPhamVi) {
                                   showChuyenPhamVi();
                                 } else {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) =>
-                                          type.getScreen(),
-                                    ),
-                                  );
+                                  if(Platform.isIOS){
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) =>
+                                            type.getScreen(),
+                                      ),
+                                    );
+                                  }else {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (_, __, ___) =>
+                                            type.getScreen(),
+                                      ),
+                                    );
+                                  }
                                 }
                               },
                               child: MenuCellWidget(
@@ -200,6 +225,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           },
                           isColorBlue: false,
                         ),
+                        Text('$version'),
                         const SizedBox(
                           height: 24,
                         )

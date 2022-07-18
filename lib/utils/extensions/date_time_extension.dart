@@ -9,10 +9,19 @@ extension DateFormatString on DateTime {
     var dateString = '';
     try {
       dateString = DateFormat.jm('en').format(this);
-    }
-     catch(e){
+    } catch (e) {
       return '';
-     }
+    }
+    return dateString;
+  }
+
+  String get toFormat24h {
+    var dateString = '';
+    try {
+      dateString = DateFormat.Hm('en').format(this);
+    } catch (e) {
+      return '';
+    }
     return dateString;
   }
 
@@ -50,12 +59,21 @@ extension DateFormatString on DateTime {
   String get formatApiTaoBieuQuyet {
     return DateFormat('yyyy-MM-ddTHH:mm').format(this);
   }
-String get formatBE {
+
+  String get formatBieuQuyetChooseTime {
+    return DateFormat('yyyy-MM-dd HH:mm:ss').format(this);
+  }
+
+  String get formatBE {
     return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
   }
 
   String get formatApiSuaPhienHop {
     return DateFormat('yyyy-MM-dd HH:mm').format(this);
+  }
+
+  String get formatYKienChiTietHop {
+    return DateFormat('dd/MM/yyyy HH:mm').format(this);
   }
 
   String get formatHourMinute {
@@ -68,6 +86,14 @@ String get formatBE {
 
   String get formatApiListBieuQuyetMobile {
     return DateFormat('dd/MM/yyyy HH:mm').format(this);
+  }
+
+  String get formatPAKN {
+    return DateFormat('HH:mm dd/MM/yyyy ').format(this);
+  }
+
+  String get formatListBieuQuyet {
+    return DateFormat('MM/dd/yyyy HH:mm').format(this);
   }
 
   String get formatApiSSAM {
@@ -138,6 +164,14 @@ String get formatBE {
 
   String dateTimeFormatter({required String pattern}) {
     return DateFormat(pattern).format(this);
+  }
+
+  String tryDateTimeFormatter({required String pattern}) {
+    try {
+      return DateFormat(pattern).format(this);
+    } catch (_) {
+      return '';
+    }
   }
 
   String getDayofWeekTxt() {
@@ -216,5 +250,4 @@ extension TimeFormatString on TimerData {
     }
     return '$hour:$minute';
   }
-
 }

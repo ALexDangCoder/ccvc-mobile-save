@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/title_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MauMacDinhWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final CreateWorkCalCubit taoLichLamViecCubit;
 
   const MauMacDinhWidget({Key? key, required this.taoLichLamViecCubit})
       : super(key: key);

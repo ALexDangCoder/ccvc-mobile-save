@@ -1,32 +1,53 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
-import 'package:ccvc_mobile/diem_danh_module/domain/model/loai_xe_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_bien_so_xe_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/custom_radio_loai_so_huu.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/select_image_dang_ky_xe_moi.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/item_text_note.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
-import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-class WidgetCapNhatThingTinDangKyXe extends StatefulWidget {
+class WidgetCapNhatThongTinDangKyXe extends StatefulWidget {
+  final BuildContext context;
   final DiemDanhCubit cubit;
+  final ChiTietBienSoXeModel chiTietBienSoXeModel;
 
-  const WidgetCapNhatThingTinDangKyXe({Key? key, required this.cubit})
-      : super(key: key);
+  const WidgetCapNhatThongTinDangKyXe({
+    Key? key,
+    required this.cubit,
+    required this.chiTietBienSoXeModel,
+    required this.context,
+  }) : super(key: key);
 
   @override
-  _WidgetCapNhatThingTinDangKyXeState createState() =>
-      _WidgetCapNhatThingTinDangKyXeState();
+  _WidgetCapNhatThongTinDangKyXeState createState() =>
+      _WidgetCapNhatThongTinDangKyXeState();
 }
 
-class _WidgetCapNhatThingTinDangKyXeState
-    extends State<WidgetCapNhatThingTinDangKyXe> {
+class _WidgetCapNhatThongTinDangKyXeState
+    extends State<WidgetCapNhatThongTinDangKyXe> {
+  TextEditingController bienKiemSoatController = TextEditingController();
+  final keyGroup = GlobalKey<FormGroupState>();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.cubit.toast.init(widget.context);
+    bienKiemSoatController.text =
+        widget.chiTietBienSoXeModel.bienKiemSoat ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,12 +56,26 @@ class _WidgetCapNhatThingTinDangKyXeState
       ),
       child: FollowKeyBoardWidget(
         bottomWidget: Padding(
-          padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
-          child: DoubleButtonBottom(
-            title1: S.current.huy,
-            title2: S.current.cap_nhat,
-            onPressed1: () {},
-            onPressed2: () {},
+          padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 30),
+          child: SizedBox(
+            width: isMobile() ? MediaQuery.of(context).size.width : 300,
+            child: DoubleButtonBottom(
+              title1: S.current.huy,
+              title2: S.current.cap_nhat,
+              onClickLeft: () {
+                Navigator.pop(widget.context);
+              },
+              onClickRight: () {
+                if (keyGroup.currentState!.validator()) {
+                  widget.cubit.postImageResgiter(
+                      bienKiemSoat: bienKiemSoatController.value.text,
+                      isTao: false,
+                      id: widget.chiTietBienSoXeModel.id ?? '',
+                      fileId: widget.chiTietBienSoXeModel.fileId ?? '',
+                      context: widget.context);
+                }
+              },
+            ),
           ),
         ),
         child: Column(
@@ -59,48 +94,19 @@ class _WidgetCapNhatThingTinDangKyXeState
                         Stack(
                           alignment: AlignmentDirectional.center,
                           children: [
-                            Container(
-                              height: 200,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: colorE2E8F0),
-                                borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, 0.05),
-                                    blurRadius: 2,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                                image: const DecorationImage(
-                                  image: AssetImage(ImageAssets.imgBienSoXe),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            SelectImageDangKyXe(
+                              isPhone: true,
+                              image: widget.cubit.getUrlImageBienSoXe(
+                                  widget.chiTietBienSoXeModel.fileId),
+                              onTapImage: (image) {
+                                if (image != null) {
+                                  widget.cubit.fileItemBienSoXe.clear();
+                                  widget.cubit.fileItemBienSoXe.add(image);
+                                }
+                              },
+                              removeImage: () {},
+                              isTao: false,
                             ),
-                            Container(
-                              height: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: color000000.withOpacity(0.5)
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  ImageAssets.icUpAnh,
-                                  color: colorFFFFFF,
-                                ),
-                                spaceH14,
-                                Text(
-                                  S.current.tai_anh_len,
-                                  style: textNormal(
-                                    colorFFFFFF,
-                                    14.0,
-                                  ),
-                                ),
-                              ],
-                            )
                           ],
                         ),
                       ],
@@ -117,23 +123,41 @@ class _WidgetCapNhatThingTinDangKyXeState
                     spaceH20,
                     ItemTextNote(title: S.current.loai_xe),
                     StreamBuilder<List<LoaiXeModel>>(
-                        stream: widget.cubit.loaiXeSubject,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-
-                          return CoolDropDown(
-                             initData: data.map((e) => e.ten??'').first,
-                            listData: data.map((e) => e.ten ?? '').toList(),
-                            onChange: (vl) {},
-                          );
-                        },),
+                      initialData: [
+                        LoaiXeModel(ten: S.current.xe_may),
+                        LoaiXeModel(ten: S.current.xe_o_to),
+                      ],
+                      stream: widget.cubit.loaiXeSubject,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return CoolDropDown(
+                          initData:
+                              widget.chiTietBienSoXeModel.loaiXeMay?.loaiXe() ??
+                                  S.current.xe_may,
+                          listData: data.map((e) => e.ten ?? '').toList(),
+                          onChange: (value) {
+                            value == 0
+                                ? widget.cubit.xeMay =
+                                    DanhSachBienSoXeConst.XE_MAY
+                                : widget.cubit.xeMay =
+                                    DanhSachBienSoXeConst.O_TO;
+                          },
+                        );
+                      },
+                    ),
                     spaceH20,
                     ItemTextNote(title: S.current.bien_kiem_soat),
-                    TextFieldValidator(
-                      initialValue: widget.cubit.bienKiemSoat,
-                      hintText: S.current.bien_kiem_soat,
-                      onChange: (value) {},
-                      validator: (value) {},
+                    FormGroup(
+                      key: keyGroup,
+                      child: TextFieldValidator(
+                        controller: bienKiemSoatController,
+                        hintText: S.current.bien_kiem_soat,
+                        onChange: (value) {},
+                        validator: (value) {
+                          return (value ?? '')
+                              .checkTruongNull('${S.current.bien_kiem_soat}!');
+                        },
+                      ),
                     ),
                     spaceH20,
                     Align(
@@ -147,7 +171,17 @@ class _WidgetCapNhatThingTinDangKyXeState
                         ),
                       ),
                     ),
-                    CustomRadioLoaiSoHuu(onchange: (onchange) {}),
+                    CustomRadioLoaiSoHuu(
+                      onchange: (onchange) {
+                        onchange
+                            ? widget.cubit.loaiSoHuu =
+                                DanhSachBienSoXeConst.XE_LANH_DAO
+                            : widget.cubit.loaiSoHuu =
+                                DanhSachBienSoXeConst.XE_CAN_BO;
+                      },
+                      groupValueInit:
+                          widget.chiTietBienSoXeModel.loaiSoHuu?.loaiSoHuu(),
+                    ),
                   ],
                 ),
               ),

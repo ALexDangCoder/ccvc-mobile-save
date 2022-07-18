@@ -3,6 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,8 +15,6 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
   final Function(DateTime startDate, DateTime endDate) onChooseDateFilter;
   final BuildContext context;
 
-  // DateTime selectedStartDate = DateTime.now();
-  // DateTime selectedEndDate = DateTime.now();
   final DateTime? initStartDate;
   final DateTime? initEndDate;
   final Function(String)? onChange;
@@ -38,7 +38,7 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
     this.onSubmit,
     this.onClose,
     this.isBtnClose = false,
-  }) : super(key: key) {}
+  }) : super(key: key);
 
   @override
   _FilterDateTimeWidgetTabletState createState() =>
@@ -49,6 +49,7 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
     with SingleTickerProviderStateMixin {
   late DateTime currentStartDate;
   late DateTime currentEndDate;
+  DateTime chooseTime = DateTime.now();
 
   @override
   void initState() {
@@ -60,32 +61,6 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
       }
     });
     super.initState();
-  }
-
-  @override
-  Future<void> _showDatePicker({required DateTime initialDate}) async {
-    final selectedDate = await showDatePicker(
-      context: widget.context,
-      initialDate: initialDate,
-      firstDate: DateTime(1930),
-      lastDate: DateTime(2100),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light().copyWith(
-              primary: purpleChart,
-            ),
-          ),
-          child: child ?? Container(),
-        );
-      },
-    );
-    if (selectedDate != null) {
-      widget.onChooseDateFilter(selectedDate, DateTime.now());
-      setState(() {
-        currentStartDate = selectedDate;
-      });
-    }
   }
 
   @override
@@ -124,8 +99,39 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                   ),
                   GestureDetector(
                     onTap: () {
-                      _showDatePicker(
-                        initialDate: currentStartDate,
+                      showDiaLogTablet(
+                        context,
+                        title: S.current.chon_ngay,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 300,
+                                child: FlutterRoundedCupertinoDatePickerWidget(
+                                  maximumDate: DateTime.now(),
+                                  onDateTimeChanged: (value) {
+                                    setState(() {
+                                      chooseTime = value;
+                                    });
+                                  },
+                                  textStyleDate: titleAppbar(),
+                                  initialDateTime: currentStartDate,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        isBottomShow: true,
+                        btnLeftTxt: S.current.dong,
+                        btnRightTxt: S.current.chon,
+                        funcBtnOk: () {
+                          setState(() {});
+                          currentStartDate = chooseTime;
+                          widget.onChooseDateFilter(
+                              currentStartDate, DateTime.now());
+                          Navigator.pop(context);
+                        },
+                        setHeight: 400,
                       );
                     },
                     child: Container(

@@ -22,7 +22,6 @@ class PhatBieuWidget extends StatefulWidget {
 class _PhatBieuWidgetState extends State<PhatBieuWidget> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -44,48 +43,48 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                 padding: const EdgeInsets.only(top: 50),
                 child: Column(
                   children: [
-                    buttonPhatBieu(
-                      id: widget.cubit.idCuocHop,
+                    /// list phat bieu cung voi button duyet
+                    PhatBieuChildWidget(
                       cubit: widget.cubit,
+                      itemCenter: StreamBuilder<List<PhatBieuModel>>(
+                        stream: widget.cubit.streamPhatBieu,
+                        builder: (context, snapshot) {
+                          final list = snapshot.data ?? [];
+                          if (list.isNotEmpty) {
+                            return ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: list.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    CellPhatBieu(
+                                      infoModel: list[index],
+                                      cubit: widget.cubit,
+                                      index: index,
+                                      onChangeCheckBox: (value) {
+                                        if (value != true) {
+                                          widget.cubit.selectPhatBieu
+                                              .add(list[index].id ?? '');
+                                        } else {
+                                          widget.cubit.selectPhatBieu
+                                              .remove(list[index].id);
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            return const SizedBox(
+                              height: 200,
+                              child: NodataWidget(),
+                            );
+                          }
+                        },
+                      ),
                     ),
-                    StreamBuilder<List<PhatBieuModel>>(
-                      stream: widget.cubit.streamPhatBieu,
-                      builder: (context, snapshot) {
-                        final list = snapshot.data ?? [];
-                        if (list.isNotEmpty) {
-                          return ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: list.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  CellPhatBieu(
-                                    infoModel: list[index],
-                                    cubit: widget.cubit,
-                                    index: index,
-                                    onChangeCheckBox: (vl) {
-                                      if (vl != true) {
-                                        widget.cubit.selectPhatBieu
-                                            .add(list[index].id ?? '');
-                                      } else {
-                                        widget.cubit.selectPhatBieu
-                                            .remove(list[index].id);
-                                      }
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        } else {
-                          return const SizedBox(
-                            height: 200,
-                            child: NodataWidget(),
-                          );
-                        }
-                      },
-                    )
                   ],
                 ),
               ),

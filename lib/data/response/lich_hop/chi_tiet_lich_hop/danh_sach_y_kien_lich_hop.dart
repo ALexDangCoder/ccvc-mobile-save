@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DanhSachYKienlichHopResponse {
@@ -62,22 +62,22 @@ class Data {
   }
 
   YkienCuocHopModel toDomain() {
-    final List<YkienCuocHopModel> listFile = [];
+    List<YkienCuocHopModel> listTraLoi = [];
     if (traLoiYKien != null) {
       final listData = jsonDecode(traLoiYKien ?? '') as List<dynamic>;
-      for (final element in listData) {
-        listFile.add(DataTraLoiYKien.fromJson(element).toDomain());
-      }
+      listTraLoi = listData.map((e) => DataTraLoiYKien.fromJson(e).toDomain()).toList();
     }
     return YkienCuocHopModel(
       id: id,
-      ngayTao:
-          DateTime.parse(ngayTao ?? DateTime.now().toString()).formatApiTung,
+      ngayTao: ngayTao?.changeToNewPatternDate(
+          DateTimeFormat.DATE_TIME_RECEIVE,
+          DateTimeFormat.DATE_TIME_PICKER,
+      ),
       nguoiTaoId: nguoiTaoId ?? '',
       nguoiTao: nguoiTao ?? '',
       content: content?.parseHtml() ?? '',
       scheduleId: scheduleId,
-      traLoiYKien: listFile,
+      traLoiYKien: listTraLoi,
     );
   }
 }
@@ -110,8 +110,10 @@ class DataTraLoiYKien {
 
   YkienCuocHopModel toDomain() {
     return YkienCuocHopModel(
-      ngayTao:
-          DateTime.parse(ngayTao ?? DateTime.now().toString()).formatApiTung,
+      ngayTao: ngayTao?.changeToNewPatternDate(
+        DateTimeFormat.DATE_TIME_RECEIVE,
+        DateTimeFormat.DATE_TIME_PICKER,
+      ),
       nguoiTao: nguoiTao ?? '',
       content: content?.parseHtml() ?? '',
     );

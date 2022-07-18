@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -29,6 +29,8 @@ class ButtonSelectFile extends StatefulWidget {
   final bool hasMultipleFile;
   final bool isShowFile;
   final double? maxSize;
+  final Function(int index) removeFileApi;
+
 
   ButtonSelectFile({
     Key? key,
@@ -45,6 +47,7 @@ class ButtonSelectFile extends StatefulWidget {
     this.hasMultipleFile = false,
     this.isShowFile = true,
     this.maxSize,
+    required this.removeFileApi,
   }) : super(key: key);
 
   @override
@@ -52,19 +55,22 @@ class ButtonSelectFile extends StatefulWidget {
 }
 
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
-  final TaoLichLamViecCubit _cubit = TaoLichLamViecCubit();
+  final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
   String errText = '';
+  List<String> filesRepo = [];
 
   @override
   void initState() {
     super.initState();
     widget.files ??= [];
+    filesRepo.clear();
+    (widget.files ?? []).map((e) => filesRepo.add(e.path)).toList();
   }
 
-  bool checkFileError(List<String?> files) {
+  bool isFileError(List<String?> files) {
     for (final i in files) {
       if (i != null || (i ?? '').isNotEmpty) {
-        if (i!.isExensionOfFile) {
+        if (!i!.isExensionOfFile) {
           return true;
         }
       }
@@ -80,15 +86,15 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         GestureDetector(
           onTap: () async {
             final FilePickerResult? result =
-                await FilePicker.platform.pickFiles(
+            await FilePicker.platform.pickFiles(
               allowMultiple: true,
             );
 
             if (result != null) {
-              if (checkFileError(result.paths)) {
+              if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
                   final listSelect =
-                      result.paths.map((path) => File(path ?? '')).toList();
+                  result.paths.map((path) => File(path ?? '')).toList();
                   if (widget.maxSize != null) {
                     bool isOverSize = false;
                     errText = '';
@@ -186,6 +192,9 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                       return itemListFile(
                         file: e,
                         onTap: () {
+                          if (filesRepo.contains(e.path)) {
+                            widget.removeFileApi(filesRepo.indexOf(e.path));
+                          }
                           _cubit.deleteFile(e, widget.files ?? []);
                           if (widget.hasMultipleFile) {
                             widget.onChange(widget.files ?? []);

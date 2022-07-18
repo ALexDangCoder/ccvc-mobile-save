@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
@@ -13,10 +14,12 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
@@ -27,6 +30,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/them_y_kien_mode
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
@@ -38,6 +42,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_dang_theo_doi.dart';
@@ -172,8 +177,8 @@ mixin HopRepository {
     String canBoId,
     String donViId,
     int vaiTroThamGia,
-    String thoiGian_BatDau,
-    String thoiGian_KetThuc,
+    String thoiGianBatDau,
+    String thoiGianKetThuc,
     String noiDung,
     String tieuDe,
     String hoTen,
@@ -245,7 +250,10 @@ mixin HopRepository {
 
   Future<Result<MessageModel>> deleteKetLuanHop(String id);
 
-  Future<Result<MessageModel>> deleteChiTietLichHop(String id);
+  Future<Result<bool>> deleteChiTietLichHop(
+    String id,
+    bool isMulti,
+  );
 
   Future<Result<MessageModel>> huyChiTietLichHop(
     String scheduleId,
@@ -303,7 +311,7 @@ mixin HopRepository {
     int type,
   );
 
-  Future<Result<ResponseModel>> postDiemDanh(
+  Future<Result<bool>> postDiemDanh(
     List<String> data,
   );
 
@@ -312,7 +320,7 @@ mixin HopRepository {
     List<ThuHoiHopRequest> thuHoiHopRequest,
   );
 
-  Future<Result<ResponseModel>> postHuyDiemDanh(
+  Future<Result<bool>> postHuyDiemDanh(
     String data,
   );
 
@@ -327,33 +335,33 @@ mixin HopRepository {
     bool isTTDH,
   );
 
-  Future<Result<ResponseModel>> huyOrDuyetPhongHop(
+  Future<Result<bool>> huyOrDuyetPhongHop(
     String hopId,
     bool isDuyet,
     String lyDo,
   );
 
-  Future<Result<ResponseModel>> thayDoiPhongHop(
-    bool bit_TTDH,
+  Future<Result<bool>> thayDoiPhongHop(
+    bool bitTTDH,
     String lichHopId,
     String phongHopId,
     String tenPhong,
   );
 
-  Future<Result<ResponseModel>> duyetOrHuyDuyetThietBi(
+  Future<Result<bool>> duyetOrHuyDuyetThietBi(
     bool isDuyet,
     String lichHopId,
     String lyDo,
     String thietBiId,
   );
 
-  Future<Result<ResponseModel>> duyetOrHuyDuyetKyThuat(
+  Future<Result<bool>> duyetOrHuyDuyetKyThuat(
     String hopId,
     bool isDuyet,
     String lyDo,
   );
 
-  Future<Result<ResponseModel>> chonPhongHopMetting(
+  Future<Result<bool>> chonPhongHopMetting(
     TaoLichHopRequest taoLichHopRequest,
   );
 
@@ -390,5 +398,58 @@ mixin HopRepository {
   Future<Result<bool>> xacNhanThamGiaHop(
     String lichHopId,
     bool isThamGia,
+  );
+
+  Future<Result<bool>> xacNhanHoacHuyKetLuanHop(
+    String lichHopId,
+    bool isDuyet,
+    String noiDung,
+  );
+
+  Future<Result<bool>> createKetLuanHop(
+    String scheduleId,
+    String reportStatusId,
+    String reportTemplateId,
+    String content,
+    List<File> files,
+  );
+
+  Future<Result<bool>> guiDuyetKetLuanHop(
+    String meetId,
+  );
+
+  Future<Result<bool>> thuHoiKetLuanHop(
+    String meetId,
+  );
+
+  Future<Result<bool>> deleteFileHop(
+    String id,
+  );
+
+  Future<Result<ListStatusModel>> listStatusRoom();
+
+  Future<Result<bool>> capNhatTrangThai(
+    CapNhatTrangThaiRequest capNhatTrangThaiRequest,
+  );
+
+  Future<Result<bool>> themMoiVote(
+    ThemMoiVoteRequest themMoiVoteRequest,
+  );
+
+  Future<Result<DanhSachLichHopModel>> getLichCanKLCH(
+    DanhSachLichHopRequest request,
+  );
+
+  Future<Result<bool>> xoaBieuQuyet(
+    String bieuQuyetId,
+    String canboId,
+  );
+
+  Future<Result<ChiTietBieuQuyetModel>> chiTietBieuQuyet(
+    String id,
+  );
+
+  Future<Result<bool>> suaBieuQuyet(
+    SuaBieuQuyetRequest suaBieuQuyetRequest,
   );
 }

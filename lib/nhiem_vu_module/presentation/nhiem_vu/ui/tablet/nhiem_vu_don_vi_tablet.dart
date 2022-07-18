@@ -25,6 +25,7 @@ import 'package:flutter/rendering.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NhiemVuDonViTablet extends StatefulWidget {
+  final String maTrangThai;
   final DanhSachCubit danhSachCubit;
   final NhiemVuCubit cubit;
   final bool isCheck;
@@ -34,6 +35,7 @@ class NhiemVuDonViTablet extends StatefulWidget {
     required this.danhSachCubit,
     required this.cubit,
     required this.isCheck,
+    this.maTrangThai='',
   }) : super(key: key);
 
   @override
@@ -47,9 +49,14 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.danhSachCubit.callApiDonVi(false);
-    widget.danhSachCubit.mangTrangThai = '';
+    widget.danhSachCubit.mangTrangThai = widget.maTrangThai;
     widget.danhSachCubit.keySearch = '';
+    if(widget.maTrangThai.isNotEmpty){
+      widget.danhSachCubit.callApiDonVi(false,canCallApi: false);
+    }
+    else{
+      widget.danhSachCubit.callApiDonVi(false);
+    }
   }
 
   @override
@@ -123,7 +130,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                 ],
               ),
               child: ExpandOnlyWidget(
-                isPadingIcon: true,
+                isPaddingIcon: true,
                 initExpand: true,
                 header: Container(
                   color: Colors.transparent,

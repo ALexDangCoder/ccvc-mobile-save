@@ -1,52 +1,57 @@
-import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
-import 'package:ccvc_mobile/bao_cao_module/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_report_share_favorite.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-class ReportDetail extends StatefulWidget {
+class ReportDetailMobile extends StatefulWidget {
   final String title;
   final ReportListCubit cubit;
-  final String idFolder;
+  final ReportItem reportModel;
   final bool isListView;
 
-  const ReportDetail({
+  const ReportDetailMobile({
     Key? key,
     required this.title,
     required this.cubit,
-    required this.idFolder,
+    required this.reportModel,
     required this.isListView,
   }) : super(key: key);
 
   @override
-  State<ReportDetail> createState() => _ReportDetailState();
+  State<ReportDetailMobile> createState() => _ReportDetailMobileState();
 }
 
-class _ReportDetailState extends State<ReportDetail> {
+class _ReportDetailMobileState extends State<ReportDetailMobile> {
   List<ReportItem> listReportDetail = [];
-  bool isCheckInit = true;
   bool isCheckData = false;
   bool isInit = false;
 
-  @override
-  void initState() {
-    widget.cubit.getListReport(
-      idFolder: widget.idFolder,
+  Future<void> getApi() async {
+    await widget.cubit.getListReport(
+      idFolder: widget.reportModel.id ?? '',
       isTree: true,
     );
+  }
+
+  @override
+  void initState() {
+    getApi();
     super.initState();
     isInit = true;
-    if (isCheckInit) {
-      widget.cubit.isCheckData.listen((value) {
-        if (value) {
-          isCheckData = true;
-        }
-      });
-    }
+    widget.cubit.isCheckDataDetailScreen.listen((value) {
+      if (value) {
+        isCheckData = true;
+      }
+    });
+    widget.cubit.listReportTreeUpdate.listen((value) {
+      listReportDetail = value ?? [];
+      widget.cubit.listReportTree.add(value);
+    });
   }
 
   @override
@@ -57,24 +62,11 @@ class _ReportDetailState extends State<ReportDetail> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 16,
-              left: 16,
-            ),
-            child: Container(
-              height: 1,
-              width: double.infinity,
-              color: borderColor.withOpacity(0.5),
-            ),
-          ),
+          reportLine(left: 16),
           Expanded(
             child: StateStreamLayout(
               retry: () {
-                widget.cubit.getListReport(
-                  idFolder: widget.idFolder,
-                  isTree: true,
-                );
+                getApi();
               },
               error: AppException(
                 S.current.error,
@@ -86,10 +78,8 @@ class _ReportDetailState extends State<ReportDetail> {
                 onRefresh: () async {
                   isCheckData = true;
                   isInit = true;
-                  await widget.cubit.getListReport(
-                    idFolder: widget.idFolder,
-                    isTree: true,
-                  );
+                  await getApi();
+                  listReportDetail = widget.cubit.listReportTree.value ?? [];
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
@@ -97,19 +87,18 @@ class _ReportDetailState extends State<ReportDetail> {
                     stream: widget.cubit.listReportTree,
                     builder: (context, snapshot) {
                       if (isCheckData && isInit) {
-                        listReportDetail.addAll(snapshot.data ?? []);
-                        isCheckInit = false;
+                        listReportDetail = snapshot.data ?? [];
                         isCheckData = false;
                         isInit = false;
                       }
                       return snapshot.data == null
                           ? const SizedBox.shrink()
-                          : ReportList(
+                          : ReportListMobile(
                               isListView: widget.cubit.isListView.value,
                               listReport: listReportDetail,
                               cubit: widget.cubit,
                               isTree: true,
-                              idFolder: widget.idFolder,
+                              idFolder: widget.reportModel.id ?? '',
                             );
                     },
                   ),

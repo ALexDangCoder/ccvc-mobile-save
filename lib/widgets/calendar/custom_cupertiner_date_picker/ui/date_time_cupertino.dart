@@ -33,11 +33,11 @@ class CupertinoTimePickerCustom extends StatefulWidget {
   final DateTime? initDateStart;
   final DateTime? initDateEnd;
   final Function(
-    String timeStart,
-    String timeEnd,
-    String dateStart,
-    String dateEnd,
-  ) onDateTimeChanged;
+      String timeStart,
+      String timeEnd,
+      String dateStart,
+      String dateEnd,
+      ) onDateTimeChanged;
 
   @override
   _CupertinoTimePickerCustomState createState() =>
@@ -92,7 +92,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
               child: Container(
                 padding: EdgeInsets.symmetric(
                   vertical:
-                      widget.isAddMargin ? 16.0.textScale() : 14.0.textScale(),
+                  widget.isAddMargin ? 16.0.textScale() : 14.0.textScale(),
                 ),
                 decoration: const BoxDecoration(
                   border: Border(
@@ -217,38 +217,38 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   duration: Duration(milliseconds: cubit.duration),
                   child: isShowPicker
                       ? CupertinoDatePicker(
-                          maximumDate: DateTime(2099, 12, 30),
-                          minimumDate: DateTime(1900),
-                          maximumYear: 2099,
-                          minimumYear: 1900,
-                          backgroundColor: backgroundColorApp,
-                          mode: cubit.getTypePicker(typePicker),
-                          use24hFormat: true,
-                          initialDateTime: '${cubit.dateBeginSubject.value} '
-                                  '${cubit.timeBeginSubject.value}'
-                              .convertStringToDate(
-                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                          ),
-                          onDateTimeChanged: (value) {
-                            debouncer.run(
-                              () {
-                                cubit.onTimeChanged(
-                                  timeSelected: value,
-                                  typePicker: typePicker,
-                                );
-                                widget.onDateTimeChanged(
-                                  cubit.timeBeginSubject.value,
-                                  cubit.timeEndSubject.value,
-                                  cubit.dateBeginSubject.value,
-                                  cubit.dateEndSubject.value,
-                                );
-                              },
-                            );
-                          },
-                        )
+                    maximumDate: MAXIMUM_DATE,
+                    minimumDate:MINIMUM_DATE,
+                    maximumYear: MAXIMUM_YEAR,
+                    minimumYear: MINIMUM_YEAR,
+                    backgroundColor: backgroundColorApp,
+                    mode: cubit.getTypePicker(typePicker),
+                    use24hFormat: true,
+                    initialDateTime: '${cubit.dateBeginSubject.value} '
+                        '${cubit.timeBeginSubject.value}'
+                        .convertStringToDate(
+                      formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                    ),
+                    onDateTimeChanged: (value) {
+                      debouncer.run(
+                            () {
+                          cubit.onTimeChanged(
+                            timeSelected: value,
+                            typePicker: typePicker,
+                          );
+                          widget.onDateTimeChanged(
+                            cubit.timeBeginSubject.value,
+                            cubit.timeEndSubject.value,
+                            cubit.dateBeginSubject.value,
+                            cubit.dateEndSubject.value,
+                          );
+                        },
+                      );
+                    },
+                  )
                       : const SizedBox(
-                          height: 1,
-                        ),
+                    height: 1,
+                  ),
                 );
               },
             );
@@ -333,43 +333,43 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   duration: Duration(milliseconds: cubit.duration),
                   child: isShowPicker
                       ? CupertinoDatePicker(
-                          key: UniqueKey(),
-                          maximumDate: DateTime(2099, 12, 30),
-                          minimumDate: '${cubit.dateBeginSubject.value} '
-                                  '${cubit.timeBeginSubject.value}'
-                              .convertStringToDate(
-                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                          ),
-                          maximumYear: 2099,
-                          minimumYear: cubit.getYearNumber(),
-                          backgroundColor: backgroundColorApp,
-                          mode: cubit.getTypePicker(typePicker),
-                          use24hFormat: true,
-                          initialDateTime: '${cubit.dateEndSubject.value} '
-                                  '${cubit.timeEndSubject.value}'
-                              .convertStringToDate(
-                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                          ),
-                          onDateTimeChanged: (value) {
-                            debouncer.run(
-                              () {
-                                cubit.onTimeChanged(
-                                  timeSelected: value,
-                                  typePicker: typePicker,
-                                );
-                                widget.onDateTimeChanged(
-                                  cubit.timeBeginSubject.value,
-                                  cubit.timeEndSubject.value,
-                                  cubit.dateBeginSubject.value,
-                                  cubit.dateEndSubject.value,
-                                );
-                              },
-                            );
-                          },
-                        )
+                    key: UniqueKey(),
+                    maximumDate: MAXIMUM_DATE,
+                    minimumDate: '${cubit.dateBeginSubject.value} '
+                        '${cubit.timeBeginSubject.value}'
+                        .convertStringToDate(
+                      formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                    ),
+                    maximumYear: MAXIMUM_YEAR,
+                    minimumYear: cubit.getYearNumber(),
+                    backgroundColor: backgroundColorApp,
+                    mode: cubit.getTypePicker(typePicker),
+                    use24hFormat: true,
+                    initialDateTime: '${cubit.dateEndSubject.value} '
+                        '${cubit.timeEndSubject.value}'
+                        .convertStringToDate(
+                      formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                    ),
+                    onDateTimeChanged: (value) {
+                      debouncer.run(
+                            () {
+                          cubit.onTimeChanged(
+                            timeSelected: value,
+                            typePicker: typePicker,
+                          );
+                          widget.onDateTimeChanged(
+                            cubit.timeBeginSubject.value,
+                            cubit.timeEndSubject.value,
+                            cubit.dateBeginSubject.value,
+                            cubit.dateEndSubject.value,
+                          );
+                        },
+                      );
+                    },
+                  )
                       : const SizedBox(
-                          height: 1,
-                        ),
+                    height: 1,
+                  ),
                 );
               },
             );

@@ -1,3 +1,6 @@
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
 class DataLichLvModel {
   List<ListLichLVModel>? listLichLVModel = [];
   int? pageIndex = 0;
@@ -14,6 +17,59 @@ class DataLichLvModel {
     this.totalCount,
     this.totalPage,
   });
+
+  DataSourceFCalendar toDataFCalenderSource() {
+    final List<AppointmentWithDuplicate> appointments = [];
+    if ((listLichLVModel ?? []).isNotEmpty) {
+      for (final ListLichLVModel i in listLichLVModel ?? []) {
+        appointments.add(
+          AppointmentWithDuplicate(
+            notes: i.typeSchedule,
+            startTime: DateTime.parse(
+              i.dateTimeFrom ?? '',
+            ),
+            endTime: DateTime.parse(
+              i.dateTimeTo ?? '',
+            ),
+            subject: i.title ?? '',
+            id: i.id ?? '',
+            isDuplicate: i.isTrung,
+          ),
+        );
+      }
+      // getMatchDate(dataLichLvModels);
+    }
+    return DataSourceFCalendar(appointments);
+  }
+}
+
+class AppointmentWithDuplicate extends Appointment {
+  bool isDuplicate;
+
+  bool isMore;
+
+  int group = 0;
+
+  AppointmentWithDuplicate({
+    this.isDuplicate = false,
+    this.isMore = false,
+    String? notes,
+    required String id,
+    required DateTime startTime,
+    required DateTime endTime,
+    required String subject,
+  }) : super(
+          notes: notes,
+          startTime: startTime,
+          endTime: endTime,
+          subject: subject,
+          id: id,
+          isAllDay: getOnlyDate(startTime).millisecondsSinceEpoch !=
+              getOnlyDate(endTime).millisecondsSinceEpoch,
+        );
+
+  static DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
 }
 
 class ListLichLVModel {
@@ -80,7 +136,6 @@ class ListLichLVModel {
     // required this.createBys,
     // required this.canBoChuTri,
   });
-
 }
 
 class CreateBys {

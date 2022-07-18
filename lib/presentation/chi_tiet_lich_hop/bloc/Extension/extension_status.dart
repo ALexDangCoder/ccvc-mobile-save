@@ -34,16 +34,16 @@ Widget status(String text, Color background) {
 extension trangThai on TrangThai {
   Widget getWidget() {
     switch (this) {
-      case TrangThai.ChoDuyet:
+      case TrangThai.CHO_DUYET:
         return status(S.current.cho_duyet, processingColor);
 
-      case TrangThai.ChuaGuiDuyet:
-        return status(S.current.chua_gui_duyet, colorPrimary);
+      case TrangThai.NHAP:
+        return status(S.current.nhap, subTitle);
 
-      case TrangThai.HuyDuyet:
-        return status(S.current.huy_duyet, canceledColor);
+      case TrangThai.TU_CHOI:
+        return status(S.current.tu_choi, canceledColor);
 
-      case TrangThai.DaDuyet:
+      case TrangThai.DA_DUYET:
         return status(S.current.da_duyet, itemWidgetUsing);
     }
   }
@@ -52,14 +52,14 @@ extension trangThai on TrangThai {
 extension tinhTrang on TinhTrang {
   Widget getWidget() {
     switch (this) {
-      case TinhTrang.TrungBinh:
+      case TinhTrang.TRUNG_BINH:
         return status(S.current.trung_binh, itemWidgetNotUse);
 
-      case TinhTrang.Dat:
+      case TinhTrang.DAT:
         return status(S.current.dat, itemWidgetUsing);
 
-      case TinhTrang.ChuaDat:
-        return status(S.current.chua_dat, canceledColor);
+      case TinhTrang.KHONG_DAT:
+        return status(S.current.khong_dat, canceledColor);
     }
   }
 }

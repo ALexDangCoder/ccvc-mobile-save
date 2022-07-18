@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 
 class CellThanhPhanThamGia extends StatefulWidget {
   final CanBoModel infoModel;
@@ -79,7 +78,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
               ),
               widgetRow(
                 name: S.current.vai_tro,
-                child: textCell(widget.infoModel.vaiTro.toString()),
+                child: textCell(widget.infoModel.getNameVaiTro()),
               ),
               widgetRow(
                 name: S.current.noi_dung_cong_viec,
@@ -127,7 +126,6 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                           isSelected: isChecked,
                           id: widget.infoModel.id ?? '',
                         );
-                        // widget.cubit.checkAllSelect();
                         setState(() {});
                       },
                     ),
@@ -149,7 +147,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       children: [
                         widgetRow(
                           name: S.current.vai_tro,
-                          child: textCell(widget.infoModel.vaiTro.toString()),
+                          child: textCell(widget.infoModel.getNameVaiTro()),
                         ),
                         widgetRow(
                           name: S.current.noi_dung,

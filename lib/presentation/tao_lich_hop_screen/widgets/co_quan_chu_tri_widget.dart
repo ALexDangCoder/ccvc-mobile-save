@@ -1,7 +1,7 @@
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
@@ -9,11 +9,13 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_t
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:rxdart/rxdart.dart';
 
 class CoQuanChuTri extends StatefulWidget {
   const CoQuanChuTri({
@@ -29,7 +31,7 @@ class CoQuanChuTri extends StatefulWidget {
 class _CoQuanChuTriState extends State<CoQuanChuTri> {
   bool isTrongDonVi = false;
   bool isNgoaiDonVi = false;
-  int indexSelected = -1;
+  String initValue = '';
 
   @override
   void initState() {
@@ -37,8 +39,38 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
     if (widget.cubit.taoLichHopRequest.bitTrongDonVi != null) {
       isTrongDonVi = widget.cubit.taoLichHopRequest.bitTrongDonVi!;
       isNgoaiDonVi = !widget.cubit.taoLichHopRequest.bitTrongDonVi!;
+    }
+    widget.cubit.danhSachCB.listen((value) {
+      initValue = value
+          .firstWhere(
+            (e) =>
+                e.userId ==
+                (widget.cubit.taoLichHopRequest.chuTri?.canBoId?.isEmpty ?? true
+                    ? HiveLocal.getDataUser()?.userId ?? ''
+                    : widget.cubit.taoLichHopRequest.chuTri?.canBoId),
+            orElse: () => DonViModel(),
+          )
+          .title;
+    });
+  }
+
+  //Kiểm tra chủ trì có phải là tài khoản đang login
+  BehaviorSubject<bool> isCurrrenUser = BehaviorSubject.seeded(false);
+
+  void handleDropDownSelected({required DonViModel donVi, required int index}) {
+    widget.cubit.taoLichHopRequest.chuTri
+      ?..tenCanBo = donVi.tenCanBo
+      ..tenCoQuan = donVi.tenDonVi
+      ..canBoId = donVi.userId
+      ..donViId = donVi.donViId;
+    widget.cubit.chuTri = donVi;
+    widget.cubit.danhSachCB.sink.add(
+      widget.cubit.danhSachCB.value,
+    );
+    if (donVi.userId == HiveLocal.getDataUser()?.userId) {
+      isCurrrenUser.add(true);
     } else {
-      widget.cubit.taoLichHopRequest.bitTrongDonVi = false;
+      isCurrrenUser.add(false);
     }
   }
 
@@ -79,6 +111,16 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
               if (value && isNgoaiDonVi) {
                 isNgoaiDonVi = false;
               }
+              if (!value) {
+                widget.cubit.taoLichHopRequest.chuTri
+                  ?..tenCanBo = null
+                  ..tenCoQuan = null
+                  ..canBoId = null
+                  ..donViId = null;
+              }
+              if(!value && !isNgoaiDonVi){
+                widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
+              }
               setState(() {});
             },
           ),
@@ -95,125 +137,57 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 28.0, top: 12),
-                  child: Text(
-                    S.current.nguoi_chu_tri,
-                    style: textNormal(titleItemEdit, 16),
-                  ),
-                ),
-                spaceH20,
                 StreamBuilder<List<DonViModel>>(
                   stream: widget.cubit.danhSachCB,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? <DonViModel>[];
-                    if(indexSelected == -1) {
-                      indexSelected = widget.cubit.danhSachCB.value.indexWhere(
-                        (e) =>
-                            e.userId ==
-                            widget.cubit.taoLichHopRequest.chuTri?.canBoId,
-                      );
-                    }
                     return data.isEmpty
                         ? const NodataWidget()
-                        : Column(
-                            children: List.generate(
-                              data.length,
-                              (index) => Padding(
-                                padding: EdgeInsets.only(
-                                  left: 30,
-                                  top: index == 0 ? 0 : 8,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    widget.cubit
-                                        .checkLichTrung(
-                                      donViId: data[index].donViId,
-                                      canBoId: data[index].canBoId,
-                                    )
-                                        .then((value) {
-                                      if (value) {
-                                        showDiaLog(
-                                          context,
-                                          title: S.current.lich_trung,
-                                          textContent: S.current
-                                              .ban_co_muon_tiep_tuc_khong,
-                                          icon: ImageAssets.svgAssets(
-                                            ImageAssets.ic_trung_hop,
-                                          ),
-                                          btnRightTxt: S.current.dong_y,
-                                          btnLeftTxt: S.current.khong,
-                                          isCenterTitle: true,
-                                          funcBtnRight: () {
-                                            indexSelected = index;
-                                            widget
-                                                .cubit.taoLichHopRequest.chuTri
-                                              ?..tenCanBo = data[index].tenCanBo
-                                              ..tenCoQuan = data[index].tenDonVi
-                                              ..canBoId = data[index].userId
-                                              ..donViId = data[index].donViId;
-                                            widget.cubit.chuTri = data[index];
-                                            widget.cubit.danhSachCB.sink.add(
-                                              widget.cubit.danhSachCB.value,
-                                            );
-                                          },
-                                        );
-                                      } else {
-                                        indexSelected = index;
-                                        widget.cubit.taoLichHopRequest.chuTri
-                                          ?..tenCanBo = data[index].tenCanBo
-                                          ..tenCoQuan = data[index].tenDonVi
-                                          ..canBoId = data[index].userId
-                                          ..donViId = data[index].donViId;
-                                        widget.cubit.chuTri = data[index];
-                                        widget.cubit.danhSachCB.sink
-                                            .add(widget.cubit.danhSachCB.value);
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            data[index].title,
-                                            style: textNormal(color3D5586, 16),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                        if (indexSelected == index)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 4,
-                                            ),
-                                            child: SvgPicture.asset(
-                                              ImageAssets.icCheck,
-                                              color: AppTheme.getInstance()
-                                                  .colorField(),
-                                            ),
-                                          )
-                                        else
-                                          const SizedBox(),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                        : ExpandGroup(
+                            child: SelectOnlyExpand(
+                              urlIcon: '',
+                              title: S.current.nguoi_chu_tri,
+                              value: initValue,
+                              listSelect: data.map((e) => e.title).toList(),
+                              onChange: (index) {
+                                handleDropDownSelected(
+                                  donVi: data[index],
+                                  index: index,
+                                );
+                              },
                             ),
                           );
                   },
                 ),
-                ContainerToggleWidget(
-                  initData:
-                      widget.cubit.taoLichHopRequest.bitYeuCauDuyet ?? false,
-                  title: S.current.chu_tri_duyet,
-                  onChange: (value) {
-                    widget.cubit.taoLichHopRequest.bitYeuCauDuyet = value;
+                StreamBuilder<bool>(
+                  stream: isCurrrenUser,
+                  builder: (context, snapshot) {
+                    final isEnable = snapshot.data ?? false;
+                    return IgnorePointer(
+                      ignoring: isEnable,
+                      child: Stack(
+                        children: [
+                          ContainerToggleWidget(
+                            initData: !isEnable ?
+                                widget.cubit.taoLichHopRequest.bitYeuCauDuyet ??
+                                    false : false,
+                            title: S.current.chu_tri_duyet,
+                            onChange: (value) {
+                              widget.cubit.taoLichHopRequest.bitYeuCauDuyet =
+                                  value;
+                            },
+                          ),
+                          if (isEnable)
+                            Positioned.fill(
+                              child: Container(
+                                color: Colors.white.withOpacity(0.6),
+                              ),
+                            )
+                          else
+                            const SizedBox.shrink(),
+                        ],
+                      ),
+                    );
                   },
                 ),
               ],
@@ -229,6 +203,9 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
               if (value && isTrongDonVi) {
                 isTrongDonVi = false;
                 widget.cubit.taoLichHopRequest.bitYeuCauDuyet = false;
+              }
+              if(!value && !isNgoaiDonVi){
+                widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
               }
               widget.cubit.taoLichHopRequest.bitTrongDonVi = isTrongDonVi;
               setState(() {});
@@ -255,6 +232,12 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     onChange: (value) {
                       widget.cubit.taoLichHopRequest.chuTri?.tenCoQuan = value;
                     },
+                    validate: (value) {
+                      if (isNgoaiDonVi && value.isEmpty) {
+                        return '${S.current.ten_co_quan}'
+                            ' ${S.current.khong_duoc_de_trong.toLowerCase()}';
+                      }
+                    },
                   ),
                   spaceH12,
                   TextFieldStyle(
@@ -276,10 +259,11 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     maxSize: 30000000,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
-                    onChange: (list) {
-                      widget.cubit.listThuMoi = list;
+                    onChange: ( files,) {
+                      widget.cubit.listThuMoi = files;
                     },
                     hasMultipleFile: true,
+                    removeFileApi: (int index) {},
                   )
                 ],
               ),

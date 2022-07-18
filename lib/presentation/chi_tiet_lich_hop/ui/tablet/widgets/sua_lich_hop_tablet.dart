@@ -9,9 +9,9 @@ import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.da
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/tablet/widgets/button_save_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/co_quan_chu_tri_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_hop.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -21,9 +21,11 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/row_column_tablet.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -44,7 +46,7 @@ class SuaLichHopTabletScreen extends StatefulWidget {
 
 class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
   final TaoLichHopCubit _cubitTaoLichHop = TaoLichHopCubit();
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormGroupState>();
   final _timerPickerKey = GlobalKey<CupertinoMaterialPickerState>();
 
   @override
@@ -86,7 +88,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                 widgetLeft: SingleChildScrollView(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  child: Form(
+                  child: FormGroup(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +106,8 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                 },
                                 validate: (value) {
                                   return value.isEmpty
-                                      ? S.current.khong_duoc_de_trong
+                                      ?'${S.current.vui_long_nhap} '
+                                      '${S.current.tieu_de.toLowerCase()}'
                                       : null;
                                 },
                                 maxLength: 200,
@@ -199,9 +202,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                 validateTime: (String value) {},
                               ),
                               spaceH5,
-                              NhacLichWidget(
-                                isSelectedBtn:
-                                    widget.chiTietHop.isCongKhai ?? false,
+                              SelectOnlyExpand(
                                 urlIcon: ImageAssets.icNhacLai,
                                 title: S.current.nhac_lai,
                                 value: widget.chiTietHop.nhacLai(),
@@ -210,7 +211,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                     .toList(),
                                 onChange: (index) {
                                   _cubitTaoLichHop
-                                      .taoLichHopRequest.typeReminder =
+                                          .taoLichHopRequest.typeReminder =
                                       danhSachSuaThoiGianNhacLich[index].id;
                                   if (index == 0) {
                                     _cubitTaoLichHop
@@ -220,7 +221,11 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                         .taoLichHopRequest.isNhacLich = true;
                                   }
                                 },
-                                onTogglePressed: (value) {
+                              ),
+                              ContainerToggleWidget(
+                                title: S.current.cong_khai_lich,
+                                initData: widget.chiTietHop.isCongKhai ?? false,
+                                onChange: (value) {
                                   _cubitTaoLichHop.taoLichHopRequest.congKhai =
                                       value;
                                 },
@@ -357,6 +362,8 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                       initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
                       initThietBi:
                           _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
+                      needShowSelectedRoom: true,
+                      idHop: _cubitTaoLichHop.taoLichHopRequest.id,
                     ),
                   ],
                 ),
@@ -370,23 +377,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                     leftTxt: S.current.dong,
                     rightTxt: S.current.luu,
                     funcBtnOk: () {
-                      if ((_formKey.currentState?.validate() ?? false) &&
-                          (_timerPickerKey.currentState?.validator() ??
-                              false)) {
-                        _cubitTaoLichHop.editMeeting().then((value) {
-                          if (value) {
-                            MessageConfig.show(
-                              title: S.current.sua_thanh_cong,
-                            );
-                            Navigator.pop(context, true);
-                          } else {
-                            MessageConfig.show(
-                              messState: MessState.error,
-                              title: S.current.sua_that_bai,
-                            );
-                          }
-                        });
-                      }
+                      handleButtonEditPressed();
                     },
                   ),
                 ),
@@ -396,5 +387,67 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
         ),
       ),
     );
+  }
+
+  void handleButtonEditPressed() {
+    final bool validateTime =
+        _timerPickerKey.currentState?.validator() ?? false;
+    final bool validateTextField = _formKey.currentState?.validator() ?? false;
+
+    if (validateTime && validateTextField) {
+      if(_cubitTaoLichHop.taoLichHopRequest.bitTrongDonVi == null){
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.vui_long_chon_chu_tri,
+        );
+        return;
+      }
+      if (!_cubitTaoLichHop.checkThoiGianPhienHop()) {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.validate_thoi_gian_phien_hop,
+        );
+        return;
+      }
+      _cubitTaoLichHop.checkLichTrung(
+        donViId: _cubitTaoLichHop.taoLichHopRequest.chuTri?.donViId ?? '',
+        canBoId: _cubitTaoLichHop.taoLichHopRequest.chuTri?.canBoId ?? '',
+      ).then((value) {
+        if (value) {
+          showDiaLog(
+            context,
+            title: S.current.lich_trung,
+            textContent: S.current.ban_co_muon_tiep_tuc_khong,
+            icon: ImageAssets.svgAssets(
+              ImageAssets.ic_trung_hop,
+            ),
+            btnRightTxt: S.current.dong_y,
+            btnLeftTxt: S.current.khong,
+            isCenterTitle: true,
+            funcBtnRight: () {
+              createMeeting();
+            },
+          );
+        } else {
+          createMeeting();
+        }
+      });
+    }
+  }
+
+  void createMeeting() {
+    _cubitTaoLichHop.editMeeting().then((value) {
+      if (value) {
+        MessageConfig.show(
+          title: S.current.sua_thanh_cong,
+        );
+        Navigator.pop(context,true);
+      } else {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.sua_that_bai,
+        );
+      }
+    });
   }
 }

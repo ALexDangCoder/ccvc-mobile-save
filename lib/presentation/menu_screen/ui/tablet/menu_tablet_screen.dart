@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -26,10 +28,12 @@ import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info/package_info.dart';
 
 import 'icon_tablet_menu.dart';
 
@@ -44,13 +48,18 @@ class MenuTabletScreen extends StatefulWidget {
 
 class _MenuTabletScreenState extends State<MenuTabletScreen> {
   late MenuCubit menuCubit;
-
+  String version = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     menuCubit = widget.menuCubit;
     menuCubit.getUser();
+    PackageInfo.fromPlatform().then((packageInfo) {
+      setState(() {
+        version = 'v${packageInfo.version}#${packageInfo.buildNumber}';
+      });
+    });
   }
 
   @override
@@ -154,14 +163,26 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                         List.generate(data.length, (index) {
                                       final type = data[index];
                                       return containerType(type, () {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .push(
-                                          PageRouteBuilder(
-                                            pageBuilder: (_, __, ___) =>
-                                                type.getScreen(),
-                                          ),
-                                        );
+                                        if(Platform.isIOS){
+                                          Navigator.of(context,
+                                              rootNavigator: true)
+                                              .push(
+                                            CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  type.getScreen(),
+                                            ),
+                                          );
+                                        }else {
+                                          Navigator.of(context,
+                                              rootNavigator: true)
+                                              .push(
+                                            PageRouteBuilder(
+                                              pageBuilder: (_, __, ___) =>
+                                                  type.getScreen(),
+                                            ),
+                                          );
+                                        }
+
                                       });
                                     }),
                                   );
@@ -214,13 +235,23 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                           if (type == MenuType.chuyenPhamVi) {
                                             showChuyenPhamVi();
                                           } else {
-                                            Navigator.push(
-                                              context,
-                                              PageRouteBuilder(
-                                                pageBuilder: (_, __, ___) =>
-                                                    type.getScreen(),
-                                              ),
-                                            );
+                                            if(Platform.isIOS){
+                                              Navigator.push(
+                                                context,
+                                                CupertinoPageRoute(
+                                                  builder: (context) =>
+                                                      type.getScreen(),
+                                                ),
+                                              );
+                                            }else {
+                                              Navigator.push(
+                                                context,
+                                                PageRouteBuilder(
+                                                  pageBuilder: (_, __, ___) =>
+                                                      type.getScreen(),
+                                                ),
+                                              );
+                                            }
                                           }
                                         },
                                         child: MenuCellWidget(
@@ -253,7 +284,6 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                           .appState
                                           .setToken('');
                                       HiveLocal.clearData();
-                                      Navigator.pop(context);
                                     },
                                     showTablet: true,
                                     icon: Image.asset(ImageAssets.icDangXuat),
@@ -266,7 +296,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                 },
                               )),
                         ),
-                      )
+                      ),
+                      Text('$version'),
                     ],
                   ),
                 ),

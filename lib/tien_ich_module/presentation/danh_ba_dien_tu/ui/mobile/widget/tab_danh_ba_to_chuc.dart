@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_to_chuc_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/tree_danh_ba.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/cell/cell_list_danh_ba_ca_nhan_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/cell/cell_list_danh_ba_to_chuc.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
@@ -22,7 +21,6 @@ class DanhBaToChuc extends StatefulWidget {
 class _DanhBaToChucState extends State<DanhBaToChuc> {
   DanhBaDienTuCubit cubit = DanhBaDienTuCubit();
   String keySearch = '';
-  Timer? _debounce;
 
   @override
   void initState() {
@@ -126,13 +124,16 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         onChange: (value) {
           keySearch = value;
           if (value.isNotEmpty) {
-            if (_debounce?.isActive ?? false) _debounce?.cancel();
-            _debounce = Timer(const Duration(milliseconds: 1000), () {
-              cubit.callApiDanhBaToChuc(
-                keyWork: value,
-                pageIndexApi: 1,
-              );
-            });
+            cubit.waitToDelay(
+              actionNeedDelay: () {
+                cubit.callApiDanhBaToChuc(
+                  keyWork: value,
+                  pageIndexApi: 1,
+                );
+              },
+              timeSecond: 1,
+            );
+            Timer? _debounce;
           }
         },
       );

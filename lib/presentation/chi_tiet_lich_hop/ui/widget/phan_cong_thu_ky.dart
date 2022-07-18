@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -14,7 +13,6 @@ import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dropdown/drop_down_button.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'cac_lua_chon_don_vi_widget.dart';
 
 class PhanCongThuKyWidget extends StatefulWidget {
   final String id;
@@ -60,10 +57,10 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
               child: DoubleButtonBottom(
                 title1: S.current.dong,
                 title2: S.current.xac_nhan,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   widget.cubit.postPhanCongThuKy(widget.id);
                   Navigator.pop(context);
                 },

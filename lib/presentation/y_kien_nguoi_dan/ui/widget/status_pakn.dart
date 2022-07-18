@@ -4,9 +4,13 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
-Widget statusWidget(List<ChartData> listData) {
+Widget statusWidget({
+  required List<ChartData> listData,
+  required Function(int index) callBack,
+}) {
   final data = listData.map((e) => e.value).toList();
   final total = data.reduce((a, b) => a + b);
+
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [
@@ -14,9 +18,12 @@ Widget statusWidget(List<ChartData> listData) {
         padding: const EdgeInsets.symmetric(horizontal: 14),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: listData
-              .map(
-                (e) => Row(
+          children: listData.map(
+            (e) {
+              final index = listData.indexOf(e);
+              return InkWell(
+                onTap: () => callBack(index),
+                child: Row(
                   children: [
                     Container(
                       height: 260,
@@ -42,9 +49,7 @@ Widget statusWidget(List<ChartData> listData) {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
+                                spaceH6,
                               ],
                             ),
                           ),
@@ -63,8 +68,9 @@ Widget statusWidget(List<ChartData> listData) {
                     ),
                   ],
                 ),
-              )
-              .toList(),
+              );
+            },
+          ).toList(),
         ),
       ),
       const SizedBox(
@@ -80,8 +86,8 @@ Widget statusWidget(List<ChartData> listData) {
         children: List.generate(listData.length, (index) {
           final result = listData[index];
           // ignore: avoid_unnecessary_containers
-          return GestureDetector(
-            onTap: () {},
+          return InkWell(
+            onTap: () => callBack(index),
             child: Row(
               children: [
                 Container(

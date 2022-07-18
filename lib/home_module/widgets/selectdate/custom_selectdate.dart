@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -7,12 +5,9 @@ import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_dat
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_date_picker.dart';
 import '/generated/l10n.dart';
 import '/home_module/config/resources/color.dart';
 import '/home_module/config/resources/styles.dart';
-import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/extensions/date_time_extension.dart';
 
 class CustomSelectDate extends StatefulWidget {
@@ -88,13 +83,13 @@ class _CustomDropDownState extends State<CustomSelectDate> {
                   child: DoubleButtonBottom(
                     title2: S.current.chon,
                     title1: S.current.dong,
-                    onPressed2: () {
+                    onClickRight: () {
                       setState(() {
                         widget.onSelectDate(dateSelect);
                       });
                       Navigator.pop(context);
                     },
-                    onPressed1: () {
+                    onClickLeft: () {
                       Navigator.pop(context);
                     },
                   ),

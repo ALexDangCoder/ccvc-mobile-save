@@ -75,8 +75,9 @@ Future<Map<String, dynamic>> pickImageFunc({
     VALID_FORMAT_OF_FILE: '',
     NAME_OF_FILE: '',
   };
-  final status = await Permission.photosAddOnly.status;
-  print('fuck status $status');
+  final permission =
+      Platform.isIOS ? Permission.photosAddOnly : Permission.storage;
+  final status = await permission.status;
   if (status.isGranted || status.isLimited) {
     try {
       final newImage = await ImagePicker().pickImage(source: source);

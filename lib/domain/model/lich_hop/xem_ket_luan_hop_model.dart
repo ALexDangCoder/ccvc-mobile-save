@@ -20,28 +20,30 @@ class XemKetLuanHopModel {
   String? reportTemplateId;
   String? noiDungHuy;
   String? title;
+  String? createAt;
 
   XemKetLuanHopModel.emty();
 
   XemKetLuanHopModel({
-    required this.id,
-    required this.scheduleId,
-    required this.reportStatusId,
-    required this.startDate,
-    required this.endDate,
-    required this.content,
-    required this.status,
-    required this.statusName,
-    required this.scheduleTitle,
-    required this.reportStatus,
-    required this.reportStatusCode,
-    required this.createBy,
-    required this.canBoChuTriId,
-    required this.nguoiTao,
-    required this.nguoiChuTri,
-    required this.files,
-    required this.reportTemplateId,
-    required this.noiDungHuy,
-    required this.title,
+    this.id,
+    this.scheduleId,
+    this.reportStatusId,
+    this.startDate,
+    this.endDate,
+    this.content,
+    this.status,
+    this.statusName,
+    this.scheduleTitle,
+    this.reportStatus,
+    this.reportStatusCode,
+    this.createBy,
+    this.canBoChuTriId,
+    this.nguoiTao,
+    this.nguoiChuTri,
+    this.files,
+    this.reportTemplateId,
+    this.noiDungHuy,
+    this.title,
+    this.createAt
   });
 }

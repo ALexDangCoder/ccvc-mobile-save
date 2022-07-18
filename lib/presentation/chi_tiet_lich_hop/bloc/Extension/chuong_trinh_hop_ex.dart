@@ -1,6 +1,12 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -18,18 +24,65 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> getDanhSachNguoiChuTriPhienHop(String id) async {
+
+
+  Future<void> getDanhSachCanBoHop(String id) async {
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);
     result.when(
       success: (res) {
-        listNguoiCHuTriModel.sink.add(res);
-        dataThuKyOrThuHoiDeFault = res;
+        final donViId =
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+        final idCuCanBo = res
+            .firstWhere(
+              (element) => element.donViId == donViId,
+              orElse: () => NguoiChutriModel(),
+            )
+            .id;
+        idDanhSachCanBo = idCuCanBo ?? '';
+
+        ///cu can bo di thay
+        final canBoId = HiveLocal.getDataUser()?.userId;
+        final idCanBo = res.firstWhere(
+          (element) => element.canBoId == canBoId,
+          orElse: () => NguoiChutriModel(),
+        );
+        final parentCanBo = DonViModel(
+          id: idCanBo.id ?? '',
+          name: idCanBo.hoTen ?? '',
+          tenCanBo: idCanBo.tenCanBo ?? '',
+          chucVu: idCanBo.chucVu ?? '',
+          canBoId: idCanBo.canBoId ?? '',
+          donViId: idCanBo.donViId ?? '',
+          tenCoQuan: idCanBo.tenCoQuan ?? '',
+        );
+        donViModel = parentCanBo;
+
+        /// lay con cua can bo
+        final canBoDiThay = res.where(
+          (element) => element.parentId == idCanBo.id,
+        );
+        final listCanBoMoi = canBoDiThay
+            .map(
+              (e) => DonViModel(
+                id: e.id ?? '',
+                name: e.hoTen ?? '',
+                tenCanBo: e.tenCanBo ?? '',
+                chucVu: e.chucVu ?? '',
+                canBoId: e.canBoId ?? '',
+                donViId: e.donViId ?? '',
+                tenCoQuan: e.tenCoQuan ?? '',
+              ),
+            )
+            .toList();
+        listDataCanBo = listCanBoMoi;
+        listDonViModel.sink.add(listDataCanBo);
+        idCanBoDiThay = idCanBo.id ?? '';
       },
       error: (error) {},
     );
   }
 
-  Future<void> ThemPhienHop(String id) async {
+  Future<void> themPhienHop(String id) async {
     final result = await hopRp.getThemPhienHop(
       id,
       taoPhienHopRepuest.canBoId ?? '',
@@ -82,29 +135,57 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
 
     result.when(
       success: (value) {
+        MessageConfig.show(
+          title: S.current.sua_thanh_cong,
+        );
         showContent();
       },
       error: (error) {
-        showError();
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.sua_that_bai,
+            messState: MessState.error,
+          );
+        }
       },
     );
   }
 
-  Future<void> xoaChuongTrinhHop({
+  Future<bool> xoaChuongTrinhHop({
     required String id,
   }) async {
     showLoading();
-
+    bool isCheck = true;
     final result = await hopRp.xoaChuongTrinhHop(id);
-
     result.when(
       success: (value) {
+        MessageConfig.show(
+          title: S.current.xoa_thanh_cong,
+        );
+        isCheck = true;
         showContent();
       },
       error: (error) {
-        showError();
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.xoa_that_bai,
+            messState: MessState.error,
+          );
+        }
+        isCheck = false;
       },
     );
+    return isCheck;
   }
 
   TimerData subStringTime(String time) {
@@ -158,6 +239,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
   }
 
   Future<void> callApiChuongTrinhHop() async {
+    await getDanhSachCanBoHop(idCuocHop);
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getListPhienHop(idCuocHop);
   }

@@ -1,7 +1,8 @@
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/bieu_quyet_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cell_bieu_quyet.dart';
@@ -27,8 +28,8 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
-        onchange: (vl) {
-          if (vl) {
+        onchange: (value) {
+          if (value) {
             widget.cubit.callAPiBieuQuyet();
           }
         },
@@ -36,29 +37,37 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: IconWithTiltleWidget(
-                icon: ImageAssets.icBieuQuyet,
-                title: S.current.them_bieu_quyet,
-                onPress: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.tao_bieu_quyet,
-                    child: TaoBieuQuyetWidget(
-                      id: widget.cubit.idCuocHop,
-                      cubit: widget.cubit,
-                    ),
-                  ).then((value) {
-                    if (value == true) {
-                      widget.cubit.initDataChiTiet();
-                    } else if (value == null) {
-                      return;
-                    }
-                  });
-                },
+            if (widget.cubit.isBtnMoiNguoiThamGia())
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: IconWithTiltleWidget(
+                  icon: ImageAssets.icBieuQuyet,
+                  title: S.current.them_bieu_quyet,
+                  onPress: () {
+                    showBottomSheetCustom(
+                      context,
+                      title: S.current.tao_bieu_quyet,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.8,
+                        ),
+                        child: TaoBieuQuyetWidget(
+                          id: widget.cubit.idCuocHop,
+                          cubit: widget.cubit,
+                        ),
+                      ),
+                    ).then((value) {
+                      if (value == null) {
+                        return;
+                      }
+                      if (value) {
+                        widget.cubit.callApi(widget.cubit.idCuocHop, '');
+                      }
+                    });
+                  },
+                ),
               ),
-            ),
+            const SizedBox(),
             StreamBuilder<List<DanhSachBietQuyetModel>>(
               stream: widget.cubit.streamBieuQuyet,
               builder: (context, snapshot) {
@@ -66,6 +75,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                 if (_list.isNotEmpty) {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
+                    reverse: true,
                     shrinkWrap: true,
                     itemCount: _list.length,
                     itemBuilder: (context, index) {

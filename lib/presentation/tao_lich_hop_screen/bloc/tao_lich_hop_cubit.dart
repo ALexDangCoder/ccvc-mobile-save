@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
@@ -71,7 +70,7 @@ List<DropDownModel> mucDoHop = [
 class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   TaoLichHopCubit() : super(MainStateInitial()) {
     showContent();
-    }
+  }
 
   HopRepository get hopRp => Get.find();
   final BehaviorSubject<List<LoaiSelectModel>> _loaiLich = BehaviorSubject();
@@ -102,7 +101,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   LoaiSelectModel? selectLoaiHop;
   LoaiSelectModel? selectLinhVuc;
-  NguoiChutriModel? selectNguoiChuTri;
   TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest(
     ngayBatDau: DateTime.now().dateTimeFormatter(
       pattern: DateTimeFormat.DOB_FORMAT,
@@ -138,14 +136,12 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   List<File> listTaiLieu = [];
   List<File> listTaiLieuPhienHop = [];
 
-  // Set<DonViModel> listThanhPhanThamGia = {};
   Set<DonViModel> listThanhPhanThamGia = {};
   BehaviorSubject<bool> isSendEmail = BehaviorSubject.seeded(false);
   DonViModel? chuTri;
 
   void validateData() {
     taoLichHopRequest.dsDiemCau = dsDiemCauSubject.value;
-
     /// check hình thức họp
     if (taoLichHopRequest.bitHopTrucTuyen != null) {
       if (taoLichHopRequest.bitHopTrucTuyen!) {
@@ -154,24 +150,18 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         //
       }
     }
-
-    taoLichHopRequest.bitTrongDonVi ??= false;
-
     /// check cơ quan chủ trì
     if (!(taoLichHopRequest.bitTrongDonVi ?? true)) {
       taoLichHopRequest.chuTri?.donViId = null;
       taoLichHopRequest.chuTri?.canBoId = null;
     }
-
-    if(taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true){
+    if (taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true) {
       taoLichHopRequest.phongHop = null;
     }
-
     /// check tùy chỉnh lịch lặp
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.last.id) {
       taoLichHopRequest.days = '';
     }
-
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.first.id) {
       if (taoLichHopRequest.dateRepeat?.isEmpty ?? true) {
         DateTime.now().dateTimeFormatter(
@@ -179,6 +169,39 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         );
       }
     }
+    /// Format date time:
+    taoLichHopRequest.timeStart = taoLichHopRequest.timeStart?.formatTime();
+    taoLichHopRequest.timeTo = taoLichHopRequest.timeTo?.formatTime();
+    if(taoLichHopRequest.bitYeuCauDuyet ?? false){
+      taoLichHopRequest.status = 1;
+    }else{
+      taoLichHopRequest.status = 2;
+    }
+  }
+
+  bool checkThoiGianPhienHop() {
+    final dateTimeStart = getTime().convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    final dateTimeEnd = getTime(isGetDateStart: false).convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+    bool isInvalid = true;
+    final listHop = listPhienHop.value;
+    for(int i = 0; i < listHop.length; i++){
+      final timeStart = listHop[i].thoiGian_BatDau.convertStringToDate(
+        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+      );
+      final timeEnd = listHop[i].thoiGian_KetThuc.convertStringToDate(
+        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+      );
+      if (timeStart.isBefore(dateTimeStart) || timeEnd.isAfter(dateTimeEnd)) {
+        isInvalid = false;
+        break;
+      }
+    }
+    return isInvalid;
   }
 
   Future<bool> createMeeting() async {
@@ -203,7 +226,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
           unawaited(
             queue.add(
-                  () => themThanhPhanThamGia(
+              () => themThanhPhanThamGia(
                 isSendEmail: isSendEmail.value,
                 idHop: res.id,
               ),
@@ -211,7 +234,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
           unawaited(
             queue.add(
-                  () => themPhienHop(
+              () => themPhienHop(
                 res.id,
               ),
             ),
@@ -304,6 +327,9 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     required String donViId,
     required String canBoId,
   }) async {
+    if(donViId.isEmpty){
+      return false;
+    }
     bool isTrung = false;
     showLoading();
     final rs = await hopRp.checkLichHopTrung(
@@ -455,6 +481,43 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
             '${taoLichHopRequest.timeStart}'
         : '${taoLichHopRequest.ngayKetThuc} '
             '${taoLichHopRequest.timeTo}';
+  }
+
+  /// chon phong hop api of tung
+  Future<bool> chonPhongHopMetting(
+    TaoLichHopRequest taoLichHopRequest,
+    ChonPhongHopModel value,
+  ) async {
+    bool isUpdateSuccess = false;
+
+    showLoading();
+    if (value.phongHop?.phongHopId?.isNotEmpty ?? false) {
+      taoLichHopRequest.phongHop = value.phongHop;
+    }
+    taoLichHopRequest.phongHop?.noiDungYeuCau = value.yeuCauKhac;
+    taoLichHopRequest.phongHopThietBi = value.listThietBi
+        .map(
+          (e) => PhongHopThietBi(
+            tenThietBi: e.tenThietBi,
+            soLuong: e.soLuong.toString(),
+          ),
+        )
+        .toList();
+
+    final result = await hopRp.chonPhongHopMetting(taoLichHopRequest);
+
+    result.when(
+      success: (res) {
+        isUpdateSuccess = true;
+      },
+      error: (error) {
+        isUpdateSuccess = true;
+      },
+    );
+
+    showContent();
+
+    return isUpdateSuccess;
   }
 
   void handleChonPhongHop(ChonPhongHopModel value) {

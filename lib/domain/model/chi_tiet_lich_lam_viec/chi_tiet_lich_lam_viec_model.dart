@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:flutter/material.dart';
 
 class ListPerSon {
@@ -79,7 +78,7 @@ class ChiTietLichLamViecModel {
   CreateBy? createBy;
   UpdateBy? updateBy;
   CreateBy? canBoChuTri;
-  List<DonViModel>? scheduleCoperatives;
+  List<ScheduleCoperatives>? scheduleCoperatives;
   List<Files>? files;
   ScheduleReminder? scheduleReminder;
   String? tinhId;
@@ -151,7 +150,7 @@ class ChiTietLichLamViecModel {
       case 2:
         return 'Lặp lại hàng ngày';
       case 3:
-        return 'Thứ 2 đến thứ 6 hàng tuần';
+        return 'Từ thứ 2 đến thứ 6 hàng tuần';
       case 4:
         return 'Lặp lại hàng tuần';
       case 5:
@@ -240,6 +239,12 @@ class CreateBy {
 
   String title() {
     return '$hoTen - $tenDonVi';
+  }
+  String nameUnitPosition() {
+    return '$hoTen - $tenDonVi - $chucVu';
+  }
+  String namePosition(){
+    return '$hoTen - $chucVu';
   }
 }
 

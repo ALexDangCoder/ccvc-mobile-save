@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/bao_cao_thong_ke_yknd_request/bao_cao_yknd_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/chi_tiet_kien_nghi_request.dart';
+import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/danh_sach_pakn_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/danh_sach_y_kien_pakn_request.dart';
 import 'package:ccvc_mobile/data/response/dashboard_pakn/dashboard_tinh_hinh_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_yknd_response.dart';
@@ -14,6 +15,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_k
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_thong_tin_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
@@ -21,6 +23,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_xy_ly_pakn_
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/y_kien_xu_ly_response.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_pakn_filter_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -55,8 +58,6 @@ abstract class YKienNguoiDanService {
     @Query('DenNgay') String DenNgay,
   );
 
-
-
   @GET(ApiConstants.DANH_SACH_Y_KIEN_NGUOI_DAN)
   Future<DanhSachYKienNguoiDanResponse> getDanhSachYKienNguoiDan(
     @Query('TuNgay') String tuNgay,
@@ -72,12 +73,11 @@ abstract class YKienNguoiDanService {
   Future<ChiTietKienNghiResponse> chiTietYKienNguoiDan(
     @Body() ChiTietKienNghiRequest chiTietKienNghiRequest,
   );
-  
-  
+
   @POST(ApiConstants.THONG_TIN_XU_LY_PAKN)
   Future<ThongTinXuLyTotalResponse> thongTinXuLyPAKN(
-      @Body() ChiTietKienNghiRequest chiTietKienNghi,
-      );
+    @Body() ChiTietKienNghiRequest chiTietKienNghi,
+  );
 
   @GET(ApiConstants.SEARCH_Y_KIEN_NGUOI_DAN)
   Future<SearchYKienNguoiDanResponse> searchDanhSachYKienNguoiDan(
@@ -167,5 +167,29 @@ abstract class YKienNguoiDanService {
   });
 
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
-  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(@Query('isDonVi') bool isDonVi);
+  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(
+    @Query('isDonVi') bool isDonVi,
+  );
+
+  @GET(ApiConstants.DASHBOARD_PAKN_TIEP_NHAN_XU_LY)
+  Future<DashBoardThongTinPaknTotalResponse>
+      getDashBoardTinhHinhPAKNTiepNhanXuLy(
+    @Query('DateTo') String dateTo,
+    @Query('DateFrom') String dateFrom,
+  );
+
+  @POST(ApiConstants.DANH_SACH_PAKN_FILTER)
+  Future<DanhSachPAKNFilterResponse> getDanhSachPAKNFilter(
+    @Body() DanhSachPAKNRequest request,
+  );
+
+  @POST(ApiConstants.GET_PAKN_TIEP_NHAN_VAN_BAN_DI)
+  Future<DataDanhSachPAKNFilterResponse> getDanhSachPAKNTiepNhanVanBanDi(
+    @Body() DanhSachPAKNVanBanDiRequest request,
+  );
+
+  @POST(ApiConstants.GET_PAKN_XU_LY_VAN_BAN)
+  Future<DataDanhSachPAKNFilterResponse> getDanhSachPAKNXuLyCacYKien(
+      @Body() DanhSachPAKNXuLyCacYKienRequest request,
+      );
 }

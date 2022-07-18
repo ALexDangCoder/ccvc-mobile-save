@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomRadioButtons extends StatefulWidget {
@@ -36,12 +37,12 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
           children: [
             Radio(
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              activeColor: textDefault,
+              activeColor: AppTheme.getInstance().colorSelect(),
               value: S.current.bo_khieu_kin,
               onChanged: (String? value) {
                 setState(() {});
                 groupValue = value ?? S.current.bo_khieu_kin;
-                widget.onchange(true);
+                widget.onchange(false);
               },
               groupValue: groupValue,
             ),
@@ -58,12 +59,12 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
           children: [
             Radio(
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              activeColor: textDefault,
+              activeColor: AppTheme.getInstance().colorSelect(),
               value: S.current.bo_phieu_cong_khai,
               onChanged: (String? value) {
                 setState(() {});
                 groupValue = value ?? S.current.bo_phieu_cong_khai;
-                widget.onchange(false);
+                widget.onchange(true);
               },
               groupValue: groupValue,
             ),
@@ -81,6 +82,6 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
   }
 
   Color getColor(Set<MaterialState> states) {
-    return textDefault;
+    return AppTheme.getInstance().colorSelect();
   }
 }

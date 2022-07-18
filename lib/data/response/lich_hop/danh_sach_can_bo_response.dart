@@ -56,25 +56,28 @@ class ListCanBo {
   bool? isThuKy;
   bool? isThamGiaBocBang;
   String? createAt;
+  String? parentId;
 
-  ListCanBo(
-      {this.tenChucVu,
-      this.diemDanh,
-      this.disable,
-      this.trangThai,
-      this.isVangMat,
-      this.id,
-      this.lichHopId,
-      this.donViId,
-      this.canBoId,
-      this.vaiTroThamGia,
-      this.soDienThoai,
-      this.dauMoiLienHe,
-      this.tenCanBo,
-      this.tenCoQuan,
-      this.isThuKy,
-      this.isThamGiaBocBang,
-      this.createAt});
+  ListCanBo({
+    this.tenChucVu,
+    this.diemDanh,
+    this.disable,
+    this.trangThai,
+    this.isVangMat,
+    this.id,
+    this.lichHopId,
+    this.donViId,
+    this.canBoId,
+    this.vaiTroThamGia,
+    this.soDienThoai,
+    this.dauMoiLienHe,
+    this.tenCanBo,
+    this.tenCoQuan,
+    this.isThuKy,
+    this.isThamGiaBocBang,
+    this.createAt,
+    this.parentId,
+  });
 
   ListCanBo.fromJson(Map<String, dynamic> json) {
     tenChucVu = json['tenChucVu'];
@@ -94,6 +97,7 @@ class ListCanBo {
     isThuKy = json['isThuKy'];
     isThamGiaBocBang = json['isThamGiaBocBang'];
     createAt = json['createAt'];
+    parentId = json['parentId'];
   }
 
   NguoiChutriModel toDomain() => NguoiChutriModel(
@@ -103,6 +107,11 @@ class ListCanBo {
         isThuKy: isThuKy,
         vaiTroThamGia: vaiTroThamGia,
         trangThai: trangThai,
+        donViId: donViId,
+        canBoId: canBoId,
+        parentId: parentId,
+        tenCanBo: tenCanBo,
+        tenCoQuan: tenCoQuan,
       );
 }
 
@@ -112,11 +121,12 @@ class CountStatus {
   int? daDiemDanh;
   int? chuaDiemDanh;
 
-  CountStatus(
-      {this.tongSoThamGia,
-      this.tongSoTuChoi,
-      this.daDiemDanh,
-      this.chuaDiemDanh});
+  CountStatus({
+    this.tongSoThamGia,
+    this.tongSoTuChoi,
+    this.daDiemDanh,
+    this.chuaDiemDanh,
+  });
 
   CountStatus.fromJson(Map<String, dynamic> json) {
     tongSoThamGia = json['tongSoThamGia'];

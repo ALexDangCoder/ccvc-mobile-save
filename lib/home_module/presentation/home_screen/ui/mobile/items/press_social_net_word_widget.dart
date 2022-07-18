@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tabbar_newspaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -67,6 +68,14 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      onTapTitle: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TabbarNewspaper(),
+          ),
+        );
+      },
       selectKeyDialog: _xaHoiCubit,
       dialogSelect: StreamBuilder(
           stream: _xaHoiCubit.selectKeyDialog,
@@ -108,19 +117,21 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
               listSelectKey: [
                 DialogData(
                     onSelect: (value, startDate, endDate) {
+                      _xaHoiCubit.editSelectDate(value);
                       _xaHoiCubit.selectDate(
                         selectKey: value,
-                        startDate: startDate,
+                        startDate: _xaHoiCubit.startDate,
                         endDate: endDate,
                       );
                     },
                     title: S.current.time,
                     startDate: _xaHoiCubit.startDate,
                     endDate: _xaHoiCubit.endDate,
-                    initValue: _xaHoiCubit.selectKeyTime)
+                    initValue: _xaHoiCubit.selectKeyTime,
+                )
               ],
             );
-          }),
+          },),
       padding: EdgeInsets.zero,
       child: LoadingOnly(
         stream: _xaHoiCubit.stateStream,

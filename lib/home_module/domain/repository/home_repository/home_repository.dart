@@ -24,7 +24,6 @@ import '/home_module/domain/model/home/sinh_nhat_model.dart';
 import '/home_module/domain/model/home/su_kien_model.dart';
 import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
-import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
 
 abstract class HomeRepository {
   Future<Result<PhamViModel>> getPhamVi();
@@ -110,6 +109,7 @@ abstract class HomeRepository {
 
   Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
       bool isDonVi);
+  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKNCaNhan();
 
   Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(
       bool isGetAll,int pageSize, int pageIndex,String keySearch,);

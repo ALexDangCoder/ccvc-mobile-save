@@ -41,8 +41,10 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   void initState() {
     super.initState();
     thamGiaCubit.getTree();
+    final DateTime now= DateTime.now();
+    final DateTime preveOneMounth=DateTime(now.year, now.month-1, now.day);
     baoCaoCubit.callApi(
-      DateTime.now().toStringWithListFormat,
+      preveOneMounth.toStringWithListFormat,
       DateTime.now().toStringWithListFormat,
     );
   }
@@ -122,112 +124,125 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
+        retry: () {
+          baoCaoCubit.callApi(
+            DateTime.now().toStringWithListFormat,
+            DateTime.now().toStringWithListFormat,
+          );
+        },
         error: AppException('1', S.current.something_went_wrong),
         stream: baoCaoCubit.stateStream,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      left: 16.0,
-                    ),
-                    height: 88,
-                    child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
-                      initialData: baoCaoCubit.listInitDataBaoCao,
-                      stream: baoCaoCubit.listBaoCaoYKND,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            return CustomItemCalenderWork(
-                              image: data[index].img ?? '',
-                              typeName: data[index].typeName ?? '',
-                              numberOfCalendars:
-                                  data[index].numberOfCalendars ?? 0,
-                            );
-                          },
-                        );
-                      },
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await baoCaoCubit.callApi(
+              DateTime.now().toStringWithListFormat,
+              DateTime.now().toStringWithListFormat,
+            );
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        left: 16.0,
+                      ),
+                      height: 88,
+                      child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
+                        initialData: baoCaoCubit.listInitDataBaoCao,
+                        stream: baoCaoCubit.listBaoCaoYKND,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              return CustomItemCalenderWork(
+                                image: data[index].img ?? '',
+                                typeName: data[index].typeName ?? '',
+                                numberOfCalendars:
+                                    data[index].numberOfCalendars ?? 0,
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 14,
-              ),
-              Container(
-                height: 6,
-                color: homeColor,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    StreamBuilder<List<ChartData>>(
-                      stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
-                      builder: (context, snapshot) {
-                        final listDataChart = snapshot.data ?? [];
-                        return PieChart(
-                          title: S.current.tinh_trang_thuc_hien_yknd,
-                          chartData: listDataChart,
-                          onTap: (int value) {},
-                        );
-                      },
-                    ),
-                    Container(height: 20),
-                    StreamBuilder<List<ChartData>>(
-                      stream: baoCaoCubit.statusChartData,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return StatusWidget(listData: data);
-                      },
-                    ),
-                  ],
+                const SizedBox(
+                  height: 14,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 6,
-                color: homeColor,
-              ),
-              textviewTitle(S.current.linh_vuc_xu_ly),
-              ChartLinhVucXuLyWidget(
-                cubit: baoCaoCubit,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 6,
-                color: homeColor,
-              ),
-              textviewTitle(S.current.don_vi_xu_ly),
-              ChartDonViXuLyWidget(
-                cubit: baoCaoCubit,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 6,
-                color: homeColor,
-              ),
-              textviewTitle(S.current.so_luong_yknd),
-              ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
-            ],
+                Container(
+                  height: 6,
+                  color: homeColor,
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      StreamBuilder<List<ChartData>>(
+                        stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
+                        builder: (context, snapshot) {
+                          final listDataChart = snapshot.data ?? [];
+                          return PieChart(
+                            title: S.current.tinh_trang_thuc_hien_yknd,
+                            chartData: listDataChart,
+                            onTap: (int value) {},
+                          );
+                        },
+                      ),
+                      Container(height: 20),
+                      StreamBuilder<List<ChartData>>(
+                        stream: baoCaoCubit.statusChartData,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return StatusWidget(listData: data);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 6,
+                  color: homeColor,
+                ),
+                textviewTitle(S.current.linh_vuc_xu_ly),
+                ChartLinhVucXuLyWidget(
+                  cubit: baoCaoCubit,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 6,
+                  color: homeColor,
+                ),
+                textviewTitle(S.current.don_vi_xu_ly),
+                ChartDonViXuLyWidget(
+                  cubit: baoCaoCubit,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 6,
+                  color: homeColor,
+                ),
+                textviewTitle(S.current.so_luong_yknd),
+                ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
+              ],
+            ),
           ),
         ),
       ),

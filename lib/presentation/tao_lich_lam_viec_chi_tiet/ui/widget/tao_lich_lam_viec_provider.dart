@@ -1,8 +1,8 @@
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:flutter/material.dart';
 
 class TaoLichLamViecProvider extends InheritedWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final CreateWorkCalCubit taoLichLamViecCubit;
 
   const TaoLichLamViecProvider({
     Key? key,

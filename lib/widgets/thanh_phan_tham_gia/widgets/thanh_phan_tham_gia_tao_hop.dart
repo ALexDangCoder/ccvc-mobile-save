@@ -18,6 +18,7 @@ class ItemPeopleThamGia extends StatefulWidget {
   final bool isSendEmail;
   final bool isKhachMoi;
   final Function()? onDelete;
+  final bool isHindCheckBox;
 
   const ItemPeopleThamGia({
     Key? key,
@@ -28,6 +29,7 @@ class ItemPeopleThamGia extends StatefulWidget {
     this.isSendEmail = false,
     this.isKhachMoi = false,
     this.onDelete,
+    this.isHindCheckBox = false,
   }) : super(key: key);
 
   @override
@@ -75,12 +77,6 @@ class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
                 height: 10.0.textScale(space: 10),
               ),
               if (!widget.isKhachMoi) ...[
-                rowInfo(value: widget.donVi.chucVu, key: S.current.chuc_vu),
-                SizedBox(
-                  height: 10.0.textScale(space: 10),
-                ),
-              ],
-              if (!widget.isKhachMoi) ...[
                 rowInfo(
                   value: widget.isChuTri
                       ? S.current.can_bo_chu_tri
@@ -123,10 +119,13 @@ class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
                   child: SvgPicture.asset(ImageAssets.icDeleteRed),
                 ),
                 spaceW12,
-                CusCheckBox(
-                  isChecked: isSendEmail,
-                  onChange: (value) {},
-                ),
+                if (widget.isHindCheckBox)
+                  Container()
+                else
+                  CusCheckBox(
+                    isChecked: isSendEmail,
+                    onChange: (value) {},
+                  )
               ],
             ),
           )

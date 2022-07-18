@@ -15,13 +15,16 @@ const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
 
-
 //bottom navigation color
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);
 const tabUnselected = Color(0xFFA9B8BD);
 //sideTextInactiveColor
 //custom color
+const color_464646 = Color(0xFF464646);
+const color_667793 = Color(0xFF667793);
+const colorFF9F43 = Color(0xFFFF9F43);
+const color28C76F = Color(0xFF28C76F);
 const signInRowColor = Color(0xFFA9B8BD);
 const signInTextColor = Color(0xff0ABAB5);
 const colorB9C4D0 = Color(0xFFB9C4D0);
@@ -89,7 +92,15 @@ const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const shadowColor = Color(0xff6262eb);
 const color5A8DEE = Color(0xff5A8DEE);
+const color9B8DFF= Color(0xff9B8DFF);
+const color6FCF97= Color(0xff6FCF97);
 const color02C5DD = Color(0xff02C5DD);
+const color979797 = Color(0xff979797);
+const color00BA8D = Color(0xff00BA8D);
+const color56CCF2 = Color(0xff56CCF2);
+const colorF2C94C = Color(0xffF2C94C);
+const colorCF6F6F = Color(0xffCF6F6F);
+const colorB6CF6F= Color(0xffB6CF6F);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -125,6 +136,7 @@ const color1CE2BF = Color(0xff1CE2BF);
 const chuaThucHienColor = Color(0xffF2994A);
 const color81B2DF = Color(0xff81B2DF);
 const colorF2994A = Color(0xffF2994A);
+const color5F63E8 = Color(0xff5F63E8);
 
 const bgTag = Color(0xffF2F0FF);
 
@@ -168,6 +180,7 @@ const iconColorDown = Color(0xffA2AEBD);
 const bgCalenderColor = Color(0xffF9FAFF);
 Color cellColorborder = Color(0xffDBDFEF).withOpacity(0.5);
 Color cellColor = Color(0xffDBDFEF).withOpacity(0.1);
+const colorFFFFFF = Color(0xffffffff);
 
 const dateColor = Color(0xFF667793);
 
@@ -203,6 +216,11 @@ const grayChart = Color(0xFF667793);
 const textTitleColumn = Color(0xff667793);
 const blueFilterDateWidget = Color(0xFFF1F4FF);
 const enableButton = Color(0xFFc0c0c0);
+const color7966FF = Color(0xFF7966FF);
+const colorF9FAFF = Color(0xFFF9FAFF);
+const colorEA5455 = Color(0xFFEA5455);
+const color20C997 = Color(0xFF20C997);
+const colorE2E8F0 = Color(0xFFE2E8F0);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
@@ -255,6 +273,8 @@ abstract class AppColor {
   Color unselectedLabelColor();
 
   Color sideTextInactiveColor();
+
+  Color borderColors();
 }
 
 class DefaultApp extends AppColor {
@@ -387,6 +407,11 @@ class DefaultApp extends AppColor {
   Color nhiemVuBoColor() {
     return color0A45B9;
   }
+
+  @override
+  Color borderColors() {
+    return borderColor;
+  }
 }
 
 class BlueApp extends AppColor {
@@ -490,7 +515,6 @@ class BlueApp extends AppColor {
     return AqiColor;
   }
 
-
   @override
   Color colorField() {
     return numberOfCalenders;
@@ -521,6 +545,10 @@ class BlueApp extends AppColor {
     return textBodyTime;
   }
 
+  @override
+  Color borderColors() {
+    return borderColor;
+  }
 }
 
 class PinkApp extends AppColor {
@@ -626,7 +654,6 @@ class PinkApp extends AppColor {
 
   @override
   Color colorField() {
-
     return pinkColor;
   }
 
@@ -650,10 +677,14 @@ class PinkApp extends AppColor {
     return colorB9C4D0;
   }
 
-
   @override
   Color textBodyTimeColor() {
     return textBodyTime;
+  }
+
+  @override
+  Color borderColors() {
+    return borderColor;
   }
 }
 
@@ -786,6 +817,11 @@ class YellowApp extends AppColor {
   @override
   Color textBodyTimeColor() {
     return textBodyTime;
+  }
+
+  @override
+  Color borderColors() {
+    return borderColor;
   }
 }
 

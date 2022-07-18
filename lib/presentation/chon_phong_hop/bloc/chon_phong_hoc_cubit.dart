@@ -31,6 +31,9 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   final BehaviorSubject<List<PhongHopModel>> phongHopSubject =
       BehaviorSubject();
 
+  final BehaviorSubject<ChonPhongHopModel> thongTinPhongHopSubject =
+      BehaviorSubject();
+
   HopRepository get hopRepository => Get.find();
 
   PhongHop phongHop = PhongHop();
@@ -70,10 +73,12 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   }
 
   void initListThietBi(List<PhongHopThietBi> value) {
-    final listParsed = value.map((e) => ThietBiValue(
-          soLuong: e.soLuong?.stringToInt() ?? 0,
-          tenThietBi: e.tenThietBi ?? '',
-        ),);
+    final listParsed = value.map(
+      (e) => ThietBiValue(
+        soLuong: e.soLuong?.stringToInt() ?? 0,
+        tenThietBi: e.tenThietBi ?? '',
+      ),
+    );
     listThietBi.addAll(listParsed);
     _listThietBi.sink.add(listThietBi);
   }

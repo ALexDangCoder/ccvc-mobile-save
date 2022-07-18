@@ -1,4 +1,8 @@
-class DanhSachLichHopModel {
+import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:equatable/equatable.dart';
+
+class DanhSachLichHopModel{
   List<ItemDanhSachLichHop>? items;
   int? pageIndex;
   int? pageSize;
@@ -14,9 +18,31 @@ class DanhSachLichHopModel {
     required this.totalCount,
     required this.totalPage,
   });
+
+  DataSourceFCalendar toDataFCalenderSource  () {
+    final List<AppointmentWithDuplicate> appointments = [];
+    if ((items ?? []).isNotEmpty) {
+      for (final ItemDanhSachLichHop i in items ?? []) {
+        appointments.add(
+          AppointmentWithDuplicate(
+            startTime: DateTime.parse(
+              i.dateTimeFrom ?? '',
+            ),
+            endTime: DateTime.parse(
+              i.dateTimeTo ?? '',
+            ),
+            subject: i.title ?? '',
+            id: i.id ?? '',
+          ),
+        );
+      }
+      // getMatchDate(dataLichLvModels);
+    }
+    return DataSourceFCalendar(appointments);
+  }
 }
 
-class ItemDanhSachLichHop {
+class ItemDanhSachLichHop extends Equatable{
   String? id;
   dynamic soNguoiThamDu;
   String? noiDung;
@@ -47,6 +73,7 @@ class ItemDanhSachLichHop {
   String? thoiGianKetThuc;
   CanBo? canBoChuTriInfo;
   CanBo? canBoDangKyInfo;
+  bool? isTrung;
 
   ItemDanhSachLichHop.empty();
 
@@ -81,7 +108,11 @@ class ItemDanhSachLichHop {
     required this.thoiGianKetThuc,
     required this.canBoChuTriInfo,
     required this.canBoDangKyInfo,
+    this.isTrung = false,
   });
+
+  @override
+  List<Object?> get props =>[id];
 }
 
 class CanBo {

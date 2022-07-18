@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -7,7 +6,9 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/people_tham_gia_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/thanh_phan_tham_gia_tao_hop.dart';
@@ -41,6 +42,8 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   final ThanhPhanThamGiaCubit _cubit = ThanhPhanThamGiaCubit();
+  final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
+  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
 
   @override
   void initState() {
@@ -74,8 +77,12 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 value.forEach((element) {
                   element.value.vaiTroThamGia = 1;
                   element.value.type = 2;
+                  if (element.value.donViId.isEmpty) {
+                    element.value.donViId = element.value.id;
+                  }
                 });
-                _cubit.addPeopleThamGia(
+
+                _cubit.addPeopleThamGiaDonVi(
                   value.map((e) => e.value).toList(),
                 );
               },
@@ -88,13 +95,15 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         ThemCanBoWidget(
           cubit: _cubit,
           onChange: (value) {
-            value.forEach((element) {
+            for (final element in value) {
               element.vaiTroThamGia = 2;
               element.type = 1;
-            });
+            }
             _cubit.addPeopleThamGia(value);
           },
           needCheckTrung: widget.isTaoHop,
+          themCanBoCubit: themCanBoCubit,
+          themDonViCubit: themDonViCubit,
         ),
         SizedBox(
           height: 20.0.textScale(space: -2),
@@ -135,7 +144,9 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               children: List.generate(
                 data.length,
                 (index) => Padding(
-                  padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 16.0.textScale(space: -2),
+                  ),
                   child: widget.isTaoHop
                       ? StreamBuilder<bool>(
                           stream: _cubit.phuongThucNhanStream,

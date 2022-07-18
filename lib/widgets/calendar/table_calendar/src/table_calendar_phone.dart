@@ -1,8 +1,4 @@
-// Copyright 2019 Aleksander Woźniak
-// SPDX-License-Identifier: Apache-2.0
-
 import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -203,11 +199,13 @@ class TableCalendarPhone<T> extends StatefulWidget {
 
   /// Creates a `TableCalendar` widget.
   final bool isCheckLuner;
-
+  final bool isDowTop;
+  final GlobalKey<TableCalendarBaseState>? globalKey;
   TableCalendarPhone({
     Key? key,
     this.isCheckLuner = false,
     required DateTime focusedDay,
+    this.globalKey,
     required DateTime firstDay,
     required DateTime lastDay,
     DateTime? currentDay,
@@ -226,7 +224,8 @@ class TableCalendarPhone<T> extends StatefulWidget {
     this.pageAnimationEnabled = true,
     this.sixWeekMonthsEnforced = false,
     this.shouldFillViewport = false,
-    this.rowHeight = 52.0,
+    this.isDowTop = true,
+    this.rowHeight = 70.0,
     this.daysOfWeekHeight = 25.0,
     this.formatAnimationDuration = const Duration(milliseconds: 200),
     this.formatAnimationCurve = Curves.linear,
@@ -477,6 +476,8 @@ class _TableCalendarPhoneState<T> extends State<TableCalendarPhone<T>> {
         Flexible(
           flex: widget.shouldFillViewport ? 1 : 0,
           child: TableCalendarBase(
+            isDowTop: widget.isDowTop,
+            key: widget.globalKey,
             onCalendarCreated: (pageController) {
               _pageController = pageController;
               widget.onCalendarCreated?.call(pageController);
@@ -513,8 +514,7 @@ class _TableCalendarPhoneState<T> extends State<TableCalendarPhone<T>> {
               if (dowCell == null) {
                 final weekdayString = widget.daysOfWeekStyle.dowTextFormatter
                         ?.call(day, widget.locale) ??
-                    DateFormat.E(widget.locale).format(day);
-
+                    formMatDay(day);
                 final isWeekend =
                     _isWeekend(day, weekendDays: widget.weekendDays);
 
@@ -740,5 +740,30 @@ class _TableCalendarPhoneState<T> extends State<TableCalendarPhone<T>> {
     List<int> weekendDays = const [DateTime.saturday, DateTime.sunday],
   }) {
     return weekendDays.contains(day.weekday);
+  }
+
+  String formMatDay(DateTime dateTime) {
+    final day = dateTime.weekday;
+    if (widget.locale == 'vi') {
+      return DateFormat('EEEE').format(dateTime);
+    } else {
+      switch (day) {
+        case 1:
+          return 'T2';
+        case 2:
+          return 'T3';
+        case 3:
+          return 'T4';
+        case 4:
+          return 'T5';
+        case 5:
+          return 'T6';
+        case 6:
+          return 'T7';
+        case 7:
+          return 'CN';
+      }
+      return '';
+    }
   }
 }

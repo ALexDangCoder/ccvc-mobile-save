@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
@@ -27,7 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
+
 class EditPersonInformationTabletScreen extends StatefulWidget {
   final String id;
 
@@ -42,6 +43,7 @@ class EditPersonInformationTabletScreen extends StatefulWidget {
 
 class _EditPersonalInformationTabletScreen
     extends State<EditPersonInformationTabletScreen> {
+  final ScrollController scrollController = ScrollController();
   ManagerPersonalInformationCubit cubit = ManagerPersonalInformationCubit();
   TextEditingController nameController = TextEditingController();
   TextEditingController maCanBoController = TextEditingController();
@@ -100,6 +102,7 @@ class _EditPersonalInformationTabletScreen
             } else {}
           },
           child: SingleChildScrollView(
+            controller: scrollController,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Container(
               decoration: BoxDecoration(
@@ -115,6 +118,7 @@ class _EditPersonalInformationTabletScreen
               ),
               padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
               child: FormGroup(
+                scrollController: scrollController,
                 key: keyGroup,
                 child: StreamBuilder<ManagerPersonalInformationModel>(
                   stream: cubit.managerStream,
@@ -661,7 +665,9 @@ class _EditPersonalInformationTabletScreen
                               )
                                   .then((value) {
                                 if (value) {
-                                  ProviderWidget.of<MenuCubit>(context).cubit.getUserRefresh();
+                                  ProviderWidget.of<MenuCubit>(context)
+                                      .cubit
+                                      .getUserRefresh();
                                   Navigator.pop(context, true);
                                 }
                               });

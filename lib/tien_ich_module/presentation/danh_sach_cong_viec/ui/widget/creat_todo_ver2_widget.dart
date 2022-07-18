@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/blo
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chon_nguoi_thuc_hien_screen.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/select_date_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/customTextFieldVersion2.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -42,17 +41,17 @@ class CreatTodoOrUpdateWidget extends StatefulWidget {
 class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController tieuDeController = TextEditingController();
   final TextEditingController noteControler = TextEditingController();
-  int sizeFile = 0;
   BehaviorSubject<bool> isShow = BehaviorSubject.seeded(false);
+  late String nameFileSelect;
 
   @override
   void initState() {
     // TODO: implement initState
     widget.cubit.titleChange = widget.todo?.label ?? '';
-    widget.cubit.filePath = widget.todo?.filePath ?? '';
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
+    nameFileSelect = '';
   }
 
   @override
@@ -74,31 +73,23 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
         child: DoubleButtonBottom(
           title1: S.current.dong,
           title2: S.current.luu,
-          onPressed1: () {
+          onClickLeft: () {
             Navigator.pop(context);
           },
-          onPressed2: () {
+          onClickRight: () {
             if ((widget.cubit.titleChange ?? '').isEmpty) {
               isShow.sink.add(true);
+              return;
+            }
 
-              return;
-            }
-            if (sizeFile > 31457280) {
-              final toast = FToast();
-              toast.init(context);
-              toast.showToast(
-                child: ShowToast(
-                  text: S.current.file_qua_30M,
-                ),
-                gravity: ToastGravity.BOTTOM,
-              );
-              return;
-            }
             if (widget.isCreate ?? true) {
-              widget.cubit.addTodo();
+              widget.cubit.addTodo(
+                fileName: nameFileSelect,
+              );
             } else {
               widget.cubit.editWork(
                 todo: widget.todo ?? TodoDSCVModel(),
+                filePathTodo: nameFileSelect,
               );
             }
 
@@ -249,15 +240,16 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
 
                 /// chọn file
                 ButtonSelectFile(
+                  isShowListFile: false,
                   title: S.current.them_tai_lieu_dinh_kem,
                   onChange: (files) {
-                    if (files[0].lengthSync() > 31457280 && files.isNotEmpty) {
-                      sizeFile = files[0].lengthSync();
+                    if (files.first.lengthSync() > widget.cubit.maxSizeFile) {
+                      showToast();
                     } else {
-                      widget.cubit.uploadFilesWithFile(files[0]);
-                      return;
+                      widget.cubit.uploadFilesWithFile(files.first).then(
+                            (value) => nameFileSelect = value,
+                          );
                     }
-                    widget.cubit.nameFile.sink.add('');
                   },
                 ),
 
@@ -266,16 +258,18 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   stream: widget.cubit.nameFile,
                   builder: (context, snapshot) {
                     final data = snapshot.data;
-                    if (snapshot.hasData &&
-                        (widget.todo?.showIconFile() ?? true) &&
-                        data != '') {
+                    if (snapshot.hasData && data != '') {
                       return FileFromAPIWidget(
                         data: data ?? '',
                         onTapDelete: () {
-                          widget.cubit.editWork(
-                            todo: widget.todo ?? TodoDSCVModel(),
-                            filePathTodo: '',
-                          );
+                          widget.cubit
+                              .editWork(
+                                isDeleteFile: true,
+                                todo: widget.todo ?? TodoDSCVModel(),
+                                filePathTodo: '',
+                              )
+                              .then((value) =>
+                                  widget.cubit.nameFile.sink.add(''));
                         },
                       );
                     }
@@ -301,6 +295,17 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
           ),
         ),
       ),
+    );
+  }
+
+  void showToast() {
+    final toast = FToast();
+    toast.init(context);
+    toast.showToast(
+      child: ShowToast(
+        text: S.current.file_qua_30M,
+      ),
+      gravity: ToastGravity.BOTTOM,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ccvc_mobile/domain/model/lich_hop/file_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -81,6 +82,8 @@ class XemKetLuanHopDataResponseData extends Equatable {
   String? noiDungHuy;
   @JsonKey(name: 'title')
   String? title;
+  @JsonKey(name: 'createAt')
+  String? createAt;
 
   XemKetLuanHopDataResponseData();
 
@@ -106,7 +109,7 @@ class XemKetLuanHopDataResponseData extends Equatable {
       reportStatusId: reportStatusId ?? '',
       startDate: startDate ?? '',
       endDate: endDate ?? '',
-      content: content!.parseHtml(),
+      content: content?.parseHtml() ?? '',
       status: status ?? 0,
       statusName: statusName ?? '',
       scheduleTitle: scheduleTitle ?? '',
@@ -120,6 +123,11 @@ class XemKetLuanHopDataResponseData extends Equatable {
       reportTemplateId: reportTemplateId ?? '',
       noiDungHuy: noiDungHuy ?? '',
       title: title ?? '',
+      createAt: createAt?.changeToNewPatternDate(
+        DateTimeFormat.DATE_TIME_RECEIVE,
+        DateTimeFormat.DATE_DD_MM_HM,
+      ) ??
+          '',
     );
   }
 }

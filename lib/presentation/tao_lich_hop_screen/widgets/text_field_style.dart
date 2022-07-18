@@ -1,7 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TextFieldStyle extends StatefulWidget {
@@ -13,6 +15,8 @@ class TextFieldStyle extends StatefulWidget {
   final TextEditingController? controller;
   final int? maxLength;
   final String? initValue;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? textInputType;
 
   const TextFieldStyle({
     Key? key,
@@ -24,6 +28,8 @@ class TextFieldStyle extends StatefulWidget {
     this.maxLength,
     this.validate,
     this.initValue,
+    this.inputFormatters,
+    this.textInputType,
   }) : super(key: key);
 
   @override
@@ -61,6 +67,8 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
             child: textField(
               validate: widget.validate,
               initValue: widget.initValue,
+              textInputType: widget.textInputType,
+              inputFormatters: widget.inputFormatters,
             ),
           ),
         ),
@@ -68,21 +76,26 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
     );
   }
 
-  Widget textField({Function(String)? validate, String? initValue}) {
-    return TextFormField(
+  Widget textField({
+    Function(String)? validate,
+    String? initValue,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? textInputType,
+  }) {
+    return TextFieldValidator(
       key: key,
       validator: (value) {
         return validate?.call((value ?? '').trim());
       },
       controller: widget.controller,
-      onChanged: (value) {
+      onChange: (value) {
         widget.onChange?.call(value.trim());
         key.currentState?.validate();
       },
       initialValue: initValue,
       maxLength: widget.maxLength,
-      maxLines: widget.maxLines,
-      style: textNormal(color3D5586, 16),
+      maxLine: widget.maxLines,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: textNormal(textBodyTime, 16),

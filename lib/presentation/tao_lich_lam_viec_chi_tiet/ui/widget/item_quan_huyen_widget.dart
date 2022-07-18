@@ -1,14 +1,17 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
 
 class ItemHuyenWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final CreateWorkCalCubit taoLichLamViecCubit;
+  final bool isEdit;
+  final String name;
 
-  ItemHuyenWidget({Key? key, required this.taoLichLamViecCubit})
+  ItemHuyenWidget(
+      {Key? key, required this.taoLichLamViecCubit, this.isEdit = false, this.name = ''})
       : super(key: key);
 
   @override
@@ -27,11 +30,14 @@ class _ItemHuyenWidgetState extends State<ItemHuyenWidget> {
             widget.taoLichLamViecCubit.huyenSelectModel?.tenQuanHuyen =
                 data[value].tenQuanHuyen;
             widget.taoLichLamViecCubit.huyenSelectModel?.id = data[value].id;
-            widget.taoLichLamViecCubit.getDataXa(data[value].id ?? '');
+            widget.taoLichLamViecCubit.getDataWard(data[value].id ?? '');
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenQuanHuyen ?? '').toList(),
-          hintText: S.current.chon_huyen,
+          hintText: widget.isEdit ? '' : S.current.chon_huyen,
+          value: widget.isEdit
+              ? widget.name
+              : '',
           title: S.current.quan_huyen,
         );
       },

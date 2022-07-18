@@ -1,19 +1,26 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/config/base/base_state.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
-import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
+import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +28,7 @@ import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
+class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   BehaviorSubject<ChiTietLichLamViecModel> chiTietLichLamViecSubject =
       BehaviorSubject();
 
@@ -38,12 +45,20 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   final BehaviorSubject<List<YKienModel>> _listYKien =
       BehaviorSubject<List<YKienModel>>();
 
+  ThanhPhanThamGiaReponsitory get dataRepo => Get.find();
+
   Stream<List<YKienModel>> get listYKien => _listYKien.stream;
+  List<Officer> dataRecall = [];
+  List<Officer> officersTmp = [];
 
   Stream<List<BaoCaoModel>> get listBaoCaoKetQua => _listBaoCaoKetQua.stream;
 
-  LichLamViecRepository get detailLichLamViec => Get.find();
+  CalendarWorkRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
+  final showButtonAddOpinion = BehaviorSubject.seeded(false);
+  final showButtonApprove = BehaviorSubject.seeded(false);
+  final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
+  String createUserId = '';
 
   Future<void> dataChiTietLichLamViec(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
@@ -54,6 +69,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
         }
         chiTietLichLamViecModel = data;
         chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
+        createUserId = data.canBoChuTri?.id ?? '';
       },
       error: (error) {
         chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
@@ -92,54 +108,122 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   }
 
   // xoa lich lam viec
-  LichLamViecRepository get deleteLichLamViec => Get.find();
+  CalendarWorkRepository get deleteLichLamViec => Get.find();
 
   Future<void> deleteCalendarWork(
     String id, {
-    bool only = true,
+    bool? only,
   }) async {
-    final rs = await detailLichLamViec.deleteCalenderWork(id, only);
-    rs.when(success: (data) {}, error: (error) {});
+    ShowLoadingScreen.show();
+    final rs = await detailLichLamViec.deleteCalenderWork(id, only ?? true);
+    rs.when(
+      success: (data) {
+        MessageConfig.show(title: S.current.xoa_thanh_cong);
+        eventBus.fire(RefreshCalendar());
+        Get.back(result: true);
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.xoa_that_bai,
+          messState: MessState.error,
+        );
+      },
+    );
+    ShowLoadingScreen.dismiss();
   }
 
   // huy lich lam viec
-  LichLamViecRepository get cancelLichLamViec => Get.find();
+  CalendarWorkRepository get cancelLichLamViec => Get.find();
 
   Future<void> cancelCalendarWork(
     String id, {
     int statusId = 8,
-    bool isMulti = false,
+    bool? isMulti,
   }) async {
-    final rs =
-        await detailLichLamViec.cancelCalenderWork(id, statusId, isMulti);
-    rs.when(success: (data) {}, error: (error) {});
+    ShowLoadingScreen.show();
+    final rs = await detailLichLamViec.cancelCalenderWork(
+        id, statusId, isMulti ?? false);
+    rs.when(
+      success: (data) {
+        if (data.succeeded ?? false) {
+          MessageConfig.show(title: S.current.huy_thanh_cong);
+          Get.back(result: true);
+          eventBus.fire(RefreshCalendar());
+        }
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.huy_that_bai,
+          messState: MessState.error,
+        );
+      },
+    );
+    ShowLoadingScreen.dismiss();
   }
 
   Future<void> getListTinhTrang() async {
     await detailLichLamViec.getListTinhTrangBaoCao().then((value) {
       value.when(
-          success: (res) {
-            listTinhTrang = res;
-          },
-          error: (err) {});
+        success: (res) {
+          listTinhTrang = res;
+        },
+        error: (err) {},
+      );
     });
   }
 
+  final listOfficer = BehaviorSubject<List<Officer>>();
+  final listRecall = BehaviorSubject<List<Officer>>();
+
+  Future<void> getOfficer(String id) async {
+    final rs = await dataRepo.getOfficerJoin(id);
+    rs.when(
+      success: (data) {
+        final tmp = data.where((element) => element.tenDonVi != null).toList();
+        listOfficer.sink.add(tmp);
+        listRecall.sink
+            .add(tmp.where((element) => element.status == 0).toList());
+        dataRecall = tmp.where((element) => element.status == 0).toList();
+        officersTmp = tmp;
+      },
+      error: (error) {},
+    );
+  }
+
   Future<void> loadApi(String id) async {
-    final queue = Queue(parallel: 4);
+    final queue = Queue(parallel: 5);
     showLoading();
     idLichLamViec = id;
     unawaited(queue.add(() => dataChiTietLichLamViec(id)));
     unawaited(queue.add(() => getDanhSachBaoCaoKetQua(id)));
     unawaited(queue.add(() => getDanhSachYKien(id)));
     unawaited(queue.add(() => getListTinhTrang()));
-    dataTrangThai();
+    unawaited(queue.add(() => getOfficer(id)));
+    unawaited(dataTrangThai());
     await queue.onComplete;
+
+    bool? isThamGia;
+    for (final element in officersTmp) {
+      if (element.userId == currentUserId &&
+          (element.userId?.isNotEmpty ?? false) &&
+          currentUserId.isNotEmpty) {
+        showButtonAddOpinion.sink.add(true);
+      } else {
+        showButtonAddOpinion.sink.add(false);
+      }
+      if (element.canBoId == currentUserId) {
+        isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
+            element.isThamGia == true;
+      }
+    }
+    showButtonApprove.sink.add(isThamGia ?? false);
     showContent();
   }
 
-  Future<void> getDanhSachBaoCaoKetQua(String id,
-      {bool isReload = false}) async {
+  Future<void> getDanhSachBaoCaoKetQua(
+    String id, {
+    bool isReload = false,
+  }) async {
     if (isReload) {
       showLoading();
     }
@@ -148,10 +232,31 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
       showContent();
     }
     result.when(
-        success: (res) {
-          _listBaoCaoKetQua.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        _listBaoCaoKetQua.sink.add(res);
+      },
+      error: (err) {},
+    );
+  }
+
+  Future<void> confirmOfficer(ConfirmOfficerRequest request) async {
+    ShowLoadingScreen.show();
+    final result = await dataRepo.confirmOfficer(request);
+    result.when(
+      success: (res) {
+        showButtonApprove.sink.add(false);
+        MessageConfig.show(
+          title: S.current.thanh_cong,
+        );
+      },
+      error: (err) {
+        MessageConfig.show(
+          title: S.current.no_internet,
+          messState: MessState.error,
+        );
+      },
+    );
+    ShowLoadingScreen.dismiss();
   }
 
   Future<void> getDanhSachYKien(String id) async {
@@ -168,22 +273,24 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     showLoading();
     final result = await detailLichLamViec.deleteBaoCaoKetQua(id);
     result.when(
-        success: (res) {
-          if (res.succeeded ?? false) {
-            getDanhSachBaoCaoKetQua(idLichLamViec).whenComplete(() {
-              showContent();
-              MessageConfig.show(title: S.current.xoa_thanh_cong);
-            });
-          } else {
+      success: (res) {
+        if (res.succeeded ?? false) {
+          getDanhSachBaoCaoKetQua(idLichLamViec).whenComplete(() {
             showContent();
-          }
-        },
-        error: (err) {});
+            MessageConfig.show(title: S.current.xoa_thanh_cong);
+          });
+        } else {
+          showContent();
+        }
+      },
+      error: (err) {},
+    );
   }
 
-  String parseDate(String ngay) {
-    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(ngay);
+  String parseDate(String date) {
+    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(date);
 
+    // ignore: lines_longer_than_80_chars
     return '${dateTime.day} ${S.current.thang} ${dateTime.month},${dateTime.year}';
   }
 
@@ -198,7 +305,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     showLoading();
     await detailLichLamViec
         .updateBaoCaoKetQua(
-            reportStatusId, scheduleId, content, files, filesDelete, id)
+      reportStatusId,
+      scheduleId,
+      content,
+      files,
+      filesDelete,
+      id,
+    )
         .then((value) {
       value.when(
         success: (res) {
@@ -233,6 +346,101 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     ShowLoadingScreen.dismiss();
   }
 
+  Future<void> recallCalendar({
+    bool? isMulti,
+  }) async {
+    ShowLoadingScreen.show();
+    final List<Officer> tmp = List.from(
+      dataRecall.where((element) => element.status == 4),
+    );
+    final request = tmp
+        .map(
+          (e) => RecallRequest(
+            id: e.id,
+            status: e.status ?? 4,
+            canBoId: e.canBoId,
+            donViId: e.donViId,
+            scheduleId: e.scheduleId,
+          ),
+        )
+        .toList();
+    final result =
+        await detailLichLamViec.recallWorkCalendar(isMulti ?? false, request);
+    result.when(
+      success: (success) {
+        //eventBus.fire(RefreshCalendar());
+        MessageConfig.show(title: S.current.thu_hoi_lich_thanh_cong);
+        Get.back(result: true);
+        emit(SuccessChiTietLichLamViecState());
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.thu_hoi_lich_that_bai,
+          messState: MessState.error,
+        );
+      },
+    );
+    ShowLoadingScreen.dismiss();
+  }
+  // check hiển thị popup
+  int checkXoa(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives?.indexWhere(
+          (element) => element.status == StatusOfficersConst.STATUS_THAM_GIA,
+        ) ??
+        StatusOfficersConst.STATUS_DEFAULT;
+  }
+  int checkThuHoi(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives?.indexWhere(
+          (element) => element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN,
+    ) ??
+        StatusOfficersConst.STATUS_DEFAULT;
+  }
+
+  String nguoiDuocMoi(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives
+            ?.firstWhere(
+              (element) => element.canBoId == currentUserId,
+              orElse: () => ScheduleCoperatives(),
+            )
+            .canBoId ??
+        '';
+  }
+
+  String canBoChuTri(ChiTietLichLamViecModel dataModel) {
+    return dataModel.canBoChuTri?.id ?? '';
+  }
+
+  String nguoiTaoId(ChiTietLichLamViecModel dataModel) {
+    return dataModel.createBy?.id ?? '';
+  }
+
+  bool checkChoSuaLich(ChiTietLichLamViecModel dataModel) {
+    return canBoChuTri(dataModel) == currentUserId ||
+        nguoiTaoId(dataModel) == currentUserId; //===sualich===huylich
+  }
+
+  bool checkChoThuHoi(ChiTietLichLamViecModel dataModel) {
+    return (checkThuHoi(dataModel) == 0 &&
+        (canBoChuTri(dataModel) == currentUserId ||
+            nguoiTaoId(dataModel) == currentUserId));
+  }
+
+  bool checkChoYKien(ChiTietLichLamViecModel dataModel) {
+    return nguoiTaoId(dataModel) == currentUserId ||
+        nguoiDuocMoi(dataModel) == currentUserId;
+  }
+
+  bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {
+    return (DateTime.parse(
+          dataModel.dateTimeTo ?? DateTime.now().toString(),
+        ).isBefore(DateTime.now())) &&
+        checkChoYKien(dataModel);
+  }
+
+  bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
+    return (checkXoa(dataModel) == -1) && checkChoSuaLich(dataModel); //=
+  }
+
   void dispose() {
     _listBaoCaoKetQua.close();
     chiTietLichLamViecSubject.close();
@@ -251,39 +459,42 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
   final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
 
-  BaoCaoKetQuaCubit(
-      {this.content = '',
-      this.tinhTrangBaoCaoModel,
-      this.fileInit = const []}) {
+  BaoCaoKetQuaCubit({
+    this.content = '',
+    this.tinhTrangBaoCaoModel,
+    this.fileInit = const [],
+  }) {
     reportStatusId = tinhTrangBaoCaoModel?.id ?? '';
-  }
-
-  void init(List<TinhTrangBaoCaoModel> list) {
-    if (list.isNotEmpty) {
-      reportStatusId = list.first.id ?? '';
-      tinhTrangBaoCaoModel = list.first;
-    }
   }
 
   Future<void> createScheduleReport(String scheduleId, String content) async {
     ShowLoadingScreen.show();
     final result = await detailLichLamViec.taoBaoCaoKetQua(
-        reportStatusId, scheduleId, content, files.toList());
+      reportStatusId,
+      scheduleId,
+      content,
+      files.toList(),
+    );
     ShowLoadingScreen.dismiss();
-    result.when(success: (res) {
-      MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
-      emit(SuccessChiTietLichLamViecState());
-    }, error: (err) {
-      MessageConfig.show(
+    result.when(
+      success: (res) {
+        MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
+        emit(SuccessChiTietLichLamViecState());
+      },
+      error: (err) {
+        MessageConfig.show(
           title: S.current.bao_cao_ket_qua_that_bai,
-          messState: MessState.error);
-    });
+          messState: MessState.error,
+        );
+      },
+    );
   }
 
-  Future<void> editScheduleReport(
-      {required String scheduleId,
-      required String content,
-      required String id}) async {
+  Future<void> editScheduleReport({
+    required String scheduleId,
+    required String content,
+    required String id,
+  }) async {
     ShowLoadingScreen.show();
     final result = await detailLichLamViec.suaBaoCaoKetQua(
       id: id,
@@ -294,13 +505,28 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       reportStatusId: reportStatusId,
     );
     ShowLoadingScreen.dismiss();
-    result.when(success: (res) {
-      MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
-      emit(SuccessChiTietLichLamViecState());
-    }, error: (err) {
-      MessageConfig.show(
+    result.when(
+      success: (res) {
+        MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
+        emit(SuccessChiTietLichLamViecState());
+      },
+      error: (err) {
+        MessageConfig.show(
           title: S.current.sua_bao_cao_ket_qua_that_bai,
-          messState: MessState.error);
-    });
+          messState: MessState.error,
+        );
+      },
+    );
+  }
+
+  bool checkLenghtFile() {
+    int sum = 0;
+    for (final element in files) {
+      sum = sum + element.lengthSync();
+    }
+    if (sum > MaxSizeFile.MAX_SIZE_30MB) {
+      return false;
+    }
+    return true;
   }
 }

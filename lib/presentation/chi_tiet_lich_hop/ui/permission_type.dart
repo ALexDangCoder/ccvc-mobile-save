@@ -1,8 +1,14 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_di_thay_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/sua_lich_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_widget.dart';
@@ -11,6 +17,9 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/radio_option_dialog.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -180,7 +189,9 @@ extension GetDataPermission on PERMISSION_DETAIL {
   CellPopPupMenu getMenuLichHop(
     BuildContext context,
     DetailMeetCalenderCubit cubit,
-    String id,
+    ThanhPhanThamGiaCubit cubitThanhPhanTG,
+    ThemCanBoCubit themCanBoCubit,
+    ThemDonViCubit themDonViCubit,
   ) {
     switch (this) {
       case PERMISSION_DETAIL.THU_HOI:
@@ -188,32 +199,65 @@ extension GetDataPermission on PERMISSION_DETAIL {
           urlImage: PERMISSION_DETAIL.THU_HOI.getIcon(),
           text: PERMISSION_DETAIL.THU_HOI.getString(),
           onTap: () {
-            showBottomSheetCustom(
-              context,
-              title: S.current.thu_hoi_lich,
-              child: ThuHoiLichWidget(
-                cubit: cubit,
-                id: id,
-              ),
-            );
+            isMobile()
+                ? showBottomSheetCustom(
+                    context,
+                    title: S.current.thu_hoi_lich,
+                    child: ThuHoiLichWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    maxHeight: 280,
+                    title: S.current.thu_hoi_lich,
+                    child: ThuHoiLichWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
           },
         );
+
       case PERMISSION_DETAIL.XOA:
         return CellPopPupMenu(
-          urlImage: PERMISSION_DETAIL.XOA.getIcon(),
-          text: PERMISSION_DETAIL.XOA.getString(),
+          urlImage: ImageAssets.ic_delete_do,
+          text: S.current.xoa_lich,
           onTap: () {
-            showDiaLog(
-              context,
-              textContent: S.current.xoa_chi_tiet_lich_hop,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () {
-                cubit.deleteChiTietLichHop(id);
-                Navigator.pop(context);
-              },
-              title: S.current.khong,
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icHuyLich),
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
+              showDiaLog(
+                context,
+                textContent: S.current.xoa_chi_tiet_lich_hop,
+                btnLeftTxt: S.current.khong,
+                funcBtnRight: () {
+                  cubit.deleteChiTietLichHop();
+                  Navigator.pop(context, true);
+                },
+                title: S.current.khong,
+                btnRightTxt: S.current.dong_y,
+                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                showTablet: true,
+                isThisPopAfter: true,
+              );
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => RadioOptionDialog(
+                title: S.current.huy_lich_hop,
+                textRadioBelow: S.current.chi_lich_hien_tai,
+                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                imageUrl: ImageAssets.img_sua_lich,
+                onChange: (value) {
+                  cubit.deleteChiTietLichHop(isMulti: value);
+                  Navigator.pop(context, true);
+                },
+              ),
             );
           },
         );
@@ -223,23 +267,49 @@ extension GetDataPermission on PERMISSION_DETAIL {
           text: PERMISSION_DETAIL.SUA.getString(),
           onTap: () {
             if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
-              showBottomSheetCustom(
-                context,
-                title: S.current.sua_lich_hop,
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: SuaLichHopWidget(
-                    chiTietHop: cubit.getChiTietLichHopModel,
+              if (isMobile()) {
+                showBottomSheetCustom(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                    ),
                   ),
-                ),
-              ).then((value) {
-                if (value == null) {
-                  return;
-                }
-                if (value) {
-                  cubit.initDataChiTiet();
-                }
-              });
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              } else {
+                showDiaLogTablet(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                    ),
+                  ),
+                  funcBtnOk: () {},
+                  isBottomShow: false,
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              }
               return;
             }
             showDialog(
@@ -254,24 +324,51 @@ extension GetDataPermission on PERMISSION_DETAIL {
               if (value == null) {
                 return;
               }
-              showBottomSheetCustom(
-                context,
-                title: S.current.sua_lich_hop,
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: SuaLichHopWidget(
-                    chiTietHop: cubit.getChiTietLichHopModel,
-                    isMulti: value,
+              if (isMobile()) {
+                showBottomSheetCustom(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                      isMulti: value,
+                    ),
                   ),
-                ),
-              ).then((value) {
-                if (value == null) {
-                  return;
-                }
-                if (value) {
-                  cubit.initDataChiTiet();
-                }
-              });
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              } else {
+                showDiaLogTablet(
+                  context,
+                  title: S.current.sua_lich_hop,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: SuaLichHopWidget(
+                      chiTietHop: cubit.getChiTietLichHopModel,
+                      isMulti: value,
+                    ),
+                  ),
+                  funcBtnOk: () {},
+                  isBottomShow: false,
+                ).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  if (value) {
+                    cubit.needRefreshMainMeeting = value;
+                    cubit.initDataChiTiet();
+                    cubit.callApiCongTacChuanBi();
+                  }
+                });
+              }
             });
           },
         );
@@ -279,7 +376,38 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.CU_CAN_BO.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO.getString(),
-          onTap: () {},
+          onTap: () {
+            isMobile()
+                ? showBottomSheetCustom<List<DonViModel>>(
+                    context,
+                    title: S.current.cu_can_bo,
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                      ),
+                      child: CuCanBoWidget(
+                        themCanBoCubit: themCanBoCubit,
+                        cubit: cubit,
+                        cubitThanhPhanTG: cubitThanhPhanTG,
+                        themDonViCubit: themDonViCubit,
+                      ),
+                    ),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    title: S.current.cu_can_bo,
+                    child: CuCanBoWidget(
+                      themCanBoCubit: themCanBoCubit,
+                      cubit: cubit,
+                      cubitThanhPhanTG: cubitThanhPhanTG,
+                      themDonViCubit: themDonViCubit,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+          },
         );
       case PERMISSION_DETAIL.TU_CHOI_THAM_GIA:
         return CellPopPupMenu(
@@ -351,42 +479,125 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.PHAN_CONG_THU_KY.getIcon(),
           text: PERMISSION_DETAIL.PHAN_CONG_THU_KY.getString(),
-          onTap: () {},
+          onTap: () {
+            isMobile()
+                ? showBottomSheetCustom(
+                    context,
+                    title: S.current.phan_cong_thu_ky,
+                    child: PhanCongThuKyWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    maxHeight: 280,
+                    title: S.current.phan_cong_thu_ky,
+                    child: PhanCongThuKyWidget(
+                      cubit: cubit,
+                      id: cubit.idCuocHop,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+          },
         );
       case PERMISSION_DETAIL.CU_CAN_BO_DI_THAY:
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getString(),
-          onTap: () {},
+          onTap: () {
+            isMobile()
+                ? showBottomSheetCustom<List<DonViModel>>(
+                    context,
+                    title: S.current.cu_can_bo_di_thay,
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                      ),
+                      child: CuCanBoDiThayWidget(
+                        themCanBoCubit: themCanBoCubit,
+                        cubit: cubit,
+                        cubitThanhPhanTG: cubitThanhPhanTG,
+                        themDonViCubit: themDonViCubit,
+                      ),
+                    ),
+                  )
+                : showDiaLogTablet<List<DonViModel>>(
+                    context,
+                    title: S.current.cu_can_bo_di_thay,
+                    child: CuCanBoDiThayWidget(
+                      themCanBoCubit: themCanBoCubit,
+                      cubit: cubit,
+                      cubitThanhPhanTG: cubitThanhPhanTG,
+                      themDonViCubit: themDonViCubit,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+          },
         );
       case PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP:
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP.getIcon(),
           text: PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP.getString(),
           onTap: () {
-            showBottomSheetCustom(
-              context,
-              title: S.current.tao_boc_bang_cuoc_hop,
-              child: const TaoBocBangWidget(),
-            );
+            isMobile()
+                ? showBottomSheetCustom(
+                    context,
+                    title: S.current.tao_boc_bang_cuoc_hop,
+                    child: const TaoBocBangWidget(),
+                  )
+                : showDiaLogTablet(
+                    context,
+                    maxHeight: 280,
+                    title: S.current.tao_boc_bang_cuoc_hop,
+                    child: const TaoBocBangWidget(),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
           },
         );
       case PERMISSION_DETAIL.HUY_LICH:
         return CellPopPupMenu(
-          urlImage: PERMISSION_DETAIL.HUY_LICH.getIcon(),
-          text: PERMISSION_DETAIL.HUY_LICH.getString(),
+          urlImage: ImageAssets.icHuy,
+          text: S.current.huy_lich_hop,
           onTap: () {
-            showDiaLog(
-              context,
-              textContent: S.current.ban_chan_chan_huy_lich_nay,
-              btnLeftTxt: S.current.khong,
-              funcBtnRight: () {
-                cubit.huyChiTietLichHop(id);
-                Navigator.pop(context);
-              },
-              title: S.current.huy_lich,
-              btnRightTxt: S.current.dong_y,
-              icon: SvgPicture.asset(ImageAssets.icHuyLich),
+            if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
+              showDiaLog(
+                context,
+                textContent: S.current.ban_chan_chan_huy_lich_nay,
+                btnLeftTxt: S.current.khong,
+                funcBtnRight: () {
+                  cubit.huyChiTietLichHop();
+                  Navigator.pop(context, true);
+                },
+                title: S.current.huy_lich,
+                btnRightTxt: S.current.dong_y,
+                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                showTablet: true,
+              );
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => RadioOptionDialog(
+                title: S.current.huy_lich_hop,
+                textRadioBelow: S.current.chi_lich_hien_tai,
+                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                imageUrl: ImageAssets.img_sua_lich,
+                onChange: (value) {
+                  cubit.huyChiTietLichHop(isMulti: value).then(
+                        (value) => value ? Navigator.pop(context, true) : '',
+                      );
+                },
+              ),
             );
           },
         );
@@ -564,8 +775,8 @@ class STATUS_SCHEDULE {
 
 class TRANG_THAI_DUYET_KY_THUAT {
   static const int CHO_DUYET = 0;
-  static const DA_DUYET = 1;
-  static const KHONG_DUYET = 2;
+  static const int DA_DUYET = 1;
+  static const int KHONG_DUYET = 2;
 }
 
 class ACTIVE_PHAT_BIEU {
@@ -573,4 +784,22 @@ class ACTIVE_PHAT_BIEU {
   static const int CHO_DUYET = 1;
   static const int DA_DUYET = 2;
   static const int HUY_DUYET = 3;
+}
+
+class STATUS_ROOM_MEETING {
+  static const int CHO_DUYET = 0;
+  static const int DA_DUYET = 1;
+  static const int HUY_DUYET = 2;
+}
+
+class STATUS_DETAIL {
+  static const int NHAP = 0;
+  static const int CHO_DUYET = 1;
+  static const int DA_DUYET = 2;
+  static const int TU_CHOI_DUYET = 3;
+  static const int THU_HOI = 4;
+  static const int DANG_DIEN_DA = 5;
+  static const int DA_GUI_LOI_MOI = 6;
+  static const int XOA = 7;
+  static const int HUY = 8;
 }

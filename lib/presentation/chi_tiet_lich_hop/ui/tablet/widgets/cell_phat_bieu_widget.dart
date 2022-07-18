@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
@@ -71,15 +72,18 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                     stream: widget.cubit.typeStatus,
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? 0;
-                      if (data != DANHSACHPHATBIEU &&
+                      if (data != StatePhatBieu.danh_Sach_phat_bieu &&
                           widget.isthePhatBieu == true) {
                         return CustomCheckBox(
                           title: '',
-                          isCheck: check,
+
+                          /// check if id is in list selectPhatBieu == true
+                          isCheck: widget.cubit.selectPhatBieu
+                              .contains(widget.infoModel.id),
                           onChange: (isCheck) {
                             check = !check;
                             setState(() {});
-                            widget.onChangeCheckBox!(isCheck);
+                            widget.onChangeCheckBox?.call(isCheck);
                           },
                         );
                       }
@@ -144,14 +148,13 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                       stream: widget.cubit.typeStatus,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? 0;
-                        if (data != DANHSACHPHATBIEU) {
+                        if (data != StatePhatBieu.danh_Sach_phat_bieu) {
                           return CustomCheckBox(
-                            title: '',
-                            isCheck: check,
+                            isCheck: widget.cubit.selectPhatBieu
+                                .contains(widget.infoModel.id),
                             onChange: (isCheck) {
                               check = !check;
-                              // widget.cubit.checkAllSelect();
-                              widget.onChangeCheckBox!(isCheck);
+                              widget.onChangeCheckBox?.call(isCheck);
                               setState(() {});
                             },
                           );

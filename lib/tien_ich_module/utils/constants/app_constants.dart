@@ -162,9 +162,9 @@ class DateFormatApp {
   static String date = 'dd/MM/yyyy';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
-  static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
-  static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
+  static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
 }
 
 class KieuGiongNoi {
@@ -176,12 +176,14 @@ class KieuGiongNoi {
 }
 
 class DSCVScreen {
-  static const int CVCB = 0;
-  static const int CVQT = 1;
-  static const int DHT = 2;
-  static const int GCT = 3;
-  static const int DBX = 4;
-  static const int NCVM = 5;
+  static const String CVCB = 'TodoMe';
+  static const String CVQT = 'Important';
+  static const String DHT = 'Ticked';
+  static const String DG = 'TaskOfGiveOther';
+  static const String DBX = 'Deleted';
+  static const String NCVM = 'GroupTodo';
+
+  static const List<String> screen = [CVCB, CVQT, DHT, DG, DBX, NCVM];
 }
 
 class IconDSCV {

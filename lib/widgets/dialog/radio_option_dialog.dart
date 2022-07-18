@@ -16,6 +16,7 @@ class RadioOptionDialog extends StatefulWidget {
     this.textConfirm,
     this.textLeftButton,
     this.textRightButton,
+    this.onChange,
   }) : super(key: key);
   final String title;
   final String? textConfirm;
@@ -24,6 +25,7 @@ class RadioOptionDialog extends StatefulWidget {
   final String textRadioBelow;
   final String? textLeftButton;
   final String? textRightButton;
+  final Function(bool)? onChange;
 
   @override
   State<RadioOptionDialog> createState() => _RadioOptionDialogState();
@@ -101,12 +103,13 @@ class _RadioOptionDialogState extends State<RadioOptionDialog> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: DoubleButtonBottom(
-                  onPressed2: () {
+                  onClickRight: () {
                     /// return true if radio above selected
                     /// return false if radio below selected
+                    widget.onChange?.call(valueSelected);
                     Navigator.pop(context, valueSelected);
                   },
-                  onPressed1: () {
+                  onClickLeft: () {
                     Navigator.pop(context);
                   },
                   title1: widget.textLeftButton ?? S.current.khong,

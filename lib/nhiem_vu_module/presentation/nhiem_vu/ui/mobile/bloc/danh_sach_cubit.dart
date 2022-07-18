@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/data/home/nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
@@ -9,7 +8,6 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/request/ngay_tao_nhiem_vu_reque
     as request;
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/bieu_do_theo_don_vi_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/trang_thai_bieu_do_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
@@ -65,7 +63,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<bool> isCheckDataNVDV = BehaviorSubject.seeded(false);
   List<ChartData> listStatusData = [];
 
-  void callApi(bool isCheckCaNhan) {
+  void callApi(bool isCheckCaNhan, {bool canCallApi=true}) {
     initTimeRange();
     getDashBroashNhiemVuCaNhan(
       ngayDauTien: ngayDauTien,
@@ -75,10 +73,12 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    if(canCallApi){
+      callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    }
   }
 
-  void callApiDonVi(bool isCheckCaNhan) {
+  void callApiDonVi(bool isCheckCaNhan, {bool canCallApi= true,}) {
     initTimeRange();
     postBieuDoTheoDonVi(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
@@ -86,7 +86,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     //   ngayDauTien: ngayDauTien,
     //   ngayCuoiCung: ngayKetThuc,
     // );
-    callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    if(canCallApi){
+      callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
+    }
   }
 
   void callApiDashBroashDonVi(bool isCheckCaNhan) {

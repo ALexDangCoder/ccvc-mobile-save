@@ -5,7 +5,7 @@ part 'danh_sach_y_kien_pakn_request.g.dart';
 @JsonSerializable()
 class DanhSachYKienPAKNRequest {
   @JsonKey(name: 'KienNghiId')
-  final String kienNghiId;
+  final String? kienNghiId;
   @JsonKey(name: 'Type')
   final int? type;
 

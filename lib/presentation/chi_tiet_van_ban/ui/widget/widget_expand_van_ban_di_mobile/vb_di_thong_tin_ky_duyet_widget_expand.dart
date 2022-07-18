@@ -153,7 +153,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '',
+                  item.vaiTro ?? '',
                   style: textNormalCustom(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -179,7 +179,10 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => XemLuongXuLyVbDi(id: idDocument),
+                builder: (context) => XemLuongXuLyVbDi(
+                  id: idDocument,
+                  isTablet: isTablet,
+                ),
               ),
             );
           },

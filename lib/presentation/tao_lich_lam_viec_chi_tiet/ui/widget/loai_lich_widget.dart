@@ -1,18 +1,24 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoaiLichWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final CreateWorkCalCubit taoLichLamViecCubit;
+  final bool isEdit;
+  final String name;
 
-  const LoaiLichWidget(
-      {Key? key, required this.taoLichLamViecCubit, this.callback})
-      : super(key: key);
+  const LoaiLichWidget({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    this.callback,
+    this.isEdit = false,
+    this.name = '',
+  }) : super(key: key);
   final Function(bool)? callback;
 
   @override
@@ -20,6 +26,12 @@ class LoaiLichWidget extends StatefulWidget {
 }
 
 class _LoaiLichWidgetState extends State<LoaiLichWidget> {
+  var _tmpName = '';
+  @override
+  void initState() {
+    _tmpName = widget.name;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<LoaiSelectModel>>(
@@ -39,8 +51,10 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
                 }
                 widget.taoLichLamViecCubit.changeOption.sink
                     .add(data[value].name);
-                widget.taoLichLamViecCubit.checkCal.sink.add(false);
+                _tmpName = data[value].name;
+                widget.taoLichLamViecCubit.checkChooseTypeCal.sink.add(false);
               },
+              value: widget.isEdit ? _tmpName : '',
               hintText: S.current.chon_loai_lich,
               urlIcon: ImageAssets.icCalendarUnFocus,
               listSelect: data.map((e) => e.name).toList(),
@@ -48,7 +62,7 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
             ),
             spaceH12,
             StreamBuilder<bool>(
-              stream: widget.taoLichLamViecCubit.checkCal.stream,
+              stream: widget.taoLichLamViecCubit.checkChooseTypeCal.stream,
               builder: (context, snapshot) {
                 widget.callback?.call(snapshot.data ?? true);
                 return Visibility(

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/danh_sach_y_kien_screen.dart';
@@ -12,12 +13,16 @@ import 'package:flutter/material.dart';
 
 class DanhSachYKienButtom extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
+  final ChiTietLichLamViecModel dataModel;
   final String id;
+  final bool isTablet;
 
   const DanhSachYKienButtom({
     Key? key,
     required this.id,
+    this.isTablet = false,
     required this.cubit,
+    required this.dataModel,
   }) : super(key: key);
 
   @override
@@ -45,24 +50,28 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SolidButton(
-            text: S.current.danh_sach_y_kien,
-            urlIcon: ImageAssets.ic_danhsachykien,
-            onTap: () {
-              showBottomSheetCustom(
-                context,
-                title: S.current.y_kien,
-                child: YKienBottomSheet(
-                  id: widget.id,
-                ),
-              ).then((value) {
-                if (value == true) {
-                  widget.cubit.getDanhSachYKien(widget.id);
-                } else if (value == null) {
-                  return;
-                }
-              });
-            },
+          Visibility(
+            visible: widget.cubit.checkChoYKien(widget.dataModel),
+            child: SolidButton(
+              text: S.current.them_y_kien,
+              urlIcon: ImageAssets.ic_danhsachykien,
+              onTap: () {
+                showBottomSheetCustom(
+                  context,
+                  title: S.current.y_kien,
+                  child: YKienBottomSheet(
+                    id: widget.id,
+                    isTablet: widget.isTablet,
+                  ),
+                ).then((value) {
+                  if (value == true) {
+                    widget.cubit.getDanhSachYKien(widget.id);
+                  } else if (value == null) {
+                    return;
+                  }
+                });
+              },
+            ),
           ),
           spaceH16,
           DanhSachYKienScreen(

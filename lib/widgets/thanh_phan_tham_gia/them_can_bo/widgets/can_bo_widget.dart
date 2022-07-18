@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -11,11 +12,13 @@ class CanBoWidget extends StatefulWidget {
   final DonViModel canBoModel;
   final Function(bool) onCheckBox;
   final ThemCanBoCubit themCanBoCubit;
+  final ThanhPhanThamGiaCubit cubit;
   const CanBoWidget({
     Key? key,
     required this.canBoModel,
     required this.onCheckBox,
     required this.themCanBoCubit,
+    required this.cubit
   }) : super(key: key);
 
   @override
@@ -23,6 +26,12 @@ class CanBoWidget extends StatefulWidget {
 }
 
 class _CanBoWidgetState extends State<CanBoWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,8 +52,8 @@ class _CanBoWidgetState extends State<CanBoWidget> {
                   widget.onCheckBox(!isCheck);
 
                 },
-                isCheck: widget.themCanBoCubit.listSelectCanBo
-                    .contains(widget.canBoModel),
+                isCheck: widget.themCanBoCubit.listSelectCanBo.map((e) => e.id)
+                    .contains(widget.canBoModel.id),
               ),
               Text(
                 widget.canBoModel.name,

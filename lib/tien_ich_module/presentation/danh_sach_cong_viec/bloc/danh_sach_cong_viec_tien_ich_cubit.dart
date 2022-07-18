@@ -1,21 +1,17 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:io';
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
-import 'package:ccvc_mobile/tien_ich_module/domain/model/menu_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -30,34 +26,25 @@ class DanhSachCongViecTienIchCubit
   String dateChange = '';
   String? noteChange;
   String? titleChange;
-  String filePath = '';
+  int countLoadMore = 1;
   TextEditingController searchControler = TextEditingController();
+  Timer? _debounce;
+  final int maxSizeFile = 31457280;
 
   ///id nhom nhiem vu
   String groupId = '';
 
-  List<TodoDSCVModel> toDoModelDefault = [];
-  List<TodoDSCVModel> toDoModelGanChoToiDefault = [];
-
-  ///gop cua hai list ben tren
-  List<TodoDSCVModel> listGop = [];
-
-  ///filter
-  List<TodoDSCVModel> listCongViecCuaBan = [];
-  List<TodoDSCVModel> listQuanTrong = [];
-  List<TodoDSCVModel> listDaHoanThanh = [];
-  List<TodoDSCVModel> listGanChoToi = [];
-  List<TodoDSCVModel> listDaBiXoa = [];
-  List<TodoDSCVModel> nhomCongViecMoi = [];
-
   ///Stream
-  BehaviorSubject<List<TodoDSCVModel>> listDSCV = BehaviorSubject();
+  BehaviorSubject<List<TodoDSCVModel>> listDSCVStream = BehaviorSubject();
 
   BehaviorSubject<String> titleAppBar = BehaviorSubject();
 
-  BehaviorSubject<int> statusDSCV = BehaviorSubject.seeded(0);
+  BehaviorSubject<String> statusDSCV = BehaviorSubject.seeded(DSCVScreen.CVCB);
 
   DanhSachCongViecTienIchCubit() : super(MainStateInitial());
+
+  BehaviorSubject<List<CountTodoModel>> countTodoModelSubject =
+      BehaviorSubject();
 
   final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
@@ -81,97 +68,96 @@ class DanhSachCongViecTienIchCubit
 
   BehaviorSubject<String> nameFile = BehaviorSubject();
 
-  ///init cac list
-  dynamic doDataTheoFilter() {
-    // data trả về phụ thuộc vào hai api
-    listGop = [
-      ...toDoModelGanChoToiDefault,
-      ...toDoModelDefault,
-    ];
-    listCongViecCuaBan = listGop
-        .where(
-          (element) => element.inUsed == true,
-        )
-        .toList();
-    listQuanTrong = listGop
-        .where(
-          (e) => e.inUsed == true && e.isTicked == false && e.important == true,
-        )
-        .toList();
-    listDaHoanThanh = listGop
-        .where(
-          (e) => e.inUsed == true && e.isTicked == true,
-        )
-        .toList();
-    listGanChoToi = toDoModelGanChoToiDefault
-        .where(
-          (e) => e.inUsed == true && e.isTicked == false,
-        )
-        .toList();
-    listDaBiXoa = listGop
-        .where((e) => e.inUsed == false && e.isDeleted == false)
-        .toList();
-    dataMenuDefault[DSCVScreen.CVCB].number = listCongViecCuaBan
-        .where((element) => element.isTicked == false)
-        .toList()
-        .length;
-    dataMenuDefault[DSCVScreen.CVQT].number = listQuanTrong.length;
-    dataMenuDefault[DSCVScreen.DHT].number = listDaHoanThanh.length;
-    dataMenuDefault[DSCVScreen.GCT].number = listGanChoToi.length;
-    dataMenuDefault[DSCVScreen.DBX].number = listDaBiXoa.length;
-
+  ///call api va do data theo trạng thái màn hình
+  Future<bool> callAPITheoFilter({
+    String? textSearch,
+    String? groupId,
+    int? pageIndex,
+    int? pageSize,
+    bool? isLoadmore,
+  }) async {
     switch (statusDSCV.value) {
       case DSCVScreen.CVCB:
-        return listCongViecCuaBan;
+        return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: true,
+          pageSize: 10,
+          pageIndex: pageIndex ?? 1,
+          searchWord: textSearch,
+        );
       case DSCVScreen.CVQT:
-        return listQuanTrong;
+        return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: true,
+          isImportant: true,
+          pageSize: pageSize ?? 10,
+          pageIndex: pageIndex ?? 1,
+          searchWord: textSearch,
+        );
       case DSCVScreen.DHT:
-        return listDaHoanThanh;
-      case DSCVScreen.GCT:
-        return listGanChoToi;
+        return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: true,
+          isTicked: true,
+          searchWord: textSearch,
+          pageIndex: pageIndex ?? 1,
+          pageSize: pageSize ?? 10,
+        );
+      case DSCVScreen.DG:
+        return getListDSCVGanChoNguoiKhac();
       case DSCVScreen.DBX:
-        return listDaBiXoa;
+        return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: false,
+          searchWord: textSearch,
+          pageIndex: pageIndex ?? 1,
+          pageSize: pageSize ?? 10,
+        );
       case DSCVScreen.NCVM:
-        return toDoModelDefault
-            .where((e) => isList(e, groupId) && e.inUsed == true)
-            .toList();
+        return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: true,
+          pageSize: pageSize ?? 10,
+          pageIndex: pageIndex ?? 1,
+          groupId: groupId ?? this.groupId,
+          searchWord: textSearch,
+        );
     }
+    return false;
   }
 
   /// khoi tao data
   Future<void> initialData() async {
-    await getToDoListDSCV();
-    await getDSCVGanCHoToi();
+    await callAPITheoFilter();
+    await getCountTodoAndMenu();
     unawaited(listNguoiThucHien());
-    unawaited(getNHomCVMoi());
-    doDataTheoFilter();
-    addValueWithTypeToDSCV();
     showContent();
   }
 
-  /// Cac danh Sach APi
+  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
+  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
   Future<void> getToDoListDSCV() async {
     final result = await tienIchRep.getListTodoDSCV();
     result.when(
-      success: (res) {
-        toDoModelDefault = res;
-      },
+      success: (res) {},
       error: (err) {},
     );
   }
 
+  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
+  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
   Future<void> getDSCVGanCHoToi() async {
     final result = await tienIchRep.getListDSCVGanChoToi();
     result.when(
       success: (res) {
-        if (res.isNotEmpty) {
-          toDoModelGanChoToiDefault = res;
-        }
+        if (res.isNotEmpty) {}
       },
       error: (err) {},
     );
   }
 
+  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
+  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
   Future<void> getNHomCVMoi() async {
     final result = await tienIchRep.nhomCVMoi();
     result.when(
@@ -182,9 +168,10 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
+  ///các danh sach api
   Future<void> listNguoiThucHien() async {
     showLoading();
-    final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
+    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
     result.when(
       success: (res) {
         showContent();
@@ -197,85 +184,88 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
-  /// set filter data
-  void addValueWithTypeToDSCV() {
-    switch (statusDSCV.value) {
-      case DSCVScreen.CVCB:
-        return listDSCV.sink.add(listCongViecCuaBan);
-      case DSCVScreen.CVQT:
-        return listDSCV.sink.add(listQuanTrong);
-      case DSCVScreen.DHT:
-        return listDSCV.sink.add(listDaHoanThanh);
-      case DSCVScreen.GCT:
-        return listDSCV.sink.add(listGanChoToi);
-      case DSCVScreen.DBX:
-        return listDSCV.sink.add(listDaBiXoa);
-      case DSCVScreen.NCVM:
-        return listDSCV.sink.add(
-          toDoModelDefault
-              .where((e) => isList(e, groupId) && e.inUsed == true)
-              .toList(),
-        );
-    }
+  Future<bool> getListDSCVGanChoNguoiKhac() async {
+    showLoading();
+    final result = await tienIchRep.getListDSCVGanChoNguoiKhac();
+    result.when(
+      success: (res) {
+        showContent();
+        if (res.isNotEmpty) {
+          listDSCVStream.sink.add(res);
+        }
+      },
+      error: (err) {
+        showError();
+        return false;
+      },
+    );
+    showContent();
+    return true;
   }
 
-  /// valueViewMenu
-  List<MenuDscvModel> dataMenuDefault = [
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01,
-      title: S.current.cong_viec_cua_ban,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icCVQT : ImageAssets.ic02,
-      title: S.current.cong_viec_quan_trong,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icHT : ImageAssets.ic03,
-      title: S.current.da_hoan_thanh,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icGanChoToi : ImageAssets.ic04,
-      title: S.current.gan_cho_toi,
-    ),
-    MenuDscvModel(
-      icon: isMobile() ? ImageAssets.icXoa : ImageAssets.ic05,
-      title: S.current.da_bi_xoa,
-    ),
-  ];
+  Future<bool> getAllListDSCVWithFilter({
+    int? pageIndex,
+    int? pageSize,
+    String? searchWord,
+    bool? isImportant,
+    bool? inUsed,
+    bool? isTicked,
+    String? groupId,
+    bool? isLoadmore,
+  }) async {
+    showLoading();
+    final result = await tienIchRep.getAllListDSCVWithFilter(
+      pageIndex,
+      pageSize ?? 10,
+      searchWord,
+      isImportant,
+      inUsed,
+      isTicked,
+      groupId,
+    );
+    result.when(
+      success: (res) {
+        showContent();
+        final List<TodoDSCVModel> data = listDSCVStream.valueOrNull ?? [];
+        if (isLoadmore == true) {
+          data.addAll(res);
+        } else {
+          listDSCVStream.sink.add(res);
+          return true;
+        }
+        listDSCVStream.sink.add(data);
+        return true;
+      },
+      error: (err) {
+        showError();
+        return false;
+      },
+    );
+    showContent();
+    return true;
+  }
+
+  Future<void> getCountTodoAndMenu() async {
+    showLoading();
+    final result = await tienIchRep.getCountTodo();
+    result.when(
+      success: (res) {
+        showContent();
+        countTodoModelSubject.sink.add(res);
+      },
+      error: (err) {
+        showError();
+      },
+    );
+    showContent();
+  }
 
   void closeDialog() {
     _showDialogSetting.add(null);
   }
 
-  ///So luong nhom cong viec moi
-  int soLuongNhomCvMoi({required String groupId}) {
-    final dataCount = toDoModelDefault.where(
-      (element) => element.inUsed == true && element.isTicked == false,
-    );
-    return dataCount
-        .where((element) => isList(element, groupId))
-        .toList()
-        .length;
-  }
-
-  ///tim kiem
-  void search(String text) {
-    final dataSearch = doDataTheoFilter();
-    if (text != '') {
-      final searchTxt = text.trim().toLowerCase().vietNameseParse();
-      bool isListCanBo(TodoDSCVModel toDo) {
-        return toDo.label!.toLowerCase().vietNameseParse().contains(searchTxt);
-      }
-
-      final vl = dataSearch.where((element) => isListCanBo(element)).toList();
-      listDSCV.sink.add(vl);
-    } else {
-      addValueWithTypeToDSCV();
-    }
-  }
-
   /// them moi cong viec
-  Future<void> addTodo() async {
+  Future<void> addTodo({String? fileName}) async {
     if (titleChange != '') {
       showLoading();
       final result = await tienIchRep.createTodo(
@@ -291,19 +281,18 @@ class DanhSachCongViecTienIchCubit
           performer: dataNguoiThucHienModel.id == ''
               ? null
               : nguoiThucHienSubject.value.id,
-          filePath: filePath,
+          filePath: fileName,
         ),
       );
-      await result.when(
-        success: (res) async {
+      result.when(
+        success: (res) {
           showContent();
-          final data = listDSCV.value;
+          final data = listDSCVStream.value;
           data.insert(
             0,
             res,
           );
-          listDSCV.sink.add(data);
-          await callAndFillApiAuto();
+          listDSCVStream.sink.add(data);
           closeDialog();
         },
         error: (err) {
@@ -322,10 +311,8 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.createNhomCongViecMoi(label);
     result.when(
       success: (res) {
+        getCountTodoAndMenu();
         showContent();
-        final List<NhomCVMoiModel> data = nhomCVMoiSubject.value;
-        data.insert(0, res);
-        nhomCVMoiSubject.sink.add(data);
       },
       error: (err) {
         showError();
@@ -360,9 +347,6 @@ class DanhSachCongViecTienIchCubit
         showContent();
         titleAppBar.sink.add(S.current.cong_viec_cua_ban);
         statusDSCV.sink.add(DSCVScreen.CVCB);
-        doDataTheoFilter();
-        addValueWithTypeToDSCV();
-        getNHomCVMoi();
       },
       error: (err) {
         showError();
@@ -372,18 +356,8 @@ class DanhSachCongViecTienIchCubit
 
   ///call and fill api autu
   Future<void> callAndFillApiAuto() async {
-    await getToDoListDSCV();
-    await getDSCVGanCHoToi();
-    doDataTheoFilter();
-    addValueWithTypeToDSCV();
-  }
-
-  /// tìm kiếm cong việc theo nhóm cong việc
-  bool isList(TodoDSCVModel toDo, String idGr) {
-    if (toDo.groupId != null) {
-      return toDo.groupId!.contains(idGr);
-    }
-    return false;
+    await getCountTodoAndMenu();
+    await callAPITheoFilter(pageIndex: 10 * countLoadMore);
   }
 
   ///chinh sưa và update công việc
@@ -393,21 +367,12 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isDeleted,
     String? filePathTodo,
+    bool? isDeleteFile,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
     dynamic checkData({dynamic changeData, dynamic defaultData}) {
       if (changeData == '' || changeData == null || changeData == defaultData) {
-        return defaultData;
-      } else {
-        return changeData;
-      }
-    }
-
-    dynamic checkDataFile({dynamic changeData, dynamic defaultData}) {
-      if (changeData == '') {
-        return null;
-      } else if (changeData == defaultData) {
         return defaultData;
       } else {
         return changeData;
@@ -435,35 +400,32 @@ class DanhSachCongViecTienIchCubit
         performer: dataNguoiThucHienModel.id == ''
             ? null
             : nguoiThucHienSubject.value.id,
-        filePath: (filePathTodo ?? '').isNotEmpty
-            ? checkDataFile(
-                changeData: filePathTodo, defaultData: todo.filePath)
-            : filePath,
+        filePath: (isDeleteFile ?? false)
+            ? null
+            : checkData(changeData: filePathTodo, defaultData: todo.filePath),
       ),
     );
     result.when(
       success: (res) {
-        filePath = '';
-        final data = listDSCV.value;
+        final data = listDSCVStream.valueOrNull ?? [];
         if (isTicked != null) {
-          data.remove(todo);
           data.insert(0, res);
-          listDSCV.sink.add(data);
+          data.remove(todo);
+          listDSCVStream.sink.add(data);
         }
         if (important != null) {
-          data.remove(todo);
-          data[0] = res;
-          listDSCV.sink.add(data);
+          data[data.lastIndexOf(todo)] = res;
+          listDSCVStream.sink.add(data);
         }
         if (inUsed != null) {
           data.remove(todo);
-          listDSCV.sink.add(data);
+          listDSCVStream.sink.add(data);
         }
         if (isDeleted != null) {}
         if (filePathTodo != null) {
-          nameFile.sink.add('');
+          data[data.lastIndexOf(todo)] = res;
+          listDSCVStream.sink.add(data);
         }
-        callAndFillApiAuto();
       },
       error: (err) {
         showError();
@@ -535,42 +497,41 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///up file
-  Future<void> uploadFilesWithFile(File file) async {
+  Future<String> uploadFilesWithFile(File file) async {
+    String filePath = '';
     showLoading();
     final result = await tienIchRep.uploadFileDSCV(file);
     result.when(
       success: (res) {
+        nameFile.sink.add(res.data?.filePath ?? '');
         filePath = res.data?.filePath ?? '';
       },
       error: (error) {},
     );
     showContent();
+    return filePath;
   }
 
-  ///xóa cong viec
+  ///xóa cong viec vinh vien
   Future<void> xoaCongViecVinhVien(
     String idCv,
     TodoDSCVModel todo,
   ) async {
-    showLoading();
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        showContent();
-        final data = listDSCV.value;
+        final data = listDSCVStream.value;
         data.remove(todo);
-        listDSCV.sink.add(data);
-        callAndFillApiAuto();
+        listDSCVStream.sink.add(data);
       },
       error: (error) {
         showError();
       },
     );
-    showContent();
   }
 
   /// hiển thị icon theo từng màn hình
-  List<int> showIcon({required int dataType, bool? isListUp}) {
+  List<int> showIcon({required String dataType, bool? isListUp}) {
     if (isListUp ?? true) {
       switch (dataType) {
         case DSCVScreen.CVCB:
@@ -592,11 +553,10 @@ class DanhSachCongViecTienIchCubit
             IconDSCV.icImportant,
             IconDSCV.icClose,
           ];
-        case DSCVScreen.GCT:
+        case DSCVScreen.DG:
           return [
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
-            IconDSCV.icClose,
           ];
         case DSCVScreen.DBX:
           return [
@@ -633,11 +593,10 @@ class DanhSachCongViecTienIchCubit
             IconDSCV.icImportant,
             IconDSCV.icClose,
           ];
-        case DSCVScreen.GCT:
+        case DSCVScreen.DG:
           return [
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
-            IconDSCV.icClose,
           ];
         case DSCVScreen.DBX:
           return [
@@ -654,7 +613,7 @@ class DanhSachCongViecTienIchCubit
     return [];
   }
 
-  List<int> enableIcon(int dataType) {
+  List<int> enableIcon(String dataType) {
     switch (dataType) {
       case DSCVScreen.CVCB:
         return [];
@@ -662,7 +621,7 @@ class DanhSachCongViecTienIchCubit
         return [];
       case DSCVScreen.DHT:
         return [];
-      case DSCVScreen.GCT:
+      case DSCVScreen.DG:
         return [];
       case DSCVScreen.DBX:
         return [IconDSCV.icCheckBox, IconDSCV.icImportant];
@@ -670,6 +629,20 @@ class DanhSachCongViecTienIchCubit
         return [];
     }
     return [];
+  }
+
+  /// funtion delay
+  Future<void> waitToDelay({
+    required Function actionNeedDelay,
+    required int timeSecond,
+  }) async {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(
+        Duration(
+          milliseconds: timeSecond * 1000,
+        ), () {
+      actionNeedDelay();
+    });
   }
 
   void disposs() {

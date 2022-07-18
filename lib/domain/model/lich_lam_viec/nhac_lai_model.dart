@@ -20,8 +20,4 @@ List<NhacLaiModel> listNhacLai = [
   NhacLaiModel(title: 'Trước 15 phút', value: 15),
   NhacLaiModel(title: 'Trước 30 phút', value: 30),
   NhacLaiModel(title: 'Trước 1 giờ', value: 60),
-  NhacLaiModel(title: 'Trước 2 giờ', value: 120),
-  NhacLaiModel(title: 'Trước 12 giờ', value: 720),
-  NhacLaiModel(title: 'Trước 1 ngày', value: 1140),
-  NhacLaiModel(title: 'Trước 1 tuần', value: 10080),
 ];

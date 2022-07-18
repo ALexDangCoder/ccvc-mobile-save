@@ -1,6 +1,8 @@
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
@@ -8,10 +10,13 @@ import '../chi_tiet_lich_hop_cubit.dart';
 ///Công tác chuẩn bị
 extension CongTacChuanBi on DetailMeetCalenderCubit {
   Future<void> getThongTinPhongHopApi() async {
+    showLoading();
     final result = await hopRp.getListThongTinPhongHop(idCuocHop);
     result.when(
       success: (res) {
         getThongTinPhongHopSb.sink.add(res);
+        getThongTinYeuCauChuanBi.sink.add(res);
+        showContent();
       },
       error: (err) {},
     );
@@ -60,8 +65,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
-        if (res.succeeded ?? false) {
-          initDataChiTiet();
+        if (res) {
+          getThongTinPhongHopApi();
           MessageConfig.show(
             title: S.current.tao_thanh_cong,
           );
@@ -89,8 +94,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
-        if (res.succeeded ?? false) {
-          initDataChiTiet();
+        if (res) {
+          getThongTinPhongHopApi();
         }
       },
       error: (err) {
@@ -115,7 +120,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     );
     result.when(
       success: (res) {
-        if (res.succeeded ?? false) {
+        if (res) {
           return true;
         }
       },
@@ -126,7 +131,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     return false;
   }
 
-  Future<void> forToduyetOrHuyDuyetThietBi({
+  Future<bool> forToduyetOrHuyDuyetThietBi({
     required List<ThietBiPhongHopModel> listTHietBiDuocChon,
     required bool isDuyet,
   }) async {
@@ -135,18 +140,21 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     if (listTHietBiDuocChon.isNotEmpty) {
       for (int i = 0; i < listTHietBiDuocChon.length; i++) {
         await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
-          (vl) => checkAllFinal.add(vl),
+          (value) => checkAllFinal.add(value),
         );
       }
     }
 
     if (!checkAllFinal.contains(false)) {
-      await getDanhSachThietBi();
       MessageConfig.show(
         title: S.current.tao_that_bai,
       );
+      return true;
+    } else {
+      await getDanhSachThietBi();
     }
     showContent();
+    return true;
   }
 
   /// duyệt hoặc hủy duyệt kỹ thuât
@@ -162,8 +170,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
-        if (res.succeeded ?? false) {
-          initDataChiTiet();
+        if (res) {
+          getChiTietLichHop(idCuocHop);
           MessageConfig.show(
             title: S.current.tao_thanh_cong,
           );
@@ -212,8 +220,53 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   }
 
   Future<void> callApiCongTacChuanBi() async {
+    showLoading();
     await getThongTinPhongHopApi();
     await getDanhSachThietBi();
     await getDanhSachPhongHop();
+    showContent();
+  }
+
+  Future<bool> capNhatTrangThai({
+    required String id,
+    required String ghiChu,
+    required String trangThai,
+  }) async {
+    bool isSuccess = false;
+    final CapNhatTrangThaiRequest capNhatTrangThaiRequest =
+        CapNhatTrangThaiRequest(
+      id: id,
+      ghiChu: ghiChu,
+      trangThaiChuanBiId: trangThai,
+    );
+    final rs = await hopRp.capNhatTrangThai(capNhatTrangThaiRequest);
+    rs.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.thanh_cong,
+        );
+        isSuccess = true;
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
+        isSuccess = false;
+      },
+    );
+    return isSuccess;
+  }
+
+  Future<void> getListStatusRoom() async {
+    final result = await hopRp.listStatusRoom();
+    result.when(
+      success: (res) {
+        listStatusRom = res.data ?? [];
+        showContent();
+      },
+      error: (err) {},
+    );
+    showContent();
   }
 }

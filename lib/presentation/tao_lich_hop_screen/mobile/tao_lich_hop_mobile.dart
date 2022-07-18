@@ -7,9 +7,9 @@ import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.da
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/co_quan_chu_tri_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_hop.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tai_lieu_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tao_hop_success.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
@@ -24,9 +24,12 @@ import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class TaoLichHopMobileScreen extends StatefulWidget {
@@ -38,8 +41,9 @@ class TaoLichHopMobileScreen extends StatefulWidget {
 
 class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   late TaoLichHopCubit _cubit;
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormGroupState>();
   final _timerPickerKey = GlobalKey<CupertinoMaterialPickerState>();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -49,8 +53,13 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _cubit = ProviderWidget.of<TaoLichHopCubit>(context)
-        .cubit;
+    _cubit = ProviderWidget.of<TaoLichHopCubit>(context).cubit;
+  }
+
+  @override
+  void dispose() {
+    _cubit.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,8 +76,9 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Form(
+            child: FormGroup(
               key: _formKey,
+              scrollController: _scrollController,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -83,7 +93,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           },
                           validate: (value) {
                             return value.isEmpty
-                                ? S.current.khong_duoc_de_trong
+                                ?'${S.current.vui_long_nhap} '
+                                '${S.current.tieu_de.toLowerCase()}'
                                 : null;
                           },
                           maxLength: 200,
@@ -151,7 +162,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           validateTime: (String value) {},
                         ),
                         spaceH5,
-                        NhacLichWidget(
+                        SelectOnlyExpand(
                           urlIcon: ImageAssets.icNhacLai,
                           title: S.current.nhac_lai,
                           value: danhSachThoiGianNhacLich.first.label,
@@ -167,7 +178,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                               _cubit.taoLichHopRequest.isNhacLich = true;
                             }
                           },
-                          onTogglePressed: (value) {
+                        ),
+                        ContainerToggleWidget(
+                          title: S.current.cong_khai_lich,
+                          onChange: (value) {
                             _cubit.taoLichHopRequest.congKhai = value;
                           },
                         ),
@@ -245,6 +259,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         TextFieldStyle(
                           urlIcon: ImageAssets.icCuocGoi,
                           hintText: S.current.so_dien_thoai,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          textInputType: TextInputType.number,
                           validate: (value) {
                             if (value.isEmpty) {
                               return null;
@@ -273,6 +291,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     onChange: (value) {
                       _cubit.handleChonPhongHop(value);
                     },
+                    needShowSelectedRoom: true,
                   ),
                   spaceH15,
                   ExpandGroup(
@@ -295,25 +314,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
                       onPressed: () {
-                        if ((_formKey.currentState?.validate() ?? false) &&
-                            (_timerPickerKey.currentState?.validator() ??
-                                false)) {
-                          _cubit.createMeeting().then((value) {
-                            if (value) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const TaoHopSuccess(),
-                                ),
-                              ).then((value) => Navigator.pop(context, true));
-                            } else {
-                              MessageConfig.show(
-                                messState: MessState.error,
-                                title: S.current.tao_that_bai,
-                              );
-                            }
-                          });
-                        }
+                        handleButtonCreatePressed();
                       },
                       customColor: true,
                     ),
@@ -325,5 +326,69 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
         ),
       ),
     );
+  }
+
+  void handleButtonCreatePressed() {
+    final bool validateTime =
+        _timerPickerKey.currentState?.validator() ?? false;
+    final bool validateTextField = _formKey.currentState?.validator() ?? false;
+
+    if (validateTime && validateTextField) {
+      if(_cubit.taoLichHopRequest.bitTrongDonVi == null){
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.vui_long_chon_chu_tri,
+        );
+        return;
+      }
+      if (!_cubit.checkThoiGianPhienHop()) {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.validate_thoi_gian_phien_hop,
+        );
+        return;
+      }
+      _cubit.checkLichTrung(
+        donViId: _cubit.taoLichHopRequest.chuTri?.donViId ?? '',
+        canBoId: _cubit.taoLichHopRequest.chuTri?.canBoId ?? '',
+      ).then((value) {
+        if (value) {
+          showDiaLog(
+            context,
+            title: S.current.lich_trung,
+            textContent: S.current.ban_co_muon_tiep_tuc_khong,
+            icon: ImageAssets.svgAssets(
+              ImageAssets.ic_trung_hop,
+            ),
+            btnRightTxt: S.current.dong_y,
+            btnLeftTxt: S.current.khong,
+            isCenterTitle: true,
+            funcBtnRight: () {
+              createMeeting();
+            },
+          );
+        } else {
+          createMeeting();
+        }
+      });
+    }
+  }
+
+  void createMeeting() {
+    _cubit.createMeeting().then((value) {
+      if (value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TaoHopSuccess(),
+          ),
+        ).then((value) => Navigator.pop(context, true));
+      } else {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.tao_that_bai,
+        );
+      }
+    });
   }
 }

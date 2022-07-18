@@ -23,10 +23,14 @@ class ImageAssets {
   static const String imgAnhNhinSangPhaiDeoKinh = '$baseImg/anh_nhin_sang_phai_deo_kinh.jpg';
   static const String imgAnhNhinSangTrai = '$baseImg/anh_nhin_sang_trai.jpg';
   static const String imgAnhNhinSangTraiDeoKinh = '$baseImg/anh_nhin_sang_trai_deo_kinh.jpg';
-  static const String imgBienSoXe = '$baseImg/bien_so_xe.png';
   static const String icVectorFloatAction = '$baseImg/ic_vector_float_action.svg';
   static const String icXoaNhanhDienBienSoXe = '$baseImg/ic_xoa_nhan_dien_bien_so_xe.svg';
-  static const String imgDangKyXe = '$baseImg/image_dang_ky_xe.png';
+  static const String imgDangKyXeSvg = '$baseImg/image_dang_ky_xe.svg';
+  static const String icRemoveImg = '$baseImg/ic_remove_img.svg';
+  static const String icNghiLam = '$baseImg/ic_nghi_lam.svg';
+  static const String icMuon = '$baseImg/ic_muon.svg';
+  static const String icDiLam = '$baseImg/ic_di_lam.svg';
+  static const String ic_tick_showToast = '$baseImg/ic_tick_show_toast.svg';
 
   static SvgPicture svgAssets(
     String name, {

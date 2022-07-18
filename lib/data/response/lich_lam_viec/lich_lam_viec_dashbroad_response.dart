@@ -86,6 +86,12 @@ class DataLichLamViecResponse {
   int? tongSoLichDuyetPhong;
   @JsonKey(name: 'tongSoLichDuyetThietBi')
   int? tongSoLichDuyetThietBi;
+  @JsonKey(name: 'soLichChoDuyetKyThuat')
+  int? soLichChoDuyetKyThuat;
+  @JsonKey(name: 'soLichTuChoiDuyetKyThuat')
+  int? soLichTuChoiDuyetKyThuat;
+  @JsonKey(name: 'soLichDaDuyetKyThuat')
+  int? soLichDaDuyetKyThuat;
 
 //
 
@@ -132,5 +138,9 @@ class DataLichLamViecResponse {
         tongSoLichDuyetCuaChuTri: tongSoLichDuyetCuaChuTri,
         tongSoLichDuyetPhong: tongSoLichDuyetPhong,
         tongSoLichDuyetThietBi: tongSoLichDuyetThietBi,
+        tongSoLichDuyetKyThuat: 0,
+        soLichChoDuyetKyThuat: soLichChoDuyetKyThuat,
+        soLichTuChoiDuyetKyThuat: soLichTuChoiDuyetKyThuat,
+        soLichDaDuyetKyThuat: soLichDaDuyetKyThuat,
       );
 }

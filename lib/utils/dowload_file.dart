@@ -13,21 +13,30 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 enum DomainDownloadType { GATEWAY, COMMON, CCVC, QLNV, PAKN }
-Future<String?> saveFile(
-    {bool? http,
-    required String fileName,
-    required String url,
-    Map<String, dynamic>? query,
-    DomainDownloadType downloadType = DomainDownloadType.GATEWAY}) async {
-  late OverlayEntry overlayEntry = _showLoading();
+
+Future<String?> saveFile({
+  required String fileName,
+  required String url,
+  Map<String, dynamic>? query,
+  DomainDownloadType downloadType = DomainDownloadType.GATEWAY,
+}) async {
+  final permission =  Permission.storage;
+  final status = await permission.status;
+  if (!(status.isGranted || status.isLimited)) {
+    await MessageConfig.showDialogSetting();
+    return '';
+  }
+  late final OverlayEntry overlayEntry = _showLoading();
   try {
     final OverlayState? overlayState = Overlay.of(MessageConfig.contextConfig!);
     overlayState?.insert(overlayEntry);
-    final response = await provideDio(baseOption: downloadType)
-        .get(url, queryParameters: query);
+    final response = await provideDio(
+      baseOption: downloadType,
+    ).get(url, queryParameters: query);
     await _saveFile(fileName, response.data);
     overlayEntry.remove();
     MessageConfig.show(title: S.current.tai_file_thanh_cong);
@@ -35,7 +44,10 @@ Future<String?> saveFile(
     return null;
   } on Exception catch (e) {
     overlayEntry.remove();
-    MessageConfig.show(title: e.toString(), messState: MessState.error);
+    MessageConfig.show(
+      title: S.current.tai_file_that_bai,
+      messState: MessState.error,
+    );
     return e.toString();
   }
 }
@@ -72,15 +84,20 @@ Future<void> writeFile(String path, String _fileName, dynamic data) async {
   while (file.existsSync()) {
     fullPath = '$path/$nameFile($count).$extension';
     count += 1;
+
     file = File(fullPath);
   }
+
   final raf = file.openSync(mode: FileMode.write);
   raf.writeFromSync(data);
   await raf.close();
 }
 
 int _connectTimeOut = 60000;
-Dio provideDio({DomainDownloadType baseOption = DomainDownloadType.CCVC}) {
+
+Dio provideDio({
+  DomainDownloadType baseOption = DomainDownloadType.CCVC,
+}) {
   String url = '';
   final appConstants = Get.find<AppConstants>();
   switch (baseOption) {
@@ -131,9 +148,6 @@ Dio provideDio({DomainDownloadType baseOption = DomainDownloadType.CCVC}) {
       onError: (DioError e, handler) => handler.next(e),
     ),
   );
-  if (Foundation.kDebugMode) {
-    dio.interceptors.add(dioLogger());
-  }
   return dio;
 }
 
@@ -148,10 +162,11 @@ PrettyDioLogger dioLogger() {
 OverlayEntry _showLoading() {
   return OverlayEntry(
     builder: (context) {
-      return  Scaffold(
+      return Scaffold(
         backgroundColor: Colors.grey.withOpacity(0.3),
         body: const Center(child: CupertinoLoading()),
       );
     },
   );
 }
+

@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
-import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'chi_tiet_lich_lam_viec.g.dart';
@@ -420,29 +419,19 @@ class ScheduleCoperativesResponse {
 
   Map<String, dynamic> toJson() => _$ScheduleCoperativesResponseToJson(this);
 
-  DonViModel toModel() => DonViModel(
-        id: id ?? '',
-        donViId: donViId ?? '',
-        tenDonVi: tenDonVi ?? '',
-        canBoId: canBoId ?? '',
-        name: hoTen ?? '',
-        userId: userId ?? '',
-        noidung: taskContent ?? '',
+  ScheduleCoperatives toModel() => ScheduleCoperatives(
+        id: id,
+        donViId: donViId,
+        tenDonVi: tenDonVi,
+        canBoId: canBoId,
+        hoTen: hoTen,
+        userName: userName,
+        userId: userId,
+        scheduleId: scheduleId,
+        isConfirm: isConfirm,
+        status: status,
+        confirmDate: confirmDate,
+        taskContent: taskContent,
+        parentId: parentId,
       );
-
-// ScheduleCoperatives toModel()=>ScheduleCoperatives(
-//   id:id,
-//   donViId:donViId,
-//   tenDonVi:tenDonVi,
-//   canBoId:canBoId,
-//   hoTen:hoTen,
-//   userName:userName,
-//   userId:userId,
-//   scheduleId:scheduleId,
-//   isConfirm:isConfirm,
-//   status:status,
-//   confirmDate:confirmDate,
-//   taskContent:taskContent,
-//   parentId:parentId,
-// );
 }

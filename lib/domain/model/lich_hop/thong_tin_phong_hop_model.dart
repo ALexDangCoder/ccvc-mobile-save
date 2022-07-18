@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -34,6 +35,12 @@ class ThongTinPhongHopModel {
   String? thietBiSanCo;
   String? tenPhong;
   TrangThaiPhongHop trangThaiPhongHop = TrangThaiPhongHop.DA_DUYET;
+  String? lichHopPhongHopId;
+  String? noiDungYeuCau;
+  String? tenTrangThai;
+  String? ghiChu;
+  String? trangThaiChuanBiId;
+  String? trangThaiChuanBi;
 
   ThongTinPhongHopModel({
     this.id = '',
@@ -42,8 +49,22 @@ class ThongTinPhongHopModel {
     this.trangThai,
     this.thietBiSanCo,
     this.tenPhong,
+    this.lichHopPhongHopId,
+    this.noiDungYeuCau,
+    this.tenTrangThai,
+    this.ghiChu,
+    this.trangThaiChuanBiId,
+    this.trangThaiChuanBi,
   }) {
     trangThaiPhongHop = fromEnum();
+  }
+
+  Color getColor(String? status) {
+    if (status == S.current.chua_thuc_hien) {
+      return textColorForum;
+    } else {
+      return greenChart;
+    }
   }
 
   TrangThaiPhongHop fromEnum() {
@@ -54,6 +75,23 @@ class ThongTinPhongHopModel {
         return TrangThaiPhongHop.DA_DUYET;
     }
     return TrangThaiPhongHop.CHO_DUYET;
+  }
+
+  PhongHopModel convertToPhongHopModel({
+    required bool isTTDH,
+    required int trangThai,
+    required List<ThietBiModel> listThietBi,
+  }) {
+    return PhongHopModel(
+      sucChua: int.parse(sucChua ?? '0'),
+      bit_TTDH: isTTDH,
+      diaChi: diaDiem ?? '',
+      donViDuyetId: '',
+      ten: tenPhong ?? '',
+      id: id ?? '',
+      trangThai: trangThai,
+      listThietBi: listThietBi,
+    );
   }
 }
 
@@ -85,47 +123,47 @@ class ThietBiPhongHopModel {
 }
 
 class PhienHopModel {
-  String? CanBoId;
-  String? DonViId;
-  String? HoTen;
-  String? Id;
-  String? LichHopId;
-  String? NoiDung;
-  String? ThoiGian_BatDau;
-  String? ThoiGian_KetThuc;
-  int? ThuTu;
-  String? TieuDe;
-  int? TrangThai;
+  String? canBoId;
+  String? donViId;
+  String? hoTen;
+  String? id;
+  String? lichHopId;
+  String? noiDung;
+  String? thoiGianBatDau;
+  String? thoiGianKetThuc;
+  int? thuTu;
+  String? tieuDe;
+  int? trangThai;
 
   PhienHopModel({
-    this.CanBoId,
-    this.DonViId,
-    this.HoTen,
-    this.Id,
-    this.LichHopId,
-    this.NoiDung,
-    this.ThoiGian_BatDau,
-    this.ThoiGian_KetThuc,
-    this.ThuTu,
-    this.TieuDe,
-    this.TrangThai,
+    this.canBoId,
+    this.donViId,
+    this.hoTen,
+    this.id,
+    this.lichHopId,
+    this.noiDung,
+    this.thoiGianBatDau,
+    this.thoiGianKetThuc,
+    this.thuTu,
+    this.tieuDe,
+    this.trangThai,
   });
 
   PhienHopModel.empty();
 
   factory PhienHopModel.fromJson(Map<String, dynamic> json) {
     return PhienHopModel(
-      CanBoId: json['CanBoId'],
-      DonViId: json['DonViId'],
-      HoTen: json['HoTen'],
-      Id: json['Id'],
-      LichHopId: json['LichHopId'],
-      NoiDung: json['NoiDung'],
-      ThoiGian_BatDau: json['ThoiGian_BatDau'],
-      ThoiGian_KetThuc: json['ThoiGian_KetThuc'],
-      ThuTu: json['ThuTu'],
-      TieuDe: json['TieuDe'],
-      TrangThai: json['TrangThai'],
+      canBoId: json['CanBoId'],
+      donViId: json['DonViId'],
+      hoTen: json['HoTen'],
+      id: json['Id'],
+      lichHopId: json['LichHopId'],
+      noiDung: json['NoiDung'],
+      thoiGianBatDau: json['ThoiGian_BatDau'],
+      thoiGianKetThuc: json['ThoiGian_KetThuc'],
+      thuTu: json['ThuTu'],
+      tieuDe: json['TieuDe'],
+      trangThai: json['TrangThai'],
     );
   }
 }

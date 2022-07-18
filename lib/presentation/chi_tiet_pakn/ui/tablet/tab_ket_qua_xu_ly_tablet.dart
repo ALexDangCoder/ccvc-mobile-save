@@ -25,21 +25,24 @@ class TabKetQuaXuLyTablet extends StatefulWidget {
   State<TabKetQuaXuLyTablet> createState() => _TabKetQuaXuLyTabletState();
 }
 
-class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
+class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getKetQuaXuLy(widget.id, widget.taskId);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       stream: widget.cubit.stateStream,
       error: AppException('', S.current.something_went_wrong),
-      retry: () {},
+      retry: () {
+        widget.cubit.getKetQuaXuLy(widget.id, widget.taskId);
+      },
       child: Padding(
         padding: const EdgeInsets.only(right: 30.0, left: 30.0, bottom: 30.0),
         child: _content(),
@@ -75,7 +78,8 @@ class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
                       content: data[indexItem][index].content,
                       urlFile: data[indexItem][index].urlDownload ?? [],
                       nameFile: data[indexItem][index].nameFile ?? [],
-                      domainDownload: '${Get.find<AppConstants>().baseUrlPAKN}/',
+                      domainDownload:
+                          '${Get.find<AppConstants>().baseUrlPAKN}/',
                     );
                   },
                 ),
@@ -92,4 +96,6 @@ class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
     );
   }
 
+  @override
+  bool get wantKeepAlive => true;
 }

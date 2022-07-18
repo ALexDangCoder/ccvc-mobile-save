@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 class StatusWidget extends StatelessWidget {
   final List<ChartData> listData;
+  final Function(int index)? callBack;
 
-  const StatusWidget({Key? key, required this.listData}) : super(key: key);
+  const StatusWidget({Key? key, required this.listData, this.callBack})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,14 @@ class StatusWidget extends StatelessWidget {
           child: Row(
             children: listData
                 .map(
-                  (e) => Expanded(
-                    flex: e.value.toInt() + 1,
+                  (e) {
+                final index = listData.indexOf(e);
+                return Expanded(
+                  flex: e.value.toInt() + 1,
+                  child: InkWell(
+                    onTap: () {
+                      if (callBack != null) callBack!(index);
+                    },
                     child: Container(
                       color: e.color,
                       child: Center(
@@ -35,7 +43,9 @@ class StatusWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                );
+              },
+            )
                 .toList(),
           ),
         ),
@@ -53,7 +63,9 @@ class StatusWidget extends StatelessWidget {
             final result = listData[index];
             // ignore: avoid_unnecessary_containers
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                if (callBack != null) callBack!(index);
+              },
               child: Row(
                 children: [
                   Container(

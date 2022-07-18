@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/detail_status.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -43,7 +44,7 @@ class ChiTietLichHopModel {
   String? days;
   bool? isDuyetThietBi = false;
   bool? bit_PhongTrungTamDieuHanh;
-  int? trangThaiDuyetKyThuat = -1;
+  int? trangThaiDuyetKyThuat;
   String? lichHop_PhienHopStr = '';
   String? diaDiemHop;
   bool? isCongKhai;
@@ -56,7 +57,6 @@ class ChiTietLichHopModel {
   List<PhongHopThietBi>? phongHopThietBi;
   String? thuMoiFiles;
   String? linhVucId;
-
 
   ChiTietLichHopModel({
     this.id = '',
@@ -107,6 +107,14 @@ class ChiTietLichHopModel {
     this.linhVucId,
   });
 
+  String getNgayBatDau() {
+    return '$ngayBatDau $timeStart';
+  }
+
+  String getNgayKetThuc() {
+    return '$ngayKetThuc $timeTo';
+  }
+
   String mucDoHopWithInt() {
     switch (mucDoHop) {
       case 1:
@@ -151,6 +159,31 @@ class ChiTietLichHopModel {
         return 'Trước 1 tuần';
     }
     return '';
+  }
+
+  StatusDetail get getStatus {
+    switch (status) {
+      case 0:
+        return StatusDetail.NHAP;
+      case 1:
+        return StatusDetail.CHO_DUYET;
+      case 2:
+        return StatusDetail.DA_DUYET;
+      case 3:
+        return StatusDetail.TU_CHOI_DUYET;
+      case 4:
+        return StatusDetail.THU_HOI;
+      case 5:
+        return StatusDetail.DANG_DIEN_RA;
+      case 6:
+        return StatusDetail.DA_GUI_LOI_MOI;
+      case 7:
+        return StatusDetail.XOA;
+      case 8:
+        return StatusDetail.HUY;
+      default:
+        return StatusDetail.NHAP;
+    }
   }
 
   String lichLap() {
@@ -392,18 +425,19 @@ class file {
   final String? updatedAt;
   final String? updatedBy;
 
-  file({this.createdAt,
-    this.createdBy,
-    this.entityId,
-    this.entityId_DM,
-    this.entityName,
-    this.entityType,
-    this.extension,
-    this.id,
-    this.isPrivate,
-    this.name,
-    this.path,
-    this.size,
-    this.updatedAt,
-    this.updatedBy});
+  file(
+      {this.createdAt,
+      this.createdBy,
+      this.entityId,
+      this.entityId_DM,
+      this.entityName,
+      this.entityType,
+      this.extension,
+      this.id,
+      this.isPrivate,
+      this.name,
+      this.path,
+      this.size,
+      this.updatedAt,
+      this.updatedBy});
 }

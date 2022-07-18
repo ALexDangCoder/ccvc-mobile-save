@@ -62,8 +62,12 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
               children: [
                 BaseSearchBarNoBorder(
                   hintText: S.current.nhap_don_vi,
-                  onChange: (vl) {
-                    widget.cubit.searchTree(vl);
+                  onChange: (value) {
+                    widget.cubit.waitToDelay(
+                      actionNeedDelay: () {
+                        widget.cubit.searchTree(value);
+                      },
+                    );
                   },
                 ),
                 Container(
@@ -74,12 +78,11 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                   child: StreamBuilder(
                     stream: widget.cubit.listTreeDanhBaSubject.stream,
                     builder: (context, snapshot) {
-                      if (widget.cubit.listTreeDanhBa.isEmpty) {
-                        return const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: NodataWidget(),
-                        );
-                      } else {
+                      if (snapshot.hasData &&
+                          (widget.cubit.listTreeDanhBaSubject.valueOrNull ??
+                                  TreeDanhBaDienTu())
+                              .tree
+                              .isNotEmpty) {
                         return Scrollbar(
                           child: Container(
                             constraints: const BoxConstraints(
@@ -105,6 +108,10 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                           ),
                         );
                       }
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 30),
+                        child: NodataWidget(),
+                      );
                     },
                   ),
                 )

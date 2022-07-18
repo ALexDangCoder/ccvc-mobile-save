@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import '/home_module/config/resources/color.dart';
 import '/home_module/config/resources/styles.dart';
 import '/home_module/domain/model/home/press_network_model.dart';
-import '/home_module/utils/constants/api_constants.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/utils/extensions/date_time_extension.dart';
 
@@ -47,8 +46,8 @@ class BaoChiWidget extends StatelessWidget {
               imageUrl: data.avatar,
               fit: BoxFit.cover,
               errorWidget: (context, _, err) {
-                return Image.network(
-                  ImageConstants.noImageFound,
+                return Image.asset(
+                  ImageAssets.erorrLoadImage,
                   fit: BoxFit.cover,
                 );
               },

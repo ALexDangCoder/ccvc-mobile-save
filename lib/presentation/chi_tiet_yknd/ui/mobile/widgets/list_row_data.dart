@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/item_row.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
-import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +11,7 @@ class ListItemRow extends StatelessWidget {
   final List<String>? nameFile;
   final List<String>? urlFile;
   final String? domainDownload;
+
   const ListItemRow({
     Key? key,
     required this.title,
@@ -55,9 +55,10 @@ class ListItemRow extends StatelessWidget {
                                     final int index =
                                         (content ?? []).indexOf(e);
                                     saveFile(
-                                        url: (urlFile ?? [])[index],
-                                        fileName: (nameFile ?? [])[index],
-                                        downloadType: DomainDownloadType.PAKN);
+                                      url: ('/') + (urlFile ?? [])[index],
+                                      fileName: (nameFile ?? [])[index],
+                                      downloadType: DomainDownloadType.PAKN,
+                                    );
                                   }
                                 : null,
                             child: Text(

@@ -67,7 +67,9 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
                     Text(
                       data.tenNguoiGui,
                       style: textNormalCustom(
-                          fontSize: 16.0.textScale(space: 4), color: textTitle),
+                        fontSize: 16.0.textScale(space: 4),
+                        color: textTitle,
+                      ),
                     ),
                     const SizedBox(
                       height: 4,
@@ -82,11 +84,14 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
             ],
           ),
           Container(
+            width: double.maxFinite,
             padding: const EdgeInsets.all(16),
             margin: const EdgeInsets.only(top: 24),
             decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(color: borderColor.withOpacity(0.5)))),
+              border: Border(
+                top: BorderSide(color: borderColor.withOpacity(0.5)),
+              ),
+            ),
             child: Text(
               data.loiChuc,
               style: textNormal(color3D5586, 14.0.textScale(space: 4)),

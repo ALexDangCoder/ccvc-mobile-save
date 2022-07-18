@@ -166,11 +166,13 @@ class TreeDonVi extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: DoubleButtonBottom(
                 title1: S.current.dong,
-                title2: S.current.them,
-                onPressed1: () {
+                title2: themDonViCubit.selectNode.isEmpty
+                    ? S.current.them
+                    : S.current.cap_nhat,
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   Navigator.pop(context, themDonViCubit.selectNode);
                 },
               ),

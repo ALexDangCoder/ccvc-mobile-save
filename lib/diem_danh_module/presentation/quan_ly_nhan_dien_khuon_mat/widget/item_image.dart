@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/select_image.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,19 +13,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 
-class ItemImageWidget extends StatelessWidget {
-  final String image;
-  final String title;
+class ItemImageWidget extends StatefulWidget {
+  final NhanDienKhuonMatUIModel dataUI;
   final DiemDanhCubit cubit;
+  final String? initImage;
+  final String? id;
 
   const ItemImageWidget({
     Key? key,
-    required this.image,
-    required this.title,
+    required this.dataUI,
     required this.cubit,
+    this.initImage,
+    required this.id,
   }) : super(key: key);
+
+  @override
+  State<ItemImageWidget> createState() => _ItemImageWidgetState();
+}
+
+class _ItemImageWidgetState extends State<ItemImageWidget> {
+  File? imageRepo;
+  String idImage = '';
+
+  @override
+  void dispose() {
+    imageRepo = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +59,7 @@ class ItemImageWidget extends StatelessWidget {
           ),
           spaceH14,
           Text(
-            title,
+            widget.dataUI.title,
             style: textNormalCustom(
               fontSize: 16.0,
               fontWeight: FontWeight.w400,
@@ -74,7 +91,7 @@ class ItemImageWidget extends StatelessWidget {
                               ),
                             ],
                             image: DecorationImage(
-                              image: AssetImage(image),
+                              image: AssetImage(widget.dataUI.image),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -104,29 +121,33 @@ class ItemImageWidget extends StatelessWidget {
                 ),
                 spaceW16,
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: colorE2E8F0),
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: colorFFFFFF,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.05),
-                            blurRadius: 2,
-                            spreadRadius: 2,
+                  child: SelectImageWidget(
+                    image: imageRepo == null
+                        ? widget.initImage
+                        : widget.cubit.getUrlImage(
+                            fileTypeUpload: widget.dataUI.fileTypeUpload,
+                            entityName: widget.dataUI.entityName,
+                            id: idImage,
                           ),
-                        ],
-                      ),
-                      child: StreamBuilder<File>(
-                        stream: cubit.imagePickerStream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data;
-                          return data == null ? emptyImage() : Container();
-                        },
-                      ),
-                    ),
+                    removeImage: () {
+                      if (idImage.isNotEmpty) {
+                        widget.cubit.deleteImage(idImage);
+                        idImage = '';
+                      } else {
+                        widget.cubit.deleteImage(widget.id ?? '');
+                      }
+                    },
+                    onTapImage: (image) async {
+                      imageRepo = image;
+                      if (image != null) {
+                        idImage = await widget.cubit.postImage(
+                          widget.dataUI.fileTypeUpload,
+                          widget.dataUI.entityName,
+                          [image],
+                        );
+                        setState(() {});
+                      }
+                    },
                   ),
                 )
               ],
@@ -136,25 +157,4 @@ class ItemImageWidget extends StatelessWidget {
       ),
     );
   }
-
-  Widget emptyImage() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          ImageAssets.icUpAnh,
-        ),
-        spaceH14,
-        Text(
-          S.current.tai_anh_len,
-          style: textNormal(
-            color667793,
-            14.0.textScale(),
-          ),
-        ),
-      ],
-    );
-  }
-
-// Widget upLoadImage() {}
 }

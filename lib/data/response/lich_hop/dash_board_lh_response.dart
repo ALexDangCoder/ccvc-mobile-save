@@ -68,6 +68,10 @@ class LichHopItemResponse {
   int? tongSoLichCoBaoCao;
   int? soLichPreviewPhong;
   int? soLichChuTri;
+  int? tongSoLichDuyetKyThuat;
+  int? soLichChoDuyetKyThuat;
+  int? soLichDaDuyetKyThuat;
+  int? soLichTuChoiDuyetKyThuat;
 
   LichHopItemResponse({
     this.countScheduleCaNhan,
@@ -103,6 +107,10 @@ class LichHopItemResponse {
     this.tongSoLichCoBaoCao,
     this.soLichPreviewPhong,
     this.soLichChuTri,
+    this.tongSoLichDuyetKyThuat,
+    this.soLichChoDuyetKyThuat,
+    this.soLichDaDuyetKyThuat,
+    this.soLichTuChoiDuyetKyThuat,
   });
 
   factory LichHopItemResponse.fromJson(Map<String, dynamic> json) =>
@@ -144,6 +152,10 @@ class LichHopItemResponse {
         tongSoLichCoBaoCao: tongSoLichCoBaoCao,
         soLichPreviewPhong: soLichPreviewPhong,
         soLichChuTri: soLichChuTri,
+        tongSoLichDuyetKyThuat: tongSoLichDuyetKyThuat,
+        soLichChoDuyetKyThuat: soLichChoDuyetKyThuat,
+        soLichDaDuyetKyThuat: soLichDaDuyetKyThuat,
+        soLichTuChoiDuyetKyThuat: soLichTuChoiDuyetKyThuat,
       );
 
   @override

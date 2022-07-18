@@ -21,6 +21,8 @@ class SelectDonVi extends StatefulWidget {
   final String? title;
   final String? hintText;
   final ThanhPhanThamGiaCubit cubit;
+  final ThemDonViCubit themDonViCubit;
+  final bool isRequire;
 
   const SelectDonVi({
     Key? key,
@@ -28,6 +30,8 @@ class SelectDonVi extends StatefulWidget {
     this.title,
     this.hintText,
     required this.cubit,
+    required this.themDonViCubit,
+    this.isRequire = false,
   }) : super(key: key);
 
   @override
@@ -35,14 +39,12 @@ class SelectDonVi extends StatefulWidget {
 }
 
 class _SelectDonViState extends State<SelectDonVi> {
-  final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     widget.cubit.getTreeDonVi.listen((event) {
-      _themDonViCubit.getTreeDonVi(event);
+      widget.themDonViCubit.getTreeDonVi(event);
     });
   }
 
@@ -51,10 +53,27 @@ class _SelectDonViState extends State<SelectDonVi> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title ?? S.current.don_vi_phong_ban,
-          style: textNormal(titleItemEdit, 14.0.textScale()),
-        ),
+        if (widget.isRequire)
+          Row(
+            children: [
+              Text(
+                widget.title ?? S.current.don_vi_phong_ban,
+                style: tokenDetailAmount(
+                  fontSize: 14.0.textScale(),
+                  color: titleItemEdit,
+                ),
+              ),
+              const Text(
+                ' *',
+                style: TextStyle(color: canceledColor),
+              )
+            ],
+          )
+        else
+          Text(
+            widget.title ?? S.current.don_vi_phong_ban,
+            style: textNormal(titleItemEdit, 14.0.textScale()),
+          ),
         SizedBox(
           height: 8.0.textScale(),
         ),
@@ -92,10 +111,11 @@ class _SelectDonViState extends State<SelectDonVi> {
         context,
         title: S.current.chon_thanh_phan_tham_gia,
         child: TreeDonVi(
-          themDonViCubit: _themDonViCubit,
+          themDonViCubit: widget.themDonViCubit,
         ),
       ).then((value) {
         if (value != null) {
+          widget.cubit.nodeDonViThemCanBo = value;
           widget.onChange(value.value);
           setState(() {});
         }
@@ -105,14 +125,15 @@ class _SelectDonViState extends State<SelectDonVi> {
         context,
         title: S.current.chon_thanh_phan_tham_gia,
         child: TreeDonVi(
-          themDonViCubit: _themDonViCubit,
+          themDonViCubit: widget.themDonViCubit,
         ),
         isBottomShow: true,
         funcBtnOk: () {
-          Navigator.pop(context, _themDonViCubit.selectNodeOnlyValue);
+          Navigator.pop(context, widget.themDonViCubit.selectNodeOnlyValue);
         },
       ).then((value) {
         if (value != null) {
+          widget.cubit.nodeDonViThemCanBo = value;
           widget.onChange(value.value);
           setState(() {});
         }
@@ -121,10 +142,10 @@ class _SelectDonViState extends State<SelectDonVi> {
   }
 
   String title() {
-    if (_themDonViCubit.selectNodeOnlyValue == null) {
+    if (widget.cubit.nodeDonViThemCanBo == null) {
       return widget.hintText ?? S.current.chon_don_vi_phong_ban;
     } else {
-      final Node<DonViModel> nodeDonVi = _themDonViCubit.selectNodeOnlyValue!;
+      final Node<DonViModel> nodeDonVi = widget.cubit.nodeDonViThemCanBo!;
       if (nodeDonVi.children.isEmpty) {
         return nodeDonVi.value.name;
       }
@@ -206,10 +227,10 @@ class TreeDonVi extends StatelessWidget {
               child: DoubleButtonBottom(
                 title1: S.current.dong,
                 title2: S.current.luu,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   Navigator.pop(context, themDonViCubit.selectNodeOnlyValue);
                 },
               ),

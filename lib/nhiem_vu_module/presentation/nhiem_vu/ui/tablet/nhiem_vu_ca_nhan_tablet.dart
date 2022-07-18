@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart'
 import 'package:flutter/material.dart';
 
 class NhiemVuCaNhanTablet extends StatefulWidget {
+  final String maTrangThai;
   final DanhSachCubit danhSachCubit;
   final NhiemVuCubit cubit;
   final bool isCheck;
@@ -24,6 +25,7 @@ class NhiemVuCaNhanTablet extends StatefulWidget {
     required this.danhSachCubit,
     required this.cubit,
     required this.isCheck,
+    this.maTrangThai='',
   }) : super(key: key);
 
   @override
@@ -37,9 +39,14 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.danhSachCubit.callApi(true);
-    widget.danhSachCubit.mangTrangThai = '';
+    widget.danhSachCubit.mangTrangThai =widget.maTrangThai;
     widget.danhSachCubit.keySearch = '';
+    if(widget.maTrangThai.isNotEmpty){
+      widget.danhSachCubit.callApi(true, canCallApi: false);
+    }
+    else{
+      widget.danhSachCubit.callApi(true);
+    }
   }
 
   @override
@@ -112,7 +119,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                 ],
               ),
               child: ExpandOnlyWidget(
-                isPadingIcon: true,
+                isPaddingIcon: true,
                 initExpand: true,
                 header: Container(
                   color: Colors.transparent,

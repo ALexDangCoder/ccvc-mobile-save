@@ -11,14 +11,13 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ba
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_tra_lai_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detai_doccument_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'detai_doccument_state.dart';
 
 class CommonDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
   CommonDetailDocumentGoCubit() : super(DetailDocumentInitial()) {

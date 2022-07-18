@@ -52,7 +52,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
                     : CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 2.0.textScale().toInt(),
+                    flex: 3.0.textScale().toInt(),
                     child: Text(
                       S.current.noi_dung,
                       style: textNormal(infoColor, 14),
@@ -89,7 +89,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 2.0.textScale().toInt(),
+          flex: 3.0.textScale().toInt(),
           child: Text(
             key,
             style: textNormal(infoColor, 14.0.textScale()),
@@ -116,7 +116,9 @@ class PeopleThamGiaWidget extends StatelessWidget {
       onChanged: (value) {
         onChange(value);
       },
-      maxLines: 1.0.textScale(space: 3).toInt(),
+      keyboardType: TextInputType.multiline,
+      maxLines: 3.0.textScale(space: 3).toInt(),
+      minLines: 1.0.textScale(space: 3).toInt(),
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,

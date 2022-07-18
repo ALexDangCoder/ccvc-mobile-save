@@ -42,22 +42,22 @@ class CanBoModel {
     this.disable,
     this.trangThai,
     this.isVangMat,
-    required this.id,
-    required this.lichHopId,
-    required this.donViId,
-    required this.canBoId,
-    required this.vaiTro,
-    required this.tenCanBo,
-    required this.ghiChu,
-    required this.parentId,
-    required this.vaiTroThamGia,
-    required this.email,
-    required this.soDienThoai,
+    this.id,
+    this.lichHopId,
+    this.donViId,
+    this.canBoId,
+    this.vaiTro,
+    this.tenCanBo,
+    this.ghiChu,
+    this.parentId,
+    this.vaiTroThamGia,
+    this.email,
+    this.soDienThoai,
     this.dauMoiLienHe,
-    required this.tenCoQuan,
-    required this.isThuKy,
-    required this.isThamGiaBocBang,
-    required this.createAt,
+    this.tenCoQuan,
+    this.isThuKy,
+    this.isThamGiaBocBang,
+    this.createAt,
     this.isDiemDanhInView = false,
   });
 
@@ -121,5 +121,23 @@ class CanBoModel {
     } else {
       return backgroundColorApp;
     }
+  }
+
+  String getNameVaiTro() {
+    switch (vaiTroThamGia) {
+      case 0:
+        return 'Cán bộ chủ trì';
+      case 1:
+        return 'Khách mời trong đơn vị';
+      case 2:
+        return 'Khách mời cán bộ trong đơn vị';
+      case 3:
+        return 'Cử đi';
+      case 4:
+        return 'Khách mời ngoài đơn vị';
+      case 5:
+        return 'Khách mời cán bộ ngoài đơn vị';
+    }
+    return '';
   }
 }

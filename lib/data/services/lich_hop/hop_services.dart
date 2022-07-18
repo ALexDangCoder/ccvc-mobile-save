@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
@@ -14,38 +15,45 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_bieu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/cap_nhat_trang_thai_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/sua_bieu_quyet_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/them_moi_vote_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_luan_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xoa_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/cu_can_bo_di_thay_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
-import 'package:ccvc_mobile/data/response/lich_hop/duyet_lich_response.dart';
-import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phat_bieu_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dash_board_lh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/duyet_lich_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/gui_mail_ket_luat-response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
@@ -55,6 +63,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dar
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/them_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
@@ -277,8 +286,9 @@ abstract class HopServices {
   Future<XoaBaoCaoKetQuaResponse> deleteKetLuanHop(@Query('id') String id);
 
   @DELETE(ApiConstants.DELETE_DETAIL_CELENDER_MEET)
-  Future<XoaBaoCaoKetQuaResponse> deleteChiTietLichHop(
+  Future<CuCanBoDiThayResponse> deleteChiTietLichHop(
     @Query('lstLichHopId') String id,
+    @Query('isMulti') bool isMulti,
   );
 
   @GET(ApiConstants.CANCEL_DETAIL_CELENDER_MEET)
@@ -336,11 +346,11 @@ abstract class HopServices {
   );
 
   @GET(ApiConstants.DANH_SACH_LOAI_NHIEM_VU)
-  Future<DanhSachNhiemVulichHopResponse> getDanhSachLoaiNhiemVu();
+  Future<List<DanhSachNhiemVulichHopResponse>> getDanhSachLoaiNhiemVu();
 
   @POST(ApiConstants.THEM_PHIEN_NhIEM_VU)
   Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(
-    @Part() ThemNhiemVuRequest themNhiemVuRequest,
+    @Body() ThemNhiemVuRequest themNhiemVuRequest,
   );
 
   @PUT(ApiConstants.EDIT_CHUONG_TRINH_HOP)
@@ -384,7 +394,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DIEM_DANH)
-  Future<PhanCongThuKyResponse> postDiemDanh(
+  Future<ThemPhienHopResponse> postDiemDanh(
     @Body() List<String> data,
   );
 
@@ -395,7 +405,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.HUY_DIEM_DANH)
-  Future<PhanCongThuKyResponse> postHuyDiemDanh(
+  Future<ThemPhienHopResponse> postHuyDiemDanh(
     @Query('request') String request,
   );
 
@@ -413,14 +423,14 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_PHONG_HOP)
-  Future<PhanCongThuKyResponse> huyOrDuyetPhongHop(
+  Future<ThemPhienHopResponse> huyOrDuyetPhongHop(
     @Field('lichHopId') String hopId,
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
   );
 
-  @POST(ApiConstants.CHON_PHONG_HOP)
-  Future<PhanCongThuKyResponse> thayDoiPhongHop(
+  @PUT(ApiConstants.CHON_PHONG_HOP)
+  Future<ThemPhienHopResponse> thayDoiPhongHop(
     @Field('bit_TTDH') bool bit_TTDH,
     @Field('lichHopId') String lichHopId,
     @Field('phongHopId') String phongHopId,
@@ -428,7 +438,7 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_THIET_BI)
-  Future<PhanCongThuKyResponse> duyetOrHuyDuyetThietBi(
+  Future<ThemPhienHopResponse> duyetOrHuyDuyetThietBi(
     @Field('isDuyet') bool isDuyet,
     @Field('lichHopId') String lichHopId,
     @Field('lyDo') String lyDo,
@@ -436,14 +446,14 @@ abstract class HopServices {
   );
 
   @POST(ApiConstants.DUYET_HOAC_HUYDUYET_KY_THUAT)
-  Future<PhanCongThuKyResponse> duyetOrHuyDuyetKyThuat(
-    @Field('lichHopId') String hopId,
+  Future<ThemPhienHopResponse> duyetOrHuyDuyetKyThuat(
+    @Field('hopId') String hopId,
     @Field('isDuyet') bool isDuyet,
     @Field('lyDo') String lyDo,
   );
 
   @POST(ApiConstants.CHON_PHONG_HOP_METTING)
-  Future<PhanCongThuKyResponse> chonPhongHopMetting(
+  Future<ThemPhienHopResponse> chonPhongHopMetting(
     @Body() TaoLichHopRequest taoLichHopRequest,
   );
 
@@ -488,5 +498,69 @@ abstract class HopServices {
   Future<ThemPhienHopResponse> xacNhanThamGiaHop(
     @Field('hopId') String hopId,
     @Field('isThamGia') bool isThamGia,
+  );
+
+  @POST(ApiConstants.CONFIRM_OR_CANCEL_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> xacNhanHoacHuyKetLuanHop(
+    @Field('lichHopId') String lichHopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('noiDung') String noiDung,
+  );
+
+  @POST(ApiConstants.CREATE_KET_LUAN_HOP)
+  @FormUrlEncoded()
+  Future<ThemPhienHopResponse> createKetLuanHop(
+    @Part(name: 'scheduleId') String? scheduleId,
+    @Part(name: 'reportStatusId') String? reportStatusId,
+    @Part(name: 'reportTemplateId') String? reportTemplateId,
+    @Part(name: 'content') String? content,
+    @Part(name: 'files') List<File> files,
+  );
+
+  @PUT(ApiConstants.GUI_DUYET_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> guiDuyetKetLuanHop(
+    @Query('meetId') String meetId,
+  );
+
+  @PUT(ApiConstants.THU_HOI_KET_LUAN_HOP)
+  Future<ThemPhienHopResponse> thuHoiKetLuanHop(
+    @Query('meetId') String meetId,
+  );
+
+  @DELETE(ApiConstants.DELETE_FILE)
+  Future<ThemPhienHopResponse> deleteFileHop(
+    @Query('id') String id,
+  );
+
+  @GET(ApiConstants.LIST_STATUS_ROOM)
+  Future<ListStatusRoomResponse> getListStatusRoom();
+
+  @PUT(ApiConstants.SUA_TRANG_THAI)
+  Future<CapNhatTrangThaiResponse> suaTrangThai(
+    @Body() CapNhatTrangThaiRequest capNhatTrangThaiRequest,
+  );
+
+  @POST(ApiConstants.THEM_MOI_VOTE)
+  Future<ThemMoiVoteResponse> themMoiVote(
+    @Body() ThemMoiVoteRequest themMoiVoteRequest,
+  );
+
+  @POST(ApiConstants.GET_LICH_CAN_KLCH)
+  Future<DanhSachLichHopResponse> getLichCanKLCH(
+    @Body() DanhSachLichHopRequest lichHopRequest,
+  );
+
+  @GET(ApiConstants.CHI_TIET_BIEU_QUYET)
+  Future<ChiTietBieuQuyetResponse> chiTietBieuQuyet(@Path('id') String id);
+
+  @PUT(ApiConstants.SUA_BIEU_QUYET)
+  Future<SuaBieuQuyetResponse> suaBieuQuyet(
+    @Body() SuaBieuQuyetRequest suaBieuQuyetRequest,
+  );
+
+  @DELETE(ApiConstants.XOA_BIEU_QUYET)
+  Future<XoaBieuQuyetResponse> xoaBieuQuyet(
+    @Query('bieuQuyetId') String bieuQuyetId,
+    @Query('canboId') String canboId,
   );
 }

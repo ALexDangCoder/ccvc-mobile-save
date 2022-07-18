@@ -21,19 +21,13 @@ class StatePhatBieuWidget extends StatefulWidget {
 class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
     with SingleTickerProviderStateMixin {
   bool expand = false;
-  static final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.easeIn);
-  static final Animatable<double> _halfTween =
-      Tween<double>(begin: 0.0, end: 0.5);
   late AnimationController expandController;
   late Animation<double> animation;
-  late Animation<double> _iconTurns;
 
   @override
   void initState() {
     super.initState();
     prepareAnimations();
-    _iconTurns = expandController.drive(_halfTween.chain(_easeInTween));
     _runExpandCheck();
   }
 
@@ -81,6 +75,8 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
                 value: data.value.toString(),
                 color: data.color ?? Colors.white,
                 ontap: () {
+                  /// reset list when change list
+                  widget.cubit.selectPhatBieu = [];
                   expand = !expand;
                   _runExpandCheck();
                 },
@@ -90,43 +86,56 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
           SizeTransition(
             axisAlignment: 1.0,
             sizeFactor: animation,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: backgroundColorApp,
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  border: Border.all(color: toDayColor),
-                ),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: widget.cubit.buttonStatePhatBieu.length,
-                  itemBuilder: (context, index) {
-                    final data = widget.cubit.buttonStatePhatBieu;
-                    return buttonPhone(
-                      key: data[index].key ?? '',
-                      value: data[index].value.toString(),
-                      color: data[index].color ?? Colors.white,
-                      ontap: () {
-                        widget.cubit.getValueStatus(index);
-                        expand = !expand;
-                        _runExpandCheck();
-                        widget.cubit.buttonStatePhatBieuSubject.sink.add(
-                          ButtonStatePhatBieu(
-                            key: data[index].key ?? '',
-                            value: data[index].value ?? 0,
-                            color: data[index].color ?? Colors.white,
-                          ),
-                        );
-                        widget.cubit.selectPhatBieu.clear();
-                      },
-                    );
-                  },
-                ),
-              ),
-            ),
+            child: StreamBuilder<int>(
+                stream: widget.cubit.typeStatus,
+                builder: (context, snapshot) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: backgroundColorApp,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        border: Border.all(color: toDayColor),
+                      ),
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: widget.cubit.buttonStatePhatBieu.length,
+                        itemBuilder: (context, index) {
+                          final data = widget.cubit.buttonStatePhatBieu;
+                          return StreamBuilder<SoLuongPhatBieuModel>(
+                              stream: widget.cubit.dataSoLuongPhatBieuSubject,
+                              builder: (context, snapshotCount) {
+                                return buttonPhone(
+                                  backgroup: widget.cubit
+                                      .bgrColorButton(snapshot.data ?? 0),
+                                  key: data[index].key ?? '',
+                                  value: data[index].value.toString(),
+                                  color: data[index].color ?? Colors.white,
+                                  ontap: () {
+                                    widget.cubit.getValueStatus(index);
+                                    expand = !expand;
+                                    _runExpandCheck();
+                                    widget.cubit.buttonStatePhatBieuSubject.sink
+                                        .add(
+                                      ButtonStatePhatBieu(
+                                        key: data[index].key ?? '',
+                                        value: data[index].value ?? 0,
+                                        color:
+                                            data[index].color ?? Colors.white,
+                                      ),
+                                    );
+                                    widget.cubit.selectPhatBieu.clear();
+                                  },
+                                );
+                              });
+                        },
+                      ),
+                    ),
+                  );
+                }),
           ),
         ],
       ),

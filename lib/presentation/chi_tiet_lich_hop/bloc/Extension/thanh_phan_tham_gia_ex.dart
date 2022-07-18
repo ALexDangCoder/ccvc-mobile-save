@@ -41,28 +41,34 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   }
 
   Future<void> postDiemDanh() async {
+    showLoading();
     final result = await hopRp.postDiemDanh(selectedIds);
     result.when(
       success: (value) {
-        if (value.succeeded == true) {
-          getDanhSachCuocHopTPTH();
-        }
+        showContent();
+        getDanhSachCuocHopTPTH();
         selectedIds.clear();
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
+    showContent();
   }
 
   Future<void> postHuyDiemDanh(String id) async {
+    showLoading();
     final result = await hopRp.postHuyDiemDanh(id);
     result.when(
       success: (value) {
-        if (value.succeeded == true) {
-          getDanhSachCuocHopTPTH();
-        }
+        showContent();
+        getDanhSachCuocHopTPTH();
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
+    showContent();
   }
 
   void search(String text) {
@@ -84,12 +90,12 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   }
 
   bool checkIsSelected(String id) {
-    bool vl = false;
+    bool value = false;
     if (selectedIds.contains(id)) {
-      vl = true;
+      value = true;
     }
     validateCheckAll();
-    return vl;
+    return value;
   }
 
   void addOrRemoveId({
@@ -130,7 +136,9 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   }
 
   Future<void> callApiThanhPhanThamGia() async {
+    showLoading();
     await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
+    showContent();
   }
 }

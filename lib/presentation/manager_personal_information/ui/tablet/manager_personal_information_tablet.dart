@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -116,7 +115,8 @@ class _ManagerPersonalInformationTabletState
                       color: backgroundColorApp,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                          color: borderItemCalender.withOpacity(0.5)),
+                        color: borderItemCalender.withOpacity(0.5),
+                      ),
                     ),
                     margin: const EdgeInsets.only(
                       top: 28,

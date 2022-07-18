@@ -5,10 +5,10 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/bloc/chon_phong_hoc_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
@@ -103,74 +103,49 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
       });
     }
   }
+}
 
-  Widget thietBiWidget({
-    required ThietBiValue value,
-    required Function() onDelete,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: containerColorTab.withOpacity(0.1),
-        border: Border.all(color: borderItemCalender),
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              rowInfo(
-                key: S.current.ten_thiet_bi,
-                value: value.tenThietBi,
-              ),
-              spaceH10,
-              rowInfo(
-                key: S.current.so_luong,
-                value: value.soLuong < 10
-                    ? '0${value.soLuong}'
-                    : value.soLuong.toString(),
-              )
-            ],
-          ),
-          Positioned(
-            right: 0,
-            child: GestureDetector(
-              onTap: () {
-                onDelete();
-              },
-              child: SvgPicture.asset(ImageAssets.icDeleteRed),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget rowInfo({required String key, required String value}) {
-    return Row(
+Widget thietBiWidget({
+  required ThietBiValue value,
+  required Function() onDelete,
+}) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: containerColorTab.withOpacity(0.1),
+      border: Border.all(color: borderItemCalender),
+      borderRadius: const BorderRadius.all(Radius.circular(6)),
+    ),
+    child: Stack(
       children: [
-        Expanded(
-          flex: 3,
-          child: Text(
-            key,
-            style: textNormal(infoColor, 14.0.textScale()),
-          ),
-        ),
-        Expanded(
-          flex: 7,
-          child: Container(
-            color: Colors.transparent,
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(
-              value,
-              style: textNormal(color3D5586, 14.0.textScale()),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            rowInfo(
+              key: S.current.ten_thiet_bi,
+              value: value.tenThietBi,
             ),
+            spaceH10,
+            rowInfo(
+              key: S.current.so_luong,
+              value: value.soLuong < 10
+                  ? '0${value.soLuong}'
+                  : value.soLuong.toString(),
+            )
+          ],
+        ),
+        Positioned(
+          right: 0,
+          child: GestureDetector(
+            onTap: () {
+              onDelete();
+            },
+            child: SvgPicture.asset(ImageAssets.icDeleteRed),
           ),
         )
       ],
-    );
-  }
+    ),
+  );
 }
 
 class ThemThietBiScreen extends StatefulWidget {
@@ -219,6 +194,7 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                     textInputType: TextInputType.number,
                     controller: soLuong,
                     hintText: S.current.nhap_so_luong,
+                    maxLength: 19,
                     validator: (value) {
                       final result = (value ?? '').checkNull();
                       if (result != null) {
@@ -243,10 +219,10 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                 isTablet: isMobile() == false,
                 title1: S.current.dong,
                 title2: S.current.xac_nhan,
-                onPressed1: () {
+                onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onPressed2: () {
+                onClickRight: () {
                   if (_key.currentState!.validator()) {
                     Navigator.pop(
                       context,

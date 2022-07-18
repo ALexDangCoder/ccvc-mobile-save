@@ -53,7 +53,7 @@ class ItemNguoiDung extends StatelessWidget {
                         .substring(0, 1) : name.substring(0,2)).toUpperCase(),
                 style: textNormalCustom(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -61,16 +61,16 @@ class ItemNguoiDung extends StatelessWidget {
           ),
           spaceW8,
           SizedBox(
-            width: (name.characters.length * 8).w < 80.w
+            width: (name.characters.length * 8).w < 220.w
                 ? (name.characters.length * 8).w
-                : 80.w,
+                : 220.w,
             child: Text(
               name,
               style: textNormalCustom(
                 color: color3D5586,
-                fontSize: 14,
+                fontSize: 14.sp,
               ),
-              overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.visible,
             ),
           ),
           if (hasFunction)

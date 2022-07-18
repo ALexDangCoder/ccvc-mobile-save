@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
@@ -61,7 +62,9 @@ class _ThemDonViPhoiHopKhacWidgetState
           onTap: () {
             showDialog(context);
           },
-          text: S.current.them_thanh_phan_tham_gia,
+          text: widget.isTaoHop
+              ? S.current.them_don_vi_phoi_hop_khac
+              : S.current.them_thanh_phan_tham_gia,
           urlIcon: ImageAssets.icAddButtonCalenderTablet,
         ),
         StreamBuilder<List<DonViModel>>(
@@ -280,7 +283,7 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
                   Expanded(
                     flex: 3,
                     child: Text(
-                      S.current.noi_dung,
+                      S.current.noidung,
                       style: textNormal(infoColor, 14),
                     ),
                   ),
@@ -413,10 +416,10 @@ class _ThemDonViPhoiHopKhacScreenState
             isTablet: isMobile() == false,
             title1: S.current.dong,
             title2: S.current.them,
-            onPressed1: () {
+            onClickLeft: () {
               Navigator.pop(context);
             },
-            onPressed2: () {
+            onClickRight: () {
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
@@ -480,6 +483,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _emailController,
                           hintText: S.current.email,
+                          textInputType: TextInputType.emailAddress,
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,
@@ -499,6 +503,10 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _sdtController,
                           hintText: S.current.so_dien_thoai,
+                          textInputType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           suffixIcon: SizedBox(
                             width: 20,
                             height: 20,

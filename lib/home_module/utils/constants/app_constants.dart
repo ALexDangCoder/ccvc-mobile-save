@@ -134,6 +134,7 @@ class WidgetTypeConstant {
   static const String NHIEM_VU = 'NhienVuWidGet';
   static const String TINH_HINH_XU_LY_PAKN_CA_NHAN = 'TinhHinhXuLyPAKNCaNhan';
   static const String TINH_HINH_XU_LY_PAKN_DON_VI = 'PhanAnhKienNghiDonVi';
+  static const String VAN_BAN_DON_VI = 'TinhHinhXuLyVanBanDonVi';
 }
 
 class DocumentState {
@@ -172,9 +173,9 @@ class DateFormatApp {
   static String date = 'dd/MM/yyyy';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
-  static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
-  static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
+  static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
 }
 
 class PermissionConst {

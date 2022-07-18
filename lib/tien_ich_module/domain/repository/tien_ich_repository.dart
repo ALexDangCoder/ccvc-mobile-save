@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/ChuyenVBThanhGiong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_sach_title_hdsd.dart';
@@ -63,7 +62,7 @@ mixin TienIchRepository {
 
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoToi();
 
-  Future<Result<List<TodoDSCVModel>>> xoaCongViec(String id);
+  Future<Result<TodoDSCVModel>> xoaCongViec(String id);
 
   Future<Result<NhomCVMoiModel>> createNhomCongViecMoi(String label);
 
@@ -91,4 +90,18 @@ mixin TienIchRepository {
   Future<Result<PostAnhModel>> uploadFile(File files);
 
   Future<Result<PostAnhModel>> uploadFileDSCV(File files);
+
+  Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoNguoiKhac();
+
+  Future<Result<List<TodoDSCVModel>>> getAllListDSCVWithFilter(
+    int? pageIndex,
+    int? pageSize,
+    String? searchWord,
+    bool? isImportant,
+    bool? inUsed,
+    bool? isTicked,
+    String? groupId,
+  );
+
+  Future<Result<List<CountTodoModel>>> getCountTodo();
 }

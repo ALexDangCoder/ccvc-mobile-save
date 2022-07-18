@@ -12,6 +12,7 @@ class DanhSachLichHopRequest {
   int? PageIndex;
   int? PageSize;
   String? Title;
+
   bool? isLichCuaToi;
   bool? isLichDuocMoi;
   bool? isLichHuyBo;
@@ -27,6 +28,12 @@ class DanhSachLichHopRequest {
   bool? isDaCoBaoCao;
   bool? isChoXacNhan;
   bool? isDuyetPhong;
+  bool? isLichDonVi;
+  bool? isPreviewPhong;
+  bool? isChuaChuanBi;
+  bool? isDaChuanBi;
+  bool? isDuyetKyThuat;
+  int? trangThaiDuyetKyThuat;
 
   DanhSachLichHopRequest({
     this.DateFrom,
@@ -52,10 +59,51 @@ class DanhSachLichHopRequest {
     this.isDaCoBaoCao,
     this.isChoXacNhan,
     this.isDuyetPhong,
+    this.isLichDonVi,
+    this.isPreviewPhong,
+    this.isChuaChuanBi,
+    this.isDaChuanBi,
+    this.isDuyetKyThuat,
+    this.trangThaiDuyetKyThuat,
   });
 
   factory DanhSachLichHopRequest.fromJson(Map<String, dynamic> json) =>
       _$DanhSachLichHopRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DanhSachLichHopRequestToJson(this);
+  Map<String, dynamic> toJson(){
+    final Map<String, dynamic> json = {
+      'DateFrom': DateFrom,
+      'DateTo': DateTo,
+      'UserId': UserId,
+      'DonViId': DonViId,
+      'IsLichLanhDao': IsLichLanhDao,
+      'PageIndex': PageIndex,
+      'Title': Title,
+      'isLichCuaToi': isLichCuaToi,
+      'isLichDuocMoi': isLichDuocMoi,
+      'isLichHuyBo': isLichHuyBo,
+      'isLichTaoHo': isLichTaoHo,
+      'isLichThamGia': isLichThamGia,
+      'isLichThuHoi': isLichThuHoi,
+      'isLichTuChoi': isLichTuChoi,
+      'isPublish': isPublish,
+      'isDuyetLich': isDuyetLich,
+      'isDuyetThietBi': isDuyetThietBi,
+      'isLichYeuCauChuanBi': isLichYeuCauChuanBi,
+      'isChuaCoBaoCao': isChuaCoBaoCao,
+      'isDaCoBaoCao': isDaCoBaoCao,
+      'isChoXacNhan': isChoXacNhan,
+      'isDuyetPhong': isDuyetPhong,
+      'isLichDonVi': isLichDonVi,
+      'isPreviewPhong': isPreviewPhong,
+      'isChuaChuanBi': isChuaChuanBi,
+      'isDaChuanBi': isDaChuanBi,
+      'isDuyetKyThuat': isDuyetKyThuat,
+      'trangThaiDuyetKyThuat': trangThaiDuyetKyThuat,
+    };
+    if(PageSize != null){
+      json.putIfAbsent('PageSize', () => PageSize);
+    }
+    return json;
+  }
 }

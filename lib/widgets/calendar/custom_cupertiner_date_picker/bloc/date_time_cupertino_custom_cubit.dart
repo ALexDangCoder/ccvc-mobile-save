@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -13,7 +15,9 @@ enum TypePickerDateTime { DATE_START, DATE_END, TIME_START, TIME_END }
 
 class DateTimeCupertinoCustomCubit
     extends BaseCubit<DateTimeCupertinoCustomState> {
-  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial());
+  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial()) {
+    getTimeConfig();
+  }
 
   BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject();
   BehaviorSubject<String> timeBeginSubject = BehaviorSubject();
@@ -31,10 +35,25 @@ class DateTimeCupertinoCustomCubit
 
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;
-  String timeFromTmp = 'hh:mm';
-  String dateFromTmp = 'DD/MM/YYYY';
-  String dateToTmp = 'DD/MM/YYYY';
-  String timeToTmp = 'hh:mm';
+  String timeFromTmp = INIT_TIME_PICK;
+  String dateFromTmp = INIT_DATE_PICK;
+  String dateToTmp = INIT_DATE_PICK;
+  String timeToTmp = INIT_TIME_PICK;
+  String timeStartConfigSystem = '00:00';
+  String timeEndConfigSystem = '00:00';
+
+  CalendarWorkRepository get calendarRepo => Get.find();
+
+  Future<void> getTimeConfig() async {
+    final result = await calendarRepo.getConfigTime();
+    result.when(
+      success: (res) {
+        timeStartConfigSystem = res.timeStart ?? '00:00';
+        timeEndConfigSystem = res.timeEnd ?? '00:00';
+      },
+      error: (error) {},
+    );
+  }
 
   void handleSwitchButtonPressed({required bool isChecked}) {
     if (isShowBeginPickerSubject.value) {
@@ -45,27 +64,19 @@ class DateTimeCupertinoCustomCubit
     }
     isSwitchBtnCheckedSubject.sink.add(isChecked);
     if (isChecked) {
-      final date = DateTime.now();
-      timeBeginSubject.sink.add(
-        DateTime(date.year, date.month, date.day, 08)
-            .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-      );
-      timeEndSubject.sink.add(
-        DateTime(date.year, date.month, date.day, 18)
-            .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-      );
-      dateBeginSubject.sink.add(
-        DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
-      );
+      dateBeginSubject.sink
+          .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       dateEndSubject.sink.add(
         DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
       );
+      timeBeginSubject.sink.add(timeStartConfigSystem);
+      timeEndSubject.sink.add(timeEndConfigSystem);
       validateTime.sink.add('');
     } else {
       timeBeginSubject.sink.add(timeFromTmp);
       timeEndSubject.sink.add(timeToTmp);
       dateBeginSubject.sink.add(dateFromTmp);
-      dateEndSubject.sink.add(dateToTmp);
+      dateEndSubject.sink.add(dateFromTmp);
     }
   }
 
@@ -92,20 +103,6 @@ class DateTimeCupertinoCustomCubit
     required DateTime timeSelected,
     required TypePickerDateTime typePicker,
   }) {
-    if (isSwitchBtnCheckedSubject.hasValue && isSwitchBtnCheckedSubject.value) {
-      timeEndSubject.sink.add(timeBeginSubject.value);
-      dateBeginSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      dateEndSubject.sink.add(
-        timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-      );
-      timeFromTmp = timeBeginSubject.value;
-      dateFromTmp = dateBeginSubject.value;
-      dateToTmp = dateEndSubject.value;
-      return;
-    }
-
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
         timeFromTmp = timeSelected.dateTimeFormatter(
@@ -126,54 +123,65 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_START:
         dateFromTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateBeginSubject.sink
-            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
+        dateBeginSubject.sink.add(dateFromTmp);
+        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
+          dateToTmp = dateFromTmp;
+          dateEndSubject.sink.add(dateFromTmp);
+        }
         break;
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
-        dateEndSubject.sink
-            .add(timeSelected.dateTimeFormatter(pattern: DateFormatApp.date));
+        dateEndSubject.sink.add(dateToTmp);
+        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
+          dateFromTmp = dateToTmp;
+          dateBeginSubject.sink.add(dateToTmp);
+        }
         break;
     }
   }
 
-  /// handle datetime begin greater than datetime end
-
-  /// Compares this DateTime object to [other],
-  /// returning zero if the values are equal.
-  /// Returns a negative value if this DateTime [isBefore] [other].
-  /// It returns 0 if it [isAtSameMomentAs] [other],
-  /// and returns a positive value otherwise (when this [isAfter] [other]).
   bool checkTime() {
-    if (dateBeginSubject.valueOrNull != 'DD/MM/YYYY' &&
-        timeBeginSubject.valueOrNull != 'hh:mm' &&
-        dateEndSubject.valueOrNull != 'DD/MM/YYYY' &&
-        timeEndSubject.valueOrNull != 'hh:mm') {
-      final begin = DateTime.parse(
-        timeFormat(
-          '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
-          'dd/MM/yyyy HH:mm',
-          'yyyy-MM-dd HH:mm',
-        ),
-      );
-      final end = DateTime.parse(
-        timeFormat(
-          '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
-          'dd/MM/yyyy HH:mm',
-          'yyyy-MM-dd HH:mm',
-        ),
-      );
-      if (begin.isAtSameMomentAs(end) ||
-          begin.isAfter(end) ||
-          end.isAtSameMomentAs(begin) ||
-          end.isBefore(begin)) {
-        validateTime.sink.add(S.current.thoi_gian_bat_dau);
-        return false;
-      } else {
-        validateTime.sink.add('');
-        return true;
+    try {
+      if (dateBeginSubject.hasValue &&
+          timeBeginSubject.hasValue &&
+          dateEndSubject.hasValue &&
+          timeEndSubject.hasValue) {
+        if (dateBeginSubject.value != INIT_DATE_PICK &&
+            timeBeginSubject.value != INIT_TIME_PICK &&
+            dateEndSubject.value != INIT_DATE_PICK &&
+            timeEndSubject.value != INIT_TIME_PICK) {
+          final begin = DateTime.parse(
+            timeFormat(
+              '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
+              DateTimeFormat.DATE_TIME_PICKER,
+              DateTimeFormat.DATE_TIME_PUT_EDIT,
+            ),
+          );
+          final end = DateTime.parse(
+            timeFormat(
+              '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
+              DateTimeFormat.DATE_TIME_PICKER,
+              DateTimeFormat.DATE_TIME_PUT_EDIT,
+            ),
+          );
+          if (begin.isAtSameMomentAs(end) ||
+              begin.isAfter(end) ||
+              end.isAtSameMomentAs(begin) ||
+              end.isBefore(begin)) {
+            validateTime.sink.add(S.current.thoi_gian_bat_dau);
+            return false;
+          } else {
+            validateTime.sink.add('');
+            return true;
+          }
+        } else {
+          validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+          return false;
+        }
       }
-    } else {
+      validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
+      return false;
+    } catch (e) {
       validateTime.sink.add(S.current.ban_phai_chon_thoi_gian);
       return false;
     }

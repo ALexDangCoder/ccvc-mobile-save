@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -24,6 +24,7 @@ class ButtonSelectFile extends StatefulWidget {
   final Widget Function(BuildContext, File)? builder;
   List<File> files;
   final double? spacingFile;
+  final bool isShowListFile;
 
   ButtonSelectFile({
     Key? key,
@@ -37,6 +38,7 @@ class ButtonSelectFile extends StatefulWidget {
     this.builder,
     this.files = const [],
     this.spacingFile,
+    this.isShowListFile = true,
   }) : super(key: key);
 
   @override
@@ -44,7 +46,7 @@ class ButtonSelectFile extends StatefulWidget {
 }
 
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
-  final TaoLichLamViecCubit _cubit = TaoLichLamViecCubit();
+  final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -104,22 +106,23 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         SizedBox(
           height: widget.spacingFile == null ? 16.0.textScale() : 0,
         ),
-        Column(
-          children: widget.files.isNotEmpty
-              ? widget.files.map((e) {
-                  if (widget.builder == null) {
-                    return itemListFile(
-                        file: e,
-                        onTap: () {
-                          _cubit.deleteFile(e, widget.files);
-                          setState(() {});
-                        },
-                        spacingFile: widget.spacingFile);
-                  }
-                  return widget.builder!(context, e);
-                }).toList()
-              : [Container()],
-        )
+        if (widget.isShowListFile)
+          Column(
+            children: widget.files.isNotEmpty
+                ? widget.files.map((e) {
+                    if (widget.builder == null) {
+                      return itemListFile(
+                          file: e,
+                          onTap: () {
+                            _cubit.deleteFile(e, widget.files);
+                            setState(() {});
+                          },
+                          spacingFile: widget.spacingFile);
+                    }
+                    return widget.builder!(context, e);
+                  }).toList()
+                : [Container()],
+          )
       ],
     );
   }

@@ -10,6 +10,7 @@ class ChiTietHeaderYKNDMobile extends StatelessWidget {
   const ChiTietHeaderYKNDMobile({Key? key, required this.cubit})
       : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<ChiTietYKNDModel>(
       stream: cubit.chiTietYKNDSubject.stream,

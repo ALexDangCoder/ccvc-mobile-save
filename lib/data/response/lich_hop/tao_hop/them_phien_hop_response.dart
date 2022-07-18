@@ -17,5 +17,5 @@ class ThemPhienHopResponse {
 
   Map<String, dynamic> toJson() => _$ThemPhienHopResponseToJson(this);
 
-  bool get isSucces => succeeded ?? false;
+  bool get isSuccess => succeeded ?? false;
 }

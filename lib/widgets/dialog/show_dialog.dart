@@ -22,7 +22,7 @@ Future<T?> showDiaLog<T>(
   return showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (context) {
+    builder: (dialogContext) {
       return Dialog(
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
@@ -31,7 +31,7 @@ Future<T?> showDiaLog<T>(
         clipBehavior: Clip.antiAlias,
         child: Container(
           width: showTablet
-              ? MediaQuery.of(context).size.width / 2
+              ? MediaQuery.of(dialogContext).size.width / 2
               : double.maxFinite,
           // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           padding: EdgeInsets.fromLTRB(
@@ -51,7 +51,7 @@ Future<T?> showDiaLog<T>(
                     GestureDetector(
                       child: SvgPicture.asset(ImageAssets.icClose),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pop(dialogContext);
                       },
                     ),
                     const SizedBox(
@@ -81,6 +81,7 @@ Future<T?> showDiaLog<T>(
                         dateColor,
                         showTablet ? 14.0.textScale() : 14,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 )
@@ -97,7 +98,7 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: false,
                         title: btnLeftTxt,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(dialogContext);
                         },
                       ),
                     ),
@@ -109,7 +110,7 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(dialogContext);
                           funcBtnRight();
                         },
                       ),
@@ -126,7 +127,7 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          Navigator.pop(context, true);
+                          Navigator.pop(dialogContext, true);
                           funcBtnRight();
                         },
                       ),

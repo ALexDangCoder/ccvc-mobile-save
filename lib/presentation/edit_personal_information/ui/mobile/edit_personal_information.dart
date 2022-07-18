@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -40,6 +39,7 @@ class EditPersonInformationScreen extends StatefulWidget {
 
 class _EditPersonalInformationScreen
     extends State<EditPersonInformationScreen> {
+  final ScrollController scrollController = ScrollController();
   ManagerPersonalInformationCubit cubit = ManagerPersonalInformationCubit();
   TextEditingController nameController = TextEditingController();
   TextEditingController maCanBoController = TextEditingController();
@@ -140,7 +140,9 @@ class _EditPersonalInformationScreen
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.symmetric(horizontal: 16),
+            controller: scrollController,
             child: FormGroup(
+              scrollController: scrollController,
               key: keyGroup,
               child: StreamBuilder<ManagerPersonalInformationModel>(
                 stream: cubit.managerStream,
@@ -485,7 +487,7 @@ class _EditPersonalInformationScreen
                       ),
                       spaceH20,
                       DoubleButtonBottom(
-                        onPressed1: () {
+                        onClickLeft: () {
                           showDiaLogTablet(
                             context,
                             title: S.current.ban_muon_thoat,
@@ -502,7 +504,7 @@ class _EditPersonalInformationScreen
                             isCallApi: false,
                           );
                         },
-                        onPressed2: () async {
+                        onClickRight: () async {
                           if (keyGroup.currentState?.validator() ?? true) {
                             await cubit
                                 .getEditPerson(

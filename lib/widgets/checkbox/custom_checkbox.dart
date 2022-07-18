@@ -8,14 +8,14 @@ class CustomCheckBox extends StatefulWidget {
   bool isAction;
   Color? color;
 
-  CustomCheckBox(
-      {Key? key,
-      required this.title,
-      this.onChange,
-      required this.isCheck,
-      this.color,
-      this.isAction = true})
-      : super(key: key);
+  CustomCheckBox({
+    Key? key,
+    required this.title,
+    this.onChange,
+    required this.isCheck,
+    this.color,
+    this.isAction = true,
+  }) : super(key: key);
 
   @override
   _CustomCheckBoxState createState() => _CustomCheckBoxState();

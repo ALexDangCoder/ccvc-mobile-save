@@ -13,6 +13,8 @@ extension StringHandle on String {
         '${substring(0, 7)}...${substring(length - 10, length)}';
     return result;
   }
+
+  String get removeSpace => trim().replaceAll(' +', ' ');
 }
 
 extension StringMoneyFormat on String {
@@ -23,8 +25,7 @@ extension StringMoneyFormat on String {
 }
 
 extension VietNameseParse on String {
-  String get textToCode =>
-      this.split(' ').join('_').toUpperCase().vietNameseParse();
+  String get textToCode => split(' ').join('_').toUpperCase().vietNameseParse();
 
   String vietNameseParse() {
     var result = this;
@@ -71,8 +72,47 @@ extension FormatAddressConfirm on String {
     }
   }
 
+  String formatTimeWithJm(String pattern) {
+    try {
+      return DateFormat.jm('en').format(DateFormat(pattern).parse(this));
+    } catch (_) {
+      return '';
+    }
+  }
+
+  DateTime getOnlyDate(String dateString) {
+    final date = dateString.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_RECEIVE,
+    );
+    return DateTime(date.year, date.month, date.day);
+  }
+
+  bool checkBeforeAfterDate({
+    required DateTime compareDate,
+    bool checkBefore = true,
+  }) {
+    try {
+      final DateTime currentDate = getOnlyDate(this);
+      final compareDateOnlyDate = DateTime(
+        compareDate.year,
+        compareDate.month,
+        compareDate.day,
+      );
+      final compareValue = currentDate.compareTo(compareDateOnlyDate);
+      if ((compareValue == -1 && checkBefore) ||
+          (compareValue == 1 && !checkBefore)) {
+        return true;
+      }
+    } catch (_) {}
+    return false;
+  }
+
   DateTime convertStringToDate({String formatPattern = 'yyyy-MM-dd'}) {
-    return DateFormat(formatPattern).parse(this);
+    try {
+      return DateFormat(formatPattern).parse(this);
+    } catch (_) {
+      return DateTime.now();
+    }
   }
 
   TimerData? getTimeData({TimerData? timeReturnParseFail}) {
@@ -102,8 +142,7 @@ extension StringParse on String {
     final document = this;
     final int startOfSubString = document.lastIndexOf('/');
 
-    final subString =
-        document.substring(startOfSubString + 1, document.length);
+    final subString = document.substring(startOfSubString + 1, document.length);
     return subString.contains('.');
   }
 
@@ -121,6 +160,26 @@ extension StringParse on String {
     }
     final fileName = '${partsNameFile[0]}.${partsNameFile[1]}';
 
+    return fileName;
+  }
+
+  String get nameOfFile {
+    var fileName = '';
+    if (isNotEmpty) {
+      final document = this;
+
+      final parts = document.split('/');
+
+      final lastName = parts.last;
+
+      final partsNameFile = lastName.split('.');
+      if (partsNameFile.isNotEmpty) {
+        if (partsNameFile[0].length > 30) {
+          partsNameFile[0] = '${partsNameFile[0].substring(0, 20)}... ';
+        }
+        fileName = '${partsNameFile.first}.${partsNameFile[1]}';
+      }
+    }
     return fileName;
   }
 
@@ -148,6 +207,20 @@ extension StringParse on String {
         return 6;
       case 'Chủ nhât':
         return 7;
+    }
+  }
+
+  String formatTime() {
+    /// format 8:00 to 08:00
+    try {
+      String h = split(':').first;
+      final hour = int.parse(split(':').first);
+      if (hour <= 9) {
+        h = '0$hour';
+      }
+      return '$h:${split(':').last}';
+    } catch (e) {
+      return this;
     }
   }
 }
@@ -195,9 +268,9 @@ extension CheckValidate on String {
   }
 
   String? checkPassWordChangePass(String name) {
-    final isCheck =
-        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
-            .hasMatch(this);
+    final isCheck = RegExp(
+            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
+        .hasMatch(this);
     if (isCheck) {
       return null;
     } else {
@@ -206,7 +279,7 @@ extension CheckValidate on String {
   }
 
   bool? checkSdtDinhDangTruong() {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return true;
     } else {
@@ -238,17 +311,17 @@ extension CheckValidate on String {
     }
   }
 
-  String? checkSdtRequire() {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+  String? checkSdtRequire({String? messageError}) {
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return null;
     } else {
-      return S.current.nhap_sai_dinh_dang;
+      return messageError ?? S.current.nhap_sai_dinh_dang;
     }
   }
 
   String? checkSdtRequire2(String text) {
-    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
     if (isCheckSdt) {
       return null;
     } else {
@@ -265,9 +338,9 @@ extension CheckValidate on String {
     }
   }
 
-  String? checkNull() {
+  String? checkNull({String? showText}) {
     if (trim().isEmpty) {
-      return S.current.khong_duoc_de_trong;
+      return showText ?? S.current.khong_duoc_de_trong;
     }
     return null;
   }
@@ -279,9 +352,30 @@ extension CheckValidate on String {
     return null;
   }
 
+  String? validatorLocation() {
+    if (trim().isEmpty) {
+      return S.current.location_warning;
+    }
+    return null;
+  }
+
   String? checkTruongNull(String name) {
     if (trim().isEmpty) {
       return '${S.current.ban_phai_nhap_truong} $name';
+    }
+    return null;
+  }
+
+  String? pleaseEnter(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.please_enter} ${name.toLowerCase()}';
+    }
+    return null;
+  }
+
+  String? pleaseChoose(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.please_choose} $name';
     }
     return null;
   }

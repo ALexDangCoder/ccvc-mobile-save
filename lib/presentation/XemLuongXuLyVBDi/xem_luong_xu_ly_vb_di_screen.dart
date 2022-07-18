@@ -17,8 +17,10 @@ import 'bloc/xem_luong_xu_ly_cubit.dart';
 
 class XemLuongXuLyVbDi extends StatefulWidget {
   final String id;
+  final bool isTablet;
 
-  const XemLuongXuLyVbDi({Key? key, required this.id}) : super(key: key);
+  const XemLuongXuLyVbDi({Key? key, required this.id, this.isTablet = false})
+      : super(key: key);
 
   @override
   _XemLuongXuLyVbDiState createState() => _XemLuongXuLyVbDiState();
@@ -75,7 +77,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                                 child: Container(
                                   height: 6,
                                   width: double.infinity,
-                                  color: data.getLoaiBanHanh().color,
+                                  color: LuongXuLyVBDiModel.getLoaiBanHanh(data.loaiXuLy).color,
                                 ),
                               ),
                               const SizedBox(
@@ -139,7 +141,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Text(data.getLoaiBanHanh().title,
+                              Text(LuongXuLyVBDiModel.getLoaiBanHanh(data.loaiXuLy).title,
                                   style: textNormal(borderCaneder, 14)),
                               const SizedBox(
                                 height: 6,
@@ -216,64 +218,34 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                           childAspectRatio: 6.7,
                           children:
                               List.generate(chuThichTrangThai.length, (index) {
-                            return rowChuThich(index: index);
+                            return rowChuThich(
+                                isTablet: widget.isTablet,
+                                index: index);
                           }),
                         ),
                         const SizedBox(
                           height: 24,
                         ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: rowChuThich(
-                                    boxShape: BoxShape.rectangle,
-                                    index: 1,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: rowChuThich(
-                                    boxShape: BoxShape.rectangle,
-                                    index: 1,
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: rowChuThich(
-                                    boxShape: BoxShape.rectangle,
-                                    index: 2,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: rowChuThich(
-                                    boxShape: BoxShape.rectangle,
-                                    index: 3,
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: rowChuThich(
-                                    boxShape: BoxShape.rectangle,
-                                    index: 4,
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        )
+                        GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2.textScale(space: 3),
+                          mainAxisSpacing: 5,
+                          childAspectRatio: 6.7,
+                          children: List.generate(
+                              chuThichTrangThaiLuong.length -
+                                  ( 1.0.textScale(space: -1).toInt()), (index) {
+                            return rowChuThich(
+                              index: index,
+                              boxShape: BoxShape.rectangle,
+                            );
+                          }),
+                        ),
+                        const SizedBox(height: 6,),
+                        if (widget.isTablet) const SizedBox() else rowChuThich(
+                          index: chuThichTrangThaiLuong.length - 1,
+                          boxShape: BoxShape.rectangle,
+                        ),
                       ],
                     ),
                   ),
@@ -289,9 +261,12 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
   Widget rowChuThich({
     BoxShape boxShape = BoxShape.circle,
     required int index,
+    bool isTablet = false,
   }) {
     final data = boxShape == BoxShape.circle
-        ? chuThichTrangThai[index]
+        ? isTablet
+            ? chuThichTrangThaiTablet[index]
+            : chuThichTrangThai[index]
         : chuThichTrangThaiLuong[index];
     return Row(
       children: [
@@ -303,13 +278,15 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
         const SizedBox(
           width: 10,
         ),
-        Flexible(
-          child: Text(
-            data.title,
-            style: textNormal(titleItemEdit, 16),
-            maxLines: 2,
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              data.title,
+              style: textNormal(titleItemEdit, 16),
+            ),
           ),
-        )
+        ),
       ],
     );
   }

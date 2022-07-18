@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chart_pakn/document_dashboard_model.dart';
 
 class DashboardTinhHinhPAKNResponse {
   Data? data;

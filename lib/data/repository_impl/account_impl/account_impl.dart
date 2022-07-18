@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/data/response/account/list_permission_response.dart'
 import 'package:ccvc_mobile/data/response/account/login_response.dart';
 import 'package:ccvc_mobile/data/response/account/permission_menu_response.dart';
 import 'package:ccvc_mobile/data/response/account/tinh_huyen_xa/tinh_huyen_xa_response.dart';
+import 'package:ccvc_mobile/data/response/account/unauthorized_response.dart';
 import 'package:ccvc_mobile/data/response/edit_person_information/edit_person_information_response.dart';
 import 'package:ccvc_mobile/data/response/home/list_birthday_response.dart';
 import 'package:ccvc_mobile/data/response/home/pham_vi_response.dart';
@@ -24,6 +25,7 @@ import 'package:ccvc_mobile/domain/model/account/forgot_password_model.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_app_model.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_menu_model.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
+import 'package:ccvc_mobile/domain/model/account/unauthorized_model.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/up_load_anh_model.dart';
 import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
@@ -80,12 +82,12 @@ class AccountImpl implements AccountRepository {
 
   @override
   Future<Result<List<BirthdayModel>>> getListBirthday(
-      int pageSize,
-      int pageIndex,
-      ) {
+    int pageSize,
+    int pageIndex,
+  ) {
     return runCatchingAsync<ListBirthDayResponse, List<BirthdayModel>>(
-          () => _accountServiceGateWay.getListBirthday(pageSize, pageIndex),
-          (res) => res.data?.pageData?.map((e) => e.toModel()).toList() ?? [],
+      () => _accountServiceGateWay.getListBirthday(pageSize, pageIndex),
+      (res) => res.data?.pageData?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 
@@ -138,10 +140,15 @@ class AccountImpl implements AccountRepository {
   }
 
   @override
-  Future<Result<ForgotPasswordModel>> forgotPassword(String email, String userName,String origin) {
+  Future<Result<ForgotPasswordModel>> forgotPassword(
+      String email, String userName, String origin) {
     return runCatchingAsync<ForgotPasswordResponse, ForgotPasswordModel>(
-        () => _accountServiceCommon
-            .forgotPassword(ForgotPasswordRequest(email: email,userName: userName,),origin),
+        () => _accountServiceCommon.forgotPassword(
+            ForgotPasswordRequest(
+              email: email,
+              userName: userName,
+            ),
+            origin),
         (response) => response.toModel());
   }
 
@@ -167,5 +174,15 @@ class AccountImpl implements AccountRepository {
     return runCatchingAsync<LoginResponse, DataLogin>(
         () => _accountServiceGateWay.chuyenPhamVi(chuyenPhamViRequest),
         (res) => res.toModel());
+  }
+
+  @override
+  Future<Result<UnauthorizedModel>> refreshToken(
+      String accessToken, String refreshToken) {
+    return runCatchingAsync<UnauthorizedResponse, UnauthorizedModel>(
+        () => _accountServiceGateWay.refreshToken(
+              accessToken,
+              refreshToken,
+            ), (res) => res.toModel());
   }
 }

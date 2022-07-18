@@ -20,6 +20,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final Widget? customValue;
   final Function(int)? onChange;
   final String hintText;
+  final int? maxLine;
 
   const SelectOnlyExpand({
     Key? key,
@@ -31,7 +32,7 @@ class SelectOnlyExpand extends StatefulWidget {
     required this.urlIcon,
     this.customValue,
     this.onChange,
-    this.hintText = '',
+    this.hintText = '', this.maxLine,
   }) : super(key: key);
 
   @override
@@ -129,6 +130,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                               widget.listSelect[index],
                               style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
+                              maxLines: widget.maxLine,
                             ),
                           ),
                           if (widget.isShowValue)

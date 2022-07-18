@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/report_filter.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_filter_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list_mobile.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -16,7 +16,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ReportScreenMobile extends StatefulWidget {
-  const ReportScreenMobile({Key? key}) : super(key: key);
+  final String? title;
+
+  const ReportScreenMobile({
+    Key? key,
+    this.title,
+  }) : super(key: key);
 
   @override
   _ReportScreenMobileState createState() => _ReportScreenMobileState();
@@ -36,6 +41,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
+      title: widget.title,
       retry: () {
         cubit.getAppID();
       },
@@ -69,77 +75,96 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => ReportFilter(
-                        cubit: cubit,
-                      ),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      StreamBuilder<String>(
-                        stream: cubit.textFilter,
-                        builder: (context, snapshot) {
-                          return Text(
-                            snapshot.data ?? '',
-                            style: textNormalCustom(
-                              fontSize: 14.0,
-                              color: infoColor,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16,
+                Expanded(
+                  flex: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => ReportFilterMobile(
+                          cubit: cubit,
                         ),
-                        child: SvgPicture.asset(
-                          ImageAssets.icDropDown,
-                          color: AppTheme.getInstance().unselectedLabelColor(),
-                        ),
-                      ),
-                    ],
+                      );
+                    },
+                    child: StreamBuilder<String>(
+                      stream: cubit.textFilter,
+                      builder: (context, snapshot) {
+                        return RichText(
+                          text: TextSpan(
+                            children: <WidgetSpan>[
+                              WidgetSpan(
+                                child: Text(
+                                  snapshot.data ?? '',
+                                  style: textNormalCustom(
+                                    fontSize: 14.0,
+                                    color: infoColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                    bottom: 4,
+                                  ),
+                                  child: SvgPicture.asset(
+                                    ImageAssets.icDropDown,
+                                    color: AppTheme.getInstance()
+                                        .unselectedLabelColor(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                StreamBuilder<bool>(
-                  stream: cubit.isListView,
-                  builder: (context, snapshot) {
-                    return Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            cubit.isListViewInit=true;
-                            cubit.isListView.sink.add(cubit.isListViewInit);
-                          },
-                          child: SvgPicture.asset(
-                            ImageAssets.icGridView,
-                            color: snapshot.data ?? cubit.isListViewInit
-                                ? AppTheme.getInstance().colorField()
-                                : AppTheme.getInstance().unselectedLabelColor(),
+                Expanded(
+                  flex: 2,
+                  child: StreamBuilder<bool>(
+                    stream: cubit.isListView,
+                    builder: (context, snapshot) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              cubit.isListViewInit = true;
+                              cubit.isListView.sink.add(cubit.isListViewInit);
+                            },
+                            child: SvgPicture.asset(
+                              ImageAssets.icGridView,
+                              color: snapshot.data ?? cubit.isListViewInit
+                                  ? AppTheme.getInstance().colorField()
+                                  : AppTheme.getInstance()
+                                      .unselectedLabelColor(),
+                            ),
                           ),
-                        ),
-                        spaceW16,
-                        GestureDetector(
-                          onTap: () {
-                            cubit.isListViewInit=false;
-                            cubit.isListView.sink.add(cubit.isListViewInit);
-                          },
-                          child: SvgPicture.asset(
-                            ImageAssets.icListHopMobile,
-                            color: !(snapshot.data ?? cubit.isListViewInit)
-                                ? AppTheme.getInstance().colorField()
-                                : AppTheme.getInstance().unselectedLabelColor(),
+                          spaceW16,
+                          GestureDetector(
+                            onTap: () {
+                              cubit.isListViewInit = false;
+                              cubit.isListView.sink.add(cubit.isListViewInit);
+                            },
+                            child: SvgPicture.asset(
+                              ImageAssets.icListHopMobile,
+                              color: !(snapshot.data ?? cubit.isListViewInit)
+                                  ? AppTheme.getInstance().colorField()
+                                  : AppTheme.getInstance()
+                                      .unselectedLabelColor(),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -155,12 +180,12 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          if (cubit.listReportFavorite.isNotEmpty)
+                          if (cubit.listReportFavorite?.isNotEmpty ?? false)
                             Column(
                               children: [
                                 titleBaoCao(S.current.yeu_thich),
                                 spaceH16,
-                                ReportList(
+                                ReportListMobile(
                                   scrollPhysics:
                                       const NeverScrollableScrollPhysics(),
                                   isListView: isListView,
@@ -174,7 +199,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
                             titleBaoCao(S.current.all),
                           spaceH16,
                           if (state is CompletedLoadMore)
-                            ReportList(
+                            ReportListMobile(
                               idFolder: cubit.folderId,
                               listReport: cubit.listReport,
                               isListView: isListView,
@@ -275,14 +300,16 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
             child: BlocBuilder(
               bloc: cubit,
               builder: (BuildContext context, Object? state) {
-                return cubit.listReportSearch.isNotEmpty
-                    ? ReportList(
-                        idFolder: cubit.folderId,
-                        listReport: cubit.listReportSearch,
-                        isListView: cubit.isListView.value,
-                        cubit: cubit,
-                      )
-                    : noData();
+                return cubit.listReportSearch != null
+                    ? cubit.listReportSearch?.isNotEmpty ?? false
+                        ? ReportListMobile(
+                            idFolder: cubit.folderId,
+                            listReport: cubit.listReportSearch,
+                            isListView: cubit.isListView.value,
+                            cubit: cubit,
+                          )
+                        : noData()
+                    : const SizedBox.shrink();
               },
             ),
           ),
@@ -296,11 +323,19 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
   ) {
     return BaseAppBarMobile(
       title: isSearch ? S.current.bac_cao : '',
+      leadingIcon: widget.title?.isNotEmpty ?? false
+          ? IconButton(
+              onPressed: () => {Navigator.pop(context)},
+              icon: SvgPicture.asset(
+                ImageAssets.icBack,
+              ),
+            )
+          : null,
       actions: [
         if (isSearch)
           GestureDetector(
             onTap: () {
-              cubit.isStatusSearch.add(false);
+              cubit.clickIconSearch();
             },
             child: Container(
               padding: const EdgeInsets.only(
@@ -438,7 +473,7 @@ Widget noData() {
           height: 30.0,
         ),
         Text(
-          S.current.khong_co_bao_cao,
+          S.current.khong_co_du_lieu,
           style: textNormalCustom(
             fontSize: 16.0.textScale(space: 4.0),
             color: grayChart,

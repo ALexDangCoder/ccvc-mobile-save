@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum AppMode { MAC_DINH, XANH, HONG, VANG }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -118,8 +120,9 @@ const VI_CODE = 'vi';
 const VI_LANG = 'vn';
 
 const EMAIL_REGEX =
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
+const PHONE_REGEX = r'^0+([0-9]{9})$';
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';
@@ -217,9 +220,9 @@ class DateFormatApp {
   static String date = 'dd/MM/yyyy';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
-  static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
-  static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
+  static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
   static String timeFormat = 'Hm';
 }
 
@@ -285,4 +288,11 @@ class StatusCodeConst {
   static int STATUS_SERVICE_UNAVAILABLE = 503;
   static int STATUS_GATEWAY_TIMEOUT = 504;
   static int STATUS_HTTP_VERSION_NOT_SUPPORTED = 505;
+}
+const Color shadow =Color.fromRGBO(0, 0, 0, 0.05);
+class DanhSachBienSoXeConst{
+  static const String XE_MAY='XE_MAY';
+  static const String O_TO='O_TO';
+  static const String XE_CAN_BO='XE_CAN_BO';
+  static const String XE_LANH_DAO='XE_LANH_DAO';
 }

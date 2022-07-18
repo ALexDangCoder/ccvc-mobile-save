@@ -2,16 +2,26 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/material.dart';
 
 class TaiLieuWidget extends StatefulWidget {
-  List<File>? files;
+  List<Files>? files;
+  final Function(List<File>, bool) onChange;
+  Function(String id) idRemove;
+  String size;
 
-  TaiLieuWidget({Key? key, this.files}) : super(key: key);
+  TaiLieuWidget({
+    Key? key,
+    this.files,
+    required this.onChange,
+    required this.idRemove,
+    this.size = '',
+  }) : super(key: key);
 
   @override
   _TaiLieuWidgetState createState() => _TaiLieuWidgetState();
@@ -19,6 +29,7 @@ class TaiLieuWidget extends StatefulWidget {
 
 class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   bool isExpand = false;
+  double maxSize20MB = 20971520;
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +70,14 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         ),
         ExpandedSection(
           expand: isExpand,
-          child: ButtonSelectFile(
+          child: ButtonSelectFileLichLamViec(
             hasMultipleFile: true,
-            maxSize: 20971520,
+            maxSize: maxSize20MB,
+            files: widget.files,
             title: S.current.dinh_kem_tep_english,
-            onChange: (List<File> files) {
+            onChange: (List<File> files, bool validate) {
+              widget.onChange(files, validate);
             },
-            files: widget.files ?? [],
           ),
         )
       ],

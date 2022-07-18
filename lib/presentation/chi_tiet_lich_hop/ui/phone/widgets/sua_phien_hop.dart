@@ -5,12 +5,11 @@ import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/selecdate_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -59,148 +58,134 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.8,
-      ),
-      child: FollowKeyBoardWidget(
-        bottomWidget: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
-          child: DoubleButtonBottom(
-            onPressed2: () async {
-              _keyBaseTime.currentState?.validator();
-              if (_key.currentState?.validator() ?? false) {
-                await widget.cubit
-                    .suaChuongTrinhHop(
-                  id: widget.id,
-                  lichHopId: widget.lichHopId,
-                  tieuDe: tenPhienHop.text,
-                  thoiGianBatDau: widget.cubit.plus(
-                    widget.cubit.ngaySinhs,
-                    widget.cubit.start,
-                  ),
-                  thoiGianKetThuc: widget.cubit.plus(
-                    widget.cubit.ngaySinhs,
-                    widget.cubit.end,
-                  ),
-                  canBoId: HiveLocal.getDataUser()?.userId ?? '',
-                  donViId: HiveLocal.getDataUser()
-                          ?.userInformation
-                          ?.donViTrucThuoc
-                          ?.id ??
-                      '',
-                  noiDung: noiDung.text,
-                  hoTen: widget.cubit.idPerson,
-                  isMultipe: false,
-                  file: widget.cubit.listFile ?? [],
-                )
-                    .then((value) {
-                  MessageConfig.show(
-                    title: S.current.sua_thanh_cong,
-                  );
-                  Navigator.pop(context, true);
-                }).onError((error, stackTrace) {
-                  MessageConfig.show(
-                      title: S.current.sua_that_bai,
-                      messState: MessState.error);
-                });
-              } else {
-                MessageConfig.show(
-                    title: S.current.sua_that_bai, messState: MessState.error);
-              }
-            },
-            onPressed1: () {
-              Navigator.pop(context);
-            },
-            title1: S.current.dong,
-            title2: S.current.luu,
-          ),
+    return FollowKeyBoardWidget(
+      bottomWidget: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: DoubleButtonBottom(
+          onClickRight: () async {
+            _keyBaseTime.currentState?.validator();
+            if (_key.currentState?.validator() ?? false) {
+              await widget.cubit.suaChuongTrinhHop(
+                id: widget.id,
+                lichHopId: widget.lichHopId,
+                tieuDe: tenPhienHop.text,
+                thoiGianBatDau: widget.cubit.plus(
+                  widget.cubit.ngaySinhs,
+                  widget.cubit.start,
+                ),
+                thoiGianKetThuc: widget.cubit.plus(
+                  widget.cubit.ngaySinhs,
+                  widget.cubit.end,
+                ),
+                canBoId: HiveLocal.getDataUser()?.userId ?? '',
+                donViId: HiveLocal.getDataUser()
+                        ?.userInformation
+                        ?.donViTrucThuoc
+                        ?.id ??
+                    '',
+                noiDung: noiDung.text,
+                hoTen: widget.cubit.idPerson,
+                isMultipe: false,
+                file: widget.cubit.listFile ?? [],
+              );
+              Navigator.pop(context, true);
+            } else {
+              return;
+            }
+          },
+          onClickLeft: () {
+            Navigator.pop(context);
+          },
+          title1: S.current.dong,
+          title2: S.current.luu,
         ),
-        child: SingleChildScrollView(
-          reverse: true,
-          child: FormGroup(
-            key: _key,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                InputInfoUserWidget(
-                  title: S.current.them_phien_hop,
-                  isObligatory: true,
-                  child: TextFieldValidator(
-                    controller: tenPhienHop,
-                    hintText: S.current.nhap_ten_phien_hop,
-                    onChange: (value) {
-                      widget.cubit.taoPhienHopRepuest.tieuDe = value;
-                    },
-                    validator: (value) {
-                      return value?.checkNull();
-                    },
-                  ),
-                ),
-                InputInfoUserWidget(
-                  title: S.current.thoi_gian_hop,
-                  isObligatory: true,
-                  child: SelectDate(
-                    //key: UniqueKey(),
-                    paddings: 10,
-                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                    value: ngay.text,
-                    onSelectDate: (dateTime) {
-                      if (mounted) setState(() {});
-                      widget.cubit.ngaySinhs = dateTime;
-                    },
-                  ),
-                ),
-                spaceH20,
-                BaseChooseTimerWidget(
-                  timeBatDau: widget.cubit.subStringTime(ngay.text),
-                  key: _keyBaseTime,
-                  timeKetThuc: widget.cubit.subStringTime(ngayKetThuc.text),
-                  onChange: (start, end) {
-                    widget.cubit.start = start;
-                    widget.cubit.end = end;
-                  },
-                ),
-                StreamBuilder<List<NguoiChutriModel>>(
-                  stream: widget.cubit.listNguoiCHuTriModel.stream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? [];
-                    return InputInfoUserWidget(
-                      title: S.current.nguoi_chu_tri,
-                      child: DropDownSearch(
-                        title: S.current.nguoi_chu_tri,
-                        hintText: S.current.chon_nguoi_chu_tri,
-                        onChange: (value) {
-                          widget.cubit.idPerson = data[value].hoTen ?? '';
-                        },
-                        listSelect: data.map((e) => e.hoTen ?? '').toList(),
-                      ),
-                    );
-                  },
-                ),
-                InputInfoUserWidget(
-                  title: S.current.noi_dung_phien_hop,
-                  isObligatory: true,
-                  child: TextFieldValidator(
-                    controller: noiDung,
-                    maxLine: 5,
-                    onChange: (value) {
-                      widget.cubit.taoPhienHopRepuest.noiDung = value;
-                    },
-                    validator: (value) {
-                      return value?.checkNull();
-                    },
-                  ),
-                ),
-                spaceH20,
-                ButtonSelectFile(
-                  title: S.current.tai_lieu_dinh_kem,
+      ),
+      child: SingleChildScrollView(
+        reverse: true,
+        child: FormGroup(
+          key: _key,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InputInfoUserWidget(
+                title: S.current.them_phien_hop,
+                isObligatory: true,
+                child: TextFieldValidator(
+                  controller: tenPhienHop,
+                  hintText: S.current.nhap_ten_phien_hop,
                   onChange: (value) {
-                    widget.cubit.listFile = value;
+                    widget.cubit.taoPhienHopRepuest.tieuDe = value;
                   },
-                )
-              ],
-            ),
+                  validator: (value) {
+                    return value?.checkNull();
+                  },
+                ),
+              ),
+              InputInfoUserWidget(
+                title: S.current.thoi_gian_hop,
+                isObligatory: true,
+                child: SelectDateWidget(
+                  paddings: 10,
+                  leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
+                  value: ngay.text,
+                  onSelectDate: (dateTime) {
+                    if (mounted) setState(() {});
+                    widget.cubit.ngaySinhs = dateTime;
+                  },
+                ),
+              ),
+              spaceH20,
+              BaseChooseTimerWidget(
+                timeBatDau: widget.cubit.subStringTime(ngay.text),
+                key: _keyBaseTime,
+                timeKetThuc: widget.cubit.subStringTime(ngayKetThuc.text),
+                onChange: (start, end) {
+                  widget.cubit.start = start;
+                  widget.cubit.end = end;
+                },
+              ),
+              StreamBuilder<List<NguoiChutriModel>>(
+                stream: widget.cubit.listNguoiCHuTriModel.stream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? [];
+                  return InputInfoUserWidget(
+                    title: S.current.nguoi_chu_tri,
+                    child: DropDownSearch(
+                      title: S.current.nguoi_chu_tri,
+                      hintText: S.current.chon_nguoi_chu_tri,
+                      onChange: (value) {
+                        widget.cubit.idPerson = data[value].hoTen ?? '';
+                      },
+                      listSelect: data.map((e) => e.hoTen ?? '').toList(),
+                    ),
+                  );
+                },
+              ),
+              InputInfoUserWidget(
+                title: S.current.noi_dung_phien_hop,
+                isObligatory: true,
+                child: TextFieldValidator(
+                  controller: noiDung,
+                  maxLine: 5,
+                  onChange: (value) {
+                    widget.cubit.taoPhienHopRepuest.noiDung = value;
+                  },
+                  validator: (value) {
+                    return value?.checkNull();
+                  },
+                ),
+              ),
+              spaceH20,
+              ButtonSelectFile(
+                removeFileApi: (int index) {},
+                title: S.current.tai_lieu_dinh_kem,
+                onChange: (
+                  value,
+                ) {
+                  widget.cubit.listFile = value;
+                },
+              )
+            ],
           ),
         ),
       ),

@@ -12,19 +12,19 @@ import '/home_module/config/resources/color.dart';
 import '/home_module/config/resources/styles.dart';
 import '/home_module/widgets/chart/base_pie_chart.dart';
 
-class VanBanDonViTablet extends StatefulWidget {
+class TinhHInhXuLyVanBanDonViTablet extends StatefulWidget {
   final WidgetType homeItemType;
 
-  const VanBanDonViTablet({
+  const TinhHInhXuLyVanBanDonViTablet({
     required this.homeItemType,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<VanBanDonViTablet> createState() => _VanBanDonViTabletState();
+  State<TinhHInhXuLyVanBanDonViTablet> createState() => _VanBanDonViTabletState();
 }
 
-class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
+class _VanBanDonViTabletState extends State<TinhHInhXuLyVanBanDonViTablet> {
   // late HomeCubit cubit;
   final VanBanDonViCubit _vanBanDonViCubit = VanBanDonViCubit();
 

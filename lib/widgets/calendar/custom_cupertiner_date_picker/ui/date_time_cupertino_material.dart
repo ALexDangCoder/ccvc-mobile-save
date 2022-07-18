@@ -78,26 +78,26 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   void initData(bool data) {
     if (data) {
       _cubit.onTimeChanged(
-        timeSelected: widget.initTimeEnd ??
-            DateTime.now().add(
-              const Duration(minutes: 30),
-            ),
-        typePicker: TypePickerDateTime.TIME_END,
-      );
+          timeSelected: widget.initTimeEnd ?? DateTime.now(),
+          typePicker: TypePickerDateTime.TIME_END);
       _cubit.onTimeChanged(
         timeSelected: widget.initDateEnd ?? DateTime.now(),
         typePicker: TypePickerDateTime.DATE_END,
       );
       _cubit.onTimeChanged(
-        timeSelected: widget.initTimeStart ?? DateTime.now(),
-        typePicker: TypePickerDateTime.TIME_START,
-      );
+          timeSelected: widget.initTimeStart ?? DateTime.now(),
+          typePicker: TypePickerDateTime.TIME_START);
       _cubit.onTimeChanged(
         timeSelected: widget.initDateStart ?? DateTime.now(),
         typePicker: TypePickerDateTime.DATE_START,
       );
       _cubit.isSwitchBtnCheckedSubject.add(widget.isSwitchButtonChecked);
     }
+  }
+
+  @override
+  void didUpdateWidget(covariant CupertinoMaterialPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -118,10 +118,12 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         stream: _cubit.validateTime.stream,
         builder: (context, snapshot) {
           widget.validateTime(
-            snapshot.data ?? S.current.ban_phai_chon_thoi_gian,
+            snapshot.data ??
+                (widget.isEdit ? '' : S.current.ban_phai_chon_thoi_gian),
           );
           return Visibility(
-            visible: (snapshot.data?.isNotEmpty) ?? false,
+            visible:
+                (snapshot.data?.isNotEmpty) ?? (widget.isEdit ? true : false),
             child: Padding(
               padding: const EdgeInsets.only(left: 28.0),
               child: Text(
@@ -147,127 +149,127 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
           ),
         ),
         child: ExpandOnlyWidget(
-            key: keyExpandedEnd,
-            isShowIcon: false,
-            header: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    S.current.ket_thuc,
-                    style: textNormal(titleItemEdit, 16),
-                  ),
+          key: keyExpandedEnd,
+          isShowIcon: false,
+          header: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Text(
+                  S.current.ket_thuc,
+                  style: textNormal(titleItemEdit, 16),
                 ),
-                StreamBuilder<bool>(
-                  stream: _cubit.isSwitchBtnCheckedSubject,
-                  builder: (context, snapshot) {
-                    final bool isShowTime = snapshot.data ?? false;
-                    return Visibility(
-                      visible: !isShowTime,
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.deferToChild,
-                        onTap: isShowTime
-                            ? () {}
-                            : () {
-                                expandEnd(TypePickerDateTime.TIME_END);
-                              },
-                        child: StreamBuilder<String>(
-                          stream: _cubit.timeEndSubject,
-                          initialData: 'hh:mm',
-                          builder: (context, snapshot) {
-                            final String time = snapshot.data ?? '';
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                              ),
-                              child: Text(
-                                time,
-                                style: textNormal(titleItemEdit, 16),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                StreamBuilder<String>(
-                  stream: _cubit.dateEndSubject.stream,
-                  initialData: 'DD/MM/YYYY',
-                  builder: (context, snapshot) {
-                    final String date = snapshot.data ?? S.current.ddmmyy;
-                    return GestureDetector(
+              ),
+              StreamBuilder<bool>(
+                stream: _cubit.isSwitchBtnCheckedSubject,
+                builder: (context, snapshot) {
+                  final bool isShowTime = snapshot.data ?? false;
+                  return Visibility(
+                    visible: !isShowTime,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        expandEnd(TypePickerDateTime.DATE_END);
+                        expandTimeEnd(TypePickerDateTime.TIME_END);
                       },
-                      child: Text(
-                        date,
-                        style: textNormal(titleItemEdit, 16),
+                      child: StreamBuilder<String>(
+                        stream: _cubit.timeEndSubject,
+                        initialData: INIT_TIME_PICK,
+                        builder: (context, snapshot) {
+                          final String time = snapshot.data ?? '';
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: Text(
+                              time,
+                              style: textNormal(titleItemEdit, 16),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+              StreamBuilder<String>(
+                stream: _cubit.dateEndSubject.stream,
+                initialData: INIT_DATE_PICK,
+                builder: (context, snapshot) {
+                  final String date = snapshot.data ?? S.current.ddmmyy;
+                  return GestureDetector(
+                    onTap: () {
+                      expandDateEnd(TypePickerDateTime.DATE_END);
+                    },
+                    child: Text(
+                      date,
+                      style: textNormal(titleItemEdit, 16),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+          child: StreamBuilder<TypePickerDateTime>(
+            stream: _cubit.typePickerSubjectEnd.stream,
+            initialData: TypePickerDateTime.TIME_END,
+            builder: (context, snapshot) {
+              final typePicker = snapshot.data ?? TypePickerDateTime.TIME_END;
+              return typePicker == TypePickerDateTime.TIME_END
+                  ? SizedBox(
+                      height: 200,
+                      child: CupertinoDatePicker(
+                        key: UniqueKey(),
+                        maximumDate: MAXIMUM_DATE,
+                        minimumDate: MINIMUM_DATE,
+                        maximumYear: MAXIMUM_YEAR,
+                        minimumYear: MINIMUM_YEAR,
+                        backgroundColor: backgroundColorApp,
+                        mode: _cubit.getTypePicker(typePicker),
+                        use24hFormat: true,
+                        initialDateTime: initDataTo.convertStringToDate(
+                          formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                        ),
+                        onDateTimeChanged: (value) {
+                          debouncer.run(
+                            () {
+                              _cubit.onTimeChanged(
+                                timeSelected: value,
+                                typePicker: typePicker,
+                              );
+                              widget.onDateTimeChanged(
+                                timeFrom,
+                                timeTo,
+                                dateFrom,
+                                dateTo,
+                              );
+                              _cubit.checkTime();
+                            },
+                          );
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: DateTimeCus(
+                        onDatePicked: (onDatePicked) {
+                          callBackEndPick(onDatePicked, typePicker);
+                          widget.onDateTimeChanged(
+                            timeFrom,
+                            timeTo,
+                            dateFrom,
+                            dateTo,
+                          );
+                        },
+                        initialDate: widget.initDateEnd ??
+                            initDataTo.convertStringToDate(
+                              formatPattern: DateFormatApp.pickDateFormat,
+                            ),
                       ),
                     );
-                  },
-                )
-              ],
-            ),
-            child: StreamBuilder<TypePickerDateTime>(
-              stream: _cubit.typePickerSubjectEnd.stream,
-              initialData: TypePickerDateTime.TIME_END,
-              builder: (context, snapshot) {
-                final typePicker = snapshot.data ?? TypePickerDateTime.TIME_END;
-                return typePicker == TypePickerDateTime.TIME_END
-                    ? SizedBox(
-                        height: 200,
-                        child: CupertinoDatePicker(
-                          key: UniqueKey(),
-                          maximumDate: DateTime(2099, 12, 30),
-                          maximumYear: 2099,
-                          minimumYear: _cubit.getYearNumber(),
-                          backgroundColor: backgroundColorApp,
-                          mode: _cubit.getTypePicker(typePicker),
-                          use24hFormat: true,
-                          initialDateTime: initDataTo.convertStringToDate(
-                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-                          ),
-                          onDateTimeChanged: (value) {
-                            debouncer.run(
-                              () {
-                                _cubit.onTimeChanged(
-                                  timeSelected: value,
-                                  typePicker: typePicker,
-                                );
-                                _cubit.checkTime();
-                                widget.onDateTimeChanged(
-                                  timeFrom,
-                                  timeTo,
-                                  dateFrom,
-                                  dateTo,
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: DateTimeCus(
-                          onDatePicked: (onDatePicked) {
-                            callBackEndPick(onDatePicked, typePicker);
-                            widget.onDateTimeChanged(
-                              timeFrom,
-                              timeTo,
-                              dateFrom,
-                              dateTo,
-                            );
-                          },
-                          initialDate: widget.initDateEnd ??
-                              initDataTo.convertStringToDate(
-                                formatPattern: DateFormatApp.pickDateFormat,
-                              ),
-                        ),
-                      );
-              },
-            )),
+            },
+          ),
+        ),
       );
 
   Widget get pickTimeStart => Container(
@@ -299,12 +301,13 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   return Visibility(
                     visible: !isShowTime,
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        expandStart(TypePickerDateTime.TIME_START);
+                        expandTimeStart(TypePickerDateTime.TIME_START);
                       },
                       child: StreamBuilder<String>(
                         stream: _cubit.timeBeginSubject,
-                        initialData: 'hh:mm',
+                        initialData: INIT_TIME_PICK,
                         builder: (context, snapshot) {
                           final String time = snapshot.data ?? '';
                           return Padding(
@@ -324,12 +327,12 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
               ),
               StreamBuilder<String>(
                 stream: _cubit.dateBeginSubject,
-                initialData: 'DD/MM/YYYY',
+                initialData: INIT_DATE_PICK,
                 builder: (context, snapshot) {
                   final String date = snapshot.data ?? S.current.ddmmyy;
                   return GestureDetector(
                     onTap: () {
-                      expandStart(TypePickerDateTime.DATE_START);
+                      expandDateStart(TypePickerDateTime.DATE_START);
                     },
                     child: Text(
                       date,
@@ -349,10 +352,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   ? SizedBox(
                       height: 200,
                       child: CupertinoDatePicker(
-                        maximumDate: DateTime(2099, 12, 30),
-                        minimumDate: DateTime(1900),
-                        maximumYear: 2099,
-                        minimumYear: 1900,
+                        maximumDate: MAXIMUM_DATE,
+                        minimumDate: MINIMUM_DATE,
+                        maximumYear: MAXIMUM_YEAR,
+                        minimumYear: MINIMUM_YEAR,
                         backgroundColor: backgroundColorApp,
                         mode: _cubit.getTypePicker(typePicker),
                         use24hFormat: true,
@@ -491,6 +494,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             dateFrom,
                             dateTo,
                           );
+                          _cubit.checkTime();
                         },
                       );
                     },
@@ -502,8 +506,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         ],
       );
 
-  void expandEnd(TypePickerDateTime type) {
-    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
+  void expandTimeEnd(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.TIME_END &&
         keyExpandedEnd.currentState!.isExpandedGroup) {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
@@ -512,8 +516,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     _cubit.setTypePickerEnd(type);
   }
 
-  void expandStart(TypePickerDateTime type) {
-    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
+  void expandTimeStart(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.TIME_START &&
         keyExpandedBegin.currentState!.isExpandedGroup) {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
@@ -534,10 +538,30 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   String get timeFrom => _cubit.timeBeginSubject.valueOrNull ?? '00:00';
 
   String get initDataFrom =>
-      '${dateFrom != 'DD/MM/YYYY' ? dateFrom : now} ${timeFrom != 'hh:mm' ? timeFrom : '00:00'}';
+      '${dateFrom != INIT_DATE_PICK ? dateFrom : now} ${timeFrom != INIT_TIME_PICK ? timeFrom : '00:00'}';
 
   String get initDataTo =>
-      '${dateTo != 'DD/MM/YYYY' ? dateTo : now} ${timeTo != 'hh:mm' ? timeTo : '00:00'}';
+      '${dateTo != INIT_DATE_PICK ? dateTo : now} ${timeTo != INIT_TIME_PICK ? timeTo : '00:00'}';
+
+  void expandDateEnd(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
+        keyExpandedEnd.currentState!.isExpandedGroup) {
+      keyExpandedEnd.currentState?.collapseGesture();
+    } else {
+      keyExpandedEnd.currentState?.expandGesture();
+    }
+    _cubit.setTypePickerEnd(type);
+  }
+
+  void expandDateStart(TypePickerDateTime type) {
+    if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
+        keyExpandedBegin.currentState!.isExpandedGroup) {
+      keyExpandedBegin.currentState?.collapseGesture();
+    } else {
+      keyExpandedBegin.currentState?.expandGesture();
+    }
+    _cubit.setTypePickerStart(type);
+  }
 }
 
 String timeFormat(String time, String oldPattern, String newPattern) {

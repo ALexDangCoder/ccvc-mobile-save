@@ -136,12 +136,13 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   }
 
   ///create image
-  Future<void> createImage({
+  Future<String> createImage({
     required String fileId,
     required String loaiGocAnh,
     required String loaiAnh,
   }) async {
     showLoading();
+    String id = '';
     final result = await diemDanhRepo.createImage(
       CreateImageRequest(
         id: ApiConstants.DEFAULT_VALUE_GUID_ID,
@@ -154,7 +155,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
 
     result.when(
       success: (success) {
-        idImg = success.data?.id ?? '';
+        id = success.data?.id ?? '';
         MessageConfig.show(title: success.message ?? '');
         showContent();
       },
@@ -163,6 +164,8 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
         showContent();
       },
     );
+
+    return id;
   }
 
   ///upload file
@@ -191,9 +194,9 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     return idImg;
   }
 
-  Future<void> deleteImageCallApi() async {
+  Future<void> deleteImageCallApi(String id) async {
     showLoading();
-    final result = await diemDanhRepo.deleteImage(idImg);
+    final result = await diemDanhRepo.deleteImage(id);
 
     result.when(
       success: (success) {

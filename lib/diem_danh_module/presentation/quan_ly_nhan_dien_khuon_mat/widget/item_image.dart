@@ -18,9 +18,9 @@ class ItemImageWidget extends StatefulWidget {
   final NhanDienKhuonMatUIModel dataUI;
   final DiemDanhCubit cubit;
   final String? initImage;
-  final String? id;
+  String? id;
 
-  const ItemImageWidget({
+  ItemImageWidget({
     Key? key,
     required this.dataUI,
     required this.cubit,
@@ -38,9 +38,8 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
 
   @override
   void initState() {
-    widget.cubit.idImg = widget.id ?? '';
-    imageRepo = null;
     super.initState();
+    imageRepo = null;
   }
 
   @override
@@ -131,7 +130,7 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                             id: idImage,
                           ),
                     removeImage: () {
-                      widget.cubit.deleteImageCallApi();
+                      widget.cubit.deleteImageCallApi(widget.id ?? '');
 
                       idImage = '';
                     },
@@ -144,7 +143,7 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                         );
                         setState(() {});
 
-                        await widget.cubit.createImage(
+                        widget.id = await widget.cubit.createImage(
                           fileId: idImage,
                           loaiGocAnh: widget.dataUI.entityName,
                           loaiAnh: widget.dataUI.fileTypeUpload,

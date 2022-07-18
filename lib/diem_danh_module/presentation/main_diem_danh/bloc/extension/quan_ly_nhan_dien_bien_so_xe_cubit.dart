@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/data/di/module.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
-import 'package:ccvc_mobile/diem_danh_module/data/request/danh_sach_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
@@ -15,13 +14,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
-  Future<void> postDanhSachBienSoXe() async {
-    final danhSachBienSoXeRequest = DanhSachBienSoXeRequest(
-        userId: HiveLocal.getDataUser()?.userId ?? '',
-        pageIndex: 1,
-        pageSize: 10);
+  Future<void> getDanhSachBienSoXe() async {
     showLoading();
-    final result = await diemDanhRepo.danhSachBienSoXe(danhSachBienSoXeRequest);
+    final result = await diemDanhRepo.danhSachBienSoXe(
+        HiveLocal.getDataUser()?.userId ?? '',
+        DanhSachBienSoXeConst.PAGE_INDEX,
+        DanhSachBienSoXeConst.PAGE_SIZE);
     result.when(
       success: (res) {
         if (res.items?.isEmpty == true) {

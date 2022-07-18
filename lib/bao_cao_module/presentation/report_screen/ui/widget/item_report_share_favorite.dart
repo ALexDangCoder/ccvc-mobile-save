@@ -85,13 +85,11 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                               : MediaQuery.of(context).size.width / 1.5,
                           child: Text(
                             widget.item.name ?? '',
-                            maxLines: 1,
                             style: textNormalCustom(
                               color: textTitle,
                               fontWeight: FontWeight.w400,
                               fontSize: 16,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         spaceH4,

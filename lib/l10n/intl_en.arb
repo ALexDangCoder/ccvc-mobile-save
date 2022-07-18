@@ -194,6 +194,7 @@
   "quan_huyen": "Quận/Huyện",
   "phuong_xa": "Phường/Xã",
   "dinh_dang_email": "Sai định dạng email",
+  "dinh_dang_truong_email": "Sai định dạng trường email",
   "dinh_dang_sdt": "Sai định dạng số điện thoại",
   "huy": "Hủy",
   "ho_va_ten": "Họ và tên",

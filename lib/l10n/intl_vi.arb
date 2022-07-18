@@ -1264,7 +1264,9 @@
   "sua_bieu_quyet": "Sửa biểu quyết",
   "xoa_bieu_quyet": "Xoá biểu quyết",
   "thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc": "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
-  "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!"
+  "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!",
+  "thao_tac_thanh_cong" : "Thao tác thành công",
+  "thao_tac_that_bai" : "Thao tác thất bại"
 }
 
 

@@ -280,6 +280,7 @@ class _EditPersonalInformationScreen
                       ),
                       InputInfoUserWidget(
                         title: user.keys.elementAt(7),
+                        isObligatory: true,
                         child: TextFieldValidator(
                           key: UniqueKey(),
                           hintText: S.current.email,
@@ -287,7 +288,7 @@ class _EditPersonalInformationScreen
                           onChange: (value) {},
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return null;
+                              return S.current.ban_phai_nhap_truong_email;
                             } else if (value.trim().contains('@')) {
                               if (value.trim().contains(
                                     '@',

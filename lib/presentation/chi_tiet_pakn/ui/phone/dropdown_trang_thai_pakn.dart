@@ -382,7 +382,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChoPhanCongXuLy;
                                 widget.cubit.isFilterXuLy = false;
@@ -422,7 +422,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChoXuLy;
                                 widget.cubit.isFilterXuLy = false;
@@ -442,7 +442,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChoDuyet;
                                 widget.cubit.isFilterXuLy = false;
@@ -494,7 +494,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.DaHoanThanh;
                                 widget.cubit.isFilterXuLy = false;
@@ -546,7 +546,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ThuHoi;
 
@@ -567,7 +567,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.TuChoiTiepNhan;
 
@@ -588,7 +588,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = 'XuLy';
+                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChuyenXuLy;
                                 widget.cubit.isFilterXuLy = false;

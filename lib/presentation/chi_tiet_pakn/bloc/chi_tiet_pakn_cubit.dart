@@ -104,7 +104,8 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.trang_thai_xu_ly,
-              content: [getTextByStatus(value.trangThaiXuLy)],
+              // content: [getTextByStatus(value.trangThaiXuLy)],
+              content: [value.trangThaiXuLy],
             ),
           );
           rowData.add(

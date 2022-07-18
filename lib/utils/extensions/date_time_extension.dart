@@ -52,6 +52,10 @@ extension DateFormatString on DateTime {
     return DateFormat('yyyy-MM-dd').format(this);
   }
 
+  String get formatTime {
+    return DateFormat('HH:mm').format(this);
+  }
+
   String get formatApiSS {
     return DateFormat('yyyy/MM/dd HH:mm:ss').format(this);
   }

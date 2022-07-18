@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 class WidgetItemThongKe extends StatelessWidget {
   ThongKeDiemDanhCaNhanModel thongKeDiemDanhCaNhanModel;
 
-
   WidgetItemThongKe({
     Key? key,
     required this.thongKeDiemDanhCaNhanModel,
@@ -58,7 +57,9 @@ class WidgetItemThongKe extends StatelessWidget {
 
   Widget itemthongKe({required String title, required int number}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0,),
+      padding: const EdgeInsets.only(
+        bottom: 16.0,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -1,5 +1,6 @@
-
 import 'package:ccvc_mobile/data/di/module.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
@@ -33,6 +34,12 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         showContent();
       },
       error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
         showContent();
       },
     );
@@ -43,7 +50,13 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     final result = await diemDanhRepo.deleteBienSoXe(id);
     result.when(success: (res) {
       showContent();
-    }, error: (err) {
+    }, error: (error) {
+      if (error is NoNetworkException || error is TimeoutException) {
+        MessageConfig.show(
+          title: S.current.no_internet,
+          messState: MessState.error,
+        );
+      }
       showContent();
     });
   }
@@ -76,6 +89,12 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         Navigator.pop(context, true);
       },
       error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
         showContent();
       },
     );
@@ -110,7 +129,14 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
           );
           Navigator.pop(context, true);
         },
-        error: (error) {});
+        error: (error) {
+          if (error is NoNetworkException || error is TimeoutException) {
+            MessageConfig.show(
+              title: S.current.no_internet,
+              messState: MessState.error,
+            );
+          }
+        });
   }
 
   ///delete image

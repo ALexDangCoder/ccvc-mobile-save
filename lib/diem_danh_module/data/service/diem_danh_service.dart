@@ -64,11 +64,13 @@ abstract class DiemDanhService {
 
   @POST(ApiConstants.DANG_KY_THONG_TIN_XE_MOI)
   Future<DangKyThongTinXeMoiResponse> dangKyThongTinXeMoi(
-      @Body() DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest,);
+    @Body() DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest,
+  );
 
   @POST(ApiConstants.CAP_NHAT_THONG_TIN_XE_MOI)
   Future<DataCapNhatBienSoXeResponse> capNhatBienSoXe(
-      @Body() CapNhatBienSoXeRequest capNhatBienSoXeRequest,);
+    @Body() CapNhatBienSoXeRequest capNhatBienSoXeRequest,
+  );
 
   @DELETE(ApiConstants.DELETE_IMAGE)
   Future<MessageResponse> deleteImage(@Path('id') String id);

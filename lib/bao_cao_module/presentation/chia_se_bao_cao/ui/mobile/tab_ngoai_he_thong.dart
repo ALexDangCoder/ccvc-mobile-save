@@ -77,70 +77,75 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           }
           return true;
         },
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    spaceH20,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 21),
-                      child: StreamBuilder<bool>(
-                        initialData: false,
-                        stream: widget.cubit.isDuocTruyCapStream,
-                        builder: (context, snapshot) {
-                          final isDuocTruyCap = snapshot.data ?? false;
-                          return CustomGroupRadio<bool>(
-                            listData: [
-                              ItemCustomGroupRadio(
-                                title: S.current.doi_tuong_da_duoc_truy_cap,
-                                value: true,
-                              ),
-                              ItemCustomGroupRadio(
-                                title: S.current.them_moi_doi_tuong,
-                                value: false,
-                              ),
-                            ],
-                            groupValue: isDuocTruyCap,
-                            onchange: (value) {
-                              widget.cubit.isDuocTruyCapSink
-                                  .add(value ?? false);
-                            },
-                          );
-                        },
+        child: GestureDetector(
+          onTap: (){
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      spaceH20,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 21),
+                        child: StreamBuilder<bool>(
+                          initialData: false,
+                          stream: widget.cubit.isDuocTruyCapStream,
+                          builder: (context, snapshot) {
+                            final isDuocTruyCap = snapshot.data ?? false;
+                            return CustomGroupRadio<bool>(
+                              listData: [
+                                ItemCustomGroupRadio(
+                                  title: S.current.doi_tuong_da_duoc_truy_cap,
+                                  value: true,
+                                ),
+                                ItemCustomGroupRadio(
+                                  title: S.current.them_moi_doi_tuong,
+                                  value: false,
+                                ),
+                              ],
+                              groupValue: isDuocTruyCap,
+                              onchange: (value) {
+                                widget.cubit.isDuocTruyCapSink
+                                    .add(value ?? false);
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 21),
-                      child: StreamBuilder<bool>(
-                        initialData: false,
-                        stream: widget.cubit.isDuocTruyCapStream,
-                        builder: (context, snapshot) {
-                          final isDuocTruyCap = snapshot.data ?? false;
-                          if (isDuocTruyCap) {
-                            return objectAccessed;
-                          } else {
-                            return newObject;
-                          }
-                        },
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 21),
+                        child: StreamBuilder<bool>(
+                          initialData: false,
+                          stream: widget.cubit.isDuocTruyCapStream,
+                          builder: (context, snapshot) {
+                            final isDuocTruyCap = snapshot.data ?? false;
+                            if (isDuocTruyCap) {
+                              return objectAccessed;
+                            } else {
+                              return newObject;
+                            }
+                          },
+                        ),
                       ),
-                    ),
-                    spaceH10,
-                  ],
+                      spaceH10,
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                left: 16.w,
-                right: 16.w,
+              Container(
+                padding: EdgeInsets.only(
+                  left: 16.w,
+                  right: 16.w,
+                ),
+                height: 63.h,
+                color: Colors.white,
+                child: buttonBottom,
               ),
-              height: 63.h,
-              color: Colors.white,
-              child: buttonBottom,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -200,14 +205,14 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                   return '${S.current.ban_phai_nhap_truong} ${S.current.email}!';
                 }
                 if (!(value ?? '').isValidEmail()) {
-                  return '${S.current.dinh_dang_email}!';
+                  return '${S.current.dinh_dang_truong_email}!';
                 }
                 if ((value ?? '').indexOf('@') > lengthEmailName) {
-                  return '${S.current.dinh_dang_email}!';
+                  return '${S.current.dinh_dang_truong_email}!';
                 }
                 if ((value ?? '').split('@').last.characters.length >
                     lengthEmailDomain) {
-                  return '${S.current.dinh_dang_email}!';
+                  return '${S.current.dinh_dang_truong_email}!';
                 }
               },
             ),

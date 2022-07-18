@@ -192,7 +192,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           stream: widget.cubit.listToaNha,
           builder: (context, snapshot) {
             final List<String> listResult =
-                widget.cubit.getList(snapshot.data ?? []);
+                widget.cubit.getItemsToaNha(snapshot.data ?? []);
             return dropDownField(
               title: S.current.toa_nha,
               listData: listResult,

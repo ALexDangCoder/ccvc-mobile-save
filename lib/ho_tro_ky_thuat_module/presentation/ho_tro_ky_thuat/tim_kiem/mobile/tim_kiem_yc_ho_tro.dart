@@ -141,9 +141,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                             _textTitle(S.current.don_vi),
                                             spaceH8,
                                             GestureDetector(
-                                              onTap: () => widget
-                                                  .cubit.isShowDonVi
-                                                  .add(true),
+                                              onTap: () =>
+                                                  cubit.isShowDonVi.add(true),
                                               child: StreamBuilder<String>(
                                                 stream: cubit.donViSearch,
                                                 builder: (context, snapshot) {
@@ -247,16 +246,10 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                   value,
                                                 );
                                               },
-                                              value: widget
-                                                  .cubit.userRequestIdName,
+                                              value: cubit.userRequestIdName,
                                               items: cubit
-                                                  .listNguoiTiepNhanYeuCau.value
-                                                  .map(
-                                                    (e) =>
-                                                        '${e.hoVaTen} (${e.userId})',
-                                                  )
-                                                  .toList(),
-                                            ),
+                                                  .getItemsNguoiTiepNhanYeuCau()
+                                            ,),
                                             spaceH16,
                                             _textTitle(S.current.nguoi_xu_ly),
                                             spaceH8,
@@ -268,9 +261,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                 cubit.onChangeNguoiXuLy(value);
                                               },
                                               value: cubit.handlerIdName,
-                                              items: cubit.getListThanhVien(
-                                                cubit.listCanCoHTKT.value,
-                                              ),
+                                              items: cubit.getItemsThanhVien(),
                                             ),
                                             spaceH16,
                                             _textTitle(S.current.khu_vuc),
@@ -283,10 +274,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                 cubit.onChangeKhuVuc(value);
                                               },
                                               value: cubit.districtIdName,
-                                              items: widget
-                                                  .cubit.listKhuVuc.value
-                                                  .map((e) => e.name ?? '')
-                                                  .toList(),
+                                              items: cubit.getItemsKhuVuc(),
                                             ),
                                             spaceH16,
                                             _textTitle(S.current.toa_nha),
@@ -296,7 +284,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               stream: cubit.listToaNha,
                                               builder: (context, snapshot) {
                                                 final List<String> listResult =
-                                                    cubit.getList(
+                                                    cubit.getItemsToaNha(
                                                   snapshot.data ?? [],
                                                 );
                                                 return CustomDropDown(
@@ -306,8 +294,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                   onSelectItem: (value) {
                                                     cubit.onChangeToaNha(value);
                                                   },
-                                                  value: widget
-                                                      .cubit.buildingIdName,
+                                                  value: cubit.buildingIdName,
                                                   items: listResult,
                                                 );
                                               },
@@ -322,7 +309,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                   TextInputType.number,
                                               isClose: true,
                                               onChange: (value) {
-                                                cubit.room = value;
+                                                cubit.onChangeRoom(value);
                                               },
                                             ),
                                             spaceH16,
@@ -339,12 +326,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                   value,
                                                 );
                                               },
-                                              value: widget
-                                                  .cubit.processingCodeName,
-                                              items: widget
-                                                  .cubit.listTrangThai.value
-                                                  .map((e) => e.name ?? '')
-                                                  .toList(),
+                                              value: cubit.processingCodeName,
+                                              items: cubit.getItemsTrangThai(),
                                             ),
                                             spaceH4,
                                           ],

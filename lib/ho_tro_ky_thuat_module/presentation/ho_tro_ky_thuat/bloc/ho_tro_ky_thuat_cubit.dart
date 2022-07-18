@@ -158,15 +158,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
-  List<String> getList(List<ChildCategories> listData) {
-    final List<String> list = listData.map((e) => e.name ?? '').toList();
-    final Set<String> listSet = {};
-    listSet.addAll(list);
-    final List<String> listResult = [];
-    listResult.addAll(listSet);
-    return listResult;
-  }
-
   List<String> getListThanhVien(List<ThanhVien> listData) {
     return listData
         .map((e) => '${e.tenThanhVien.toString()} (${e.userId.toString()})')
@@ -499,5 +490,37 @@ extension onChangeSearch on HoTroKyThuatCubit {
     donViSearch.add(
       value.name,
     );
+  }
+
+  void onChangeRoom(String value) {
+    room = value;
+  }
+}
+
+extension getItemsSearch on HoTroKyThuatCubit {
+  List<String> getItemsNguoiTiepNhanYeuCau() {
+    return listNguoiTiepNhanYeuCau.value
+        .map(
+          (e) => '${e.hoVaTen} (${e.userId})',
+        )
+        .toList();
+  }
+
+  List<String> getItemsThanhVien() {
+    return listCanCoHTKT.value
+        .map((e) => '${e.tenThanhVien.toString()} (${e.userId.toString()})')
+        .toList();
+  }
+
+  List<String> getItemsKhuVuc() {
+    return listKhuVuc.value.map((e) => e.name ?? '').toList();
+  }
+
+  List<String> getItemsToaNha(List<ChildCategories> listData) {
+    return listData.map((e) => '${e.name}(${e.code})').toList();
+  }
+
+  List<String> getItemsTrangThai() {
+    return listTrangThai.value.map((e) => e.name ?? '').toList();
   }
 }

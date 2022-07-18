@@ -32,6 +32,6 @@ class NguoiChutriModel {
   });
 
   String title() {
-    return '$hoTen - $tenDonVi - $chucVu';
+    return '$hoTen - $tenDonVi ${(chucVu ?? '').isNotEmpty ? '- $chucVu' : ''}';
   }
 }

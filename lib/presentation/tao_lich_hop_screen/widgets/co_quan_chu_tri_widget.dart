@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -7,11 +6,12 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
-import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expand_model.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,7 +50,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     : widget.cubit.taoLichHopRequest.chuTri?.canBoId),
             orElse: () => DonViModel(),
           )
-          .title;
+          .userId;
     });
   }
 
@@ -64,9 +64,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
       ..canBoId = donVi.userId
       ..donViId = donVi.donViId;
     widget.cubit.chuTri = donVi;
-    widget.cubit.danhSachCB.sink.add(
-      widget.cubit.danhSachCB.value,
-    );
     if (donVi.userId == HiveLocal.getDataUser()?.userId) {
       isCurrrenUser.add(true);
     } else {
@@ -144,17 +141,21 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     return data.isEmpty
                         ? const NodataWidget()
                         : ExpandGroup(
-                            child: SelectOnlyExpand(
+                      child: SelectOnlyExpandModel(
                               urlIcon: '',
                               title: S.current.nguoi_chu_tri,
-                              value: initValue,
-                              listSelect: data.map((e) => e.title).toList(),
+                              listSelect: data
+                                  .map(
+                                    (e) => e.convertToNguoiChuTriModel(),
+                                  )
+                                  .toList(),
                               onChange: (index) {
                                 handleDropDownSelected(
                                   donVi: data[index],
                                   index: index,
                                 );
                               },
+                              userId: initValue,
                             ),
                           );
                   },
@@ -256,7 +257,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ButtonSelectFile(
                     files: [],
                     spacingFile: 16,
-                    maxSize: 30000000,
+                    maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
                     onChange: ( files,) {

@@ -55,11 +55,13 @@ class _CanBoWidgetState extends State<CanBoWidget> {
                 isCheck: widget.themCanBoCubit.listSelectCanBo.map((e) => e.id)
                     .contains(widget.canBoModel.id),
               ),
-              Text(
-                widget.canBoModel.name,
-                style: textNormalCustom(
-                  color: color3D5586,
-                  fontSize: 14.0.textScale(),
+              Expanded(
+                child: Text(
+                  widget.canBoModel.name,
+                  style: textNormalCustom(
+                    color: color3D5586,
+                    fontSize: 14.0.textScale(),
+                  ),
                 ),
               )
             ],

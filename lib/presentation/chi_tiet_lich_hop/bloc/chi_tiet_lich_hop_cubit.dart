@@ -396,6 +396,35 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     );
   }
 
+  ///TC: Tiếp cận
+  ///XL: Xử lý
+  static const int INDEX_FILTER_ALL = 0;
+  static const int INDEX_FILTER_TC_CHO_TIEP_NHAN = 1;
+  static const int INDEX_FILTER_TC_PHAN_XU_LY = 2;
+  static const int INDEX_FILTER_TC_DANG_XU_LY = 3;
+  static const int INDEX_FILTER_TC_CHO_TAO_VB_DI = 4;
+  static const int INDEX_FILTER_TC_DA_CHO_VB_DI = 5;
+  static const int INDEX_FILTER_TC_DA_HOAN_THANH = 6;
+  static const int INDEX_FILTER_TC_CHO_BSTT = 7;
+  static const int INDEX_FILTER_TC_BI_TU_CHOI_TIEP_NHAN = 8;
+  static const int INDEX_FILTER_TC_BI_HUY_BO = 9;
+  static const int INDEX_FILTER_TC_CHUYEN_XU_LY = 10;
+  static const int INDEX_FILTER_XL_CHO_TIEP_NHAN_XL = 11;
+  static const int INDEX_FILTER_XL_CHO_PHAN_CONG_XL = 12;
+  static const int INDEX_FILTER_XL_DA_PHAN_CONG = 13;
+  static const int INDEX_FILTER_XL_CHO_XU_LY = 14;
+  static const int INDEX_FILTER_XL_CHO_DUYET = 15;
+  static const int INDEX_FILTER_XL_CHO_TAO_VB_DI = 16;
+  static const int INDEX_FILTER_XL_DA_CHO_VB_DI = 17;
+  static const int INDEX_FILTER_XL_DA_HOAN_THANH = 18;
+  static const int INDEX_FILTER_XL_CHO_CHO_Y_KIEN = 19;
+  static const int INDEX_FILTER_XL_DA_CHO_Y_KIEN = 20;
+  static const int INDEX_FILTER_XL_THU_HOI = 21;
+  static const int INDEX_FILTER_XL_TRA_LAI =  22;
+  static const int INDEX_FILTER_XL_CHUYEN_XU_LY = 23;
+  static const int INDEX_FILTER_TC_CHO_DUYET = 24;
+  static const int INDEX_FILTER_OUT_RANGE = 25;
+
   Future<void> postHuyDiemDanh(String id) async {
     showLoading();
     final result = await hopRp.postHuyDiemDanh(id);

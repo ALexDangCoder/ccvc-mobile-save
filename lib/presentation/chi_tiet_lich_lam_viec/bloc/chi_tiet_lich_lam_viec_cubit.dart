@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
@@ -268,10 +269,18 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         );
       },
       error: (err) {
-        MessageConfig.show(
-          title: S.current.no_internet,
-          messState: MessState.error,
-        );
+        if (err is NoNetworkException || err is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }else{
+          MessageConfig.show(
+            title: S.current.that_bai,
+            messState: MessState.error,
+          );
+        }
+
       },
     );
     ShowLoadingScreen.dismiss();
@@ -301,7 +310,14 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           showContent();
         }
       },
-      error: (err) {},
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
     );
   }
 
@@ -342,7 +358,14 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             showContent();
           }
         },
-        error: (err) {},
+        error: (error) {
+          if (error is NoNetworkException || error is TimeoutException) {
+            MessageConfig.show(
+              title: S.current.no_internet,
+              messState: MessState.error,
+            );
+          }
+        },
       );
     });
   }
@@ -533,11 +556,18 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
         emit(SuccessChiTietLichLamViecState());
       },
-      error: (err) {
-        MessageConfig.show(
-          title: S.current.bao_cao_ket_qua_that_bai,
-          messState: MessState.error,
-        );
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }else {
+          MessageConfig.show(
+            title: S.current.bao_cao_ket_qua_that_bai,
+            messState: MessState.error,
+          );
+        }
       },
     );
   }
@@ -562,11 +592,18 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
         emit(SuccessChiTietLichLamViecState());
       },
-      error: (err) {
-        MessageConfig.show(
-          title: S.current.sua_bao_cao_ket_qua_that_bai,
-          messState: MessState.error,
-        );
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.sua_bao_cao_ket_qua_that_bai,
+            messState: MessState.error,
+          );
+        }
       },
     );
   }

@@ -76,6 +76,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.symmetric(horizontal: 16),
+            controller: _scrollController,
             child: FormGroup(
               key: _formKey,
               scrollController: _scrollController,

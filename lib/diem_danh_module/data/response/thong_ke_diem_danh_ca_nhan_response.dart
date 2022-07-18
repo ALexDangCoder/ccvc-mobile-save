@@ -7,14 +7,17 @@ part 'thong_ke_diem_danh_ca_nhan_response.g.dart';
 class DataThongKeDiemDanhCaNhanResponse {
   @JsonKey(name: 'data')
   ThongKeDiemDanhCaNhanModelResponse? data;
+
   DataThongKeDiemDanhCaNhanResponse({
     this.data,
   });
 
-  factory DataThongKeDiemDanhCaNhanResponse.fromJson(Map<String, dynamic> json) =>
+  factory DataThongKeDiemDanhCaNhanResponse.fromJson(
+          Map<String, dynamic> json) =>
       _$DataThongKeDiemDanhCaNhanResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataThongKeDiemDanhCaNhanResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$DataThongKeDiemDanhCaNhanResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -32,7 +35,6 @@ class ThongKeDiemDanhCaNhanModelResponse {
   @JsonKey(name: 'soNgayNghiCoLyDo')
   int? soNgayNghiCoLyDo;
 
-
   ThongKeDiemDanhCaNhanModelResponse(
       this.soLanDiMuon,
       this.soLanVeSom,
@@ -41,16 +43,15 @@ class ThongKeDiemDanhCaNhanModelResponse {
       this.soNgayVangMatKhongLyDo,
       this.soNgayNghiCoLyDo);
 
-  factory ThongKeDiemDanhCaNhanModelResponse.fromJson(Map<String, dynamic> json) =>
+  factory ThongKeDiemDanhCaNhanModelResponse.fromJson(
+          Map<String, dynamic> json) =>
       _$ThongKeDiemDanhCaNhanModelResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ThongKeDiemDanhCaNhanModelResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ThongKeDiemDanhCaNhanModelResponseToJson(this);
 
-  ThongKeDiemDanhCaNhanModel toModel()=>ThongKeDiemDanhCaNhanModel(
-    soLanDiMuon: soLanDiMuon,
-    soLanVeSom: soLanVeSom,
-    soNgayNghiCoLyDo: soNgayNghiCoLyDo
-  );
+  ThongKeDiemDanhCaNhanModel toModel() => ThongKeDiemDanhCaNhanModel(
+      soLanDiMuon: soLanDiMuon,
+      soLanVeSom: soLanVeSom,
+      soNgayNghiCoLyDo: soNgayNghiCoLyDo);
 }
-
-

@@ -27,7 +27,8 @@ class XoaBienSoXeResponse extends Equatable {
 
   factory XoaBienSoXeResponse.fromJson(
     Map<String, dynamic> json,
-  ) => _$XoaBienSoXeResponseFromJson(json);
+  ) =>
+      _$XoaBienSoXeResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$XoaBienSoXeResponseToJson(this);
 

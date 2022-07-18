@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/di
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mobile.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/widget_item_thong_ke.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
@@ -41,7 +42,7 @@ class _DiemDanhCaNhanMobileScreenState
     _controller = CalendarController();
     _tmpMonth = DateTime(_now.year, _now.month);
     _controller.addPropertyChangedListener((properties) {
-      if (properties == 'displayDate') {
+      if (properties == DISPLAY_DATE) {
         final DateTime currentMonth = DateTime(
           _controller.displayDate?.year ?? _now.year,
           _controller.displayDate?.month ?? _now.month,

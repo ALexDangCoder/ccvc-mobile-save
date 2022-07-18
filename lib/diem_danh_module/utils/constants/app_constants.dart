@@ -110,6 +110,7 @@ const String FAIL = 'fail';
 const String CHO_TRINH_KY_STRING = 'CHO_TRINH_KY';
 const String CHO_XU_LY_STRING = 'CHO_XU_LY';
 const String DA_XU_LY_STRING = 'DA_XU_LY';
+const String DISPLAY_DATE = 'displayDate';
 
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';

@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -33,90 +34,103 @@ class DateInput extends StatefulWidget {
 class _DateInputState extends State<DateInput> {
   String? dateSelect;
 
-  final textController = TextEditingController();
+  TextEditingController textController = TextEditingController();
+  final _groupKey = GlobalKey<FormGroupState>();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  @override
   Widget build(BuildContext context) {
-    return TextFieldValidator(
-      controller: textController,
-      hintText: DateFormatApp.dateNormal,
-      validator: (value) {
-        if (value?.isEmpty ?? true) {
-          return null;
-        }
-        if (!(value ?? '').isValidDateTime()) {
-          return '${S.current
-              .sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
-        }
-        try {
-          final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
-          dateSelect = inputDate.toString();
-          widget.onSelectDate(dateSelect);
-        } catch (_) {
-          return S.current.nhap_sai_dinh_dang;
-        }
-      },
-      suffixIcon: GestureDetector(
-        onTap: () {
-          DateTime initDate = DateTime.now();
-          if(textController.text != '') {
-             initDate = DateFormat(DateFormatApp.date).parse(
-              textController.text,
-            );
+    return FormGroup(
+      key: _groupKey,
+      child: TextFieldValidator(
+        controller: textController,
+        hintText: DateFormatApp.dateNormal,
+        validator: (value) {
+          if (value?.isEmpty ?? true) {
+            return null;
           }
-          final dateSince = initDate.millisecondsSinceEpoch;
-          if (dateSince < DateTime(1900).millisecondsSinceEpoch ||
-              dateSince > DateTime.now().millisecondsSinceEpoch) {
-            initDate = DateTime(2000);
+          if (!(value ?? '').isValidDateTime()) {
+            return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
           }
-          showBottomSheetCustom(
-            context,
-            title: S.current.chon_ngay,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 300,
-                  child: FlutterRoundedCupertinoDatePickerWidget(
-                    minimumDate: DateTime(1900),
-                    maximumDate: DateTime.now(),
-                    onDateTimeChanged: (value) {
-                      setState(() {
-                        dateSelect = value.toString();
-                      });
-                    },
-                    textStyleDate: titleAppbar(),
-                    initialDateTime: initDate,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 24,
-                    bottom: 32,
-                  ),
-                  child: DoubleButtonBottom(
-                    title2: S.current.chon,
-                    title1: S.current.dong,
-                    onClickRight: () {
-                      textController.text = DateTime.parse(dateSelect ?? '')
-                          .toStringWithListFormat;
-                      widget.onSelectDate(dateSelect);
-                      Navigator.pop(context);
-                    },
-                    onClickLeft: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                )
-              ],
-            ),
-          );
+          try {
+            final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
+            dateSelect = inputDate.toString();
+            widget.onSelectDate(dateSelect);
+          } catch (_) {
+            return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
+          }
         },
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 12,
+        suffixIcon: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            DateTime initDate = DateTime.now();
+            if (textController.text != '' &&
+                textController.text.isValidDateTime()) {
+              initDate = DateFormat(DateFormatApp.date).parse(
+                textController.text,
+              );
+            }
+            final dateSince = initDate.millisecondsSinceEpoch;
+            if (dateSince < DateTime(1900).millisecondsSinceEpoch ||
+                dateSince > DateTime.now().millisecondsSinceEpoch) {
+              initDate = DateTime(2000);
+            }
+            showBottomSheetCustom(
+              context,
+              title: S.current.chon_ngay,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 300,
+                    child: FlutterRoundedCupertinoDatePickerWidget(
+                      minimumDate: DateTime(1900),
+                      maximumDate: DateTime.now(),
+                      onDateTimeChanged: (value) {
+                        setState(() {
+                          dateSelect = value.toString();
+                        });
+                      },
+                      textStyleDate: titleAppbar(),
+                      initialDateTime: initDate,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 24,
+                      bottom: 32,
+                    ),
+                    child: DoubleButtonBottom(
+                      title2: S.current.chon,
+                      title1: S.current.dong,
+                      onClickRight: () {
+                        textController.text = DateTime.parse(dateSelect ?? '')
+                            .toStringWithListFormat;
+                        widget.onSelectDate(dateSelect);
+                        Navigator.pop(context);
+                        _groupKey.currentState?.validator();
+                      },
+                      onClickLeft: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 12,
+            ),
+            child: widget.leadingIcon ?? const SizedBox(),
           ),
-          child: widget.leadingIcon ?? const SizedBox(),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 
 enum TypeFileShowDonVi {
   HO_VA_TEN,
@@ -84,6 +85,16 @@ class DonViModel {
     this.tenCoQuan = '',
     this.soLuong = 0,
   });
+
+  NguoiChutriModel convertToNguoiChuTriModel(){
+    return NguoiChutriModel(
+      id: id,
+      tenDonVi: tenDonVi,
+      donViId: donViId,
+      hoTen: tenCanBo,
+      userId: userId,
+    );
+  }
 
   MoiThamGiaHopRequest convertTrongHeThong(String lichHopId) {
     return MoiThamGiaHopRequest(

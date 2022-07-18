@@ -92,9 +92,11 @@ class _SelectDonViState extends State<SelectDonVi> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title(),
-                  style: textNormal(textTitle, 14.0.textScale()),
+                Expanded(
+                  child: Text(
+                    title(),
+                    style: textNormal(textTitle, 14.0.textScale()),
+                  ),
                 ),
                 SvgPicture.asset(ImageAssets.icEditInfor)
               ],

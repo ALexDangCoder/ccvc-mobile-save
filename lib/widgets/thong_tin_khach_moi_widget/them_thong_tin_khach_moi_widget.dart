@@ -220,7 +220,6 @@ final scroll = ScrollController();
                 child: FormGroup(
                   scrollController: scroll,
                   key: _keyFormGroup,
-                  scrollController: ScrollController(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [

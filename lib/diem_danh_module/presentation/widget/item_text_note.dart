@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 
 class ItemTextNote extends StatelessWidget {
   final String title;
-  const ItemTextNote({Key? key,required this.title}) : super(key: key);
+
+  const ItemTextNote({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return   Padding(
+    return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

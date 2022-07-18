@@ -565,5 +565,6 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
 }
 
 String timeFormat(String time, String oldPattern, String newPattern) {
+  if(time == '') return '';
   return DateFormat(newPattern).format(DateFormat(oldPattern).parse(time));
 }

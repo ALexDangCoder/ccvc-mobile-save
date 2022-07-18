@@ -31,13 +31,13 @@ class CoolDropDown extends StatefulWidget {
 }
 
 class _CoolDropDownState extends State<CoolDropDown> {
-  final List<Map<dynamic, dynamic>> pokemonsMap = [];
+  final List<Map<dynamic, dynamic>> listSelect = [];
   int initIndex = -1;
 
   @override
   void initState() {
     for (var i = 0; i < widget.listData.length; i++) {
-      pokemonsMap.add({
+      listSelect.add({
         'label': widget.listData[i],
         'value': widget.listData[i],
         'icon': const SizedBox(),
@@ -49,16 +49,31 @@ class _CoolDropDownState extends State<CoolDropDown> {
   }
 
   @override
+  void didUpdateWidget(covariant CoolDropDown oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+
+    for (var i = 0; i < widget.listData.length; i++) {
+      listSelect.add({
+        'label': widget.listData[i],
+        'value': widget.listData[i],
+        'icon': const SizedBox(),
+      });
+    }
+    initIndex = widget.listData.indexOf(widget.initData);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CoolDropdown(
-      defaultValue: initIndex < 0 ? null : pokemonsMap[initIndex],
+      defaultValue: initIndex < 0 ? null : listSelect[initIndex],
       // resultWidth: MediaQuery.of(context).size.width,
       // dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,
       dropdownHeight: 200,
       resultAlign: Alignment.center,
-      dropdownList: pokemonsMap,
+      dropdownList: listSelect,
       onChange: (value) {
-        widget.onChange(pokemonsMap.indexOf(value));
+        widget.onChange(listSelect.indexOf(value));
       },
       placeholder: widget.placeHoder,
 
@@ -70,10 +85,12 @@ class _CoolDropDownState extends State<CoolDropDown> {
         fontSize: 14.0.textScale(),
         color: titleCalenderWork,
       ),
-      selectedItemBD:widget.showSelectedDecoration ? BoxDecoration(
-        color: borderColor,
-        borderRadius: BorderRadius.circular(6),
-      ) : const  BoxDecoration(),
+      selectedItemBD: widget.showSelectedDecoration
+          ? BoxDecoration(
+              color: borderColor,
+              borderRadius: BorderRadius.circular(6),
+            )
+          : const BoxDecoration(),
       resultTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
         color: titleCalenderWork,

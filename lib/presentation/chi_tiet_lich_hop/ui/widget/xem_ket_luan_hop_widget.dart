@@ -20,6 +20,7 @@ import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -109,32 +110,46 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           stream: widget.cubit.dataTinhTrangKetLuanHop,
                           builder: (context, snapshot) {
                             final dataTinhTrang = snapshot.data ?? [];
-                            return CustomDropDown(
-                              hint: Text(
-                                widget.cubit.xemKetLuanHopModel.reportStatus ??
-                                    S.current.chon_tinh_trang,
-                                style: textNormal(
-                                  (widget.cubit.xemKetLuanHopModel
-                                                  .reportStatus ??
-                                              '')
-                                          .isNotEmpty
-                                      ? titleItemEdit
-                                      : signInTextSecondaryColor,
-                                  14,
-                                ),
-                              ),
-                              items: dataTinhTrang
-                                  .map((e) => e.displayName)
-                                  .toList(),
-                              onSelectItem: (value) {
-                                final vlSelect = dataTinhTrang[value];
-                                if (widget.cubit.xemKetLuanHopModel
-                                        .reportStatusId !=
-                                    vlSelect.id) {
-                                  reportStatusId = vlSelect.id ?? '';
-                                }
-                              },
-                            );
+                            return CoolDropDown(
+                                initData: widget.cubit.xemKetLuanHopModel
+                                        .reportStatus ??
+                                    '',
+                                placeHoder: S.current.chon_tinh_trang,
+                                listData: dataTinhTrang
+                                    .map((e) => e.displayName)
+                                    .toList(),
+                                onChange: (value) {
+                                  final vlSelect = dataTinhTrang[value];
+                                  if (widget.cubit.xemKetLuanHopModel
+                                          .reportStatusId !=
+                                      vlSelect.id) {
+                                    reportStatusId = vlSelect.id ?? '';
+                                  }
+                                });
+                            // hint: Text(
+                            //   widget.cubit.xemKetLuanHopModel.reportStatus ??
+                            //       S.current.chon_tinh_trang,
+                            //   style: textNormal(
+                            //     (widget.cubit.xemKetLuanHopModel
+                            //                     .reportStatus ??
+                            //                 '')
+                            //             .isNotEmpty
+                            //         ? titleItemEdit
+                            //         : signInTextSecondaryColor,
+                            //     14,
+                            //   ),
+                            // ),
+                            // items: dataTinhTrang
+                            //     .map((e) => e.displayName)
+                            //     .toList(),
+                            // onSelectItem: (value) {
+                            //   final vlSelect = dataTinhTrang[value];
+                            //   if (widget.cubit.xemKetLuanHopModel
+                            //           .reportStatusId !=
+                            //       vlSelect.id) {
+                            //     reportStatusId = vlSelect.id ?? '';
+                            //   }
+                            // },
                           },
                         ),
                       ),
@@ -151,21 +166,22 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         stream: widget.cubit.dataMauBienBan,
                         builder: (context, snapshot) {
                           final data = snapshot.data?.items ?? [];
-                          return CustomDropDown(
-                            hint: Text(
-                              widget.cubit
-                                      .getValueMauBienBanWithId(
-                                        widget.cubit.xemKetLuanHopModel
-                                                .reportTemplateId ??
-                                            '',
-                                      )
-                                      .isEmpty
-                                  ? S.current.chon_mau_bien_ban
-                                  : '',
-                              style: textNormal(titleItemEdit, 14),
-                            ),
-                            items: data.map((e) => e.name).toList(),
-                            onSelectItem: (value) {
+                          return CoolDropDown(
+                            placeHoder: S.current.chon_mau_bien_ban,
+                            // hint: Text(
+                            //   widget.cubit
+                            //           .getValueMauBienBanWithId(
+                            //             widget.cubit.xemKetLuanHopModel
+                            //                     .reportTemplateId ??
+                            //                 '',
+                            //           )
+                            //           .isEmpty
+                            //       ? S.current.chon_mau_bien_ban
+                            //       : '',
+                            //   style: textNormal(titleItemEdit, 14),
+                            // ),
+                            listData: data.map((e) => e.name).toList(),
+                            onChange: (value) {
                               widget.cubit.getValueMauBienBan(value);
                               if (widget.cubit.xemKetLuanHopModel
                                       .reportTemplateId !=

@@ -306,7 +306,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                         xemOrTaoOrSuaKetLuanHop(
                           cubit: cubit,
                           context: context,
-                          title: S.current.ket_luan_cuoc_hop,
+                          title: S.current.sua_ket_luan_hop,
                           listFile: listFile,
                         );
                       },

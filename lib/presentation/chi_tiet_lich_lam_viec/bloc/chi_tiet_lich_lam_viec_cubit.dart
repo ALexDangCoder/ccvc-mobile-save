@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -240,9 +239,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   Future<bool> confirmOfficerOrDismissconfirmOfficer(
-      ConfirmOfficerRequest request) async {
+    ConfirmOfficerRequest request,
+  ) async {
     bool isSucess = false;
+    showLoading();
     final result = await dataRepo.confirmOfficer(request);
+    showContent();
     result.when(
       success: (res) {
         isSucess = true;
@@ -251,6 +253,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         isSucess = false;
       },
     );
+    if (isSucess) eventBus.fire(RefreshCalendar());
     return isSucess;
   }
 
@@ -397,6 +400,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     );
     ShowLoadingScreen.dismiss();
   }
+
   // check hiển thị popup
   int checkXoa(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
@@ -404,10 +408,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
+
   int checkThuHoi(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
-          (element) => element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN,
-    ) ??
+          (element) =>
+              element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN,
+        ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
 
@@ -460,18 +466,21 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   bool checkChoYKien(ChiTietLichLamViecModel dataModel) {
     return nguoiTaoId(dataModel) == currentUserId ||
-        nguoiDuocMoi(dataModel) == currentUserId||canBoChuTri(dataModel) == currentUserId;
+        nguoiDuocMoi(dataModel) == currentUserId ||
+        canBoChuTri(dataModel) == currentUserId;
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {
     return (DateTime.parse(
           dataModel.dateTimeTo ?? DateTime.now().toString(),
-        ).isBefore(DateTime.now())) &&(nguoiTaoId(dataModel) == currentUserId ||
-        nguoiDuocMoi(dataModel) == currentUserId);
+        ).isBefore(DateTime.now())) &&
+        (nguoiTaoId(dataModel) == currentUserId ||
+            nguoiDuocMoi(dataModel) == currentUserId);
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
-    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) && checkChoSuaLich(dataModel); //=
+    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) &&
+        checkChoSuaLich(dataModel); //=
   }
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {

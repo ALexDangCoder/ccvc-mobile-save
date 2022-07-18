@@ -150,7 +150,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                           Padding(
                             padding: const EdgeInsets.only(right: 12),
                             child: ButtonOtherWidget(
-                              text: S.current.tu_choi,
+                              text: S.current.huy_duyet,
                               color: statusCalenderRed,
                               ontap: () {
                                 widget.cubit

@@ -166,7 +166,6 @@ class _ThemDonViPhoiHopKhacScreenState
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
-                    id: '',
                     name: _hoTenController.text,
                     tenDonVi: _tenDonViController.text,
                     noidung: _noiDungLamViecController.text,
@@ -193,6 +192,7 @@ class _ThemDonViPhoiHopKhacScreenState
                 reverse: true,
                 child: FormGroup(
                   key: _keyFormGroup,
+                  scrollController: ScrollController(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -202,7 +202,9 @@ class _ThemDonViPhoiHopKhacScreenState
                           controller: _hoTenController,
                           hintText: S.current.ho_va_ten,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.ho_va_ten.toLowerCase(),
+                            );
                           },
                         ),
                       ),
@@ -212,7 +214,9 @@ class _ThemDonViPhoiHopKhacScreenState
                           controller: _tenDonViController,
                           hintText: S.current.dau_moi_lam_viec,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.dau_moi_lam_viec,
+                            );
                           },
                         ),
                       ),
@@ -284,7 +288,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
-                            return (value ?? '').checkInt();
+                            return (value ?? '').pleaseEnter(
+                              S.current.nhap_so_luong,
+                            );
                           },
                         ),
                       ),

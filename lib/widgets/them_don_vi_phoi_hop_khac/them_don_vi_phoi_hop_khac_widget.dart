@@ -423,7 +423,6 @@ class _ThemDonViPhoiHopKhacScreenState
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
-                    id: '',
                     dauMoiLienHe: _dauMoiLamViecController.text,
                     noidung: _noiDungLamViecController.text,
                     email: _emailController.text,
@@ -431,7 +430,6 @@ class _ThemDonViPhoiHopKhacScreenState
                     vaiTroThamGia: 4,
                     tenDonVi: _tenDonViController.text,
                     tenCoQuan: _tenDonViController.text,
-                    name: '',
                   ),
                 );
                 Navigator.pop(context);
@@ -457,7 +455,9 @@ class _ThemDonViPhoiHopKhacScreenState
                           controller: _tenDonViController,
                           hintText: S.current.ten_don_vi,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.ten_don_vi.toLowerCase(),
+                            );
                           },
                         ),
                       ),
@@ -467,7 +467,9 @@ class _ThemDonViPhoiHopKhacScreenState
                           controller: _dauMoiLamViecController,
                           hintText: S.current.dau_moi_lam_viec,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.dau_moi_lam_viec.toLowerCase(),
+                            );
                           },
                         ),
                       ),

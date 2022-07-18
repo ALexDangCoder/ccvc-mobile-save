@@ -305,6 +305,7 @@ class _EditPersonalInformationTabletScreen
                                     ),
                                   ),
                                   InputInfoUserWidget(
+                                    isObligatory: true,
                                     title: user.keys.elementAt(7),
                                     child: TextFieldValidator(
                                       key: UniqueKey(),
@@ -314,7 +315,8 @@ class _EditPersonalInformationTabletScreen
                                       validator: (value) {
                                         if (value == null ||
                                             value.trim().isEmpty) {
-                                          return null;
+                                          return S.current
+                                              .ban_phai_nhap_truong_email;
                                         } else if (value.trim().contains('@')) {
                                           if (value.trim().contains(
                                                 '@',

@@ -1309,5 +1309,6 @@
   "xoa_diem_danh_thanh_cong" : "Xóa điểm danh thành công",
   "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!",
   "ban_chua_chon_nguoi_huy_diem_danh" : "Bạn chưa chọn người hủy điểm danh",
-  "chon_phien_hop": "Chọn phiên họp"
+  "chon_phien_hop": "Chọn phiên họp",
+  "ban_phai_nhap_truong_email": "Bạn phải nhập trường Email!"
 }

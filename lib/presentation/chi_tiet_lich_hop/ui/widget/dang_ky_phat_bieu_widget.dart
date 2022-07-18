@@ -44,24 +44,17 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     taoBieuQuyetRequest.personName = userName;
   }
 
-  String? validate (String? value){
-    if (value?.trim().isEmpty ?? true) {
+  void validate (String value){
+    if (value.trim().isEmpty ) {
       setState(() {
         errorText =
             S.current.vui_long_nhap_thoi_gian_phat_bieu;
       });
-      return null ;
     }else{
-      try {
-        int.parse(value?.trim() ?? '');
-        setState(() {
-          errorText = null;
-        });
-      } catch (e) {
-        setState(() {
-          errorText = S.current.nhap_sai_dinh_dang;
-        });
-      }
+      final intValue = int.tryParse(value.trim());
+      setState(() {
+        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : null;
+      });
     }
   }
 

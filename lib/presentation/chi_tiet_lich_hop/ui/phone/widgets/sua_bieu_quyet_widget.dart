@@ -50,9 +50,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
   bool isShowValidate = false;
   bool isShowValidateDanhSach = false;
   late String timeStart;
-
   late String timeEnd;
-
   String thoiGianHop = '';
 
   @override
@@ -60,6 +58,8 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
     super.initState();
     widget.cubit.clearData();
     widget.cubit.chiTietBieuQuyet(idBieuQuyet: widget.idBieuQuyet);
+    timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
+    timeEnd = widget.cubit.getChiTietLichHopModel.timeTo;
     widget.cubit.chiTietBieuQuyetSubject.listen((value) {
       noiDungController.text = value.data?.noiDung ?? '';
       widget.cubit.loaiBieuQ = value.data?.loaiBieuQuyet ?? true;
@@ -71,13 +71,16 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
       thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
           .parse(value.data?.thoiGianBatDau ?? '')
           .formatApi;
-
-      timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
-          .parse(value.data?.thoiGianBatDau ?? '')
-          .formatTime;
-      timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
-          .parse(value.data?.thoiGianKetThuc ?? '')
-          .formatTime;
+      try {
+        timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+            .parse(value.data?.thoiGianBatDau ?? '')
+            .formatTime;
+        timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+            .parse(value.data?.thoiGianKetThuc ?? '')
+            .formatTime;
+      } catch (e) {
+        return;
+      }
     });
   }
 

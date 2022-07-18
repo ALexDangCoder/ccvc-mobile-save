@@ -1027,4 +1027,5 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int INDEX_FILTER_XL_TRA_LAI =  22;
   static const int INDEX_FILTER_XL_CHUYEN_XU_LY = 23;
   static const int INDEX_FILTER_TC_CHO_DUYET = 24;
+  static const int INDEX_FILTER_OUT_RANGE = 25;
 }

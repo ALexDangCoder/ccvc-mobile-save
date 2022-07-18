@@ -308,6 +308,8 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                       widget.cubit.chiaSeBaoCao(Share.HAS_USER).then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {
                           MessageConfig.show(title: value);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         } else {
                           MessageConfig.show(
                             title: value,
@@ -342,6 +344,8 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                           .then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {
                           MessageConfig.show(title: value);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         } else {
                           MessageConfig.show(
                             title: value,

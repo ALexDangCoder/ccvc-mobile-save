@@ -142,13 +142,15 @@ class SelectDonViCell extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              title,
-              style: textNormal(
-                APP_DEVICE == DeviceType.MOBILE
-                    ? AppTheme.getInstance().colorField()
-                    : backgroundColorApp,
-                12.0.textScale(),
+            Flexible(
+              child: Text(
+                title,
+                style: textNormal(
+                  APP_DEVICE == DeviceType.MOBILE
+                      ? AppTheme.getInstance().colorField()
+                      : backgroundColorApp,
+                  12.0.textScale(),
+                ),
               ),
             ),
             GestureDetector(

@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_state.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_data.dart';
@@ -24,6 +25,18 @@ import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  List<Color> colorChart = [
+    color5A8DEE,
+    itemWidgetNotUse,
+    itemWidgetUsing,
+    canceledColor,
+    sideBtnSelected,
+    duyetColor,
+    kyDuyetColor,
+    dangXuLyLuongColor,
+    bgButtonDropDown,
+    choCapSoColor,
+  ];
 
 //code status
   static const CHUA_XU_LY = 'chua-xu-ly';
@@ -58,6 +71,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       BehaviorSubject.seeded([]);
   BehaviorSubject<List<ChildCategories>> listToaNha =
       BehaviorSubject.seeded([]);
+  List<String> listStringKhuVuc = [];
   List<List<ChartData>> listDataChart = [];
   List<ChartData> listStatusData = [];
   List<String> listTitle = [];
@@ -143,8 +157,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   List<String> getListThanhVien(List<ThanhVien> listData) {
-    final List<String> list =
-        listData.map((e) => e.tenThanhVien ?? '').toList();
+    final List<String> list = listData
+        .map((e) => '${e.tenThanhVien ?? ''} - ${e.chucVu ?? ''}')
+        .toList();
     final Set<String> listSet = {};
     listSet.addAll(list);
     final List<String> listResult = [];
@@ -202,8 +217,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Future<void> getAllApiThongTinChung() async {
     showLoading();
     await getChartSuCo();
-    await getNguoiXuLy();
     await getTongDai();
+    await getNguoiXuLy();
     if (checkDataThongTinChung == checkDataThongTinChungSuccess) {
       emit(const CompletedLoadMore(CompleteType.ERROR));
       showError();
@@ -212,9 +227,10 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     }
   }
 
-  Future<void> geiApiAddAndSearch() async {
+  Future<void> geiApiSearch() async {
     getTree();
     await getNguoiTiepNhanYeuCau();
+    await getNguoiXuLy();
     await getCategory(title: KHU_VUC);
     await getCategory(title: LOAI_SU_CO);
     await getCategory(title: TRANG_THAI);
@@ -260,6 +276,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         await _hoTroKyThuatRepository.getChartSuCo();
     result.when(
       success: (res) {
+        listStringKhuVuc = res.map((e) => e.codeKhuVuc.toString()).toList();
         //clean data chart
         listDataChart = [];
         listStatusData = [];
@@ -276,7 +293,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
                 (value) => ChartData(
                   value.tenKhuVuc ?? '',
                   0,
-                  getColorChart(value.codeKhuVuc ?? ''),
+                  getColorChart(
+                    codeKhuVuc: value.codeKhuVuc.toString(),
+                  ),
                 ),
               )
               .toList();
@@ -290,7 +309,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
                     ChartData(
                       valueChild.tenSuCo ?? '',
                       (valueChild.soLuong ?? 0).toDouble(),
-                      getColorChart(value.codeKhuVuc ?? ''),
+                      getColorChart(
+                        codeKhuVuc: value.codeKhuVuc.toString(),
+                      ),
                     ),
                   );
                 }
@@ -307,15 +328,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
-  Color getColorChart(String title) {
-    switch (title) {
-      case 'HN':
-        return const Color(0xff5A8DEE);
-      case 'HCM':
-        return const Color(0xffFF9F43);
-      default: //todo
-        return Colors.red;
-    }
+  Color getColorChart({
+    required String codeKhuVuc,
+  }) {
+    return colorChart[listStringKhuVuc.indexWhere(
+      (element) => element == codeKhuVuc,
+    )];
   }
 
   Future<void> getTongDai() async {
@@ -336,10 +354,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       success: (res) {
         listNguoiTiepNhanYeuCau.add(res);
       },
-      error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
-      },
+      error: (error) {},
     );
   }
 
@@ -359,10 +374,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listTrangThai.add(res);
         }
       },
-      error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
-      },
+      error: (error) {},
     );
   }
 

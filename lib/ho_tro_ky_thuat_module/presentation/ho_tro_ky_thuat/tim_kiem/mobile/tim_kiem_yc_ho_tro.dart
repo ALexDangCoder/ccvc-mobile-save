@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -13,6 +12,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/screen_devic
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/form_input_base.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,7 +43,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   @override
   void initState() {
     _themDonViCubit = ThemDonViCubit();
-    widget.cubit.geiApiAddAndSearch();
+    widget.cubit.geiApiSearch();
     _controller = ScrollController();
     _controller.addListener(() {
       widget.cubit.isShowDonVi.add(false);
@@ -203,7 +203,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: 'DD/MM/YYYY',
+                                              hintText: INIT_DATE_PICK,
                                               value: DateTime.tryParse(
                                                 widget.cubit.createOn ?? '',
                                               ),
@@ -221,7 +221,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: 'DD/MM/YYYY',
+                                              hintText: INIT_DATE_PICK,
                                               value: DateTime.tryParse(
                                                 widget.cubit.finishDay ?? '',
                                               ),
@@ -303,6 +303,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                           .childCategories ??
                                                       [],
                                                 );
+                                                widget.cubit
+                                                    .buildingIdName =null;
                                                 widget.cubit.districtId = widget
                                                     .cubit
                                                     .listKhuVuc
@@ -311,6 +313,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                 widget.cubit.districtIdName =
                                                     widget.cubit.listKhuVuc
                                                         .value[value].name;
+                                                widget.cubit
+                                                    .buildingIdName =null;
                                               },
                                               value:
                                                   widget.cubit.districtIdName,

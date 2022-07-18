@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -102,48 +103,3 @@ Future<Map<String, dynamic>> pickImageFunc({
   }
 }
 
-enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL }
-
-extension GetTypeByName on PickerType {
-  List<String> get fileType {
-    switch (this) {
-      case PickerType.MEDIA_FILE:
-        return [
-          'MP4',
-          'WEBM',
-          'MP3',
-          'WAV',
-          'OGG',
-          'PNG',
-          'JPG',
-          'JPEG',
-          'GIF'
-        ];
-      case PickerType.IMAGE_FILE:
-        return ['JPG', 'PNG', 'GIF', 'JPEG'];
-      case PickerType.DOCUMENT:
-        return ['DOC', 'DOCX', 'PDF', 'XLS', 'XLSX'];
-      case PickerType.ALL:
-        return [
-          'MP4',
-          'WEBM',
-          'MP3',
-          'WAV',
-          'OGG',
-          'PNG',
-          'JPG',
-          'JPEG',
-          'GIF',
-          'JPG',
-          'PNG',
-          'GIF',
-          'JPEG',
-          'DOC',
-          'DOCX',
-          'PDF',
-          'XLS',
-          'XLSX'
-        ];
-    }
-  }
-}

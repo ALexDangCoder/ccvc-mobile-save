@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/show_more_bottom_sheet_mobile.dart';
@@ -18,6 +17,7 @@ class ItemList extends StatelessWidget {
   final ReportListCubit cubit;
   final bool isTablet;
   final bool isTree;
+  final bool isSearch;
   final String idFolder;
 
   const ItemList({
@@ -27,13 +27,18 @@ class ItemList extends StatelessWidget {
     this.isTablet = false,
     required this.isTree,
     required this.idFolder,
+    this.isSearch = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(
+        top: 16,
+        left: 16,
+        bottom: 16,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: backgroundColorApp,
@@ -81,7 +86,8 @@ class ItemList extends StatelessWidget {
                   ),
                   spaceH4,
                   Text(
-                    (item.dateTime ?? item.updatedAt ?? '').changeToNewPatternDate(
+                    (item.dateTime ?? item.updatedAt ?? '')
+                        .changeToNewPatternDate(
                       DateFormatApp.dateTimeBackEnd,
                       DateFormatApp.date,
                     ),
@@ -123,6 +129,7 @@ class ItemList extends StatelessWidget {
                     (value) => cubit.reloadDataWhenFavorite(
                       isTree: isTree,
                       idFolder: idFolder,
+                      isSearch: isSearch,
                     ),
                   );
                 } else {
@@ -139,13 +146,17 @@ class ItemList extends StatelessWidget {
                     (value) => cubit.reloadDataWhenFavorite(
                       isTree: isTree,
                       idFolder: idFolder,
+                      isSearch: isSearch,
                     ),
                   );
                 }
               },
-              child: Padding(
+              child: Container(
+                color: Colors.transparent,
                 padding: const EdgeInsets.only(
                   left: 18,
+                  right: 16,
+                  bottom: 16,
                 ),
                 child: SvgPicture.asset(
                   ImageAssets.icMore,

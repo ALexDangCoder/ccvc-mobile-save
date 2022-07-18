@@ -103,10 +103,10 @@ class YKienXuLyYKNDModelResponse extends Equatable {
         noiDung: noiDung?.parseHtml(),
         ngayTao: ngayTao == null
             ? ''
-            : DateTime.parse(ngayTao!).formatApiListBieuQuyet,
+            : DateTime.parse(ngayTao!).formatApiListBieuQuyetMobile,
         ngaySua: ngaySua == null
             ? ''
-            : DateTime.parse(ngaySua!).formatApiListBieuQuyet,
+            : DateTime.parse(ngaySua!).formatApiListBieuQuyetMobile,
         type: type,
         tenNguoiChoYKien: tenNguoiChoYKien,
         tenNguoiXinYKien: tenNguoiXinYKien,

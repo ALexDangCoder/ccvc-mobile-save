@@ -34,15 +34,15 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
   /// nhan dien khuon mat
   String idImg = '';
-  BehaviorSubject<GetAllFilesIdModel> allFileDeokinhSubject = BehaviorSubject();
+  BehaviorSubject<List<GetAllFilesIdModel>> allFileDeokinhSubject = BehaviorSubject();
 
-  Stream<GetAllFilesIdModel> get allFileDeokinhStream =>
+  Stream<List<GetAllFilesIdModel>> get allFileDeokinhStream =>
       allFileDeokinhSubject.stream;
 
-  BehaviorSubject<GetAllFilesIdModel> allFileKhongDeokinhSubject =
+  BehaviorSubject<List<GetAllFilesIdModel>> allFileKhongDeokinhSubject =
       BehaviorSubject();
 
-  Stream<GetAllFilesIdModel> get allFileKhongDeokinhStream =>
+  Stream<List<GetAllFilesIdModel>> get allFileKhongDeokinhStream =>
       allFileKhongDeokinhSubject.stream;
 
   BehaviorSubject<GetAllFilesIdModel> getOnlyFileDataSubject =

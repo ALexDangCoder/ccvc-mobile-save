@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/data/di/module.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
@@ -38,7 +37,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     );
   }
 
-  Future xoaBienSoXe(String id) async {
+  Future<void> xoaBienSoXe(String id) async {
     showLoading();
     final result = await diemDanhRepo.deleteBienSoXe(id);
     result.when(success: (res) {
@@ -98,19 +97,20 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     showLoading();
     final result = await diemDanhRepo.capNhatBienSoXe(capNhatBienSoXeRequest);
     result.when(
-        success: (res) {
-          showContent();
-          toast.showToast(
-            child: ShowToast(
-              color: colorE9F9F1,
-              icon: ImageAssets.ic_tick_showToast,
-              text: S.current.luu_du_lieu_thanh_cong,
-            ),
-            gravity: ToastGravity.BOTTOM,
-          );
-          Navigator.pop(context, true);
-        },
-        error: (error) {});
+      success: (res) {
+        showContent();
+        toast.showToast(
+          child: ShowToast(
+            color: colorE9F9F1,
+            icon: ImageAssets.ic_tick_showToast,
+            text: S.current.luu_du_lieu_thanh_cong,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
+        Navigator.pop(context, true);
+      },
+      error: (error) {},
+    );
   }
 
   ///delete image
@@ -145,17 +145,19 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
       success: (success) {
         if (isTao) {
           dangKyThongTinXeMoi(
-              bienKiemSoat: bienKiemSoat,
-              fileId: success.data?.first ?? '',
-              context: context);
+            bienKiemSoat: bienKiemSoat,
+            fileId: success.data?.first ?? '',
+            context: context,
+          );
         } else {
           capNhatBienSoxe(
-              bienKiemSoat: bienKiemSoat,
-              id: id ?? '',
-              fileId: success.data!.isEmpty
-                  ? (fileId ?? '')
-                  : success.data?.first ?? '',
-              context: context);
+            bienKiemSoat: bienKiemSoat,
+            id: id ?? '',
+            fileId: success.data!.isEmpty
+                ? (fileId ?? '')
+                : success.data?.first ?? '',
+            context: context,
+          );
         }
       },
       error: (error) {

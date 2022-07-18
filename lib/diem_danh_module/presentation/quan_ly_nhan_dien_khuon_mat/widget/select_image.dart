@@ -45,8 +45,8 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
   void removeImg() {
     widget.onTapImage(null); //khi xoa thi call back tra ve null.
     widget.image = null;
-    widget.removeImage();
     setState(() {});
+    widget.removeImage();
   }
 
   @override

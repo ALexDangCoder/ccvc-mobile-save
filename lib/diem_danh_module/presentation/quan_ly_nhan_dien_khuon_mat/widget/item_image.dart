@@ -37,9 +37,10 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
   String idImage = '';
 
   @override
-  void dispose() {
+  void initState() {
+    widget.cubit.idImg = widget.id ?? '';
     imageRepo = null;
-    super.dispose();
+    super.initState();
   }
 
   @override
@@ -130,22 +131,27 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                             id: idImage,
                           ),
                     removeImage: () {
-                      if (idImage.isNotEmpty) {
-                        widget.cubit.deleteImage(idImage);
-                        idImage = '';
-                      } else {
-                        widget.cubit.deleteImage(widget.id ?? '');
-                      }
+                      widget.cubit.deleteImage(
+                        entityName: widget.dataUI.entityName,
+                        fileTypeUpload: widget.dataUI.fileTypeUpload,
+                      );
+
+                      idImage = '';
                     },
                     onTapImage: (image) async {
                       imageRepo = image;
                       if (image != null) {
                         idImage = await widget.cubit.postImage(
-                          widget.dataUI.fileTypeUpload,
                           widget.dataUI.entityName,
-                          [image],
+                          image,
                         );
                         setState(() {});
+
+                        await widget.cubit.createImage(
+                          fileId: idImage,
+                          loaiGocAnh: widget.dataUI.entityName,
+                          loaiAnh: widget.dataUI.fileTypeUpload,
+                        );
                       }
                     },
                   ),

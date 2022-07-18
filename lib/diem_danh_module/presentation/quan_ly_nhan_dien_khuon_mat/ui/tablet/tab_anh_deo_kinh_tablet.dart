@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/ge
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/item_image.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:flutter/material.dart';
 
 class TabAnhDeoKinhTablet extends StatefulWidget {
@@ -17,22 +18,23 @@ class _TabAnhDeoKinhTabletState extends State<TabAnhDeoKinhTablet> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.getAllImageDeoKinhId();
+    widget.cubit.getAllImageId(entityName: ApiConstants.KHUON_MAT_DEO_KINH);
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () {
-        return widget.cubit.getAllImageDeoKinhId();
+        return widget.cubit
+            .getAllImageId(entityName: ApiConstants.KHUON_MAT_DEO_KINH);
       },
-      child: StreamBuilder<GetAllFilesIdModel>(
+      child: StreamBuilder<List<GetAllFilesIdModel>>(
           stream: widget.cubit.allFileDeokinhStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 16.0),
+                    horizontal: 16.0, vertical: 16.0,),
                 child: GridView.count(
                   crossAxisCount: 2,
                   shrinkWrap: true,
@@ -58,7 +60,7 @@ class _TabAnhDeoKinhTabletState extends State<TabAnhDeoKinhTablet> {
               );
             }
             return Container();
-          }),
+          },),
     );
   }
 }

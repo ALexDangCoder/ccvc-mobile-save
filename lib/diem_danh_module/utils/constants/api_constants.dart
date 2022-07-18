@@ -1,4 +1,7 @@
 class ApiConstants {
+  static const String DEFAULT_VALUE_GUID_ID =
+      '00000000-0000-0000-0000-000000000000';
+
   ///entityName call api
   static const String KHUON_MAT_DEO_KINH = 'KhuonMatDeoKinh';
   static const String KHUON_MAT_KHONG_DEO_KINH = 'KhuonMatKhongDeoKinh';
@@ -21,14 +24,16 @@ class ApiConstants {
   static const DIEM_DANH_CA_NHAN_BANG_DIEM_DANH =
       '/ddth/api/DDDiemDanhCaNhan/BangDiemDanh';
   static const POST_FILE = '/ddth/api/Files/UploadFile';
-  static const GET_ALL_FILE = '/ddth/api/Files/GetListFileForEntity';
+  static const POST_FILE_KHUON_MAT = '/ddth/api/Files/UploadMotFile';
+  static const GET_ALL_FILE = '/ddth/api/SYSKhuonMat/GetDetail/{id}';
   static const DANH_SACH_BIEN_SO_XE = '/ddth/api/SYSBienSoXe/GetList';
   static const GET_FILE = '/ddth/api/Files';
   static const XOA_BIEN_XO_XE = '/ddth/api/SYSBienSoXe/Delete/{id}';
   static const DANG_KY_THONG_TIN_XE_MOI = '/ddth/api/SYSBienSoXe/Create';
   static const CAP_NHAT_THONG_TIN_XE_MOI = '/ddth/api/SYSBienSoXe/Update';
-  static const DELETE_IMAGE = '/ddth/api/Files/{id}';
+  static const DELETE_IMAGE = '/ddth/api/SYSKhuonMat/Delete';
   static const HIEN_THI_ANH = '/ddth/api/Files/HienThiFile';
+  static const CREATE_IMAGE = '/ddth/api/SYSKhuonMat/Create';
 }
 
 class ImageConstants {

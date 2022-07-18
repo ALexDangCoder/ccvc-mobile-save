@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:core';
-import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -53,7 +53,7 @@ import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:rxdart/rxdart.dart';
-
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
@@ -320,6 +320,7 @@ const _DON_VI_PHOI_HOP_KHAC = 1;
 const _THONG_TIN_KHAC_MOI = 2;
 
 class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
+  DetailMeetCalenderCubit? detailMeetCalenderCubit;
   final Map<int, List<DonViModel>> _data = {};
   List<String> diemDanhIds = [];
 
@@ -343,13 +344,13 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
           messState: MessState.error);
       return;
     }
-    ShowLoadingScreen.show();
+    showLoading();
     final result =
         await hopRp.postMoiHop(idCuocHop, false, phuongThucNhan, data);
     await result.when(
       success: (res) async {
         await getDanhSachCuocHopTPTH();
-        ShowLoadingScreen.dismiss();
+        showLoading(isShow: false);
         MessageConfig.show(
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
@@ -360,7 +361,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
           title: S.current.them_thanh_phan_tham_gia_that_bai,
           messState: MessState.error,
         );
-        ShowLoadingScreen.dismiss();
+        showLoading(isShow: false);
       },
     );
   }
@@ -377,7 +378,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   }
 
   Future<void> postDiemDanh() async {
-    ShowLoadingScreen.show();
+    showLoading();
     final result = await hopRp.postDiemDanh(diemDanhIds);
 
     await result.when(
@@ -387,16 +388,16 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.diem_danh_thanh_cong,
         );
-        ShowLoadingScreen.dismiss();
+        showLoading(isShow: false);
       },
       error: (error) {
-        ShowLoadingScreen.dismiss();
+        showLoading(isShow: false);
       },
     );
   }
 
   Future<void> postHuyDiemDanh(String id) async {
-    ShowLoadingScreen.show();
+    showLoading();
     final result = await hopRp.postHuyDiemDanh(id);
     await result.when(
       success: (value) async {
@@ -404,10 +405,10 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.xoa_diem_danh_thanh_cong,
         );
-        ShowLoadingScreen.dismiss();
+        showLoading(isShow: false);
       },
       error: (error) {
-        ShowLoadingScreen.dismiss();
+        showLoading(isShow: false);
       },
     );
   }
@@ -468,11 +469,12 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   }
 
   Future<void> callApiThanhPhanThamGia() async {
-    ShowLoadingScreen.show();
+    showLoading();
     diemDanhIds = [];
     await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
-    ShowLoadingScreen.dismiss();
+    showLoading(isShow: false);
+
   }
 
   void addThanhPhanThamGia(List<DonViModel> value) {
@@ -584,5 +586,26 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
 
   void dispose() {
     _data.clear();
+  }
+  void showLoading({bool isShow = true}){
+    void show(){
+      if(isMobile()){
+        ShowLoadingScreen.show();
+      }else{
+        detailMeetCalenderCubit?.showLoading();
+      }
+    }
+    void dismiss(){
+      if(isMobile()){
+        ShowLoadingScreen.dismiss();
+      }else{
+        detailMeetCalenderCubit?.showContent();
+      }
+    }
+    if(isShow){
+     show();
+    }else{
+      dismiss();
+    }
   }
 }

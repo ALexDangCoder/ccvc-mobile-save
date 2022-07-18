@@ -175,6 +175,7 @@ class ImageAssets {
   static const String icDaGuiLoiMoiDetail = '$baseImg/ic_da_gui_loi_moi_detail.svg';
   static const String icXoaDetail = '$baseImg/ic_xoa_detail.svg';
   static const String icHuyDetail = '$baseImg/ic_huy_detail.svg';
+  static const String icXoaHopPoppup = '$baseImg/ic_xoa_hop_poppup.svg';
 
   ///SvgImage
   static const String appBarBackground = '$baseImg/app_bar_background.png';

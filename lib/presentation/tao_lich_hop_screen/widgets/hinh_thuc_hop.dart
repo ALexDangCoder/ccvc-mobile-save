@@ -274,7 +274,10 @@ class _HinhThucHopState extends State<HinhThucHop> {
                   diemCau.tenDiemCau = value;
                 },
                 validator: (value) {
-                  return value.isEmpty ? S.current.khong_duoc_de_trong : null;
+                  return value.isEmpty
+                      ? '${S.current.ten_don_vi} '
+                      '${S.current.khong_duoc_de_trong.toLowerCase()}'
+                      : null;
                 },
                 isRequired: true,
                 title: S.current.ten_don_vi,
@@ -303,6 +306,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 onChange: (value) {
                   diemCau.canBoDauMoiSDT = value;
                 },
+                maxLength: 255,
                 validator: (value) {
                   if (value.trim().isEmpty) {
                     return null;
@@ -369,6 +373,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
     String? initValue,
     List<TextInputFormatter>? inputFormatter,
     TextInputType? keyboardType,
+    int? maxLength,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -396,10 +401,12 @@ class _HinhThucHopState extends State<HinhThucHop> {
           onChanged: (value) {
             onChange(value);
           },
+          maxLength: maxLength,
           inputFormatters: inputFormatter,
           keyboardType: keyboardType,
           initialValue: initValue,
           decoration: InputDecoration(
+            counterText: '',
             filled: true,
             fillColor: Colors.white,
             contentPadding:

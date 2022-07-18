@@ -27,13 +27,14 @@ class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
   final Function(DonViModel)? onDelete;
   final bool isTaoHop;
   final bool isCheckedEmail;
-
+  final List<ItemTypeThanhPhan>? showType;
   const ThemDonViPhoiHopKhacWidget({
     Key? key,
     required this.onChange,
     this.isTaoHop = false,
     this.isCheckedEmail = false,
     this.onDelete,
+    this.showType,
   }) : super(key: key);
 
   @override
@@ -78,7 +79,7 @@ class _ThemDonViPhoiHopKhacWidgetState
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isTaoHop
                       ? ItemDonViPhoiHopWidget(
-                    data: data[index],
+                          data: data[index],
                           cubit: cubit,
                           isCheckedEmail: widget.isCheckedEmail,
                           onDelete: () {
@@ -88,6 +89,28 @@ class _ThemDonViPhoiHopKhacWidgetState
                       : ItemThanhPhanWidget(
                           data: data[index],
                           cubit: cubit,
+                          showType: [
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.TEN_DON_VI,
+                              title: S.current.ten_don_vi,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.DAU_MOI_LIEN_HE,
+                              title: S.current.dau_moi_lam_viec,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.NOI_DUNG,
+                              title: S.current.noidung,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.EMAIL,
+                              title: S.current.email,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.SDT,
+                              title: S.current.so_dien_thoai,
+                            ),
+                          ],
                         ),
                 ),
               ),
@@ -121,14 +144,22 @@ class _ThemDonViPhoiHopKhacWidgetState
   }
 }
 
+class ItemTypeThanhPhan {
+  final TypeFileShowDonVi type;
+  final String title;
+
+  ItemTypeThanhPhan({required this.type, required this.title});
+}
+
 class ItemThanhPhanWidget extends StatelessWidget {
   final DonViModel data;
   final ThanhPhanThamGiaCubit cubit;
-
+  final List<ItemTypeThanhPhan>? showType;
   const ItemThanhPhanWidget({
     Key? key,
     required this.data,
     required this.cubit,
+    this.showType,
   }) : super(key: key);
 
   @override
@@ -142,42 +173,58 @@ class ItemThanhPhanWidget extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Column(
-            children: [
-              rowInfo(
-                value: data.name,
-                key: S.current.ten_don_vi,
-              ),
-              SizedBox(
-                height: 10.0.textScale(space: 10),
-              ),
-              rowInfo(value: data.tenCanBo, key: S.current.ten_can_bo),
-              SizedBox(
-                height: 10.0.textScale(space: 10),
-              ),
-              Row(
-                crossAxisAlignment: isMobile()
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 2.0.textScale().toInt(),
-                    child: Text(
-                      S.current.noi_dung,
-                      style: textNormal(infoColor, 14),
+          if (showType == null)
+            Column(
+              children: [
+                rowInfo(
+                  value: data.name,
+                  key: S.current.ten_don_vi,
+                ),
+                SizedBox(
+                  height: 10.0.textScale(space: 10),
+                ),
+                rowInfo(value: data.tenCanBo, key: S.current.ten_can_bo),
+                SizedBox(
+                  height: 10.0.textScale(space: 10),
+                ),
+                Row(
+                  crossAxisAlignment: isMobile()
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2.0.textScale().toInt(),
+                      child: Text(
+                        S.current.noi_dung,
+                        style: textNormal(infoColor, 14),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: Text(
-                      data.noidung,
-                      style: textNormal(color3D5586, 14.0.textScale()),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(
+                        data.noidung,
+                        style: textNormal(color3D5586, 14.0.textScale()),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            )
+          else
+            Column(
+              children: List.generate(
+                showType!.length,
+                (index) {
+                  final result = showType![index];
+                  return Padding(
+                    padding: EdgeInsets.only(top: 10.0.textScale(space: 10)),
+                    child: rowInfo(
+                        key: result.title,
+                        value: result.type.valueDonViModel(data)),
+                  );
+                },
+              ),
+            ),
           Positioned(
             top: 0,
             right: 0,
@@ -202,6 +249,9 @@ class ItemThanhPhanWidget extends StatelessWidget {
             key,
             style: textNormal(infoColor, 14.0.textScale()),
           ),
+        ),
+        const SizedBox(
+          width: 10,
         ),
         Expanded(
           flex: 6,
@@ -398,6 +448,7 @@ class _ThemDonViPhoiHopKhacScreenState
       TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _sdtController = TextEditingController();
+  final scroll = ScrollController();
 
   @override
   void initState() {
@@ -423,7 +474,6 @@ class _ThemDonViPhoiHopKhacScreenState
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
-                    id: '',
                     dauMoiLienHe: _dauMoiLamViecController.text,
                     noidung: _noiDungLamViecController.text,
                     email: _emailController.text,
@@ -431,7 +481,6 @@ class _ThemDonViPhoiHopKhacScreenState
                     vaiTroThamGia: 4,
                     tenDonVi: _tenDonViController.text,
                     tenCoQuan: _tenDonViController.text,
-                    name: '',
                   ),
                 );
                 Navigator.pop(context);
@@ -445,8 +494,10 @@ class _ThemDonViPhoiHopKhacScreenState
           children: [
             Flexible(
               child: SingleChildScrollView(
+                controller: scroll,
                 reverse: true,
                 child: FormGroup(
+                  scrollController: scroll,
                   key: _keyFormGroup,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -457,7 +508,9 @@ class _ThemDonViPhoiHopKhacScreenState
                           controller: _tenDonViController,
                           hintText: S.current.ten_don_vi,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.ten_don_vi.toLowerCase(),
+                            );
                           },
                         ),
                       ),
@@ -467,7 +520,9 @@ class _ThemDonViPhoiHopKhacScreenState
                           controller: _dauMoiLamViecController,
                           hintText: S.current.dau_moi_lam_viec,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.dau_moi_lam_viec.toLowerCase(),
+                            );
                           },
                         ),
                       ),
@@ -488,10 +543,11 @@ class _ThemDonViPhoiHopKhacScreenState
                             width: 20,
                             height: 20,
                             child: Center(
-                                child: SvgPicture.asset(ImageAssets.ic_email),),
+                              child: SvgPicture.asset(ImageAssets.ic_email),
+                            ),
                           ),
                           validator: (value) {
-                            if(value?.isEmpty ?? true){
+                            if (value?.isEmpty ?? true) {
                               return null;
                             }
                             return (value ?? '').checkEmail();
@@ -515,7 +571,7 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
-                            if(value?.isEmpty ?? true){
+                            if (value?.isEmpty ?? true) {
                               return null;
                             }
                             return (value ?? '').checkSdt();

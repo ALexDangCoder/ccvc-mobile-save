@@ -102,7 +102,6 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     List<String>? listDonVi,
   }) async {
     final queue = Queue(parallel: 5);
-
     unawaited(
       queue.add(
         () => baoCaoYKND(
@@ -148,7 +147,6 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
         ),
       ),
     );
-
     await queue.onComplete;
     showContent();
     queue.dispose();

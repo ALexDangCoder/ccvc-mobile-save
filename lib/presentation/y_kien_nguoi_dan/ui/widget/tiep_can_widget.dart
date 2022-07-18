@@ -128,6 +128,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                 ),
               );
               widget.cubit.isShowFilterList.add(false);
+              widget.cubit.setColorWhenChooseDropDown(25);
               widget.cubit.getDanhSachPAKNFilterChart();
             } else if (index1 == 1) {
               widget.cubit.hanXuLy = 0;
@@ -140,6 +141,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                 ),
               );
               widget.cubit.isShowFilterList.add(false);
+              widget.cubit.setColorWhenChooseDropDown(25);
               widget.cubit.getDanhSachPAKNFilterChart();
             } else {
               widget.cubit.hanXuLy = 1;
@@ -152,6 +154,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                 ),
               );
               widget.cubit.isShowFilterList.add(false);
+              widget.cubit.setColorWhenChooseDropDown(25);
               widget.cubit.getDanhSachPAKNFilterChart();
             }
           },

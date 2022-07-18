@@ -67,7 +67,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int DENHAN = 2;
   static const int QUAHAN = 3;
 
-  final List<bool> constListValueDropdown = List.filled(24, false)
+  final List<bool> constListValueDropdown = List.filled(25, false)
     ..setAll(
       0,
       [true],
@@ -75,11 +75,16 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   final BehaviorSubject<List<bool>> listValueDropDownBHVSJ = BehaviorSubject();
 
   void setColorWhenChooseDropDown(int index) {
-    final List<bool> tmpList = List.filled(24, false)
-      ..setAll(
-        index,
-        [true],
-      );
+    List<bool> tmpList = [];
+    if (index < 25) {
+      tmpList = List.filled(25, false)
+        ..setAll(
+          index,
+          [true],
+        );
+    } else {
+      tmpList = List.filled(25, false);
+    }
     listValueDropDownBHVSJ.sink.add(tmpList);
   }
 
@@ -853,6 +858,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             AppTheme.getInstance().choXuLyColor(),
           ),
         );
+        setColorWhenChooseDropDown(11);
         break;
       case CHO_XU_LY_XLY:
         trangThaiFilter = YKienNguoiDanCubitt.ChoXuLy;
@@ -862,6 +868,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             textColorForum,
           ),
         );
+        setColorWhenChooseDropDown(14);
         break;
       case CHO_PHAN_XU_LY_XLY:
         trangThaiFilter = YKienNguoiDanCubitt.ChoPhanCongXuLy;
@@ -871,6 +878,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             AppTheme.getInstance().choXuLyColor(),
           ),
         );
+        setColorWhenChooseDropDown(12);
         break;
       case CHO_DUYET_XLY:
         trangThaiFilter = YKienNguoiDanCubitt.ChoDuyet;
@@ -880,6 +888,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             textColorForum,
           ),
         );
+        setColorWhenChooseDropDown(15);
         break;
       case DA_PHAN_CONG_XLY:
         trangThaiFilter = YKienNguoiDanCubitt.DaPhanCong;
@@ -889,6 +898,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             daXuLyColor,
           ),
         );
+        setColorWhenChooseDropDown(13);
         break;
       default:
         trangThaiFilter = YKienNguoiDanCubitt.DaHoanThanh;
@@ -898,6 +908,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             greenChart,
           ),
         );
+        setColorWhenChooseDropDown(18);
         clearDSPAKN();
         break;
     }
@@ -915,6 +926,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             AppTheme.getInstance().choXuLyColor(),
           ),
         );
+        setColorWhenChooseDropDown(1);
         break;
       case Phan_Xu_Ly_TC:
         trangThaiFilter = YKienNguoiDanCubitt.PhanXuLy;
@@ -924,6 +936,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             AppTheme.getInstance().subTitleColor(),
           ),
         );
+        setColorWhenChooseDropDown(2);
         break;
       case Dang_Xu_Ly_TC:
         trangThaiFilter = YKienNguoiDanCubitt.DangXuLy;
@@ -933,6 +946,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             textColorForum,
           ),
         );
+        setColorWhenChooseDropDown(3);
         break;
       case Cho_Duyet_TC:
         trangThaiFilter = YKienNguoiDanCubitt.ChoDuyet;
@@ -942,6 +956,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             textColorForum,
           ),
         );
+        setColorWhenChooseDropDown(24);
         break;
       default:
         trangThaiFilter = YKienNguoiDanCubitt.ChoBoSungThongTin;
@@ -951,6 +966,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
             AppTheme.getInstance().choXuLyColor(),
           ),
         );
+        setColorWhenChooseDropDown(7);
         break;
     }
     hanXuLy = null;

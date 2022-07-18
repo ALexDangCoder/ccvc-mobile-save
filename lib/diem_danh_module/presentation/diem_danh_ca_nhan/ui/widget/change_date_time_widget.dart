@@ -116,7 +116,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     setState(() {});
   }
 
-  void nextMonth() {
+  void nextYear() {
     _currentMonth = DateTime(_currentMonth.year + 1, _currentMonth.month);
     widget.onChange(_currentMonth);
     yearPage = _currentMonth.year;
@@ -130,7 +130,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void previousMonth() {
+  void previousYear() {
     _currentMonth = DateTime(_currentMonth.year - 1, _currentMonth.month);
     widget.onChange(_currentMonth);
 
@@ -157,7 +157,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: previousMonth,
+                  onTap: previousYear,
                   child: const Icon(
                     Icons.navigate_before_rounded,
                     color: colorA2AEBD,
@@ -177,7 +177,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: nextMonth,
+                  onTap: nextYear,
                   child: const Icon(
                     Icons.navigate_next_rounded,
                     color: colorA2AEBD,

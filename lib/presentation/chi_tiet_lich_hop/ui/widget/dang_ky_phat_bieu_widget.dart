@@ -34,7 +34,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   final userName = HiveLocal.getDataUser()?.userInformation?.hoTen ?? '';
   final unitName = HiveLocal.getDataUser()?.userInformation?.donVi ?? '';
   final timeController = TextEditingController();
-  String? errorText;
+  String errorText = '';
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     }else{
       final intValue = int.tryParse(value.trim());
       setState(() {
-        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : null;
+        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
       });
     }
   }
@@ -71,7 +71,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
           },
           onClickRight: () {
             validate(timeController.text);
-            if (errorText == null) {
+            if (errorText.isEmpty) {
               widget.cubit.taoPhatBieu(taoBieuQuyetRequest);
               Navigator.pop(context);
             }
@@ -141,9 +141,9 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 ),
               ],
             ),
-            if (errorText != null)
+            if (errorText.isNotEmpty)
               Text(
-                errorText ?? '',
+                errorText,
                 style: const TextStyle(fontSize: 12, color: canceledColor),
               ),
              spaceH24,

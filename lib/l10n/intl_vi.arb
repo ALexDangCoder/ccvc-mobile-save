@@ -15,8 +15,11 @@
   "ten_ca_nhan_tc_full": "Tên cá nhân/Tổ chức",
   "ngay_yeu_cau": "Ngày yêu cầu",
   "nguoi_tiep_nhan_yeu_cau": "Người tiếp nhận yêu cầu",
+  "ban_phai_tick_chon_bieu_quyet_muon_duyet": "Bạn phải tick chọn phát biểu muốn duyệt",
+  "ban_phai_tick_chon_bieu_quyet_muon_huy_duyet": "Bạn phải tick chọn phát biểu muốn hủy duyệt",
   "toa_nha": "Toà nhà",
   "so_phong": "Số phòng",
+  "nd_phat_bieu": "ND phát biểu",
   "loai_su_co": "Loại sự cố",
   "khu_vuc": "Khu vực",
   "them_moi_yc_ho_tro": "Thêm mới yêu cầu hỗ trợ",
@@ -594,6 +597,7 @@
   "phien_hop": "Phiên Họp",
   "noi_dung_phat_bieu": "Nội dung phát biểu",
   "phut": "Phút",
+  "phut_lower_case": "phút",
   "ten_bieu_quyet": "Tên biểu quyết",
   "duyet": "Duyệt",
   "them_bieu_quyet": "Thêm biểu quyết",
@@ -603,7 +607,7 @@
   "bo_phieu_cong_khai": "Bỏ phiếu công khai",
   "ngay_bieu_quyet": "Ngày biểu quyết",
   "cac_lua_chon_bieu_quyet": "Các lựa chọn biểu quyết",
-  "nguoi_phat_bieu": "Nguười phát biểu",
+  "nguoi_phat_bieu": "Người phát biểu",
   "dau_moi_lien_he": "Đầu mối liên hệ",
   "chua_gui_duyet": "Chưa gửi duyệt",
   "chua_dat": "Chưa đạt",
@@ -1258,7 +1262,17 @@
   "ban_phai_nhap_truong_noi_dung_theo_doi": "Bạn phải nhập trường Nội dung theo dõi !",
   "yeu_cau_thiet_bi_khac": "Yêu cầu thiết bị khác",
   "sua_bieu_quyet": "Sửa biểu quyết",
-  "xoa_bieu_quyet": "Xoá biểu quyết"
+  "xoa_bieu_quyet": "Xoá biểu quyết",
+  "thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc": "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
+  "vui_long_chon_can_bo_hoac_don_vi_moi" : "Vui lòng chọn cán bộ hoặc đơn vị được mời !",
+  "them_thanh_phan_tham_gia_thanh_cong" : "Thêm thành phần tham gia thành công",
+  "them_thanh_phan_tham_gia_that_bai" : "Thêm thành phần tham gia thất bại",
+  "ban_chua_chon_nguoi_diem_danh" : "Bạn chưa chọn người điểm danh!",
+  "diem_danh_thanh_cong" : "Điểm danh thành công!",
+  "xoa_diem_danh_thanh_cong" : "Xóa điểm danh thành công",
+  "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!",
+  "ban_chua_chon_nguoi_huy_diem_danh" : "Bạn chưa chọn người hủy điểm danh"
+
 }
 
 

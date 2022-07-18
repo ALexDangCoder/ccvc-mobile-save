@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/validate_email.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -42,6 +43,10 @@ class _DateInputState extends State<DateInput> {
       validator: (value) {
         if (value?.isEmpty ?? true) {
           return null;
+        }
+        if (!(value ?? '').isValidDateTime()) {
+          return '${S.current
+              .sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
         }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');

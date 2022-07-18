@@ -28,6 +28,7 @@ class ComplexLoadMore extends StatefulWidget {
   final String? titleNoData;
   final bool isLoadMore;
   final ScrollPhysics? physics;
+  final ScrollController? scrollController;
 
   const ComplexLoadMore({
     Key? key,
@@ -44,6 +45,7 @@ class ComplexLoadMore extends StatefulWidget {
     this.mainAxisExtent,
     this.isLoadMore = true,
     this.physics,
+    this.scrollController,
   }) : super(key: key);
 
   @override
@@ -144,6 +146,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                 ) {
                   if (widget.isListView == true) {
                     return SingleChildScrollView(
+                      controller: widget.scrollController,
                       physics: widget.physics,
                       child: Column(
                         children: [

@@ -38,12 +38,14 @@ class TabYKienXuLyTablet extends StatefulWidget {
 class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
     with AutomaticKeepAliveClientMixin {
   late TextEditingController _nhapYMainController;
+  late ScrollController controller;
 
   Future<void> _getApi() => widget.cubit.getDanhSachYKienXuLyPAKN();
 
   @override
   void initState() {
     super.initState();
+    controller = ScrollController();
     widget.cubit.idYkienParam = widget.id;
     _nhapYMainController = TextEditingController();
   }
@@ -94,6 +96,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
         error: AppException('', S.current.something_went_wrong),
         stream: widget.cubit.stateStream,
         child: ComplexLoadMore(
+          scrollController: controller,
           isLoadMore: false,
           physics: const AlwaysScrollableScrollPhysics(),
           titleNoData: S.current.khong_co_du_lieu,
@@ -434,21 +437,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                         title: S.current.file_dinh_kem_mb,
                         messState: MessState.error,
                       );
-                      widget.cubit.sizeFile = 0;
                     } else {
-                      final bool result = await widget.cubit.postYKienXuLy(
-                        noiDung: _nhapYMainController.text,
-                        kienNghiId: widget.cubit.idYkienParam,
-                        file: widget.cubit.listFileMain,
-                      );
-
-                      if (result) {
-                        _nhapYMainController.text = '';
-                        widget.cubit.listFileMain.clear();
-                        widget.cubit.listPickFileMain.clear();
-                        widget.cubit.sizeFile = 0;
-                        setState(() {});
-                      }
+                      await postYKienXuLy();
                     }
                   } else {
                     if (widget.cubit.listPickFileMain.isNotEmpty) {
@@ -457,20 +447,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                           title: S.current.file_dinh_kem_mb,
                           messState: MessState.error,
                         );
-                        widget.cubit.sizeFile = 0;
                       } else {
-                        final bool result = await widget.cubit.postYKienXuLy(
-                          noiDung: _nhapYMainController.text,
-                          kienNghiId: widget.cubit.idYkienParam,
-                          file: widget.cubit.listFileMain,
-                        );
-                        if (result) {
-                          _nhapYMainController.text = '';
-                          widget.cubit.listFileMain.clear();
-                          widget.cubit.listPickFileMain.clear();
-                          widget.cubit.sizeFile = 0;
-                          setState(() {});
-                        }
+                        await postYKienXuLy();
                       }
                     } else {
                       widget.cubit.validateNhapYkien
@@ -576,6 +554,31 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
         ),
       ],
     );
+  }
+
+  Future<void> postYKienXuLy() async {
+    final bool result = await widget.cubit.postYKienXuLy(
+      noiDung: _nhapYMainController.text,
+      kienNghiId: widget.cubit.idYkienParam,
+      file: widget.cubit.listFileMain,
+    );
+    if (result) {
+      await widget.cubit.getDanhSachYKienXuLyPAKN();
+      _nhapYMainController.text = '';
+      widget.cubit.listFileMain.clear();
+      widget.cubit.listPickFileMain.clear();
+      setState(() {});
+      if (controller.hasClients) {
+        Future.delayed(const Duration(milliseconds: 50), () {
+          controller.jumpTo(controller.position.maxScrollExtent);
+        });
+      }
+    } else {
+      MessageConfig.show(
+        title: S.current.that_bai,
+        messState: MessState.error,
+      );
+    }
   }
 
   @override

@@ -184,6 +184,57 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
     timeEnd = taoPhienHopRequest.thoiGian_KetThuc.split(' ').last;
   }
 
+  void handleButtonSaveClick() {
+    // Thời gian bắt đầu phiên họp:
+    final dateTimeStart = '$thoiGianHop $timeStart'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian kết thúc phiên họp:
+    final dateTimeEnd = '$thoiGianHop $timeEnd'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian bắt đầu cuộc họp:
+    final limitTimeStart = widget.cubit.getTime().convertStringToDate(
+          formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+        );
+
+    //Thời gian kết thúc cuộc họp:
+    final limitTimeEnd =
+        widget.cubit.getTime(isGetDateStart: false).convertStringToDate(
+              formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+            );
+
+    final bool isOverMeetingTime = dateTimeStart.isBefore(limitTimeStart) ||
+        dateTimeEnd.isAfter(limitTimeEnd);
+
+    final bool validateRequireField = _key.currentState?.validator() ?? false;
+    final bool validateTime = _keyBaseTime.currentState?.validator() ?? false;
+
+    if (isOverMeetingTime) {
+      MessageConfig.show(
+        messState: MessState.error,
+        title: S.current.validate_thoi_gian_phien_hop,
+      );
+      return;
+    }
+
+    if (validateRequireField && validateTime) {
+      taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
+      taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
+      taoPhienHopRequest.timeEnd = timeEnd;
+      final listPhienHop = widget.cubit.listPhienHop.value;
+      if (widget.indexEdit >= 0) {
+        listPhienHop[widget.indexEdit] = taoPhienHopRequest;
+      } else {
+        listPhienHop.add(taoPhienHopRequest);
+      }
+      widget.cubit.listPhienHop.sink.add(listPhienHop);
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -196,45 +247,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           child: DoubleButtonBottom(
             isTablet: isMobile() == false,
             onClickRight: () {
-              final dateTimeStart =
-                  '$thoiGianHop $timeStart'.convertStringToDate(
-                formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-              );
-              final dateTimeEnd = '$thoiGianHop $timeStart'.convertStringToDate(
-                formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-              );
-              if (dateTimeStart.isBefore(
-                    widget.cubit.getTime().convertStringToDate(
-                          formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-                        ),
-                  ) ||
-                  dateTimeEnd.isAfter(
-                    widget.cubit
-                        .getTime(isGetDateStart: false)
-                        .convertStringToDate(
-                          formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-                        ),
-                  )) {
-                MessageConfig.show(
-                  messState: MessState.error,
-                  title: S.current.validate_thoi_gian_phien_hop,
-                );
-                return;
-              }
-              if ((_key.currentState?.validator() ?? false) &&
-                  (_keyBaseTime.currentState?.validator() ?? false)) {
-                taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
-                taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
-                taoPhienHopRequest.timeEnd = timeEnd;
-                final listPhienHop = widget.cubit.listPhienHop.value;
-                if (widget.indexEdit >= 0) {
-                  listPhienHop[widget.indexEdit] = taoPhienHopRequest;
-                } else {
-                  listPhienHop.add(taoPhienHopRequest);
-                }
-                widget.cubit.listPhienHop.sink.add(listPhienHop);
-                Navigator.pop(context);
-              }
+              handleButtonSaveClick();
             },
             onClickLeft: () {
               Navigator.pop(context);
@@ -305,10 +318,19 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   },
                 ),
                 spaceH20,
+                Text(
+                  S.current.nguoi_chu_tri,
+                  style: textNormal(
+                    titleItemEdit,
+                    14.0.textScale(),
+                  ),
+                ),
+                spaceH8,
                 DropDownSearch(
                   title: S.current.nguoi_chu_tri,
                   hintText: S.current.chon_nguoi_chu_tri,
                   initSelected: taoPhienHopRequest.hoTen,
+                  isShowIconDropdown: true,
                   onChange: (index) {
                     final DonViModel donVi =
                         widget.cubit.listThanhPhanThamGia.toList()[index];
@@ -345,14 +367,14 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 ButtonSelectFile(
                   spacingFile: 16,
-                  maxSize: 30000000,
+                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                   title: S.current.tai_lieu_dinh_kem,
                   icon: ImageAssets.icShareFile,
-                  files: taoPhienHopRequest.Files ?? [],
+                  files: taoPhienHopRequest.files ?? [],
                   onChange: (
                     files,
                   ) {
-                    taoPhienHopRequest.Files = files;
+                    taoPhienHopRequest.files = files;
                   },
                   hasMultipleFile: true,
                   removeFileApi: (int index) {},
@@ -442,11 +464,11 @@ class ItemPhienHop extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: List.generate(
-                        phienHop.Files?.length ?? 0,
+                        phienHop.files?.length ?? 0,
                         (index) => Padding(
                           padding: const EdgeInsets.only(bottom: 4.0),
                           child: Text(
-                            phienHop.Files?[index].path.convertNameFile() ?? '',
+                            phienHop.files?[index].path.convertNameFile() ?? '',
                             style: textNormalCustom(
                               color: color5A8DEE,
                               fontWeight: FontWeight.w400,

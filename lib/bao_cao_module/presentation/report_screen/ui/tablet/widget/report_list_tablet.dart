@@ -15,6 +15,7 @@ class ReportListTablet extends StatelessWidget {
   final ReportListCubit cubit;
   final String idFolder;
   final bool isTree;
+  final bool isSearch;
 
   const ReportListTablet({
     Key? key,
@@ -24,6 +25,7 @@ class ReportListTablet extends StatelessWidget {
     required this.cubit,
     required this.idFolder,
     this.isTree = false,
+    this.isSearch = false,
   }) : super(key: key);
 
   @override
@@ -56,6 +58,7 @@ class ReportListTablet extends StatelessWidget {
                           value: listReport?[index] ?? ReportItem(),
                         ),
                         child: ItemGridView(
+                          isSearch: isSearch,
                           isTablet: true,
                           item: listReport?[index] ?? ReportItem(),
                           cubit: cubit,
@@ -82,6 +85,7 @@ class ReportListTablet extends StatelessWidget {
                             value: listReport?[index] ?? ReportItem(),
                           ),
                           child: ItemList(
+                            isSearch: isSearch,
                             idFolder: idFolder,
                             isTree: isTree,
                             item: listReport?[index] ?? ReportItem(),

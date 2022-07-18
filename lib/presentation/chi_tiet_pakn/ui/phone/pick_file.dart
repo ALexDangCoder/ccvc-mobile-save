@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +30,10 @@ Future<Map<String, dynamic>> pickFile() async {
   int _fileSize = 0;
   String _fileName = '';
   try {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles();
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: PickerType.DOCUMENT_IMG.fileType,
+    );
     if (result != null) {
       _fileExtension = (result.files.single.extension ?? '').toUpperCase();
       _filePath = result.files.single.path ?? '';

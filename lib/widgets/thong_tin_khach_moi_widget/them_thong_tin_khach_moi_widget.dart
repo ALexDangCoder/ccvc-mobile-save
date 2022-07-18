@@ -26,13 +26,14 @@ class ThemThongTinKhachMoiWidget extends StatefulWidget {
   final Function(DonViModel)? onDelete;
   final bool isMoiHop;
   final bool isCheckedEmail;
-
+  final List<ItemTypeThanhPhan>? showType;
   const ThemThongTinKhachMoiWidget({
     Key? key,
     required this.onChange,
     this.isMoiHop = false,
     this.isCheckedEmail = false,
     this.onDelete,
+    this.showType,
   }) : super(key: key);
 
   @override
@@ -55,9 +56,8 @@ class _ThemDonViPhoiHopKhacWidgetState
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: widget.isMoiHop
-          ? CrossAxisAlignment.start
-          : CrossAxisAlignment.center,
+      crossAxisAlignment:
+          widget.isMoiHop ? CrossAxisAlignment.start : CrossAxisAlignment.start,
       children: [
         SolidButton(
           onTap: () {
@@ -73,11 +73,11 @@ class _ThemDonViPhoiHopKhacWidgetState
             return Column(
               children: List.generate(
                 data.length,
-                    (index) => Padding(
+                (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isMoiHop
                       ? ItemPeopleThamGia(
-                    donVi: data[index],
+                          donVi: data[index],
                           cubit: cubit,
                           isKhachMoi: widget.isMoiHop,
                           isSendEmail: widget.isCheckedEmail,
@@ -88,6 +88,32 @@ class _ThemDonViPhoiHopKhacWidgetState
                       : ItemThanhPhanWidget(
                           data: data[index],
                           cubit: cubit,
+                          showType: [
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.HO_VA_TEN,
+                              title: S.current.ho_va_ten,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.TEN_DON_VI,
+                              title: S.current.ten_don_vi,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.NOI_DUNG,
+                              title: S.current.noidung,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.EMAIL,
+                              title: S.current.email,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.SDT,
+                              title: S.current.so_dien_thoai,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.SO_LUONG,
+                              title: S.current.tong_so_luong_khach,
+                            ),
+                          ],
                         ),
                 ),
               ),
@@ -146,7 +172,7 @@ class _ThemDonViPhoiHopKhacScreenState
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _sdtController = TextEditingController();
   final TextEditingController _soLuongController = TextEditingController();
-
+final scroll = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -190,8 +216,10 @@ class _ThemDonViPhoiHopKhacScreenState
           children: [
             Flexible(
               child: SingleChildScrollView(
+                controller: scroll,
                 reverse: true,
                 child: FormGroup(
+                  scrollController: scroll,
                   key: _keyFormGroup,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -237,7 +265,7 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
-                            if(value?.isEmpty ?? true){
+                            if (value?.isEmpty ?? true) {
                               return null;
                             }
                             return (value ?? '').checkEmail();
@@ -261,7 +289,7 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
-                            if(value?.isEmpty ?? true){
+                            if (value?.isEmpty ?? true) {
                               return null;
                             }
                             return (value ?? '').checkSdt();

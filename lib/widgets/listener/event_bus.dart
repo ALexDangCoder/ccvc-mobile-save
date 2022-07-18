@@ -24,5 +24,13 @@ class RefreshList {
 
 class CallBackNguoiGan {
   final String id;
+
   CallBackNguoiGan(this.id);
+}
+
+class DateSearchEvent {
+  final String startDate;
+  final String endDate;
+
+  DateSearchEvent(this.startDate, this.endDate);
 }

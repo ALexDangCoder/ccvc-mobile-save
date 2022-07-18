@@ -147,11 +147,11 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         );
         suaDanhSachLuaChon.sink.add(dsChon);
         listBieuQuyetSubject.sink.add(res.data?.dsThanhPhanThamGia ?? []);
+        showContent();
       },
       error: (err) {},
     );
     danhSachLuaChon.clear();
-    showContent();
   }
 
   Future<void> suaBieuQuyet({

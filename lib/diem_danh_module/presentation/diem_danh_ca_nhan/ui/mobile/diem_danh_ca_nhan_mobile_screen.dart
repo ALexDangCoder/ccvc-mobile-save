@@ -33,20 +33,18 @@ class _DiemDanhCaNhanMobileScreenState
     extends State<DiemDanhCaNhanMobileScreen> {
   late CalendarController _controller;
   late DateTime _tmpMonth;
+  final _now = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     _controller = CalendarController();
-    _tmpMonth = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-    );
+    _tmpMonth = DateTime(_now.year, _now.month);
     _controller.addPropertyChangedListener((properties) {
       if (properties == 'displayDate') {
         final DateTime currentMonth = DateTime(
-          _controller.displayDate?.year ?? DateTime.now().year,
-          _controller.displayDate?.month ?? DateTime.now().month,
+          _controller.displayDate?.year ?? _now.year,
+          _controller.displayDate?.month ?? _now.month,
         );
         _tmpMonth = currentMonth;
         widget.cubit.getDataDayWage(dateTime: currentMonth);
@@ -94,7 +92,7 @@ class _DiemDanhCaNhanMobileScreenState
         stream: widget.cubit.stateStream,
         child: RefreshIndicator(
           onRefresh: () async {
-            widget.cubit.getDataDayWage(dateTime: _tmpMonth);
+            await widget.cubit.getDataDayWage(dateTime: _tmpMonth);
           },
           child: SingleChildScrollView(
             child: Column(

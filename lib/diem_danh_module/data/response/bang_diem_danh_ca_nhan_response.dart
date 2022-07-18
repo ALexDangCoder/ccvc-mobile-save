@@ -28,7 +28,8 @@ class DataListItemThongKeDiemDanhCaNhanModelResponse {
           Map<String, dynamic> json) =>
       _$DataListItemThongKeDiemDanhCaNhanModelResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataListItemThongKeDiemDanhCaNhanModelResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$DataListItemThongKeDiemDanhCaNhanModelResponseToJson(this);
 }
 
 @JsonSerializable()

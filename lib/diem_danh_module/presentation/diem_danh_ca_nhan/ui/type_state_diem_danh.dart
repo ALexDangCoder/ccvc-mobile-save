@@ -18,7 +18,7 @@ extension StateDiemDanh on TypeStateDiemDanh {
       case TypeStateDiemDanh.NGHI_LAM:
         return ImageAssets.icNghiLam;
       case TypeStateDiemDanh.VE_SOM:
-        return ImageAssets.icVeSom ;
+        return ImageAssets.icVeSom;
       case TypeStateDiemDanh.NGHI_PHEP:
         return ImageAssets.icNghiPhep;
     }
@@ -44,4 +44,3 @@ extension StateDiemDanh on TypeStateDiemDanh {
     return '??:??';
   }
 }
-

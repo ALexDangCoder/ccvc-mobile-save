@@ -34,7 +34,7 @@ class SelectImageDangKyXe extends StatefulWidget {
 class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
   ImagePicker picker = ImagePicker();
   File? imageChoosse;
-  final double sizeFile=0;
+  final double sizeFile = 0;
 
   @override
   void initState() {
@@ -42,10 +42,12 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
   }
 
   Future<void> pickImage() async {
-    final XFile? pickImg = await picker.pickImage(source: ImageSource.gallery,);
+    final XFile? pickImg = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickImg != null) {
-      sizeFile==(File(pickImg.path).lengthSync()/(1024*1024));
-      if(sizeFile>20){
+      sizeFile == (File(pickImg.path).lengthSync() / (1024 * 1024));
+      if (sizeFile > 20) {
         final toast = FToast();
         toast.init(context);
         toast.showToast(
@@ -54,9 +56,10 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
           ),
           gravity: ToastGravity.TOP_RIGHT,
         );
-      }else{
-      widget.onTapImage(File(pickImg.path));
-      imageChoosse = File(pickImg.path);}
+      } else {
+        widget.onTapImage(File(pickImg.path));
+        imageChoosse = File(pickImg.path);
+      }
     }
     setState(() {});
   }
@@ -75,7 +78,9 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
           ? Stack(
               children: [
                 Container(
-                  height: widget.isPhone?200:MediaQuery.of(context).size.height*0.4,
+                  height: widget.isPhone
+                      ? 200
+                      : MediaQuery.of(context).size.height * 0.4,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     border: Border.all(color: colorE2E8F0),
@@ -113,7 +118,9 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
               ? Stack(
                   children: [
                     Container(
-                      height: widget.isPhone?200:MediaQuery.of(context).size.height*0.4,
+                      height: widget.isPhone
+                          ? 200
+                          : MediaQuery.of(context).size.height * 0.4,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         border: Border.all(color: colorE2E8F0),
@@ -151,121 +158,129 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                   },
                 );
     } else {
-      return  imageChoosse!=null?GestureDetector(
-        onTap: (){
-          pickImage();
-        },
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            Container(
-              height: widget.isPhone?200:MediaQuery.of(context).size.height*0.4,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                border: Border.all(color: colorE2E8F0),
-                borderRadius: BorderRadius.circular(8.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: shadow,
-                    blurRadius: 2,
-                    spreadRadius: 2,
+      return imageChoosse != null
+          ? GestureDetector(
+              onTap: () {
+                pickImage();
+              },
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Container(
+                    height: widget.isPhone
+                        ? 200
+                        : MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorE2E8F0),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: shadow,
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: FileImage(imageChoosse!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: widget.isPhone
+                        ? 200
+                        : MediaQuery.of(context).size.height * 0.4,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: color000000.withOpacity(0.5)),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        ImageAssets.icUpAnh,
+                        color: colorFFFFFF,
+                      ),
+                      spaceH14,
+                      Text(
+                        S.current.tai_anh_len,
+                        style: textNormal(
+                          colorFFFFFF,
+                          14.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-                image: DecorationImage(
-                  image: FileImage(imageChoosse!),
-                  fit: BoxFit.cover,
-                ),
               ),
-            ),
-            Container(
-              height: widget.isPhone?200:MediaQuery.of(context).size.height*0.4,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: color000000.withOpacity(0.5)),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  ImageAssets.icUpAnh,
-                  color: colorFFFFFF,
-                ),
-                spaceH14,
-                Text(
-                  S.current.tai_anh_len,
-                  style: textNormal(
-                    colorFFFFFF,
-                    14.0,
+            )
+          : GestureDetector(
+              onTap: () {
+                pickImage();
+              },
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Container(
+                    height: widget.isPhone
+                        ? 200
+                        : MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorE2E8F0),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: shadow,
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          widget.image!,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ):GestureDetector(
-        onTap: (){
-          pickImage();
-        },
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            Container(
-              height: widget.isPhone?200:MediaQuery.of(context).size.height*0.4,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                border: Border.all(color: colorE2E8F0),
-                borderRadius: BorderRadius.circular(8.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: shadow,
-                    blurRadius: 2,
-                    spreadRadius: 2,
+                  Container(
+                    height: widget.isPhone
+                        ? 200
+                        : MediaQuery.of(context).size.height * 0.4,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: color000000.withOpacity(0.5)),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        ImageAssets.icUpAnh,
+                        color: colorFFFFFF,
+                      ),
+                      spaceH14,
+                      Text(
+                        S.current.tai_anh_len,
+                        style: textNormal(
+                          colorFFFFFF,
+                          14.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-                image: DecorationImage(
-                  image: NetworkImage(
-                    widget.image!,
-                  ),
-                  fit: BoxFit.cover,
-                ),
               ),
-            ),
-            Container(
-              height: widget.isPhone?200:MediaQuery.of(context).size.height*0.4,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: color000000.withOpacity(0.5)),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  ImageAssets.icUpAnh,
-                  color: colorFFFFFF,
-                ),
-                spaceH14,
-                Text(
-                  S.current.tai_anh_len,
-                  style: textNormal(
-                    colorFFFFFF,
-                    14.0,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
+            );
     }
-
-
   }
 
   Widget emptyImage({required Function() onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: widget.isPhone?200:MediaQuery.of(context).size.height*0.4,
+        height: widget.isPhone ? 200 : MediaQuery.of(context).size.height * 0.4,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(color: colorE2E8F0),

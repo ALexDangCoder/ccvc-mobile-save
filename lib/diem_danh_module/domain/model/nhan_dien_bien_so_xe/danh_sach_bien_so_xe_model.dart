@@ -48,6 +48,7 @@ extension DangKyXe on String {
         return S.current.xe_may;
     }
   }
+
   String loaiSoHuu() {
     switch (this) {
       case DanhSachBienSoXeConst.XE_CAN_BO:

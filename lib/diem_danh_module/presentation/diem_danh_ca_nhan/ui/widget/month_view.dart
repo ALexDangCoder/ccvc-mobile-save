@@ -33,6 +33,7 @@ class _MonthViewState extends State<MonthView> {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+      physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 3,
       shrinkWrap: true,
       crossAxisCount: 3,

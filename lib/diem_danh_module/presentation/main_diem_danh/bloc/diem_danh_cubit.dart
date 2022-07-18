@@ -20,9 +20,15 @@ import 'package:rxdart/subjects.dart';
 
 class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   DiemDanhCubit() : super(const DiemDanhStateIntial());
+  late DateTime currentTime;
+  int countRequest = 0;
 
   DiemDanhRepository get diemDanhRepo => Get.find();
+  final _currentMonthSubject = BehaviorSubject<DateTime>();
 
+  Stream<DateTime> get currentMonthStream => _currentMonthSubject.stream;
+
+  Sink<DateTime> get currentMonthSink => _currentMonthSubject.sink;
   final DataUser? dataUser = HiveLocal.getDataUser();
   final String? tokken = PrefsService.getToken();
 

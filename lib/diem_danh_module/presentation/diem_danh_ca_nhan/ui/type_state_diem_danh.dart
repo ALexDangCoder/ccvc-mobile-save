@@ -4,11 +4,13 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum TypeStateDiemDanh { MUON, NGHI_LAM, DI_LAM, VE_SOM, NGHI_PHEP }
+enum TypeStateDiemDanh { MUON, NGHI_LAM, DI_LAM, VE_SOM, NGHI_PHEP, NGHI_LE }
 
 extension StateDiemDanh on TypeStateDiemDanh {
   String get getIcon {
     switch (this) {
+      case TypeStateDiemDanh.NGHI_LE:
+        return ImageAssets.icNghiLam;
       case TypeStateDiemDanh.MUON:
         return ImageAssets.icMuon;
       case TypeStateDiemDanh.DI_LAM:
@@ -16,12 +18,11 @@ extension StateDiemDanh on TypeStateDiemDanh {
       case TypeStateDiemDanh.NGHI_LAM:
         return ImageAssets.icNghiLam;
       case TypeStateDiemDanh.VE_SOM:
-        return ImageAssets.icDiLam;
+        return ImageAssets.icVeSom;
       case TypeStateDiemDanh.NGHI_PHEP:
-        return ImageAssets.icDiLam;
+        return ImageAssets.icNghiPhep;
     }
   }
-
 
   String getStringDate(String? timeIn, String? timeOut) {
     if (timeIn == null && timeOut != null) {

@@ -1299,5 +1299,13 @@
   "sua_bieu_quyet": "Sửa biểu quyết",
   "xoa_bieu_quyet": "Xoá biểu quyết",
   "thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc": "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
-  "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!"
+  "vui_long_chon_can_bo_hoac_don_vi_moi" : "Vui lòng chọn cán bộ hoặc đơn vị được mời !",
+  "them_thanh_phan_tham_gia_thanh_cong" : "Thêm thành phần tham gia thành công",
+  "them_thanh_phan_tham_gia_that_bai" : "Thêm thành phần tham gia thất bại",
+  "ban_chua_chon_nguoi_diem_danh" : "Bạn chưa chọn người điểm danh!",
+  "diem_danh_thanh_cong" : "Điểm danh thành công!",
+  "xoa_diem_danh_thanh_cong" : "Xóa điểm danh thành công",
+  "ban_phai_chon_truong_loai_nhiem_vu": "Bạn phải chọn trường Loại nhiệm vụ!",
+  "ban_chua_chon_nguoi_huy_diem_danh" : "Bạn chưa chọn người hủy điểm danh"
+
 }

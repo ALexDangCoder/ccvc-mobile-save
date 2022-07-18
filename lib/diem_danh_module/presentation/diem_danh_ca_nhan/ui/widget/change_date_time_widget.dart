@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/widget/month_view.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -167,7 +168,7 @@ class _ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
                     horizontal: 20,
                   ),
                   child: Text(
-                    'Tháng ${_currentMonth.formatMonthAndYear}',
+                    '${S.current.thang} ${_currentMonth.formatMonthAndYear}',
                     style: textNormalCustom(
                       color: color7966FF,
                       fontSize: 14,

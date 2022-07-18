@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/type_state_diem_danh.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
@@ -100,8 +101,8 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
         final dataTime = DateTime.parse(
           timeFormat(
             element.date ?? '',
-            'dd/MM/yyyy',
-            'yyyy-MM-ddTHH:mm:ss',
+            DateTimeFormat.DAY_MONTH_YEAR,
+            DateTimeFormat.FORMAT_REQUEST,
           ),
         );
         return dataTime.month == currentTime.month;
@@ -127,10 +128,10 @@ class AppointmentWithDuplicate extends Appointment {
     required this.model,
   }) : super(
           startTime: date.convertStringToDate(
-            formatPattern: 'dd/MM/yyyy',
+            formatPattern: DateTimeFormat.DAY_MONTH_YEAR,
           ),
           endTime: date.convertStringToDate(
-            formatPattern: 'dd/MM/yyyy',
+            formatPattern: DateTimeFormat.DAY_MONTH_YEAR,
           ),
         );
 }

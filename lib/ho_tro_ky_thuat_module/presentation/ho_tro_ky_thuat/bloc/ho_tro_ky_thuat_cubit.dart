@@ -25,6 +25,8 @@ import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+
+  //color
   List<Color> colorChart = [
     color5A8DEE,
     itemWidgetNotUse,
@@ -101,6 +103,15 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => get_dart.Get.find();
 
+//add
+  final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();
+  final BehaviorSubject<bool> showHintDropDown = BehaviorSubject.seeded(true);
+  final BehaviorSubject<bool> showErrorLoaiSuCo = BehaviorSubject();
+  final BehaviorSubject<bool> showErrorKhuVuc = BehaviorSubject();
+  final BehaviorSubject<bool> showErrorToaNha = BehaviorSubject();
+  List<String> loaiSuCoValue = [];
+  bool validateAllDropDown = false;
+
   void getTree() {
     hopRp.getTreeDonVi().then((value) {
       value.when(
@@ -157,14 +168,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   List<String> getListThanhVien(List<ThanhVien> listData) {
-    final List<String> list = listData
-        .map((e) => '${e.tenThanhVien ?? ''} - ${e.chucVu ?? ''}')
+    return listData
+        .map((e) => '${e.tenThanhVien.toString()} (${e.userId.toString()})')
         .toList();
-    final Set<String> listSet = {};
-    listSet.addAll(list);
-    final List<String> listResult = [];
-    listResult.addAll(listSet);
-    return listResult;
   }
 
   bool checkUser() {
@@ -180,9 +186,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     required int page,
   }) async {
     showLoading();
-    await getNguoiXuLy(
-      isCheck: false,
-    );
     final result = await _hoTroKyThuatRepository.postDanhSachSuCo(
       pageIndex: page,
       pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
@@ -200,11 +203,11 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         if (res.isEmpty) {
-          showEmpty();
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
+          showEmpty();
         } else {
-          showContent();
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res));
+          showContent();
         }
       },
       error: (error) {
@@ -230,7 +233,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Future<void> geiApiSearch() async {
     getTree();
     await getNguoiTiepNhanYeuCau();
-    await getNguoiXuLy();
+    await getNguoiXuLy(isCheck: false);
     await getCategory(title: KHU_VUC);
     await getCategory(title: LOAI_SU_CO);
     await getCategory(title: TRANG_THAI);
@@ -385,13 +388,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     return result;
   }
 
-  final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();
-  final BehaviorSubject<bool> showHintDropDown = BehaviorSubject.seeded(true);
-  final BehaviorSubject<bool> showErrorLoaiSuCo = BehaviorSubject();
-  final BehaviorSubject<bool> showErrorKhuVuc = BehaviorSubject();
-  final BehaviorSubject<bool> showErrorToaNha = BehaviorSubject();
-  List<String> loaiSuCoValue = [];
-
   List<String> getIdListLoaiSuCo(List<String> value) {
     final List<String> listIdSuCo = [];
     for (final e in value) {
@@ -409,8 +405,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorKhuVuc.add(false);
     showErrorToaNha.add(false);
   }
-
-  bool validateAllDropDown = false;
 
   void checkAllThemMoiYCHoTro() {
     if (addTaskHTKTRequest.buildingName == null) {
@@ -454,4 +448,56 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 }
 
-///Huy
+extension onChangeSearch on HoTroKyThuatCubit {
+  void onChangeTimKiem(String value) {
+    keyWord = value;
+  }
+
+  void onChangeNgayYeuCau(DateTime dateTime) {
+    createOn = dateTime.toString();
+  }
+
+  void onChangeNgayHoanThanh(DateTime dateTime) {
+    finishDay = dateTime.toString();
+  }
+
+  void onChangeNguoiTiepNhan(int index) {
+    userRequestId = listNguoiTiepNhanYeuCau.value[index].userId;
+    userRequestIdName = listNguoiTiepNhanYeuCau.value[index].hoVaTen;
+  }
+
+  void onChangeKhuVuc(int index) {
+    listToaNha.add(
+      listKhuVuc.value[index].childCategories ?? [],
+    );
+    buildingIdName = null;
+    districtId = listKhuVuc.value[index].id;
+    districtIdName = listKhuVuc.value[index].name;
+    buildingIdName = null;
+  }
+
+  void onChangeToaNha(int index) {
+    buildingId = listToaNha.value[index].id;
+    buildingIdName = listToaNha.value[index].name;
+  }
+
+  void onChangeTrangThaiXuLy(int index) {
+    processingCode = listTrangThai.value[index].code;
+    processingCodeName = listTrangThai.value[index].name;
+  }
+
+  void onChangeNguoiXuLy(int index) {
+    handlerId = listCanCoHTKT.value[index].userId;
+    handlerIdName = getListThanhVien(
+      listCanCoHTKT.value,
+    )[index];
+  }
+
+  void onChangeDonVi(DonViModel value) {
+    isShowDonVi.add(false);
+    codeUnit = value.id;
+    donViSearch.add(
+      value.name,
+    );
+  }
+}

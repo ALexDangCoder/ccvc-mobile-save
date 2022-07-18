@@ -53,6 +53,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = widget.cubit;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Align(
@@ -61,7 +62,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
           children: [
             GestureDetector(
               onTap: () {
-                widget.cubit.isShowDonVi.add(false);
+                cubit.isShowDonVi.add(false);
                 closeKey();
               },
               child: Container(
@@ -112,7 +113,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             StreamBuilder<List<CategoryModel>>(
-                              stream: widget.cubit.listTrangThai,
+                              stream: cubit.listTrangThai,
                               builder: (context, snapshot) {
                                 return snapshot.data?.isNotEmpty ?? false
                                     ? Padding(
@@ -130,11 +131,10 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               icon: ImageAssets.icSearchColor,
                                               hintText: S.current
                                                   .nhap_tu_khoa_tim_kiem,
-                                              initText:
-                                                  widget.cubit.keyWord ?? '',
+                                              initText: cubit.keyWord ?? '',
                                               isClose: true,
                                               onChange: (value) {
-                                                widget.cubit.keyWord = value;
+                                                cubit.onChangeTimKiem(value);
                                               },
                                             ),
                                             spaceH16,
@@ -145,8 +145,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                   .cubit.isShowDonVi
                                                   .add(true),
                                               child: StreamBuilder<String>(
-                                                stream:
-                                                    widget.cubit.donViSearch,
+                                                stream: cubit.donViSearch,
                                                 builder: (context, snapshot) {
                                                   final textDonVi =
                                                       snapshot.data ?? '';
@@ -205,11 +204,13 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               ),
                                               hintText: INIT_DATE_PICK,
                                               value: DateTime.tryParse(
-                                                widget.cubit.createOn ?? '',
+                                                cubit.createOn ?? '',
                                               ),
                                               onSelectDate: (dateTime) {
-                                                widget.cubit.createOn =
-                                                    dateTime.toString();
+                                                cubit.onChangeNgayYeuCau(
+                                                  dateTime,
+                                                );
+                                                setState(() {});
                                               },
                                             ),
                                             spaceH16,
@@ -223,11 +224,13 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               ),
                                               hintText: INIT_DATE_PICK,
                                               value: DateTime.tryParse(
-                                                widget.cubit.finishDay ?? '',
+                                                cubit.finishDay ?? '',
                                               ),
                                               onSelectDate: (dateTime) {
-                                                widget.cubit.finishDay =
-                                                    dateTime.toString();
+                                                cubit.onChangeNgayHoanThanh(
+                                                  dateTime,
+                                                );
+                                                setState(() {});
                                               },
                                             ),
                                             spaceH16,
@@ -240,24 +243,18 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                 S.current.chon,
                                               ),
                                               onSelectItem: (value) {
-                                                widget.cubit.userRequestId =
-                                                    widget
-                                                        .cubit
-                                                        .listNguoiTiepNhanYeuCau
-                                                        .value[value]
-                                                        .userId;
-                                                widget.cubit.userRequestIdName =
-                                                    widget
-                                                        .cubit
-                                                        .listNguoiTiepNhanYeuCau
-                                                        .value[value]
-                                                        .hoVaTen;
+                                                cubit.onChangeNguoiTiepNhan(
+                                                  value,
+                                                );
                                               },
                                               value: widget
                                                   .cubit.userRequestIdName,
-                                              items: widget.cubit
+                                              items: cubit
                                                   .listNguoiTiepNhanYeuCau.value
-                                                  .map((e) => e.hoVaTen ?? '')
+                                                  .map(
+                                                    (e) =>
+                                                        '${e.hoVaTen} (${e.userId})',
+                                                  )
                                                   .toList(),
                                             ),
                                             spaceH16,
@@ -268,23 +265,11 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                 S.current.chon,
                                               ),
                                               onSelectItem: (value) {
-                                                widget.cubit.handlerId = widget
-                                                    .cubit
-                                                    .listCanCoHTKT
-                                                    .value[value]
-                                                    .userId;
-                                                widget.cubit.handlerIdName =
-                                                    widget.cubit
-                                                        .getListThanhVien(
-                                                  widget.cubit.listCanCoHTKT
-                                                      .value,
-                                                )[value];
+                                                cubit.onChangeNguoiXuLy(value);
                                               },
-                                              value: widget.cubit.handlerIdName,
-                                              items:
-                                                  widget.cubit.getListThanhVien(
-                                                widget
-                                                    .cubit.listCanCoHTKT.value,
+                                              value: cubit.handlerIdName,
+                                              items: cubit.getListThanhVien(
+                                                cubit.listCanCoHTKT.value,
                                               ),
                                             ),
                                             spaceH16,
@@ -295,29 +280,9 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                 S.current.chon,
                                               ),
                                               onSelectItem: (value) {
-                                                widget.cubit.listToaNha.add(
-                                                  widget
-                                                          .cubit
-                                                          .listKhuVuc
-                                                          .value[value]
-                                                          .childCategories ??
-                                                      [],
-                                                );
-                                                widget.cubit
-                                                    .buildingIdName =null;
-                                                widget.cubit.districtId = widget
-                                                    .cubit
-                                                    .listKhuVuc
-                                                    .value[value]
-                                                    .id;
-                                                widget.cubit.districtIdName =
-                                                    widget.cubit.listKhuVuc
-                                                        .value[value].name;
-                                                widget.cubit
-                                                    .buildingIdName =null;
+                                                cubit.onChangeKhuVuc(value);
                                               },
-                                              value:
-                                                  widget.cubit.districtIdName,
+                                              value: cubit.districtIdName,
                                               items: widget
                                                   .cubit.listKhuVuc.value
                                                   .map((e) => e.name ?? '')
@@ -328,10 +293,10 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                             spaceH8,
                                             StreamBuilder<
                                                 List<ChildCategories>>(
-                                              stream: widget.cubit.listToaNha,
+                                              stream: cubit.listToaNha,
                                               builder: (context, snapshot) {
                                                 final List<String> listResult =
-                                                    widget.cubit.getList(
+                                                    cubit.getList(
                                                   snapshot.data ?? [],
                                                 );
                                                 return CustomDropDown(
@@ -339,13 +304,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                     S.current.chon,
                                                   ),
                                                   onSelectItem: (value) {
-                                                    widget.cubit.buildingId =
-                                                        widget.cubit.listToaNha
-                                                            .value[value].id;
-                                                    widget.cubit
-                                                            .buildingIdName =
-                                                        widget.cubit.listToaNha
-                                                            .value[value].name;
+                                                    cubit.onChangeToaNha(value);
                                                   },
                                                   value: widget
                                                       .cubit.buildingIdName,
@@ -358,12 +317,12 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                             spaceH8,
                                             FormInputBase(
                                               hintText: S.current.so_phong,
-                                              initText: widget.cubit.room ?? '',
+                                              initText: cubit.room ?? '',
                                               textInputType:
                                                   TextInputType.number,
                                               isClose: true,
                                               onChange: (value) {
-                                                widget.cubit.room = value;
+                                                cubit.room = value;
                                               },
                                             ),
                                             spaceH16,
@@ -376,13 +335,9 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                 S.current.chon,
                                               ),
                                               onSelectItem: (value) {
-                                                widget.cubit.processingCode =
-                                                    widget.cubit.listTrangThai
-                                                        .value[value].code;
-                                                widget.cubit
-                                                        .processingCodeName =
-                                                    widget.cubit.listTrangThai
-                                                        .value[value].name;
+                                                cubit.onChangeTrangThaiXuLy(
+                                                  value,
+                                                );
                                               },
                                               value: widget
                                                   .cubit.processingCodeName,
@@ -420,11 +375,11 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
               right: 16,
               left: 16,
               child: StreamBuilder<bool>(
-                stream: widget.cubit.isShowDonVi,
+                stream: cubit.isShowDonVi,
                 builder: (context, snapshot) {
                   return snapshot.data ?? false
                       ? StreamBuilder<List<Node<DonViModel>>>(
-                          stream: widget.cubit.getTreeDonVi,
+                          stream: cubit.getTreeDonVi,
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? <Node<DonViModel>>[];
                             if (data.isNotEmpty) {
@@ -461,12 +416,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                       selectOnly: true,
                                       themDonViCubit: _themDonViCubit,
                                       node: data[index],
-                                      onSelect: (v) {
-                                        widget.cubit.isShowDonVi.add(false);
-                                        widget.cubit.codeUnit = v.id;
-                                        widget.cubit.donViSearch.add(
-                                          v.name,
-                                        );
+                                      onSelect: (value) {
+                                        cubit.onChangeDonVi(value);
                                       },
                                     );
                                   },

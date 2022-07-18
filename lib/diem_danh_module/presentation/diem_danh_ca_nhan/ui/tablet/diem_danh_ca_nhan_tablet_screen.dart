@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/thong_ke_diem_danh_ca_nhan_model.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/widget/calendar_cham_cong.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/widget/change_date_time_widget.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart'
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DiemDanhCaNhanTabletScreen extends StatefulWidget {
   final DiemDanhCubit cubit;
@@ -29,10 +31,28 @@ class DiemDanhCaNhanTabletScreen extends StatefulWidget {
 
 class _DiemDanhCaNhanTabletScreenState
     extends State<DiemDanhCaNhanTabletScreen> {
+  late CalendarController _controller;
+  late DateTime _tmpMonth;
+
   @override
   void initState() {
-    widget.cubit.initData();
     super.initState();
+    _controller = CalendarController();
+    _tmpMonth = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+    );
+    _controller.addPropertyChangedListener((properties) {
+      if (properties == 'displayDate') {
+        final DateTime currentMonth = DateTime(
+          _controller.displayDate?.year ?? DateTime.now().year,
+          _controller.displayDate?.month ?? DateTime.now().month,
+        );
+        _tmpMonth = currentMonth;
+        widget.cubit.getDataDayWage(dateTime: currentMonth);
+        widget.cubit.currentMonthSink.add(currentMonth);
+      }
+    });
   }
 
   @override
@@ -67,14 +87,18 @@ class _DiemDanhCaNhanTabletScreenState
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
+        retry: () {
+          widget.cubit.getDataDayWage(dateTime: _tmpMonth);
+        },
         error: AppException(
           S.current.error,
           S.current.error,
         ),
         stream: widget.cubit.stateStream,
         child: RefreshIndicator(
-          onRefresh: () async {},
+          onRefresh: () async {
+            widget.cubit.getDataDayWage(dateTime: _tmpMonth);
+          },
           child: ProviderWidget<DiemDanhCubit>(
             cubit: widget.cubit,
             child: Column(
@@ -152,19 +176,35 @@ class _DiemDanhCaNhanTabletScreenState
                               ),
                             ],
                           ),
-                          child: ChangeDateTimeWidget(
-                            onChange: (DateTime value) {
-                              widget.cubit.changeData(value);
+                          child: StreamBuilder<DateTime>(
+                            stream: widget.cubit.currentMonthStream,
+                            builder: (context, snapshot) {
+                              final currentMonth = snapshot.data;
+                              return ChangeDateTimeWidget(
+                                onChange: (DateTime value) {
+                                  widget.cubit.getDataDayWage(dateTime: value);
+                                  widget.cubit.currentMonthSink.add(value);
+                                  _controller.displayDate =
+                                      DateTime(value.year, value.month);
+                                  _tmpMonth = value;
+                                },
+                                currentMonth: currentMonth,
+                                cubit: widget.cubit,
+                                endYear: widget.cubit.endYear,
+                                startYear: widget.cubit.startYear,
+                              );
                             },
-                            cubit: widget.cubit,
-                            endYear: widget.cubit.endYear,
-                            startYear: widget.cubit.startYear,
                           ),
                         ),
                       ),
                     ],
                   ),
-                )
+                ),
+                spaceH16,
+                CalendarChamCong(
+                  cubit: widget.cubit,
+                  controller: _controller,
+                ),
               ],
             ),
           ),

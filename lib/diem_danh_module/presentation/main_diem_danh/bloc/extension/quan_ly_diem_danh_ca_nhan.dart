@@ -6,20 +6,18 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/type_state_diem_danh.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:queue/queue.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
-  Future<void> initData() async {
-    final DateTime initData =
-        DateTime(DateTime.now().year, DateTime.now().month);
-    final Queue queue = Queue();
+  Future<void> getDataDayWage({required DateTime dateTime}) async {
+    currentTime = dateTime;
+    final Queue queue = Queue(parallel: 2);
     showLoading();
-    unawaited(queue.add(() => postDiemDanhThongKe(initData)));
-    unawaited(queue.add(() => postBangDiemDanhCaNhan(initData)));
+    unawaited(queue.add(() => postDiemDanhThongKe(dateTime)));
+    unawaited(queue.add(() => postBangDiemDanhCaNhan(dateTime)));
     await queue.onComplete;
     showContent();
   }
@@ -27,15 +25,6 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
   int get endYear => DateTime.now().year + 5;
 
   int get startYear => DateTime.now().year - 5;
-
-  Future<void> changeData(DateTime date) async {
-    final Queue queue = Queue();
-    showLoading();
-    unawaited(queue.add(() => postDiemDanhThongKe(date)));
-    unawaited(queue.add(() => postBangDiemDanhCaNhan(date)));
-    await queue.onComplete;
-    showContent();
-  }
 
   bool isMatchDay(
     DateTime dateNew,
@@ -107,8 +96,17 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
   List<AppointmentWithDuplicate> toDataFCalenderSource() {
     final List<AppointmentWithDuplicate> appointments = [];
     if ((listBangDiemDanh.valueOrNull ?? []).isNotEmpty) {
-      for (final BangDiemDanhCaNhanModel e
-          in listBangDiemDanh.valueOrNull ?? []) {
+      final tmpList = listBangDiemDanh.value.where((element) {
+        final dataTime = DateTime.parse(
+          timeFormat(
+            element.date ?? '',
+            'dd/MM/yyyy',
+            'yyyy-MM-ddTHH:mm:ss',
+          ),
+        );
+        return dataTime.month == currentTime.month;
+      });
+      for (final BangDiemDanhCaNhanModel e in tmpList) {
         appointments.add(
           AppointmentWithDuplicate(
             date: e.date ?? '',

@@ -21,22 +21,22 @@ class ViewDayCalendarWidget extends StatelessWidget {
 
   String get getStringDate {
     if (timeIn.isEmpty && timeOut.isNotEmpty) {
-      return '??:$timeOut';
+      return '??:??-$timeOut';
     }
 
     if (timeOut.isEmpty && timeIn.isNotEmpty) {
-      return '$timeIn:??';
+      return '$timeIn-??:??';
     }
 
     if (timeIn.isEmpty && timeOut.isEmpty) {
-      return '??:??';
+      return '??:??-??:??';
     }
 
     if (timeIn.isNotEmpty && timeOut.isNotEmpty) {
       return '$timeIn:$timeOut';
     }
 
-    return '??:??';
+    return '??-??:??-??';
   }
 
   @override
@@ -51,7 +51,7 @@ class ViewDayCalendarWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(
             vertical: 4,
-            horizontal: 12,
+            horizontal: 5,
           ),
           decoration: BoxDecoration(
             color:
@@ -73,6 +73,7 @@ class ViewDayCalendarWidget extends StatelessWidget {
 
   Widget dayWageWidget() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           dayWage.toString(),

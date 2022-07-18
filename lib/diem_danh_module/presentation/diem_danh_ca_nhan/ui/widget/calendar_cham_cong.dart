@@ -9,15 +9,20 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarChamCong extends StatefulWidget {
   final DiemDanhCubit cubit;
+  final CalendarController? controller;
 
-  const CalendarChamCong({Key? key, required this.cubit}) : super(key: key);
+  const CalendarChamCong({Key? key, required this.cubit, this.controller})
+      : super(key: key);
 
   @override
   State<CalendarChamCong> createState() => _CalendarChamCongState();
 }
 
 class _CalendarChamCongState extends State<CalendarChamCong> {
-  CalendarController controller = CalendarController();
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +31,10 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
       child: StreamBuilder<List<BangDiemDanhCaNhanModel>>(
         stream: widget.cubit.listBangDiemDanh,
         builder: (context, snapshot) {
-          final data = snapshot.data ?? [];
           return SfCalendar(
             firstDayOfWeek: 1,
             allowAppointmentResize: true,
-            controller: controller,
+            controller: widget.controller,
             headerHeight: 0.0,
             dataSource:
                 DataSource(source: widget.cubit.toDataFCalenderSource()),
@@ -45,7 +49,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
             ),
             monthViewSettings: MonthViewSettings(
               agendaViewHeight: 100,
-              // appointmentDisplayCount: 3,
+              appointmentDisplayCount: 1,
               monthCellStyle: MonthCellStyle(
                 trailingDatesTextStyle: textNormalCustom(
                   fontSize: 14,

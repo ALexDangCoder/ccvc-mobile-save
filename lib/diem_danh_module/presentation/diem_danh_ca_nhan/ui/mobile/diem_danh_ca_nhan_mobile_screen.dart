@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart'
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DiemDanhCaNhanMobileScreen extends StatefulWidget {
   final DiemDanhCubit cubit;
@@ -30,10 +31,28 @@ class DiemDanhCaNhanMobileScreen extends StatefulWidget {
 
 class _DiemDanhCaNhanMobileScreenState
     extends State<DiemDanhCaNhanMobileScreen> {
+  late CalendarController _controller;
+  late DateTime _tmpMonth;
+
   @override
   void initState() {
     super.initState();
-    widget.cubit.initData();
+    _controller = CalendarController();
+    _tmpMonth = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+    );
+    _controller.addPropertyChangedListener((properties) {
+      if (properties == 'displayDate') {
+        final DateTime currentMonth = DateTime(
+          _controller.displayDate?.year ?? DateTime.now().year,
+          _controller.displayDate?.month ?? DateTime.now().month,
+        );
+        _tmpMonth = currentMonth;
+        widget.cubit.getDataDayWage(dateTime: currentMonth);
+        widget.cubit.currentMonthSink.add(currentMonth);
+      }
+    });
   }
 
   @override
@@ -65,27 +84,46 @@ class _DiemDanhCaNhanMobileScreenState
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
+        retry: () {
+          widget.cubit.getDataDayWage(dateTime: _tmpMonth);
+        },
         error: AppException(
           S.current.error,
           S.current.error,
         ),
         stream: widget.cubit.stateStream,
         child: RefreshIndicator(
-          onRefresh: () async {},
+          onRefresh: () async {
+            widget.cubit.getDataDayWage(dateTime: _tmpMonth);
+          },
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ChangeDateTimeWidget(
-                  onChange: (DateTime value) {
-                    widget.cubit.changeData(value);
+                StreamBuilder<DateTime>(
+                  stream: widget.cubit.currentMonthStream,
+                  builder: (context, snapshot) {
+                    final currentMonth = snapshot.data;
+                    return ChangeDateTimeWidget(
+                      onChange: (DateTime value) {
+                        widget.cubit.getDataDayWage(dateTime: value);
+                        widget.cubit.currentMonthSink.add(value);
+                        _controller.displayDate =
+                            DateTime(value.year, value.month);
+                        _tmpMonth = value;
+                      },
+                      currentMonth: currentMonth,
+                      cubit: widget.cubit,
+                      endYear: widget.cubit.endYear,
+                      startYear: widget.cubit.startYear,
+                    );
                   },
-                  cubit: widget.cubit,
-                  endYear: widget.cubit.endYear,
-                  startYear: widget.cubit.startYear,
                 ),
                 thongKeWiget(),
-                CalendarChamCong(cubit: widget.cubit,),
+                spaceH16,
+                CalendarChamCong(
+                  cubit: widget.cubit,
+                  controller: _controller,
+                ),
               ],
             ),
           ),
@@ -96,7 +134,7 @@ class _DiemDanhCaNhanMobileScreenState
 
   Widget thongKeWiget() {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: colorE2E8F0),

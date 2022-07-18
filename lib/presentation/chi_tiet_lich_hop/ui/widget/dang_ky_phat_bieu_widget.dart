@@ -44,13 +44,12 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     taoBieuQuyetRequest.personName = userName;
   }
 
-  void validate (String value){
-    if (value.trim().isEmpty ) {
+  void validate(String value) {
+    if (value.trim().isEmpty) {
       setState(() {
-        errorText =
-            S.current.vui_long_nhap_thoi_gian_phat_bieu;
+        errorText = S.current.vui_long_nhap_thoi_gian_phat_bieu;
       });
-    }else{
+    } else {
       final intValue = int.tryParse(value.trim());
       setState(() {
         errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
@@ -146,7 +145,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 errorText,
                 style: const TextStyle(fontSize: 12, color: canceledColor),
               ),
-             spaceH24,
+            spaceH24,
             Text(
               S.current.noi_dung_phat_bieu,
               style: tokenDetailAmount(

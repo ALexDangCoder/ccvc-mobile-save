@@ -231,7 +231,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     if (_flagLoadThemMoiYCHT) {
       showContent();
     } else {
-      //nothing
+      // showContent();
     }
   }
 

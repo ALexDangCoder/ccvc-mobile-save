@@ -93,6 +93,8 @@ class DanhSachKetQuaPAKNResponse {
   String? doiTuong;
   @JsonKey(name: 'TrangThai_Text')
   String? trangThaiText;
+  @JsonKey(name: 'TrangThaiPheDuyet_Text')
+  String? trangThaiPheDuyetText;
   @JsonKey(name: 'SoNgayToiHan')
   int? soNgayToiHan;
   @JsonKey(name: 'DonViGuiYeuCau')
@@ -166,7 +168,7 @@ class DanhSachKetQuaPAKNResponse {
         tenNguoiPhanAnh: tenNguoiPhanAnh,
         cmtnd: cmtnd,
         email: email,
-        trangThaiText: trangThaiText,
+        trangThaiText: trangThaiPheDuyetText ?? trangThaiText,
         soDienThoai: soDienThoai,
         diaChi: diaChi,
         trangThai: trangThai,

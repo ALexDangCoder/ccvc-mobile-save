@@ -103,6 +103,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                       onchange: (value) {
                         widget.cubit.loaiBieuQ = value;
                       },
+                      key: UniqueKey(),
                     ),
                     InputInfoUserWidget(
                       title: S.current.ngay_bieu_quyet,

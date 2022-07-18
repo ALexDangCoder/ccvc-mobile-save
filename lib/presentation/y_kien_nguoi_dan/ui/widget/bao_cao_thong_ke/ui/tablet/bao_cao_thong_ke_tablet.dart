@@ -21,6 +21,7 @@ import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,15 +38,35 @@ class BaoCaoThongKeTablet extends StatefulWidget {
 class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+  String startDate = '';
+  String endDate = '';
+  List<String> listDonViID = [];
 
   @override
   void initState() {
     super.initState();
     thamGiaCubit.getTree();
+    final DateTime now = DateTime.now();
+    final DateTime preOneMonth = DateTime(now.year, now.month, now.day - 30);
+    startDate = preOneMonth.toStringWithListFormat;
+    endDate = DateTime.now().toStringWithListFormat;
     baoCaoCubit.callApi(
-      DateTime.now().toStringWithListFormat,
-      DateTime.now().toStringWithListFormat,
+      startDate,
+      endDate,
     );
+    _handleDateSearch();
+  }
+
+  void _handleDateSearch() {
+    eventBus.on<DateSearchEvent>().listen((event) {
+      startDate = event.startDate;
+      endDate = event.endDate;
+      baoCaoCubit.callApi(
+        startDate,
+        endDate,
+        listDonVi: listDonViID,
+      );
+    });
   }
 
   @override
@@ -85,16 +106,12 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                               );
                             },
                             onSearch: (
-                              String startDate,
-                              String endDate,
                               List<String> donViID,
                             ) {
-                              baoCaoCubit.callApi(
-                                startDate,
-                                endDate,
-                                listDonVi: donViID,
-                              );
+                              listDonViID = donViID;
                             },
+                            startDate: startDate,
+                            endDate: endDate,
                           ),
                         );
                       },
@@ -135,8 +152,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
           textEmpty: S.current.khong_co_du_lieu,
           retry: () {
             baoCaoCubit.callApi(
-              DateTime.now().toStringWithListFormat,
-              DateTime.now().toStringWithListFormat,
+              startDate,
+              endDate,
             );
           },
           error: AppException('1', S.current.something_went_wrong),
@@ -144,8 +161,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
           child: RefreshIndicator(
             onRefresh: () async {
               await baoCaoCubit.callApi(
-                DateTime.now().toStringWithListFormat,
-                DateTime.now().toStringWithListFormat,
+                startDate,
+                endDate,
               );
             },
             child: SingleChildScrollView(
@@ -228,8 +245,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                 StreamBuilder<DashBroadItemYKNDModel>(
                                   stream: baoCaoCubit.listChartDashBoard,
                                   builder: (context, snapshot) {
-                                    final data =
-                                        snapshot.data ?? DashBroadItemYKNDModel();
+                                    final data = snapshot.data ??
+                                        DashBroadItemYKNDModel();
                                     return Row(
                                       children: [
                                         Expanded(

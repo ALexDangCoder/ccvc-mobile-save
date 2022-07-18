@@ -120,8 +120,9 @@ const VI_CODE = 'vi';
 const VI_LANG = 'vn';
 
 const EMAIL_REGEX =
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
+const PHONE_REGEX = r'^0+([0-9]{9})$';
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';
@@ -219,9 +220,9 @@ class DateFormatApp {
   static String date = 'dd/MM/yyyy';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
-  static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
-  static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
+  static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
   static String timeFormat = 'Hm';
 }
 

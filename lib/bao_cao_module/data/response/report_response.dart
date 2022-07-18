@@ -54,7 +54,7 @@ class ReportItemsResponse {
   String? parentId;
   @JsonKey(name: 'numberReport')
   int? numberReport;
-  @JsonKey(name: 'childrenTotal')
+  @JsonKey(name: 'allFolderAndPublicReportTotal')
   int? childrenTotal;
   @JsonKey(name: 'type')
   int? type;
@@ -78,6 +78,10 @@ class ReportItemsResponse {
   String? updatedBy;
   @JsonKey(name: 'updatedByName')
   String? updatedByName;
+  @JsonKey(name: 'shareByMe')
+  bool? shareByMe;
+  @JsonKey(name: 'shareToMe')
+  bool? shareToMe;
 
   ReportItemsResponse(
     this.id,
@@ -100,6 +104,8 @@ class ReportItemsResponse {
     this.updatedAt,
     this.updatedBy,
     this.updatedByName,
+    this.shareByMe,
+    this.shareToMe,
   );
 
   factory ReportItemsResponse.fromJson(Map<String, dynamic> json) =>
@@ -122,5 +128,7 @@ class ReportItemsResponse {
         dateTime: createdAt,
         isPin: isPin,
         status: status,
+        shareByMe: shareByMe,
+        shareToMe: shareToMe,
       );
 }

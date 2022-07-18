@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/add_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
@@ -8,6 +9,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_res
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/danh_sach_su_co_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/delete_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/nguoi_tiep_nhan_yeu_cau_response.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/post_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/tong_dai_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/add_task_model.dart';
@@ -26,7 +28,9 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants
 class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   final HoTroKyThuatService _hoTroKyThuatService;
 
-  HoTroKyThuatImpl(this._hoTroKyThuatService,);
+  HoTroKyThuatImpl(
+    this._hoTroKyThuatService,
+  );
 
   @override
   Future<Result<List<SuCoModel>>> postDanhSachSuCo({
@@ -138,6 +142,27 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   }
 
   @override
+  Future<Result<String>> updateTaskProcessing(TaskProcessing task) {
+    return runCatchingAsync<PostResponse, String>(
+      () => _hoTroKyThuatService.updateTaskProcessing(
+        task,
+      ),
+      (res) => res.message ?? '',
+    );
+  }
+
+  @override
+  Future<Result<String>> commentTask(String idTask, String comment) {
+    return runCatchingAsync<PostResponse, String>(
+      () => _hoTroKyThuatService.commentTaskProcessing(
+        idTask,
+        comment,
+      ),
+      (res) => res.message ?? '',
+    );
+  }
+
+  @override
   Future<Result<AddTaskResponseModel>> addTask(
       {required String? id,
       required String? userRequestId,
@@ -154,19 +179,20 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
       required List<File> fileUpload}) {
     return runCatchingAsync<AddTaskResponse, AddTaskResponseModel>(
         () => _hoTroKyThuatService.addTask(
-            id,
-            userRequestId,
-            phone,
-            description,
-            districtId,
-            districtName,
-            buildingId,
-            buildingName,
-            room,
-            name,
-            danhSachSuCo,
-            userInUnit,
-            fileUpload), (res) {
+              id,
+              userRequestId,
+              phone,
+              description,
+              districtId,
+              districtName,
+              buildingId,
+              buildingName,
+              room,
+              name,
+              danhSachSuCo,
+              userInUnit,
+              fileUpload,
+            ), (res) {
       return res.toModel();
     });
   }

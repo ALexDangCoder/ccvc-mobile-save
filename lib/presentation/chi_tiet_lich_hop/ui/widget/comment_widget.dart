@@ -7,7 +7,9 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_hoi_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -56,15 +58,29 @@ class _CommentWidgetState extends State<CommentWidget> {
               ngayTao: widget.yKienCuocHop.ngayTao ?? '',
               content: widget.yKienCuocHop.content ?? '',
               onTap: () {
-                showBottomSheetCustom(
-                  context,
-                  title: S.current.y_kien,
-                  child: PhanHoiWidget(
-                    cubit: widget.cubit,
-                    id: widget.cubit.idCuocHop,
-                    scheduleOpinionId: widget.yKienCuocHop.id ?? '',
-                  ),
-                );
+                if (isMobile()) {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.y_kien,
+                    child: PhanHoiWidget(
+                      cubit: widget.cubit,
+                      id: widget.cubit.idCuocHop,
+                      scheduleOpinionId: widget.yKienCuocHop.id ?? '',
+                    ),
+                  );
+                } else {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.y_kien,
+                    child: PhanHoiWidget(
+                      cubit: widget.cubit,
+                      id: widget.cubit.idCuocHop,
+                      scheduleOpinionId: widget.yKienCuocHop.id ?? '',
+                    ),
+                    funcBtnOk: () {},
+                    isBottomShow: false,
+                  );
+                }
               },
             ),
             SizedBox(
@@ -133,12 +149,14 @@ class _CommentWidgetState extends State<CommentWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              content,
-              style: textNormalCustom(
-                color: color3D5586,
-                fontSize: 14.0.textScale(),
-                fontWeight: FontWeight.w400,
+            Expanded(
+              child: Text(
+                content,
+                style: textNormalCustom(
+                  color: color3D5586,
+                  fontSize: 14.0.textScale(),
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             if (showIcReply)
@@ -158,10 +176,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                     border: Border.all(
                       color: borderColor.withOpacity(0.5),
                     ),
-                    color: Colors.white
+                    color: Colors.white,
                   ),
                   child: SvgPicture.asset(
-                    ImageAssets.ic_send_y_kien,
+                    ImageAssets.ic_phan_hoi,
                     color: AppTheme.getInstance().colorField(),
                   ),
                 ),

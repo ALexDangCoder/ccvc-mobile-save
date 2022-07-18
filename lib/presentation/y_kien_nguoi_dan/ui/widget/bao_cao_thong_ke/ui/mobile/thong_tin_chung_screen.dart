@@ -43,6 +43,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     widget.cubit.initTimeRange();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
     widget.cubit.getDanhSachPAKN();
+
   }
 
   @override
@@ -298,62 +299,36 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                           return Stack(
                             alignment: Alignment.centerRight,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Column(
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          child: Text(
-                                            S.current.danh_sach_pakn,
-                                            style: textNormalCustom(
-                                              color: textTitle,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 30.0,
-                                        ),
-                                        SvgPicture.asset(
-                                          ImageAssets.icNoDataNhiemVu,
-                                        ),
-                                        const SizedBox(
-                                          height: 30.0,
-                                        ),
-                                        Text(
-                                          S.current.khong_co_thong_tin_pakn,
-                                          style: textNormalCustom(
-                                            fontSize: 16.0,
-                                            color: grayChart,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 60.0,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: StreamBuilder<TextTrangThai>(
-                                      stream: widget.cubit.textFilter.stream,
-                                      builder: (context, snapshot) {
-                                        return item(
-                                          title: snapshot.data?.text ?? '',
-                                          callBack: (value) {
-                                            widget.cubit.isShowFilterList
-                                                .add(true);
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Container(),
+                                      ),
+                                      Expanded(
+                                        child: StreamBuilder<TextTrangThai>(
+                                          stream:
+                                              widget.cubit.textFilter.stream,
+                                          builder: (context, snapshot) {
+                                            return item(
+                                              title: snapshot.data?.text ?? '',
+                                              callBack: (value) {
+                                                widget.cubit.isShowFilterList
+                                                    .add(true);
+                                              },
+                                              colorBG: snapshot.data?.color ??
+                                                  Colors.red,
+                                            );
                                           },
-                                          colorBG: snapshot.data?.color ??
-                                              Colors.red,
-                                        );
-                                      },
-                                    ),
-                                  )
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  spaceH10,
+                                  _noData(),
                                 ],
                               ),
                               Positioned(
@@ -381,7 +356,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                      horizontal: 16,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -428,7 +404,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                       );
                                     },
                                   ),
-                                  const SizedBox(height: 30,),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
                                 ],
                               ),
                               Positioned(
@@ -450,7 +428,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         }
                       },
                     ),
-
                   ],
                 ),
               ),
@@ -458,6 +435,43 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Column _noData() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            S.current.danh_sach_pakn,
+            style: textNormalCustom(
+              color: textTitle,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 30.0,
+        ),
+        SvgPicture.asset(
+          ImageAssets.icNoDataNhiemVu,
+        ),
+        const SizedBox(
+          height: 30.0,
+        ),
+        Text(
+          S.current.khong_co_thong_tin_pakn,
+          style: textNormalCustom(
+            fontSize: 16.0,
+            color: grayChart,
+          ),
+        ),
+        const SizedBox(
+          height: 60.0,
+        ),
+      ],
     );
   }
 
@@ -574,44 +588,42 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   flex: 8,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Text(
-                          statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1).text,
-                          style: textNormalCustom(
-                            color:
-                                statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1)
-                                    .color,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                          ),
+                      Text(
+                        statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1).text,
+                        style: textNormalCustom(
+                          color: statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1)
+                              .color,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 3,
-                            horizontal: 15,
-                          ),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            color: color5A8DEE,
-                          ),
-                          child: Center(
-                            child: Text(
-                              dsKetQuaPakn.trangThaiText ?? '',
-                              style: textNormalCustom(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 3,
+                          horizontal: 15,
+                        ),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          color: color5A8DEE,
+                        ),
+                        child: Center(
+                          child: Text(
+                            dsKetQuaPakn.trangThaiText ?? '',
+                            style: textNormalCustom(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       )
                     ],
                   ),
-                )
+                ),
+                Expanded(
+                  child: Container(),
+                ),
               ],
             )
           ],
@@ -623,7 +635,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   TextTrangThai statusTrangThai(int soNgayToiHan) {
     if (soNgayToiHan < 0) {
       return TextTrangThai(S.current.qua_han, statusCalenderRed);
-    } else if (soNgayToiHan >= 3) {
+    } else if (soNgayToiHan > 3) {
       return TextTrangThai(S.current.trong_han, choTrinhKyColor);
     } else {
       return TextTrangThai(S.current.den_han, choVaoSoColor);
@@ -646,7 +658,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
-          color: colorBG,
+          color: textDefault,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

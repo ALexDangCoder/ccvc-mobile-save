@@ -20,5 +20,7 @@ class ThietBiValue {
   final String tenThietBi;
   final int soLuong;
 
+  String get convertToString => '$tenThietBi ($soLuong)';
+
   ThietBiValue({required this.tenThietBi, required this.soLuong});
 }

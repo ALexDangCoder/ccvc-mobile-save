@@ -13,10 +13,16 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/them_y_kien__widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
+
+const CUOC_HOP = 0;
+const PHIEN_HOP = 1;
+
 
 class YKienCuocHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -39,6 +45,18 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
     _pageController = PageController();
     if (!isMobile()) {
       widget.cubit.callApiYkienCuocHop();
+      try {
+        final String phienHopID =
+            widget.cubit.danhSachChuongTrinhHop.valueOrNull?.first.id ?? '';
+        if (phienHopID.isNotEmpty) {
+          widget.cubit.getDanhSachYKien(
+            id: widget.cubit.idCuocHop,
+            phienHopId: phienHopID,
+          );
+        }
+      } catch (e) {
+        //
+      }
     }
   }
 
@@ -50,6 +68,8 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
     super.build(context);
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
+        isPaddingIcon: true,
+        paddingTitle: const EdgeInsets.symmetric(horizontal: 16),
         onchange: (value) {
           if (value && !widget.cubit.listYKienCuocHop.hasValue) {
             widget.cubit.callApiYkienCuocHop();
@@ -83,29 +103,72 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
     );
   }
 
+  void changeCurrentIndexOfTabbar({required bool isPhienHop}) {
+    if (isPhienHop) {
+      if (_tabController.previousIndex == PHIEN_HOP ||
+          widget.cubit.phienHopId.isNotEmpty) {
+        _pageController.animateToPage(
+          PHIEN_HOP,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
+        );
+      }
+    } else {
+      if (_tabController.previousIndex == CUOC_HOP) {
+        _pageController.animateToPage(
+          CUOC_HOP,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
+        );
+      }
+    }
+  }
+
   Widget themYKienWidgetForPhoneAndTab() {
     return Column(
       children: [
-        IconWithTiltleWidget(
-          icon: ImageAssets.Comment_ic,
-          title: S.current.them_y_kien,
-          onPress: () {
-            showBottomSheetCustom(
-              context,
-              title: S.current.y_kien,
-              child: ThemYKienWidget(
-                cubit: widget.cubit,
-                id: widget.cubit.idCuocHop,
-              ),
-            );
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: IconWithTiltleWidget(
+            icon: ImageAssets.Comment_ic,
+            title: S.current.them_y_kien,
+            onPress: () {
+              if (isMobile()) {
+                showBottomSheetCustom(
+                  context,
+                  title: S.current.y_kien,
+                  child: ThemYKienWidget(
+                    cubit: widget.cubit,
+                    id: widget.cubit.idCuocHop,
+                  ),
+                ).then((value) {
+                  if(value is! bool){
+                    return;
+                  }
+                  changeCurrentIndexOfTabbar(isPhienHop: value);
+                });
+              } else {
+                showDiaLogTablet(
+                  context,
+                  title: S.current.them_y_kien,
+                  child: ThemYKienWidget(
+                    cubit: widget.cubit,
+                    id: widget.cubit.idCuocHop,
+                  ),
+                  funcBtnOk: () {},
+                  isBottomShow: false,
+                ).then((value) {
+                  changeCurrentIndexOfTabbar(isPhienHop: value);
+                });
+              }
+            },
+          ),
         ),
         DefaultTabController(
           length: 2,
           child: Column(
             children: [
               Container(
-                height: 50,
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -114,34 +177,33 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                   ),
                 ),
                 width: MediaQuery.of(context).size.width,
-                child: Align(
-                  child: TabBar(
-                    onTap: (index) {
-                      _pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    },
-                    controller: _tabController,
-                    unselectedLabelColor: color667793,
-                    labelColor: AppTheme.getInstance().colorField(),
-                    unselectedLabelStyle: textNormal(
-                      color667793,
-                      14,
-                    ),
-                    labelStyle: textNormal(
-                      color667793,
-                      14,
-                    ).copyWith(fontWeight: FontWeight.w700),
-                    tabs: [
-                      Expanded(child: Text(S.current.cuoc_hop)),
-                      Expanded(child: Text(S.current.phien_hop)),
-                    ],
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorColor: AppTheme.getInstance().colorField(),
-                    labelPadding: const EdgeInsets.symmetric(vertical: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                child: TabBar(
+                  onTap: (index) {
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                    );
+                  },
+                  controller: _tabController,
+                  unselectedLabelColor: color667793,
+                  labelColor: AppTheme.getInstance().colorField(),
+                  unselectedLabelStyle: textNormal(
+                    color667793,
+                    14,
                   ),
+                  labelStyle: textNormal(
+                    color667793,
+                    14,
+                  ).copyWith(fontWeight: FontWeight.w700),
+                  tabs: [
+                    Text(S.current.cuoc_hop),
+                    Text(S.current.phien_hop),
+                  ],
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: AppTheme.getInstance().colorField(),
+                  labelPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
               ExpandablePageView(
@@ -152,91 +214,95 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                   );
                 },
                 children: [
-                  StreamBuilder<List<YkienCuocHopModel>>(
-                    stream: widget.cubit.listYKienCuocHop.stream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      if (data.isEmpty) {
-                        return const NodataWidget(
-                          height: 200,
-                        );
-                      }
-                      return ListView.builder(
-                        itemCount: data.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return CommentWidget(
-                            yKienCuocHop: data[index],
-                            cubit: widget.cubit,
-                            id: widget.cubit.idCuocHop,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: StreamBuilder<List<YkienCuocHopModel>>(
+                      stream: widget.cubit.listYKienCuocHop.stream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        if (data.isEmpty) {
+                          return const NodataWidget(
+                            height: 200,
                           );
-                        },
-                      );
-                    },
+                        }
+                        return ListView.builder(
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return CommentWidget(
+                              yKienCuocHop: data[index],
+                              cubit: widget.cubit,
+                              id: widget.cubit.idCuocHop,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                  Column(
-                    children: [
-                      spaceH16,
-                      StreamBuilder<List<ListPhienHopModel>>(
-                        stream: widget.cubit.danhSachChuongTrinhHop.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          final listCuocHop =
-                              data.map((e) => e.tieuDe ?? '').toSet().toList();
-                          if (listCuocHop.isEmpty) {
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        spaceH16,
+                        StreamBuilder<List<ListPhienHopModel>>(
+                          stream: widget.cubit.danhSachChuongTrinhHop.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            final listCuocHop =
+                                data.map((e) => e.tieuDe ?? '').toSet().toList();
+                            if (listCuocHop.isEmpty) {
+                              return CoolDropDown(
+                                onChange: (_) {},
+                                listData: const [],
+                                initData: '',
+                                placeHoder: S.current.chon_phien_hop,
+                                useCustomHintColors: true,
+                              );
+                            }
                             return CustomDropDown(
-                              value: S.current.khong_co_du_lieu,
-                              items: [S.current.khong_co_du_lieu],
+                              value: widget.cubit.tenPhienHop.isNotEmpty
+                                  ? widget.cubit.tenPhienHop
+                                  : listCuocHop.isNotEmpty
+                                  ? listCuocHop.first
+                                  : '',
+                              items: listCuocHop,
                               onSelectItem: (value) {
-                                widget.cubit.getDanhSachPhienHop(
-                                  widget.cubit.idCuocHop,
+                                widget.cubit.tenPhienHop = listCuocHop[value];
+                                widget.cubit.phienHopId = data[value].id ?? '';
+                                widget.cubit.getDanhSachYKien(
+                                  id: widget.cubit.idCuocHop,
+                                  phienHopId: data[value].id ?? '',
                                 );
                               },
                             );
-                          }
-                          return CustomDropDown(
-                            value: widget.cubit.tenPhienHop.isNotEmpty
-                                ? widget.cubit.tenPhienHop
-                                : listCuocHop.isNotEmpty
-                                    ? listCuocHop.first
-                                    : '',
-                            items: listCuocHop,
-                            onSelectItem: (value) {
-                              widget.cubit.tenPhienHop = listCuocHop[value];
-                              widget.cubit.getPhienHopId = data[value].id ?? '';
-                              widget.cubit.getDanhSachYKien(
-                                id: widget.cubit.idCuocHop,
-                                phienHopId: data[value].id ?? '',
+                          },
+                        ),
+                        StreamBuilder<List<YkienCuocHopModel>>(
+                          stream: widget.cubit.listYKienPhienHop.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            if (data.isEmpty) {
+                              return const NodataWidget(
+                                height: 200,
                               );
-                            },
-                          );
-                        },
-                      ),
-                      StreamBuilder<List<YkienCuocHopModel>>(
-                        stream: widget.cubit.listYKienPhienHop.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          if (data.isEmpty) {
-                            return const NodataWidget(
-                              height: 200,
+                            }
+                            return ListView.builder(
+                              itemCount: data.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return CommentWidget(
+                                  yKienCuocHop: data[index],
+                                  cubit: widget.cubit,
+                                  id: widget.cubit.idCuocHop,
+                                );
+                              },
                             );
-                          }
-                          return ListView.builder(
-                            itemCount: data.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return CommentWidget(
-                                yKienCuocHop: data[index],
-                                cubit: widget.cubit,
-                                id: widget.cubit.idCuocHop,
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ],
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )

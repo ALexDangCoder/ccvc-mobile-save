@@ -18,6 +18,7 @@ class DropDownSearch extends StatefulWidget {
   final Function(int) onChange;
   final String hintText;
   final String initSelected;
+  final bool isShowIconDropdown;
 
   const DropDownSearch({
     Key? key,
@@ -26,6 +27,7 @@ class DropDownSearch extends StatefulWidget {
     required this.onChange,
     this.hintText = '',
     this.initSelected = '',
+    this.isShowIconDropdown = false,
   }) : super(key: key);
 
   @override
@@ -55,21 +57,35 @@ class _DropDownSearchState extends State<DropDownSearch> {
         decoration: BoxDecoration(
             border: Border.all(color: borderColor),
             borderRadius: const BorderRadius.all(Radius.circular(6))),
-        child: select.isEmpty
-            ? Text(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (select.isEmpty)
+              Text(
                 widget.hintText,
                 style: textNormal(
-                  titleItemEdit,
+                  widget.isShowIconDropdown ? AqiColor : titleItemEdit,
                   14.0.textScale(),
                 ),
               )
-            : Text(
+            else
+              Text(
                 select,
                 style: tokenDetailAmount(
                   fontSize: 14.0.textScale(),
                   color: color3D5586,
                 ),
               ),
+            if (widget.isShowIconDropdown)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ImageAssets.svgAssets(
+                  ImageAssets.icDropDown,
+                  color: AqiColor,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

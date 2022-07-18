@@ -24,6 +24,7 @@ class ChiTietBienSoXeModel {
   String? loaiXeMay;
   String? bienKiemSoat;
   String? loaiSoHuu;
+  String? fileId;
 
   ChiTietBienSoXeModel({
     this.id,
@@ -32,6 +33,7 @@ class ChiTietBienSoXeModel {
     this.loaiXeMay,
     this.bienKiemSoat,
     this.loaiSoHuu,
+    this.fileId,
   });
 }
 

@@ -26,7 +26,9 @@ class ComplexLoadMore extends StatefulWidget {
   final bool? shrinkWap;
   final bool isTitle;
   final String? titleNoData;
-  final bool isLoadmore;
+  final bool isLoadMore;
+  final ScrollPhysics? physics;
+  final ScrollController? scrollController;
 
   const ComplexLoadMore({
     Key? key,
@@ -41,7 +43,9 @@ class ComplexLoadMore extends StatefulWidget {
     this.isTitle = true,
     this.titleNoData,
     this.mainAxisExtent,
-    this.isLoadmore = true,
+    this.isLoadMore = true,
+    this.physics,
+    this.scrollController,
   }) : super(key: key);
 
   @override
@@ -77,11 +81,8 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    if (widget.isLoadmore) {
-      initData();
-    }
+    initData();
   }
 
   @override
@@ -96,7 +97,9 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
               widget.cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
               } else {
-                widget.cubit.showContent();
+                if (widget.isLoadMore) {
+                  widget.cubit.showContent();
+                }
               }
             }
           } else {
@@ -124,7 +127,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
           stream: widget.cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (widget.isLoadmore) {
+              if (widget.isLoadMore) {
                 if (widget.cubit.canLoadMore &&
                     scrollInfo.metrics.pixels ==
                         scrollInfo.metrics.maxScrollExtent) {
@@ -143,6 +146,8 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                 ) {
                   if (widget.isListView == true) {
                     return SingleChildScrollView(
+                      controller: widget.scrollController,
+                      physics: widget.physics,
                       child: Column(
                         children: [
                           ...widget.childrenView,

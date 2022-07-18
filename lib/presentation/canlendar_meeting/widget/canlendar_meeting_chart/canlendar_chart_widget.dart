@@ -10,7 +10,11 @@ import 'package:flutter/material.dart';
 
 class ThongKeLichHopScreen extends StatefulWidget {
   final CalendarMeetingCubit cubit;
-  const ThongKeLichHopScreen({Key? key, required this.cubit,}) : super(key: key);
+
+  const ThongKeLichHopScreen({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   _ThongKeLichHopScreenState createState() => _ThongKeLichHopScreenState();
@@ -73,6 +77,7 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           return PieChart(
+            useVerticalLegend: true,
             chartData: data,
             onTap: (value) {
               widget.cubit.handleChartPicked(

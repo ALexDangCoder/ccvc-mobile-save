@@ -3,10 +3,11 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/status_extention.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/btn_show_chinh_sua_bao_cao.dart';
@@ -23,9 +24,13 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class ChiTietLamViecTablet extends StatefulWidget {
   final String id;
@@ -57,159 +62,237 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
         builder: (context, snapshot) {
           final dataModel = snapshot.data ?? ChiTietLichLamViecModel();
-          String hiveUserId = HiveLocal.getDataUser()?.userId ?? '';
-          int check = dataModel.scheduleCoperatives?.indexWhere(
-                (element) => element.status == 1,
-              ) ??
-              -1;
-          String nguoiDuocMoi = dataModel.scheduleCoperatives
-                  ?.firstWhere(
-                    (element) => element.canBoId == hiveUserId,
-                    orElse: () => ScheduleCoperatives(),
+          chiTietLichLamViecCubit.checkXoa(dataModel);
+          chiTietLichLamViecCubit.nguoiDuocMoi(dataModel);
+          chiTietLichLamViecCubit.canBoChuTri(dataModel);
+          chiTietLichLamViecCubit.nguoiTaoId(dataModel);
+          final listAction = [
+            ///huy
+            if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icHuy,
+                text: S.current.huy,
+                onTap: () {
+                  checkCancelDuplicateCal(
+                    dataModel.isLichLap ?? false,
+                  );
+                },
+              ),
+            ///bao cao ket qua
+            if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icChartFocus,
+                text: S.current.bao_cao_ket_qua,
+                onTap: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.bao_cao_ket_qua,
+                    child: BaoCaoBottomSheet(
+                      scheduleId: widget.id,
+                      cubit: BaoCaoKetQuaCubit(),
+                      listTinhTrangBaoCao:
+                          chiTietLichLamViecCubit.listTinhTrang,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ///cho y kien
+            if (chiTietLichLamViecCubit.checkChoYKien(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icChoYKien,
+                text: S.current.cho_y_kien,
+                onTap: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.cho_y_kien,
+                    child: YKienBottomSheet(
+                      isTablet: true,
+                      id: widget.id,
+                      isCheck: false,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  ).then((value) {
+                    if (value == true) {
+                      chiTietLichLamViecCubit.loadApi(widget.id);
+                    } else if (value == null) {
+                      return;
+                    }
+                  });
+                },
+              ),
+            ///xoa lich
+            if (chiTietLichLamViecCubit.checkChoxoa(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icDelete,
+                text: S.current.xoa_lich,
+                onTap: () {
+                  checkDeleteDuplicateCal(
+                    dataModel.isLichLap ?? false,
+                  );
+                },
+              ),
+            ///thu hoi lich
+            if (chiTietLichLamViecCubit.checkChoThuHoi(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icRecall,
+                text: S.current.thu_hoi,
+                onTap: () {
+                  showDiaLogTablet(
+                    context,
+                    maxHeight: 280,
+                    title: S.current.thu_hoi_lich,
+                    child: RecallCalendar(
+                      cubit: chiTietLichLamViecCubit,
+                      callback: () {
+                        checkRecallDuplicateCal(
+                          dataModel.isLichLap ?? false,
+                        );
+                      },
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {},
+                  );
+                },
+              ),
+            ///sua lich
+            if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icEditBlue,
+                text: S.current.sua_lich,
+                onTap: () {
+                  Navigator.of(context)
+                      .push(
+                    MaterialPageRoute(
+                      builder: (context) => EditWorkCalendarTablet(
+                        cubit: chiTietLichLamViecCubit,
+                        event: dataModel,
+                      ),
+                    ),
                   )
-                  .canBoId ??
-              '';
-          String canBoChuTri = dataModel.canBoChuTri?.id ?? '';
-          String nguoiTaoId = dataModel.createBy?.id ?? '';
-          bool isThuHoi = (canBoChuTri == hiveUserId) ||
-              (nguoiTaoId == hiveUserId); //===sualich===huylich
-          bool isChoYKien =
-              (nguoiTaoId == hiveUserId) || (nguoiDuocMoi == hiveUserId);
-          bool isBaoCaoKetQua = ((DateTime.parse(
-                      dataModel.dateTimeTo ?? DateTime.now().toString())
-                  .isBefore(DateTime.now())) &&
-              (isChoYKien));
-          bool isXoaLich = (check == -1) && (isThuHoi);
+                      .then((value) {
+                    if (value == true) {
+                      Navigator.pop(context, true);
+                    } else if (value == null) {
+                      return;
+                    }
+                  });
+                },
+              ),
+
+            ///Xac nhan lai
+            if (chiTietLichLamViecCubit.checkChoXacNhanLai(dataModel))
+              CellPopPupMenu(
+                urlImage: ImageAssets.icXacNhanLai,
+                text: S.current.xac_nhan_lai,
+                onTap: () {
+                  showDiaLog(
+                    context,
+                    showTablet: true,
+                    btnLeftTxt: S.current.khong,
+                    funcBtnRight: () {
+                      chiTietLichLamViecCubit
+                          .confirmOfficerOrDismissconfirmOfficer(
+                        ConfirmOfficerRequest(
+                          lichId: dataModel.id,
+                          isThamGia: true,
+                          lyDo: '',
+                        ),
+                      )
+                          .then((value) {
+                        if (value) {
+                          MessageConfig.show(
+                            title: '${S.current.xac_nhan_lai}'
+                                ' ${S.current.thanh_cong.toLowerCase()}',
+                          );
+                          eventBus.fire(RefreshCalendar());
+                          Get.back(result: true);
+                        } else {
+                          MessageConfig.show(
+                            messState: MessState.error,
+                            title: ' ${S.current.xac_nhan_lai}'
+                                ' ${S.current.that_bai.toLowerCase()}',
+                          );
+                        }
+                      });
+                    },
+                    title: S.current.xac_nhan_lai,
+                    btnRightTxt: S.current.dong_y,
+                    icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+                    textContent: S.current.confirm_tham_gia,
+                  );
+                },
+              ),
+            if (chiTietLichLamViecCubit.checkChoHuyXacNhan(dataModel))
+
+              ///Huy xac nhan
+              CellPopPupMenu(
+                urlImage: ImageAssets.icHuy,
+                text: S.current.huy_xac_nhan,
+                onTap: () {
+                  showDiaLog(
+                    context,
+                    showTablet: true,
+                    btnLeftTxt: S.current.khong,
+                    funcBtnRight: () {
+                      chiTietLichLamViecCubit
+                          .confirmOfficerOrDismissconfirmOfficer(
+                        ConfirmOfficerRequest(
+                          lichId: dataModel.id,
+                          isThamGia: false,
+                          lyDo: '',
+                        ),
+                      )
+                          .then((value) {
+                        if (value) {
+                          MessageConfig.show(
+                            title: '${S.current.huy}'
+                                ' ${S.current.xac_nhan.toLowerCase()}'
+                                ' ${S.current.thanh_cong.toLowerCase()}',
+                          );
+                          eventBus.fire(RefreshCalendar());
+                          Get.back(result: true);
+                        } else {
+                          MessageConfig.show(
+                            messState: MessState.error,
+                            title: '${S.current.huy}'
+                                ' ${S.current.xac_nhan.toLowerCase()}'
+                                ' ${S.current.that_bai.toLowerCase()}',
+                          );
+                        }
+                      });
+                    },
+                    title: '${S.current.huy}'
+                        ' ${S.current.xac_nhan.toLowerCase()}',
+                    btnRightTxt: S.current.dong_y,
+                    icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+                    textContent: S.current.confirm_huy_tham_gia,
+                  );
+                },
+              )
+          ];
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
                       backgroundColor: bgWidgets,
                       appBar: BaseAppBar(
                         title: S.current.chi_tiet_lich_lam_viec,
-                        actions: [
-                          if (isThuHoi)
-                            MenuSelectWidget(
-                              listSelect: [
-                                CellPopPupMenu(
-                                  urlImage: ImageAssets.icHuy,
-                                  text: S.current.huy,
-                                  onTap: () {
-                                    checkCancelDuplicateCal(
-                                      dataModel.isLichLap ?? false,
-                                    );
-                                  },
+                        actions: listAction.isNotEmpty
+                            ? [
+                                MenuSelectWidget(
+                                  listSelect: listAction,
                                 ),
-                                if (isBaoCaoKetQua)
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icChartFocus,
-                                    text: S.current.bao_cao_ket_qua,
-                                    onTap: () {
-                                      showDiaLogTablet(
-                                        context,
-                                        title: S.current.bao_cao_ket_qua,
-                                        child: BaoCaoBottomSheet(
-                                          scheduleId: widget.id,
-                                          cubit: BaoCaoKetQuaCubit(),
-                                          listTinhTrangBaoCao:
-                                              chiTietLichLamViecCubit
-                                                  .listTinhTrang,
-                                        ),
-                                        isBottomShow: false,
-                                        funcBtnOk: () {
-                                          Navigator.pop(context);
-                                        },
-                                      );
-                                    },
-                                  ),
-                                if (isChoYKien)
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icChoYKien,
-                                    text: S.current.cho_y_kien,
-                                    onTap: () {
-                                      showDiaLogTablet(
-                                        context,
-                                        title: S.current.cho_y_kien,
-                                        child: YKienBottomSheet(
-                                          isTablet: true,
-                                          id: widget.id,
-                                          isCheck: false,
-                                        ),
-                                        isBottomShow: false,
-                                        funcBtnOk: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ).then((value) {
-                                        if (value == true) {
-                                          chiTietLichLamViecCubit
-                                              .loadApi(widget.id);
-                                        } else if (value == null) {
-                                          return;
-                                        }
-                                      });
-                                    },
-                                  ),
-                                if (isXoaLich)
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icDelete,
-                                    text: S.current.xoa_lich,
-                                    onTap: () {
-                                      checkDeleteDuplicateCal(
-                                        dataModel.isLichLap ?? false,
-                                      );
-                                    },
-                                  ),
-                                if (isThuHoi)
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icRecall,
-                                    text: S.current.thu_hoi,
-                                    onTap: () {
-                                      showDiaLogTablet(
-                                        context,
-                                        maxHeight: 280,
-                                        title: S.current.thu_hoi_lich,
-                                        child: RecallCalendar(
-                                          cubit: chiTietLichLamViecCubit,
-                                          callback: () {
-                                            checkRecallDuplicateCal(
-                                              dataModel.isLichLap ?? false,
-                                            );
-                                          },
-                                        ),
-                                        isBottomShow: false,
-                                        funcBtnOk: () {},
-                                      );
-                                    },
-                                  ),
-                                if (isThuHoi)
-                                  CellPopPupMenu(
-                                    urlImage: ImageAssets.icEditBlue,
-                                    text: S.current.sua_lich,
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditWorkCalendarTablet(
-                                            cubit: chiTietLichLamViecCubit,
-                                            event: dataModel,
-                                          ),
-                                        ),
-                                      )
-                                          .then((value) {
-                                        if (value == true) {
-                                          Navigator.pop(context, true);
-                                        } else if (value == null) {
-                                          return;
-                                        }
-                                      });
-                                    },
-                                  ),
-                              ],
-                            ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ],
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                              ]
+                            : null,
                         leadingIcon: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -290,12 +373,14 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                         ],
                                       ),
                                       spaceH16,
-                                      if (isBaoCaoKetQua)
+                                      if (chiTietLichLamViecCubit
+                                          .checkChoBaoCaoKetQua(dataModel))
                                         BtnShowChinhSuaBaoCao(
                                           chiTietLichLamViecCubit:
                                               chiTietLichLamViecCubit,
                                         ),
                                       DanhSachYKienButtom(
+                                        dataModel: dataModel,
                                         isTablet: true,
                                         id: widget.id,
                                         cubit: chiTietLichLamViecCubit,
@@ -353,7 +438,108 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                                 ],
                                               ),
                                             );
-                                          })
+                                          }),
+                                      if (chiTietLichLamViecCubit
+                                          .checkChoHuyXacNhan(dataModel))
+                                        bottomButtonWidget(
+                                          background: statusCalenderRed,
+                                          title: S.current.huy_xac_nhan,
+                                          onTap: () {
+                                            showDiaLog(
+                                              context,
+                                              showTablet: true,
+                                              btnLeftTxt: S.current.khong,
+                                              funcBtnRight: () {
+                                                chiTietLichLamViecCubit
+                                                    .confirmOfficerOrDismissconfirmOfficer(
+                                                  ConfirmOfficerRequest(
+                                                    lichId: dataModel.id,
+                                                    isThamGia: false,
+                                                    lyDo: '',
+                                                  ),
+                                                )
+                                                    .then((value) {
+                                                  if (value) {
+                                                    MessageConfig.show(
+                                                      title: '${S.current.huy}'
+                                                          ' ${S.current.xac_nhan.toLowerCase()}'
+                                                          ' ${S.current.thanh_cong.toLowerCase()}',
+                                                    );
+                                                    eventBus.fire(
+                                                        RefreshCalendar());
+                                                    Get.back(result: true);
+                                                  } else {
+                                                    MessageConfig.show(
+                                                      messState:
+                                                          MessState.error,
+                                                      title: '${S.current.huy}'
+                                                          ' ${S.current.xac_nhan.toLowerCase()}'
+                                                          ' ${S.current.that_bai.toLowerCase()}',
+                                                    );
+                                                  }
+                                                });
+                                              },
+                                              title: '${S.current.huy}'
+                                                  ' ${S.current.xac_nhan.toLowerCase()}',
+                                              btnRightTxt: S.current.dong_y,
+                                              icon: SvgPicture.asset(
+                                                  ImageAssets.img_tham_gia),
+                                              textContent: S
+                                                  .current.confirm_huy_tham_gia,
+                                            );
+                                          },
+                                          textColor: Colors.white,
+                                        ),
+                                      if (chiTietLichLamViecCubit
+                                          .checkChoXacNhanLai(dataModel))
+                                        bottomButtonWidget(
+                                          background: itemWidgetUsing,
+                                          title: S.current.xac_nhan_lai,
+                                          onTap: () {
+                                            showDiaLog(
+                                              context,
+                                              showTablet: true,
+                                              btnLeftTxt: S.current.khong,
+                                              funcBtnRight: () {
+                                                chiTietLichLamViecCubit
+                                                    .confirmOfficerOrDismissconfirmOfficer(
+                                                  ConfirmOfficerRequest(
+                                                    lichId: dataModel.id,
+                                                    isThamGia: true,
+                                                    lyDo: '',
+                                                  ),
+                                                )
+                                                    .then((value) {
+                                                  if (value) {
+                                                    MessageConfig.show(
+                                                      title:
+                                                          '${S.current.xac_nhan_lai}'
+                                                          ' ${S.current.thanh_cong.toLowerCase()}',
+                                                    );
+                                                    eventBus.fire(
+                                                        RefreshCalendar());
+                                                    Get.back(result: true);
+                                                  } else {
+                                                    MessageConfig.show(
+                                                      messState:
+                                                          MessState.error,
+                                                      title:
+                                                          ' ${S.current.xac_nhan_lai}'
+                                                          ' ${S.current.that_bai.toLowerCase()}',
+                                                    );
+                                                  }
+                                                });
+                                              },
+                                              title: S.current.xac_nhan_lai,
+                                              btnRightTxt: S.current.dong_y,
+                                              icon: SvgPicture.asset(
+                                                  ImageAssets.img_tham_gia),
+                                              textContent:
+                                                  S.current.confirm_tham_gia,
+                                            );
+                                          },
+                                          textColor: Colors.white,
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -402,7 +588,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         isShowRadio: isDup,
         imageUrl: ImageAssets.icThuHoi,
         textConfirm: S.current.ban_co_chac_muon_thu_hoi_lich,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_thu_hoi_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         onConfirm: (value) {
           chiTietLichLamViecCubit.recallCalendar(isMulti: !(value ?? true));
@@ -420,7 +606,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         isShowRadio: isDup,
         imageUrl: ImageAssets.icDeleteLichHop,
         textConfirm: S.current.ban_co_muon_xoa_lich_lam_viec,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_xoa_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         onConfirm: (value) {
           chiTietLichLamViecCubit.deleteCalendarWork(
@@ -440,7 +626,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         isConfirm: false,
         imageUrl: ImageAssets.icHuyLich,
         textConfirm: S.current.ban_co_chac_muon_huy_lich,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_huy_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         isShowRadio: isDup,
         onConfirm: (value) {

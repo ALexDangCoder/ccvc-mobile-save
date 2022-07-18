@@ -39,7 +39,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
       scheduleId: idLichHop,
       scheduleOpinionId:
           scheduleOpinionId,
-      phienHopId: getPhienHopId.isEmpty  ? null : getPhienHopId,
+      phienHopId: phienHopId.isEmpty  ? null : phienHopId,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
     result.when(
@@ -49,7 +49,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
         );
         getDanhSachYKien(
           id: idLichHop,
-          phienHopId: getPhienHopId,
+          phienHopId: phienHopId,
         ).then(
           (value) {
             if (danhSachChuongTrinhHop.hasValue) {
@@ -91,17 +91,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
     );
   }
 
-  TrangThaiNhiemVu trangThaiNhiemVu(String tt) {
-    switch (tt) {
-      case 'CHO_PHAN_XU_LY':
-        return TrangThaiNhiemVu.ChoPhanXuLy;
-      case 'DANG_THUC_HIEN':
-        return TrangThaiNhiemVu.DangThucHien;
-      case 'DA_THUC_HIEN':
-        return TrangThaiNhiemVu.DaThucHien;
-    }
-    return TrangThaiNhiemVu.ChoPhanXuLy;
-  }
+
 
   void callApiYkienCuocHop()  {
     getDanhSachPhienHop(idCuocHop);

@@ -397,9 +397,10 @@ class DanhSachCongViecTienIchCubit
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatApi,
-        performer: dataNguoiThucHienModel.id == ''
-            ? null
-            : nguoiThucHienSubject.value.id,
+        performer: checkData(
+          changeData: nguoiThucHienSubject.value.id,
+          defaultData: todo.performer,
+        ),
         filePath: (isDeleteFile ?? false)
             ? null
             : checkData(changeData: filePathTodo, defaultData: todo.filePath),
@@ -556,7 +557,7 @@ class DanhSachCongViecTienIchCubit
         case DSCVScreen.DG:
           return [
             IconDSCV.icCheckBox,
-            IconDSCV.icClose,
+            IconDSCV.icImportant,
           ];
         case DSCVScreen.DBX:
           return [
@@ -597,7 +598,6 @@ class DanhSachCongViecTienIchCubit
           return [
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
-            IconDSCV.icClose,
           ];
         case DSCVScreen.DBX:
           return [

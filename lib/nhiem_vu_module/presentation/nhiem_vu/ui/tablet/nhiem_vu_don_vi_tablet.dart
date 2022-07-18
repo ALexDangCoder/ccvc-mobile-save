@@ -130,7 +130,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                 ],
               ),
               child: ExpandOnlyWidget(
-                isPadingIcon: true,
+                isPaddingIcon: true,
                 initExpand: true,
                 header: Container(
                   color: Colors.transparent,

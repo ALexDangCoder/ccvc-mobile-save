@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/custom_checkbox_list_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
@@ -59,6 +59,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
     widget.cubit.listDanhSach = [];
     widget.cubit.isValidateSubject.sink.add(false);
     widget.cubit.isValidateTimer.sink.add(false);
+    widget.cubit.listThemLuaChon.clear();
     widget.cubit.date =
         coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
     timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
@@ -110,66 +111,101 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                   padding: const EdgeInsets.only(bottom: 20),
                   child: SizedBox(
                     child: StreamBuilder<bool>(
-                      stream: widget.cubit.isValidateTimer,
-                      builder: (context, snapshot) {
-                        return ShowRequied(
-                          isShow: snapshot.data ?? true,
-                          textShow: S.current.validate_bieu_quyet,
-                          child: BaseChooseTimerWidget(
-                            key: _keyBaseTime,
-                            timeBatDau: timeStart.getTimeData(
-                              timeReturnParseFail: TimerData(
-                                hour: DateTime.now().hour,
-                                minutes: DateTime.now().minute,
-                              ),
-                            ),
-                            timeKetThuc: timeEnd.getTimeData(
-                              timeReturnParseFail: TimerData(
-                                hour: DateTime.now().hour,
-                                minutes: DateTime.now().minute,
-                              ),
-                            ),
-                            onChange: (start, end) {
-                              timeStart = start.timerToString;
-                              timeEnd = end.timerToString;
-                              final dateTimeStart =
-                                  '$thoiGianHop $timeStart'.convertStringToDate(
-                                formatPattern:
-                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
-                              );
-                              final dateTimeEnd =
-                                  '$thoiGianHop $timeEnd'.convertStringToDate(
-                                formatPattern:
-                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
-                              );
-                              if (dateTimeStart.isBefore(
-                                    widget.cubit.getTime().convertStringToDate(
-                                          formatPattern:
-                                              DateFormatApp.monthDayFormat,
-                                        ),
-                                  ) ||
-                                  dateTimeEnd.isAfter(
-                                    widget.cubit
-                                        .getTime(isGetDateStart: false)
+                        stream: widget.cubit.isValidateThoiGianBatDauKetThuc,
+                        builder: (context, snapshotThoiGianBatDauKetThuc) {
+                          final dataThoiGianBatDauKetThuc =
+                              snapshotThoiGianBatDauKetThuc.data ?? true;
+                          return StreamBuilder<bool>(
+                            stream: widget.cubit.isValidateTimer,
+                            builder: (context, snapshot) {
+                              return ShowRequied(
+                                isShow: snapshot.data ?? true,
+                                textShow: dataThoiGianBatDauKetThuc
+                                    ? S.current
+                                        .thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc
+                                    : S.current.validate_bieu_quyet,
+                                child: BaseChooseTimerWidget(
+                                  key: _keyBaseTime,
+                                  timeBatDau: timeStart.getTimeData(
+                                    timeReturnParseFail: TimerData(
+                                      hour: DateTime.now().hour,
+                                      minutes: DateTime.now().minute,
+                                    ),
+                                  ),
+                                  timeKetThuc: timeEnd.getTimeData(
+                                    timeReturnParseFail: TimerData(
+                                      hour: DateTime.now().hour,
+                                      minutes: DateTime.now().minute,
+                                    ),
+                                  ),
+                                  onChange: (start, end) {
+                                    timeStart = start.timerToString;
+                                    timeEnd = end.timerToString;
+                                    final dateTimeStart =
+                                        '$thoiGianHop $timeStart'
+                                            .convertStringToDate(
+                                      formatPattern:
+                                          DateTimeFormat.DATE_TIME_PUT_EDIT,
+                                    );
+                                    final dateTimeEnd = '$thoiGianHop $timeEnd'
                                         .convertStringToDate(
-                                          formatPattern:
-                                              DateFormatApp.monthDayFormat,
-                                        ),
-                                  )) {
-                                widget.cubit.isValidateTimer.sink.add(true);
-                                isShowValidate = true;
-                              } else {
-                                widget.cubit.isValidateTimer.sink.add(false);
-                                isShowValidate = false;
-                              }
+                                      formatPattern:
+                                          DateTimeFormat.DATE_TIME_PUT_EDIT,
+                                    );
+
+                                    if (dateTimeStart.isAfter(dateTimeEnd) ||
+                                        (dateTimeStart.isBefore(
+                                          widget.cubit
+                                              .getTime()
+                                              .convertStringToDate(
+                                                formatPattern: DateFormatApp
+                                                    .monthDayFormat,
+                                              ),
+                                        )) ||
+                                        dateTimeEnd.isAfter(
+                                          widget.cubit
+                                              .getTime(isGetDateStart: false)
+                                              .convertStringToDate(
+                                                formatPattern: DateFormatApp
+                                                    .monthDayFormat,
+                                              ),
+                                        )) {
+                                      if (dateTimeStart.isAfter(dateTimeEnd)) {
+                                        widget.cubit.isValidateTimer.sink
+                                            .add(true);
+                                        widget
+                                            .cubit
+                                            .isValidateThoiGianBatDauKetThuc
+                                            .sink
+                                            .add(true);
+                                        isShowValidate = true;
+                                      } else {
+                                        widget
+                                            .cubit
+                                            .isValidateThoiGianBatDauKetThuc
+                                            .sink
+                                            .add(false);
+                                        widget.cubit.isValidateTimer.sink
+                                            .add(true);
+                                        isShowValidate = true;
+                                      }
+                                    } else {
+                                      widget.cubit
+                                          .isValidateThoiGianBatDauKetThuc.sink
+                                          .add(false);
+                                      widget.cubit.isValidateTimer.sink
+                                          .add(false);
+                                      isShowValidate = false;
+                                    }
+                                  },
+                                  validator: (timeBegin, timerEn) {
+                                    return timeBegin.equalTime(timerEn);
+                                  },
+                                ),
+                              );
                             },
-                            validator: (timeBegin, timerEn) {
-                              return timeBegin.equalTime(timerEn);
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                          );
+                        }),
                   ),
                 ),
                 BlockTextViewLich(
@@ -269,7 +305,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                       isCheckCallApi = false;
                       formKeyNoiDung.currentState!.validate();
                     }
-                    if (widget.cubit.cacLuaChonBieuQuyet.isEmpty) {
+                    if (widget.cubit.listThemLuaChon.isEmpty) {
                       isCheckCallApi = false;
                       setState(() {});
                       isShow = true;
@@ -284,8 +320,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                         noiDungController.text,
                         widget.cubit.date,
                         widget.cubit.loaiBieuQ,
-                        '$thoiGianHop' 'T' '$timeStart:00',
-                        '$thoiGianHop' 'T' '$timeEnd:00',
+                        widget.cubit.dateTimeFormat(thoiGianHop, timeStart),
+                        widget.cubit.dateTimeFormat(thoiGianHop, timeEnd),
                       );
                       nav.pop(true);
                     }

@@ -10,11 +10,13 @@ class PieChart extends StatelessWidget {
   final String title;
   final double paddingTop;
   final Function(int)? onTap;
+  final Function(int)? onTapPAKN;
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
   final bool isThongKeLichHop;
   final TextStyle? tittleStyle;
   final bool isVectical;
+  final bool useVerticalLegend;
 
   const PieChart({
     Key? key,
@@ -22,11 +24,13 @@ class PieChart extends StatelessWidget {
     this.title = '',
     this.paddingTop = 20,
     this.onTap,
+    this.onTapPAKN,
     this.isSubjectInfo = true,
     this.paddingLeftSubTitle = 0,
     this.isThongKeLichHop = true,
     this.tittleStyle,
     this.isVectical = true,
+    this.useVerticalLegend = false,
   }) : super(key: key);
 
   @override
@@ -83,7 +87,12 @@ class PieChart extends StatelessWidget {
                             onTap!(
                               value.pointIndex ?? 0,
                             );
-                          } else {}
+                          } else {
+                            final key = chartData[value.pointIndex ?? 0];
+                            onTapPAKN!(
+                              value.pointIndex ?? 0,
+                            );
+                          }
                         },
                         dataLabelSettings: DataLabelSettings(
                           useSeriesColor: true,
@@ -207,7 +216,7 @@ class PieChart extends StatelessWidget {
               ),
             ],
           ),
-        if (isSubjectInfo && isVectical)
+        if (isSubjectInfo && isVectical && !useVerticalLegend)
           Padding(
             padding: EdgeInsets.only(left: paddingLeftSubTitle),
             child: GridView.count(
@@ -219,45 +228,73 @@ class PieChart extends StatelessWidget {
               crossAxisSpacing: 10,
               children: List.generate(chartData.length, (index) {
                 final result = chartData[index];
-                return GestureDetector(
-                  onTap: () {
-                    if (onTap != null) {
-                      onTap!(index);
-                    } else {}
-                  },
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 14,
-                        width: 14,
-                        decoration: BoxDecoration(
-                          color: result.color,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Flexible(
-                        child: FittedBox(
-                          child: Text(
-                            '${result.title} (${result.value.toInt()})',
-                            style: textNormal(
-                              infoColor,
-                              14.0.textScale(),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                return itemLegend(
+                  chartData: result,
+                  index: index,
                 );
               }),
+            ),
+          )
+        else if (useVerticalLegend)
+          Align(
+            alignment: Alignment.topCenter,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(
+                chartData.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: itemLegend(
+                    chartData: chartData[index],
+                    index: index,
+                  ),
+                ),
+              ),
             ),
           )
         else
           const SizedBox()
       ],
+    );
+  }
+
+  Widget itemLegend({required ChartData chartData, required int index}) {
+    return GestureDetector(
+      onTap: () {
+        if(onTap != null) {
+          onTap?.call(index);
+        } else {
+          onTapPAKN!(index);
+        }
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 14,
+            width: 14,
+            decoration: BoxDecoration(
+              color: chartData.color,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          Flexible(
+            child: FittedBox(
+              child: Text(
+                '${chartData.title} (${chartData.value.toInt()})',
+                style: textNormal(
+                  infoColor,
+                  14.0.textScale(),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 

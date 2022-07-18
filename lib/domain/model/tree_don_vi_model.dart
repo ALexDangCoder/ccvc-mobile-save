@@ -1,5 +1,45 @@
 import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 
+enum TypeFileShowDonVi {
+  HO_VA_TEN,
+  TEN_CAN_BO,
+  CHUC_VU,
+  NOI_DUNG,
+  DAU_MOI_LIEN_HE,
+  EMAIL,
+  SDT,
+  TEN_DON_VI,
+  TEN_CO_QUAN,
+  SO_LUONG
+}
+
+extension TypeFileShowDonViEx on TypeFileShowDonVi {
+  String valueDonViModel(DonViModel donViModel) {
+    switch (this) {
+      case TypeFileShowDonVi.HO_VA_TEN:
+        return donViModel.name;
+      case TypeFileShowDonVi.TEN_CAN_BO:
+        return donViModel.tenCanBo;
+      case TypeFileShowDonVi.CHUC_VU:
+        return donViModel.chucVu;
+      case TypeFileShowDonVi.NOI_DUNG:
+        return donViModel.noidung;
+      case TypeFileShowDonVi.DAU_MOI_LIEN_HE:
+        return donViModel.dauMoiLienHe;
+      case TypeFileShowDonVi.EMAIL:
+        return donViModel.email;
+      case TypeFileShowDonVi.SDT:
+        return donViModel.sdt;
+      case TypeFileShowDonVi.TEN_DON_VI:
+        return donViModel.tenDonVi;
+      case TypeFileShowDonVi.TEN_CO_QUAN:
+        return donViModel.tenCoQuan;
+      case TypeFileShowDonVi.SO_LUONG:
+        return donViModel.soLuong.toString();
+    }
+  }
+}
+
 class DonViModel {
   String id = '';
   String name = '';
@@ -20,7 +60,7 @@ class DonViModel {
   bool isCheck = false;
 
   //param sử dụng tại tạo lịch làm việc
-  int? soLuong = 0;
+  int soLuong = 0;
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
@@ -42,7 +82,7 @@ class DonViModel {
     this.donViId = '',
     this.userId = '',
     this.tenCoQuan = '',
-    this.soLuong,
+    this.soLuong = 0,
   });
 
   MoiThamGiaHopRequest convertTrongHeThong(String lichHopId) {
@@ -168,7 +208,7 @@ class Node<T> {
       return;
     } else {
       if (parent!.children
-          .where((element) => element.isCheck.isCheck  || element.isTickChildren)
+          .where((element) => element.isCheck.isCheck || element.isTickChildren)
           .isNotEmpty) {
         parent!.isTickChildren = true;
       } else {
@@ -176,7 +216,9 @@ class Node<T> {
       }
       parent!.isCheckTickChildren();
     }
-
+    // if(!isCheck.isCheck) {
+    //   isTickChildren = false;
+    // }
   }
 
   void removeCkeckBox() {

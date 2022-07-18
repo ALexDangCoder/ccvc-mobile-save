@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -419,8 +420,11 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       Expanded(
                                         child: buttonEditCalendar(
                                           name: S.current.dong,
-                                          bgr: buttonColor.withOpacity(0.1),
-                                          colorName: textDefault,
+                                          bgr: AppTheme.getInstance()
+                                              .colorField()
+                                              .withOpacity(0.1),
+                                          colorName: AppTheme.getInstance()
+                                              .colorField(),
                                           onTap: () {
                                             Navigator.of(context).pop();
                                           },
@@ -440,7 +444,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                               builder: (context, snapshot) {
                                                 return buttonEditCalendar(
                                                   name: S.current.luu,
-                                                  bgr: labelColor,
+                                                  bgr: AppTheme.getInstance()
+                                                      .colorField(),
                                                   colorName: Colors.white,
                                                   onTap: () {
                                                     validateField(data);
@@ -497,7 +502,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
         isShowRadio: widget.event.isLichLap ?? false,
         imageUrl: ImageAssets.ic_edit_cal,
         textConfirm: S.current.ban_co_chac_chan_sua_lich,
-        textRadioAbove: S.current.chi_lich_nay,
+        textRadioAbove: S.current.chi_sua_lich_nay,
         textRadioBelow: S.current.tu_lich_nay,
         onConfirm: (value) {
           createCubit.checkDuplicate(
@@ -508,6 +513,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
             isEdit: true,
             isOnly: value,
             isInside: !data,
+            scheduleId: widget.event.id,
           );
         },
       ),

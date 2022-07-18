@@ -144,13 +144,13 @@ extension SettingScreen on ThongBaoCubit {
       if (!permissionStatus) {
         await PermissionHandler.openDoNotDisturbSetting();
       }
-    } catch (err) {}
+    } catch (_) {}
   }
 
   Future<void> setSilentMode() async {
     try {
       await SoundMode.setSoundMode(RingerModeStatus.silent);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   Future<void> setNormalMode() async {

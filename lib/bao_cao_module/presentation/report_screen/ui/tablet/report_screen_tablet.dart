@@ -17,7 +17,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ReportScreenTablet extends StatefulWidget {
-  const ReportScreenTablet({Key? key}) : super(key: key);
+  final String? title;
+
+  const ReportScreenTablet({
+    Key? key,
+    this.title,
+  }) : super(key: key);
 
   @override
   _ReportScreenTabletState createState() => _ReportScreenTabletState();
@@ -37,6 +42,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
+      title: widget.title,
       retry: () {
         cubit.getAppID();
       },
@@ -71,78 +77,95 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return ReportFilterTablet(
+                Expanded(
+                  flex: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => ReportFilterTablet(
                           cubit: cubit,
+                        ),
+                      );
+                    },
+                    child: StreamBuilder<String>(
+                      stream: cubit.textFilter,
+                      builder: (context, snapshot) {
+                        return RichText(
+                          text: TextSpan(
+                            children: <WidgetSpan>[
+                              WidgetSpan(
+                                child: Text(
+                                  snapshot.data ?? '',
+                                  style: textNormalCustom(
+                                    fontSize: 14.0,
+                                    color: infoColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                  ),
+                                  child: SvgPicture.asset(
+                                    ImageAssets.icDropDown,
+                                    color: AppTheme.getInstance()
+                                        .unselectedLabelColor(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      StreamBuilder<String>(
-                        stream: cubit.textFilter,
-                        builder: (context, snapshot) {
-                          return Text(
-                            snapshot.data ?? '',
-                            style: textNormalCustom(
-                              fontSize: 14.0,
-                              color: infoColor,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                        ),
-                        child: SvgPicture.asset(
-                          ImageAssets.icDropDown,
-                          color: AppTheme.getInstance().unselectedLabelColor(),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                StreamBuilder<bool>(
-                  stream: cubit.isListView,
-                  builder: (context, snapshot) {
-                    return Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            cubit.isListViewInit = true;
-                            cubit.isListView.sink.add(cubit.isListViewInit);
-                          },
-                          child: SvgPicture.asset(
-                            ImageAssets.icGridView,
-                            color: snapshot.data ?? cubit.isListViewInit
-                                ? AppTheme.getInstance().colorField()
-                                : AppTheme.getInstance().unselectedLabelColor(),
+                Expanded(
+                  flex: 2,
+                  child: StreamBuilder<bool>(
+                    stream: cubit.isListView,
+                    builder: (context, snapshot) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              cubit.isListViewInit = true;
+                              cubit.isListView.sink.add(cubit.isListViewInit);
+                            },
+                            child: SvgPicture.asset(
+                              ImageAssets.icGridView,
+                              color: snapshot.data ?? cubit.isListViewInit
+                                  ? AppTheme.getInstance().colorField()
+                                  : AppTheme.getInstance()
+                                      .unselectedLabelColor(),
+                            ),
                           ),
-                        ),
-                        spaceW16,
-                        GestureDetector(
-                          onTap: () {
-                            cubit.isListViewInit = false;
-                            cubit.isListView.sink.add(cubit.isListViewInit);
-                          },
-                          child: SvgPicture.asset(
-                            ImageAssets.icListHopMobile,
-                            color: !(snapshot.data ?? cubit.isListViewInit)
-                                ? AppTheme.getInstance().colorField()
-                                : AppTheme.getInstance().unselectedLabelColor(),
+                          spaceW16,
+                          GestureDetector(
+                            onTap: () {
+                              cubit.isListViewInit = false;
+                              cubit.isListView.sink.add(cubit.isListViewInit);
+                            },
+                            child: SvgPicture.asset(
+                              ImageAssets.icListHopMobile,
+                              color: !(snapshot.data ?? cubit.isListViewInit)
+                                  ? AppTheme.getInstance().colorField()
+                                  : AppTheme.getInstance()
+                                      .unselectedLabelColor(),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -158,7 +181,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          if (cubit.listReportFavorite.isNotEmpty)
+                          if (cubit.listReportFavorite?.isNotEmpty ?? false)
                             Column(
                               children: [
                                 titleBaoCao(S.current.yeu_thich),
@@ -278,14 +301,17 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
             child: BlocBuilder(
               bloc: cubit,
               builder: (BuildContext context, Object? state) {
-                return cubit.listReportSearch.isNotEmpty
-                    ? ReportListTablet(
-                        idFolder: cubit.folderId,
-                        listReport: cubit.listReportSearch,
-                        isListView: cubit.isListView.value,
-                        cubit: cubit,
-                      )
-                    : noData();
+                return cubit.listReportSearch != null
+                    ? cubit.listReportSearch?.isNotEmpty ?? false
+                        ? ReportListTablet(
+                            isSearch: true,
+                            idFolder: cubit.folderId,
+                            listReport: cubit.listReportSearch,
+                            isListView: cubit.isListView.value,
+                            cubit: cubit,
+                          )
+                        : noData()
+                    : const SizedBox.shrink();
               },
             ),
           ),
@@ -299,12 +325,19 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
   ) {
     return BaseAppBarMobile(
       title: isSearch ? S.current.bac_cao : '',
+      leadingIcon: widget.title?.isNotEmpty ?? false
+          ? IconButton(
+              onPressed: () => {Navigator.pop(context)},
+              icon: SvgPicture.asset(
+                ImageAssets.icBack,
+              ),
+            )
+          : null,
       actions: [
         if (isSearch)
           GestureDetector(
             onTap: () {
-              _searchController.text = cubit.textSearch.value;
-              cubit.isStatusSearch.add(false);
+              cubit.clickIconSearch();
             },
             child: Container(
               padding: const EdgeInsets.only(
@@ -442,7 +475,7 @@ Widget noData() {
           height: 30.0,
         ),
         Text(
-          S.current.khong_co_bao_cao,
+          S.current.khong_co_du_lieu,
           style: textNormalCustom(
             fontSize: 16.0.textScale(space: 4.0),
             color: grayChart,

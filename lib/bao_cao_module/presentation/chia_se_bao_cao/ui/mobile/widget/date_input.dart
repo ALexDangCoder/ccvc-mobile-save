@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/validate_email.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -38,10 +39,14 @@ class _DateInputState extends State<DateInput> {
   Widget build(BuildContext context) {
     return TextFieldValidator(
       controller: textController,
-      hintText: DateFormatApp.date,
+      hintText: DateFormatApp.dateNormal,
       validator: (value) {
         if (value?.isEmpty ?? true) {
           return null;
+        }
+        if (!(value ?? '').isValidDateTime()) {
+          return '${S.current
+              .sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
         }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
@@ -53,9 +58,12 @@ class _DateInputState extends State<DateInput> {
       },
       suffixIcon: GestureDetector(
         onTap: () {
-          DateTime initDate = DateFormat(DateFormatApp.date).parse(
-            textController.text,
-          );
+          DateTime initDate = DateTime.now();
+          if(textController.text != '') {
+             initDate = DateFormat(DateFormatApp.date).parse(
+              textController.text,
+            );
+          }
           final dateSince = initDate.millisecondsSinceEpoch;
           if (dateSince < DateTime(1900).millisecondsSinceEpoch ||
               dateSince > DateTime.now().millisecondsSinceEpoch) {

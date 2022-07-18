@@ -1,11 +1,10 @@
+import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/users_ngoai_he_thong_truy_cap_truy_cap_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/appid_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/can_bo_chia_se_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/ds_user_ngoai_he_thong_duoc_truy_cap_res.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/folder_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/group_response.dart';
-import 'package:ccvc_mobile/bao_cao_module/data/response/list_tree_report_respose.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_detail_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/api_constants.dart';
@@ -22,10 +21,10 @@ abstract class ReportService {
 
   @GET(ApiConstants.LIST_REPORT)
   Future<ReportResponse> getListReport(
+    @Header('AppId') String appId,
     @Query('folderId') String folderId,
     @Query('sort') int sort,
     @Query('keyWord') String keyWord,
-    @Header('AppId') String appId,
   );
 
   @POST(ApiConstants.LIST_GROUP_BAO_CAO)
@@ -68,17 +67,12 @@ abstract class ReportService {
   Future<ReportResponse> getListReportFavorite(
     @Header('AppId') String appId,
     @Query('folderId') String folderId,
-  );
-
-  @GET(ApiConstants.GET_LIST_TREE_REPORT)
-  Future<ListTreeReportResponse> getListReportTree(
-    @Header('AppId') String appId,
-    @Query('folderId') String folderId,
+    @Query('sort') int sort,
   );
 
   @POST(ApiConstants.CREATE_NEW_USER)
   Future<PostDataResponse> addNewUser(
-    @Body() Map<String, String> mapUser,
+    @Body() NewUserRequest mapUser,
     @Header('AppId') String appId,
   );
 
@@ -92,7 +86,9 @@ abstract class ReportService {
   @POST(ApiConstants.GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP)
   Future<UserNgoaiHeThongTruyCapTotalResponse> getUsersNgoaiHeThongDuocTruyCap(
     @Header('AppId') String appId,
-    @Body() UsersNgoaiHeThongTruyCapRequest request,
+    @Field('filders') List<UsersNgoaiHeThongTruyCapRequest> request,
+  @Field('pageIndex') int pageIndex,
+      @Field('pageSize') int pageSize,
   );
 
   @GET(ApiConstants.REPORT_DETAIL)
@@ -100,6 +96,4 @@ abstract class ReportService {
     @Header('AppId') String appId,
     @Query('id') String idReport,
   );
-
-
 }

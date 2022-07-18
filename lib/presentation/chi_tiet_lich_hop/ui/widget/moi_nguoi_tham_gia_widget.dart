@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import 'icon_with_title_widget.dart';
 
@@ -29,13 +30,22 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 }
 
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
+  ThanhPhanThamGiaHopCubit thanhPhanThamGiaHopCubit =
+      ThanhPhanThamGiaHopCubit();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
+  }
+
   @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
         onchange: (vl) {
           if (vl && isMobile()) {
-            widget.cubit.callApiThanhPhanThamGia();
+            thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
           }
         },
         title: S.current.thanh_phan_tham_gia,
@@ -55,7 +65,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                       context,
                       title: S.current.them_thanh_phan_tham_gia,
                       child: ThemThanhPhanThamGiaWidget(
-                        cubit: widget.cubit,
+                        cubit: thanhPhanThamGiaHopCubit,
                       ),
                     );
                   },
@@ -65,6 +75,12 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               icon: ImageAssets.ic_diemDanh,
               title: S.current.diem_danh,
               onPress: () {
+                if (thanhPhanThamGiaHopCubit.diemDanhIds.isEmpty) {
+                  MessageConfig.show(
+                      title: S.current.ban_chua_chon_nguoi_diem_danh,
+                      messState: MessState.error,);
+                  return;
+                }
                 showDiaLog(
                   context,
                   title: S.current.diem_danh,
@@ -73,23 +89,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   btnRightTxt: S.current.dong_y,
                   textContent: S.current.conten_diem_danh,
                   funcBtnRight: () {
-                    if (widget.cubit.selectedIds.isNotEmpty) {
-                      widget.cubit.postDiemDanh().then(
-                            (value) => showDiaLog(
-                              context,
-                              title: S.current.diem_danh,
-                              icon: SvgPicture.asset(ImageAssets.icDiemDanh),
-                              textContent: S.current.diem_danh_ho_nguoi_khac,
-                              btnRightTxt: S.current.dong,
-                              btnLeftTxt: '',
-                              isColorBlueInOnlyButton: false,
-                              isOneButton: false,
-                              widthOnlyButton:
-                                  MediaQuery.of(context).size.width * 0.6,
-                              funcBtnRight: () {},
-                            ),
-                          );
-                    }
+                    thanhPhanThamGiaHopCubit.postDiemDanh();
                   },
                 );
               },
@@ -98,7 +98,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               height: 16,
             ),
             StreamBuilder<List<CanBoModel>>(
-              stream: widget.cubit.thanhPhanThamGia,
+              stream: thanhPhanThamGiaHopCubit.thanhPhanThamGia,
               builder: (context, snapshot) {
                 final list = snapshot.data ?? [];
                 if (list.isNotEmpty) {
@@ -108,10 +108,22 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                     itemCount: list.length,
                     itemBuilder: (context, index) {
                       return CellThanhPhanThamGia(
-                        cubit: widget.cubit,
+                        cubit: thanhPhanThamGiaHopCubit,
                         infoModel: list[index],
                         ontap: () {
-                          widget.cubit.postHuyDiemDanh(list[index].id ?? '');
+                          showDiaLog(
+                            context,
+                            title: S.current.huy_diem_danh,
+                            icon: SvgPicture.asset(ImageAssets.icHuyDiemDanh),
+                            btnLeftTxt: S.current.khong,
+                            btnRightTxt: S.current.dong_y,
+                            funcBtnRight: () {
+                              thanhPhanThamGiaHopCubit
+                                  .postHuyDiemDanh(list[index].id ?? '');
+                            },
+                            showTablet: true,
+                            textContent: S.current.conten_huy_diem_danh,
+                          );
                         },
                       );
                     },

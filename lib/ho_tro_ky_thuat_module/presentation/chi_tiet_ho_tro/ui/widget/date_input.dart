@@ -35,21 +35,26 @@ class _DateInputState extends State<DateInput> {
   final textController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    if(widget.initDateTime?.toIso8601String().isNotEmpty ?? false){
+      textController.text = DateFormat(DateTimeFormat.DATE_DD_MM_YYYY)
+          .format(widget.initDateTime!);
+      dateSelect = textController.text;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFieldValidator(
       controller: textController,
-      hintText: DateFormatApp.date,
+      hintText: DateFormatApp.dateUpperCase,
       validator: (value) {
         if (value?.isEmpty ?? true) {
           return null;
         }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
-          if (DateFormat(DateFormatApp.date).parse(value ?? '').millisecond -
-              DateTime.now().millisecond <
-              0) {
-            return 'Ngày hoàn thành cần lớn hơn ngày hiện tại.';
-          }
           dateSelect = inputDate.toString();
           widget.onSelectDate(dateSelect);
         } catch (_) {
@@ -67,14 +72,11 @@ class _DateInputState extends State<DateInput> {
                 SizedBox(
                   height: 300,
                   child: FlutterRoundedCupertinoDatePickerWidget(
-                    minimumDate: DateTime.now(),
+                    minimumDate: widget.initDateTime ?? DateTime.now(),
                     onDateTimeChanged: (value) {
                       setState(() {
                         dateSelect = value.toString();
                       });
-                      textController.text = DateTime.parse(dateSelect ?? '')
-                          .toStringWithListFormat;
-                      widget.onSelectDate(value.toString());
                     },
                     textStyleDate: titleAppbar(),
                     initialDateTime: initDate,
@@ -89,7 +91,11 @@ class _DateInputState extends State<DateInput> {
                     title2: S.current.chon,
                     title1: S.current.dong,
                     onClickRight: () {
-                      widget.onSelectDate(dateSelect);
+                      widget.onSelectDate(
+                        DateTime.parse(dateSelect ?? '').toStringWithListFormat,
+                      );
+                      textController.text = DateTime.parse(dateSelect ?? '')
+                          .toStringWithListFormat;
                       Navigator.pop(context);
                     },
                     onClickLeft: () {

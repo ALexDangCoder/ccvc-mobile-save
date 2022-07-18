@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/date_input.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chia_se_co_tk.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/extensions/validate_email.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -11,9 +14,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart' as image_utils;
-import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/radio/group_radio_button.dart';
@@ -21,8 +22,8 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class TabNgoaiHeThongMobile extends StatefulWidget {
   const TabNgoaiHeThongMobile({
@@ -38,7 +39,8 @@ class TabNgoaiHeThongMobile extends StatefulWidget {
 class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   final _groupKey = GlobalKey<FormGroupState>();
 
-  final Debouncer _debounce = Debouncer(milliseconds: 500);
+  Timer? debounce;
+  late TextEditingController controller;
 
   String? name;
   String? birthday;
@@ -51,6 +53,10 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController();
+    if (widget.cubit.keySearch != '') {
+      controller.text = widget.cubit.keySearch;
+    }
   }
 
   @override
@@ -61,6 +67,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (widget.cubit.canLoadMoreList &&
@@ -70,55 +77,70 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           }
           return true;
         },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              spaceH20,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 21),
-                child: StreamBuilder<bool>(
-                  initialData: false,
-                  stream: widget.cubit.isDuocTruyCapStream,
-                  builder: (context, snapshot) {
-                    final isDuocTruyCap = snapshot.data ?? false;
-                    return CustomGroupRadio<bool>(
-                      listData: [
-                        ItemCustomGroupRadio(
-                          title: S.current.doi_tuong_da_duoc_truy_cap,
-                          value: true,
-                        ),
-                        ItemCustomGroupRadio(
-                          title: S.current.them_moi_doi_tuong,
-                          value: false,
-                        ),
-                      ],
-                      groupValue: isDuocTruyCap,
-                      onchange: (value) {
-                        widget.cubit.isDuocTruyCapSink.add(value ?? false);
-                      },
-                    );
-                  },
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    spaceH20,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 21),
+                      child: StreamBuilder<bool>(
+                        initialData: false,
+                        stream: widget.cubit.isDuocTruyCapStream,
+                        builder: (context, snapshot) {
+                          final isDuocTruyCap = snapshot.data ?? false;
+                          return CustomGroupRadio<bool>(
+                            listData: [
+                              ItemCustomGroupRadio(
+                                title: S.current.doi_tuong_da_duoc_truy_cap,
+                                value: true,
+                              ),
+                              ItemCustomGroupRadio(
+                                title: S.current.them_moi_doi_tuong,
+                                value: false,
+                              ),
+                            ],
+                            groupValue: isDuocTruyCap,
+                            onchange: (value) {
+                              widget.cubit.isDuocTruyCapSink
+                                  .add(value ?? false);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 21),
+                      child: StreamBuilder<bool>(
+                        initialData: false,
+                        stream: widget.cubit.isDuocTruyCapStream,
+                        builder: (context, snapshot) {
+                          final isDuocTruyCap = snapshot.data ?? false;
+                          if (isDuocTruyCap) {
+                            return objectAccessed;
+                          } else {
+                            return newObject;
+                          }
+                        },
+                      ),
+                    ),
+                    spaceH10,
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 21),
-                child: StreamBuilder<bool>(
-                  initialData: false,
-                  stream: widget.cubit.isDuocTruyCapStream,
-                  builder: (context, snapshot) {
-                    final isDuocTruyCap = snapshot.data ?? false;
-                    if (isDuocTruyCap) {
-                      return objectAccessed;
-                    } else {
-                      return newObject;
-                    }
-                  },
-                ),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                left: 16.w,
+                right: 16.w,
               ),
-              buttonBottom,
-              spaceH28,
-            ],
-          ),
+              height: 63.h,
+              color: Colors.white,
+              child: buttonBottom,
+            ),
+          ],
         ),
       ),
     );
@@ -131,14 +153,15 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             textField(
-              title: '${S.current.ho_ten}(*)',
+              isRequired: true,
+              title: S.current.ho_ten,
               hintText: S.current.ho_ten,
               onChange: (value) {
                 name = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.ho_ten}!';
                 }
               },
             ),
@@ -163,22 +186,34 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
-              title: '${S.current.email}(*)',
+              inputFormatter: [
+                FilteringTextInputFormatter.deny(' '),
+              ],
+              isRequired: true,
+              title: S.current.email,
               hintText: S.current.email,
               onChange: (value) {
                 email = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.email}!';
                 }
-                if(!(value ?? '').isValidEmail()){
-                  return S.current.dinh_dang_email;
+                if (!(value ?? '').isValidEmail()) {
+                  return '${S.current.dinh_dang_email}!';
+                }
+                if ((value ?? '').indexOf('@') > lengthEmailName) {
+                  return '${S.current.dinh_dang_email}!';
+                }
+                if ((value ?? '').split('@').last.characters.length >
+                    lengthEmailDomain) {
+                  return '${S.current.dinh_dang_email}!';
                 }
               },
             ),
             spaceH16,
             textField(
+              maxLength: 255,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
@@ -191,41 +226,52 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
+              isRequired: true,
               hintText: S.current.chuc_vu,
-              title: '${S.current.chuc_vu}(*)',
+              title: S.current.chuc_vu,
               onChange: (value) {
                 position = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.chuc_vu}!';
                 }
               },
             ),
             spaceH16,
             textField(
-              title: '${S.current.don_vi}(*)',
+              isRequired: true,
+              title: S.current.don_vi,
               hintText: S.current.don_vi,
               onChange: (value) {
                 unit = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return S.current.khong_duoc_de_trong;
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.don_vi}!';
                 }
               },
             ),
             spaceH16,
             textField(
+              isRequired: true,
               title: S.current.ghi_chu,
               onChange: (value) {
                 note = value;
               },
               maxLine: 6,
+              validate: (value) {
+                if ((value ?? '').isEmpty) {
+                  return '${S.current.ban_phai_nhap_truong} ${S.current.ghi_chu}!';
+                }
+              },
             ),
+            spaceH70,
           ],
         ),
       );
+
+  void validateEmail(String? value) {}
 
   ///các đối tượng được truy cấp
   Widget get objectAccessed => Column(
@@ -241,97 +287,89 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
         borderRadius: BorderRadius.all(Radius.circular(6)),
       );
 
-  Widget get buttonBottom =>
-      Padding(
-        padding: const EdgeInsets.only(
-          left: 21,
-          right: 21,
-          top: 24,
-        ),
-        child: StreamBuilder<bool>(
-          stream: widget.cubit.isDuocTruyCapStream,
-          builder: (context, snapshot) {
-            return DoubleButtonBottom(
-              onPressed1: () {
-                Navigator.pop(context);
-              },
-              title1: S.current.dong,
-              title2: S.current.chia_se,
-              onPressed2: () {
-                if (_groupKey.currentState?.validator() ?? true) {
-                  if (snapshot.data == true) {
-                    showDiaLog(
-                      context,
-                      title: S.current.chia_se_thu_muc,
-                      icon: SvgPicture.asset(
-                        ImageAssets.ic_chia_se,
-                      ),
-                      btnLeftTxt: S.current.huy,
-                      btnRightTxt: S.current.dong_y,
-                      funcBtnRight: () {
-                        widget.cubit.chiaSeBaoCao(Share.HAS_USER,).then((value) {
-                          if (value == 'Thành công') {
-                            MessageConfig.show(title: value);
-                          } else {
-                            MessageConfig.show(
-                              title: value,
-                              messState: MessState.error,
-                            );
-                          }
-                        });
-                      },
-                      showTablet: false,
-                      textContent: S.current.chia_se_thu_muc_chac_chua,
-                    ).then((value) {});
-                  } else {
-                    showDiaLog(
-                      context,
-                      title: S.current.chia_se_thu_muc,
-                      icon: SvgPicture.asset(
-                        ImageAssets.ic_chia_se,
-                      ),
-                      btnLeftTxt: S.current.huy,
-                      btnRightTxt: S.current.dong_y,
-                      funcBtnRight: () {
-                        widget.cubit
-                            .themMoiDoiTuong(
-                          email: email,
-                          fullName: name,
-                          birthday: birthday,
-                          phone: phoneNumber,
-                          position: position,
-                          unit: unit,
-                          description: note,
-                        )
-                            .then((value) {
-                          if (value == 'Thành công') {
-                            MessageConfig.show(title: value);
-                          } else {
-                            MessageConfig.show(
-                              title: value,
-                              messState: MessState.error,
-                            );
-                          }
-                        });
-                      },
-                      showTablet: false,
-                      textContent: S.current.chia_se_thu_muc_chac_chua,
-                    ).then((value) {});
-                  }
-                } else {
-                  final toast = FToast();
-                  toast.init(context);
-                  toast.showToast(
-                    child: ShowToast(
-                      text: S.current.sai_dinh_dang_truong,
+  Widget get buttonBottom => StreamBuilder<bool>(
+        stream: widget.cubit.isDuocTruyCapStream,
+        builder: (context, snapshot) {
+          return DoubleButtonBottom(
+            noPadding: true,
+            onPressed1: () {
+              Navigator.pop(context);
+            },
+            title1: S.current.dong,
+            title2: S.current.chia_se,
+            onPressed2: () {
+              if (_groupKey.currentState?.validator() ?? true) {
+                if (snapshot.data == true) {
+                  showDiaLog(
+                    context,
+                    title: S.current.chia_se_thu_muc,
+                    icon: SvgPicture.asset(
+                      ImageAssets.ic_chia_se,
                     ),
-                    gravity: ToastGravity.BOTTOM,
-                  );
+                    btnLeftTxt: S.current.huy,
+                    btnRightTxt: S.current.dong_y,
+                    funcBtnRight: () {
+                      widget.cubit
+                          .chiaSeBaoCao(
+                        Share.HAS_USER,
+                      )
+                          .then((value) {
+                        if (value == ChiaSeBaoCaoCubit.success) {
+                          MessageConfig.show(title: value);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        } else {
+                          MessageConfig.show(
+                            title: value,
+                            messState: MessState.error,
+                          );
+                        }
+                      });
+                    },
+                    showTablet: false,
+                    textContent: S.current.chia_se_thu_muc_chac_chua,
+                  ).then((value) {});
+                } else {
+                  showDiaLog(
+                    context,
+                    title: S.current.chia_se_thu_muc,
+                    icon: SvgPicture.asset(
+                      ImageAssets.ic_chia_se,
+                    ),
+                    btnLeftTxt: S.current.huy,
+                    btnRightTxt: S.current.dong_y,
+                    funcBtnRight: () {
+                      widget.cubit
+                          .themMoiDoiTuong(
+                        email: email,
+                        fullName: name,
+                        birthday: birthday,
+                        phone: phoneNumber,
+                        position: position,
+                        unit: unit,
+                        description: note,
+                      )
+                          .then((value) {
+                        if (value == ChiaSeBaoCaoCubit.success) {
+                          MessageConfig.show(title: value);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        } else {
+                          MessageConfig.show(
+                            title: value,
+                            messState: MessState.error,
+                          );
+                        }
+                      });
+                    },
+                    showTablet: false,
+                    textContent: S.current.chia_se_thu_muc_chac_chua,
+                  ).then((value) {});
                 }
-              },
-            );
-          },
-        ),
+              }
+            },
+          );
+        },
       );
 
   Widget get listDoiTuongDaTruyCap =>
@@ -361,8 +399,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
         },
       );
 
-  Widget get search =>
-      TextField(
+  Widget get search => TextField(
+        controller: controller,
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
           color: color3D5586,
@@ -381,11 +419,13 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           focusedBorder: borderSearch,
         ),
         onChanged: (keySearch) {
-          _debounce.run(() {
-            setState(() {});
-            widget.cubit.keySearch = keySearch;
-            widget.cubit.clearUsersNgoaiHeThongDuocTruyCap();
-            widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+          if (debounce != null) debounce!.cancel();
+          setState(() {
+            debounce = Timer(const Duration(seconds: 1), () {
+              widget.cubit.keySearch = keySearch;
+              widget.cubit.clearUsersNgoaiHeThongDuocTruyCap();
+              widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+            });
           });
         },
       );
@@ -393,6 +433,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   Widget textField({
     String? hintText,
     int maxLine = 1,
+    bool isRequired = false,
+    int? maxLength,
     required String title,
     required Function(String) onChange,
     String? Function(String?)? validate,
@@ -404,12 +446,24 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          child: Text(
-            title,
-            textAlign: TextAlign.start,
-            style: tokenDetailAmount(
-              fontSize: 14,
-              color: color3D5586,
+          child: RichText(
+            text: TextSpan(
+              style: tokenDetailAmount(
+                fontSize: 14,
+                color: color3D5586,
+              ),
+              text: title,
+              children: isRequired
+                  ? [
+                      TextSpan(
+                        text: ' *',
+                        style: tokenDetailAmount(
+                          fontSize: 14,
+                          color: redChart,
+                        ),
+                      ),
+                    ]
+                  : [],
             ),
           ),
         ),
@@ -421,6 +475,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           validator: validate,
           inputFormatters: inputFormatter,
           textInputType: textInputType,
+          maxLength: maxLength,
         )
       ],
     );

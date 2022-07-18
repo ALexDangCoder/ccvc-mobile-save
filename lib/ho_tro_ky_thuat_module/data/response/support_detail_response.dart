@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'support_detail_response.g.dart';
@@ -44,6 +45,8 @@ class GroupResponse {
   String? chucVu;
   @JsonKey(name: 'trangThaiXuLy')
   String? trangThaiXuLy;
+  @JsonKey(name: 'codeTrangThai')
+  String? codeTrangThai;
   @JsonKey(name: 'ketQuaXuLy')
   String? ketQuaXuLy;
   @JsonKey(name: 'nguoiXuLy')
@@ -53,7 +56,7 @@ class GroupResponse {
   @JsonKey(name: 'ngayHoanThanh')
   String? ngayHoanThanh;
   @JsonKey(name: 'danhSachSuCo')
-  List<String>? danhSachSuCo;
+  List<DSSuCoResponse>? danhSachSuCo;
 
   GroupResponse(
     this.id,
@@ -80,7 +83,7 @@ class GroupResponse {
 
   SupportDetail toDomain() => SupportDetail(
         id: id,
-        moTaSuCo: moTaSuCo,
+        moTaSuCo: (moTaSuCo ?? '').parseHtml() ,
         tenThietBi: tenThietBi,
         soDienThoai: soDienThoai,
         diaChi: diaChi,
@@ -88,11 +91,25 @@ class GroupResponse {
         nguoiYeuCau: nguoiYeuCau,
         chucVu: chucVu,
         donVi: donVi,
+        codeTrangThai: codeTrangThai,
         trangThaiXuLy: trangThaiXuLy,
         nhanXet: nhanXet,
         ngayHoanThanh: ngayHoanThanh,
-        ketQuaXuLy: ketQuaXuLy,
+        ketQuaXuLy: (ketQuaXuLy ?? '').parseHtml(),
         nguoiXuLy: nguoiXuLy,
-    danhSachSuCo: danhSachSuCo,
+        danhSachSuCo: danhSachSuCo?.map((e) => e.tenSuCo ?? '').toList(),
       );
+}
+
+@JsonSerializable()
+class DSSuCoResponse {
+  @JsonKey(name: 'tenSuCo')
+  String? tenSuCo;
+
+  DSSuCoResponse(this.tenSuCo);
+
+  factory DSSuCoResponse.fromJson(Map<String, dynamic> json) =>
+      _$DSSuCoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DSSuCoResponseToJson(this);
 }

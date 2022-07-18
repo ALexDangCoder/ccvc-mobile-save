@@ -13,14 +13,14 @@ class DanhSachBietQuyetModel {
   List<DanhSachKetQuaBieuQuyet>? danhSachKetQuaBieuQuyet;
 
   DanhSachBietQuyetModel({
-    required this.id,
-    required this.idLichHop,
-    required this.idPhienHopCanBo,
-    required this.noiDung,
-    required this.thoiGianBatDau,
-    required this.thoiGianKetThuc,
-    required this.loaiBieuQuyet,
-    required this.danhSachKetQuaBieuQuyet,
+    this.id,
+    this.idLichHop,
+    this.idPhienHopCanBo,
+    this.noiDung,
+    this.thoiGianBatDau,
+    this.thoiGianKetThuc,
+    this.loaiBieuQuyet,
+    this.danhSachKetQuaBieuQuyet,
   });
 }
 
@@ -52,10 +52,10 @@ class DanhSachKetQuaBieuQuyet {
   bool? isVote;
 
   DanhSachKetQuaBieuQuyet({
-    required this.luaChonId,
-    required this.tenLuaChon,
-    required this.mauLuaChon,
-    required this.soLuongLuaChon,
-    required this.isVote,
+    this.luaChonId,
+    this.tenLuaChon,
+    this.mauLuaChon,
+    this.soLuongLuaChon,
+    this.isVote,
   });
 }

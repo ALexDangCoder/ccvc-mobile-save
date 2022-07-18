@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_item_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -75,9 +76,6 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                       if (data != StatePhatBieu.danh_Sach_phat_bieu &&
                           widget.isthePhatBieu == true) {
                         return CustomCheckBox(
-                          title: '',
-
-                          /// check if id is in list selectPhatBieu == true
                           isCheck: widget.cubit.selectPhatBieu
                               .contains(widget.infoModel.id),
                           onChange: (isCheck) {
@@ -104,9 +102,9 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
               ),
             ),
             widgetRow(
-              name: S.current.noi_dung,
+              name: S.current.nd_phat_bieu,
               child: Text(
-                '${widget.infoModel.ndPhatBieu}',
+                widget.infoModel.ndPhatBieu ?? '',
                 style: textNormalCustom(
                   fontSize: 14,
                   color: infoColor,
@@ -114,14 +112,15 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
               ),
             ),
             widgetRow(
-                name: S.current.thoi_gian,
-                child: Text(
-                  '${widget.infoModel.tthoiGian}',
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: infoColor,
-                  ),
-                )),
+              name: S.current.thoi_gian,
+              child: Text(
+                '${widget.infoModel.tthoiGian} ${S.current.phut_lower_case}',
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: infoColor,
+                ),
+              ),
+            ),
           ],
         ),
       ),

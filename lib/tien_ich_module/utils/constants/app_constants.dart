@@ -63,6 +63,57 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
+enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL,TXT }
+
+extension GetTypeByName on PickerType {
+  List<String> get fileType {
+    switch (this) {
+      case PickerType.MEDIA_FILE:
+        return [
+          'MP4',
+          'WEBM',
+          'MP3',
+          'WAV',
+          'OGG',
+          'PNG',
+          'JPG',
+          'JPEG',
+          'GIF'
+        ];
+      case PickerType.IMAGE_FILE:
+        return ['JPG', 'PNG', 'GIF', 'JPEG'];
+      case PickerType.DOCUMENT:
+        return ['DOC', 'DOCX', 'PDF', 'XLS', 'XLSX'];
+      case PickerType.ALL:
+        return [
+          'MP4',
+          'WEBM',
+          'MP3',
+          'WAV',
+          'OGG',
+          'PNG',
+          'JPG',
+          'JPEG',
+          'GIF',
+          'JPG',
+          'PNG',
+          'GIF',
+          'JPEG',
+          'DOC',
+          'DOCX',
+          'PDF',
+          'XLS',
+          'XLSX'
+        ];
+      case PickerType.TXT:
+        return [
+          'txt'
+        ];
+    }
+  }
+}
+
+
 const String HOAN_THANH = 'HOAN_THANH';
 const String DEN_HAN = 'DEN_HAN';
 const String QUA_HAN = 'QUA_HAN';
@@ -162,9 +213,9 @@ class DateFormatApp {
   static String date = 'dd/MM/yyyy';
   static String dateTime = 'dd/MM/yyyy HH:mm:ss';
   static String dateTimeFormat = 'yyyy/MM/dd';
-  static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
-  static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
-  static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
+  static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
 }
 
 class KieuGiongNoi {

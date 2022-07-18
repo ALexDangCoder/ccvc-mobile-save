@@ -87,7 +87,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
                 spaceH10,
                 textRow(
                   textTitle: S.current.ket_qua_xu_ly,
-                  textContent: objDSSC.ketQuaXuLy ?? '',
+                  textContent: (objDSSC.ketQuaXuLy ?? '').parseHtml(),
                 ),
                 spaceH10,
                 textRow(
@@ -145,52 +145,39 @@ class ItemDanhSachSuCo extends StatelessWidget {
                     child: Column(
                       children: [
                         if (objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.CHO_XU_LY)
+                            HoTroKyThuatCubit.CHUA_XU_LY) ...[
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
                             function: (value) {},
                           ),
-                        if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.CHO_XU_LY)
-                        line(
-                          paddingLeft: 35,
-                        ),
-                        if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.CHO_XU_LY)
-                        itemMenu(
-                          title: S.current.xoa,
-                          icon: ImageAssets.ic_delete,
-                          function: (value) {
-                            cubit
-                                .deleteTask(id: objDSSC.id ?? '')
-                                .then((value) {
-                              if (value) {
-                                MessageConfig.show(
-                                  title: S.current.xoa_thanh_cong,
-                                );
-                                cubit.getListDanhBaCaNhan(page: 1);
-                              } else {
-                                MessageConfig.show(
-                                  title: S.current.xoa_that_bai,
-                                );
-                              }
-                            });
-                          },
-                        ),
-                        if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY ||
-                            objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.CHO_XU_LY)
-                        line(
-                          paddingLeft: 35,
-                        ),
+                          line(
+                            paddingLeft: 35,
+                          ),
+                          itemMenu(
+                            title: S.current.xoa,
+                            icon: ImageAssets.ic_delete,
+                            function: (value) {
+                              cubit
+                                  .deleteTask(id: objDSSC.id ?? '')
+                                  .then((value) {
+                                if (value) {
+                                  MessageConfig.show(
+                                    title: S.current.xoa_thanh_cong,
+                                  );
+                                  cubit.getListDanhBaCaNhan(page: 1);
+                                } else {
+                                  MessageConfig.show(
+                                    title: S.current.xoa_that_bai,
+                                  );
+                                }
+                              });
+                            },
+                          ),
+                          line(
+                            paddingLeft: 35,
+                          ),
+                        ],
                         if (!(cubit.isCheckUser ?? true))
                           itemMenu(
                             title: S.current.danh_gia,
@@ -198,12 +185,12 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             function: (value) {},
                           ),
                         if (!(cubit.isCheckUser ?? true))
-                        line(
-                          paddingLeft: 35,
-                        ),
+                          line(
+                            paddingLeft: 35,
+                          ),
                         if ((cubit.isCheckUser ?? false) ||
                             !(objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.DA_XU_LY))
+                                HoTroKyThuatCubit.DA_HOAN_THANH))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,
@@ -255,9 +242,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
 
   Color statusColor(String status) {
     switch (status) {
-      case HoTroKyThuatCubit.DA_XU_LY:
+      case HoTroKyThuatCubit.DA_HOAN_THANH:
         return daXuLyLuongColor;
-      case HoTroKyThuatCubit.CHO_XU_LY:
       case HoTroKyThuatCubit.CHUA_XU_LY:
         return processingColor;
       case HoTroKyThuatCubit.TU_CHOI_XU_LY:
@@ -271,9 +257,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
 
   String getTextStatus(String status) {
     switch (status) {
-      case HoTroKyThuatCubit.DA_XU_LY:
+      case HoTroKyThuatCubit.DA_HOAN_THANH:
         return S.current.da_xu_ly;
-      case HoTroKyThuatCubit.CHO_XU_LY:
       case HoTroKyThuatCubit.CHUA_XU_LY:
         return S.current.dang_cho_xu_ly;
       case HoTroKyThuatCubit.TU_CHOI_XU_LY:

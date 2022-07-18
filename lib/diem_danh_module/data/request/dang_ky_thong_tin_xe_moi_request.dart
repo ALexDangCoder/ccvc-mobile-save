@@ -4,6 +4,7 @@ class DangKyThongTinXeMoiRequest {
   String? loaiXeMay;
   String? bienKiemSoat;
   String? loaiSoHuu;
+  String? fileId;
 
   DangKyThongTinXeMoiRequest({
     this.id,
@@ -11,6 +12,7 @@ class DangKyThongTinXeMoiRequest {
     this.loaiXeMay,
     this.bienKiemSoat,
     this.loaiSoHuu,
+    this.fileId,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class DangKyThongTinXeMoiRequest {
     data['loaiXeMay'] = loaiXeMay;
     data['bienKiemSoat'] = bienKiemSoat;
     data['loaiSoHuu'] = loaiSoHuu;
+    data['fileId'] = fileId;
     return data;
   }
 }

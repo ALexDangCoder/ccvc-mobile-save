@@ -31,8 +31,8 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
       ),
-      backgroundColor:
-          APP_DEVICE == DeviceType.MOBILE ? backgroundColorApp : bgQLVBTablet,
+      backgroundColor: backGroundColor ??
+          (APP_DEVICE == DeviceType.MOBILE ? backgroundColorApp : bgQLVBTablet),
       bottomOpacity: 0.0,
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
       shadowColor: bgDropDown,

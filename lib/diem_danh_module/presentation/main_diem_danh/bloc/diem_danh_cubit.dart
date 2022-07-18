@@ -57,8 +57,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   String? bienKiemSoat;
   String? loaiSoHuu;
   final toast = FToast();
-  List<File>fileItemBienSoXe=[];
-  BehaviorSubject<dynamic> idPicture = BehaviorSubject.seeded(null);
+  List<File> fileItemBienSoXe = [];
 
   BehaviorSubject<GetAllFilesIdModel> fileBienSoXeSubject = BehaviorSubject();
 
@@ -80,12 +79,17 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   ///Diem danh ca nhan
   DateTime presentTime = DateTime.now();
 
-
   BehaviorSubject<DateTime> textSubject = BehaviorSubject();
+
   Stream<DateTime> get textStream => textSubject.stream;
 
   BehaviorSubject<ThongKeDiemDanhCaNhanModel> thongKeSubject =
       BehaviorSubject();
   BehaviorSubject<List<BangDiemDanhCaNhanModel>> listBangDiemDanh =
       BehaviorSubject<List<BangDiemDanhCaNhanModel>>();
+}
+
+class DiemDanhConstant {
+  static const int THANG_12 = 12;
+  static const int THANG_1 = 1;
 }

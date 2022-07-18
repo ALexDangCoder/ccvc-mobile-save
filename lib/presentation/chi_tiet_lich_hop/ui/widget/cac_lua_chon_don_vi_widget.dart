@@ -127,7 +127,8 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
                 child: GestureDetector(
                   onTap: () {
                     if (widget.controller.text.isNotEmpty) {
-                      widget.cubit.listThemLuaChon.add(widget.controller.text);
+                      final a = widget.controller.text.trim();
+                      widget.cubit.listThemLuaChon.add(a);
                       widget.cubit.themLuaChonBieuQuyet.sink
                           .add(widget.cubit.listThemLuaChon);
                       widget.onchange(widget.cubit.listThemLuaChon);

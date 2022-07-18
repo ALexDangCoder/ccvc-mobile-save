@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
@@ -46,32 +45,39 @@ class SuaBieuQuyetWidget extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
   GlobalKey<FormState> formKeyNoiDung = GlobalKey<FormState>();
   TextEditingController noiDungController = TextEditingController();
-  final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   final keyGroup = GlobalKey<FormGroupState>();
   bool isShow = false;
   bool isShowValidate = false;
   bool isShowValidateDanhSach = false;
   late String timeStart;
+
   late String timeEnd;
+
   String thoiGianHop = '';
 
   @override
   void initState() {
     super.initState();
     widget.cubit.clearData();
-    widget.cubit.date =
-        coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau);
-    timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
-    timeEnd = widget.cubit.getChiTietLichHopModel.timeTo;
-    thoiGianHop =
-        coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau)
-            .split(' ')
-            .first;
     widget.cubit.chiTietBieuQuyet(idBieuQuyet: widget.idBieuQuyet);
     widget.cubit.chiTietBieuQuyetSubject.listen((value) {
       noiDungController.text = value.data?.noiDung ?? '';
       widget.cubit.loaiBieuQ = value.data?.loaiBieuQuyet ?? true;
       widget.cubit.lisLuaChonOld = value.data?.dsLuaChon ?? [];
+
+      widget.cubit.date = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianBatDau ?? '')
+          .formatApiFix;
+      thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianBatDau ?? '')
+          .formatApi;
+
+      timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianBatDau ?? '')
+          .formatTime;
+      timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianKetThuc ?? '')
+          .formatTime;
     });
   }
 
@@ -130,7 +136,6 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                               isShow: snapshot.data ?? true,
                               textShow: S.current.validate_bieu_quyet,
                               child: BaseChooseTimerWidget(
-                                key: _keyBaseTime,
                                 timeBatDau: timeStart.getTimeData(
                                   timeReturnParseFail: TimerData(
                                     hour: DateTime.now().hour,

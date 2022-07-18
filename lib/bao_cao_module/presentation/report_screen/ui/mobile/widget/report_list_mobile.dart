@@ -15,6 +15,7 @@ class ReportListMobile extends StatelessWidget {
   final ReportListCubit cubit;
   final String idFolder;
   final bool isTree;
+  final bool isSearch;
 
   const ReportListMobile({
     Key? key,
@@ -24,6 +25,7 @@ class ReportListMobile extends StatelessWidget {
     required this.cubit,
     required this.idFolder,
     this.isTree = false,
+    this.isSearch = false,
   }) : super(key: key);
 
   @override
@@ -56,6 +58,7 @@ class ReportListMobile extends StatelessWidget {
                           value: listReport?[index] ?? ReportItem(),
                         ),
                         child: ItemGridView(
+                          isSearch: isSearch,
                           item: listReport?[index] ?? ReportItem(),
                           cubit: cubit,
                           idFolder: idFolder,
@@ -81,6 +84,7 @@ class ReportListMobile extends StatelessWidget {
                             value: listReport?[index] ?? ReportItem(),
                           ),
                           child: ItemList(
+                            isSearch: isSearch,
                             idFolder: idFolder,
                             isTree: isTree,
                             item: listReport?[index] ?? ReportItem(),

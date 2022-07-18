@@ -76,13 +76,16 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   void setColorWhenChooseDropDown(int index) {
     List<bool> tmpList = [];
+    //index < 25 mean in range dropdown
     if (index < 25) {
       tmpList = List.filled(25, false)
         ..setAll(
           index,
           [true],
         );
-    } else {
+    }
+    //cause qua han, trong han, den han out of range filter
+    else {
       tmpList = List.filled(25, false);
     }
     listValueDropDownBHVSJ.sink.add(tmpList);

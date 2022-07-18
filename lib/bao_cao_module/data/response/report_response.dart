@@ -125,7 +125,7 @@ class ReportItemsResponse {
         typeTitle: typeTitle,
         level: level,
         isOwner: isOwner,
-        dateTime: createdAt,
+        dateTime: updatedAt ?? createdAt,
         isPin: isPin,
         status: status,
         shareByMe: shareByMe,

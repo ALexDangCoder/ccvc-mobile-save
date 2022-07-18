@@ -103,12 +103,13 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                     spaceH20,
                     CustomRadioSuaBieuQuyet(
                       initValue: widget.cubit.checkLoaiBieuQuyet(
-                        loaiBieuQuyet: dataChiTiet.data?.loaiBieuQuyet ?? true,
+                        loaiBieuQuyet: widget.cubit.loaiBieuQ,
                       ),
                       title: S.current.loai_bieu_quyet,
                       onchange: (value) {
                         widget.cubit.loaiBieuQ = value;
                       },
+                      key: UniqueKey(),
                     ),
                     InputInfoUserWidget(
                       title: S.current.ngay_bieu_quyet,

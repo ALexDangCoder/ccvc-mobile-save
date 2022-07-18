@@ -195,12 +195,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.sua_thanh_cong,
         );
-        callApi(
-          idCuocHop,
-          checkIdPhienHop(
-            phienHopId,
-          ),
-        );
+        callSuaAPiBieuQuyet();
       },
       error: (err) {
         if (err is NoNetworkException || err is TimeoutException) {
@@ -612,6 +607,11 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
   Future<void> callAPiBieuQuyet() async {
     await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
+    await callApi(idCuocHop, '');
+  }
+
+  Future<void> callSuaAPiBieuQuyet() async {
+  //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop, idPhienHop);
   }
 

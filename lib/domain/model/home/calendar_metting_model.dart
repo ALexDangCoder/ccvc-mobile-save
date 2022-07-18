@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 
 const _CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
 const _DANG_THUC_HIEN = 'DANG_THUC_HIEN';
+const _DA_THUC_HIEN = 'DA_THUC_HIEN';
 const _CHO_XAC_NHAN = 0;
 const _THAM_GIA = 1;
 
@@ -73,6 +74,8 @@ class CalendarMeetingModel {
         return DocumentStatus.CHUA_THUC_HIEN;
       case _DANG_THUC_HIEN:
         return DocumentStatus.DANG_THUC_HIEN;
+      case _DA_THUC_HIEN:
+        return DocumentStatus.DA_THUC_HIEN;
     }
     return DocumentStatus.CHO_PHAN_XU_LY;
   }

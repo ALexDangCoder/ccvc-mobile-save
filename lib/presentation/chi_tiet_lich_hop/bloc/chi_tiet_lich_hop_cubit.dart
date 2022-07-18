@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:core';
+
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -45,11 +46,14 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
+import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:rxdart/rxdart.dart';
-
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
@@ -307,5 +311,301 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
         ), () {
       actionNeedDelay();
     });
+  }
+}
+
+///Thanh phan tham gia
+const _THANH_PHAN_THAM_GIA = 0;
+const _DON_VI_PHOI_HOP_KHAC = 1;
+const _THONG_TIN_KHAC_MOI = 2;
+
+class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
+  DetailMeetCalenderCubit? detailMeetCalenderCubit;
+  final Map<int, List<DonViModel>> _data = {};
+  List<String> diemDanhIds = [];
+
+  Future<void> getDanhSachCuocHopTPTH() async {
+    final result = await hopRp.getDanhSachCuocHopTPTH(idCuocHop);
+
+    result.when(
+      success: (success) {
+        thanhPhanThamGia.add(success.listCanBo ?? []);
+        // dataThaGiaDefault = success.listCanBo ?? [];
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> themThanhPhanThamGia() async {
+    final data = convertMoiHopRequest();
+    if (data.isEmpty) {
+      MessageConfig.show(
+          title: S.current.vui_long_chon_can_bo_hoac_don_vi_moi,
+          messState: MessState.error);
+      return;
+    }
+    showLoading();
+    final result =
+        await hopRp.postMoiHop(idCuocHop, false, phuongThucNhan, data);
+    await result.when(
+      success: (res) async {
+        await getDanhSachCuocHopTPTH();
+        showLoading(isShow: false);
+        MessageConfig.show(
+          title: S.current.them_thanh_phan_tham_gia_thanh_cong,
+        );
+        moiHopRequest.clear();
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.them_thanh_phan_tham_gia_that_bai,
+          messState: MessState.error,
+        );
+        showLoading(isShow: false);
+      },
+    );
+  }
+
+  Future<void> danhSachCanBoTPTG({required String id}) async {
+    final result = await hopRp.getDanhSachCanBoTPTG(id);
+    result.when(
+      success: (value) {
+        dataThanhPhanThamGia = value.listCanBo ?? [];
+        thanhPhanThamGia.sink.add(value.listCanBo ?? []);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> postDiemDanh() async {
+    showLoading();
+    final result = await hopRp.postDiemDanh(diemDanhIds);
+
+    await result.when(
+      success: (value) async {
+        diemDanhIds.clear();
+        await getDanhSachCuocHopTPTH();
+        MessageConfig.show(
+          title: S.current.diem_danh_thanh_cong,
+        );
+        showLoading(isShow: false);
+      },
+      error: (error) {
+        showLoading(isShow: false);
+      },
+    );
+  }
+
+  Future<void> postHuyDiemDanh(String id) async {
+    showLoading();
+    final result = await hopRp.postHuyDiemDanh(id);
+    await result.when(
+      success: (value) async {
+        await getDanhSachCuocHopTPTH();
+        MessageConfig.show(
+          title: S.current.xoa_diem_danh_thanh_cong,
+        );
+        showLoading(isShow: false);
+      },
+      error: (error) {
+        showLoading(isShow: false);
+      },
+    );
+  }
+
+  void search(String text) {
+    final searchTxt = text.trim().toLowerCase().vietNameseParse();
+    bool isListCanBo(CanBoModel canBo) {
+      return canBo.tenCanBo!
+          .toLowerCase()
+          .vietNameseParse()
+          .contains(searchTxt);
+    }
+
+    final value =
+        dataThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
+    thanhPhanThamGia.sink.add(value);
+  }
+
+  void checkBoxButton() {
+    checkBoxCheckAllTPTG.sink.add(check);
+  }
+
+  bool checkIsSelected(String id) {
+    bool value = false;
+    if (selectedIds.contains(id)) {
+      value = true;
+    }
+
+    return value;
+  }
+
+  void addOrRemoveId({
+    required bool isSelected,
+    required String id,
+  }) {
+    if (isSelected) {
+      diemDanhIds.add(id);
+    } else {
+      diemDanhIds.remove(id);
+    }
+  }
+
+  void checkAll() {
+    selectedIds.clear();
+    if (check) {
+      selectedIds = dataThanhPhanThamGia
+          .where((element) => element.showCheckBox())
+          .map((e) => e.id ?? '')
+          .toList();
+    }
+    List<CanBoModel> _tempList = [];
+    if (thanhPhanThamGia.hasValue) {
+      _tempList = thanhPhanThamGia.value;
+    } else {
+      _tempList = dataThanhPhanThamGia;
+    }
+    thanhPhanThamGia.sink.add(_tempList);
+  }
+
+  Future<void> callApiThanhPhanThamGia() async {
+    showLoading();
+    diemDanhIds = [];
+    await getDanhSachCuocHopTPTH();
+    await danhSachCanBoTPTG(id: idCuocHop);
+    showLoading(isShow: false);
+
+  }
+
+  void addThanhPhanThamGia(List<DonViModel> value) {
+    _data[_THANH_PHAN_THAM_GIA] = value;
+  }
+
+  void addDonViPhoiHopKhac(List<DonViModel> value) {
+    _data[_DON_VI_PHOI_HOP_KHAC] = value;
+  }
+
+  void addKhacMoi(List<DonViModel> value) {
+    _data[_THONG_TIN_KHAC_MOI] = value;
+  }
+
+  List<MoiHopRequest> convertMoiHopRequest() {
+    final data = <MoiHopRequest>[];
+    data.addAll(_coverDataThanhPhanThamGia());
+    data.addAll(
+      _data[_DON_VI_PHOI_HOP_KHAC]?.map(
+            (a) => MoiHopRequest(
+              DauMoiLienHe: a.dauMoiLienHe,
+              Email: a.email,
+              GhiChu: a.noidung,
+              SoDienThoai: a.sdt,
+              TenCoQuan: a.tenCoQuan,
+              VaiTroThamGia: a.vaiTroThamGia,
+              dauMoi: a.dauMoiLienHe,
+              email: a.email,
+              noiDungLamViec: a.noidung,
+              soDienThoai: a.sdt,
+              tenCanBo: '',
+              tenDonVi: a.tenDonVi,
+            ),
+          ) ??
+          [],
+    );
+    data.addAll(
+      _data[_THONG_TIN_KHAC_MOI]?.map(
+            (a) => MoiHopRequest(
+              DauMoiLienHe: a.dauMoiLienHe,
+              Email: a.email,
+              GhiChu: a.noidung,
+              SoDienThoai: a.sdt,
+              TenCoQuan: a.tenCoQuan,
+              VaiTroThamGia: a.vaiTroThamGia,
+              dauMoi: a.dauMoiLienHe,
+              email: a.email,
+              noiDungLamViec: a.noidung,
+              soDienThoai: a.sdt,
+              tenCanBo: '',
+              tenDonVi: a.tenDonVi,
+            ),
+          ) ??
+          [],
+    );
+    data.addAll(
+      _data[_THONG_TIN_KHAC_MOI]?.map(
+            (a) => MoiHopRequest(
+              DauMoiLienHe: a.dauMoiLienHe,
+              Email: a.email,
+              GhiChu: a.noidung,
+              SoDienThoai: a.sdt,
+              id: null,
+              TenCoQuan: a.tenCoQuan,
+              VaiTroThamGia: a.vaiTroThamGia,
+              dauMoi: a.dauMoiLienHe,
+              email: a.email,
+              noiDungLamViec: a.noidung,
+              soDienThoai: a.sdt,
+              tenCanBo: a.tenCanBo,
+              tenDonVi: a.tenDonVi,
+            ),
+          ) ??
+          [],
+    );
+    return data;
+  }
+
+  List<MoiHopRequest> _coverDataThanhPhanThamGia() {
+    return _data[_THANH_PHAN_THAM_GIA]
+            ?.map(
+              (e) => e.userId.isNotEmpty
+                  ? MoiHopRequest(
+                      VaiTroThamGia: e.vaiTroThamGia,
+                      tenDonVi: e.tenDonVi,
+                      hoTen: e.tenCanBo,
+                      status: e.status,
+                      type: e.type,
+                      userId: e.userId,
+                      CanBoId: e.userId,
+                      donViId: e.donViId,
+                      DonViId: e.donViId,
+                      chucVu: e.chucVu,
+                      GhiChu: e.noidung,
+                    )
+                  : MoiHopRequest(
+                      VaiTroThamGia: e.vaiTroThamGia,
+                      tenDonVi: e.name,
+                      status: e.status,
+                      type: e.type,
+                      donViId: e.donViId,
+                      DonViId: e.donViId,
+                      GhiChu: e.noidung,
+                    ),
+            )
+            .toList() ??
+        <MoiHopRequest>[];
+  }
+
+  void dispose() {
+    _data.clear();
+  }
+  void showLoading({bool isShow = true}){
+    void show(){
+      if(isMobile()){
+        ShowLoadingScreen.show();
+      }else{
+        detailMeetCalenderCubit?.showLoading();
+      }
+    }
+    void dismiss(){
+      if(isMobile()){
+        ShowLoadingScreen.dismiss();
+      }else{
+        detailMeetCalenderCubit?.showContent();
+      }
+    }
+    if(isShow){
+     show();
+    }else{
+      dismiss();
+    }
   }
 }

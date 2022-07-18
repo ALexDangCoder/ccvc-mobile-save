@@ -316,6 +316,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                           .then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {
                           MessageConfig.show(title: value);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         } else {
                           MessageConfig.show(
                             title: value,
@@ -350,6 +352,8 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                           .then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {
                           MessageConfig.show(title: value);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         } else {
                           MessageConfig.show(
                             title: value,

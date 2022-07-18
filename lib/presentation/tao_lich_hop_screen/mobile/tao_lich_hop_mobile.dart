@@ -348,6 +348,13 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
         );
         return;
       }
+      if(_cubit.isOverFileLength){
+        MessageConfig.show(
+          messState: MessState.error,
+          title: '${S.current.tong_file_khong_vuot_qua} 30MB',
+        );
+        return;
+      }
       _cubit.checkLichTrung(
         donViId: _cubit.taoLichHopRequest.chuTri?.donViId ?? '',
         canBoId: _cubit.taoLichHopRequest.chuTri?.canBoId ?? '',

@@ -413,10 +413,19 @@ class StatusOfficersConst {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_30MB = 30000000;
+  static const MAX_SIZE_30MB = 31457280;
 }
 
 class TypeTaskYKien {
   static const int XinYKien = 1;
   static const int ChoYKien = 2;
+}
+
+class FileExtensions {
+  static const String DOC = 'doc';
+  static const String DOCX = 'docx';
+  static const String PDF = 'pdf';
+  static const String PNG = 'png';
+  static const String JPEG = 'jpeg';
+  static const String JPG = 'jpg';
 }

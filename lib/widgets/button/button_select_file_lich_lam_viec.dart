@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/file_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:file_picker/file_picker.dart';
@@ -31,6 +32,8 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
   final bool hasMultipleFile;
   final bool isShowFile;
   final double? maxSize;
+  final List<String>? allowedExtensions;
+  List<File>? initFileSystem;
 
   ButtonSelectFileLichLamViec({
     Key? key,
@@ -47,6 +50,8 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
     this.hasMultipleFile = false,
     this.isShowFile = true,
     this.maxSize,
+    this.allowedExtensions,
+    this.initFileSystem,
   }) : super(key: key);
 
   @override
@@ -72,6 +77,9 @@ class _ButtonSelectFileLichLamViecState
           ),
         )
         .toList();
+    selectFiles.addAll(
+      widget.initFileSystem?.map((e) => e.convertToFiles()).toList() ?? [],
+    );
   }
 
   bool isFileError(List<String?> files) {
@@ -109,7 +117,11 @@ class _ButtonSelectFileLichLamViecState
           onTap: () async {
             final FilePickerResult? result =
                 await FilePicker.platform.pickFiles(
-              allowMultiple: true,
+                  allowMultiple: true,
+              allowedExtensions: widget.allowedExtensions,
+              type: (widget.allowedExtensions ?? []).isNotEmpty
+                  ? FileType.custom
+                  : FileType.any,
             );
             if (result != null) {
               if (!isFileError(result.paths)) {

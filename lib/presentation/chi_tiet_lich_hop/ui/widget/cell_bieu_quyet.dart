@@ -100,15 +100,18 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   spaceW20,
                   Expanded(
                     flex: 6,
-                    child: Text(
-                      ' ${widget.infoModel.noiDung}',
-                      style: textNormalCustom(
-                        fontSize: 16,
-                        color: infoColor,
-                        fontWeight: FontWeight.w400,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 50),
+                      child: Text(
+                        '${widget.infoModel.noiDung}',
+                        style: textNormalCustom(
+                          fontSize: 16,
+                          color: infoColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -133,7 +136,8 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     child: Text(
                       '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')}'
                       ' - '
-                      '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}',
+                      '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}'
+                      ,
                       style: textNormalCustom(
                         fontSize: 16,
                         color: infoColor,
@@ -533,7 +537,7 @@ class ContainerUnColor extends StatelessWidget {
             child: Text(
               name,
               style: textNormalCustom(
-                color: backgroundColorApp,
+                color: AppTheme.getInstance().colorField(),
                 fontSize: 14.0.textScale(),
                 fontWeight: FontWeight.w500,
               ),

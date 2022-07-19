@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/extension_status.dart';
 import 'package:flutter/cupertino.dart';
 
-enum TrangThaiNhiemVu { ChoPhanXuLy, DangThucHien, DaThucHien }
+enum TrangThaiNhiemVu { ChoPhanXuLy, ChuaThucHien, DangThucHien, DaThucHien }
 
 class DanhSachNhiemVuLichHopModel {
   String id;
@@ -30,6 +30,9 @@ extension trangThai on TrangThaiNhiemVu {
     switch (this) {
       case TrangThaiNhiemVu.ChoPhanXuLy:
         return status(S.current.cho_phan_xu_ly, processingColor);
+
+      case TrangThaiNhiemVu.ChuaThucHien:
+        return status(S.current.chua_thuc_hien, sideBtnUnselected);
 
       case TrangThaiNhiemVu.DangThucHien:
         return status(S.current.dang_thuc_hien, colorPrimary);

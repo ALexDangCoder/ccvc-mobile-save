@@ -60,12 +60,11 @@ class ThongTinXeMoiResponse {
   Map<String, dynamic> toJson() => _$ThongTinXeMoiResponseToJson(this);
 
   ChiTietBienSoXeModel toModel() => ChiTietBienSoXeModel(
-    id: id,
-    userId: userId,
-    loaiXeMay: loaiXeMay,
-    bienKiemSoat: bienKiemSoat,
-    loaiSoHuu: loaiSoHuu,
-    fileId: fileId,
-  );
+        id: id,
+        userId: userId,
+        loaiXeMay: loaiXeMay,
+        bienKiemSoat: bienKiemSoat,
+        loaiSoHuu: loaiSoHuu,
+        fileId: fileId,
+      );
 }
-

@@ -63,7 +63,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                         return;
                       }
                       if (value) {
-                        widget.cubit.callApi(widget.cubit.idCuocHop, '');
+                        widget.cubit.callSuaAPiBieuQuyet();
                       }
                     });
                   },

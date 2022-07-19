@@ -60,11 +60,11 @@ class CapNhatBienSoXeResponse {
   Map<String, dynamic> toJson() => _$CapNhatBienSoXeResponseToJson(this);
 
   ChiTietBienSoXeModel toModel() => ChiTietBienSoXeModel(
-    id: id,
-    userId: userId,
-    loaiXeMay: loaiXeMay,
-    bienKiemSoat: bienKiemSoat,
-    loaiSoHuu: loaiSoHuu,
-    fileId: fileId,
-  );
+        id: id,
+        userId: userId,
+        loaiXeMay: loaiXeMay,
+        bienKiemSoat: bienKiemSoat,
+        loaiSoHuu: loaiSoHuu,
+        fileId: fileId,
+      );
 }

@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/them_y_kien
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -251,14 +252,12 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                             final listCuocHop =
                                 data.map((e) => e.tieuDe ?? '').toSet().toList();
                             if (listCuocHop.isEmpty) {
-                              return CustomDropDown(
-                                value: S.current.khong_co_du_lieu,
-                                items: [S.current.khong_co_du_lieu],
-                                onSelectItem: (value) {
-                                  widget.cubit.getDanhSachPhienHop(
-                                    widget.cubit.idCuocHop,
-                                  );
-                                },
+                              return CoolDropDown(
+                                onChange: (_) {},
+                                listData: const [],
+                                initData: '',
+                                placeHoder: S.current.chon_phien_hop,
+                                useCustomHintColors: true,
                               );
                             }
                             return CustomDropDown(

@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/diem_danh_module/data/request/bang_diem_danh_ca_nhan
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/create_image_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
-import 'package:ccvc_mobile/diem_danh_module/data/request/danh_sach_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/get_all_files_id_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/response/bang_diem_danh_ca_nhan_response.dart';
@@ -45,9 +44,11 @@ abstract class DiemDanhService {
     @Path('id') String id,
   );
 
-  @POST(ApiConstants.DANH_SACH_BIEN_SO_XE)
+  @GET(ApiConstants.DANH_SACH_BIEN_SO_XE)
   Future<DataListItemChiTietBienSoXeModelResponse> danhSachBienSoXe(
-    @Body() DanhSachBienSoXeRequest danhSachBienSoXeRequest,
+      @Query('userId') String userId,
+      @Query('pageIndex') int  pageIndex,
+      @Query('pageSize') int  pageSize,
   );
 
   @POST(ApiConstants.POST_FILE)

@@ -122,35 +122,53 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
 class FileFromAPIWidget extends StatelessWidget {
   final Function onTapDelete;
   final String data;
+  final String? lengthFile;
   final bool canDelete;
+  const FileFromAPIWidget(
+      {Key? key,
+      required this.onTapDelete,
+      required this.data,
+      this.lengthFile,
+        this.canDelete = true,})
+      : super(key: key);
 
-  const FileFromAPIWidget({
-    Key? key,
-    required this.onTapDelete,
-    required this.data,
-    this.canDelete = true,
-  }) : super(key: key);
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(top: 5.0.textScale()),
+      padding: EdgeInsets.all(16.0.textScale()),
       decoration: BoxDecoration(
-        color: bgDropDown.withOpacity(0.1),
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
+        borderRadius: BorderRadius.circular(6.0.textScale()),
         border: Border.all(color: bgDropDown),
       ),
+      alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Text(
-              data,
-              style: textNormalCustom(
-                color: choXuLyColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.textScale(),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  data,
+                  style: textNormalCustom(
+                    color: color5A8DEE,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0.textScale(),
+                  ),
+                ),
+                Visibility(
+                  visible: lengthFile != null,
+                  child: Text(
+                    '$lengthFile',
+                    style: textNormal(redChart, 14),
+                  ),
+                ),
+              ],
             ),
           ),
           if (canDelete)

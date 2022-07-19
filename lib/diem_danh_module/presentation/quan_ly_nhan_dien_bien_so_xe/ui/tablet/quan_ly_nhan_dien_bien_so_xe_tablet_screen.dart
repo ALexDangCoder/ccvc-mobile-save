@@ -39,7 +39,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
     extends State<QuanLyNhanDienBienSoXeTabletScreen> {
   @override
   void initState() {
-    widget.cubit.postDanhSachBienSoXe();
+    widget.cubit.getDanhSachBienSoXe();
     super.initState();
   }
 
@@ -93,7 +93,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                               ),
                               body: RefreshIndicator(
                                 onRefresh: () async {
-                                  await widget.cubit.postDanhSachBienSoXe();
+                                  await widget.cubit.getDanhSachBienSoXe();
                                 },
                                 child: SingleChildScrollView(
                                   child: Padding(
@@ -183,7 +183,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                                   ).then((value) {
                                                     if (value == true) {
                                                       widget.cubit
-                                                          .postDanhSachBienSoXe();
+                                                          .getDanhSachBienSoXe();
                                                     }
                                                   });
                                                 },
@@ -207,7 +207,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                                                   '')
                                                           .then((value) {
                                                         widget.cubit
-                                                            .postDanhSachBienSoXe();
+                                                            .getDanhSachBienSoXe();
                                                       });
                                                     },
                                                     showTablet: true,
@@ -236,7 +236,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                     ),
                                   ).then((value) {
                                     if (value == true) {
-                                      widget.cubit.postDanhSachBienSoXe();
+                                      widget.cubit.getDanhSachBienSoXe();
                                     }
                                   });
                                 },

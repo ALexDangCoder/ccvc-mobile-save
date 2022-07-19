@@ -157,7 +157,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<DanhSachLoaiNhiemVuLichHopModel> danhSachLoaiNhiemVuLichHopModel = [];
 
   BehaviorSubject<List<VBGiaoNhiemVuModel>> listVBGiaoNhiemVu =
-      BehaviorSubject<List<VBGiaoNhiemVuModel>>();
+      BehaviorSubject.seeded([]);
 
   BehaviorSubject<bool> checkTuyChinh = BehaviorSubject();
 

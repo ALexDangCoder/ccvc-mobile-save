@@ -1,8 +1,7 @@
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/qlvb_mobile_screen.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/thong_ke_qlvb.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/report_statistical.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,8 +32,8 @@ class _MainMenuQlVBMobileState extends State<MainMenuQlVBMobile> {
             qlvbCubit: cubit,
           );
         } else {
-          return ThongKeQlVB(
-            qlvbCubit: cubit,
+          return ReportStatical(
+            cubit: cubit,
           );
         }
       },

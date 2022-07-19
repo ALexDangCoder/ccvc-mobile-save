@@ -34,7 +34,7 @@ Future<void> mainApp() async {
 
   await FirebaseConfig.setForegroundNotificationPresentationOptions();
   await FirebaseConfig.onBackgroundMessage();
-
+  FirebaseConfig.setupInteractedNotify();
   final appDocumentDirectory =
   await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
@@ -61,7 +61,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   @override
   void initState() {

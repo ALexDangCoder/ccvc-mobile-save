@@ -105,7 +105,6 @@ class _CreateOrUpdateKetLuanHopWidgetState
                       title1: S.current.dong,
                       title2: S.current.xac_nhan,
                       onClickLeft: () {
-                        widget.cubit.noiDung.add('');
                         Navigator.pop(context);
                       },
                       onClickRight: () {

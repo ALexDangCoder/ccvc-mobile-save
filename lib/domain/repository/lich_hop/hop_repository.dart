@@ -213,12 +213,12 @@ mixin HopRepository {
   Future<Result<ChuongTrinhHopModel>> getDanhSachCanBoTPTG(String id);
 
   Future<Result<MessageModel>> suaKetLuan(
-    String scheduleId,
-    String content,
-    String reportStatusId,
-    String reportTemplateId,
-    List<File>? files,
-  );
+      String scheduleId,
+      String content,
+      String reportStatusId,
+      String reportTemplateId,
+      List<File>? files,
+      List<String> fileDelete);
 
   Future<Result<GuiMailKetLuatHopModel>> sendMailKetLuanHop(String id);
 

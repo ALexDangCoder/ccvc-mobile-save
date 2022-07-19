@@ -10,10 +10,11 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_b
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class DangKyPhatBieuWidget extends StatefulWidget {
@@ -34,6 +35,8 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   final TaoBieuQuyetRequest taoBieuQuyetRequest = TaoBieuQuyetRequest();
   final userName = HiveLocal.getDataUser()?.userInformation?.hoTen ?? '';
   final unitName = HiveLocal.getDataUser()?.userInformation?.donVi ?? '';
+  String phienHopErrorText = '';
+  String valueDropDownSelected = '';
   final timeController = TextEditingController();
   String errorText = '';
 
@@ -43,6 +46,18 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     taoBieuQuyetRequest.lichHopId = widget.id;
     taoBieuQuyetRequest.unitName = unitName;
     taoBieuQuyetRequest.personName = userName;
+  }
+
+  void validatePhienHop() {
+    final chonPhienHop = (taoBieuQuyetRequest.phienHopId ?? '').isEmpty;
+    setState(() {
+      phienHopErrorText = chonPhienHop ? S.current.vui_long_chon_phien_hop : '';
+    });
+  }
+
+  void validateForm (String value){
+    validatePhienHop();
+    validate(value);
   }
 
   void validate(String value) {
@@ -70,8 +85,8 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
             Navigator.pop(context);
           },
           onClickRight: () {
-            validate(timeController.text);
-            if (errorText.isEmpty) {
+            validateForm(timeController.text);
+            if (errorText.isEmpty && phienHopErrorText.isEmpty) {
               widget.cubit.taoPhatBieu(taoBieuQuyetRequest);
               Navigator.pop(context);
             }
@@ -97,18 +112,26 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
               stream: widget.cubit.danhSachChuongTrinhHop,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
-                return CustomDropDown(
-                  items: [
-                    ...data.map((e) => e.tieuDe ?? '').toList(),
-                    S.current.tat_ca,
-                  ],
-                  onSelectItem: (value) {
+                final newListSelect =
+                data.map((e) => e.tieuDe ?? '').toList();
+                return CoolDropDown(
+                  key: UniqueKey(),
+                  useCustomHintColors: true,
+                  placeHoder: S.current.chon_phien_hop,
+                  listData: newListSelect,
+                  initData: valueDropDownSelected,
+                  onChange: (value) {
                     taoBieuQuyetRequest.phienHopId = data[value].id;
+                    valueDropDownSelected  = data[value].tieuDe ?? '';
                   },
-                  value: S.current.tat_ca,
                 );
               },
             ),
+            if (phienHopErrorText.isNotEmpty)
+              Text(
+                phienHopErrorText,
+                style: const TextStyle(fontSize: 12, color: canceledColor),
+              ),
             InputInfoUserWidget(
               isObligatory: true,
               title: S.current.thoi_gian_phat_bieu,
@@ -161,9 +184,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 taoBieuQuyetRequest.content = value;
               },
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            spaceH24,
           ],
         ),
       ),

@@ -25,6 +25,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -40,6 +41,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
@@ -54,12 +56,14 @@ import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
   /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
   /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
+  KetLuanHopState ketLuanHopState= KetLuanHopState();
   String ngayBatDaus = '';
   String ngayKetThucs = '';
   bool check = false;
@@ -137,6 +141,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<CanBoThamGiaStr> scheduleCoperatives = [];
 
+  List<String> fileDeleteKetLuanHop = [];
+  List<File> fileSelectKetLuanHop = [];
   BehaviorSubject<List<StatusKetLuanHopModel>> dataTinhTrangKetLuanHop =
       BehaviorSubject.seeded([]);
   BehaviorSubject<ChonBienBanCuocHopModel> dataMauBienBan = BehaviorSubject();
@@ -312,6 +318,19 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       actionNeedDelay();
     });
   }
+}
+class KetLuanHopState {
+  final BehaviorSubject<List<FileDetailMeetModel>> listFileDefault =
+  BehaviorSubject();
+  final BehaviorSubject<List<File>> listFileSelect =
+  BehaviorSubject();
+
+  String valueEdit = '';
+  String reportStatusId = '';
+  String reportTemplateId = '';
+  List<File> listFiles = [];
+  List<FileDetailMeetModel> filesApi = [];
+  List<String> fileDelete = [];
 }
 
 ///Thanh phan tham gia

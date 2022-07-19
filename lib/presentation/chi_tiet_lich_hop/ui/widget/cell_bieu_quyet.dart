@@ -132,8 +132,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     child: Text(
                       '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')}'
                       ' - '
-                      '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}'
-                      ,
+                      '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}',
                       style: textNormalCustom(
                         fontSize: 16,
                         color: infoColor,
@@ -389,8 +388,8 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                       cubit: widget.cubit,
                                                       luaChonId: widget
                                                               .infoModel
-                                                              .danhSachKetQuaBieuQuyet
-                                                      ?[index]
+                                                              .danhSachKetQuaBieuQuyet?[
+                                                                  index]
                                                               .luaChonId ??
                                                           '',
                                                       bieuQuyetId:
@@ -487,4 +486,3 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
     );
   }
 }
-

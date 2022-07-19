@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -47,6 +46,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
@@ -54,7 +54,6 @@ import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
@@ -344,8 +343,9 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     final data = convertMoiHopRequest();
     if (data.isEmpty) {
       MessageConfig.show(
-          title: S.current.vui_long_chon_can_bo_hoac_don_vi_moi,
-          messState: MessState.error);
+        title: S.current.vui_long_chon_can_bo_hoac_don_vi_moi,
+        messState: MessState.error,
+      );
       return;
     }
     showLoading();
@@ -424,7 +424,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   static const int INDEX_FILTER_XL_CHO_CHO_Y_KIEN = 19;
   static const int INDEX_FILTER_XL_DA_CHO_Y_KIEN = 20;
   static const int INDEX_FILTER_XL_THU_HOI = 21;
-  static const int INDEX_FILTER_XL_TRA_LAI =  22;
+  static const int INDEX_FILTER_XL_TRA_LAI = 22;
   static const int INDEX_FILTER_XL_CHUYEN_XU_LY = 23;
   static const int INDEX_FILTER_TC_CHO_DUYET = 24;
   static const int INDEX_FILTER_OUT_RANGE = 25;

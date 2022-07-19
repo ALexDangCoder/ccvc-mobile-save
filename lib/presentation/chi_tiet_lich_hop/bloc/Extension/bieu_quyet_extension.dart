@@ -629,7 +629,6 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   Future<void> callSuaAPiBieuQuyet() async {
-    //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop, idPhienHop);
   }
 

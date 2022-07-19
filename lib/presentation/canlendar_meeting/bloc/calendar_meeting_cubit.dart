@@ -343,6 +343,10 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     required DateTime startDate,
     required DateTime endDate,
   }) async {
+    if(state is ChartViewState){
+      _listNgayCoLich.sink.add([]);
+      return;
+    }
     final result = await hopRepo.postEventCalendar(
       EventCalendarRequest(
         Title: keySearch,

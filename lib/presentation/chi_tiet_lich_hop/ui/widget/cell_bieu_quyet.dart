@@ -136,8 +136,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     child: Text(
                       '${coverDateTime(widget.infoModel.thoiGianBatDau ?? '')}'
                       ' - '
-                      '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}'
-                      ,
+                      '${coverDateTime(widget.infoModel.thoiGianKetThuc ?? '')}',
                       style: textNormalCustom(
                         fontSize: 16,
                         color: infoColor,
@@ -275,7 +274,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? CanBoModel();
                           return data.diemDanh == true &&
-                                  data.trangThai == 1 &&
+                                  data.trangThai == KEY_TRANG_THAI &&
                                   widget.cubit.compareTime(
                                     widget.infoModel.thoiGianKetThuc ?? '',
                                   )

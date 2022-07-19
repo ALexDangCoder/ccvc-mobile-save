@@ -30,12 +30,6 @@ class DropDownWidget extends StatefulWidget {
 
 class _DropDownWidgetState extends State<DropDownWidget> {
   String? valueChoose;
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    log('${widget.listData}');
-  }
   @override
   Widget build(BuildContext context) {
     return Column(

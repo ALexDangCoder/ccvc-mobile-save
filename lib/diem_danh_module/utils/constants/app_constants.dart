@@ -294,13 +294,12 @@ class StatusCodeConst {
   static int STATUS_GATEWAY_TIMEOUT = 504;
   static int STATUS_HTTP_VERSION_NOT_SUPPORTED = 505;
 }
-const Color shadow =Color.fromRGBO(0, 0, 0, 0.05);
+
+const Color shadow = Color.fromRGBO(0, 0, 0, 0.05);
 
 class DanhSachBienSoXeConst {
   static const String XE_MAY = 'XE_MAY';
   static const String O_TO = 'O_TO';
   static const String XE_CAN_BO = 'XE_CAN_BO';
   static const String XE_LANH_DAO = 'XE_LANH_DAO';
-  static const int PAGE_INDEX = 1;
-  static const int PAGE_SIZE = 10;
 }

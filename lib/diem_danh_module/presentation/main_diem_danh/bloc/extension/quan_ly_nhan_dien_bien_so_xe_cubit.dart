@@ -17,8 +17,8 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     showLoading();
     final result = await diemDanhRepo.danhSachBienSoXe(
         HiveLocal.getDataUser()?.userId ?? '',
-        DanhSachBienSoXeConst.PAGE_INDEX,
-        DanhSachBienSoXeConst.PAGE_SIZE);
+        ApiConstants.PAGE_BEGIN,
+        ApiConstants.DEFAULT_PAGE_SIZE);
     result.when(
       success: (res) {
         if (res.items?.isEmpty == true) {

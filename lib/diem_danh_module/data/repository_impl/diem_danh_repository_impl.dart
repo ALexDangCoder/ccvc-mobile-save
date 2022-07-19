@@ -64,13 +64,13 @@ class DiemDanhRepoImpl implements DiemDanhRepository {
 
   @override
   Future<Result<ListItemChiTietBienSoXeModel>> danhSachBienSoXe(
-      String userId,
-      int  pageIndex,
-      int  pageSize,
+    String userId,
+    int pageIndex,
+    int pageSize,
   ) {
     return runCatchingAsync<DataListItemChiTietBienSoXeModelResponse,
         ListItemChiTietBienSoXeModel>(
-      () => _diemDanhService.danhSachBienSoXe(userId,pageIndex,pageSize),
+      () => _diemDanhService.danhSachBienSoXe(userId, pageIndex, pageSize),
       (response) => response.data?.toModel() ?? ListItemChiTietBienSoXeModel(),
     );
   }

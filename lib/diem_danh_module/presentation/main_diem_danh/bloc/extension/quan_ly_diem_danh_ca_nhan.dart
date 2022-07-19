@@ -14,7 +14,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
   Future<void> getDataDayWage({required DateTime dateTime}) async {
-    currentTime = dateTime;
+    currentTime = DateTime (dateTime.year, dateTime.month);
     final Queue queue = Queue(parallel: 2);
     showLoading();
     unawaited(queue.add(() => postDiemDanhThongKe(dateTime)));

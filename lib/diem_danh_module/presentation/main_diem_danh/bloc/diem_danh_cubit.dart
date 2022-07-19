@@ -20,7 +20,7 @@ import 'package:rxdart/subjects.dart';
 
 class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   DiemDanhCubit() : super(const DiemDanhStateIntial());
-  late DateTime currentTime;
+   DateTime currentTime = DateTime.now();
   int countRequest = 0;
 
   DiemDanhRepository get diemDanhRepo => Get.find();
@@ -40,15 +40,15 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
   /// nhan dien khuon mat
   String idImg = '';
-  BehaviorSubject<GetAllFilesIdModel> allFileDeokinhSubject = BehaviorSubject();
+  BehaviorSubject<List<GetAllFilesIdModel>> allFileDeokinhSubject = BehaviorSubject();
 
-  Stream<GetAllFilesIdModel> get allFileDeokinhStream =>
+  Stream<List<GetAllFilesIdModel>> get allFileDeokinhStream =>
       allFileDeokinhSubject.stream;
 
-  BehaviorSubject<GetAllFilesIdModel> allFileKhongDeokinhSubject =
+  BehaviorSubject<List<GetAllFilesIdModel>> allFileKhongDeokinhSubject =
       BehaviorSubject();
 
-  Stream<GetAllFilesIdModel> get allFileKhongDeokinhStream =>
+  Stream<List<GetAllFilesIdModel>> get allFileKhongDeokinhStream =>
       allFileKhongDeokinhSubject.stream;
 
   BehaviorSubject<GetAllFilesIdModel> getOnlyFileDataSubject =

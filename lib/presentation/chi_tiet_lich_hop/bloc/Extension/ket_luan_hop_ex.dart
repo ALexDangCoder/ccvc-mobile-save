@@ -254,7 +254,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
   Future<void> themNhiemVu(ThemNhiemVuRequest themNhiemVuRequest) async {
     showLoading();
-    for (final value in listVBGiaoNhiemVu.value) {
+    for (final value in listVBGiaoNhiemVu.valueOrNull ?? []) {
       themNhiemVuRequest.danhSachVanBan?.add(
         DanhSachVanBanRequest(
           hinhThucVanBan: value.hinhThucVanBan,

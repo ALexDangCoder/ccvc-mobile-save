@@ -61,8 +61,8 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
 
   Future<void> dangKyThongTinXeMoi(
       {required String bienKiemSoat,
-      required String fileId,
-      required BuildContext context}) async {
+        required String fileId,
+        required BuildContext context}) async {
     final dangKyThongTinXeMoiRequest = DangKyThongTinXeMoiRequest(
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
       userId: HiveLocal.getDataUser()?.userId ?? '',
@@ -72,7 +72,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     );
     showLoading();
     final result =
-        await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
+    await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
         showContent();
@@ -101,9 +101,9 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   ///update number plate, driver license
   Future<void> capNhatBienSoxe(
       {required String bienKiemSoat,
-      required String id,
-      required String fileId,
-      required BuildContext context}) async {
+        required String id,
+        required String fileId,
+        required BuildContext context}) async {
     final capNhatBienSoXeRequest = CapNhatBienSoXeRequest(
       id: id,
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
@@ -154,10 +154,10 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   /// post image select
   Future<String> postImageResgiter(
       {required bool isTao,
-      required String bienKiemSoat,
-      String? id,
-      String? fileId,
-      required BuildContext context}) async {
+        required String bienKiemSoat,
+        String? id,
+        String? fileId,
+        required BuildContext context}) async {
     final result = await diemDanhRepo.postFileModel(
       '',
       ApiConstants.BIEN_SO_XE_TYPE,

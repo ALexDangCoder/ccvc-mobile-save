@@ -37,7 +37,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
             controller: widget.controller,
             headerHeight: 0.0,
             dataSource:
-                DataSource(source: widget.cubit.toDataFCalenderSource()),
+            DataSource(source: widget.cubit.toDataFCalenderSource()),
             view: CalendarView.month,
             todayHighlightColor: color7966FF,
             appointmentTimeTextFormat: 'hh:mm:ss a',

@@ -53,6 +53,7 @@ class _CoolDropDownState extends State<CoolDropDown> {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
 
+    listSelect.clear();
     for (var i = 0; i < widget.listData.length; i++) {
       listSelect.add({
         'label': widget.listData[i],

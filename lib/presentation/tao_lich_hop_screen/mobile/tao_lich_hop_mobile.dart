@@ -76,6 +76,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.symmetric(horizontal: 16),
+            controller: _scrollController,
             child: FormGroup(
               key: _formKey,
               scrollController: _scrollController,
@@ -345,6 +346,13 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
         MessageConfig.show(
           messState: MessState.error,
           title: S.current.validate_thoi_gian_phien_hop,
+        );
+        return;
+      }
+      if(_cubit.isOverFileLength){
+        MessageConfig.show(
+          messState: MessState.error,
+          title: '${S.current.tong_file_khong_vuot_qua} 30MB',
         );
         return;
       }

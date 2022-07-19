@@ -79,7 +79,8 @@ enum DocumentStatus {
   BINH_THUONG,
   THUONG_KHAN,
   CHUA_THUC_HIEN,
-  DANG_THUC_HIEN
+  DANG_THUC_HIEN,
+  DA_THUC_HIEN
 }
 enum PageTransitionType {
   FADE,
@@ -138,6 +139,8 @@ extension GetTypeByName on PickerType {
           'docx',
           'xls',
           'xlsx',
+          'png',
+          'heic',
         ];
     }
   }
@@ -208,6 +211,16 @@ const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
 const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
 const _dtFormat18 = 'MM/dd/yyyy HH:mm';
 const _dtFormat19 = 'yyyy-MM-ddTHH:mm:ss';
+const _dtFormat20 = 'yyyy/MM/dd HH:mm:ss';
+const _dtFormat21 = 'yyyy-MM-ddTHH:mm';
+const _dtFormat22 = 'yyyy/MM/dd HH:mm';
+const _dtFormat23 = 'HH:mm dd/MM/yyyy ';
+const _dtFormat24 = 'HH:mm';
+const _dtFormat25 = 'HH:mm:ss';
+const _dtFormat26 = 'yyyy/MM/dd 00:00:00';
+const _dtFormat27 = 'yyyy-MM-dd 00:00:00';
+const _dtFormat28 = 'yyyy/MM/dd 23:59:59';
+const _dtFormat29 = 'dd-MM';
 const START_TIME = '8:00';
 const END_TIME = '18:00';
 const INIT_TIME_PICK = 'hh:mm';
@@ -244,6 +257,16 @@ class DateTimeFormat {
   static const DATE_TIME_BE_API_END = _dtFormat17;
   static const DATE_TIME_HM = _dtFormat18;
   static const DATE_TIME_HHT = _dtFormat19;
+  static const DATE_TIME_20 = _dtFormat20;
+  static const DATE_TIME_21 = _dtFormat21;
+  static const DATE_TIME_22 = _dtFormat22;
+  static const DATE_TIME_23 = _dtFormat23;
+  static const DATE_TIME_24 = _dtFormat24;
+  static const DATE_TIME_25 = _dtFormat25;
+  static const DATE_TIME_26 = _dtFormat26;
+  static const DATE_TIME_27 = _dtFormat27;
+  static const DATE_TIME_28 = _dtFormat28;
+  static const DATE_TIME_29 = _dtFormat29;
 }
 
 class ThongBaoTypeConstant {
@@ -412,10 +435,19 @@ class StatusOfficersConst {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_30MB = 30000000;
+  static const MAX_SIZE_30MB = 31457280;
 }
 
 class TypeTaskYKien {
   static const int XinYKien = 1;
   static const int ChoYKien = 2;
+}
+
+class FileExtensions {
+  static const String DOC = 'doc';
+  static const String DOCX = 'docx';
+  static const String PDF = 'pdf';
+  static const String PNG = 'png';
+  static const String JPEG = 'jpeg';
+  static const String JPG = 'jpg';
 }

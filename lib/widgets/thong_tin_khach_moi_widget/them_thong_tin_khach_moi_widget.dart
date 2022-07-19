@@ -192,7 +192,6 @@ final scroll = ScrollController();
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
-                    id: '',
                     name: _hoTenController.text,
                     tenDonVi: _tenDonViController.text,
                     noidung: _noiDungLamViecController.text,
@@ -230,7 +229,9 @@ final scroll = ScrollController();
                           controller: _hoTenController,
                           hintText: S.current.ho_va_ten,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.ho_va_ten.toLowerCase(),
+                            );
                           },
                         ),
                       ),
@@ -238,9 +239,11 @@ final scroll = ScrollController();
                         title: S.current.ten_don_vi,
                         child: TextFieldValidator(
                           controller: _tenDonViController,
-                          hintText: S.current.dau_moi_lam_viec,
+                          hintText: S.current.ten_don_vi,
                           validator: (value) {
-                            return (value ?? '').checkNull();
+                            return (value ?? '').pleaseEnter(
+                              S.current.ten_don_vi,
+                            );
                           },
                         ),
                       ),
@@ -311,8 +314,13 @@ final scroll = ScrollController();
                                   SvgPicture.asset(ImageAssets.icGroupPeople),
                             ),
                           ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           validator: (value) {
-                            return (value ?? '').checkInt();
+                            return (value ?? '').pleaseEnter(
+                              S.current.nhap_so_luong.toLowerCase(),
+                            );
                           },
                         ),
                       ),

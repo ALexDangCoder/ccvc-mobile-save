@@ -408,20 +408,15 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<MessageModel>> suaKetLuan(
-    String scheduleId,
-    String content,
-    String reportStatusId,
-    String reportTemplateId,
-    List<File>? files,
-  ) {
+      String scheduleId,
+      String content,
+      String reportStatusId,
+      String reportTemplateId,
+      List<File>? files,
+      List<String> fileDelete) {
     return runCatchingAsync<SuaKetLuanResponse, MessageModel>(
-      () => _hopServices.suaKetLuan(
-        scheduleId,
-        content,
-        reportStatusId,
-        reportTemplateId,
-        files ?? [],
-      ),
+      () => _hopServices.suaKetLuan(scheduleId, content, reportStatusId,
+          reportTemplateId, files ?? [], fileDelete),
       (response) => response.toDomain(),
     );
   }

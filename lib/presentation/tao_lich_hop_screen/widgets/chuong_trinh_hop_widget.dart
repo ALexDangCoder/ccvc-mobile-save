@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
@@ -11,7 +13,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -166,6 +168,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   late String timeStart;
   late String timeEnd;
   String thoiGianHop = DateTime.now().formatApi;
+  bool isOverFileLength = false;
 
   @override
   void initState() {
@@ -185,6 +188,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   }
 
   void handleButtonSaveClick() {
+    if(isOverFileLength){
+      return;
+    }
     // Thời gian bắt đầu phiên họp:
     final dateTimeStart = '$thoiGianHop $timeStart'.convertStringToDate(
       formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
@@ -273,7 +279,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.tieuDe = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.pleaseEnter(
+                        S.current.nhap_ten_phien_hop.toLowerCase(),
+                      );
                     },
                   ),
                 ),
@@ -360,24 +368,32 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.noiDung = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.pleaseEnter(
+                        S.current.noi_dung_phien_hop,
+                      );
                     },
                   ),
                 ),
                 spaceH20,
-                ButtonSelectFile(
-                  spacingFile: 16,
+                ButtonSelectFileLichLamViec(
+                  hasMultipleFile: true,
                   maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                   title: S.current.tai_lieu_dinh_kem,
-                  icon: ImageAssets.icShareFile,
-                  files: taoPhienHopRequest.files ?? [],
-                  onChange: (
-                    files,
-                  ) {
-                    taoPhienHopRequest.files = files;
+                  initFileSystem : taoPhienHopRequest.files ?? [],
+                  allowedExtensions: const [
+                    FileExtensions.DOC,
+                    FileExtensions.DOCX,
+                    FileExtensions.JPEG,
+                    FileExtensions.JPG,
+                    FileExtensions.PDF,
+                    FileExtensions.PNG,
+                  ],
+                  onChange: (List<File> files, bool validate) {
+                    isOverFileLength = validate;
+                    if (!validate) {
+                      taoPhienHopRequest.files = files;
+                    }
                   },
-                  hasMultipleFile: true,
-                  removeFileApi: (int index) {},
                 )
               ],
             ),

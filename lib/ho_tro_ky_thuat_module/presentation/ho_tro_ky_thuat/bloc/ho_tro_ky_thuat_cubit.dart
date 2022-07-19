@@ -50,6 +50,10 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   static const TRANG_THAI = 'trang-thai';
   static const KHU_VUC = 'khu-vuc';
   static const int checkDataThongTinChungSuccess = 3;
+  static const int CLOSE_SEARCH = -1;
+  static const int INIT_SEARCH = 0;
+  static const int SEARCH = 1;
+  static const int POP_SEARCH = 2;
   int checkDataThongTinChung = 0;
 
   ///variable menu
@@ -92,7 +96,21 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   String? handlerId;
   String? handlerIdName;
   String? keyWord;
-  bool isSearch =false;
+
+  //status search
+  String? statusKeyWord;
+  String statusDonVi = S.current.chon;
+  String? statusNgayYeuCau;
+  String? statusNgayHoanThanh;
+  String? statusNguoiTiepNhan;
+  String? statusNguoiXuLy;
+  String? statusKhuVuc;
+  String? statusToaNha;
+  String? statusSoPhong;
+  String? statusTrangThaiXuLy;
+
+  //
+  int countSearch = 0;
   final dataUser = HiveLocal.getDataUser();
   bool? isCheckUser;
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =

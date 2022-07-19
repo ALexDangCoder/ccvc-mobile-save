@@ -42,14 +42,18 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
     }
   }
 
-  @override
-  void initState() {
+  void init() {
     _themDonViCubit = ThemDonViCubit();
-    widget.cubit.geiApiSearch();
     _controller = ScrollController();
     _controller.addListener(() {
       widget.cubit.isShowDonVi.add(false);
     });
+    widget.cubit.initSearch();
+  }
+
+  @override
+  void initState() {
+    init();
     super.initState();
   }
 

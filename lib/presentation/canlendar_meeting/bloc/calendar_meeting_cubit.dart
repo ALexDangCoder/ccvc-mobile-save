@@ -583,6 +583,10 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         idDonViLanhDao = itemMenu.id;
         refreshDataDangLich();
       }
+    }else{
+      if(state is! ChartViewState){
+        refreshDataDangLich();
+      }
     }
     if(state is! ChartViewState){
       oldTitle = _titleSubject.valueOrNull ?? S.current.lich_cua_toi;

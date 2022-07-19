@@ -67,7 +67,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     } else {
       final intValue = int.tryParse(value.trim());
       setState(() {
-        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
+        errorText = intValue != null ? '' : S.current.nhap_sai_dinh_dang;
       });
     }
   }
@@ -114,7 +114,6 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 final newListSelect =
                 data.map((e) => e.tieuDe ?? '').toList();
                 return CoolDropDown(
-                  key: UniqueKey(),
                   useCustomHintColors: true,
                   placeHoder: S.current.chon_phien_hop,
                   listData: newListSelect,

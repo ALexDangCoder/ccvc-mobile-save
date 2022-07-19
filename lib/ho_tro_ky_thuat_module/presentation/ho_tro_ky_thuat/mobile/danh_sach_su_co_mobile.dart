@@ -142,6 +142,7 @@ Widget floatingHTKT(
           backgroundColor: Colors.transparent,
           builder: (context) => ThemMoiYCHoTroMobile(
             cubit: cubit,
+            status: StatusHTKT.Create,
           ),
         );
       // }

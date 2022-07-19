@@ -58,7 +58,7 @@ class AreaDropDown extends StatelessWidget {
                   ],
                 ),
               ),
-              // value: cubit.addTaskHTKTRequest.districtName,
+              value: cubit.addTaskHTKTRequest.districtName,
               onSelectItem: (value) {
                 cubit.selectArea(value);
               },

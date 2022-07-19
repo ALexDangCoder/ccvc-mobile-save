@@ -32,7 +32,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     addTaskHTKTRequest.districtId = areaList[index].id;
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-            ?.map((e) => '${e.name}${e.id}')
+            // ?.map((e) => '${e.name}${e.id}')
+            ?.map((e) => '${e.name}')
             .toList() ??
         [];
     addTaskHTKTRequest.buildingName = null;

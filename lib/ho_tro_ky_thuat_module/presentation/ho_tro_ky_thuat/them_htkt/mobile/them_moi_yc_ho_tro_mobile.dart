@@ -20,13 +20,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-///cho phép chỉnh sửa các text filed khi trạng thái đang chờ
+enum StatusHTKT {
+  Create,
+  Edit,
+}
 class ThemMoiYCHoTroMobile extends StatefulWidget {
   final HoTroKyThuatCubit cubit;
+  final StatusHTKT status;
 
   const ThemMoiYCHoTroMobile({
     Key? key,
     required this.cubit,
+    required this.status,
   }) : super(key: key);
 
   @override

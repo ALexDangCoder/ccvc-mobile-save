@@ -56,7 +56,7 @@ class BuildingDropDown extends StatelessWidget {
                   ],
                 ),
               ),
-              // value: cubit.addTaskHTKTRequest.buildingName,
+              value: cubit.addTaskHTKTRequest.buildingName,
               onSelectItem: (value) {
                 cubit.selectBuilding(value);
               },

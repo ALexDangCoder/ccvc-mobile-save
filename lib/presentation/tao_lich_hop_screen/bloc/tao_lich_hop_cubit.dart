@@ -99,6 +99,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   BehaviorSubject<List<TaoPhienHopRequest>> listPhienHop =
       BehaviorSubject.seeded([]);
 
+  bool isOverFileLength = false;
+
   LoaiSelectModel? selectLoaiHop;
   LoaiSelectModel? selectLinhVuc;
   TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest(

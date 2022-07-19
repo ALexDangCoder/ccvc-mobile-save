@@ -108,18 +108,21 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
           /// nêu không có cuộc họp trả về button soạn
           if ((data.title ?? '').isEmpty && widget.cubit.isSoanKetLuanHop()) {
-            return IconWithTiltleWidget(
-              icon: ImageAssets.icDocument2,
-              title: S.current.soan_ket_luan_hop,
-              onPress: () {
-                xemOrTaoOrSuaKetLuanHop(
-                  cubit: widget.cubit,
-                  context: context,
-                  title: S.current.soan_ket_luan_hop,
-                  isCreate: true,
-                  listFile: [],
-                );
-              },
+            return Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: IconWithTiltleWidget(
+                icon: ImageAssets.icDocument2,
+                title: S.current.soan_ket_luan_hop,
+                onPress: () {
+                  xemOrTaoOrSuaKetLuanHop(
+                    cubit: widget.cubit,
+                    context: context,
+                    title: S.current.soan_ket_luan_hop,
+                    isCreate: true,
+                    listFile: [],
+                  );
+                },
+              ),
             );
 
             /// nêu có cuộc họp trả về thông tin và các button khác
@@ -135,6 +138,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                   cubit: widget.cubit,
                   listFile: data.file ?? [],
                 ),
+
                 /// các button khac
                 if (!widget.cubit.isDuyetOrHuyKetLuanHop())
                   Padding(
@@ -193,7 +197,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
       StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
         stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          final data = snapshot.data ?? [];
+          if (data.isNotEmpty) {
             final data = snapshot.data ?? [];
             return ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -647,4 +652,3 @@ Widget widgetRow({required String name, required Widget child}) {
     ),
   );
 }
-

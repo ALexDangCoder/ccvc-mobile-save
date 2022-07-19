@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
-import 'package:ccvc_mobile/diem_danh_module/data/request/danh_sach_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
@@ -16,13 +15,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
-  Future<void> postDanhSachBienSoXe() async {
-    final danhSachBienSoXeRequest = DanhSachBienSoXeRequest(
-        userId: HiveLocal.getDataUser()?.userId ?? '',
-        pageIndex: 1,
-        pageSize: 10);
+  Future<void> getDanhSachBienSoXe() async {
     showLoading();
-    final result = await diemDanhRepo.danhSachBienSoXe(danhSachBienSoXeRequest);
+    final result = await diemDanhRepo.danhSachBienSoXe(
+        HiveLocal.getDataUser()?.userId ?? '',
+        ApiConstants.PAGE_BEGIN,
+        ApiConstants.DEFAULT_PAGE_SIZE);
     result.when(
       success: (res) {
         if (res.items?.isEmpty == true) {
@@ -63,8 +61,8 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
 
   Future<void> dangKyThongTinXeMoi(
       {required String bienKiemSoat,
-      required String fileId,
-      required BuildContext context}) async {
+        required String fileId,
+        required BuildContext context}) async {
     final dangKyThongTinXeMoiRequest = DangKyThongTinXeMoiRequest(
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
       userId: HiveLocal.getDataUser()?.userId ?? '',
@@ -74,7 +72,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     );
     showLoading();
     final result =
-        await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
+    await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
         showContent();
@@ -103,9 +101,9 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   ///update number plate, driver license
   Future<void> capNhatBienSoxe(
       {required String bienKiemSoat,
-      required String id,
-      required String fileId,
-      required BuildContext context}) async {
+        required String id,
+        required String fileId,
+        required BuildContext context}) async {
     final capNhatBienSoXeRequest = CapNhatBienSoXeRequest(
       id: id,
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
@@ -156,10 +154,10 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   /// post image select
   Future<String> postImageResgiter(
       {required bool isTao,
-      required String bienKiemSoat,
-      String? id,
-      String? fileId,
-      required BuildContext context}) async {
+        required String bienKiemSoat,
+        String? id,
+        String? fileId,
+        required BuildContext context}) async {
     final result = await diemDanhRepo.postFileModel(
       '',
       ApiConstants.BIEN_SO_XE_TYPE,

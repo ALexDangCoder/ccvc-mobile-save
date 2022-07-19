@@ -49,6 +49,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
 
 //tab y kien xu ly
   static const int MAX_MB = 30;
+  List<int> sizeFileList = [];
   int sizeFile = 0;
   final List<PickImageFileModel> listPickFileMain = [];
   final List<YKienXuLyYKNDModel> listYKienXuLy = [];
@@ -58,10 +59,20 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
   String mess = '';
   String idYkienParam = '';
 
+  void deleteFile(PickImageFileModel objPick) {
+    for (int i = 0; i < listPickFileMain.length; i++) {
+      if (objPick == listPickFileMain[i]) {
+        listFileMain.removeAt(i);
+        sizeFileList.removeAt(i);
+      }
+    }
+    listPickFileMain.remove(objPick);
+  }
+
   bool checkMaxSize() {
     sizeFile = 0;
-    for (final PickImageFileModel value in listPickFileMain) {
-      sizeFile += value.size ?? 0;
+    for (final int value in sizeFileList) {
+      sizeFile += value;
     }
     return sizeFile / BYTE_TO_MB > MAX_MB;
   }

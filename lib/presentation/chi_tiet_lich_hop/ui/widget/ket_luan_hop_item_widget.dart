@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/extens
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_luan_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_moi_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
@@ -406,25 +407,4 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
   }
 }
 
-Widget widgetRow({required String name, required Widget child}) {
-  return Container(
-    margin: EdgeInsets.only(top: 10.0.textScale()),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 2,
-          child: Text(
-            name,
-            style: textNormalCustom(
-              color: titleColumn,
-              fontWeight: FontWeight.w400,
-              fontSize: 14.0.textScale(),
-            ),
-          ),
-        ),
-        Expanded(flex: 3, child: child),
-      ],
-    ),
-  );
-}
+

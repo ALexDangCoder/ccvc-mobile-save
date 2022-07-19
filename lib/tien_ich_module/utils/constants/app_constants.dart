@@ -63,7 +63,7 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
-enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL,TXT }
+enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL, TXT }
 
 extension GetTypeByName on PickerType {
   List<String> get fileType {
@@ -106,13 +106,10 @@ extension GetTypeByName on PickerType {
           'XLSX'
         ];
       case PickerType.TXT:
-        return [
-          'txt'
-        ];
+        return ['txt'];
     }
   }
 }
-
 
 const String HOAN_THANH = 'HOAN_THANH';
 const String DEN_HAN = 'DEN_HAN';
@@ -153,6 +150,21 @@ const _dtFormat3 = 'dd/MM hh:mm a';
 const _dtFormat4 = 'yyyy-MM-dd';
 const _dtFormat5 = 'MMM dd, yyyy';
 const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
+const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
+const _dtFormat8 = 'd/MM/yyyy';
+const _dtFormat9 = 'dd/MM/yyyy HH:mm';
+const _dtFormat10 = 'dd/MM/yyyy';
+const _dtFormat11 = 'dd-MM-yyyy';
+const _dtFormat12 = 'yyyy-MM-ddTHH:mm:ss';
+const _dtFormat13 = 'dd/MM/yyyy HH:mm';
+const _dtFormat14 = 'yyyy-MM-dd HH:mm:ss.ms';
+const _dtFormat15 = 'yyyy-MM-dd HH:mm';
+const HOUR_MINUTE_FORMAT = 'Hm';
+const _dtFormat16 = 'yyyy-MM-ddT00:00:00';
+const _dtFormat17 = 'yyyy-MM-ddT23:59:00';
+const _dtFormat18 = 'MM/dd/yyyy HH:mm';
+const _dtFormat19 = 'yyyy-MM-ddTHH:mm:ss';
+const _dtFormat20 = 'yyyy/MM/dd HH:mm:ss';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -161,6 +173,20 @@ class DateTimeFormat {
   static const DOB_FORMAT = _dtFormat4;
   static const CREATE_BLOG_FORMAT = _dtFormat5;
   static const DATE_MM_DD_YYYY = _dtFormat6;
+  static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
+  static const DATE_DD_MM_YYYY = _dtFormat8;
+  static const DATE_DD_MM_HM = _dtFormat9;
+  static const DAY_MONTH_YEAR = _dtFormat10;
+  static const DAY_MONTH_YEAR_BETWEEN = _dtFormat11;
+  static const DATE_TIME_RECEIVE = _dtFormat12;
+  static const DATE_TIME_PICKER = _dtFormat13;
+  static const DATE_TIME_PUT = _dtFormat14;
+  static const DATE_TIME_PUT_EDIT = _dtFormat15;
+  static const DATE_TIME_BE_API_START = _dtFormat16;
+  static const DATE_TIME_BE_API_END = _dtFormat17;
+  static const DATE_TIME_HM = _dtFormat18;
+  static const DATE_TIME_HHT = _dtFormat19;
+  static const DATE_TIME_20 = _dtFormat20;
 }
 
 class ThongBaoTypeConstant {

@@ -7,11 +7,26 @@ import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import '../chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 
 ///kết luận hop
 extension KetLuanHop on DetailMeetCalenderCubit {
+  bool checkLenghtFile() {
+    int sum = 0;
+    for (final element in ketLuanHopState.listFiles) {
+      sum = sum + element.lengthSync();
+    }
+    if (sum > MaxSizeFile.MAX_SIZE_30MB) {
+      return false;
+    }
+    return true;
+  }
+
   Future<void> getXemKetLuanHop(String id) async {
     final result = await hopRp.getXemKetLuanHop(id);
     result.when(
@@ -104,31 +119,31 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     }
   }
 
-  Future<void> suaKetLuan({
-    required String reportStatusId,
-    required String reportTemplateId,
-    List<File>? files,
-  }) async {
-    showLoading();
+  Future<void> suaKetLuan() async {
+    showLoadingSheet();
     final result = await hopRp.suaKetLuan(
-      idCuocHop,
-      noiDung.value,
-      reportStatusId,
-      reportTemplateId,
-      [],
-    );
+        idCuocHop,
+        noiDung.value,
+        ketLuanHopState.reportStatusId,
+        ketLuanHopState.reportTemplateId,
+        ketLuanHopState.listFiles,
+        ketLuanHopState.fileDelete);
 
-    result.when(
-      success: (value) {
-        showContent();
-        getXemKetLuanHop(idCuocHop);
+    await result.when(
+      success: (value) async {
+        await getXemKetLuanHop(idCuocHop);
+
+        showLoadingSheet(isShow: false);
+        MessageConfig.show(title: S.current.cap_nhat_ket_luan_hop_thanh_cong);
+        emit(Success());
       },
       error: (error) {
-        showContent();
-        MessageConfig.show(title: S.current.that_bai);
+        showLoadingSheet(isShow: false);
+        MessageConfig.show(
+            title: S.current.cap_nhat_ket_luan_hop_that_bai,
+            messState: MessState.error);
       },
     );
-    showContent();
   }
 
   Future<void> postChonMauHop() async {
@@ -288,36 +303,31 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     showContent();
   }
 
-  Future<bool> createKetLuanHop({
-    required String reportStatusId,
-    required String reportTemplateId,
-    required List<File> files,
-  }) async {
-    showLoading();
+  Future<void> createKetLuanHop() async {
+    showLoadingSheet();
     final result = await hopRp.createKetLuanHop(
       idCuocHop,
-      reportStatusId,
-      reportTemplateId,
+      ketLuanHopState.reportStatusId,
+      ketLuanHopState.reportTemplateId,
       noiDung.value,
-      files,
-      // [],
+      ketLuanHopState.listFiles,
     );
-    result.when(
-      success: (res) {
-        showContent();
+    await result.when(
+      success: (res) async {
         if (res) {
-          getXemKetLuanHop(idCuocHop);
+          await getXemKetLuanHop(idCuocHop);
+          showLoadingSheet(isShow: false);
+          emit(Success());
+          MessageConfig.show(title: S.current.tao_ket_luan_hop_thanh_cong);
         }
-        return true;
       },
       error: (err) {
-        showContent();
-        MessageConfig.show(title: S.current.that_bai);
-        return false;
+        showLoadingSheet(isShow: false);
+        MessageConfig.show(
+            title: S.current.tao_ket_luan_hop_that_bai,
+            messState: MessState.error);
       },
     );
-    showContent();
-    return true;
   }
 
   Future<void> guiDuyetKetLuanHop() async {
@@ -364,5 +374,21 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     danhSachCanBoTPTG(id: idCuocHop);
     getDanhSachNguoiChuTriPhienHop('');
     postChonMauHop();
+  }
+
+  void showLoadingSheet({bool isShow = true}) {
+    void show() {
+      ShowLoadingScreen.show();
+    }
+
+    void dismiss() {
+      ShowLoadingScreen.dismiss();
+    }
+
+    if (isShow) {
+      show();
+    } else {
+      dismiss();
+    }
   }
 }

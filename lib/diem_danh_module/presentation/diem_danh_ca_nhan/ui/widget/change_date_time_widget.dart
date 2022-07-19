@@ -266,7 +266,6 @@ class ChangeDateTimeWidgetState extends State<ChangeDateTimeWidget> {
           child: ExpandablePageView.builder(
             itemCount: _itemCount,
             controller: controller,
-            //physics: const NeverScrollableScrollPhysics(),
             onPageChanged: _onPageChange,
             itemBuilder: _itemBuilder,
           ),

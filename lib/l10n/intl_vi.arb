@@ -1287,7 +1287,13 @@
   "chon_thu_ky": "Chọn thư ký",
   "ho_va_ten_can_bo": "Họ và tên cán bộ",
   "chuc_vu_can_bo": "Chức vụ cán bộ",
-  "dv_can_bo": "ĐV cán bộ"
+  "dv_can_bo": "ĐV cán bộ",
+  "thu_ky": "Thư ký",
+  "khach_moi_trong_don_vi": "Khách mời trong đơn vị",
+  "khach_moi_can_bo_trong_don_vi": "Khách mời cán bộ trong đơn vị",
+  "cu_di": "Cử đi",
+  "khach_moi_ngoai_don_vi": "Khách mời ngoài đơn vị",
+  "khach_moi_can_bo_ngoai_don_vi": "Khách mời cán bộ ngoài đơn vị"
 }
 
 

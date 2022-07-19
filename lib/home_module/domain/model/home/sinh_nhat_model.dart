@@ -27,7 +27,7 @@ class SinhNhatUserModel {
     } else {
       title = '${S.current.birthday} ${S.current.ba}';
     }
-    return '$title $tenCanBo - ($ngaySinh)';
+    return '$title $tenCanBo';
   }
 
   GioiTinh fromEnum() {

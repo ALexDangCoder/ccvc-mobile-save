@@ -36,6 +36,8 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   final unitName = HiveLocal.getDataUser()?.userInformation?.donVi ?? '';
   String phienHopErrorText = '';
   String valueDropDownSelected = '';
+  final timeController = TextEditingController();
+  String errorText = '';
 
   @override
   void initState() {
@@ -52,8 +54,22 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     });
   }
 
-  void validateForm (){
+  void validateForm (String value){
     validatePhienHop();
+    validate(value);
+  }
+
+  void validate(String value) {
+    if (value.trim().isEmpty) {
+      setState(() {
+        errorText = S.current.vui_long_nhap_thoi_gian_phat_bieu;
+      });
+    } else {
+      final intValue = int.tryParse(value.trim());
+      setState(() {
+        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
+      });
+    }
   }
 
   @override
@@ -68,8 +84,8 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
             Navigator.pop(context);
           },
           onClickRight: () {
-            validatePhienHop();
-            if (phienHopErrorText.isEmpty) {
+            validateForm(timeController.text);
+            if (errorText.isEmpty && phienHopErrorText.isEmpty) {
               widget.cubit.taoPhatBieu(taoBieuQuyetRequest);
               Navigator.pop(context);
             }
@@ -96,7 +112,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
                 final newListSelect =
-                    data.map((e) => e.tieuDe ?? '').toList();
+                data.map((e) => e.tieuDe ?? '').toList();
                 return CoolDropDown(
                   key: UniqueKey(),
                   useCustomHintColors: true,
@@ -124,32 +140,21 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
               children: [
                 Expanded(
                   child: TextFieldValidator(
+                    controller: timeController,
                     textInputType: TextInputType.number,
-                    onChange: (vl) {
+                    onChange: (value) {
+                      validate(value);
                       try {
-                        taoBieuQuyetRequest.time = int.parse(vl);
-                      } catch (e) {
-                        validateForm();
-                      }
+                        taoBieuQuyetRequest.time = int.parse(value);
+                      } catch (_) {}
                     },
+                    maxLength: 18,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    validator: (value) {
-                      if (value?.trim().isEmpty ?? true) {
-                        return S.current.khong_duoc_de_trong;
-                      }
-                      try {
-                        int.parse(value?.trim() ?? '');
-                      } catch (e) {
-                        return S.current.check_so_luong;
-                      }
-                    },
                   ),
                 ),
-                const SizedBox(
-                  width: 16,
-                ),
+                spaceW16,
                 Expanded(
                   child: InputInfoUserWidget(
                     title: S.current.phut,
@@ -158,6 +163,11 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 ),
               ],
             ),
+            if (errorText.isNotEmpty)
+              Text(
+                errorText,
+                style: const TextStyle(fontSize: 12, color: canceledColor),
+              ),
             spaceH24,
             Text(
               S.current.noi_dung_phat_bieu,

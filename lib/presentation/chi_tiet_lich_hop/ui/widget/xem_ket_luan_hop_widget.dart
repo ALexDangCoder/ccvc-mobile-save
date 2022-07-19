@@ -94,27 +94,38 @@ class _CreateOrUpdateKetLuanHopWidgetState
             maxHeight: MediaQuery.of(context).size.height * 0.8,
           ),
           child: FollowKeyBoardWidget(
-            bottomWidget: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 20, horizontal: 5.0.textScale(space: 100)),
-              child: DoubleButtonBottom(
-                title1: S.current.dong,
-                title2: S.current.xac_nhan,
-                onClickLeft: () {
-                  widget.cubit.noiDung.add('');
-                  Navigator.pop(context);
-                },
-                onClickRight: () {
-                  if (state.reportStatusId.isNotEmpty) {
-                    btnThem();
-                  } else {
-                    MessageConfig.show(
-                        title: S.current.vui_long_chon_tinh_trang,
-                        messState: MessState.error);
-                  }
-                },
-              ),
-            ),
+            bottomWidget: !widget.isOnlyViewContent
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 5.0.textScale(space: 100)),
+                    child: DoubleButtonBottom(
+                      title1: S.current.dong,
+                      title2: S.current.xac_nhan,
+                      onClickLeft: () {
+                        widget.cubit.noiDung.add('');
+                        Navigator.pop(context);
+                      },
+                      onClickRight: () {
+                        if (state.reportStatusId.isNotEmpty) {
+                          btnThem();
+                        } else {
+                          MessageConfig.show(
+                              title: S.current.vui_long_chon_tinh_trang,
+                              messState: MessState.error);
+                        }
+                      },
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: ButtonCustomBottom(
+                      isColorBlue: false,
+                      title: S.current.dong,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
             child: SingleChildScrollView(
               child: !widget.isOnlyViewContent
                   ? Column(
@@ -379,16 +390,6 @@ class _CreateOrUpdateKetLuanHopWidgetState
                                 },
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: ButtonCustomBottom(
-                                isColorBlue: false,
-                                title: S.current.dong,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -418,8 +419,8 @@ class _CreateOrUpdateKetLuanHopWidgetState
         title: S.current.gui_email,
         btnRightTxt: S.current.dong_y,
         icon: SvgPicture.asset(ImageAssets.IcEmail),
-      ).then((value){
-        if(value == null){
+      ).then((value) {
+        if (value == null) {
           widget.cubit.createKetLuanHop();
         }
       });

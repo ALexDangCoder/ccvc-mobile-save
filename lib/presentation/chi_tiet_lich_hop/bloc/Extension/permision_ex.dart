@@ -229,12 +229,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return false;
   }
 
-  bool trangThaiHuy() {
-    if (getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY) {
-      return true;
-    }
-    return false;
-  }
+  bool trangThaiHuy() =>getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY;
 
   void initDataButton() {
     listButton.clear();
@@ -553,6 +548,20 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       return true;
     }
     return false;
+  }
+
+  bool isNguoiThamGia() {
+    return thamGia().where(
+      (element) {
+        final userLogin = (HiveLocal.getDataUser()?.userId ?? '').toLowerCase();
+        final isCurrentUser =
+            (element.CanBoId ?? '').toLowerCase() == userLogin;
+        final isThuKy = element.isThuKy ?? false;
+        final isUserCreate =
+            (element.createdBy ?? '').toLowerCase() == userLogin;
+        return isCurrentUser && !isThuKy && !isUserCreate;
+      },
+    ).isNotEmpty;
   }
 
   ///check btn dang ky phat bieu

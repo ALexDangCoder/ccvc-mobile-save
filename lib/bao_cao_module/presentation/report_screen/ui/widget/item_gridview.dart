@@ -18,6 +18,7 @@ class ItemGridView extends StatelessWidget {
   final ReportListCubit cubit;
   final bool isTree;
   final String idFolder;
+  final bool isSearch;
 
   const ItemGridView({
     Key? key,
@@ -26,6 +27,7 @@ class ItemGridView extends StatelessWidget {
     this.isTablet = false,
     required this.isTree,
     required this.idFolder,
+    this.isSearch = false,
   }) : super(key: key);
 
   @override
@@ -82,6 +84,7 @@ class ItemGridView extends StatelessWidget {
                           (value) => cubit.reloadDataWhenFavorite(
                             isTree: isTree,
                             idFolder: idFolder,
+                            isSearch: isSearch,
                           ),
                         );
                       } else {
@@ -98,11 +101,13 @@ class ItemGridView extends StatelessWidget {
                           (value) => cubit.reloadDataWhenFavorite(
                             isTree: isTree,
                             idFolder: idFolder,
+                            isSearch: isSearch,
                           ),
                         );
                       }
                     },
-                    child: Padding(
+                    child: Container(
+                      color: Colors.transparent,
                       padding: const EdgeInsets.only(
                         left: 16,
                         right: 16,

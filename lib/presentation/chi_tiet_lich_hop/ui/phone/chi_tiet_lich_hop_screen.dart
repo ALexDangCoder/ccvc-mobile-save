@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
@@ -63,8 +64,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit.getDanhSachCanBoHop(widget.id);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return StateStreamLayout(
@@ -85,8 +84,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
         ),
         body: WillPopScope(
           onWillPop: () async {
-               Navigator.pop(context,cubit.needRefreshMainMeeting);
-               return true;
+            Navigator.pop(context, cubit.needRefreshMainMeeting);
+            return true;
           },
           child: ProviderWidget<DetailMeetCalenderCubit>(
             cubit: cubit,
@@ -135,7 +134,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                       .valueData()
                                       .map(
                                         (e) => Container(
-                                          margin: const EdgeInsets.only(top: 16),
+                                          margin:
+                                              const EdgeInsets.only(top: 16),
                                           child: RowDataWidget(
                                             urlIcon: e.urlIcon,
                                             text: e.text,
@@ -339,18 +339,20 @@ PreferredSizeWidget appbarChiTietHop(
   ThanhPhanThamGiaCubit thanhPhanThamGiaCubit,
   ThemCanBoCubit themCanBoCubit,
   ThemDonViCubit themDonViCubit,
-) =>
-    BaseAppBar(
-      title: S.current.chi_tiet_lich_hop,
-      leadingIcon: IconButton(
-        onPressed: () {
-          Navigator.pop(context, cubit.needRefreshMainMeeting);
-        },
-        icon: SvgPicture.asset(
-          ImageAssets.icBack,
-        ),
+) {
+  return BaseAppBar(
+    title: S.current.chi_tiet_lich_hop,
+    leadingIcon: IconButton(
+      onPressed: () {
+        Navigator.pop(context, cubit.needRefreshMainMeeting);
+      },
+      icon: SvgPicture.asset(
+        ImageAssets.icBack,
       ),
-      actions: [
+    ),
+    actions: [
+      if (!cubit.trangThaiHuy() &&
+          cubit.chiTietLichHopSubject.valueOrNull != null)
         Padding(
           padding: const EdgeInsets.only(right: 16),
           child: StreamBuilder<List<PERMISSION_DETAIL>>(
@@ -361,22 +363,23 @@ PreferredSizeWidget appbarChiTietHop(
                 listSelect: data
                     .map(
                       (e) => e.getMenuLichHop(
-                          context,
-                          cubit,
-                          thanhPhanThamGiaCubit,
-                          themCanBoCubit,
-                          themDonViCubit),
+                        context,
+                        cubit,
+                        thanhPhanThamGiaCubit,
+                        themCanBoCubit,
+                        themDonViCubit,
+                      ),
                     )
                     .toList(),
               );
             },
           ),
         )
-      ],
-    );
+    ],
+  );
+}
 
-List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) =>
-    [
+List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: CongTacChuanBiWidget(

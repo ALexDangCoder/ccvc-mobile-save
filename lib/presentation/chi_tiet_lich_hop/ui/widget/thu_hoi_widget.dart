@@ -145,6 +145,7 @@ class SelectTHuHoiCell extends StatelessWidget {
             alignment: AlignmentDirectional.centerStart,
             children: [
               DropDownSearchThuHoi(
+                hintText: S.current.chon_can_bo_hoac_don_vi_de_thu_hoi,
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
                 onChange: (vl) {

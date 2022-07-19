@@ -3,11 +3,13 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
@@ -19,12 +21,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class SearchBaoCaoThongKeWidget extends StatefulWidget {
+  final String startDate;
+  final String endDate;
   final Function(List<Node<DonViModel>>) onChange;
   final List<DonViModel> listSelectNode;
   final ThanhPhanThamGiaCubit cubit;
   final Function(
-    String startDate,
-    String endDate,
     List<String> donViID,
   ) onSearch;
 
@@ -34,6 +36,8 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
     this.listSelectNode = const [],
     required this.onSearch,
     required this.cubit,
+    required this.startDate,
+    required this.endDate,
   }) : super(key: key);
 
   @override
@@ -63,6 +67,8 @@ class _SearchBaoCaoThongKeWidgetState extends State<SearchBaoCaoThongKeWidget> {
   @override
   Widget build(BuildContext context) {
     return TreeDonVi(
+      startDate: widget.startDate,
+      endDate: widget.endDate,
       themDonViCubit: _themDonViCubit,
       onSearch: widget.onSearch,
     );
@@ -70,29 +76,35 @@ class _SearchBaoCaoThongKeWidgetState extends State<SearchBaoCaoThongKeWidget> {
 }
 
 class TreeDonVi extends StatefulWidget {
+  final String startDate;
+  final String endDate;
   final ThemDonViCubit themDonViCubit;
   final Function(
-    String startDate,
-    String endDate,
     List<String> donViID,
   ) onSearch;
 
-  const TreeDonVi(
-      {Key? key, required this.themDonViCubit, required this.onSearch})
-      : super(key: key);
+  const TreeDonVi({
+    Key? key,
+    required this.themDonViCubit,
+    required this.onSearch,
+    required this.startDate,
+    required this.endDate,
+  }) : super(key: key);
 
   @override
   State<TreeDonVi> createState() => _TreeDonViState();
 }
 
 class _TreeDonViState extends State<TreeDonVi> {
-  String startDate = DateTime.now().toStringWithListFormat;
-  String endDate = DateTime.now().toStringWithListFormat;
+  late String selectStartDate;
+  late String selectEndDate;
   List<String> donViID = [];
 
   @override
   void initState() {
     super.initState();
+    selectStartDate = widget.startDate;
+    selectEndDate = widget.endDate;
     widget.themDonViCubit.selectDonVi.listen((event) {
       donViID = event.map((e) => e.value.id).toList();
     });
@@ -190,11 +202,14 @@ class _TreeDonViState extends State<TreeDonVi> {
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                  value: DateTime.now().toString(),
+                  value: DateFormat(DateFormatApp.date)
+                      .parse(widget.startDate)
+                      .toString(),
                   onSelectDate: (dateTime) {
-                    startDate = DateFormat('yyyy-MM-dd')
-                        .parse(dateTime)
-                        .toStringWithListFormat;
+                    selectStartDate =
+                        DateFormat(DateFormatApp.pickDateSearchFormat)
+                            .parse(dateTime)
+                            .toStringWithListFormat;
                   },
                 ),
               ),
@@ -209,11 +224,13 @@ class _TreeDonViState extends State<TreeDonVi> {
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                  value: DateTime.now().toString(),
+                  value: DateFormat(DateFormatApp.date)
+                      .parse(widget.endDate)
+                      .toString(),
                   onSelectDate: (dateTime) {
-                    endDate = DateFormat('yyyy-MM-dd')
-                        .parse(dateTime)
-                        .toStringWithListFormat;
+                    selectEndDate = DateFormat(
+                      DateFormatApp.pickDateSearchFormat,
+                    ).parse(dateTime).toStringWithListFormat;
                   },
                 ),
               )
@@ -223,64 +240,77 @@ class _TreeDonViState extends State<TreeDonVi> {
             height: 24,
           ),
           screenDevice(
-              mobileScreen: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: ButtonCustomBottom(
-                      title: S.current.dong,
-                      isColorBlue: false,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+            mobileScreen: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: ButtonCustomBottom(
+                    title: S.current.dong,
+                    isColorBlue: false,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  const SizedBox(
-                    width: 16,
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: ButtonCustomBottom(
+                    title: S.current.tim_kiem,
+                    isColorBlue: true,
+                    onPressed: () {
+                      eventBus.fire(
+                        DateSearchEvent(
+                          selectStartDate,
+                          selectEndDate,
+                        ),
+                      );
+                      widget.onSearch(donViID);
+                      Navigator.pop(context, false);
+                    },
                   ),
-                  Expanded(
-                    child: ButtonCustomBottom(
-                      title: S.current.tim_kiem,
-                      isColorBlue: true,
-                      onPressed: () {
-                        widget.onSearch(startDate, endDate, donViID);
-                        Navigator.pop(context, false);
-                      },
-                    ),
+                ),
+              ],
+            ),
+            tabletScreen: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 44,
+                  width: 142,
+                  child: ButtonCustomBottom(
+                    title: S.current.dong,
+                    isColorBlue: false,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                ],
-              ),
-              tabletScreen: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 44,
-                    width: 142,
-                    child: ButtonCustomBottom(
-                      title: S.current.dong,
-                      isColorBlue: false,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                SizedBox(
+                  height: 44,
+                  width: 142,
+                  child: ButtonCustomBottom(
+                    title: S.current.tim_kiem,
+                    isColorBlue: true,
+                    onPressed: () {
+                      eventBus.fire(
+                        DateSearchEvent(
+                          selectStartDate,
+                          selectEndDate,
+                        ),
+                      );
+                      widget.onSearch(donViID);
+                      Navigator.pop(context, false);
+                    },
                   ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  SizedBox(
-                    height: 44,
-                    width: 142,
-                    child: ButtonCustomBottom(
-                      title: S.current.tim_kiem,
-                      isColorBlue: true,
-                      onPressed: () {
-                        widget.onSearch(startDate, endDate, donViID);
-                        Navigator.pop(context, false);
-                      },
-                    ),
-                  ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(
             height: 32.0,
           ),

@@ -11,7 +11,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_lu
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_item_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_moi_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
@@ -27,10 +27,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'icon_with_title_widget.dart';
+
 class KetLuanHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
-  const KetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
+  KetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _KetLuanHopWidgetState createState() => _KetLuanHopWidgetState();
@@ -103,7 +105,9 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
         stream: widget.cubit.ketLuanHopSubject.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? KetLuanHopModel();
-          if ((data.title ?? '').isEmpty &&  widget.cubit.isSoanKetLuanHop()) {
+
+          /// nêu không có cuộc họp trả về button soạn
+          if ((data.title ?? '').isEmpty && widget.cubit.isSoanKetLuanHop()) {
             return IconWithTiltleWidget(
               icon: ImageAssets.icDocument2,
               title: S.current.soan_ket_luan_hop,
@@ -117,6 +121,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                 );
               },
             );
+
+            /// nêu có cuộc họp trả về thông tin và các button khác
           } else if (widget.cubit.xemKetLuanHop()) {
             return Column(
               children: [
@@ -129,6 +135,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                   cubit: widget.cubit,
                   listFile: data.file ?? [],
                 ),
+                /// các button khac
                 if (!widget.cubit.isDuyetOrHuyKetLuanHop())
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
@@ -306,7 +313,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                         xemOrTaoOrSuaKetLuanHop(
                           cubit: cubit,
                           context: context,
-                          title: S.current.ket_luan_cuoc_hop,
+                          title: S.current.sua_ket_luan_hop,
                           listFile: listFile,
                         );
                       },
@@ -472,7 +479,7 @@ void xemOrTaoOrSuaKetLuanHop({
   } else {
     showDiaLogTablet(
       context,
-      maxHeight: 280,
+      maxHeight: 500,
       title: title,
       child: CreateOrUpdateKetLuanHopWidget(
         cubit: cubit,
@@ -640,3 +647,4 @@ Widget widgetRow({required String name, required Widget child}) {
     ),
   );
 }
+

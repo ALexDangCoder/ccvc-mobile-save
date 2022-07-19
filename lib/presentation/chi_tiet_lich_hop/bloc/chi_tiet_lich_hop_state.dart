@@ -13,3 +13,8 @@ class Loading extends DetailMeetCalenderState {
   @override
   List<Object> get props => [];
 }
+class Success extends DetailMeetCalenderState {
+  @override
+  List<Object> get props => [];
+}
+

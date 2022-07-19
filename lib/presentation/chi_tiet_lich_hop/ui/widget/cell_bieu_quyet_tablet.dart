@@ -107,7 +107,7 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                           color: infoColor,
                           fontWeight: FontWeight.w400,
                         ),
-                        maxLines: 1,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/type_ho_tro_ky_thuat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as get_dart;
 import 'package:rxdart/rxdart.dart';
@@ -200,8 +201,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       pageIndex: page,
       pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
       codeUnit: codeUnit,
-      createOn: createOn,
-      finishDay: finishDay,
+      createOn: createOn?.isNotEmpty ?? false
+          ? DateTime.parse(createOn ?? '').formatApiDDMMYYYY
+          : null,
+      finishDay: finishDay?.isNotEmpty ?? false
+          ? DateTime.parse(finishDay ?? '').formatApiDDMMYYYY
+          : null,
       userRequestId: userRequestId,
       districtId: districtId,
       buildingId: buildingId,

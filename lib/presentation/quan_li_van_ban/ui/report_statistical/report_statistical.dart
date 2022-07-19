@@ -2,11 +2,13 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/extension/report_statistical.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/tab_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -29,6 +31,7 @@ class _ReportStaticalState extends State<ReportStatical>
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    widget.cubit.generateListTime();
     super.initState();
   }
 
@@ -85,10 +88,52 @@ class _ReportStaticalState extends State<ReportStatical>
                 color: isMobile() ? bgTabletColor : backgroundColorApp,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: CoolDropDown(
-                    listData: const [],
-                    onChange: (int) {},
-                    initData: '',
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              S.current.nam,
+                              style: tokenDetailAmount(
+                                fontSize: 14.0.textScale(),
+                                color: color586B8B,
+                              ),
+                            ),
+                            spaceH8,
+                            CoolDropDown(
+                              listData: widget.cubit.yearsList,
+                              onChange: (int index) {},
+                              initData: '',
+                              placeHoder: S.current.tat_ca,
+                            ),
+                          ],
+                        ),
+                      ),
+                      spaceW16,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              S.current.thang,
+                              style: tokenDetailAmount(
+                                fontSize: 14.0.textScale(),
+                                color: color586B8B,
+                              ),
+                            ),
+                            spaceH8,
+                            CoolDropDown(
+                              listData: widget.cubit.monthsList,
+                              onChange: (int index) {},
+                              initData: '',
+                              placeHoder: S.current.tat_ca,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

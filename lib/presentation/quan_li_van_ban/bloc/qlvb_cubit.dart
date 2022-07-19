@@ -59,10 +59,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   late String startDate;
   late String endDate;
   String keySearch = '';
+
   final BehaviorSubject<bool> showSearchSubject =
       BehaviorSubject<bool>.seeded(false);
 
   Stream<bool> get showSearchStream => showSearchSubject.stream;
+
+  List<String> monthsList = [];
+  List<String> yearsList = [];
+
 
   void setSelectSearch() {
     showSearchSubject.sink.add(!showSearchSubject.value);
@@ -75,8 +80,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     initTime ? initTimeRange() : null;
     unawaited(queue.add(() => getDashBoardIncomeDocument()));
     unawaited(queue.add(() => getDashBoardOutcomeDocument()));
-    // unawaited(queue.add(() => getListIncomeDocument()));
-    // unawaited(queue.add(() => getListOutcomeDocument()));
     await queue.onComplete;
     showContent();
   }

@@ -39,7 +39,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
     extends State<QuanLyNhanDienBienSoXeMobileScreen> {
   @override
   void initState() {
-    widget.cubit.postDanhSachBienSoXe();
+    widget.cubit.getDanhSachBienSoXe();
     super.initState();
   }
 
@@ -92,7 +92,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                               ),
                               body: RefreshIndicator(
                                 onRefresh: () async {
-                                  await widget.cubit.postDanhSachBienSoXe();
+                                  await widget.cubit.getDanhSachBienSoXe();
                                 },
                                 child: SingleChildScrollView(
                                   child: Padding(
@@ -177,7 +177,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                                 ).then((value) {
                                                   if (value == true) {
                                                     widget.cubit
-                                                        .postDanhSachBienSoXe();
+                                                        .getDanhSachBienSoXe();
                                                   }
                                                 });
                                               },
@@ -200,7 +200,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                                     )
                                                         .then((value) {
                                                       widget.cubit
-                                                          .postDanhSachBienSoXe();
+                                                          .getDanhSachBienSoXe();
                                                     });
                                                   },
                                                   showTablet: false,
@@ -228,7 +228,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                     ),
                                   ).then((value) {
                                     if (value == true) {
-                                      widget.cubit.postDanhSachBienSoXe();
+                                      widget.cubit.getDanhSachBienSoXe();
                                     }
                                   });
                                 },
@@ -286,7 +286,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                           ).then((value) {
                                             if (value == true) {
                                               widget.cubit
-                                                  .postDanhSachBienSoXe();
+                                                  .getDanhSachBienSoXe();
                                             }
                                           });
                                         },

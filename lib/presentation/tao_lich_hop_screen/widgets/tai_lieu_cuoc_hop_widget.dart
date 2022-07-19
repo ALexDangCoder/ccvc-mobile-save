@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -39,21 +42,25 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
           SizedBox(
             height: 0.0.textScale(space: 10),
           ),
-          ButtonSelectFile(
-            files: [],
-            maxSize: 30000000,
+          ButtonSelectFileLichLamViec(
             hasMultipleFile: true,
-            spacingFile: 16,
-            title: isMobile()
-                ? S.current.dinh_kem
-                : S.current.them_tai_lieu_cuoc_hop,
-            icon: isMobile()
-                ? ImageAssets.icShareFile
-                : ImageAssets.icDocumentBlue,
-            onChange: (files,) {
-              cubit.listTaiLieu = files;
+            maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
+            title: S.current.them_tai_lieu_cuoc_hop,
+            icon: ImageAssets.ic_file_meeting,
+            allowedExtensions: const [
+              FileExtensions.DOC,
+              FileExtensions.DOCX,
+              FileExtensions.JPEG,
+              FileExtensions.JPG,
+              FileExtensions.PDF,
+              FileExtensions.PNG,
+            ],
+            onChange: (List<File> files, bool validate) {
+              cubit.isOverFileLength = validate;
+              if (!validate) {
+                cubit.listTaiLieu = files;
+              }
             },
-            removeFileApi: (int index) {},
           )
         ],
       ),

@@ -67,7 +67,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     } else {
       final intValue = int.tryParse(value.trim());
       setState(() {
-        errorText = intValue != null ? '' : S.current.nhap_sai_dinh_dang;
+        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
       });
     }
   }

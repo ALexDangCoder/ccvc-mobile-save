@@ -4,37 +4,28 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/document_in_page.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/document_out_page.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
-import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
-import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
-class QLVBMobileScreen extends StatefulWidget {
-  const QLVBMobileScreen({Key? key}) : super(key: key);
+class ReportStatical extends StatefulWidget {
+  const ReportStatical({Key? key}) : super(key: key);
 
   @override
-  _QLVBMobileScreenState createState() => _QLVBMobileScreenState();
+  State<ReportStatical> createState() => _ReportStaticalState();
 }
 
-class _QLVBMobileScreenState extends State<QLVBMobileScreen>
+class _ReportStaticalState extends State<ReportStatical>
     with TickerProviderStateMixin {
-  QLVBCCubit qlvbCubit = QLVBCCubit();
   late final TabController _tabController;
+  final QLVBCCubit cubit = QLVBCCubit();
 
   @override
   void initState() {
-    super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    qlvbCubit.initTimeRange();
-    qlvbCubit.callAPi();
+    super.initState();
   }
 
   @override
@@ -44,14 +35,11 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
         preferredSize: const Size.fromHeight(56.0),
         child: StreamBuilder<bool>(
           initialData: false,
-          stream: qlvbCubit.showSearchStream,
+          stream: cubit.showSearchStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
-                ? SearchBarDocumentManagement(
-                    qlvbCubit: qlvbCubit,
-                    initKeyWord: qlvbCubit.keySearch,
-                  )
+                ? Container()
                 : AppBar(
                     elevation: 0.0,
                     title: Text(
@@ -66,9 +54,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                     ),
                     actions: [
                       GestureDetector(
-                        onTap: () {
-                          qlvbCubit.setSelectSearch();
-                        },
+                        onTap: () {},
                         child: const Icon(
                           Icons.search,
                           color: textBodyTime,
@@ -81,9 +67,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                         onTap: () {
                           DrawerSlide.navigatorSlide(
                             context: context,
-                            screen: VanBanMenuMobile(
-                              cubit: qlvbCubit,
-                            ),
+                            screen: Container(),
                           );
                         },
                         child: SvgPicture.asset(ImageAssets.icMenuCalender),
@@ -99,8 +83,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
       ),
       body: GestureDetector(
         onTap: () {
-          if (qlvbCubit.showSearchSubject.value == true) {
-            qlvbCubit.showSearchSubject.sink.add(false);
+          if (cubit.showSearchSubject.value == true) {
+            cubit.showSearchSubject.sink.add(false);
           }
         },
         child: StateStreamLayout(
@@ -110,32 +94,15 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             S.current.error,
             S.current.error,
           ),
-          stream: qlvbCubit.stateStream,
+          stream: cubit.stateStream,
           child: Column(
             children: [
-              FilterDateTimeWidget(
-                context: context,
-                initStartDate: DateTime.parse(qlvbCubit.startDate),
-                onChooseDateFilter: (startDate, endDate) {
-                  qlvbCubit.startDate = startDate.formatApi;
-                  qlvbCubit.endDate = endDate.formatApi;
-                  qlvbCubit.callAPi(initTime: false);
-                  eventBus.fire(RefreshList());
-                },
-              ),
               spaceH20,
               tabBar(),
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
-                  children: [
-                    DocumentInPage(
-                      qlvbCubit: qlvbCubit,
-                    ),
-                    DocumentOutPage(
-                      qlvbCubit: qlvbCubit,
-                    ),
-                  ],
+                  children: [],
                 ),
               )
             ],

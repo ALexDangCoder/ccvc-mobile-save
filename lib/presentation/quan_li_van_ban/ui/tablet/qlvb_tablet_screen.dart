@@ -6,11 +6,13 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_in_page_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_out_page_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -28,12 +30,12 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
     with SingleTickerProviderStateMixin {
   QLVBCCubit qlvbCubit = QLVBCCubit();
   ChooseTimeCubit chooseTimeCubit = ChooseTimeCubit();
-  late TabController controller;
+  late TabController _tabController;
   late ScrollController scrollController;
 
   @override
   void initState() {
-    controller = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     super.initState();
     qlvbCubit.callAPi();
@@ -79,13 +81,12 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: GestureDetector(
                       onTap: () {
-                        //TODO: Show menu
-                        // DrawerSlide.navigatorSlide(
-                        //   context: context,
-                        //   screen: VanBanMenuMobile(
-                        //     cubit: qlvbCubit,
-                        //   ),
-                        // );
+                        DrawerSlide.navigatorSlide(
+                          context: context,
+                          screen: VanBanMenuMobile(
+                            cubit: qlvbCubit,
+                          ),
+                        );
                       },
                       child: SvgPicture.asset(ImageAssets.icMenuCalender),
                     ),
@@ -93,51 +94,93 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                 ],
               ),
             ),
+            tabBar(),
             Expanded(
-              child: DefaultTabController(
-                length: 2,
-                child: Column(
-                  children: [
-                    Container(
-                      color: bgQLVBTablet,
-                      height: 50,
-                      child: TabBar(
-                        unselectedLabelStyle: titleAppbar(fontSize: 16),
-                        unselectedLabelColor: AqiColor,
-                        labelColor: AppTheme.getInstance().colorField(),
-                        labelStyle: titleText(fontSize: 16),
-                        indicatorColor: AppTheme.getInstance().colorField(),
-                        tabs: [
-                          Container(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Text(S.current.danh_sach_van_ban_den),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Text(S.current.danh_sach_van_ban_di),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        children: [
-                          DocumentInPageTablet(
-                            qlvbCubit: qlvbCubit,
-                          ),
-                          DocumentOutPageTablet(
-                            qlvbCubit: qlvbCubit,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              child: TabBarView(
+                children: [
+                  DocumentInPageTablet(
+                    qlvbCubit: qlvbCubit,
+                  ),
+                  DocumentOutPageTablet(
+                    qlvbCubit: qlvbCubit,
+                  ),
+                ],
               ),
-            ),
+            )
+            // Expanded(
+            //   child: DefaultTabController(
+            //     length: 2,
+            //     child: Column(
+            //       children: [
+            //         Container(
+            //           color: bgQLVBTablet,
+            //           height: 50,
+            //           child: TabBar(
+            //             unselectedLabelStyle: titleAppbar(fontSize: 16),
+            //             unselectedLabelColor: AqiColor,
+            //             labelColor: AppTheme.getInstance().colorField(),
+            //             labelStyle: titleText(fontSize: 16),
+            //             indicatorColor: AppTheme.getInstance().colorField(),
+            //             tabs: [
+            //               Container(
+            //                 padding: const EdgeInsets.only(bottom: 8),
+            //                 child: Text(S.current.danh_sach_van_ban_den),
+            //               ),
+            //               Container(
+            //                 padding: const EdgeInsets.only(bottom: 8),
+            //                 child: Text(S.current.danh_sach_van_ban_di),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         Expanded(
+            //           child: TabBarView(
+            //             children: [
+            //               DocumentInPageTablet(
+            //                 qlvbCubit: qlvbCubit,
+            //               ),
+            //               DocumentOutPageTablet(
+            //                 qlvbCubit: qlvbCubit,
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
+  Widget tabBar() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      height: 40,
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: AppTheme.getInstance().colorField().withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TabBar(
+        controller: _tabController,
+        indicator: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: AppTheme.getInstance().colorField(),
+        ),
+        labelColor: Colors.white,
+        unselectedLabelColor: AppTheme.getInstance().colorField(),
+        tabs: [
+          Tab(
+            text: S.current.document_incoming,
+          ),
+          Tab(
+            text: S.current.document_out_going,
+          ),
+        ],
+      ),
+    );
+  }
+
 }

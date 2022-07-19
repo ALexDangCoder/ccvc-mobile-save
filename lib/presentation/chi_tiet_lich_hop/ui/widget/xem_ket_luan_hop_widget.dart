@@ -146,6 +146,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                             stream: state.validateTinhTrang.stream,
                             builder: (context, snapshot) {
                               return ShowRequied(
+                                textShow: S.current.vui_long_chon_tinh_trang,
                                 isShow: snapshot.data ?? false,
                                 child:
                                     StreamBuilder<List<StatusKetLuanHopModel>>(

@@ -263,6 +263,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     result.when(
       success: (res) {
         showButtonApprove.sink.add(false);
+        eventBus.fire(RefreshCalendar());
         MessageConfig.show(
           title: S.current.thanh_cong,
         );

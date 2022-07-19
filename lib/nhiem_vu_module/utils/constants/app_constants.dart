@@ -114,6 +114,8 @@ extension GetTypeByName on PickerType {
           'docx',
           'xls',
           'xlsx',
+          'png',
+          'heic',
         ];
     }
   }
@@ -159,6 +161,10 @@ const _dtFormat3 = 'dd/MM hh:mm a';
 const _dtFormat4 = 'yyyy-MM-dd';
 const _dtFormat5 = 'MMM dd, yyyy';
 const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
+const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
+const _dtFormat8 = 'd/MM/yyyy';
+const _dtFormat9 = 'dd/MM/yyyy HH:mm';
+const _dtFormat10 = 'dd/MM/yyyy';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -167,6 +173,10 @@ class DateTimeFormat {
   static const DOB_FORMAT = _dtFormat4;
   static const CREATE_BLOG_FORMAT = _dtFormat5;
   static const DATE_MM_DD_YYYY = _dtFormat6;
+  static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
+  static const DATE_DD_MM_YYYY = _dtFormat8;
+  static const DATE_DD_MM_HM = _dtFormat9;
+  static const DAY_MONTH_YEAR = _dtFormat10;
 }
 
 class ThongBaoTypeConstant {

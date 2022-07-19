@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -79,19 +80,27 @@ class ThongTinLienHeWidget extends StatelessWidget {
     required BuildContext context,
   }) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery
+            .of(context)
+            .size
+            .height * 0.7,
+      ),
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                children:
-                    listData.map((e) => _itemDiemCau(listData: e.rowData)).toList(),
+              child: listData.isEmpty ? const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: NodataWidget(),
+              ) : Column(
+                children: listData
+                    .map((e) => _itemDiemCau(listData: e.rowData))
+                    .toList(),
               ),
             ),
           ),
-
           spaceH20,
           GestureDetector(
             onTap: () {
@@ -135,7 +144,8 @@ class ThongTinLienHeWidget extends StatelessWidget {
       child: Column(
         children: listData
             .map(
-              (e) => Container(
+              (e) =>
+              Container(
                 margin: const EdgeInsets.symmetric(vertical: 5),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +176,7 @@ class ThongTinLienHeWidget extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+        )
             .toList(),
       ),
     );

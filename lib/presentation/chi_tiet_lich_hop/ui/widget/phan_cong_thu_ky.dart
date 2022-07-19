@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -19,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:rxdart/rxdart.dart';
-
 
 class PhanCongThuKyWidget extends StatefulWidget {
   final String id;
@@ -47,9 +48,9 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
                 S.current.chon_thu_ky_cuoc_hop,
                 style: textNormalCustom(color: infoColor),
               ),
-            Sb(8),
+            spaceH8,
             SelectThuKyWidget(cubit: widget.cubit),
-            Sb(36),
+            spaceH30,
             Padding(
               padding: APP_DEVICE == DeviceType.MOBILE
                   ? EdgeInsets.zero
@@ -66,16 +67,12 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
                 },
               ),
             ),
-            Sb(16),
+            spaceH16,
           ],
         ),
       ),
     );
   }
-
-  Widget Sb(double height) => SizedBox(
-        height: height,
-      );
 }
 
 class SelectThuKyWidget extends StatefulWidget {
@@ -140,82 +137,83 @@ class SelectThuKyCell extends StatelessWidget {
         color: Colors.white,
       ),
       child: StreamBuilder<List<NguoiChutriModel>>(
-          stream: cubit.listNguoiCHuTriModel,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? [];
-            final dataSN = data
-                .where((e) => e.isThuKy == true)
-                .map((e) => e.hoTen ?? '')
-                .toList();
-            return Stack(
-              alignment: AlignmentDirectional.centerStart,
-              children: [
-                DropDownSearchThuKy(
-                  title: S.current.chon_thu_ky_cuoc_hop,
-                  listSelect: data,
-                  onChange: (vl) {
-                    if (cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy == true) {
-                      cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = false;
-                    } else {
-                      cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = true;
-                    }
-                    cubit.listNguoiCHuTriModel.sink
-                        .add(cubit.dataThuKyOrThuHoiDeFault);
-                    log(cubit.listNguoiCHuTriModel.value.toString());
-                  },
-                ),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: List.generate(dataSN.length, (index) {
-                    final dataSnb = dataSN[index];
-                    return tag(
-                      title: dataSnb,
-                      onDelete: () {
-                        cubit.dataThuKyOrThuHoiDeFault[index].isThuKy = false;
-                        cubit.listNguoiCHuTriModel.sink
-                            .add(cubit.dataThuKyOrThuHoiDeFault);
-                      },
-                    );
-                  }),
-                ),
-              ],
-            );
-          }),
+        stream: cubit.listNguoiCHuTriModel,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          final dataSN = data.where((e) => e.isThuKy == true).toList();
+          return Stack(
+            alignment: AlignmentDirectional.centerStart,
+            children: [
+              DropDownSearchThuKy(
+                hintText: S.current.chon_thu_ky,
+                title: S.current.chon_thu_ky_cuoc_hop,
+                listSelect: data,
+                onChange: (vl) {
+                  if (cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy == true) {
+                    cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = false;
+                  } else {
+                    cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = true;
+                  }
+                  cubit.listNguoiCHuTriModel.sink
+                      .add(cubit.dataThuKyOrThuHoiDeFault);
+                  log(cubit.listNguoiCHuTriModel.value.toString());
+                },
+              ),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: List.generate(dataSN.length, (index) {
+                  final dataSnb = dataSN[index];
+                  return tag(
+                    title: dataSnb.title(),
+                    onDelete: () {
+                      final indexThis =
+                          cubit.dataThuKyOrThuHoiDeFault.indexOf(dataSnb);
+                      cubit.dataThuKyOrThuHoiDeFault[indexThis].isThuKy = false;
+                      cubit.listNguoiCHuTriModel.sink
+                          .add(cubit.dataThuKyOrThuHoiDeFault);
+                    },
+                  );
+                }),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
   Widget tag({required String title, required Function onDelete}) {
-    return Container(
-      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
-      decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 200,
-            ),
-            child: Text(
-              title,
-              style: textNormal(
-                APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
-                12.0.textScale(),
+    return GestureDetector(
+      onTap: () {
+        onDelete();
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+        decoration: BoxDecoration(
+          color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              constraints: const BoxConstraints(
+                maxWidth: 200,
               ),
-              overflow: TextOverflow.ellipsis,
+              child: Text(
+                title,
+                style: textNormal(
+                  APP_DEVICE == DeviceType.MOBILE
+                      ? linkColor
+                      : backgroundColorApp,
+                  12.0.textScale(),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              onDelete();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 9.25),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
               child: SvgPicture.asset(
                 ImageAssets.icClose,
                 width: 7.5,
@@ -224,9 +222,9 @@ class SelectThuKyCell extends StatelessWidget {
                     ? labelColor
                     : backgroundColorApp,
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

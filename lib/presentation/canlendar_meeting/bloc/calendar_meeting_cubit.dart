@@ -494,7 +494,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           checkDuplicate(value.items ?? []);
           _danhSachLichHopSubject.sink.add(value);
         }
-        countLichCanKLCH= value.items?.length ?? 0;
+        countLichCanKLCH = value.items?.length ?? 0;
       },
       error: (error) {},
     );

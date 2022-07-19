@@ -504,6 +504,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
       _nhapYMainController.text = '';
       widget.cubit.listFileMain.clear();
       widget.cubit.listPickFileMain.clear();
+      widget.cubit.sizeFileList.clear();
       setState(() {});
       if (controller.hasClients) {
         Future.delayed(const Duration(milliseconds: 50), () {

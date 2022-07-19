@@ -338,8 +338,15 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                     child:
                                                         DanhSachCanBoBieuQuyet(
                                                       cubit: widget.cubit,
-                                                      luaChonId: '',
-                                                      bieuQuyetId: '',
+                                                      luaChonId: widget
+                                                              .infoModel
+                                                              .danhSachKetQuaBieuQuyet
+                                                      ?[index]
+                                                              .luaChonId ??
+                                                          '',
+                                                      bieuQuyetId:
+                                                          widget.infoModel.id ??
+                                                              '',
                                                     ),
                                                   ),
                                                 )

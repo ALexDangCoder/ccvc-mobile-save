@@ -95,7 +95,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
           S.current.danh_sach_nhiem_vu,
           style: textNormalCustom(
             fontWeight: FontWeight.w500,
-            fontSize: 14.0.textScale(),
+            fontSize: 16,
             color: dateColor,
           ),
         ),

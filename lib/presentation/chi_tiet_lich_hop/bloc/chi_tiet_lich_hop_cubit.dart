@@ -324,6 +324,8 @@ class KetLuanHopState {
   BehaviorSubject();
   final BehaviorSubject<List<File>> listFileSelect =
   BehaviorSubject();
+  final BehaviorSubject<bool> validateTinhTrang =
+  BehaviorSubject();
 
   String valueEdit = '';
   String reportStatusId = '';

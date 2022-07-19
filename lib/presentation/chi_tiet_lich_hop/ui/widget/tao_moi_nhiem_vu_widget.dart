@@ -208,7 +208,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.nguoi_giao_nhiem_vu,
                         hint: S.current.nguoi_giao_nhiem_vu,
                         listData: widget.cubit.dataThuKyOrThuHoiDeFault
-                            .map((e) => e.hoTen ?? '')
+                            .map((e) => e.hoTen ?? (e.tenCoQuan ?? ''))
                             .toList(),
                         onChange: (value) {
                           ngGiaoNvId = widget.cubit.dataThuKyOrThuHoiDeFault

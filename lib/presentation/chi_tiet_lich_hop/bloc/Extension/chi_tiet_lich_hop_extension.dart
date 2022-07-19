@@ -13,6 +13,13 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
+class CoperativeStatus {
+  static const int WaitAccept = 0;
+  static const int Accepted = 1;
+  static const int Denied = 2;
+  static const int Revoked = 4;
+}
+
 ///chi tiết lịch họp
 extension ChiTietLichHop on DetailMeetCalenderCubit {
   Future<bool> deleteChiTietLichHop({bool? isMulti}) async {
@@ -118,14 +125,14 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
   Future<void> postThuHoiHop(String scheduleId) async {
     showLoading();
     final idPost = dataThuKyOrThuHoiDeFault
-        .where((element) => element.trangThai == 4)
+        .where((element) => element.trangThai == CoperativeStatus.Revoked)
         .toList();
     for (int i = 0; i < idPost.length; i++) {
       thuHoiHopRequest.add(
         ThuHoiHopRequest(
           id: idPost[i].id,
           scheduleId: scheduleId,
-          status: 4,
+          status: CoperativeStatus.Revoked,
         ),
       );
     }

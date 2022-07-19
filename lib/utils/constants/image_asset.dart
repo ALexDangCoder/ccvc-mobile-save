@@ -542,6 +542,7 @@ class ImageAssets {
   static const String ic_phan_hoi = '$baseImg/ic_phan_hoi.svg';
   static const String ic_send_y_kien = '$baseImg/ic_send_y_kien.svg';
   static const String ic_plus_bieu_quyet = '$baseImg/ic_plus_bieu_quyet.svg';
+  static const String ic_file_meeting = '$baseImg/ic_file_meeting.svg';
 
 
   static SvgPicture svgAssets(

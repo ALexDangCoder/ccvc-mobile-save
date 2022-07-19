@@ -9,11 +9,11 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_b
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class DangKyPhatBieuWidget extends StatefulWidget {
@@ -32,9 +32,12 @@ class DangKyPhatBieuWidget extends StatefulWidget {
 
 class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   final TaoBieuQuyetRequest taoBieuQuyetRequest = TaoBieuQuyetRequest();
-  final _formKey = GlobalKey<FormGroupState>();
   final userName = HiveLocal.getDataUser()?.userInformation?.hoTen ?? '';
   final unitName = HiveLocal.getDataUser()?.userInformation?.donVi ?? '';
+  String phienHopErrorText = '';
+  String valueDropDownSelected = '';
+  final timeController = TextEditingController();
+  String errorText = '';
 
   @override
   void initState() {
@@ -42,6 +45,31 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     taoBieuQuyetRequest.lichHopId = widget.id;
     taoBieuQuyetRequest.unitName = unitName;
     taoBieuQuyetRequest.personName = userName;
+  }
+
+  void validatePhienHop() {
+    final chonPhienHop = (taoBieuQuyetRequest.phienHopId ?? '').isEmpty;
+    setState(() {
+      phienHopErrorText = chonPhienHop ? S.current.vui_long_chon_phien_hop : '';
+    });
+  }
+
+  void validateForm (String value){
+    validatePhienHop();
+    validate(value);
+  }
+
+  void validate(String value) {
+    if (value.trim().isEmpty) {
+      setState(() {
+        errorText = S.current.vui_long_nhap_thoi_gian_phat_bieu;
+      });
+    } else {
+      final intValue = int.tryParse(value.trim());
+      setState(() {
+        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
+      });
+    }
   }
 
   @override
@@ -56,112 +84,107 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
             Navigator.pop(context);
           },
           onClickRight: () {
-            if (_formKey.currentState?.validator() ?? false) {
+            validateForm(timeController.text);
+            if (errorText.isEmpty && phienHopErrorText.isEmpty) {
               widget.cubit.taoPhatBieu(taoBieuQuyetRequest);
               Navigator.pop(context);
             }
           },
         ),
       ),
-      child: FormGroup(
-        scrollController: ScrollController(),
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 8),
-                child: Text(
-                  S.current.phien_hop,
-                  style: tokenDetailAmount(
-                    color: dateColor,
-                    fontSize: 14.0,
-                  ),
-                ),
-              ),
-              StreamBuilder<List<ListPhienHopModel>>(
-                stream: widget.cubit.danhSachChuongTrinhHop,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return CustomDropDown(
-                    items: [
-                      ...data.map((e) => e.tieuDe ?? '').toList(),
-                      S.current.tat_ca,
-                    ],
-                    onSelectItem: (value) {
-                      taoBieuQuyetRequest.phienHopId = data[value].id;
-                    },
-                    value: S.current.tat_ca,
-                  );
-                },
-              ),
-              InputInfoUserWidget(
-                isObligatory: true,
-                title: S.current.thoi_gian_phat_bieu,
-                child: const SizedBox(),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFieldValidator(
-                      textInputType: TextInputType.number,
-                      onChange: (vl) {
-                        try {
-                          taoBieuQuyetRequest.time = int.parse(vl);
-                        } catch (e) {
-                          _formKey.currentState?.validator();
-                        }
-                      },
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      validator: (value) {
-                        if (value?.trim().isEmpty ?? true) {
-                          return S.current.khong_duoc_de_trong;
-                        }
-                        try {
-                          int.parse(value?.trim() ?? '');
-                        } catch (e) {
-                          return S.current.check_so_luong;
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: InputInfoUserWidget(
-                      title: S.current.phut,
-                      child: const SizedBox(),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                S.current.noi_dung_phat_bieu,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 8),
+              child: Text(
+                S.current.phien_hop,
                 style: tokenDetailAmount(
-                  fontSize: 14.0.textScale(),
-                  color: borderCaneder,
+                  color: dateColor,
+                  fontSize: 14.0,
                 ),
               ),
-              spaceH5,
-              TextFieldValidator(
-                maxLine: 5,
-                onChange: (value) {
-                  taoBieuQuyetRequest.content = value;
-                },
+            ),
+            StreamBuilder<List<ListPhienHopModel>>(
+              stream: widget.cubit.danhSachChuongTrinhHop,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                final newListSelect =
+                data.map((e) => e.tieuDe ?? '').toList();
+                return CoolDropDown(
+                  key: UniqueKey(),
+                  useCustomHintColors: true,
+                  placeHoder: S.current.chon_phien_hop,
+                  listData: newListSelect,
+                  initData: valueDropDownSelected,
+                  onChange: (value) {
+                    taoBieuQuyetRequest.phienHopId = data[value].id;
+                    valueDropDownSelected  = data[value].tieuDe ?? '';
+                  },
+                );
+              },
+            ),
+            if (phienHopErrorText.isNotEmpty)
+              Text(
+                phienHopErrorText,
+                style: const TextStyle(fontSize: 12, color: canceledColor),
               ),
-              const SizedBox(
-                height: 24,
+            InputInfoUserWidget(
+              isObligatory: true,
+              title: S.current.thoi_gian_phat_bieu,
+              child: const SizedBox(),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFieldValidator(
+                    controller: timeController,
+                    textInputType: TextInputType.number,
+                    onChange: (value) {
+                      validate(value);
+                      try {
+                        taoBieuQuyetRequest.time = int.parse(value);
+                      } catch (_) {}
+                    },
+                    maxLength: 18,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                  ),
+                ),
+                spaceW16,
+                Expanded(
+                  child: InputInfoUserWidget(
+                    title: S.current.phut,
+                    child: const SizedBox(),
+                  ),
+                ),
+              ],
+            ),
+            if (errorText.isNotEmpty)
+              Text(
+                errorText,
+                style: const TextStyle(fontSize: 12, color: canceledColor),
               ),
-            ],
-          ),
+            spaceH24,
+            Text(
+              S.current.noi_dung_phat_bieu,
+              style: tokenDetailAmount(
+                fontSize: 14.0.textScale(),
+                color: borderCaneder,
+              ),
+            ),
+            spaceH5,
+            TextFieldValidator(
+              maxLine: 5,
+              onChange: (value) {
+                taoBieuQuyetRequest.content = value;
+              },
+            ),
+            spaceH24,
+          ],
         ),
       ),
     );

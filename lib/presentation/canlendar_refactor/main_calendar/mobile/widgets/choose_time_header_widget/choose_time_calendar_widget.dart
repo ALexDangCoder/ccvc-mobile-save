@@ -49,7 +49,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
         times[0],
         times[1],
         controller.calendarType.value,
-        textEditingController.text,
+        textEditingController.text.trim(),
       );
       controller.selectDate.addListener(() {
         final times = dateTimeRange(controller.selectDate.value);
@@ -57,7 +57,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
           times[0],
           times[1],
           controller.calendarType.value,
-          textEditingController.text,
+          textEditingController.text.trim(),
         );
       });
     });
@@ -83,7 +83,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                     times[0],
                     times[1],
                     controller.calendarType.value,
-                    textEditingController.text,
+                    textEditingController.text.trim(),
                   );
                   setState(() {});
                 },
@@ -131,7 +131,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                           widget.onChangeYear?.call(
                             timePage.first,
                             timePage.last,
-                            textEditingController.text,
+                            textEditingController.text.trim(),
                           );
                         },
                         time: dateFormat(value),
@@ -156,7 +156,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                     widget.onChangeYear?.call(
                       times.first,
                       times.last,
-                      textEditingController.text,
+                      textEditingController.text.trim(),
                     );
                   },
                 ),

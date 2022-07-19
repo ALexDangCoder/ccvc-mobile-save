@@ -114,7 +114,18 @@ class _TimeDatePickerWidgetState extends State<TimeDatePickerWidget> {
   }
 
   @override
+  void didUpdateWidget(covariant TimeDatePickerWidget oldWidget) {
+    selectDate = widget.initTimer;
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      timeController.jumpToItem(selectDate.hour);
+      minusController.jumpToItem(selectDate.minutes);
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Container(
       color: Colors.transparent,
       height: 35,

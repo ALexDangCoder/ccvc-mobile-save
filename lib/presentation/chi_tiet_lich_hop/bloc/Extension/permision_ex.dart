@@ -229,12 +229,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return false;
   }
 
-  bool trangThaiHuy() {
-    if (getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY) {
-      return true;
-    }
-    return false;
-  }
+  bool trangThaiHuy() =>getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY;
 
   void initDataButton() {
     listButton.clear();

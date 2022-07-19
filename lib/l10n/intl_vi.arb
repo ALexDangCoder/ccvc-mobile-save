@@ -1284,8 +1284,13 @@
   "ban_chua_chon_nguoi_huy_diem_danh": "Bạn chưa chọn người hủy điểm danh",
   "ban_phai_nhap_truong_email": "Bạn phải nhập trường Email!",
   "xoa_lich_hop": "Xóa lịch họp",
-  "chon_thu_ky": "Chọn thư ký"
-
+  "chon_thu_ky": "Chọn thư ký",
+  "thu_ky": "Thư ký",
+  "khach_moi_trong_don_vi": "Khách mời trong đơn vị",
+  "khach_moi_can_bo_trong_don_vi": "Khách mời cán bộ trong đơn vị",
+  "cu_di": "Cử đi",
+  "khach_moi_ngoai_don_vi": "Khách mời ngoài đơn vị",
+  "khach_moi_can_bo_ngoai_don_vi": "Khách mời cán bộ ngoài đơn vị"
 }
 
 

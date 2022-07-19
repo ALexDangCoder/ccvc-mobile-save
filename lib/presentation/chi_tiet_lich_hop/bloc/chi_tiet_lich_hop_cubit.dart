@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danhSachCanBoBieuQuyetModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
@@ -54,6 +55,7 @@ import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
@@ -98,6 +100,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   ChiTietBieuQuyetModel chiTietBieuQuyetModel = ChiTietBieuQuyetModel();
   List<DsLuaChonOld> listLuaChonOld = [];
   BehaviorSubject<ChiTietBieuQuyetModel> chiTietBieuQuyetSubject =
+      BehaviorSubject();
+  BehaviorSubject<DanhSachCanBoBieuQuyetModel> danhSachCanBoBieuQuyetSubject =
       BehaviorSubject();
   BehaviorSubject<List<DanhSachThanhPhanThamGiaModel>> listBieuQuyetSubject =
       BehaviorSubject();
@@ -183,7 +187,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       danhSachPhatbieuLichHopModelSubject.stream;
 
   final BehaviorSubject<List<String>> themLuaChonBieuQuyet = BehaviorSubject();
-  final List<String> listThemLuaChon = [];
+  List<String> listThemLuaChon = [];
   final BehaviorSubject<List<SuaDanhSachLuaChonModel>> suaDanhSachLuaChon =
       BehaviorSubject();
   BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
@@ -474,7 +478,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
     showLoading(isShow: false);
-
   }
 
   void addThanhPhanThamGia(List<DonViModel> value) {
@@ -587,24 +590,27 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   void dispose() {
     _data.clear();
   }
-  void showLoading({bool isShow = true}){
-    void show(){
-      if(isMobile()){
+
+  void showLoading({bool isShow = true}) {
+    void show() {
+      if (isMobile()) {
         ShowLoadingScreen.show();
-      }else{
+      } else {
         detailMeetCalenderCubit?.showLoading();
       }
     }
-    void dismiss(){
-      if(isMobile()){
+
+    void dismiss() {
+      if (isMobile()) {
         ShowLoadingScreen.dismiss();
-      }else{
+      } else {
         detailMeetCalenderCubit?.showContent();
       }
     }
-    if(isShow){
-     show();
-    }else{
+
+    if (isShow) {
+      show();
+    } else {
       dismiss();
     }
   }

@@ -154,6 +154,24 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     showContent();
   }
 
+  Future<void> danhSachCanBoBieuQuyet({
+    required String luaChonId,
+    required String bieuQuyetId,
+  }) async {
+    showLoading();
+    final result =
+        await hopRp.danhSachCanBoBieuQuyet(luaChonId, idCuocHop, bieuQuyetId);
+    result.when(
+      success: (res) {
+        danhSachCanBoBieuQuyetSubject.sink.add(
+          res,
+        );
+        showContent();
+      },
+      error: (err) {},
+    );
+  }
+
   Future<void> suaBieuQuyet({
     required String idBieuQuyet,
     required String lichHopId,
@@ -611,7 +629,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   Future<void> callSuaAPiBieuQuyet() async {
-  //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
+    //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop, idPhienHop);
   }
 

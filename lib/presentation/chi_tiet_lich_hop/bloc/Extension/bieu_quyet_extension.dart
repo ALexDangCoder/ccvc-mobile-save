@@ -233,8 +233,8 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   void isCheckDiemDanh(List<CanBoModel> mList) {
     final idCanBo = HiveLocal.getDataUser()?.userId;
     final diemDanh =
-        mList.firstWhere((element) => element.canBoId == idCanBo).diemDanh;
-    isCheckDiemDanhSubject.sink.add(diemDanh ?? false);
+        mList.firstWhere((element) => element.canBoId == idCanBo);
+    isCheckDiemDanhSubject.sink.add(diemDanh);
   }
 
   void getTimeHour({required TimerData startT, required TimerData endT}) {

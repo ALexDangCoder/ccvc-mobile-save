@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
@@ -265,11 +266,12 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                       flex: 6,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: StreamBuilder<bool>(
+                        child: StreamBuilder<CanBoModel>(
                           stream: widget.cubit.isCheckDiemDanhSubject.stream,
                           builder: (context, snapshot) {
-                            final data = snapshot.data ?? false;
-                            return data == true &&
+                            final data = snapshot.data ?? CanBoModel();
+                            return data.diemDanh == true &&
+                                    data.trangThai == 1 &&
                                     widget.cubit.compareTime(
                                       widget.infoModel.thoiGianKetThuc ?? '',
                                     )

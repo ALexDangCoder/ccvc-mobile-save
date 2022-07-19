@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/bao_cao_module/widget/button/button_custom_bottom.dart';
@@ -15,7 +16,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
-import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
@@ -406,7 +407,22 @@ class _CreateOrUpdateKetLuanHopWidgetState
       return;
     }
     if (widget.isCreate) {
-      widget.cubit.createKetLuanHop();
+      showDiaLog(
+        context,
+        textContent: S.current.ban_co_chac_chan_muon_gui_mai_nay,
+        btnLeftTxt: S.current.khong,
+        funcBtnRight: () {
+          widget.cubit.createKetLuanHop();
+          widget.cubit.sendMailKetLuatHop(widget.cubit.idCuocHop);
+        },
+        title: S.current.gui_email,
+        btnRightTxt: S.current.dong_y,
+        icon: SvgPicture.asset(ImageAssets.IcEmail),
+      ).then((value){
+        if(value == null){
+          widget.cubit.createKetLuanHop();
+        }
+      });
     } else {
       widget.cubit.suaKetLuan();
     }

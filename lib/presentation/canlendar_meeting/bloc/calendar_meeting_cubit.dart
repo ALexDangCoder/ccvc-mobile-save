@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
@@ -29,6 +31,7 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -153,7 +156,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }
 
   void refreshDataDangLich() {
-    getCountDashboard();
+    getCountInDashboard();
     if (typeCalender != StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
       getDanhSachLichHop();
     }
@@ -307,6 +310,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     return listMenuTheoTrangThai;
   }
 
+  DashBoardLichHopModel dashBoardModel  = DashBoardLichHopModel.empty();
+  int countLichCanKLCH = 0;
+
   /// Lấy số lượng các loại lịch
   Future<void> getCountDashboard() async {
     if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
@@ -318,10 +324,22 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
     result.when(
       success: (value) {
-        getDanhSachLichCanKLCH(dashBoard: value);
+        dashBoardModel = value;
       },
       error: (error) {},
     );
+  }
+
+
+  Future<void> getCountInDashboard() async {
+    final queue = Queue(parallel: 2);
+    unawaited(queue.add(() => getCountDashboard()));
+    unawaited(queue.add(() => getDanhSachLichCanKLCH()));
+    await queue.onComplete;
+    dashBoardModel.soLichCanBaoCao = countLichCanKLCH;
+    dashBoardModel.soLichChuaCoBaoCao = countLichCanKLCH;
+    _totalWorkSubject.add(dashBoardModel);
+    queue.dispose();
   }
 
   /// lấy data cho dashboard
@@ -455,8 +473,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }
 
   /// lấy danh sách lịch họp cần KLCH
-  Future<void> getDanhSachLichCanKLCH(
-      {required DashBoardLichHopModel dashBoard,}) async {
+  Future<void> getDanhSachLichCanKLCH() async {
     final result = await hopRepo.getLichCanKLCH(
       DanhSachLichHopRequest(
         Title: keySearch,
@@ -477,10 +494,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           checkDuplicate(value.items ?? []);
           _danhSachLichHopSubject.sink.add(value);
         }
-        final dashBoardModel = dashBoard;
-        dashBoardModel.soLichChuaCoBaoCao = value.items?.length ?? 0;
-        dashBoardModel.soLichCanBaoCao = value.items?.length ?? 0;
-        _totalWorkSubject.add(dashBoardModel);
+        countLichCanKLCH= value.items?.length ?? 0;
       },
       error: (error) {},
     );

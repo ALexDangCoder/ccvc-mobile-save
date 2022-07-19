@@ -115,6 +115,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 final newListSelect =
                 data.map((e) => e.tieuDe ?? '').toList();
                 return CoolDropDown(
+                  key: UniqueKey(),
                   useCustomHintColors: true,
                   placeHoder: S.current.chon_phien_hop,
                   listData: newListSelect,

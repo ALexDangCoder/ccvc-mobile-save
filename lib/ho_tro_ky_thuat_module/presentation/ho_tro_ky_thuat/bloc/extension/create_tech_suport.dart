@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+
 
 extension CreateTechSupport on HoTroKyThuatCubit {
   Future<void> geiApiAddAndSearch() async {
@@ -9,41 +11,69 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     await getCategory(title: HoTroKyThuatCubit.TRANG_THAI);
   }
 
+  ///start
+  // if (isEdit) {
+  // await getChiTietHTKTEdit(id: id ?? '');
+  // areaValue = getValueAreaDropDown(
+  // statusHTKT: StatusHTKT.Edit,
+  // id: modelEditHTKT.districId,
+  // );
+  // buildingValue = getValueAreaDropDown(
+  // statusHTKT: StatusHTKT.Edit,
+  // id: modelEditHTKT.buildingId,
+  // isArea: false,
+  // );
+  // } else {
+  // areaValue = getValueAreaDropDown(
+  // statusHTKT: StatusHTKT.Create,
+  // );
+  // buildingValue = getValueAreaDropDown(
+  // statusHTKT: StatusHTKT.Create,
+  // isArea: false,
+  // );
+  // }
+  /// end
+
   Future<void> getApiThemMoiYCHT() async {
-    if (areaList.isEmpty || issueList.isEmpty) {
-      showLoading();
-      await getCategory(title: HoTroKyThuatCubit.KHU_VUC);
-      await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
-      if (flagLoadThemMoiYCHT) {
-        showContent();
-      } else {
-        //nothing
-      }
-    } else {
-      listKhuVuc.sink.add(areaList);
-      flagLoadThemMoiYCHT = true;
-      listLoaiSuCo.sink.add(issueList);
-      sinkIssue();
+    showLoading();
+    if(listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
+      listKhuVuc.value.clear();
+      listToaNha.value.clear();
     }
+    await getCategory(title: HoTroKyThuatCubit.KHU_VUC);
+    await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
+    listKhuVuc.sink.add(areaList);
+    listLoaiSuCo.sink.add(issueList);
+    sinkIssue();
+    if (flagLoadThemMoiYCHT) {
+      showContent();
+    } else {
+      showError();
+    }
+  }
+
+  Future<void> getApiChiTietYCHT({required String id}) async {
+    showLoading();
+    await getChiTietHTKTEdit(id: id);
   }
 
   void selectArea(int index) {
     addTaskHTKTRequest.districtName = areaList[index].name;
     addTaskHTKTRequest.districtId = areaList[index].id;
+    showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-            // ?.map((e) => '${e.name}${e.id}')
             ?.map((e) => '${e.name}')
             .toList() ??
         [];
-    addTaskHTKTRequest.buildingName = null;
-    addTaskHTKTRequest.buildingId = null;
     buildingListStream.sink.add(_buildingList);
+
   }
 
   void selectBuilding(int index) {
     addTaskHTKTRequest.buildingName = buildingList[index].name;
     addTaskHTKTRequest.buildingId = buildingList[index].id;
+    showErrorToaNha.add(false);
   }
 
   void sinkIssue() {

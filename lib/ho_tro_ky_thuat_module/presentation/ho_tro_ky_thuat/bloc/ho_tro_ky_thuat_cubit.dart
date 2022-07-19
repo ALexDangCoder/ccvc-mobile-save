@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_data.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_su_co_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/nguoi_tiep_nhan_yeu_cau_model.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
@@ -39,7 +40,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   static const TRANG_THAI = 'trang-thai';
   static const KHU_VUC = 'khu-vuc';
   static const int checkDataThongTinChungSuccess = 3;
+  String? areaValue;
+  String? buildingValue;
+
   int checkDataThongTinChung = 0;
+
+
 
   ///variable menu
   BehaviorSubject<TypeHoTroKyThuat> typeHoTroKyThuatSubject =
@@ -389,6 +395,34 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
+  String? findLocationAreaFeatBuilding({
+    required String id,
+    bool isArea = false,
+  }) {
+    String? result;
+    if (isArea) {
+      for (final element in areaList) {
+        if (element.id == id) {
+          result = element.name ?? '';
+        }
+        break;
+      }
+    } else {
+      for (final area in areaList) {
+        for (final building in area.childCategories ?? []) {
+          if (id == building.id) {
+            result = building.name ?? '';
+          }
+          break;
+        }
+      }
+    }
+    if ((result ?? '').isEmpty) {
+      result = null;
+    }
+    return result;
+  }
+
   bool flagLoadThemMoiYCHT = false;
 
   Future<void> getCategory({
@@ -401,6 +435,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         if (title == KHU_VUC) {
           listKhuVuc.sink.add(res);
           areaList = res;
+          buildingList = res.first.childCategories ?? [];
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
         } else if (title == LOAI_SU_CO) {
@@ -413,6 +448,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         }
       },
       error: (error) {
+        flagLoadThemMoiYCHT = false;
         emit(const CompletedLoadMore(CompleteType.ERROR));
         showError();
       },
@@ -493,5 +529,3 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorToaNha.close();
   }
 }
-
-///Huy

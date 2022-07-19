@@ -3,14 +3,19 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
+
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:flutter/material.dart';
 
 class AreaDropDown extends StatelessWidget {
   final HoTroKyThuatCubit cubit;
 
-  const AreaDropDown({Key? key, required this.cubit}) : super(key: key);
+  const AreaDropDown({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

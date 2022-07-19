@@ -53,8 +53,14 @@ class GroupResponse {
   String? nguoiXuLy;
   @JsonKey(name: 'nhanXet')
   String? nhanXet;
+  @JsonKey(name: 'districtId')
+  String? districtId;
+  @JsonKey(name: 'buildingId')
+  String? buildingId;
   @JsonKey(name: 'ngayHoanThanh')
   String? ngayHoanThanh;
+  @JsonKey(name: 'room')
+  String? room;
   @JsonKey(name: 'danhSachSuCo')
   List<DSSuCoResponse>? danhSachSuCo;
 
@@ -73,7 +79,10 @@ class GroupResponse {
     this.nhanXet,
     this.ngayHoanThanh,
     this.chucVu,
+    this.districtId,
+    this.buildingId,
     this.danhSachSuCo,
+    this.room,
   );
 
   factory GroupResponse.fromJson(Map<String, dynamic> json) =>
@@ -83,7 +92,8 @@ class GroupResponse {
 
   SupportDetail toDomain() => SupportDetail(
         id: id,
-        moTaSuCo: (moTaSuCo ?? '').parseHtml() ,
+        room: room,
+        moTaSuCo: (moTaSuCo ?? '').parseHtml(),
         tenThietBi: tenThietBi,
         soDienThoai: soDienThoai,
         diaChi: diaChi,
@@ -94,6 +104,8 @@ class GroupResponse {
         codeTrangThai: codeTrangThai,
         trangThaiXuLy: trangThaiXuLy,
         nhanXet: nhanXet,
+        districId: districtId,
+        buildingId: buildingId,
         ngayHoanThanh: ngayHoanThanh,
         ketQuaXuLy: (ketQuaXuLy ?? '').parseHtml(),
         nguoiXuLy: nguoiXuLy,

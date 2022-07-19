@@ -272,7 +272,7 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? CanBoModel();
                             return data.diemDanh == true &&
-                                    data.trangThai == KEY_TRANG_THAI &&
+                                    data.trangThai == DA_THAM_GIA &&
                                     widget.cubit.compareTime(
                                       widget.infoModel.thoiGianKetThuc ?? '',
                                     )
@@ -331,38 +331,38 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                                           cubit: widget.cubit,
                                           onTapDanhSach: () {
                                             widget.infoModel.loaiBieuQuyet ==
-                                                true
+                                                    true
                                                 ? showDiaLogTablet(
-                                              context,
-                                              title: S.current
-                                                  .danh_sach_lua_chon,
-                                              child: Container(
-                                                constraints:
-                                                BoxConstraints(
-                                                  maxHeight:
-                                                  MediaQuery.of(
-                                                      context)
-                                                      .size
-                                                      .height *
-                                                      0.8,
-                                                ),
-                                                child:
-                                                DanhSachCanBoBieuQuyet(
-                                                  cubit: widget.cubit,
-                                                  luaChonId: widget
-                                                      .infoModel
-                                                      .danhSachKetQuaBieuQuyet?[
-                                                  index]
-                                                      .luaChonId ??
-                                                      '',
-                                                  bieuQuyetId: widget
-                                                      .infoModel.id ??
-                                                      '',
-                                                ),
-                                              ),
-                                              funcBtnOk: () {},
-                                              isBottomShow: false,
-                                            )
+                                                    context,
+                                                    title: S.current
+                                                        .danh_sach_lua_chon,
+                                                    child: Container(
+                                                      constraints:
+                                                          BoxConstraints(
+                                                        maxHeight:
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.8,
+                                                      ),
+                                                      child:
+                                                          DanhSachCanBoBieuQuyet(
+                                                        cubit: widget.cubit,
+                                                        luaChonId: widget
+                                                                .infoModel
+                                                                .danhSachKetQuaBieuQuyet?[
+                                                                    index]
+                                                                .luaChonId ??
+                                                            '',
+                                                        bieuQuyetId: widget
+                                                                .infoModel.id ??
+                                                            '',
+                                                      ),
+                                                    ),
+                                                    funcBtnOk: () {},
+                                                    isBottomShow: false,
+                                                  )
                                                 : Container();
                                           },
                                         ),

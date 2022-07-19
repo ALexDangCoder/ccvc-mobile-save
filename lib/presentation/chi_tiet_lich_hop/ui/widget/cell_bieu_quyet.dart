@@ -274,7 +274,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? CanBoModel();
                           return data.diemDanh == true &&
-                                  data.trangThai == KEY_TRANG_THAI &&
+                                  data.trangThai == DA_THAM_GIA &&
                                   widget.cubit.compareTime(
                                     widget.infoModel.thoiGianKetThuc ?? '',
                                   )

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -48,7 +49,7 @@ Widget infoItem({
         ),
         Center(
           child: Text(
-            'Năm trước: ${format.format(quantity)} (${getPercent(quantity, lastYearQuantity)})',
+            '${S.current.nam_truoc}: ${format.format(quantity)} (${getPercent(quantity, lastYearQuantity)})',
             style: tokenDetailAmount(
               fontSize: 12.0.textScale(),
               color: color667793,

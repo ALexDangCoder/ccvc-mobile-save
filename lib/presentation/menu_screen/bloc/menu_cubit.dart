@@ -42,7 +42,7 @@ class MenuCubit extends BaseCubit<MenuState> {
 
     showLoading();
     unawaited(queue.add(() => permissionMenu()));
-    // unawaited(queue.add(() => getListPhamVi()));
+    unawaited(queue.add(() => getListPhamVi()));
     await queue.onComplete;
     showContent();
   }
@@ -54,7 +54,7 @@ class MenuCubit extends BaseCubit<MenuState> {
         : keyHomeTablet.currentState?.homeCubit;
 
     unawaited(queue.add(() => permissionMenu()));
-    // unawaited(queue.add(() => getListPhamVi()));
+    unawaited(queue.add(() => getListPhamVi()));
     unawaited(queue.add(() => homeCubit!.getUserInFor()));
     await queue.onComplete;
   }

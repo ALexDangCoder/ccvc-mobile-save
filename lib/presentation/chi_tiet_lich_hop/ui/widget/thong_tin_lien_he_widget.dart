@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
@@ -16,14 +17,14 @@ class ThongTinLienHeWidget extends StatelessWidget {
   final String thongTinTxt;
   final String sdtTxt;
   final List<DsDiemCau> dsDiemCau;
-  final String thuMoiFiles;
+  final List<FilesChiTietHop> thuMoiFiles;
 
   const ThongTinLienHeWidget({
     Key? key,
     this.thongTinTxt = '',
     this.sdtTxt = '',
     required this.dsDiemCau,
-    this.thuMoiFiles = '',
+    required this.thuMoiFiles,
   }) : super(key: key);
 
   @override
@@ -54,39 +55,48 @@ class ThongTinLienHeWidget extends StatelessWidget {
         ),
 
         /// xem điểm cầu
-        GestureDetector(
-          onTap: () {
-            showBottomSheetCustom(
-              context,
-              title: S.current.danh_sach_diem_cau,
-              child: _xemDiemCau(
-                listData: dsDiemCau,
-                context: context,
+        if (dsDiemCau.isNotEmpty) ...[
+          GestureDetector(
+            onTap: () {
+              showBottomSheetCustom(
+                context,
+                title: S.current.danh_sach_diem_cau,
+                child: _xemDiemCau(
+                  listData: dsDiemCau,
+                  context: context,
+                ),
+              );
+            },
+            child: RowDataWidget(
+              urlIcon: ImageAssets.icDiemCau,
+              text: S.current.xem_diem_cau,
+              styleText: textNormalCustom(
+                fontSize: 16,
+                color: AppTheme.getInstance().colorField(),
+                fontWeight: FontWeight.w400,
               ),
-            );
-          },
-          child: RowDataWidget(
-            urlIcon: ImageAssets.icDiemCau,
-            text: S.current.xem_diem_cau,
+            ),
+          ),
+          SizedBox(
+            height: 16.0.textScale(space: 8),
+          ),
+        ],
+
+        /// thư mời
+        if (thuMoiFiles.isNotEmpty) ...[
+          RowDataWidget(
+            urlIcon: ImageAssets.icThuMoiHop,
+            text: thuMoiFiles.first.name ?? '',
             styleText: textNormalCustom(
               fontSize: 16,
-              color: AppTheme.getInstance().colorField(),
+              color: blueNhatChart,
               fontWeight: FontWeight.w400,
             ),
           ),
-        ),
-        SizedBox(
-          height: 16.0.textScale(space: 8),
-        ),
-
-        /// thư mời
-        RowDataWidget(
-          urlIcon: ImageAssets.icCalling,
-          text: thuMoiFiles,
-        ),
-        SizedBox(
-          height: 16.0.textScale(space: 8),
-        ),
+          SizedBox(
+            height: 16.0.textScale(space: 8),
+          ),
+        ]
       ],
     );
   }

@@ -352,7 +352,7 @@ PreferredSizeWidget appbarChiTietHop(
     ),
     actions: [
       if (!cubit.trangThaiHuy() &&
-          (cubit.listButtonSubject.valueOrNull ?? []).isNotEmpty)
+          (cubit.listButtonSubject.valueOrNull  ?? []).isNotEmpty)
         Padding(
           padding: const EdgeInsets.only(right: 16),
           child: StreamBuilder<List<PERMISSION_DETAIL>>(

@@ -82,6 +82,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                         )
                       else
                         DropdownButtonWidget<String>(
+                          menuMaxHeight: 250,
                           itemHeight: widget.itemHeight,
                           underline: Container(),
                           isExpanded: true,

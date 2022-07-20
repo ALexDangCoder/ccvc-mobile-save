@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
@@ -9,10 +9,11 @@ import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sh
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/item_row_lua_chon.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/list_can_bo_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
@@ -99,15 +100,18 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   spaceW20,
                   Expanded(
                     flex: 6,
-                    child: Text(
-                      ' ${widget.infoModel.noiDung}',
-                      style: textNormalCustom(
-                        fontSize: 16,
-                        color: infoColor,
-                        fontWeight: FontWeight.w400,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 50),
+                      child: Text(
+                        '${widget.infoModel.noiDung}',
+                        style: textNormalCustom(
+                          fontSize: 16,
+                          color: infoColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -265,11 +269,12 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     flex: 6,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: StreamBuilder<bool>(
+                      child: StreamBuilder<CanBoModel>(
                         stream: widget.cubit.isCheckDiemDanhSubject.stream,
                         builder: (context, snapshot) {
-                          final data = snapshot.data ?? false;
-                          return data == true &&
+                          final data = snapshot.data ?? CanBoModel();
+                          return data.diemDanh == true &&
+                                  data.trangThai == DA_THAM_GIA &&
                                   widget.cubit.compareTime(
                                     widget.infoModel.thoiGianKetThuc ?? '',
                                   )
@@ -280,7 +285,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                           0, (index) {
                                     return Padding(
                                       padding: const EdgeInsets.only(right: 16),
-                                      child: ContainerState(
+                                      child: ItemRowLuaChon(
                                         name: widget
                                                 .infoModel
                                                 .danhSachKetQuaBieuQuyet?[index]
@@ -321,6 +326,37 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                 .isVote ??
                                             true,
                                         cubit: widget.cubit,
+                                        onTapDanhSach: () {
+                                          widget.infoModel.loaiBieuQuyet == true
+                                              ? showBottomSheetCustom(
+                                                  context,
+                                                  title: S.current
+                                                      .danh_sach_lua_chon,
+                                                  child: Container(
+                                                    constraints: BoxConstraints(
+                                                      maxHeight:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.8,
+                                                    ),
+                                                    child:
+                                                        DanhSachCanBoBieuQuyet(
+                                                      cubit: widget.cubit,
+                                                      luaChonId: widget
+                                                              .infoModel
+                                                              .danhSachKetQuaBieuQuyet
+                                                      ?[index]
+                                                              .luaChonId ??
+                                                          '',
+                                                      bieuQuyetId:
+                                                          widget.infoModel.id ??
+                                                              '',
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container();
+                                        },
                                       ),
                                     );
                                   }),
@@ -332,7 +368,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                           0, (index) {
                                     return Padding(
                                       padding: const EdgeInsets.only(right: 16),
-                                      child: ContainerUnColor(
+                                      child: ItemRowLuaChonUnColor(
                                         name: widget
                                                 .infoModel
                                                 .danhSachKetQuaBieuQuyet?[index]
@@ -345,6 +381,37 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                             0,
                                         onTap: () {},
                                         cubit: widget.cubit,
+                                        onTapDanhSach: () {
+                                          widget.infoModel.loaiBieuQuyet == true
+                                              ? showBottomSheetCustom(
+                                                  context,
+                                                  title: S.current
+                                                      .danh_sach_lua_chon,
+                                                  child: Container(
+                                                    constraints: BoxConstraints(
+                                                      maxHeight:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.8,
+                                                    ),
+                                                    child:
+                                                        DanhSachCanBoBieuQuyet(
+                                                      cubit: widget.cubit,
+                                                      luaChonId: widget
+                                                              .infoModel
+                                                              .danhSachKetQuaBieuQuyet?[
+                                                                  index]
+                                                              .luaChonId ??
+                                                          '',
+                                                      bieuQuyetId:
+                                                          widget.infoModel.id ??
+                                                              '',
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container();
+                                        },
                                       ),
                                     );
                                   }),
@@ -428,125 +495,6 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
             )
         ],
       ),
-    );
-  }
-}
-
-class ContainerState extends StatelessWidget {
-  final int number;
-  final String name;
-  final Function() onTap;
-  final bool isVote;
-  final DetailMeetCalenderCubit cubit;
-
-  const ContainerState({
-    Key? key,
-    required this.number,
-    required this.name,
-    required this.onTap,
-    required this.isVote,
-    required this.cubit,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () => onTap(),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8.0.textScale(),
-              vertical: 4.0.textScale(),
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: isVote
-                  ? colorLineSearch
-                  : AppTheme.getInstance().colorField(),
-              border: Border.all(
-                color: isVote
-                    ? colorLineSearch
-                    : AppTheme.getInstance().colorField(),
-              ),
-            ),
-            child: Text(
-              name,
-              style: textNormalCustom(
-                color: backgroundColorApp,
-                fontSize: 14.0.textScale(),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-        Text(
-          '$number',
-          style: textNormalCustom(
-            color:
-                isVote ? colorLineSearch : AppTheme.getInstance().colorField(),
-            fontSize: 14.0.textScale(),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ContainerUnColor extends StatelessWidget {
-  final int number;
-  final String name;
-  final Function() onTap;
-  final DetailMeetCalenderCubit cubit;
-
-  const ContainerUnColor({
-    Key? key,
-    required this.number,
-    required this.name,
-    required this.onTap,
-    required this.cubit,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () => onTap(),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8.0.textScale(),
-              vertical: 4.0.textScale(),
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: colorLineSearch,
-              border: Border.all(
-                color: colorLineSearch,
-              ),
-            ),
-            child: Text(
-              name,
-              style: textNormalCustom(
-                color: backgroundColorApp,
-                fontSize: 14.0.textScale(),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-        Text(
-          '$number',
-          style: textNormalCustom(
-            color: AppTheme.getInstance().colorField(),
-            fontSize: 14.0.textScale(),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
     );
   }
 }

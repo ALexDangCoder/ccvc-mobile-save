@@ -15,9 +15,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class CapNhatTinhHinhHoTroTabLet extends StatefulWidget {
-  const CapNhatTinhHinhHoTroTabLet({Key? key, required this.cubit})
+  const CapNhatTinhHinhHoTroTabLet({Key? key, required this.cubit, this.idTask})
       : super(key: key);
   final ChiTietHoTroCubit cubit;
+  final String? idTask;
 
   @override
   _CapNhatTinhHinhHoTroTabLetState createState() =>
@@ -30,6 +31,14 @@ class _CapNhatTinhHinhHoTroTabLetState
   String? birthday;
   String? trangThai;
   String? nguoiXuLy;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.idTask?.isNotEmpty ?? false) {
+      widget.cubit.getSupportDetail(widget.idTask ?? '');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +99,29 @@ class _CapNhatTinhHinhHoTroTabLetState
                   maxLine: 4,
                 ),
                 spaceH16,
-                dropDownField(
-                  title: S.current.nguoi_xu_ly,
-                  listDropdown: widget.cubit.listItSupport,
-                ),
+                if (widget.idTask?.isNotEmpty ?? false) ...[
+                  StreamBuilder<List<String>>(
+                    stream: widget.cubit.getItSupport,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return dropDownField(
+                          title: S.current.nguoi_xu_ly,
+                          listDropdown: widget.cubit.listItSupport,
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: sideBtnUnselected,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ] else
+                  dropDownField(
+                    title: S.current.nguoi_xu_ly,
+                    listDropdown: widget.cubit.listItSupport,
+                  ),
                 spaceH16,
                 Text(
                   S.current.ngay_hoan_thanh,

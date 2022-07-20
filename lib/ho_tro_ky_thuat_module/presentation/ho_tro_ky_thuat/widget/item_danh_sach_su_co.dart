@@ -3,6 +3,9 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/cap_nhat_tinh_hinh_ho_tro.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/danh_gia_yeu_cau_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/string_extension.dart';
@@ -182,7 +185,19 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
-                            function: (value) {},
+                            function: (value) {
+                              showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (_) {
+                                  return DanhGiaYeuCauHoTro(
+                                    cubit: ChiTietHoTroCubit(),
+                                    idTask: objDSSC.id,
+                                  );
+                                },
+                              );
+                            },
                           ),
                         if (!(cubit.isCheckUser ?? true))
                           line(
@@ -194,7 +209,19 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,
-                            function: (value) {},
+                            function: (value) {
+                              showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (_) {
+                                  return CapNhatTinhHinhHoTro(
+                                    cubit: ChiTietHoTroCubit(),
+                                    idTask: objDSSC.id,
+                                  );
+                                },
+                              );
+                            },
                           ),
                       ],
                     ),

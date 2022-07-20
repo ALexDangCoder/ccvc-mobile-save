@@ -55,6 +55,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   static const String TU_CHOI_XU_LY = 'tu-choi-xu-ly';
 
   BehaviorSubject<String> selectDate = BehaviorSubject.seeded('');
+  BehaviorSubject<List<String>> getItSupport = BehaviorSubject();
 
   Future<void> getSupportDetail(String id) async {
     emit(ChiTietHoTroLoading());
@@ -144,10 +145,10 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     );
   }
 
-  Future<void> commentTask(String comment) async {
+  Future<void> commentTask(String comment, {String? id}) async {
     showLoading();
     final result = await _hoTroKyThuatRepository.commentTask(
-      supportDetail.id ?? '',
+      (supportDetail.id ?? id) ?? '',
       comment,
     );
     result.when(
@@ -184,6 +185,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
           );
           listThanhVien.add(element);
         }
+        getItSupport.add(listItSupport);
       },
       error: (error) {},
     );

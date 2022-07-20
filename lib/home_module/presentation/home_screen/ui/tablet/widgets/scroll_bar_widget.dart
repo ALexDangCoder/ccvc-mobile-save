@@ -24,6 +24,7 @@ class _ScrollBarWidgetState extends State<ScrollBarWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: widget.children,
       ),
     );

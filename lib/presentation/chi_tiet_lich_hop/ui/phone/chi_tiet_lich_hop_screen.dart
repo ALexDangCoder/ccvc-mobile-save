@@ -153,6 +153,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   thongTinTxt: data.chuTriModel.dauMoiLienHe,
                                   sdtTxt: data.chuTriModel.soDienThoai,
                                   dsDiemCau: data.dsDiemCau ?? [],
+                                  thuMoiFiles: data.fileDinhKemWithDecode ?? [],
                                 )
                               ],
                             );

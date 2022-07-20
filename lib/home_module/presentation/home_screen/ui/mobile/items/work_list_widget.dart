@@ -59,7 +59,6 @@ class _WorkListWidgetState extends State<WorkListWidget> {
       title: S.current.work_list,
       urlIcon: ImageAssets.icPlus,
       onTapIcon: () {
-        // HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
         showBottomSheetCustom(
           context,
           child: BottomSheetThemCongViec(
@@ -79,6 +78,14 @@ class _WorkListWidgetState extends State<WorkListWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              S.current.ca_nha_hom_nay,
+              style: textNormalCustom(
+                fontSize: 12,
+                color: textBodyTime,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             StreamBuilder<TodoListModel>(
               stream: danhSachCVCubit.getTodoList,
               builder: (context, snapshot) {
@@ -89,7 +96,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                     children: List.generate(data.length, (index) {
                       final todo = data[index];
                       return CongViecCell(
-                        nguoiGan:danhSachCVCubit.danhSachTenNguoiGan[index],
+                        nguoiGan: danhSachCVCubit.danhSachTenNguoiGan[index],
                         text: todo.label ?? '',
                         todoModel: todo,
                         onCheckBox: (value) {

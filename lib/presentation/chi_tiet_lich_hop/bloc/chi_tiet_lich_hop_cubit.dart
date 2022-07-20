@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
@@ -26,6 +27,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_mo
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/file_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -63,7 +65,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
   /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
-  KetLuanHopState ketLuanHopState= KetLuanHopState();
+  KetLuanHopState ketLuanHopState = KetLuanHopState();
   String ngayBatDaus = '';
   String ngayKetThucs = '';
   bool check = false;
@@ -252,6 +254,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getDanhSachCanBoHop(idCuocHop);
   }
+  Future<Result<List<FileUploadModel>>> uploadFile(List<File> file) async {
+    ShowLoadingScreen.show();
+    final data = await hopRp.uploadMultiFile(path: file);
+    ShowLoadingScreen.dismiss();
+    return data;
+  }
 
   /// dùng cho cả bên: tao moi nhiem vu - kl hop
   Future<void> getDanhSachNguoiChuTriPhienHop(String id) async {
@@ -319,13 +327,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     });
   }
 }
+
 class KetLuanHopState {
   final BehaviorSubject<List<FileDetailMeetModel>> listFileDefault =
-  BehaviorSubject();
-  final BehaviorSubject<List<File>> listFileSelect =
-  BehaviorSubject();
-  final BehaviorSubject<bool> validateTinhTrang =
-  BehaviorSubject();
+      BehaviorSubject();
+  final BehaviorSubject<List<File>> listFileSelect = BehaviorSubject();
+  final BehaviorSubject<bool> validateTinhTrang = BehaviorSubject();
 
   String valueEdit = '';
   String reportStatusId = '';
@@ -398,6 +405,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     );
   }
 
+
+
   Future<void> postDiemDanh() async {
     showLoading();
     final result = await hopRp.postDiemDanh(diemDanhIds);
@@ -441,7 +450,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   static const int INDEX_FILTER_XL_CHO_CHO_Y_KIEN = 19;
   static const int INDEX_FILTER_XL_DA_CHO_Y_KIEN = 20;
   static const int INDEX_FILTER_XL_THU_HOI = 21;
-  static const int INDEX_FILTER_XL_TRA_LAI =  22;
+  static const int INDEX_FILTER_XL_TRA_LAI = 22;
   static const int INDEX_FILTER_XL_CHUYEN_XU_LY = 23;
   static const int INDEX_FILTER_TC_CHO_DUYET = 24;
   static const int INDEX_FILTER_OUT_RANGE = 25;
@@ -524,7 +533,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
     showLoading(isShow: false);
-
   }
 
   void addThanhPhanThamGia(List<DonViModel> value) {
@@ -637,24 +645,27 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   void dispose() {
     _data.clear();
   }
-  void showLoading({bool isShow = true}){
-    void show(){
-      if(isMobile()){
+
+  void showLoading({bool isShow = true}) {
+    void show() {
+      if (isMobile()) {
         ShowLoadingScreen.show();
-      }else{
+      } else {
         detailMeetCalenderCubit?.showLoading();
       }
     }
-    void dismiss(){
-      if(isMobile()){
+
+    void dismiss() {
+      if (isMobile()) {
         ShowLoadingScreen.dismiss();
-      }else{
+      } else {
         detailMeetCalenderCubit?.showContent();
       }
     }
-    if(isShow){
-     show();
-    }else{
+
+    if (isShow) {
+      show();
+    } else {
       dismiss();
     }
   }

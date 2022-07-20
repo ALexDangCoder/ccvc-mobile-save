@@ -14,6 +14,19 @@ import 'package:flutter/material.dart';
 
 import 'chon_ngay_widget.dart';
 
+const List<String> FILE_ALLOW = [
+  'xlsx',
+  'xlsm',
+  'pptm',
+  'pptx',
+  'dotx',
+  'docx',
+  'pdf',
+  'png',
+  'jpg',
+  'jpeg'
+];
+
 class VBGiaoNhiemVu extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
   final String typeVB;
@@ -95,11 +108,23 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           ),
           sb20(),
           ButtonSelectFile(
+            allowedExtensions: FILE_ALLOW,
             removeFileApi: (int index) {},
             title: S.current.tai_lieu_dinh_kem,
             onChange: (files) {
-              vBGiaoNhiemVuModel.file =
-                  files.map((e) => e.path.split('/').last).toList();
+              if (files.isEmpty) {
+                vBGiaoNhiemVuModel.file = [];
+                return;
+              }
+              widget.cubit.uploadFile(files).then((value) {
+                value.when(
+                  success: (res) {
+                    vBGiaoNhiemVuModel.file = res;
+                  },
+                  error: (err) {},
+                );
+              });
+              // widget.cubit.
             },
             files: const [],
           ),

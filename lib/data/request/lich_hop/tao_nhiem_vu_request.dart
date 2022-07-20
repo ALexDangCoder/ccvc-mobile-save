@@ -1,107 +1,130 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'tao_nhiem_vu_request.g.dart';
-
-@JsonSerializable()
 class ThemNhiemVuRequest {
-  String? hanXuLy;
-  String? hanXuLyVPCP;
-  String? idCuocHop;
-  List<MeTaDaTaRequest>? meTaDaTa;
-  String? processContent;
   String? processTypeId;
-  List<DanhSachVanBanRequest>? danhSachVanBan;
+  String? idCuocHop;
+  String? processContent;
+  String? hanXuLyVPCP;
+  String? hanXuLy;
+  List<DanhSachVanBanRequest> danhSachVanBan;
+  List<MeTaDaTaRequest>? metaData;
 
   ThemNhiemVuRequest({
-    this.hanXuLy,
-    this.hanXuLyVPCP,
-    this.idCuocHop,
-    this.meTaDaTa,
-    this.processContent,
     this.processTypeId,
-    this.danhSachVanBan,
+    this.idCuocHop,
+    this.processContent,
+    this.hanXuLyVPCP,
+    this.hanXuLy,
+    this.danhSachVanBan = const [],
+    this.metaData,
   });
 
-  factory ThemNhiemVuRequest.fromJson(Map<String, dynamic> json) =>
-      _$ThemNhiemVuRequestFromJson(json);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ProcessTypeId'] = processTypeId;
+    data['IdCuocHop'] = idCuocHop;
+    data['ProcessContent'] = processContent;
+    data['HanXuLyVPCP'] = hanXuLyVPCP;
+    data['HanXuLy'] = hanXuLy;
 
-  Map<String, dynamic> toJson() => _$ThemNhiemVuRequestToJson(this);
+      data['danhSachVanBan'] = danhSachVanBan.map((v) => v.toJson()).toList();
+
+    if (metaData != null) {
+      data['MetaData'] = metaData!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-@JsonSerializable()
+class DanhSachVanBanRequest {
+  String? soVanBan;
+  String? trichYeu;
+  String? ngayVanBan;
+  String? hinhThucVanBan;
+  List<FileRequest>? file;
+
+  DanhSachVanBanRequest({
+    this.soVanBan,
+    this.trichYeu,
+    this.ngayVanBan,
+    this.hinhThucVanBan,
+    this.file,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['SoVanBan'] = soVanBan;
+    data['TrichYeu'] = trichYeu;
+    data['NgayVanBan'] = ngayVanBan;
+    data['HinhThucVanBan'] = hinhThucVanBan;
+    if (file != null) {
+      data['File'] = file!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class FileRequest {
+  String? id;
+  String? idFileGoc;
+  String? processId;
+  String? ten;
+  String? duongDan;
+  String? duoiMoRong;
+  String? dungLuong;
+  String? kieuDinhKem;
+  bool? isSign;
+  bool? qrCreated;
+  int? index;
+  String? nguoiTaoId;
+  String? nguoiTao;
+  String? pathIOC;
+
+  FileRequest({
+    this.id,
+    this.idFileGoc,
+    this.processId,
+    this.ten,
+    this.duongDan,
+    this.duoiMoRong,
+    this.dungLuong,
+    this.kieuDinhKem,
+    this.isSign,
+    this.qrCreated,
+    this.index,
+    this.nguoiTaoId,
+    this.nguoiTao,
+    this.pathIOC,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Id'] = id;
+    data['IdFileGoc'] = idFileGoc;
+    data['ProcessId'] = processId;
+    data['Ten'] = ten;
+    data['DuongDan'] = duongDan;
+    data['DuoiMoRong'] = duoiMoRong;
+    data['DungLuong'] = dungLuong;
+    data['KieuDinhKem'] = kieuDinhKem;
+    data['IsSign'] = isSign;
+    data['QrCreated'] = qrCreated;
+    data['Index'] = index;
+    data['NguoiTaoId'] = nguoiTaoId;
+    data['NguoiTao'] = nguoiTao;
+    data['PathIOC'] = pathIOC;
+    return data;
+  }
+}
+
 class MeTaDaTaRequest {
   String? key;
   String? value;
 
-  MeTaDaTaRequest({
-    this.key,
-    this.value,
-  });
+  MeTaDaTaRequest({this.key, this.value});
 
-  factory MeTaDaTaRequest.fromJson(Map<String, dynamic> json) =>
-      _$MeTaDaTaRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MeTaDaTaRequestToJson(this);
-}
-
-@JsonSerializable()
-class DanhSachVanBanRequest {
-  String? hinhThucVanBan;
-  String? ngayVanBan;
-  String? soVanBan;
-  String? trichYeu;
-  List<FileRequest>? file;
-
-  DanhSachVanBanRequest({
-    this.hinhThucVanBan,
-    this.ngayVanBan,
-    this.soVanBan,
-    this.trichYeu,
-    this.file,
-  });
-
-  factory DanhSachVanBanRequest.fromJson(Map<String, dynamic> json) =>
-      _$DanhSachVanBanRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DanhSachVanBanRequestToJson(this);
-}
-
-@JsonSerializable()
-class FileRequest {
-  String? dungLuong;
-  String? duoiMoRong;
-  String? duongDan;
-  String? id;
-  String? idFileGoc;
-  int? index;
-  bool? isSign;
-  String? kieuDinhKem;
-  String? nguoiTao;
-  String? nguoiTaoId;
-  String? pathIOC;
-  String? processId;
-  bool? qrCreated;
-  String? ten;
-
-  FileRequest({
-    required this.dungLuong,
-    required this.duoiMoRong,
-    required this.duongDan,
-    required this.id,
-    required this.idFileGoc,
-    required this.index,
-    required this.isSign,
-    required this.kieuDinhKem,
-    required this.nguoiTao,
-    required this.nguoiTaoId,
-    required this.pathIOC,
-    required this.processId,
-    required this.qrCreated,
-    required this.ten,
-  });
-
-  factory FileRequest.fromJson(Map<String, dynamic> json) =>
-      _$FileRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FileRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Key'] = key;
+    data['Value'] = value;
+    return data;
+  }
 }

@@ -30,25 +30,26 @@ class ButtonSelectFile extends StatefulWidget {
   final bool isShowFile;
   final double? maxSize;
   final Function(int index) removeFileApi;
+  final List<String>? allowedExtensions;
 
-
-  ButtonSelectFile({
-    Key? key,
-    this.background,
-    required this.title,
-    this.titleColor,
-    this.icon,
-    this.childDiffence = false,
-    this.isIcon = true,
-    required this.onChange,
-    this.builder,
-    this.files,
-    this.spacingFile,
-    this.hasMultipleFile = false,
-    this.isShowFile = true,
-    this.maxSize,
-    required this.removeFileApi,
-  }) : super(key: key);
+  ButtonSelectFile(
+      {Key? key,
+      this.background,
+      required this.title,
+      this.titleColor,
+      this.icon,
+      this.childDiffence = false,
+      this.isIcon = true,
+      required this.onChange,
+      this.builder,
+      this.files,
+      this.spacingFile,
+      this.hasMultipleFile = false,
+      this.isShowFile = true,
+      this.maxSize,
+      required this.removeFileApi,
+      this.allowedExtensions})
+      : super(key: key);
 
   @override
   State<ButtonSelectFile> createState() => _ButtonSelectFileState();
@@ -85,16 +86,19 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
       children: [
         GestureDetector(
           onTap: () async {
-            final FilePickerResult? result =
-            await FilePicker.platform.pickFiles(
-              allowMultiple: true,
-            );
+            final FilePickerResult? result = await FilePicker.platform
+                .pickFiles(
+                    allowMultiple: true,
+                    type: widget.allowedExtensions != null
+                        ? FileType.custom
+                        : FileType.any,
+                    allowedExtensions: widget.allowedExtensions);
 
             if (result != null) {
               if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
                   final listSelect =
-                  result.paths.map((path) => File(path ?? '')).toList();
+                      result.paths.map((path) => File(path ?? '')).toList();
                   if (widget.maxSize != null) {
                     bool isOverSize = false;
                     errText = '';

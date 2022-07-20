@@ -468,7 +468,8 @@ Widget wrapThis({
               cubit.listNguoiCHuTriModel.sink
                   .add(cubit.dataThuKyOrThuHoiDeFault);
             } else {
-              cubit.dataThuKyOrThuHoiDeFault[indexThis].trangThai = 0;
+              cubit.dataThuKyOrThuHoiDeFault[indexThis].trangThai =
+                  CoperativeStatus.WaitAccept;
               cubit.listThuHoi.sink.add(cubit.dataThuKyOrThuHoiDeFault);
             }
           },

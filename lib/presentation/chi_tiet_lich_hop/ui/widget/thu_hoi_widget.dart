@@ -145,7 +145,9 @@ class SelectTHuHoiCell extends StatelessWidget {
         stream: cubit.listThuHoi,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
-          final dataSN = data.where((e) => e.trangThai == 4).toList();
+          final dataSN = data
+              .where((e) => e.trangThai == CoperativeStatus.Revoked)
+              .toList();
           return Stack(
             alignment: AlignmentDirectional.centerStart,
             children: [
@@ -154,10 +156,13 @@ class SelectTHuHoiCell extends StatelessWidget {
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
                 onChange: (vl) {
-                  if (cubit.dataThuKyOrThuHoiDeFault[vl].trangThai == 4) {
-                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai = 0;
+                  if (cubit.dataThuKyOrThuHoiDeFault[vl].trangThai ==
+                      CoperativeStatus.Revoked) {
+                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
+                        CoperativeStatus.Accepted;
                   } else {
-                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai = 4;
+                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
+                        CoperativeStatus.Revoked;
                   }
                   cubit.listThuHoi.sink.add(cubit.dataThuKyOrThuHoiDeFault);
                 },

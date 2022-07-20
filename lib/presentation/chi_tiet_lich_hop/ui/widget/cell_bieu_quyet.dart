@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
@@ -99,15 +100,18 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                   spaceW20,
                   Expanded(
                     flex: 6,
-                    child: Text(
-                      ' ${widget.infoModel.noiDung}',
-                      style: textNormalCustom(
-                        fontSize: 16,
-                        color: infoColor,
-                        fontWeight: FontWeight.w400,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 50),
+                      child: Text(
+                        '${widget.infoModel.noiDung}',
+                        style: textNormalCustom(
+                          fontSize: 16,
+                          color: infoColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -265,11 +269,12 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     flex: 6,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: StreamBuilder<bool>(
+                      child: StreamBuilder<CanBoModel>(
                         stream: widget.cubit.isCheckDiemDanhSubject.stream,
                         builder: (context, snapshot) {
-                          final data = snapshot.data ?? false;
-                          return data == true &&
+                          final data = snapshot.data ?? CanBoModel();
+                          return data.diemDanh == true &&
+                                  data.trangThai == DA_THAM_GIA &&
                                   widget.cubit.compareTime(
                                     widget.infoModel.thoiGianKetThuc ?? '',
                                   )

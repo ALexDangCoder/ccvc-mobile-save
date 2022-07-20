@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mo
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/document_in_page.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/document_out_page.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/tab_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
@@ -17,7 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class QLVBMobileScreen extends StatefulWidget {
-  const QLVBMobileScreen({Key? key}) : super(key: key);
+  final QLVBCCubit qlvbCubit;
+
+  const QLVBMobileScreen({Key? key, required this.qlvbCubit}) : super(key: key);
 
   @override
   _QLVBMobileScreenState createState() => _QLVBMobileScreenState();
@@ -25,15 +28,14 @@ class QLVBMobileScreen extends StatefulWidget {
 
 class _QLVBMobileScreenState extends State<QLVBMobileScreen>
     with TickerProviderStateMixin {
-  QLVBCCubit qlvbCubit = QLVBCCubit();
   late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    qlvbCubit.initTimeRange();
-    qlvbCubit.callAPi();
+    widget.qlvbCubit.initTimeRange();
+    widget.qlvbCubit.callAPi();
   }
 
   @override
@@ -43,13 +45,13 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
         preferredSize: const Size.fromHeight(56.0),
         child: StreamBuilder<bool>(
           initialData: false,
-          stream: qlvbCubit.showSearchStream,
+          stream: widget.qlvbCubit.showSearchStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
                 ? SearchBarDocumentManagement(
-                    qlvbCubit: qlvbCubit,
-                    initKeyWord: qlvbCubit.keySearch,
+                    qlvbCubit: widget.qlvbCubit,
+                    initKeyWord: widget.qlvbCubit.keySearch,
                   )
                 : AppBar(
                     elevation: 0.0,
@@ -66,7 +68,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                     actions: [
                       GestureDetector(
                         onTap: () {
-                          qlvbCubit.setSelectSearch();
+                          widget.qlvbCubit.setSelectSearch();
                         },
                         child: const Icon(
                           Icons.search,
@@ -81,7 +83,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                           DrawerSlide.navigatorSlide(
                             context: context,
                             screen: VanBanMenuMobile(
-                              cubit: qlvbCubit,
+                              cubit: widget.qlvbCubit,
                             ),
                           );
                         },
@@ -98,8 +100,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
       ),
       body: GestureDetector(
         onTap: () {
-          if (qlvbCubit.showSearchSubject.value == true) {
-            qlvbCubit.showSearchSubject.sink.add(false);
+          if (widget.qlvbCubit.showSearchSubject.value == true) {
+            widget.qlvbCubit.showSearchSubject.sink.add(false);
           }
         },
         child: StateStreamLayout(
@@ -109,30 +111,30 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             S.current.error,
             S.current.error,
           ),
-          stream: qlvbCubit.stateStream,
+          stream: widget.qlvbCubit.stateStream,
           child: Column(
             children: [
               FilterDateTimeWidget(
                 context: context,
-                initStartDate: DateTime.parse(qlvbCubit.startDate),
+                initStartDate: DateTime.parse(widget.qlvbCubit.startDate),
                 onChooseDateFilter: (startDate, endDate) {
-                  qlvbCubit.startDate = startDate.formatApi;
-                  qlvbCubit.endDate = endDate.formatApi;
-                  qlvbCubit.callAPi(initTime: false);
+                  widget.qlvbCubit.startDate = startDate.formatApi;
+                  widget.qlvbCubit.endDate = endDate.formatApi;
+                  widget.qlvbCubit.callAPi(initTime: false);
                   eventBus.fire(RefreshList());
                 },
               ),
               spaceH20,
-              tabBar(),
+              tabBar(_tabController),
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
                   children: [
                     DocumentInPage(
-                      qlvbCubit: qlvbCubit,
+                      qlvbCubit: widget.qlvbCubit,
                     ),
                     DocumentOutPage(
-                      qlvbCubit: qlvbCubit,
+                      qlvbCubit: widget.qlvbCubit,
                     ),
                   ],
                 ),
@@ -140,35 +142,6 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget tabBar() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      height: 40,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: bgTag,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: TabBar(
-        controller: _tabController,
-        indicator: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: radioFocusColor,
-        ),
-        labelColor: backgroundColorApp,
-        unselectedLabelColor: radioFocusColor,
-        tabs: [
-          Tab(
-            text: S.current.document_incoming,
-          ),
-          Tab(
-            text: S.current.document_out_going,
-          ),
-        ],
       ),
     );
   }

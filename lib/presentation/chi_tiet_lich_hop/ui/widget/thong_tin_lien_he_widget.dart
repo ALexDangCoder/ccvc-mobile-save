@@ -16,12 +16,14 @@ class ThongTinLienHeWidget extends StatelessWidget {
   final String thongTinTxt;
   final String sdtTxt;
   final List<DsDiemCau> dsDiemCau;
+  final String thuMoiFiles;
 
   const ThongTinLienHeWidget({
     Key? key,
     this.thongTinTxt = '',
     this.sdtTxt = '',
     required this.dsDiemCau,
+    this.thuMoiFiles = '',
   }) : super(key: key);
 
   @override
@@ -33,16 +35,16 @@ class ThongTinLienHeWidget extends StatelessWidget {
           S.current.thong_tin_lien_he,
           style: textNormalCustom(color: infoColor, fontSize: 16),
         ),
-        SizedBox(
-          height: 16.0.textScale(space: 8),
-        ),
+        SizedBox(height: 16.0.textScale(space: 8)),
+
+        /// tên người
         RowDataWidget(
           text: thongTinTxt,
           urlIcon: ImageAssets.icPeople,
         ),
-        SizedBox(
-          height: 16.0.textScale(space: 8),
-        ),
+        SizedBox(height: 16.0.textScale(space: 8)),
+
+        /// số điện thoại
         RowDataWidget(
           urlIcon: ImageAssets.icCalling,
           text: sdtTxt,
@@ -50,6 +52,8 @@ class ThongTinLienHeWidget extends StatelessWidget {
         SizedBox(
           height: 16.0.textScale(space: 8),
         ),
+
+        /// xem điểm cầu
         GestureDetector(
           onTap: () {
             showBottomSheetCustom(
@@ -71,6 +75,18 @@ class ThongTinLienHeWidget extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(
+          height: 16.0.textScale(space: 8),
+        ),
+
+        /// thư mời
+        RowDataWidget(
+          urlIcon: ImageAssets.icCalling,
+          text: thuMoiFiles,
+        ),
+        SizedBox(
+          height: 16.0.textScale(space: 8),
+        ),
       ],
     );
   }
@@ -81,24 +97,23 @@ class ThongTinLienHeWidget extends StatelessWidget {
   }) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery
-            .of(context)
-            .size
-            .height * 0.7,
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
       ),
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: listData.isEmpty ? const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: NodataWidget(),
-              ) : Column(
-                children: listData
-                    .map((e) => _itemDiemCau(listData: e.rowData))
-                    .toList(),
-              ),
+              child: listData.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: NodataWidget(),
+                    )
+                  : Column(
+                      children: listData
+                          .map((e) => _itemDiemCau(listData: e.rowData))
+                          .toList(),
+                    ),
             ),
           ),
           spaceH20,
@@ -144,8 +159,7 @@ class ThongTinLienHeWidget extends StatelessWidget {
       child: Column(
         children: listData
             .map(
-              (e) =>
-              Container(
+              (e) => Container(
                 margin: const EdgeInsets.symmetric(vertical: 5),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +190,7 @@ class ThongTinLienHeWidget extends StatelessWidget {
                   ],
                 ),
               ),
-        )
+            )
             .toList(),
       ),
     );

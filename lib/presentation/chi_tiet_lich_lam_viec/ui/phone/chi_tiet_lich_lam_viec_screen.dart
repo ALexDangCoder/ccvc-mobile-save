@@ -121,6 +121,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     title: S.current.y_kien,
                     child: YKienBottomSheet(
                       id: widget.id,
+                      isCalendarWork: true,
                     ),
                   ).then((value) {
                     if (value == true) {

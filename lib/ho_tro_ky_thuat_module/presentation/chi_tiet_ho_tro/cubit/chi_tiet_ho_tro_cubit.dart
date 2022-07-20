@@ -121,6 +121,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     required String handlerId,
     required String description,
   }) async {
+    print(finishDay);
     final TaskProcessing model = TaskProcessing(
       id: id,
       taskId: taskId,
@@ -128,7 +129,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
       code: getCode(code),
       name: name,
       finishDay: (finishDay != '')
-          ? DateFormat(DateTimeFormat.DATE_FORMAT_TEXT_FIELD).parse(finishDay)
+          ? DateFormat(DateTimeFormat.DATE_ISO_86).parse(finishDay)
           : null,
       handlerId: getHandlerId(handlerId),
       description: description,

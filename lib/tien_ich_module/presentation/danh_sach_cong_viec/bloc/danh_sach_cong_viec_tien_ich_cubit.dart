@@ -191,6 +191,8 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
+  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
+  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
   Future<bool> getListDSCVGanChoNguoiKhac() async {
     showLoading();
     final result = await tienIchRep.getListDSCVGanChoNguoiKhac();

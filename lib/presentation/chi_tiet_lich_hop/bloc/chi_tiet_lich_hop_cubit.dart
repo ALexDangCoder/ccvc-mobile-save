@@ -58,6 +58,7 @@ import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 
@@ -244,18 +245,20 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   );
 
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
-    await getChiTietLichHop(idCuocHop);
-
+    final queue = Queue(parallel: 5);
+    showLoading();
+    unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
+    await queue.onComplete;
     ///check permission button
     if (needCheckPermission) {
       initDataButton();
     }
-
-    await getDanhSachThuHoiLichHop(idCuocHop);
-
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-    await getDanhSachCanBoHop(idCuocHop);
+    showContent();
   }
+
   Future<Result<List<FileUploadModel>>> uploadFile(List<File> file) async {
     ShowLoadingScreen.show();
     final data = await hopRp.uploadMultiFile(path: file);

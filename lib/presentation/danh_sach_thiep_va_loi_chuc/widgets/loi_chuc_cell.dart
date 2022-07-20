@@ -57,7 +57,6 @@ class LoiChucCell extends StatelessWidget {
                 DateFormat(DateFormatApp.dateSecondBackEnd)
                     .parse(data.ngayGuiLoiChuc)
                     .formatApiDDMMYYYYHHSS,
-                // data.ngayGuiLoiChuc,
                 style: textNormal(infoColor, 14),
               )
             ],

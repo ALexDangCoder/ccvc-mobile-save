@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
@@ -78,6 +79,15 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             onChange: (List<File> files, bool validate) {
               widget.onChange(files, validate);
             },
+            allowedExtensions: const [
+              FileExtensions.DOC,
+              FileExtensions.DOCX,
+              FileExtensions.JPEG,
+              FileExtensions.JPG,
+              FileExtensions.PDF,
+              FileExtensions.PNG,
+              FileExtensions.XLXS,
+            ],
           ),
         )
       ],

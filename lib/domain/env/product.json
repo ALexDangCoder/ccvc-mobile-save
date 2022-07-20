@@ -6,5 +6,6 @@
   "base_url_NOTI": "http://mpi-noti-dev.edsolabs.vn",
   "base_url_DOWNLOAD_QLNV": "https://api-qlvb-nv-ccvc-uat.chinhquyendientu.vn",
   "base_url_DOWNLOAD_PANK": "https://api-pakn-ccvc-uat.chinhquyendientu.vn",
-  "url_HTCS": "https://htcs-uat.chinhquyendientu.vn/folders/"
+  "url_HTCS": "https://htcs-uat.chinhquyendientu.vn/folders/",
+  "base_url_image": "https://file-common-uat.chinhquyendientu.vn/"
 }

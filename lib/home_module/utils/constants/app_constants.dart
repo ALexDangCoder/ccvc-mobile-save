@@ -75,8 +75,6 @@ const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
 const String CHO_XU_LY = 'CHO_XU_LY';
-const String BASE_URL_AVATAR = 'https://file-common-test.chinhquyendientu.vn/';
-
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
 const String CALENDAR_TYPE_YEAR = 'Year';

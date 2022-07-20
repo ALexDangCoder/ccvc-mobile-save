@@ -19,6 +19,7 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
   final _now = DateTime.now().weekday == 7 ? 0 : DateTime.now().weekday;
   bool flag = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -62,11 +63,11 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
                     b.sort();
                     widget.taoLichLamViecCubit.lichLapItem1 = b;
                     listDayOffWeek.forEach((element) {
-                      if(element.isChoose ?? false){
+                      if (element.isChoose ?? false) {
                         flag = false;
                       }
                     });
-                    if(flag){
+                    if (flag) {
                       widget.taoLichLamViecCubit.selectLichLap.id = 1;
                       widget.taoLichLamViecCubit.lichLapItem1 = [];
                     }
@@ -98,6 +99,7 @@ class SuaLichLapTuyChinh extends StatefulWidget {
 class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
   bool flag = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -143,12 +145,13 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
                     b.sort();
                     widget.taoLichLamViecCubit.lichLapItem1 = b;
                     listDayOffWeek.forEach((element) {
-                      if(element.isChoose ?? false){
+                      if (element.isChoose ?? false) {
                         flag = false;
                       }
                     });
-                    if(flag){
-                      widget.taoLichLamViecCubit.selectLichLap.id = 1;
+                    if (flag) {
+                      widget.taoLichLamViecCubit.selectLichLap.id =
+                          LichLapModel.KHONG_LAP_LAI;
                       widget.taoLichLamViecCubit.lichLapItem1 = [];
                     }
                   },

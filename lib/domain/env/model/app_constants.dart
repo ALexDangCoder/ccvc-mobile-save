@@ -19,7 +19,6 @@ class AppConstants {
   @JsonKey(name: 'base_url_NOTI')
   String baseUrlNOTI;
 
-
   @JsonKey(name: 'url_HTCS')
   String urlHTCS;
 
@@ -29,6 +28,8 @@ class AppConstants {
   String baseUrlPAKN;
   @JsonKey(name: 'header_origin')
   String headerOrigin;
+  @JsonKey(name: 'base_url_image')
+  String baseImageUrl;
 
   AppConstants(
     this.type,
@@ -39,7 +40,8 @@ class AppConstants {
     this.baseUrlQLNV,
     this.baseUrlPAKN,
     this.headerOrigin,
-      this.urlHTCS,
+    this.baseImageUrl,
+    this.urlHTCS,
   );
 
   factory AppConstants.fromJson(Map<String, dynamic> json) =>

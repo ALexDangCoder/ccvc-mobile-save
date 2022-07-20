@@ -9,6 +9,7 @@ class BaseChooseTimerWidget extends StatefulWidget {
   final Function(TimerData, TimerData)? onChange;
   final TimerData? timeBatDau;
   final TimerData? timeKetThuc;
+  final bool isCheckRemoveDidUpdate;
 
   const BaseChooseTimerWidget({
     Key? key,
@@ -16,6 +17,7 @@ class BaseChooseTimerWidget extends StatefulWidget {
     this.onChange,
     this.timeBatDau,
     this.timeKetThuc,
+    this.isCheckRemoveDidUpdate = false,
   }) : super(key: key);
 
   @override
@@ -50,6 +52,7 @@ class BaseChooseTimerWidgetState extends State<BaseChooseTimerWidget> {
                   startDate = value;
                   widget.onChange?.call(startDate, endDate);
                 },
+                isRemoveDidUpdate: widget.isCheckRemoveDidUpdate,
               ),
             ),
             Padding(
@@ -68,6 +71,7 @@ class BaseChooseTimerWidgetState extends State<BaseChooseTimerWidget> {
                     widget.onChange!(startDate, endDate);
                   }
                 },
+                isRemoveDidUpdate: widget.isCheckRemoveDidUpdate,
               ),
             )
           ],

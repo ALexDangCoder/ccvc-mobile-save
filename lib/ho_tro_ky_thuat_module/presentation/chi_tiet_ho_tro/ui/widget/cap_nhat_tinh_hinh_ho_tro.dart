@@ -15,8 +15,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class CapNhatTinhHinhHoTro extends StatefulWidget {
-  const CapNhatTinhHinhHoTro({Key? key, required this.cubit}) : super(key: key);
+  const CapNhatTinhHinhHoTro({Key? key, required this.cubit, this.idTask})
+      : super(key: key);
   final ChiTietHoTroCubit cubit;
+  final String? idTask;
 
   @override
   _CapNhatTinhHinhHoTroState createState() => _CapNhatTinhHinhHoTroState();
@@ -27,6 +29,14 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
   String? birthday;
   String? trangThai;
   String? nguoiXuLy;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.idTask?.isNotEmpty ?? false) {
+      widget.cubit.getSupportDetail(widget.idTask ?? '');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +83,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                 SizedBox(
                   height: 500.h,
                   child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -93,10 +103,29 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           maxLine: 4,
                         ),
                         spaceH16,
-                        dropDownField(
-                          title: S.current.nguoi_xu_ly,
-                          listDropdown: widget.cubit.listItSupport,
-                        ),
+                        if (widget.idTask?.isNotEmpty ?? false) ...[
+                          StreamBuilder<List<String>>(
+                            stream: widget.cubit.getItSupport,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return dropDownField(
+                                  title: S.current.nguoi_xu_ly,
+                                  listDropdown: widget.cubit.listItSupport,
+                                );
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: sideBtnUnselected,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ] else
+                          dropDownField(
+                            title: S.current.nguoi_xu_ly,
+                            listDropdown: widget.cubit.listItSupport,
+                          ),
                         spaceH16,
                         Text(
                           S.current.ngay_hoan_thanh,
@@ -115,6 +144,15 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           onSelectDate: (dateTime) {
                             birthday = dateTime;
                           },
+                          minimumDate: (widget.cubit.supportDetail
+                              .thoiGianYeuCau?.isNotEmpty ??
+                              false)
+                              ? DateFormat(
+                            DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                          ).parse(
+                            widget.cubit.supportDetail.thoiGianYeuCau!,
+                          )
+                              : null,
                           initDateTime: (widget.cubit.supportDetail
                                       .ngayHoanThanh?.isNotEmpty ??
                                   false)
@@ -134,7 +172,9 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           },
                           onPressed2: () {
                             widget.cubit.capNhatTHXL(
-                              taskId: widget.cubit.supportDetail.id ?? '',
+                              taskId: (widget.cubit.supportDetail.id ??
+                                      widget.idTask) ??
+                                  '',
                               name: trangThai ?? '',
                               description: note ?? '',
                               code: trangThai ?? '',
@@ -143,10 +183,12 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                           .cubit.supportDetail.ngayHoanThanh) ??
                                   '',
                               handlerId: nguoiXuLy ?? '',
-                              id: widget.cubit.supportDetail.id ?? '',
+                              id: (widget.cubit.supportDetail.id ??
+                                      widget.idTask) ??
+                                  '',
                               comment: '',
                             );
-                            Navigator.pop(context);
+                            Navigator.pop(context,true);
                           },
                           noPadding: true,
                         ),

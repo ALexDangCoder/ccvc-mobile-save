@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
@@ -75,7 +76,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
           );
         }
         danhSachNhiemVuLichHopSubject.sink.add(danhSachNhiemVuLichHopModel);
-
       },
       error: (err) {},
     );
@@ -132,10 +132,9 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     await result.when(
       success: (value) async {
         await getXemKetLuanHop(idCuocHop);
-
         showLoadingSheet(isShow: false);
-        MessageConfig.show(title: S.current.cap_nhat_ket_luan_hop_thanh_cong);
         emit(Success());
+        MessageConfig.show(title: S.current.cap_nhat_ket_luan_hop_thanh_cong);
       },
       error: (error) {
         showLoadingSheet(isShow: false);
@@ -189,6 +188,16 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     return value;
   }
 
+  String getValueTinhTrangnWithId(String id) {
+    final dataBienBan = dataTinhTrangKetLuanHop.value;
+    for (final e in dataBienBan) {
+      if (e.id == id) {
+        return e.displayName;
+      }
+    }
+    return '';
+  }
+
   String getValueMauBienBanWithId(String id) {
     final dataBienBan = dataMauBienBan.value;
     for (final e in dataBienBan.items) {
@@ -234,7 +243,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
       },
       error: (err) {
         showContent();
-        MessageConfig.show(title: S.current.that_bai);
       },
     );
     showContent();
@@ -254,17 +262,31 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
   Future<void> themNhiemVu(ThemNhiemVuRequest themNhiemVuRequest) async {
     showLoading();
+    List<DanhSachVanBanRequest> danhSachVanBanRequest = [];
+    ThemNhiemVuRequest request = ThemNhiemVuRequest(
+      danhSachVanBan: danhSachVanBanRequest,
+      metaData: themNhiemVuRequest.metaData,
+      idCuocHop: themNhiemVuRequest.idCuocHop,
+      processTypeId : themNhiemVuRequest.processTypeId,
+
+      processContent: themNhiemVuRequest.processContent,
+   hanXuLyVPCP : themNhiemVuRequest.hanXuLyVPCP,
+      hanXuLy:themNhiemVuRequest.hanXuLy,
+
+
+    );
     for (final value in listVBGiaoNhiemVu.value) {
-      themNhiemVuRequest.danhSachVanBan?.add(
-        DanhSachVanBanRequest(
-          hinhThucVanBan: value.hinhThucVanBan,
-          ngayVanBan: value.ngayVanBan,
-          soVanBan: value.soVanBan,
-          trichYeu: value.trichYeu,
-        ),
+      danhSachVanBanRequest.add(
+          DanhSachVanBanRequest(
+            file: value.file.map((e) => e.toRequest()).toList(),
+            hinhThucVanBan: value.hinhThucVanBan,
+            ngayVanBan: value.ngayVanBan,
+            soVanBan: value.soVanBan,
+            trichYeu: value.trichYeu,
+          ),
       );
     }
-    final result = await hopRp.postThemNhiemVu(themNhiemVuRequest);
+    final result = await hopRp.postThemNhiemVu(request);
     result.when(
       success: (res) {
         showContent();
@@ -272,13 +294,13 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         MessageConfig.show(title: S.current.thanh_cong);
       },
       error: (err) {
+        showContent();
         MessageConfig.show(
           title: S.current.that_bai,
           messState: MessState.error,
         );
       },
     );
-    showContent();
   }
 
   Future<void> xacNhanHoacHuyKetLuanHop({

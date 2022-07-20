@@ -10,9 +10,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DanhGiaYeuCauHoTroTabLet extends StatefulWidget {
-  const DanhGiaYeuCauHoTroTabLet({Key? key, required this.cubit})
+  const DanhGiaYeuCauHoTroTabLet({Key? key, required this.cubit, this.idTask})
       : super(key: key);
   final ChiTietHoTroCubit cubit;
+  final String? idTask;
 
   @override
   _DanhGiaYeuCauHoTroState createState() => _DanhGiaYeuCauHoTroState();
@@ -37,13 +38,28 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           spaceH20,
-          Text(
-            S.current.danh_gia_yeu_cau_ho_tro,
-            style: textNormalCustom(
-              color: color3D5586,
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.current.danh_gia_yeu_cau_ho_tro,
+                style: textNormalCustom(
+                  color: color3D5586,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.close,
+                  size: 24.sp,
+                  color: colorA2AEBD,
+                ),
+              ),
+            ],
           ),
           spaceH20,
           FormGroup(
@@ -58,7 +74,7 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
                   return '${S.current.ban_phai_nhap_truong} ${S.current.noi_dung_danh_gia}!';
                 }
               },
-              maxLine: 100,
+              maxLine: 5,
             ),
           ),
           spaceH10,
@@ -74,7 +90,10 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
                 Navigator.pop(context);
               },
               onPressed2: () {
-                widget.cubit.commentTask(note ?? '');
+                widget.cubit.commentTask(
+                  note ?? '',
+                  id: widget.idTask,
+                );
                 Navigator.pop(context);
               },
               noPadding: true,

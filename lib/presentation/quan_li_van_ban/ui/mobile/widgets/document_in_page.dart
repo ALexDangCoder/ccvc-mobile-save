@@ -95,6 +95,8 @@ class _DocumentInPageState extends State<DocumentInPage>
               ),
             ),
           ),
+          appDivider,
+          spaceH20,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(

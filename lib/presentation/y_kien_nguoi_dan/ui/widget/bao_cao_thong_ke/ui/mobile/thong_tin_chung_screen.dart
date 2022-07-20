@@ -654,8 +654,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           horizontal: 16,
           vertical: 8,
         ),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(
             Radius.circular(30),
           ),
           color: textDefault,

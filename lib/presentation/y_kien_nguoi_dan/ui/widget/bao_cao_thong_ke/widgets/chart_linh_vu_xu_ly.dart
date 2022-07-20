@@ -39,7 +39,7 @@ class ChartLinhVucXuLyWidget extends StatelessWidget {
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
-                    maximumLabelWidth: 60,
+                    maximumLabelWidth: 90,
                     majorGridLines: const MajorGridLines(width: 0),
                   ),
                   primaryYAxis: CategoryAxis(

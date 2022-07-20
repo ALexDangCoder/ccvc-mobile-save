@@ -78,6 +78,8 @@ class ImageAssets {
   static const String icTuChoiThamGia = '$baseImg/ic_tu_choi_tham_gia.svg';
   static const String icXacNhanLai = '$baseImg/ic_xac_nhan_lai.svg';
   static const String icXacNhanThamGia = '$baseImg/ic_xac_nhan_tham_gia.svg';
+  static const String icHuyLichHop = '$baseImg/ic_huy_lich_hop.svg';
+  static const String icTaoBocBangLichHop = '$baseImg/ic_tao_boc_bang_lich_hop.svg';
 
   static const String icTongSoNhiemVu = '$baseImg/ic_tong_so_nhiem_vu.svg';
   static const String icHoanThanhNhiemVu =
@@ -155,6 +157,8 @@ class ImageAssets {
   static const String icHuyLich = '$baseImg/ic_huy_lich.svg';
   static const String icCalling = '$baseImg/ic_calling.svg';
   static const String icDiemCau = '$baseImg/ic_diem_cau.svg';
+  static const String icThuMoiHop = '$baseImg/ic_file_thu_moi_hop.svg';
+
   static const String icError = '$baseImg/ic_error.svg';
   static const String icVoiceMini = '$baseImg/ic_voice_mini.svg';
   static const String icVn = '$baseImg/ic_vn.svg';
@@ -175,6 +179,7 @@ class ImageAssets {
   static const String icDaGuiLoiMoiDetail = '$baseImg/ic_da_gui_loi_moi_detail.svg';
   static const String icXoaDetail = '$baseImg/ic_xoa_detail.svg';
   static const String icHuyDetail = '$baseImg/ic_huy_detail.svg';
+  static const String icXoaHopPoppup = '$baseImg/ic_xoa_hop_poppup.svg';
 
   ///SvgImage
   static const String appBarBackground = '$baseImg/app_bar_background.png';

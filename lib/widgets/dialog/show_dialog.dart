@@ -17,6 +17,7 @@ Future<T?> showDiaLog<T>(
   bool isBottomShow = true,
   bool isOneButton = true,
   required Function funcBtnRight,
+  Function()? funcBtnLeft,
   bool isCenterTitle = false,
 }) {
   return showDialog(
@@ -99,6 +100,9 @@ Future<T?> showDiaLog<T>(
                         title: btnLeftTxt,
                         onPressed: () {
                           Navigator.pop(dialogContext);
+                          if(funcBtnLeft != null){
+                            funcBtnLeft();
+                          }
                         },
                       ),
                     ),

@@ -159,72 +159,14 @@ class SelectThuKyCell extends StatelessWidget {
                   log(cubit.listNguoiCHuTriModel.value.toString());
                 },
               ),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: List.generate(dataSN.length, (index) {
-                  final dataSnb = dataSN[index];
-                  return tag(
-                    title: dataSnb.title(),
-                    onDelete: () {
-                      final indexThis =
-                          cubit.dataThuKyOrThuHoiDeFault.indexOf(dataSnb);
-                      cubit.dataThuKyOrThuHoiDeFault[indexThis].isThuKy = false;
-                      cubit.listNguoiCHuTriModel.sink
-                          .add(cubit.dataThuKyOrThuHoiDeFault);
-                    },
-                  );
-                }),
-              ),
+              wrapThis(
+                listData: dataSN,
+                cubit: cubit,
+                isPhanCongThuKy: true,
+              )
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget tag({required String title, required Function onDelete}) {
-    return GestureDetector(
-      onTap: () {
-        onDelete();
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
-        decoration: BoxDecoration(
-          color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
-          borderRadius: const BorderRadius.all(Radius.circular(6)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              constraints: const BoxConstraints(
-                maxWidth: 200,
-              ),
-              child: Text(
-                title,
-                style: textNormal(
-                  APP_DEVICE == DeviceType.MOBILE
-                      ? linkColor
-                      : backgroundColorApp,
-                  12.0.textScale(),
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: SvgPicture.asset(
-                ImageAssets.icClose,
-                width: 7.5,
-                height: 7.5,
-                color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
-                    : backgroundColorApp,
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
@@ -373,11 +315,11 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
         BaseSearchBar(
           onChange: (keySearch) {
             bool isListThuKy(NguoiChutriModel thuKy) {
-              return thuKy.hoTen
-                      ?.toLowerCase()
-                      .vietNameseParse()
-                      .contains(keySearch) ??
-                  false;
+              return thuKy
+                  .title()
+                  .toLowerCase()
+                  .vietNameseParse()
+                  .contains(keySearch);
             }
 
             searchList = widget.listSelect
@@ -424,7 +366,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    itemTitle.hoTen ?? '',
+                                    itemTitle.title(),
                                     style: textNormalCustom(
                                       color: titleItemEdit,
                                       fontWeight: itemTitle == select
@@ -460,3 +402,77 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
     );
   }
 }
+
+Widget tag({required String title, required Function onDelete}) {
+  return GestureDetector(
+    onTap: () {
+      onDelete();
+    },
+    child: Container(
+      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+      decoration: BoxDecoration(
+        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            constraints: const BoxConstraints(
+              maxWidth: 200,
+            ),
+            child: Text(
+              title,
+              style: textNormal(
+                APP_DEVICE == DeviceType.MOBILE
+                    ? linkColor
+                    : backgroundColorApp,
+                12.0.textScale(),
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+            child: SvgPicture.asset(
+              ImageAssets.icClose,
+              width: 7.5,
+              height: 7.5,
+              color: APP_DEVICE == DeviceType.MOBILE
+                  ? labelColor
+                  : backgroundColorApp,
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget wrapThis({
+  required List<NguoiChutriModel> listData,
+  required DetailMeetCalenderCubit cubit,
+  required bool isPhanCongThuKy,
+}) =>
+    Wrap(
+      spacing: 10,
+      runSpacing: 10,
+      children: List.generate(listData.length, (index) {
+        final dataSnb = listData[index];
+        return tag(
+          title: dataSnb.title(),
+          onDelete: () {
+            final indexThis = cubit.dataThuKyOrThuHoiDeFault.indexOf(dataSnb);
+            if (isPhanCongThuKy) {
+              cubit.dataThuKyOrThuHoiDeFault[indexThis].isThuKy = false;
+              cubit.listNguoiCHuTriModel.sink
+                  .add(cubit.dataThuKyOrThuHoiDeFault);
+            } else {
+              cubit.dataThuKyOrThuHoiDeFault[indexThis].trangThai =
+                  CoperativeStatus.WaitAccept;
+              cubit.listThuHoi.sink.add(cubit.dataThuKyOrThuHoiDeFault);
+            }
+          },
+        );
+      }),
+    );

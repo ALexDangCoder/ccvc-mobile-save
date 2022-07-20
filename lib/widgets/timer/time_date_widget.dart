@@ -11,11 +11,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class TimeDateInputWidget extends StatefulWidget {
   final TimerData? initTimerData;
   final Function(TimerData) onChange;
+  final bool isRemoveDidUpdate;
 
   const TimeDateInputWidget({
     Key? key,
     this.initTimerData,
     required this.onChange,
+    this.isRemoveDidUpdate = false,
   }) : super(key: key);
 
   @override
@@ -59,14 +61,26 @@ class _TimeDateInputWidgetState extends State<TimeDateInputWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            TimeDatePickerWidget(
-              timeFocus: timeFocus,
-              minuteFocus: minuteFocus,
-              initTimer: widget.initTimerData ?? TimerData(hour: 0, minutes: 0),
-              onChange: (value) {
-                widget.onChange(value);
-              },
-            ),
+            if (widget.isRemoveDidUpdate)
+              TimeDatePickerRemoveDidUpdate(
+                timeFocus: timeFocus,
+                minuteFocus: minuteFocus,
+                initTimer:
+                    widget.initTimerData ?? TimerData(hour: 0, minutes: 0),
+                onChange: (value) {
+                  widget.onChange(value);
+                },
+              )
+            else
+              TimeDatePickerWidget(
+                timeFocus: timeFocus,
+                minuteFocus: minuteFocus,
+                initTimer:
+                    widget.initTimerData ?? TimerData(hour: 0, minutes: 0),
+                onChange: (value) {
+                  widget.onChange(value);
+                },
+              ),
             SvgPicture.asset(
               ImageAssets.icClock,
               color: minuteFocus.hasFocus || timeFocus.hasFocus
@@ -114,7 +128,91 @@ class _TimeDatePickerWidgetState extends State<TimeDatePickerWidget> {
   }
 
   @override
-  void didUpdateWidget(covariant TimeDatePickerWidget oldWidget) {
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      height: 35,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 50,
+            width: 20,
+            child: TimePickerinputWidget(
+              textAlign: TextAlign.end,
+              focusNode: widget.timeFocus,
+              controller: timeController,
+              itemCount: 24,
+              onChange: (value) {
+                selectDate.hour = value;
+                widget.onChange(selectDate);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Text(
+              ':',
+              style: textNormal(color3D5586, 14),
+            ),
+          ),
+          SizedBox(
+            height: 50,
+            width: 20,
+            child: TimePickerinputWidget(
+              textAlign: TextAlign.start,
+              itemCount: 61,
+              onChange: (value) {
+                selectDate.minutes = value;
+                widget.onChange(selectDate);
+              },
+              focusNode: widget.minuteFocus,
+              controller: minusController,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TimeDatePickerRemoveDidUpdate extends StatefulWidget {
+  final FocusNode timeFocus;
+  final FocusNode minuteFocus;
+  final TimerData initTimer;
+  final Function(TimerData) onChange;
+
+  const TimeDatePickerRemoveDidUpdate({
+    Key? key,
+    required this.timeFocus,
+    required this.minuteFocus,
+    required this.initTimer,
+    required this.onChange,
+  }) : super(key: key);
+
+  @override
+  State<TimeDatePickerRemoveDidUpdate> createState() =>
+      _TimeDatePickerRemoveDidUpdateState();
+}
+
+class _TimeDatePickerRemoveDidUpdateState
+    extends State<TimeDatePickerRemoveDidUpdate> {
+  final timeController = FixedExtentScrollController();
+  final minusController = FixedExtentScrollController();
+  late TimerData selectDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectDate = widget.initTimer;
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      timeController.jumpToItem(selectDate.hour);
+      minusController.jumpToItem(selectDate.minutes);
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant TimeDatePickerRemoveDidUpdate oldWidget) {
     selectDate = widget.initTimer;
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       timeController.jumpToItem(selectDate.hour);
@@ -125,7 +223,6 @@ class _TimeDatePickerWidgetState extends State<TimeDatePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Colors.transparent,
       height: 35,
@@ -389,10 +486,11 @@ class _TimeTextFieldWidgetState extends State<TimeTextFieldWidget> {
       cursorWidth: 0,
       textAlign: widget.textAlign,
       style: textNormal(
-          widget.focusNode.hasFocus
-              ? AppTheme.getInstance().colorField()
-              : color3D5586,
-          15,),
+        widget.focusNode.hasFocus
+            ? AppTheme.getInstance().colorField()
+            : color3D5586,
+        15,
+      ),
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       decoration: const InputDecoration(
@@ -423,11 +521,11 @@ class TimerData {
 
   TimerData({required this.hour, required this.minutes});
 
-  String? equalTime(TimerData otherTime){
-    if(hour > otherTime.hour){
+  String? equalTime(TimerData otherTime) {
+    if (hour > otherTime.hour) {
       return S.current.validate_thoi_gian;
     }
-    if(hour == otherTime.hour && minutes >= otherTime.minutes){
+    if (hour == otherTime.hour && minutes >= otherTime.minutes) {
       return S.current.validate_thoi_gian;
     }
     return null;

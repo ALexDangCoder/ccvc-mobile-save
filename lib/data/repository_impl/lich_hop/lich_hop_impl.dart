@@ -18,7 +18,6 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
@@ -29,9 +28,11 @@ import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/cap_nhat_trang_thai_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_can_bo_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/file_upload_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
@@ -88,12 +89,14 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danhSachCanBoBieuQuyetModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -1114,6 +1117,30 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<XoaBieuQuyetResponse, bool>(
       () => _hopServices.xoaBieuQuyet(bieuQuyetId, canboId),
       (response) => response.isSuccess,
+    );
+  }
+
+  @override
+
+  Future<Result<List<FileUploadModel>>> uploadMultiFile(
+      {required List<File> path}) {
+    return runCatchingAsync<FileUploadResponse, List<FileUploadModel>>(
+      () => _hopServices.uploadMultiFile(path),
+      (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
+  }
+  Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(
+    String luaChonId,
+    String lichHopId,
+    String bieuQuyetId,
+  ) {
+    return runCatchingAsync<DanhSachCanBoBieuQuyetResponse,
+        DanhSachCanBoBieuQuyetModel>(
+      () => _hopServices.danhSachCanBoBieuQuyet(
+        luaChonId,
+        lichHopId,
+        bieuQuyetId,
+      ),
+      (response) => response.toModel(),
     );
   }
 }

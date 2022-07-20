@@ -18,7 +18,6 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
@@ -34,12 +33,14 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danhSachCanBoBieuQuyetModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -452,4 +453,15 @@ mixin HopRepository {
   Future<Result<bool>> suaBieuQuyet(
     SuaBieuQuyetRequest suaBieuQuyetRequest,
   );
+
+  Future<Result<List<FileUploadModel>>> uploadMultiFile(
+      {required List<File> path});
+
+
+  Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(
+    String luaChonId,
+    String lichHopId,
+    String bieuQuyetId,
+  );
+
 }

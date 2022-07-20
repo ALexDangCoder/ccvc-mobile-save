@@ -319,6 +319,8 @@ class ApiConstants {
   static const CHI_TIET_BIEU_QUYET = '/vpdt/api/BieuQuyet/{id}';
   static const SUA_BIEU_QUYET = '/vpdt/api/BieuQuyet/sua-bieu-quyet';
   static const XOA_BIEU_QUYET = '/vpdt/api/BieuQuyet/xoa-bieu-quyet';
+  static const DANH_SACH_CAN_BO_BIEU_QUYET = '/vpdt/api/BieuQuyet/get-danh-sach-canbo-bieuquyet';
+
 }
 
 class ImageConstants {

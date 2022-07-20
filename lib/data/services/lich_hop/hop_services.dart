@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
@@ -19,7 +18,6 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
@@ -29,9 +27,11 @@ import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/cap_nhat_trang_thai_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_can_bo_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/file_upload_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
@@ -253,13 +253,12 @@ abstract class HopServices {
   @PUT(ApiConstants.SUA_KET_LUAN)
   @MultiPart()
   Future<SuaKetLuanResponse> suaKetLuan(
-    @Part() String scheduleId,
-    @Part() String content,
-    @Part() String reportStatusId,
-    @Part() String reportTemplateId,
-    @Part() List<File> files,
-    @Part() List<String> filesDelete
-  );
+      @Part() String scheduleId,
+      @Part() String content,
+      @Part() String reportStatusId,
+      @Part() String reportTemplateId,
+      @Part() List<File> files,
+      @Part() List<String> filesDelete);
 
   @POST(ApiConstants.CHON_MAU_BIEN_BAN)
   Future<ChonBienBanCuocHopResponse> postChonMauBienBan(
@@ -563,5 +562,18 @@ abstract class HopServices {
   Future<XoaBieuQuyetResponse> xoaBieuQuyet(
     @Query('bieuQuyetId') String bieuQuyetId,
     @Query('canboId') String canboId,
+  );
+
+  @POST(ApiConstants.UPLOAD_FILE_COMMON)
+  @MultiPart()
+  Future<FileUploadResponse> uploadMultiFile(
+    @Part() List<File> path,
+      );
+
+  @GET(ApiConstants.DANH_SACH_CAN_BO_BIEU_QUYET)
+  Future<DanhSachCanBoBieuQuyetResponse> danhSachCanBoBieuQuyet(
+    @Query('luaChonId') String luaChonId,
+    @Query('lichHopId') String lichHopId,
+    @Query('bieuQuyetId') String bieuQuyetId,
   );
 }

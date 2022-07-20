@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -7,7 +5,6 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -18,7 +15,6 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,14 +26,14 @@ class BaoCaoBottomSheet extends StatefulWidget {
   final String scheduleId;
   final bool isEdit;
 
-  const BaoCaoBottomSheet(
-      {Key? key,
-      required this.listTinhTrangBaoCao,
-      required this.cubit,
-      this.id = '',
-      required this.scheduleId,
-      this.isEdit = false})
-      : super(key: key);
+  const BaoCaoBottomSheet({
+    Key? key,
+    required this.listTinhTrangBaoCao,
+    required this.cubit,
+    this.id = '',
+    required this.scheduleId,
+    this.isEdit = false,
+  }) : super(key: key);
 
   @override
   _ChinhSuaBaoCaoBottomSheetState createState() =>
@@ -71,128 +67,127 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
       child: Container(
         constraints:
             BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
-        padding: const EdgeInsets.only(top: 20),
-        child: FollowKeyBoardWidget(
-          bottomWidget: navigatorBar(),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      S.current.trang_thai,
-                      style: tokenDetailAmount(
-                        fontSize: 14.0.textScale(),
-                        color: titleItemEdit,
-                      ),
+        padding: EdgeInsets.only(
+          top: 20,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    S.current.trang_thai,
+                    style: tokenDetailAmount(
+                      fontSize: 14.0.textScale(),
+                      color: titleItemEdit,
                     ),
-                    const Text(
-                      ' *',
-                      style: TextStyle(color: canceledColor),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                CoolDropDown(
-                  showSelectedDecoration: false,
-                  useCustomHintColors: true,
-                  selectedIcon: SvgPicture.asset(
-                    ImageAssets.icV,
-                    color: AppTheme.getInstance().colorField(),
                   ),
-                  initData:
-                      widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
-                  placeHoder: S.current.chon_trang_thai,
-                  listData: widget.listTinhTrangBaoCao
-                      .map((e) => e.displayName ?? '')
-                      .toList(),
-                  onChange: (index) {
-                    setState(() {
-                      errorText = null;
-                    });
-                    widget.cubit.reportStatusId =
-                        widget.listTinhTrangBaoCao[index].id ?? '';
-                  },
+                  const Text(
+                    ' *',
+                    style: TextStyle(color: canceledColor),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              CoolDropDown(
+                showSelectedDecoration: false,
+                useCustomHintColors: true,
+                selectedIcon: SvgPicture.asset(
+                  ImageAssets.icV,
+                  color: AppTheme.getInstance().colorField(),
                 ),
-                Text(
-                  errorText ?? '',
-                  style: textNormalCustom(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: canceledColor,
-                  ),
+                initData: widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
+                placeHoder: S.current.chon_trang_thai,
+                listData: widget.listTinhTrangBaoCao
+                    .map((e) => e.displayName ?? '')
+                    .toList(),
+                onChange: (index) {
+                  setState(() {
+                    errorText = null;
+                  });
+                  widget.cubit.reportStatusId =
+                      widget.listTinhTrangBaoCao[index].id ?? '';
+                },
+              ),
+              Text(
+                errorText ?? '',
+                style: textNormalCustom(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: canceledColor,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                BlockTextView(
-                  title: S.current.noidung,
-                  contentController: controller,
-                  formKey: globalKey,
-                  isRequired: false,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                ButtonSelectFile(
-                  removeFileApi: (int index) {},
-                  isShowFile: false,
-                  title: S.current.tai_lieu_dinh_kem,
-                  onChange: (
-                    files,
-                  ) {
-                    if (widget.cubit.files
-                        .map((e) => e.path)
-                        .contains(files.first.path)) {
-                      MessageConfig.show(
-                          title: S.current.file_da_ton_tai,
-                          messState: MessState.error);
-                      return;
-                    }
-                    widget.cubit.files.addAll(files);
-                    widget.cubit.updateFilePicker.sink.add(true);
-                  },
-                  files: widget.cubit.files.toList(),
-                ),
-                StreamBuilder(
-                    stream: widget.cubit.deleteFileInit.stream,
-                    builder: (context, snapshot) {
-                      return Column(
-                        children: widget.cubit.fileInit
-                            .map((e) => itemListFile(
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              BlockTextView(
+                title: S.current.noidung,
+                contentController: controller,
+                formKey: globalKey,
+                isRequired: false,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              ButtonSelectFile(
+                removeFileApi: (int index) {},
+                isShowFile: false,
+                title: S.current.tai_lieu_dinh_kem,
+                onChange: (
+                  files,
+                ) {
+                  if (widget.cubit.files
+                      .map((e) => e.path)
+                      .contains(files.first.path)) {
+                    MessageConfig.show(
+                        title: S.current.file_da_ton_tai,
+                        messState: MessState.error);
+                    return;
+                  }
+                  widget.cubit.files.addAll(files);
+                  widget.cubit.updateFilePicker.sink.add(true);
+                },
+                files: widget.cubit.files.toList(),
+              ),
+              StreamBuilder(
+                  stream: widget.cubit.deleteFileInit.stream,
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: widget.cubit.fileInit
+                          .map((e) => itemListFile(
+                              onTap: () {
+                                widget.cubit.fileInit.remove(e);
+                                widget.cubit.fileDelete.add(e);
+                                widget.cubit.deleteFileInit.sink.add(true);
+                              },
+                              fileTxt: e.name ?? ''))
+                          .toList(),
+                    );
+                  }),
+              StreamBuilder(
+                  stream: widget.cubit.updateFilePicker.stream,
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: widget.cubit.files
+                          .map(
+                            (e) => itemListFile(
                                 onTap: () {
-                                  widget.cubit.fileInit.remove(e);
-                                  widget.cubit.fileDelete.add(e);
-                                  widget.cubit.deleteFileInit.sink.add(true);
+                                  widget.cubit.files.remove(e);
+                                  widget.cubit.updateFilePicker.sink.add(true);
                                 },
-                                fileTxt: e.name ?? ''))
-                            .toList(),
-                      );
-                    }),
-                StreamBuilder(
-                    stream: widget.cubit.updateFilePicker.stream,
-                    builder: (context, snapshot) {
-                      return Column(
-                        children: widget.cubit.files
-                            .map(
-                              (e) => itemListFile(
-                                  onTap: () {
-                                    widget.cubit.files.remove(e);
-                                    widget.cubit.updateFilePicker.sink
-                                        .add(true);
-                                  },
-                                  fileTxt: e.path.convertNameFile(),
-                                  lengthFile: e.lengthSync().getFileSize(2)),
-                            )
-                            .toList(),
-                      );
-                    })
-              ],
-            ),
+                                fileTxt: e.path.convertNameFile(),
+                                lengthFile: e.lengthSync().getFileSize(2)),
+                          )
+                          .toList(),
+                    );
+                  }),
+              Align(alignment: Alignment.bottomCenter, child: navigatorBar())
+            ],
           ),
         ),
       ),
@@ -299,8 +294,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
   void btnThem() {
     if (!widget.cubit.checkLenghtFile()) {
       MessageConfig.show(
-        title:
-            S.current.dung_luong_toi_da_30,
+        title: S.current.dung_luong_toi_da_30,
         messState: MessState.error,
       );
       return;
@@ -308,9 +302,10 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
     if (widget.cubit.reportStatusId.isNotEmpty) {
       if (widget.isEdit) {
         widget.cubit.editScheduleReport(
-            id: widget.id,
-            scheduleId: widget.scheduleId,
-            content: controller.text.trim());
+          id: widget.id,
+          scheduleId: widget.scheduleId,
+          content: controller.text.trim(),
+        );
       } else {
         widget.cubit.createScheduleReport(widget.scheduleId, controller.text);
       }

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_exten
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -31,6 +33,13 @@ class ThuHoiLichWidget extends StatefulWidget {
 }
 
 class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -56,10 +65,20 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                 Navigator.pop(context);
               },
               onClickRight: () {
-                widget.cubit.postThuHoiHop(
-                  widget.id,
+                showDiaLog(
+                  context,
+                  textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                  btnLeftTxt: S.current.khong,
+                  funcBtnRight: () {
+                    widget.cubit.postThuHoiHop(
+                      widget.id,
+                    );
+                    Navigator.pop(context);
+                  },
+                  title: S.current.thu_hoi_lich_hop,
+                  btnRightTxt: S.current.dong_y,
+                  showTablet: true,
                 );
-                Navigator.pop(context);
               },
             ),
           ),
@@ -138,8 +157,7 @@ class SelectTHuHoiCell extends StatelessWidget {
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           final dataSN = data
-              .where((e) => e.trangThai == 4)
-              .map((e) => e.hoTen ?? '')
+              .where((e) => e.trangThai == CoperativeStatus.Revoked)
               .toList();
           return Stack(
             alignment: AlignmentDirectional.centerStart,
@@ -149,77 +167,25 @@ class SelectTHuHoiCell extends StatelessWidget {
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
                 onChange: (vl) {
-                  if (cubit.dataThuHoi[vl].trangThai == 4) {
-                    cubit.dataThuHoi[vl].trangThai = 0;
+                  if (cubit.dataThuKyOrThuHoiDeFault[vl].trangThai ==
+                      CoperativeStatus.Revoked) {
+                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
+                        CoperativeStatus.Accepted;
                   } else {
-                    cubit.dataThuHoi[vl].trangThai = 4;
+                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
+                        CoperativeStatus.Revoked;
                   }
-                  cubit.listThuHoi.sink.add(cubit.dataThuHoi);
+                  cubit.listThuHoi.sink.add(cubit.dataThuKyOrThuHoiDeFault);
                 },
               ),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: List.generate(dataSN.length, (index) {
-                  final dataSnb = dataSN[index];
-                  return tag(
-                    title: dataSnb,
-                    onDelete: () {
-                      cubit.dataThuHoi[index].trangThai = 0;
-                      cubit.listThuHoi.sink.add(cubit.dataThuHoi);
-                    },
-                  );
-                }),
-              ),
+              wrapThis(
+                listData: dataSN,
+                cubit: cubit,
+                isPhanCongThuKy: false,
+              )
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget tag({required String title, required Function onDelete}) {
-    return Container(
-      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
-      decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 200,
-            ),
-            child: Text(
-              title,
-              style: textNormal(
-                APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
-                12.0.textScale(),
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              onDelete();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 9.25),
-              child: SvgPicture.asset(
-                ImageAssets.icClose,
-                width: 7.5,
-                height: 7.5,
-                color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
-                    : backgroundColorApp,
-              ),
-            ),
-          )
-        ],
       ),
     );
   }
@@ -368,11 +334,11 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
         BaseSearchBar(
           onChange: (keySearch) {
             bool isListThuKy(NguoiChutriModel thuKy) {
-              return thuKy.hoTen
-                      ?.toLowerCase()
-                      .vietNameseParse()
-                      .contains(keySearch) ??
-                  false;
+              return thuKy
+                  .title()
+                  .toLowerCase()
+                  .vietNameseParse()
+                  .contains(keySearch);
             }
 
             searchList = widget.listSelect
@@ -419,7 +385,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    itemTitle.hoTen ?? '',
+                                    itemTitle.title(),
                                     style: textNormalCustom(
                                       color: titleItemEdit,
                                       fontWeight: itemTitle == select

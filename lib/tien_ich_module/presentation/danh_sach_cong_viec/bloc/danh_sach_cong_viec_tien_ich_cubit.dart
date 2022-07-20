@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:io';
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
@@ -81,8 +82,8 @@ class DanhSachCongViecTienIchCubit
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
-          pageSize: 10,
-          pageIndex: pageIndex ?? 1,
+          pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
+          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           searchWord: textSearch,
         );
       case DSCVScreen.CVQT:
@@ -90,8 +91,8 @@ class DanhSachCongViecTienIchCubit
           isLoadmore: isLoadmore,
           inUsed: true,
           isImportant: true,
-          pageSize: pageSize ?? 10,
-          pageIndex: pageIndex ?? 1,
+          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
+          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           searchWord: textSearch,
         );
       case DSCVScreen.DHT:
@@ -100,25 +101,32 @@ class DanhSachCongViecTienIchCubit
           inUsed: true,
           isTicked: true,
           searchWord: textSearch,
-          pageIndex: pageIndex ?? 1,
-          pageSize: pageSize ?? 10,
+          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
+          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
         );
       case DSCVScreen.DG:
-        return getListDSCVGanChoNguoiKhac();
+        return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: true,
+          searchWord: textSearch,
+          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
+          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
+          isGiveOther: true,
+        );
       case DSCVScreen.DBX:
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: false,
           searchWord: textSearch,
-          pageIndex: pageIndex ?? 1,
-          pageSize: pageSize ?? 10,
+          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
+          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
         );
       case DSCVScreen.NCVM:
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
-          pageSize: pageSize ?? 10,
-          pageIndex: pageIndex ?? 1,
+          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
+          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           groupId: groupId ?? this.groupId,
           searchWord: textSearch,
         );
@@ -184,6 +192,8 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
+  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
+  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
   Future<bool> getListDSCVGanChoNguoiKhac() async {
     showLoading();
     final result = await tienIchRep.getListDSCVGanChoNguoiKhac();
@@ -211,6 +221,7 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isTicked,
     String? groupId,
+    bool? isGiveOther,
     bool? isLoadmore,
   }) async {
     showLoading();
@@ -222,6 +233,7 @@ class DanhSachCongViecTienIchCubit
       inUsed,
       isTicked,
       groupId,
+      isGiveOther,
     );
     result.when(
       success: (res) {

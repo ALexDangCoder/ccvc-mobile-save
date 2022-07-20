@@ -110,8 +110,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
     switch (this) {
       case PERMISSION_DETAIL.THU_HOI:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icThuHoi,
+          iconTablet: ImageAssets.icThuHoi,
         );
       case PERMISSION_DETAIL.XOA:
         return checkDevice(
@@ -130,8 +130,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP:
         return checkDevice(
-          iconMobile: ImageAssets.icTaoBocBang,
-          iconTablet: ImageAssets.icTaoBocBang,
+          iconMobile: ImageAssets.icTaoBocBangLichHop,
+          iconTablet: ImageAssets.icTaoBocBangLichHop,
         );
       case PERMISSION_DETAIL.CU_CAN_BO_DI_THAY:
         return checkDevice(
@@ -140,8 +140,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_LICH:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icHuyLichHop,
+          iconTablet: ImageAssets.icHuyLichHop,
         );
       case PERMISSION_DETAIL.XAC_NHAN_THAM_GIA:
         return checkDevice(
@@ -155,8 +155,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_XAC_NHAN:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icTuChoiThamGia,
+          iconTablet: ImageAssets.icTuChoiThamGia,
         );
       case PERMISSION_DETAIL.TU_CHOI_THAM_GIA:
         return checkDevice(
@@ -180,8 +180,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_DUYET:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icHuyLichHop,
+          iconTablet: ImageAssets.icHuyLichHop,
         );
     }
   }
@@ -226,8 +226,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
 
       case PERMISSION_DETAIL.XOA:
         return CellPopPupMenu(
-          urlImage: ImageAssets.ic_delete_do,
-          text: S.current.xoa_lich,
+          urlImage: PERMISSION_DETAIL.XOA.getIcon(),
+          text: PERMISSION_DETAIL.XOA.getString(),
           onTap: () {
             if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
               showDiaLog(
@@ -238,9 +238,9 @@ extension GetDataPermission on PERMISSION_DETAIL {
                   cubit.deleteChiTietLichHop();
                   Navigator.pop(context, true);
                 },
-                title: S.current.khong,
+                title: S.current.xoa_lich_hop,
                 btnRightTxt: S.current.dong_y,
-                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                icon: SvgPicture.asset(ImageAssets.icXoaHopPoppup),
                 showTablet: true,
                 isThisPopAfter: true,
               );
@@ -566,8 +566,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_LICH:
         return CellPopPupMenu(
-          urlImage: ImageAssets.icHuy,
-          text: S.current.huy_lich_hop,
+          urlImage: PERMISSION_DETAIL.HUY_LICH.getIcon(),
+          text: PERMISSION_DETAIL.HUY_LICH.getString(),
           onTap: () {
             if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
               showDiaLog(
@@ -802,4 +802,12 @@ class STATUS_DETAIL {
   static const int DA_GUI_LOI_MOI = 6;
   static const int XOA = 7;
   static const int HUY = 8;
+}
+
+class ThanhPhanThamGiaStatus {
+  static const int THAM_GIA = 1;
+  static const int TU_CHOI_THAM_GIA = 2;
+  static const int THAM_DU = 3;
+  static const int CHO_XAC_NHAN = 0;
+  static const int THU_HOI = 4;
 }

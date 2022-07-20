@@ -86,50 +86,55 @@ class HomeScreenTabletState extends State<HomeScreenTablet>
             onRefresh: () async {
               await homeCubit.refreshData();
             },
-            child: SizedBox.expand(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const ClampingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                child: Column(
-                  children: [
-                    const HeaderTabletWidget(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: StreamBuilder<List<WidgetModel>>(
-                        stream: homeCubit.getConfigWidget,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <WidgetModel>[];
-                          if (data.isNotEmpty) {
-                            return Column(
-                              children: List.generate(data.length, (index) {
-                                final type = data[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: type.widgetType?.getItemsTablet() ??
-                                      const SizedBox(),
+            child: Column(
+              children: [
+                const HeaderTabletWidget(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    physics: const ClampingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: StreamBuilder<List<WidgetModel>>(
+                            stream: homeCubit.getConfigWidget,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? <WidgetModel>[];
+                              if (data.isNotEmpty) {
+                                return Column(
+                                  children: List.generate(data.length, (index) {
+                                    final type = data[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child:
+                                          type.widgetType?.getItemsTablet() ??
+                                              const SizedBox(),
+                                    );
+                                  }),
                                 );
-                              }),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          color: backgroundColorApp,
+                          padding: const EdgeInsets.symmetric(vertical: 25),
+                          child: const MarqueeWidget(),
+                        )
+                      ],
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      color: backgroundColorApp,
-                      padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: const MarqueeWidget(),
-                    )
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

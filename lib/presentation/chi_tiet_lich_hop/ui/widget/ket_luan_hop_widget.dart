@@ -47,6 +47,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
     if (!isMobile()) {
       widget.cubit.callApiKetLuanHop();
+      widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
     }
   }
 
@@ -56,6 +57,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
       mobileScreen: SelectOnlyWidget(
         onchange: (value) {
           if (value) {
+            widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
             widget.cubit.callApiKetLuanHop();
           }
         },
@@ -95,7 +97,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
           S.current.danh_sach_nhiem_vu,
           style: textNormalCustom(
             fontWeight: FontWeight.w500,
-            fontSize: 14.0.textScale(),
+            fontSize: 16,
             color: dateColor,
           ),
         ),
@@ -108,18 +110,21 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
           /// nêu không có cuộc họp trả về button soạn
           if ((data.title ?? '').isEmpty && widget.cubit.isSoanKetLuanHop()) {
-            return IconWithTiltleWidget(
-              icon: ImageAssets.icDocument2,
-              title: S.current.soan_ket_luan_hop,
-              onPress: () {
-                xemOrTaoOrSuaKetLuanHop(
-                  cubit: widget.cubit,
-                  context: context,
-                  title: S.current.soan_ket_luan_hop,
-                  isCreate: true,
-                  listFile: [],
-                );
-              },
+            return Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: IconWithTiltleWidget(
+                icon: ImageAssets.icDocument2,
+                title: S.current.soan_ket_luan_hop,
+                onPress: () {
+                  xemOrTaoOrSuaKetLuanHop(
+                    cubit: widget.cubit,
+                    context: context,
+                    title: S.current.soan_ket_luan_hop,
+                    isCreate: true,
+                    listFile: [],
+                  );
+                },
+              ),
             );
 
             /// nêu có cuộc họp trả về thông tin và các button khác
@@ -135,6 +140,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                   cubit: widget.cubit,
                   listFile: data.file ?? [],
                 ),
+
                 /// các button khac
                 if (!widget.cubit.isDuyetOrHuyKetLuanHop())
                   Padding(
@@ -157,7 +163,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                           Padding(
                             padding: const EdgeInsets.only(right: 12),
                             child: ButtonOtherWidget(
-                              text: S.current.tu_choi,
+                              text: S.current.huy_duyet,
                               color: statusCalenderRed,
                               ontap: () {
                                 widget.cubit
@@ -193,7 +199,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
       StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
         stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          final data = snapshot.data ?? [];
+          if (data.isNotEmpty) {
             final data = snapshot.data ?? [];
             return ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -282,13 +289,25 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       urlImage: ImageAssets.icPlus2,
                       text: S.current.tao_moi_nhiem_vu,
                       onTap: () {
-                        showBottomSheetCustom(
-                          context,
-                          title: S.current.tao_moi_nhiem_vu,
-                          child: TaoMoiNhiemVuWidget(
-                            cubit: cubit,
-                          ),
-                        );
+                        if (isMobile()) {
+                          showBottomSheetCustom(
+                            context,
+                            title: S.current.tao_moi_nhiem_vu,
+                            child: TaoMoiNhiemVuWidget(
+                              cubit: cubit,
+                            ),
+                          );
+                        } else {
+                          showDiaLogTablet(
+                            context,
+                            title: S.current.tao_moi_nhiem_vu,
+                            child: TaoMoiNhiemVuWidget(
+                              cubit: cubit,
+                            ),
+                            isBottomShow: false,
+                            funcBtnOk: () {},
+                          );
+                        }
                       },
                     ),
                   if (cubit.xemKetLuanHop())
@@ -647,4 +666,3 @@ Widget widgetRow({required String name, required Widget child}) {
     ),
   );
 }
-

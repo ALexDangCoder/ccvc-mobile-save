@@ -110,6 +110,7 @@ class _EditPersonalInformationScreen
                       cubit.getInfo(id: widget.id);
                       cubit.huyenSubject.sink.add([]);
                       cubit.xaSubject.sink.add([]);
+                      FocusManager.instance.primaryFocus?.unfocus();
                     },
                     btnRightTxt: S.current.dong_y,
                     btnLeftTxt: S.current.khong,

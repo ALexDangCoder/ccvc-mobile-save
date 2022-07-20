@@ -94,12 +94,8 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
             ),
           ).then((value) {
             if (value != null && value) {
-              if (widget.cubit.state is CalendarViewState ||
-                  widget.cubit.state is ListViewState) {
-                widget.cubit.refreshDataDangLich();
-              } else {
-                widget.cubit.getDataDangChart();
-              }
+              widget.cubit.emitCalendarViewState();
+              widget.cubit.refreshDataDangLich();
             }
           });
         } else {

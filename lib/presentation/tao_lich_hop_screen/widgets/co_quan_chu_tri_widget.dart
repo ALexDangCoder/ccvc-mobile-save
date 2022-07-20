@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -8,7 +10,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_t
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expand_model.dart';
@@ -254,17 +256,24 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     style: textNormal(titleItemEdit, 16),
                   ),
                   spaceH24,
-                  ButtonSelectFile(
-                    files: [],
-                    spacingFile: 16,
+                  ButtonSelectFileLichLamViec(
                     maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                     title: S.current.files_dinh_kem,
-                    icon: ImageAssets.icShareFile,
-                    onChange: ( files,) {
-                      widget.cubit.listThuMoi = files;
+                    icon: ImageAssets.ic_file_meeting,
+                    errMultipleFileMessage: S.current.validate_thu_hop,
+                    allowedExtensions: const [
+                      FileExtensions.DOC,
+                      FileExtensions.DOCX,
+                      FileExtensions.JPEG,
+                      FileExtensions.JPG,
+                      FileExtensions.PDF,
+                      FileExtensions.PNG,
+                    ],
+                    onChange: (List<File> files, bool validate) {
+                      if(!validate) {
+                        widget.cubit.listThuMoi = files;
+                      }
                     },
-                    hasMultipleFile: true,
-                    removeFileApi: (int index) {},
                   )
                 ],
               ),

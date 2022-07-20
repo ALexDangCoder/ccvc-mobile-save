@@ -32,7 +32,7 @@ class ChiTietLichHopModel {
   ChuTriModel chuTriModel;
   PhongHopMode phongHopMode;
   String typeScheduleId;
-  List<file>? fileData;
+  List<FilesChiTietHop>? fileData;
   bool isTaoTaoBocBang;
   String canBoThamGiaStr;
   bool bit_HopTrucTuyen;
@@ -57,6 +57,7 @@ class ChiTietLichHopModel {
   List<PhongHopThietBi>? phongHopThietBi;
   String? thuMoiFiles;
   String? linhVucId;
+  List<FilesChiTietHop>? fileDinhKemWithDecode;
 
   ChiTietLichHopModel({
     this.id = '',
@@ -105,6 +106,7 @@ class ChiTietLichHopModel {
     this.phongHopThietBi,
     this.thuMoiFiles,
     this.linhVucId,
+    this.fileDinhKemWithDecode,
   });
 
   String getNgayBatDau() {
@@ -254,9 +256,9 @@ class ChiTietLichHopModel {
     if (linhVuc.isNotEmpty) {
       data.add(ChiTietDataRow(urlIcon: ImageAssets.icWork, text: linhVuc));
     }
-    if (phongHopMode.ten.isNotEmpty) {
+    if ((diaDiemHop ?? '').isNotEmpty) {
       data.add(
-        ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: phongHopMode.ten),
+        ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: diaDiemHop ?? ''),
       );
     }
 
@@ -408,36 +410,53 @@ class ChiTietDataRow {
   ChiTietDataRow({required this.urlIcon, required this.text});
 }
 
-class file {
-  final String? createdAt;
+class FilesChiTietHop {
+  String? createdAt;
 
-  final String? createdBy;
-  final String? entityId;
-  final String? entityId_DM;
-  final String? entityName;
-  final int? entityType;
-  final String? extension;
-  final String? id;
-  final bool? isPrivate;
-  final String? name;
-  final String? path;
-  final double? size;
-  final String? updatedAt;
-  final String? updatedBy;
+  String? createdBy;
+  String? entityId;
+  String? entityId_DM;
+  String? entityName;
+  int? entityType;
+  String? extension;
+  String? id;
+  bool? isPrivate;
+  String? name;
+  String? path;
+  double? size;
+  String? updatedAt;
+  String? updatedBy;
 
-  file(
-      {this.createdAt,
-      this.createdBy,
-      this.entityId,
-      this.entityId_DM,
-      this.entityName,
-      this.entityType,
-      this.extension,
-      this.id,
-      this.isPrivate,
-      this.name,
-      this.path,
-      this.size,
-      this.updatedAt,
-      this.updatedBy});
+  FilesChiTietHop({
+    this.createdAt,
+    this.createdBy,
+    this.entityId,
+    this.entityId_DM,
+    this.entityName,
+    this.entityType,
+    this.extension,
+    this.id,
+    this.isPrivate,
+    this.name,
+    this.path,
+    this.size,
+    this.updatedAt,
+    this.updatedBy,
+  });
+
+  FilesChiTietHop.fromJson(Map<String, dynamic> json) {
+    id = json['Id'];
+    createdAt = json['CreatedAt'];
+    createdBy = json['CreatedBy'];
+    updatedAt = json['UpdatedAt'];
+    updatedBy = json['UpdatedBy'];
+    name = json['Name'];
+    extension = json['Extension'];
+    size = json['Size'];
+    path = json['Path'];
+    entityId = json['EntityId'];
+    entityType = json['EntityType'];
+    entityName = json['EntityName'];
+    isPrivate = json['IsPrivate'];
+  }
 }

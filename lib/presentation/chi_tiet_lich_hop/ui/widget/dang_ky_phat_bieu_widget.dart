@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
@@ -67,7 +68,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     } else {
       final intValue = int.tryParse(value.trim());
       setState(() {
-        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
+        errorText = intValue != null ? '' : S.current.nhap_sai_dinh_dang;
       });
     }
   }
@@ -115,12 +116,14 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 data.map((e) => e.tieuDe ?? '').toList();
                 return CoolDropDown(
                   key: UniqueKey(),
+                  maxLines:  2,
                   useCustomHintColors: true,
                   placeHoder: S.current.chon_phien_hop,
                   listData: newListSelect,
                   initData: valueDropDownSelected,
                   onChange: (value) {
                     taoBieuQuyetRequest.phienHopId = data[value].id;
+                    validatePhienHop();
                     valueDropDownSelected  = data[value].tieuDe ?? '';
                   },
                 );
@@ -148,7 +151,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                         taoBieuQuyetRequest.time = int.parse(value);
                       } catch (_) {}
                     },
-                    maxLength: 18,
+                    maxLength: 10,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],

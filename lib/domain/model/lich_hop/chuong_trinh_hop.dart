@@ -68,7 +68,7 @@ class CanBoModel {
       case 2:
         return S.current.tu_choi_tham_du;
       case 4:
-        return S.current.tham_du;
+        return S.current.thu_hoi;
       default:
         return S.current.cho_xac_nhan;
     }
@@ -124,19 +124,22 @@ class CanBoModel {
   }
 
   String getNameVaiTro() {
+    if(isThuKy ?? false){
+      return S.current.thu_ky;
+    }
     switch (vaiTroThamGia) {
       case 0:
-        return 'Cán bộ chủ trì';
+        return S.current.can_bo_chu_tri;
       case 1:
-        return 'Khách mời trong đơn vị';
+        return S.current.khach_moi_trong_don_vi;
       case 2:
-        return 'Khách mời cán bộ trong đơn vị';
+        return S.current.khach_moi_can_bo_trong_don_vi;
       case 3:
-        return 'Cử đi';
+        return S.current.cu_di;
       case 4:
-        return 'Khách mời ngoài đơn vị';
+        return S.current.khach_moi_ngoai_don_vi;
       case 5:
-        return 'Khách mời cán bộ ngoài đơn vị';
+        return S.current.khach_moi_can_bo_ngoai_don_vi;
     }
     return '';
   }

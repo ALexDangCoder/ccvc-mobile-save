@@ -111,101 +111,98 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                   padding: const EdgeInsets.only(bottom: 20),
                   child: SizedBox(
                     child: StreamBuilder<bool>(
-                        stream: widget.cubit.isValidateThoiGianBatDauKetThuc,
-                        builder: (context, snapshotThoiGianBatDauKetThuc) {
-                          final dataThoiGianBatDauKetThuc =
-                              snapshotThoiGianBatDauKetThuc.data ?? true;
-                          return StreamBuilder<bool>(
-                            stream: widget.cubit.isValidateTimer,
-                            builder: (context, snapshot) {
-                              return ShowRequied(
-                                isShow: snapshot.data ?? true,
-                                textShow: dataThoiGianBatDauKetThuc
-                                    ? S.current
-                                        .thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc
-                                    : S.current.validate_bieu_quyet,
-                                child: BaseChooseTimerWidget(
-                                  key: _keyBaseTime,
-                                  timeBatDau: timeStart.getTimeData(
-                                    timeReturnParseFail: TimerData(
-                                      hour: DateTime.now().hour,
-                                      minutes: DateTime.now().minute,
-                                    ),
+                      stream: widget.cubit.isValidateThoiGianBatDauKetThuc,
+                      builder: (context, snapshotThoiGianBatDauKetThuc) {
+                        final dataThoiGianBatDauKetThuc =
+                            snapshotThoiGianBatDauKetThuc.data ?? true;
+                        return StreamBuilder<bool>(
+                          stream: widget.cubit.isValidateTimer,
+                          builder: (context, snapshot) {
+                            return ShowRequied(
+                              isShow: snapshot.data ?? true,
+                              textShow: dataThoiGianBatDauKetThuc
+                                  ? S.current
+                                      .thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc
+                                  : S.current.validate_bieu_quyet,
+                              child: BaseChooseTimerWidget(
+                                key: _keyBaseTime,
+                                timeBatDau: timeStart.getTimeData(
+                                  timeReturnParseFail: TimerData(
+                                    hour: DateTime.now().hour,
+                                    minutes: DateTime.now().minute,
                                   ),
-                                  timeKetThuc: timeEnd.getTimeData(
-                                    timeReturnParseFail: TimerData(
-                                      hour: DateTime.now().hour,
-                                      minutes: DateTime.now().minute,
-                                    ),
+                                ),
+                                timeKetThuc: timeEnd.getTimeData(
+                                  timeReturnParseFail: TimerData(
+                                    hour: DateTime.now().hour,
+                                    minutes: DateTime.now().minute,
                                   ),
-                                  onChange: (start, end) {
-                                    timeStart = start.timerToString;
-                                    timeEnd = end.timerToString;
-                                    final dateTimeStart =
-                                        '$thoiGianHop $timeStart'
-                                            .convertStringToDate(
-                                      formatPattern:
-                                          DateTimeFormat.DATE_TIME_PUT_EDIT,
-                                    );
-                                    final dateTimeEnd = '$thoiGianHop $timeEnd'
-                                        .convertStringToDate(
-                                      formatPattern:
-                                          DateTimeFormat.DATE_TIME_PUT_EDIT,
-                                    );
+                                ),
+                                onChange: (start, end) {
+                                  timeStart = start.timerToString;
+                                  timeEnd = end.timerToString;
+                                  final dateTimeStart =
+                                      '$thoiGianHop $timeStart'
+                                          .convertStringToDate(
+                                    formatPattern:
+                                        DateTimeFormat.DATE_TIME_PUT_EDIT,
+                                  );
+                                  final dateTimeEnd = '$thoiGianHop $timeEnd'
+                                      .convertStringToDate(
+                                    formatPattern:
+                                        DateTimeFormat.DATE_TIME_PUT_EDIT,
+                                  );
 
-                                    if (dateTimeStart.isAfter(dateTimeEnd) ||
-                                        (dateTimeStart.isBefore(
-                                          widget.cubit
-                                              .getTime()
-                                              .convertStringToDate(
-                                                formatPattern: DateFormatApp
-                                                    .monthDayFormat,
-                                              ),
-                                        )) ||
-                                        dateTimeEnd.isAfter(
-                                          widget.cubit
-                                              .getTime(isGetDateStart: false)
-                                              .convertStringToDate(
-                                                formatPattern: DateFormatApp
-                                                    .monthDayFormat,
-                                              ),
-                                        )) {
-                                      if (dateTimeStart.isAfter(dateTimeEnd)) {
-                                        widget.cubit.isValidateTimer.sink
-                                            .add(true);
-                                        widget
-                                            .cubit
-                                            .isValidateThoiGianBatDauKetThuc
-                                            .sink
-                                            .add(true);
-                                        isShowValidate = true;
-                                      } else {
-                                        widget
-                                            .cubit
-                                            .isValidateThoiGianBatDauKetThuc
-                                            .sink
-                                            .add(false);
-                                        widget.cubit.isValidateTimer.sink
-                                            .add(true);
-                                        isShowValidate = true;
-                                      }
+                                  if (dateTimeStart.isAfter(dateTimeEnd) ||
+                                      (dateTimeStart.isBefore(
+                                        widget.cubit
+                                            .getTime()
+                                            .convertStringToDate(
+                                              formatPattern:
+                                                  DateFormatApp.monthDayFormat,
+                                            ),
+                                      )) ||
+                                      dateTimeEnd.isAfter(
+                                        widget.cubit
+                                            .getTime(isGetDateStart: false)
+                                            .convertStringToDate(
+                                              formatPattern:
+                                                  DateFormatApp.monthDayFormat,
+                                            ),
+                                      )) {
+                                    if (dateTimeStart.isAfter(dateTimeEnd)) {
+                                      widget.cubit.isValidateTimer.sink
+                                          .add(true);
+                                      widget.cubit
+                                          .isValidateThoiGianBatDauKetThuc.sink
+                                          .add(true);
+                                      isShowValidate = true;
                                     } else {
                                       widget.cubit
                                           .isValidateThoiGianBatDauKetThuc.sink
                                           .add(false);
                                       widget.cubit.isValidateTimer.sink
-                                          .add(false);
-                                      isShowValidate = false;
+                                          .add(true);
+                                      isShowValidate = true;
                                     }
-                                  },
-                                  validator: (timeBegin, timerEn) {
-                                    return timeBegin.equalTime(timerEn);
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        }),
+                                  } else {
+                                    widget.cubit.isValidateThoiGianBatDauKetThuc
+                                        .sink
+                                        .add(false);
+                                    widget.cubit.isValidateTimer.sink
+                                        .add(false);
+                                    isShowValidate = false;
+                                  }
+                                },
+                                validator: (timeBegin, timerEn) {
+                                  return timeBegin.equalTime(timerEn);
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 BlockTextViewLich(

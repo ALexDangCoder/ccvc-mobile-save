@@ -125,9 +125,25 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     final timeNow = DateTime.now();
     final timePaser =
         DateFormat(DateTimeFormat.DATE_TIME_RECEIVE).parse(timeBieuQuyet);
-    final dateBieuQuyetMillisec = timeNow.millisecondsSinceEpoch;
-    final dateNowMillisec = timePaser.millisecondsSinceEpoch;
-    if (dateBieuQuyetMillisec < dateNowMillisec) {
+    final dateBieuQuyetMillisec = timePaser.millisecondsSinceEpoch;
+    final dateNowMillisec = timeNow.millisecondsSinceEpoch;
+    if (dateBieuQuyetMillisec > dateNowMillisec) {
+      return true;
+    }
+    return false;
+  }
+
+  bool compareEquaTime(String timeBatDau, String timeKetThuc) {
+    final timeNow = DateTime.now();
+    final timeBatDauPaser =
+        DateFormat(DateTimeFormat.DATE_TIME_RECEIVE).parse(timeBatDau);
+    final timeKetThucPaser =
+        DateFormat(DateTimeFormat.DATE_TIME_RECEIVE).parse(timeKetThuc);
+    final dateBieuQuyetMillisec = timeBatDauPaser.millisecondsSinceEpoch;
+    final dateNowMillisec = timeNow.millisecondsSinceEpoch;
+    final dateKetThucMillisec = timeKetThucPaser.millisecondsSinceEpoch;
+    if (dateBieuQuyetMillisec <= dateNowMillisec &&
+        dateKetThucMillisec >= dateNowMillisec) {
       return true;
     }
     return false;
@@ -152,6 +168,24 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       error: (err) {},
     );
     danhSachLuaChon.clear();
+  }
+
+  Future<void> danhSachCanBoBieuQuyet({
+    required String luaChonId,
+    required String bieuQuyetId,
+  }) async {
+    showLoading();
+    final result =
+        await hopRp.danhSachCanBoBieuQuyet(luaChonId, idCuocHop, bieuQuyetId);
+    result.when(
+      success: (res) {
+        danhSachCanBoBieuQuyetSubject.sink.add(
+          res,
+        );
+        showContent();
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> suaBieuQuyet({
@@ -232,9 +266,8 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
   void isCheckDiemDanh(List<CanBoModel> mList) {
     final idCanBo = HiveLocal.getDataUser()?.userId;
-    final diemDanh =
-        mList.firstWhere((element) => element.canBoId == idCanBo).diemDanh;
-    isCheckDiemDanhSubject.sink.add(diemDanh ?? false);
+    final diemDanh = mList.firstWhere((element) => element.canBoId == idCanBo);
+    isCheckDiemDanhSubject.sink.add(diemDanh);
   }
 
   void getTimeHour({required TimerData startT, required TimerData endT}) {
@@ -607,11 +640,10 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
   Future<void> callAPiBieuQuyet() async {
     await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
-    await callApi(idCuocHop, '');
+    await callApi(idCuocHop, idPhienHop);
   }
 
   Future<void> callSuaAPiBieuQuyet() async {
-  //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop, idPhienHop);
   }
 

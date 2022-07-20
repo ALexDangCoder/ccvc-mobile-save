@@ -21,6 +21,7 @@ import 'package:ccvc_mobile/presentation/change_password/ui/mobile/change_passwo
 import 'package:ccvc_mobile/presentation/change_password/ui/tablet/change_password_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/mobile/hoi_dap_screen.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/tablet/hoi_dap_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/main_menu_qlvb/main_menu_qlvb_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/qlvb_mobile_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/qlvb_tablet_screen.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/y_kien_nguoidan_screen.dart';
@@ -233,7 +234,7 @@ extension GetScreen on MenuType {
         );
       case MenuType.quanLyVanBan:
         return screenDevice(
-          mobileScreen: const QLVBMobileScreen(),
+          mobileScreen: const MainMenuQlVBMobile(),
           tabletScreen: const QLVBScreenTablet(),
         );
       case MenuType.baoChiMangXaHoi:

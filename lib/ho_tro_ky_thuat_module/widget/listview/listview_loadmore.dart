@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_state.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/widgets/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,7 @@ class ListViewLoadMore extends StatefulWidget {
   final double? checkRatio;
   final double? crossAxisSpacing;
   final bool? sinkWap;
+  final ScrollPhysics? physics;
 
   const ListViewLoadMore({
     Key? key,
@@ -28,6 +28,7 @@ class ListViewLoadMore extends StatefulWidget {
     this.checkRatio,
     this.crossAxisSpacing,
     this.sinkWap,
+    this.physics,
   }) : super(key: key);
 
   @override
@@ -117,59 +118,43 @@ class _ListViewLoadMoreState extends State<ListViewLoadMore> {
             },
             child: RefreshIndicator(
               onRefresh: refreshPosts,
-              child: Stack(
-                children: [
-                  StreamBuilder(
-                    stream: widget.cubit.loadMoreListStream,
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<List<dynamic>> snapshot,
-                    ) {
-                      return widget.isListView == true
-                          ? ListView.builder(
-                              shrinkWrap: widget.sinkWap ?? false,
-                              itemCount: snapshot.data?.length ?? 0,
-                              itemBuilder: (ctx, index) {
-                                return widget.viewItem(
-                                    snapshot.data![index], index);
-                              },
-                            )
-                          : GridView.builder(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                                top: 16,
-                                bottom: 32,
-                              ),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: widget.crossAxisSpacing ?? 28,
-                                childAspectRatio: widget.checkRatio ?? 2 / 3,
-                              ),
-                              itemCount: snapshot.data?.length ?? 0,
-                              itemBuilder: (_, index) {
-                                return widget.viewItem(
-                                    snapshot.data![index], index);
-                              },
-                            );
-                    },
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 16,
-                    left: 16,
-                    child: StreamBuilder<bool>(
-                      stream: widget.cubit.loadMoreStream,
-                      builder: (context, snapshot) {
-                        return snapshot.data ?? false
-                            ? LoadingItem()
-                            : const SizedBox();
-                      },
-                    ),
-                  )
-                ],
+              child: StreamBuilder(
+                stream: widget.cubit.loadMoreListStream,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<List<dynamic>> snapshot,
+                ) {
+                  return widget.isListView == true
+                      ? ListView.builder(
+                          physics: widget.physics,
+                          shrinkWrap: widget.sinkWap ?? false,
+                          itemCount: snapshot.data?.length ?? 0,
+                          itemBuilder: (ctx, index) {
+                            return widget.viewItem(
+                                snapshot.data![index], index);
+                          },
+                        )
+                      : GridView.builder(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 16,
+                            bottom: 32,
+                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: widget.crossAxisSpacing ?? 28,
+                            childAspectRatio: widget.checkRatio ?? 2 / 3,
+                          ),
+                          itemCount: snapshot.data?.length ?? 0,
+                          itemBuilder: (_, index) {
+                            return widget.viewItem(
+                                snapshot.data![index], index);
+                          },
+                        );
+                },
               ),
             ),
           ),

@@ -13,6 +13,13 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
+class CoperativeStatus {
+  static const int WaitAccept = 0;
+  static const int Accepted = 1;
+  static const int Denied = 2;
+  static const int Revoked = 4;
+}
+
 ///chi tiết lịch họp
 extension ChiTietLichHop on DetailMeetCalenderCubit {
   Future<bool> deleteChiTietLichHop({bool? isMulti}) async {
@@ -84,8 +91,9 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachThuHoi(id, true);
     result.when(
       success: (res) {
-        dataThuHoi = res.where((element) => element.trangThai != 4).toList();
-        listThuHoi.sink.add(dataThuHoi);
+        dataThuKyOrThuHoiDeFault =
+            res.where((element) => element.trangThai != 4).toList();
+        listThuHoi.sink.add(dataThuKyOrThuHoiDeFault);
       },
       error: (error) {},
     );
@@ -115,14 +123,16 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
   }
 
   Future<void> postThuHoiHop(String scheduleId) async {
-    final idPost =
-        dataThuHoi.where((element) => element.trangThai == 4).toList();
+    showLoading();
+    final idPost = dataThuKyOrThuHoiDeFault
+        .where((element) => element.trangThai == CoperativeStatus.Revoked)
+        .toList();
     for (int i = 0; i < idPost.length; i++) {
       thuHoiHopRequest.add(
         ThuHoiHopRequest(
           id: idPost[i].id,
           scheduleId: scheduleId,
-          status: 4,
+          status: CoperativeStatus.Revoked,
         ),
       );
     }
@@ -134,12 +144,19 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
           getDanhSachThuHoiLichHop(scheduleId);
           thuHoiHopRequest.clear();
         }
+        showContent();
+        MessageConfig.show(title: S.current.thanh_cong);
+        getDanhSachNguoiChuTriPhienHop(idCuocHop);
       },
-      error: (error) {},
+      error: (error) {
+        MessageConfig.show(title: S.current.that_bai);
+      },
     );
+    showContent();
   }
 
   Future<void> postPhanCongThuKy(String id) async {
+    showLoading();
     final List<String> dataIdPost = dataThuKyOrThuHoiDeFault
         .where((e) => e.isThuKy ?? false)
         .map((e) => e.id ?? '')
@@ -153,9 +170,19 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     );
 
     result.when(
-      success: (value) {},
-      error: (error) {},
+      success: (value) {
+        showContent();
+        MessageConfig.show(title: S.current.thanh_cong);
+        getDanhSachNguoiChuTriPhienHop(idCuocHop);
+      },
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
+      },
     );
+    showContent();
   }
 
   LoaiSelectModel? _findLoaiHop(String id) {
@@ -292,10 +319,10 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       isMutil,
       files,
     );
-   await result.when(
+    await result.when(
       success: (res) async {
         showContent();
-       await getChiTietLichHop(idCuocHop);
+        await getChiTietLichHop(idCuocHop);
         MessageConfig.show(title: S.current.thao_tac_thanh_cong);
       },
       error: (err) {

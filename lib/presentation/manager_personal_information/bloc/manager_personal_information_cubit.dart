@@ -311,7 +311,7 @@ class ManagerPersonalInformationCubit
           );
         } else {
           MessageConfig.show(
-            title: S.current.thay_doi_that_bai,
+            title: error.message,
             messState: MessState.error,
           );
         }

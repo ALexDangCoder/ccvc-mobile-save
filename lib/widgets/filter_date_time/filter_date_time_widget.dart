@@ -19,7 +19,7 @@ class FilterDateTimeWidget extends StatefulWidget {
   final DateTime? initStartDate;
   final DateTime? initEndDate;
 
-  FilterDateTimeWidget({
+  const FilterDateTimeWidget({
     Key? key,
     required this.onChooseDateFilter,
     required this.context,

@@ -153,6 +153,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   thongTinTxt: data.chuTriModel.dauMoiLienHe,
                                   sdtTxt: data.chuTriModel.soDienThoai,
                                   dsDiemCau: data.dsDiemCau ?? [],
+                                  thuMoiFiles: data.fileDinhKemWithDecode ?? [],
                                 )
                               ],
                             );
@@ -351,27 +352,30 @@ PreferredSizeWidget appbarChiTietHop(
       ),
     ),
     actions: [
-      if (!cubit.trangThaiHuy() &&
-          cubit.chiTietLichHopSubject.valueOrNull != null)
         Padding(
           padding: const EdgeInsets.only(right: 16),
           child: StreamBuilder<List<PERMISSION_DETAIL>>(
             stream: cubit.listButtonSubject.stream,
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
-              return MenuSelectWidget(
-                listSelect: data
-                    .map(
-                      (e) => e.getMenuLichHop(
-                        context,
-                        cubit,
-                        thanhPhanThamGiaCubit,
-                        themCanBoCubit,
-                        themDonViCubit,
-                      ),
-                    )
-                    .toList(),
-              );
+              if(!cubit.trangThaiHuy() &&
+                  data.isNotEmpty) {
+                return MenuSelectWidget(
+                  listSelect: data
+                      .map(
+                        (e) => e.getMenuLichHop(
+                      context,
+                      cubit,
+                      thanhPhanThamGiaCubit,
+                      themCanBoCubit,
+                      themDonViCubit,
+                    ),
+                  )
+                      .toList(),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
             },
           ),
         )

@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DanhSachYKienResponse {
   List<Data>? data;
@@ -57,9 +56,10 @@ class Data {
   }
 
   YKienModel toDomain() => YKienModel(
-      time: ngayTao ?? DateTime.now().toString(),
-      fileName: '',
-      imgAvatar: '',
-      name: nguoiTao ?? '',
-      content: content?.parseHtml() ?? '');
+        time: ngayTao ?? DateTime.now().toString(),
+        fileName: '',
+        imgAvatar: '',
+        name: nguoiTao ?? '',
+        content: content ?? '',
+      );
 }

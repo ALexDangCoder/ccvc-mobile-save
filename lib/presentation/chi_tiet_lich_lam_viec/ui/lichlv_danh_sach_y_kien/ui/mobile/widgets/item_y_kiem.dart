@@ -52,7 +52,7 @@ class ItemYKien extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    DateTime.parse(yKienModel.time).toStringWithListFormat,
+                    DateTime.parse(yKienModel.time).toStringDMYHHMM,
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,

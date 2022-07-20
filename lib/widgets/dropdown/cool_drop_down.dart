@@ -10,9 +10,11 @@ class CoolDropDown extends StatefulWidget {
   final Function(int) onChange;
   final List<String> listData;
   final double? setWidth;
+  final int maxLines;
   final bool showSelectedDecoration;
   final bool useCustomHintColors;
   final Widget? selectedIcon;
+  final bool needReInitData;
 
   const CoolDropDown({
     Key? key,
@@ -21,9 +23,11 @@ class CoolDropDown extends StatefulWidget {
     required this.listData,
     required this.initData,
     this.setWidth,
+    this.maxLines = 1,
     this.showSelectedDecoration = true,
     this.selectedIcon,
     this.useCustomHintColors = false,
+    this.needReInitData = false,
   }) : super(key: key);
 
   @override
@@ -50,22 +54,22 @@ class _CoolDropDownState extends State<CoolDropDown> {
 
   @override
   void didUpdateWidget(covariant CoolDropDown oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-
-    for (var i = 0; i < widget.listData.length; i++) {
-      listSelect.add({
-        'label': widget.listData[i],
-        'value': widget.listData[i],
-        'icon': const SizedBox(),
-      });
+    if (widget.needReInitData && listSelect.isEmpty) {
+      for (var i = 0; i < widget.listData.length; i++) {
+        listSelect.add({
+          'label': widget.listData[i],
+          'value': widget.listData[i],
+          'icon': const SizedBox(),
+        });
+      }
     }
-    initIndex = widget.listData.indexOf(widget.initData);
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
     return CoolDropdown(
+      maxLines: widget.maxLines,
       defaultValue: initIndex < 0 ? null : listSelect[initIndex],
       // resultWidth: MediaQuery.of(context).size.width,
       // dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,

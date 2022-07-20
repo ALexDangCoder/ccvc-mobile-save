@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 
+
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
@@ -19,6 +21,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danhSachCanBoBieuQuyetModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
@@ -26,6 +29,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_mo
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/file_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -41,21 +45,22 @@ import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
@@ -63,7 +68,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
   /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
-  KetLuanHopState ketLuanHopState= KetLuanHopState();
+  KetLuanHopState ketLuanHopState = KetLuanHopState();
   String ngayBatDaus = '';
   String ngayKetThucs = '';
   bool check = false;
@@ -102,6 +107,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   ChiTietBieuQuyetModel chiTietBieuQuyetModel = ChiTietBieuQuyetModel();
   List<DsLuaChonOld> listLuaChonOld = [];
   BehaviorSubject<ChiTietBieuQuyetModel> chiTietBieuQuyetSubject =
+      BehaviorSubject();
+  BehaviorSubject<DanhSachCanBoBieuQuyetModel> danhSachCanBoBieuQuyetSubject =
       BehaviorSubject();
   BehaviorSubject<List<DanhSachThanhPhanThamGiaModel>> listBieuQuyetSubject =
       BehaviorSubject();
@@ -157,7 +164,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<DanhSachLoaiNhiemVuLichHopModel> danhSachLoaiNhiemVuLichHopModel = [];
 
   BehaviorSubject<List<VBGiaoNhiemVuModel>> listVBGiaoNhiemVu =
-      BehaviorSubject<List<VBGiaoNhiemVuModel>>();
+      BehaviorSubject.seeded([]);
 
   BehaviorSubject<bool> checkTuyChinh = BehaviorSubject();
 
@@ -189,7 +196,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       danhSachPhatbieuLichHopModelSubject.stream;
 
   final BehaviorSubject<List<String>> themLuaChonBieuQuyet = BehaviorSubject();
-  final List<String> listThemLuaChon = [];
+  List<String> listThemLuaChon = [];
   final BehaviorSubject<List<SuaDanhSachLuaChonModel>> suaDanhSachLuaChon =
       BehaviorSubject();
   BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
@@ -230,8 +237,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<String> cacLuaChonBieuQuyet = [];
   List<SuaDanhSachLuaChonModel> suaLuaChonBieuQuyet = [];
   List<NguoiChutriModel> dataThuKyOrThuHoiDeFault = [];
-
-  List<NguoiChutriModel> dataThuHoi = [];
   DateTime timeNow = DateTime.now();
   TimerData end = TimerData(hour: 00, minutes: 00);
   TimerData start = TimerData(
@@ -240,26 +245,35 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   );
 
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
-    await getChiTietLichHop(idCuocHop);
-
+    final queue = Queue(parallel: 4);
+    showLoading();
+    unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
+    await queue.onComplete;
     ///check permission button
     if (needCheckPermission) {
       initDataButton();
     }
+    showContent();
+  }
 
-    await getDanhSachThuHoiLichHop(idCuocHop);
-
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-    await getDanhSachCanBoHop(idCuocHop);
+  Future<Result<List<FileUploadModel>>> uploadFile(List<File> file) async {
+    ShowLoadingScreen.show();
+    final data = await hopRp.uploadMultiFile(path: file);
+    ShowLoadingScreen.dismiss();
+    return data;
   }
 
   /// dùng cho cả bên: tao moi nhiem vu - kl hop
   Future<void> getDanhSachNguoiChuTriPhienHop(String id) async {
-    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
     result.when(
       success: (res) {
         listNguoiCHuTriModel.sink.add(res);
         dataThuKyOrThuHoiDeFault = res;
+
       },
       error: (error) {},
     );
@@ -275,7 +289,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       BehaviorSubject<List<CanBoModel>>();
   List<CanBoModel> listCanBo = [];
   BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
-  BehaviorSubject<bool> isCheckDiemDanhSubject = BehaviorSubject();
+  BehaviorSubject<CanBoModel> isCheckDiemDanhSubject = BehaviorSubject();
   List<String> selectedIds = [];
 
   BehaviorSubject<List<PhatBieuModel>> streamPhatBieu =
@@ -319,11 +333,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     });
   }
 }
+
 class KetLuanHopState {
   final BehaviorSubject<List<FileDetailMeetModel>> listFileDefault =
-  BehaviorSubject();
-  final BehaviorSubject<List<File>> listFileSelect =
-  BehaviorSubject();
+      BehaviorSubject();
+  final BehaviorSubject<List<File>> listFileSelect = BehaviorSubject();
+  final BehaviorSubject<bool> validateTinhTrang = BehaviorSubject();
 
   String valueEdit = '';
   String reportStatusId = '';
@@ -359,8 +374,9 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     final data = convertMoiHopRequest();
     if (data.isEmpty) {
       MessageConfig.show(
-          title: S.current.vui_long_chon_can_bo_hoac_don_vi_moi,
-          messState: MessState.error);
+        title: S.current.vui_long_chon_can_bo_hoac_don_vi_moi,
+        messState: MessState.error,
+      );
       return;
     }
     showLoading();
@@ -373,6 +389,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
+        await getDanhSachNguoiChuTriPhienHop(idCuocHop);
         moiHopRequest.clear();
       },
       error: (error) {
@@ -395,6 +412,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
       error: (error) {},
     );
   }
+
+
 
   Future<void> postDiemDanh() async {
     showLoading();
@@ -439,7 +458,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   static const int INDEX_FILTER_XL_CHO_CHO_Y_KIEN = 19;
   static const int INDEX_FILTER_XL_DA_CHO_Y_KIEN = 20;
   static const int INDEX_FILTER_XL_THU_HOI = 21;
-  static const int INDEX_FILTER_XL_TRA_LAI =  22;
+  static const int INDEX_FILTER_XL_TRA_LAI = 22;
   static const int INDEX_FILTER_XL_CHUYEN_XU_LY = 23;
   static const int INDEX_FILTER_TC_CHO_DUYET = 24;
   static const int INDEX_FILTER_OUT_RANGE = 25;
@@ -522,7 +541,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
     showLoading(isShow: false);
-
   }
 
   void addThanhPhanThamGia(List<DonViModel> value) {
@@ -635,24 +653,27 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   void dispose() {
     _data.clear();
   }
-  void showLoading({bool isShow = true}){
-    void show(){
-      if(isMobile()){
+
+  void showLoading({bool isShow = true}) {
+    void show() {
+      if (isMobile()) {
         ShowLoadingScreen.show();
-      }else{
+      } else {
         detailMeetCalenderCubit?.showLoading();
       }
     }
-    void dismiss(){
-      if(isMobile()){
+
+    void dismiss() {
+      if (isMobile()) {
         ShowLoadingScreen.dismiss();
-      }else{
+      } else {
         detailMeetCalenderCubit?.showContent();
       }
     }
-    if(isShow){
-     show();
-    }else{
+
+    if (isShow) {
+      show();
+    } else {
       dismiss();
     }
   }

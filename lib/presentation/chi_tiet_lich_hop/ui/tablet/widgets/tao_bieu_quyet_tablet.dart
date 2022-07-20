@@ -53,7 +53,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.cacLuaChonBieuQuyet = [];
+    widget.cubit.listThemLuaChon.clear();
     widget.cubit.listDanhSach = [];
     widget.cubit.isValidateSubject.sink.add(false);
     widget.cubit.isValidateTimer.sink.add(false);
@@ -96,7 +96,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   isCheckCallApi = false;
                   formKeyNoiDung.currentState!.validate();
                 }
-                if (widget.cubit.cacLuaChonBieuQuyet.isEmpty) {
+                if (widget.cubit.listThemLuaChon.isEmpty) {
                   isCheckCallApi = false;
                   setState(() {});
                   isShow = true;
@@ -111,8 +111,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     noiDungController.text,
                     widget.cubit.date,
                     widget.cubit.loaiBieuQ,
-                    '$thoiGianHop' 'T' '$timeStart:00',
-                    '$thoiGianHop' 'T' '$timeEnd:00',
+                    widget.cubit.dateTimeFormat(thoiGianHop, timeStart),
+                    widget.cubit.dateTimeFormat(thoiGianHop, timeEnd),
                   );
                   nav.pop(true);
                 }

@@ -45,6 +45,7 @@ class SuaBieuQuyetWidget extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
   GlobalKey<FormState> formKeyNoiDung = GlobalKey<FormState>();
   TextEditingController noiDungController = TextEditingController();
+  final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   final keyGroup = GlobalKey<FormGroupState>();
   bool isShow = false;
   bool isShowValidate = false;
@@ -60,24 +61,60 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
     widget.cubit.chiTietBieuQuyet(idBieuQuyet: widget.idBieuQuyet);
     timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
     timeEnd = widget.cubit.getChiTietLichHopModel.timeTo;
+    thoiGianHop =
+        widget.cubit.getChiTietLichHopModel.ngayBatDau.changeToNewPatternDate(
+      DateTimeFormat.DATE_TIME_HM,
+      DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
     widget.cubit.chiTietBieuQuyetSubject.listen((value) {
       noiDungController.text = value.data?.noiDung ?? '';
       widget.cubit.loaiBieuQ = value.data?.loaiBieuQuyet ?? true;
       widget.cubit.lisLuaChonOld = value.data?.dsLuaChon ?? [];
-
-      widget.cubit.date = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
-          .parse(value.data?.thoiGianBatDau ?? '')
-          .formatApiFix;
-      thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
-          .parse(value.data?.thoiGianBatDau ?? '')
-          .formatApi;
-      timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
-          .parse(value.data?.thoiGianBatDau ?? '')
-          .formatTime;
       timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
           .parse(value.data?.thoiGianKetThuc ?? '')
           .formatTime;
+      timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianBatDau ?? '')
+          .formatTime;
+      thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+          .parse(value.data?.thoiGianBatDau ?? '')
+          .formatApi;
+      handleButtonSaveClick();
     });
+  }
+
+  void handleButtonSaveClick() {
+    // Thời gian bắt đầu bieu quyet:
+    final dateTimeStart = '$thoiGianHop $timeStart'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian kết thúc bieu quyet:
+    final dateTimeEnd = '$thoiGianHop $timeEnd'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian bắt đầu cuộc họp:
+    final limitTimeStart = widget.cubit.getTime().convertStringToDate(
+          formatPattern: DateTimeFormat.DATE_TIME_HM,
+        );
+
+    //Thời gian kết thúc cuộc họp:
+    final limitTimeEnd =
+        widget.cubit.getTime(isGetDateStart: false).convertStringToDate(
+              formatPattern: DateTimeFormat.DATE_TIME_HM,
+            );
+
+    final bool isOverMeetingTime = dateTimeStart.isBefore(limitTimeStart) ||
+        dateTimeEnd.isAfter(limitTimeEnd);
+    final bool validateTime = _keyBaseTime.currentState?.validator() ?? false;
+
+    if (validateTime) {
+      widget.cubit.isValidateTimer.sink.add(isOverMeetingTime);
+      isShowValidate = isOverMeetingTime;
+    } else {
+      return;
+    }
   }
 
   @override
@@ -122,6 +159,11 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                         onSelectDate: (dateTime) {
                           if (mounted) setState(() {});
                           widget.cubit.date = dateTime;
+                          thoiGianHop = dateTime.changeToNewPatternDate(
+                            DateTimeFormat.DEFAULT_FORMAT,
+                            DateTimeFormat.DOB_FORMAT,
+                          );
+                          handleButtonSaveClick();
                         },
                       ),
                     ),
@@ -136,12 +178,14 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                               isShow: snapshot.data ?? true,
                               textShow: S.current.validate_bieu_quyet,
                               child: BaseChooseTimerWidget(
+                                key: _keyBaseTime,
                                 timeBatDau: timeStart.getTimeData(
                                   timeReturnParseFail: TimerData(
                                     hour: DateTime.now().hour,
                                     minutes: DateTime.now().minute,
                                   ),
                                 ),
+                                isCheckRemoveDidUpdate: true,
                                 timeKetThuc: timeEnd.getTimeData(
                                   timeReturnParseFail: TimerData(
                                     hour: DateTime.now().hour,
@@ -151,35 +195,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                                 onChange: (start, end) {
                                   timeStart = start.timerToString;
                                   timeEnd = end.timerToString;
-                                  final dateTimeStart =
-                                      '$thoiGianHop $timeStart'
-                                          .convertStringToDate(
-                                    formatPattern:
-                                        DateTimeFormat.DATE_TIME_PUT_EDIT,
-                                  );
-                                  if (dateTimeStart.isBefore(
-                                        widget.cubit
-                                            .getTime()
-                                            .convertStringToDate(
-                                              formatPattern:
-                                                  DateFormatApp.monthDayFormat,
-                                            ),
-                                      ) ||
-                                      dateTimeStart.isAfter(
-                                        widget.cubit
-                                            .getTime(isGetDateStart: false)
-                                            .convertStringToDate(
-                                              formatPattern:
-                                                  DateFormatApp.monthDayFormat,
-                                            ),
-                                      )) {
-                                    widget.cubit.isValidateTimer.sink.add(true);
-                                    isShowValidate = true;
-                                  } else {
-                                    widget.cubit.isValidateTimer.sink
-                                        .add(false);
-                                    isShowValidate = false;
-                                  }
+                                  handleButtonSaveClick();
                                 },
                                 validator: (timeBegin, timerEn) {
                                   return timeBegin.equalTime(timerEn);

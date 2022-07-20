@@ -113,6 +113,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                       isTablet: true,
                       id: widget.id,
                       isCheck: false,
+                      isCalendarWork: true,
                     ),
                     isBottomShow: false,
                     funcBtnOk: () {

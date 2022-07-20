@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 class DanhSachYKienButtom extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
   final ChiTietLichLamViecModel dataModel;
@@ -56,21 +56,42 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
               text: S.current.them_y_kien,
               urlIcon: ImageAssets.ic_danhsachykien,
               onTap: () {
-                showBottomSheetCustom(
-                  context,
-                  title: S.current.y_kien,
-                  child: YKienBottomSheet(
-                    id: widget.id,
-                    isTablet: widget.isTablet,
-                    isCalendarWork: true,
-                  ),
-                ).then((value) {
-                  if (value == true) {
-                    widget.cubit.getDanhSachYKien(widget.id);
-                  } else if (value == null) {
-                    return;
-                  }
-                });
+                !widget.isTablet
+                    ? showBottomSheetCustom(
+                        context,
+                        title: S.current.y_kien,
+                        child: YKienBottomSheet(
+                          id: widget.id,
+                          isTablet: widget.isTablet,
+                          isCalendarWork: true,
+                        ),
+                      ).then((value) {
+                        if (value == true) {
+                          widget.cubit.getDanhSachYKien(widget.id);
+                        } else if (value == null) {
+                          return;
+                        }
+                      })
+                    : showDiaLogTablet(
+                        context,
+                        title: S.current.cho_y_kien,
+                        child: YKienBottomSheet(
+                          isTablet: true,
+                          id: widget.id,
+                          isCheck: false,
+                          isCalendarWork: true,
+                        ),
+                        isBottomShow: false,
+                        funcBtnOk: () {
+                          Navigator.pop(context);
+                        },
+                      ).then((value) {
+                        if (value == true) {
+                          widget.cubit.getDanhSachYKien(widget.id);
+                        } else if (value == null) {
+                          return;
+                        }
+                      });
               },
             ),
           ),

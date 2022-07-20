@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/add_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
@@ -110,7 +109,7 @@ abstract class HoTroKyThuatService {
     @Part(name: 'DanhSachSuCo') List<String>? DanhSachSuCo,
     @Part(name: "UserInUnit") String? UserInUnit,
     @Part(name: "fileUpload") List<File> FileUpload,
-    // @Part(name: "lstFileId") List<File> FileUpload,
+    @Part(name: "lstFileId") List<String>? lstFileId,
   );
 
   @POST(ApiConstants.COMMENT_TASK_PROCESSING)

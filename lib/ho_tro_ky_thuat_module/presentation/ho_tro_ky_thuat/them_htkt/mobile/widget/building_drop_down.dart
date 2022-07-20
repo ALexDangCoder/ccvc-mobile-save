@@ -2,18 +2,19 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/them_moi_yc_ho_tro_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:flutter/material.dart';
 
 class BuildingDropDown extends StatelessWidget {
   final HoTroKyThuatCubit cubit;
+  final StatusHTKT statusHTKT;
 
   const BuildingDropDown({
     Key? key,
     required this.cubit,
+    required this.statusHTKT,
   }) : super(key: key);
 
   @override
@@ -47,27 +48,30 @@ class BuildingDropDown extends StatelessWidget {
           stream: cubit.buildingListStream,
           builder: (context, snapshot) {
             final _buildingList = snapshot.data ?? [];
-            return
-              CustomDropDown(
-                hint: RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: S.current.chon,
-                        style: tokenDetailAmount(
-                          fontSize: 14,
-                          color: color3D5586,
-                        ),
+            return CustomDropDown(
+              hint: RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: S.current.chon,
+                      style: tokenDetailAmount(
+                        fontSize: 14,
+                        color: color3D5586,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                value: cubit.addTaskHTKTRequest.buildingName,
-                onSelectItem: (value) {
-                  cubit.selectBuilding(value);
-                },
-                items: _buildingList,
-              );
+              ),
+              value: statusHTKT == StatusHTKT.CREATE
+                  ? cubit.addTaskHTKTRequest.buildingName
+                  : cubit.nameBuilding,
+              onSelectItem: (value) {
+                statusHTKT == StatusHTKT.CREATE
+                    ? cubit.selectBuilding(value)
+                    : cubit.selectBuildingEdit(value);
+              },
+              items: _buildingList,
+            );
           },
         ),
         StreamBuilder<bool>(

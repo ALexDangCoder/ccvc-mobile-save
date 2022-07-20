@@ -3,22 +3,24 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 
 class SuaDoiYcHoTroMobile extends StatefulWidget {
   const SuaDoiYcHoTroMobile({
@@ -38,6 +40,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
 
   @override
   void initState() {
+    widget.cubit.init();
     widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
     super.initState();
   }
@@ -45,6 +48,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
   @override
   void dispose() {
     super.dispose();
+    widget.cubit.disposeEdit();
   }
 
   @override
@@ -121,7 +125,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 isEnable: true,
                                 maxLength: 150,
                                 onChange: (value) {
-                                  widget.cubit.addTaskHTKTRequest.name = value;
+                                  widget.cubit.editTaskHTKTRequest.name = value;
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
@@ -141,7 +145,8 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 maxLength: 11,
                                 textInputType: TextInputType.number,
                                 onChange: (value) {
-                                  widget.cubit.addTaskHTKTRequest.phone = value;
+                                  widget.cubit.editTaskHTKTRequest.phone =
+                                      value;
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
@@ -159,7 +164,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 title: S.current.nhap_mo_ta,
                                 hintText: S.current.nhap_mo_ta,
                                 onChange: (value) {
-                                  widget.cubit.addTaskHTKTRequest.description =
+                                  widget.cubit.editTaskHTKTRequest.description =
                                       value;
                                 },
                                 validate: (value) {
@@ -174,7 +179,10 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 statusHTKT: StatusHTKT.EDIT,
                               ),
                               spaceH16,
-                              BuildingDropDown(cubit: widget.cubit),
+                              BuildingDropDown(
+                                statusHTKT: StatusHTKT.EDIT,
+                                cubit: widget.cubit,
+                              ),
                               spaceH16,
                               textField(
                                 initValue: data.room,
@@ -182,7 +190,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 title: S.current.so_phong,
                                 hintText: S.current.so_phong,
                                 onChange: (value) {
-                                  widget.cubit.addTaskHTKTRequest.room = value;
+                                  widget.cubit.editTaskHTKTRequest.room = value;
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
@@ -191,29 +199,36 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                               ),
                               spaceH16,
-                              StreamBuilder<List<String>>(
-                                stream: widget.cubit.issueListStream,
-                                builder: (context, snapshot) {
-                                  final _issueList = snapshot.data ?? [];
-                                  return MultiSelectList(
-                                    title: S.current.loai_su_co,
-                                    isRequire: true,
-                                    items: _issueList,
-                                    onChange: (selectIndexList) {
-                                      widget.cubit
-                                          .addIssueListRequest(selectIndexList);
-                                    },
-                                  );
-                                },
-                              ),
+                              _multiSelect(),
                               // IssueDropDown(cubit: widget.cubit),
                               spaceH16,
-                              // TaiLieuWidget(
-                              //   idRemove: (String id) {},
-                              //   onChange: (files, value) {
-                              //     widget.cubit.addTaskHTKTRequest.fileUpload = files;
-                              //   },
-                              // ),
+                              TaiLieuWidget(
+                                // list.map((e) => File(e.filePath)).toList()
+                                files: widget
+                                    .cubit.editModelHTKT.value.filesDinhKem
+                                    ?.map(
+                                      (e) => Files(
+                                        id: e.id,
+                                        name: e.fileName,
+                                        extension: null,
+                                        size: null,
+                                        path: e.filePath,
+                                        entityId: null,
+                                        entityName: null,
+                                        fileId: e.fileId,
+                                        taskId: e.taskId,
+                                      ),
+                                    )
+                                    .toList(),
+                                getIndex: (index) {
+                                  widget.cubit.checkFileRemove(index);
+                                },
+                                onChange: (files, value) {
+                                  widget.cubit.editTaskHTKTRequest.fileUpload =
+                                      files;
+                                },
+                                idRemove: (String id) {},
+                              ),
                               spaceH20,
                               doubleBtn(),
                             ],
@@ -235,79 +250,48 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
     );
   }
 
-  Widget _fieldSoPhong() {
-    return textField(
-      initValue: 'sophong',
-      isHightLight: true,
-      title: S.current.so_phong,
-      hintText: S.current.so_phong,
-      onChange: (value) {},
-      validate: (value) {
-        if ((value ?? '').isEmpty) {
-          return S.current.khong_duoc_de_trong;
-        }
-      },
-    );
-  }
-
-  Widget _fieldMoTaSuCo() {
-    return textField(
-      initValue: 'suco',
-      isHightLight: true,
-      maxLine: 3,
-      title: S.current.nhap_mo_ta,
-      hintText: S.current.nhap_mo_ta,
-      onChange: (value) {
-        widget.cubit.addTaskHTKTRequest.description = value;
-      },
-      validate: (value) {
-        if ((value ?? '').isEmpty) {
-          return S.current.khong_duoc_de_trong;
-        }
-      },
-    );
-  }
-
-  Widget _fieldSDT() {
-    return textField(
-      initValue: 'so dien thoai',
-      isHightLight: true,
-      title: S.current.sdt_lien_he,
-      hintText: S.current.sdt_lien_he,
-      inputFormatter: [
-        FilteringTextInputFormatter.digitsOnly,
+  Widget _multiSelect() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        StreamBuilder<List<String>>(
+          stream: widget.cubit.issueListStream,
+          builder: (context, snapshot) {
+            final _issueList = snapshot.data ?? [];
+            return MultiSelectList(
+              initSelectedItems: widget.cubit.issuesEditHTKT
+                  .map((e) => e.tenSuCo ?? '')
+                  .toList(),
+              title: S.current.loai_su_co,
+              isRequire: true,
+              items: _issueList,
+              onChange: (selectIndexList) {
+                widget.cubit.addIssuesEdit(selectIndexList);
+                widget.cubit.checkAllEditYCHT();
+              },
+            );
+          },
+        ),
+        StreamBuilder<bool>(
+          initialData: false,
+          stream: widget.cubit.showErrorLoaiSuCo.stream,
+          builder: (context, snapshot) {
+            return snapshot.data ?? false
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                    child: Text(
+                      S.current.khong_duoc_de_trong,
+                      style: textNormalCustom(
+                        color: redChart,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink();
+          },
+        )
       ],
-      maxLength: 11,
-      textInputType: TextInputType.number,
-      onChange: (value) {
-        widget.cubit.addTaskHTKTRequest.phone = value;
-      },
-      validate: (value) {
-        if ((value ?? '').isEmpty) {
-          return S.current.khong_duoc_de_trong;
-        } else {
-          return null;
-        }
-      },
-    );
-  }
-
-  Widget _fieldTenThietBi() {
-    return textField(
-      initValue: 'thiet bi',
-      isHightLight: true,
-      title: S.current.ten_thiet_bi,
-      hintText: S.current.ten_thiet_bi,
-      isEnable: true,
-      maxLength: 150,
-      onChange: (value) {
-        widget.cubit.addTaskHTKTRequest.name = value;
-      },
-      validate: (value) {
-        if ((value ?? '').isEmpty) {
-          return S.current.khong_duoc_de_trong;
-        }
-      },
     );
   }
 
@@ -434,11 +418,11 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
           Navigator.pop(context);
         },
         onClickRight: () {
-          widget.cubit.checkAllThemMoiYCHoTro();
+          widget.cubit.checkAllEditYCHT();
           if ((_groupKey.currentState?.validator() ?? true) &&
               widget.cubit.validateAllDropDown) {
             widget.cubit
-                .postDataThemMoiHTKT()
+                .postEditHTKT()
                 .then((value) => value ? Navigator.pop(context) : null);
           } else {
             final toast = FToast();

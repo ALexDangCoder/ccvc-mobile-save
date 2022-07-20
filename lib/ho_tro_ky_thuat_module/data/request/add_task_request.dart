@@ -14,6 +14,7 @@ class AddTaskHTKTRequest {
   String? room;
   String? name;
   List<String>? danhSachSuCo;
+  List<String>? lstFileId;
   String? userInUnit;
   List<File>? fileUpload;
 
@@ -29,6 +30,7 @@ class AddTaskHTKTRequest {
     this.room,
     this.name,
     this.danhSachSuCo,
+    this.lstFileId,
     this.userInUnit,
     this.fileUpload,
   });
@@ -37,6 +39,7 @@ class AddTaskHTKTRequest {
     id = json['Id'];
     userRequestId = json['UserRequestId'];
     phone = json['Phone'];
+    lstFileId = json['lstFileId'];
     description = json['Description'];
     districtId = json['DistrictId'];
     districtName = json['DistrictName'];
@@ -58,6 +61,7 @@ class AddTaskHTKTRequest {
     data['DistrictId'] = districtId;
     data['DistrictName'] = districtName;
     data['BuildingId'] = buildingId;
+    data['lstFileId'] = lstFileId;
     data['BuildingName'] = buildingName;
     data['Room'] = room;
     data['Name'] = name;
@@ -69,6 +73,6 @@ class AddTaskHTKTRequest {
 
   @override
   String toString() {
-    return 'AddTaskHTKTRequest{Id: $id, UserRequestId: $userRequestId, Phone: $phone, Description: $description, DistrictId: $districtId, DistrictName: $districtName, BuildingId: $buildingId, BuildingName: $buildingName, Room: $room, Name: $name, DanhSachSuCo: $danhSachSuCo, UserInUnit: $userInUnit,fileUpload: $fileUpload}';
+    return 'AddTaskHTKTRequest{id: $id, userRequestId: $userRequestId, phone: $phone, description: $description, districtId: $districtId, districtName: $districtName, buildingId: $buildingId, buildingName: $buildingName, room: $room, name: $name, danhSachSuCo: $danhSachSuCo, lstFileId: $lstFileId, userInUnit: $userInUnit, fileUpload: $fileUpload}';
   }
 }

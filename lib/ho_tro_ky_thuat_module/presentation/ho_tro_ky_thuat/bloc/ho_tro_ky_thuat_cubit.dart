@@ -29,6 +29,7 @@ import 'package:rxdart/rxdart.dart';
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
   List<File>? filesThemMoiYCHTKT = [];
+  static const String rightPath = 'attachments/upload/';
 
 //code status
   static const CHUA_XU_LY = 'chua-xu-ly';
@@ -122,6 +123,14 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => get_dart.Get.find();
 
+  void checkFileRemove(int index) {
+    if ((editTaskHTKTRequest.lstFileId ?? []).isNotEmpty) {
+      (editTaskHTKTRequest.lstFileId ?? []).removeAt(index);
+    } else {
+      //nothing
+    }
+  }
+
   void getTree() {
     hopRp.getTreeDonVi().then((value) {
       value.when(
@@ -176,14 +185,45 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     required String id,
   }) {
     if (isArea) {
-      for (final e in areaList) {
-        if (e.id == id) {
-          nameArea = e.name;
+      for (final area in areaList) {
+        if (area.id == id) {
+          nameArea = area.name;
           break;
+        }
+      }
+    } else {
+      for (final area in areaList) {
+        for (final building in area.childCategories ?? []) {
+          if (id == building.id) {
+            nameBuilding = building.name ?? '';
+            break;
+          }
         }
       }
     }
     return isArea ? nameArea : nameBuilding;
+  }
+
+  final Set<SuCoHTKT> issuesEditHTKT = {};
+
+  void getIssuesEditHTKT() {
+    if (issuesEditHTKT.isNotEmpty) {
+      issuesEditHTKT.clear();
+    }
+    for (final defaultIssue in issueList) {
+      editModelHTKT.value.danhSachSuCo?.forEach(
+        (e) {
+          if (e.suCoId == defaultIssue.id) {
+            issuesEditHTKT.add(e);
+          }
+        },
+      );
+    }
+  }
+
+  void disposeEdit() {
+    nameBuilding = null;
+    nameArea = null;
   }
 
   List<String> getList(List<ChildCategories> listData) {
@@ -281,6 +321,35 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       danhSachSuCo: addTaskHTKTRequest.danhSachSuCo,
       userInUnit: addTaskHTKTRequest.userInUnit,
       fileUpload: addTaskHTKTRequest.fileUpload ?? [],
+    );
+    result.when(
+      success: (success) {
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
+    return true;
+  }
+
+  Future<bool> postEditHTKT() async {
+    showLoading();
+    final result = await _hoTroKyThuatRepository.editTaskHTKT(
+      id: editTaskHTKTRequest.id,
+      userRequestId: editTaskHTKTRequest.userRequestId,
+      phone: editTaskHTKTRequest.phone,
+      description: editTaskHTKTRequest.description,
+      districtId: editTaskHTKTRequest.districtId,
+      districtName: editTaskHTKTRequest.districtName,
+      buildingId: editTaskHTKTRequest.buildingId,
+      buildingName: editTaskHTKTRequest.buildingName,
+      room: editTaskHTKTRequest.room,
+      name: editTaskHTKTRequest.name,
+      danhSachSuCo: editTaskHTKTRequest.danhSachSuCo,
+      userInUnit: editTaskHTKTRequest.userInUnit,
+      fileUpload: editTaskHTKTRequest.fileUpload ?? [],
+      lstFileId: editTaskHTKTRequest.lstFileId,
     );
     result.when(
       success: (success) {
@@ -523,12 +592,35 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       validateAllDropDown = false;
       showErrorKhuVuc.sink.add(true);
     }
-    if ((filesThemMoiYCHTKT ?? []).isEmpty) {
+    if ((addTaskHTKTRequest.danhSachSuCo ?? []).isEmpty) {
       validateAllDropDown = false;
       showErrorLoaiSuCo.sink.add(true);
     }
     if (addTaskHTKTRequest.buildingName != null &&
         addTaskHTKTRequest.districtName != null) {
+      validateAllDropDown = true;
+      showErrorToaNha.sink.add(false);
+      showErrorKhuVuc.sink.add(false);
+      showErrorLoaiSuCo.sink.add(false);
+    }
+  }
+
+  void checkAllEditYCHT() {
+    if (editTaskHTKTRequest.buildingId == null) {
+      validateAllDropDown = false;
+      showErrorToaNha.sink.add(true);
+    }
+    if (editTaskHTKTRequest.districtId == null) {
+      validateAllDropDown = false;
+      showErrorKhuVuc.sink.add(true);
+    }
+    if ((editTaskHTKTRequest.danhSachSuCo ?? []).isEmpty) {
+      validateAllDropDown = false;
+      showErrorLoaiSuCo.sink.add(true);
+    }
+    if (editTaskHTKTRequest.buildingId != null &&
+        editTaskHTKTRequest.districtId != null &&
+        (editTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
       validateAllDropDown = true;
       showErrorToaNha.sink.add(false);
       showErrorKhuVuc.sink.add(false);

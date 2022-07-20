@@ -69,6 +69,14 @@ extension CreateTechSupport on HoTroKyThuatCubit {
 
     ///get data detail htkt
     await getChiTietHTKTEdit(id: id);
+    findNameAreaFeatBuilding(
+      id: editModelHTKT.value.buildingId ?? '',
+      isArea: false,
+    );
+    findNameAreaFeatBuilding(
+      id: editModelHTKT.value.districId ?? '',
+    );
+    getIssuesEditHTKT();
 
     if (flagLoadEditHTKT) {
       showContent();
@@ -89,11 +97,33 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     buildingListStream.sink.add(_buildingList);
   }
 
-  void selectAreaEdit
+  void selectAreaEdit(int index) {
+    nameBuilding = null;
+    editTaskHTKTRequest.buildingId = null;
+    editTaskHTKTRequest.buildingName = null;
+    showErrorToaNha.add(true);
+    nameArea = areaList[index].name;
+    editTaskHTKTRequest.districtName = areaList[index].name;
+    editTaskHTKTRequest.districtId = areaList[index].id;
+    showErrorKhuVuc.add(false);
+    buildingList = areaList[index].childCategories ?? [];
+    final _buildingList = listKhuVuc.value[index].childCategories
+            ?.map((e) => '${e.name}')
+            .toList() ??
+        [];
+    buildingListStream.sink.add(_buildingList);
+  }
 
   void selectBuilding(int index) {
     addTaskHTKTRequest.buildingName = buildingList[index].name;
     addTaskHTKTRequest.buildingId = buildingList[index].id;
+    showErrorToaNha.add(false);
+  }
+
+  void selectBuildingEdit(int index) {
+    editTaskHTKTRequest.buildingName = buildingList[index].name;
+    editTaskHTKTRequest.buildingId = buildingList[index].id;
+    nameBuilding = buildingList[index].name;
     showErrorToaNha.add(false);
   }
 
@@ -108,4 +138,17 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       addTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
   }
+
+  void addIssuesEdit(List<int> index) {
+    editTaskHTKTRequest.danhSachSuCo = [];
+    index.toSet().toList();
+    try {
+      index.remove(-1);
+    } catch (_) {}
+    for (final e in index) {
+      editTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
+    }
+  }
+
+  void addIssuesEditRequest(List<int> indexList) {}
 }

@@ -25,7 +25,8 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
   final String? icon;
   final bool isIcon;
   final bool childDiffence;
-  final Function(List<File> files, bool validate) onChange;
+  final Function(List<File> files, bool validate,) onChange;
+  final Function(int index)? getIndexFunc;
   final Widget Function(BuildContext, File)? builder;
   List<Files>? files;
   final double? spacingFile;
@@ -38,6 +39,7 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
   ButtonSelectFileLichLamViec({
     Key? key,
     this.background,
+    this.getIndexFunc,
     required this.title,
     this.titleColor,
     this.icon,
@@ -152,6 +154,7 @@ class _ButtonSelectFileLichLamViecState
             } else {
               // User canceled the picker
             }
+
             widget.onChange(
               List.generate(
                 selectFiles.length,
@@ -221,6 +224,9 @@ class _ButtonSelectFileLichLamViecState
               return itemListFile(
                 file: item.file,
                 onTap: () {
+                  if(widget.getIndexFunc != null) {
+                    widget.getIndexFunc!(selectFiles.indexOf(item));
+                  }
                   selectFiles.remove(item);
                   sumListFileSize(selectFiles);
                   widget.onChange(

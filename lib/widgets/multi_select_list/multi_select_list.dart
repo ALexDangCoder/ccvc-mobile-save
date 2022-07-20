@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -10,7 +9,6 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/item_list.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/selected_item.dart';
-import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +53,7 @@ class _MultiSelectListState extends State<MultiSelectList> {
   @override
   void didUpdateWidget(covariant MultiSelectList oldWidget) {
     logic.allValue = widget.items;
+    logic.checkInit(widget.initSelectedItems);
     super.didUpdateWidget(oldWidget);
   }
 
@@ -204,23 +203,14 @@ class _IssueState extends State<Issue> {
           StreamBuilder<List<int>>(
             stream: widget.logic.selectedItemStream,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? <List<int>>[];
-              if (data.isNotEmpty) {
-                return SelectedItemCell(
-                  controller: controller,
-                  listSelect: widget.logic.selectedValue,
-                  onChange: (value) {},
-                  onDelete: (value) {
-                    widget.logic.checkValue(value);
-                  },
-                );
-              } else {
-                return BaseSearchBar(
-                  controller: controller,
-                  hintText: 'Chon loai su co',
-                  onChange: (value) {},
-                );
-              }
+              return SelectedItemCell(
+                controller: controller,
+                listSelect: widget.logic.selectedValue,
+                onChange: (value) {},
+                onDelete: (value) {
+                  widget.logic.checkValue(value);
+                },
+              );
             },
           ),
           SizedBox(
@@ -301,6 +291,7 @@ class Logic {
       selectedIndex.add(_index);
       selectedValue.add(allValue[_index]);
     }
+    selectedIndex.toSet().toList();
     selectedItemStream.sink.add(selectedIndex);
   }
 
@@ -317,10 +308,12 @@ class Logic {
 
   void checkInit(List<String>? initValue) {
     selectedValue = initValue ?? [];
-    if (selectedValue.isNotEmpty) {
+    if (selectedValue.isNotEmpty && allValue.isNotEmpty) {
       for (final e in selectedValue) {
         selectedIndex.add(allValue.indexOf(e));
       }
     }
+    selectedValue.toSet().toList();
+    selectedItemStream.sink.add(selectedIndex);
   }
 }

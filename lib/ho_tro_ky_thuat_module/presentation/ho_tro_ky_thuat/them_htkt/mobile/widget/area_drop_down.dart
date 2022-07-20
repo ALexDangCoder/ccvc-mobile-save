@@ -72,11 +72,11 @@ class AreaDropDown extends StatelessWidget {
               ),
               value: statusHTKT == StatusHTKT.CREATE
                   ? cubit.addTaskHTKTRequest.districtName
-                  : cubit.findNameAreaFeatBuilding(
-                      id: cubit.editModelHTKT.value.districId ?? '',
-                    ),
+                  : cubit.nameArea,
               onSelectItem: (value) {
-                cubit.selectArea(value);
+                statusHTKT == StatusHTKT.CREATE
+                    ? cubit.selectArea(value)
+                    : cubit.selectAreaEdit(value);
               },
               items: _areaList,
             );

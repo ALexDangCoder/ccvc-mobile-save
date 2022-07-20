@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/add_task_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
@@ -76,6 +75,7 @@ mixin HoTroKyThuatRepository {
     required List<String>? danhSachSuCo,
     required String? userInUnit,
     required List<File> fileUpload,
+    required List<String>? lstFileId,
   });
 
   Future<Result<String>> updateTaskProcessing(

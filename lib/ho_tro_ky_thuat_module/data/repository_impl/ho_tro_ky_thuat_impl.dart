@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/add_task_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/add_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
@@ -197,20 +196,22 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   }
 
   @override
-  Future<Result<AddTaskResponseModel>> editTaskHTKT(
-      {required String? id,
-      required String? userRequestId,
-      required String? phone,
-      required String? description,
-      required String? districtId,
-      required String? districtName,
-      required String? buildingId,
-      required String? buildingName,
-      required String? room,
-      required String? name,
-      required List<String>? danhSachSuCo,
-      required String? userInUnit,
-      required List<File> fileUpload}) {
+  Future<Result<AddTaskResponseModel>> editTaskHTKT({
+    required String? id,
+    required String? userRequestId,
+    required String? phone,
+    required String? description,
+    required String? districtId,
+    required String? districtName,
+    required String? buildingId,
+    required String? buildingName,
+    required String? room,
+    required String? name,
+    required List<String>? danhSachSuCo,
+    required String? userInUnit,
+    required List<File> fileUpload,
+    required List<String>? lstFileId,
+  }) {
     return runCatchingAsync<AddTaskResponse, AddTaskResponseModel>(
         () => _hoTroKyThuatService.editTaskHTKT(
             id,
@@ -225,7 +226,9 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
             name,
             danhSachSuCo,
             userInUnit,
-            fileUpload), (res) {
+            fileUpload,
+            lstFileId,
+        ), (res) {
       return res.toModel();
     });
   }

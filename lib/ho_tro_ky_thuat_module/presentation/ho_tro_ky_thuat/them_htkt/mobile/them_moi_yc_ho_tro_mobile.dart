@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-
 class ThemMoiYCHoTroMobile extends StatefulWidget {
   final HoTroKyThuatCubit cubit;
 
@@ -161,9 +160,13 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                         ),
                         spaceH16,
-                        AreaDropDown(cubit: widget.cubit),
+                        AreaDropDown(
+                          cubit: widget.cubit,
+                          statusHTKT: StatusHTKT.CREATE,
+                        ),
                         spaceH16,
-                        BuildingDropDown(cubit: widget.cubit),
+                        BuildingDropDown(
+                            statusHTKT: StatusHTKT.CREATE, cubit: widget.cubit),
                         spaceH16,
                         textField(
                           isHightLight: true,

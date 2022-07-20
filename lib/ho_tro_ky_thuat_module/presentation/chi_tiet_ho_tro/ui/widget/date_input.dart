@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/validate_email.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -37,7 +38,7 @@ class _DateInputState extends State<DateInput> {
   @override
   void initState() {
     super.initState();
-    if(widget.initDateTime?.toIso8601String().isNotEmpty ?? false){
+    if (widget.initDateTime?.toIso8601String().isNotEmpty ?? false) {
       textController.text = DateFormat(DateTimeFormat.DATE_DD_MM_YYYY)
           .format(widget.initDateTime!);
       dateSelect = textController.text;
@@ -53,12 +54,15 @@ class _DateInputState extends State<DateInput> {
         if (value?.isEmpty ?? true) {
           return null;
         }
+        if (!(value ?? '').isValidDateTime()) {
+          return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_hoan_thanh}!';
+        }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
           dateSelect = inputDate.toString();
           widget.onSelectDate(dateSelect);
         } catch (_) {
-          return S.current.nhap_sai_dinh_dang;
+          return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_hoan_thanh}!';
         }
       },
       suffixIcon: GestureDetector(

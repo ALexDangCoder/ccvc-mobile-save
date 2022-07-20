@@ -132,10 +132,9 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     await result.when(
       success: (value) async {
         await getXemKetLuanHop(idCuocHop);
-
         showLoadingSheet(isShow: false);
-        MessageConfig.show(title: S.current.cap_nhat_ket_luan_hop_thanh_cong);
         emit(Success());
+        MessageConfig.show(title: S.current.cap_nhat_ket_luan_hop_thanh_cong);
       },
       error: (error) {
         showLoadingSheet(isShow: false);
@@ -188,7 +187,15 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     noiDung.sink.add(value);
     return value;
   }
-
+  String getValueTinhTrangnWithId(String id) {
+    final dataBienBan = dataTinhTrangKetLuanHop.value;
+    for (final e in dataBienBan) {
+      if (e.id == id) {
+        return e.displayName;
+      }
+    }
+    return '';
+  }
   String getValueMauBienBanWithId(String id) {
     final dataBienBan = dataMauBienBan.value;
     for (final e in dataBienBan.items) {
@@ -234,7 +241,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
       },
       error: (err) {
         showContent();
-        MessageConfig.show(title: S.current.that_bai);
       },
     );
     showContent();
@@ -372,7 +378,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     getDanhSachLoaiNhiemVu();
     listStatusKetLuanHop();
     danhSachCanBoTPTG(id: idCuocHop);
-    getDanhSachNguoiChuTriPhienHop('');
+    getDanhSachNguoiChuTriPhienHop(idCuocHop);
     postChonMauHop();
   }
 

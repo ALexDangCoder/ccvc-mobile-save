@@ -87,6 +87,8 @@ const String STATUS_TRANSACTION_SUCCESS = '1';
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
 const String TRANSACTION_NFT = '1';
+const String DATE_FORMAT_THIEP_SINH_NHAT = 'dd-MM-yyyy HH:mm';
+const String DATE_FORMAT_DDMMYYYY = 'dd-MM-yyyy';
 
 const EN_CODE = 'en';
 const VI_CODE = 'vi';

@@ -180,6 +180,7 @@ const String TRANSACTION_NFT = '1';
 const EN_CODE = 'en';
 const VI_CODE = 'vi';
 const VI_LANG = 'vn';
+const EN_US_CODE = 'en_US';
 DateTime MAXIMUM_DATE = DateTime(2099, 12, 30);
 DateTime MINIMUM_DATE = DateTime(1900);
 
@@ -225,6 +226,8 @@ const START_TIME = '8:00';
 const END_TIME = '18:00';
 const INIT_TIME_PICK = 'hh:mm';
 const INIT_DATE_PICK = 'DD/MM/YYYY';
+///Number format
+const NUMBER_FORMAT_POINT = '###,###';
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
@@ -236,6 +239,7 @@ const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
 const String PRIMARY = 'primary';
+const int DA_THAM_GIA = 1;
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -451,3 +455,4 @@ class FileExtensions {
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
 }
+

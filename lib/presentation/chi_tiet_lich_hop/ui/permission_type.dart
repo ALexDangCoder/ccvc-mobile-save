@@ -803,3 +803,10 @@ class STATUS_DETAIL {
   static const int XOA = 7;
   static const int HUY = 8;
 }
+
+class ThanhPhanThamGiaStatus {
+  static const int THAM_GIA = 1;
+  static const int TU_CHOI_THAM_GIA = 2;
+  static const int THAM_DU = 3;
+  static const int CHO_XAC_NHAN = 0;
+}

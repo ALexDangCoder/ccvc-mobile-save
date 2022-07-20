@@ -20,7 +20,7 @@ import 'package:rxdart/subjects.dart';
 
 class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   DiemDanhCubit() : super(const DiemDanhStateIntial());
-  late DateTime currentTime;
+   DateTime currentTime = DateTime.now();
   int countRequest = 0;
 
   DiemDanhRepository get diemDanhRepo => Get.find();

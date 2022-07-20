@@ -140,10 +140,24 @@ class _CapNhatTinhHinhHoTroTabLetState
                   onSelectDate: (dateTime) {
                     birthday = dateTime;
                   },
-                  initDateTime:
-                      DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT).parse(
-                    widget.cubit.supportDetail.ngayHoanThanh ?? '',
-                  ),
+                    minimumDate: (widget.cubit.supportDetail
+                        .thoiGianYeuCau?.isNotEmpty ??
+                        false)
+                        ? DateFormat(
+                      DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                    ).parse(
+                      widget.cubit.supportDetail.thoiGianYeuCau!,
+                    )
+                        : null,
+                    initDateTime: (widget.cubit.supportDetail
+                        .ngayHoanThanh?.isNotEmpty ??
+                        false)
+                        ? DateFormat(
+                      DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                    ).parse(
+                      widget.cubit.supportDetail.ngayHoanThanh!,
+                    )
+                        : null,
                 ),
                 spaceH10,
                 Padding(

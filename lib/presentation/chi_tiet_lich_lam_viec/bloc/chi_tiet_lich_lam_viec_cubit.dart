@@ -450,6 +450,21 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         '';
   }
 
+  //checkMenuLichHuy,LichThuHoi
+  int checkNguoiThamGiaLichThuHoi(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives?.indexWhere(
+          (element) =>
+              element.status == StatusOfficersConst.STATUS_THU_HOI &&
+              element.canBoId == currentUserId,
+        ) ??
+        StatusOfficersConst.STATUS_DEFAULT;
+  }
+
+  bool checkMenuLichThuHoi(ChiTietLichLamViecModel dataModel) {
+    return checkNguoiThamGiaLichThuHoi(dataModel) >=
+        StatusOfficersConst.STATUS_CHO_XAC_NHAN;
+  }
+
   String canBoChuTri(ChiTietLichLamViecModel dataModel) {
     return dataModel.canBoChuTri?.id ?? '';
   }

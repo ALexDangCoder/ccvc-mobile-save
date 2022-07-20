@@ -75,8 +75,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           chiTietLichLamViecCubit.nguoiTaoId(dataModel);
 
           List<CellPopPupMenu> listAction = [];
-          if (dataModel.status != EnumScheduleStatus.Cancel ||
-              dataModel.status != EnumScheduleStatus.Revoked) {
+          if (dataModel.status != EnumScheduleStatus.Cancel &&
+              !chiTietLichLamViecCubit.checkMenuLichThuHoi(dataModel)) {
             listAction = [
               ///huy
               if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
@@ -367,6 +367,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,
+                                    dataModel: dataModel,
                                   ),
                                 DanhSachYKienButtom(
                                   dataModel: dataModel,
@@ -435,7 +436,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   },
                                 ),
                                 if (chiTietLichLamViecCubit
-                                    .checkChoHuyXacNhan(dataModel))
+                                    .checkChoHuyXacNhan(dataModel) &&
+                                    dataModel.status !=
+                                        EnumScheduleStatus.Cancel
+                                    && !chiTietLichLamViecCubit
+                                        .checkMenuLichThuHoi(dataModel))
                                   bottomButtonWidget(
                                     background: statusCalenderRed,
                                     title: S.current.huy_xac_nhan,
@@ -483,7 +488,11 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     textColor: Colors.white,
                                   ),
                                 if (chiTietLichLamViecCubit
-                                    .checkChoXacNhanLai(dataModel))
+                                    .checkChoXacNhanLai(dataModel) &&
+                                    dataModel.status !=
+                                        EnumScheduleStatus.Cancel
+                                    && !chiTietLichLamViecCubit
+                                        .checkMenuLichThuHoi(dataModel))
                                   bottomButtonWidget(
                                     background: itemWidgetUsing,
                                     title: S.current.xac_nhan_lai,

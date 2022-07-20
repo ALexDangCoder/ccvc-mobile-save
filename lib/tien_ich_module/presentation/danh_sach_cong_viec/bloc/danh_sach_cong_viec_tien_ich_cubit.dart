@@ -104,7 +104,14 @@ class DanhSachCongViecTienIchCubit
           pageSize: pageSize ?? 10,
         );
       case DSCVScreen.DG:
-        return getListDSCVGanChoNguoiKhac();
+        return getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: true,
+          searchWord: textSearch,
+          pageIndex: pageIndex ?? 1,
+          pageSize: pageSize ?? 10,
+          isGiveOther: true,
+        );
       case DSCVScreen.DBX:
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
@@ -211,6 +218,7 @@ class DanhSachCongViecTienIchCubit
     bool? inUsed,
     bool? isTicked,
     String? groupId,
+    bool? isGiveOther,
     bool? isLoadmore,
   }) async {
     showLoading();
@@ -222,6 +230,7 @@ class DanhSachCongViecTienIchCubit
       inUsed,
       isTicked,
       groupId,
+      isGiveOther,
     );
     result.when(
       success: (res) {

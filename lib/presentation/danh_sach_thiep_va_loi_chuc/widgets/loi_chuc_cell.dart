@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
@@ -8,6 +9,8 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/text/ellipsis_character_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:intl/intl.dart';
 
 class LoiChucCell extends StatelessWidget {
@@ -28,7 +31,7 @@ class LoiChucCell extends StatelessWidget {
           decoration: const BoxDecoration(shape: BoxShape.circle),
           child: CachedNetworkImage(
             fit: BoxFit.cover,
-            imageUrl: URL_AVATAR+data.avatar,
+            imageUrl: Get.find<AppConstants>().baseImageUrl+ data.avatar,
             errorWidget: (context, url, error) => Container(
               color: colorBlack,
               child: Image.asset(ImageAssets.anhDaiDienMacDinh),
@@ -57,9 +60,9 @@ class LoiChucCell extends StatelessWidget {
               ),
               spaceH6,
               Text(
-                DateFormat(DateFormatApp.dateBackEnd)
+                DateFormat(DateFormatApp.dateSecondBackEnd)
                     .parse(data.ngayGuiLoiChuc)
-                    .formatApiDDMMYYYYHHMM,
+                    .formatApiDDMMYYYYHHSS,
                 style: textNormal(infoColor, 14),
               )
             ],

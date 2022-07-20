@@ -271,11 +271,15 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                         StreamBuilder<bool>(
                           stream: createCubit.lichLapTuyChinhSubject.stream,
                           builder: (context, snapshot) {
+                            final _now = DateTime.now().weekday == 7
+                                ? 0
+                                : DateTime.now().weekday;
+                            createCubit.days = _now.toString();
                             final data = snapshot.data ?? false;
                             return data
                                 ? LichLapTuyChinh(
-                                    taoLichLamViecCubit: createCubit,
-                                  )
+                              taoLichLamViecCubit: createCubit,
+                            )
                                 : Container();
                           },
                         ),

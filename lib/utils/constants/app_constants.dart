@@ -226,6 +226,7 @@ const START_TIME = '8:00';
 const END_TIME = '18:00';
 const INIT_TIME_PICK = 'hh:mm';
 const INIT_DATE_PICK = 'DD/MM/YYYY';
+
 ///Number format
 const NUMBER_FORMAT_POINT = '###,###';
 
@@ -438,6 +439,32 @@ class StatusOfficersConst {
   static const int STATUS_DEFAULT = -1;
 }
 
+class EnumScheduleStatus {
+  // Nháp
+  static const int Draft = 1;
+
+  // Chờ duyệt
+  static const int Registered = 2;
+
+  // Đã duyệt
+  static const int Approved = 3;
+
+  // Từ chối duyệt
+  static const int Rejected = 4;
+
+  //Thu hồi
+  static const int Revoked = 5;
+
+  // Xóa
+  static const int Deleted = 6;
+
+  //Done
+  static const int Done = 7;
+
+  //Hủy
+  static const int Cancel = 8;
+}
+
 class MaxSizeFile {
   static const MAX_SIZE_30MB = 31457280;
 }
@@ -454,8 +481,9 @@ class FileExtensions {
   static const String PNG = 'png';
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
+  static const String XLXS = 'xlxs';
+  static const String PPTX = 'pptx';
 }
-
 class PermissionAppTxt{
   static const QUYEN_CU_CAN_BO = 'quyen-cu-can-bo';
   static const LANH_DAO_CO_QUAN = 'lanh-dao-co-quan';

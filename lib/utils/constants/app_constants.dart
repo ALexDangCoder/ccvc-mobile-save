@@ -455,3 +455,15 @@ class FileExtensions {
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
 }
+
+class PermissionAppTxt{
+  static const QUYEN_CU_CAN_BO = 'quyen-cu-can-bo';
+  static const LANH_DAO_CO_QUAN = 'lanh-dao-co-quan';
+  static const QUYEN_CU_CAN_BO_DI_THAY = 'quyen-cu-can-can-bo-di-thay';
+  static const QUYEN_DUYET_PHONG = 'quyen-duyet-phong';
+  static const QUYEN_DUYET_THIET_BI = 'quyen-duyet-thiet-bi';
+  static const DUYET_KY_THUAT_TTDH = 'duyet-ky-thuat-ttdh';
+  static const DUYET_KY_THUAT = 'duyet-ky-thuat';
+  static const YEU_CAU_CHUAN_BI = 'yeu-cau-chuan-bi';
+  static const QUYEN_DUYET_KET_LUAN_HOP = 'quyen-duyet-ket-luan-hop';
+}

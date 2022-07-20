@@ -1346,5 +1346,7 @@
   "dv_can_bo": "ĐV cán bộ",
   "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp",
   "vui_long_nhap_loi_chuc": "Vui lòng nhập lời chúc",
-  "nam_truoc" : "Năm trước"
+  "nam_truoc" : "Năm trước",
+  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
+  "thu_hoi_lich_hop" : "Thu hồi lịch họp"
 }

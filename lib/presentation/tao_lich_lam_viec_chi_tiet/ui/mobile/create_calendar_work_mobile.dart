@@ -281,14 +281,6 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                               taoLichLamViecCubit: createCubit,
                             )
                                 : Container();
-                                // ? SuaLichLapTuyChinh(
-                                //     taoLichLamViecCubit: createCubit,
-                                //     initDataTuyChinh:
-                                //         createCubit.listNgayChonTuan(
-                                //       createCubit.days ?? '',
-                                //     ),
-                                //   )
-                                // : Container();
                           },
                         ),
                         StreamBuilder<bool>(

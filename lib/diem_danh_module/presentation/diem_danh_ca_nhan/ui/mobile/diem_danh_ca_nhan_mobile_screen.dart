@@ -32,24 +32,32 @@ class DiemDanhCaNhanMobileScreen extends StatefulWidget {
 
 class _DiemDanhCaNhanMobileScreenState
     extends State<DiemDanhCaNhanMobileScreen> {
-  late CalendarController _controller;
-  late DateTime _tmpMonth;
+  late CalendarController _calendarController;
+  late DateTime _currentMonth;
   final _now = DateTime.now();
+  late final GlobalKey<ChangeDateTimeWidgetState> keyMonthTop;
 
   @override
   void initState() {
     super.initState();
-    _controller = CalendarController();
-    _tmpMonth = DateTime(_now.year, _now.month);
-    _controller.addPropertyChangedListener((properties) {
+    _calendarController = CalendarController();
+    keyMonthTop = GlobalKey<ChangeDateTimeWidgetState>();
+    _currentMonth = DateTime(_now.year, _now.month);
+    widget.cubit.getDataDayWage(dateTime: _currentMonth);
+    _calendarController.addPropertyChangedListener((properties) {
       if (properties == DISPLAY_DATE) {
-        final DateTime currentMonth = DateTime(
-          _controller.displayDate?.year ?? _now.year,
-          _controller.displayDate?.month ?? _now.month,
+        final DateTime _tmpCurrentMont = DateTime(
+          _calendarController.displayDate?.year ?? _now.year,
+          _calendarController.displayDate?.month ?? _now.month,
         );
-        _tmpMonth = currentMonth;
-        widget.cubit.getDataDayWage(dateTime: currentMonth);
-        widget.cubit.currentMonthSink.add(currentMonth);
+        if (_tmpCurrentMont.isAfter(widget.cubit.currentTime)) {
+          _currentMonth = _tmpCurrentMont;
+          keyMonthTop.currentState?.nextMonth();
+        }
+        if (_tmpCurrentMont.isBefore(widget.cubit.currentTime)) {
+          _currentMonth = _tmpCurrentMont;
+          keyMonthTop.currentState?.previousMonth();
+        }
       }
     });
   }
@@ -84,7 +92,7 @@ class _DiemDanhCaNhanMobileScreenState
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {
-          widget.cubit.getDataDayWage(dateTime: _tmpMonth);
+          widget.cubit.getDataDayWage(dateTime: _currentMonth);
         },
         error: AppException(
           S.current.error,
@@ -93,35 +101,30 @@ class _DiemDanhCaNhanMobileScreenState
         stream: widget.cubit.stateStream,
         child: RefreshIndicator(
           onRefresh: () async {
-            await widget.cubit.getDataDayWage(dateTime: _tmpMonth);
+            await widget.cubit.getDataDayWage(dateTime: _currentMonth);
           },
           child: SingleChildScrollView(
             child: Column(
               children: [
-                StreamBuilder<DateTime>(
-                  stream: widget.cubit.currentMonthStream,
-                  builder: (context, snapshot) {
-                    final currentMonth = snapshot.data;
-                    return ChangeDateTimeWidget(
-                      onChange: (DateTime value) {
-                        widget.cubit.getDataDayWage(dateTime: value);
-                        widget.cubit.currentMonthSink.add(value);
-                        _controller.displayDate =
-                            DateTime(value.year, value.month);
-                        _tmpMonth = value;
-                      },
-                      currentMonth: currentMonth,
-                      cubit: widget.cubit,
-                      endYear: widget.cubit.endYear,
-                      startYear: widget.cubit.startYear,
-                    );
+                ChangeDateTimeWidget(
+                  key: keyMonthTop,
+                  onChange: (DateTime value) {
+                    widget.cubit.getDataDayWage(dateTime: value);
+                    widget.cubit.currentMonthSink.add(value);
+                    _calendarController.displayDate =
+                        DateTime(value.year, value.month);
+                    _currentMonth = value;
                   },
+                  currentMonth: _currentMonth,
+                  cubit: widget.cubit,
+                  endYear: widget.cubit.endYear,
+                  startYear: widget.cubit.startYear,
                 ),
                 thongKeWiget(),
                 spaceH16,
                 CalendarChamCong(
                   cubit: widget.cubit,
-                  controller: _controller,
+                  controller: _calendarController,
                 ),
               ],
             ),

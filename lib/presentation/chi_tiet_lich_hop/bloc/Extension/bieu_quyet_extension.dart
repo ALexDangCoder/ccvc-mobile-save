@@ -154,6 +154,24 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     danhSachLuaChon.clear();
   }
 
+  Future<void> danhSachCanBoBieuQuyet({
+    required String luaChonId,
+    required String bieuQuyetId,
+  }) async {
+    showLoading();
+    final result =
+        await hopRp.danhSachCanBoBieuQuyet(luaChonId, idCuocHop, bieuQuyetId);
+    result.when(
+      success: (res) {
+        danhSachCanBoBieuQuyetSubject.sink.add(
+          res,
+        );
+        showContent();
+      },
+      error: (err) {},
+    );
+  }
+
   Future<void> suaBieuQuyet({
     required String idBieuQuyet,
     required String lichHopId,
@@ -233,8 +251,8 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   void isCheckDiemDanh(List<CanBoModel> mList) {
     final idCanBo = HiveLocal.getDataUser()?.userId;
     final diemDanh =
-        mList.firstWhere((element) => element.canBoId == idCanBo).diemDanh;
-    isCheckDiemDanhSubject.sink.add(diemDanh ?? false);
+        mList.firstWhere((element) => element.canBoId == idCanBo);
+    isCheckDiemDanhSubject.sink.add(diemDanh);
   }
 
   void getTimeHour({required TimerData startT, required TimerData endT}) {
@@ -611,7 +629,6 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   Future<void> callSuaAPiBieuQuyet() async {
-  //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop, idPhienHop);
   }
 

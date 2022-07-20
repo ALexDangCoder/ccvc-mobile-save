@@ -62,6 +62,7 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
                   child: YKienBottomSheet(
                     id: widget.id,
                     isTablet: widget.isTablet,
+                    isCalendarWork: true,
                   ),
                 ).then((value) {
                   if (value == true) {

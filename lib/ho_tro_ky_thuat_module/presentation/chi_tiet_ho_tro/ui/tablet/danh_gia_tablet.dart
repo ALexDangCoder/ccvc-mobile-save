@@ -10,9 +10,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DanhGiaYeuCauHoTroTabLet extends StatefulWidget {
-  const DanhGiaYeuCauHoTroTabLet({Key? key, required this.cubit})
+  const DanhGiaYeuCauHoTroTabLet({Key? key, required this.cubit, this.idTask})
       : super(key: key);
   final ChiTietHoTroCubit cubit;
+  final String? idTask;
 
   @override
   _DanhGiaYeuCauHoTroState createState() => _DanhGiaYeuCauHoTroState();
@@ -74,7 +75,10 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
                 Navigator.pop(context);
               },
               onPressed2: () {
-                widget.cubit.commentTask(note ?? '');
+                widget.cubit.commentTask(
+                  note ?? '',
+                  id: widget.idTask,
+                );
                 Navigator.pop(context);
               },
               noPadding: true,

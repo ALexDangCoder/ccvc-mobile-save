@@ -245,7 +245,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   );
 
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
-    final queue = Queue(parallel: 5);
+    final queue = Queue(parallel: 4);
     showLoading();
     unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));

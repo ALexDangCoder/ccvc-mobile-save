@@ -159,18 +159,23 @@ class _CapNhatTinhHinhHoTroTabLetState
                     },
                     onPressed2: () {
                       widget.cubit.capNhatTHXL(
-                        taskId: widget.cubit.supportDetail.id ?? '',
+                        taskId: (widget.cubit.supportDetail.id ??
+                            widget.idTask) ??
+                            '',
                         name: trangThai ?? '',
                         description: note ?? '',
                         code: trangThai ?? '',
-                        finishDay: (widget.cubit.supportDetail.ngayHoanThanh ??
-                                birthday) ??
+                        finishDay: (birthday ??
+                            widget
+                                .cubit.supportDetail.ngayHoanThanh) ??
                             '',
                         handlerId: nguoiXuLy ?? '',
-                        id: widget.cubit.supportDetail.id ?? '',
+                        id: (widget.cubit.supportDetail.id ??
+                            widget.idTask) ??
+                            '',
                         comment: '',
                       );
-                      Navigator.pop(context);
+                      Navigator.pop(context,true);
                     },
                     noPadding: true,
                     isTablet: true,

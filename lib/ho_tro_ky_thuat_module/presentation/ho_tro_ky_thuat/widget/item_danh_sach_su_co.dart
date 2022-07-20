@@ -220,6 +220,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                     idTask: objDSSC.id,
                                   );
                                 },
+                              ).whenComplete(
+                                () => cubit.getListDanhBaCaNhan(page: 1),
                               );
                             },
                           ),

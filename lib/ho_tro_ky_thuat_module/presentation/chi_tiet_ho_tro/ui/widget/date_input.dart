@@ -38,7 +38,7 @@ class _DateInputState extends State<DateInput> {
   @override
   void initState() {
     super.initState();
-    if(widget.initDateTime?.toIso8601String().isNotEmpty ?? false){
+    if (widget.initDateTime?.toIso8601String().isNotEmpty ?? false) {
       textController.text = DateFormat(DateTimeFormat.DATE_DD_MM_YYYY)
           .format(widget.initDateTime!);
       dateSelect = textController.text;
@@ -55,14 +55,14 @@ class _DateInputState extends State<DateInput> {
           return null;
         }
         if (!(value ?? '').isValidDateTime()) {
-          return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
+          return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_hoan_thanh}!';
         }
         try {
           final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
           dateSelect = inputDate.toString();
           widget.onSelectDate(dateSelect);
         } catch (_) {
-          return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
+          return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_hoan_thanh}!';
         }
       },
       suffixIcon: GestureDetector(

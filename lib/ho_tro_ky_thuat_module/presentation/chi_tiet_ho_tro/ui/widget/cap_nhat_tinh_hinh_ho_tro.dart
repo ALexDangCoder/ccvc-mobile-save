@@ -33,7 +33,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
   @override
   void initState() {
     super.initState();
-    if(widget.idTask?.isNotEmpty ?? false) {
+    if (widget.idTask?.isNotEmpty ?? false) {
       widget.cubit.getSupportDetail(widget.idTask ?? '');
     }
   }
@@ -163,7 +163,9 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           },
                           onPressed2: () {
                             widget.cubit.capNhatTHXL(
-                              taskId: widget.cubit.supportDetail.id ?? '',
+                              taskId: (widget.cubit.supportDetail.id ??
+                                      widget.idTask) ??
+                                  '',
                               name: trangThai ?? '',
                               description: note ?? '',
                               code: trangThai ?? '',
@@ -172,10 +174,12 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                           .cubit.supportDetail.ngayHoanThanh) ??
                                   '',
                               handlerId: nguoiXuLy ?? '',
-                              id: widget.cubit.supportDetail.id ?? '',
+                              id: (widget.cubit.supportDetail.id ??
+                                      widget.idTask) ??
+                                  '',
                               comment: '',
                             );
-                            Navigator.pop(context);
+                            Navigator.pop(context,true);
                           },
                           noPadding: true,
                         ),

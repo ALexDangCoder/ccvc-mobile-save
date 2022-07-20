@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+
 class DateInput extends StatefulWidget {
   final Function(String?) onSelectDate;
   final String? hintText;
@@ -30,8 +31,7 @@ class DateInput extends StatefulWidget {
 
 class _DateInputState extends State<DateInput> {
   String? dateSelect;
-
-  TextEditingController textController = TextEditingController();
+  String? cachedSelect;
 
   @override
   @override
@@ -48,10 +48,7 @@ class _DateInputState extends State<DateInput> {
                 child: FlutterRoundedCupertinoDatePickerWidget(
                   maximumDate: DateTime.now(),
                   onDateTimeChanged: (value) {
-                    setState(() {
-                      dateSelect = value.toString();
-                    });
-                    widget.onSelectDate(value.toString());
+                    cachedSelect = value.toString();
                   },
                   textStyleDate: titleAppbar(),
                   initialDateTime: DateTime.tryParse(dateSelect ?? ''),
@@ -66,6 +63,9 @@ class _DateInputState extends State<DateInput> {
                   title2: S.current.chon,
                   title1: S.current.dong,
                   onClickRight: () {
+                    setState(() {
+                      dateSelect = cachedSelect;
+                    });
                     widget.onSelectDate(dateSelect);
                     Navigator.pop(context);
                   },

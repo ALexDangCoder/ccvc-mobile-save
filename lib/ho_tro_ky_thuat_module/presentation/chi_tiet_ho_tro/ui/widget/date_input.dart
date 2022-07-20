@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -16,6 +16,7 @@ class DateInput extends StatefulWidget {
   final Widget? leadingIcon;
   final double? paddings;
   final DateTime? initDateTime;
+  final DateTime? minimumDate;
 
   const DateInput({
     Key? key,
@@ -24,6 +25,7 @@ class DateInput extends StatefulWidget {
     this.hintText,
     this.leadingIcon,
     this.paddings,
+    this.minimumDate,
   }) : super(key: key);
 
   @override
@@ -32,17 +34,19 @@ class DateInput extends StatefulWidget {
 
 class _DateInputState extends State<DateInput> {
   String? dateSelect;
-
-  final textController = TextEditingController();
+  String? cachedSelect;
 
   @override
   void initState() {
     super.initState();
     if (widget.initDateTime?.toIso8601String().isNotEmpty ?? false) {
-      textController.text = DateFormat(DateTimeFormat.DATE_DD_MM_YYYY)
-          .format(widget.initDateTime!);
-      dateSelect = textController.text;
+      dateSelect =
+          DateFormat(DateTimeFormat.DATE_ISO_86).format(widget.initDateTime!);
     }
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -57,12 +61,9 @@ class _DateInputState extends State<DateInput> {
               SizedBox(
                 height: 300,
                 child: FlutterRoundedCupertinoDatePickerWidget(
-                  maximumDate: DateTime.now(),
+                  minimumDate: widget.minimumDate ?? DateTime.now(),
                   onDateTimeChanged: (value) {
-                    setState(() {
-                      dateSelect = value.toString();
-                    });
-                    widget.onSelectDate(value.toString());
+                    cachedSelect = value.toString();
                   },
                   textStyleDate: titleAppbar(),
                   initialDateTime: DateTime.tryParse(dateSelect ?? ''),
@@ -77,6 +78,9 @@ class _DateInputState extends State<DateInput> {
                   title2: S.current.chon,
                   title1: S.current.dong,
                   onClickRight: () {
+                    setState(() {
+                      dateSelect = cachedSelect;
+                    });
                     widget.onSelectDate(dateSelect);
                     Navigator.pop(context);
                   },
@@ -113,20 +117,20 @@ class _DateInputState extends State<DateInput> {
                         ),
                         child: dateSelect == null
                             ? Text(
-                          DateFormatApp.date,
-                          style: textNormal(
-                            titleItemEdit.withOpacity(0.5),
-                            14,
-                          ),
-                        )
+                                DateTimeFormat.DATE_FORMAT_TEXT_FIELD,
+                                style: textNormal(
+                                  titleItemEdit.withOpacity(0.5),
+                                  14,
+                                ),
+                              )
                             : Text(
-                          DateTime.parse(dateSelect ?? '')
-                              .toStringWithListFormat,
-                          style: tokenDetailAmount(
-                            fontSize: 14.0.textScale(),
-                            color: color3D5586,
-                          ),
-                        ),
+                                DateTime.parse(dateSelect ?? '')
+                                    .toStringWithListFormat,
+                                style: tokenDetailAmount(
+                                  fontSize: 14.0.textScale(),
+                                  color: color3D5586,
+                                ),
+                              ),
                       )
                     ],
                   ),

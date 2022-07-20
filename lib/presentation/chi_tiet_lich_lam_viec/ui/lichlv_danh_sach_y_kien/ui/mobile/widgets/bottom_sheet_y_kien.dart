@@ -13,13 +13,15 @@ class YKienBottomSheet extends StatefulWidget {
   final String id;
   final bool isCheck;
   final bool isTablet;
+  final bool isCalendarWork;
 
-  const YKienBottomSheet({
-    Key? key,
-    this.isTablet = false,
-    required this.id,
-    this.isCheck = true,
-  }) : super(key: key);
+  const YKienBottomSheet(
+      {Key? key,
+      this.isTablet = false,
+      required this.id,
+      this.isCheck = true,
+      this.isCalendarWork = false})
+      : super(key: key);
 
   @override
   _ChinhSuaBaoCaoBottomSheetState createState() =>
@@ -42,7 +44,9 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<YKienBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlockTextView(
-                title: S.current.y_kien_cuop_hop,
+                title: widget.isCalendarWork
+                    ? S.current.content
+                    : S.current.y_kien_cuop_hop,
                 contentController: controller,
                 formKey: globalKey,
                 isRequired: false,

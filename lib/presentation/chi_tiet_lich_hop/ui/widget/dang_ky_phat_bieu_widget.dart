@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
@@ -50,7 +51,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   void validatePhienHop() {
     final chonPhienHop = (taoBieuQuyetRequest.phienHopId ?? '').isEmpty;
     setState(() {
-      phienHopErrorText = chonPhienHop ? '' : S.current.vui_long_chon_phien_hop;
+      phienHopErrorText = chonPhienHop ? S.current.vui_long_chon_phien_hop : '' ;
     });
   }
 
@@ -67,7 +68,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     } else {
       final intValue = int.tryParse(value.trim());
       setState(() {
-        errorText = intValue != null ? S.current.nhap_sai_dinh_dang : '';
+        errorText = intValue != null ? '' : S.current.nhap_sai_dinh_dang;
       });
     }
   }

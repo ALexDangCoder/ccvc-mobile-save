@@ -95,7 +95,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
           S.current.danh_sach_nhiem_vu,
           style: textNormalCustom(
             fontWeight: FontWeight.w500,
-            fontSize: 14.0.textScale(),
+            fontSize: 16,
             color: dateColor,
           ),
         ),
@@ -161,7 +161,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                           Padding(
                             padding: const EdgeInsets.only(right: 12),
                             child: ButtonOtherWidget(
-                              text: S.current.tu_choi,
+                              text: S.current.huy_duyet,
                               color: statusCalenderRed,
                               ontap: () {
                                 widget.cubit

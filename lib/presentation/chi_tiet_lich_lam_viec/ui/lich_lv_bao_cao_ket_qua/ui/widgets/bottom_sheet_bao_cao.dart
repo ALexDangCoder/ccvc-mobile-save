@@ -30,14 +30,14 @@ class BaoCaoBottomSheet extends StatefulWidget {
   final String scheduleId;
   final bool isEdit;
 
-  const BaoCaoBottomSheet(
-      {Key? key,
-      required this.listTinhTrangBaoCao,
-      required this.cubit,
-      this.id = '',
-      required this.scheduleId,
-      this.isEdit = false})
-      : super(key: key);
+  const BaoCaoBottomSheet({
+    Key? key,
+    required this.listTinhTrangBaoCao,
+    required this.cubit,
+    this.id = '',
+    required this.scheduleId,
+    this.isEdit = false,
+  }) : super(key: key);
 
   @override
   _ChinhSuaBaoCaoBottomSheetState createState() =>
@@ -105,7 +105,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                     color: AppTheme.getInstance().colorField(),
                   ),
                   initData:
-                      widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
+                      widget.listTinhTrangBaoCao[0].displayName ?? '',
                   placeHoder: S.current.chon_trang_thai,
                   listData: widget.listTinhTrangBaoCao
                       .map((e) => e.displayName ?? '')
@@ -149,8 +149,9 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                         .map((e) => e.path)
                         .contains(files.first.path)) {
                       MessageConfig.show(
-                          title: S.current.file_da_ton_tai,
-                          messState: MessState.error);
+                        title: S.current.file_da_ton_tai,
+                        messState: MessState.error,
+                      );
                       return;
                     }
                     widget.cubit.files.addAll(files);
@@ -159,38 +160,43 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   files: widget.cubit.files.toList(),
                 ),
                 StreamBuilder(
-                    stream: widget.cubit.deleteFileInit.stream,
-                    builder: (context, snapshot) {
-                      return Column(
-                        children: widget.cubit.fileInit
-                            .map((e) => itemListFile(
-                                onTap: () {
-                                  widget.cubit.fileInit.remove(e);
-                                  widget.cubit.fileDelete.add(e);
-                                  widget.cubit.deleteFileInit.sink.add(true);
-                                },
-                                fileTxt: e.name ?? ''))
-                            .toList(),
-                      );
-                    }),
+                  stream: widget.cubit.deleteFileInit.stream,
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: widget.cubit.fileInit
+                          .map(
+                            (e) => itemListFile(
+                              onTap: () {
+                                widget.cubit.fileInit.remove(e);
+                                widget.cubit.fileDelete.add(e);
+                                widget.cubit.deleteFileInit.sink.add(true);
+                              },
+                              fileTxt: e.name ?? '',
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
+                ),
                 StreamBuilder(
-                    stream: widget.cubit.updateFilePicker.stream,
-                    builder: (context, snapshot) {
-                      return Column(
-                        children: widget.cubit.files
-                            .map(
-                              (e) => itemListFile(
-                                  onTap: () {
-                                    widget.cubit.files.remove(e);
-                                    widget.cubit.updateFilePicker.sink
-                                        .add(true);
-                                  },
-                                  fileTxt: e.path.convertNameFile(),
-                                  lengthFile: e.lengthSync().getFileSize(2)),
-                            )
-                            .toList(),
-                      );
-                    })
+                  stream: widget.cubit.updateFilePicker.stream,
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: widget.cubit.files
+                          .map(
+                            (e) => itemListFile(
+                              onTap: () {
+                                widget.cubit.files.remove(e);
+                                widget.cubit.updateFilePicker.sink.add(true);
+                              },
+                              fileTxt: e.path.convertNameFile(),
+                              lengthFile: e.lengthSync().getFileSize(2),
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
+                )
               ],
             ),
           ),
@@ -299,8 +305,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
   void btnThem() {
     if (!widget.cubit.checkLenghtFile()) {
       MessageConfig.show(
-        title:
-            S.current.dung_luong_toi_da_30,
+        title: S.current.dung_luong_toi_da_30,
         messState: MessState.error,
       );
       return;
@@ -308,9 +313,10 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
     if (widget.cubit.reportStatusId.isNotEmpty) {
       if (widget.isEdit) {
         widget.cubit.editScheduleReport(
-            id: widget.id,
-            scheduleId: widget.scheduleId,
-            content: controller.text.trim());
+          id: widget.id,
+          scheduleId: widget.scheduleId,
+          content: controller.text.trim(),
+        );
       } else {
         widget.cubit.createScheduleReport(widget.scheduleId, controller.text);
       }

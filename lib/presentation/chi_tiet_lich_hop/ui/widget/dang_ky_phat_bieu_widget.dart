@@ -116,6 +116,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 data.map((e) => e.tieuDe ?? '').toList();
                 return CoolDropDown(
                   key: UniqueKey(),
+                  maxLines:  2,
                   useCustomHintColors: true,
                   placeHoder: S.current.chon_phien_hop,
                   listData: newListSelect,
@@ -150,7 +151,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                         taoBieuQuyetRequest.time = int.parse(value);
                       } catch (_) {}
                     },
-                    maxLength: 18,
+                    maxLength: 10,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],

@@ -33,7 +33,7 @@ class LoiChucCell extends StatelessWidget {
             fit: BoxFit.cover,
             imageUrl: Get.find<AppConstants>().baseImageUrl+ data.avatar,
             errorWidget: (context, url, error) => Container(
-              color: Colors.black,
+              color: colorBlack,
               child: Image.asset(ImageAssets.anhDaiDienMacDinh),
             ),
           ),

@@ -236,6 +236,7 @@ const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
 const String PRIMARY = 'primary';
+const String BASE_URL_AVATAR = 'https://file-common-test.chinhquyendientu.vn/';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;

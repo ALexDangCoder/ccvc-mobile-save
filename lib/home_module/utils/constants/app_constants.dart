@@ -88,6 +88,7 @@ const String STATUS_TRANSACTION_SUCCESS = '1';
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
 const String TRANSACTION_NFT = '1';
+const String URL_AVATAR = 'https://file-common-test.chinhquyendientu.vn/';
 
 const EN_CODE = 'en';
 const VI_CODE = 'vi';

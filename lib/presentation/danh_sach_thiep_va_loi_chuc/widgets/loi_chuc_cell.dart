@@ -2,9 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/text/ellipsis_character_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class LoiChucCell extends StatelessWidget {
   const LoiChucCell({
@@ -23,9 +27,10 @@ class LoiChucCell extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           decoration: const BoxDecoration(shape: BoxShape.circle),
           child: CachedNetworkImage(
-            imageUrl: data.avatar,
+            fit: BoxFit.cover,
+            imageUrl: URL_AVATAR+data.avatar,
             errorWidget: (context, url, error) => Container(
-              color: Colors.black,
+              color: colorBlack,
               child: Image.asset(ImageAssets.anhDaiDienMacDinh),
             ),
           ),
@@ -39,17 +44,22 @@ class LoiChucCell extends StatelessWidget {
             children: [
               Text(
                 data.tenNguoiGui,
-                style: textNormalCustom(fontSize: 14, color: textTitle),
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: textTitle,
+                ),
               ),
               spaceH6,
-              Text(
+              EllipsisDoubleLineText(
                 data.loiChuc,
+                maxLines: 2,
                 style: textNormal(infoColor, 14),
-                overflow: TextOverflow.ellipsis,
               ),
               spaceH6,
               Text(
-                data.ngayGuiLoiChuc,
+                DateFormat(DateFormatApp.dateBackEnd)
+                    .parse(data.ngayGuiLoiChuc)
+                    .formatApiDDMMYYYYHHMM,
                 style: textNormal(infoColor, 14),
               )
             ],

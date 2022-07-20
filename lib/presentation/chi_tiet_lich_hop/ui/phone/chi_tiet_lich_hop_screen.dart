@@ -397,7 +397,7 @@ List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
         child: ThanhPhanThamGiaWidget(
           cubit: cubit,
         ),
-      ),
+      ),lib/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_widget.dart
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: TaiLieuWidget(

@@ -454,5 +454,6 @@ class FileExtensions {
   static const String PNG = 'png';
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
+  static const String PPTX = 'pptx';
 }
 

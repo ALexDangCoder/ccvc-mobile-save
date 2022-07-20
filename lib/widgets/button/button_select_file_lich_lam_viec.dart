@@ -225,7 +225,7 @@ class _ButtonSelectFileLichLamViecState
             ),
           ),
         ),
-        if (selectFiles.isNotEmpty)
+        if (selectFiles.isNotEmpty && widget.isShowFile)
           ...selectFiles.map((item) {
             if (widget.builder == null) {
               return itemListFile(

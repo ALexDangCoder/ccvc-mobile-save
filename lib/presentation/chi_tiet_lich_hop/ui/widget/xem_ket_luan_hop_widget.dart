@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/bao_cao_module/widget/button/button_custom_bottom.dart';
@@ -14,14 +13,14 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -260,10 +259,24 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         /// them tai lieu cuoc hop
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 5),
-                          child: ButtonSelectFile(
+                          child:  ButtonSelectFileLichLamViec(
                             isShowFile: false,
+                            hasMultipleFile: true,
+                            maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                             title: S.current.tai_lieu_dinh_kem,
-                            onChange: (List<File> files) {
+                            allowedExtensions: const [
+                              FileExtensions.DOC,
+                              FileExtensions.DOCX,
+                              FileExtensions.JPEG,
+                              FileExtensions.JPG,
+                              FileExtensions.PDF,
+                              FileExtensions.PNG,
+                              FileExtensions.PPTX,
+                            ],
+                            onChange: (List<File> files, bool validate) {
+                              if(validate){
+                                return;
+                              }
                               for (final element in files) {
                                 if (state.listFiles
                                     .where((e) => e.path == element.path)
@@ -273,7 +286,6 @@ class _CreateOrUpdateKetLuanHopWidgetState
                               }
                               state.listFileSelect.sink.add(state.listFiles);
                             },
-                            removeFileApi: (int index) {},
                           ),
                         ),
 

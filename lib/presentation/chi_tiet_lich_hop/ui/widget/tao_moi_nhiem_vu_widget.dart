@@ -224,6 +224,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.van_ban_giao_nhiem_vu,
                         context: context,
                       ),
+                      spaceH12,
 
                       /// van ban khac
                       buttonThemVb(
@@ -231,12 +232,13 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.van_ban_khac,
                         context: context,
                       ),
+                      spaceH12,
                     ],
                   ),
                 ),
               ),
             ),
-            sb20,
+            spaceH20,
           ],
         ),
       ),

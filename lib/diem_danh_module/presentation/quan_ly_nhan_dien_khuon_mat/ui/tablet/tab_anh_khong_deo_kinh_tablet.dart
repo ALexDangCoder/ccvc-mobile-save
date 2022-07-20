@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_khuon_mat/ge
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/item_image.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:flutter/material.dart';
 
 class TabAnhKhongDeoKinhTablet extends StatefulWidget {
@@ -19,20 +20,22 @@ class _TabAnhKhongDeoKinhTabletState extends State<TabAnhKhongDeoKinhTablet> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.getAllImageKhongDeoKinhId();
+    widget.cubit
+        .getAllImageId(entityName: ApiConstants.KHUON_MAT_KHONG_DEO_KINH);
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () {
-        return widget.cubit.getAllImageKhongDeoKinhId();
+        return widget.cubit
+            .getAllImageId(entityName: ApiConstants.KHUON_MAT_KHONG_DEO_KINH);
       },
-      child: StreamBuilder<GetAllFilesIdModel>(
+      child: StreamBuilder<List<GetAllFilesIdModel>>(
         stream: widget.cubit.allFileKhongDeokinhStream,
         builder: (
           BuildContext context,
-          AsyncSnapshot<GetAllFilesIdModel> snapshot,
+          AsyncSnapshot<List<GetAllFilesIdModel>> snapshot,
         ) {
           if (snapshot.hasData) {
             return Padding(

@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
@@ -179,12 +179,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(id);
     rs.when(
       success: (data) {
-        final tmp = data.where((element) => element.tenDonVi != null).toList();
-        listOfficer.sink.add(tmp);
+        listOfficer.sink.add(data);
         listRecall.sink
-            .add(tmp.where((element) => element.status == 0).toList());
-        dataRecall = tmp.where((element) => element.status == 0).toList();
-        officersTmp = tmp;
+            .add(data.where((element) => element.status == 0).toList());
+        dataRecall = data.where((element) => element.status == 0).toList();
+        officersTmp = data;
       },
       error: (error) {},
     );
@@ -240,9 +239,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   Future<bool> confirmOfficerOrDismissconfirmOfficer(
-      ConfirmOfficerRequest request) async {
+    ConfirmOfficerRequest request,
+  ) async {
     bool isSucess = false;
+    showLoading();
     final result = await dataRepo.confirmOfficer(request);
+    showContent();
     result.when(
       success: (res) {
         isSucess = true;
@@ -251,6 +253,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         isSucess = false;
       },
     );
+    if (isSucess) eventBus.fire(RefreshCalendar());
     return isSucess;
   }
 
@@ -260,15 +263,24 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     result.when(
       success: (res) {
         showButtonApprove.sink.add(false);
+        eventBus.fire(RefreshCalendar());
         MessageConfig.show(
           title: S.current.thanh_cong,
         );
       },
       error: (err) {
-        MessageConfig.show(
-          title: S.current.no_internet,
-          messState: MessState.error,
-        );
+        if (err is NoNetworkException || err is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }else{
+          MessageConfig.show(
+            title: S.current.that_bai,
+            messState: MessState.error,
+          );
+        }
+
       },
     );
     ShowLoadingScreen.dismiss();
@@ -298,7 +310,14 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           showContent();
         }
       },
-      error: (err) {},
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
     );
   }
 
@@ -339,7 +358,14 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             showContent();
           }
         },
-        error: (err) {},
+        error: (error) {
+          if (error is NoNetworkException || error is TimeoutException) {
+            MessageConfig.show(
+              title: S.current.no_internet,
+              messState: MessState.error,
+            );
+          }
+        },
       );
     });
   }
@@ -397,6 +423,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     );
     ShowLoadingScreen.dismiss();
   }
+
   // check hiển thị popup
   int checkXoa(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
@@ -404,10 +431,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
+
   int checkThuHoi(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
-          (element) => element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN,
-    ) ??
+          (element) =>
+              element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN,
+        ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
 
@@ -460,18 +489,21 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   bool checkChoYKien(ChiTietLichLamViecModel dataModel) {
     return nguoiTaoId(dataModel) == currentUserId ||
-        nguoiDuocMoi(dataModel) == currentUserId||canBoChuTri(dataModel) == currentUserId;
+        nguoiDuocMoi(dataModel) == currentUserId ||
+        canBoChuTri(dataModel) == currentUserId;
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {
     return (DateTime.parse(
           dataModel.dateTimeTo ?? DateTime.now().toString(),
-        ).isBefore(DateTime.now())) &&(nguoiTaoId(dataModel) == currentUserId ||
-        nguoiDuocMoi(dataModel) == currentUserId);
+        ).isBefore(DateTime.now())) &&
+        (nguoiTaoId(dataModel) == currentUserId ||
+            nguoiDuocMoi(dataModel) == currentUserId);
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
-    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) && checkChoSuaLich(dataModel); //=
+    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) &&
+        checkChoSuaLich(dataModel); //=
   }
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
@@ -524,11 +556,18 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         MessageConfig.show(title: S.current.bao_cao_ket_qua_thanh_cong);
         emit(SuccessChiTietLichLamViecState());
       },
-      error: (err) {
-        MessageConfig.show(
-          title: S.current.bao_cao_ket_qua_that_bai,
-          messState: MessState.error,
-        );
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }else {
+          MessageConfig.show(
+            title: S.current.bao_cao_ket_qua_that_bai,
+            messState: MessState.error,
+          );
+        }
       },
     );
   }
@@ -553,11 +592,18 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         MessageConfig.show(title: S.current.sua_bao_cao_ket_qua_thanh_cong);
         emit(SuccessChiTietLichLamViecState());
       },
-      error: (err) {
-        MessageConfig.show(
-          title: S.current.sua_bao_cao_ket_qua_that_bai,
-          messState: MessState.error,
-        );
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.sua_bao_cao_ket_qua_that_bai,
+            messState: MessState.error,
+          );
+        }
       },
     );
   }

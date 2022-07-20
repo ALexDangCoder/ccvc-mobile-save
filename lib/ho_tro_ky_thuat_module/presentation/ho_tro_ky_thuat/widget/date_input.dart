@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
@@ -161,7 +162,7 @@ class _CustomDropDownState extends State<CustomSelectDate> {
                                 widget.hintText ?? S.current.vuiLongChon,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: color3D5586,
+                                  color: AppTheme.getInstance().unselectColor(),
                                 ),
                               )
                             : Text(

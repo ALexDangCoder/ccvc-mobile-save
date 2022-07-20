@@ -18,7 +18,6 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_moi_vote_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
@@ -29,6 +28,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/cap_nhat_trang_thai_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_can_bo_bieu_quyet_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
@@ -88,6 +88,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_bieu_quyet_model.dart
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danhSachCanBoBieuQuyetModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
@@ -408,20 +409,15 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<MessageModel>> suaKetLuan(
-    String scheduleId,
-    String content,
-    String reportStatusId,
-    String reportTemplateId,
-    List<File>? files,
-  ) {
+      String scheduleId,
+      String content,
+      String reportStatusId,
+      String reportTemplateId,
+      List<File>? files,
+      List<String> fileDelete) {
     return runCatchingAsync<SuaKetLuanResponse, MessageModel>(
-      () => _hopServices.suaKetLuan(
-        scheduleId,
-        content,
-        reportStatusId,
-        reportTemplateId,
-        files ?? [],
-      ),
+      () => _hopServices.suaKetLuan(scheduleId, content, reportStatusId,
+          reportTemplateId, files ?? [], fileDelete),
       (response) => response.toDomain(),
     );
   }
@@ -1119,6 +1115,23 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<XoaBieuQuyetResponse, bool>(
       () => _hopServices.xoaBieuQuyet(bieuQuyetId, canboId),
       (response) => response.isSuccess,
+    );
+  }
+
+  @override
+  Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(
+    String luaChonId,
+    String lichHopId,
+    String bieuQuyetId,
+  ) {
+    return runCatchingAsync<DanhSachCanBoBieuQuyetResponse,
+        DanhSachCanBoBieuQuyetModel>(
+      () => _hopServices.danhSachCanBoBieuQuyet(
+        luaChonId,
+        lichHopId,
+        bieuQuyetId,
+      ),
+      (response) => response.toModel(),
     );
   }
 }

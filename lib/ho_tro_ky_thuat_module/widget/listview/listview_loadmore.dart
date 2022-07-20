@@ -117,59 +117,42 @@ class _ListViewLoadMoreState extends State<ListViewLoadMore> {
             },
             child: RefreshIndicator(
               onRefresh: refreshPosts,
-              child: Stack(
-                children: [
-                  StreamBuilder(
-                    stream: widget.cubit.loadMoreListStream,
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<List<dynamic>> snapshot,
-                    ) {
-                      return widget.isListView == true
-                          ? ListView.builder(
-                              shrinkWrap: widget.sinkWap ?? false,
-                              itemCount: snapshot.data?.length ?? 0,
-                              itemBuilder: (ctx, index) {
-                                return widget.viewItem(
-                                    snapshot.data![index], index);
-                              },
-                            )
-                          : GridView.builder(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                                top: 16,
-                                bottom: 32,
-                              ),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: widget.crossAxisSpacing ?? 28,
-                                childAspectRatio: widget.checkRatio ?? 2 / 3,
-                              ),
-                              itemCount: snapshot.data?.length ?? 0,
-                              itemBuilder: (_, index) {
-                                return widget.viewItem(
-                                    snapshot.data![index], index);
-                              },
-                            );
-                    },
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 16,
-                    left: 16,
-                    child: StreamBuilder<bool>(
-                      stream: widget.cubit.loadMoreStream,
-                      builder: (context, snapshot) {
-                        return snapshot.data ?? false
-                            ? LoadingItem()
-                            : const SizedBox();
-                      },
-                    ),
-                  )
-                ],
+              child: StreamBuilder(
+                stream: widget.cubit.loadMoreListStream,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<List<dynamic>> snapshot,
+                ) {
+                  return widget.isListView == true
+                      ? ListView.builder(
+                          shrinkWrap: widget.sinkWap ?? false,
+                          itemCount: snapshot.data?.length ?? 0,
+                          itemBuilder: (ctx, index) {
+                            return widget.viewItem(
+                                snapshot.data![index], index);
+                          },
+                        )
+                      : GridView.builder(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 16,
+                            bottom: 32,
+                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: widget.crossAxisSpacing ?? 28,
+                            childAspectRatio: widget.checkRatio ?? 2 / 3,
+                          ),
+                          itemCount: snapshot.data?.length ?? 0,
+                          itemBuilder: (_, index) {
+                            return widget.viewItem(
+                                snapshot.data![index], index);
+                          },
+                        );
+                },
               ),
             ),
           ),

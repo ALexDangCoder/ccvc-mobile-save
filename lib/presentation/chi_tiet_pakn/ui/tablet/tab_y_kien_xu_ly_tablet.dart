@@ -78,6 +78,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
             size: _size,
           ),
         );
+        widget.cubit.sizeFileList.add(_size);
         setState(() {});
       }
     }
@@ -528,14 +529,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                 child: InkWell(
                   onTap: () {
                     setState(() {
-                      for (int i = 0;
-                          i < widget.cubit.listPickFileMain.length;
-                          i++) {
-                        if (objPick == widget.cubit.listPickFileMain[i]) {
-                          widget.cubit.listFileMain.removeAt(i);
-                        }
-                      }
-                      widget.cubit.listPickFileMain.remove(objPick);
+                      widget.cubit.deleteFile(objPick);
                     });
                   },
                   child: Padding(
@@ -567,6 +561,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
       _nhapYMainController.text = '';
       widget.cubit.listFileMain.clear();
       widget.cubit.listPickFileMain.clear();
+      widget.cubit.sizeFileList.clear();
       setState(() {});
       if (controller.hasClients) {
         Future.delayed(const Duration(milliseconds: 50), () {

@@ -115,7 +115,7 @@ class ItemRowLuaChonUnColor extends StatelessWidget {
             child: Text(
               name,
               style: textNormalCustom(
-                color: backgroundColorApp,
+                color: AppTheme.getInstance().colorField(),
                 fontSize: 14.0.textScale(),
                 fontWeight: FontWeight.w500,
               ),

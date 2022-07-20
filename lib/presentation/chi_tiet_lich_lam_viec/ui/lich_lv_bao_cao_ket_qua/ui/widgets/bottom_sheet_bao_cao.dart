@@ -26,14 +26,14 @@ class BaoCaoBottomSheet extends StatefulWidget {
   final String scheduleId;
   final bool isEdit;
 
-  const BaoCaoBottomSheet(
-      {Key? key,
-      required this.listTinhTrangBaoCao,
-      required this.cubit,
-      this.id = '',
-      required this.scheduleId,
-      this.isEdit = false})
-      : super(key: key);
+  const BaoCaoBottomSheet({
+    Key? key,
+    required this.listTinhTrangBaoCao,
+    required this.cubit,
+    this.id = '',
+    required this.scheduleId,
+    this.isEdit = false,
+  }) : super(key: key);
 
   @override
   _ChinhSuaBaoCaoBottomSheetState createState() =>
@@ -302,9 +302,10 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
     if (widget.cubit.reportStatusId.isNotEmpty) {
       if (widget.isEdit) {
         widget.cubit.editScheduleReport(
-            id: widget.id,
-            scheduleId: widget.scheduleId,
-            content: controller.text.trim());
+          id: widget.id,
+          scheduleId: widget.scheduleId,
+          content: controller.text.trim(),
+        );
       } else {
         widget.cubit.createScheduleReport(widget.scheduleId, controller.text);
       }

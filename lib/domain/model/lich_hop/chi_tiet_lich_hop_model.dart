@@ -254,9 +254,9 @@ class ChiTietLichHopModel {
     if (linhVuc.isNotEmpty) {
       data.add(ChiTietDataRow(urlIcon: ImageAssets.icWork, text: linhVuc));
     }
-    if (phongHopMode.ten.isNotEmpty) {
+    if ((diaDiemHop ?? '').isNotEmpty) {
       data.add(
-        ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: phongHopMode.ten),
+        ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: diaDiemHop ?? ''),
       );
     }
 

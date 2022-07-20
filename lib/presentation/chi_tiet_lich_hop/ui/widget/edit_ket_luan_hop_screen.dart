@@ -12,9 +12,9 @@ import 'package:html_editor_enhanced/html_editor.dart';
 final keyEditKetLuanHop = GlobalKey<_EditKetLuanHopScreenState>();
 
 class EditKetLuanHopScreen extends StatefulWidget {
-  final DetailMeetCalenderCubit cubit;
+  final String htmlText;
 
-  const EditKetLuanHopScreen({Key? key, required this.cubit}) : super(key: key);
+  const EditKetLuanHopScreen({Key? key,required this.htmlText}) : super(key: key);
 
   @override
   _EditKetLuanHopScreenState createState() => _EditKetLuanHopScreenState();
@@ -26,7 +26,7 @@ class _EditKetLuanHopScreenState extends State<EditKetLuanHopScreen> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.controller = controller;
+    // widget.cubit.controller = controller;
   }
 
   @override
@@ -50,8 +50,7 @@ class _EditKetLuanHopScreenState extends State<EditKetLuanHopScreen> {
             IconButton(
               onPressed: () async {
                 final getHtml = await controller.getText();
-                widget.cubit.getTextAfterEdit(getHtml);
-                Navigator.pop(context);
+                Navigator.pop(context,getHtml);
               },
               icon: SvgPicture.asset(
                 ImageAssets.icTickCircle,
@@ -66,20 +65,16 @@ class _EditKetLuanHopScreenState extends State<EditKetLuanHopScreen> {
               maxHeight: MediaQuery.of(context).size.height * 0.9,
             ),
             child: SingleChildScrollView(
-              child: StreamBuilder<String>(
-                initialData: widget.cubit.xemKetLuanHopModel.content,
-                stream: widget.cubit.noiDung,
-                builder: (context, snapshot) {
-                  return HtmlEditor(
-                    controller: controller,
-                    htmlEditorOptions: HtmlEditorOptions(
-                      initialText: snapshot.data,
-                    ),
-                    otherOptions: OtherOptions(
-                      height: MediaQuery.of(context).size.height,
-                    ),
-                  );
-                },
+              child:  HtmlEditor(
+                controller: controller,
+                htmlEditorOptions: HtmlEditorOptions(
+                  initialText: widget.htmlText,
+
+                ),
+                otherOptions: OtherOptions(
+
+                  height: MediaQuery.of(context).size.height,
+                ),
               ),
             ),
           ),

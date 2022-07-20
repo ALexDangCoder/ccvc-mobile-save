@@ -4,12 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class FollowKeyBoardWidget extends StatefulWidget {
   final Widget child;
   final Widget? bottomWidget;
-  final bool isShowBottom;
 
   const FollowKeyBoardWidget({
     Key? key,
     this.bottomWidget,
-    this.isShowBottom = false,
     required this.child,
   }) : super(key: key);
 
@@ -49,11 +47,9 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
               ],
             ),
           ),
-          if (!widget.isShowBottom) ...[
-            SizedBox(
-              height: viewInsertPadding(),
-            )
-          ],
+          SizedBox(
+            height: viewInsertPadding(),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: widget.bottomWidget ?? const SizedBox(),
@@ -64,12 +60,9 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
   }
 
   double viewInsertPadding() {
-    if (widget.isShowBottom)
-      return _viewInsert.bottom;
-    else if (_viewInsert.bottom > mouseRegion) {
+    if (_viewInsert.bottom > mouseRegion) {
       return (_viewInsert.bottom - mouseRegion) + 45.h;
     }
-
     return 0;
   }
 }

@@ -23,6 +23,7 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/widget/container_menu_
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/item_menu_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -126,7 +127,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'quyen-duyet-thiet-bi',
+      permissionTxt: PermissionAppTxt.QUYEN_DUYET_THIET_BI,
     )) {
       listTheoTrangThai.add(
         ItemThongBaoModelMyCalender(
@@ -137,7 +138,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     }
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'duyet-ky-thuat',
+      permissionTxt: PermissionAppTxt.DUYET_KY_THUAT,
     )) {
       listTheoTrangThai.add(
         ItemThongBaoModelMyCalender(
@@ -148,7 +149,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     }
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'yeu-cau-chuan-bi',
+      permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
     )) {
       listTheoTrangThai.add(
         ItemThongBaoModelMyCalender(

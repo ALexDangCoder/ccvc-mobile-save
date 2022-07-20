@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 ///permission
 extension PermissionLichHop on DetailMeetCalenderCubit {
@@ -114,7 +115,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
             (e) =>
                 HiveLocal.checkPermissionApp(
                   permissionType: PermissionType.VPDT,
-                  permissionTxt: 'quyen-cu-can-bo',
+                  permissionTxt: PermissionAppTxt.QUYEN_CU_CAN_BO,
                 ) &&
                 (e.CanBoId ?? '').isEmpty &&
                 e.donViId?.toUpperCase() ==
@@ -276,7 +277,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
     final coQuyenCuCanBo = HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'quyen-cu-can-bo',
+      permissionTxt: PermissionAppTxt.QUYEN_CU_CAN_BO,
     );
     final laLanhDaoDonVi = thamGia().where((e) {
       final isDonVi = (e.CanBoId ?? '').isEmpty;
@@ -284,7 +285,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
           (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
       final isLanhDao = HiveLocal.checkPermissionApp(
         permissionType: PermissionType.VPDT,
-        permissionTxt: 'lanh-dao-co-quan',
+        permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
       );
       return isDonVi && chungDonVi && isLanhDao;
     });
@@ -318,7 +319,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     if (!isLichHuy() &&
         HiveLocal.checkPermissionApp(
           permissionType: PermissionType.VPDT,
-          permissionTxt: 'quyen-cu-can-can-bo-di-thay',
+          permissionTxt: PermissionAppTxt.QUYEN_CU_CAN_BO_DI_THAY,
         ) &&
         !activeChuTri() &&
         canBoThamGia().isNotEmpty &&
@@ -386,7 +387,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool checkPermissionQuyenDuyetPhong() {
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'quyen-duyet-phong',
+      permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
     )) {
       return true;
     }
@@ -404,7 +405,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool isButtonYeuCauThietBi() {
     return HiveLocal.checkPermissionApp(
           permissionType: PermissionType.VPDT,
-          permissionTxt: 'quyen-duyet-thiet-bi',
+          permissionTxt: PermissionAppTxt.QUYEN_DUYET_THIET_BI,
         ) &&
         (getChiTietLichHopModel.isDuyetThietBi ?? false);
   }
@@ -415,16 +416,16 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     if (getChiTietLichHopModel.bit_PhongTrungTamDieuHanh ?? false) {
       return HiveLocal.checkPermissionApp(
         permissionType: PermissionType.VPDT,
-        permissionTxt: 'duyet-ky-thuat-ttdh',
+        permissionTxt: PermissionAppTxt.DUYET_KY_THUAT_TTDH,
       );
     }
     return HiveLocal.checkPermissionApp(
           permissionType: PermissionType.VPDT,
-          permissionTxt: 'duyet-ky-thuat',
+          permissionTxt: PermissionAppTxt.DUYET_KY_THUAT,
         ) ||
         HiveLocal.checkPermissionApp(
           permissionType: PermissionType.VPDT,
-          permissionTxt: 'duyet-ky-thuat-ttdh',
+          permissionTxt: PermissionAppTxt.DUYET_KY_THUAT_TTDH,
         );
   }
 
@@ -432,7 +433,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool isButtonYeuCauChuanBiPhong() {
     return HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'yeu-cau-chuan-bi',
+      permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
     );
   }
 
@@ -535,7 +536,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   List<CanBoThamGiaStr> donViThamGiaPhatBieu() {
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'quyen-cu-can-bo',
+      permissionTxt: PermissionAppTxt.QUYEN_CU_CAN_BO,
     )) {
       return canBoThamGia()
           .where(
@@ -634,7 +635,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool isDuyetOrHuyKetLuanHop() {
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'quyen-duyet-ket-luan-hop',
+      permissionTxt: PermissionAppTxt.QUYEN_DUYET_KET_LUAN_HOP,
     )) {
       return true;
     }

@@ -13,6 +13,7 @@ class CoolDropDown extends StatefulWidget {
   final bool showSelectedDecoration;
   final bool useCustomHintColors;
   final Widget? selectedIcon;
+  final bool needReInitData;
 
   const CoolDropDown({
     Key? key,
@@ -24,6 +25,7 @@ class CoolDropDown extends StatefulWidget {
     this.showSelectedDecoration = true,
     this.selectedIcon,
     this.useCustomHintColors = false,
+    this.needReInitData = false,
   }) : super(key: key);
 
   @override
@@ -46,6 +48,20 @@ class _CoolDropDownState extends State<CoolDropDown> {
     initIndex = widget.listData.indexOf(widget.initData);
 
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant CoolDropDown oldWidget) {
+    if (widget.needReInitData && listSelect.isEmpty) {
+      for (var i = 0; i < widget.listData.length; i++) {
+        listSelect.add({
+          'label': widget.listData[i],
+          'value': widget.listData[i],
+          'icon': const SizedBox(),
+        });
+      }
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

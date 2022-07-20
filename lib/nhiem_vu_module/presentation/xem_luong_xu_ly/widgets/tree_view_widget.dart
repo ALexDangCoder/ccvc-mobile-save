@@ -51,7 +51,7 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
               child: widget.tree.children.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(left: 26),
-                      child: widget.builder(widget.tree.value),
+                      child: widget.builder(widget.tree),
                     )
                   : GraphView(
                       graph: graph,

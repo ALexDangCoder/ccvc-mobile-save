@@ -149,9 +149,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(
-                            height: 100,
-                          ),
+                          spaceH140,
                           LichAmWidget(
                             ngayAmLich:
                                 snapshot.data?.ngayAmLich ?? NgayAmLich(),

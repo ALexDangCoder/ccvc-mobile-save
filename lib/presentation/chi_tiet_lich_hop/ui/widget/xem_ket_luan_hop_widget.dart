@@ -22,6 +22,7 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,6 +30,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CreateOrUpdateKetLuanHopWidget extends StatefulWidget {
@@ -63,6 +65,8 @@ class _CreateOrUpdateKetLuanHopWidgetState
       widget.cubit.ketLuanHopState.reportStatusId =
           widget.cubit.xemKetLuanHopModel.reportStatusId ?? '';
     }
+    widget.cubit.ketLuanHopState.reportTemplateId =
+        widget.cubit.xemKetLuanHopModel.reportTemplateId ?? '';
     widget.cubit.ketLuanHopState.filesApi.addAll(widget.listFile);
   }
 
@@ -72,7 +76,6 @@ class _CreateOrUpdateKetLuanHopWidgetState
     super.dispose();
     if (widget.isCreate) {
       widget.cubit.dataMauBienBan.close();
-      widget.cubit.noiDung.sink.add('');
     }
     widget.cubit.ketLuanHopState.listFileDefault.close();
   }
@@ -97,21 +100,18 @@ class _CreateOrUpdateKetLuanHopWidgetState
             bottomWidget: !widget.isOnlyViewContent
                 ? Padding(
                     padding: EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 5.0.textScale(space: 100)),
+                        vertical: 15, horizontal: 5.0.textScale(space: 100)),
                     child: DoubleButtonBottom(
                       title1: S.current.dong,
                       title2: S.current.xac_nhan,
                       onClickLeft: () {
-                        widget.cubit.noiDung.add('');
                         Navigator.pop(context);
                       },
                       onClickRight: () {
                         if (state.reportStatusId.isNotEmpty) {
                           btnThem();
                         } else {
-                          MessageConfig.show(
-                              title: S.current.vui_long_chon_tinh_trang,
-                              messState: MessState.error);
+                          state.validateTinhTrang.sink.add(true);
                         }
                       },
                     ),
@@ -134,37 +134,47 @@ class _CreateOrUpdateKetLuanHopWidgetState
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         /// tinh trang
+
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.only(bottom: 8, top: 16),
                           child: TitleWithRedStartWidget(
                             title: S.current.tinh_trang,
                           ),
                         ),
-                        ShowRequied(
-                          isShow: show.value,
-                          child: StreamBuilder<List<StatusKetLuanHopModel>>(
-                            stream: widget.cubit.dataTinhTrangKetLuanHop,
+                        StreamBuilder<bool>(
+                            stream: state.validateTinhTrang.stream,
                             builder: (context, snapshot) {
-                              final dataTinhTrang = snapshot.data ?? [];
-                              return CoolDropDown(
-                                useCustomHintColors: true,
-                                key: UniqueKey(),
-                                initData: widget.cubit.xemKetLuanHopModel
-                                        .reportStatus ??
-                                    '',
-                                placeHoder: S.current.chon_tinh_trang,
-                                listData: dataTinhTrang
-                                    .map((e) => e.displayName)
-                                    .toList(),
-                                onChange: (value) {
-                                  final vlSelect = dataTinhTrang[value];
+                              return ShowRequied(
+                                textShow: S.current.vui_long_chon_tinh_trang,
+                                isShow: snapshot.data ?? false,
+                                child:
+                                    StreamBuilder<List<StatusKetLuanHopModel>>(
+                                  stream: widget.cubit.dataTinhTrangKetLuanHop,
+                                  builder: (context, snapshot) {
+                                    final dataTinhTrang = snapshot.data ?? [];
 
-                                  state.reportStatusId = vlSelect.id ?? '';
-                                },
+                                    return CoolDropDown(
+                                      key: UniqueKey(),
+                                      useCustomHintColors: true,
+                                      initData:
+                                          widget.cubit.getValueTinhTrangnWithId(
+                                        state.reportStatusId,
+                                      ),
+                                      placeHoder: S.current.chon_tinh_trang,
+                                      listData: dataTinhTrang
+                                          .map((e) => e.displayName)
+                                          .toList(),
+                                      onChange: (value) {
+                                        final vlSelect = dataTinhTrang[value];
+                                        state.reportStatusId =
+                                            vlSelect.id ?? '';
+                                        state.validateTinhTrang.sink.add(false);
+                                      },
+                                    );
+                                  },
+                                ),
                               );
-                            },
-                          ),
-                        ),
+                            }),
 
                         /// chon mau bien ban
                         Padding(
@@ -179,13 +189,11 @@ class _CreateOrUpdateKetLuanHopWidgetState
                           builder: (context, snapshot) {
                             final data = snapshot.data?.items ?? [];
                             return CoolDropDown(
-                              useCustomHintColors: true,
                               key: UniqueKey(),
+                              useCustomHintColors: true,
                               placeHoder: S.current.chon_mau_bien_ban,
                               initData: widget.cubit.getValueMauBienBanWithId(
-                                widget.cubit.xemKetLuanHopModel
-                                        .reportTemplateId ??
-                                    '',
+                                state.reportTemplateId,
                               ),
                               listData: data.map((e) => e.name).toList(),
                               onChange: (value) {
@@ -209,11 +217,14 @@ class _CreateOrUpdateKetLuanHopWidgetState
                               context,
                               MaterialPageRoute(
                                 builder: (context) => EditKetLuanHopScreen(
-                                  key: keyEditKetLuanHop,
-                                  cubit: widget.cubit,
+                                  htmlText: widget.cubit.noiDung.value,
                                 ),
                               ),
-                            );
+                            ).then((value) {
+                              if (value != null) {
+                                widget.cubit.getTextAfterEdit(value);
+                              }
+                            });
                           },
                           child: Container(
                             width: double.infinity,
@@ -248,7 +259,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
 
                         /// them tai lieu cuoc hop
                         Padding(
-                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                          padding: const EdgeInsets.only(top: 20, bottom: 5),
                           child: ButtonSelectFile(
                             isShowFile: false,
                             title: S.current.tai_lieu_dinh_kem,
@@ -271,6 +282,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                             initialData: state.filesApi,
                             stream: state.listFileDefault.stream,
                             builder: (context, _) => ListView.builder(
+                                  padding: EdgeInsets.zero,
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: state.filesApi.length,
@@ -295,34 +307,30 @@ class _CreateOrUpdateKetLuanHopWidgetState
                                   },
                                 )),
                         StreamBuilder<List<File>>(
-                            initialData: [],
-                            stream: state.listFileSelect.stream,
-                            builder: (context, _) => ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: state.listFiles.length,
-                                  itemBuilder: (context, index) {
-                                    final dataIndex = state.listFiles[index];
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 16),
-                                      child: FileFromAPIWidget(
-                                        data: dataIndex.path.convertNameFile(),
-                                        onTapDelete: () {
-                                          state.listFiles.remove(dataIndex);
-                                          state.listFileSelect.sink
-                                              .add(state.listFiles);
-                                        },
-                                        lengthFile: dataIndex
-                                            .lengthSync()
-                                            .getFileSize(2),
-                                      ),
-                                    );
+                          initialData: [],
+                          stream: state.listFileSelect.stream,
+                          builder: (context, _) => ListView.builder(
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: state.listFiles.length,
+                            itemBuilder: (context, index) {
+                              final dataIndex = state.listFiles[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: FileFromAPIWidget(
+                                  data: dataIndex.path.convertNameFile(),
+                                  onTapDelete: () {
+                                    state.listFiles.remove(dataIndex);
+                                    state.listFileSelect.sink
+                                        .add(state.listFiles);
                                   },
-                                )),
-
-                        const SizedBox(
-                          height: 16,
+                                  lengthFile:
+                                      dataIndex.lengthSync().getFileSize(2),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     )
@@ -343,6 +351,10 @@ class _CreateOrUpdateKetLuanHopWidgetState
                                   stream: widget.cubit.noiDung.stream,
                                   builder: (context, snapshot) {
                                     return Html(
+                                      style: {
+                                        'html':
+                                            Style(textAlign: TextAlign.center)
+                                      },
                                       data: state.valueEdit != snapshot.data
                                           ? (snapshot.data ?? '')
                                           : state.valueEdit,
@@ -399,12 +411,20 @@ class _CreateOrUpdateKetLuanHopWidgetState
         ));
   }
 
+  void showToast(String title) {
+    final toast = FToast();
+    toast.init(context);
+    toast.showToast(
+      child: ShowToast(
+        text: title,
+      ),
+      gravity: ToastGravity.BOTTOM,
+    );
+  }
+
   void btnThem() {
     if (!widget.cubit.checkLenghtFile()) {
-      MessageConfig.show(
-        title: S.current.dung_luong_toi_da_30,
-        messState: MessState.error,
-      );
+      showToast(S.current.dung_luong_toi_da_30);
       return;
     }
     if (widget.isCreate) {
@@ -416,14 +436,13 @@ class _CreateOrUpdateKetLuanHopWidgetState
           widget.cubit.createKetLuanHop();
           widget.cubit.sendMailKetLuatHop(widget.cubit.idCuocHop);
         },
+        funcBtnLeft: () {
+          widget.cubit.createKetLuanHop();
+        },
         title: S.current.gui_email,
         btnRightTxt: S.current.dong_y,
         icon: SvgPicture.asset(ImageAssets.IcEmail),
-      ).then((value) {
-        if (value == null) {
-          widget.cubit.createKetLuanHop();
-        }
-      });
+      );
     } else {
       widget.cubit.suaKetLuan();
     }
@@ -509,6 +528,7 @@ class ShowRequied extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         child,
         if (isShow)

@@ -49,22 +49,6 @@ class _CoolDropDownState extends State<CoolDropDown> {
   }
 
   @override
-  void didUpdateWidget(covariant CoolDropDown oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-
-    listSelect.clear();
-    for (var i = 0; i < widget.listData.length; i++) {
-      listSelect.add({
-        'label': widget.listData[i],
-        'value': widget.listData[i],
-        'icon': const SizedBox(),
-      });
-    }
-    initIndex = widget.listData.indexOf(widget.initData);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return CoolDropdown(
       defaultValue: initIndex < 0 ? null : listSelect[initIndex],

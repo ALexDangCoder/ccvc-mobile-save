@@ -1295,7 +1295,20 @@
   "cu_di": "Cử đi",
   "khach_moi_ngoai_don_vi": "Khách mời ngoài đơn vị",
   "khach_moi_can_bo_ngoai_don_vi": "Khách mời cán bộ ngoài đơn vị",
+  "january": "Tháng 1",
+  "february": "Tháng 2",
+  "march": "Tháng 3",
+  "april": "Tháng 4",
+  "may": "Tháng 5",
+  "june": "Tháng 6",
+  "july": "Tháng 7",
+  "august": "Tháng 8",
+  "september": "Tháng 9",
+  "october": "Tháng 10",
+  "november": "Tháng 11",
+  "december": "Tháng 12",
   "content": "Nội dung",
+  "nam_truoc" : "Năm trước",
   "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp"
 }
 

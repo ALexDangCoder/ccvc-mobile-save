@@ -147,11 +147,29 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         );
         suaDanhSachLuaChon.sink.add(dsChon);
         listBieuQuyetSubject.sink.add(res.data?.dsThanhPhanThamGia ?? []);
+        showContent();
       },
       error: (err) {},
     );
     danhSachLuaChon.clear();
-    showContent();
+  }
+
+  Future<void> danhSachCanBoBieuQuyet({
+    required String luaChonId,
+    required String bieuQuyetId,
+  }) async {
+    showLoading();
+    final result =
+        await hopRp.danhSachCanBoBieuQuyet(luaChonId, idCuocHop, bieuQuyetId);
+    result.when(
+      success: (res) {
+        danhSachCanBoBieuQuyetSubject.sink.add(
+          res,
+        );
+        showContent();
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> suaBieuQuyet({
@@ -611,7 +629,6 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   }
 
   Future<void> callSuaAPiBieuQuyet() async {
-  //  await getDanhSachNTGChuongTrinhHop(id: idCuocHop);
     await callApi(idCuocHop, idPhienHop);
   }
 

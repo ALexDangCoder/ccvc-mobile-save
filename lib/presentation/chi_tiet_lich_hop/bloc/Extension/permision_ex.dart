@@ -229,11 +229,15 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return false;
   }
 
-  bool trangThaiHuy() {
-    if (getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY) {
-      return true;
-    }
-    return false;
+  bool trangThaiHuy() => getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY;
+
+  bool thanhPhanThamGiaDaXacNhan() {
+    final nguoiDaThamGia = thamGia().where((e) {
+      final isThamGia = (e.trangThai ?? 0) == ThanhPhanThamGiaStatus.THAM_GIA;
+      final isThamDu = (e.trangThai ?? 0) == ThanhPhanThamGiaStatus.THAM_DU;
+      return isThamGia || isThamDu;
+    });
+    return nguoiDaThamGia.isNotEmpty;
   }
 
   void initDataButton() {
@@ -250,10 +254,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
 
     ///check quyen xoa
-    if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
-        (activeChuTri() || isNguoiTao() || isThuKy()) &&
-        !isLichHuy() &&
-        !isLichThuHoi()) {
+    if ((activeChuTri() || isNguoiTao() || isThuKy()) &&
+        !thanhPhanThamGiaDaXacNhan()) {
       listButton.add(PERMISSION_DETAIL.XOA);
     }
 

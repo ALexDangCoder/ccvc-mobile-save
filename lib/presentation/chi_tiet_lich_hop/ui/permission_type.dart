@@ -238,9 +238,9 @@ extension GetDataPermission on PERMISSION_DETAIL {
                   cubit.deleteChiTietLichHop();
                   Navigator.pop(context, true);
                 },
-                title: S.current.khong,
+                title: S.current.xoa_lich_hop,
                 btnRightTxt: S.current.dong_y,
-                icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                icon: SvgPicture.asset(ImageAssets.icXoaHopPoppup),
                 showTablet: true,
                 isThisPopAfter: true,
               );
@@ -802,4 +802,11 @@ class STATUS_DETAIL {
   static const int DA_GUI_LOI_MOI = 6;
   static const int XOA = 7;
   static const int HUY = 8;
+}
+
+class ThanhPhanThamGiaStatus {
+  static const int THAM_GIA = 1;
+  static const int TU_CHOI_THAM_GIA = 2;
+  static const int THAM_DU = 3;
+  static const int CHO_XAC_NHAN = 0;
 }

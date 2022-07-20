@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/di
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mobile.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/widget_item_thong_ke.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
@@ -16,6 +17,7 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart'
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DiemDanhCaNhanMobileScreen extends StatefulWidget {
   final DiemDanhCubit cubit;
@@ -30,10 +32,34 @@ class DiemDanhCaNhanMobileScreen extends StatefulWidget {
 
 class _DiemDanhCaNhanMobileScreenState
     extends State<DiemDanhCaNhanMobileScreen> {
+  late CalendarController _calendarController;
+  late DateTime _currentMonth;
+  final _now = DateTime.now();
+  late final GlobalKey<ChangeDateTimeWidgetState> keyMonthTop;
+
   @override
   void initState() {
     super.initState();
-    widget.cubit.initData();
+    _calendarController = CalendarController();
+    keyMonthTop = GlobalKey<ChangeDateTimeWidgetState>();
+    _currentMonth = DateTime(_now.year, _now.month);
+    widget.cubit.getDataDayWage(dateTime: _currentMonth);
+    _calendarController.addPropertyChangedListener((properties) {
+      if (properties == DISPLAY_DATE) {
+        final DateTime _tmpCurrentMont = DateTime(
+          _calendarController.displayDate?.year ?? _now.year,
+          _calendarController.displayDate?.month ?? _now.month,
+        );
+        if (_tmpCurrentMont.isAfter(widget.cubit.currentTime)) {
+          _currentMonth = _tmpCurrentMont;
+          keyMonthTop.currentState?.nextMonth();
+        }
+        if (_tmpCurrentMont.isBefore(widget.cubit.currentTime)) {
+          _currentMonth = _tmpCurrentMont;
+          keyMonthTop.currentState?.previousMonth();
+        }
+      }
+    });
   }
 
   @override
@@ -65,27 +91,41 @@ class _DiemDanhCaNhanMobileScreenState
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
+        retry: () {
+          widget.cubit.getDataDayWage(dateTime: _currentMonth);
+        },
         error: AppException(
           S.current.error,
           S.current.error,
         ),
         stream: widget.cubit.stateStream,
         child: RefreshIndicator(
-          onRefresh: () async {},
+          onRefresh: () async {
+            await widget.cubit.getDataDayWage(dateTime: _currentMonth);
+          },
           child: SingleChildScrollView(
             child: Column(
               children: [
                 ChangeDateTimeWidget(
+                  key: keyMonthTop,
                   onChange: (DateTime value) {
-                    widget.cubit.changeData(value);
+                    widget.cubit.getDataDayWage(dateTime: value);
+                    widget.cubit.currentMonthSink.add(value);
+                    _calendarController.displayDate =
+                        DateTime(value.year, value.month);
+                    _currentMonth = value;
                   },
+                  currentMonth: _currentMonth,
                   cubit: widget.cubit,
                   endYear: widget.cubit.endYear,
                   startYear: widget.cubit.startYear,
                 ),
                 thongKeWiget(),
-                const CalendarChamCong(),
+                spaceH16,
+                CalendarChamCong(
+                  cubit: widget.cubit,
+                  controller: _calendarController,
+                ),
               ],
             ),
           ),
@@ -96,7 +136,7 @@ class _DiemDanhCaNhanMobileScreenState
 
   Widget thongKeWiget() {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 26.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: colorE2E8F0),

@@ -5,33 +5,27 @@ import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/type_state_diem_danh.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:queue/queue.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
-
-  Future<void> initData() async {
-    final DateTime initData =
-        DateTime(DateTime.now().year, DateTime.now().month);
-    final Queue queue = Queue();
+  Future<void> getDataDayWage({required DateTime dateTime}) async {
+    currentTime = DateTime (dateTime.year, dateTime.month);
+    final Queue queue = Queue(parallel: 2);
     showLoading();
-    unawaited(queue.add(() => postDiemDanhThongKe(initData)));
-    unawaited(queue.add(() => postBangDiemDanhCaNhan(initData)));
+    unawaited(queue.add(() => postDiemDanhThongKe(dateTime)));
+    unawaited(queue.add(() => postBangDiemDanhCaNhan(dateTime)));
     await queue.onComplete;
     showContent();
   }
 
   int get endYear => DateTime.now().year + 5;
-  int get startYear => DateTime.now().year - 5;
 
-  Future<void> changeData(DateTime date) async {
-    final Queue queue = Queue();
-    showLoading();
-    unawaited(queue.add(() => postDiemDanhThongKe(date)));
-    unawaited(queue.add(() => postBangDiemDanhCaNhan(date)));
-    await queue.onComplete;
-    showContent();
-  }
+  int get startYear => DateTime.now().year - 5;
 
   bool isMatchDay(
     DateTime dateNew,
@@ -71,26 +65,6 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     return TypeStateDiemDanh.NGHI_LAM;
   }
 
-  String getStringDate(String? timeIn, String? timeOut) {
-    if (timeIn == null && timeOut != null) {
-      return '??:$timeOut';
-    }
-
-    if (timeOut == null && timeIn != null) {
-      return '$timeIn:??';
-    }
-
-    if (timeIn == null && timeOut == null) {
-      return '??:??';
-    }
-
-    if (timeIn != null && timeOut != null) {
-      return '$timeIn:$timeOut';
-    }
-
-    return '??:??';
-  }
-
   Future<void> postDiemDanhThongKe(DateTime date) async {
     final thongKeDiemDanhCaNhanRequest = ThongKeDiemDanhCaNhanRequest(
       thoiGian: date.convertDateTimeApi,
@@ -119,6 +93,47 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
       error: (err) {},
     );
   }
+
+  List<AppointmentWithDuplicate> toDataFCalenderSource() {
+    final List<AppointmentWithDuplicate> appointments = [];
+    if ((listBangDiemDanh.valueOrNull ?? []).isNotEmpty) {
+      final tmpList = listBangDiemDanh.value.where((element) {
+        final dataTime = DateTime.parse(
+          timeFormat(
+            element.date ?? '',
+            DateTimeFormat.DAY_MONTH_YEAR,
+            DateTimeFormat.FORMAT_REQUEST,
+          ),
+        );
+        return dataTime.month == currentTime.month;
+      });
+      for (final BangDiemDanhCaNhanModel e in tmpList) {
+        appointments.add(
+          AppointmentWithDuplicate(
+            date: e.date ?? '',
+            model: e,
+          ),
+        );
+      }
+    }
+    return appointments;
+  }
+}
+
+class AppointmentWithDuplicate extends Appointment {
+  final BangDiemDanhCaNhanModel model;
+
+  AppointmentWithDuplicate({
+    required String date,
+    required this.model,
+  }) : super(
+          startTime: date.convertStringToDate(
+            formatPattern: DateTimeFormat.DAY_MONTH_YEAR,
+          ),
+          endTime: date.convertStringToDate(
+            formatPattern: DateTimeFormat.DAY_MONTH_YEAR,
+          ),
+        );
 }
 
 class LeaveType {

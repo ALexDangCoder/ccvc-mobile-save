@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:intl/intl.dart';
 
 enum TimeRange { HOM_NAY, TUAN_NAY, THANG_NAY, NAM_NAY }
@@ -25,19 +26,14 @@ extension DateFormatString on DateTime {
     return dateString;
   }
 
-  String get toStringWithAMPMJMS {
-    final dateString = DateFormat.jms('en').format(this);
-    return dateString;
-  }
-
   String get formatDdMMYYYY {
     final dateString =
-        DateFormat('dd/MM/yyyy ').format(this) + toStringWithAMPM;
+        DateFormat(DateTimeFormat.DAY_MONTH_YEAR, 'en').add_jm().format(this);
     return dateString;
   }
 
   String get toStringWithListFormat {
-    final dateString = DateFormat('dd/MM/yyyy').format(this);
+    final dateString = DateFormat(DateTimeFormat.DAY_MONTH_YEAR).format(this);
     return dateString;
   }
 
@@ -49,55 +45,49 @@ extension DateFormatString on DateTime {
   }
 
   String get formatApi {
-    return DateFormat('yyyy-MM-dd').format(this);
+    return DateFormat(DateTimeFormat.DOB_FORMAT).format(this);
+  }
+
+  String get formatTime {
+    return DateFormat(DateTimeFormat.DATE_TIME_24).format(this);
   }
 
   String get formatApiSS {
-    return DateFormat('yyyy/MM/dd HH:mm:ss').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_20).format(this);
   }
 
   String get formatApiTaoBieuQuyet {
-    return DateFormat('yyyy-MM-ddTHH:mm').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_21).format(this);
   }
 
   String get formatBieuQuyetChooseTime {
-    return DateFormat('yyyy-MM-dd HH:mm:ss').format(this);
-  }
-
-  String get formatBE {
-    return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
+    return DateFormat(DateTimeFormat.DEFAULT_FORMAT).format(this);
   }
 
   String get formatApiSuaPhienHop {
-    return DateFormat('yyyy-MM-dd HH:mm').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_PUT_EDIT).format(this);
   }
 
   String get formatYKienChiTietHop {
-    return DateFormat('dd/MM/yyyy HH:mm').format(this);
-  }
-
-  String get formatHourMinute {
-    return DateFormat('HH:mm').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_PICKER).format(this);
   }
 
   String get formatApiListBieuQuyet {
-    return DateFormat('yyyy/MM/dd HH:mm').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_22).format(this);
   }
 
   String get formatApiListBieuQuyetMobile {
-    return DateFormat('dd/MM/yyyy HH:mm').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_PICKER).format(this);
   }
 
   String get formatPAKN {
-    return DateFormat('HH:mm dd/MM/yyyy ').format(this);
-  }
-
-  String get formatListBieuQuyet {
-    return DateFormat('MM/dd/yyyy HH:mm').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_23).format(this);
   }
 
   String get formatApiSSAM {
-    return DateFormat('dd/MM/yyyy ').format(this) + toStringWithAMPMJMS;
+    return DateFormat(DateTimeFormat.DAY_MONTH_YEAR, 'en')
+        .add_jms()
+        .format(this);
   }
 
   String get formatApiDetailSSAM {
@@ -105,39 +95,27 @@ extension DateFormatString on DateTime {
   }
 
   String get formatApiFixMeet {
-    return DateFormat('HH:mm').format(this);
-  }
-
-  String get formatApiHH {
-    return DateFormat('HH:mm:ss').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_24).format(this);
   }
 
   String get formatApiStartDay {
-    return DateFormat('yyyy/MM/dd 00:00:00').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_26).format(this);
   }
 
   String get formatApiFix {
-    return DateFormat('yyyy-MM-dd 00:00:00').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_27).format(this);
   }
 
   String get formatApiEndDay {
-    return DateFormat('yyyy/MM/dd 23:59:59').format(this);
+    return DateFormat(DateTimeFormat.DATE_TIME_28).format(this);
   }
 
   String get formatApiDDMMYYYY {
-    return DateFormat('dd-MM-yyyy').format(this);
-  }
-
-  String get formatApiPut {
-    return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
+    return DateFormat(DateTimeFormat.DAY_MONTH_YEAR_BETWEEN).format(this);
   }
 
   String get formatApiDDMMYYYYSlash {
-    return DateFormat('dd/MM/yyyy').format(this);
-  }
-
-  String get formatApiTung {
-    return DateFormat('yyyy/MM/dd HH:mm').format(this);
+    return DateFormat(DateTimeFormat.DAY_MONTH_YEAR).format(this);
   }
 
   String get startEndWeek {
@@ -150,15 +128,17 @@ extension DateFormatString on DateTime {
   }
 
   String get formatDateTime {
-    final dateString =
-        (DateFormat('HH:mm ,dd-MM').format(this)).replaceAll('-', ' tháng ');
+    final dateString = (DateFormat(
+                '${DateTimeFormat.DATE_TIME_24} ,${DateTimeFormat.DATE_TIME_29}')
+            .format(this))
+        .replaceAll('-', ' tháng ');
 
     return dateString;
   }
 
   String get formatMonth {
-    final dateString =
-        (DateFormat('dd-MM').format(this)).replaceAll('-', ' tháng ');
+    final dateString = (DateFormat(DateTimeFormat.DATE_TIME_29).format(this))
+        .replaceAll('-', ' tháng ');
     return dateString;
   }
 

@@ -106,8 +106,8 @@ class _RadioOptionDialogState extends State<RadioOptionDialog> {
                   onClickRight: () {
                     /// return true if radio above selected
                     /// return false if radio below selected
-                    widget.onChange?.call(valueSelected);
                     Navigator.pop(context, valueSelected);
+                    widget.onChange?.call(valueSelected);
                   },
                   onClickLeft: () {
                     Navigator.pop(context);

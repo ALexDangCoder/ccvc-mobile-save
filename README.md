@@ -1,6 +1,7 @@
 # CCVC Mobile
 
-
+# Build android apk flavor develop
+# flutter build apk --flavor develop -t lib/main_develop.dart
 
 ## Getting started
 

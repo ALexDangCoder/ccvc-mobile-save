@@ -407,7 +407,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.8,
+                                                              0.4,
                                                     ),
                                                     child:
                                                         DanhSachCanBoBieuQuyet(

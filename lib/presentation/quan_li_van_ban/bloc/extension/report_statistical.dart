@@ -69,3 +69,15 @@ class InfoItemModel {
     required this.color,
   });
 }
+
+class DocumentByDivisionModel {
+  String name;
+  int inDueDateQuantity;
+  int outDateQuantity;
+
+  DocumentByDivisionModel({
+    required this.name,
+    required this.inDueDateQuantity,
+    required this.outDateQuantity,
+  });
+}

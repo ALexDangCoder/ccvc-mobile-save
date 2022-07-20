@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -64,10 +65,20 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                 Navigator.pop(context);
               },
               onClickRight: () {
-                widget.cubit.postThuHoiHop(
-                  widget.id,
+                showDiaLog(
+                  context,
+                  textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                  btnLeftTxt: S.current.khong,
+                  funcBtnRight: () {
+                    widget.cubit.postThuHoiHop(
+                      widget.id,
+                    );
+                    Navigator.pop(context);
+                  },
+                  title: S.current.thu_hoi_lich_hop,
+                  btnRightTxt: S.current.dong_y,
+                  showTablet: true,
                 );
-                Navigator.pop(context);
               },
             ),
           ),

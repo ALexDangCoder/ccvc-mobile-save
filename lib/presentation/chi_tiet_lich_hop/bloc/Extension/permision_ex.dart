@@ -192,13 +192,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return '';
   }
 
-  bool activeChuTri() {
-    if (getChiTietLichHopModel.chuTriModel.canBoId ==
-        (dataUser?.userId ?? '')) {
-      return true;
-    }
-    return false;
-  }
+  bool activeChuTri() =>
+      getChiTietLichHopModel.chuTriModel.canBoId.toLowerCase() ==
+      (HiveLocal.getDataUser()?.userId ?? '').toLowerCase();
 
   bool isDuyetLich() {
     return getChiTietLichHopModel.status == 2;
@@ -254,8 +250,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
 
     ///check quyen xoa
-    if ((activeChuTri() || isNguoiTao() || isThuKy()) &&
-        !thanhPhanThamGiaDaXacNhan()) {
+    if (activeChuTri() || isNguoiTao() || isThuKy()) {
       listButton.add(PERMISSION_DETAIL.XOA);
     }
 
@@ -279,16 +274,23 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         listButton.add(PERMISSION_DETAIL.HUY_DUYET);
       }
     }
+    final coQuyenCuCanBo = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.VPDT,
+      permissionTxt: 'quyen-cu-can-bo',
+    );
+    final laLanhDaoDonVi = thamGia().where((e) {
+      final isDonVi = (e.CanBoId ?? '').isEmpty;
+      final chungDonVi = (e.donViId ?? '').toLowerCase() ==
+          (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
+      final isLanhDao = HiveLocal.checkPermissionApp(
+        permissionType: PermissionType.VPDT,
+        permissionTxt: 'lanh-dao-co-quan',
+      );
+      return isDonVi && chungDonVi && isLanhDao;
+    });
 
     ///check quyen button cu can bo
-    if (!isLichHuy() &&
-        !isLichThuHoi() &&
-        HiveLocal.checkPermissionApp(
-          permissionType: PermissionType.VPDT,
-          permissionTxt: 'quyen-cu-can-bo',
-        ) &&
-        isCuCanBo() &&
-        classThamDu() != 2) {
+    if (!trangThaiHuy() && laLanhDaoDonVi.isNotEmpty && coQuyenCuCanBo) {
       listButton.add(PERMISSION_DETAIL.CU_CAN_BO);
     }
 

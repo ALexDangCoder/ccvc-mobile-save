@@ -46,6 +46,9 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
         widget.cubit,
       ),
       body: ListViewLoadMore(
+        physics: const ClampingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
         cubit: widget.cubit,
         isListView: true,
         callApi: (page) => widget.cubit.getListDanhBaCaNhan(

@@ -197,8 +197,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 20,
-            right: 24,
+            top: 30,
+            right: 38,
             child: InkWell(
               onTap: () => onClickMore(objDSSC, index),
               child: SvgPicture.asset(

@@ -60,7 +60,8 @@ class _ThongTinChungTabletState extends State<ThongTinChungTablet> {
             },
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               child: Column(
                 children: [
                   spaceH28,

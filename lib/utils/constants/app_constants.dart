@@ -482,6 +482,7 @@ class FileExtensions {
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
   static const String XLXS = 'xlxs';
+  static const String PPTX = 'pptx';
 }
 class PermissionAppTxt{
   static const QUYEN_CU_CAN_BO = 'quyen-cu-can-bo';

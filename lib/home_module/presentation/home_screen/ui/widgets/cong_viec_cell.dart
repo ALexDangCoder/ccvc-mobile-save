@@ -101,26 +101,19 @@ class _CongViecCellState extends State<CongViecCell> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 20,
-                          child: TextFormField(
-                            focusNode: focusNode,
-                            controller: textEditingController,
-                            enabled: widget.enabled,
-                            style: textNormal(infoColor, 14),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              // contentPadding:
-                              //     EdgeInsets.only(top: 10, bottom: 10),
-                            ),
-                          ),
+                        Text(
+                          widget.text,
+                          style: textNormal(infoColor, 14),
                         ),
                         Visibility(
                           visible: widget.nguoiGan.isNotEmpty,
                           child: Column(
                             children: [
-                              const SizedBox(height: 8,),
-                              Text('${S.current.nguoi_gan} ${widget.nguoiGan}',
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '${S.current.nguoi_gan} ${widget.nguoiGan}',
                                 style: textNormal(
                                   infoColor,
                                   12,

@@ -1309,7 +1309,9 @@
   "december": "Tháng 12",
   "content": "Nội dung",
   "nam_truoc" : "Năm trước",
-  "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp"
+  "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp",
+  "ca_nha_hom_nay": "Cá nhân - Hôm nay",
+  "vui_long_nhap_cham_cham": "Vui lòng nhập ....."
 }
 
 

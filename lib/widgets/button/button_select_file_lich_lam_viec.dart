@@ -34,6 +34,7 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
   final double? maxSize;
   final List<String>? allowedExtensions;
   List<File>? initFileSystem;
+  final String errMultipleFileMessage;
 
   ButtonSelectFileLichLamViec({
     Key? key,
@@ -52,6 +53,7 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
     this.maxSize,
     this.allowedExtensions,
     this.initFileSystem,
+    this.errMultipleFileMessage = '',
   }) : super(key: key);
 
   @override
@@ -62,9 +64,9 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
 class _ButtonSelectFileLichLamViecState
     extends State<ButtonSelectFileLichLamViec> {
   List<FileModel> selectFiles = [];
-  bool isOverSize = false;
+  bool isShowErr = false;
   double total = 0;
-
+  String errMessage = '';
   @override
   void initState() {
     super.initState();
@@ -103,7 +105,10 @@ class _ButtonSelectFileLichLamViecState
       total += element.size;
     }
     setState(() {
-      isOverSize = total > widget.maxSize!;
+      isShowErr = total > widget.maxSize!;
+      if(isShowErr){
+        errMessage = '${S.current.tong_file_khong_vuot_qua} $convertData MB';
+      }
       total = 0;
     });
   }
@@ -117,47 +122,52 @@ class _ButtonSelectFileLichLamViecState
           onTap: () async {
             final FilePickerResult? result =
                 await FilePicker.platform.pickFiles(
-                  allowMultiple: true,
+                  allowMultiple: widget.hasMultipleFile,
               allowedExtensions: widget.allowedExtensions,
               type: (widget.allowedExtensions ?? []).isNotEmpty
                   ? FileType.custom
                   : FileType.any,
             );
             if (result != null) {
-              if (!isFileError(result.paths)) {
-                if (widget.hasMultipleFile) {
-                  setState(() {
-                    selectFiles.addAll(
-                      result.files
-                          .map(
-                            (file) => FileModel(
-                              file: File(file.path ?? ''),
-                              size: file.size,
-                            ),
-                          )
-                          .toSet()
-                          .toList(),
-                    );
-                  });
-                  if (widget.maxSize != null) {
-                    sumListFileSize(selectFiles);
-                  }
-                }
-              } else {
+              if (isFileError(result.paths)) {
                 MessageConfig.show(
                   messState: MessState.error,
                   title: S.current.file_khong_hop_le,
                 );
+                return;
               }
-            } else {
-              // User canceled the picker
+              if(!widget.hasMultipleFile && selectFiles.isNotEmpty){
+                errMessage = widget.errMultipleFileMessage;
+                isShowErr = true;
+                setState(() {
+
+                });
+                return;
+              }
+              errMessage = '';
+              isShowErr = false;
+              selectFiles.addAll(
+                result.files
+                    .map(
+                      (file) => FileModel(
+                    file: File(file.path ?? ''),
+                    size: file.size,
+                  ),
+                )
+                    .toSet()
+                    .toList(),
+              );
+              if (widget.maxSize != null) {
+                sumListFileSize(selectFiles);
+              }
+              setState(() {});
             }
             widget.onChange(
               List.generate(
                 selectFiles.length,
                 (index) => selectFiles[index].file,
               ),
-              isOverSize,
+              isShowErr,
             );
           },
           child: Container(
@@ -202,11 +212,11 @@ class _ButtonSelectFileLichLamViecState
           ),
         ),
         Visibility(
-          visible: isOverSize,
+          visible: isShowErr,
           child: Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: Text(
-              '${S.current.tong_file_khong_vuot_qua} $convertData MB',
+              errMessage,
               style: textNormalCustom(
                 color: Colors.red,
                 fontSize: 12.0.textScale(),
@@ -228,7 +238,7 @@ class _ButtonSelectFileLichLamViecState
                       selectFiles.length,
                       (index) => selectFiles[index].file,
                     ),
-                    isOverSize,
+                    isShowErr,
                   );
                 },
                 spacingFile: widget.spacingFile,

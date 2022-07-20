@@ -17,6 +17,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
   final Function(SuCoModel, int) onClickMore;
   final int index;
   final Function onClose;
+  final int flexTitle;
+  final int flexBody;
 
   const ItemDanhSachSuCo({
     Key? key,
@@ -25,7 +27,92 @@ class ItemDanhSachSuCo extends StatelessWidget {
     required this.onClickMore,
     required this.index,
     required this.onClose,
+    this.flexTitle = 1,
+    this.flexBody = 3,
   }) : super(key: key);
+
+  Widget textRow({
+    required String textTitle,
+    required String textContent,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: flexTitle,
+          child: Text(
+            textTitle,
+            style: textNormalCustom(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppTheme.getInstance().titleColor(),
+            ),
+          ),
+        ),
+        spaceW14,
+        Expanded(
+          flex: flexBody,
+          child: Text(
+            textContent,
+            style: textNormalCustom(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppTheme.getInstance().titleColor(),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget textStatusRow({
+    required String textTitle,
+    required String textContent,
+    required Color statusColor,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          flex: flexTitle,
+          child: Text(
+            textTitle,
+            style: textNormalCustom(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppTheme.getInstance().titleColor(),
+            ),
+            textAlign: TextAlign.left,
+          ),
+        ),
+        spaceW14,
+        Expanded(
+          flex: flexBody,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 3,
+                ),
+                decoration: BoxDecoration(
+                  color: statusColor,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Text(
+                  textContent,
+                  style: textNormalCustom(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -269,91 +356,4 @@ class ItemDanhSachSuCo extends StatelessWidget {
         return '';
     }
   }
-}
-
-Widget textRow({
-  int flexTitle = 1,
-  int flexBody = 3,
-  required String textTitle,
-  required String textContent,
-}) {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Expanded(
-        flex: flexTitle,
-        child: Text(
-          textTitle,
-          style: textNormalCustom(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppTheme.getInstance().titleColor(),
-          ),
-        ),
-      ),
-      spaceW14,
-      Expanded(
-        flex: flexBody,
-        child: Text(
-          textContent,
-          style: textNormalCustom(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppTheme.getInstance().titleColor(),
-          ),
-        ),
-      )
-    ],
-  );
-}
-
-Widget textStatusRow({
-  int flexTitle = 1,
-  int flexBody = 3,
-  required String textTitle,
-  required String textContent,
-  required Color statusColor,
-}) {
-  return Row(
-    children: [
-      Expanded(
-        flex: flexTitle,
-        child: Text(
-          textTitle,
-          style: textNormalCustom(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppTheme.getInstance().titleColor(),
-          ),
-          textAlign: TextAlign.left,
-        ),
-      ),
-      spaceW14,
-      Expanded(
-        flex: flexBody,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 3,
-              ),
-              decoration: BoxDecoration(
-                color: statusColor,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Text(
-                textContent,
-                style: textNormalCustom(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
-      )
-    ],
-  );
 }

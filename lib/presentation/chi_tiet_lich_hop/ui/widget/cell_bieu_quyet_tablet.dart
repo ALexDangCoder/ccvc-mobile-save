@@ -8,8 +8,9 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/item_row_lua_chon.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/list_can_bo_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cell_bieu_quyet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
@@ -281,7 +282,7 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                                       return Padding(
                                         padding:
                                             const EdgeInsets.only(right: 16),
-                                        child: ContainerState(
+                                        child: ItemRowLuaChon(
                                           name: widget
                                                   .infoModel
                                                   .danhSachKetQuaBieuQuyet?[
@@ -326,6 +327,42 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                                                   .isVote ??
                                               true,
                                           cubit: widget.cubit,
+                                          onTapDanhSach: () {
+                                            widget.infoModel.loaiBieuQuyet ==
+                                                true
+                                                ? showDiaLogTablet(
+                                              context,
+                                              title: S.current
+                                                  .danh_sach_lua_chon,
+                                              child: Container(
+                                                constraints:
+                                                BoxConstraints(
+                                                  maxHeight:
+                                                  MediaQuery.of(
+                                                      context)
+                                                      .size
+                                                      .height *
+                                                      0.8,
+                                                ),
+                                                child:
+                                                DanhSachCanBoBieuQuyet(
+                                                  cubit: widget.cubit,
+                                                  luaChonId: widget
+                                                      .infoModel
+                                                      .danhSachKetQuaBieuQuyet?[
+                                                  index]
+                                                      .luaChonId ??
+                                                      '',
+                                                  bieuQuyetId: widget
+                                                      .infoModel.id ??
+                                                      '',
+                                                ),
+                                              ),
+                                              funcBtnOk: () {},
+                                              isBottomShow: false,
+                                            )
+                                                : Container();
+                                          },
                                         ),
                                       );
                                     }),
@@ -338,7 +375,7 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                                       return Padding(
                                         padding:
                                             const EdgeInsets.only(right: 16),
-                                        child: ContainerUnColor(
+                                        child: ItemRowLuaChonUnColor(
                                           name: widget
                                                   .infoModel
                                                   .danhSachKetQuaBieuQuyet?[
@@ -353,6 +390,42 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                                               0,
                                           onTap: () {},
                                           cubit: widget.cubit,
+                                          onTapDanhSach: () {
+                                            widget.infoModel.loaiBieuQuyet ==
+                                                    true
+                                                ? showDiaLogTablet(
+                                                    context,
+                                                    title: S.current
+                                                        .danh_sach_lua_chon,
+                                                    child: Container(
+                                                      constraints:
+                                                          BoxConstraints(
+                                                        maxHeight:
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.8,
+                                                      ),
+                                                      child:
+                                                          DanhSachCanBoBieuQuyet(
+                                                        cubit: widget.cubit,
+                                                        luaChonId: widget
+                                                                .infoModel
+                                                                .danhSachKetQuaBieuQuyet?[
+                                                                    index]
+                                                                .luaChonId ??
+                                                            '',
+                                                        bieuQuyetId: widget
+                                                                .infoModel.id ??
+                                                            '',
+                                                      ),
+                                                    ),
+                                                    funcBtnOk: () {},
+                                                    isBottomShow: false,
+                                                  )
+                                                : Container();
+                                          },
                                         ),
                                       );
                                     }),

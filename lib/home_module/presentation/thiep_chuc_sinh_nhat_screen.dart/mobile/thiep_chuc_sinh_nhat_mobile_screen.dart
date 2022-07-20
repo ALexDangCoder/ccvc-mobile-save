@@ -28,12 +28,14 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungMobileScreen> {
   final controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final cubit = ChucSinhNhatCubit();
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     cubit.getListThiepMoi();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
@@ -80,6 +82,7 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungMobileScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: BlockTextView(
+                          textValidate: S.current.vui_long_nhap_loi_chuc,
                           hintText:
                               '${S.current.gui_loi_chuc_toi} ${widget.sinhNhatUserModel.tenCanBo}',
                           contentController: controller,

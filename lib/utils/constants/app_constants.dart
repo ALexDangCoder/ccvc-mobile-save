@@ -236,11 +236,7 @@ const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
 const String PRIMARY = 'primary';
-<<<<<<< HEAD
-const String BASE_URL_AVATAR = 'https://file-common-test.chinhquyendientu.vn/';
-=======
 const int DA_THAM_GIA = 1;
->>>>>>> 9d300fcb5750b313a16e1f5d3a03119c9032c6ab
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -456,4 +452,3 @@ class FileExtensions {
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
 }
-

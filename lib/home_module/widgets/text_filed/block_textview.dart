@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -18,20 +17,22 @@ class BlockTextView extends StatefulWidget {
   final bool isHideRequired;
   final bool useCustomTitle;
   final int maxLines;
+  final String? textValidate;
 
-  const BlockTextView(
-      {Key? key,
-      required this.formKey,
-      required this.contentController,
-      required this.title,
-      this.hintText,
-      this.validate,
-      this.isHideRequired = false,
-      this.isRequired = true,
-      this.isLimitCharacter = false,
-      this.useCustomTitle = false,
-      this.maxLines = 5})
-      : super(key: key);
+  const BlockTextView({
+    Key? key,
+    required this.formKey,
+    required this.contentController,
+    required this.title,
+    this.hintText,
+    this.validate,
+    this.isHideRequired = false,
+    this.isRequired = true,
+    this.isLimitCharacter = false,
+    this.useCustomTitle = false,
+    this.textValidate = '',
+    this.maxLines = 5,
+  }) : super(key: key);
 
   @override
   _BlockTextViewState createState() => _BlockTextViewState();
@@ -122,6 +123,9 @@ class _BlockTextViewState extends State<BlockTextView> {
               if (widget.validate ?? true) {
                 if (value == null ||
                     value.trim().isEmpty && widget.isRequired) {
+                  if (widget.textValidate!.isNotEmpty) {
+                    return widget.textValidate;
+                  }
                   return S.current.khong_duoc_de_trong;
                 }
                 // if (widget.isLimitCharacter && value.length > 255) {

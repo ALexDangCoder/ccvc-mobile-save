@@ -34,4 +34,5 @@ class NguoiChutriModel {
   String title() {
     return '$hoTen ${(tenDonVi ?? '').isEmpty ? '' : '- $tenDonVi'}  ${(chucVu ?? '').isEmpty ? '' : '- $chucVu'}';
   }
+
 }

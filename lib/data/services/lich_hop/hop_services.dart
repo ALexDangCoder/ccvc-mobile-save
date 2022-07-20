@@ -31,6 +31,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_c
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/file_upload_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
@@ -252,13 +253,12 @@ abstract class HopServices {
   @PUT(ApiConstants.SUA_KET_LUAN)
   @MultiPart()
   Future<SuaKetLuanResponse> suaKetLuan(
-    @Part() String scheduleId,
-    @Part() String content,
-    @Part() String reportStatusId,
-    @Part() String reportTemplateId,
-    @Part() List<File> files,
-    @Part() List<String> filesDelete
-  );
+      @Part() String scheduleId,
+      @Part() String content,
+      @Part() String reportStatusId,
+      @Part() String reportTemplateId,
+      @Part() List<File> files,
+      @Part() List<String> filesDelete);
 
   @POST(ApiConstants.CHON_MAU_BIEN_BAN)
   Future<ChonBienBanCuocHopResponse> postChonMauBienBan(
@@ -563,6 +563,12 @@ abstract class HopServices {
     @Query('bieuQuyetId') String bieuQuyetId,
     @Query('canboId') String canboId,
   );
+
+  @POST(ApiConstants.UPLOAD_FILE_COMMON)
+  @MultiPart()
+  Future<FileUploadResponse> uploadMultiFile(
+    @Part() List<File> path,
+      );
 
   @GET(ApiConstants.DANH_SACH_CAN_BO_BIEU_QUYET)
   Future<DanhSachCanBoBieuQuyetResponse> danhSachCanBoBieuQuyet(

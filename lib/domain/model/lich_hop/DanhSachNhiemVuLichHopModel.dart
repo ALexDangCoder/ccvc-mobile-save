@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
+
 class DanhSachLoaiNhiemVuLichHopModel {
   String? id;
   String? ma;
@@ -17,14 +20,14 @@ class DanhSachLoaiNhiemVuLichHopModel {
 }
 
 class VBGiaoNhiemVuModel {
-  List<String>? file;
+  List<FileUploadModel> file;
   String? soVanBan;
   String? ngayVanBan;
   String? trichYeu;
   String? hinhThucVanBan;
 
   VBGiaoNhiemVuModel({
-    this.file,
+    this.file = const [],
     this.soVanBan,
     this.ngayVanBan,
     this.trichYeu,

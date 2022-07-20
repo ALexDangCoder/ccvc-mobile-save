@@ -98,7 +98,7 @@ class _DocumentWidgetState extends State<DocumentWidget> {
                     },
                     child: ContainerInfoWidget(
                       title: result.title,
-                      status: result.status,
+                      status: result.documentStatus.getText(),
                       colorStatus: result.documentStatus.getColor(),
                       listData: [
                         InfoData(

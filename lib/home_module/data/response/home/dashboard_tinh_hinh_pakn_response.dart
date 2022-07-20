@@ -25,7 +25,9 @@ class TinhHinhXuLyPAKNCaNhan {
       soLuongChoXuLy: data?.xuLy?.choXuLy ?? 0,
       soLuongChoPhanXuLy: data?.xuLy?.choPhanXuLy ?? 0,
       soLuongDaPhanCong: data?.xuLy?.daPhanCong ?? 0,
-      soLuongDaHoanThanh: data?.xuLy?.daHoanThanh ?? 0);
+      soLuongDaHoanThanh: data?.xuLy?.daHoanThanh ?? 0,
+     soLuongChoDuyetXuLy: data?.xuLy?.choDuyet ?? 0,
+  );
 
 
 }

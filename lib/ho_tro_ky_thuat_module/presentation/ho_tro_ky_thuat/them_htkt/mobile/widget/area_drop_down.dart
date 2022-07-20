@@ -9,12 +9,19 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:flutter/material.dart';
 
+enum StatusHTKT {
+  CREATE,
+  EDIT,
+}
+
 class AreaDropDown extends StatelessWidget {
   final HoTroKyThuatCubit cubit;
+  final StatusHTKT statusHTKT;
 
   const AreaDropDown({
     Key? key,
     required this.cubit,
+    required this.statusHTKT,
   }) : super(key: key);
 
   @override
@@ -63,7 +70,11 @@ class AreaDropDown extends StatelessWidget {
                   ],
                 ),
               ),
-              value: cubit.addTaskHTKTRequest.districtName,
+              value: statusHTKT == StatusHTKT.CREATE
+                  ? cubit.addTaskHTKTRequest.districtName
+                  : cubit.findNameAreaFeatBuilding(
+                      id: cubit.editModelHTKT.value.districId ?? '',
+                    ),
               onSelectItem: (value) {
                 cubit.selectArea(value);
               },

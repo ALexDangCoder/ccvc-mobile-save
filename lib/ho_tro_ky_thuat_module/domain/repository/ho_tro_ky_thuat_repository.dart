@@ -47,26 +47,43 @@ mixin HoTroKyThuatRepository {
   );
 
   Future<Result<AddTaskResponseModel>> addTask({
-   required String? id,
-   required String? userRequestId,
-   required String? phone,
-   required String? description,
-   required String? districtId,
-   required String? districtName,
-   required String? buildingId,
-   required String? buildingName,
-   required String? room,
-   required String? name,
-   required List<String>? danhSachSuCo,
-   required String? userInUnit,
-   required List<File> fileUpload,
+    required String? id,
+    required String? userRequestId,
+    required String? phone,
+    required String? description,
+    required String? districtId,
+    required String? districtName,
+    required String? buildingId,
+    required String? buildingName,
+    required String? room,
+    required String? name,
+    required List<String>? danhSachSuCo,
+    required String? userInUnit,
+    required List<File> fileUpload,
+  });
+
+  Future<Result<AddTaskResponseModel>> editTaskHTKT({
+    required String? id,
+    required String? userRequestId,
+    required String? phone,
+    required String? description,
+    required String? districtId,
+    required String? districtName,
+    required String? buildingId,
+    required String? buildingName,
+    required String? room,
+    required String? name,
+    required List<String>? danhSachSuCo,
+    required String? userInUnit,
+    required List<File> fileUpload,
   });
 
   Future<Result<String>> updateTaskProcessing(
-      TaskProcessing task,
-      );
+    TaskProcessing task,
+  );
+
   Future<Result<String>> commentTask(
-      String idTask,
-      String comment,
-      );
+    String idTask,
+    String comment,
+  );
 }

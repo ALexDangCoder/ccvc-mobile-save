@@ -18,32 +18,32 @@ extension EditTechSupportRequest on HoTroKyThuatCubit {
 
   Future<void> getChiTietHTKTEdit({required String id}) async {
     final result = await _hoTroKyThuatRepository.getSupportDetail(id);
-    SupportDetail modelEditHTKT = SupportDetail();
     result.when(
       success: (success) {
         modelEditHTKT = success;
-        flagLoadThemMoiYCHT = true;
+        editModelHTKT.add(success);
+        flagLoadEditHTKT = true;
       },
       error: (error) {
-        flagLoadThemMoiYCHT = false;
+        flagLoadEditHTKT = false;
       },
     );
   }
 
-  // String? getValueAreaDropDown({
-  //   required StatusHTKT statusHTKT,
-  //   String? id,
-  //   bool isArea = true,
-  // }) {
-  //   if (statusHTKT == StatusHTKT.Create) {
-  //     return isArea
-  //         ? addTaskHTKTRequest.districtName
-  //         : addTaskHTKTRequest.buildingName;
-  //   } else {
-  //     return findLocationAreaFeatBuilding(
-  //       id: id ?? '',
-  //       isArea: isArea,
-  //     );
-  //   }
-  // }
+// String? getValueAreaDropDown({
+//   required StatusHTKT statusHTKT,
+//   String? id,
+//   bool isArea = true,
+// }) {
+//   if (statusHTKT == StatusHTKT.Create) {
+//     return isArea
+//         ? addTaskHTKTRequest.districtName
+//         : addTaskHTKTRequest.buildingName;
+//   } else {
+//     return findLocationAreaFeatBuilding(
+//       id: id ?? '',
+//       isArea: isArea,
+//     );
+//   }
+// }
 }

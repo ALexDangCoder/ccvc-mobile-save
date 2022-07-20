@@ -56,7 +56,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
         stream: widget.cubit.stateStream,
         textEmpty: '',
         retry: () {
-          //todo
+          widget.cubit.getApiThemMoiYCHT();
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Container(
@@ -328,13 +328,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           // value: S.current.chon,
           items: listData,
         )
-        // CoolDropDown(
-        //   initData: initData ?? S.current.chon,
-        //   placeHoder: S.current.chon,
-        //   onChange: (value) => function(value),
-        //   listData: listData,
-        //   key: UniqueKey(),
-        // )
       ],
     );
   }

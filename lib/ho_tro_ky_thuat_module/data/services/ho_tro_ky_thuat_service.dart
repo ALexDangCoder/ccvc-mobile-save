@@ -44,15 +44,21 @@ abstract class HoTroKyThuatService {
   Future<TongDaiResponse> getTongDai();
 
   @GET(ApiConstants.GET_SUPPORT_DETAIL)
-  Future<SupportDetailResponse> getSupportDetail(@Query('id') String id,);
+  Future<SupportDetailResponse> getSupportDetail(
+    @Query('id') String id,
+  );
 
   @GET(ApiConstants.LIST_THANH_VIEN_BAO_CAO)
-  Future<GroupImplResponse> getListThanhVien(@Query('groupId') String groupId,
-      @Query('pageIndex') String pageIndex,
-      @Query('pageSize') String pageSize,);
+  Future<GroupImplResponse> getListThanhVien(
+    @Query('groupId') String groupId,
+    @Query('pageIndex') String pageIndex,
+    @Query('pageSize') String pageSize,
+  );
 
   @GET(ApiConstants.GET_CATEGORY)
-  Future<CategoryResponse> getCategory(@Query('code') String code,);
+  Future<CategoryResponse> getCategory(
+    @Query('code') String code,
+  );
 
   @GET(ApiConstants.GET_CHART_SU_CO)
   Future<ChartSuCoResponse> getChartSuCo();
@@ -62,33 +68,54 @@ abstract class HoTroKyThuatService {
 
   @POST(ApiConstants.POST_UPDATE_TASK_PROCESSING)
   Future<PostResponse> updateTaskProcessing(
-      @Body() TaskProcessing task,
-      );
+    @Body() TaskProcessing task,
+  );
 
   @DELETE(ApiConstants.DELETE_TASK)
-  Future<DeleteTaskResponse> deleteTask(@Body() List<String> listId,);
+  Future<DeleteTaskResponse> deleteTask(
+    @Body() List<String> listId,
+  );
 
   @POST(ApiConstants.ADD_TASK)
-   @MultiPart()
+  @MultiPart()
   Future<AddTaskResponse> addTask(
- @Part(name: "Id")      String? Id,
- @Part(name: "UserRequestId") String? UserRequestId,
- @Part(name: "Phone") String? Phone,
- @Part(name: "Description") String? Description,
- @Part(name: "DistrictId") String? DistrictId,
- @Part(name: "DistrictName") String? DistrictName,
- @Part(name: "BuildingId") String? BuildingId,
- @Part(name: "BuildingName") String? BuildingName,
- @Part(name: "Room") String? Room,
- @Part(name: "Name") String? Name,
- @Part(name: "DanhSachSuCo") List<String>? DanhSachSuCo,
- @Part(name: "UserInUnit") String? UserInUnit,
- @Part(name: "fileUpload") List<File> FileUpload,
+    @Part(name: "Id") String? Id,
+    @Part(name: "UserRequestId") String? UserRequestId,
+    @Part(name: "Phone") String? Phone,
+    @Part(name: "Description") String? Description,
+    @Part(name: "DistrictId") String? DistrictId,
+    @Part(name: "DistrictName") String? DistrictName,
+    @Part(name: "BuildingId") String? BuildingId,
+    @Part(name: "BuildingName") String? BuildingName,
+    @Part(name: "Room") String? Room,
+    @Part(name: "Name") String? Name,
+    @Part(name: "DanhSachSuCo") List<String>? DanhSachSuCo,
+    @Part(name: "UserInUnit") String? UserInUnit,
+    @Part(name: "fileUpload") List<File> FileUpload,
+  );
+
+  @POST(ApiConstants.EDIT_TASK)
+  @MultiPart()
+  Future<AddTaskResponse> editTaskHTKT(
+    @Part(name: 'Id') String? id,
+    @Part(name: 'UserRequestId') String? UserRequestId,
+    @Part(name: 'Phone') String? Phone,
+    @Part(name: 'Description') String? Description,
+    @Part(name: 'DistrictId') String? DistrictId,
+    @Part(name: 'DistrictName') String? DistrictName,
+    @Part(name: 'BuildingId') String? BuildingId,
+    @Part(name: 'BuildingName') String? BuildingName,
+    @Part(name: 'Room') String? Room,
+    @Part(name: 'Name') String? Name,
+    @Part(name: 'DanhSachSuCo') List<String>? DanhSachSuCo,
+    @Part(name: "UserInUnit") String? UserInUnit,
+    @Part(name: "fileUpload") List<File> FileUpload,
+    // @Part(name: "lstFileId") List<File> FileUpload,
   );
 
   @POST(ApiConstants.COMMENT_TASK_PROCESSING)
   Future<PostResponse> commentTaskProcessing(
-      @Query('taskId') String taskId,
-      @Query('comment') String comment,
-      );
+    @Query('taskId') String taskId,
+    @Query('comment') String comment,
+  );
 }

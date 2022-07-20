@@ -2,7 +2,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
-as p;
+    as p;
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
@@ -37,8 +38,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
 
   @override
   void initState() {
-    widget.cubit.getApiThemMoiYCHT();
-    // widget.cubit.getApiThemMoiYCHT(id: widget.idHTKT ?? '', isEdit: true);
+    widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
     super.initState();
   }
 
@@ -55,7 +55,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
         stream: widget.cubit.stateStream,
         textEmpty: '',
         retry: () {
-          //todo
+          widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Container(
@@ -95,115 +95,135 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                   ),
                   child: FormGroup(
                     key: _groupKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          S.current.them_moi_yc_ho_tro,
-                          style: p.textNormalCustom(
-                            color: textTitle,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        spaceH20,
-                        textField(
-                          isHightLight: true,
-                          title: S.current.ten_thiet_bi,
-                          hintText: S.current.ten_thiet_bi,
-                          isEnable: true,
-                          maxLength: 150,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.name = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        textField(
-                          isHightLight: true,
-                          title: S.current.sdt_lien_he,
-                          hintText: S.current.sdt_lien_he,
-                          inputFormatter: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          maxLength: 11,
-                          textInputType: TextInputType.number,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.phone = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        textField(
-                          isHightLight: true,
-                          maxLine: 3,
-                          title: S.current.nhap_mo_ta,
-                          hintText: S.current.nhap_mo_ta,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.description = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        AreaDropDown(cubit: widget.cubit),
-                        spaceH16,
-                        BuildingDropDown(cubit: widget.cubit),
-                        spaceH16,
-                        textField(
-                          isHightLight: true,
-                          title: S.current.so_phong,
-                          hintText: S.current.so_phong,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.room = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        StreamBuilder<List<String>>(
-                          stream: widget.cubit.issueListStream,
-                          builder: (context, snapshot) {
-                            final _issueList = snapshot.data ?? [];
-                            return MultiSelectList(
-                              title: S.current.loai_su_co,
-                              isRequire: true,
-                              items: _issueList,
-                              onChange: (selectIndexList) {
-                                widget.cubit
-                                    .addIssueListRequest(selectIndexList);
-                              },
-                            );
-                          },
-                        ),
-                        // IssueDropDown(cubit: widget.cubit),
-                        spaceH16,
-                        // TaiLieuWidget(
-                        //   idRemove: (String id) {},
-                        //   onChange: (files, value) {
-                        //     widget.cubit.addTaskHTKTRequest.fileUpload = files;
-                        //   },
-                        // ),
-                        spaceH20,
-                        doubleBtn(),
-                      ],
+                    child: StreamBuilder<SupportDetail>(
+                      stream: widget.cubit.editModelHTKT.stream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? SupportDetail();
+                        if (data.id != null) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                S.current.them_moi_yc_ho_tro,
+                                style: p.textNormalCustom(
+                                  color: textTitle,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              spaceH20,
+                              textField(
+                                initValue: data.tenThietBi,
+                                isHightLight: true,
+                                title: S.current.ten_thiet_bi,
+                                hintText: S.current.ten_thiet_bi,
+                                isEnable: true,
+                                maxLength: 150,
+                                onChange: (value) {
+                                  widget.cubit.addTaskHTKTRequest.name = value;
+                                },
+                                validate: (value) {
+                                  if ((value ?? '').isEmpty) {
+                                    return S.current.khong_duoc_de_trong;
+                                  }
+                                },
+                              ),
+                              spaceH16,
+                              textField(
+                                initValue: data.soDienThoai,
+                                isHightLight: true,
+                                title: S.current.sdt_lien_he,
+                                hintText: S.current.sdt_lien_he,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                maxLength: 11,
+                                textInputType: TextInputType.number,
+                                onChange: (value) {
+                                  widget.cubit.addTaskHTKTRequest.phone = value;
+                                },
+                                validate: (value) {
+                                  if ((value ?? '').isEmpty) {
+                                    return S.current.khong_duoc_de_trong;
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              spaceH16,
+                              textField(
+                                initValue: data.moTaSuCo,
+                                isHightLight: true,
+                                maxLine: 3,
+                                title: S.current.nhap_mo_ta,
+                                hintText: S.current.nhap_mo_ta,
+                                onChange: (value) {
+                                  widget.cubit.addTaskHTKTRequest.description =
+                                      value;
+                                },
+                                validate: (value) {
+                                  if ((value ?? '').isEmpty) {
+                                    return S.current.khong_duoc_de_trong;
+                                  }
+                                },
+                              ),
+                              spaceH16,
+                              AreaDropDown(
+                                cubit: widget.cubit,
+                                statusHTKT: StatusHTKT.EDIT,
+                              ),
+                              spaceH16,
+                              BuildingDropDown(cubit: widget.cubit),
+                              spaceH16,
+                              textField(
+                                initValue: data.room,
+                                isHightLight: true,
+                                title: S.current.so_phong,
+                                hintText: S.current.so_phong,
+                                onChange: (value) {
+                                  widget.cubit.addTaskHTKTRequest.room = value;
+                                },
+                                validate: (value) {
+                                  if ((value ?? '').isEmpty) {
+                                    return S.current.khong_duoc_de_trong;
+                                  }
+                                },
+                              ),
+                              spaceH16,
+                              StreamBuilder<List<String>>(
+                                stream: widget.cubit.issueListStream,
+                                builder: (context, snapshot) {
+                                  final _issueList = snapshot.data ?? [];
+                                  return MultiSelectList(
+                                    title: S.current.loai_su_co,
+                                    isRequire: true,
+                                    items: _issueList,
+                                    onChange: (selectIndexList) {
+                                      widget.cubit
+                                          .addIssueListRequest(selectIndexList);
+                                    },
+                                  );
+                                },
+                              ),
+                              // IssueDropDown(cubit: widget.cubit),
+                              spaceH16,
+                              // TaiLieuWidget(
+                              //   idRemove: (String id) {},
+                              //   onChange: (files, value) {
+                              //     widget.cubit.addTaskHTKTRequest.fileUpload = files;
+                              //   },
+                              // ),
+                              spaceH20,
+                              doubleBtn(),
+                            ],
+                          );
+                        } else {
+                          return Container(
+                            color: Colors.transparent,
+                          );
+                        }
+                      },
                     ),
                   ),
                 )
@@ -221,9 +241,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
       isHightLight: true,
       title: S.current.so_phong,
       hintText: S.current.so_phong,
-      onChange: (value) {
-
-      },
+      onChange: (value) {},
       validate: (value) {
         if ((value ?? '').isEmpty) {
           return S.current.khong_duoc_de_trong;
@@ -234,7 +252,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
 
   Widget _fieldMoTaSuCo() {
     return textField(
-      initValue:'suco',
+      initValue: 'suco',
       isHightLight: true,
       maxLine: 3,
       title: S.current.nhap_mo_ta,
@@ -412,28 +430,28 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
   }
 
   Widget doubleBtn() => DoubleButtonBottom(
-    onClickLeft: () {
-      Navigator.pop(context);
-    },
-    onClickRight: () {
-      widget.cubit.checkAllThemMoiYCHoTro();
-      if ((_groupKey.currentState?.validator() ?? true) &&
-          widget.cubit.validateAllDropDown) {
-        widget.cubit
-            .postDataThemMoiHTKT()
-            .then((value) => value ? Navigator.pop(context) : null);
-      } else {
-        final toast = FToast();
-        toast.init(context);
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.sai_dinh_dang_truong,
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
-      }
-    },
-    title1: S.current.dong,
-    title2: S.current.gui_yc,
-  );
+        onClickLeft: () {
+          Navigator.pop(context);
+        },
+        onClickRight: () {
+          widget.cubit.checkAllThemMoiYCHoTro();
+          if ((_groupKey.currentState?.validator() ?? true) &&
+              widget.cubit.validateAllDropDown) {
+            widget.cubit
+                .postDataThemMoiHTKT()
+                .then((value) => value ? Navigator.pop(context) : null);
+          } else {
+            final toast = FToast();
+            toast.init(context);
+            toast.showToast(
+              child: ShowToast(
+                text: S.current.sai_dinh_dang_truong,
+              ),
+              gravity: ToastGravity.BOTTOM,
+            );
+          }
+        },
+        title1: S.current.dong,
+        title2: S.current.gui_yc,
+      );
 }

@@ -1,6 +1,6 @@
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
-
 
 extension CreateTechSupport on HoTroKyThuatCubit {
   Future<void> geiApiAddAndSearch() async {
@@ -36,7 +36,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
 
   Future<void> getApiThemMoiYCHT() async {
     showLoading();
-    if(listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
+    if (listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
@@ -52,9 +52,29 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     }
   }
 
-  Future<void> getApiChiTietYCHT({required String id}) async {
+  Future<void> loadApiEditYCHT({required String id}) async {
     showLoading();
+    editModelHTKT.add(SupportDetail());
+
+    ///get data building, district
+    if (listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
+      listKhuVuc.value.clear();
+      listToaNha.value.clear();
+    }
+    await getCategory(title: HoTroKyThuatCubit.KHU_VUC);
+    await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
+    listKhuVuc.sink.add(areaList);
+    listLoaiSuCo.sink.add(issueList);
+    sinkIssue();
+
+    ///get data detail htkt
     await getChiTietHTKTEdit(id: id);
+
+    if (flagLoadEditHTKT) {
+      showContent();
+    } else {
+      showError();
+    }
   }
 
   void selectArea(int index) {
@@ -67,8 +87,9 @@ extension CreateTechSupport on HoTroKyThuatCubit {
             .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
-
   }
+
+  void selectAreaEdit
 
   void selectBuilding(int index) {
     addTaskHTKTRequest.buildingName = buildingList[index].name;

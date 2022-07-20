@@ -44,8 +44,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   String? buildingValue;
 
   int checkDataThongTinChung = 0;
-
-
+  bool flagLoadEditHTKT = false;
+  SupportDetail modelEditHTKT = SupportDetail();
 
   ///variable menu
   BehaviorSubject<TypeHoTroKyThuat> typeHoTroKyThuatSubject =
@@ -55,6 +55,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       typeHoTroKyThuatSubject.stream;
 
   List<bool> listCheckPopupMenu = [];
+
+  BehaviorSubject<SupportDetail> editModelHTKT =
+      BehaviorSubject.seeded(SupportDetail());
 
   BehaviorSubject<List<TongDaiModel>> listTongDai = BehaviorSubject.seeded([]);
 
@@ -163,6 +166,24 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       false,
       growable: true,
     );
+  }
+
+  String? nameArea;
+  String? nameBuilding;
+
+  String? findNameAreaFeatBuilding({
+    bool isArea = true,
+    required String id,
+  }) {
+    if (isArea) {
+      for (final e in areaList) {
+        if (e.id == id) {
+          nameArea = e.name;
+          break;
+        }
+      }
+    }
+    return isArea ? nameArea : nameBuilding;
   }
 
   List<String> getList(List<ChildCategories> listData) {
@@ -438,17 +459,20 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           buildingList = res.first.childCategories ?? [];
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
+          flagLoadEditHTKT = true;
         } else if (title == LOAI_SU_CO) {
           listLoaiSuCo.add(res);
           issueList = res;
           sinkIssue();
           flagLoadThemMoiYCHT = true;
+          flagLoadEditHTKT = true;
         } else {
           listTrangThai.sink.add(res);
         }
       },
       error: (error) {
         flagLoadThemMoiYCHT = false;
+        flagLoadEditHTKT = false;
         emit(const CompletedLoadMore(CompleteType.ERROR));
         showError();
       },
@@ -463,6 +487,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();
+  final AddTaskHTKTRequest editTaskHTKTRequest = AddTaskHTKTRequest();
   final BehaviorSubject<bool> showHintDropDown = BehaviorSubject.seeded(true);
   final BehaviorSubject<bool> showErrorLoaiSuCo = BehaviorSubject();
   final BehaviorSubject<bool> showErrorKhuVuc = BehaviorSubject();

@@ -46,7 +46,7 @@ extension DateFormatString on DateTime {
   }
 
   String get formatApiDDMMYYYY {
-    return DateFormat('dd-MM-yyyy').format(this);
+    return DateFormat(DATE_FORMAT_DDMMYYYY).format(this);
   }
   String get formatApiDDMMYYYYHHMM {
     return DateFormat(DATE_FORMAT_THIEP_SINH_NHAT).format(this);

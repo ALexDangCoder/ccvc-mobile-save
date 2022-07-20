@@ -54,6 +54,11 @@ class _DateInputState extends State<DateInput> {
           }
           try {
             final inputDate = DateFormat(DateFormatApp.date).parse(value ?? '');
+            if (inputDate.millisecondsSinceEpoch -
+                    DateTime.now().millisecondsSinceEpoch >
+                0) {
+              return '${S.current.sai_dinh_dang_truong} ${S.current.ngay_sinh}!';
+            }
             dateSelect = inputDate.toString();
             widget.onSelectDate(dateSelect);
           } catch (_) {

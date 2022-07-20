@@ -455,3 +455,4 @@ class FileExtensions {
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
 }
+

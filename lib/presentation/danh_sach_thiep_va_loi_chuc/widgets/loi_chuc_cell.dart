@@ -47,13 +47,16 @@ class LoiChucCell extends StatelessWidget {
             children: [
               Text(
                 data.tenNguoiGui,
-                style: textNormalCustom(fontSize: 14, color: textTitle),
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: textTitle,
+                ),
               ),
               spaceH6,
               EllipsisDoubleLineText(
                 data.loiChuc,
-                style: textNormal(infoColor, 14),
                 maxLines: 2,
+                style: textNormal(infoColor, 14),
               ),
               spaceH6,
               Text(

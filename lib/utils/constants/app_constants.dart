@@ -239,6 +239,7 @@ const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
 const String PRIMARY = 'primary';
+const int DA_THAM_GIA = 1;
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;

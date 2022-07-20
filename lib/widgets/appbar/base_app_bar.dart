@@ -16,6 +16,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   final Color? backGroundColor;
   final List<Widget>? actions;
   final PreferredSizeWidget? tabbar;
+  final int maxLine;
 
   BaseAppBar({
     Key? key,
@@ -24,6 +25,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
     this.actions,
     this.tabbar,
     this.backGroundColor,
+    this.maxLine = 1,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -43,6 +45,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       title: Text(
         title,
         style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+        maxLines: maxLine,
       ),
       centerTitle: true,
       leading: leadingIcon,

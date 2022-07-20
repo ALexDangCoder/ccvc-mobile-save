@@ -34,6 +34,7 @@ class _DanhSachYKienButtomTabletState extends State<DanhSachYKienButtomTablet> {
           child: YKienBottomSheet(
             id: widget.id,
             isCheck: false,
+            isCalendarWork: true,
           ),
           isBottomShow: false,
           funcBtnOk: () {

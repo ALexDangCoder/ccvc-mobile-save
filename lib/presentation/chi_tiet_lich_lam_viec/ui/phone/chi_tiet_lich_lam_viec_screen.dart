@@ -21,6 +21,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_s
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/edit_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
@@ -72,215 +73,219 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           chiTietLichLamViecCubit.nguoiDuocMoi(dataModel);
           chiTietLichLamViecCubit.canBoChuTri(dataModel);
           chiTietLichLamViecCubit.nguoiTaoId(dataModel);
-          final listAction = [
-            ///huy
-            if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
-              CellPopPupMenu(
-                urlImage: ImageAssets.icHuy,
-                text: S.current.huy,
-                onTap: () {
-                  checkCancelDuplicateCal(
-                    isDup: dataModel.isLichLap ?? false,
-                  );
-                },
-              ),
-            ],
 
-            ///bao cao ket qua
-            if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
-              CellPopPupMenu(
-                urlImage: ImageAssets.icChartFocus,
-                text: S.current.bao_cao_ket_qua,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.bao_cao_ket_qua,
-                    child: BaoCaoBottomSheet(
-                      scheduleId: widget.id,
-                      cubit: BaoCaoKetQuaCubit(),
-                      listTinhTrangBaoCao:
-                          chiTietLichLamViecCubit.listTinhTrang,
-                    ),
-                  ).then((value) {
-                    if (value is bool && value) {
-                      chiTietLichLamViecCubit
-                          .getDanhSachBaoCaoKetQua(widget.id);
-                    }
-                  });
-                },
-              ),
+          List<CellPopPupMenu> listAction = [];
+          if (dataModel.status != EnumScheduleStatus.Cancel ||
+              dataModel.status != EnumScheduleStatus.Revoked) {
+            listAction = [
+              ///huy
+              if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icHuy,
+                  text: S.current.huy,
+                  onTap: () {
+                    checkCancelDuplicateCal(
+                      isDup: dataModel.isLichLap ?? false,
+                    );
+                  },
+                ),
+              ],
 
-            ///cho y kien
-            if (chiTietLichLamViecCubit.checkChoYKien(dataModel))
-              CellPopPupMenu(
-                urlImage: ImageAssets.icChoYKien,
-                text: S.current.cho_y_kien,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.y_kien,
-                    child: YKienBottomSheet(
-                      id: widget.id,
-                      isCalendarWork: true,
-                    ),
-                  ).then((value) {
-                    if (value == true) {
-                      chiTietLichLamViecCubit.loadApi(widget.id);
-                    } else if (value == null) {
-                      return;
-                    }
-                  });
-                },
-              ),
+              ///bao cao ket qua
+              if (chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icChartFocus,
+                  text: S.current.bao_cao_ket_qua,
+                  onTap: () {
+                    showBottomSheetCustom(
+                      context,
+                      title: S.current.bao_cao_ket_qua,
+                      child: BaoCaoBottomSheet(
+                        scheduleId: widget.id,
+                        cubit: BaoCaoKetQuaCubit(),
+                        listTinhTrangBaoCao:
+                            chiTietLichLamViecCubit.listTinhTrang,
+                      ),
+                    ).then((value) {
+                      if (value is bool && value) {
+                        chiTietLichLamViecCubit
+                            .getDanhSachBaoCaoKetQua(widget.id);
+                      }
+                    });
+                  },
+                ),
 
-            ///xoa lich
-            if (chiTietLichLamViecCubit.checkChoxoa(dataModel))
-              CellPopPupMenu(
-                urlImage: ImageAssets.icDelete,
-                text: S.current.xoa_lich,
-                onTap: () {
-                  checkDeleteDuplicateCal(
-                    isDup: dataModel.isLichLap ?? false,
-                  );
-                },
-              ),
+              ///cho y kien
+              if (chiTietLichLamViecCubit.checkChoYKien(dataModel))
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icChoYKien,
+                  text: S.current.cho_y_kien,
+                  onTap: () {
+                    showBottomSheetCustom(
+                      context,
+                      title: S.current.y_kien,
+                      child: YKienBottomSheet(
+                        id: widget.id,
+                      ),
+                    ).then((value) {
+                      if (value == true) {
+                        chiTietLichLamViecCubit.loadApi(widget.id);
+                      } else if (value == null) {
+                        return;
+                      }
+                    });
+                  },
+                ),
 
-            ///thu hoi lich
-            if (chiTietLichLamViecCubit.checkChoThuHoi(dataModel)) ...[
-              CellPopPupMenu(
-                urlImage: ImageAssets.icRecall,
-                text: S.current.thu_hoi,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.thu_hoi_lich,
-                    child: RecallCalendar(
-                      cubit: chiTietLichLamViecCubit,
-                      callback: () {
-                        checkRecallDuplicateCal(
-                          isDup: dataModel.isLichLap ?? false,
-                        );
+              ///xoa lich
+              if (chiTietLichLamViecCubit.checkChoxoa(dataModel))
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icDelete,
+                  text: S.current.xoa_lich,
+                  onTap: () {
+                    checkDeleteDuplicateCal(
+                      isDup: dataModel.isLichLap ?? false,
+                    );
+                  },
+                ),
+
+              ///thu hoi lich
+              if (chiTietLichLamViecCubit.checkChoThuHoi(dataModel)) ...[
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icRecall,
+                  text: S.current.thu_hoi,
+                  onTap: () {
+                    showBottomSheetCustom(
+                      context,
+                      title: S.current.thu_hoi_lich,
+                      child: RecallCalendar(
+                        cubit: chiTietLichLamViecCubit,
+                        callback: () {
+                          checkRecallDuplicateCal(
+                            isDup: dataModel.isLichLap ?? false,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                )
+              ],
+
+              ///sua lich
+              if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icEditBlue,
+                  text: S.current.sua_lich,
+                  onTap: () {
+                    showBottomSheetCustom(
+                      context,
+                      title: '',
+                      textOption: false,
+                      child: EditCalendarWork(
+                        cubit: chiTietLichLamViecCubit,
+                        event: dataModel,
+                      ),
+                    ).then((value) {
+                      if (value == true) {
+                        Navigator.pop(context, true);
+                      } else if (value == null) {
+                        return;
+                      }
+                    });
+                  },
+                ),
+              ],
+
+              ///Xac nhan lai
+              if (chiTietLichLamViecCubit.checkChoXacNhanLai(dataModel))
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icXacNhanLai,
+                  text: S.current.xac_nhan_lai,
+                  onTap: () {
+                    showDiaLog(
+                      context,
+                      btnLeftTxt: S.current.khong,
+                      funcBtnRight: () {
+                        chiTietLichLamViecCubit
+                            .confirmOfficerOrDismissconfirmOfficer(
+                          ConfirmOfficerRequest(
+                            lichId: dataModel.id,
+                            isThamGia: true,
+                            lyDo: '',
+                          ),
+                        )
+                            .then((value) {
+                          if (value) {
+                            MessageConfig.show(
+                              title: '${S.current.xac_nhan_lai}'
+                                  ' ${S.current.thanh_cong.toLowerCase()}',
+                            );
+                            eventBus.fire(RefreshCalendar());
+                            Get.back(result: true);
+                          } else {
+                            MessageConfig.show(
+                              messState: MessState.error,
+                              title: ' ${S.current.xac_nhan_lai}'
+                                  ' ${S.current.that_bai.toLowerCase()}',
+                            );
+                          }
+                        });
                       },
-                    ),
-                  );
-                },
-              )
-            ],
+                      title: S.current.xac_nhan_lai,
+                      btnRightTxt: S.current.dong_y,
+                      icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+                      textContent: S.current.confirm_tham_gia,
+                    );
+                  },
+                ),
+              if (chiTietLichLamViecCubit.checkChoHuyXacNhan(dataModel))
 
-            ///sua lich
-            if (chiTietLichLamViecCubit.checkChoSuaLich(dataModel)) ...[
-              CellPopPupMenu(
-                urlImage: ImageAssets.icEditBlue,
-                text: S.current.sua_lich,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: '',
-                    textOption: false,
-                    child: EditCalendarWork(
-                      cubit: chiTietLichLamViecCubit,
-                      event: dataModel,
-                    ),
-                  ).then((value) {
-                    if (value == true) {
-                      Navigator.pop(context, true);
-                    } else if (value == null) {
-                      return;
-                    }
-                  });
-                },
-              ),
-            ],
-
-            ///Xac nhan lai
-            if (chiTietLichLamViecCubit.checkChoXacNhanLai(dataModel))
-              CellPopPupMenu(
-                urlImage: ImageAssets.icXacNhanLai,
-                text: S.current.xac_nhan_lai,
-                onTap: () {
-                  showDiaLog(
-                    context,
-                    btnLeftTxt: S.current.khong,
-                    funcBtnRight: () {
-                      chiTietLichLamViecCubit
-                          .confirmOfficerOrDismissconfirmOfficer(
-                        ConfirmOfficerRequest(
-                          lichId: dataModel.id,
-                          isThamGia: true,
-                          lyDo: '',
-                        ),
-                      )
-                          .then((value) {
-                        if (value) {
-                          MessageConfig.show(
-                            title: '${S.current.xac_nhan_lai}'
-                                ' ${S.current.thanh_cong.toLowerCase()}',
-                          );
-                          eventBus.fire(RefreshCalendar());
-                          Get.back(result: true);
-                        } else {
-                          MessageConfig.show(
-                            messState: MessState.error,
-                            title: ' ${S.current.xac_nhan_lai}'
-                                ' ${S.current.that_bai.toLowerCase()}',
-                          );
-                        }
-                      });
-                    },
-                    title: S.current.xac_nhan_lai,
-                    btnRightTxt: S.current.dong_y,
-                    icon: SvgPicture.asset(ImageAssets.img_tham_gia),
-                    textContent: S.current.confirm_tham_gia,
-                  );
-                },
-              ),
-            if (chiTietLichLamViecCubit.checkChoHuyXacNhan(dataModel))
-
-              ///Huy xac nhan
-              CellPopPupMenu(
-                urlImage: ImageAssets.icHuy,
-                text: S.current.huy_xac_nhan,
-                onTap: () {
-                  showDiaLog(
-                    context,
-                    btnLeftTxt: S.current.khong,
-                    funcBtnRight: () {
-                      chiTietLichLamViecCubit
-                          .confirmOfficerOrDismissconfirmOfficer(
-                        ConfirmOfficerRequest(
-                          lichId: dataModel.id,
-                          isThamGia: false,
-                          lyDo: '',
-                        ),
-                      )
-                          .then((value) {
-                        if (value) {
-                          MessageConfig.show(
-                            title: '${S.current.huy}'
-                                ' ${S.current.xac_nhan.toLowerCase()}'
-                                ' ${S.current.thanh_cong.toLowerCase()}',
-                          );
-                          eventBus.fire(RefreshCalendar());
-                          Get.back(result: true);
-                        } else {
-                          MessageConfig.show(
-                            messState: MessState.error,
-                            title: '${S.current.huy}'
-                                ' ${S.current.xac_nhan.toLowerCase()}'
-                                ' ${S.current.that_bai.toLowerCase()}',
-                          );
-                        }
-                      });
-                    },
-                    title: '${S.current.huy}'
-                        ' ${S.current.xac_nhan.toLowerCase()}',
-                    btnRightTxt: S.current.dong_y,
-                    icon: SvgPicture.asset(ImageAssets.img_tham_gia),
-                    textContent: S.current.confirm_huy_tham_gia,
-                  );
-                },
-              )
-          ];
+                ///Huy xac nhan
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icHuy,
+                  text: S.current.huy_xac_nhan,
+                  onTap: () {
+                    showDiaLog(
+                      context,
+                      btnLeftTxt: S.current.khong,
+                      funcBtnRight: () {
+                        chiTietLichLamViecCubit
+                            .confirmOfficerOrDismissconfirmOfficer(
+                          ConfirmOfficerRequest(
+                            lichId: dataModel.id,
+                            isThamGia: false,
+                            lyDo: '',
+                          ),
+                        )
+                            .then((value) {
+                          if (value) {
+                            MessageConfig.show(
+                              title: '${S.current.huy}'
+                                  ' ${S.current.xac_nhan.toLowerCase()}'
+                                  ' ${S.current.thanh_cong.toLowerCase()}',
+                            );
+                            eventBus.fire(RefreshCalendar());
+                            Get.back(result: true);
+                          } else {
+                            MessageConfig.show(
+                              messState: MessState.error,
+                              title: '${S.current.huy}'
+                                  ' ${S.current.xac_nhan.toLowerCase()}'
+                                  ' ${S.current.that_bai.toLowerCase()}',
+                            );
+                          }
+                        });
+                      },
+                      title: '${S.current.huy}'
+                          ' ${S.current.xac_nhan.toLowerCase()}',
+                      btnRightTxt: S.current.dong_y,
+                      icon: SvgPicture.asset(ImageAssets.img_tham_gia),
+                      textContent: S.current.confirm_huy_tham_gia,
+                    );
+                  },
+                )
+            ];
+          }
 
           return snapshot.data != null
               ? dataModel.id != null

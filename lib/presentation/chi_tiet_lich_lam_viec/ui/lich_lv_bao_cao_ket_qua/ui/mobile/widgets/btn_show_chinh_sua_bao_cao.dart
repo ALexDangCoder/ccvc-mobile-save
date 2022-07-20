@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/bao_cao_mobile_screen.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -15,8 +17,9 @@ import '../../widgets/bottom_sheet_bao_cao.dart';
 
 class BtnShowChinhSuaBaoCao extends StatelessWidget {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit;
+  final ChiTietLichLamViecModel dataModel;
 
-  const BtnShowChinhSuaBaoCao({Key? key, required this.chiTietLichLamViecCubit})
+  const BtnShowChinhSuaBaoCao({Key? key, required this.chiTietLichLamViecCubit, required this.dataModel})
       : super(key: key);
 
   @override
@@ -39,7 +42,9 @@ class BtnShowChinhSuaBaoCao extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SolidButton(
+          if (dataModel.status != EnumScheduleStatus.Cancel &&
+              !chiTietLichLamViecCubit.checkMenuLichThuHoi(dataModel))
+            SolidButton(
             onTap: () {
               onBaoCaoKetQua(context);
             },

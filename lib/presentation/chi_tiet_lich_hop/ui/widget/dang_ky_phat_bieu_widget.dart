@@ -51,7 +51,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   void validatePhienHop() {
     final chonPhienHop = (taoBieuQuyetRequest.phienHopId ?? '').isEmpty;
     setState(() {
-      phienHopErrorText = chonPhienHop ? S.current.vui_long_chon_phien_hop : '' ;
+      phienHopErrorText = chonPhienHop ? S.current.vui_long_chon_phien_hop : '';
     });
   }
 
@@ -122,6 +122,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                   initData: valueDropDownSelected,
                   onChange: (value) {
                     taoBieuQuyetRequest.phienHopId = data[value].id;
+                    validatePhienHop();
                     valueDropDownSelected  = data[value].tieuDe ?? '';
                   },
                 );

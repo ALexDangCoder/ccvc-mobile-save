@@ -482,9 +482,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   bool checkChoThuHoi(ChiTietLichLamViecModel dataModel) {
-    return (checkThuHoi(dataModel) == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
+    return checkThuHoi(dataModel) != StatusOfficersConst.STATUS_DEFAULT &&
         (canBoChuTri(dataModel) == currentUserId ||
-            nguoiTaoId(dataModel) == currentUserId));
+            nguoiTaoId(dataModel) == currentUserId);
   }
 
   bool checkChoYKien(ChiTietLichLamViecModel dataModel) {

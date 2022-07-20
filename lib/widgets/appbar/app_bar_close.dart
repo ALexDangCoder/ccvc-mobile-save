@@ -10,11 +10,12 @@ class AppBarDefaultClose extends StatelessWidget with PreferredSizeWidget {
   final Color colorTitle;
 
   final String title;
-
+ final double sizeTitle;
   AppBarDefaultClose(
     this.title,
     this.colorTitle, {
     Key? key,
+        this.sizeTitle = 24,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -30,7 +31,7 @@ class AppBarDefaultClose extends StatelessWidget with PreferredSizeWidget {
           maxLines: 1,
           style: textNormalCustom(
             fontSize: 14.0.textScale(),
-          ).copyWith(color: colorTitle, fontSize: 24),
+          ).copyWith(color: colorTitle, fontSize: sizeTitle),
         ),
       ),
       elevation: 0.5,

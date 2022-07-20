@@ -1,12 +1,12 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/tablet/chi_tiet_ho_tro_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extention_cubit/search_extention.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/them_moi_yc_ho_tro_mobile.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tim_kiem/mobile/tim_kiem_yc_ho_tro.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tim_kiem/tablet/tim_kiem_yc_ho_tro_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
@@ -40,6 +40,7 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarTablet(),
+      backgroundColor: bgColor,
       floatingActionButton: floatingHTKT(
         context,
         widget.cubit,
@@ -50,33 +51,39 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
         callApi: (page) => widget.cubit.getListDanhBaCaNhan(
           page: page,
         ),
-        viewItem: (value, index) => ItemDanhSachSuCo(
-          flexTitle: 2,
-          flexBody: 9,
-          cubit: widget.cubit,
-          objDSSC: value,
-          index: index ?? 0,
-          onClickMore: (value, index) {
-            widget.cubit.onClickPopupMenu(
-              value,
-              index,
-            );
-            setState(() {});
-          },
-          onClose: () {
-            if (widget.cubit.listCheckPopupMenu[index ?? 0]) {
-              widget.cubit.onClosePopupMenu();
-              setState(() {});
-            } else {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ChiTietHoTroTablet(
-                    idHoTro: value.id,
-                  ),
-                ),
+        viewItem: (value, index) => Container(
+          margin: EdgeInsets.only(
+            top: index == 0 ? 14 : 0,
+          ),
+          child: ItemDanhSachSuCo(
+            isTablet: true,
+            flexTitle: 2,
+            flexBody: 9,
+            cubit: widget.cubit,
+            objDSSC: value,
+            index: index ?? 0,
+            onClickMore: (value, index) {
+              widget.cubit.onClickPopupMenu(
+                value,
+                index,
               );
-            }
-          },
+              setState(() {});
+            },
+            onClose: () {
+              if (widget.cubit.listCheckPopupMenu[index ?? 0]) {
+                widget.cubit.onClosePopupMenu();
+                setState(() {});
+              } else {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ChiTietHoTroTablet(
+                      idHoTro: value.id,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -93,12 +100,10 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
         actions: [
           GestureDetector(
             onTap: () {
-              showModalBottomSheet(
+              showDialog(
                 context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => TimKiemYcHoTro(
-                  cubit: widget.cubit, //todo
+                builder: (context) => TimKiemYcHoTroTablet(
+                  cubit: widget.cubit,
                 ),
               ).whenComplete(() => widget.cubit.onSearchPop());
             },
@@ -111,7 +116,7 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
             onPressed: () {
               DrawerSlide.navigatorSlide(
                 context: context,
-                screen: HoTroKyThuatMenuT(
+                screen: HoTroKyThuatMenuTablet(
                   cubit: widget.cubit,
                 ),
               );
@@ -138,7 +143,7 @@ Widget floatingHTKT(
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
           builder: (context) => ThemMoiYCHoTroMobile(
-            cubit: cubit,//todo tablet
+            cubit: cubit, //todo tablet
           ),
         );
       }

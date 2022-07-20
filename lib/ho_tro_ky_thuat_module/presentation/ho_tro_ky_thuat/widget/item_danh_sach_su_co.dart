@@ -22,6 +22,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
   final Function onClose;
   final int flexTitle;
   final int flexBody;
+  final bool isTablet;
 
   const ItemDanhSachSuCo({
     Key? key,
@@ -32,6 +33,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
     required this.onClose,
     this.flexTitle = 1,
     this.flexBody = 3,
+    this.isTablet = false,
   }) : super(key: key);
 
   Widget textRow({
@@ -90,28 +92,30 @@ class ItemDanhSachSuCo extends StatelessWidget {
         spaceW14,
         Expanded(
           flex: flexBody,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 3,
-                ),
-                decoration: BoxDecoration(
-                  color: statusColor,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Text(
-                  textContent,
-                  style: textNormalCustom(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: textContent.isNotEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: statusColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Text(
+                        textContent,
+                        style: textNormalCustom(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox.shrink(),
         )
       ],
     );
@@ -124,13 +128,13 @@ class ItemDanhSachSuCo extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
+            margin: EdgeInsets.symmetric(
+              horizontal: isTablet ? 28 : 16,
+              vertical: isTablet ? 14 : 8,
             ),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: colorNumberCellQLVB,
+              color: isTablet ? bgTabletItem : colorNumberCellQLVB,
               borderRadius: BorderRadius.circular(6),
               border: Border.all(
                 color: containerColorTab,

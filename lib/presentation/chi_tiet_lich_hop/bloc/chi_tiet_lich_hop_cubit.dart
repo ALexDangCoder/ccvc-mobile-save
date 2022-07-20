@@ -232,8 +232,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<String> cacLuaChonBieuQuyet = [];
   List<SuaDanhSachLuaChonModel> suaLuaChonBieuQuyet = [];
   List<NguoiChutriModel> dataThuKyOrThuHoiDeFault = [];
-
-  List<NguoiChutriModel> dataThuHoi = [];
   DateTime timeNow = DateTime.now();
   TimerData end = TimerData(hour: 00, minutes: 00);
   TimerData start = TimerData(
@@ -257,7 +255,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   /// dùng cho cả bên: tao moi nhiem vu - kl hop
   Future<void> getDanhSachNguoiChuTriPhienHop(String id) async {
-    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
     result.when(
       success: (res) {
         listNguoiCHuTriModel.sink.add(res);
@@ -277,7 +275,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       BehaviorSubject<List<CanBoModel>>();
   List<CanBoModel> listCanBo = [];
   BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
-  BehaviorSubject<bool> isCheckDiemDanhSubject = BehaviorSubject();
+  BehaviorSubject<CanBoModel> isCheckDiemDanhSubject = BehaviorSubject();
   List<String> selectedIds = [];
 
   BehaviorSubject<List<PhatBieuModel>> streamPhatBieu =
@@ -376,6 +374,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
+        await getDanhSachNguoiChuTriPhienHop(idCuocHop);
         moiHopRequest.clear();
       },
       error: (error) {

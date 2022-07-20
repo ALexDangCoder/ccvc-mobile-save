@@ -10,8 +10,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DanhGiaYeuCauHoTro extends StatefulWidget {
-  const DanhGiaYeuCauHoTro({Key? key, required this.cubit}) : super(key: key);
+  const DanhGiaYeuCauHoTro({Key? key, required this.cubit, this.idTask})
+      : super(key: key);
   final ChiTietHoTroCubit cubit;
+  final String? idTask;
 
   @override
   _DanhGiaYeuCauHoTroState createState() => _DanhGiaYeuCauHoTroState();
@@ -21,6 +23,7 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
   String? note;
   final _groupKey = GlobalKey<FormGroupState>();
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +91,10 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
                   },
                   onPressed2: () {
                     if (_groupKey.currentState?.validator() ?? false) {
-                      widget.cubit.commentTask(note ?? '');
+                      widget.cubit.commentTask(
+                        note ?? '',
+                        id: widget.idTask,
+                      );
                       Navigator.pop(context);
                     }
                   },

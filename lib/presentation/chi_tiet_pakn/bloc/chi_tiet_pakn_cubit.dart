@@ -101,8 +101,8 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
 
           rowData.add(
             ListRowYKND(
-              title: S.current.don_vi_thao_tac,
-              content: [value.donViThaoTac],
+              title: S.current.nguoi_thao_tac,
+              content: [value.taiKhoanThaoTac],
             ),
           );
 

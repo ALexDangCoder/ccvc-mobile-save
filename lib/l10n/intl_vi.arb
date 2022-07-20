@@ -10,6 +10,7 @@
   "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cấp",
   "them_moi_doi_tuong": "Thêm mới đối tượng",
   "search": "Search...",
+  "nguoi_thao_tac": "Người thao tác",
   "gui_yc": "Gửi yêu cầu",
   "cho_bo_duyet": "Chờ bộ duyệt",
   "ten_ca_nhan_tc_full": "Tên cá nhân/Tổ chức",
@@ -1293,7 +1294,9 @@
   "khach_moi_can_bo_trong_don_vi": "Khách mời cán bộ trong đơn vị",
   "cu_di": "Cử đi",
   "khach_moi_ngoai_don_vi": "Khách mời ngoài đơn vị",
-  "khach_moi_can_bo_ngoai_don_vi": "Khách mời cán bộ ngoài đơn vị"
+  "khach_moi_can_bo_ngoai_don_vi": "Khách mời cán bộ ngoài đơn vị",
+  "content": "Nội dung",
+  "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp"
 }
 
 

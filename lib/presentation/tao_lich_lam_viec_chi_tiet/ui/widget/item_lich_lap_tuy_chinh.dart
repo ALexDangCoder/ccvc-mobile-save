@@ -18,7 +18,7 @@ class LichLapTuyChinh extends StatefulWidget {
 class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
   final _now = DateTime.now().weekday == 7 ? 0 : DateTime.now().weekday;
-
+  bool flag = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -32,8 +32,11 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
       DayOffWeek(index: 5, name: 'T6', isChoose: _now == 5),
       DayOffWeek(index: 6, name: 'T7', isChoose: _now == 6),
     ];
-    widget.taoLichLamViecCubit.lichLapItem1.add(listDayOffWeek.indexWhere((element) => element.isChoose==true));
-
+    widget.taoLichLamViecCubit.lichLapItem1.add(
+      listDayOffWeek.indexWhere(
+        (element) => element.isChoose == true,
+      ),
+    );
   }
 
   @override
@@ -58,6 +61,15 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
                     final b = widget.taoLichLamViecCubit.lichLapItem.toList();
                     b.sort();
                     widget.taoLichLamViecCubit.lichLapItem1 = b;
+                    listDayOffWeek.forEach((element) {
+                      if(element.isChoose ?? false){
+                        flag = false;
+                      }
+                    });
+                    if(flag){
+                      widget.taoLichLamViecCubit.selectLichLap.id = 1;
+                      widget.taoLichLamViecCubit.lichLapItem1 = [];
+                    }
                   },
                   child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
                 ),
@@ -85,7 +97,7 @@ class SuaLichLapTuyChinh extends StatefulWidget {
 
 class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
-
+  bool flag = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -130,6 +142,15 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
                     final b = widget.taoLichLamViecCubit.lichLapItem.toList();
                     b.sort();
                     widget.taoLichLamViecCubit.lichLapItem1 = b;
+                    listDayOffWeek.forEach((element) {
+                      if(element.isChoose ?? false){
+                        flag = false;
+                      }
+                    });
+                    if(flag){
+                      widget.taoLichLamViecCubit.selectLichLap.id = 1;
+                      widget.taoLichLamViecCubit.lichLapItem1 = [];
+                    }
                   },
                   child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
                 ),

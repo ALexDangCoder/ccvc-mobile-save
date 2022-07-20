@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:intl/intl.dart';
 
 import '/generated/l10n.dart';
@@ -48,7 +49,7 @@ extension DateFormatString on DateTime {
     return DateFormat('dd-MM-yyyy').format(this);
   }
   String get formatApiDDMMYYYYHHMM {
-    return DateFormat('dd-MM-yyyy HH:mm').format(this);
+    return DateFormat(DATE_FORMAT_THIEP_SINH_NHAT).format(this);
   }
 
   String get startEndWeek {

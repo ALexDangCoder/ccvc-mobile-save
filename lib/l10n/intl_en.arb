@@ -194,7 +194,7 @@
   "quan_huyen": "Quận/Huyện",
   "phuong_xa": "Phường/Xã",
   "dinh_dang_email": "Sai định dạng email",
-  "dinh_dang_truong_email": "Sai định dạng trường email",
+  "dinh_dang_truong_email": "Sai định dạng trường Email",
   "dinh_dang_sdt": "Sai định dạng số điện thoại",
   "huy": "Hủy",
   "ho_va_ten": "Họ và tên",
@@ -1108,6 +1108,7 @@
   "loai_so_huu": "Loại sở hữu",
   "giay_dang_ky_xe": "Giấy đăng ký xe",
   "cho_bo_duyet": "Chờ bộ duyệt",
+  "nguoi_thao_tac": "Người thao tác",
   "cap_nhat_tong_tin_dang_ky_xe": "Cập nhật thông tin đăng ký xe",
   "xoa_nhan_bien_so_xe": "Xóa nhận diện biển số xe",
   "ban_co_muon_xoa_nhan_dien_bien_so_xe": "Bạn có muốn xóa nhận diện biển số xe này?",
@@ -1327,8 +1328,9 @@
   "cu_di": "Cử đi",
   "khach_moi_ngoai_don_vi": "Khách mời ngoài đơn vị",
   "khach_moi_can_bo_ngoai_don_vi": "Khách mời cán bộ ngoài đơn vị",
+  "content": "Nội dung",
   "ho_va_ten_can_bo": "Họ và tên cán bộ",
   "chuc_vu_can_bo": "Chức vụ cán bộ",
-  "dv_can_bo": "ĐV cán bộ"
-
+  "dv_can_bo": "ĐV cán bộ",
+  "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp"
 }

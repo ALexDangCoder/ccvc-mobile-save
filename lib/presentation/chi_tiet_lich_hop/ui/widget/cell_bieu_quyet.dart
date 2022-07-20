@@ -275,6 +275,10 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                           final data = snapshot.data ?? CanBoModel();
                           return data.diemDanh == true &&
                                   data.trangThai == DA_THAM_GIA &&
+                                  widget.cubit.compareEquaTime(
+                                    widget.infoModel.thoiGianBatDau ?? '',
+                                    widget.infoModel.thoiGianKetThuc ?? '',
+                                  ) &&
                                   widget.cubit.compareTime(
                                     widget.infoModel.thoiGianKetThuc ?? '',
                                   )
@@ -297,28 +301,38 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                 .soLuongLuaChon ??
                                             0,
                                         onTap: () async {
-                                          await widget.cubit.themMoiVote(
-                                            lichHopId: widget.cubit.idCuocHop,
-                                            bieuQuyetId:
-                                                widget.infoModel.id ?? '',
-                                            donViId: HiveLocal.getDataUser()
-                                                    ?.userInformation
-                                                    ?.donViTrucThuoc
-                                                    ?.id ??
-                                                '',
-                                            canBoId:
-                                                HiveLocal.getDataUser()?.userId,
-                                            luaChonBietQuyetId: widget
-                                                    .infoModel
-                                                    .danhSachKetQuaBieuQuyet?[
-                                                        index]
-                                                    .luaChonId ??
-                                                '',
-                                            idPhienhopCanbo:
-                                                widget.cubit.checkIdPhienHop(
-                                              widget.infoModel.idPhienHopCanBo,
-                                            ),
-                                          );
+                                          if (widget
+                                                  .infoModel
+                                                  .danhSachKetQuaBieuQuyet?[
+                                                      index]
+                                                  .isVote ==
+                                              false) {
+                                            await widget.cubit.themMoiVote(
+                                              lichHopId: widget.cubit.idCuocHop,
+                                              bieuQuyetId:
+                                                  widget.infoModel.id ?? '',
+                                              donViId: HiveLocal.getDataUser()
+                                                      ?.userInformation
+                                                      ?.donViTrucThuoc
+                                                      ?.id ??
+                                                  '',
+                                              canBoId: HiveLocal.getDataUser()
+                                                  ?.userId,
+                                              luaChonBietQuyetId: widget
+                                                      .infoModel
+                                                      .danhSachKetQuaBieuQuyet?[
+                                                          index]
+                                                      .luaChonId ??
+                                                  '',
+                                              idPhienhopCanbo:
+                                                  widget.cubit.checkIdPhienHop(
+                                                widget
+                                                    .infoModel.idPhienHopCanBo,
+                                              ),
+                                            );
+                                          } else {
+                                            return;
+                                          }
                                         },
                                         isVote: widget
                                                 .infoModel
@@ -345,8 +359,8 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                       cubit: widget.cubit,
                                                       luaChonId: widget
                                                               .infoModel
-                                                              .danhSachKetQuaBieuQuyet
-                                                      ?[index]
+                                                              .danhSachKetQuaBieuQuyet?[
+                                                                  index]
                                                               .luaChonId ??
                                                           '',
                                                       bieuQuyetId:
@@ -393,7 +407,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.8,
+                                                              0.4,
                                                     ),
                                                     child:
                                                         DanhSachCanBoBieuQuyet(
@@ -444,14 +458,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                             cubit: widget.cubit,
                           ),
                         ),
-                      ).then((value) {
-                        if (value == null) {
-                          return;
-                        }
-                        if (value) {
-                          widget.cubit.callApi(widget.cubit.idCuocHop, '');
-                        }
-                      });
+                      );
                     },
                     child: SvgPicture.asset(ImageAssets.ic_edit),
                   ),

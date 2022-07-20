@@ -17,20 +17,27 @@ class LichLapTuyChinh extends StatefulWidget {
 
 class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
+  final _now = DateTime.now().weekday == 7 ? 0 : DateTime.now().weekday;
+  bool flag = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     listDayOffWeek = [
-      DayOffWeek(index: 0, name: 'CN', isChoose: false),
-      DayOffWeek(index: 1, name: 'T2', isChoose: false),
-      DayOffWeek(index: 2, name: 'T3', isChoose: false),
-      DayOffWeek(index: 3, name: 'T4', isChoose: false),
-      DayOffWeek(index: 4, name: 'T5', isChoose: false),
-      DayOffWeek(index: 5, name: 'T6', isChoose: false),
-      DayOffWeek(index: 6, name: 'T7', isChoose: false),
+      DayOffWeek(index: 0, name: 'CN', isChoose: _now == 0),
+      DayOffWeek(index: 1, name: 'T2', isChoose: _now == 1),
+      DayOffWeek(index: 2, name: 'T3', isChoose: _now == 2),
+      DayOffWeek(index: 3, name: 'T4', isChoose: _now == 3),
+      DayOffWeek(index: 4, name: 'T5', isChoose: _now == 4),
+      DayOffWeek(index: 5, name: 'T6', isChoose: _now == 5),
+      DayOffWeek(index: 6, name: 'T7', isChoose: _now == 6),
     ];
+    widget.taoLichLamViecCubit.lichLapItem1.add(
+      listDayOffWeek.indexWhere(
+        (element) => element.isChoose == true,
+      ),
+    );
   }
 
   @override
@@ -41,23 +48,33 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: listDayOffWeek
-              .map((e) => GestureDetector(
-                    onTap: () {
-                      e.isChoose = !(e.isChoose ?? false);
-                      setState(() {});
-                      final a = widget.taoLichLamViecCubit.lichLapItem
-                          .add(e.index ?? 0);
-                      if (!a) {
-                        widget.taoLichLamViecCubit.lichLapItem
-                            .remove(e.index ?? 0);
+              .map(
+                (e) => GestureDetector(
+                  onTap: () {
+                    e.isChoose = !(e.isChoose ?? false);
+                    setState(() {});
+                    final a = widget.taoLichLamViecCubit.lichLapItem
+                        .add(e.index ?? 0);
+                    if (!a) {
+                      widget.taoLichLamViecCubit.lichLapItem
+                          .remove(e.index ?? 0);
+                    }
+                    final b = widget.taoLichLamViecCubit.lichLapItem.toList();
+                    b.sort();
+                    widget.taoLichLamViecCubit.lichLapItem1 = b;
+                    listDayOffWeek.forEach((element) {
+                      if (element.isChoose ?? false) {
+                        flag = false;
                       }
-                      final b = widget.taoLichLamViecCubit.lichLapItem.toList();
-                      b.sort();
-                      widget.taoLichLamViecCubit.lichLapItem1 = b;
-                    },
-                    child:
-                        itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
-                  ))
+                    });
+                    if (flag) {
+                      widget.taoLichLamViecCubit.selectLichLap.id = 1;
+                      widget.taoLichLamViecCubit.lichLapItem1 = [];
+                    }
+                  },
+                  child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+                ),
+              )
               .toList(),
         ),
       ),
@@ -81,6 +98,7 @@ class SuaLichLapTuyChinh extends StatefulWidget {
 
 class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
+  bool flag = true;
 
   @override
   void initState() {
@@ -112,23 +130,34 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: listDayOffWeek
-              .map((e) => GestureDetector(
-                    onTap: () {
-                      e.isChoose = !(e.isChoose ?? false);
-                      setState(() {});
-                      final a = widget.taoLichLamViecCubit.lichLapItem
-                          .add(e.index ?? 0);
-                      if (!a) {
-                        widget.taoLichLamViecCubit.lichLapItem
-                            .remove(e.index ?? 0);
+              .map(
+                (e) => GestureDetector(
+                  onTap: () {
+                    e.isChoose = !(e.isChoose ?? false);
+                    setState(() {});
+                    final a = widget.taoLichLamViecCubit.lichLapItem
+                        .add(e.index ?? 0);
+                    if (!a) {
+                      widget.taoLichLamViecCubit.lichLapItem
+                          .remove(e.index ?? 0);
+                    }
+                    final b = widget.taoLichLamViecCubit.lichLapItem.toList();
+                    b.sort();
+                    widget.taoLichLamViecCubit.lichLapItem1 = b;
+                    listDayOffWeek.forEach((element) {
+                      if (element.isChoose ?? false) {
+                        flag = false;
                       }
-                      final b = widget.taoLichLamViecCubit.lichLapItem.toList();
-                      b.sort();
-                      widget.taoLichLamViecCubit.lichLapItem1 = b;
-                    },
-                    child:
-                        itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
-                  ))
+                    });
+                    if (flag) {
+                      widget.taoLichLamViecCubit.selectLichLap.id =
+                          LichLapModel.KHONG_LAP_LAI;
+                      widget.taoLichLamViecCubit.lichLapItem1 = [];
+                    }
+                  },
+                  child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+                ),
+              )
               .toList(),
         ),
       ),

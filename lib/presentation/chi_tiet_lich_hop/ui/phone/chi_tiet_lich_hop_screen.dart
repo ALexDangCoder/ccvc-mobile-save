@@ -153,6 +153,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   thongTinTxt: data.chuTriModel.dauMoiLienHe,
                                   sdtTxt: data.chuTriModel.soDienThoai,
                                   dsDiemCau: data.dsDiemCau ?? [],
+                                  thuMoiFiles: data.fileDinhKemWithDecode ?? [],
                                 )
                               ],
                             );
@@ -352,7 +353,7 @@ PreferredSizeWidget appbarChiTietHop(
     ),
     actions: [
       if (!cubit.trangThaiHuy() &&
-          (cubit.listButtonSubject.valueOrNull  ?? []).isNotEmpty)
+          (cubit.listButtonSubject.valueOrNull ?? []).isNotEmpty)
         Padding(
           padding: const EdgeInsets.only(right: 16),
           child: StreamBuilder<List<PERMISSION_DETAIL>>(

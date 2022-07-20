@@ -273,6 +273,10 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                             final data = snapshot.data ?? CanBoModel();
                             return data.diemDanh == true &&
                                     data.trangThai == DA_THAM_GIA &&
+                                    widget.cubit.compareEquaTime(
+                                      widget.infoModel.thoiGianBatDau ?? '',
+                                      widget.infoModel.thoiGianKetThuc ?? '',
+                                    ) &&
                                     widget.cubit.compareTime(
                                       widget.infoModel.thoiGianKetThuc ?? '',
                                     )

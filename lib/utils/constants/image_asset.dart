@@ -78,6 +78,8 @@ class ImageAssets {
   static const String icTuChoiThamGia = '$baseImg/ic_tu_choi_tham_gia.svg';
   static const String icXacNhanLai = '$baseImg/ic_xac_nhan_lai.svg';
   static const String icXacNhanThamGia = '$baseImg/ic_xac_nhan_tham_gia.svg';
+  static const String icHuyLichHop = '$baseImg/ic_huy_lich_hop.svg';
+  static const String icTaoBocBangLichHop = '$baseImg/ic_tao_boc_bang_lich_hop.svg';
 
   static const String icTongSoNhiemVu = '$baseImg/ic_tong_so_nhiem_vu.svg';
   static const String icHoanThanhNhiemVu =

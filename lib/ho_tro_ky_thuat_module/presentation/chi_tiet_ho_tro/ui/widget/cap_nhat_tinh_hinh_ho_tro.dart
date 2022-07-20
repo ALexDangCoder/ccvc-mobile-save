@@ -144,6 +144,15 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           onSelectDate: (dateTime) {
                             birthday = dateTime;
                           },
+                          minimumDate: (widget.cubit.supportDetail
+                              .thoiGianYeuCau?.isNotEmpty ??
+                              false)
+                              ? DateFormat(
+                            DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                          ).parse(
+                            widget.cubit.supportDetail.thoiGianYeuCau!,
+                          )
+                              : null,
                           initDateTime: (widget.cubit.supportDetail
                                       .ngayHoanThanh?.isNotEmpty ??
                                   false)

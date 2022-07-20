@@ -288,6 +288,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
     bool? inUsed,
     bool? isTicked,
     String? groupId,
+    bool? isGiveOther,
   ) {
     return runCatchingAsync<TodoGetAllResponse, List<TodoDSCVModel>>(
       () => _tienIchService.getAllListDSCVWithFilter(
@@ -298,6 +299,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
         inUsed,
         isTicked,
         groupId,
+        isGiveOther,
       ),
       (response) => response.data?.toModel() ?? [],
     );

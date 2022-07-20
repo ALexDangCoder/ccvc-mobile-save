@@ -1311,7 +1311,9 @@
   "nam_truoc" : "Năm trước",
   "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp",
   "ca_nha_hom_nay": "Cá nhân - Hôm nay",
-  "vui_long_nhap_cham_cham": "Vui lòng nhập ....."
+  "vui_long_nhap_cham_cham": "Vui lòng nhập .....",
+  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
+  "thu_hoi_lich_hop" : "Thu hồi lịch họp"
 }
 
 

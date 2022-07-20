@@ -81,7 +81,10 @@ class _WorkListWidgetState extends State<WorkListWidget> {
             Text(
               S.current.ca_nha_hom_nay,
               style: textNormalCustom(
-                  fontSize: 12, color: textBodyTime, fontWeight: FontWeight.w400,),
+                fontSize: 12,
+                color: textBodyTime,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             StreamBuilder<TodoListModel>(
               stream: danhSachCVCubit.getTodoList,

@@ -159,7 +159,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<DanhSachLoaiNhiemVuLichHopModel> danhSachLoaiNhiemVuLichHopModel = [];
 
   BehaviorSubject<List<VBGiaoNhiemVuModel>> listVBGiaoNhiemVu =
-      BehaviorSubject<List<VBGiaoNhiemVuModel>>();
+      BehaviorSubject.seeded([]);
 
   BehaviorSubject<bool> checkTuyChinh = BehaviorSubject();
 
@@ -323,6 +323,8 @@ class KetLuanHopState {
   final BehaviorSubject<List<FileDetailMeetModel>> listFileDefault =
   BehaviorSubject();
   final BehaviorSubject<List<File>> listFileSelect =
+  BehaviorSubject();
+  final BehaviorSubject<bool> validateTinhTrang =
   BehaviorSubject();
 
   String valueEdit = '';

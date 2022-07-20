@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -204,7 +205,11 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                   needCheckTrung: false,
                   themCanBoCubit: widget.themCanBoCubit,
                   onChangeCheckbox: (value) {
-                    widget.cubit.listCanBo.add(value);
+                    if(!widget.cubit.listCanBo.contains(value)) {
+                      widget.cubit.listCanBo.add(value);
+                    } else {
+                      MessageConfig.show(title: S.current.can_bo_da_ton_tai);
+                    }
                   },
                 )
               ],

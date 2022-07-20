@@ -153,6 +153,7 @@ class ImageAssets {
   static const String ic_Calendar_tui = '$baseImg/ic_calendar_tui.svg';
   static const String icChoYKien = '$baseImg/ic_cho_y_kien.svg';
   static const String icHuyLich = '$baseImg/ic_huy_lich.svg';
+  static const String icHuyLichHop = '$baseImg/ic_huy_lich_hop.svg';
   static const String icCalling = '$baseImg/ic_calling.svg';
   static const String icDiemCau = '$baseImg/ic_diem_cau.svg';
   static const String icError = '$baseImg/ic_error.svg';
@@ -169,10 +170,13 @@ class ImageAssets {
   static const String icNhapDetail = '$baseImg/ic_nhap_detail.svg';
   static const String icChoDuyetDetail = '$baseImg/ic_cho_duyet_detail.svg';
   static const String icDaDuyetDetail = '$baseImg/ic_da_duyet_detail.svg';
-  static const String icTuChoiDuyetDetail = '$baseImg/ic_tu_choi_duyet_detail.svg';
+  static const String icTuChoiDuyetDetail =
+      '$baseImg/ic_tu_choi_duyet_detail.svg';
   static const String icThuHoiDetail = '$baseImg/ic_thu_hoi_detail.svg';
-  static const String icDangDienRaDetail = '$baseImg/ic_dang_dien_ra_detail.svg';
-  static const String icDaGuiLoiMoiDetail = '$baseImg/ic_da_gui_loi_moi_detail.svg';
+  static const String icDangDienRaDetail =
+      '$baseImg/ic_dang_dien_ra_detail.svg';
+  static const String icDaGuiLoiMoiDetail =
+      '$baseImg/ic_da_gui_loi_moi_detail.svg';
   static const String icXoaDetail = '$baseImg/ic_xoa_detail.svg';
   static const String icHuyDetail = '$baseImg/ic_huy_detail.svg';
   static const String icXoaHopPoppup = '$baseImg/ic_xoa_hop_poppup.svg';
@@ -385,7 +389,7 @@ class ImageAssets {
   static const String icba = '$baseImg/Edit3.svg';
   static const String icThuHoi = '$baseImg/Group4.svg';
   static const String icPhanCongThuKy = '$baseImg/Swap5.svg';
-  static const String icTaoBocBang = '$baseImg/Video6.svg';
+  static const String icTaoBocBang = '$baseImg/ic_tao_boc_bang_lich_hop.svg';
 
   static const String icMic = '$baseImg/Voice2.svg';
   static const String icBieuQuyet = '$baseImg/IcBieuQuyet.svg';
@@ -543,7 +547,6 @@ class ImageAssets {
   static const String ic_send_y_kien = '$baseImg/ic_send_y_kien.svg';
   static const String ic_plus_bieu_quyet = '$baseImg/ic_plus_bieu_quyet.svg';
   static const String ic_file_meeting = '$baseImg/ic_file_meeting.svg';
-
 
   static SvgPicture svgAssets(
     String name, {

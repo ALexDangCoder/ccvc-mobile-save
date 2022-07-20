@@ -39,7 +39,7 @@ enum PERMISSION_DETAIL {
   HUY_XAC_NHAN,
   XAC_NHAN_LAI,
   TU_CHOI,
-  HUY_DUYET
+  HUY_DUYET,
 }
 
 enum PERMISSION_TAB {
@@ -110,8 +110,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
     switch (this) {
       case PERMISSION_DETAIL.THU_HOI:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icThuHoi,
+          iconTablet: ImageAssets.icThuHoi,
         );
       case PERMISSION_DETAIL.XOA:
         return checkDevice(
@@ -140,8 +140,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_LICH:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icHuyLichHop,
+          iconTablet: ImageAssets.icHuyLichHop,
         );
       case PERMISSION_DETAIL.XAC_NHAN_THAM_GIA:
         return checkDevice(
@@ -155,8 +155,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_XAC_NHAN:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icTuChoiThamGia,
+          iconTablet: ImageAssets.icTuChoiThamGia,
         );
       case PERMISSION_DETAIL.TU_CHOI_THAM_GIA:
         return checkDevice(
@@ -180,8 +180,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_DUYET:
         return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
+          iconMobile: ImageAssets.icHuyLichHop,
+          iconTablet: ImageAssets.icHuyLichHop,
         );
     }
   }
@@ -226,8 +226,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
 
       case PERMISSION_DETAIL.XOA:
         return CellPopPupMenu(
-          urlImage: ImageAssets.ic_delete_do,
-          text: S.current.xoa_lich,
+          urlImage: PERMISSION_DETAIL.XOA.getIcon(),
+          text: PERMISSION_DETAIL.XOA.getString(),
           onTap: () {
             if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
               showDiaLog(
@@ -249,7 +249,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
             showDialog(
               context: context,
               builder: (context) => RadioOptionDialog(
-                title: S.current.huy_lich_hop,
+                title: S.current.xoa_lich,
                 textRadioBelow: S.current.chi_lich_hien_tai,
                 textRadioAbove: S.current.tu_hien_tai_ve_sau,
                 imageUrl: ImageAssets.img_sua_lich,
@@ -566,8 +566,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_LICH:
         return CellPopPupMenu(
-          urlImage: ImageAssets.icHuy,
-          text: S.current.huy_lich_hop,
+          urlImage: PERMISSION_DETAIL.HUY_LICH.getIcon(),
+          text: PERMISSION_DETAIL.HUY_LICH.getString(),
           onTap: () {
             if (cubit.getChiTietLichHopModel.typeRepeat == 1) {
               showDiaLog(

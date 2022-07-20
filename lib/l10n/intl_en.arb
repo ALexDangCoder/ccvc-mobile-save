@@ -1320,5 +1320,8 @@
   "chon_phien_hop": "Chọn phiên họp",
   "ban_phai_nhap_truong_email": "Bạn phải nhập trường Email!",
   "xoa_lich_hop": "Xóa lịch họp",
-  "chon_thu_ky": "Chọn thư ký"
+  "chon_thu_ky": "Chọn thư ký",
+  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
+  "thu_hoi_lich_hop" : "Thu hồi lịch họp",
+  "can_bo_da_ton_tai" : "Cán bộ này đã tồn tại"
 }

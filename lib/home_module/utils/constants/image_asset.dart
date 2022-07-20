@@ -60,6 +60,7 @@ class ImageAssets {
   static const String ic_hoan_tac = '$baseImg/ic_hoan_tac.svg';
   static const String iconNote_dscv = '$baseImg/iconNote_dscv.svg';
   static const String ic_ghim_dscv = '$baseImg/ic_ghim_file.svg';
+  static const String img_sua_lich = '$baseImg/ic_sua_lich.svg';
 
 
 

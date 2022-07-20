@@ -66,20 +66,24 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
         mainAxisSize: MainAxisSize.min,
         children: [
           StreamBuilder<ButtonStatePhatBieu>(
-            initialData: widget.cubit.buttonStatePhatBieu.first,
             stream: widget.cubit.buttonStatePhatBieuSubject,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? ButtonStatePhatBieu();
-              return buttonPhone(
-                key: data.key ?? '',
-                value: data.value.toString(),
-                color: data.color ?? Colors.white,
-                ontap: () {
-                  /// reset list when change list
-                  widget.cubit.selectPhatBieu = [];
-                  expand = !expand;
-                  _runExpandCheck();
-                },
+              final data = snapshot.data ??  widget.cubit.buttonStatePhatBieu.first;
+              return StreamBuilder<SoLuongPhatBieuModel>(
+                  stream: widget.cubit.dataSoLuongPhatBieuSubject,
+                builder: (context, snapshot) {
+                  return buttonPhone(
+                    key: data.key ?? '',
+                    value: data.value.toString(),
+                    color: data.color ?? Colors.white,
+                    ontap: () {
+                      /// reset list when change list
+                      widget.cubit.selectPhatBieu = [];
+                      expand = !expand;
+                      _runExpandCheck();
+                    },
+                  );
+                }
               );
             },
           ),

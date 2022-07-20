@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -13,6 +14,20 @@ import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:flutter/material.dart';
 
 import 'chon_ngay_widget.dart';
+
+const List<String> FILE_ALLOW = [
+  'xlsx',
+  'xlsm',
+  'pptm',
+  'pptx',
+  'dotx',
+  'docx',
+  'pdf',
+  'png',
+  'jpg',
+  'jpeg'
+      'doc'
+];
 
 class VBGiaoNhiemVu extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -39,6 +54,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
     // TODO: implement initState
     super.initState();
     vBGiaoNhiemVuModel = VBGiaoNhiemVuModel();
+    vBGiaoNhiemVuModel.ngayVanBan = DateTime.now().toString();
   }
 
   @override
@@ -95,13 +111,26 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           ),
           sb20(),
           ButtonSelectFile(
-            removeFileApi: (int index) {},
+            allowedExtensions: FILE_ALLOW,
+            removeFile: (e) {
+              vBGiaoNhiemVuModel.file = [];
+            },
             title: S.current.tai_lieu_dinh_kem,
             onChange: (files) {
-              vBGiaoNhiemVuModel.file =
-                  files.map((e) => e.path.split('/').last).toList();
+              widget.cubit.uploadFile(files).then((value) {
+                value.when(
+                  success: (res) {
+                    vBGiaoNhiemVuModel.file = res;
+                  },
+                  error: (err) {
+                    setState(() {});
+                  },
+                );
+              });
+              // widget.cubit.
             },
             files: const [],
+            removeFileApi: (int index) {},
           ),
           SizedBox(
             height: 20.0.textScale(),

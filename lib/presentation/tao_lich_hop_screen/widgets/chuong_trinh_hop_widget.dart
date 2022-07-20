@@ -387,6 +387,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     FileExtensions.JPG,
                     FileExtensions.PDF,
                     FileExtensions.PNG,
+                    FileExtensions.XLXS,
                   ],
                   onChange: (List<File> files, bool validate) {
                     isOverFileLength = validate;

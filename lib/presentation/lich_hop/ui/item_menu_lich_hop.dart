@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/container_menu_widget.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/widget/state_select_lich_hop_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,7 @@ List<ItemThongBaoModelMyCalender> listTheoTrangThaiLichHop = [
   ),
   if (HiveLocal.checkPermissionApp(
     permissionType: PermissionType.VPDT,
-    permissionTxt: 'quyen-duyet-phong',
+    permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
   ))
     ItemThongBaoModelMyCalender(
       typeMenu: TypeCalendarMenu.LichDuyetPhong,

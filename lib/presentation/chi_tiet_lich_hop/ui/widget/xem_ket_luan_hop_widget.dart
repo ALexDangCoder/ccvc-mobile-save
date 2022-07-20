@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -261,6 +262,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 5),
                           child: ButtonSelectFile(
+                            allowedExtensions: FILE_ALLOW,
                             isShowFile: false,
                             title: S.current.tai_lieu_dinh_kem,
                             onChange: (List<File> files) {

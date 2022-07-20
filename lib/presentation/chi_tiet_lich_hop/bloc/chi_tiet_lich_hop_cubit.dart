@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:core';
+import 'dart:developer';
 
 import 'dart:io';
 
@@ -268,6 +269,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       success: (res) {
         listNguoiCHuTriModel.sink.add(res);
         dataThuKyOrThuHoiDeFault = res;
+
       },
       error: (error) {},
     );

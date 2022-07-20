@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_close.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 
@@ -9,36 +12,31 @@ import 'package:flutter/material.dart';
 
 import 'package:rxdart/subjects.dart';
 
-// ignore: must_be_immutable
 class CustomSelectMultiItems extends StatefulWidget {
   final BuildContext context;
-  final List<String> items;
-  String? title;
-  final Function(List<int>) onChange;
-  Function(int)? onSelectItem;
-  Function(int)? onRemoveItem;
+  final List<ListItemType> items;
+  final String? title;
+  final Function(ListItemType) onChange;
   final String hintText;
-  CustomSelectMultiItems(
-      {Key? key,
-      this.onSelectItem,
-      this.onRemoveItem,
-      this.title,
-      required this.context,
-      required this.items,
-      required this.onChange,
-      this.hintText = ''})
-      : super(key: key);
+  const CustomSelectMultiItems({
+    Key? key,
+    this.title,
+    required this.context,
+    required this.items,
+    required this.onChange,
+    this.hintText = '',
+  }) : super(key: key);
 
   @override
   _CustomSelectMultiItemsState createState() => _CustomSelectMultiItemsState();
 }
 
 class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
-  List<String> selectedItems = [];
-  List<String> searchList = [];
+  ListItemType? selectedItems;
+  List<ListItemType> searchList = [];
   bool isSearching = false;
   double sizeWitdhTag = 0;
-  BehaviorSubject<List<String>> searchItemSubject = BehaviorSubject();
+  BehaviorSubject<List<ListItemType>> searchItemSubject = BehaviorSubject();
 
   void showListItem(BuildContext context) {
     searchItemSubject = BehaviorSubject.seeded(widget.items);
@@ -55,44 +53,38 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
           child: Column(
             children: [
               BaseSearchBar(onChange: (keySearch) async {
-                // searchList = widget.items
-                //     .where((item) => item
-                //     .trim()
-                //     .toLowerCase()
-                //     .removeDiacritics()
-                //     .contains(keySearch
-                //     .trim()
-                //     .toLowerCase()
-                //     .removeDiacritics()))
-                //     .toList();
-                // searchItemSubject.sink.add(searchList);
+                searchList = widget.items
+                    .where(
+                      (item) => item.title
+                          .trim()
+                          .toLowerCase()
+                          .vietNameseParse()
+                          .contains(
+                            keySearch.trim().toLowerCase().vietNameseParse(),
+                          ),
+                    )
+                    .toList();
+                searchItemSubject.sink.add(searchList);
               }),
               Expanded(
-                child: StreamBuilder<List<String>>(
+                child: StreamBuilder<List<ListItemType>>(
                     stream: searchItemSubject,
                     builder: (context, snapshot) {
-                      final listData = snapshot.data ?? [];
+                      final listData = snapshot.data ?? <ListItemType>[];
                       return listData.isEmpty
-                          ? const Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Text('Danh sách rỗng'),
+                          ? Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(S.current.danh_sach_rong),
                             )
                           : ListView.separated(
                               itemBuilder: (context, index) {
-                                final itemTitle = snapshot.data?[index] ?? '';
+                                final itemTitle = listData[index];
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      if (selectedItems.contains(itemTitle)) {
-                                        selectedItems.remove(itemTitle);
-                                      } else {
-                                        selectedItems.add(itemTitle);
-                                      }
+                                      selectedItems = itemTitle;
                                     });
-                                    widget.onChange(selectedIndex());
-                                    if (widget.onSelectItem != null) {
-                                      widget.onSelectItem!(index);
-                                    }
+                                    widget.onChange(itemTitle);
                                     Navigator.of(context).pop();
                                     searchItemSubject.close();
                                   },
@@ -101,13 +93,12 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 8),
                                     child: Text(
-                                      itemTitle,
-                                      style: TextStyle(
-                                        color: const Color(0xff586B8B),
-                                        fontWeight:
-                                            selectedItems.contains(itemTitle)
-                                                ? FontWeight.w600
-                                                : FontWeight.normal,
+                                      itemTitle.title,
+                                      style: textNormalCustom(
+                                        color: titleItemEdit,
+                                        fontWeight: selectedItems == itemTitle
+                                            ? FontWeight.w600
+                                            : FontWeight.normal,
                                       ),
                                     ),
                                   ),
@@ -115,10 +106,10 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                               },
                               separatorBuilder: (context, index) {
                                 return const Divider(
-                                  color: Color(0xffDBDFEF),
+                                  color: borderColor,
                                 );
                               },
-                              itemCount: snapshot.data?.length ?? 0,
+                              itemCount: listData.length,
                             );
                     }),
               ),
@@ -212,74 +203,73 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
         backgroundColor: Colors.transparent,
         body: Padding(
           padding: EdgeInsets.symmetric(
-              vertical:
-                  MediaQuery.of(context).viewInsets.bottom <= 160 ? 100 : 10,
-              horizontal: 16),
+            vertical:
+                MediaQuery.of(context).viewInsets.bottom <= 160 ? 100 : 10,
+            horizontal: 16,
+          ),
           child: Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
+            decoration: const BoxDecoration(
+                color: backgroundColorApp,
+                borderRadius: BorderRadius.all(Radius.circular(8))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppBarDefaultClose(widget.title ?? '', color3D5586),
+                  AppBarDefaultClose(
+                    widget.title ?? '',
+                    color3D5586,
+                    sizeTitle: 16,
+                  ),
                   BaseSearchBar(onChange: (keySearch) async {
-                    // searchList = widget.items
-                    //     .where((item) => item
-                    //         .trim()
-                    //         .toLowerCase()
-                    //         .removeDiacritics()
-                    //         .contains(keySearch
-                    //             .trim()
-                    //             .toLowerCase()
-                    //             .removeDiacritics()))
-                    //     .toList();
-                    // searchItemSubject.sink.add(searchList);
+                    searchList = widget.items
+                        .where(
+                          (item) => item.title
+                          .trim()
+                          .toLowerCase()
+                          .vietNameseParse()
+                          .contains(
+                        keySearch.trim().toLowerCase().vietNameseParse(),
+                      ),
+                    )
+                        .toList();
+                    searchItemSubject.sink.add(searchList);
                   }),
                   Expanded(
-                    child: StreamBuilder<List<String>>(
+                    child: StreamBuilder<List<ListItemType>>(
                       stream: searchItemSubject,
                       builder: (context, snapshot) {
                         final listData = snapshot.data ?? [];
                         return listData.isEmpty
                             ? Padding(
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(16),
                                 child: Text(S.current.danh_sach_rong),
                               )
                             : ListView.separated(
                                 itemBuilder: (context, index) {
-                                  final itemTitle = snapshot.data?[index] ?? '';
+                                  final itemTitle = listData[index];
                                   return GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        if (selectedItems.contains(itemTitle)) {
-                                          selectedItems.remove(itemTitle);
-                                        } else {
-                                          selectedItems.add(itemTitle);
-                                        }
+                                        selectedItems = itemTitle;
                                       });
-                                      widget.onChange(selectedIndex());
-                                      if (widget.onSelectItem != null) {
-                                        widget.onSelectItem!(index);
-                                      }
+                                      widget.onChange(itemTitle);
                                       Navigator.of(context).pop();
                                       searchItemSubject.close();
                                     },
                                     child: Container(
                                       color: Colors.transparent,
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
+                                        vertical: 8,
+                                      ),
                                       child: Text(
-                                        itemTitle,
-                                        style: TextStyle(
-                                          color: const Color(0xff586B8B),
-                                          fontWeight:
-                                              selectedItems.contains(itemTitle)
-                                                  ? FontWeight.w600
-                                                  : FontWeight.normal,
+                                        itemTitle.title,
+                                        style: textNormalCustom(
+                                          color: color586B8B,
+                                          fontWeight: selectedItems == itemTitle
+                                              ? FontWeight.w600
+                                              : FontWeight.normal,
                                         ),
                                       ),
                                     ),
@@ -307,71 +297,6 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
     );
   }
 
-  Widget _buildTagView() {
-    return Wrap(
-      runSpacing: 8,
-      spacing: 8,
-      children: _listTag(),
-    );
-  }
-
-  List<Widget> _listTag() {
-    final listWidget = <Widget>[];
-    for (int index = 0; index < selectedItems.length; index++) {
-      listWidget.add(_buildTagItem(selectedItems[index], index));
-    }
-    return listWidget;
-  }
-
-  Widget _buildTagItem(String content, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xffDB353A),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-            constraints: BoxConstraints(
-              maxWidth: sizeWitdhTag - 60,
-            ),
-            child: Text(content,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    ?.copyWith(color: Colors.white)),
-          ),
-          GestureDetector(
-            onTap: () {
-              if (widget.onRemoveItem != null) {
-                widget.onRemoveItem!(widget.items.indexOf(content));
-              }
-              setState(() {
-                selectedItems.removeAt(index);
-              });
-            },
-            child: const Icon(
-              Icons.close,
-              size: 18,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<int> selectedIndex() {
-    final indexes = <int>[];
-    for (final selectedItem in selectedItems) {
-      indexes.add(widget.items.indexOf(selectedItem));
-    }
-    return indexes;
-  }
-
   final GlobalKey keyDiaLog = GlobalKey();
   @override
   void initState() {
@@ -391,22 +316,33 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
       },
       child: Container(
         key: keyDiaLog,
+        width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(width: 1, color: const Color(0xffDBDFEF)),
-          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: borderColor),
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
         ),
-        child: selectedItems.isNotEmpty
-            ? _buildTagView()
+        child: selectedItems != null
+            ? Text(
+                selectedItems?.title ?? '',
+                style: tokenDetailAmount(
+                  fontSize: 14.0.textScale(),
+                  color: titleCalenderWork,
+                ),
+              )
             : Text(
                 widget.hintText,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    ?.copyWith(color: const Color(0xffA2AEBD)),
+                style: textNormal(titleItemEdit.withOpacity(0.5), 14),
               ),
       ),
     );
   }
+}
+
+class ListItemType {
+  final String title;
+  final String id;
+
+  ListItemType({required this.title, required this.id});
 }

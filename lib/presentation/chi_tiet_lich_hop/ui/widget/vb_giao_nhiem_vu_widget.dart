@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -25,6 +26,7 @@ const List<String> FILE_ALLOW = [
   'png',
   'jpg',
   'jpeg'
+      'doc'
 ];
 
 class VBGiaoNhiemVu extends StatefulWidget {
@@ -52,6 +54,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
     // TODO: implement initState
     super.initState();
     vBGiaoNhiemVuModel = VBGiaoNhiemVuModel();
+    vBGiaoNhiemVuModel.ngayVanBan = DateTime.now().toString();
   }
 
   @override
@@ -109,24 +112,25 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           sb20(),
           ButtonSelectFile(
             allowedExtensions: FILE_ALLOW,
-            removeFileApi: (int index) {},
+            removeFile: (e) {
+              vBGiaoNhiemVuModel.file = [];
+            },
             title: S.current.tai_lieu_dinh_kem,
             onChange: (files) {
-              if (files.isEmpty) {
-                vBGiaoNhiemVuModel.file = [];
-                return;
-              }
               widget.cubit.uploadFile(files).then((value) {
                 value.when(
                   success: (res) {
                     vBGiaoNhiemVuModel.file = res;
                   },
-                  error: (err) {},
+                  error: (err) {
+                    setState(() {});
+                  },
                 );
               });
               // widget.cubit.
             },
             files: const [],
+            removeFileApi: (int index) {},
           ),
           SizedBox(
             height: 20.0.textScale(),

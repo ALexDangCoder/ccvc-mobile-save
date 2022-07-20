@@ -31,7 +31,7 @@ class ButtonSelectFile extends StatefulWidget {
   final double? maxSize;
   final Function(int index) removeFileApi;
   final List<String>? allowedExtensions;
-
+  final Function(File)? removeFile;
   ButtonSelectFile(
       {Key? key,
       this.background,
@@ -48,7 +48,9 @@ class ButtonSelectFile extends StatefulWidget {
       this.isShowFile = true,
       this.maxSize,
       required this.removeFileApi,
-      this.allowedExtensions})
+      this.allowedExtensions,
+      this.removeFile,
+      })
       : super(key: key);
 
   @override
@@ -202,6 +204,9 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                           _cubit.deleteFile(e, widget.files ?? []);
                           if (widget.hasMultipleFile) {
                             widget.onChange(widget.files ?? []);
+                          }
+                          if(widget.removeFile != null){
+                            widget.removeFile!(e);
                           }
                           setState(() {});
                         },

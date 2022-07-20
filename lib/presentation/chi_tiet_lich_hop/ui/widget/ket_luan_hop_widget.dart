@@ -47,6 +47,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
     if (!isMobile()) {
       widget.cubit.callApiKetLuanHop();
+      widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
     }
   }
 
@@ -56,6 +57,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
       mobileScreen: SelectOnlyWidget(
         onchange: (value) {
           if (value) {
+            widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
             widget.cubit.callApiKetLuanHop();
           }
         },

@@ -101,6 +101,7 @@ mixin TienIchRepository {
     bool? inUsed,
     bool? isTicked,
     String? groupId,
+    bool? isGiveOther,
   );
 
   Future<Result<List<CountTodoModel>>> getCountTodo();

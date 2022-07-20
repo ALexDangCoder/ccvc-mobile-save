@@ -44,6 +44,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
     return Scaffold(
       backgroundColor: !isMobile() ? bgTabletColor : colorFFFFFF,
       appBar: BaseAppBar(
+        maxLine: 2,
         backGroundColor: bgTabletColor,
         title: S.current.danh_sach_cong_viec,
         leadingIcon: isMobile()
@@ -63,9 +64,6 @@ class _MenuDSCVState extends State<MenuDSCV> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 24,
-          ),
           Expanded(
             flex: 8,
             child: Column(

@@ -148,6 +148,7 @@ abstract class TienIchService {
     @Field('inUsed') bool? inUsed,
     @Field('isTicked') bool? isTicked,
     @Field('groupId') String? groupId,
+    @Field('isGiveOther') bool? isGiveOther,
   );
 
   @GET(ApiConstants.GET_COUNT_TODO)

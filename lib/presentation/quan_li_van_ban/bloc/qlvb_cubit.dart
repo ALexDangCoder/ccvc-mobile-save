@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/extension/report_statistical.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -39,6 +40,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
   final BehaviorSubject<ChartData> _dataChartVBDi =
       BehaviorSubject<ChartData>();
+
   final List<ChartData> chartDataVbDen = [];
   final List<ChartData> chartDataVbDi = [];
   List<String> maTrangThai = [];
@@ -68,10 +70,13 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   List<String> monthsList = [];
   List<String> yearsList = [];
 
-
   void setSelectSearch() {
     showSearchSubject.sink.add(!showSearchSubject.value);
   }
+
+  ///Report Statistical variable
+  final BehaviorSubject<List<InfoItemModel>> infoItemStream = BehaviorSubject();
+  ///End declare Report Statistical variable
 
   Future<void> callAPi({bool initTime = true}) async {
     final queue = Queue();
@@ -191,8 +196,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       },
     );
   }
-
-
 
   Future<List<VanBanModel>> getListIncomeDocumentTest({
     String? startDate,

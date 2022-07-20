@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/extension/report_statistical.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/common_widget.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_in_statistical_page.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/tab_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -33,6 +33,7 @@ class _ReportStaticalState extends State<ReportStatical>
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     widget.cubit.generateListTime();
+    widget.cubit.getReportStatisticalData();
     super.initState();
   }
 
@@ -140,28 +141,12 @@ class _ReportStaticalState extends State<ReportStatical>
               ),
               spaceH20,
               tabBar(_tabController),
-              Container(
-                height: 250,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: (context, index) =>
-                      infoItem(
-                        title: 'Tổng số văn bản đến',
-                        quantity: 2434,
-                        lastYearQuantity: 2404,
-                        color: const Color(0xFF374FC7),
-                      ),
-                ),
-              ),
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    Container(
-                      color: Colors.red.withOpacity(0.1),
+                    DocumentInStatisticalPage(
+                      cubit: widget.cubit,
                     ),
                     Container(
                       color: Colors.blueAccent.withOpacity(0.1),

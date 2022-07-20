@@ -226,7 +226,6 @@ class _CreateOrUpdateKetLuanHopWidgetState
                             if (value != null) {
                               noiDung = value;
                               setState(() {});
-                              // widget.cubit.getTextAfterEdit(value);
                             }
                           });
                         },

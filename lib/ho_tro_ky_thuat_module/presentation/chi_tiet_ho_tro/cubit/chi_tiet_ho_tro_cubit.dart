@@ -121,7 +121,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     required String handlerId,
     required String description,
   }) async {
-    print(finishDay);
     final TaskProcessing model = TaskProcessing(
       id: id,
       taskId: taskId,

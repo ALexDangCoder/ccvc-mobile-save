@@ -289,13 +289,25 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       urlImage: ImageAssets.icPlus2,
                       text: S.current.tao_moi_nhiem_vu,
                       onTap: () {
-                        showBottomSheetCustom(
-                          context,
-                          title: S.current.tao_moi_nhiem_vu,
-                          child: TaoMoiNhiemVuWidget(
-                            cubit: cubit,
-                          ),
-                        );
+                        if (isMobile()) {
+                          showBottomSheetCustom(
+                            context,
+                            title: S.current.tao_moi_nhiem_vu,
+                            child: TaoMoiNhiemVuWidget(
+                              cubit: cubit,
+                            ),
+                          );
+                        } else {
+                          showDiaLogTablet(
+                            context,
+                            title: S.current.tao_moi_nhiem_vu,
+                            child: TaoMoiNhiemVuWidget(
+                              cubit: cubit,
+                            ),
+                            isBottomShow: false,
+                            funcBtnOk: () {},
+                          );
+                        }
                       },
                     ),
                   if (cubit.xemKetLuanHop())

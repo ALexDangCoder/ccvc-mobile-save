@@ -52,6 +52,9 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
           title: widget.title ?? '',
           child: Column(
             children: [
+              const SizedBox(
+                height: 20,
+              ),
               BaseSearchBar(onChange: (keySearch) async {
                 searchList = widget.items
                     .where(
@@ -123,78 +126,6 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
     }
   }
 
-  // Widget dialogTablet(){
-  //   return  ClipRRect(
-  //     borderRadius: BorderRadius.circular(8),
-  //     child: Scaffold(
-  //       resizeToAvoidBottomInset: true,
-  //       backgroundColor: Colors.transparent,
-  //       body: Padding(
-  //         padding: EdgeInsets.symmetric(
-  //             vertical: MediaQuery.of(context).viewInsets.bottom <= 170
-  //                 ? 200.h
-  //                 : 40,
-  //             ),
-  //         child: Center(
-  //           child: Container(
-  //             width: 500,
-  //             decoration: BoxDecoration(
-  //                 color: Theme.of(context).backgroundColor,
-  //                 borderRadius:
-  //                 const BorderRadius.all(Radius.circular(8))),
-  //             child: Padding(
-  //               padding: const EdgeInsets.symmetric(horizontal: 16),
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.stretch,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   Container(
-  //                     height: 56,
-  //                     decoration: const BoxDecoration(
-  //                         border: Border(
-  //                             bottom:
-  //                             BorderSide(color: Color(0xffEDF0FD)))),
-  //                     padding: const EdgeInsets.only(left: 28, right: 19),
-  //                     child: Stack(
-  //                       children: [
-  //                         Align(
-  //                           child: Text(
-  //                             widget.title??'Chọn đơn vị',
-  //                             style: Theme.of(context)
-  //                                 .textTheme
-  //                                 .headline4
-  //                                 ?.copyWith(
-  //                                 fontSize: 20,
-  //                                 fontWeight: FontWeight.w500),
-  //                           ),
-  //                         ),
-  //                         Positioned(
-  //                           top: 0,
-  //                           right: 0,
-  //                           bottom: 0,
-  //                           child: IconButton(
-  //                             onPressed: () {
-  //                               Navigator.pop(context);
-  //                             },
-  //                             icon: const Icon(
-  //                               QLVB.close_btn,
-  //                               color: const Color(0xffA2AEBD),
-  //                             ),
-  //                           ),
-  //                         )
-  //                       ],
-  //                     ),
-  //                   ),
-  //
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
   Widget dialogMobile() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),

@@ -93,12 +93,13 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     getListDanhBaCaNhan(pageIndex: pageIndex, pageSize: pageSize);
   }
 
-  void callApiDanhBaToChuc(
-      {int? pageIndexApi,
-      int? pageSizeApi,
-      String? keyWork,
-      String? id,
-      bool? callApi}) {
+  void callApiDanhBaToChuc({
+    int? pageIndexApi,
+    int? pageSizeApi,
+    String? keyWork,
+    String? id,
+    bool? callApi,
+  }) {
     if (callApi ?? true) {
       getListDanhBaToChuc(
         pageIndex: pageIndexApi ?? pageIndex,
@@ -204,7 +205,12 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.items));
           }
         } else {
-          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.items));
+          if (res.items?.isEmpty ?? true) {
+            showContent();
+            emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
+          } else {
+            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.items));
+          }
         }
       },
       error: (error) {

@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
@@ -40,12 +41,13 @@ class CuCanBoWidget extends StatefulWidget {
 class _CuCanBoWidgetState extends State<CuCanBoWidget> {
   GlobalKey<FormState> formKeyNoiDung = GlobalKey<FormState>();
   TextEditingController noiDungController = TextEditingController();
+  final List<DonViModel> dataInit = [];
 
   @override
   void initState() {
     super.initState();
+    widget.cubit.getDanhSachCuCanBoHop(widget.cubitThanhPhanTG);
     widget.themCanBoCubit.titleCanBo.sink.add('');
-    widget.cubitThanhPhanTG.listCanBoThamGia.sink.add([]);
     widget.themDonViCubit.validateDonVi.sink.add(false);
     widget.themDonViCubit.themDonViSubject.sink.add(true);
     widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
@@ -71,16 +73,17 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
               widget.themDonViCubit.validateDonVi.sink.add(false);
               await widget.cubit
                   .cuCanBo(
-                canBoDiThay: widget.cubitThanhPhanTG.listCanBo
-                    .map(
-                      (element) => CanBoDiThay(
-                        id: element.id,
-                        donViId: element.donViId,
-                        canBoId: element.canBoId,
-                        taskContent: element.noidung,
-                      ),
-                    )
-                    .toList(),
+                canBoDiThay:
+                    (widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
+                        .map(
+                          (element) => CanBoDiThay(
+                            id: element.id,
+                            donViId: element.donViId,
+                            canBoId: element.canBoId,
+                            taskContent: element.noidung,
+                          ),
+                        )
+                        .toList(),
               )
                   .then((value) {
                 if (value) {
@@ -200,7 +203,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
           Column(
             children: [
               rowInfo(
-                value: donVi.name,
+                value: donVi.tenCoQuan,
                 key: S.current.ten_don_vi,
                 needShowPadding: true,
               ),

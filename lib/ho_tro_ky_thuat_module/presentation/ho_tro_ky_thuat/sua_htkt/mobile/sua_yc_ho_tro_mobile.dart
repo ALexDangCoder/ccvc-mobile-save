@@ -109,7 +109,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                S.current.them_moi_yc_ho_tro,
+                                S.current.chinh_sua_htkt,
                                 style: p.textNormalCustom(
                                   color: textTitle,
                                   fontSize: 18,

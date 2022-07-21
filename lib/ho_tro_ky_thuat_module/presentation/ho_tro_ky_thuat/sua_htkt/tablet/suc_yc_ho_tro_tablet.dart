@@ -5,11 +5,13 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
@@ -20,6 +22,7 @@ import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SuaDoiYcHoTroTablet extends StatefulWidget {
@@ -62,193 +65,197 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
           widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
         },
         error: AppException(S.current.something_went_wrong, ''),
-        child: Container(
-          height: 836,
-          width: 592,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor.withOpacity(0.5)),
-            boxShadow: [
-              BoxShadow(
-                color: shadowContainerColor.withOpacity(0.05),
-                offset: const Offset(0, 4),
-                blurRadius: 10,
+        child: Center(
+          child: Container(
+            height: 836,
+            width: 592,
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+              border: Border.all(color: borderColor.withOpacity(0.5)),
+              boxShadow: [
+                BoxShadow(
+                  color: shadowContainerColor.withOpacity(0.05),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10,
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(12),
               ),
-            ],
-            color: Colors.white,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(12),
             ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                spaceH20,
-                Center(
-                  child: Container(
-                    height: 6,
-                    width: 48,
-                    decoration: const BoxDecoration(
-                      color: colorECEEF7,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 22.5,
+                      bottom: 16,
+                    ),
+                    child: FormGroup(
+                      key: _groupKey,
+                      child: StreamBuilder<SupportDetail>(
+                        stream: widget.cubit.editModelHTKT.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? SupportDetail();
+                          if (data.id != null) {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      S.current.chinh_sua_htkt,
+                                      style: p.textNormalCustom(
+                                        color: textTitle,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: SvgPicture.asset(
+                                        ImageAssets.icClose,
+                                        color: AppTheme.getInstance()
+                                            .unselectedLabelColor(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                spaceH20,
+                                textField(
+                                  initValue: data.tenThietBi,
+                                  isHightLight: true,
+                                  title: S.current.ten_thiet_bi,
+                                  hintText: S.current.ten_thiet_bi,
+                                  isEnable: true,
+                                  maxLength: 150,
+                                  onChange: (value) {
+                                    widget.cubit.editTaskHTKTRequest.name = value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                textField(
+                                  initValue: data.soDienThoai,
+                                  isHightLight: true,
+                                  title: S.current.sdt_lien_he,
+                                  hintText: S.current.sdt_lien_he,
+                                  inputFormatter: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  maxLength: 11,
+                                  textInputType: TextInputType.number,
+                                  onChange: (value) {
+                                    widget.cubit.editTaskHTKTRequest.phone =
+                                        value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                textField(
+                                  initValue: data.moTaSuCo,
+                                  isHightLight: true,
+                                  maxLine: 3,
+                                  title: S.current.nhap_mo_ta,
+                                  hintText: S.current.nhap_mo_ta,
+                                  onChange: (value) {
+                                    widget.cubit.editTaskHTKTRequest.description =
+                                        value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                AreaDropDown(
+                                  cubit: widget.cubit,
+                                  statusHTKT: StatusHTKT.EDIT,
+                                ),
+                                spaceH16,
+                                BuildingDropDown(
+                                  statusHTKT: StatusHTKT.EDIT,
+                                  cubit: widget.cubit,
+                                ),
+                                spaceH16,
+                                textField(
+                                  initValue: data.room,
+                                  isHightLight: true,
+                                  title: S.current.so_phong,
+                                  hintText: S.current.so_phong,
+                                  onChange: (value) {
+                                    widget.cubit.editTaskHTKTRequest.room = value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                _multiSelect(),
+                                spaceH16,
+                                TaiLieuWidget(
+                                  files: widget
+                                      .cubit.editModelHTKT.value.filesDinhKem
+                                      ?.map(
+                                        (e) => Files(
+                                          id: e.id,
+                                          name: e.fileName,
+                                          extension: null,
+                                          size: null,
+                                          path: e.filePath,
+                                          entityId: null,
+                                          entityName: null,
+                                          fileId: e.fileId,
+                                          taskId: e.taskId,
+                                        ),
+                                      )
+                                      .toList(),
+                                  getIndex: (index) {
+                                    widget.cubit.checkFileRemove(index);
+                                  },
+                                  onChange: (files, value) {
+                                    widget.cubit.editTaskHTKTRequest.fileUpload =
+                                        files;
+                                  },
+                                  idRemove: (String id) {},
+                                ),
+                                spaceH20,
+                                _doubleBtn(),
+                              ],
+                            );
+                          } else {
+                            return Container(
+                              color: Colors.transparent,
+                            );
+                          }
+                        },
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 22.5,
-                    bottom: 16,
-                  ),
-                  child: FormGroup(
-                    key: _groupKey,
-                    child: StreamBuilder<SupportDetail>(
-                      stream: widget.cubit.editModelHTKT.stream,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? SupportDetail();
-                        if (data.id != null) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                S.current.them_moi_yc_ho_tro,
-                                style: p.textNormalCustom(
-                                  color: textTitle,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              spaceH20,
-                              textField(
-                                initValue: data.tenThietBi,
-                                isHightLight: true,
-                                title: S.current.ten_thiet_bi,
-                                hintText: S.current.ten_thiet_bi,
-                                isEnable: true,
-                                maxLength: 150,
-                                onChange: (value) {
-                                  widget.cubit.editTaskHTKTRequest.name = value;
-                                },
-                                validate: (value) {
-                                  if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
-                                  }
-                                },
-                              ),
-                              spaceH16,
-                              textField(
-                                initValue: data.soDienThoai,
-                                isHightLight: true,
-                                title: S.current.sdt_lien_he,
-                                hintText: S.current.sdt_lien_he,
-                                inputFormatter: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                maxLength: 11,
-                                textInputType: TextInputType.number,
-                                onChange: (value) {
-                                  widget.cubit.editTaskHTKTRequest.phone =
-                                      value;
-                                },
-                                validate: (value) {
-                                  if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                              spaceH16,
-                              textField(
-                                initValue: data.moTaSuCo,
-                                isHightLight: true,
-                                maxLine: 3,
-                                title: S.current.nhap_mo_ta,
-                                hintText: S.current.nhap_mo_ta,
-                                onChange: (value) {
-                                  widget.cubit.editTaskHTKTRequest.description =
-                                      value;
-                                },
-                                validate: (value) {
-                                  if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
-                                  }
-                                },
-                              ),
-                              spaceH16,
-                              AreaDropDown(
-                                cubit: widget.cubit,
-                                statusHTKT: StatusHTKT.EDIT,
-                              ),
-                              spaceH16,
-                              BuildingDropDown(
-                                statusHTKT: StatusHTKT.EDIT,
-                                cubit: widget.cubit,
-                              ),
-                              spaceH16,
-                              textField(
-                                initValue: data.room,
-                                isHightLight: true,
-                                title: S.current.so_phong,
-                                hintText: S.current.so_phong,
-                                onChange: (value) {
-                                  widget.cubit.editTaskHTKTRequest.room = value;
-                                },
-                                validate: (value) {
-                                  if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
-                                  }
-                                },
-                              ),
-                              spaceH16,
-                              _multiSelect(),
-                              spaceH16,
-                              TaiLieuWidget(
-                                files: widget
-                                    .cubit.editModelHTKT.value.filesDinhKem
-                                    ?.map(
-                                      (e) => Files(
-                                        id: e.id,
-                                        name: e.fileName,
-                                        extension: null,
-                                        size: null,
-                                        path: e.filePath,
-                                        entityId: null,
-                                        entityName: null,
-                                        fileId: e.fileId,
-                                        taskId: e.taskId,
-                                      ),
-                                    )
-                                    .toList(),
-                                getIndex: (index) {
-                                  widget.cubit.checkFileRemove(index);
-                                },
-                                onChange: (files, value) {
-                                  widget.cubit.editTaskHTKTRequest.fileUpload =
-                                      files;
-                                },
-                                idRemove: (String id) {},
-                              ),
-                              spaceH20,
-                              _doubleBtn(),
-                            ],
-                          );
-                        } else {
-                          return Container(
-                            color: Colors.transparent,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

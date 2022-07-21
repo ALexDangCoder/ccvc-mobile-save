@@ -15,6 +15,10 @@ class DocumentModel {
   final String taskId;
   late final DocumentStatus documentStatus;
   final int trangThaiXuLy;
+  final String donViSoanThao;
+  final String nguoiSoanThao;
+  final String trichYeu;
+
   DocumentModel({
     required this.kyHieu,
     required this.noiGui,
@@ -24,6 +28,9 @@ class DocumentModel {
     this.id = '',
     this.taskId = '',
     this.trangThaiXuLy = 0,
+    this.donViSoanThao = '',
+    this.nguoiSoanThao = '',
+    this.trichYeu = '',
   }) {
     documentStatus = byStatus();
   }

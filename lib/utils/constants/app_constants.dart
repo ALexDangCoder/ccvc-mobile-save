@@ -146,7 +146,7 @@ extension GetTypeByName on PickerType {
   }
 }
 
-const int BYTE_TO_MB = 1048576;
+const int BYTE_TO_MB = 1000000;
 const String DEVICE_ID = '';
 const String DEVICE_ANDROID = 'ANDROID';
 const String DEVICE_IOS = 'IOS';
@@ -466,7 +466,7 @@ class EnumScheduleStatus {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_30MB = 31457280;
+  static const MAX_SIZE_30MB = 30000000;
 }
 
 class TypeTaskYKien {
@@ -481,7 +481,7 @@ class FileExtensions {
   static const String PNG = 'png';
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
-  static const String XLXS = 'xlxs';
+  static const String XLSX = 'xlsx';
   static const String PPTX = 'pptx';
 }
 class PermissionAppTxt{

@@ -569,7 +569,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.han_xu_ly}: ${DateTime.parse(dsKetQuaPakn.hanXuLy ?? '').toStringWithListFormat}',
+                    '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
@@ -64,6 +66,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           children: [
+            /// Widget up
             Row(
               children: [
                 if (widget.showIcon?.contains(IconDSCV.icCheckBox) ?? false)
@@ -191,12 +194,14 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   )
               ],
             ),
+
+            /// Widget down
             Padding(
               padding: const EdgeInsets.only(left: 31),
               child: Row(
                 children: [
                   textUnder(
-                    DateTime.parse(widget.todoModel.createdOn ?? '')
+                    DateTime.parse(widget.todoModel.finishDay ?? '')
                         .toStringWithListFormat,
                   ),
                   if (widget.todoModel.showDotOne()) circleWidget(),

@@ -145,13 +145,13 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                             birthday = dateTime;
                           },
                           minimumDate: (widget.cubit.supportDetail
-                              .thoiGianYeuCau?.isNotEmpty ??
-                              false)
+                                      .thoiGianYeuCau?.isNotEmpty ??
+                                  false)
                               ? DateFormat(
-                            DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                          ).parse(
-                            widget.cubit.supportDetail.thoiGianYeuCau!,
-                          )
+                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                ).parse(
+                                  widget.cubit.supportDetail.thoiGianYeuCau!,
+                                )
                               : null,
                           initDateTime: (widget.cubit.supportDetail
                                       .ngayHoanThanh?.isNotEmpty ??
@@ -175,20 +175,26 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                               taskId: (widget.cubit.supportDetail.id ??
                                       widget.idTask) ??
                                   '',
-                              name: trangThai ?? '',
-                              description: note ?? '',
-                              code: trangThai ?? '',
-                              finishDay: (birthday ??
+                              name: (trangThai ??
                                       widget
-                                          .cubit.supportDetail.ngayHoanThanh) ??
+                                          .cubit.supportDetail.trangThaiXuLy) ??
                                   '',
-                              handlerId: nguoiXuLy ?? '',
+                              description: note ?? '',
+                              code: (trangThai ??
+                                      widget
+                                          .cubit.supportDetail.trangThaiXuLy) ??
+                                  '',
+                              finishDay: birthday  ??
+                                  '',
+                              handlerId: (nguoiXuLy ??
+                                      widget.cubit.supportDetail.nguoiXuLy) ??
+                                  '',
                               id: (widget.cubit.supportDetail.id ??
                                       widget.idTask) ??
                                   '',
                               comment: '',
                             );
-                            Navigator.pop(context,true);
+                            Navigator.pop(context, true);
                           },
                           noPadding: true,
                         ),

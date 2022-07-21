@@ -37,6 +37,7 @@ class TodoDSCVModel {
   String? performer;
   String? groupId;
   String? filePath;
+  String? finishDay;
 
   TodoDSCVModel({
     this.id,
@@ -53,6 +54,7 @@ class TodoDSCVModel {
     this.performer,
     this.groupId,
     this.filePath,
+    this.finishDay,
   });
 
   bool showDotOne() {

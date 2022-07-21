@@ -18,7 +18,6 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
@@ -70,6 +69,8 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
       noiDungController.text = value.data?.noiDung ?? '';
       widget.cubit.loaiBieuQ = value.data?.loaiBieuQuyet ?? true;
       widget.cubit.lisLuaChonOld = value.data?.dsLuaChon ?? [];
+      widget.cubit.listThanhPhanThamGiaOld =
+          value.data?.dsThanhPhanThamGia ?? [];
       timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
           .parse(value.data?.thoiGianKetThuc ?? '')
           .formatTime;
@@ -280,8 +281,7 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                                     },
                                     dataNguoiThamGia: data,
                                     initData:
-                                        dataChiTiet.data?.dsThanhPhanThamGia ??
-                                            [],
+                                        widget.cubit.listThanhPhanThamGiaOld,
                                     cubit: widget.cubit,
                                   );
                                 } else {
@@ -345,13 +345,11 @@ class _TextFormFieldWidgetState extends State<SuaBieuQuyetWidget> {
                             ),
                             thanhPhanThamGiaOld:
                                 widget.cubit.paserThanhPhanThamGia(
-                              widget.cubit.chiTietBieuQuyetModel.data
-                                      ?.dsThanhPhanThamGia ??
-                                  [],
+                              widget.cubit.listThanhPhanThamGiaOld,
                             ),
                             dateStart: DateFormat(DateTimeFormat.DOB_FORMAT)
                                 .parse(thoiGianHop)
-                                .formatApiDDMMYYYY,
+                                .formatStartTimeSuaBieuQuyet,
                             danhSachThanhPhanThamGiaNew:
                                 widget.cubit.paserThanhPhanThamGiaNew(
                               widget.cubit.listDanhSach,

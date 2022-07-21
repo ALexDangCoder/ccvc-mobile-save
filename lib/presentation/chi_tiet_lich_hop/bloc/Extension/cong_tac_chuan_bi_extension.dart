@@ -263,10 +263,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         listStatusRom = res.data ?? [];
-        showContent();
       },
       error: (err) {},
     );
-    showContent();
   }
 }

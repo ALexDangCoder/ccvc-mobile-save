@@ -22,8 +22,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SuaDoiYcHoTroMobile extends StatefulWidget {
-  const SuaDoiYcHoTroMobile({
+class SuaDoiYcHoTroTablet extends StatefulWidget {
+  const SuaDoiYcHoTroTablet({
     Key? key,
     required this.cubit,
     required this.idHTKT,
@@ -32,10 +32,10 @@ class SuaDoiYcHoTroMobile extends StatefulWidget {
   final String idHTKT;
 
   @override
-  State<SuaDoiYcHoTroMobile> createState() => _SuaDoiYcHoTroMobileState();
+  State<SuaDoiYcHoTroTablet> createState() => _SuaDoiYcHoTroTabletState();
 }
 
-class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
+class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
   final _groupKey = GlobalKey<FormGroupState>();
 
   @override
@@ -63,13 +63,21 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Container(
-          height: 750,
+          height: 836,
+          width: 592,
           clipBehavior: Clip.hardEdge,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
+            border: Border.all(color: borderColor.withOpacity(0.5)),
+            boxShadow: [
+              BoxShadow(
+                color: shadowContainerColor.withOpacity(0.05),
+                offset: const Offset(0, 4),
+                blurRadius: 10,
+              ),
+            ],
             color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32),
-              topRight: Radius.circular(32),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(12),
             ),
           ),
           child: SingleChildScrollView(
@@ -228,7 +236,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 idRemove: (String id) {},
                               ),
                               spaceH20,
-                              doubleBtn(),
+                              _doubleBtn(),
                             ],
                           );
                         } else {
@@ -410,7 +418,8 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
     );
   }
 
-  Widget doubleBtn() => DoubleButtonBottom(
+  Widget _doubleBtn() => DoubleButtonBottom(
+        isTablet: true,
         onClickLeft: () {
           Navigator.pop(context);
         },

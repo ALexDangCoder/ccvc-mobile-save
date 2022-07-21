@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/them_moi_yc_ho_tro_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/tablet/them_moi_yc_ho_tro_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tim_kiem/tablet/tim_kiem_yc_ho_tro_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
@@ -41,7 +42,7 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
     return Scaffold(
       appBar: _appBarTablet(),
       backgroundColor: bgColor,
-      floatingActionButton: floatingHTKT(
+      floatingActionButton: floatingHTKTTablet(
         context,
         widget.cubit,
       ),
@@ -132,7 +133,7 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
       );
 }
 
-Widget floatingHTKT(
+Widget floatingHTKTTablet(
   BuildContext context,
   HoTroKyThuatCubit cubit,
 ) {
@@ -140,16 +141,14 @@ Widget floatingHTKT(
     elevation: 0,
     backgroundColor: labelColor,
     onPressed: () {
-      if (cubit.listKhuVuc.value.isNotEmpty) {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => ThemMoiYCHoTroMobile(
-            cubit: cubit, //todo tablet
-          ),
-        );
-      }
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => ThemMoiYCHoTroTablet(
+          cubit: cubit,
+        ),
+      );
     },
     child: const Icon(
       Icons.add,

@@ -325,8 +325,9 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
   void clearData() {
     danhSachLuaChon = [];
+    listThanhPhanThamGiaOld.clear();
     cacLuaChonBieuQuyet = [];
-    listDanhSach = [];
+    listDanhSach.clear();
     isValidateSubject.sink.add(false);
     isValidateTimer.sink.add(false);
     danhSachLuaChonNew.clear();
@@ -406,7 +407,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
           (e) => DanhSachThanhPhanThamGiaNew(
             donViId: e.donViId,
             canBoId: e.canBoId,
-            idPhienhopCanbo: idPhienHop,
+            idPhienhopCanbo: e.id,
           ),
         )
         .toList();

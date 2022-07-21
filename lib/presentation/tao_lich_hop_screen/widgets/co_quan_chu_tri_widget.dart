@@ -268,6 +268,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                       FileExtensions.JPG,
                       FileExtensions.PDF,
                       FileExtensions.PNG,
+                      FileExtensions.XLSX,
                     ],
                     onChange: (List<File> files, bool validate) {
                       if(!validate) {

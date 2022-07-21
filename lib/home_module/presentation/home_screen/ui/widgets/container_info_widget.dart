@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,8 @@ class ContainerInfoWidget extends StatelessWidget {
   final String status2;
   final Color? colorStatus2;
   final bool backGroundStatus2;
+  final bool choTrinhKy;
+  final String trichYeu;
 
   const ContainerInfoWidget({
     Key? key,
@@ -25,6 +28,8 @@ class ContainerInfoWidget extends StatelessWidget {
     this.status2 = '',
     this.colorStatus2,
     this.backGroundStatus2 = false,
+    this.choTrinhKy = false,
+    this.trichYeu = '',
   }) : super(key: key);
 
   @override
@@ -57,6 +62,20 @@ class ContainerInfoWidget extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
+          const SizedBox(
+            height: 6,
+          ),
+          if (choTrinhKy) ...[
+            Text(
+              trichYeu.parseHtml().toLowerCase(),
+              style: textNormal(
+                textTitle,
+                16.0.textScale(),
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
           const SizedBox(
             height: 12,
           ),

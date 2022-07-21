@@ -27,11 +27,6 @@ class DanhBaWidget extends StatefulWidget {
 
 class _DanhBaScreenState extends State<DanhBaWidget> {
   @override
-  void initState() {
-    // TODO: implement initState
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -129,8 +124,12 @@ class NodeWidget extends StatefulWidget {
   NodeHSCV? node;
   final DanhBaDienTuCubit cubit;
 
-  NodeWidget({Key? key, this.node, required this.cubit, required this.onChange})
-      : super(key: key);
+  NodeWidget({
+    Key? key,
+    this.node,
+    required this.cubit,
+    required this.onChange,
+  }) : super(key: key);
 
   @override
   _NodeWidgetState createState() => _NodeWidgetState();
@@ -143,6 +142,12 @@ class _NodeWidgetState extends State<NodeWidget> {
   @override
   void initState() {
     super.initState();
+    if ((widget.node?.value.iDDonViCha ?? '').isEmpty ||
+        !(widget.node?.value.hasDonViCon ?? false)) {
+      isExpand = true;
+    } else {
+      isExpand = false;
+    }
     nodeCubit = NodeCubit(
       tree: widget.cubit.listTreeDanhBaSubject.value
           .getChild(widget.node?.value.id ?? ''),
@@ -158,7 +163,7 @@ class _NodeWidgetState extends State<NodeWidget> {
       stream: widget.cubit.listTreeDanhBaSubject.stream,
       builder: (context, snapshot) {
         final hasChild = widget.node?.value.hasDonViCon ?? false;
-        final idDonviCha = widget.node?.value.iDDonViCha;
+        final idDonviCha = widget.node?.value.iDDonViCha ?? '';
         if (widget.node != null) {
           return SingleChildScrollView(
             child: Column(
@@ -177,11 +182,11 @@ class _NodeWidgetState extends State<NodeWidget> {
                           nodeHSCV: widget.node ??
                               NodeHSCV(
                                 iDDonViCha: '',
-                                value: TreeDonViDanhBA.Emty(),
+                                value: TreeDonViDanhBA(),
                               ),
                         );
                         widget.onChange(
-                          widget.node?.value ?? TreeDonViDanhBA.Emty(),
+                          widget.node?.value ?? TreeDonViDanhBA(),
                         );
                       }
                     },
@@ -195,7 +200,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                               top: idDonviCha != '' ? 6 : 0,
                             ),
                             decoration: BoxDecoration(
-                              border: idDonviCha != '' && isExpand
+                              border: idDonviCha.isNotEmpty && isExpand
                                   ? const Border()
                                   : borderSide(),
                             ),
@@ -203,7 +208,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                               children: [
                                 Expanded(
                                   flex: 9,
-                                  child: idDonviCha != ''
+                                  child: idDonviCha.isNotEmpty
                                       ? Text(
                                           widget.node?.value.tenDonVi ?? '',
                                           style: textNormal(color3D5586, 14),
@@ -223,7 +228,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                                             : const SizedBox();
                                       },
                                     ),
-                                    if (idDonviCha != '')
+                                    if (idDonviCha.isNotEmpty)
                                       hasChild
                                           ? isExpand
                                               ? iconUp()

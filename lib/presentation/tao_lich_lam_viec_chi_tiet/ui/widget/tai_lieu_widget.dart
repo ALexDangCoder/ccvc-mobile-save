@@ -86,7 +86,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               FileExtensions.JPG,
               FileExtensions.PDF,
               FileExtensions.PNG,
-              FileExtensions.XLXS,
+              FileExtensions.XLSX,
             ],
           ),
         )

@@ -80,6 +80,23 @@ class DocumentDashboardModel {
     }
     return list;
   }
+
+  List<DataRow> listVBDenSubjectInfo() {
+    final List<DataRow> list = [];
+    if (HiveLocal.checkPermissionApp(
+        permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
+        permissionType: PermissionType.QLVB)) {
+      list.add(
+          DataRow(SelectKey.CHO_VAO_SO, choVaoSoColor, soLuongChoVaoSo ));
+    }
+    list.addAll([
+      DataRow(SelectKey.DANG_XU_LY, dangXyLyColor, soLuongDangXuLy ),
+      DataRow(SelectKey.CHO_XU_LY, choXuLyColor, soLuongChoXuLy ),
+      DataRow(SelectKey.DA_XU_LY, daXuLyColor, soLuongDaXuLy),
+    ]);
+    return list;
+  }
+
 }
 
 class DataRow {

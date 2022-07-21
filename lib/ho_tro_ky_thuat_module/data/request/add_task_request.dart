@@ -1,3 +1,7 @@
+
+
+import 'dart:io';
+
 class AddTaskHTKTRequest {
   String? id;
   String? userRequestId;
@@ -10,8 +14,9 @@ class AddTaskHTKTRequest {
   String? room;
   String? name;
   List<String>? danhSachSuCo;
+  List<String>? lstFileId;
   String? userInUnit;
-  List<String>? fileUpload;
+  List<File>? fileUpload;
 
   AddTaskHTKTRequest({
     this.id,
@@ -25,41 +30,49 @@ class AddTaskHTKTRequest {
     this.room,
     this.name,
     this.danhSachSuCo,
+    this.lstFileId,
     this.userInUnit,
     this.fileUpload,
   });
 
   AddTaskHTKTRequest.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userRequestId = json['userRequestId'];
-    phone = json['phone'];
-    description = json['description'];
-    districtId = json['districtId'];
-    districtName = json['districtName'];
-    buildingId = json['buildingId'];
-    buildingName = json['buildingName'];
-    room = json['room'];
-    name = json['name'];
-    danhSachSuCo = json['danhSachSuCo'].cast<String>();
-    userInUnit = json['userInUnit'];
-    fileUpload = json['fileUpload'].cast<String>();
+    id = json['Id'];
+    userRequestId = json['UserRequestId'];
+    phone = json['Phone'];
+    lstFileId = json['lstFileId'];
+    description = json['Description'];
+    districtId = json['DistrictId'];
+    districtName = json['DistrictName'];
+    buildingId = json['BuildingId'];
+    buildingName = json['BuildingName'];
+    room = json['Room'];
+    name = json['Name'];
+    danhSachSuCo = json['DanhSachSuCo'].cast<String>();
+    userInUnit = json['UserInUnit'];
+    fileUpload = json['fileUpload'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['userRequestId'] = userRequestId;
-    data['phone'] = phone;
-    data['description'] = description;
-    data['districtId'] = districtId;
-    data['districtName'] = districtName;
-    data['buildingId'] = buildingId;
-    data['buildingName'] = buildingName;
-    data['room'] = room;
-    data['name'] = name;
-    data['danhSachSuCo'] = danhSachSuCo;
-    data['userInUnit'] = userInUnit;
+    data['Id'] = id;
+    data['UserRequestId'] = userRequestId;
+    data['Phone'] = phone;
+    data['Description'] = description;
+    data['DistrictId'] = districtId;
+    data['DistrictName'] = districtName;
+    data['BuildingId'] = buildingId;
+    data['lstFileId'] = lstFileId;
+    data['BuildingName'] = buildingName;
+    data['Room'] = room;
+    data['Name'] = name;
+    data['DanhSachSuCo'] = danhSachSuCo;
+    data['UserInUnit'] = userInUnit;
     data['fileUpload'] = fileUpload;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'AddTaskHTKTRequest{id: $id, userRequestId: $userRequestId, phone: $phone, description: $description, districtId: $districtId, districtName: $districtName, buildingId: $buildingId, buildingName: $buildingName, room: $room, name: $name, danhSachSuCo: $danhSachSuCo, lstFileId: $lstFileId, userInUnit: $userInUnit, fileUpload: $fileUpload}';
   }
 }

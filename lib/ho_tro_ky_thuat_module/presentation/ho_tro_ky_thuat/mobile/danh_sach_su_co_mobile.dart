@@ -130,7 +130,7 @@ Widget floatingHTKT(
     elevation: 0,
     backgroundColor: labelColor,
     onPressed: () {
-      if (cubit.listKhuVuc.value.isNotEmpty) {
+      // if (cubit.listKhuVuc.value.isNotEmpty) {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
@@ -139,7 +139,7 @@ Widget floatingHTKT(
             cubit: cubit,
           ),
         );
-      }
+      // }
     },
     child: const Icon(
       Icons.add,

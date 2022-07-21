@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/tablet/cap_nhat_tinh_hinh_ho_tro_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/tablet/danh_gia_tablet.dart';
@@ -85,13 +86,13 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                     ? Column(
                         children: [
                           Container(
-                            margin:  EdgeInsets.only(
+                            margin: EdgeInsets.only(
                               left: 24.w,
                               right: 24.w,
                               top: 24.h,
                               bottom: 24.h,
                             ),
-                            padding:  EdgeInsets.only(
+                            padding: EdgeInsets.only(
                               left: 30.w,
                               right: 30.w,
                               top: 30.h,
@@ -231,10 +232,10 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
       },
     );
   }
-  void onPressConfirm(){
+
+  void onPressConfirm() {
     if (cubit.isItSupport &&
-        cubit.supportDetail.codeTrangThai !=
-            ChiTietHoTroCubit.DA_HOAN_THANH) {
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH) {
       showDialog(
         context: context,
         builder: (_) {
@@ -285,7 +286,7 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
   }
 }
 
-Widget loaiSuCo(List<String> list) {
+Widget loaiSuCo(List<SuCoHTKT> list) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -319,7 +320,7 @@ Widget loaiSuCo(List<String> list) {
                       8.0,
                     ),
                     child: Text(
-                      '≠$e',
+                      '≠${e.tenSuCo}',
                       style: textNormalCustom(
                         color: color3D5586,
                         fontSize: 16,

@@ -209,6 +209,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
             showContent();
             emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
           } else {
+            showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.items));
           }
         }

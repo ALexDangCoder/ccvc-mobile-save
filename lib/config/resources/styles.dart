@@ -40,6 +40,7 @@ const spaceH48 = SizedBox(height: 48);
 const spaceH50 = SizedBox(height: 50);
 const spaceH60 = SizedBox(height: 60);
 const spaceH70 = SizedBox(height: 70);
+const spaceH140 = SizedBox(height: 140);
 const spaceH156 = SizedBox(height: 156);
 
 ///W
@@ -83,7 +84,7 @@ TextStyle tokenDetailAmount({
   FontWeight weight = FontWeight.w400,
 }) {
   return GoogleFonts.roboto(
-    color: color ??  Colors.white,
+    color: color ?? Colors.white,
     fontWeight: weight,
     fontStyle: FontStyle.normal,
     fontSize: fontSize,
@@ -113,9 +114,11 @@ TextStyle titleText({Color color = Colors.white, double fontSize = 20}) {
   );
 }
 
-TextStyle textValidateStrikethrough({Color? color,
+TextStyle textValidateStrikethrough({
+  Color? color,
   double? fontSize,
-  FontWeight? fontWeight, }) {
+  FontWeight? fontWeight,
+}) {
   return GoogleFonts.roboto(
     decoration: TextDecoration.lineThrough,
     color: color ?? Colors.white,

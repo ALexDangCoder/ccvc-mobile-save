@@ -54,7 +54,7 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
               FileExtensions.JPG,
               FileExtensions.PDF,
               FileExtensions.PNG,
-              FileExtensions.XLXS,
+              FileExtensions.XLSX,
             ],
             onChange: (List<File> files, bool validate) {
               cubit.isOverFileLength = validate;

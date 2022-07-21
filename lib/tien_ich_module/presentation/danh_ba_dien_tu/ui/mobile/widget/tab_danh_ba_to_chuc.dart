@@ -53,12 +53,9 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
       callApi: (page) => {
         cubit.pageIndex = page,
         if (cubit.listTreeDanhBa.isEmpty)
-          cubit
-              .getTree(soCap: 1)
-              .then(
-                (value) => cubit.callApiDanhBaToChuc(id: cubit.init().id),
+          cubit.getTree(soCap: 2).then(
+                (value) => cubit.callApiDanhBaToChuc(id: ''),
               )
-              .then((value) => cubit.getTree(soCap: 2))
         else
           cubit.callApiDanhBaToChuc(
             keyWork: keySearch,

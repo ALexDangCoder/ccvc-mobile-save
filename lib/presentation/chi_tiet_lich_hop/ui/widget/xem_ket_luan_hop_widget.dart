@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
@@ -258,38 +257,39 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         ),
                       ),
 
-                      /// them tai lieu cuoc hop
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 5),
-                        child: ButtonSelectFileLichLamViec(
-                          isShowFile: false,
-                          hasMultipleFile: true,
-                          maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
-                          title: S.current.tai_lieu_dinh_kem,
-                          allowedExtensions: const [
-                            FileExtensions.DOC,
-                            FileExtensions.DOCX,
-                            FileExtensions.JPEG,
-                            FileExtensions.JPG,
-                            FileExtensions.PDF,
-                            FileExtensions.PNG,
-                            FileExtensions.PPTX,
-                          ],
-                          onChange: (List<File> files, bool validate) {
-                            if (validate) {
-                              return;
-                            }
-                            for (final element in files) {
-                              if (state.listFiles
-                                  .where((e) => e.path == element.path)
-                                  .isEmpty) {
-                                state.listFiles.add(element);
+                        /// them tai lieu cuoc hop
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 5),
+                          child:  ButtonSelectFileLichLamViec(
+                            isShowFile: false,
+                            hasMultipleFile: true,
+                            maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
+                            title: S.current.tai_lieu_dinh_kem,
+                            allowedExtensions: const [
+                              FileExtensions.DOC,
+                              FileExtensions.DOCX,
+                              FileExtensions.JPEG,
+                              FileExtensions.JPG,
+                              FileExtensions.PDF,
+                              FileExtensions.PNG,
+                              FileExtensions.PPTX,
+                              FileExtensions.XLSX,
+                            ],
+                            onChange: (List<File> files, bool validate) {
+                              if(validate){
+                                return;
                               }
-                            }
-                            state.listFileSelect.sink.add(state.listFiles);
-                          },
+                              for (final element in files) {
+                                if (state.listFiles
+                                    .where((e) => e.path == element.path)
+                                    .isEmpty) {
+                                  state.listFiles.add(element);
+                                }
+                              }
+                              state.listFileSelect.sink.add(state.listFiles);
+                            },
+                          ),
                         ),
-                      ),
 
                       /// list file
                       StreamBuilder<List<FileDetailMeetModel>>(

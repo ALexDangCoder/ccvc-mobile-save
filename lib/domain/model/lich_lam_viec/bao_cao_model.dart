@@ -66,5 +66,6 @@ class FileModel {
   String? id;
   String? name;
   String? path;
-  FileModel({this.id, this.name,this.path});
+  double? fileLength;
+  FileModel({this.id, this.name,this.path, this.fileLength,});
 }

@@ -800,6 +800,7 @@
   "ma_pakn": "Mã PAKN",
   "dv_soan_thao": "Đơn vị soạn thảo",
   "nguoi_soan_thao": "Người soạn thảo",
+  "don_vi_soan_thao": "Đơn vị soạn thảo",
   "ky_hieu": "Ký hiệu",
   "ngay_han_xl": "Ngày hạn xử lý",
   "nguoi_theo_doi_van_ban": "Người theo dõi văn bản",
@@ -1358,5 +1359,6 @@
   "lap_lai_hang_tuan": "Lặp lại hàng tuần",
   "lap_lai_hang_thang": "Lặp lại hàng tháng",
   "lap_lai_hang_nam": "Lặp lại hàng năm",
-  "tuy_chinh": "Tùy chỉnh"
+  "tuy_chinh": "Tùy chỉnh",
+  "ten_nguoi_tao" : "Tên người tạo"
 }

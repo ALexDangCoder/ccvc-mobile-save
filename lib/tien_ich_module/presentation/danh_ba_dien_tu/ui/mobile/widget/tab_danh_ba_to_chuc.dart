@@ -59,7 +59,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         else
           cubit.callApiDanhBaToChuc(
             keyWork: keySearch,
-            id: cubit.id == '' ? cubit.init().id : cubit.id,
+            id: cubit.id,
           )
       },
       childrenView: [

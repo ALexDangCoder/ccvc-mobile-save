@@ -283,7 +283,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             paddingLeft: 35,
                           ),
                         ],
-                        if (!(cubit.isCheckUser ?? true))
+                        if (objDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.DA_HOAN_THANH) ...[
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
@@ -301,11 +302,11 @@ class ItemDanhSachSuCo extends StatelessWidget {
                               );
                             },
                           ),
-                        if (!(cubit.isCheckUser ?? true))
                           line(
                             paddingLeft: 35,
                           ),
-                        if ((cubit.isCheckUser ?? false) ||
+                        ],
+                        if ((cubit.isCheckUser ?? false) &&
                             !(objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.DA_HOAN_THANH))
                           itemMenu(

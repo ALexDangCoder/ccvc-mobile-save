@@ -39,7 +39,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarMobile(),
-      floatingActionButton: floatingHTKT(
+      floatingActionButton: floatingHTKTMobile(
         context,
         widget.cubit,
       ),
@@ -121,7 +121,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
       );
 }
 
-Widget floatingHTKT(
+Widget floatingHTKTMobile(
   BuildContext context,
   HoTroKyThuatCubit cubit,
 ) {

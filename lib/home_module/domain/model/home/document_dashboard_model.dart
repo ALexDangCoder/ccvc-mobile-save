@@ -67,17 +67,17 @@ class DocumentDashboardModel {
 
   List<DataRow> listVBDen() {
     final List<DataRow> list = [];
+    list.addAll([
+      DataRow(SelectKey.CHO_XU_LY, choXuLyColor, soLuongChoXuLy ),
+      DataRow(SelectKey.DANG_XU_LY, dangXyLyColor, soLuongDangXuLy ),
+      DataRow(SelectKey.DA_XU_LY, daXuLyColor, soLuongDaXuLy),
+    ]);
     if (HiveLocal.checkPermissionApp(
         permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
         permissionType: PermissionType.QLVB)) {
       list.add(
           DataRow(SelectKey.CHO_VAO_SO, choVaoSoColor, soLuongChoVaoSo ));
     }
-    list.addAll([
-      DataRow(SelectKey.DANG_XU_LY, dangXyLyColor, soLuongDangXuLy ),
-      DataRow(SelectKey.CHO_XU_LY, choXuLyColor, soLuongChoXuLy ),
-      DataRow(SelectKey.DA_XU_LY, daXuLyColor, soLuongDaXuLy),
-    ]);
     return list;
   }
 }

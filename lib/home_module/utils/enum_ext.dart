@@ -128,11 +128,11 @@ extension DocumentStatusEx on DocumentStatus {
       case DocumentStatus.HOA_TOC:
         return statusCalenderRed;
       case DocumentStatus.KHAN:
-        return yellowColor;
+        return choVaoSoColor;
       case DocumentStatus.BINH_THUONG:
-        return indicatorColor;
+        return daXuLyColor;
       case DocumentStatus.THUONG_KHAN:
-        return yellowColor;
+        return pinkColor;
       case DocumentStatus.CHUA_THUC_HIEN:
         return yellowColor;
       case DocumentStatus.DANG_THUC_HIEN:

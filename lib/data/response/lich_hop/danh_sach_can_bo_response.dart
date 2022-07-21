@@ -57,6 +57,7 @@ class ListCanBo {
   bool? isThamGiaBocBang;
   String? createAt;
   String? parentId;
+  String? ghiChu;
 
   ListCanBo({
     this.tenChucVu,
@@ -77,6 +78,7 @@ class ListCanBo {
     this.isThamGiaBocBang,
     this.createAt,
     this.parentId,
+    this.ghiChu,
   });
 
   ListCanBo.fromJson(Map<String, dynamic> json) {
@@ -98,6 +100,7 @@ class ListCanBo {
     isThamGiaBocBang = json['isThamGiaBocBang'];
     createAt = json['createAt'];
     parentId = json['parentId'];
+    ghiChu = json['ghiChu'];
   }
 
   NguoiChutriModel toDomain() => NguoiChutriModel(
@@ -112,6 +115,7 @@ class ListCanBo {
         parentId: parentId,
         tenCanBo: tenCanBo,
         tenCoQuan: tenCoQuan,
+        ghiChu: ghiChu,
       );
 }
 

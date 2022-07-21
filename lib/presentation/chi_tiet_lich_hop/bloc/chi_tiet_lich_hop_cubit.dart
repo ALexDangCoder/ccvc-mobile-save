@@ -56,14 +56,13 @@ import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
   /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
   /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
-  KetLuanHopState ketLuanHopState= KetLuanHopState();
+  KetLuanHopState ketLuanHopState = KetLuanHopState();
   String ngayBatDaus = '';
   String ngayKetThucs = '';
   bool check = false;
@@ -131,7 +130,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       color: statusCalenderRed,
     ),
   ];
-
+  BehaviorSubject<List<NguoiChutriModel>> listCuCanBoSubject =
+      BehaviorSubject();
   BehaviorSubject<ButtonStatePhatBieu> buttonStatePhatBieuSubject =
       BehaviorSubject();
 
@@ -319,13 +319,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     });
   }
 }
+
 class KetLuanHopState {
   final BehaviorSubject<List<FileDetailMeetModel>> listFileDefault =
-  BehaviorSubject();
-  final BehaviorSubject<List<File>> listFileSelect =
-  BehaviorSubject();
-  final BehaviorSubject<bool> validateTinhTrang =
-  BehaviorSubject();
+      BehaviorSubject();
+  final BehaviorSubject<List<File>> listFileSelect = BehaviorSubject();
+  final BehaviorSubject<bool> validateTinhTrang = BehaviorSubject();
 
   String valueEdit = '';
   String reportStatusId = '';

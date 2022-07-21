@@ -41,9 +41,9 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     for (final vl in tree) {
       Node<DonViModel>? nodeAdd = vl;
       if (isDonVi) {
-        for (final donViRemove  in listIdDonViRemove){
+        for (final donViRemove in listIdDonViRemove) {
           nodeAdd = vl.removeFirstWhere(
-              (element) => donViRemove.donViId == element.id ,
+            (element) => donViRemove.donViId == element.id,
           );
         }
       }

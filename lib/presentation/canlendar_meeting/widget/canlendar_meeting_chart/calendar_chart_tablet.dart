@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/calendar_chart_by_time.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/canlender_chart_by_meeting_number.dart';
-import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/ti_le_tham_du_widget.dart';
+import 'package:ccvc_mobile/presentation/canlendar_meeting/widget/canlendar_meeting_chart/lich_hop_theo_linh_vuc.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +71,7 @@ class _ThongKeLichHopTabletState extends State<ThongKeLichHopTablet> {
                     textviewTitle(
                       S.current.ti_le_tham_du_cua_cac_don_vi,
                     ),
-                    TiLeThamDuWidget(
+                    ThongKeTheoLinhVuc(
                       cubit: widget.cubit,
                     ),
                   ],

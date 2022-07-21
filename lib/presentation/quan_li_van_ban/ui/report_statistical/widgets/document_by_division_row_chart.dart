@@ -1,18 +1,16 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DocumentByDivisionRowChart extends StatefulWidget {
   final List<RowChartData> data;
-  final List<ChartData> listStatusData;
 
   const DocumentByDivisionRowChart({
     Key? key,
-    required this.listStatusData,
-    this.data = const [],
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -49,7 +47,9 @@ class _DocumentByDivisionRowChartState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return widget.data.isEmpty ? const Center(
+      child: NodataWidget(),
+    ) : Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 16.0, top: 20.0),
@@ -60,8 +60,8 @@ class _DocumentByDivisionRowChartState
             childAspectRatio: 9,
             mainAxisSpacing: 10.0.textScale(space: 4),
             crossAxisSpacing: 10,
-            children: List.generate(widget.listStatusData.length, (index) {
-              final result = widget.listStatusData[index];
+            children: List.generate(widget.data.first.listData.length, (index) {
+              final result = widget.data.first.listData;
               return GestureDetector(
                 onTap: () {},
                 child: Row(
@@ -71,7 +71,7 @@ class _DocumentByDivisionRowChartState
                       height: 14,
                       width: 14,
                       decoration: BoxDecoration(
-                        color: result.color,
+                        color: result[index].color,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -81,7 +81,7 @@ class _DocumentByDivisionRowChartState
                     Flexible(
                       child: FittedBox(
                         child: Text(
-                          '${result.title} (${result.value.toInt()})',
+                          result[index].title,
                           style: textNormal(
                             infoColor,
                             14.0.textScale(),
@@ -326,8 +326,13 @@ class RowChartData {
 }
 
 class SubRowChartData {
+  String title;
   int value;
   Color color;
 
-  SubRowChartData({required this.value, required this.color});
+  SubRowChartData({
+    required this.value,
+    required this.color,
+    required this.title,
+  });
 }

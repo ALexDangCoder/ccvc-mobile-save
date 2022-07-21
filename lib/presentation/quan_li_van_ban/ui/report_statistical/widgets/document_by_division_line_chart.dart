@@ -124,7 +124,7 @@ class _LineChartViewState extends State<_LineChartView> {
       ),
       primaryXAxis: NumericAxis(
         labelPosition: ChartDataLabelPosition.outside,
-        visibleMaximum: 6.0,
+        visibleMaximum: 12,
         interval: 1,
         majorGridLines: const MajorGridLines(width: 0),
       ),
@@ -148,7 +148,7 @@ class _LineChartViewState extends State<_LineChartView> {
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y,
         width: 2,
-        name: S.current.nam,
+        name: S.current.nam_truoc,
         markerSettings: const MarkerSettings(
           isVisible: true,
           color: color5A8DEE,

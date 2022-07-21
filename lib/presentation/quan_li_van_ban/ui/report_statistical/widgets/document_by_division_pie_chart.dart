@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class DocumentByDivisionPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PieChart(
-      title: 'Tình hình xử lý văn bản đến',
+      title: S.current.tinh_hinh_xu_ly_van_ban_den,
       tittleStyle: textNormalCustom(
         color: textTitle,
         fontSize: 16,
@@ -97,7 +98,7 @@ class _PieChart extends StatelessWidget {
                     seriesIndex,
                   ) {
                     return SizedBox(
-                      width: 75,
+                      width: 50,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -139,6 +140,6 @@ class _PieChart extends StatelessWidget {
       sum += vl.value;
     }
     final double percent = (vl / sum) * 100;
-    return '${percent.toStringAsFixed(2).replaceAll('.00', '')}%';
+    return '${percent.round()}%';
   }
 }

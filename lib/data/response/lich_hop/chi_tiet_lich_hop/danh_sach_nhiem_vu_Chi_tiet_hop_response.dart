@@ -77,7 +77,7 @@ class PageData {
   }
 
   CalendarMeetingModel toDomain() => CalendarMeetingModel(
-    loaiNhiemVu: loaiNhiemVu ?? '',
+        loaiNhiemVu: loaiNhiemVu ?? '',
         hanXuLy: hanXuLy ?? '',
         maTrangThai: maTrangThai ?? '',
         id: id ?? '',

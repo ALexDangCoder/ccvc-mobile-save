@@ -107,6 +107,8 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
     createCubit.publishSchedule = event.publishSchedule;
 
     createCubit.dateRepeat = event.dateRepeat;
+    createCubit.endDateSubject.add(
+        DateTime.parse(createCubit.dateRepeat ?? DateTime.now().toString()));
 
     createCubit.scheduleReminder = event.scheduleReminder;
     titleController.text = event.title ?? '';

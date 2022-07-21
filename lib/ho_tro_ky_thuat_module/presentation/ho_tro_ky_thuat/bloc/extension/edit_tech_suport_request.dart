@@ -50,21 +50,4 @@ extension EditTechSupportRequest on HoTroKyThuatCubit {
       },
     );
   }
-
-// String? getValueAreaDropDown({
-//   required StatusHTKT statusHTKT,
-//   String? id,
-//   bool isArea = true,
-// }) {
-//   if (statusHTKT == StatusHTKT.Create) {
-//     return isArea
-//         ? addTaskHTKTRequest.districtName
-//         : addTaskHTKTRequest.buildingName;
-//   } else {
-//     return findLocationAreaFeatBuilding(
-//       id: id ?? '',
-//       isArea: isArea,
-//     );
-//   }
-// }
 }

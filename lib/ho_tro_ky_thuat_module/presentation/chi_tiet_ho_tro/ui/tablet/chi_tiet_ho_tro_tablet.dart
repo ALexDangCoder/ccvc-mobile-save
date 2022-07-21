@@ -31,7 +31,6 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     cubit = ChiTietHoTroCubit();
     cubit.getSupportDetail(widget.idHoTro);
@@ -118,7 +117,8 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                                 spaceH10,
                                 rowItem(
                                   S.current.nguoi_yeu_cau,
-                                  '${cubit.supportDetail.nguoiYeuCau ?? ''} - ${cubit.supportDetail.chucVu ?? ''}',
+                                  '${cubit.supportDetail.nguoiYeuCau ?? ''} - '
+                                      '${cubit.supportDetail.chucVu ?? ''}',
                                 ),
                                 spaceH10,
                                 rowItem(

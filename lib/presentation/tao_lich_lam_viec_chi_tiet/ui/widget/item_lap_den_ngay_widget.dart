@@ -102,7 +102,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   height: isShowDatePicker ? 300 : 1,
                   child: isShowDatePicker
                       ? FlutterRoundedCupertinoDatePickerWidget(
-                          minimumDate: DateTime.now(),
+                          minimumDate: widget.initDate,
                           textStyleDate: textNormal(color3D5586, 16),
                           initialDateTime: widget.initDate,
                           onDateTimeChanged: (value) {

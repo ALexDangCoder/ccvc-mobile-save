@@ -809,4 +809,5 @@ class ThanhPhanThamGiaStatus {
   static const int TU_CHOI_THAM_GIA = 2;
   static const int THAM_DU = 3;
   static const int CHO_XAC_NHAN = 0;
+  static const int THU_HOI = 4;
 }

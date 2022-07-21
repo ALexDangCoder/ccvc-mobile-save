@@ -294,7 +294,7 @@ class PhatBieuChildWidget extends StatelessWidget {
                 width: 12,
               ),
               Expanded(
-                child: buttomHuyPb(text: S.current.tu_choi, context: context),
+                child: buttomHuyPb(text: S.current.huy_duyet, context: context),
               ),
             ],
           ),
@@ -358,7 +358,7 @@ class PhatBieuChildWidget extends StatelessWidget {
     } else {
       showDiaLog(
         context,
-        title: isDuyet ? S.current.duyet : S.current.tu_choi,
+        title: isDuyet ? S.current.duyet : S.current.huy_duyet,
         icon: isDuyet
             ? SvgPicture.asset(ImageAssets.icDiemDanh)
             : SvgPicture.asset(ImageAssets.icHuyDiemDanh),

@@ -6,6 +6,7 @@
   "error": "Error",
   "error_network": "No internet!",
   "retry": "Retry",
+  "chinh_sua_htkt": "Chỉnh sửa yêu cầu hỗ trợ",
   "unauthorized": "Your session has expired. Please sign in.",
   "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cấp",
   "them_moi_doi_tuong": "Thêm mới đối tượng",
@@ -115,7 +116,7 @@
   "noi_gui": "Nơi gửi",
   "da_qua_han": "Đã quá hạn",
   "nguoi_chu_tri": "Người chủ trì",
-  "dia_diem": "địa điểm",
+  "dia_diem": "Địa điểm",
   "nhap_dia_diem": "Nhập địa điểm",
   "tin_tuc_thoi_su": "Tin tức thời sự",
   "theo_doi_bai_viet": "Theo dõi bài viết",
@@ -1309,10 +1310,20 @@
   "november": "Tháng 11",
   "december": "Tháng 12",
   "content": "Nội dung",
-  "nam_truoc": "Năm trước",
+  "vui_long_nhap_loi_chuc": "Vui lòng nhập lời chúc",
+  "nam_truoc" : "Năm trước",
   "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp",
-  "thu_hoi_chi_tiet_lich_hop": "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
-  "thu_hoi_lich_hop": "Thu hồi lịch họp"
+  "ca_nha_hom_nay": "Cá nhân - Hôm nay",
+  "vui_long_nhap_cham_cham": "Vui lòng nhập .....",
+  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
+  "thu_hoi_lich_hop" : "Thu hồi lịch họp",
+  "khong_lap_lai": "Không lặp lại",
+  "lap_lai_hang_ngay": "Lặp lại hàng ngày",
+  "tu_thu_2_den_thu_6": "Từ thứ 2 đén thứ 6 hàng tuần",
+  "lap_lai_hang_tuan": "Lặp lại hàng tuần",
+  "lap_lai_hang_thang": "Lặp lại hàng tháng",
+  "lap_lai_hang_nam": "Lặp lại hàng năm",
+  "tuy_chinh": "Tùy chỉnh"
 }
 
 

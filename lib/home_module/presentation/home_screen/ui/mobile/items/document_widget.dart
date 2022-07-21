@@ -101,7 +101,7 @@ class _DocumentWidgetState extends State<DocumentWidget> {
                           _vanBanCubit.selectKey == SelectKey.CHO_TRINH_KY,
                       trichYeu: result.trichYeu,
                       title: result.title,
-                      status: result.status,
+                      status: result.documentStatus.getText(),
                       colorStatus: result.documentStatus.getColor(),
                       listData:
                           (_vanBanCubit.selectKey != SelectKey.CHO_TRINH_KY)

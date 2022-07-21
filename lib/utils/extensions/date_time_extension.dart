@@ -37,6 +37,11 @@ extension DateFormatString on DateTime {
     return dateString;
   }
 
+  String get toStringDMYHHMM {
+    final dateString = DateFormat(DateTimeFormat.DATE_DD_MM_HM).format(this);
+    return dateString;
+  }
+
   String get formatDayCalendar {
     final dateString =
         (DateFormat(' dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');

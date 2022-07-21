@@ -53,7 +53,7 @@ class PageData {
   String? doKhan;
   String? codeDoKhan;
   String? taskId;
-
+  int? trangThaiXuLy;
   PageData({
     this.id,
     this.soKyHieu,
@@ -62,6 +62,7 @@ class PageData {
     this.doKhan,
     this.codeDoKhan,
     this.taskId,
+    this.trangThaiXuLy,
   });
 
   PageData.fromJson(Map<String, dynamic> json) {
@@ -73,17 +74,18 @@ class PageData {
     doKhan = json['DoKhan'];
     codeDoKhan = json['CodeDoKhan'];
     taskId = json['TaskId'];
+    trangThaiXuLy = json['TrangThaiXuLy'];
   }
 
   DocumentModel toDomain() => DocumentModel(
-        id: id ?? '',
-        kyHieu: soKyHieu ?? '',
-        title: trichYeu?.parseHtml() ?? '',
-        noiGui: noiGui ?? '',
-        code: codeDoKhan ?? '',
-        status: doKhan ?? '',
-        taskId: taskId ?? '',
-      );
+      id: id ?? '',
+      kyHieu: soKyHieu ?? '',
+      title: trichYeu?.parseHtml() ?? '',
+      noiGui: noiGui ?? '',
+      code: (trangThaiXuLy ?? 0).toString(),
+      status: doKhan ?? '',
+      taskId: taskId ?? '',
+      trangThaiXuLy: trangThaiXuLy ?? 0);
 }
 
 class SearchDanhSachVanBanResponse {

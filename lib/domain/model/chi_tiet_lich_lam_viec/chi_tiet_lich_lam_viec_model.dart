@@ -240,10 +240,12 @@ class CreateBy {
   String title() {
     return '$hoTen - $tenDonVi';
   }
+
   String nameUnitPosition() {
     return '$hoTen - $tenDonVi - $chucVu';
   }
-  String namePosition(){
+
+  String namePosition() {
     return '$hoTen - $chucVu';
   }
 }
@@ -280,6 +282,8 @@ class Files {
   String? path;
   String? entityId;
   String? entityName;
+  String? taskId;
+  String? fileId;
 
   Files({
     required this.id,
@@ -289,6 +293,8 @@ class Files {
     required this.path,
     required this.entityId,
     required this.entityName,
+    this.taskId,
+    this.fileId,
   });
 }
 

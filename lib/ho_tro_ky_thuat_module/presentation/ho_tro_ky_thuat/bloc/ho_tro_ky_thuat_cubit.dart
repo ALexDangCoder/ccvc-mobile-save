@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -12,9 +14,11 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_data.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/chart_su_co_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/nguoi_tiep_nhan_yeu_cau_model.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_state.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/type_ho_tro_ky_thuat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
@@ -26,6 +30,8 @@ import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  List<File>? filesThemMoiYCHTKT = [];
+  static const String rightPath = 'attachments/upload/';
 
   //color
   List<Color> colorChart = [
@@ -51,11 +57,16 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   static const TRANG_THAI = 'trang-thai';
   static const KHU_VUC = 'khu-vuc';
   static const int checkDataThongTinChungSuccess = 3;
+  String? areaValue;
+  String? buildingValue;
+
   static const int CLOSE_SEARCH = -1;
   static const int INIT_SEARCH = 0;
   static const int SEARCH = 1;
   static const int POP_SEARCH = 2;
   int checkDataThongTinChung = 0;
+  bool flagLoadEditHTKT = false;
+  SupportDetail modelEditHTKT = SupportDetail();
 
   ///variable menu
   BehaviorSubject<TypeHoTroKyThuat> typeHoTroKyThuatSubject =
@@ -63,22 +74,46 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   Stream<TypeHoTroKyThuat> get typeHoTroKyThuatStream =>
       typeHoTroKyThuatSubject.stream;
+
   List<bool> listCheckPopupMenu = [];
+
+  BehaviorSubject<SupportDetail> editModelHTKT =
+      BehaviorSubject.seeded(SupportDetail());
+
   BehaviorSubject<List<TongDaiModel>> listTongDai = BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<NguoiTiepNhanYeuCauModel>> listNguoiTiepNhanYeuCau =
       BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<ThanhVien>> listCanCoHTKT = BehaviorSubject.seeded([]);
+
   BehaviorSubject<bool> checkDataChart = BehaviorSubject.seeded(false);
+
   BehaviorSubject<bool> isShowDonVi = BehaviorSubject.seeded(false);
+
   BehaviorSubject<String> donViSearch = BehaviorSubject.seeded(S.current.chon);
+
   BehaviorSubject<List<CategoryModel>> listKhuVuc = BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<CategoryModel>> listLoaiSuCo =
       BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<CategoryModel>> listTrangThai =
       BehaviorSubject.seeded([]);
+
   BehaviorSubject<List<ChildCategories>> listToaNha =
       BehaviorSubject.seeded([]);
   List<String> listStringKhuVuc = [];
+
+  BehaviorSubject<List<String>> buildingListStream = BehaviorSubject.seeded([]);
+
+  BehaviorSubject<List<String>> issueListStream = BehaviorSubject.seeded([]);
+
+  List<CategoryModel> areaList = [];
+  List<CategoryModel> issueList = [];
+  List<ChildCategories> buildingList = [];
+  String? tempBuildingName;
+
   List<List<ChartData>> listDataChart = [];
   List<ChartData> listStatusData = [];
   List<String> listTitle = [];
@@ -114,6 +149,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   int countSearch = 0;
   final dataUser = HiveLocal.getDataUser();
   bool? isCheckUser;
+
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
       BehaviorSubject<List<Node<DonViModel>>>();
 
@@ -123,14 +159,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => get_dart.Get.find();
 
-//add
+
+  void checkFileRemove(int index) {
+    if ((editTaskHTKTRequest.lstFileId ?? []).isNotEmpty) {
+      (editTaskHTKTRequest.lstFileId ?? []).removeAt(index);
+    } else {
+      //nothing
+    }
+  }
+
   final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();
+  final AddTaskHTKTRequest editTaskHTKTRequest = AddTaskHTKTRequest();
   final BehaviorSubject<bool> showHintDropDown = BehaviorSubject.seeded(true);
   final BehaviorSubject<bool> showErrorLoaiSuCo = BehaviorSubject();
   final BehaviorSubject<bool> showErrorKhuVuc = BehaviorSubject();
   final BehaviorSubject<bool> showErrorToaNha = BehaviorSubject();
   List<String> loaiSuCoValue = [];
-  bool validateAllDropDown = false;
 
   void getTree() {
     hopRp.getTreeDonVi().then((value) {
@@ -177,6 +221,56 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       growable: true,
     );
   }
+
+  String? nameArea;
+  String? nameBuilding;
+
+  String? findNameAreaFeatBuilding({
+    bool isArea = true,
+    required String id,
+  }) {
+    if (isArea) {
+      for (final area in areaList) {
+        if (area.id == id) {
+          nameArea = area.name;
+          break;
+        }
+      }
+    } else {
+      for (final area in areaList) {
+        for (final building in area.childCategories ?? []) {
+          if (id == building.id) {
+            nameBuilding = building.name ?? '';
+            break;
+          }
+        }
+      }
+    }
+    return isArea ? nameArea : nameBuilding;
+  }
+
+  final Set<SuCoHTKT> issuesEditHTKT = {};
+
+  void getIssuesEditHTKT() {
+    if (issuesEditHTKT.isNotEmpty) {
+      issuesEditHTKT.clear();
+    }
+    for (final defaultIssue in issueList) {
+      editModelHTKT.value.danhSachSuCo?.forEach(
+            (e) {
+          if (e.suCoId == defaultIssue.id) {
+            issuesEditHTKT.add(e);
+          }
+        },
+      );
+    }
+  }
+
+  void disposeEdit() {
+    nameBuilding = null;
+    nameArea = null;
+  }
+
 
   List<String> getListThanhVien(List<ThanhVien> listData) {
     return listData
@@ -252,6 +346,63 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     await getCategory(title: KHU_VUC);
     await getCategory(title: LOAI_SU_CO);
     await getCategory(title: TRANG_THAI);
+  }
+
+  Future<bool> postDataThemMoiHTKT() async {
+    showLoading();
+    final result = await _hoTroKyThuatRepository.addTask(
+      id: addTaskHTKTRequest.id,
+      userRequestId: addTaskHTKTRequest.userRequestId,
+      phone: addTaskHTKTRequest.phone,
+      description: addTaskHTKTRequest.description,
+      districtId: addTaskHTKTRequest.districtId,
+      districtName: addTaskHTKTRequest.districtName,
+      buildingId: addTaskHTKTRequest.buildingId,
+      buildingName: addTaskHTKTRequest.buildingName,
+      room: addTaskHTKTRequest.room,
+      name: addTaskHTKTRequest.name,
+      danhSachSuCo: addTaskHTKTRequest.danhSachSuCo,
+      userInUnit: addTaskHTKTRequest.userInUnit,
+      fileUpload: addTaskHTKTRequest.fileUpload ?? [],
+    );
+    result.when(
+      success: (success) {
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
+    return true;
+  }
+
+  Future<bool> postEditHTKT() async {
+    showLoading();
+    final result = await _hoTroKyThuatRepository.editTaskHTKT(
+      id: editTaskHTKTRequest.id,
+      userRequestId: editTaskHTKTRequest.userRequestId,
+      phone: editTaskHTKTRequest.phone,
+      description: editTaskHTKTRequest.description,
+      districtId: editTaskHTKTRequest.districtId,
+      districtName: editTaskHTKTRequest.districtName,
+      buildingId: editTaskHTKTRequest.buildingId,
+      buildingName: editTaskHTKTRequest.buildingName,
+      room: editTaskHTKTRequest.room,
+      name: editTaskHTKTRequest.name,
+      danhSachSuCo: editTaskHTKTRequest.danhSachSuCo,
+      userInUnit: editTaskHTKTRequest.userInUnit,
+      fileUpload: editTaskHTKTRequest.fileUpload ?? [],
+      lstFileId: editTaskHTKTRequest.lstFileId,
+    );
+    result.when(
+      success: (success) {
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
+    return true;
   }
 
   Future<void> getNguoiXuLy({
@@ -376,6 +527,36 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
   }
 
+  String? findLocationAreaFeatBuilding({
+    required String id,
+    bool isArea = false,
+  }) {
+    String? result;
+    if (isArea) {
+      for (final element in areaList) {
+        if (element.id == id) {
+          result = element.name ?? '';
+        }
+        break;
+      }
+    } else {
+      for (final area in areaList) {
+        for (final building in area.childCategories ?? []) {
+          if (id == building.id) {
+            result = building.name ?? '';
+          }
+          break;
+        }
+      }
+    }
+    if ((result ?? '').isEmpty) {
+      result = null;
+    }
+    return result;
+  }
+
+  bool flagLoadThemMoiYCHT = false;
+
   Future<void> getCategory({
     required String title,
   }) async {
@@ -384,15 +565,28 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         if (title == KHU_VUC) {
-          listKhuVuc.add(res);
-          listToaNha.add(res.first.childCategories ?? []);
+          listKhuVuc.sink.add(res);
+          areaList = res;
+          buildingList = res.first.childCategories ?? [];
+          listToaNha.sink.add(res.first.childCategories ?? []);
+          flagLoadThemMoiYCHT = true;
+          flagLoadEditHTKT = true;
         } else if (title == LOAI_SU_CO) {
           listLoaiSuCo.add(res);
+          issueList = res;
+          sinkIssue();
+          flagLoadThemMoiYCHT = true;
+          flagLoadEditHTKT = true;
         } else {
-          listTrangThai.add(res);
+          listTrangThai.sink.add(res);
         }
       },
-      error: (error) {},
+      error: (error) {
+        flagLoadThemMoiYCHT = false;
+        flagLoadEditHTKT = false;
+        emit(const CompletedLoadMore(CompleteType.ERROR));
+        showError();
+      },
     );
   }
 
@@ -402,6 +596,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         listText.first.substring(0, 1) + listText.last.substring(0, 1);
     return result;
   }
+
 
   List<String> getIdListLoaiSuCo(List<String> value) {
     final List<String> listIdSuCo = [];
@@ -421,6 +616,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorToaNha.add(false);
   }
 
+  bool validateAllDropDown = false;
+
   void checkAllThemMoiYCHoTro() {
     if (addTaskHTKTRequest.buildingName == null) {
       validateAllDropDown = false;
@@ -437,6 +634,29 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     if (addTaskHTKTRequest.buildingName != null &&
         addTaskHTKTRequest.districtName != null &&
         (addTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
+      validateAllDropDown = true;
+      showErrorToaNha.sink.add(false);
+      showErrorKhuVuc.sink.add(false);
+      showErrorLoaiSuCo.sink.add(false);
+    }
+  }
+
+  void checkAllEditYCHT() {
+    if (editTaskHTKTRequest.buildingId == null) {
+      validateAllDropDown = false;
+      showErrorToaNha.sink.add(true);
+    }
+    if (editTaskHTKTRequest.districtId == null) {
+      validateAllDropDown = false;
+      showErrorKhuVuc.sink.add(true);
+    }
+    if ((editTaskHTKTRequest.danhSachSuCo ?? []).isEmpty) {
+      validateAllDropDown = false;
+      showErrorLoaiSuCo.sink.add(true);
+    }
+    if (editTaskHTKTRequest.buildingId != null &&
+        editTaskHTKTRequest.districtId != null &&
+        (editTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
       validateAllDropDown = true;
       showErrorToaNha.sink.add(false);
       showErrorKhuVuc.sink.add(false);
@@ -462,3 +682,4 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorToaNha.close();
   }
 }
+

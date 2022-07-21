@@ -94,7 +94,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                               ),
                               if (widget.node.children.isNotEmpty)
                                 Transform.rotate(
-                                  angle: widget.node.expand ? 0 : 3.1,
+                                  angle: widget.node.expand ? 3.1  : 0,
                                   child: SvgPicture.asset(
                                     ImageAssets.icDropDownButton,
                                   ),

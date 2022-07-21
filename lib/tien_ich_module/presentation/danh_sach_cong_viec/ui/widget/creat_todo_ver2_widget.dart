@@ -140,7 +140,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                     ),
                     key: UniqueKey(),
                     value: widget.cubit.dateChange.isEmpty
-                        ? widget.todo?.createdOn ?? DateTime.now().toString()
+                        ? widget.todo?.finishDay ?? DateTime.now().toString()
                         : widget.cubit.dateChange,
                     onSelectDate: (value) {
                       widget.cubit.dateChange = value;

@@ -1,6 +1,4 @@
-
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/widgets/han_xu_ly_widget.dart';
-import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/utils/enum_ext.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
@@ -86,12 +84,16 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                     return Column(
                       children: [
                         PieChart(
+                          isSubjectInfo: false,
                           paddingTop: 0,
                           chartData:
                               List.generate(data.listVBDen().length, (index) {
                             final result = data.listVBDen()[index];
-                            return ChartData(result.key.getText(),
-                                result.value.toDouble(), result.color);
+                            return ChartData(
+                              result.key.getText(),
+                              result.value.toDouble(),
+                              result.color,
+                            );
                           }),
                           onTap: (value, key) {
                             if (key != null) {
@@ -111,36 +113,67 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                             }
                           },
                         ),
+                        // const SizedBox(
+                        //   height: 26,
+                        // ),
+                        GridView.count(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: 9,
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10,
+                          children: List.generate(
+                              data.listVBDenSubjectInfo().length, (index) {
+                            final result = data.listVBDenSubjectInfo()[index];
+                            return GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 14,
+                                    width: 14,
+                                    decoration: BoxDecoration(
+                                      color: result.color,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Flexible(
+                                    child: FittedBox(
+                                      child: Text(
+                                        '${result.key.getText()} (${result.value.toInt()})',
+                                        style: textNormal(
+                                          infoColor,
+                                          14,
+                                          // 14.0.textScale(),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
+                        ),
                         const SizedBox(
                           height: 26,
                         ),
                         HanXuLyWidget(
-                          onTap: (value) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => IncomingDocumentScreen(
-                                  startDate: '',
-                                  title: S.current.danh_sach_van_ban_den,
-                                  endDate: '',
-                                  type: TypeScreen.VAN_BAN_DEN,
-                                  maTrangThai: [],
-                                ),
-                              ),
-                            );
-                          },
+                          onTap: (value) {},
                           data: [
                             ChartData(
                                 S.current.qua_han,
-                                data.soLuongQuaHan.toDouble() ,
+                                data.soLuongQuaHan.toDouble(),
                                 statusCalenderRed),
-                            ChartData(
-                                S.current.den_han,
-                                data.soLuongDenHan.toDouble() ,
-                                yellowColor),
+                            ChartData(S.current.den_han,
+                                data.soLuongDenHan.toDouble(), yellowColor),
                             ChartData(
                                 S.current.trong_han,
-                                data.soLuongTrongHan.toDouble() ,
+                                data.soLuongTrongHan.toDouble(),
                                 choTrinhKyColor)
                           ],
                         )
@@ -170,30 +203,30 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                     return PieChart(
                       chartData: [
                         ChartData(
-                            S.current.cho_trinh_ky,
-                            data.soLuongChoTrinhKy.toDouble(),
-                            choTrinhKyColor,
-                            SelectKey.CHO_TRINH_KY),
+                          S.current.cho_trinh_ky,
+                          data.soLuongChoTrinhKy.toDouble(),
+                          choTrinhKyColor,
+                        ),
                         ChartData(
-                            S.current.cho_xu_ly,
-                            data.soLuongChoXuLy.toDouble(),
-                            choXuLyColor,
-                            SelectKey.CHO_XU_LY),
+                          S.current.cho_xu_ly,
+                          data.soLuongChoXuLy.toDouble(),
+                          choXuLyColor,
+                        ),
                         ChartData(
-                            S.current.da_xu_ly,
-                            data.soLuongDaXuLy.toDouble(),
-                            daXuLyColor,
-                            SelectKey.DA_XU_LY),
+                          S.current.da_xu_ly,
+                          data.soLuongDaXuLy.toDouble(),
+                          daXuLyColor,
+                        ),
                         ChartData(
-                            S.current.cho_cap_so,
-                            data.soLuongChoCapSo.toDouble() ,
-                            choCapSoColor,
-                            SelectKey.CHO_CAP_SO),
+                          S.current.cho_cap_so,
+                          data.soLuongChoCapSo.toDouble(),
+                          choCapSoColor,
+                        ),
                         ChartData(
-                            S.current.cho_ban_hanh,
-                            data.soLuongChoBanHanh.toDouble(),
-                            choBanHanhColor,
-                            SelectKey.CHO_BAN_HANH)
+                          S.current.cho_ban_hanh,
+                          data.soLuongChoBanHanh.toDouble(),
+                          choBanHanhColor,
+                        )
                       ],
                       onTap: (value, key) {
                         if (key != null) {

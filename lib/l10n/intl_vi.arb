@@ -1325,7 +1325,10 @@
   "lap_lai_hang_nam": "Lặp lại hàng năm",
   "tuy_chinh": "Tùy chỉnh",
   "ten_nguoi_tao" : "Tên người tạo",
-  "so_lich_hop_theo_linh_vuc": "Số lịch họp theo lĩnh vực"
+  "so_lich_hop_theo_linh_vuc": "Số lịch họp theo lĩnh vực",
+  "su_kien_trong_tuan": "Sự kiện trong tuần",
+  "su_kien_trong_thang": "Sự kiện trong tháng",
+  "su_kien_trong_nam": "Sự kiện trong năm"
 }
 
 

@@ -114,7 +114,7 @@ class HomeScreenMobileState extends State<HomeScreenMobile> {
               await homeCubit.refreshData();
             },
             child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const ClampingScrollPhysics(parent:  AlwaysScrollableScrollPhysics()),
               child: Column(
                 children: [
                   const HeaderWidget(),

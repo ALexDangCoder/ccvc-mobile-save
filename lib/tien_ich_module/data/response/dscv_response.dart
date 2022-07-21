@@ -73,6 +73,7 @@ class DataDSCV {
   String? performer;
   String? groupId;
   String? filePath;
+  String? finishDay;
 
   DataDSCV({
     this.id,
@@ -89,6 +90,7 @@ class DataDSCV {
     this.performer,
     this.groupId,
     this.filePath,
+    this.finishDay,
   });
 
   DataDSCV.fromJson(Map<String, dynamic> json) {
@@ -106,6 +108,7 @@ class DataDSCV {
     performer = json['performer'];
     groupId = json['groupId'];
     filePath = json['filePath'];
+    finishDay = json['finishDay'];
   }
 
   TodoDSCVModel toDomain() => TodoDSCVModel(
@@ -121,5 +124,6 @@ class DataDSCV {
         groupId: groupId,
         note: note,
         filePath: filePath,
+        finishDay: finishDay,
       );
 }

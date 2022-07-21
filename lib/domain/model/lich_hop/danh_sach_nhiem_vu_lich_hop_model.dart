@@ -13,6 +13,7 @@ class DanhSachNhiemVuLichHopModel {
   String hanXuLy;
   String loaiNhiemVu = '';
   TrangThaiNhiemVu trangThai = TrangThaiNhiemVu.ChoPhanXuLy;
+  String trangThaiThucHien;
 
   DanhSachNhiemVuLichHopModel({
     required this.soNhiemVu,
@@ -22,6 +23,7 @@ class DanhSachNhiemVuLichHopModel {
     required this.loaiNhiemVu,
     required this.trangThai,
     required this.id,
+    this.trangThaiThucHien = '',
   });
 }
 
@@ -29,16 +31,14 @@ extension trangThai on TrangThaiNhiemVu {
   Widget getWidgetTTNhiemVu() {
     switch (this) {
       case TrangThaiNhiemVu.ChoPhanXuLy:
-        return status(S.current.cho_phan_xu_ly, processingColor);
+        return status(S.current.cho_phan_xu_ly, color5A8DEE);
 
       case TrangThaiNhiemVu.ChuaThucHien:
-        return status(S.current.chua_thuc_hien, sideBtnUnselected);
-
+        return status(S.current.chua_thuc_hien, colorFF9F43);
       case TrangThaiNhiemVu.DangThucHien:
-        return status(S.current.dang_thuc_hien, colorPrimary);
-
+        return status(S.current.dang_thuc_hien, color02C5DD);
       case TrangThaiNhiemVu.DaThucHien:
-        return status(S.current.da_thuc_hien, canceledColor);
+        return status(S.current.da_thuc_hien, daXuLyColor);
     }
   }
 }

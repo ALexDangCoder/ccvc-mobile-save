@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart' as HiveLc;
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
@@ -1715,8 +1716,11 @@ class SinhNhatCubit extends HomeCubit with SelectKeyDialog {
 class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<SuKienModel>> _getSuKien =
       BehaviorSubject<List<SuKienModel>>();
+  final BehaviorSubject<SelectKey> _getSelectkey = BehaviorSubject.seeded(SelectKey.HOM_NAY);
 
   Stream<List<SuKienModel>> get getSuKien => _getSuKien.stream;
+
+  Stream<SelectKey> get getSelectkey => _getSelectkey.stream;
 
   Future<void> callApi() async {
     showLoading();
@@ -1729,6 +1733,25 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
       },
       error: (err) {},
     );
+  }
+
+  void changeSelectKey( SelectKey key){
+    _getSelectkey.sink.add(key);
+  }
+
+  String changeTitle(SelectKey key){
+    switch(key){
+      case SelectKey.NAM_NAY:
+        return S.current.su_kien_trong_nam;
+      case SelectKey.THANG_NAY:
+        return S.current.su_kien_trong_thang;
+      case SelectKey.TUAN_NAY:
+        return S.current.su_kien_trong_tuan;
+      case SelectKey.HOM_NAY:
+        return S.current.su_kien_trong_ngay;
+      default :
+        return S.current.su_kien_trong_ngay;
+    }
   }
 
   @override

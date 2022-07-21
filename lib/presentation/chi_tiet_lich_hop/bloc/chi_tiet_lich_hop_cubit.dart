@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:core';
 
-
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -61,7 +60,6 @@ import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
@@ -102,6 +100,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<int> dataLoaiNhiemVu = [];
   List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
+  List<DanhSachThanhPhanThamGiaModel> listThanhPhanThamGiaOld = [];
   Timer? _debounce;
   bool needRefreshMainMeeting = false;
   ChiTietBieuQuyetModel chiTietBieuQuyetModel = ChiTietBieuQuyetModel();
@@ -252,6 +251,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
     await queue.onComplete;
+
     ///check permission button
     if (needCheckPermission) {
       initDataButton();
@@ -273,7 +273,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       success: (res) {
         listNguoiCHuTriModel.sink.add(res);
         dataThuKyOrThuHoiDeFault = res;
-
       },
       error: (error) {},
     );
@@ -412,8 +411,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
       error: (error) {},
     );
   }
-
-
 
   Future<void> postDiemDanh() async {
     showLoading();

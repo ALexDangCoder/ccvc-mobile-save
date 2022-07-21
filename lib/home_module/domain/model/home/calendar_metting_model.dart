@@ -102,9 +102,9 @@ class CalendarMeetingModel {
 
   DocumentStatus? get trangThaiHanXuLyEnum {
     switch (trangThaiHanXuLy) {
-      case 0:
-        return DocumentStatus.DEN_HAN;
       case 1:
+        return DocumentStatus.DEN_HAN;
+      case 3:
         return DocumentStatus.TRONG_HAN;
       case 2:
         return DocumentStatus.QUA_HAN;

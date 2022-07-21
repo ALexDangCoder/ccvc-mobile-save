@@ -141,7 +141,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
     super.initState();
     final List<DonViModel> listSelectCanBo = [];
 
-    for (var element in widget.themCanBoCubit.listSelectCanBo) {
+    for (final element in widget.themCanBoCubit.listSelectCanBo) {
       if (widget.cubit.listPeople.map((e) => e.id).contains(element.id)) {
         listSelectCanBo.add(element);
       }

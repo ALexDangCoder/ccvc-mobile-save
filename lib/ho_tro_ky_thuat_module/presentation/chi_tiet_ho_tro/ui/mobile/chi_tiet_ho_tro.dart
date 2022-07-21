@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/cap_nhat_tinh_hinh_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/danh_gia_yeu_cau_ho_tro.dart';
@@ -30,7 +31,6 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     cubit = ChiTietHoTroCubit();
     cubit.getSupportDetail(widget.idHoTro);
@@ -93,7 +93,8 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             spaceH10,
                             rowItem(
                               S.current.nguoi_yeu_cau,
-                              '${cubit.supportDetail.nguoiYeuCau ?? ''} - ${cubit.supportDetail.chucVu ?? ''}',
+                              '${cubit.supportDetail.nguoiYeuCau ?? ''} '
+                                  '- ${cubit.supportDetail.chucVu ?? ''}',
                             ),
                             spaceH10,
                             rowItem(
@@ -256,7 +257,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
   }
 }
 
-Widget loaiSuCo(List<String> list) {
+Widget loaiSuCo(List<SuCoHTKT> list) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -290,7 +291,7 @@ Widget loaiSuCo(List<String> list) {
                       8.0.w,
                     ),
                     child: Text(
-                      '≠$e',
+                      '≠${e.tenSuCo}',
                       style: textNormalCustom(
                         color: color3D5586,
                         fontSize: 14,

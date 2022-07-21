@@ -119,11 +119,11 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     }
   }
 
-  Future<void> suaKetLuan() async {
+  Future<void> suaKetLuan(String noiDung) async {
     showLoadingSheet();
     final result = await hopRp.suaKetLuan(
         idCuocHop,
-        noiDung.value,
+        noiDung,
         ketLuanHopState.reportStatusId,
         ketLuanHopState.reportTemplateId,
         ketLuanHopState.listFiles,
@@ -325,13 +325,13 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     showContent();
   }
 
-  Future<void> createKetLuanHop() async {
+  Future<void> createKetLuanHop(String noiDung) async {
     showLoadingSheet();
     final result = await hopRp.createKetLuanHop(
       idCuocHop,
       ketLuanHopState.reportStatusId,
       ketLuanHopState.reportTemplateId,
-      noiDung.value,
+      noiDung,
       ketLuanHopState.listFiles,
     );
     await result.when(

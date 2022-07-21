@@ -113,42 +113,41 @@ class HomeScreenMobileState extends State<HomeScreenMobile> {
             onRefresh: () async {
               await homeCubit.refreshData();
             },
-            child: Column(
-              children: [
-                const HeaderWidget(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        StreamBuilder<List<WidgetModel>>(
-                          stream: homeCubit.getConfigWidget,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? <WidgetModel>[];
-                            if (data.isNotEmpty) {
-                              return Column(
-                                children: List.generate(data.length, (index) {
-                                  final type = data[index];
-                                  return type.widgetType?.getItemsMobile() ??
-                                      const SizedBox();
-                                }),
-                              );
-                            }
-                            return const SizedBox();
-                          },
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          color: backgroundColorApp,
-                          padding: const EdgeInsets.symmetric(vertical: 25),
-                          child: const MarqueeWidget(),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  const HeaderWidget(),
+                  Column(
+                    children: [
+                      StreamBuilder<List<WidgetModel>>(
+                        stream: homeCubit.getConfigWidget,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <WidgetModel>[];
+                          if (data.isNotEmpty) {
+                            return Column(
+                              children: List.generate(data.length, (index) {
+                                final type = data[index];
+                                return type.widgetType?.getItemsMobile() ??
+                                    const SizedBox();
+                              }),
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        color: backgroundColorApp,
+                        padding: const EdgeInsets.symmetric(vertical: 25),
+                        child: const MarqueeWidget(),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

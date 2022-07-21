@@ -32,6 +32,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_c
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/file_upload_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_status_room_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
@@ -95,6 +96,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -1119,6 +1121,13 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
+
+  Future<Result<List<FileUploadModel>>> uploadMultiFile(
+      {required List<File> path}) {
+    return runCatchingAsync<FileUploadResponse, List<FileUploadModel>>(
+      () => _hopServices.uploadMultiFile(path),
+      (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
+  }
   Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(
     String luaChonId,
     String lichHopId,

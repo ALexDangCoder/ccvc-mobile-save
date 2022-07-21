@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chon_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/dropdown_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_item_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
@@ -20,6 +21,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/custom_select_items.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
@@ -91,7 +93,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                     if (keyGroup.currentState!.validator() &&
                         widget.cubit.dataLoaiNhiemVu.isNotEmpty) {
                       widget.cubit.checkValidateLoaiNV.sink.add(false);
-                      themNhiemVuRequest.meTaDaTa = [
+                      themNhiemVuRequest.metaData = [
                         MeTaDaTaRequest(
                           key: NGUOI_GIAO_ID,
                           value: ngGiaoNvId,
@@ -204,17 +206,23 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       sb20,
 
                       /// người giao nhiem vu
-                      DropDownWidget(
-                        title: S.current.nguoi_giao_nhiem_vu,
-                        hint: S.current.nguoi_giao_nhiem_vu,
-                        listData: widget.cubit.dataThuKyOrThuHoiDeFault
-                            .map((e) => e.hoTen ?? (e.tenCoQuan ?? ''))
-                            .toList(),
+                      CustomSelectMultiItems(
                         onChange: (value) {
-                          ngGiaoNvId = widget.cubit.dataThuKyOrThuHoiDeFault
-                              .map((e) => e.id ?? '')
-                              .toList()[value];
+                          ngGiaoNvId = value.id;
                         },
+                        items: widget.cubit.dataThuKyOrThuHoiDeFault
+                            .map(
+                              (e) => ListItemType(
+                                title: (e.hoTen?.isEmpty ?? true)
+                                    ? e.tenCoQuan ?? ''
+                                    : e.hoTen ?? '',
+                                id: e.id ?? '',
+                              ),
+                            )
+                            .toList(),
+                        context: context,
+                        hintText: S.current.nguoi_giao_nhiem_vu,
+                        title: S.current.nguoi_giao_nhiem_vu,
                       ),
                       sb20,
 
@@ -224,21 +232,20 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.van_ban_giao_nhiem_vu,
                         context: context,
                       ),
-                      spaceH12,
-
+                      sb20,
                       /// van ban khac
                       buttonThemVb(
                         loaiVbThem: KHAC,
                         title: S.current.van_ban_khac,
                         context: context,
                       ),
-                      spaceH12,
+                      sb20,
                     ],
                   ),
                 ),
               ),
             ),
-            spaceH20,
+            sb20,
           ],
         ),
       ),
@@ -278,6 +285,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                 shrinkWrap: true,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
+                  final fileName = data[index].file.isNotEmpty
+                      ? data[index].file.first.ten
+                      : '';
                   return ItemVbGIaoNhiemVuWidget(
                     cubit: widget.cubit,
                     soKyHieu: data[index].soVanBan ?? '',
@@ -285,7 +295,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       data[index].ngayVanBan ?? DateTime.now().toString(),
                     ).toStringWithListFormat,
                     trichYeu: data[index].trichYeu ?? '',
-                    file: data[index].file?.first ?? '',
+                    file: fileName,
                     onTap: () {
                       showDiaLog(
                         context,

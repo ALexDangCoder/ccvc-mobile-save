@@ -75,7 +75,6 @@ const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
 const String CHO_XU_LY = 'CHO_XU_LY';
-
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
 const String CALENDAR_TYPE_YEAR = 'Year';
@@ -88,6 +87,8 @@ const String STATUS_TRANSACTION_SUCCESS = '1';
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
 const String TRANSACTION_NFT = '1';
+const String DATE_FORMAT_THIEP_SINH_NHAT = 'dd-MM-yyyy HH:mm';
+const String DATE_FORMAT_DDMMYYYY = 'dd-MM-yyyy';
 
 const EN_CODE = 'en';
 const VI_CODE = 'vi';

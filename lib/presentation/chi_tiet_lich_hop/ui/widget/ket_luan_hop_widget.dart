@@ -47,6 +47,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
     if (!isMobile()) {
       widget.cubit.callApiKetLuanHop();
+      widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
     }
   }
 
@@ -56,6 +57,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
       mobileScreen: SelectOnlyWidget(
         onchange: (value) {
           if (value) {
+            widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
             widget.cubit.callApiKetLuanHop();
           }
         },
@@ -287,13 +289,25 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       urlImage: ImageAssets.icPlus2,
                       text: S.current.tao_moi_nhiem_vu,
                       onTap: () {
-                        showBottomSheetCustom(
-                          context,
-                          title: S.current.tao_moi_nhiem_vu,
-                          child: TaoMoiNhiemVuWidget(
-                            cubit: cubit,
-                          ),
-                        );
+                        if (isMobile()) {
+                          showBottomSheetCustom(
+                            context,
+                            title: S.current.tao_moi_nhiem_vu,
+                            child: TaoMoiNhiemVuWidget(
+                              cubit: cubit,
+                            ),
+                          );
+                        } else {
+                          showDiaLogTablet(
+                            context,
+                            title: S.current.tao_moi_nhiem_vu,
+                            child: TaoMoiNhiemVuWidget(
+                              cubit: cubit,
+                            ),
+                            isBottomShow: false,
+                            funcBtnOk: () {},
+                          );
+                        }
                       },
                     ),
                   if (cubit.xemKetLuanHop())

@@ -51,7 +51,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   void validatePhienHop() {
     final chonPhienHop = (taoBieuQuyetRequest.phienHopId ?? '').isEmpty;
     setState(() {
-      phienHopErrorText = chonPhienHop ? S.current.vui_long_chon_phien_hop : '' ;
+      phienHopErrorText = chonPhienHop ? S.current.vui_long_chon_phien_hop : '';
     });
   }
 
@@ -116,12 +116,14 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 data.map((e) => e.tieuDe ?? '').toList();
                 return CoolDropDown(
                   key: UniqueKey(),
+                  maxLines:  2,
                   useCustomHintColors: true,
                   placeHoder: S.current.chon_phien_hop,
                   listData: newListSelect,
                   initData: valueDropDownSelected,
                   onChange: (value) {
                     taoBieuQuyetRequest.phienHopId = data[value].id;
+                    validatePhienHop();
                     valueDropDownSelected  = data[value].tieuDe ?? '';
                   },
                 );
@@ -149,7 +151,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                         taoBieuQuyetRequest.time = int.parse(value);
                       } catch (_) {}
                     },
-                    maxLength: 18,
+                    maxLength: 10,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],

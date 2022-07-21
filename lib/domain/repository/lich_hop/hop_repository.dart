@@ -40,6 +40,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/duyet_lich_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -453,9 +454,14 @@ mixin HopRepository {
     SuaBieuQuyetRequest suaBieuQuyetRequest,
   );
 
+  Future<Result<List<FileUploadModel>>> uploadMultiFile(
+      {required List<File> path});
+
+
   Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(
     String luaChonId,
     String lichHopId,
     String bieuQuyetId,
   );
+
 }

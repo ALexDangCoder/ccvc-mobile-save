@@ -50,7 +50,15 @@ class DanhSachCongViecTienIchCubit
   final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
 
-  BehaviorSubject<NguoiThucHienModel> nguoiThucHienSubject = BehaviorSubject();
+  BehaviorSubject<NguoiThucHienModel> nguoiThucHienSubject =
+      BehaviorSubject.seeded(
+    NguoiThucHienModel(
+      id: '',
+      hoten: '',
+      donVi: [],
+      chucVu: [],
+    ),
+  );
 
   NguoiThucHienModel get dataNguoiThucHienModel =>
       nguoiThucHienSubject.valueOrNull ??
@@ -489,7 +497,7 @@ class DanhSachCongViecTienIchCubit
   ///init data nguoi thuc hien
   void initDataNguoiTHucHienTextFild(TodoDSCVModel todo) {
     if (todo.performer == '' || todo.performer == null) {
-      nguoiThucHienSubject.add(
+      nguoiThucHienSubject.sink.add(
         NguoiThucHienModel(
           id: '',
           hoten: S.current.tim_theo_nguoi,
@@ -498,7 +506,7 @@ class DanhSachCongViecTienIchCubit
         ),
       );
     } else {
-      nguoiThucHienSubject.add(
+      nguoiThucHienSubject.sink.add(
         NguoiThucHienModel(
           id: '',
           hoten: convertIdToPerson(vl: todo.performer ?? ''),

@@ -317,6 +317,7 @@ class CupertinoDatePickerDateState
         });
       } else {
         WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+          _jumpMonth();
           jumpToDay();
         });
       }
@@ -324,6 +325,26 @@ class CupertinoDatePickerDateState
     setState(() {});
 
     return false;
+  }
+
+  void _jumpMonth() {
+    if (widget.minimumDate != null &&
+        widget.minimumDate!.year == selectedYear &&
+        selectedMonth < widget.minimumDate!.month) {
+      monthController.animateToItem(
+        widget.minimumDate!.month - 1,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+    } else if (widget.maximumDate != null &&
+        widget.maximumDate!.year == selectedYear &&
+        selectedMonth > widget.maximumDate!.month) {
+      monthController.animateToItem(
+        widget.maximumDate!.month - 1,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   @override

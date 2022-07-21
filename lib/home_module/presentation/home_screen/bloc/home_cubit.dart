@@ -317,7 +317,8 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
             DateTime(startDate.year - 1, startDate.month, startDate.day);
         break;
       default:
-        startDate=DateTime(startDate.year, startDate.month, startDate.day-1);
+        startDate =
+            DateTime(startDate.year, startDate.month, startDate.day - 1);
         break;
     }
   }
@@ -1348,7 +1349,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
   List<SelectKey> listSelectKey() {
     final List<SelectKey> list = [];
     if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
+        permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN,
         permissionType: HiveLc.PermissionType.QLVB)) {
       list.add(SelectKey.CHO_VAO_SO);
     }
@@ -1531,6 +1532,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
           dateFrom: startDate.formatApi,
           dateTo: endDate.formatApi,
           isLichDuocMoi: true,
+          isChoXacNhan: true,
         );
         callApi(data);
         break;
@@ -1542,11 +1544,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
   Future<void> callApi(LichLamViecRequest lamViecRequest) async {
     showLoading();
     final result = await homeRep.getListLichLamViec(
-      LichLamViecRequest(
-        dateFrom: startDate.formatApi,
-        dateTo: endDate.formatApi,
-        isTatCa: true,
-      ),
+      lamViecRequest,
     );
     result.when(
       success: (res) {
@@ -1646,7 +1644,7 @@ class LichHopCubit extends HomeCubit with SelectKeyDialog {
         isLichHopCuaToi = false;
         isLichDuocMoi = true;
         isDuyetLich = false;
-        isChoXacNhan = false;
+        isChoXacNhan = true;
         callApi();
         break;
       case SelectKey.LICH_HOP_CAN_DUYET:
@@ -1811,6 +1809,11 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
         break;
       case SelectKey.DANG_THUC_HIEN:
         mangTrangThai = ['DANG_THUC_HIEN'];
+        isCongViec = false;
+        callApi();
+        break;
+      case SelectKey.CHUA_THUC_HIEN:
+        mangTrangThai = ['CHUA_THUC_HIEN'];
         isCongViec = false;
         callApi();
         break;

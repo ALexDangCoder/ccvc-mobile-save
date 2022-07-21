@@ -53,10 +53,20 @@ class GroupResponse {
   String? nguoiXuLy;
   @JsonKey(name: 'nhanXet')
   String? nhanXet;
+  @JsonKey(name: 'districtId')
+  String? districtId;
+  @JsonKey(name: 'buildingId')
+  String? buildingId;
   @JsonKey(name: 'ngayHoanThanh')
   String? ngayHoanThanh;
+  @JsonKey(name: 'room')
+  String? room;
   @JsonKey(name: 'danhSachSuCo')
   List<DSSuCoResponse>? danhSachSuCo;
+  @JsonKey(name: 'listFileDinhKems')
+  List<ListFileDinhKemsResponse>? listFilesDinhKem;
+
+  // @JsonKey(name: 'listFileDinhKems')
 
   GroupResponse(
     this.id,
@@ -64,6 +74,7 @@ class GroupResponse {
     this.tenThietBi,
     this.soDienThoai,
     this.diaChi,
+    this.listFilesDinhKem,
     this.thoiGianYeuCau,
     this.nguoiYeuCau,
     this.donVi,
@@ -73,7 +84,10 @@ class GroupResponse {
     this.nhanXet,
     this.ngayHoanThanh,
     this.chucVu,
+    this.districtId,
+    this.buildingId,
     this.danhSachSuCo,
+    this.room,
   );
 
   factory GroupResponse.fromJson(Map<String, dynamic> json) =>
@@ -83,7 +97,8 @@ class GroupResponse {
 
   SupportDetail toDomain() => SupportDetail(
         id: id,
-        moTaSuCo: (moTaSuCo ?? '').parseHtml() ,
+        room: room,
+        moTaSuCo: (moTaSuCo ?? '').parseHtml(),
         tenThietBi: tenThietBi,
         soDienThoai: soDienThoai,
         diaChi: diaChi,
@@ -94,10 +109,13 @@ class GroupResponse {
         codeTrangThai: codeTrangThai,
         trangThaiXuLy: trangThaiXuLy,
         nhanXet: nhanXet,
+        districId: districtId,
+        buildingId: buildingId,
         ngayHoanThanh: ngayHoanThanh,
         ketQuaXuLy: (ketQuaXuLy ?? '').parseHtml(),
         nguoiXuLy: nguoiXuLy,
-        danhSachSuCo: danhSachSuCo?.map((e) => e.tenSuCo ?? '').toList(),
+        danhSachSuCo: danhSachSuCo?.map((e) => e.toModel()).toList(),
+        filesDinhKem: listFilesDinhKem?.map((e) => e.toModel()).toList(),
       );
 }
 
@@ -105,11 +123,48 @@ class GroupResponse {
 class DSSuCoResponse {
   @JsonKey(name: 'tenSuCo')
   String? tenSuCo;
+  @JsonKey(name: 'suCoId')
+  String? suCoId;
 
-  DSSuCoResponse(this.tenSuCo);
+  DSSuCoResponse(this.tenSuCo, this.suCoId);
+
+  SuCoHTKT toModel() => SuCoHTKT(
+        tenSuCo: tenSuCo,
+        suCoId: suCoId,
+      );
 
   factory DSSuCoResponse.fromJson(Map<String, dynamic> json) =>
       _$DSSuCoResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DSSuCoResponseToJson(this);
+}
+
+@JsonSerializable()
+class ListFileDinhKemsResponse {
+  @JsonKey(name: 'id')
+  String? id;
+  @JsonKey(name: 'taskId')
+  String? taskId;
+  @JsonKey(name: 'fileId')
+  String? fileId;
+  @JsonKey(name: 'filePath')
+  String? filePath;
+  @JsonKey(name: 'fileName')
+  String? fileName;
+
+  ListFileDinhKemsResponse(
+      this.id, this.taskId, this.fileId, this.filePath, this.fileName);
+
+  ListFileDinhKems toModel() => ListFileDinhKems(
+        fileId: fileId,
+        fileName: fileName,
+        filePath: filePath,
+        taskId: taskId,
+        id: id,
+      );
+
+  factory ListFileDinhKemsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListFileDinhKemsResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ListFileDinhKemsResponseToJson(this);
 }

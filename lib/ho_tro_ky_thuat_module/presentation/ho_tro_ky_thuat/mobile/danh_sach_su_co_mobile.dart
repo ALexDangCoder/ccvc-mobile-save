@@ -1,9 +1,7 @@
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/mobile/chi_tiet_ho_tro.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/tablet/chi_tiet_ho_tro_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extention_cubit/search_extention.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
@@ -13,7 +11,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/listview/listview_loadmore.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -70,13 +67,9 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
             } else {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => APP_DEVICE == DeviceType.MOBILE
-                      ? ChiTietHoTroMobile(
-                          idHoTro: value.id,
-                        )
-                      : ChiTietHoTroTablet(
-                          idHoTro: value.id,
-                        ),
+                  builder: (context) => ChiTietHoTroMobile(
+                    idHoTro: value.id,
+                  ),
                 ),
               );
             }
@@ -136,16 +129,14 @@ Widget floatingHTKT(
     elevation: 0,
     backgroundColor: labelColor,
     onPressed: () {
-      if (cubit.listKhuVuc.value.isNotEmpty) {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => ThemMoiYCHoTroMobile(
-            cubit: cubit,
-          ),
-        );
-      }
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => ThemMoiYCHoTroMobile(
+          cubit: cubit,
+        ),
+      );
     },
     child: const Icon(
       Icons.add,

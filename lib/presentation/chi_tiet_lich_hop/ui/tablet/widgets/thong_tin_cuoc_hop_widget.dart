@@ -82,6 +82,7 @@ class ThongTinCuocHopWidget extends StatelessWidget {
                     thongTinTxt: data.chuTriModel.dauMoiLienHe,
                     sdtTxt: data.chuTriModel.soDienThoai,
                     dsDiemCau: data.dsDiemCau ?? [],
+                    thuMoiFiles: data.fileDinhKemWithDecode ?? [],
                   ),
                 )
               ],

@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/cap_nhat_tinh_hinh_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/danh_gia_yeu_cau_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/sua_htkt/mobile/sua_yc_ho_tro_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -20,6 +21,9 @@ class ItemDanhSachSuCo extends StatelessWidget {
   final Function(SuCoModel, int) onClickMore;
   final int index;
   final Function onClose;
+  final int flexTitle;
+  final int flexBody;
+  final bool isTablet;
 
   const ItemDanhSachSuCo({
     Key? key,
@@ -28,7 +32,95 @@ class ItemDanhSachSuCo extends StatelessWidget {
     required this.onClickMore,
     required this.index,
     required this.onClose,
+    this.flexTitle = 1,
+    this.flexBody = 3,
+    this.isTablet = false,
   }) : super(key: key);
+
+  Widget textRow({
+    required String textTitle,
+    required String textContent,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: flexTitle,
+          child: Text(
+            textTitle,
+            style: textNormalCustom(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppTheme.getInstance().titleColor(),
+            ),
+          ),
+        ),
+        spaceW14,
+        Expanded(
+          flex: flexBody,
+          child: Text(
+            textContent,
+            style: textNormalCustom(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppTheme.getInstance().titleColor(),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget textStatusRow({
+    required String textTitle,
+    required String textContent,
+    required Color statusColor,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          flex: flexTitle,
+          child: Text(
+            textTitle,
+            style: textNormalCustom(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppTheme.getInstance().titleColor(),
+            ),
+            textAlign: TextAlign.left,
+          ),
+        ),
+        spaceW14,
+        Expanded(
+          flex: flexBody,
+          child: textContent.isNotEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: statusColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Text(
+                        textContent,
+                        style: textNormalCustom(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox.shrink(),
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +129,13 @@ class ItemDanhSachSuCo extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
+            margin: EdgeInsets.symmetric(
+              horizontal: isTablet ? 28 : 16,
+              vertical: isTablet ? 14 : 8,
             ),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: colorNumberCellQLVB,
+              color: isTablet ? bgTabletItem : colorNumberCellQLVB,
               borderRadius: BorderRadius.circular(6),
               border: Border.all(
                 color: containerColorTab,
@@ -106,8 +198,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 20,
-            right: 24,
+            top: 30,
+            right: 38,
             child: InkWell(
               onTap: () => onClickMore(objDSSC, index),
               child: SvgPicture.asset(
@@ -152,7 +244,17 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
-                            function: (value) {},
+                            function: (value) {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => SuaDoiYcHoTroMobile(
+                                  cubit: cubit,
+                                  idHTKT: objDSSC.id ?? '',
+                                ),
+                              );
+                            },
                           ),
                           line(
                             paddingLeft: 35,
@@ -181,7 +283,8 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             paddingLeft: 35,
                           ),
                         ],
-                        if (!(cubit.isCheckUser ?? true))
+                        if (objDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.DA_HOAN_THANH) ...[
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
@@ -199,11 +302,11 @@ class ItemDanhSachSuCo extends StatelessWidget {
                               );
                             },
                           ),
-                        if (!(cubit.isCheckUser ?? true))
                           line(
                             paddingLeft: 35,
                           ),
-                        if ((cubit.isCheckUser ?? false) ||
+                        ],
+                        if ((cubit.isCheckUser ?? false) &&
                             !(objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.DA_HOAN_THANH))
                           itemMenu(
@@ -298,91 +401,4 @@ class ItemDanhSachSuCo extends StatelessWidget {
         return '';
     }
   }
-}
-
-Widget textRow({
-  int flexTitle = 1,
-  int flexBody = 3,
-  required String textTitle,
-  required String textContent,
-}) {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Expanded(
-        flex: flexTitle,
-        child: Text(
-          textTitle,
-          style: textNormalCustom(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppTheme.getInstance().titleColor(),
-          ),
-        ),
-      ),
-      spaceW14,
-      Expanded(
-        flex: flexBody,
-        child: Text(
-          textContent,
-          style: textNormalCustom(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppTheme.getInstance().titleColor(),
-          ),
-        ),
-      )
-    ],
-  );
-}
-
-Widget textStatusRow({
-  int flexTitle = 1,
-  int flexBody = 3,
-  required String textTitle,
-  required String textContent,
-  required Color statusColor,
-}) {
-  return Row(
-    children: [
-      Expanded(
-        flex: flexTitle,
-        child: Text(
-          textTitle,
-          style: textNormalCustom(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppTheme.getInstance().titleColor(),
-          ),
-          textAlign: TextAlign.left,
-        ),
-      ),
-      spaceW14,
-      Expanded(
-        flex: flexBody,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 3,
-              ),
-              decoration: BoxDecoration(
-                color: statusColor,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Text(
-                textContent,
-                style: textNormalCustom(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
-      )
-    ],
-  );
 }

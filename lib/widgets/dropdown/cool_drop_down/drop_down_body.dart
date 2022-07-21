@@ -25,6 +25,7 @@ class DropdownBody extends StatefulWidget {
   bool isAnimation;
 
   // size
+  int maxLines;
   double resultWidth;
   double resultHeight;
   double? dropdownWidth;
@@ -78,6 +79,7 @@ class DropdownBody extends StatefulWidget {
     required this.resultWidth,
     required this.resultHeight,
     this.dropdownWidth,
+    required this.maxLines,
     required this.dropdownHeight,
     required this.dropdownItemHeight,
     required this.resultAlign,
@@ -607,6 +609,7 @@ class DropdownBodyState extends State<DropdownBody>
                                                                 widget.dropdownList[
                                                                         index]
                                                                     ['label'],
+                                                                maxLines: widget.maxLines,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,

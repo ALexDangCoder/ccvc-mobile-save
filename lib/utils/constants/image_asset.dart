@@ -157,6 +157,8 @@ class ImageAssets {
   static const String icHuyLich = '$baseImg/ic_huy_lich.svg';
   static const String icCalling = '$baseImg/ic_calling.svg';
   static const String icDiemCau = '$baseImg/ic_diem_cau.svg';
+  static const String icThuMoiHop = '$baseImg/ic_file_thu_moi_hop.svg';
+
   static const String icError = '$baseImg/ic_error.svg';
   static const String icVoiceMini = '$baseImg/ic_voice_mini.svg';
   static const String icVn = '$baseImg/ic_vn.svg';

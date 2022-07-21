@@ -1,4 +1,14 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
+
 class LichLapModel {
+  static const int KHONG_LAP_LAI = 1;
+  static const int HANG_NGAY = 2;
+  static const int TRONG_TUAN = 3;
+  static const int HANG_TUAN = 4;
+  static const int HANG_THANG = 5;
+  static const int HANG_NAM = 6;
+  static const int TUY_CHINH = 7;
+  static const String KHONG_LAP = 'Không lặp lại';
   int? id;
   String? name;
 
@@ -7,17 +17,18 @@ class LichLapModel {
     this.name,
   });
 
-  LichLapModel.seeded({this.id = 1, this.name = 'Không lặp lại'});
+  LichLapModel.seeded({this.id = KHONG_LAP_LAI, this.name = KHONG_LAP});
 }
 
 List<LichLapModel> listLichLap = [
-  LichLapModel(name: 'Không lặp lại', id: 1),
-  LichLapModel(name: 'Lặp lại hàng ngày', id: 2),
-  LichLapModel(name: 'Từ thứ 2 đến thứ 6 hàng tuần', id: 3),
-  LichLapModel(name: 'Lặp lại hàng tuần', id: 4),
-  LichLapModel(name: 'Lặp lại hàng tháng', id: 5),
-  LichLapModel(name: 'Lặp lại hàng năm', id: 6),
-  LichLapModel(name: 'Tùy chỉnh', id: 7),
+  LichLapModel(name: S.current.khong_lap_lai, id: LichLapModel.KHONG_LAP_LAI),
+  LichLapModel(name: S.current.lap_lai_hang_ngay, id: LichLapModel.HANG_NGAY),
+  LichLapModel(
+      name: S.current.tu_thu_2_den_thu_6, id: LichLapModel.TRONG_TUAN),
+  LichLapModel(name: S.current.lap_lai_hang_tuan, id: LichLapModel.HANG_TUAN),
+  LichLapModel(name: S.current.lap_lai_hang_thang, id: LichLapModel.HANG_THANG),
+  LichLapModel(name: S.current.lap_lai_hang_nam, id: LichLapModel.HANG_NAM),
+  LichLapModel(name: S.current.tuy_chinh, id: LichLapModel.TUY_CHINH),
 ];
 
 class DayOffWeek {

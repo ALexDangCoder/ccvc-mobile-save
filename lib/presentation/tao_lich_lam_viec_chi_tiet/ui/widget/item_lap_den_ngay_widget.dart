@@ -79,11 +79,13 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                 ),
                                 spaceW10,
                                 RotatedBox(
-                                  quarterTurns: isShowDatePicker ? 0 : 2,
+                                  quarterTurns: isShowDatePicker ? 2 : 0,
                                   child: SvgPicture.asset(
                                     ImageAssets.icDropDown,
+                                    color: colorA2AEBD,
                                   ),
                                 ),
+                                spaceW6,
                               ],
                             ),
                           );
@@ -157,10 +159,13 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                                 ),
                                 spaceW10,
                                 RotatedBox(
-                                  quarterTurns: isShowDatePicker ? 0 : 2,
-                                  child:
-                                      SvgPicture.asset(ImageAssets.icDropDown),
-                                )
+                                  quarterTurns: isShowDatePicker ? 2 : 0,
+                                  child: SvgPicture.asset(
+                                    ImageAssets.icDropDown,
+                                    color: colorA2AEBD,
+                                  ),
+                                ),
+                                spaceW6,
                               ],
                             ),
                           );

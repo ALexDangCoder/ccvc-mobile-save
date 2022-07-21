@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/tablet/main_calendar_meeting_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/main_lich_hop_tablet.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const MainLichHopTabLet(),
+            builder: (context) => const MainCalendarMeetingTablet(),
           ),
         );
       },

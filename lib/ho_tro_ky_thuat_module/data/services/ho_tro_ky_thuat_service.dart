@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/add_task_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/category_response.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/response/chart_su_co_response.dart';
@@ -64,17 +67,54 @@ abstract class HoTroKyThuatService {
 
   @POST(ApiConstants.POST_UPDATE_TASK_PROCESSING)
   Future<PostResponse> updateTaskProcessing(
-      @Body() TaskProcessing task,
-      );
+    @Body() TaskProcessing task,
+  );
 
   @DELETE(ApiConstants.DELETE_TASK)
   Future<DeleteTaskResponse> deleteTask(
     @Body() List<String> listId,
   );
 
+  @POST(ApiConstants.ADD_TASK)
+  @MultiPart()
+  Future<AddTaskResponse> addTask(
+    @Part(name: "Id") String? Id,
+    @Part(name: "UserRequestId") String? UserRequestId,
+    @Part(name: "Phone") String? Phone,
+    @Part(name: "Description") String? Description,
+    @Part(name: "DistrictId") String? DistrictId,
+    @Part(name: "DistrictName") String? DistrictName,
+    @Part(name: "BuildingId") String? BuildingId,
+    @Part(name: "BuildingName") String? BuildingName,
+    @Part(name: "Room") String? Room,
+    @Part(name: "Name") String? Name,
+    @Part(name: "DanhSachSuCo") List<String>? DanhSachSuCo,
+    @Part(name: "UserInUnit") String? UserInUnit,
+    @Part(name: "fileUpload") List<File> FileUpload,
+  );
+
+  @POST(ApiConstants.EDIT_TASK)
+  @MultiPart()
+  Future<AddTaskResponse> editTaskHTKT(
+    @Part(name: 'Id') String? id,
+    @Part(name: 'UserRequestId') String? UserRequestId,
+    @Part(name: 'Phone') String? Phone,
+    @Part(name: 'Description') String? Description,
+    @Part(name: 'DistrictId') String? DistrictId,
+    @Part(name: 'DistrictName') String? DistrictName,
+    @Part(name: 'BuildingId') String? BuildingId,
+    @Part(name: 'BuildingName') String? BuildingName,
+    @Part(name: 'Room') String? Room,
+    @Part(name: 'Name') String? Name,
+    @Part(name: 'DanhSachSuCo') List<String>? DanhSachSuCo,
+    @Part(name: "UserInUnit") String? UserInUnit,
+    @Part(name: "fileUpload") List<File> FileUpload,
+    @Part(name: "lstFileId") List<String>? lstFileId,
+  );
+
   @POST(ApiConstants.COMMENT_TASK_PROCESSING)
   Future<PostResponse> commentTaskProcessing(
-      @Query('taskId') String taskId,
-      @Query('comment') String comment,
-      );
+    @Query('taskId') String taskId,
+    @Query('comment') String comment,
+  );
 }

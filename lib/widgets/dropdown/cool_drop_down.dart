@@ -10,6 +10,7 @@ class CoolDropDown extends StatefulWidget {
   final Function(int) onChange;
   final List<String> listData;
   final double? setWidth;
+  final int maxLines;
   final bool showSelectedDecoration;
   final bool useCustomHintColors;
   final Widget? selectedIcon;
@@ -22,6 +23,7 @@ class CoolDropDown extends StatefulWidget {
     required this.listData,
     required this.initData,
     this.setWidth,
+    this.maxLines = 1,
     this.showSelectedDecoration = true,
     this.selectedIcon,
     this.useCustomHintColors = false,
@@ -67,6 +69,7 @@ class _CoolDropDownState extends State<CoolDropDown> {
   @override
   Widget build(BuildContext context) {
     return CoolDropdown(
+      maxLines: widget.maxLines,
       defaultValue: initIndex < 0 ? null : listSelect[initIndex],
       // resultWidth: MediaQuery.of(context).size.width,
       // dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,

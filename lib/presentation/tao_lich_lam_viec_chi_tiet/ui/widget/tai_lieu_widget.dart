@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
@@ -13,6 +14,7 @@ class TaiLieuWidget extends StatefulWidget {
   List<Files>? files;
   final Function(List<File>, bool) onChange;
   Function(String id) idRemove;
+  final Function(int index)? getIndex;
   String size;
 
   TaiLieuWidget({
@@ -21,6 +23,7 @@ class TaiLieuWidget extends StatefulWidget {
     required this.onChange,
     required this.idRemove,
     this.size = '',
+    this.getIndex,
   }) : super(key: key);
 
   @override
@@ -78,6 +81,18 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             onChange: (List<File> files, bool validate) {
               widget.onChange(files, validate);
             },
+            getIndexFunc: (index) {
+              widget.getIndex!(index);
+            },
+            allowedExtensions: const [
+              FileExtensions.DOC,
+              FileExtensions.DOCX,
+              FileExtensions.JPEG,
+              FileExtensions.JPG,
+              FileExtensions.PDF,
+              FileExtensions.PNG,
+              FileExtensions.XLXS,
+            ],
           ),
         )
       ],

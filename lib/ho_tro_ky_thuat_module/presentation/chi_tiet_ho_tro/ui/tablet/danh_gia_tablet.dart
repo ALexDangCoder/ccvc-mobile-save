@@ -38,13 +38,28 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           spaceH20,
-          Text(
-            S.current.danh_gia_yeu_cau_ho_tro,
-            style: textNormalCustom(
-              color: color3D5586,
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.current.danh_gia_yeu_cau_ho_tro,
+                style: textNormalCustom(
+                  color: color3D5586,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.close,
+                  size: 24.sp,
+                  color: colorA2AEBD,
+                ),
+              ),
+            ],
           ),
           spaceH20,
           FormGroup(
@@ -56,10 +71,11 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return '${S.current.ban_phai_nhap_truong} ${S.current.noi_dung_danh_gia}!';
+                  return '${S.current.ban_phai_nhap_truong} '
+                      '${S.current.noi_dung_danh_gia}!';
                 }
               },
-              maxLine: 100,
+              maxLine: 5,
             ),
           ),
           spaceH10,

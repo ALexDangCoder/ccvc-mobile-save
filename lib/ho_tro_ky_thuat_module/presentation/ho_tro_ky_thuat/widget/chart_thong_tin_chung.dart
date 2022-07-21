@@ -12,6 +12,8 @@ class ChartThongTinChung extends StatefulWidget {
   final List<ChartData> listStatusData;
   final List<String> listTitle;
   final HoTroKyThuatCubit cubit;
+  final int titleFlex;
+  final int chartFlex;
 
   const ChartThongTinChung({
     Key? key,
@@ -19,6 +21,8 @@ class ChartThongTinChung extends StatefulWidget {
     required this.listStatusData,
     required this.listTitle,
     required this.cubit,
+    this.titleFlex = 1,
+    this.chartFlex = 2,
   }) : super(key: key);
 
   @override
@@ -59,6 +63,7 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: widget.titleFlex,
               child: Container(
                 padding: const EdgeInsets.only(top: 20),
                 child: Column(
@@ -83,7 +88,7 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: widget.chartFlex,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Stack(

@@ -13,6 +13,7 @@ class CoolDropdown extends StatefulWidget {
   late Map<dynamic, dynamic> defaultValue;
   bool isTriangle;
   bool isAnimation;
+  int  maxLines;
   bool isResultIconLabel;
   bool isResultLabel;
   bool isDropdownLabel; // late
@@ -75,6 +76,7 @@ class CoolDropdown extends StatefulWidget {
     this.selectedIcon,
     this.dropdownItemReverse = false,
     this.resultReverse = false,
+    required this.maxLines,
     this.resultIconRotation = true,
     this.isTriangle = true,
     this.isResultLabel = true,
@@ -238,6 +240,7 @@ class _CoolDropdownState extends State<CoolDropdown>
         key: dropdownBodyChild,
         inputKey: inputKey,
         onChange: widget.onChange,
+        maxLines:  widget.maxLines,
         dropdownList: widget.dropdownList,
         dropdownItemReverse: widget.dropdownItemReverse,
         isTriangle: widget.isTriangle,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 
@@ -187,53 +189,63 @@ class Data {
     thuMoiFiles = json['thuMoiFiles'];
   }
 
-  ChiTietLichHopModel toDomain() => ChiTietLichHopModel(
-        id: id ?? '',
-        typeScheduleId: typeScheduleId ?? '',
-        chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
-        linhVuc: tenLinhVuc ?? '',
-        noiDung: noiDung ?? '',
-        thoiGianKetThuc: thoiGianKetThuc ?? '',
-        title: title ?? '',
-        isDuyetThietBi: isDuyetThietBi ?? false,
-        isDuyetPhong: isDuyetPhong ?? false,
-        canBoThamGiaStr: canBoThamGiaStr ?? '',
-        trangThaiDuyetKyThuat: trangThaiDuyetKyThuat ?? -1,
-        phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
-        tenLinhVuc: tenLinhVuc ?? '',
-        nguoiTao_str: nguoiTaoStr ?? '',
-        timeTo: timeTo ?? '',
-        status: status ?? 0,
-        timeStart: timeStart ?? '',
-        ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
-        ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
-        mucDoHop: mucDo,
-        bit_HopTrucTuyen: bitHopTrucTuyen ?? false,
-        bit_TrongDonVi: bitTrongDonVi,
-        isAllDay: isAllDay ?? false,
-        typeReminder: typeReminder,
-        bit_YeuCauDuyet: bitYeuCauDuyet ?? false,
-        typeRepeat: typeRepeat,
-        createdBy: createdBy ?? '',
-        fileData: fileData?.map((e) => e.toDomain()).toList() ?? [],
-        dateRepeat: dateRepeat,
-        days: days,
-        isTaoTaoBocBang: isTaoBocBang ?? false,
-        bit_PhongTrungTamDieuHanh: bitPhongTrungTamDieuHanh ?? false,
-        lichHop_PhienHopStr: lichHop_PhienHopStr ?? '',
-        diaDiemHop: diaDiemHop ?? '',
-        isCongKhai: congKhai,
-        isDuyetKyThuat: isDuyetKyThuat,
-        linkTrucTuyen: linkTrucTuyen,
-        dsDiemCau: dsDiemCau,
-        bit_LinkTrongHeThong: bit_LinkTrongHeThong,
-        isLichLap: isLichLap,
-        phongHopThietBi:
-            phongHopThietBi?.map((e) => PhongHopThietBi.fromJson(e)).toList(),
-        lichDonVi: lichDonVi,
-        thuMoiFiles: thuMoiFiles,
-        linhVucId: linhVucId,
-      );
+  ChiTietLichHopModel toDomain() {
+    final List<FilesChiTietHop> listFileDinhKem = [];
+    if ((thuMoiFiles ?? '').isNotEmpty) {
+      final data = json.decode(thuMoiFiles ?? '') as List<dynamic>;
+      for (final element in data) {
+        listFileDinhKem.add(FilesChiTietHop.fromJson(element));
+      }
+    }
+    return ChiTietLichHopModel(
+      id: id ?? '',
+      typeScheduleId: typeScheduleId ?? '',
+      chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
+      linhVuc: tenLinhVuc ?? '',
+      noiDung: noiDung ?? '',
+      thoiGianKetThuc: thoiGianKetThuc ?? '',
+      title: title ?? '',
+      isDuyetThietBi: isDuyetThietBi ?? false,
+      isDuyetPhong: isDuyetPhong ?? false,
+      canBoThamGiaStr: canBoThamGiaStr ?? '',
+      trangThaiDuyetKyThuat: trangThaiDuyetKyThuat ?? -1,
+      phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
+      tenLinhVuc: tenLinhVuc ?? '',
+      nguoiTao_str: nguoiTaoStr ?? '',
+      timeTo: timeTo ?? '',
+      status: status ?? 0,
+      timeStart: timeStart ?? '',
+      ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
+      ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
+      mucDoHop: mucDo,
+      bit_HopTrucTuyen: bitHopTrucTuyen ?? false,
+      bit_TrongDonVi: bitTrongDonVi,
+      isAllDay: isAllDay ?? false,
+      typeReminder: typeReminder,
+      bit_YeuCauDuyet: bitYeuCauDuyet ?? false,
+      typeRepeat: typeRepeat,
+      createdBy: createdBy ?? '',
+      fileData: fileData?.map((e) => e.toDomain()).toList() ?? [],
+      dateRepeat: dateRepeat,
+      days: days,
+      isTaoTaoBocBang: isTaoBocBang ?? false,
+      bit_PhongTrungTamDieuHanh: bitPhongTrungTamDieuHanh ?? false,
+      lichHop_PhienHopStr: lichHop_PhienHopStr ?? '',
+      diaDiemHop: diaDiemHop ?? '',
+      isCongKhai: congKhai,
+      isDuyetKyThuat: isDuyetKyThuat,
+      linkTrucTuyen: linkTrucTuyen,
+      dsDiemCau: dsDiemCau,
+      bit_LinkTrongHeThong: bit_LinkTrongHeThong,
+      isLichLap: isLichLap,
+      phongHopThietBi:
+          phongHopThietBi?.map((e) => PhongHopThietBi.fromJson(e)).toList(),
+      lichDonVi: lichDonVi,
+      thuMoiFiles: thuMoiFiles,
+      linhVucId: linhVucId,
+      fileDinhKemWithDecode: listFileDinhKem,
+    );
+  }
 }
 
 class ChuTri {
@@ -395,7 +407,7 @@ class FileData {
     updatedBy = json['updatedBy'];
   }
 
-  file toDomain() => file(
+  FilesChiTietHop toDomain() => FilesChiTietHop(
         name: name,
         path: path,
         id: id,

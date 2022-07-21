@@ -10,7 +10,7 @@ Future<T?> showDiaLog<T>(
   BuildContext context, {
   required String title,
   required String textContent,
-  required Widget icon,
+  Widget? icon,
   required String btnRightTxt,
   required String btnLeftTxt,
   bool showTablet = false,
@@ -62,7 +62,7 @@ Future<T?> showDiaLog<T>(
                     ],
                   ),
                 ),
-              icon,
+              icon ?? Container(),
               SizedBox(
                 height: showTablet ? 20.0.textScale(space: -8) : 20,
               ),

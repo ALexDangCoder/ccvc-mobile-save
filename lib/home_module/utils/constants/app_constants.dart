@@ -37,6 +37,7 @@ enum SelectKey {
   CHO_CAP_SO,
   CHO_BAN_HANH,
   CHO_PHAN_XU_LY,
+  CHUA_THUC_HIEN,
   DANG_THUC_HIEN,
   DANH_SACH_CONG_VIEC,
   CHO_DUYET_XU_LY,
@@ -75,7 +76,6 @@ const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
 const String CHO_XU_LY = 'CHO_XU_LY';
-
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
 const String CALENDAR_TYPE_YEAR = 'Year';
@@ -88,6 +88,8 @@ const String STATUS_TRANSACTION_SUCCESS = '1';
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
 const String TRANSACTION_NFT = '1';
+const String DATE_FORMAT_THIEP_SINH_NHAT = 'dd-MM-yyyy HH:mm';
+const String DATE_FORMAT_DDMMYYYY = 'dd-MM-yyyy';
 
 const EN_CODE = 'en';
 const VI_CODE = 'vi';
@@ -168,6 +170,12 @@ class NhiemVuStatus {
   static const CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
   static const DANG_THUC_HIEN = 'DANG_THUC_HIEN';
 }
+class DocumentTrangThaiXuLy {
+  static const DEN_HAN = '2';
+  static const QUA_HAN = '1';
+  static const TRONG_HAN = '3';
+}
+
 
 class DateFormatApp {
   static String date = 'dd/MM/yyyy';
@@ -179,5 +187,6 @@ class DateFormatApp {
 }
 
 class PermissionConst {
-  static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
+  static const  VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
+  static const  VB_DEN_VAO_SO_VAN_BAN = 'van-ban-den-vao-so-van-ban-giay';
 }

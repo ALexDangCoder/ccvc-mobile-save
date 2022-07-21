@@ -329,7 +329,10 @@ extension GetData on CalendarWorkCubit {
 
   Future<void> updateList() async {
     showLoading();
-    await getFullListWork();
+    final Queue queue = Queue();
+    unawaited(queue.add(() => getTotalWork()));
+    unawaited(queue.add(() => getFullListWork()));
+    await queue.onComplete;
     showContent();
   }
 

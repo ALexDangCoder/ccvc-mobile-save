@@ -61,6 +61,7 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
       selectKeyDialog: _nhiemVuCubit,
       listSelect: const [
         SelectKey.CHO_PHAN_XU_LY,
+        SelectKey.CHUA_THUC_HIEN,
         SelectKey.DANG_THUC_HIEN,
         SelectKey.DANH_SACH_CONG_VIEC
       ],

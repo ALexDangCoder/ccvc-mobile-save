@@ -227,7 +227,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     ];
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'quyen-duyet-phong',
+      permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
     )){
       listMenuTheoTrangThai.add(
         ChildMenu(
@@ -244,7 +244,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
-      permissionTxt: 'quyen-duyet-thiet-bi',
+      permissionTxt: PermissionAppTxt.QUYEN_DUYET_THIET_BI,
     )) {
       listMenuTheoTrangThai.add(
         ChildMenu(
@@ -259,7 +259,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     }
      if (HiveLocal.checkPermissionApp(
        permissionType: PermissionType.VPDT,
-       permissionTxt: 'yeu-cau-chuan-bi',
+       permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
      )) {
        listMenuTheoTrangThai.add(
          ChildMenu(

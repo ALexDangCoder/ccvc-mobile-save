@@ -30,8 +30,9 @@ class ButtonSelectFile extends StatefulWidget {
   final bool isShowFile;
   final double? maxSize;
   final Function(int index) removeFileApi;
-
-
+  final List<String>? allowedExtensions;
+  final Function(File)? removeFile;
+  final bool allowMultiple;
   ButtonSelectFile({
     Key? key,
     this.background,
@@ -48,6 +49,9 @@ class ButtonSelectFile extends StatefulWidget {
     this.isShowFile = true,
     this.maxSize,
     required this.removeFileApi,
+    this.allowedExtensions,
+    this.removeFile,
+    this.allowMultiple = true,
   }) : super(key: key);
 
   @override
@@ -85,16 +89,19 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
       children: [
         GestureDetector(
           onTap: () async {
-            final FilePickerResult? result =
-            await FilePicker.platform.pickFiles(
-              allowMultiple: true,
-            );
+            final FilePickerResult? result = await FilePicker.platform
+                .pickFiles(
+                    allowMultiple: widget.allowMultiple,
+                    type: widget.allowedExtensions != null
+                        ? FileType.custom
+                        : FileType.any,
+                    allowedExtensions: widget.allowedExtensions);
 
             if (result != null) {
               if (!isFileError(result.paths)) {
                 if (widget.hasMultipleFile) {
                   final listSelect =
-                  result.paths.map((path) => File(path ?? '')).toList();
+                      result.paths.map((path) => File(path ?? '')).toList();
                   if (widget.maxSize != null) {
                     bool isOverSize = false;
                     errText = '';
@@ -198,6 +205,9 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                           _cubit.deleteFile(e, widget.files ?? []);
                           if (widget.hasMultipleFile) {
                             widget.onChange(widget.files ?? []);
+                          }
+                          if (widget.removeFile != null) {
+                            widget.removeFile!(e);
                           }
                           setState(() {});
                         },

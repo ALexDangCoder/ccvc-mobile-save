@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:core';
+
+
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -9,6 +11,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/sua_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
@@ -26,6 +29,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_mo
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/file_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_upload_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
@@ -54,6 +58,7 @@ import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
@@ -240,17 +245,25 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   );
 
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
-    await getChiTietLichHop(idCuocHop);
-
+    final queue = Queue(parallel: 4);
+    showLoading();
+    unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
+    await queue.onComplete;
     ///check permission button
     if (needCheckPermission) {
       initDataButton();
     }
+    showContent();
+  }
 
-    await getDanhSachThuHoiLichHop(idCuocHop);
-
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
-    await getDanhSachCanBoHop(idCuocHop);
+  Future<Result<List<FileUploadModel>>> uploadFile(List<File> file) async {
+    ShowLoadingScreen.show();
+    final data = await hopRp.uploadMultiFile(path: file);
+    ShowLoadingScreen.dismiss();
+    return data;
   }
 
   /// dùng cho cả bên: tao moi nhiem vu - kl hop
@@ -260,6 +273,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       success: (res) {
         listNguoiCHuTriModel.sink.add(res);
         dataThuKyOrThuHoiDeFault = res;
+
       },
       error: (error) {},
     );
@@ -398,6 +412,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
       error: (error) {},
     );
   }
+
+
 
   Future<void> postDiemDanh() async {
     showLoading();

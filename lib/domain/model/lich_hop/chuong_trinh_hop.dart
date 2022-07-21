@@ -68,7 +68,7 @@ class CanBoModel {
       case 2:
         return S.current.tu_choi_tham_du;
       case 4:
-        return S.current.tham_du;
+        return S.current.thu_hoi;
       default:
         return S.current.cho_xac_nhan;
     }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
@@ -8,11 +9,28 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'chon_ngay_widget.dart';
+
+const List<String> FILE_ALLOW = [
+  'xlsx',
+  'xlsm',
+  'pptm',
+  'pptx',
+  'dotx',
+  'docx',
+  'pdf',
+  'png',
+  'jpg',
+  'jpeg'
+      'doc'
+];
 
 class VBGiaoNhiemVu extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -39,6 +57,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
     // TODO: implement initState
     super.initState();
     vBGiaoNhiemVuModel = VBGiaoNhiemVuModel();
+    vBGiaoNhiemVuModel.ngayVanBan = DateTime.now().toString();
   }
 
   @override
@@ -95,19 +114,57 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           ),
           sb20(),
           ButtonSelectFile(
-            removeFileApi: (int index) {},
+            allowedExtensions: FILE_ALLOW,
+            allowMultiple: false,
+
+            removeFile: (e) {
+              vBGiaoNhiemVuModel.file = [];
+            },
             title: S.current.tai_lieu_dinh_kem,
             onChange: (files) {
-              vBGiaoNhiemVuModel.file =
-                  files.map((e) => e.path.split('/').last).toList();
+              if (files.isNotEmpty) {
+                if (files.first.lengthSync() > MaxSizeFile.MAX_SIZE_30MB) {
+                  showToast(S.current.dung_luong_toi_da_30);
+                  vBGiaoNhiemVuModel.file = [];
+                  setState(() {
+
+                  });
+                  return;
+                }
+              } else {
+                return;
+              }
+              widget.cubit.uploadFile(files).then((value) {
+                value.when(
+                  success: (res) {
+                    vBGiaoNhiemVuModel.file = res;
+                  },
+                  error: (err) {
+                    setState(() {});
+                  },
+                );
+              });
+              // widget.cubit.
             },
             files: const [],
+            removeFileApi: (int index) {},
           ),
           SizedBox(
             height: 20.0.textScale(),
           )
         ],
       ),
+    );
+  }
+
+  void showToast(String title) {
+    final toast = FToast();
+    toast.init(context);
+    toast.showToast(
+      child: ShowToast(
+        text: title,
+      ),
+      gravity: ToastGravity.BOTTOM,
     );
   }
 

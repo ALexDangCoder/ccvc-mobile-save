@@ -25,6 +25,7 @@ class DocumentDashboardModel {
   int soLuongPhanXuLy = 0;
   int soLuongChoPhanXuLy = 0;
   int soLuongChoDuyet = 0;
+  int soLuongChoDuyetXuLy = 0;
   int soLuongChoBoSungThongTin = 0;
   int soLuongChoTiepNhanXuLy = 0;
   int soLuongDaPhanCong = 0;
@@ -60,7 +61,8 @@ class DocumentDashboardModel {
     this.soLuongDaHoanThanh = 0,
     this.soLuongChuaThucHien = 0,
     this.soLuongHoanThanhNhiemVu = 0,
-    this.soLuongDangThucHien = 0
+    this.soLuongDangThucHien = 0,
+    this.soLuongChoDuyetXuLy = 0,
   });
 
   List<DataRow> listVBDen() {

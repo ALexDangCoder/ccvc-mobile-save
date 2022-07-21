@@ -71,7 +71,8 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
-                  return '${S.current.ban_phai_nhap_truong} ${S.current.noi_dung_danh_gia}!';
+                  return '${S.current.ban_phai_nhap_truong} '
+                      '${S.current.noi_dung_danh_gia}!';
                 }
               },
               maxLine: 5,

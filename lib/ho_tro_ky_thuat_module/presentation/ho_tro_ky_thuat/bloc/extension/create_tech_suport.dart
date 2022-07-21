@@ -11,29 +11,6 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     await getCategory(title: HoTroKyThuatCubit.TRANG_THAI);
   }
 
-  ///start
-  // if (isEdit) {
-  // await getChiTietHTKTEdit(id: id ?? '');
-  // areaValue = getValueAreaDropDown(
-  // statusHTKT: StatusHTKT.Edit,
-  // id: modelEditHTKT.districId,
-  // );
-  // buildingValue = getValueAreaDropDown(
-  // statusHTKT: StatusHTKT.Edit,
-  // id: modelEditHTKT.buildingId,
-  // isArea: false,
-  // );
-  // } else {
-  // areaValue = getValueAreaDropDown(
-  // statusHTKT: StatusHTKT.Create,
-  // );
-  // buildingValue = getValueAreaDropDown(
-  // statusHTKT: StatusHTKT.Create,
-  // isArea: false,
-  // );
-  // }
-  /// end
-
   Future<void> getApiThemMoiYCHT() async {
     showLoading();
     if (listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
@@ -149,6 +126,4 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       editTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
   }
-
-  void addIssuesEditRequest(List<int> indexList) {}
 }

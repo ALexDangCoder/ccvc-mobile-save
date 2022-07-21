@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
@@ -20,7 +21,6 @@ import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 
 class SuaDoiYcHoTroMobile extends StatefulWidget {
   const SuaDoiYcHoTroMobile({
@@ -200,10 +200,8 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                               ),
                               spaceH16,
                               _multiSelect(),
-                              // IssueDropDown(cubit: widget.cubit),
                               spaceH16,
                               TaiLieuWidget(
-                                // list.map((e) => File(e.filePath)).toList()
                                 files: widget
                                     .cubit.editModelHTKT.value.filesDinhKem
                                     ?.map(

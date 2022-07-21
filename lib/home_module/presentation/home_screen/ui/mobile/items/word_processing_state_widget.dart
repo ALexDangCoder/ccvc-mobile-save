@@ -113,9 +113,6 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                             }
                           },
                         ),
-                        // const SizedBox(
-                        //   height: 26,
-                        // ),
                         GridView.count(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,

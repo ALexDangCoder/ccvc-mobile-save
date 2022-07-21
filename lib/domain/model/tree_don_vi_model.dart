@@ -86,7 +86,7 @@ class DonViModel {
     this.soLuong = 0,
   });
 
-  NguoiChutriModel convertToNguoiChuTriModel(){
+  NguoiChutriModel convertToNguoiChuTriModel() {
     return NguoiChutriModel(
       id: id,
       tenDonVi: tenDonVi,
@@ -261,6 +261,20 @@ class Node<T> {
       node.addChild(vl.coppyWith());
     }
     return node;
+  }
+
+  Node<T>? removeFirstWhere(bool Function(T element) compare) {
+    if (compare.call(value)) {
+      return null;
+    } else {
+      for (int i=0 ;i < children.length ; i++ ){
+        if (children[i].removeFirstWhere(compare) == null ){
+          children.removeAt(i);
+          break;
+        }
+      }
+      return this;
+    }
   }
 }
 

@@ -30,8 +30,11 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
       BehaviorSubject<List<Node<DonViModel>>>();
+  final BehaviorSubject<List<Node<DonViModel>>> _getTreeCaNhan =
+      BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
+  Stream<List<Node<DonViModel>>> get getTreeCaNhan => _getTreeCaNhan.stream;
 
   String timeStart = '';
   String timeEnd = '';
@@ -88,7 +91,12 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     hopRp.getTreeDonVi().then((value) {
       value.when(
         success: (res) {
+          final data = <Node<DonViModel>>[];
           _getTreeDonVi.sink.add(res);
+          for (final Node<DonViModel> element in res){
+            data.add(element.coppyWith());
+          }
+          _getTreeCaNhan.sink.add(data);
         },
         error: (err) {},
       );
@@ -113,6 +121,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     _phuongThucNhan.close();
     _listPeopleThamGia.close();
     _getTreeDonVi.close();
+    _getTreeCaNhan.close();
     listCanBoThamGia.close();
   }
 }

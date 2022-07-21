@@ -135,7 +135,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       color: statusCalenderRed,
     ),
   ];
-
+  BehaviorSubject<List<NguoiChutriModel>> listCuCanBoSubject =
+      BehaviorSubject();
   BehaviorSubject<ButtonStatePhatBieu> buttonStatePhatBieuSubject =
       BehaviorSubject();
 

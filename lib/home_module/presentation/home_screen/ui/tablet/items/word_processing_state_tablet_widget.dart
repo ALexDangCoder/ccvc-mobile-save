@@ -84,6 +84,7 @@ class _WordProcessingStateWidgetState
                       return Column(
                         children: [
                           PieChart(
+                            isSubjectInfo: false,
                             paddingTop: 0,
                             chartData:
                                 List.generate(data.listVBDen().length, (index) {
@@ -111,6 +112,48 @@ class _WordProcessingStateWidgetState
                               }
                             },
                           ),
+                          GridView.count(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            crossAxisCount: 2,
+                            childAspectRatio: 9,
+                            mainAxisSpacing: 14.0,
+                            crossAxisSpacing: 10,
+                            children: List.generate(
+                                data.listVBDenSubjectInfo().length, (index) {
+                              final result = data.listVBDenSubjectInfo()[index];
+                              return GestureDetector(
+                                onTap: () {},
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 14,
+                                      width: 14,
+                                      decoration: BoxDecoration(
+                                        color: result.color,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
+                                    Flexible(
+                                      child: FittedBox(
+                                        child: Text(
+                                          '${result.key.getText()} (${result.value.toInt()})',
+                                          style: textNormal(
+                                            infoColor,
+                                            16,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
+                          ),
                           const SizedBox(
                             height: 28,
                           ),
@@ -131,29 +174,10 @@ class _WordProcessingStateWidgetState
                                     data.soLuongTrongHan.toDouble(),
                                     choTrinhKyColor)
                               ],
-                              onTap: (index) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        IncomingDocumentScreenTablet(
-                                      startDate: '',
-                                      title: S.current.danh_sach_van_ban_den,
-                                      endDate: '',
-                                      type: TypeScreen.VAN_BAN_DEN,
-                                      maTrangThai: [],
-                                    ),
-                                  ),
-                                );
-                              },
+                              onTap: (index) {},
                             ),
                           )
                         ],
-                      );
-                      // }
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 100),
-                        child: NodataWidget(),
                       );
                     },
                   ),

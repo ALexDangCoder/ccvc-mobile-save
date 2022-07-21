@@ -77,20 +77,20 @@ class _LineChart extends StatelessWidget {
         if (chartData.indexWhere((element) => element.value != 0) == -1)
           const NodataWidget()
         else
-          const LineChartExample()
+          const _LineChartView()
       ],
     );
   }
 }
 
-class LineChartExample extends StatefulWidget {
-  const LineChartExample({Key? key}) : super(key: key);
+class _LineChartView extends StatefulWidget {
+  const _LineChartView({Key? key}) : super(key: key);
 
   @override
-  State<LineChartExample> createState() => _LineChartExampleState();
+  State<_LineChartView> createState() => _LineChartViewState();
 }
 
-class _LineChartExampleState extends State<LineChartExample> {
+class _LineChartViewState extends State<_LineChartView> {
   List<_ChartData> chartData = [];
 
   @override
@@ -117,10 +117,14 @@ class _LineChartExampleState extends State<LineChartExample> {
   SfCartesianChart _buildDefaultLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      // legend:
-      //     Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+      legend: Legend(
+        isVisible: true,
+        overflowMode: LegendItemOverflowMode.wrap,
+        position: LegendPosition.top,
+      ),
       primaryXAxis: NumericAxis(
-        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        labelPosition: ChartDataLabelPosition.outside,
+        visibleMaximum: 6.0,
         interval: 1,
         majorGridLines: const MajorGridLines(width: 0),
       ),
@@ -131,7 +135,6 @@ class _LineChartExampleState extends State<LineChartExample> {
       ),
       series: _getDefaultLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
-
     );
   }
 

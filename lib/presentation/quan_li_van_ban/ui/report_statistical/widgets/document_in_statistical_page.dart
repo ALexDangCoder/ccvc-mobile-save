@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/w
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_line_chart.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_pie_chart.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_row_chart.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_sline_chart.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -131,6 +132,18 @@ class DocumentInStatisticalPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: DocumentByDivisionLineChart(
+              chartData: [
+                ChartData(
+                  'Quá hạn',
+                  75,
+                  colorFF4F50,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: DocumentByDivisionSLineChart(
               chartData: [
                 ChartData(
                   'Quá hạn',

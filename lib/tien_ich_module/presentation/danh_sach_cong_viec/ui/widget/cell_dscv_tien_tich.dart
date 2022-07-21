@@ -57,7 +57,6 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
 
   @override
   Widget build(BuildContext context) {
-    log('>>>>>>>>>>>>>${widget.todoModel.finishDay}');
     final double padingIcon = MediaQuery.of(context).size.width * 0.03;
     return Container(
       decoration: const BoxDecoration(

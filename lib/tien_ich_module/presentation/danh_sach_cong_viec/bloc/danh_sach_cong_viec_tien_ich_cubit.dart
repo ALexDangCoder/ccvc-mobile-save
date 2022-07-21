@@ -24,7 +24,7 @@ import 'danh_sach_cong_viec_tien_ich_state.dart';
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
-  String dateChange = '';
+  String dateChange = DateTime.now().toString();
   String? noteChange;
   String? titleChange;
   int countLoadMore = 1;
@@ -667,7 +667,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   void disposs() {
-    dateChange = '';
+    dateChange = DateTime.now().toString();
     noteChange = '';
     titleChange = '';
     nguoiThucHienSubject.sink.add(

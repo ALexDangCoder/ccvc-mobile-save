@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_di_thay_widget.dart';
@@ -386,6 +387,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                         maxHeight: MediaQuery.of(context).size.height * 0.8,
                       ),
                       child: CuCanBoWidget(
+
                         themCanBoCubit: themCanBoCubit,
                         cubit: cubit,
                         cubitThanhPhanTG: cubitThanhPhanTG,

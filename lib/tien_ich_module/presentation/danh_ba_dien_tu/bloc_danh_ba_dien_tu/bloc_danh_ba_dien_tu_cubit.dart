@@ -37,7 +37,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   final List<String> _listParent = [];
   int levelTree = 0;
   BehaviorSubject<String> tenDonVi =
-      BehaviorSubject.seeded(S.current.UBND_tinh_dong_nai);
+      BehaviorSubject.seeded(S.current.chon_don_vi);
   BehaviorSubject<String> idDonVi = BehaviorSubject();
   BehaviorSubject<String> isCheckValidate = BehaviorSubject.seeded('  ');
   String searchValue = '';
@@ -93,12 +93,13 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     getListDanhBaCaNhan(pageIndex: pageIndex, pageSize: pageSize);
   }
 
-  void callApiDanhBaToChuc(
-      {int? pageIndexApi,
-      int? pageSizeApi,
-      String? keyWork,
-      String? id,
-      bool? callApi}) {
+  void callApiDanhBaToChuc({
+    int? pageIndexApi,
+    int? pageSizeApi,
+    String? keyWork,
+    String? id,
+    bool? callApi,
+  }) {
     if (callApi ?? true) {
       getListDanhBaToChuc(
         pageIndex: pageIndexApi ?? pageIndex,
@@ -204,7 +205,13 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.items));
           }
         } else {
-          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.items));
+          if (res.items?.isEmpty ?? true) {
+            showContent();
+            emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
+          } else {
+            showContent();
+            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.items));
+          }
         }
       },
       error: (error) {

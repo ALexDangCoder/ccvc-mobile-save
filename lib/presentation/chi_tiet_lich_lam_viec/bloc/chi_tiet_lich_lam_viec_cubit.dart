@@ -628,6 +628,9 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
     for (final element in files) {
       sum = sum + element.lengthSync();
     }
+    for (final element in fileInit) {
+      sum += element.fileLength?.toInt() ?? 0;
+    }
     if (sum > MaxSizeFile.MAX_SIZE_30MB) {
       return false;
     }

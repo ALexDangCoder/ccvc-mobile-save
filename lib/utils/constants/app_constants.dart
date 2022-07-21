@@ -146,7 +146,7 @@ extension GetTypeByName on PickerType {
   }
 }
 
-const int BYTE_TO_MB = 1048576;
+const int BYTE_TO_MB = 1000000;
 const String DEVICE_ID = '';
 const String DEVICE_ANDROID = 'ANDROID';
 const String DEVICE_IOS = 'IOS';
@@ -240,6 +240,7 @@ const String ENTITY_TAI_LIEU_HOP = 'TaiLieuHop';
 const String ID_PHIEN_HOP = '00000000-0000-0000-0000-000000000000';
 const String TIME = '00:00:00';
 const String PRIMARY = 'primary';
+const String INIT_TIME = '00:00';
 const int DA_THAM_GIA = 1;
 
 class DateTimeFormat {
@@ -466,7 +467,7 @@ class EnumScheduleStatus {
 }
 
 class MaxSizeFile {
-  static const MAX_SIZE_30MB = 31457280;
+  static const MAX_SIZE_30MB = 30000000;
 }
 
 class TypeTaskYKien {
@@ -481,7 +482,7 @@ class FileExtensions {
   static const String PNG = 'png';
   static const String JPEG = 'jpeg';
   static const String JPG = 'jpg';
-  static const String XLXS = 'xlxs';
+  static const String XLSX = 'xlsx';
   static const String PPTX = 'pptx';
 }
 class PermissionAppTxt{

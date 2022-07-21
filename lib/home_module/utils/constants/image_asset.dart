@@ -223,6 +223,7 @@ class ImageAssets {
       '$baseImg/header_background_le_giang_sinh_tablet.png';
   static const String erorrLoadImage =
       '$baseImg/erorr_load_image.png';
+  static const String icLocation = '$baseImg/ic_location.svg';
 
 
   static SvgPicture svgAssets(

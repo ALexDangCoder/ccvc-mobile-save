@@ -140,7 +140,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                     ),
                     key: UniqueKey(),
                     value: widget.cubit.dateChange.isEmpty
-                        ? widget.todo?.createdOn ?? DateTime.now().toString()
+                        ? widget.todo?.finishDay ?? DateTime.now().toString()
                         : widget.cubit.dateChange,
                     onSelectDate: (value) {
                       widget.cubit.dateChange = value;
@@ -262,14 +262,20 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                       return FileFromAPIWidget(
                         data: data?.split('/').toList().last ?? '',
                         onTapDelete: () {
+                          if (widget.isCreate ?? true) {
+                            nameFileSelect = '';
+                            widget.cubit.nameFile.sink.add('');
+                            return;
+                          }
                           widget.cubit
                               .editWork(
                                 isDeleteFile: true,
                                 todo: widget.todo ?? TodoDSCVModel(),
                                 filePathTodo: '',
                               )
-                              .then((value) =>
-                                  widget.cubit.nameFile.sink.add(''));
+                              .then(
+                                (value) => widget.cubit.nameFile.sink.add(''),
+                              );
                         },
                       );
                     }

@@ -127,7 +127,7 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                                   colorBorder: value.vaiTroColor(),
                                   child: Column(
                                     children: [
-                                      if (data.children.isEmpty)
+                                      if (data.value.ten?.isNotEmpty ?? false)
                                         Container(
                                           margin:
                                               const EdgeInsets.only(bottom: 10),
@@ -135,8 +135,8 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                                           height: 48,
                                           clipBehavior: Clip.antiAlias,
                                           decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.red),
+                                            shape: BoxShape.circle,
+                                          ),
                                           child: CachedNetworkImage(
                                             imageUrl: '',
                                             fit: BoxFit.cover,
@@ -160,14 +160,27 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
-                                      Text(
-                                        value.textChucVuDonVi,
-                                        style: textNormal(
-                                          infoColor,
-                                          12,
+                                      if (value.ten?.isNotEmpty ?? false)
+                                        Text(
+                                          value.textChucVuDonVi,
+                                          style: textNormal(
+                                            infoColor,
+                                            12,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        )
+                                      else
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6),
+                                          child: Text(
+                                            '${S.current.ten_nguoi_tao}: ${value.tenNguoiTao}',
+                                            style: textNormal(
+                                              infoColor,
+                                              12,
+                                            ),
+                                          ),
                                         ),
-                                        textAlign: TextAlign.center,
-                                      ),
                                       const SizedBox(
                                         height: 10,
                                       ),

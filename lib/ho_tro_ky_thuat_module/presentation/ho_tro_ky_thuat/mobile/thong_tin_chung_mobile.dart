@@ -41,7 +41,7 @@ class _ThongTinChungMobileState extends State<ThongTinChungMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarMobile(),
-      floatingActionButton: floatingHTKT(
+      floatingActionButton: floatingHTKTMobile(
         context,
         widget.cubit,
       ),

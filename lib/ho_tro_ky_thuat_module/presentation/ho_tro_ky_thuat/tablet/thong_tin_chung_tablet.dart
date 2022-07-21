@@ -7,7 +7,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/mobile/danh_sach_su_co_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tablet/danh_sach_su_co_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/chart_thong_tin_chung.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/widget_tong_dai_tablet.dart';
@@ -42,7 +42,7 @@ class _ThongTinChungTabletState extends State<ThongTinChungTablet> {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: _appBarTablet(),
-      floatingActionButton: floatingHTKT(
+      floatingActionButton: floatingHTKTTablet(
         context,
         widget.cubit,
       ),

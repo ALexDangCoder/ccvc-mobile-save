@@ -31,7 +31,6 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     cubit = ChiTietHoTroCubit();
     cubit.getSupportDetail(widget.idHoTro);
@@ -94,7 +93,8 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             spaceH10,
                             rowItem(
                               S.current.nguoi_yeu_cau,
-                              '${cubit.supportDetail.nguoiYeuCau ?? ''} - ${cubit.supportDetail.chucVu ?? ''}',
+                              '${cubit.supportDetail.nguoiYeuCau ?? ''} '
+                                  '- ${cubit.supportDetail.chucVu ?? ''}',
                             ),
                             spaceH10,
                             rowItem(

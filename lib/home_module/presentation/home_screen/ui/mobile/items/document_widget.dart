@@ -1,4 +1,4 @@
-
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
@@ -97,21 +97,38 @@ class _DocumentWidgetState extends State<DocumentWidget> {
                       pushScreen(id: result.id, taskId: result.taskId);
                     },
                     child: ContainerInfoWidget(
+                      choTrinhKy:
+                          _vanBanCubit.selectKey == SelectKey.CHO_TRINH_KY,
+                      trichYeu: result.trichYeu,
                       title: result.title,
                       status: result.status,
                       colorStatus: result.documentStatus.getColor(),
-                      listData: [
-                        InfoData(
-                          urlIcon: ImageAssets.icSoKyHieu,
-                          key: S.current.so_ky_hieu,
-                          value: result.kyHieu,
-                        ),
-                        InfoData(
-                          urlIcon: ImageAssets.icAddress,
-                          key: S.current.noi_gui,
-                          value: result.noiGui,
-                        ),
-                      ],
+                      listData:
+                          (_vanBanCubit.selectKey != SelectKey.CHO_TRINH_KY)
+                              ? [
+                                  InfoData(
+                                    urlIcon: ImageAssets.icSoKyHieu,
+                                    key: S.current.so_ky_hieu,
+                                    value: result.kyHieu,
+                                  ),
+                                  InfoData(
+                                    urlIcon: ImageAssets.icAddress,
+                                    key: S.current.noi_gui,
+                                    value: result.noiGui,
+                                  )
+                                ]
+                              : [
+                                  InfoData(
+                                    urlIcon: ImageAssets.icLocation,
+                                    key: S.current.don_vi_soan_thao,
+                                    value: result.donViSoanThao,
+                                  ),
+                                  InfoData(
+                                    urlIcon: ImageAssets.icPeople,
+                                    key: S.current.nguoi_soan_thao,
+                                    value: result.nguoiSoanThao,
+                                  )
+                                ],
                     ),
                   ),
                 );

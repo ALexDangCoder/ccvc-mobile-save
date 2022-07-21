@@ -1,4 +1,3 @@
-
 import '/home_module//utils/extensions/string_extension.dart';
 import '/home_module/domain/model/home/document_model.dart';
 
@@ -145,6 +144,8 @@ class PageDataDSSearch {
   String? codeDoKhan;
   String? doKhan;
   String? donViBanHanh;
+  String? donViSoanThao;
+  String? nguoiSoanThao;
 
   PageDataDSSearch({
     this.id,
@@ -152,6 +153,8 @@ class PageDataDSSearch {
     this.soKyHieu,
     this.trichYeu,
     this.donViBanHanh,
+    this.donViSoanThao,
+    this.nguoiSoanThao,
   });
 
   PageDataDSSearch.fromJson(Map<String, dynamic> json) {
@@ -162,6 +165,8 @@ class PageDataDSSearch {
     donViBanHanh = json['DonViBanHanh'];
     codeDoKhan = json['CodeDoKhan'];
     doKhan = json['DoKhan'];
+    donViSoanThao = json['DonViSoanThao'];
+    nguoiSoanThao = json['NguoiSoanThao'];
   }
 
   DocumentModel toDomain() => DocumentModel(
@@ -171,5 +176,8 @@ class PageDataDSSearch {
         code: codeDoKhan ?? '',
         title: trichYeu?.parseHtml() ?? '',
         id: id ?? '',
+        donViSoanThao: donViSoanThao ?? '',
+        nguoiSoanThao: nguoiSoanThao ?? '',
+        trichYeu: trichYeu ?? '',
       );
 }

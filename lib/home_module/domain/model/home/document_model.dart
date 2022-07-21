@@ -14,6 +14,9 @@ class DocumentModel {
   final String title;
   final String taskId;
   late final DocumentStatus documentStatus;
+  final String donViSoanThao;
+  final String nguoiSoanThao;
+  final String trichYeu;
 
   DocumentModel({
     required this.kyHieu,
@@ -23,6 +26,9 @@ class DocumentModel {
     required this.title,
     this.id = '',
     this.taskId = '',
+    this.donViSoanThao = '',
+    this.nguoiSoanThao = '',
+    this.trichYeu = '',
   }) {
     documentStatus = byStatus();
   }

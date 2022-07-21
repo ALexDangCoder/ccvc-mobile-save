@@ -322,6 +322,8 @@ class ApiConstants {
   static const XOA_BIEU_QUYET = '/vpdt/api/BieuQuyet/xoa-bieu-quyet';
   static const DANH_SACH_CAN_BO_BIEU_QUYET =
       '/vpdt/api/BieuQuyet/get-danh-sach-canbo-bieuquyet';
+  static const GET_LICH_HOP_THEO_LINH_VUC = '/vpdt/api/ViewDashboardSchedule/thong-ke-linh-vuc';
+
 }
 
 class ImageConstants {

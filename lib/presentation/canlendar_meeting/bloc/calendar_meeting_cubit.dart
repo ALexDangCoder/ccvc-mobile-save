@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/dashboard_thong_ke_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/statistic_by_month_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/thong_ke_linh_vuc.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_gia.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
@@ -119,11 +120,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   Stream<List<ChartData>> get coCauLichHopStream => _coCauLichHopSubject.stream;
 
-  final BehaviorSubject<List<TiLeThamGiaModel>> _tiLeThamGiaSubject =
+  final BehaviorSubject<List<ThongKeLinhVucModel>> thongKeLinhVucSubject =
       BehaviorSubject();
 
-  Stream<List<TiLeThamGiaModel>> get tiLeThamGiaStream =>
-      _tiLeThamGiaSubject.stream;
+  Stream<List<ThongKeLinhVucModel>> get thongKeLinhVucStream =>
+      thongKeLinhVucSubject.stream;
 
   final BehaviorSubject<bool> _isShowStatusFilter =
       BehaviorSubject.seeded(false);
@@ -613,7 +614,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     getStatisticByMonth();
     getDashBoardThongKe();
     getToChucBoiDonVi();
-    getTiLeThamDu();
+    getThongKeTheoLinhVuc();
     getCoCauLichHop();
     getDaysHaveEvent(
       startDate: startDate,
@@ -651,15 +652,15 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
   }
 
-  /// lấy tỉ lệ tham dự
-  Future<void> getTiLeThamDu() async {
-    final result = await hopRepo.postTiLeThamGia(
-      startDate.formatApiDDMMYYYYSlash,
-      endDate.formatApiDDMMYYYYSlash,
+  /// lấy số lịch họp theo lĩnh vực
+  Future<void> getThongKeTheoLinhVuc() async {
+    final result = await hopRepo.getLichHopTheoLinhVuc(
+      startDate.formatApi,
+      endDate.formatApi,
     );
     result.when(
       success: (value) {
-        _tiLeThamGiaSubject.add(value);
+        thongKeLinhVucSubject.add(value);
       },
       error: (error) {},
     );

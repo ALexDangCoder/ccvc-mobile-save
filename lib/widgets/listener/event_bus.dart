@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:event_bus/event_bus.dart';
 
 final EventBus eventBus = EventBus();
@@ -16,6 +17,11 @@ class FireTopic {
 
 class RefreshCalendar {
   RefreshCalendar();
+}
+
+class ListSearchListNode {
+  final List<Node<DonViModel>> listNode;
+  ListSearchListNode(this.listNode);
 }
 
 class RefreshList {

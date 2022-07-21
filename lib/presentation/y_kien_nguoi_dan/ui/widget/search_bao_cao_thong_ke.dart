@@ -26,6 +26,7 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
   final Function(List<Node<DonViModel>>) onChange;
   final List<DonViModel> listSelectNode;
   final ThanhPhanThamGiaCubit cubit;
+  final List<Node<DonViModel>> listNode;
   final Function(
     List<String> donViID,
   ) onSearch;
@@ -38,6 +39,7 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
     required this.cubit,
     required this.startDate,
     required this.endDate,
+    this.listNode = const [],
   }) : super(key: key);
 
   @override
@@ -71,6 +73,7 @@ class _SearchBaoCaoThongKeWidgetState extends State<SearchBaoCaoThongKeWidget> {
       endDate: widget.endDate,
       themDonViCubit: _themDonViCubit,
       onSearch: widget.onSearch,
+      listNode: widget.listNode,
     );
   }
 }
@@ -82,13 +85,14 @@ class TreeDonVi extends StatefulWidget {
   final Function(
     List<String> donViID,
   ) onSearch;
-
+  final List<Node<DonViModel>> listNode;
   const TreeDonVi({
     Key? key,
     required this.themDonViCubit,
     required this.onSearch,
     required this.startDate,
     required this.endDate,
+    this.listNode = const [],
   }) : super(key: key);
 
   @override
@@ -123,6 +127,7 @@ class _TreeDonViState extends State<TreeDonVi> {
           ),
           SelectSearchDonViWidget(
             themDonViCubit: widget.themDonViCubit,
+            data: widget.listNode,
           ),
           SizedBox(
             height: 18.0.textScale(),

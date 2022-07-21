@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -137,6 +138,15 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               ButtonSelectFile(
                 removeFileApi: (int index) {},
                 isShowFile: false,
+                 allowedExtensions: const [
+                   FileExtensions.DOC,
+                   FileExtensions.DOCX,
+                   FileExtensions.JPEG,
+                   FileExtensions.JPG,
+                   FileExtensions.PDF,
+                   FileExtensions.PNG,
+                   FileExtensions.XLSX,
+                 ],
                 title: S.current.tai_lieu_dinh_kem,
                 onChange: (
                   files,
@@ -145,8 +155,9 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                       .map((e) => e.path)
                       .contains(files.first.path)) {
                     MessageConfig.show(
-                        title: S.current.file_da_ton_tai,
-                        messState: MessState.error);
+                      title: S.current.file_da_ton_tai,
+                      messState: MessState.error,
+                    );
                     return;
                   }
                   widget.cubit.files.addAll(files);
@@ -159,33 +170,40 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   builder: (context, snapshot) {
                     return Column(
                       children: widget.cubit.fileInit
-                          .map((e) => itemListFile(
-                              onTap: () {
-                                widget.cubit.fileInit.remove(e);
-                                widget.cubit.fileDelete.add(e);
-                                widget.cubit.deleteFileInit.sink.add(true);
-                              },
-                              fileTxt: e.name ?? ''))
-                          .toList(),
-                    );
-                  }),
-              StreamBuilder(
-                  stream: widget.cubit.updateFilePicker.stream,
-                  builder: (context, snapshot) {
-                    return Column(
-                      children: widget.cubit.files
                           .map(
-                            (e) => itemListFile(
-                                onTap: () {
-                                  widget.cubit.files.remove(e);
-                                  widget.cubit.updateFilePicker.sink.add(true);
-                                },
-                                fileTxt: e.path.convertNameFile(),
-                                lengthFile: e.lengthSync().getFileSize(2)),
-                          )
-                          .toList(),
-                    );
-                  }),
+                          (e) => itemListFile(
+                            onTap: () {
+                              widget.cubit.fileInit.remove(e);
+                              widget.cubit.fileDelete.add(e);
+                              widget.cubit.deleteFileInit.sink.add(true);
+                            },
+                            fileTxt: e.name ?? '',
+                            lengthFile: e.fileLength?.toInt().getFileSize(2),
+                          ),
+                        )
+                        .toList(),
+                  );
+                },
+              ),
+              StreamBuilder(
+                stream: widget.cubit.updateFilePicker.stream,
+                builder: (context, snapshot) {
+                  return Column(
+                    children: widget.cubit.files
+                        .map(
+                          (e) => itemListFile(
+                            onTap: () {
+                              widget.cubit.files.remove(e);
+                              widget.cubit.updateFilePicker.sink.add(true);
+                            },
+                            fileTxt: e.path.convertNameFile(),
+                            lengthFile: e.lengthSync().getFileSize(2),
+                          ),
+                        )
+                        .toList(),
+                  );
+                },
+              ),
               Align(alignment: Alignment.bottomCenter, child: navigatorBar())
             ],
           ),

@@ -37,7 +37,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   final List<String> _listParent = [];
   int levelTree = 0;
   BehaviorSubject<String> tenDonVi =
-      BehaviorSubject.seeded(S.current.UBND_tinh_dong_nai);
+      BehaviorSubject.seeded(S.current.chon_don_vi);
   BehaviorSubject<String> idDonVi = BehaviorSubject();
   BehaviorSubject<String> isCheckValidate = BehaviorSubject.seeded('  ');
   String searchValue = '';

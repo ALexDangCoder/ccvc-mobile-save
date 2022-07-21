@@ -167,5 +167,6 @@ class PageData {
     groupId: groupId,
     note: note,
     filePath: filePath,
+    finishDay: finishDay,
   );
 }

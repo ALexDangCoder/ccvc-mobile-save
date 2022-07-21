@@ -13,6 +13,7 @@ class NguoiChutriModel {
   String? parentId;
   String? tenCoQuan;
   String? tenCanBo;
+  String? ghiChu;
 
   NguoiChutriModel({
     this.tenDonVi = '',
@@ -29,6 +30,7 @@ class NguoiChutriModel {
     this.parentId,
     this.tenCanBo,
     this.tenCoQuan,
+    this.ghiChu,
   });
 
   String title() {

@@ -99,7 +99,7 @@
   "noi_gui": "Nơi gửi",
   "da_qua_han": "Đã quá hạn",
   "nguoi_chu_tri": "Người chủ trì",
-  "dia_diem": "địa điểm",
+  "dia_diem": "Địa điểm",
   "nhap_dia_diem": "Nhập địa điểm",
   "tin_tuc_thoi_su": "Tin tức thời sự",
   "theo_doi_bai_viet": "Theo dõi bài viết",
@@ -800,6 +800,7 @@
   "ma_pakn": "Mã PAKN",
   "dv_soan_thao": "Đơn vị soạn thảo",
   "nguoi_soan_thao": "Người soạn thảo",
+  "don_vi_soan_thao": "Đơn vị soạn thảo",
   "ky_hieu": "Ký hiệu",
   "ngay_han_xl": "Ngày hạn xử lý",
   "nguoi_theo_doi_van_ban": "Người theo dõi văn bản",
@@ -1360,5 +1361,9 @@
   "lap_lai_hang_nam": "Lặp lại hàng năm",
   "tuy_chinh": "Tùy chỉnh",
   "nam_nay" : "Năm nay",
-  "tinh_hinh_xu_ly_van_ban_den" : "Tình hình xử lý văn bản đến"
+  "tinh_hinh_xu_ly_van_ban_den" : "Tình hình xử lý văn bản đến",
+  "su_kien_trong_tuan": "Sự kiện trong tuần",
+  "su_kien_trong_thang": "Sự kiện trong tháng",
+  "su_kien_trong_nam": "Sự kiện trong năm",
+  "ten_nguoi_tao" : "Tên người tạo"
 }

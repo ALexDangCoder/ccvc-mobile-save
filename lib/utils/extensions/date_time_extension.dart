@@ -80,6 +80,9 @@ extension DateFormatString on DateTime {
   String get formatApiListBieuQuyet {
     return DateFormat(DateTimeFormat.DATE_TIME_22).format(this);
   }
+  String get formatStartTimeSuaBieuQuyet {
+    return DateFormat(DateTimeFormat.DAY_MONTH_YEAR).format(this);
+  }
 
   String get formatApiListBieuQuyetMobile {
     return DateFormat(DateTimeFormat.DATE_TIME_PICKER).format(this);

@@ -55,7 +55,7 @@ class Data {
   String? maTrangThai;
   String? tenDonVi;
   String? vaiTro;
-
+  String? chucVu;
   Data(
       {this.id,
       this.ten,
@@ -73,6 +73,7 @@ class Data {
     maTrangThai = json['maTrangThai'];
     tenDonVi = json['tenDonVi'];
     vaiTro = json['vaiTro'];
+    chucVu = json['chucVu'];
   }
 
   DonViLuongNhiemVuModel toDomain() => DonViLuongNhiemVuModel(
@@ -82,5 +83,7 @@ class Data {
       maTrangThai: maTrangThai,
       tenDonVi: tenDonVi,
       tenNguoiTao: tenNguoiTao,
-      vaiTro: vaiTro);
+      vaiTro: vaiTro,
+    chucVu: chucVu ?? '',
+  );
 }

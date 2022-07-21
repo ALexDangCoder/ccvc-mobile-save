@@ -25,6 +25,7 @@ class DocumentDashboardModel {
   int soLuongPhanXuLy = 0;
   int soLuongChoPhanXuLy = 0;
   int soLuongChoDuyet = 0;
+  int soLuongChoDuyetXuLy = 0;
   int soLuongChoBoSungThongTin = 0;
   int soLuongChoTiepNhanXuLy = 0;
   int soLuongDaPhanCong = 0;
@@ -60,22 +61,23 @@ class DocumentDashboardModel {
     this.soLuongDaHoanThanh = 0,
     this.soLuongChuaThucHien = 0,
     this.soLuongHoanThanhNhiemVu = 0,
-    this.soLuongDangThucHien = 0
+    this.soLuongDangThucHien = 0,
+    this.soLuongChoDuyetXuLy = 0,
   });
 
   List<DataRow> listVBDen() {
     final List<DataRow> list = [];
+    list.addAll([
+      DataRow(SelectKey.CHO_XU_LY, choXuLyColor, soLuongChoXuLy ),
+      DataRow(SelectKey.DANG_XU_LY, dangXyLyColor, soLuongDangXuLy ),
+      DataRow(SelectKey.DA_XU_LY, daXuLyColor, soLuongDaXuLy),
+    ]);
     if (HiveLocal.checkPermissionApp(
         permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
         permissionType: PermissionType.QLVB)) {
       list.add(
           DataRow(SelectKey.CHO_VAO_SO, choVaoSoColor, soLuongChoVaoSo ));
     }
-    list.addAll([
-      DataRow(SelectKey.DANG_XU_LY, dangXyLyColor, soLuongDangXuLy ),
-      DataRow(SelectKey.CHO_XU_LY, choXuLyColor, soLuongChoXuLy ),
-      DataRow(SelectKey.DA_XU_LY, daXuLyColor, soLuongDaXuLy),
-    ]);
     return list;
   }
 }

@@ -1,4 +1,3 @@
-
 import '/home_module//utils/extensions/string_extension.dart';
 import '/home_module/domain/model/home/document_model.dart';
 
@@ -54,7 +53,7 @@ class PageData {
   String? doKhan;
   String? codeDoKhan;
   String? taskId;
-
+  int? trangThaiXuLy;
   PageData({
     this.id,
     this.soKyHieu,
@@ -63,6 +62,7 @@ class PageData {
     this.doKhan,
     this.codeDoKhan,
     this.taskId,
+    this.trangThaiXuLy,
   });
 
   PageData.fromJson(Map<String, dynamic> json) {
@@ -74,17 +74,18 @@ class PageData {
     doKhan = json['DoKhan'];
     codeDoKhan = json['CodeDoKhan'];
     taskId = json['TaskId'];
+    trangThaiXuLy = json['TrangThaiXuLy'];
   }
 
   DocumentModel toDomain() => DocumentModel(
-        id: id ?? '',
-        kyHieu: soKyHieu ?? '',
-        title: trichYeu?.parseHtml() ?? '',
-        noiGui: noiGui ?? '',
-        code: codeDoKhan ?? '',
-        status: doKhan ?? '',
-        taskId: taskId ?? '',
-      );
+      id: id ?? '',
+      kyHieu: soKyHieu ?? '',
+      title: trichYeu?.parseHtml() ?? '',
+      noiGui: noiGui ?? '',
+      code: (trangThaiXuLy ?? 0).toString(),
+      status: doKhan ?? '',
+      taskId: taskId ?? '',
+      trangThaiXuLy: trangThaiXuLy ?? 0);
 }
 
 class SearchDanhSachVanBanResponse {
@@ -145,6 +146,8 @@ class PageDataDSSearch {
   String? codeDoKhan;
   String? doKhan;
   String? donViBanHanh;
+  String? donViSoanThao;
+  String? nguoiSoanThao;
 
   PageDataDSSearch({
     this.id,
@@ -152,6 +155,8 @@ class PageDataDSSearch {
     this.soKyHieu,
     this.trichYeu,
     this.donViBanHanh,
+    this.donViSoanThao,
+    this.nguoiSoanThao,
   });
 
   PageDataDSSearch.fromJson(Map<String, dynamic> json) {
@@ -162,6 +167,8 @@ class PageDataDSSearch {
     donViBanHanh = json['DonViBanHanh'];
     codeDoKhan = json['CodeDoKhan'];
     doKhan = json['DoKhan'];
+    donViSoanThao = json['DonViSoanThao'];
+    nguoiSoanThao = json['NguoiSoanThao'];
   }
 
   DocumentModel toDomain() => DocumentModel(
@@ -171,5 +178,8 @@ class PageDataDSSearch {
         code: codeDoKhan ?? '',
         title: trichYeu?.parseHtml() ?? '',
         id: id ?? '',
+        donViSoanThao: donViSoanThao ?? '',
+        nguoiSoanThao: nguoiSoanThao ?? '',
+        trichYeu: trichYeu ?? '',
       );
 }

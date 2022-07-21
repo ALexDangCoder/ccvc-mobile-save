@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -26,7 +27,51 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
+  Future<void> getDanhSachCuCanBoHop(
+    ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  ) async {
+    showLoading();
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    result.when(
+      success: (res) {
+        final List<NguoiChutriModel> data = [];
 
+        final donViId =
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+
+        final NguoiChutriModel chuTri = res.firstWhere(
+          (element) => element.donViId == donViId && element.canBoId == null,
+          orElse: () => NguoiChutriModel(),
+        );
+        data.add(chuTri);
+
+        /// cu can bo
+        data.addAll(res.where((element) => element.parentId == chuTri.id));
+
+        listCuCanBoSubject.add(data);
+
+        cubitThanhPhanTG.listCanBo.clear();
+        cubitThanhPhanTG.listCanBo.addAll(
+          data
+              .map(
+                (e) => DonViModel(
+                  id: e.id ?? '',
+                  donViId: e.donViId ?? '',
+                  tenDonVi: e.tenDonVi ?? '',
+                  canBoId: e.canBoId ?? '',
+                  noidung: e.ghiChu ?? '',
+                  tenCanBo: e.tenCanBo ?? '',
+                  tenCoQuan: e.tenCoQuan ?? '',
+                ),
+              )
+              .toList(),
+        );
+        cubitThanhPhanTG.listCanBoThamGia.sink.add(cubitThanhPhanTG.listCanBo);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
 
   Future<void> getDanhSachCanBoHop(String id) async {
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);

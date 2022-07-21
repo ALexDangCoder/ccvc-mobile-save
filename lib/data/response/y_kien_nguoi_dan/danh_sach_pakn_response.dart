@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'danh_sach_pakn_response.g.dart';
@@ -173,7 +174,9 @@ class DanhSachKetQuaPAKNResponse {
         diaChi: diaChi,
         trangThai: trangThai,
         nguoiTaoId: nguoiTaoId,
-        hanXuLy: hanXuLy,
+        hanXuLy: (hanXuLy != null)
+            ? DateTime.parse(hanXuLy!).toStringWithListFormat
+            : '',
       );
 
   factory DanhSachKetQuaPAKNResponse.fromJson(Map<String, dynamic> json) =>

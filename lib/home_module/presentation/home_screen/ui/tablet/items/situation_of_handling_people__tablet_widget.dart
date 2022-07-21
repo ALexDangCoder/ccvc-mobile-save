@@ -192,7 +192,7 @@ class _SituationOfHandlingPeopleWidgetState
                           ),
                           ChartData(
                             S.current.cho_duyet,
-                            data.soLuongChoDuyet.toDouble(),
+                            data.soLuongChoDuyetXuLy.toDouble(),
                             choCapSoColor,
                           ),
                           ChartData(

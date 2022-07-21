@@ -14,7 +14,7 @@ class DocumentModel {
   final String title;
   final String taskId;
   late final DocumentStatus documentStatus;
-
+  final int trangThaiXuLy;
   DocumentModel({
     required this.kyHieu,
     required this.noiGui,
@@ -23,6 +23,7 @@ class DocumentModel {
     required this.title,
     this.id = '',
     this.taskId = '',
+    this.trangThaiXuLy = 0,
   }) {
     documentStatus = byStatus();
   }
@@ -45,6 +46,12 @@ class DocumentModel {
         return DocumentStatus.THUONG_KHAN;
       case _HOA_TOC:
         return DocumentStatus.HOA_TOC;
+      case DocumentTrangThaiXuLy.DEN_HAN:
+        return DocumentStatus.DEN_HAN;
+      case DocumentTrangThaiXuLy.QUA_HAN:
+        return DocumentStatus.QUA_HAN;
+      case DocumentTrangThaiXuLy.TRONG_HAN:
+        return DocumentStatus.TRONG_HAN;
     }
     return DocumentStatus.THAM_GIA;
   }

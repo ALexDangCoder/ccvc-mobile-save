@@ -71,6 +71,8 @@ extension SelectKeyExt on SelectKey {
         return S.current.lich_cho_xac_nhan;
       case SelectKey.LICH_CUA_TOI:
         return S.current.lich_cua_toi;
+      case SelectKey.CHUA_THUC_HIEN:
+        return S.current.chua_thuc_hien;
     }
   }
 }
@@ -128,11 +130,11 @@ extension DocumentStatusEx on DocumentStatus {
       case DocumentStatus.HOA_TOC:
         return statusCalenderRed;
       case DocumentStatus.KHAN:
-        return yellowColor;
+        return choVaoSoColor;
       case DocumentStatus.BINH_THUONG:
-        return indicatorColor;
+        return daXuLyColor;
       case DocumentStatus.THUONG_KHAN:
-        return yellowColor;
+        return pinkColor;
       case DocumentStatus.CHUA_THUC_HIEN:
         return yellowColor;
       case DocumentStatus.DANG_THUC_HIEN:

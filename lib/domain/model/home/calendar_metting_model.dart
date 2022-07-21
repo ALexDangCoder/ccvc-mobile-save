@@ -27,6 +27,7 @@ class CalendarMeetingModel {
   final String noiDungTheoDoi;
   final String soNhiemVu;
   final String tinhHinhThucHienNoiBo;
+  final String trangThaiThucHien;
 
   CalendarMeetingModel({
     this.title = '',
@@ -48,6 +49,7 @@ class CalendarMeetingModel {
     this.noiDungTheoDoi = '',
     this.soNhiemVu = '',
     this.tinhHinhThucHienNoiBo = '',
+    this.trangThaiThucHien = '',
   }) {
     codeStatus = fromEnum();
   }

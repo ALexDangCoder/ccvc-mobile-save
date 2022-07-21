@@ -42,6 +42,7 @@ class PageData {
   String? trangThaiId;
   String? soNhiemVu;
   String? tinhHinhThucHienNoiBo;
+  List<TrangThaiThucHienResponse>? listTrangThaiThucHien;
 
   PageData({
     this.id,
@@ -54,6 +55,7 @@ class PageData {
     this.trangThaiId,
     this.soNhiemVu,
     this.tinhHinhThucHienNoiBo,
+    this.listTrangThaiThucHien,
   });
 
   PageData.fromJson(Map<String, dynamic> json) {
@@ -68,15 +70,39 @@ class PageData {
     trangThaiId = json['TrangThaiId'];
     soNhiemVu = json['SoNhiemVu'];
     tinhHinhThucHienNoiBo = json['TinhHinhThucHienNoiBo'];
+    listTrangThaiThucHien =
+        (json['TinhHinhThucHienModel'] as List<dynamic>)
+            .map((e) => TrangThaiThucHienResponse.fromJson(e))
+            .toList();
   }
 
   CalendarMeetingModel toDomain() => CalendarMeetingModel(
-        loaiNhiemVu: loaiNhiemVu ?? '',
+    loaiNhiemVu: loaiNhiemVu ?? '',
         hanXuLy: hanXuLy ?? '',
         maTrangThai: maTrangThai ?? '',
         id: id ?? '',
         noiDungTheoDoi: noiDungTheoDoi?.parseHtml() ?? '',
         soNhiemVu: soNhiemVu ?? '',
         tinhHinhThucHienNoiBo: tinhHinhThucHienNoiBo ?? '',
+        trangThaiThucHien: listTrangThaiThucHien
+                ?.map((e) => e.tinhHinhThucHien)
+                .toList()
+                .join('\n') ??
+            '',
       );
+}
+
+class TrangThaiThucHienResponse {
+  String? doiTuong;
+  String? trangThai;
+  String? vaiTroXuLy;
+
+  TrangThaiThucHienResponse.fromJson(Map<String, dynamic> json) {
+    doiTuong = json['DoiTuong'];
+    trangThai = json['TrangThai'];
+    vaiTroXuLy = json['VaiTroXuLy'];
+  }
+
+  String get tinhHinhThucHien => '$doiTuong ${doiTuong != null ? '-' : ''} '
+      '$vaiTroXuLy ${vaiTroXuLy != null ? '-' : ''} $trangThai';
 }

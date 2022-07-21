@@ -43,7 +43,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     widget.cubit.initTimeRange();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
     widget.cubit.getDanhSachPAKN();
-
   }
 
   @override
@@ -301,31 +300,44 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             children: [
                               Column(
                                 children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Container(),
-                                      ),
-                                      Expanded(
-                                        child: StreamBuilder<TextTrangThai>(
-                                          stream:
-                                              widget.cubit.textFilter.stream,
-                                          builder: (context, snapshot) {
-                                            return item(
-                                              title: snapshot.data?.text ?? '',
-                                              callBack: (value) {
-                                                widget.cubit.isShowFilterList
-                                                    .add(true);
-                                              },
-                                              colorBG: snapshot.data?.color ??
-                                                  Colors.red,
-                                            );
-                                          },
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            S.current.danh_sach_pakn,
+                                            style: textNormalCustom(
+                                              color: textTitle,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                        Expanded(
+                                          child: StreamBuilder<TextTrangThai>(
+                                            stream:
+                                                widget.cubit.textFilter.stream,
+                                            builder: (context, snapshot) {
+                                              return item(
+                                                title:
+                                                    snapshot.data?.text ?? '',
+                                                callBack: (value) {
+                                                  widget.cubit.isShowFilterList
+                                                      .add(true);
+                                                },
+                                                colorBG: snapshot.data?.color ??
+                                                    Colors.red,
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   spaceH10,
                                   _noData(),
@@ -441,17 +453,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   Column _noData() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            S.current.danh_sach_pakn,
-            style: textNormalCustom(
-              color: textTitle,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
         const SizedBox(
           height: 30.0,
         ),

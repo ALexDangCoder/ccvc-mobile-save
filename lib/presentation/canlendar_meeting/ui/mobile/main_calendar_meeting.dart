@@ -178,8 +178,11 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
               if (value == null) {
                 return;
               }
-              if (value) {
+              if (cubit.state is CalendarViewState ||
+                  cubit.state is ListViewState) {
                 cubit.refreshDataDangLich();
+              } else {
+                cubit.getDataDangChart();
               }
             });
           },

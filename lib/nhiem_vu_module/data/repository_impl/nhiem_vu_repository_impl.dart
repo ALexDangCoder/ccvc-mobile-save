@@ -18,10 +18,12 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_don_doc_nhiem_
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_phan_xu_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_thu_hoi_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_tra_lai_nhiem_vu_response.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/nhiem_vu_theo_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/van_ban_lien_quan_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/xem_luong_xu_ly_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/y_kien_su_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/service/nhiem_vu_service.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/bao_cao_thong_ke/bao_cao_thong_ke_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/bieu_do_theo_don_vi_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_model.dart';
@@ -277,6 +279,21 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
     return runCatchingAsync<BieuDoTheoDonViResponse, BieuDoTheoDonViModel>(
       () => nhiemVuService.postBieuDoTheoDonVi(ngayTaoNhiemVuRequest),
       (response) => response.data?.toModel() ?? BieuDoTheoDonViModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<NhiemVuDonVi>>> getDataNhiemVuTheoDonVi(
+      {String? donviId, String? startDate, String? endDate, String? userId}) {
+    return runCatchingAsync<List<NhiemVuDonTheoDonViResponse>,
+        List<NhiemVuDonVi>>(
+      () => nhiemVuService.getNhiemVuTheoDonVi(
+        donviId,
+        userId,
+        startDate,
+        endDate,
+      ),
+      (response) => response.map((e) => e.toDomain()).toList(),
     );
   }
 }

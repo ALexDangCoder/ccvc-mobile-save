@@ -46,13 +46,13 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
   @override
   void initState() {
     super.initState();
+    widget.cubitThanhPhanTG.listCanBoThamGia.add([]);
     widget.cubit.getDanhSachCuCanBoHop(widget.cubitThanhPhanTG);
     widget.themCanBoCubit.titleCanBo.sink.add('');
     widget.themDonViCubit.validateDonVi.sink.add(false);
     widget.themDonViCubit.themDonViSubject.sink.add(true);
     widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
-    widget.themDonViCubit.listDonVi.clear();
   }
 
   @override
@@ -128,8 +128,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                           noiDungController.text;
                     } catch (_) {}
 
-                    widget.cubitThanhPhanTG
-                        .addCanBoThamGia(widget.cubitThanhPhanTG.listCanBo);
+                    widget.cubitThanhPhanTG.addCanBoThamGiaCuCanBo();
                   }
                 },
                 child: Container(
@@ -151,8 +150,24 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                 ),
               ),
             ),
+            StreamBuilder<bool>(
+              stream: widget.cubitThanhPhanTG.isDuplicateCanBo.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? false;
+
+                return data
+                    ? Text(
+                        S.current.can_bo_nay_da_ton_tai,
+                        style: textNormalCustom(
+                          color: Colors.red,
+                          fontSize: 12.0.textScale(),
+                        ),
+                      )
+                    : Container();
+              },
+            ),
             StreamBuilder<List<DonViModel>>(
-              stream: widget.cubitThanhPhanTG.listCanBoThamGia,
+              stream: widget.cubitThanhPhanTG.listCanBoThamGia.stream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? <DonViModel>[];
                 return Column(

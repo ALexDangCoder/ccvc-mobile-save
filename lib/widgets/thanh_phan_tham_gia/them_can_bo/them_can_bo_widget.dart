@@ -204,7 +204,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                   needCheckTrung: false,
                   themCanBoCubit: widget.themCanBoCubit,
                   onChangeCheckbox: (value) {
-                    widget.cubit.listCanBo.add(value);
+                    widget.cubit.newCanBo = value;
                   },
                 )
               ],

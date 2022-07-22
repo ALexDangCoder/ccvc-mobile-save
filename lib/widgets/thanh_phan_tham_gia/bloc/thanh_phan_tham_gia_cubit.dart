@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -12,6 +11,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
 
   ThanhPhanThamGiaCubit() : super(MainStateInitial());
   DonViModel donViModel = DonViModel();
+  DonViModel newCanBo = DonViModel();
 
   ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
@@ -21,6 +21,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       BehaviorSubject<List<DonViModel>>();
   final BehaviorSubject<List<DonViModel>> listCanBoThamGia =
       BehaviorSubject<List<DonViModel>>();
+  final BehaviorSubject<bool> isDuplicateCanBo = BehaviorSubject.seeded(false);
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
   final List<DonViModel> listCanBo = [];
@@ -68,12 +69,27 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     listCanBoThamGia.sink.add(donViModel);
   }
 
+  void addCanBoThamGiaCuCanBo() {
+    if (isDuplicateItem(listCanBo, newCanBo)) {
+      isDuplicateCanBo.add(true);
+    } else {
+      isDuplicateCanBo.add(false);
+      listCanBo.add(newCanBo);
+      listCanBoThamGia.sink.add(listCanBo);
+    }
+  }
+
+  bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
+    return listRoot.contains(newCanBo);
+  }
+
   void xoaCanBoThamGia(
     DonViModel donViModel,
   ) {
     listCanBo.remove(donViModel);
     listCanBoThamGia.sink.add(listCanBo);
   }
+
   void addDonViPhoiHopKhac(DonViModel model) {
     listPeople.add(model);
     _listPeopleThamGia.add(listPeople);

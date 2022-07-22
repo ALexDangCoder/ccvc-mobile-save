@@ -1363,5 +1363,7 @@
   "ten_nguoi_tao": "Tên người tạo",
   "nhiem_vu_don_vi_xu_ly": "Nhiệm vụ theo đơn vị xử lý",
   "nhiem_vu_theo_tinh_trang_xu_ly": "Nhiệm vụ theo tình trạng xử lý",
-  "ca_nhan_xu_ly": "Cá nhân xử lý"
+  "ca_nhan_xu_ly": "Cá nhân xử lý",
+  "bang_nhiem_vu_theo_don_vi_xu_ly":"Bảng nhiệm vụ theo đơn vị xử lý",
+  "bieu_do_12_thang":"Biểu đồ 12 tháng"
 }

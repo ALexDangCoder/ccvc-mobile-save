@@ -162,9 +162,9 @@ abstract class NhiemVuService {
   );
   @POST(ApiConstants.GET_NHIEM_VU_THEO_DON_VI)
   Future<List<NhiemVuDonTheoDonViResponse>> getNhiemVuTheoDonVi(
-      @Field('donViId') String? donViId,
-      @Field('userId') String? userId,
-      @Field('startDate') String? startDate,
-      @Field('endDate') String? endDate,
+      @Field('DonViId') String? donViId,
+      @Field('UserId') String? userId,
+      @Field('StartDate') String? startDate,
+      @Field('EndDate') String? endDate,
       );
 }

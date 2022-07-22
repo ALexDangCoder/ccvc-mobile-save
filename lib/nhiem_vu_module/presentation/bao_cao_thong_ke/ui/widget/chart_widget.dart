@@ -1,15 +1,15 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chart_data.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/cubit/bao_cao_thong_ke_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/my_separator.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ChartWidget extends StatefulWidget {
-  final List<List<ChartDataModel>> listData;
-  final List<ChartDataModel> listStatusData;
+  final List<List<ChartData>> listData;
+  final List<ChartData> listStatusData;
   final List<String> listTitle;
   final BaoCaoThongKeCubit cubit;
   final int titleFlex;
@@ -239,7 +239,7 @@ class _ChartWidgetState extends State<ChartWidget> {
     );
   }
 
-  double getTotalRow(List<ChartDataModel> data) {
+  double getTotalRow(List<ChartData> data) {
     double total = 0;
     for (final element in data) {
       total += element.value;
@@ -247,7 +247,7 @@ class _ChartWidgetState extends State<ChartWidget> {
     return total;
   }
 
-  double getMaxRow(List<List<ChartDataModel>> listData) {
+  double getMaxRow(List<List<ChartData>> listData) {
     double value = 0;
     for (final element in listData) {
       final double max = getTotalRow(element);

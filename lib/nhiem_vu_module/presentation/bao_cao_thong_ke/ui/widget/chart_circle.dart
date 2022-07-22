@@ -1,11 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chart_data.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
 class ChartCircleWidget extends StatelessWidget {
-  final List<ChartDataModel> listChartNote;
+  final List<ChartData> listChartNote;
   final List<ChartData> chartData;
 
   const ChartCircleWidget({

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/data/network/network_checker.dart';
 import 'package:ccvc_mobile/data/network/network_handler.dart';
 import 'package:ccvc_mobile/domain/locals/logger.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -35,6 +36,8 @@ Future<Result<E>> runCatchingAsync<T, E>(
   dynamic res;
   final connected = await CheckerNetwork.checkNetwork();
   if (!connected) {
+    MessageConfig.show(
+        title: NoNetworkException().message, messState: MessState.error);
     return Result.error(NoNetworkException());
   }
   try {

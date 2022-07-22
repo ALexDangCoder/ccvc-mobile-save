@@ -46,6 +46,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
   @override
   void initState() {
     super.initState();
+    widget.cubitThanhPhanTG.isDuplicateCanBo.add(false);
     widget.cubitThanhPhanTG.listCanBoThamGia.add([]);
     widget.cubit.getDanhSachCuCanBoHop(widget.cubitThanhPhanTG);
     widget.themCanBoCubit.titleCanBo.sink.add('');

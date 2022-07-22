@@ -84,7 +84,12 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   }
 
   bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
-    return listRoot.contains(newCanBo);
+    for(final DonViModel e in listRoot) {
+      if(e.id == newCanBo.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void xoaCanBoThamGia(

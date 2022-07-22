@@ -88,6 +88,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
               );
             } else {
               widget.cubit.editWork(
+                isDeleteFile: nameFileSelect.isEmpty,
                 todo: widget.todo ?? TodoDSCVModel(),
                 filePathTodo: nameFileSelect,
               );
@@ -262,20 +263,8 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                       return FileFromAPIWidget(
                         data: data?.split('/').toList().last ?? '',
                         onTapDelete: () {
-                          if (widget.isCreate ?? true) {
-                            nameFileSelect = '';
-                            widget.cubit.nameFile.sink.add('');
-                            return;
-                          }
-                          widget.cubit
-                              .editWork(
-                                isDeleteFile: true,
-                                todo: widget.todo ?? TodoDSCVModel(),
-                                filePathTodo: '',
-                              )
-                              .then(
-                                (value) => widget.cubit.nameFile.sink.add(''),
-                              );
+                          nameFileSelect = '';
+                          widget.cubit.nameFile.sink.add('');
                         },
                       );
                     }

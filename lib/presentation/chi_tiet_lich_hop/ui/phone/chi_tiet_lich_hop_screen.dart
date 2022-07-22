@@ -352,33 +352,32 @@ PreferredSizeWidget appbarChiTietHop(
       ),
     ),
     actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: StreamBuilder<List<PERMISSION_DETAIL>>(
-            stream: cubit.listButtonSubject.stream,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
-              if(!cubit.trangThaiHuy() &&
-                  data.isNotEmpty) {
-                return MenuSelectWidget(
-                  listSelect: data
-                      .map(
-                        (e) => e.getMenuLichHop(
-                      context,
-                      cubit,
-                      thanhPhanThamGiaCubit,
-                      themCanBoCubit,
-                      themDonViCubit,
-                    ),
-                  )
-                      .toList(),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
-        )
+      Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: StreamBuilder<List<PERMISSION_DETAIL>>(
+          stream: cubit.listButtonSubject.stream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            if (!cubit.trangThaiHuy() && data.isNotEmpty) {
+              return MenuSelectWidget(
+                listSelect: data
+                    .map(
+                      (e) => e.getMenuLichHop(
+                        context,
+                        cubit,
+                        thanhPhanThamGiaCubit,
+                        themCanBoCubit,
+                        themDonViCubit,
+                      ),
+                    )
+                    .toList(),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
+      )
     ],
   );
 }
@@ -408,25 +407,29 @@ List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
           cubit: cubit,
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: PhatBieuWidget(
+      if (!cubit.isTaoHo())
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: PhatBieuWidget(
+            cubit: cubit,
+          ),
+        ),
+      if (!cubit.isTaoHo())
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: BieuQuyetWidget(
+            cubit: cubit,
+          ),
+        ),
+      if (!cubit.isTaoHo())
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: KetLuanHopWidget(
+            cubit: cubit,
+          ),
+        ),
+      if (!cubit.isTaoHo())
+        YKienCuocHopWidget(
           cubit: cubit,
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: BieuQuyetWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: KetLuanHopWidget(
-          cubit: cubit,
-        ),
-      ),
-      YKienCuocHopWidget(
-        cubit: cubit,
-      ),
     ];

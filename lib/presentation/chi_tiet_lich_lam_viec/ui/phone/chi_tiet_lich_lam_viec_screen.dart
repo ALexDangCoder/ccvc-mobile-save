@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -73,7 +72,6 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           chiTietLichLamViecCubit.nguoiDuocMoi(dataModel);
           chiTietLichLamViecCubit.canBoChuTri(dataModel);
           chiTietLichLamViecCubit.nguoiTaoId(dataModel);
-
           List<CellPopPupMenu> listAction = [];
           if (dataModel.status != EnumScheduleStatus.Cancel &&
               !chiTietLichLamViecCubit.checkMenuLichThuHoi(dataModel)) {
@@ -375,71 +373,75 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   cubit: chiTietLichLamViecCubit,
                                 ),
                                 spaceH12,
-                                StreamBuilder<bool>(
-                                  stream:
-                                      chiTietLichLamViecCubit.showButtonApprove,
-                                  builder: (context, snapshot) {
-                                    final data = snapshot.data ?? false;
-                                    return Visibility(
-                                      visible: data,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: bottomButtonWidget(
-                                              background:
-                                                  buttonColor.withOpacity(0.1),
-                                              title: S.current.tu_choi,
-                                              onTap: () {
-                                                chiTietLichLamViecCubit
-                                                    .confirmOfficer(
-                                                  ConfirmOfficerRequest(
-                                                    lichId: dataModel.id,
-                                                    isThamGia: false,
-                                                    lyDo: '',
-                                                  ),
-                                                )
-                                                    .then((value) {
+                                if (dataModel.status !=
+                                        EnumScheduleStatus.Cancel &&
+                                    !chiTietLichLamViecCubit
+                                        .checkMenuLichThuHoi(dataModel))
+                                  StreamBuilder<bool>(
+                                    stream: chiTietLichLamViecCubit
+                                        .showButtonApprove,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? false;
+                                      return Visibility(
+                                        visible: data,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: bottomButtonWidget(
+                                                background: buttonColor
+                                                    .withOpacity(0.1),
+                                                title: S.current.tu_choi,
+                                                onTap: () {
                                                   chiTietLichLamViecCubit
-                                                      .loadApi(widget.id);
-                                                });
-                                              },
-                                              textColor: buttonColor,
+                                                      .confirmOfficer(
+                                                    ConfirmOfficerRequest(
+                                                      lichId: dataModel.id,
+                                                      isThamGia: false,
+                                                      lyDo: '',
+                                                    ),
+                                                  )
+                                                      .then((value) {
+                                                    chiTietLichLamViecCubit
+                                                        .loadApi(widget.id);
+                                                  });
+                                                },
+                                                textColor: buttonColor,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 16,
-                                          ),
-                                          Expanded(
-                                            child: bottomButtonWidget(
-                                              background: buttonColor,
-                                              title: S.current.tham_du,
-                                              onTap: () {
-                                                chiTietLichLamViecCubit
-                                                    .confirmOfficer(
-                                                  ConfirmOfficerRequest(
-                                                    lichId: dataModel.id,
-                                                    isThamGia: true,
-                                                    lyDo: '',
-                                                  ),
-                                                )
-                                                    .then((value) {
+                                            const SizedBox(
+                                              width: 16,
+                                            ),
+                                            Expanded(
+                                              child: bottomButtonWidget(
+                                                background: buttonColor,
+                                                title: S.current.tham_du,
+                                                onTap: () {
                                                   chiTietLichLamViecCubit
-                                                      .loadApi(widget.id);
-                                                });
-                                              },
-                                              textColor: Colors.white,
+                                                      .confirmOfficer(
+                                                    ConfirmOfficerRequest(
+                                                      lichId: dataModel.id,
+                                                      isThamGia: true,
+                                                      lyDo: '',
+                                                    ),
+                                                  )
+                                                      .then((value) {
+                                                    chiTietLichLamViecCubit
+                                                        .loadApi(widget.id);
+                                                  });
+                                                },
+                                                textColor: Colors.white,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 if (chiTietLichLamViecCubit
-                                    .checkChoHuyXacNhan(dataModel) &&
+                                        .checkChoHuyXacNhan(dataModel) &&
                                     dataModel.status !=
-                                        EnumScheduleStatus.Cancel
-                                    && !chiTietLichLamViecCubit
+                                        EnumScheduleStatus.Cancel &&
+                                    !chiTietLichLamViecCubit
                                         .checkMenuLichThuHoi(dataModel))
                                   bottomButtonWidget(
                                     background: statusCalenderRed,
@@ -488,10 +490,10 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     textColor: Colors.white,
                                   ),
                                 if (chiTietLichLamViecCubit
-                                    .checkChoXacNhanLai(dataModel) &&
+                                        .checkChoXacNhanLai(dataModel) &&
                                     dataModel.status !=
-                                        EnumScheduleStatus.Cancel
-                                    && !chiTietLichLamViecCubit
+                                        EnumScheduleStatus.Cancel &&
+                                    !chiTietLichLamViecCubit
                                         .checkMenuLichThuHoi(dataModel))
                                   bottomButtonWidget(
                                     background: itemWidgetUsing,

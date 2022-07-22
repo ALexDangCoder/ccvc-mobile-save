@@ -16,7 +16,7 @@ class ItemAppointmentWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lessThen30Minute = appointment.endTime.millisecondsSinceEpoch -
-        appointment.startTime.millisecondsSinceEpoch <
+            appointment.startTime.millisecondsSinceEpoch <
         30 * 60 * 1000;
     return GestureDetector(
       onTap: onClick,
@@ -34,10 +34,13 @@ class ItemAppointmentWeek extends StatelessWidget {
             ),
             child: Text(
               appointment.subject.trim(),
-              maxLines: appointment.isAllDay || lessThen30Minute ? 1 : null,
+              maxLines: appointment.isAllDay || lessThen30Minute ? 3 : null,
               style: textNormalCustom(
                 fontSize: 11,
               ),
+              overflow: appointment.isAllDay || lessThen30Minute
+                  ? TextOverflow.ellipsis
+                  : null,
             ),
           ),
           Visibility(

@@ -34,13 +34,11 @@ class ItemAppointmentWeek extends StatelessWidget {
             ),
             child: Text(
               appointment.subject.trim(),
-              maxLines: appointment.isAllDay || lessThen30Minute ? 3 : null,
+              maxLines: appointment.isAllDay || lessThen30Minute ? 2 : null,
               style: textNormalCustom(
                 fontSize: 11,
               ),
-              overflow: appointment.isAllDay || lessThen30Minute
-                  ? TextOverflow.ellipsis
-                  : null,
+              overflow: lessThen30Minute ? TextOverflow.ellipsis : null,
             ),
           ),
           Visibility(

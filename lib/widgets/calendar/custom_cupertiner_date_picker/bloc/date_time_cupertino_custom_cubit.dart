@@ -19,7 +19,9 @@ class DateTimeCupertinoCustomCubit
     getTimeConfig();
   }
 
-  BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject();
+  BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject.seeded(
+    false,
+  );
   BehaviorSubject<String> timeBeginSubject = BehaviorSubject();
   BehaviorSubject<String> dateBeginSubject = BehaviorSubject();
   BehaviorSubject<String> timeEndSubject = BehaviorSubject();

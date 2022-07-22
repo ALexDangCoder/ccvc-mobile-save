@@ -22,6 +22,12 @@ class DateTimeCupertinoCustomCubit
   BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject.seeded(
     false,
   );
+  bool get allDayValue => isSwitchBtnCheckedSubject.value;
+  String? get timeTo => timeBeginSubject.valueOrNull;
+  String? get timeFrom => timeEndSubject.valueOrNull;
+
+  String? get dateToValue => dateEndSubject.valueOrNull;
+  String? get dateFromValue => dateBeginSubject.valueOrNull;
   BehaviorSubject<String> timeBeginSubject = BehaviorSubject();
   BehaviorSubject<String> dateBeginSubject = BehaviorSubject();
   BehaviorSubject<String> timeEndSubject = BehaviorSubject();
@@ -126,7 +132,7 @@ class DateTimeCupertinoCustomCubit
         dateFromTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
         dateBeginSubject.sink.add(dateFromTmp);
-        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
+        if (!allDayValue) {
           dateToTmp = dateFromTmp;
           dateEndSubject.sink.add(dateFromTmp);
         }
@@ -134,7 +140,7 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
         dateEndSubject.sink.add(dateToTmp);
-        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
+        if (!!allDayValue) {
           dateFromTmp = dateToTmp;
           dateBeginSubject.sink.add(dateToTmp);
         }
@@ -154,14 +160,14 @@ class DateTimeCupertinoCustomCubit
             timeEndSubject.value != INIT_TIME_PICK) {
           final begin = DateTime.parse(
             timeFormat(
-              '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
+              '$dateFromValue $timeFrom',
               DateTimeFormat.DATE_TIME_PICKER,
               DateTimeFormat.DATE_TIME_PUT_EDIT,
             ),
           );
           final end = DateTime.parse(
             timeFormat(
-              '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
+              '$dateToValue $timeTo',
               DateTimeFormat.DATE_TIME_PICKER,
               DateTimeFormat.DATE_TIME_PUT_EDIT,
             ),

@@ -1328,7 +1328,10 @@
   "so_lich_hop_theo_linh_vuc": "Số lịch họp theo lĩnh vực",
   "su_kien_trong_tuan": "Sự kiện trong tuần",
   "su_kien_trong_thang": "Sự kiện trong tháng",
-  "su_kien_trong_nam": "Sự kiện trong năm"
+  "su_kien_trong_nam": "Sự kiện trong năm",
+  "nam_nay" : "Năm nay",
+  "tinh_hinh_xu_ly_van_ban_den" : "Tình hình xử lý văn bản đến",
+  "thong_ke_van_ban_den" : "Thống kê văn bản đến"
 }
 
 

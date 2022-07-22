@@ -28,13 +28,19 @@ class WidgetDropdownFilter extends StatelessWidget {
           boxTextFilter(
             streamText: cubit.textDonViXuLyFilter,
             title: S.current.don_vi_xu_ly,
-            funClick: () {},
+            funClick: () {
+              cubit.isShowDonVi.add(true);
+              cubit.isShowCaNhan.add(false);
+            },
           ),
           spaceW16,
           boxTextFilter(
             streamText: cubit.textCaNhanXuLyFilter,
             title: S.current.ca_nhan_xu_ly,
-            funClick: () {},
+            funClick: () {
+              cubit.isShowCaNhan.add(true);
+              cubit.isShowDonVi.add(false);
+            },
           ),
         ],
       ),
@@ -57,44 +63,47 @@ class WidgetDropdownFilter extends StatelessWidget {
                 style: textNormal(titleItemEdit, 14.0),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-                horizontal: 16.0,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(color: cellColorborder),
-                borderRadius: BorderRadius.circular(4.0),
-                color: backgroundColorApp,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: StreamBuilder<String>(
-                      stream: streamText,
-                      builder: (context, snapshot) {
-                        final String text = snapshot.data ?? '';
-                        return Text(
-                          text,
-                          style: textNormalCustom(
-                            color: color3D5586,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        );
-                      },
+            GestureDetector(
+              onTap: () => funClick(),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                  horizontal: 16.0,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(color: cellColorborder),
+                  borderRadius: BorderRadius.circular(4.0),
+                  color: backgroundColorApp,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: StreamBuilder<String>(
+                        stream: streamText,
+                        builder: (context, snapshot) {
+                          final String text = snapshot.data ?? '';
+                          return Text(
+                            text,
+                            style: textNormalCustom(
+                              color: color3D5586,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: SvgPicture.asset(
-                      ImageAssets.ic_drop_down,
+                    Expanded(
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_drop_down,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],

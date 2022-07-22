@@ -236,4 +236,26 @@ class ReportImpl implements ReportRepository {
       (res) => res.toDomain(),
     );
   }
+
+  @override
+  Future<Result<List<DonViModel>>> getUserPagingNhiemVu({
+    required String donViId,
+    required String appId,
+    String hoTen = '',
+    bool isGetAll = false,
+    int pageIndex = 1,
+    int pageSize = 9999,
+  }) {
+    return runCatchingAsync<CanBoChiaSeResponse, List<DonViModel>>(
+      () => _reportCommonService.getUserPaging(
+        donViId,
+        appId,
+        hoTen,
+        isGetAll,
+        pageIndex,
+        pageSize,
+      ),
+      (res) => res.toDomainNhiemVu(),
+    );
+  }
 }

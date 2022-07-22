@@ -21,6 +21,14 @@ class CanBoChiaSeResponse {
           )
           .toList() ??
       [];
+
+  List<DonViModel> toDomainNhiemVu() =>
+      data?.items
+          ?.map(
+            (e) => e.toDomain(),
+          )
+          .toList() ??
+      [];
 }
 
 class Data {
@@ -104,10 +112,11 @@ class Items {
     profileId = json['profileId'];
     donViIds = json['donViIds'].cast<String>();
   }
+
   DonViModel toDomain() => DonViModel(
         id: id ?? '',
         chucVu: chucVu?.parseHtml() ?? '',
         tenCanBo: fullName ?? '',
-    name: fullName ?? '',
+        name: fullName ?? '',
       );
 }

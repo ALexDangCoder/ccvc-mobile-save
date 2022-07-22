@@ -5,6 +5,7 @@ class NhiemVuDonVi {
   int? nhiemVuHoanThanh;
   int? nhiemVuChuaHoanThanh;
   int? nhiemVuQuaHan;
+  int? tongSoNhiemVu;
 
   NhiemVuDonVi({
     this.canBoId,
@@ -13,5 +14,6 @@ class NhiemVuDonVi {
     this.nhiemVuHoanThanh,
     this.nhiemVuChuaHoanThanh,
     this.nhiemVuQuaHan,
+    this.tongSoNhiemVu,
   });
 }

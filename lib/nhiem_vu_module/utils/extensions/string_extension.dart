@@ -124,4 +124,7 @@ extension CheckValidate on String {
       return S.current.check_so_luong;
     }
   }
+  String formatDouble(double n) {
+    return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 2);
+  }
 }

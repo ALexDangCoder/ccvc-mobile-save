@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_don_doc_nhiem_
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_phan_xu_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_thu_hoi_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_tra_lai_nhiem_vu_response.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/nhiem_vu_theo_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/van_ban_lien_quan_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/xem_luong_xu_ly_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/y_kien_su_ly_nhiem_vu_response.dart';
@@ -159,4 +160,11 @@ abstract class NhiemVuService {
   Future<BieuDoTheoDonViResponse> postBieuDoTheoDonVi(
     @Body() NgayTaoNhiemVuRequest ngayTaoNhiemVuRequest,
   );
+  @POST(ApiConstants.GET_NHIEM_VU_THEO_DON_VI)
+  Future<List<NhiemVuDonTheoDonViResponse>> getNhiemVuTheoDonVi(
+      @Field('donViId') String? donViId,
+      @Field('userId') String? userId,
+      @Field('startDate') String? startDate,
+      @Field('endDate') String? endDate,
+      );
 }

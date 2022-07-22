@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/ngay_tao_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/bao_cao_thong_ke/bao_cao_thong_ke_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/bieu_do_theo_don_vi_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_model.dart';
@@ -112,4 +113,11 @@ mixin NhiemVuRepository {
   Future<Result<BieuDoTheoDonViModel>> postBieuDoTheoDonVi(
     NgayTaoNhiemVuRequest ngayTaoNhiemVuRequest,
   );
+
+  Future<Result<List<NhiemVuDonVi>>> getDataNhiemVuTheoDonVi({
+    String? donviId,
+    String? startDate,
+    String? endDate,
+    String? userId,
+  });
 }

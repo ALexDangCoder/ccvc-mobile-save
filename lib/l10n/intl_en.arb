@@ -99,7 +99,7 @@
   "noi_gui": "Nơi gửi",
   "da_qua_han": "Đã quá hạn",
   "nguoi_chu_tri": "Người chủ trì",
-  "dia_diem": "địa điểm",
+  "dia_diem": "Địa điểm",
   "nhap_dia_diem": "Nhập địa điểm",
   "tin_tuc_thoi_su": "Tin tức thời sự",
   "theo_doi_bai_viet": "Theo dõi bài viết",
@@ -800,6 +800,7 @@
   "ma_pakn": "Mã PAKN",
   "dv_soan_thao": "Đơn vị soạn thảo",
   "nguoi_soan_thao": "Người soạn thảo",
+  "don_vi_soan_thao": "Đơn vị soạn thảo",
   "ky_hieu": "Ký hiệu",
   "ngay_han_xl": "Ngày hạn xử lý",
   "nguoi_theo_doi_van_ban": "Người theo dõi văn bản",
@@ -1096,6 +1097,7 @@
   "sap_xep_theo_moi_nhat": "Sắp xếp theo mới nhất",
   "sap_xep_theo_cu_nhat": "Sắp xếp theo cũ nhất",
   "mo_cai_dat": "Mở cài đặt",
+  "chinh_sua_htkt": "Chỉnh sửa yêu cầu hỗ trợ",
   "ban_can_mo_quyen_de_truy_cap_ung_dung": "Bạn cần mở quyền truy cập ứng dụng",
   "thay_doi_phong": "Thay đổi phòng",
   "nguoi_tiep_nhan_yeu_cau": "Người tiếp nhận yêu cầu",
@@ -1357,5 +1359,10 @@
   "lap_lai_hang_tuan": "Lặp lại hàng tuần",
   "lap_lai_hang_thang": "Lặp lại hàng tháng",
   "lap_lai_hang_nam": "Lặp lại hàng năm",
-  "tuy_chinh": "Tùy chỉnh"
+  "tuy_chinh": "Tùy chỉnh",
+  "su_kien_trong_tuan": "Sự kiện trong tuần",
+  "su_kien_trong_thang": "Sự kiện trong tháng",
+  "su_kien_trong_nam": "Sự kiện trong năm",
+  "ten_nguoi_tao" : "Tên người tạo",
+  "so_lich_hop_theo_linh_vuc": "Số lịch họp theo lĩnh vực"
 }

@@ -41,6 +41,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];
+  List<Node<DonViModel>> _listNode = [];
 
   @override
   void initState() {
@@ -66,6 +67,9 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
         endDate,
         listDonVi: listDonViID,
       );
+    });
+    eventBus.on<ListSearchListNode>().listen((event) {
+      _listNode = event.listNode;
     });
   }
 
@@ -112,6 +116,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                             },
                             startDate: startDate,
                             endDate: endDate,
+                            listNode: _listNode,
                           ),
                         );
                       },

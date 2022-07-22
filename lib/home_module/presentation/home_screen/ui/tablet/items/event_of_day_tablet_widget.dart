@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -39,65 +40,72 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ContainerBackgroundTabletWidget(
-      title: S.current.su_kien_trong_ngay,
-      minHeight: 415,
-      maxHeight: 415,
-      selectKeyDialog: _suKienTrongNgayCubit,
-      onTapIcon: () {
-        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
-      },
-      dialogSelect: StreamBuilder<Object>(
-          stream: _suKienTrongNgayCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              type: widget.homeItemType,
-              listSelectKey: <DialogData>[
-                DialogData(
-                    onSelect: (value, startDate, endDate) {
-                      _suKienTrongNgayCubit.selectDate(
-                          selectKey: value,
-                          startDate: startDate,
-                          endDate: endDate);
-                    },
-                    initValue: _suKienTrongNgayCubit.selectKeyTime,
-                    title: S.current.time,
-                    startDate: _suKienTrongNgayCubit.startDate,
-                    endDate: _suKienTrongNgayCubit.endDate)
-              ],
-            );
-          }),
-      child: LoadingOnly(
-        stream: _suKienTrongNgayCubit.stateStream,
-        child: StreamBuilder<List<SuKienModel>>(
-            stream: _suKienTrongNgayCubit.getSuKien,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <SuKienModel>[];
-              if (data.isEmpty) {
-                return Container(
-                  color: Colors.transparent,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 100),
-                  child: const NodataWidget(),
+    return StreamBuilder<SelectKey>(
+      stream: _suKienTrongNgayCubit.getSelectkey,
+      builder: (context,snapshot){
+        final SelectKey key= snapshot.data??SelectKey.HOM_NAY;
+        final String title=_suKienTrongNgayCubit.changeTitle(key);
+        return ContainerBackgroundTabletWidget(
+          title: title,
+          minHeight: 415,
+          maxHeight: 415,
+          selectKeyDialog: _suKienTrongNgayCubit,
+          onTapIcon: () {
+            HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+          },
+          dialogSelect: StreamBuilder<Object>(
+              stream: _suKienTrongNgayCubit.selectKeyDialog,
+              builder: (context, snapshot) {
+                return DialogSettingWidget(
+                  type: widget.homeItemType,
+                  listSelectKey: <DialogData>[
+                    DialogData(
+                        onSelect: (value, startDate, endDate) {
+                          _suKienTrongNgayCubit.selectDate(
+                              selectKey: value,
+                              startDate: startDate,
+                              endDate: endDate);
+                        },
+                        initValue: _suKienTrongNgayCubit.selectKeyTime,
+                        title: S.current.time,
+                        startDate: _suKienTrongNgayCubit.startDate,
+                        endDate: _suKienTrongNgayCubit.endDate)
+                  ],
                 );
-              }
-              return ScrollBarWidget(
-                children: List.generate(
-                  data.length,
-                  (index) {
-                    final result = data[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: EventWidget(
-                        onTap: () {},
-                        title: result.title ?? '',
-                      ),
+              }),
+          child: LoadingOnly(
+            stream: _suKienTrongNgayCubit.stateStream,
+            child: StreamBuilder<List<SuKienModel>>(
+                stream: _suKienTrongNgayCubit.getSuKien,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? <SuKienModel>[];
+                  if (data.isEmpty) {
+                    return Container(
+                      color: Colors.transparent,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 100),
+                      child: const NodataWidget(),
                     );
-                  },
-                ),
-              );
-            }),
-      ),
+                  }
+                  return ScrollBarWidget(
+                    children: List.generate(
+                      data.length,
+                          (index) {
+                        final result = data[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: EventWidget(
+                            onTap: () {},
+                            title: result.title ?? '',
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
+          ),
+        );
+      },
     );
   }
 }

@@ -14,6 +14,7 @@ class TaiLieuWidget extends StatefulWidget {
   List<Files>? files;
   final Function(List<File>, bool) onChange;
   Function(String id) idRemove;
+  final Function(int index)? getIndex;
   String size;
 
   TaiLieuWidget({
@@ -22,6 +23,7 @@ class TaiLieuWidget extends StatefulWidget {
     required this.onChange,
     required this.idRemove,
     this.size = '',
+    this.getIndex,
   }) : super(key: key);
 
   @override
@@ -79,6 +81,9 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             onChange: (List<File> files, bool validate) {
               widget.onChange(files, validate);
             },
+            getIndexFunc: (index) {
+              widget.getIndex!(index);
+            },
             allowedExtensions: const [
               FileExtensions.DOC,
               FileExtensions.DOCX,
@@ -86,7 +91,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               FileExtensions.JPG,
               FileExtensions.PDF,
               FileExtensions.PNG,
-              FileExtensions.XLXS,
+              FileExtensions.XLSX,
             ],
           ),
         )

@@ -4,9 +4,13 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/danh_sach_su_co.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/tablet/cap_nhat_tinh_hinh_ho_tro_tablet.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/tablet/danh_gia_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/cap_nhat_tinh_hinh_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/danh_gia_yeu_cau_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/sua_htkt/mobile/sua_yc_ho_tro_mobile.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/sua_htkt/tablet/suc_yc_ho_tro_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -243,7 +247,27 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
-                            function: (value) {},
+                            function: (value) {
+                              if (isTablet) {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => SuaDoiYcHoTroTablet(
+                                    cubit: cubit,
+                                    idHTKT: objDSSC.id ?? '',
+                                  ),
+                                );
+                              } else {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => SuaDoiYcHoTroMobile(
+                                    cubit: cubit,
+                                    idHTKT: objDSSC.id ?? '',
+                                  ),
+                                );
+                              }
+                            },
                           ),
                           line(
                             paddingLeft: 35,
@@ -272,48 +296,86 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             paddingLeft: 35,
                           ),
                         ],
-                        if (!(cubit.isCheckUser ?? true))
+                        if (objDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.DA_HOAN_THANH) ...[
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
                             function: (value) {
-                              showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (_) {
-                                  return DanhGiaYeuCauHoTro(
-                                    cubit: ChiTietHoTroCubit(),
-                                    idTask: objDSSC.id,
-                                  );
-                                },
-                              );
+                              if (isTablet) {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return Scaffold(
+                                      backgroundColor: Colors.transparent,
+                                      body: Center(
+                                        child: DanhGiaYeuCauHoTroTabLet(
+                                          cubit: ChiTietHoTroCubit(),
+                                          idTask: objDSSC.id,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).whenComplete(
+                                      () => cubit.getListDanhBaCaNhan(page: 1),
+                                );
+                              } else {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (_) {
+                                    return DanhGiaYeuCauHoTro(
+                                      cubit: ChiTietHoTroCubit(),
+                                      idTask: objDSSC.id,
+                                    );
+                                  },
+                                ).whenComplete(
+                                  () => cubit.getListDanhBaCaNhan(page: 1),
+                                );
+                              }
                             },
                           ),
-                        if (!(cubit.isCheckUser ?? true))
-                          line(
-                            paddingLeft: 35,
-                          ),
-                        if ((cubit.isCheckUser ?? false) ||
+                        ],
+                        if ((cubit.isCheckUser ?? false) &&
                             !(objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.DA_HOAN_THANH))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,
                             function: (value) {
-                              showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (_) {
-                                  return CapNhatTinhHinhHoTro(
-                                    cubit: ChiTietHoTroCubit(),
-                                    idTask: objDSSC.id,
-                                  );
-                                },
-                              ).whenComplete(
-                                () => cubit.getListDanhBaCaNhan(page: 1),
-                              );
+                              if (isTablet) {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return Scaffold(
+                                      backgroundColor: Colors.transparent,
+                                      body: Center(
+                                        child: CapNhatTinhHinhHoTroTabLet(
+                                          cubit: ChiTietHoTroCubit(),
+                                          idTask: objDSSC.id,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).whenComplete(
+                                      () => cubit.getListDanhBaCaNhan(page: 1),
+                                );
+                              } else {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (_) {
+                                    return CapNhatTinhHinhHoTro(
+                                      cubit: ChiTietHoTroCubit(),
+                                      idTask: objDSSC.id,
+                                    );
+                                  },
+                                ).whenComplete(
+                                  () => cubit.getListDanhBaCaNhan(page: 1),
+                                );
+                              }
                             },
                           ),
                       ],

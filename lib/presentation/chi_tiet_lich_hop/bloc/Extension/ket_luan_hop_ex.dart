@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
@@ -7,13 +5,11 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_mo
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
-import '../chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 
 ///kết luận hop
 extension KetLuanHop on DetailMeetCalenderCubit {
@@ -72,6 +68,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
               loaiNhiemVu: e.loaiNhiemVu,
               trangThai: trangThaiNhiemVu(e.maTrangThai),
               id: e.id,
+              trangThaiThucHien: e.trangThaiThucHien,
             ),
           );
         }
@@ -119,11 +116,11 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     }
   }
 
-  Future<void> suaKetLuan() async {
+  Future<void> suaKetLuan(String noiDung) async {
     showLoadingSheet();
     final result = await hopRp.suaKetLuan(
         idCuocHop,
-        noiDung.value,
+        noiDung,
         ketLuanHopState.reportStatusId,
         ketLuanHopState.reportTemplateId,
         ketLuanHopState.listFiles,
@@ -325,13 +322,13 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     showContent();
   }
 
-  Future<void> createKetLuanHop() async {
+  Future<void> createKetLuanHop(String noiDung) async {
     showLoadingSheet();
     final result = await hopRp.createKetLuanHop(
       idCuocHop,
       ketLuanHopState.reportStatusId,
       ketLuanHopState.reportTemplateId,
-      noiDung.value,
+      noiDung,
       ketLuanHopState.listFiles,
     );
     await result.when(

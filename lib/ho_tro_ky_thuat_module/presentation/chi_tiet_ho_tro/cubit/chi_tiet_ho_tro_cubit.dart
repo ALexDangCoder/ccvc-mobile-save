@@ -129,7 +129,10 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
       name: name,
       finishDay: (finishDay != '')
           ? DateFormat(DateTimeFormat.DATE_ISO_86).parse(finishDay)
-          : null,
+          : (supportDetail.ngayHoanThanh != '')
+              ? DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT)
+                  .parse(supportDetail.ngayHoanThanh!)
+              : null,
       handlerId: getHandlerId(handlerId),
       description: description,
     );

@@ -176,14 +176,20 @@ class _CapNhatTinhHinhHoTroTabLetState
                         taskId: (widget.cubit.supportDetail.id ??
                             widget.idTask) ??
                             '',
-                        name: trangThai ?? '',
-                        description: note ?? '',
-                        code: trangThai ?? '',
-                        finishDay: (birthday ??
+                        name: (trangThai ??
                             widget
-                                .cubit.supportDetail.ngayHoanThanh) ??
+                                .cubit.supportDetail.trangThaiXuLy) ??
                             '',
-                        handlerId: nguoiXuLy ?? '',
+                        description: note ?? '',
+                        code: (trangThai ??
+                            widget
+                                .cubit.supportDetail.trangThaiXuLy) ??
+                            '',
+                        finishDay: birthday ??
+                            '',
+                        handlerId: (nguoiXuLy ??
+                            widget.cubit.supportDetail.nguoiXuLy) ??
+                            '',
                         id: (widget.cubit.supportDetail.id ??
                             widget.idTask) ??
                             '',

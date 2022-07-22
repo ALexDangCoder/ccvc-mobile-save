@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,7 +13,7 @@ class TreeViewWidget extends StatefulWidget {
   final Node<DonViModel> node;
   final ThemDonViCubit themDonViCubit;
   final bool selectOnly;
-  const  TreeViewWidget({
+  const TreeViewWidget({
     Key? key,
     required this.themDonViCubit,
     required this.node,
@@ -42,7 +43,6 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                           stream: widget.themDonViCubit.selectOnlyDonVi,
                           builder: (context, snapshot) {
                             return CustomCheckBox(
-                              title: '',
                               onChange: (isCheck) {
                                 widget.themDonViCubit
                                     .selectNodeOnly(widget.node);
@@ -53,13 +53,17 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                           })
                     else
                       CustomCheckBox(
-                        title: '',
                         onChange: (isCheck) {
                           widget.node.isCheck.isCheck = !isCheck;
                           setState(() {});
                           widget.themDonViCubit.addSelectNode(
                             widget.node,
                             isCheck: widget.node.isCheck.isCheck,
+                          );
+                          eventBus.fire(
+                            ListSearchListNode(
+                              widget.themDonViCubit.selectNode,
+                            ),
                           );
                         },
                         isCheck: widget.node.isCheck.isCheck,
@@ -94,7 +98,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                               ),
                               if (widget.node.children.isNotEmpty)
                                 Transform.rotate(
-                                  angle: widget.node.expand ? 0 : 3.1,
+                                  angle: widget.node.expand ? 3.1 : 0,
                                   child: SvgPicture.asset(
                                     ImageAssets.icDropDownButton,
                                   ),

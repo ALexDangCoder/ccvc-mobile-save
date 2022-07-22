@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -40,7 +39,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarMobile(),
-      floatingActionButton: floatingHTKT(
+      floatingActionButton: floatingHTKTMobile(
         context,
         widget.cubit,
       ),
@@ -122,7 +121,7 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
       );
 }
 
-Widget floatingHTKT(
+Widget floatingHTKTMobile(
   BuildContext context,
   HoTroKyThuatCubit cubit,
 ) {
@@ -130,16 +129,14 @@ Widget floatingHTKT(
     elevation: 0,
     backgroundColor: labelColor,
     onPressed: () {
-      if (cubit.listKhuVuc.value.isNotEmpty) {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => ThemMoiYCHoTroMobile(
-            cubit: cubit,
-          ),
-        );
-      }
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => ThemMoiYCHoTroMobile(
+          cubit: cubit,
+        ),
+      );
     },
     child: const Icon(
       Icons.add,

@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -34,6 +33,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
+
   Stream<List<Node<DonViModel>>> get getTreeCaNhan => _getTreeCaNhan.stream;
 
   String timeStart = '';
@@ -77,6 +77,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     listCanBo.remove(donViModel);
     listCanBoThamGia.sink.add(listCanBo);
   }
+
   void addDonViPhoiHopKhac(DonViModel model) {
     listPeople.add(model);
     _listPeopleThamGia.add(listPeople);
@@ -93,7 +94,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
         success: (res) {
           final data = <Node<DonViModel>>[];
           _getTreeDonVi.sink.add(res);
-          for (final Node<DonViModel> element in res){
+          for (final Node<DonViModel> element in res) {
             data.add(element.coppyWith());
           }
           _getTreeCaNhan.sink.add(data);

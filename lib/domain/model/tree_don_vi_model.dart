@@ -267,8 +267,8 @@ class Node<T> {
     if (compare.call(value)) {
       return null;
     } else {
-      for (int i=0 ;i < children.length ; i++ ){
-        if (children[i].removeFirstWhere(compare) == null ){
+      for (int i = 0; i < children.length; i++) {
+        if (children[i].removeFirstWhere(compare) == null) {
           children.removeAt(i);
           break;
         }

@@ -18,6 +18,7 @@ class ImageAssets {
   static const String icNoDataNhiemVu = '$baseImg/ic_no_data_nhiem_vu.svg';
   static const String ic_up = '$baseImg/ic_up.svg';
   static const String ic_drop_down = '$baseImg/ic_drop_down.svg';
+  static const String ic_Calendar_tui = '$baseImg/ic_calendar_tui.svg';
 
   static SvgPicture svgAssets(
     String name, {

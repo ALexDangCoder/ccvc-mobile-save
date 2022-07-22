@@ -66,9 +66,10 @@ class WidgetDropdownFilter extends StatelessWidget {
             GestureDetector(
               onTap: () => funClick(),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                  horizontal: 16.0,
+                padding: const EdgeInsets.only(
+                  top: 12.0,
+                  bottom: 12.0,
+                  left: 16.0,
                 ),
                 decoration: BoxDecoration(
                   border: Border.all(color: cellColorborder),

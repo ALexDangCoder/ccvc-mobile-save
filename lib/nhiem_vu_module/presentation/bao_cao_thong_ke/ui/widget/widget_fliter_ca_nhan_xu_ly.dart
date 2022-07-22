@@ -21,47 +21,50 @@ class WidgetFilterCaNhanXuLy extends StatelessWidget {
       builder: (context, snapshot) {
         final list = snapshot.data;
         return list != null
-            ? list.isNotEmpty
-                ? SizedBox(
-                    height: 300,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 10,
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () => cubit.onChangeCaNhanXuLy(list[index]),
-                        child: Container(
-                          color: list[index].name ==
-                                  cubit.textCaNhanXuLyFilter.value
+            ? SizedBox(
+                height: 300,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () => cubit.onChangeCaNhanXuLy(list[index]),
+                    child: Container(
+                      color:
+                          list[index].name == cubit.textCaNhanXuLyFilter.value
                               ? radioUnfocusColor
                               : backgroundColorApp,
-                          child: Text(
-                            list[index].name,
-                            style: textNormalCustom(
-                              color: color3D5586,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        list[index].name,
+                        style: textNormalCustom(
+                          color: color3D5586,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w400,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  )
-                : noData()
-            : const SizedBox.shrink();
+                  ),
+                ),
+              )
+            : noData();
       },
     );
   }
 }
 
 Widget noData() {
-  return Center(
-    child: Text(
-      S.current.khong_co_du_lieu,
-      style: textNormalCustom(
-        fontSize: 16.0.textScale(space: 4.0),
-        color: grayChart,
+  return Container(
+    height: 300,
+    color: bgManagerColor,
+    child: Center(
+      child: Text(
+        S.current.khong_co_du_lieu,
+        style: textNormalCustom(
+          fontSize: 16.0.textScale(space: 4.0),
+          color: grayChart,
+        ),
       ),
     ),
   );

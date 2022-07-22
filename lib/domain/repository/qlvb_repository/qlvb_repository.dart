@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -20,6 +21,7 @@ import 'package:ccvc_mobile/domain/model/document/luong_xu_ly_vb_di.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 
 mixin QLVBRepository {
@@ -43,6 +45,7 @@ mixin QLVBRepository {
   Future<Result<bool>> updateComment(
     UpdateCommentRequest comments,
   );
+
   Future<Result<bool>> giveComment(
     GiveCommentRequest comments,
   );
@@ -78,10 +81,12 @@ mixin QLVBRepository {
   ]);
 
   Future<Result<ChiTietVanBanDiModel>> getDataChiTietVanBanDi(String id);
+
   Future<Result<List<DanhSachChoYKien>>> getYKienXuLyVBDi(String id);
 
   Future<Result<ChiTietVanBanDenModel>> getDataChiTietVanBanDen(
-      String processId, String taskId,{ bool? isYKien});
+      String processId, String taskId,
+      {bool? isYKien});
 
   Future<Result<DataThongTinGuiNhanModel>> getDataThongTinGuiNhan(String id);
 
@@ -119,4 +124,8 @@ mixin QLVBRepository {
 
   Future<Result<NodePhanXuLy<DonViLuongModel>?>> getLuongXuLyVanBanDen(
       String id);
+
+  Future<Result<List<VanBanDonViModel>?>> getDataVanBanDonVi(
+    VanBanDonViRequest request,
+  );
 }

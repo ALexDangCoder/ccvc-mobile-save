@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/extension/report_s
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_in_statistical_page.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_out_statistical_page.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/tab_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -34,6 +35,7 @@ class _ReportStaticalState extends State<ReportStatical>
     _tabController = TabController(length: 2, vsync: this);
     widget.cubit.generateListTime();
     widget.cubit.getReportStatisticalData();
+    widget.cubit.selectDateTime();
     super.initState();
   }
 
@@ -105,10 +107,11 @@ class _ReportStaticalState extends State<ReportStatical>
                             ),
                             spaceH8,
                             CoolDropDown(
-                              listData: widget.cubit.yearsList,
-                              onChange: (int index) {},
-                              initData: '',
-                              placeHoder: S.current.tat_ca,
+                              listData: widget.cubit.yearList,
+                              onChange: (int index) {
+                                widget.cubit.dropDownSelect(index);
+                              },
+                              initData: DateTime.now().year.toString(),
                             ),
                           ],
                         ),
@@ -126,12 +129,22 @@ class _ReportStaticalState extends State<ReportStatical>
                               ),
                             ),
                             spaceH8,
-                            CoolDropDown(
-                              listData: widget.cubit.monthsList,
-                              onChange: (int index) {},
-                              initData: '',
-                              placeHoder: S.current.tat_ca,
-                            ),
+                            ValueListenableBuilder<bool>(
+                              valueListenable:
+                                  widget.cubit.listenableMonthValue,
+                              builder: (context, value, child) => CoolDropDown(
+                                key: UniqueKey(),
+                                listData: widget.cubit.monthList,
+                                onChange: (int index) {
+                                  widget.cubit.dropDownSelect(
+                                    index,
+                                    selectYear: false,
+                                  );
+                                },
+                                initData: '',
+                                placeHoder: S.current.tat_ca,
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -148,8 +161,8 @@ class _ReportStaticalState extends State<ReportStatical>
                     DocumentInStatisticalPage(
                       cubit: widget.cubit,
                     ),
-                    Container(
-                      color: Colors.blueAccent.withOpacity(0.1),
+                    DocumentOutStatisticalPage(
+                      cubit: widget.cubit,
                     ),
                   ],
                 ),

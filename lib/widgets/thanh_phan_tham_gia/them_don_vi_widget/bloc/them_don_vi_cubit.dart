@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_state.dart';
@@ -13,6 +14,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   List<Node<DonViModel>> listTree = [];
   Timer? _debounce;
   final List<Node<DonViModel>> selectNode = [];
+  final List<CanBoModel> listIdDonViRemove = [];
   Node<DonViModel>? selectNodeOnlyValue;
   BehaviorSubject<bool> themDonViSubject = BehaviorSubject();
   BehaviorSubject<bool> validateDonVi = BehaviorSubject();
@@ -38,10 +40,21 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
 
   Sink<Node<DonViModel>?> get sinkSelectOnlyDonVi => _selectOnlyDonVi.sink;
   List<Node<DonViModel>> listData = [];
-  void getTreeDonVi(List<Node<DonViModel>> tree) {
+
+  void getTreeDonVi(List<Node<DonViModel>> tree, {bool isDonVi = false}) {
     final data = <Node<DonViModel>>[];
     for (final vl in tree) {
-      data.add(vl.coppyWith());
+      Node<DonViModel>? nodeAdd = vl;
+      if (isDonVi) {
+        for (final donViRemove in listIdDonViRemove) {
+          nodeAdd = vl.removeFirstWhere(
+            (element) => donViRemove.donViId == element.id,
+          );
+        }
+      }
+      if (nodeAdd != null) {
+        data.add(vl.coppyWith());
+      }
     }
     _getTree.sink.add(data);
     listTree = data;

@@ -274,13 +274,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             title: S.current.no_internet,
             messState: MessState.error,
           );
-        }else{
+        } else {
           MessageConfig.show(
             title: S.current.that_bai,
             messState: MessState.error,
           );
         }
-
       },
     );
     ShowLoadingScreen.dismiss();
@@ -509,11 +508,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {
-    return (DateTime.parse(
-          dataModel.dateTimeTo ?? DateTime.now().toString(),
-        ).isBefore(DateTime.now())) &&
-        (nguoiTaoId(dataModel) == currentUserId ||
-            nguoiDuocMoi(dataModel) == currentUserId);
+    final validTime = DateTime.parse(
+      dataModel.dateTimeTo ?? DateTime.now().toString(),
+    ).isBefore(DateTime.now());
+    final validPerson = (dataModel.createBy?.id ?? '') == currentUserId ||
+        nguoiDuocMoi(dataModel) == currentUserId ||
+        dataModel.canBoChuTri?.id == currentUserId;
+    return validTime && validPerson;
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
@@ -577,7 +578,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
             title: S.current.no_internet,
             messState: MessState.error,
           );
-        }else {
+        } else {
           MessageConfig.show(
             title: S.current.bao_cao_ket_qua_that_bai,
             messState: MessState.error,

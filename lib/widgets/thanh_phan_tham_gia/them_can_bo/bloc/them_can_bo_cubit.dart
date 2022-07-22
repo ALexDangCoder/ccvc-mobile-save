@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -10,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 
 class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   List<DonViModel> listSelectCanBo = [];
+  final List<CanBoModel> listCaNhanRemove = [];
   DonViModel donViModel = DonViModel();
   List<DonViModel> listCanBo = [];
   BehaviorSubject<String> titleCanBo = BehaviorSubject();
@@ -32,6 +34,18 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     result.when(
       success: (res) {
         listCanBo = res;
+        listCanBo.removeWhere(
+          (element) {
+            final a = listCaNhanRemove
+                .where(
+                  (e) =>
+              (e.canBoId ?? '').toLowerCase() ==
+                  element.userId.toLowerCase(),
+            )
+                .isNotEmpty;
+            return a;
+          },
+        );
         _getCanbo.sink.add(listCanBo);
       },
       error: (err) {},
@@ -89,6 +103,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
       listSelectCanBo.remove(canBoModel);
     }
   }
+
   void search(String text) {
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(DonViModel canBo) {

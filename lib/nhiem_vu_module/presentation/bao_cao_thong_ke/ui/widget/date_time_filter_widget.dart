@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/select_date.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
@@ -26,28 +27,48 @@ class DateTimeFilterWidget extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: SelectDate(
-              backgroundColor: backgroundColorApp,
-              key: UniqueKey(),
-              paddings: 10,
-              leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-              value: startDate.toString(),
-              onSelectDate: (dateTime) {
-                onChangeStarDate(dateTime);
-              },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  S.current.tu_ngay,
+                  style: textNormal(titleItemEdit, 14.0),
+                ),
+                spaceH8,
+                SelectDate(
+                  backgroundColor: backgroundColorApp,
+                  key: UniqueKey(),
+                  paddings: 10,
+                  leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
+                  value: startDate.toString(),
+                  onSelectDate: (dateTime) {
+                    onChangeStarDate(dateTime);
+                  },
+                ),
+              ],
             ),
           ),
           spaceW16,
           Expanded(
-            child: SelectDate(
-              backgroundColor: backgroundColorApp,
-              key: UniqueKey(),
-              paddings: 10,
-              leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-              value: endDate.toString(),
-              onSelectDate: (dateTime) {
-                onChangeStarDate(dateTime);
-              },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  S.current.den_ngay,
+                  style: textNormal(titleItemEdit, 14.0),
+                ),
+                spaceH8,
+                SelectDate(
+                  backgroundColor: backgroundColorApp,
+                  key: UniqueKey(),
+                  paddings: 10,
+                  leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
+                  value: endDate.toString(),
+                  onSelectDate: (dateTime) {
+                    onChangeStarDate(dateTime);
+                  },
+                ),
+              ],
             ),
           )
         ],

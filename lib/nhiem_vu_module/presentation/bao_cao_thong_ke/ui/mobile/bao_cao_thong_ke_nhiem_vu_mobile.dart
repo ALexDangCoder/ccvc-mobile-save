@@ -60,6 +60,7 @@ class _BaoCaoThongKeNhiemVuMobileState
         cubit.getCaNhanXuLy();
       }
     });
+    cubit.showContent();
     super.initState();
   }
 

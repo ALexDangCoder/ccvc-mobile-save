@@ -72,7 +72,6 @@ class BaoCaoThongKeCubit extends BaseCubit<BaoCaoThongKeState> {
   }
 
   Future<void> getAppID() async {
-    showLoading();
     final Result<List<HTCSModel>> result = await _reportCommonService.getHTCS(
       CODE,
     );

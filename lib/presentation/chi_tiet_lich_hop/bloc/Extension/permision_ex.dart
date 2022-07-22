@@ -237,10 +237,10 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return nguoiDaThamGia.isNotEmpty;
   }
 
-  CanBoThamGiaStr? caNhanTrongDsThamDu (){
+  CanBoThamGiaStr? caNhanTrongDsThamDu() {
     final currentUser = thamGia().where(
-          (element) =>
-      (element.CanBoId ?? '').toLowerCase() ==
+      (element) =>
+          (element.CanBoId ?? '').toLowerCase() ==
           (HiveLocal.getDataUser()?.userId ?? ''),
     );
     return currentUser.isNotEmpty ? currentUser.first : null;
@@ -249,9 +249,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   void initDataButton() {
     listButton.clear();
     scheduleCoperatives = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
-    final thuKy  = isThuKy();
-    final chuTri  = activeChuTri();
-    final nguoiTao  = isNguoiTao();
+    final thuKy = isThuKy();
+    final chuTri = activeChuTri();
+    final nguoiTao = isNguoiTao();
     final thamDu = classThamDu();
 
     ///check quyen sua lich
@@ -296,11 +296,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       final isDonVi = (e.CanBoId ?? '').isEmpty;
       final chungDonVi = (e.donViId ?? '').toLowerCase() ==
           (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
-      final isLanhDao = HiveLocal.checkPermissionApp(
-        permissionType: PermissionType.VPDT,
-        permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
-      );
-      return isDonVi && chungDonVi && isLanhDao;
+      return isDonVi && chungDonVi;
     });
 
     ///check quyen button cu can bo
@@ -328,6 +324,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       listButton.add(PERMISSION_DETAIL.PHAN_CONG_THU_KY);
     }
     caNhanTrongDsThamDu();
+
     ///check quyen cu can bo di thay
     if (!isLichHuy() &&
         HiveLocal.checkPermissionApp(
@@ -336,8 +333,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         ) &&
         !chuTri &&
         !thuKy &&
-        caNhanTrongDsThamDu()?.trangThai != ThanhPhanThamGiaStatus.THU_HOI
-    ) {
+        caNhanTrongDsThamDu()?.trangThai != ThanhPhanThamGiaStatus.THU_HOI) {
       listButton.add(PERMISSION_DETAIL.CU_CAN_BO_DI_THAY);
     }
 
@@ -375,7 +371,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   int trangThaiPhong() {
     return getThongTinPhongHopForPermision.trangThai ?? 0;
   }
-
 
   ///==================== check quyen tab cong tac chuan bi ================
   ///1. check phong hop

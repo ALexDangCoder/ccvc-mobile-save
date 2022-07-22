@@ -8,7 +8,7 @@ import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'bloc/danh_sach_cubit.dart';
+import '../../../nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
 
 class BaoCaoThongKeNhiemVuMobile extends StatefulWidget {
   final DanhSachCubit danhSachCubit;

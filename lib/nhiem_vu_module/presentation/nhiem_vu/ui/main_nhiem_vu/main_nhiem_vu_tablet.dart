@@ -1,9 +1,9 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/tablet/bao_cao_thong_ke_nhiem_vu_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_state.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/menu/nhiem_vu_menu_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/bao_cao_thong_ke_nhiem_vu_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/nhiem_vu_ca_nhan_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/nhiem_vu_don_vi_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';

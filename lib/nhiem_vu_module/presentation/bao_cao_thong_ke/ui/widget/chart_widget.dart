@@ -65,13 +65,13 @@ class _ChartWidgetState extends State<ChartWidget> {
             Expanded(
               flex: widget.titleFlex,
               child: Container(
-                padding: const EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 13.5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: List.generate(widget.listTitle.length, (index) {
                     return Container(
                       margin:
-                          const EdgeInsets.only(right: 8, top: 20, left: 16),
+                          const EdgeInsets.only(right: 8, top: 20,),
                       child: Text(
                         widget.listTitle[index],
                         textAlign: TextAlign.right,

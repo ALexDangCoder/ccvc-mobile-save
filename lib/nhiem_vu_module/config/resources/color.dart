@@ -71,6 +71,7 @@ const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
 const colorOrange = Color(0xffFF9F43);
 const choTrinhKyColor = Color(0xff02C5DD);
+const dangThucHienColor = Color(0xff02C5DD);
 const choCapSoColor = Color(0xffFF6D99);
 const choBanHanhColor = Color(0xff374FC7);
 const colorE2E8F0 = Color(0xffE2E8F0);

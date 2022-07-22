@@ -154,7 +154,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                     ),
                     value: widget.cubit.dateChange,
                     onSelectDate: (value) {
-                      idget.cubit.dateChange = value;
+                      widget.cubit.dateChange = value;
                     },
                   ),
                 ),

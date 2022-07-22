@@ -33,9 +33,14 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
       DayOffWeek(index: 5, name: 'T6', isChoose: _now == 5),
       DayOffWeek(index: 6, name: 'T7', isChoose: _now == 6),
     ];
-    widget.taoLichLamViecCubit.lichLapItem1.add(
+    widget.taoLichLamViecCubit.lichLapItem.add(
       listDayOffWeek.indexWhere(
         (element) => element.isChoose == true,
+      ),
+    );
+    widget.taoLichLamViecCubit.lichLapItem1.add(
+      listDayOffWeek.indexWhere(
+            (element) => element.isChoose == true,
       ),
     );
   }
@@ -99,20 +104,35 @@ class SuaLichLapTuyChinh extends StatefulWidget {
 class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
   bool flag = true;
+  final _now = DateTime.now().weekday == 7 ? 0 : DateTime.now().weekday;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     listDayOffWeek = [
-      DayOffWeek(index: 0, name: 'CN', isChoose: false),
-      DayOffWeek(index: 1, name: 'T2', isChoose: false),
-      DayOffWeek(index: 2, name: 'T3', isChoose: false),
-      DayOffWeek(index: 3, name: 'T4', isChoose: false),
-      DayOffWeek(index: 4, name: 'T5', isChoose: false),
-      DayOffWeek(index: 5, name: 'T6', isChoose: false),
-      DayOffWeek(index: 6, name: 'T7', isChoose: false),
+      DayOffWeek(index: 0, name: 'CN', isChoose: _now == 0),
+      DayOffWeek(index: 1, name: 'T2', isChoose: _now == 1),
+      DayOffWeek(index: 2, name: 'T3', isChoose: _now == 2),
+      DayOffWeek(index: 3, name: 'T4', isChoose: _now == 3),
+      DayOffWeek(index: 4, name: 'T5', isChoose: _now == 4),
+      DayOffWeek(index: 5, name: 'T6', isChoose: _now == 5),
+      DayOffWeek(index: 6, name: 'T7', isChoose: _now == 6),
     ];
+    widget.taoLichLamViecCubit.lichLapItem1=widget.initDataTuyChinh;
+    if(widget.initDataTuyChinh.isEmpty){
+      widget.taoLichLamViecCubit.lichLapItem.add(
+        listDayOffWeek.indexWhere(
+              (element) => element.isChoose == true,
+        ),
+      );
+      widget.taoLichLamViecCubit.lichLapItem1.add(
+        listDayOffWeek.indexWhere(
+              (element) => element.isChoose == true,
+        ),
+      );
+    }
+
     for (final e in widget.initDataTuyChinh) {
       for (final d in listDayOffWeek) {
         if (e == d.index) {

@@ -153,7 +153,7 @@ class _DiemDanhCaNhanMobileScreenState
         child: ExpandOnlyWidget(
           paddingSize: 8,
           isPaddingIcon: true,
-          initExpand: true,
+          initExpand: false,
           header: Container(
             color: Colors.transparent,
             child: Padding(

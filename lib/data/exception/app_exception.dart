@@ -16,10 +16,12 @@ class CommonException extends AppException {
 }
 
 class NetworkException extends AppException {
-  NetworkException() : super(S.current.error, S.current.error_network);
+  NetworkException() : super(S.current.error, S.current.no_internet);
 }
 
-class NoNetworkException extends NetworkException {}
+class NoNetworkException extends NetworkException {
+
+}
 
 class TimeoutException extends NetworkException {}
 

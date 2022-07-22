@@ -3,10 +3,9 @@ import 'package:ccvc_mobile/data/network/network_checker.dart';
 import 'package:ccvc_mobile/data/network/network_handler.dart';
 import 'package:ccvc_mobile/domain/locals/logger.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:get/get.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 part 'result.freezed.dart';
 

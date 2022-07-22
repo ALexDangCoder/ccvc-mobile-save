@@ -282,20 +282,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
           ),
         ),
         spaceH8,
-        CoolDropDown(
-          initData: '',
-          placeHoder: S.current.chon,
-          onChange: (value) {
-            if (title == S.current.trang_thai_xu_ly) {
-              trangThai = listDropdown[value];
-              nguoiXuLy = nguoiXuLy;
-            } else {
-              trangThai = trangThai;
-              nguoiXuLy = listDropdown[value];
-            }
-          },
-          listData: listDropdown,
-        )
+        
       ],
     );
   }

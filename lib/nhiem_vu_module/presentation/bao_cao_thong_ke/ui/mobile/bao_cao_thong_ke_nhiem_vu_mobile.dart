@@ -1,23 +1,29 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/bao_cao_thong_ke/bao_cao_thong_ke_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/cubit/bao_cao_thong_ke_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/chart_circle.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/chart_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/item_collapse.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/widget_dropdown_filter.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/domain/model/bao_cao_thong_ke/bao_cao_thong_ke_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/table_view_nhiem_vu.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/tree_view.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/widget_dropdown_filter.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/bao_cao_thong_ke/ui/widget/widget_fliter_ca_nhan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/menu/nhiem_vu_menu_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -37,12 +43,20 @@ class BaoCaoThongKeNhiemVuMobile extends StatefulWidget {
 class _BaoCaoThongKeNhiemVuMobileState
     extends State<BaoCaoThongKeNhiemVuMobile> {
   late BaoCaoThongKeCubit cubit;
+  late ThemDonViCubit _themDonViCubit;
 
   @override
   void initState() {
+    _themDonViCubit = ThemDonViCubit();
     cubit = BaoCaoThongKeCubit();
     cubit.getAppID();
+    cubit.getTree();
     cubit.getDataTheoDonVi();
+    cubit.textDonViXuLyFilter.listen((value) {
+      if (cubit.donViId.isNotEmpty) {
+        cubit.getCaNhanXuLy();
+      }
+    });
     super.initState();
   }
 
@@ -75,214 +89,305 @@ class _BaoCaoThongKeNhiemVuMobileState
           )
         ],
       ),
-      body: Column(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          FilterDateTimeWidget(
-            context: context,
-            initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
-            //todo data
-            onChooseDateFilter: (startDate, endDate) {
-              widget.danhSachCubit.ngayDauTien = startDate.formatApi;
-              widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-              widget.danhSachCubit.callApiDashBroash(true);
+          GestureDetector(
+            onTap: () {
+              cubit.isShowCaNhan.add(false);
+              cubit.isShowDonVi.add(false);
             },
+            child: Column(
+              children: [
+                FilterDateTimeWidget(
+                  context: context,
+                  initStartDate:
+                      DateTime.parse(widget.danhSachCubit.ngayDauTien),
+                  //todo data
+                  onChooseDateFilter: (startDate, endDate) {
+                    widget.danhSachCubit.ngayDauTien = startDate.formatApi;
+                    widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
+                    widget.danhSachCubit.callApiDashBroash(true);
+                  },
+                ),
+                WidgetDropdownFilter(
+                  cubit: cubit,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          color: backgroundColorApp,
+                          padding: const EdgeInsets.all(16.0),
+                          child: ItemCollapse(
+                            title: [
+                              Expanded(
+                                child: Text(
+                                  S.current.nhiem_vu_don_vi_xu_ly,
+                                  style: textNormalCustom(
+                                    color: AppTheme.getInstance().titleColor(),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            child: StreamBuilder<bool>(
+                              initialData: true, //todo
+                              // stream: widget.cubit.checkDataChart,
+                              builder: (context, snapshot) {
+                                final isCheck = snapshot.data ?? false;
+                                return isCheck
+                                    ? ChartWidget(
+                                        listData: [
+                                          [
+                                            ChartData('title', 11, Colors.red),
+                                            ChartData(
+                                                'title', 11, Colors.black),
+                                            ChartData('title', 111, Colors.red)
+                                          ],
+                                          [
+                                            ChartData('title', 1, Colors.red),
+                                            ChartData(
+                                                'title', 11, Colors.black),
+                                            ChartData('title', 2, Colors.red)
+                                          ]
+                                        ],
+                                        listStatusData: [
+                                          ChartData('title', 11, Colors.black),
+                                          ChartData('title', 111, Colors.red)
+                                        ],
+                                        listTitle: [
+                                          //todo data
+                                          'fuck',
+                                          'fuck',
+                                        ],
+                                        cubit: cubit,
+                                      )
+                                    : const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        ),
+                        spaceH6,
+                        Container(
+                          color: backgroundColorApp,
+                          padding: const EdgeInsets.all(16.0),
+                          child: ItemCollapse(
+                            title: [
+                              Expanded(
+                                child: Text(
+                                  S.current.nhiem_vu_theo_tinh_trang_xu_ly,
+                                  style: textNormalCustom(
+                                    color: AppTheme.getInstance().titleColor(),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            child: StreamBuilder<bool>(
+                              initialData: true, //todo
+                              // stream: widget.cubit.checkDataChart,
+                              builder: (context, snapshot) {
+                                final isCheck = snapshot.data ?? false;
+                                return isCheck
+                                    ? ChartCircleWidget(
+                                        chartData: [
+                                          ChartData('title', 11, Colors.red),
+                                          ChartData('title', 11, Colors.black),
+                                          ChartData('title', 111, Colors.red),
+                                          ChartData('title', 1, Colors.red),
+                                          ChartData('title', 11, Colors.black),
+                                          ChartData('title', 2, Colors.red),
+                                        ],
+                                        listChartNote: [
+                                          ChartData('title', 11, Colors.red),
+                                          ChartData('title', 11, Colors.black),
+                                          ChartData('title', 111, Colors.red),
+                                          ChartData('title', 111, Colors.red),
+                                          ChartData('title', 11, Colors.black),
+                                          ChartData('title', 111, Colors.red)
+                                        ],
+                                      )
+                                    : const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        ),
+                        spaceH6,
+                        Container(
+                          color: backgroundColorApp,
+                          padding: const EdgeInsets.all(16.0),
+                          child: ItemCollapse(
+                            title: [
+                              Expanded(
+                                child: Text(
+                                  S.current.nhiem_vu_don_vi_xu_ly,
+                                  style: textNormalCustom(
+                                    color: AppTheme.getInstance().titleColor(),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            child: StreamBuilder<bool>(
+                              initialData: true, //todo
+                              // stream: widget.cubit.checkDataChart,
+                              builder: (context, snapshot) {
+                                final isCheck = snapshot.data ?? false;
+                                return isCheck
+                                    ? ChartWidget(
+                                        titleFlex: 1,
+                                        chartFlex: 5,
+                                        listData: [
+                                          [
+                                            ChartData('title', 11, Colors.red),
+                                            ChartData(
+                                                'title', 11, Colors.black),
+                                            ChartData('title', 111, Colors.red)
+                                          ],
+                                          [
+                                            ChartData('title', 1, Colors.red),
+                                            ChartData(
+                                                'title', 11, Colors.black),
+                                            ChartData('title', 2, Colors.red)
+                                          ]
+                                        ],
+                                        listStatusData: [
+                                          ChartData('title', 11, Colors.black),
+                                          ChartData('title', 111, Colors.red)
+                                        ],
+                                        listTitle: [
+                                          //todo data
+                                          'fuck',
+                                          'fuck',
+                                        ],
+                                        cubit: cubit,
+                                      )
+                                    : const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        ),
+                        spaceH6,
+                        Container(
+                          color: backgroundColorApp,
+                          padding: const EdgeInsets.all(16.0),
+                          child: ItemCollapse(
+                            title: [
+                              Expanded(
+                                child: Text(
+                                  S.current.nhiem_vu_don_vi_xu_ly,
+                                  style: textNormalCustom(
+                                    color: AppTheme.getInstance().titleColor(),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                top: 16,
+                                bottom: 16,
+                                right: 16,
+                              ),
+                              scrollDirection: Axis.horizontal,
+                              child: StreamBuilder<List<NhiemVuDonVi>>(
+                                stream: cubit.listBangThongKe,
+                                builder: (context, snapshot) {
+                                  return TableViewNhiemVu(
+                                    list: snapshot.data ?? [],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          WidgetDropdownFilter(
-            cubit: cubit,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    color: backgroundColorApp,
-                    padding: const EdgeInsets.all(16.0),
-                    child: ItemCollapse(
-                      title: [
-                        Expanded(
-                          child: Text(
-                            S.current.nhiem_vu_don_vi_xu_ly,
-                            style: textNormalCustom(
-                              color: AppTheme.getInstance().titleColor(),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                      child: StreamBuilder<bool>(
-                        initialData: true, //todo
-                        // stream: widget.cubit.checkDataChart,
+          Positioned(
+            top: 180,
+            right: 16,
+            left: 16,
+            child: StreamBuilder<bool>(
+              stream: cubit.isShowDonVi,
+              builder: (context, snapshot) {
+                return snapshot.data ?? false
+                    ? StreamBuilder<List<Node<DonViModel>>>(
+                        stream: cubit.getTreeDonVi,
                         builder: (context, snapshot) {
-                          final isCheck = snapshot.data ?? false;
-                          return isCheck
-                              ? ChartWidget(
-                                  listData: [
-                                    [
-                                      ChartData('title', 11, Colors.red),
-                                      ChartData('title', 11, Colors.black),
-                                      ChartData('title', 111, Colors.red)
-                                    ],
-                                    [
-                                      ChartData('title', 1, Colors.red),
-                                      ChartData('title', 11, Colors.black),
-                                      ChartData('title', 2, Colors.red)
-                                    ]
-                                  ],
-                                  listStatusData: [
-                                    ChartData('title', 11, Colors.black),
-                                    ChartData('title', 111, Colors.red)
-                                  ],
-                                  listTitle: [
-                                    //todo data
-                                    'fuck',
-                                    'fuck',
-                                  ],
-                                  cubit: cubit,
-                                )
-                              : const SizedBox.shrink();
-                        },
-                      ),
-                    ),
-                  ),
-                  spaceH6,
-                  Container(
-                    color: backgroundColorApp,
-                    padding: const EdgeInsets.all(16.0),
-                    child: ItemCollapse(
-                      title: [
-                        Expanded(
-                          child: Text(
-                            S.current.nhiem_vu_theo_tinh_trang_xu_ly,
-                            style: textNormalCustom(
-                              color: AppTheme.getInstance().titleColor(),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                      child: StreamBuilder<bool>(
-                        initialData: true, //todo
-                        // stream: widget.cubit.checkDataChart,
-                        builder: (context, snapshot) {
-                          final isCheck = snapshot.data ?? false;
-                          return isCheck
-                              ? ChartCircleWidget(
-                                  chartData: [
-                                    ChartData('title', 11, Colors.red),
-                                    ChartData('title', 11, Colors.black),
-                                    ChartData('title', 111, Colors.red),
-                                    ChartData('title', 1, Colors.red),
-                                    ChartData('title', 11, Colors.black),
-                                    ChartData('title', 2, Colors.red),
-                                  ],
-                                  listChartNote: [
-                                    ChartData('title', 11, Colors.red),
-                                    ChartData('title', 11, Colors.black),
-                                    ChartData('title', 111, Colors.red),
-                                    ChartData('title', 111, Colors.red),
-                                    ChartData('title', 11, Colors.black),
-                                    ChartData('title', 111, Colors.red)
-                                  ],
-                                )
-                              : const SizedBox.shrink();
-                        },
-                      ),
-                    ),
-                  ),
-                  spaceH6,
-                  Container(
-                    color: backgroundColorApp,
-                    padding: const EdgeInsets.all(16.0),
-                    child: ItemCollapse(
-                      title: [
-                        Expanded(
-                          child: Text(
-                            S.current.nhiem_vu_don_vi_xu_ly,
-                            style: textNormalCustom(
-                              color: AppTheme.getInstance().titleColor(),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                      child: StreamBuilder<bool>(
-                        initialData: true, //todo
-                        // stream: widget.cubit.checkDataChart,
-                        builder: (context, snapshot) {
-                          final isCheck = snapshot.data ?? false;
-                          return isCheck
-                              ? ChartWidget(
-                                  titleFlex: 1,
-                                  chartFlex: 5,
-                                  listData: [
-                                    [
-                                      ChartData('title', 11, Colors.red),
-                                      ChartData('title', 11, Colors.black),
-                                      ChartData('title', 111, Colors.red)
-                                    ],
-                                    [
-                                      ChartData('title', 1, Colors.red),
-                                      ChartData('title', 11, Colors.black),
-                                      ChartData('title', 2, Colors.red)
-                                    ]
-                                  ],
-                                  listStatusData: [
-                                    ChartData('title', 11, Colors.black),
-                                    ChartData('title', 111, Colors.red)
-                                  ],
-                                  listTitle: [
-                                    //todo data
-                                    'fuck',
-                                    'fuck',
-                                  ],
-                                  cubit: cubit,
-                                )
-                              : const SizedBox.shrink();
-                        },
-                      ),
-                    ),
-                  ),
-                  spaceH6,
-                  Container(
-                    color: backgroundColorApp,
-                    padding: const EdgeInsets.all(16.0),
-                    child: ItemCollapse(
-                      title: [
-                        Expanded(
-                          child: Text(
-                            S.current.nhiem_vu_don_vi_xu_ly,
-                            style: textNormalCustom(
-                              color: AppTheme.getInstance().titleColor(),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          top: 16,
-                          bottom: 16,
-                          right: 16,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        child: StreamBuilder<List<NhiemVuDonVi>>(
-                          stream: cubit.listBangThongKe,
-                          builder: (context, snapshot) {
-                            return TableViewNhiemVu(
-                              list: snapshot.data ?? [],
+                          final data = snapshot.data ?? <Node<DonViModel>>[];
+                          if (data.isNotEmpty) {
+                            return Container(
+                              height: 300,
+                              decoration: BoxDecoration(
+                                color: colorNumberCellQLVB,
+                                borderRadius: BorderRadius.circular(
+                                  6,
+                                ),
+                                border: Border.all(
+                                  color: borderItemCalender,
+                                ),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 6,
+                                  bottom: 19,
+                                  top: 16,
+                                ),
+                                keyboardDismissBehavior: isMobile()
+                                    ? ScrollViewKeyboardDismissBehavior.onDrag
+                                    : ScrollViewKeyboardDismissBehavior.manual,
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return TreeViewWidgetNhiemVu(
+                                    selectOnly: true,
+                                    themDonViCubit: _themDonViCubit,
+                                    node: data[index],
+                                    onSelect: (value) {
+                                      cubit.onChangeDonVi(value);
+                                    },
+                                  );
+                                },
+                              ),
                             );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      )
+                    : const SizedBox.shrink();
+              },
+            ),
+          ),
+          Positioned(
+            top: 180,
+            right: 16,
+            left: 16,
+            child: StreamBuilder<bool>(
+              stream: cubit.isShowCaNhan,
+              builder: (context, snapshot) {
+                return snapshot.data ?? false
+                    ? WidgetFilterCaNhanXuLy(
+                        cubit: cubit,
+                      )
+                    : const SizedBox.shrink();
+              },
             ),
           ),
         ],

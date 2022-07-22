@@ -23,13 +23,15 @@ class SelectFileBtn extends StatefulWidget {
     required this.onChange,
     this.initFileSystem,
     this.initFileFromApi,
+    this.onDeletedFileApi,
   }) : super(key: key);
   final bool hasMultiFile;
   final double? maxSize;
   final List<String>? allowedExtensions;
-  final Function(List<File> fileSelected) onChange;
+  final Function(List<File> fileSelected, bool validate) onChange;
   final List<FileModel>? initFileFromApi;
   final List<File>? initFileSystem;
+  final Function(FileModel fileDeleted)? onDeletedFileApi;
 
   @override
   State<SelectFileBtn> createState() => _SelectFileBtnState();
@@ -48,6 +50,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ButtonSelectFileLichLamViec(
           isShowFile: false,
@@ -71,7 +74,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
             }
             cubit.selectedFiles.addAll(files);
             cubit.needRebuildListFile.sink.add(true);
-            widget.onChange(cubit.selectedFiles);
+            widget.onChange(cubit.selectedFiles, validate);
           },
         ),
         StreamBuilder<List<FileModel>>(
@@ -82,14 +85,15 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
               children: listFile
                   .map(
                     (e) => itemListFile(
-                      onDelete: () {
-                        cubit.fileFromApi.value.remove(e);
-                        cubit.fileFromApi.sink.add(cubit.fileFromApi.value);
-                      },
-                      fileTxt: e.name ?? '',
-                      lengthFile: e.fileLength?.toInt().getFileSize(2),
-                    ),
-                  )
+                  onDelete: () {
+                    cubit.fileFromApi.value.remove(e);
+                    cubit.fileFromApi.sink.add(cubit.fileFromApi.value);
+                    widget.onDeletedFileApi?.call(e);
+                  },
+                  fileTxt: e.name ?? '',
+                  lengthFile: e.fileLength?.toInt().getFileSize(2),
+                ),
+              )
                   .toList(),
             );
           },
@@ -101,14 +105,15 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
               children: cubit.selectedFiles
                   .map(
                     (e) => itemListFile(
-                      onDelete: () {
-                        cubit.selectedFiles.remove(e);
+                  onDelete: () {
+                    cubit.selectedFiles.remove(e);
                         cubit.needRebuildListFile.add(true);
+                        widget.onChange(cubit.selectedFiles, false);
                       },
-                      fileTxt: e.path.convertNameFile(),
-                      lengthFile: e.lengthSync().getFileSize(2),
-                    ),
-                  )
+                  fileTxt: e.path.convertNameFile(),
+                  lengthFile: e.lengthSync().getFileSize(2),
+                ),
+              )
                   .toList(),
             );
           },

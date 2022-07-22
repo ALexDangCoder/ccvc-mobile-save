@@ -15,21 +15,16 @@ class CommonException extends AppException {
   CommonException() : super(S.current.error, S.current.something_went_wrong);
 }
 
-class NoNetworkException extends AppException {
-  NoNetworkException() : super(S.current.error, S.current.error_network);
-}
-class TimeoutException extends AppException {
-  TimeoutException() : super(S.current.error, S.current.error_network);
+class NetworkException extends AppException {
+  NetworkException() : super(S.current.error, S.current.error_network);
 }
 
-class ExpiredException extends AppException {
-  ExpiredException() : super(S.current.error, S.current.error_network);
-}
+class NoNetworkException extends NetworkException {}
 
-class UnauthorizedException extends AppException {
-  UnauthorizedException() : super(S.current.error, S.current.error_network);
-}
+class TimeoutException extends NetworkException {}
 
-class MaintenanceException extends AppException {
-  MaintenanceException() : super(S.current.error, S.current.error_network);
-}
+class ExpiredException extends NetworkException {}
+
+class UnauthorizedException extends NetworkException {}
+
+class MaintenanceException extends NetworkException {}

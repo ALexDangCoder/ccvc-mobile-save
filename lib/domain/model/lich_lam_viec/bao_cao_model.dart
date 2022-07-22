@@ -35,6 +35,7 @@ class BaoCaoModel {
   String reportStatusCode;
   String id;
   String reportStatusId;
+  String canBoChuTriId;
 
   BaoCaoModel({
     this.status = BaoCaoStatus.TRUNG_BINH,
@@ -43,6 +44,7 @@ class BaoCaoModel {
     this.reportStatusCode = '',
     this.id = '',
     this.reportStatusId = '',
+    this.canBoChuTriId = '',
   }) {
     status = fromEnum();
   }
@@ -66,5 +68,12 @@ class FileModel {
   String? id;
   String? name;
   String? path;
-  FileModel({this.id, this.name,this.path});
+  double? fileLength;
+
+  FileModel({
+    this.id,
+    this.name,
+    this.path,
+    this.fileLength,
+  });
 }

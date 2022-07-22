@@ -80,155 +80,167 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                 Radius.circular(12),
               ),
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 22.5,
-                      bottom: 16,
-                    ),
-                    child: FormGroup(
-                      key: _groupKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                S.current.them_moi_yc_ho_tro,
-                                style: p.textNormalCustom(
-                                  color: textTitle,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: SvgPicture.asset(
-                                  ImageAssets.icClose,
-                                  color: AppTheme.getInstance()
-                                      .unselectedLabelColor(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          spaceH20,
-                          textField(
-                            isHightLight: true,
-                            title: S.current.ten_thiet_bi,
-                            hintText: S.current.ten_thiet_bi,
-                            isEnable: true,
-                            maxLength: 150,
-                            onChange: (value) {
-                              widget.cubit.addTaskHTKTRequest.name = value;
-                            },
-                            validate: (value) {
-                              if ((value ?? '').isEmpty) {
-                                return S.current.khong_duoc_de_trong;
-                              }
-                            },
-                          ),
-                          spaceH16,
-                          textField(
-                            isHightLight: true,
-                            title: S.current.sdt_lien_he,
-                            hintText: S.current.sdt_lien_he,
-                            inputFormatter: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            maxLength: 11,
-                            textInputType: TextInputType.number,
-                            onChange: (value) {
-                              widget.cubit.addTaskHTKTRequest.phone = value;
-                            },
-                            validate: (value) {
-                              if ((value ?? '').isEmpty) {
-                                return S.current.khong_duoc_de_trong;
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                          spaceH16,
-                          textField(
-                            isHightLight: true,
-                            maxLine: 3,
-                            title: S.current.nhap_mo_ta,
-                            hintText: S.current.nhap_mo_ta,
-                            onChange: (value) {
-                              widget.cubit.addTaskHTKTRequest.description = value;
-                            },
-                            validate: (value) {
-                              if ((value ?? '').isEmpty) {
-                                return S.current.khong_duoc_de_trong;
-                              }
-                            },
-                          ),
-                          spaceH16,
-                          AreaDropDown(
-                            cubit: widget.cubit,
-                            statusHTKT: StatusHTKT.CREATE,
-                          ),
-                          spaceH16,
-                          BuildingDropDown(
-                            statusHTKT: StatusHTKT.CREATE,
-                            cubit: widget.cubit,
-                          ),
-                          spaceH16,
-                          textField(
-                            isHightLight: true,
-                            title: S.current.so_phong,
-                            hintText: S.current.so_phong,
-                            onChange: (value) {
-                              widget.cubit.addTaskHTKTRequest.room = value;
-                            },
-                            validate: (value) {
-                              if ((value ?? '').isEmpty) {
-                                return S.current.khong_duoc_de_trong;
-                              }
-                            },
-                          ),
-                          spaceH16,
-                          StreamBuilder<List<String>>(
-                            stream: widget.cubit.issueListStream,
-                            builder: (context, snapshot) {
-                              final _issueList = snapshot.data ?? [];
-                              return MultiSelectList(
-                                title: S.current.loai_su_co,
-                                isRequire: true,
-                                items: _issueList,
-                                onChange: (selectIndexList) {
-                                  widget.cubit
-                                      .addIssueListRequest(selectIndexList);
-                                },
-                              );
-                            },
-                          ),
-                          // IssueDropDown(cubit: widget.cubit),
-                          spaceH16,
-                          TaiLieuWidget(
-                            idRemove: (String id) {},
-                            onChange: (files, value) {
-                              widget.cubit.addTaskHTKTRequest.fileUpload = files;
-                            },
-                          ),
-                          spaceH20,
-                          doubleBtn(),
-                        ],
+            child: Column(
+              children: [
+                spaceH20,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        S.current.them_moi_yc_ho_tro,
+                        style: p.textNormalCustom(
+                          color: textTitle,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: SvgPicture.asset(
+                          ImageAssets.icClose,
+                          color: AppTheme.getInstance()
+                              .unselectedLabelColor(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 22.5,
+                            bottom: 16,
+                          ),
+                          child: FormGroup(
+                            key: _groupKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textField(
+                                  isHightLight: true,
+                                  title: S.current.ten_thiet_bi,
+                                  hintText: S.current.ten_thiet_bi,
+                                  isEnable: true,
+                                  maxLength: 150,
+                                  onChange: (value) {
+                                    widget.cubit.addTaskHTKTRequest.name = value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                textField(
+                                  isHightLight: true,
+                                  title: S.current.sdt_lien_he,
+                                  hintText: S.current.sdt_lien_he,
+                                  inputFormatter: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  maxLength: 11,
+                                  textInputType: TextInputType.number,
+                                  onChange: (value) {
+                                    widget.cubit.addTaskHTKTRequest.phone = value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                textField(
+                                  isHightLight: true,
+                                  maxLine: 3,
+                                  title: S.current.nhap_mo_ta,
+                                  hintText: S.current.nhap_mo_ta,
+                                  onChange: (value) {
+                                    widget.cubit.addTaskHTKTRequest.description = value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                AreaDropDown(
+                                  cubit: widget.cubit,
+                                  statusHTKT: StatusHTKT.CREATE,
+                                ),
+                                spaceH16,
+                                BuildingDropDown(
+                                  statusHTKT: StatusHTKT.CREATE,
+                                  cubit: widget.cubit,
+                                ),
+                                spaceH16,
+                                textField(
+                                  isHightLight: true,
+                                  title: S.current.so_phong,
+                                  hintText: S.current.so_phong,
+                                  onChange: (value) {
+                                    widget.cubit.addTaskHTKTRequest.room = value;
+                                  },
+                                  validate: (value) {
+                                    if ((value ?? '').isEmpty) {
+                                      return S.current.khong_duoc_de_trong;
+                                    }
+                                  },
+                                ),
+                                spaceH16,
+                                StreamBuilder<List<String>>(
+                                  stream: widget.cubit.issueListStream,
+                                  builder: (context, snapshot) {
+                                    final _issueList = snapshot.data ?? [];
+                                    return MultiSelectList(
+                                      title: S.current.loai_su_co,
+                                      isRequire: true,
+                                      items: _issueList,
+                                      onChange: (selectIndexList) {
+                                        widget.cubit
+                                            .addIssueListRequest(selectIndexList);
+                                      },
+                                    );
+                                  },
+                                ),
+                                // IssueDropDown(cubit: widget.cubit),
+                                spaceH16,
+                                TaiLieuWidget(
+                                  idRemove: (String id) {},
+                                  onChange: (files, value) {
+                                    widget.cubit.addTaskHTKTRequest.fileUpload = files;
+                                  },
+                                ),
+                                spaceH20,
+                                doubleBtn(),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
@@ -29,17 +30,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final ThanhPhanThamGiaCubit cubit;
+  final List<CanBoModel > listCaNhanRemove;
   final bool needCheckTrung;
-  final ThemCanBoCubit themCanBoCubit;
-  final ThemDonViCubit themDonViCubit;
 
   const ThemCanBoWidget({
     Key? key,
     required this.onChange,
     required this.cubit,
+    this.listCaNhanRemove = const  [],
     this.needCheckTrung = false,
-    required this.themCanBoCubit,
-    required this.themDonViCubit,
   }) : super(key: key);
 
   @override
@@ -47,7 +46,18 @@ class ThemCanBoWidget extends StatefulWidget {
 }
 
 class _ThemDonViScreenState extends State<ThemCanBoWidget> {
-  final textController =  TextEditingController();
+  final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
+  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
+  final textController = TextEditingController();
+
+
+@override
+  void didUpdateWidget(covariant ThemCanBoWidget oldWidget) {
+  themCanBoCubit.listCaNhanRemove.clear();
+  themCanBoCubit.listCaNhanRemove.addAll(widget.listCaNhanRemove);
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SolidButton(
@@ -70,8 +80,8 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
             textController: textController,
             cubit: widget.cubit,
             needCheckTrung: widget.needCheckTrung,
-            themCanBoCubit: widget.themCanBoCubit,
-            themDonViCubit: widget.themDonViCubit,
+            themCanBoCubit: themCanBoCubit,
+            themDonViCubit: themDonViCubit,
           ),
         ),
       ).then((value) {
@@ -87,8 +97,8 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
           textController: textController,
           cubit: widget.cubit,
           needCheckTrung: widget.needCheckTrung,
-          themCanBoCubit: widget.themCanBoCubit,
-          themDonViCubit: widget.themDonViCubit,
+          themCanBoCubit: themCanBoCubit,
+          themDonViCubit: themDonViCubit,
         ),
         isBottomShow: false,
         funcBtnOk: () {},
@@ -112,7 +122,7 @@ class ThemCanBoScreen extends StatefulWidget {
   final bool checkStyle;
   final bool checkUiCuCanBo;
   final ThemDonViCubit themDonViCubit;
- final TextEditingController? textController;
+  final TextEditingController? textController;
   final String? hindText;
 
   const ThemCanBoScreen({
@@ -141,11 +151,14 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
     super.initState();
     final List<DonViModel> listSelectCanBo = [];
 
-    for (final element in widget.themCanBoCubit.listSelectCanBo) {
+    for (final DonViModel element in widget.themCanBoCubit.listSelectCanBo) {
       if (widget.cubit.listPeople.map((e) => e.id).contains(element.id)) {
         listSelectCanBo.add(element);
       }
     }
+    widget.cubit.getTreeCaNhan.listen((event) {
+      widget.themDonViCubit.getTreeDonVi(event );
+    });
     widget.themCanBoCubit.listSelectCanBo = listSelectCanBo;
   }
 
@@ -187,6 +200,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                               }
                             },
                             themDonViCubit: widget.themDonViCubit,
+                            isDonVi: false,
                           );
                         },
                       ),
@@ -217,6 +231,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                   height: 20.0.textScale(space: 4),
                 ),
                 SelectDonVi(
+                  isDonVi: false,
                   cubit: widget.cubit,
                   onChange: (value) {
                     widget.textController?.text = '';

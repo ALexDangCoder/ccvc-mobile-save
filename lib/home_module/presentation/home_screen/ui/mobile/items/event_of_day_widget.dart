@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/detail_chung_ket_noi/ui/phone/detail_chung_ket_noi.dart';
 import 'package:flutter/material.dart';
 
@@ -39,71 +40,79 @@ class _EventOfDayWidgetState extends State<EventOfDayWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ContainerBackgroundWidget(
-      minHeight: 350,
-      title: S.current.su_kien_trong_ngay,
-      onTapIcon: () {
-        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
-      },
-      dialogSelect: StreamBuilder<Object>(
-          stream: _suKienTrongNgayCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              type: widget.homeItemType,
-              listSelectKey: <DialogData>[
-                DialogData(
-                    onSelect: (value, startDate, endDate) {
-                      _suKienTrongNgayCubit.selectDate(
-                          selectKey: value,
-                          startDate: startDate,
-                          endDate: endDate);
-                    },
-                    initValue: _suKienTrongNgayCubit.selectKeyTime,
-                    title: S.current.time,
-                    startDate: _suKienTrongNgayCubit.startDate,
-                    endDate: _suKienTrongNgayCubit.endDate)
-              ],
-            );
-          }),
-      selectKeyDialog: _suKienTrongNgayCubit,
-      child: LoadingOnly(
-        stream: _suKienTrongNgayCubit.stateStream,
-        child: StreamBuilder<List<SuKienModel>>(
-            stream: _suKienTrongNgayCubit.getSuKien,
-            builder: (context, snapshot) {
-              final result = snapshot.data ?? <SuKienModel>[];
-              if (result.isEmpty) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 100),
-                  child: NodataWidget(),
-                );
-              }
-              return Column(
-                children: List.generate(
-                  result.length,
-                  (index) {
-                    final suKien = result[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: EventWidget(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailChungKetNoi(
-                                id: suKien.id ?? '',
-                              ),
-                            ),
-                          );
+    return StreamBuilder<SelectKey>(
+      stream: _suKienTrongNgayCubit.getSelectkey,
+      builder: (context, snapshot){
+        final SelectKey key= snapshot.data??SelectKey.HOM_NAY;
+        final String title=_suKienTrongNgayCubit.changeTitle(key);
+        return ContainerBackgroundWidget(
+          minHeight: 350,
+          title: title,
+          onTapIcon: () {
+            HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+          },
+          dialogSelect: StreamBuilder<Object>(
+              stream: _suKienTrongNgayCubit.selectKeyDialog,
+              builder: (context, snapshot) {
+                return DialogSettingWidget(
+                  type: widget.homeItemType,
+                  listSelectKey: <DialogData>[
+                    DialogData(
+                        onSelect: (value, startDate, endDate) {
+                          _suKienTrongNgayCubit.changeSelectKey(value);
+                          _suKienTrongNgayCubit.selectDate(
+                              selectKey: value,
+                              startDate: startDate,
+                              endDate: endDate);
                         },
-                        title: suKien.title ?? '',
-                      ),
+                        initValue: _suKienTrongNgayCubit.selectKeyTime,
+                        title: S.current.time,
+                        startDate: _suKienTrongNgayCubit.startDate,
+                        endDate: _suKienTrongNgayCubit.endDate)
+                  ],
+                );
+              }),
+          selectKeyDialog: _suKienTrongNgayCubit,
+          child: LoadingOnly(
+            stream: _suKienTrongNgayCubit.stateStream,
+            child: StreamBuilder<List<SuKienModel>>(
+                stream: _suKienTrongNgayCubit.getSuKien,
+                builder: (context, snapshot) {
+                  final result = snapshot.data ?? <SuKienModel>[];
+                  if (result.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 100),
+                      child: NodataWidget(),
                     );
-                  },
-                ),
-              );
-            }),
-      ),
+                  }
+                  return Column(
+                    children: List.generate(
+                      result.length,
+                          (index) {
+                        final suKien = result[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: EventWidget(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailChungKetNoi(
+                                    id: suKien.id ?? '',
+                                  ),
+                                ),
+                              );
+                            },
+                            title: suKien.title ?? '',
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
+          ),
+        );
+      },
     );
   }
 }

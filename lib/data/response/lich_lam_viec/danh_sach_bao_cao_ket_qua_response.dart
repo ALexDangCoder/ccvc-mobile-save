@@ -92,7 +92,8 @@ class Data {
         listFile: files?.map((e) => e.toDomain()).toList() ?? [],
         id: id ?? '',
         reportStatusCode: reportStatusCode ?? '',
-    reportStatusId: reportStatusId ?? '',
+        reportStatusId: reportStatusId ?? '',
+        canBoChuTriId: canBoChuTriId ?? '',
       );
 }
 
@@ -102,6 +103,7 @@ class Files {
   String? extension;
   String? path;
   String? entityId;
+  double? size;
 
   Files.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -109,8 +111,9 @@ class Files {
     extension = json['Extension'];
     path = json['Path'];
     extension = json['EntityId'];
+    size = json['Size'];
   }
 
   FileModel toDomain() =>
-      FileModel(id: id ?? '', name: name ?? '', path: path);
+      FileModel(id: id ?? '', name: name ?? '', path: path, fileLength: size);
 }

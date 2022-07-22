@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
@@ -42,10 +41,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   void initState() {
     super.initState();
     taoPhienHopRequest = TaoPhienHopRequest(
-      thoiGian_BatDau:
-          '${DateTime.parse(DateTime.now().toString()).formatApi} ${widget.cubit.startTime}',
+      thoiGian_BatDau: '${DateTime.parse(DateTime.now().toString()).formatApi} '
+          '${widget.cubit.startTime}',
       thoiGian_KetThuc:
-          '${DateTime.parse(DateTime.now().toString()).formatApi} ${widget.cubit.startTime}',
+          '${DateTime.parse(DateTime.now().toString()).formatApi} '
+          '${widget.cubit.startTime}',
     );
   }
 
@@ -68,8 +68,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   id: widget.id,
                   taoPhienHopRequest: taoPhienHopRequest,
                 );
-                widget.cubit.startTime = '00:00';
-                widget.cubit.endTime = '00:00';
+                widget.cubit.startTime = INIT_TIME;
+                widget.cubit.endTime = INIT_TIME;
                 Navigator.pop(context);
               }
             },

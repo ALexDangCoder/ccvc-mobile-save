@@ -296,11 +296,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       final isDonVi = (e.CanBoId ?? '').isEmpty;
       final chungDonVi = (e.donViId ?? '').toLowerCase() ==
           (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
-      final isLanhDao = HiveLocal.checkPermissionApp(
-        permissionType: PermissionType.VPDT,
-        permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
-      );
-      return isDonVi && chungDonVi && isLanhDao;
+      return isDonVi && chungDonVi;
     });
 
     ///check quyen button cu can bo

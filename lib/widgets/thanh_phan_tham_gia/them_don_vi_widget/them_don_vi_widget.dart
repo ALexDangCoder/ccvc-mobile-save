@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -21,6 +22,7 @@ import 'package:flutter/material.dart';
 class ThemDonViWidget extends StatefulWidget {
   final Function(List<Node<DonViModel>>) onChange;
   final List<DonViModel> listSelectNode;
+  final List<CanBoModel> listIdDonViRemove;
 
   final ThanhPhanThamGiaCubit cubit;
 
@@ -29,6 +31,7 @@ class ThemDonViWidget extends StatefulWidget {
     required this.onChange,
     this.listSelectNode = const [],
     required this.cubit,
+    this.listIdDonViRemove = const [],
   }) : super(key: key);
 
   @override
@@ -36,15 +39,24 @@ class ThemDonViWidget extends StatefulWidget {
 }
 
 class _ThemDonViScreenState extends State<ThemDonViWidget> {
-  final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
+  late final ThemDonViCubit _themDonViCubit;
 
   @override
   void initState() {
     super.initState();
+    _themDonViCubit = ThemDonViCubit();
     widget.cubit.getTreeDonVi.listen((event) {
-      _themDonViCubit.getTreeDonVi(event);
+      _themDonViCubit.getTreeDonVi(event , isDonVi: true);
     });
   }
+
+  @override
+  void didUpdateWidget(covariant ThemDonViWidget oldWidget) {
+    _themDonViCubit.listIdDonViRemove.clear();
+    _themDonViCubit.listIdDonViRemove.addAll(widget.listIdDonViRemove);
+    super.didUpdateWidget(oldWidget);
+  }
+
 
   @override
   void dispose() {

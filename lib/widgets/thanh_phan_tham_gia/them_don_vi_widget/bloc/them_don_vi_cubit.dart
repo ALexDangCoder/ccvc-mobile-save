@@ -8,7 +8,9 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/
 import 'package:rxdart/rxdart.dart';
 
 class ThemDonViCubit extends BaseCubit<ThemDonViState> {
-  ThemDonViCubit() : super(MainStateInitial());
+  ThemDonViCubit() : super(MainStateInitial()) {
+    _selectDonVi.sink.add(selectNode);
+  }
   List<Node<DonViModel>> listTree = [];
   Timer? _debounce;
   final List<Node<DonViModel>> selectNode = [];
@@ -28,6 +30,8 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get selectDonVi => _selectDonVi.stream;
+  List<Node<DonViModel>> get selectDonViValue => _selectDonVi.valueOrNull ?? [];
+  Sink<List<Node<DonViModel>>> get selectDonViSink => _selectDonVi.sink;
 
   final BehaviorSubject<Node<DonViModel>?> _selectOnlyDonVi =
       BehaviorSubject<Node<DonViModel>?>();
@@ -35,6 +39,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   Stream<Node<DonViModel>?> get selectOnlyDonVi => _selectOnlyDonVi.stream;
 
   Sink<Node<DonViModel>?> get sinkSelectOnlyDonVi => _selectOnlyDonVi.sink;
+  List<Node<DonViModel>> listData = [];
 
   void getTreeDonVi(List<Node<DonViModel>> tree, {bool isDonVi = false}) {
     final data = <Node<DonViModel>>[];

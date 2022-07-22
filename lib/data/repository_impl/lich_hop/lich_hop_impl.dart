@@ -70,6 +70,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_y_kien_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/thong_ke_linh_vuc_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/ti_le_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/to_chuc_boi_don_vi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tong_phien_hop_respone.dart';
@@ -115,6 +116,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/them_y_kiem_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/co_cau_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/dashboard_thong_ke_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/statistic_by_month_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/thong_ke_linh_vuc.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_gia.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
@@ -1141,6 +1143,17 @@ class HopRepositoryImpl implements HopRepository {
         bieuQuyetId,
       ),
       (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<ThongKeLinhVucModel>>> getLichHopTheoLinhVuc(
+    String dateFrom,
+    String dateTo,
+  ) {
+    return runCatchingAsync<ThongKeLinhVucResponse, List<ThongKeLinhVucModel>>(
+      () => _hopServices.getLichHopTheoLinhVuc(dateFrom, dateTo),
+      (response) => response.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -40,13 +41,16 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
               itemBuilder: (context, index) {
                 final data = listData[index];
 
+                ///Báo cáo kết quả do ai tạo ra thì chỉ người đó mới có quyền sửa xóa
                 return BaoCaoItem(
+                  isShowEdit: isEditOrDelete(data),
+                  isShowDelete: isEditOrDelete(data),
                   statusColor: data.status.getText().color,
                   files: data.listFile,
                   status: data.status.getText().text,
                   content: data.content,
                   funcEdit: () {
-                    onEditBaoCao(context,data);
+                    onEditBaoCao(context, data);
                   },
                   funcDelete: () {
                     showDiaLog(
@@ -76,8 +80,13 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
       },
     );
   }
-  void onEditBaoCao(BuildContext context,BaoCaoModel data){
-    if(isMobile()){
+
+  bool isEditOrDelete(BaoCaoModel data) {
+    return (HiveLocal.getDataUser()?.userId ?? '') == data.canBoChuTriId;
+  }
+
+  void onEditBaoCao(BuildContext context, BaoCaoModel data) {
+    if (isMobile()) {
       showBottomSheetCustom(
         context,
         child: BaoCaoBottomSheet(
@@ -97,11 +106,10 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
         title: S.current.chinh_sua_bao_cao_ket_qua,
       ).then((value) {
         if (value is bool && value) {
-          widget.cubit.getDanhSachBaoCaoKetQua(
-              widget.cubit.idLichLamViec);
+          widget.cubit.getDanhSachBaoCaoKetQua(widget.cubit.idLichLamViec);
         }
       });
-    }else{
+    } else {
       showDiaLogTablet(
         context,
         title: S.current.bao_cao_ket_qua,
@@ -125,8 +133,7 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
         },
       ).then((value) {
         if (value is bool && value) {
-          widget.cubit.getDanhSachBaoCaoKetQua(
-              widget.cubit.idLichLamViec);
+          widget.cubit.getDanhSachBaoCaoKetQua(widget.cubit.idLichLamViec);
         }
       });
     }

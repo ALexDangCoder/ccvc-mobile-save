@@ -200,6 +200,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
               padding: const EdgeInsets.only(left: 31),
               child: Row(
                 children: [
+                  if((widget.todoModel.finishDay ?? '').isNotEmpty)
                   textUnder(
                     DateTime.parse(widget.todoModel.finishDay ?? '')
                         .toStringWithListFormat,

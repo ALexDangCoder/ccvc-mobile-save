@@ -49,7 +49,7 @@ Widget infoItem({
         ),
         Center(
           child: Text(
-            '${S.current.nam_truoc}: ${format.format(quantity)} (${getPercent(quantity, lastYearQuantity)})',
+            '${S.current.nam_truoc}: ${format.format(lastYearQuantity)} (${getPercent(quantity, lastYearQuantity)})',
             style: tokenDetailAmount(
               fontSize: 12.0.textScale(),
               color: color667793,

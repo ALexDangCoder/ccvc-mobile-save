@@ -40,6 +40,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];
+  List<Node<DonViModel>> _listNode = [];
 
   @override
   void initState() {
@@ -65,6 +66,10 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
         endDate,
         listDonVi: listDonViID,
       );
+    });
+
+    eventBus.on<ListSearchListNode>().listen((event) {
+      _listNode = event.listNode;
     });
   }
 
@@ -110,6 +115,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                             },
                             startDate: startDate,
                             endDate: endDate,
+                            listNode: _listNode,
                           ),
                         );
                       },

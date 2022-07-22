@@ -70,6 +70,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_y_kien_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/thong_ke_linh_vuc_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/ti_le_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/to_chuc_boi_don_vi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tong_phien_hop_respone.dart';
@@ -576,4 +577,10 @@ abstract class HopServices {
     @Query('lichHopId') String lichHopId,
     @Query('bieuQuyetId') String bieuQuyetId,
   );
+
+  @GET(ApiConstants.GET_LICH_HOP_THEO_LINH_VUC)
+  Future<ThongKeLinhVucResponse> getLichHopTheoLinhVuc(
+      @Query('startDate') String dateFrom,
+      @Query('endDate') String dateTo,
+      );
 }

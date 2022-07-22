@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
@@ -16,6 +17,7 @@ import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_respo
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_xin_y_kien_den_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/theo_doi_van_ban_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/thong_tin_gui_nhan_response.dart';
+import 'package:ccvc_mobile/data/response/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_vbden_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_vbdi_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_den_response.dart';
@@ -72,14 +74,17 @@ abstract class QuanLyVanBanClient {
   Future<DanhSachVBDiResponse> getDanhSachVanBanDiDashBoard(
     @Body() DanhSachVBDiRequest danhSachVBDiRequest,
   );
+
   @POST(ApiConstants.UPDATE_Y_KIEN_XU_LY)
   Future<PostFileResponse> updateComment(
     @Body() UpdateCommentRequest listComment,
   );
+
   @POST(ApiConstants.CHO_Y_KIEN)
   Future<PostFileResponse> giveComment(
     @Body() GiveCommentRequest comment,
   );
+
   @POST(ApiConstants.TRA_LOI_Y_KIEN_VAN_BAN_DEN)
   Future<PostFileResponse> relayCommentDocumentIncome(
     @Body() RelayCommentRequest relay,
@@ -88,9 +93,9 @@ abstract class QuanLyVanBanClient {
   @GET(ApiConstants.CHI_TIET_VAN_BAN_DI)
   Future<ChiTietVanBanDiDataResponse> getDataChiTietVanBanDi(
       @Path('id') String id);
+
   @GET(ApiConstants.Y_KIEN_VAN_BAN_DI)
-  Future<YKienXuLyResponse> getYKienXuLyVBDi(
-      @Path('id') String id);
+  Future<YKienXuLyResponse> getYKienXuLyVBDi(@Path('id') String id);
 
   @GET(ApiConstants.CHI_TIET_VAN_BAN_DEN)
   Future<ChiTietVanBanDenDataResponse> getDataChiTietVanBanDen(
@@ -123,13 +128,14 @@ abstract class QuanLyVanBanClient {
   @POST(ApiConstants.UPLOAD_FILE_COMMON)
   @MultiPart()
   Future<PostFileResponse> postFile(
-      @Part() List<File> path,
-      );
+    @Part() List<File> path,
+  );
 
   @GET(ApiConstants.GET_DANH_SACH_Y_KIEN)
   Future<DataDanhSachYKienXuLyResponse> getDataDanhSachYKien(
     @Query('vanBanId') String vanBanId,
   );
+
   @GET(ApiConstants.GET_LICH_SU_XIN_Y_KIEN)
   Future<LichSuXinYKienDenResponse> getLichSuXinYKien(
     @Query('Id') String vanBanId,
@@ -163,4 +169,9 @@ abstract class QuanLyVanBanClient {
   @GET(ApiConstants.LUONG_XU_LY_VAN_BAN_DEN)
   Future<LuongXuLyVanBanDenResponse> getLuongXuLyVanBanDen(
       @Query('processId') String id);
+
+  @POST(ApiConstants.BAO_CAO_THONG_KE_VAN_BAN_DON_VI)
+  Future<VanBanDonViResponse> getDataVanBanDonVi(
+    @Body() VanBanDonViRequest vanBanDonViRequest,
+  );
 }

@@ -14,6 +14,8 @@ class BaoCaoItem extends StatelessWidget {
   final List<FileModel> files;
   final Function() funcEdit;
   final Function() funcDelete;
+  final bool isShowEdit;
+  final bool isShowDelete;
 
   const BaoCaoItem({
     Key? key,
@@ -23,6 +25,8 @@ class BaoCaoItem extends StatelessWidget {
     required this.funcDelete,
     required this.statusColor,
     required this.files,
+    this.isShowEdit = false,
+    this.isShowDelete = false,
   }) : super(key: key);
 
   @override
@@ -69,21 +73,24 @@ class BaoCaoItem extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          GestureDetector(
-                            child: SvgPicture.asset(ImageAssets.ic_edit),
-                            onTap: () {
-                              funcEdit();
-                            },
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          GestureDetector(
-                            child: SvgPicture.asset(ImageAssets.ic_delete_do),
-                            onTap: () {
-                              funcDelete();
-                            },
-                          )
+                          if (isShowEdit)
+                            GestureDetector(
+                              child: SvgPicture.asset(ImageAssets.ic_edit),
+                              onTap: () {
+                                funcEdit();
+                              },
+                            ),
+                          if (isShowDelete) ...[
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            GestureDetector(
+                              child: SvgPicture.asset(ImageAssets.ic_delete_do),
+                              onTap: () {
+                                funcDelete();
+                              },
+                            )
+                          ]
                         ],
                       )
                     ],
@@ -147,7 +154,7 @@ class BaoCaoItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: files.map((e) {
                       return GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           saveFile(fileName: e.name ?? '', url: e.path ?? '');
                         },
                         child: Column(

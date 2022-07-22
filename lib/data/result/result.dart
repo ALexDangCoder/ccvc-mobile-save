@@ -37,9 +37,7 @@ Future<Result<E>> runCatchingAsync<T, E>(
   final connected = await CheckerNetwork.checkNetwork();
   if (!connected) {
     MessageConfig.show(
-      title: NoNetworkException().message,
-      messState: MessState.error,
-    );
+        title: NoNetworkException().message, messState: MessState.error);
     return Result.error(NoNetworkException());
   }
   try {

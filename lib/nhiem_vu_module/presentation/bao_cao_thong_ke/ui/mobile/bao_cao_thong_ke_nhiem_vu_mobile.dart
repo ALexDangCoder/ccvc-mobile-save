@@ -406,10 +406,8 @@ class _BaoCaoThongKeNhiemVuMobileState
                             ],
                             child: SingleChildScrollView(
                               padding: const EdgeInsets.only(
-                                left: 16,
                                 top: 16,
                                 bottom: 16,
-                                right: 16,
                               ),
                               scrollDirection: Axis.horizontal,
                               child: StreamBuilder<List<NhiemVuDonVi>>(

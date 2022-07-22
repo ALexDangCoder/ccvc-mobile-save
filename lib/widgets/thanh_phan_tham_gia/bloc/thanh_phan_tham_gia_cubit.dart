@@ -13,14 +13,16 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   DonViModel donViModel = DonViModel();
   DonViModel newCanBo = DonViModel();
 
+  List<DonViModel> listCanBoDuocChon = [];
+
   ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
   String idCanBoItem = '';
   String noiDung = '';
   final BehaviorSubject<List<DonViModel>> _listPeopleThamGia =
-      BehaviorSubject<List<DonViModel>>();
+  BehaviorSubject<List<DonViModel>>();
   final BehaviorSubject<List<DonViModel>> listCanBoThamGia =
-      BehaviorSubject<List<DonViModel>>();
+  BehaviorSubject<List<DonViModel>>();
   final BehaviorSubject<bool> isDuplicateCanBo = BehaviorSubject.seeded(false);
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
@@ -30,9 +32,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
-      BehaviorSubject<List<Node<DonViModel>>>();
+  BehaviorSubject<List<Node<DonViModel>>>();
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeCaNhan =
-      BehaviorSubject<List<Node<DonViModel>>>();
+  BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
 
@@ -43,9 +45,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   String dateStart = '';
   String dateEnd = '';
 
-  void addPeopleThamGia(
-    List<DonViModel> donViModel,
-  ) {
+  void addPeopleThamGia(List<DonViModel> donViModel,) {
     for (final vl in donViModel) {
       if (listPeople.indexWhere((element) => element.id == vl.id) == -1) {
         listPeople.add(vl);
@@ -54,11 +54,12 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     _listPeopleThamGia.sink.add(listPeople);
   }
 
-  void addPeopleThamGiaDonVi(
-    List<DonViModel> donViModel,
-  ) {
+  void addPeopleThamGiaDonVi(List<DonViModel> donViModel,) {
     final listDonVi =
-        listPeople.where((element) => element.tenCanBo.trim().isEmpty).toList();
+    listPeople.where((element) =>
+    element.tenCanBo
+        .trim()
+        .isEmpty).toList();
     for (final e in listDonVi) {
       if (donViModel.indexWhere((element) => element.id == e.id) == -1) {
         listPeople.remove(e);
@@ -67,10 +68,16 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     addPeopleThamGia(donViModel);
   }
 
-  void addCanBoThamGia(
-    List<DonViModel> donViModel,
-  ) {
+  void addCanBoThamGia(List<DonViModel> donViModel,) {
     listCanBoThamGia.sink.add(donViModel);
+  }
+
+  void xoaCanBoDuocChon(DonViModel data) {
+    for(final DonViModel e in listCanBoDuocChon) {
+      if(e.id == data.id) {
+        e.isXoa = true;
+      }
+    }
   }
 
   void addCanBoThamGiaCuCanBo() {
@@ -84,17 +91,15 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   }
 
   bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
-    for(final DonViModel e in listRoot) {
-      if(e.id == newCanBo.id) {
+    for (final DonViModel e in listRoot) {
+      if (e.id == newCanBo.id) {
         return true;
       }
     }
     return false;
   }
 
-  void xoaCanBoThamGia(
-    DonViModel donViModel,
-  ) {
+  void xoaCanBoThamGia(DonViModel donViModel,) {
     listCanBo.remove(donViModel);
     listCanBoThamGia.sink.add(listCanBo);
   }

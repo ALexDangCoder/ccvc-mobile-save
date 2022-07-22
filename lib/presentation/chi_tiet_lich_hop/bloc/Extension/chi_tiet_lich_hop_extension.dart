@@ -5,11 +5,13 @@ import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
@@ -349,11 +351,88 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isCheck;
   }
 
+  List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBo(
+    List<DonViModel> canBoDuocChon,
+    List<DonViModel> cuCanBo,
+  ) {
+    final List<CanBoDiThay> data = [];
+    data.addAll(
+      canBoDuocChon
+          .map(
+            (e) => CanBoDiThay(
+              id: e.id.isEmpty ? null : e.id,
+              donViId: e.donViId.isEmpty ? null : e.donViId,
+              canBoId: e.canBoId.isEmpty ? null : e.canBoId,
+              taskContent: e.noidung,
+              isXoa: e.isXoa,
+            ),
+          )
+          .toList(),
+    );
+    data.addAll(
+      cuCanBo
+          .map(
+            (e) => CanBoDiThay(
+              id: e.id.isEmpty ? null : e.id,
+              donViId: e.donViId.isEmpty ? null : e.donViId,
+              canBoId: e.canBoId.isEmpty ? null : e.canBoId,
+              taskContent: e.noidung,
+            ),
+          )
+          .toList(),
+    );
+
+    return data;
+  }
+
+  DonViModel? get canBoThamGia {
+    for (final DonViModel e in listTPTG) {
+      if (e.canBoId == (dataUser?.userId ?? '')) {
+        return e;
+      }
+    }
+  }
+
+  DonViModel? get donViThamGia {
+    final donViId =
+        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+
+    for (final DonViModel e in listTPTG) {
+      if (e.donViId.toUpperCase() == donViId.toUpperCase() &&
+          e.canBoId.isEmpty) {
+        return e;
+      }
+    }
+  }
+
+  Future<bool> luuCanBoDiThay({
+    required ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  }) async {
+    final donViId =
+        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+
+    final String id = listTPTG
+        .firstWhere(
+          (element) => element.donViId == donViId && element.canBoId.isEmpty,
+          orElse: () => DonViModel.empty(),
+        )
+        .id;
+    final bool isCheck = await cuCanBo(
+      canBoDiThay: mergeCanBoDuocChonVaCuCanBo(
+        cubitThanhPhanTG.listCanBoDuocChon,
+        cubitThanhPhanTG.listCanBo,
+      ),
+      id: id,
+    );
+    return isCheck;
+  }
+
   Future<bool> cuCanBo({
     required List<CanBoDiThay> canBoDiThay,
+    required String id,
   }) async {
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
-      id: idDanhSachCanBo,
+      id: id,
       lichHopId: idCuocHop,
       canBoDiThay: canBoDiThay,
     );

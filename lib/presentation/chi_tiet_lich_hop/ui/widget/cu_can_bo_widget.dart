@@ -69,19 +69,10 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
           },
           onClickRight: () async {
             widget.themDonViCubit.validateDonVi.sink.add(false);
+
             await widget.cubit
-                .cuCanBo(
-              canBoDiThay:
-                  (widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
-                      .map(
-                        (element) => CanBoDiThay(
-                          id: element.id,
-                          donViId: element.donViId,
-                          canBoId: element.canBoId,
-                          taskContent: element.noidung,
-                        ),
-                      )
-                      .toList(),
+                .luuCanBoDiThay(
+              cubitThanhPhanTG: widget.cubitThanhPhanTG,
             )
                 .then((value) {
               if (value) {

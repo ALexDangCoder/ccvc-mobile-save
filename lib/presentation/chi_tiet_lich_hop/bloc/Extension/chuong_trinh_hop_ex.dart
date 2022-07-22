@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
 
-
 ///Chương Trình họp
 extension ChuongTrinhHop on DetailMeetCalenderCubit {
   Future<void> getListPhienHop(String id) async {
@@ -33,6 +32,20 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
     result.when(
       success: (res) {
+        listTPTG = res
+            .map(
+              (e) => DonViModel(
+                id: e.id ?? '',
+                donViId: e.donViId ?? '',
+                tenDonVi: e.tenDonVi ?? '',
+                canBoId: e.canBoId ?? '',
+                noidung: e.ghiChu ?? '',
+                tenCanBo: e.tenCanBo ?? '',
+                tenCoQuan: e.tenCoQuan ?? '',
+              ),
+            )
+            .toList();
+
         final List<NguoiChutriModel> data = [];
 
         final donViId =
@@ -64,7 +77,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
               ),
             )
             .toList();
-        cubitThanhPhanTG.listCanBo.addAll(listCanBo);
+        cubitThanhPhanTG.listCanBoDuocChon = listCanBo;
         cubitThanhPhanTG.listCanBoThamGia.add(listCanBo);
       },
       error: (error) {},

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -184,6 +186,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                           cubit: createCubit,
                           child: SingleChildScrollView(
                             controller: scrollController,
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -408,9 +412,11 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                     }
                                   },
                                   idRemove: (String id) {
+                                    log('>>>>>>>>>>$id');
                                     createCubit.filesDelete.add(id);
                                   },
                                 ),
+
                                 Padding(
                                   padding: const EdgeInsets.only(
                                     bottom: 16.0,

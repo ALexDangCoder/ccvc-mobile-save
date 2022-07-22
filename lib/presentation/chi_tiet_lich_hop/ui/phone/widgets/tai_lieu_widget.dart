@@ -41,7 +41,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (!widget.cubit.isNguoiThamGia()) selectFile(),
+                  if (widget.cubit.addFilePermission()) selectFile(),
                   listFileFromApi(),
                 ],
               );
@@ -124,17 +124,14 @@ class FileFromAPIWidget extends StatelessWidget {
   final String data;
   final String? lengthFile;
   final bool canDelete;
-  const FileFromAPIWidget(
-      {Key? key,
-      required this.onTapDelete,
-      required this.data,
-      this.lengthFile,
-        this.canDelete = true,})
-      : super(key: key);
 
-
-
-
+  const FileFromAPIWidget({
+    Key? key,
+    required this.onTapDelete,
+    required this.data,
+    this.lengthFile,
+    this.canDelete = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

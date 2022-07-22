@@ -135,10 +135,10 @@ class ApiConstants {
       '/vpdt/api/MeetingSchedule/cancel?';
   static const MENU_LICH_HOP =
       '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
-  static const STATISTIC_BY_MONTH = '/vpdt/api/Statistic/statistic-by-month';
-  static const DASHBOARD_THONG_KE = '/vpdt/api/Statistic/statistics';
+  static const STATISTIC_BY_MONTH = '/vpdt/api/Statistic/statistic-by-month-v2';
+  static const DASHBOARD_THONG_KE = '/vpdt/api/Statistic/statistics-v2';
   static const CO_CAU_LICH_HOP =
-      '/vpdt/api/Statistic/statistic-by-type-of-calendar';
+      '/vpdt/api/Statistic/statistic-by-type-of-calendar-v2';
   static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list';
   static const MENU_LICH_LV = '/vpdt/api/Schedules/count-lich-don-vi';
   static const TO_CHUC_BOI_DON_VI =

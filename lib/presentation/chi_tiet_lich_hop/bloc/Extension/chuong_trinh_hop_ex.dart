@@ -1,19 +1,18 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
 
-import '../chi_tiet_lich_hop_cubit.dart';
 
 ///Chương Trình họp
 extension ChuongTrinhHop on DetailMeetCalenderCubit {
@@ -51,22 +50,22 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         listCuCanBoSubject.add(data);
 
         cubitThanhPhanTG.listCanBo.clear();
-        cubitThanhPhanTG.listCanBo.addAll(
-          data
-              .map(
-                (e) => DonViModel(
-                  id: e.id ?? '',
-                  donViId: e.donViId ?? '',
-                  tenDonVi: e.tenDonVi ?? '',
-                  canBoId: e.canBoId ?? '',
-                  noidung: e.ghiChu ?? '',
-                  tenCanBo: e.tenCanBo ?? '',
-                  tenCoQuan: e.tenCoQuan ?? '',
-                ),
-              )
-              .toList(),
-        );
-        cubitThanhPhanTG.listCanBoThamGia.sink.add(cubitThanhPhanTG.listCanBo);
+
+        final List<DonViModel> listCanBo = data
+            .map(
+              (e) => DonViModel(
+                id: e.id ?? '',
+                donViId: e.donViId ?? '',
+                tenDonVi: e.tenDonVi ?? '',
+                canBoId: e.canBoId ?? '',
+                noidung: e.ghiChu ?? '',
+                tenCanBo: e.tenCanBo ?? '',
+                tenCoQuan: e.tenCoQuan ?? '',
+              ),
+            )
+            .toList();
+        cubitThanhPhanTG.listCanBo.addAll(listCanBo);
+        cubitThanhPhanTG.listCanBoThamGia.add(listCanBo);
       },
       error: (error) {},
     );

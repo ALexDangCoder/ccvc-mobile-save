@@ -510,11 +510,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {
-    return (DateTime.parse(
-          dataModel.dateTimeTo ?? DateTime.now().toString(),
-        ).isBefore(DateTime.now())) &&
-        (nguoiTaoId(dataModel) == currentUserId ||
-            nguoiDuocMoi(dataModel) == currentUserId);
+    final validTime = DateTime.parse(
+      dataModel.dateTimeTo ?? DateTime.now().toString(),
+    ).isBefore(DateTime.now());
+    final validPerson = (dataModel.createBy?.id ?? '') == currentUserId ||
+        nguoiDuocMoi(dataModel) == currentUserId ||
+        dataModel.canBoChuTri?.id == currentUserId;
+    return validTime && validPerson;
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {

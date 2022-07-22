@@ -1,11 +1,9 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tong_so_luong_khach_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/thanh_phan_tham_gia_widget.dart';
@@ -33,6 +31,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
     super.dispose();
     widget.cubit.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,14 +51,21 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                 SizedBox(
                   height: 0.0.textScale(space: 10),
                 ),
-                ThanhPhanThamGiaWidget(
-                  isPhuongThucNhan: true,
-                  onChange: (value) {
-                    widget.cubit.addThanhPhanThamGia(value);
-                  },
-                  phuongThucNhan: (value) {
-                    widget.cubit.phuongThucNhan = value;
-                  },
+                StreamBuilder<List<CanBoModel>>(
+                  stream: widget.cubit.thanhPhanThamGia,
+                  builder: (context, snapshot) {
+                    final data  = snapshot.data ?? [];
+                    return ThanhPhanThamGiaWidget(
+                      scheduleCoperatives: data,
+                      isPhuongThucNhan: true,
+                      onChange: (value) {
+                        widget.cubit.addThanhPhanThamGia(value);
+                      },
+                      phuongThucNhan: (value) {
+                        widget.cubit.phuongThucNhan = value;
+                      },
+                    );
+                  }
                 ),
                 spaceH16,
                 TitleChildWidget(
@@ -69,7 +75,6 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                     onChange: (List<DonViModel> value) {
                       widget.cubit.addDonViPhoiHopKhac(value);
                     },
-
                   ),
                 ),
                 spaceH24,
@@ -95,7 +100,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
               },
               onClickRight: () async {
                 widget.cubit.phuongThucNhan = false;
-               await widget.cubit.themThanhPhanThamGia();
+                await widget.cubit.themThanhPhanThamGia();
                 Navigator.pop(context);
               },
             ),

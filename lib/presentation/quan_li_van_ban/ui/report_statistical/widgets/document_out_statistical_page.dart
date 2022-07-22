@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -8,13 +9,12 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/w
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_pie_chart.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_row_chart.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
-import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
-class DocumentInStatisticalPage extends StatelessWidget {
+class DocumentOutStatisticalPage extends StatelessWidget {
   final QLVBCCubit cubit;
 
-  const DocumentInStatisticalPage({Key? key, required this.cubit})
+  const DocumentOutStatisticalPage({Key? key, required this.cubit})
       : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class DocumentInStatisticalPage extends StatelessWidget {
       child: Column(
         children: [
           StreamBuilder<List<InfoItemModel>>(
-            stream: cubit.infoItemInStream,
+            stream: cubit.infoItemOutStream,
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
               return data.isEmpty
@@ -72,7 +72,7 @@ class DocumentInStatisticalPage extends StatelessWidget {
                   ),
                 ),
                 StreamBuilder<List<RowChartData>>(
-                  stream: cubit.rowChartDataInStream,
+                  stream: cubit.rowChartDataOutStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? [];
                     return DocumentByDivisionRowChart(
@@ -87,7 +87,7 @@ class DocumentInStatisticalPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: StreamBuilder<List<ChartData>>(
-              stream: cubit.pieChartDataInStream,
+              stream: cubit.pieChartDataOutStream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
                 return data.length == 2

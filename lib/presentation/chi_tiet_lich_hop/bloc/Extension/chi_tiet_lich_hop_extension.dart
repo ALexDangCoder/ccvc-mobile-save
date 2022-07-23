@@ -189,7 +189,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 
   LoaiSelectModel? _findLoaiHop(String id) {
     final loaiHopType =
-        listLoaiHop.where((element) => element.id == id).toList();
+    listLoaiHop.where((element) => element.id == id).toList();
     if (loaiHopType.isNotEmpty) {
       return loaiHopType.first;
     }
@@ -260,13 +260,14 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     );
     final listCanBo = listDataCanBo
         .map(
-          (e) => CanBoDiThay(
+          (e) =>
+          CanBoDiThay(
             id: e.id,
             donViId: e.donViId,
             canBoId: e.canBoId,
             taskContent: '',
           ),
-        )
+    )
         .toSet();
     canBoDiThay.addAll(listCanBo);
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
@@ -351,37 +352,41 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isCheck;
   }
 
-  List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBo(
-    List<DonViModel> canBoDuocChon,
-    List<DonViModel> cuCanBo,
-  ) {
+  List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBo(List<DonViModel> canBoDuocChon,
+      List<DonViModel> cuCanBo,) {
     final List<CanBoDiThay> data = [];
+    print('${data.length} ???????????');
+    print('${canBoDuocChon.length} ...........');
     data.addAll(
       canBoDuocChon
           .map(
-            (e) => CanBoDiThay(
+            (e) =>
+            CanBoDiThay(
               id: e.id.isEmpty ? null : e.id,
               donViId: e.donViId.isEmpty ? null : e.donViId,
               canBoId: e.canBoId.isEmpty ? null : e.canBoId,
               taskContent: e.noidung,
               isXoa: e.isXoa,
             ),
-          )
+      )
           .toList(),
     );
+    print('${canBoDuocChon.length} ...........');
+    print('${data.length} ???????????');
     data.addAll(
       cuCanBo
           .map(
-            (e) => CanBoDiThay(
-              id: e.id.isEmpty ? null : e.id,
+            (e) =>
+            CanBoDiThay(
+              id: null,
               donViId: e.donViId.isEmpty ? null : e.donViId,
               canBoId: e.canBoId.isEmpty ? null : e.canBoId,
               taskContent: e.noidung,
             ),
-          )
+      )
           .toList(),
     );
-
+    print('${data.length} ???????????');
     return data;
   }
 
@@ -395,7 +400,11 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 
   DonViModel? get donViThamGia {
     final donViId =
-        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+        HiveLocal
+            .getDataUser()
+            ?.userInformation
+            ?.donViTrucThuoc
+            ?.id ?? '';
 
     for (final DonViModel e in listTPTG) {
       if (e.donViId.toUpperCase() == donViId.toUpperCase() &&
@@ -409,19 +418,25 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     required ThanhPhanThamGiaCubit cubitThanhPhanTG,
   }) async {
     final donViId =
-        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+        HiveLocal
+            .getDataUser()
+            ?.userInformation
+            ?.donViTrucThuoc
+            ?.id ?? '';
 
     final String id = listTPTG
         .firstWhere(
           (element) => element.donViId == donViId && element.canBoId.isEmpty,
-          orElse: () => DonViModel.empty(),
-        )
+      orElse: () => DonViModel.empty(),
+    )
         .id;
+    final a = mergeCanBoDuocChonVaCuCanBo(
+      cubitThanhPhanTG.listCanBoDuocChon,
+      cubitThanhPhanTG.listCanBo,
+    );
+
     final bool isCheck = await cuCanBo(
-      canBoDiThay: mergeCanBoDuocChonVaCuCanBo(
-        cubitThanhPhanTG.listCanBoDuocChon,
-        cubitThanhPhanTG.listCanBo,
-      ),
+      canBoDiThay: a,
       id: id,
     );
     return isCheck;
@@ -465,9 +480,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isCheck;
   }
 
-  void xoaKhachMoiThamGia(
-    DonViModel donViModel,
-  ) {
+  void xoaKhachMoiThamGia(DonViModel donViModel,) {
     listDataCanBo.remove(donViModel);
     listDonViModel.sink.add(listDataCanBo);
   }

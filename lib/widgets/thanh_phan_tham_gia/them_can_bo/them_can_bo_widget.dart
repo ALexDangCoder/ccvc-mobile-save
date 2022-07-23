@@ -30,14 +30,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final ThanhPhanThamGiaCubit cubit;
-  final List<CanBoModel > listCaNhanRemove;
+  final List<CanBoModel> listCaNhanRemove;
   final bool needCheckTrung;
 
   const ThemCanBoWidget({
     Key? key,
     required this.onChange,
     required this.cubit,
-    this.listCaNhanRemove = const  [],
+    this.listCaNhanRemove = const [],
     this.needCheckTrung = false,
   }) : super(key: key);
 
@@ -50,11 +50,10 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
   final ThemDonViCubit themDonViCubit = ThemDonViCubit();
   final textController = TextEditingController();
 
-
-@override
+  @override
   void didUpdateWidget(covariant ThemCanBoWidget oldWidget) {
-  themCanBoCubit.listCaNhanRemove.clear();
-  themCanBoCubit.listCaNhanRemove.addAll(widget.listCaNhanRemove);
+    themCanBoCubit.listCaNhanRemove.clear();
+    themCanBoCubit.listCaNhanRemove.addAll(widget.listCaNhanRemove);
     super.didUpdateWidget(oldWidget);
   }
 
@@ -157,7 +156,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
       }
     }
     widget.cubit.getTreeCaNhan.listen((event) {
-      widget.themDonViCubit.getTreeDonVi(event );
+      widget.themDonViCubit.getTreeDonVi(event);
     });
     widget.themCanBoCubit.listSelectCanBo = listSelectCanBo;
   }
@@ -191,6 +190,15 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                               widget.themCanBoCubit.getCanBo(value);
                               widget.themCanBoCubit.titleCanBo.sink.add('');
                               widget.themDonViCubit.listDonVi.add(value);
+                              widget.themDonViCubit.listDonVi.last.tenCoQuan =
+                                  value.name;
+                              widget.themDonViCubit.listDonVi.last.donViId =
+                                  value.id;
+
+                              widget.cubit.newCanBo = value;
+                              widget.cubit.newCanBo.tenCoQuan = value.tenCoQuan;
+                              widget.cubit.newCanBo.id = value.id;
+
                               if (widget.themDonViCubit.listDonVi.isEmpty) {
                                 widget.themDonViCubit.validateDonVi.sink
                                     .add(true);
@@ -219,6 +227,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                   themCanBoCubit: widget.themCanBoCubit,
                   onChangeCheckbox: (value) {
                     widget.cubit.newCanBo = value;
+                    widget.cubit.newCanBo.tenCoQuan = value.tenDonVi;
                   },
                 )
               ],

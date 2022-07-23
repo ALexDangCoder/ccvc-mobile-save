@@ -25,10 +25,17 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> getDanhSachCuCanBoHop(
+  Future<void> initDanhSachCuCanBo(
     ThanhPhanThamGiaCubit cubitThanhPhanTG,
   ) async {
     showLoading();
+    await getDanhSachCuCanBoHop(cubitThanhPhanTG);
+    showContent();
+  }
+
+  Future<void> getDanhSachCuCanBoHop(
+    ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  ) async {
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
     result.when(
       success: (res) {
@@ -55,34 +62,50 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
           (element) => element.donViId == donViId && element.canBoId == null,
           orElse: () => NguoiChutriModel(),
         );
-        data.add(chuTri);
 
-        /// cu can bo
-        data.addAll(res.where((element) => element.parentId == chuTri.id));
+        if ((chuTri.id ?? '').isEmpty) {
+          cubitThanhPhanTG.listCanBoThamGia.add([]);
+        } else {
+          data.add(chuTri);
 
-        listCuCanBoSubject.add(data);
+          /// cu can bo
+          data.addAll(res.where((element) => element.parentId == chuTri.id));
 
-        cubitThanhPhanTG.listCanBo.clear();
+          listCuCanBoSubject.add(data);
 
-        final List<DonViModel> listCanBo = data
-            .map(
-              (e) => DonViModel(
-                id: e.id ?? '',
-                donViId: e.donViId ?? '',
-                tenDonVi: e.tenDonVi ?? '',
-                canBoId: e.canBoId ?? '',
-                noidung: e.ghiChu ?? '',
-                tenCanBo: e.tenCanBo ?? '',
-                tenCoQuan: e.tenCoQuan ?? '',
-              ),
-            )
-            .toList();
-        cubitThanhPhanTG.listCanBoDuocChon = listCanBo;
-        cubitThanhPhanTG.listCanBoThamGia.add(listCanBo);
+          cubitThanhPhanTG.listCanBo.clear();
+
+          final List<DonViModel> listCanBo = data
+              .map(
+                (e) => DonViModel(
+                  id: e.id ?? '',
+                  donViId: e.donViId ?? '',
+                  tenDonVi: e.tenDonVi ?? '',
+                  canBoId: e.canBoId ?? '',
+                  noidung: e.ghiChu ?? '',
+                  tenCanBo: e.tenCanBo ?? '',
+                  tenCoQuan: e.tenCoQuan ?? '',
+                ),
+              )
+              .toList();
+          cubitThanhPhanTG.listCanBoDuocChon = data
+              .map(
+                (e) => DonViModel(
+                  id: e.id ?? '',
+                  donViId: e.donViId ?? '',
+                  tenDonVi: e.tenDonVi ?? '',
+                  canBoId: e.canBoId ?? '',
+                  noidung: e.ghiChu ?? '',
+                  tenCanBo: e.tenCanBo ?? '',
+                  tenCoQuan: e.tenCoQuan ?? '',
+                ),
+              )
+              .toList();
+          cubitThanhPhanTG.listCanBoThamGia.add(listCanBo);
+        }
       },
       error: (error) {},
     );
-    showContent();
   }
 
   Future<void> getDanhSachCanBoHop(String id) async {

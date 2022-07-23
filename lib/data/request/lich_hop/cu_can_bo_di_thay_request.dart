@@ -36,22 +36,17 @@ class CanBoDiThay {
     this.isXoa,
   });
 
-  Map<String, dynamic> toJsonCanBoCoSan() {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['donViId'] = donViId;
     data['canBoId'] = canBoId;
-    data['taskContent'] = taskContent;
-    data['isXoa'] = isXoa;
-    return data;
-  }
-
-  Map<String, dynamic> toJsonCanBoKhongCoSan() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['donViId'] = donViId;
-    data['canBoId'] = canBoId;
-    data['taskContent'] = taskContent;
+    if(taskContent != null) {
+      data['taskContent'] = taskContent;
+    }
+    if(isXoa != null) {
+      data['isXoa'] = isXoa;
+    }
     return data;
   }
 }

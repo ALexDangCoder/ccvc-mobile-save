@@ -287,7 +287,8 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                     final result = data[index];
                                     return Padding(
                                       padding: EdgeInsets.only(
-                                          top: index == 0 ? 0 : 16),
+                                        top: index == 0 ? 0 : 16,
+                                      ),
                                       child: CanBoWidget(
                                         onCheckBox: (value) async {
                                           if (value && widget.needCheckTrung) {
@@ -306,9 +307,11 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                                   context,
                                                   title: S.current.lich_trung,
                                                   textContent: S.current
-                                                      .ban_co_muon_tiep_tuc_khong,
+                                                      .ban_co_muon_tiep_tuc_khong
+                                                  ,
                                                   icon: ImageAssets.svgAssets(
-                                                      ImageAssets.ic_trung_hop),
+                                                    ImageAssets.ic_trung_hop,
+                                                  ),
                                                   btnRightTxt: S.current.dong_y,
                                                   btnLeftTxt: S.current.khong,
                                                   isCenterTitle: true,
@@ -333,9 +336,10 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                             return;
                                           }
                                           if (widget.cubit.listPeople
-                                                  .indexWhere((element) =>
-                                                      element.id ==
-                                                      result.id) ==
+                                                  .indexWhere(
+                                                (element) =>
+                                                    element.id == result.id,
+                                              ) ==
                                               -1) {
                                             widget.themCanBoCubit.selectCanBo(
                                               result,

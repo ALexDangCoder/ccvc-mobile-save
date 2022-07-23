@@ -237,10 +237,10 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return nguoiDaThamGia.isNotEmpty;
   }
 
-  CanBoThamGiaStr? caNhanTrongDsThamDu (){
+  CanBoThamGiaStr? caNhanTrongDsThamDu() {
     final currentUser = thamGia().where(
-          (element) =>
-      (element.CanBoId ?? '').toLowerCase() ==
+      (element) =>
+          (element.CanBoId ?? '').toLowerCase() ==
           (HiveLocal.getDataUser()?.userId ?? ''),
     );
     return currentUser.isNotEmpty ? currentUser.first : null;
@@ -249,10 +249,11 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   void initDataButton() {
     listButton.clear();
     scheduleCoperatives = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
-    final thuKy  = isThuKy();
-    final chuTri  = activeChuTri();
-    final nguoiTao  = isNguoiTao();
+    final thuKy = isThuKy();
+    final chuTri = activeChuTri();
+    final nguoiTao = isNguoiTao();
     final thamDu = classThamDu();
+    final caNhanThamDu = caNhanTrongDsThamDu();
 
     ///check quyen sua lich
     if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
@@ -296,7 +297,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       final isDonVi = (e.CanBoId ?? '').isEmpty;
       final chungDonVi = (e.donViId ?? '').toLowerCase() ==
           (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
-      return isDonVi && chungDonVi ;
+      return isDonVi && chungDonVi;
     });
 
     ///check quyen button cu can bo
@@ -323,7 +324,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     if (chuTri && !trangThaiHuy()) {
       listButton.add(PERMISSION_DETAIL.PHAN_CONG_THU_KY);
     }
-    caNhanTrongDsThamDu();
+
     ///check quyen cu can bo di thay
     if (!isLichHuy() &&
         HiveLocal.checkPermissionApp(
@@ -332,8 +333,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         ) &&
         !chuTri &&
         !thuKy &&
-        caNhanTrongDsThamDu()?.trangThai != ThanhPhanThamGiaStatus.THU_HOI
-    ) {
+        caNhanThamDu != null &&
+        caNhanThamDu.trangThai != ThanhPhanThamGiaStatus.THU_HOI) {
       listButton.add(PERMISSION_DETAIL.CU_CAN_BO_DI_THAY);
     }
 
@@ -726,6 +727,22 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       return true;
     }
     if (getKetLuanHopModel.trangThai == TrangThai.DA_DUYET) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isTaoHo() {
+    final isChutri = isChuTri();
+    final isThamGia = caNhanTrongDsThamDu() != null;
+    if (isChutri || isThamGia) {
+      return false;
+    }
+    return true;
+  }
+
+  bool addFilePermission() {
+    if (isChuTri() || isThuKy() || isNguoiTao()) {
       return true;
     }
     return false;

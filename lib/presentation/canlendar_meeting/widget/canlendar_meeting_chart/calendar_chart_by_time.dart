@@ -31,7 +31,7 @@ class ChartByTimeWidget extends StatelessWidget {
               controller: _scrollController,
               child: Container(
                 padding: const EdgeInsets.only(right: 30),
-                width: 725,
+                width: 700,
                 child: SfCartesianChart(
                   plotAreaBorderWidth: 0,
                   primaryXAxis: NumericAxis(

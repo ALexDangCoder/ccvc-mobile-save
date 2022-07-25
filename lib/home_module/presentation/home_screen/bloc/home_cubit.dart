@@ -1558,7 +1558,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
             break;
           }
         }
-        _getListLichLamViec.sink.add(listResult);
+        _getListLichLamViec.sink.add(listResult.reversed.toList());
       },
       error: (err) {},
     );

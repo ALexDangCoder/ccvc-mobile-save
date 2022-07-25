@@ -54,6 +54,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
     ngayKetThuc.text = widget.phienHopModel.thoiGianKetThuc ?? '';
     noiDung.text = widget.phienHopModel.noiDung ?? '';
     widget.cubit.chonNgay = widget.phienHopModel.thoiGianBatDau ?? '';
+    widget.cubit.idPerson = widget.phienHopModel.hoTen ?? '';
   }
 
   @override
@@ -151,6 +152,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   return InputInfoUserWidget(
                     title: S.current.nguoi_chu_tri,
                     child: DropDownSearch(
+                      initSelected: widget.phienHopModel.hoTen ?? '',
                       title: S.current.nguoi_chu_tri,
                       hintText: S.current.chon_nguoi_chu_tri,
                       onChange: (value) {

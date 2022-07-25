@@ -67,7 +67,6 @@ abstract class DiemDanhService {
   );
 
   @POST(ApiConstants.POST_FILE_KHUON_MAT)
-  @MultiPart()
   Future<PostFileKhuonMatResponse> postFileKhuonMat(
     @Query('entityId') String entityId,
     @Query('entityName') String entityName,

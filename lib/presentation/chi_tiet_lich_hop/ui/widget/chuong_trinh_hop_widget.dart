@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_phien_hop.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/sua_phien_hop.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/them_phien_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -400,21 +400,19 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        showBottomSheetCustom(
+                        showDiaLogTablet(
                           context,
-                          child: Container(
-                            constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.8,
-                            ),
-                            child: SuaPhienHopScreen(
-                              id: listPhienHopModel.id ?? '',
-                              cubit: widget.cubit,
-                              phienHopModel: listPhienHopModel,
-                              lichHopId: id,
-                            ),
-                          ),
                           title: S.current.sua_phien_hop,
+                          child: SuaPhienHopScreen(
+                            id: listPhienHopModel.id ?? '',
+                            cubit: widget.cubit,
+                            phienHopModel: listPhienHopModel,
+                            lichHopId: id,
+                          ),
+                          isBottomShow: false,
+                          funcBtnOk: () {
+                            Navigator.pop(context);
+                          },
                         ).then((value) {
                           if (value == true) {
                             widget.cubit.callApiChuongTrinhHop();

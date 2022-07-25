@@ -214,12 +214,13 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
   Future<void> loadData() async {
-    final queue = Queue(parallel: 5);
+    final queue = Queue(parallel: 6);
     unawaited(queue.add(() => _getLinhVuc()));
     unawaited(queue.add(() => _dataTypeCalendar()));
     unawaited(queue.add(() => _getLeader()));
     unawaited(queue.add(() => getDataProvince()));
     unawaited(queue.add(() => getCountry()));
+    unawaited(queue.add(() => getTimeConfig()));
     await queue.onComplete;
     showContent();
     queue.dispose();
@@ -643,5 +644,23 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
 
   void closeDialog() {
     _showDialogSetting.add(null);
+  }
+
+  final timeConfigSubject = BehaviorSubject<Map<String, String>>();
+
+  Future<void> getTimeConfig() async {
+    final result = await _workCal.getConfigTime();
+    result.when(
+      success: (res) {
+        final timeStartConfigSystem = res.timeStart ?? '00:00';
+        final timeEndConfigSystem = res.timeEnd ?? '00:00';
+        timeConfigSubject.sink.add({
+          'timeStart': timeStartConfigSystem,
+          'timeEnd': timeEndConfigSystem,
+        });
+      },
+      error: (error) {},
+    );
+    showContent();
   }
 }

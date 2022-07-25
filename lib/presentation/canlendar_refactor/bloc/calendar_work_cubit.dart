@@ -206,11 +206,22 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
             getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
         final currentTimeTo =
             getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
+        final subTimeCurrent = currentTimeTo - currentTimeFrom;
         for (final element in list) {
-          final startTime =
+          final startTimeCompare =
               getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
-          if (startTime >= currentTimeFrom &&
-              startTime < currentTimeTo &&
+          final endTimeCompare =
+              getDate(element.dateTimeTo ?? '').millisecondsSinceEpoch;
+          final listStartEndTime = [
+            currentTimeFrom,
+            currentTimeTo,
+            startTimeCompare,
+            endTimeCompare
+          ];
+          listStartEndTime.sort();
+          final subTimeCompare = endTimeCompare - startTimeCompare;
+          if ((listStartEndTime[0] - listStartEndTime[3]).abs() <
+                  (subTimeCompare + subTimeCurrent) &&
               item.id != element.id) {
             element.isTrung = true;
             item.isTrung = true;
@@ -218,7 +229,6 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
         }
       }
     }
-
   }
 
   DateTime getDate(String time) =>

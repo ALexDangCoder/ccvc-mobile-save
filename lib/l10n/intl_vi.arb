@@ -428,7 +428,7 @@
   "ung_dung_chi_dao_dieu_hanh": "Ứng dụng chỉ đạo điều hành",
   "he_thong_quan_ly_van_ban": "Hệ thống quản lý văn bản",
   "danh_sach_y_kien_nguoi_Dan": "Danh sách ý kiến người dân",
-  "chinh_sua_tag": "Chỉnh sửa tag",
+  "chinh_sua_tag": "Chỉnh sửa tags",
   "them_tag": "Thêm tag",
   "tu_choi": "Từ chối",
   "luu_lai": "Lưu lại ",
@@ -1333,6 +1333,8 @@
   "tinh_hinh_xu_ly_van_ban_den": "Tình hình xử lý văn bản đến",
   "thong_ke_van_ban_den": "Thống kê văn bản đến",
   "tuy_chinh": "Tùy chỉnh",
+  "khong_co_du_lieu_hien_thi": "Không có dữ liệu hiển thị!",
+  "nhap_tag": "Nhập tag",
   "can_bo_nay_da_ton_tai": "Cán bộ này đã tồn tại",
   "validata_phien_hop": "Thời gian phiên họp phải nằm trong khoảng thời gian họp"
 }

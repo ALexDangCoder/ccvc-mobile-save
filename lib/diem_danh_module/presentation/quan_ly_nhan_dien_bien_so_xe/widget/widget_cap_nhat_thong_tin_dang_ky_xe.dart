@@ -104,7 +104,9 @@ class _WidgetCapNhatThongTinDangKyXeState
                                   widget.cubit.fileItemBienSoXe.add(image);
                                 }
                               },
-                              removeImage: () {},
+                              removeImage: () {
+                                widget.cubit.fileItemBienSoXe.clear();
+                              },
                               isTao: false,
                             ),
                           ],

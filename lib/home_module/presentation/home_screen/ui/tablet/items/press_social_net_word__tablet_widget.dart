@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tablet/tabbar_newspaper_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      isShowCaNhan: true,
       onTapTitle: (){
         Navigator.push(
           context,
@@ -115,6 +117,13 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
               type: widget.homeItemType,
               listSelectKey: [
                 DialogData(
+                    key: [
+                      SelectKey.HOM_NAY,
+                      SelectKey.TUAN_NAY,
+                      SelectKey.THANG_NAY,
+                      SelectKey.NAM_NAY,
+                      SelectKey.TUY_CHON,
+                    ],
                     onSelect: (value, startDate, endDate) {
                       _xaHoiCubit.selectDate(
                         selectKey: value,
@@ -125,10 +134,10 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                     startDate: _xaHoiCubit.startDate,
                     endDate: _xaHoiCubit.endDate,
                     title: S.current.time,
-                    initValue: _xaHoiCubit.selectKeyTime)
+                    initValue: _xaHoiCubit.selectKeyTime,)
               ],
             );
-          }),
+          },),
       padding: EdgeInsets.zero,
       child: LoadingOnly(
         stream: _xaHoiCubit.stateStream,
@@ -147,9 +156,17 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
               builder: (context, snapshot) {
                 final data = snapshot.data ?? <PressNetWorkModel>[];
                 if (data.isEmpty) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 100),
-                    child: NodataWidget(),
+                  return  Padding(
+                    padding:const EdgeInsets.symmetric(vertical: 100),
+                    child: Center(
+                      child: Text(
+                        S.current.khong_co_du_lieu_hien_thi,
+                        style: textNormal(
+                          titleColor,
+                          14.0.textScale(),
+                        ),
+                      ),
+                    ),
                   );
                 }
                 return ScrollBarWidget(
@@ -389,13 +406,8 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       builder: (context, snapshot) {
         final data = snapshot.data ?? false;
         return data
-            ? Container(
+            ? SizedBox(
                 width: 97,
-                decoration: BoxDecoration(
-                  color: textDefault.withOpacity(0.1),
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 6),
                 child: TextField(
                   style: textNormal(linkColor, 12.0.textScale()),
                   onSubmitted: (value) {
@@ -406,20 +418,12 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                   ],
                   decoration: InputDecoration(
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                        const EdgeInsets.symmetric(vertical: 6),
                     filled: true,
                     isDense: false,
                     hintText: S.current.them_tag,
                     hintStyle: textNormal(textBodyTime, 12.0.textScale()),
                     fillColor: Colors.transparent,
-                    prefixIconConstraints: BoxConstraints(
-                      maxWidth: 12.0.textScale(),
-                      maxHeight: 20,
-                    ),
-                    prefixIcon: Text(
-                      '#',
-                      style: textNormal(textBodyTime, 12.0.textScale()),
-                    ),
                     border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.all(Radius.circular(8)),

@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/type_state_diem_danh.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,11 +22,11 @@ class ViewDayCalendarWidget extends StatelessWidget {
 
   String get getStringDate {
     if (timeIn.isEmpty && timeOut.isNotEmpty) {
-      return '??:??-$timeOut';
+      return '??:??-${timeOut.getTime}';
     }
 
     if (timeOut.isEmpty && timeIn.isNotEmpty) {
-      return '$timeIn-??:??';
+      return '${timeIn.getTime}-??:??';
     }
 
     if (timeIn.isEmpty && timeOut.isEmpty) {
@@ -33,18 +34,23 @@ class ViewDayCalendarWidget extends StatelessWidget {
     }
 
     if (timeIn.isNotEmpty && timeOut.isNotEmpty) {
-      return '$timeIn:$timeOut';
+      return '${timeIn.getTime}-${timeOut.getTime}';
     }
 
-    return '??-??:??-??';
+    return '??:??-??:??';
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (dayWage == 0.0)
-          SvgPicture.asset(state.getIcon)
+          SvgPicture.asset(
+            state.getIcon,
+            height: 12,
+            width: 12,
+          )
         else
           dayWageWidget(),
         spaceH10,
@@ -66,7 +72,8 @@ class ViewDayCalendarWidget extends StatelessWidget {
               fontSize: 9,
             ),
           ),
-        )
+        ),
+        spaceH6,
       ],
     );
   }
@@ -83,8 +90,26 @@ class ViewDayCalendarWidget extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        spaceW5,
-        SvgPicture.asset(ImageAssets.icDiLam),
+        spaceW2,
+        SvgPicture.asset(
+          ImageAssets.icDiLam,
+          width: 10,
+          height: 10,
+        ),
+        if (state != TypeStateDiemDanh.DI_LAM)
+          Row(
+            children: [
+              spaceW6,
+
+              SvgPicture.asset(
+                state.getIcon,
+                height: 12,
+                width: 12,
+              ),
+            ],
+          )
+        else
+          Container(),
       ],
     );
   }

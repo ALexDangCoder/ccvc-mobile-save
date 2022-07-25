@@ -73,7 +73,9 @@ extension FormatAddressConfirm on String {
   }
 
   String get getTime {
-    final DateTime date = convertStringToDate();
+    final DateTime date = convertStringToDate(
+      formatPattern: 'yyyy-MM-dd hh:mm:ss',
+    );
 
     return '${date.hour}:${date.minute}';
   }

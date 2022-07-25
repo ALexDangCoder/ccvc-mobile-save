@@ -14,7 +14,7 @@ import 'package:queue/queue.dart';
 
 extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
   Future<void> getDataDayWage({required DateTime dateTime}) async {
-    currentTime = DateTime (dateTime.year, dateTime.month);
+    currentTime = DateTime(dateTime.year, dateTime.month);
     final Queue queue = Queue(parallel: 2);
     showLoading();
     unawaited(queue.add(() => postDiemDanhThongKe(dateTime)));
@@ -94,6 +94,28 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     );
   }
 
+  bool isEndWeek(BangDiemDanhCaNhanModel model) {
+    final date = DateTime.parse(
+      timeFormat(
+        model.date ?? '',
+        DateTimeFormat.DAY_MONTH_YEAR,
+        DateTimeFormat.FORMAT_REQUEST,
+      ),
+    );
+
+    ///nếu cuối tuần mà vẫn đi làm thì hiển thị còn nếu như không đi làm thì không hiển thị
+    if ((date.weekday == WeekDay.SATURDAY || date.weekday == WeekDay.SUNDAY) &&
+        ((model.timeIn ?? '').isNotEmpty || (model.timeOut ?? '').isNotEmpty)) {
+      return false;
+    }
+
+    if (date.weekday == WeekDay.SATURDAY || date.weekday == WeekDay.SUNDAY) {
+      return true;
+    }
+
+    return false;
+  }
+
   List<AppointmentWithDuplicate> toDataFCalenderSource() {
     final List<AppointmentWithDuplicate> appointments = [];
     if ((listBangDiemDanh.valueOrNull ?? []).isNotEmpty) {
@@ -105,7 +127,7 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
             DateTimeFormat.FORMAT_REQUEST,
           ),
         );
-        return dataTime.month == currentTime.month;
+        return dataTime.month == currentTime.month && !isEndWeek(element);
       });
       for (final BangDiemDanhCaNhanModel e in tmpList) {
         appointments.add(
@@ -144,4 +166,14 @@ class Type {
   static const String WORKING = 'working';
   static const String HOLIDAY = 'holiday';
   static const String OFFWORK = 'off-work';
+}
+
+class WeekDay {
+  static const int MONDAY = 1;
+  static const int TUESDAY = 2;
+  static const int WEDNESDAY = 3;
+  static const int THURSDAY = 4;
+  static const int FRIDAY = 5;
+  static const int SATURDAY = 6;
+  static const int SUNDAY = 7;
 }

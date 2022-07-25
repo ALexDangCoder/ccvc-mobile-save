@@ -77,12 +77,12 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
   }
 
   void handleButtonSaveClick() {
-    // Thời gian bắt đầu bieu quyet:
+    // Thời gian bắt đầu phiên họp:
     final dateTimeStart = '$thoiGianHop $timeStart'.convertStringToDate(
       formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
     );
 
-    //Thời gian kết thúc bieu quyet:
+    //Thời gian kết thúc phiên họp:
     final dateTimeEnd = '$thoiGianHop $timeEnd'.convertStringToDate(
       formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
     );
@@ -188,42 +188,39 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 ),
               ),
               spaceH20,
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: SizedBox(
-                  child: StreamBuilder<bool>(
-                    stream: widget.cubit.isValidateTimer,
-                    builder: (context, snapshot) {
-                      return ShowRequied(
-                        isShow: snapshot.data ?? true,
-                        textShow: S.current.validate_bieu_quyet,
-                        child: BaseChooseTimerWidget(
-                          key: _keyBaseTime,
-                          timeBatDau: timeStart.getTimeData(
-                            timeReturnParseFail: TimerData(
-                              hour: DateTime.now().hour,
-                              minutes: DateTime.now().minute,
-                            ),
+              SizedBox(
+                child: StreamBuilder<bool>(
+                  stream: widget.cubit.isValidateTimer,
+                  builder: (context, snapshot) {
+                    return ShowRequied(
+                      isShow: snapshot.data ?? true,
+                      textShow: S.current.validata_phien_hop,
+                      child: BaseChooseTimerWidget(
+                        key: _keyBaseTime,
+                        timeBatDau: timeStart.getTimeData(
+                          timeReturnParseFail: TimerData(
+                            hour: DateTime.now().hour,
+                            minutes: DateTime.now().minute,
                           ),
-                          isCheckRemoveDidUpdate: true,
-                          timeKetThuc: timeEnd.getTimeData(
-                            timeReturnParseFail: TimerData(
-                              hour: DateTime.now().hour,
-                              minutes: DateTime.now().minute,
-                            ),
-                          ),
-                          onChange: (start, end) {
-                            timeStart = start.timerToString;
-                            timeEnd = end.timerToString;
-                            handleButtonSaveClick();
-                          },
-                          validator: (timeBegin, timerEn) {
-                            return timeBegin.equalTime(timerEn);
-                          },
                         ),
-                      );
-                    },
-                  ),
+                        isCheckRemoveDidUpdate: true,
+                        timeKetThuc: timeEnd.getTimeData(
+                          timeReturnParseFail: TimerData(
+                            hour: DateTime.now().hour,
+                            minutes: DateTime.now().minute,
+                          ),
+                        ),
+                        onChange: (start, end) {
+                          timeStart = start.timerToString;
+                          timeEnd = end.timerToString;
+                          handleButtonSaveClick();
+                        },
+                        validator: (timeBegin, timerEn) {
+                          return timeBegin.equalTime(timerEn);
+                        },
+                      ),
+                    );
+                  },
                 ),
               ),
               StreamBuilder<List<NguoiChutriModel>>(

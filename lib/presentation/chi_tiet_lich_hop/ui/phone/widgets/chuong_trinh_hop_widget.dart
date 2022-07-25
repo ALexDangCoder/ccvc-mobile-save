@@ -400,21 +400,19 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        showBottomSheetCustom(
+                        showDiaLogTablet(
                           context,
-                          child: Container(
-                            constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.8,
-                            ),
-                            child: SuaPhienHopScreen(
-                              id: listPhienHopModel.id ?? '',
-                              cubit: widget.cubit,
-                              phienHopModel: listPhienHopModel,
-                              lichHopId: id,
-                            ),
-                          ),
                           title: S.current.sua_phien_hop,
+                          child: SuaPhienHopScreen(
+                            id: listPhienHopModel.id ?? '',
+                            cubit: widget.cubit,
+                            phienHopModel: listPhienHopModel,
+                            lichHopId: id,
+                          ),
+                          isBottomShow: false,
+                          funcBtnOk: () {
+                            Navigator.pop(context);
+                          },
                         ).then((value) {
                           if (value == true) {
                             widget.cubit.callApiChuongTrinhHop();

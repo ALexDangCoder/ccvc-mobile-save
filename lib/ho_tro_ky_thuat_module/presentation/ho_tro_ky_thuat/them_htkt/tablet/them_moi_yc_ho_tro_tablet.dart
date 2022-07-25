@@ -171,8 +171,8 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                 textField(
                                   isHightLight: true,
                                   maxLine: 3,
-                                  title: S.current.nhap_mo_ta,
-                                  hintText: S.current.nhap_mo_ta,
+                                  title: S.current.mo_ta_su_co,
+                                  hintText: S.current.nhap_mo_ta_su_co,
                                   onChange: (value) {
                                     widget.cubit.addTaskHTKTRequest.description = value;
                                   },
@@ -225,6 +225,7 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                 // IssueDropDown(cubit: widget.cubit),
                                 spaceH16,
                                 TaiLieuWidget(
+                                  isHaveExpanded: true,
                                   idRemove: (String id) {},
                                   onChange: (files, value) {
                                     widget.cubit.addTaskHTKTRequest.fileUpload = files;

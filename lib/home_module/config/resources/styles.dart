@@ -73,3 +73,17 @@ TextStyle titleAppbar({Color color = titleColor, double fontSize = 18}) {
     fontStyle: FontStyle.normal,
   );
 }
+
+TextStyle textItalic({
+  Color color = titleColor,
+  double fontSize = 14,
+  FontWeight fontWeight = FontWeight.w400,
+  FontStyle style = FontStyle.italic,
+}) {
+  return GoogleFonts.roboto(
+    color: color,
+    fontWeight: fontWeight,
+    fontSize: fontSize,
+    fontStyle: style,
+  );
+}

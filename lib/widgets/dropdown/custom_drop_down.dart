@@ -133,8 +133,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   ),
                 ),
                 Positioned(
-                  right: 10,
-                  top: 15,
+                  right: 16,
+                  top: 20,
                   child: SvgPicture.asset(
                     ImageAssets.icEditInfor,
                   ),

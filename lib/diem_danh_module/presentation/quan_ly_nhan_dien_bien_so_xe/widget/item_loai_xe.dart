@@ -75,12 +75,18 @@ class ItemLoaiXe extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                Text(
-                  titleBienKiemSoat,
-                  style: textNormalCustom(
-                    color: color667793,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
+                spaceW16,
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      titleBienKiemSoat,
+                      style: textNormalCustom(
+                        color: color667793,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                 ),
               ],

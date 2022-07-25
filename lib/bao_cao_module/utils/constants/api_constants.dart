@@ -13,6 +13,7 @@ class ApiConstants {
   static const GET_LIST_REPORT_FAVORITE = '/htcs/api/Report/like-list';
   static const CREATE_NEW_USER = '/htcs/api/User/create';
   static const SHARE_REPORT = '/htcs/api/User/share-many';
+  static const SHARE_REPORT_HTCS = '/api/User/share-many';
   static const GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP = '/htcs/api/user/m-search';
   static const REPORT_DETAIL = '/htcs/api/Report';
   static const GET_USER_PAGING = '/api/users/get-paging';

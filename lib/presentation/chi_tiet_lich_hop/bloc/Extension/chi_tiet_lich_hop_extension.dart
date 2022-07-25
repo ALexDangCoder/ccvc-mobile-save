@@ -433,7 +433,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     ),
       id: id,
     );
-    return isCheck;
+    return isCheckCallApiCuCanBo;
   }
 
   Future<bool> cuCanBo({

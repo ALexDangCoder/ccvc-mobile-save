@@ -48,7 +48,7 @@ class _CuCanBoDiThayLichLamViecWidgetState
     widget.cubitThanhPhanTG.isDuplicateCanBo.add(false);
     widget.themCanBoCubit.titleCanBo.sink.add('');
     widget.themDonViCubit.validateDonVi.sink.add(false);
-    widget.cubit.getDanhSachCuCanBoDiThay();
+    widget.cubit.getDanhSachCuCanBoDiThay(widget.cubitThanhPhanTG);
     widget.themDonViCubit.themDonViSubject.sink.add(true);
     widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
@@ -222,8 +222,10 @@ class _CuCanBoDiThayLichLamViecWidgetState
                           cubit: widget.cubitThanhPhanTG,
                           donVi: data[index],
                           onDelete: () {
-                            widget.cubitThanhPhanTG
-                                .xoaCanBoThamGia(data[index]);
+
+                            widget.cubitThanhPhanTG.xoaCanBoThamGiaCuCanBo(
+                                data[index],
+                                widget.cubitThanhPhanTG.listCanBoDuocChon);
                             widget.themCanBoCubit.titleCanBo.sink.add('');
                             widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
                             widget.themDonViCubit.themDonViSubject.sink

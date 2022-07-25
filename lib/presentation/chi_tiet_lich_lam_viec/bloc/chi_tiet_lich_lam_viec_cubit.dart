@@ -455,7 +455,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     );
     ShowLoadingScreen.dismiss();
   }
-  Future<void> getDanhSachCuCanBoDiThay() async {
+
+  Future<void> getDanhSachCuCanBoDiThay(
+    ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  ) async {
     final rs = await dataRepo.getOfficerJoin(idLichLamViec);
     rs.when(
       success: (data) {
@@ -464,55 +467,56 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         final idCuCanBo = data
             .firstWhere(
               (element) => element.donViId == donViId,
-          orElse: () => Officer(),
-        )
+              orElse: () => Officer(),
+            )
             .id;
         idDanhSachCanBo = idCuCanBo ?? '';
 
         ///cu can bo di thay
         final canBoId = HiveLocal.getDataUser()?.userId;
         final idCanBo = data.firstWhere(
-              (element) => element.canBoId == canBoId,
+          (element) => element.canBoId == canBoId,
           orElse: () => Officer(),
         );
         final parentCanBo = DonViModel(
           id: idCanBo.id ?? '',
           name: idCanBo.hoTen ?? '',
-          tenCanBo:idCanBo.hoTen ?? '',
+          tenCanBo: idCanBo.hoTen ?? '',
           canBoId: idCanBo.canBoId ?? '',
           donViId: idCanBo.donViId ?? '',
-          tenDonVi: idCanBo.tenDonVi??'',
+          tenDonVi: idCanBo.tenDonVi ?? '',
+          noidung: idCanBo.taskContent ?? '',
         );
         donViModel = parentCanBo;
+
         /// lay con cua can bo
         final canBoDiThay = data.where(
-              (element) => element.parentId == idCanBo.id,
+          (element) => element.parentId == idCanBo.id,
         );
         final listCanBoMoi = canBoDiThay
             .map(
-              (e) => DonViModel(
-                id: idCanBo.id ?? '',
-                name: idCanBo.hoTen ?? '',
-                tenCanBo: idCanBo.hoTen ?? '',
-                canBoId: idCanBo.canBoId ?? '',
-                donViId: idCanBo.donViId ?? '',
-                tenDonVi: idCanBo.tenDonVi ?? '',
-                noidung: idCanBo.taskContent??''
+              (element) => DonViModel(
+                id: element.id ?? '',
+                name: element.tenDonVi ?? '',
+                tenCanBo: element.hoTen ?? '',
+                canBoId: element.canBoId ?? '',
+                donViId: element.donViId ?? '',
+                tenDonVi: element.tenDonVi ?? '',
+                noidung: element.taskContent ?? '',
               ),
-        )
+            )
             .toList();
         listDataCanBo = listCanBoMoi;
-        listDonViModel.sink.add(listDataCanBo);
+        cubitThanhPhanTG.listCanBoDuocChon = listDataCanBo;
+        cubitThanhPhanTG.listCanBoThamGia.add(listDataCanBo);
       },
       error: (error) {},
     );
   }
+
   Future<bool> luuCanBoDiThay({
     required ThanhPhanThamGiaCubit cubitThanhPhanTG,
   }) async {
-
-
-
     final bool isCheckCallApiCuCanBo = await cuCanBoDiThayLichLamViec(
       canBoDiThay: mergeCanBoDuocChonVaCuCanBo(
         cubitThanhPhanTG.listCanBoDuocChon,
@@ -521,34 +525,36 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     );
     return isCheckCallApiCuCanBo;
   }
-  List<CuCanBoDiThayLichLamViec> mergeCanBoDuocChonVaCuCanBo(List<DonViModel> canBoDuocChon,
-      List<DonViModel> cuCanBo,) {
+
+  List<CuCanBoDiThayLichLamViec> mergeCanBoDuocChonVaCuCanBo(
+    List<DonViModel> canBoDuocChon,
+    List<DonViModel> cuCanBo,
+  ) {
     final List<CuCanBoDiThayLichLamViec> data = [];
+    ///TODO:Có vấn đề isXoa
     data.addAll(
       canBoDuocChon
           .map(
-            (canBo) =>
-                CuCanBoDiThayLichLamViec(
+            (canBo) => CuCanBoDiThayLichLamViec(
               id: canBo.id.isEmpty ? null : canBo.id,
               donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
               canBoId: canBo.userId.isEmpty ? null : canBo.userId,
               taskContent: canBo.noidung,
               isXoa: canBo.isXoa,
             ),
-      )
+          )
           .toList(),
     );
     data.addAll(
       cuCanBo
           .map(
-            (canBo) =>
-                CuCanBoDiThayLichLamViec(
+            (canBo) => CuCanBoDiThayLichLamViec(
               id: null,
               donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
               canBoId: canBo.userId.isEmpty ? null : canBo.userId,
               taskContent: canBo.noidung,
             ),
-      )
+          )
           .toList(),
     );
     return data;

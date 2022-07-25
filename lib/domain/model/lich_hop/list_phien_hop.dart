@@ -54,4 +54,13 @@ class Files {
     required this.entityId,
     required this.entityName,
   });
+
+
+  double getSize(){
+    try{
+      return double.parse(size ?? '');
+    }catch(e){
+      return 0;
+    }
+  }
 }

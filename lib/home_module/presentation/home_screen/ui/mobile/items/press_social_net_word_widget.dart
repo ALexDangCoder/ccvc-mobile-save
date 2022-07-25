@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tabbar_newspaper.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +17,6 @@ import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgr
 import '/home_module/presentation/home_screen/ui/widgets/bao_chi_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/utils/constants/image_asset.dart';
-import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
 import '/presentation/webview/web_view_screen.dart';
 
@@ -63,12 +64,13 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
-      minHeight: 380,
+      minHeight: 420,
       title: S.current.press_socialNetWord,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
-      onTapTitle: (){
+      isShowCaNhan: true,
+      onTapTitle: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -78,60 +80,68 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
       },
       selectKeyDialog: _xaHoiCubit,
       dialogSelect: StreamBuilder(
-          stream: _xaHoiCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              onLabel: () {
-                cubit.closeDialog();
-                _xaHoiCubit.showAddTag();
-                WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-                  scrollController.animateTo(
-                    scrollController.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.linear,
-                  );
-                });
-              },
-              labelWidget: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      ImageAssets.icTag,
+        stream: _xaHoiCubit.selectKeyDialog,
+        builder: (context, snapshot) {
+          return DialogSettingWidget(
+            onLabel: () {
+              cubit.closeDialog();
+              _xaHoiCubit.showAddTag();
+              WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+                scrollController.animateTo(
+                  scrollController.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.linear,
+                );
+              });
+            },
+            labelWidget: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    ImageAssets.icTag,
+                    color: AppTheme.getInstance().colorSelect(),
+                  ),
+                  const SizedBox(
+                    width: 9,
+                  ),
+                  Text(
+                    S.current.chinh_sua_tag,
+                    style: textNormalCustom(
+                      fontSize: 14,
                       color: AppTheme.getInstance().colorSelect(),
                     ),
-                    const SizedBox(
-                      width: 9,
-                    ),
-                    Text(
-                      S.current.chinh_sua_tag,
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        color: AppTheme.getInstance().colorSelect(),
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-              type: widget.homeItemType,
-              listSelectKey: [
-                DialogData(
-                    onSelect: (value, startDate, endDate) {
-                      _xaHoiCubit.editSelectDate(value);
-                      _xaHoiCubit.selectDate(
-                        selectKey: value,
-                        startDate: _xaHoiCubit.startDate,
-                        endDate: endDate,
-                      );
-                    },
-                    title: S.current.time,
+            ),
+            type: widget.homeItemType,
+            listSelectKey: [
+              DialogData(
+                key: [
+                  SelectKey.HOM_NAY,
+                  SelectKey.TUAN_NAY,
+                  SelectKey.THANG_NAY,
+                  SelectKey.NAM_NAY,
+                  SelectKey.TUY_CHON,
+                ],
+                onSelect: (value, startDate, endDate) {
+                  _xaHoiCubit.editSelectDate(value);
+                  _xaHoiCubit.selectDate(
+                    selectKey: value,
                     startDate: _xaHoiCubit.startDate,
-                    endDate: _xaHoiCubit.endDate,
-                    initValue: _xaHoiCubit.selectKeyTime,
-                )
-              ],
-            );
-          },),
+                    endDate: endDate,
+                  );
+                },
+                title: S.current.time,
+                startDate: _xaHoiCubit.startDate,
+                endDate: _xaHoiCubit.endDate,
+                initValue: _xaHoiCubit.selectKeyTime,
+              )
+            ],
+          );
+        },
+      ),
       padding: EdgeInsets.zero,
       child: LoadingOnly(
         stream: _xaHoiCubit.stateStream,
@@ -169,9 +179,17 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                       }),
                     );
                   }
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 100),
-                    child: NodataWidget(),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 100),
+                    child: Center(
+                      child: Text(
+                        S.current.khong_co_du_lieu_hien_thi,
+                        style: textNormal(
+                          titleColor,
+                          14.0.textScale(),
+                        ),
+                      ),
+                    ),
                   );
                 },
               ),
@@ -270,7 +288,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                     );
                   },
                 ),
-                addTagWidget()
+                addTagWidget(),
               ],
             ),
           );
@@ -285,13 +303,8 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
       builder: (context, snapshot) {
         final data = snapshot.data ?? false;
         return data
-            ? Container(
+            ? SizedBox(
                 width: 97,
-                decoration: BoxDecoration(
-                  color: textDefault.withOpacity(0.1),
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 6),
                 child: TextField(
                   style: textNormal(linkColor, 12),
                   onSubmitted: (value) {
@@ -301,19 +314,12 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                     LengthLimitingTextInputFormatter(50),
                   ],
                   decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 6),
                     filled: true,
                     isDense: false,
-                    hintText: S.current.them_tag,
-                    hintStyle: textNormal(textBodyTime, 12),
+                    hintText: S.current.nhap_tag,
+                    hintStyle: textItalic(fontSize: 12),
                     fillColor: Colors.transparent,
-                    prefixIconConstraints:
-                        const BoxConstraints(maxWidth: 12, maxHeight: 20),
-                    prefixIcon: Text(
-                      '#',
-                      style: textNormal(textBodyTime, 12),
-                    ),
                     border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.all(Radius.circular(8)),

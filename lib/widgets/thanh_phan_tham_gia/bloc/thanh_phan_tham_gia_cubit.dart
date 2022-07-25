@@ -2,6 +2,8 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_state.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:get/get.dart' as get_it;
 import 'package:rxdart/rxdart.dart';
 
@@ -12,6 +14,8 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   ThanhPhanThamGiaCubit() : super(MainStateInitial());
   DonViModel donViModel = DonViModel();
   DonViModel newCanBo = DonViModel();
+
+  List<DonViModel> listCanBoDuocChon = [];
 
   ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
@@ -59,9 +63,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   ) {
     final listDonVi =
         listPeople.where((element) => element.tenCanBo.trim().isEmpty).toList();
-    for (final e in listDonVi) {
-      if (donViModel.indexWhere((element) => element.id == e.id) == -1) {
-        listPeople.remove(e);
+    for (final canBo in listDonVi) {
+      if (donViModel.indexWhere((element) => element.id == canBo.id) == -1) {
+        listPeople.remove(canBo);
       }
     }
     addPeopleThamGia(donViModel);
@@ -73,19 +77,37 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     listCanBoThamGia.sink.add(donViModel);
   }
 
-  void addCanBoThamGiaCuCanBo() {
-    if (isDuplicateItem(listCanBo, newCanBo)) {
+  void xoaCanBoDuocChon(DonViModel data) {
+    for (final DonViModel canBo in listCanBoDuocChon) {
+      if (canBo.id == data.id) {
+        canBo.isXoa = true;
+      }
+    }
+  }
+
+  void addCanBoThamGiaCuCanBo(
+    ThemCanBoCubit themCanBoCubit,
+    ThemDonViCubit themDonViCubit,
+  ) {
+    if (isDuplicateItem(listCanBoThamGia.valueOrNull ?? [], newCanBo)) {
       isDuplicateCanBo.add(true);
     } else {
       isDuplicateCanBo.add(false);
-      listCanBo.add(newCanBo);
-      listCanBoThamGia.sink.add(listCanBo);
+      if ((themCanBoCubit.titleCanBo.valueOrNull ?? '').isEmpty) {
+        final DonViModel donVi = themDonViCubit.listDonVi.last;
+        (listCanBoThamGia.valueOrNull ?? []).add(donVi);
+        listCanBo.add(donVi);
+      } else {
+        (listCanBoThamGia.valueOrNull ?? []).add(newCanBo);
+        listCanBo.add(newCanBo);
+      }
+      listCanBoThamGia.sink.add(listCanBoThamGia.valueOrNull ?? []);
     }
   }
 
   bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
-    for(final DonViModel e in listRoot) {
-      if(e.id == newCanBo.id) {
+    for (final DonViModel canBo in listRoot) {
+      if (canBo.id == newCanBo.id) {
         return true;
       }
     }
@@ -97,6 +119,20 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   ) {
     listCanBo.remove(donViModel);
     listCanBoThamGia.sink.add(listCanBo);
+  }
+
+  void xoaCanBoThamGiaCuCanBo(
+    DonViModel donViModel,
+    List<DonViModel> listCanBoDaCu,
+  ) {
+    for (final DonViModel canBo in listCanBoDaCu) {
+      if (canBo.id == donViModel.id) {
+        canBo.isXoa = true;
+      }
+    }
+    listCanBo.remove(donViModel);
+    (listCanBoThamGia.valueOrNull ?? []).remove(donViModel);
+    listCanBoThamGia.sink.add(listCanBoThamGia.valueOrNull ?? []);
   }
 
   void addDonViPhoiHopKhac(DonViModel model) {

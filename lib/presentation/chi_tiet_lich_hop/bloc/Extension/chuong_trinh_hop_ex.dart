@@ -41,7 +41,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
       success: (res) {
         listTPTG = res
             .map(
-              (e) => DonViModel(
+              (canBo) => DonViModel(
                 id: e.id ?? '',
                 donViId: e.donViId ?? '',
                 tenDonVi: e.tenDonVi ?? '',
@@ -77,7 +77,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
 
           final List<DonViModel> listCanBo = data
               .map(
-                (e) => DonViModel(
+                (canBo) => DonViModel(
                   id: e.id ?? '',
                   donViId: e.donViId ?? '',
                   tenDonVi: e.tenDonVi ?? '',
@@ -145,7 +145,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         );
         final listCanBoMoi = canBoDiThay
             .map(
-              (e) => DonViModel(
+              (canBo) => DonViModel(
                 id: e.id ?? '',
                 name: e.hoTen ?? '',
                 tenCanBo: e.tenCanBo ?? '',

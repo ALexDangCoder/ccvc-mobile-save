@@ -69,12 +69,11 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
               initFileFromApi: widget.createCubit.files
                   ?.map(
-                    (e) =>
-                    FileModel(
-                      id: e.id ?? '',
-                      fileLength: e.getSize(),
-                      name: e.name,
-                    ),
+                    (file) => FileModel(
+                        id: file.id ?? '',
+                        fileLength: file.getSize(),
+                        name: file.name,
+                      ),
               )
                   .toList() ??
                   [],
@@ -83,6 +82,16 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                   fileDeleted.id ?? '',
                 );
               },
+              allowedExtensions: const [
+                FileExtensions.DOC,
+                FileExtensions.DOCX,
+                FileExtensions.JPEG,
+                FileExtensions.JPG,
+                FileExtensions.PDF,
+                FileExtensions.PNG,
+                FileExtensions.XLSX,
+                FileExtensions.PPTX,
+              ],
             ),
         )
       ],

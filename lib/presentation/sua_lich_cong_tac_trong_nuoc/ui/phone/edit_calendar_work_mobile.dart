@@ -1,3 +1,5 @@
+
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -5,6 +7,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
@@ -22,7 +25,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/li
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/loai_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nguoi_chu_tri_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nhac_lai_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -184,6 +186,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                           cubit: createCubit,
                           child: SingleChildScrollView(
                             controller: scrollController,
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -203,65 +207,81 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                   isEdit: true,
                                   name: widget.event.typeScheduleName ?? '',
                                 ),
-                                CupertinoMaterialPicker(
-                                  isEdit: true,
-                                  isAllDay: widget.event.isAllDay ?? false,
-                                  isSwitchButtonChecked:
-                                      widget.event.isAllDay ?? false,
-                                  initDateStart: createCubit.dateTimeFrom
-                                      ?.convertStringToDate(),
-                                  initTimeStart: createCubit.dateTimeFrom
-                                      ?.convertStringToDate(
-                                    formatPattern:
-                                        DateFormatApp.dateTimeBackEnd,
-                                  ),
-                                  initDateEnd: createCubit.dateTimeTo
-                                      ?.convertStringToDate(),
-                                  initTimeEnd: createCubit.dateTimeTo
-                                      ?.convertStringToDate(
-                                    formatPattern:
-                                        DateFormatApp.dateTimeBackEnd,
-                                  ),
-                                  cubit: cupertinoCubit,
-                                  onDateTimeChanged: (
-                                    String timeStart,
-                                    String timeEnd,
-                                    String dateStart,
-                                    String dateEnd,
-                                  ) {
-                                    createCubit.checkValidateTime();
-                                    if (timeEnd != INIT_TIME_PICK &&
-                                        dateEnd != INIT_DATE_PICK) {
-                                      createCubit.listeningEndDataTime(
-                                        DateTime.parse(
-                                          timeFormat(
-                                            '$dateEnd $timeEnd',
-                                            DateTimeFormat.DATE_TIME_PICKER,
-                                            DateTimeFormat.DATE_TIME_PUT,
-                                          ),
+                                StreamBuilder<Map<String, String>>(
+                                    stream:
+                                        createCubit.timeConfigSubject.stream,
+                                    builder: (context, snapshot) {
+                                      final Map<String, String> timeConfig =
+                                          snapshot.data ?? {};
+                                      return CupertinoMaterialPicker(
+                                        timeEndConfigSystem:
+                                            timeConfig['timeEnd'],
+                                        timeStartConfigSystem:
+                                            timeConfig['timeStart'],
+                                        isEdit: true,
+                                        isAllDay:
+                                            widget.event.isAllDay ?? false,
+                                        isSwitchButtonChecked:
+                                            widget.event.isAllDay ?? false,
+                                        initDateStart: createCubit.dateTimeFrom
+                                            ?.convertStringToDate(),
+                                        initTimeStart: createCubit.dateTimeFrom
+                                            ?.convertStringToDate(
+                                          formatPattern:
+                                              DateFormatApp.dateTimeBackEnd,
                                         ),
-                                      );
-                                    }
-                                    if (timeStart != INIT_TIME_PICK &&
-                                        dateStart != INIT_DATE_PICK) {
-                                      createCubit.listeningStartDataTime(
-                                        DateTime.parse(
-                                          timeFormat(
-                                            '$dateStart $timeStart',
-                                            DateTimeFormat.DATE_TIME_PICKER,
-                                            DateTimeFormat.DATE_TIME_PUT,
-                                          ),
+                                        initDateEnd: createCubit.dateTimeTo
+                                            ?.convertStringToDate(),
+                                        initTimeEnd: createCubit.dateTimeTo
+                                            ?.convertStringToDate(
+                                          formatPattern:
+                                              DateFormatApp.dateTimeBackEnd,
                                         ),
+                                        cubit: cupertinoCubit,
+                                        onDateTimeChanged: (
+                                          String timeStart,
+                                          String timeEnd,
+                                          String dateStart,
+                                          String dateEnd,
+                                        ) {
+                                          createCubit.checkValidateTime();
+                                          if (timeEnd != INIT_TIME_PICK &&
+                                              dateEnd != INIT_DATE_PICK) {
+                                            createCubit.listeningEndDataTime(
+                                              DateTime.parse(
+                                                timeFormat(
+                                                  '$dateEnd $timeEnd',
+                                                  DateTimeFormat
+                                                      .DATE_TIME_PICKER,
+                                                  DateTimeFormat.DATE_TIME_PUT,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          if (timeStart != INIT_TIME_PICK &&
+                                              dateStart != INIT_DATE_PICK) {
+                                            createCubit.listeningStartDataTime(
+                                              DateTime.parse(
+                                                timeFormat(
+                                                  '$dateStart $timeStart',
+                                                  DateTimeFormat
+                                                      .DATE_TIME_PICKER,
+                                                  DateTimeFormat.DATE_TIME_PUT,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        onSwitchPressed: (value) {
+                                          createCubit.isCheckAllDaySubject
+                                              .add(value);
+                                        },
+                                        validateTime: (String value) {
+                                          pickTimeValidatorValue =
+                                              value.isNotEmpty;
+                                        },
                                       );
-                                    }
-                                  },
-                                  onSwitchPressed: (value) {
-                                    createCubit.isCheckAllDaySubject.add(value);
-                                  },
-                                  validateTime: (String value) {
-                                    pickTimeValidatorValue = value.isNotEmpty;
-                                  },
-                                ),
+                                    }),
                                 NhacLaiWidget(
                                   cubit: createCubit,
                                   isEdit: true,
@@ -373,9 +393,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                               final data = snapshot.data ??
                                                   DateTime.now();
                                               return ItemLapDenNgayWidget(
-                                                taoLichLamViecCubit:
-                                                    createCubit,
-                                                isThem: false,
+                                                createCubit: createCubit,
+                                                createWorkCalendar: false,
                                                 initDate: data,
                                               );
                                             },
@@ -398,18 +417,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       .toList(),
                                 ),
                                 TaiLieuWidget(
-                                  files: createCubit.files ?? [],
-                                  onChange: (files, value) {
-                                    if (!value) {
-                                      createCubit.filesTaoLich = files;
-                                      chooseFileValidatorValue = !value;
-                                    } else {
-                                      chooseFileValidatorValue = !value;
-                                    }
-                                  },
-                                  idRemove: (String id) {
-                                    createCubit.filesDelete.add(id);
-                                  },
+                                  createCubit: createCubit,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -260,70 +258,93 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                         name:
                                             widget.event.typeScheduleName ?? '',
                                       ),
-                                      CupertinoMaterialPicker(
-                                        isEdit: true,
-                                        initDateStart: createCubit.dateTimeFrom
-                                            ?.convertStringToDate(),
-                                        initTimeStart: createCubit.dateTimeFrom
-                                            ?.convertStringToDate(
-                                          formatPattern:
-                                              DateFormatApp.dateTimeBackEnd,
-                                        ),
-                                        initDateEnd: createCubit.dateTimeTo
-                                            ?.convertStringToDate(),
-                                        initTimeEnd: createCubit.dateTimeTo
-                                            ?.convertStringToDate(
-                                          formatPattern:
-                                              DateFormatApp.dateTimeBackEnd,
-                                        ),
-                                        cubit: cupertinoCubit,
-                                        isAllDay:
-                                            widget.event.isAllDay ?? false,
-                                        isSwitchButtonChecked:
-                                            widget.event.isAllDay ?? false,
-                                        onDateTimeChanged: (
-                                          String timeStart,
-                                          String timeEnd,
-                                          String dateStart,
-                                          String dateEnd,
-                                        ) {
-                                          createCubit.checkValidateTime();
-                                          if (timeEnd != INIT_TIME_PICK &&
-                                              dateEnd != INIT_DATE_PICK) {
-                                            createCubit.listeningEndDataTime(
-                                              DateTime.parse(
-                                                timeFormat(
-                                                  '$dateEnd $timeEnd',
-                                                  DateTimeFormat
-                                                      .DATE_TIME_PICKER,
-                                                  DateTimeFormat.DATE_TIME_PUT,
-                                                ),
+                                      StreamBuilder<Map<String, String>>(
+                                          stream: createCubit
+                                              .timeConfigSubject.stream,
+                                          builder: (context, snapshot) {
+                                            final Map<String, String>
+                                                timeConfig =
+                                                snapshot.data ?? {};
+                                            return CupertinoMaterialPicker(
+                                              isEdit: true,
+                                              timeEndConfigSystem:
+                                                  timeConfig['timeEnd'],
+                                              timeStartConfigSystem:
+                                                  timeConfig['timeStart'],
+                                              initDateStart: createCubit
+                                                  .dateTimeFrom
+                                                  ?.convertStringToDate(),
+                                              initTimeStart: createCubit
+                                                  .dateTimeFrom
+                                                  ?.convertStringToDate(
+                                                formatPattern: DateFormatApp
+                                                    .dateTimeBackEnd,
                                               ),
-                                            );
-                                          }
-                                          if (timeStart != INIT_TIME_PICK &&
-                                              dateStart != INIT_DATE_PICK) {
-                                            createCubit.listeningStartDataTime(
-                                              DateTime.parse(
-                                                timeFormat(
-                                                  '$dateStart $timeStart',
-                                                  DateTimeFormat
-                                                      .DATE_TIME_PICKER,
-                                                  DateTimeFormat.DATE_TIME_PUT,
-                                                ),
+                                              initDateEnd: createCubit
+                                                  .dateTimeTo
+                                                  ?.convertStringToDate(),
+                                              initTimeEnd: createCubit
+                                                  .dateTimeTo
+                                                  ?.convertStringToDate(
+                                                formatPattern: DateFormatApp
+                                                    .dateTimeBackEnd,
                                               ),
+                                              cubit: cupertinoCubit,
+                                              isAllDay: widget.event.isAllDay ??
+                                                  false,
+                                              isSwitchButtonChecked:
+                                                  widget.event.isAllDay ??
+                                                      false,
+                                              onDateTimeChanged: (
+                                                String timeStart,
+                                                String timeEnd,
+                                                String dateStart,
+                                                String dateEnd,
+                                              ) {
+                                                createCubit.checkValidateTime();
+                                                if (timeEnd != INIT_TIME_PICK &&
+                                                    dateEnd != INIT_DATE_PICK) {
+                                                  createCubit
+                                                      .listeningEndDataTime(
+                                                    DateTime.parse(
+                                                      timeFormat(
+                                                        '$dateEnd $timeEnd',
+                                                        DateTimeFormat
+                                                            .DATE_TIME_PICKER,
+                                                        DateTimeFormat
+                                                            .DATE_TIME_PUT,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                if (timeStart !=
+                                                        INIT_TIME_PICK &&
+                                                    dateStart !=
+                                                        INIT_DATE_PICK) {
+                                                  createCubit
+                                                      .listeningStartDataTime(
+                                                    DateTime.parse(
+                                                      timeFormat(
+                                                        '$dateStart $timeStart',
+                                                        DateTimeFormat
+                                                            .DATE_TIME_PICKER,
+                                                        DateTimeFormat
+                                                            .DATE_TIME_PUT,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                              onSwitchPressed: (value) {
+                                                createCubit.isCheckAllDaySubject
+                                                    .add(value);
+                                              },
+                                              validateTime: (String value) {
+                                                pickTimeValidatorValue =
+                                                    value.isNotEmpty;
+                                              },
                                             );
-                                          }
-                                        },
-                                        onSwitchPressed: (value) {
-                                          createCubit.isCheckAllDaySubject
-                                              .add(value);
-                                        },
-                                        validateTime: (String value) {
-                                          pickTimeValidatorValue =
-                                              value.isNotEmpty;
-                                        },
-                                      ),
+                                          }),
                                       NhacLaiWidget(
                                         cubit: createCubit,
                                         isEdit: true,
@@ -445,9 +466,8 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                                         snapshot.data ??
                                                             DateTime.now();
                                                     return ItemLapDenNgayWidget(
-                                                      taoLichLamViecCubit:
-                                                          createCubit,
-                                                      isThem: false,
+                                                      createCubit: createCubit,
+                                                      createWorkCalendar: false,
                                                       initDate: data,
                                                     );
                                                   },

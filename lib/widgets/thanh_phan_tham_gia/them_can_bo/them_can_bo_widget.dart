@@ -190,6 +190,15 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                               widget.themCanBoCubit.getCanBo(value);
                               widget.themCanBoCubit.titleCanBo.sink.add('');
                               widget.themDonViCubit.listDonVi.add(value);
+                              widget.themDonViCubit.listDonVi.last.tenCoQuan =
+                                  value.name;
+                              widget.themDonViCubit.listDonVi.last.donViId =
+                                  value.id;
+
+                              widget.cubit.newCanBo = value;
+                              widget.cubit.newCanBo.tenCoQuan = value.tenCoQuan;
+                              widget.cubit.newCanBo.id = value.id;
+
                               if (widget.themDonViCubit.listDonVi.isEmpty) {
                                 widget.themDonViCubit.validateDonVi.sink
                                     .add(true);
@@ -218,6 +227,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                   themCanBoCubit: widget.themCanBoCubit,
                   onChangeCheckbox: (value) {
                     widget.cubit.newCanBo = value;
+                    widget.cubit.newCanBo.tenCoQuan = value.tenDonVi;
                   },
                 )
               ],

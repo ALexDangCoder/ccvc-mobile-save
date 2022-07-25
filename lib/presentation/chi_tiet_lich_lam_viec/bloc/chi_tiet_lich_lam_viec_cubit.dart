@@ -552,6 +552,24 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
   final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
 
+  bool checkFile( List<File> listFilePath){
+    bool isSelectFile = false;
+
+    final List<File> list =  files.toList();
+    for(final elementChose in list){
+      for( final elementCheck in listFilePath){
+        if(elementCheck.path.contains(elementChose.path)){
+          isSelectFile = true;
+          break;
+        }
+      }
+      if(isSelectFile){
+        break;
+      }
+    }
+    return isSelectFile;
+  }
+
   BaoCaoKetQuaCubit({
     this.content = '',
     this.tinhTrangBaoCaoModel,

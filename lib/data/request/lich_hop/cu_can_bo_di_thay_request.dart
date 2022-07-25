@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'cu_can_bo_di_thay_request.g.dart';
-
 @JsonSerializable()
 class CuCanBoDiThayRequest {
   String? id;
@@ -14,28 +12,41 @@ class CuCanBoDiThayRequest {
     required this.canBoDiThay,
   });
 
-  factory CuCanBoDiThayRequest.fromJson(Map<String, dynamic> json) =>
-      _$CuCanBoDiThayRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CuCanBoDiThayRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['lichHopId'] = lichHopId;
+    data['canBoDiThay'] = canBoDiThay;
+    return data;
+  }
 }
 
-@JsonSerializable()
 class CanBoDiThay {
   String? id;
   String? donViId;
   String? canBoId;
   String? taskContent;
+  bool? isXoa;
 
   CanBoDiThay({
     required this.id,
     required this.donViId,
     required this.canBoId,
     required this.taskContent,
+    this.isXoa,
   });
 
-  factory CanBoDiThay.fromJson(Map<String, dynamic> json) =>
-      _$CanBoDiThayFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CanBoDiThayToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['donViId'] = donViId;
+    data['canBoId'] = canBoId;
+    if(taskContent != null) {
+      data['taskContent'] = taskContent;
+    }
+    if(isXoa != null) {
+      data['isXoa'] = isXoa;
+    }
+    return data;
+  }
 }

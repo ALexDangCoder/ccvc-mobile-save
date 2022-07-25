@@ -3,10 +3,14 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/selecdate_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -16,8 +20,10 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
+import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class SuaPhienHopScreen extends StatefulWidget {
   final String id;
@@ -45,6 +51,10 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
   TextEditingController ngayKetThuc = TextEditingController();
   TextEditingController nguoiChuTri = TextEditingController();
   TextEditingController noiDung = TextEditingController();
+  late String timeStart;
+  late String timeEnd;
+  String thoiGianHop = '';
+  bool isShowValidate = false;
 
   @override
   void initState() {
@@ -55,6 +65,50 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
     noiDung.text = widget.phienHopModel.noiDung ?? '';
     widget.cubit.chonNgay = widget.phienHopModel.thoiGianBatDau ?? '';
     widget.cubit.idPerson = widget.phienHopModel.hoTen ?? '';
+    timeEnd = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+        .parse(widget.phienHopModel.thoiGianKetThuc ?? '')
+        .formatTime;
+    timeStart = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+        .parse(widget.phienHopModel.thoiGianBatDau ?? '')
+        .formatTime;
+    thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
+        .parse(widget.phienHopModel.thoiGianBatDau ?? '')
+        .formatApi;
+    handleButtonSaveClick();
+  }
+
+  void handleButtonSaveClick() {
+    // Thời gian bắt đầu phiên họp:
+    final dateTimeStart = '$thoiGianHop $timeStart'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian kết thúc phiên họp:
+    final dateTimeEnd = '$thoiGianHop $timeEnd'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian bắt đầu cuộc họp:
+    final limitTimeStart = widget.cubit.getTime().convertStringToDate(
+          formatPattern: DateTimeFormat.DATE_TIME_HM,
+        );
+
+    //Thời gian kết thúc cuộc họp:
+    final limitTimeEnd =
+        widget.cubit.getTime(isGetDateStart: false).convertStringToDate(
+              formatPattern: DateTimeFormat.DATE_TIME_HM,
+            );
+
+    final bool isOverMeetingTime = dateTimeStart.isBefore(limitTimeStart) ||
+        dateTimeEnd.isAfter(limitTimeEnd);
+    final bool validateTime = _keyBaseTime.currentState?.validator() ?? false;
+
+    if (validateTime) {
+      widget.cubit.isValidateTimer.sink.add(isOverMeetingTime);
+      isShowValidate = isOverMeetingTime;
+    } else {
+      return;
+    }
   }
 
   @override
@@ -64,20 +118,14 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
         padding: const EdgeInsets.symmetric(vertical: 24),
         child: DoubleButtonBottom(
           onClickRight: () async {
-            _keyBaseTime.currentState?.validator();
+            final nav = Navigator.of(context);
             if (_key.currentState?.validator() ?? false) {
               await widget.cubit.suaChuongTrinhHop(
                 id: widget.id,
                 lichHopId: widget.lichHopId,
                 tieuDe: tenPhienHop.text,
-                thoiGianBatDau: widget.cubit.plus(
-                  widget.cubit.ngaySinhs,
-                  widget.cubit.start,
-                ),
-                thoiGianKetThuc: widget.cubit.plus(
-                  widget.cubit.ngaySinhs,
-                  widget.cubit.end,
-                ),
+                thoiGianBatDau: '$thoiGianHop $timeStart',
+                thoiGianKetThuc: '$thoiGianHop $timeEnd',
                 canBoId: HiveLocal.getDataUser()?.userId ?? '',
                 donViId: HiveLocal.getDataUser()
                         ?.userInformation
@@ -89,7 +137,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 isMultipe: false,
                 file: widget.cubit.listFile ?? [],
               );
-              Navigator.pop(context, true);
+              nav.pop(true);
             } else {
               return;
             }
@@ -132,18 +180,49 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   onSelectDate: (dateTime) {
                     if (mounted) setState(() {});
                     widget.cubit.ngaySinhs = dateTime;
+                    thoiGianHop = dateTime.changeToNewPatternDate(
+                      DateTimeFormat.DEFAULT_FORMAT,
+                      DateTimeFormat.DOB_FORMAT,
+                    );
+                    handleButtonSaveClick();
                   },
                 ),
               ),
               spaceH20,
-              BaseChooseTimerWidget(
-                timeBatDau: widget.cubit.subStringTime(ngay.text),
-                key: _keyBaseTime,
-                timeKetThuc: widget.cubit.subStringTime(ngayKetThuc.text),
-                onChange: (start, end) {
-                  widget.cubit.start = start;
-                  widget.cubit.end = end;
-                },
+              SizedBox(
+                child: StreamBuilder<bool>(
+                  stream: widget.cubit.isValidateTimer,
+                  builder: (context, snapshot) {
+                    return ShowRequied(
+                      isShow: snapshot.data ?? true,
+                      textShow: S.current.validata_phien_hop,
+                      child: BaseChooseTimerWidget(
+                        key: _keyBaseTime,
+                        timeBatDau: timeStart.getTimeData(
+                          timeReturnParseFail: TimerData(
+                            hour: DateTime.now().hour,
+                            minutes: DateTime.now().minute,
+                          ),
+                        ),
+                        isCheckRemoveDidUpdate: true,
+                        timeKetThuc: timeEnd.getTimeData(
+                          timeReturnParseFail: TimerData(
+                            hour: DateTime.now().hour,
+                            minutes: DateTime.now().minute,
+                          ),
+                        ),
+                        onChange: (start, end) {
+                          timeStart = start.timerToString;
+                          timeEnd = end.timerToString;
+                          handleButtonSaveClick();
+                        },
+                        validator: (timeBegin, timerEn) {
+                          return timeBegin.equalTime(timerEn);
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
               StreamBuilder<List<NguoiChutriModel>>(
                 stream: widget.cubit.listNguoiCHuTriModel.stream,

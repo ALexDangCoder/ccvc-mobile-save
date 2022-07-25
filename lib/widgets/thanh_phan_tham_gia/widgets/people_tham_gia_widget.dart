@@ -12,11 +12,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PeopleThamGiaWidget extends StatelessWidget {
   final DonViModel donVi;
   final ThanhPhanThamGiaCubit cubit;
+  final Function(DonViModel donViModel) onDelete;
 
   const PeopleThamGiaWidget({
     Key? key,
     required this.donVi,
     required this.cubit,
+    required this.onDelete,
   }) : super(key: key);
 
   @override
@@ -75,6 +77,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
             right: 0,
             child: GestureDetector(
               onTap: () {
+                onDelete(donVi);
                 cubit.deletePeopleThamGia(donVi);
               },
               child: SvgPicture.asset(ImageAssets.icDeleteRed),
@@ -95,9 +98,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
             style: textNormal(infoColor, 14.0.textScale()),
           ),
         ),
-       const SizedBox(
-          width: 10,
-        ),
+        spaceW10,
         Expanded(
           flex: 6,
           child: Text(

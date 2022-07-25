@@ -1,9 +1,16 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/calendar_controller.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/enums.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/settings/month_view_settings.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/settings/resource_view_settings.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/settings/time_slot_view_settings.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/settings/view_header_style.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/sfcalendar.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DataViewCalendarWeek extends StatefulWidget {
   const DataViewCalendarWeek({
@@ -46,8 +53,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   @override
   void didUpdateWidget(covariant DataViewCalendarWeek oldWidget) {
     super.didUpdateWidget(oldWidget);
-    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkDuplicate();
     (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
         .checkMore(2);
   }
@@ -101,6 +106,8 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
             fontSize: 13,
             color: colorA2AEBD,
           ),
+          colorsIcon: colorA2AEBD,
+          daySelectColor: AppTheme.getInstance().colorField(),
         ),
         monthViewSettings: MonthViewSettings(
           appointmentDisplayCount: 2,
@@ -123,7 +130,13 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           final AppointmentWithDuplicate appointment =
               appointmentDetail.appointments.first;
           if (appointmentDetail.isMoreAppointmentRegion) {
-            return const SizedBox();
+            return Center(
+              child: Text('+${appointmentDetail.more}', style: textNormalCustom(
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+                color: colorA2AEBD,
+              ),),
+            );
           }
           if (appointment.isMore) {
             return GestureDetector(

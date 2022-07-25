@@ -160,8 +160,8 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
   Future<void> postPhanCongThuKy(String id) async {
     showLoading();
     final List<String> dataIdPost = dataThuKyOrThuHoiDeFault
-        .where((e) => e.isThuKy ?? false)
-        .map((e) => e.id ?? '')
+        .where((canBo) => canBo.isThuKy ?? false)
+        .map((canBo) => canBo.id ?? '')
         .toList();
     final result = await hopRp.postPhanCongThuKy(
       PhanCongThuKyRequest(
@@ -260,7 +260,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     );
     final listCanBo = listDataCanBo
         .map(
-          (e) =>
+          (canBo) =>
           CanBoDiThay(
             id: e.id,
             donViId: e.donViId,
@@ -358,13 +358,13 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     data.addAll(
       canBoDuocChon
           .map(
-            (e) =>
+            (canBo) =>
             CanBoDiThay(
-              id: e.id.isEmpty ? null : e.id,
-              donViId: e.donViId.isEmpty ? null : e.donViId,
-              canBoId: e.canBoId.isEmpty ? null : e.canBoId,
-              taskContent: e.noidung,
-              isXoa: e.isXoa,
+              id: canBo.id.isEmpty ? null : e.id,
+              donViId: canBo.donViId.isEmpty ? null : e.donViId,
+              canBoId: canBo.canBoId.isEmpty ? null : e.canBoId,
+              taskContent: canBo.noidung,
+              isXoa: canBo.isXoa,
             ),
       )
           .toList(),

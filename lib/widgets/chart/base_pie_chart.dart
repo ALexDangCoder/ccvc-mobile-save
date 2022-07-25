@@ -66,14 +66,13 @@ class PieChart extends StatelessWidget {
                     margin: EdgeInsets.zero,
                     onDataLabelTapped: (value) {
                       if (onTap != null) {
-                        final key = chartData[value.pointIndex];
                         onTap!(value.pointIndex);
                       } else {}
                     },
                     series: [
                       // Renders doughnut chart
                       DoughnutSeries<ChartData, String>(
-                        innerRadius: '45',
+                        innerRadius: '40%',
                         dataSource: chartData,
                         pointColorMapper: (ChartData data, _) => data.color,
                         pointRadiusMapper: (ChartData data, _) => data.size,
@@ -83,12 +82,10 @@ class PieChart extends StatelessWidget {
                             percent(data.value),
                         onPointTap: (value) {
                           if (onTap != null) {
-                            final key = chartData[value.pointIndex ?? 0];
                             onTap!(
                               value.pointIndex ?? 0,
                             );
                           } else {
-                            final key = chartData[value.pointIndex ?? 0];
                             onTapPAKN!(
                               value.pointIndex ?? 0,
                             );
@@ -122,14 +119,13 @@ class PieChart extends StatelessWidget {
                           margin: EdgeInsets.zero,
                           onDataLabelTapped: (value) {
                             if (onTap != null) {
-                              final key = chartData[value.pointIndex];
                               onTap!(value.pointIndex);
                             } else {}
                           },
                           series: [
                             // Renders doughnut chart
                             DoughnutSeries<ChartData, String>(
-                              innerRadius: '45',
+                              innerRadius: '45%',
                               dataSource: chartData,
                               pointColorMapper: (ChartData data, _) =>
                                   data.color,
@@ -141,8 +137,6 @@ class PieChart extends StatelessWidget {
                                   percent(data.value),
                               onPointTap: (value) {
                                 if (onTap != null) {
-                                  final key = chartData[value.pointIndex ?? 0];
-
                                   onTap!(
                                     value.pointIndex ?? 0,
                                   );
@@ -262,7 +256,7 @@ class PieChart extends StatelessWidget {
   Widget itemLegend({required ChartData chartData, required int index}) {
     return GestureDetector(
       onTap: () {
-        if(onTap != null) {
+        if (onTap != null) {
           onTap?.call(index);
         } else {
           onTapPAKN!(index);

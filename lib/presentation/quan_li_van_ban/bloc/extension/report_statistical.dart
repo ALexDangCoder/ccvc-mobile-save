@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_request.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_don_vi_model.dart';
@@ -6,8 +8,37 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_row_chart.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:queue/queue.dart';
 
 extension ReportStatistical on QLVBCCubit {
+  Future<void> getAllDataReportStatistical() async {
+    final queue = Queue();
+    showLoading();
+    generateListTime();
+    getReportStatisticalData();
+    unawaited(queue.add(() => selectDateTime()));
+    await queue.onComplete;
+    showContent();
+  }
+
+  Future<void> selectDateTime() async {
+    if (selectedMonth == null) {
+      await getVanBanCacDonViSoanThao();
+      await getVanBanDonVi(
+          VanBanDonViRequest('$selectedYear-01-01', '$selectedYear-12-31'));
+    } else {
+      final int lastDay =
+          DateTime(selectedYear, (selectedMonth ?? 1) + 1, 0).day;
+      await getVanBanCacDonViSoanThao();
+      await getVanBanDonVi(
+        VanBanDonViRequest(
+          '$selectedYear-${selectedMonth ?? 1}-01',
+          '$selectedYear-${selectedMonth ?? 1}-$lastDay',
+        ),
+      );
+    }
+  }
+
   Future<void> getVanBanDonVi(VanBanDonViRequest request) async {
     final result = await qLVBRepo.getDataVanBanDonVi(request);
     result.when(
@@ -19,20 +50,69 @@ extension ReportStatistical on QLVBCCubit {
     );
   }
 
-  void selectDateTime() {
-    if (selectedMonth == null) {
-      getVanBanDonVi(
-          VanBanDonViRequest('$selectedYear-01-01', '$selectedYear-12-31'));
-    } else {
-      final int lastDay =
-          DateTime(selectedYear, (selectedMonth ?? 1) + 1, 0).day;
-      getVanBanDonVi(
-        VanBanDonViRequest(
-          '$selectedYear-${selectedMonth ?? 1}-01',
-          '$selectedYear-${selectedMonth ?? 1}-$lastDay',
-        ),
-      );
-    }
+  Future<void> getVanBanCacDonViSoanThao() async {
+    await Future.delayed(const Duration(milliseconds: 800));
+    final List<ChartData> listDataPieChart = [
+      ChartData(
+        S.current.cho_xu_ly,
+        20,
+        textColorBlog,
+      ),
+      ChartData(
+        S.current.da_ban_hanh,
+        30,
+        color20C997,
+      ),
+      ChartData(
+        S.current.cho_ban_hanh,
+        50,
+        colorFF9F43,
+      ),
+    ];
+    final List<RowChartData> listRowChartData = [
+      RowChartData(
+        title: 'Vụ vật liệu xây dựng',
+        listData: [
+          SubRowChartData(
+            color: bgrChart,
+            value: 220,
+            title: '',
+          ),
+        ],
+      ),
+      RowChartData(
+        title: 'Cục kinh tế xây dựng',
+        listData: [
+          SubRowChartData(
+            color: bgrChart,
+            value: 223,
+            title: '',
+          ),
+        ],
+      ),
+      RowChartData(
+        title: 'Vụ Quy hoạch - Kiến trúc',
+        listData: [
+          SubRowChartData(
+            color: bgrChart,
+            value: 8492,
+            title: '',
+          ),
+        ],
+      ),
+      RowChartData(
+        title: 'Vụ Kế hoạch - Tài chính',
+        listData: [
+          SubRowChartData(
+            color: bgrChart,
+            value: 499,
+            title: '',
+          ),
+        ],
+      ),
+    ];
+    pieChartDataOutStream.sink.add(listDataPieChart);
+    rowChartDataOutStream.sink.add(listRowChartData);
   }
 
   void dropDownSelect(int index, {bool selectYear = true}) {
@@ -99,6 +179,7 @@ extension ReportStatistical on QLVBCCubit {
       ],
     );
     infoItemInStream.sink.add(listInfoItem);
+    infoItemOutStream.sink.add(listInfoItem);
   }
 
   List<RowChartData> convertData(List<VanBanDonViModel> list) {

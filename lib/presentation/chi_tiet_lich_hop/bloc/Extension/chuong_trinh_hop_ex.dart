@@ -90,14 +90,14 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
               .toList();
           cubitThanhPhanTG.listCanBoDuocChon = data
               .map(
-                (e) => DonViModel(
-                  id: e.id ?? '',
-                  donViId: e.donViId ?? '',
-                  tenDonVi: e.tenDonVi ?? '',
-                  canBoId: e.canBoId ?? '',
-                  noidung: e.ghiChu ?? '',
-                  tenCanBo: e.tenCanBo ?? '',
-                  tenCoQuan: e.tenCoQuan ?? '',
+                (canBo) => DonViModel(
+                  id: canBo.id ?? '',
+                  donViId: canBo.donViId ?? '',
+                  tenDonVi: canBo.tenDonVi ?? '',
+                  canBoId: canBo.canBoId ?? '',
+                  noidung: canBo.ghiChu ?? '',
+                  tenCanBo: canBo.tenCanBo ?? '',
+                  tenCoQuan: canBo.tenCoQuan ?? '',
                 ),
               )
               .toList();

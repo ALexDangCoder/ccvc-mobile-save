@@ -63,9 +63,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   ) {
     final listDonVi =
         listPeople.where((element) => element.tenCanBo.trim().isEmpty).toList();
-    for (final e in listDonVi) {
-      if (donViModel.indexWhere((element) => element.id == e.id) == -1) {
-        listPeople.remove(e);
+    for (final canBo in listDonVi) {
+      if (donViModel.indexWhere((element) => element.id == canBo.id) == -1) {
+        listPeople.remove(canBo);
       }
     }
     addPeopleThamGia(donViModel);
@@ -78,9 +78,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   }
 
   void xoaCanBoDuocChon(DonViModel data) {
-    for (final DonViModel e in listCanBoDuocChon) {
-      if (e.id == data.id) {
-        e.isXoa = true;
+    for (final DonViModel canBo in listCanBoDuocChon) {
+      if (canBo.id == data.id) {
+        canBo.isXoa = true;
       }
     }
   }
@@ -106,8 +106,8 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   }
 
   bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
-    for (final DonViModel e in listRoot) {
-      if (e.id == newCanBo.id) {
+    for (final DonViModel canBo in listRoot) {
+      if (canBo.id == newCanBo.id) {
         return true;
       }
     }
@@ -125,9 +125,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     DonViModel donViModel,
     List<DonViModel> listCanBoDaCu,
   ) {
-    for (final DonViModel e in listCanBoDaCu) {
-      if (e.id == donViModel.id) {
-        e.isXoa = true;
+    for (final DonViModel canBo in listCanBoDaCu) {
+      if (canBo.id == donViModel.id) {
+        canBo.isXoa = true;
       }
     }
     listCanBo.remove(donViModel);

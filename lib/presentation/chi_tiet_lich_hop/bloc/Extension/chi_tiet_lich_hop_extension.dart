@@ -355,8 +355,6 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
   List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBo(List<DonViModel> canBoDuocChon,
       List<DonViModel> cuCanBo,) {
     final List<CanBoDiThay> data = [];
-    print('${data.length} ???????????');
-    print('${canBoDuocChon.length} ...........');
     data.addAll(
       canBoDuocChon
           .map(
@@ -371,8 +369,6 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       )
           .toList(),
     );
-    print('${canBoDuocChon.length} ...........');
-    print('${data.length} ???????????');
     data.addAll(
       cuCanBo
           .map(
@@ -386,7 +382,6 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       )
           .toList(),
     );
-    print('${data.length} ???????????');
     return data;
   }
 

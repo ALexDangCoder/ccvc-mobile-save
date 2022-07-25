@@ -140,7 +140,7 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
         dateEndSubject.sink.add(dateToTmp);
-        if (!!allDayValue) {
+        if (!allDayValue) {
           dateFromTmp = dateToTmp;
           dateBeginSubject.sink.add(dateToTmp);
         }

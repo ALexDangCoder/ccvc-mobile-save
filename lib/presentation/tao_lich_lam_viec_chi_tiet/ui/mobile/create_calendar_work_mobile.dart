@@ -278,8 +278,8 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             final data = snapshot.data ?? false;
                             return data
                                 ? LichLapTuyChinh(
-                              taoLichLamViecCubit: createCubit,
-                            )
+                                    taoLichLamViecCubit: createCubit,
+                                  )
                                 : Container();
                           },
                         ),
@@ -294,9 +294,10 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                                       final initDate =
                                           snapshot.data ?? DateTime.now();
                                       return ItemLapDenNgayWidget(
-                                        taoLichLamViecCubit: createCubit,
-                                        isThem: true,
+                                        createCubit: createCubit,
+                                        createWorkCalendar: true,
                                         initDate: initDate,
+                                        key: UniqueKey(),
                                       );
                                     },
                                   )

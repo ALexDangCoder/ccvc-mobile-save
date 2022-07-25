@@ -373,9 +373,9 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                               final data = snapshot.data ??
                                                   DateTime.now();
                                               return ItemLapDenNgayWidget(
-                                                taoLichLamViecCubit:
+                                                createCubit:
                                                     createCubit,
-                                                isThem: false,
+                                                createWorkCalendar: false,
                                                 initDate: data,
                                               );
                                             },

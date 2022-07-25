@@ -325,9 +325,9 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                                           snapshot.data ??
                                                               DateTime.now();
                                                       return ItemLapDenNgayWidget(
-                                                        taoLichLamViecCubit:
+                                                        createCubit:
                                                             createCubit,
-                                                        isThem: true,
+                                                        createWorkCalendar: true,
                                                         initDate: initDate,
                                                       );
                                                     },

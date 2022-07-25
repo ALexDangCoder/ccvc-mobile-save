@@ -22,7 +22,6 @@ class TaiLieuWidget extends StatefulWidget {
 
 class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   bool isExpand = false;
-  double maxSize20MB = 20971520;
 
   @override
   Widget build(BuildContext context) {

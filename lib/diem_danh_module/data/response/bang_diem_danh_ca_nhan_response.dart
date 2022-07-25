@@ -73,29 +73,29 @@ class ListItemThongKeDiemDanhCaNhanModelResponse {
 class ThongKeDiemDanhCaNhanModelResponse {
   @JsonKey(name: 'date')
   String? date;
-  @JsonKey(name: 'timeIn')
+  @JsonKey(name: 'time_in')
   String? timeIn;
-  @JsonKey(name: 'timeOut')
+  @JsonKey(name: 'time_out')
   String? timeOut;
   @JsonKey(name: 'type')
   String? type;
-  @JsonKey(name: 'dayWage')
+  @JsonKey(name: 'day_wage')
   double? dayWage;
   @JsonKey(name: 'leave')
   double? leave;
-  @JsonKey(name: 'isLeaveRequest')
+  @JsonKey(name: 'is_leave_request')
   int? isLeaveRequest;
-  @JsonKey(name: 'leaveRequestReasonCode')
+  @JsonKey(name: 'leave_request_reason_code')
   String? leaveRequestReasonCode;
-  @JsonKey(name: 'leaveRequestReasonTakeLeaveCode')
+  @JsonKey(name: 'leave_request_reason_take_leave_code')
   String? leaveRequestReasonTakeLeaveCode;
-  @JsonKey(name: 'leaveRequestReasonName')
+  @JsonKey(name: 'leave_request_reason_name')
   String? leaveRequestReasonName;
-  @JsonKey(name: 'isLate')
+  @JsonKey(name: 'is_late')
   bool? isLate;
-  @JsonKey(name: 'isComeBackEarly')
+  @JsonKey(name: 'is_come_back_early')
   bool? isComeBackEarly;
-  @JsonKey(name: 'leaveType')
+  @JsonKey(name: 'leave_type')
   String? leaveType;
 
   ThongKeDiemDanhCaNhanModelResponse({

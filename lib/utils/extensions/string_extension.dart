@@ -72,6 +72,12 @@ extension FormatAddressConfirm on String {
     }
   }
 
+  String get getTime {
+    final DateTime date = convertStringToDate();
+
+    return '${date.hour}:${date.minute}';
+  }
+
   String formatTimeWithJm(String pattern) {
     try {
       return DateFormat.jm('en').format(DateFormat(pattern).parse(this));

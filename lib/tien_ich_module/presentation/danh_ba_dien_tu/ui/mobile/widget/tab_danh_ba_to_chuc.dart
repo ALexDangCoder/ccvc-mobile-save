@@ -30,6 +30,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: _content(),
       ),
       tabletScreen: Container(

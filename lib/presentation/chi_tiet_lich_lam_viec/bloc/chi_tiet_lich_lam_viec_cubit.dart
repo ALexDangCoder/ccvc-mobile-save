@@ -175,6 +175,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   final listOfficer = BehaviorSubject<List<Officer>>();
+  List<Officer> listOfficerSelected = [];
   final listRecall = BehaviorSubject<List<Officer>>();
 
   Future<void> getOfficer(String id) async {
@@ -182,6 +183,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     rs.when(
       success: (data) {
         listOfficer.sink.add(data);
+        getListStatusKhacThuHoi(data);
         listRecall.sink
             .add(data.where((element) => element.status == 0).toList());
         dataRecall = data.where((element) => element.status == 0).toList();
@@ -189,6 +191,16 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       },
       error: (error) {},
     );
+  }
+
+  void getListStatusKhacThuHoi(List<Officer> listOfficer) {
+    final List<Officer> list = [];
+    for (final value in listOfficer) {
+      if (value.status != StatusOfficersConst.STATUS_THU_HOI) {
+        list.add(value);
+      }
+    }
+    listOfficerSelected = list;
   }
 
   Future<void> loadApi(String id) async {

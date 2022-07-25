@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -32,6 +33,8 @@ class ThemCanBoWidget extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
   final List<CanBoModel> listCaNhanRemove;
   final bool needCheckTrung;
+  final bool isEditCalendarWork;
+  final List<Officer>? listOfficerSelected;
 
   const ThemCanBoWidget({
     Key? key,
@@ -39,6 +42,8 @@ class ThemCanBoWidget extends StatefulWidget {
     required this.cubit,
     this.listCaNhanRemove = const [],
     this.needCheckTrung = false,
+    this.isEditCalendarWork = false,
+    this.listOfficerSelected,
   }) : super(key: key);
 
   @override
@@ -76,6 +81,8 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.8,
           child: ThemCanBoScreen(
+            isEditCalendarWork: widget.isEditCalendarWork,
+            listOfficerSelected: widget.listOfficerSelected,
             textController: textController,
             cubit: widget.cubit,
             needCheckTrung: widget.needCheckTrung,
@@ -93,6 +100,8 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         context,
         title: S.current.chon_thanh_phan_tham_gia,
         child: ThemCanBoScreen(
+          isEditCalendarWork: widget.isEditCalendarWork,
+          listOfficerSelected: widget.listOfficerSelected,
           textController: textController,
           cubit: widget.cubit,
           needCheckTrung: widget.needCheckTrung,
@@ -123,6 +132,8 @@ class ThemCanBoScreen extends StatefulWidget {
   final ThemDonViCubit themDonViCubit;
   final TextEditingController? textController;
   final String? hindText;
+  final bool isEditCalendarWork;
+  final List<Officer>? listOfficerSelected;
 
   const ThemCanBoScreen({
     Key? key,
@@ -137,6 +148,8 @@ class ThemCanBoScreen extends StatefulWidget {
     required this.themDonViCubit,
     this.hindText,
     this.textController,
+    this.isEditCalendarWork = false,
+    this.listOfficerSelected,
   }) : super(key: key);
 
   @override
@@ -275,73 +288,23 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                   data.length,
                                   (index) {
                                     final result = data[index];
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                        top: index == 0 ? 0 : 16,
-                                      ),
-                                      child: CanBoWidget(
-                                        onCheckBox: (value) async {
-                                          if (value && widget.needCheckTrung) {
-                                            await widget.themCanBoCubit
-                                                .checkLichTrung(
-                                              donViId: result.donViId,
-                                              canBoId: result.canBoId,
-                                              dateEnd: widget.cubit.dateEnd,
-                                              dateStart: widget.cubit.dateStart,
-                                              timeEnd: widget.cubit.timeEnd,
-                                              timeStart: widget.cubit.timeStart,
-                                            )
-                                                .then((res) {
-                                              if (res) {
-                                                showDiaLog(
-                                                  context,
-                                                  title: S.current.lich_trung,
-                                                  textContent: S.current
-                                                      .ban_co_muon_tiep_tuc_khong
-                                                  ,
-                                                  icon: ImageAssets.svgAssets(
-                                                    ImageAssets.ic_trung_hop,
-                                                  ),
-                                                  btnRightTxt: S.current.dong_y,
-                                                  btnLeftTxt: S.current.khong,
-                                                  isCenterTitle: true,
-                                                  funcBtnRight: () {
-                                                    widget.themCanBoCubit
-                                                        .selectCanBo(
-                                                      result,
-                                                      isCheck: value,
-                                                    );
-                                                    setState(() {});
-                                                  },
-                                                );
-                                              } else {
-                                                widget.themCanBoCubit
-                                                    .selectCanBo(
-                                                  result,
-                                                  isCheck: value,
-                                                );
-                                                setState(() {});
-                                              }
-                                            });
-                                            return;
-                                          }
-                                          if (widget.cubit.listPeople
-                                                  .indexWhere(
-                                                (element) =>
-                                                    element.id == result.id,
-                                              ) ==
-                                              -1) {
-                                            widget.themCanBoCubit.selectCanBo(
-                                              result,
-                                              isCheck: value,
-                                            );
-                                          }
-                                        },
-                                        canBoModel: result,
-                                        themCanBoCubit: widget.themCanBoCubit,
-                                        cubit: widget.cubit,
-                                      ),
-                                    );
+                                    return widget.isEditCalendarWork
+                                        ? !(widget.listOfficerSelected ?? [])
+                                                .map(
+                                                  (officer) => officer.userId,
+                                                )
+                                                .contains(
+                                                  result.userId,
+                                                )
+                                            ? itemListDonVi(
+                                                index: index,
+                                                donViModel: result,
+                                              )
+                                            : const SizedBox.shrink()
+                                        : itemListDonVi(
+                                            index: index,
+                                            donViModel: result,
+                                          );
                                   },
                                 ),
                               );
@@ -407,6 +370,72 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
             ),
     );
   }
+
+  Widget itemListDonVi({
+    int? index,
+    required DonViModel donViModel,
+  }) =>
+      Padding(
+        padding: EdgeInsets.only(
+          top: index == 0 ? 0 : 16,
+        ),
+        child: CanBoWidget(
+          onCheckBox: (value) async {
+            if (value && widget.needCheckTrung) {
+              await widget.themCanBoCubit
+                  .checkLichTrung(
+                donViId: donViModel.donViId,
+                canBoId: donViModel.canBoId,
+                dateEnd: widget.cubit.dateEnd,
+                dateStart: widget.cubit.dateStart,
+                timeEnd: widget.cubit.timeEnd,
+                timeStart: widget.cubit.timeStart,
+              )
+                  .then((res) {
+                if (res) {
+                  showDiaLog(
+                    context,
+                    title: S.current.lich_trung,
+                    textContent: S.current.ban_co_muon_tiep_tuc_khong,
+                    icon: ImageAssets.svgAssets(
+                      ImageAssets.ic_trung_hop,
+                    ),
+                    btnRightTxt: S.current.dong_y,
+                    btnLeftTxt: S.current.khong,
+                    isCenterTitle: true,
+                    funcBtnRight: () {
+                      widget.themCanBoCubit.selectCanBo(
+                        donViModel,
+                        isCheck: value,
+                      );
+                      setState(() {});
+                    },
+                  );
+                } else {
+                  widget.themCanBoCubit.selectCanBo(
+                    donViModel,
+                    isCheck: value,
+                  );
+                  setState(() {});
+                }
+              });
+              return;
+            }
+            if (widget.cubit.listPeople.indexWhere(
+                  (element) => element.id == donViModel.id,
+                ) ==
+                -1) {
+              widget.themCanBoCubit.selectCanBo(
+                donViModel,
+                isCheck: value,
+              );
+            }
+          },
+          canBoModel: donViModel,
+          themCanBoCubit: widget.themCanBoCubit,
+          cubit: widget.cubit,
+        ),
+      );
 
   Widget button({
     required Function onTap,

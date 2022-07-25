@@ -705,8 +705,15 @@ class AppointmentHelper {
 
     final int timeIntervalMinutes =
         CalendarViewHelper.getTimeInterval(calendar.timeSlotViewSettings);
-    for (int count = 0; count < normalAppointments.length; count++) {
-      final CalendarAppointment currentAppointment = normalAppointments[count];
+    /// abdwbfahwiriweriwu
+    /// warfawer
+    /// awjeroaw
+    /// awori
+    for (int indexAppointment = 0; indexAppointment < normalAppointments.length; indexAppointment++) {
+      final CalendarAppointment currentAppointment = normalAppointments[indexAppointment];
+      List<AppointmentView>? intersectingAppointments;
+      final AppointmentView currentAppointmentView = _getAppointmentView(currentAppointment, appointmentCollection, resourceIndex);
+      // check appoinment được duyệt có nằm trong ngày làm việc không, nếu có thì sẽ thực hiện tiếp
       if ((view == CalendarView.workWeek ||
               view == CalendarView.timelineWorkWeek) &&
           calendar.timeSlotViewSettings.nonWorkingDays
@@ -716,15 +723,12 @@ class AppointmentHelper {
         continue;
       }
 
-      List<AppointmentView>? intersectingApps;
-      final AppointmentView currentAppView = _getAppointmentView(
-          currentAppointment, appointmentCollection, resourceIndex);
 
       for (int position = 0; position < maxColsCount; position++) {
         bool isIntersecting = false;
         for (int j = 0; j < processedViews.length; j++) {
-          final AppointmentView previousApp = processedViews[j];
-          if (previousApp.position != position) {
+          final AppointmentView previousAppointment = processedViews[j];
+          if (previousAppointment.position != position) {
             continue;
           }
 
@@ -732,24 +736,24 @@ class AppointmentHelper {
               calendar,
               view,
               currentAppointment,
-              previousApp,
-              previousApp.appointment!,
+              previousAppointment,
+              previousAppointment.appointment!,
               timeIntervalMinutes)) {
             isIntersecting = true;
 
-            if (intersectingApps == null) {
+            if (intersectingAppointments == null) {
               final List<int> keyList = dict.keys.toList();
               for (int keyCount = 0; keyCount < keyList.length; keyCount++) {
                 final int key = keyList[keyCount];
-                if (dict[key]!.contains(previousApp)) {
-                  intersectingApps = dict[key];
+                if (dict[key]!.contains(previousAppointment)) {
+                  intersectingAppointments = dict[key];
                   break;
                 }
               }
 
-              if (intersectingApps == null) {
-                intersectingApps = <AppointmentView>[];
-                dict[dict.keys.length] = intersectingApps;
+              if (intersectingAppointments == null) {
+                intersectingAppointments = <AppointmentView>[];
+                dict[dict.keys.length] = intersectingAppointments;
               }
 
               break;
@@ -757,19 +761,19 @@ class AppointmentHelper {
           }
         }
 
-        if (!isIntersecting && currentAppView.position == -1) {
-          currentAppView.position = position;
+        if (!isIntersecting && currentAppointmentView.position == -1) {
+          currentAppointmentView.position = position;
         }
       }
 
-      processedViews.add(currentAppView);
-      if (currentAppView.position == -1) {
+      processedViews.add(currentAppointmentView);
+      if (currentAppointmentView.position == -1) {
         int position = 0;
-        if (intersectingApps == null) {
-          intersectingApps = <AppointmentView>[];
-          dict[dict.keys.length] = intersectingApps;
-        } else if (intersectingApps.isNotEmpty) {
-          position = intersectingApps
+        if (intersectingAppointments == null) {
+          intersectingAppointments = <AppointmentView>[];
+          dict[dict.keys.length] = intersectingAppointments;
+        } else if (intersectingAppointments.isNotEmpty) {
+          position = intersectingAppointments
               .reduce((AppointmentView currentAppview,
                       AppointmentView nextAppview) =>
                   currentAppview.maxPositions > nextAppview.maxPositions
@@ -778,22 +782,22 @@ class AppointmentHelper {
               .maxPositions;
         }
 
-        intersectingApps.add(currentAppView);
-        for (int i = 0; i < intersectingApps.length; i++) {
-          intersectingApps[i].maxPositions = position + 1;
+        intersectingAppointments.add(currentAppointmentView);
+        for (int i = 0; i < intersectingAppointments.length; i++) {
+          intersectingAppointments[i].maxPositions = position + 1;
         }
 
-        currentAppView.position = position;
+        currentAppointmentView.position = position;
         if (maxColsCount <= position) {
           maxColsCount = position + 1;
         }
       } else {
         int maxPosition = 1;
-        if (intersectingApps == null) {
-          intersectingApps = <AppointmentView>[];
-          dict[dict.keys.length] = intersectingApps;
-        } else if (intersectingApps.isNotEmpty) {
-          maxPosition = intersectingApps
+        if (intersectingAppointments == null) {
+          intersectingAppointments = <AppointmentView>[];
+          dict[dict.keys.length] = intersectingAppointments;
+        } else if (intersectingAppointments.isNotEmpty) {
+          maxPosition = intersectingAppointments
               .reduce((AppointmentView currentAppview,
                       AppointmentView nextAppview) =>
                   currentAppview.maxPositions > nextAppview.maxPositions
@@ -801,14 +805,14 @@ class AppointmentHelper {
                       : nextAppview)
               .maxPositions;
 
-          if (currentAppView.position == maxPosition) {
+          if (currentAppointmentView.position == maxPosition) {
             maxPosition++;
           }
         }
 
-        intersectingApps.add(currentAppView);
-        for (int i = 0; i < intersectingApps.length; i++) {
-          intersectingApps[i].maxPositions = maxPosition;
+        intersectingAppointments.add(currentAppointmentView);
+        for (int i = 0; i < intersectingAppointments.length; i++) {
+          intersectingAppointments[i].maxPositions = maxPosition;
         }
 
         if (maxColsCount <= maxPosition) {
@@ -816,7 +820,7 @@ class AppointmentHelper {
         }
       }
 
-      intersectingApps = null;
+      intersectingAppointments = null;
     }
 
     dict.clear();

@@ -53,8 +53,8 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
   @override
   void didUpdateWidget(covariant DataViewCalendarWeek oldWidget) {
     super.didUpdateWidget(oldWidget);
-    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkMore(2);
+    // (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+    //     .checkMore(2);
   }
 
   DateTime getOnlyDate(DateTime date) =>
@@ -101,6 +101,69 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         ),
         headerDateFormat: 'MMMM,yyy',
         dataSource: widget.data,
+        // dataSource: DataSourceFCalendar([
+        //   AppointmentWithDuplicate(
+        //     subject: '2',
+        //     endTime: DateTime(2022, 7, 18, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 18, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '1',
+        //     endTime: DateTime(2022, 7, 18, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 18, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '2',
+        //     endTime: DateTime(2022, 7, 19, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 19, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '1',
+        //     endTime: DateTime(2022, 7, 19, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 19, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '2',
+        //     endTime: DateTime(2022, 7, 20, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 20, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '1',
+        //     endTime: DateTime(2022, 7, 20, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 20, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '2',
+        //     endTime: DateTime(2022, 7, 21, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 21, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '1',
+        //     endTime: DateTime(2022, 7, 21, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 21, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '2',
+        //     endTime: DateTime(2022, 7, 22, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 22, 15),
+        //   ),
+        //   AppointmentWithDuplicate(
+        //     subject: '1',
+        //     endTime: DateTime(2022, 7, 22, 12),
+        //     id: '',
+        //     startTime: DateTime(2022, 7, 22, 15),
+        //   ),
+        // ]),
+
         viewHeaderStyle: ViewHeaderStyle(
           dayTextStyle: textNormalCustom(
             fontSize: 13,
@@ -125,17 +188,19 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
         ),
         selectionDecoration: const BoxDecoration(color: Colors.transparent),
-
         appointmentBuilder: (_, appointmentDetail) {
           final AppointmentWithDuplicate appointment =
               appointmentDetail.appointments.first;
           if (appointmentDetail.isMoreAppointmentRegion) {
             return Center(
-              child: Text('+${appointmentDetail.more}', style: textNormalCustom(
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                color: colorA2AEBD,
-              ),),
+              child: Text(
+                '+${appointmentDetail.more}',
+                style: textNormalCustom(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w400,
+                  color: colorA2AEBD,
+                ),
+              ),
             );
           }
           if (appointment.isMore) {

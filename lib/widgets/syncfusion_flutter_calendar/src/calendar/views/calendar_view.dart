@@ -8304,7 +8304,6 @@ class _CalendarViewState extends State<_CalendarView>
             child: ListView(
                 padding: EdgeInsets.zero,
                 controller: _scrollController,
-                scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[

@@ -47,8 +47,8 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
   @override
   void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
     super.didUpdateWidget(oldWidget);
-    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkMore( 4);
+    // (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+    //     .checkMore( 4);
   }
 
   void setFCalendarListenerWeek() {
@@ -58,6 +58,7 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
 
   @override
   Widget build(BuildContext context) {
+    return Container ();
     return Container(
       margin: widget.isTablet
           ? const EdgeInsets.only(
@@ -192,18 +193,15 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
       rootListTmp.remove(rootListTmp.first);
     }
 
-    for (int i = 0; i < checkDuplicate.length && i < maxShow; i++) {
-      if (i == (maxShow - 1)) {
-        for (final e in checkDuplicate[i]) {
-          e.isMore = true;
-          e.endTime = DateTime.fromMillisecondsSinceEpoch(
-            e.startTime.millisecondsSinceEpoch + 1800000,
-          );
-          resultList.add(e);
-        }
-      } else {
-        resultList.addAll(checkDuplicate[i]);
-      }
+    for (int i = 0; i < checkDuplicate.length && i < maxShow - 1; i++) {
+      resultList.addAll(checkDuplicate[i]);
+    }
+    for (final e in checkDuplicate[maxShow  -1 ]) {
+      e.isMore = true;
+      e.endTime = DateTime.fromMillisecondsSinceEpoch(
+        e.startTime.millisecondsSinceEpoch + 1800000,
+      );
+      resultList.add(e);
     }
     for (final item in this) {
       final currentTimeFrom = item.startTime.millisecondsSinceEpoch;

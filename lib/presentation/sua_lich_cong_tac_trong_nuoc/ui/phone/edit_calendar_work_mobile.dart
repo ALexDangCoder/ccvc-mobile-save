@@ -392,7 +392,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                   height: 20,
                                 ),
                                 ThanhPhanThamGiaTLWidget(
-                                  listOfficerSelected: widget.cubit.listOfficerSelected,
+                                  chiTietLichLamViecCubit: widget.cubit,
                                   isEditCalendarWord: true,
                                   taoLichLamViecCubit: createCubit,
                                   listPeopleInit: widget.cubit.listOfficer.value

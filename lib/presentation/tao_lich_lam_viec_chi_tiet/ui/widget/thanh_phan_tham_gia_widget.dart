@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
@@ -14,14 +14,14 @@ class ThanhPhanThamGiaTLWidget extends StatefulWidget {
   final CreateWorkCalCubit taoLichLamViecCubit;
   final List<DonViModel>? listPeopleInit;
   final bool isEditCalendarWord;
-  final List<Officer>? listOfficerSelected;
+  final ChiTietLichLamViecCubit? chiTietLichLamViecCubit;
 
   const ThanhPhanThamGiaTLWidget({
     Key? key,
     required this.taoLichLamViecCubit,
     this.listPeopleInit,
     this.isEditCalendarWord = false,
-    this.listOfficerSelected,
+    this.chiTietLichLamViecCubit,
   }) : super(key: key);
 
   @override
@@ -71,7 +71,7 @@ class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
         ExpandedSection(
           expand: isExpand,
           child: ThanhPhanThamGiaWidget(
-            listOfficerSelected: widget.listOfficerSelected,
+            chiTietLichLamViecCubit: widget.chiTietLichLamViecCubit,
             isEditCalendarWord: widget.isEditCalendarWord,
             listPeopleInit: widget.listPeopleInit,
             onChange: (value) {

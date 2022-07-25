@@ -1,12 +1,12 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_can_bo.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -34,7 +34,7 @@ class ThemCanBoWidget extends StatefulWidget {
   final List<CanBoModel> listCaNhanRemove;
   final bool needCheckTrung;
   final bool isEditCalendarWork;
-  final List<Officer>? listOfficerSelected;
+  final ChiTietLichLamViecCubit? chiTietLichLamViecCubit;
 
   const ThemCanBoWidget({
     Key? key,
@@ -43,7 +43,7 @@ class ThemCanBoWidget extends StatefulWidget {
     this.listCaNhanRemove = const [],
     this.needCheckTrung = false,
     this.isEditCalendarWork = false,
-    this.listOfficerSelected,
+    this.chiTietLichLamViecCubit,
   }) : super(key: key);
 
   @override
@@ -82,7 +82,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
           height: MediaQuery.of(context).size.height * 0.8,
           child: ThemCanBoScreen(
             isEditCalendarWork: widget.isEditCalendarWork,
-            listOfficerSelected: widget.listOfficerSelected,
+            chiTietLichLamViecCubit: widget.chiTietLichLamViecCubit,
             textController: textController,
             cubit: widget.cubit,
             needCheckTrung: widget.needCheckTrung,
@@ -101,7 +101,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         title: S.current.chon_thanh_phan_tham_gia,
         child: ThemCanBoScreen(
           isEditCalendarWork: widget.isEditCalendarWork,
-          listOfficerSelected: widget.listOfficerSelected,
+          chiTietLichLamViecCubit: widget.chiTietLichLamViecCubit,
           textController: textController,
           cubit: widget.cubit,
           needCheckTrung: widget.needCheckTrung,
@@ -133,7 +133,7 @@ class ThemCanBoScreen extends StatefulWidget {
   final TextEditingController? textController;
   final String? hindText;
   final bool isEditCalendarWork;
-  final List<Officer>? listOfficerSelected;
+  final ChiTietLichLamViecCubit? chiTietLichLamViecCubit;
 
   const ThemCanBoScreen({
     Key? key,
@@ -149,7 +149,7 @@ class ThemCanBoScreen extends StatefulWidget {
     this.hindText,
     this.textController,
     this.isEditCalendarWork = false,
-    this.listOfficerSelected,
+    this.chiTietLichLamViecCubit,
   }) : super(key: key);
 
   @override
@@ -289,7 +289,8 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                   (index) {
                                     final result = data[index];
                                     return widget.isEditCalendarWork
-                                        ? !(widget.listOfficerSelected ?? [])
+                                        ? !(widget.chiTietLichLamViecCubit!
+                                                    .listOfficerSelected)
                                                 .map(
                                                   (officer) => officer.userId,
                                                 )

@@ -471,9 +471,9 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                 child: Column(
                                   children: [
                                     ThanhPhanThamGiaTLWidget(
-                                      listOfficerSelected: widget.cubit.listOfficerSelected,
                                       isEditCalendarWord: true,
                                       taoLichLamViecCubit: createCubit,
+                                      chiTietLichLamViecCubit: widget.cubit,
                                       listPeopleInit: widget
                                           .cubit.listOfficer.value
                                           .map((e) => e.toUnitName())

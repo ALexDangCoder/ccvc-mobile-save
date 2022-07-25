@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -26,7 +27,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
   final String noiDungCV;
   final TaoLichHopCubit? cubit;
   final bool isEditCalendarWord;
-  final List<Officer>? listOfficerSelected;
+  final ChiTietLichLamViecCubit? chiTietLichLamViecCubit;
 
   const ThanhPhanThamGiaWidget({
     Key? key,
@@ -40,7 +41,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     this.cubit,
     this.onDelete,
     this.isEditCalendarWord = false,
-    this.listOfficerSelected,
+    this.chiTietLichLamViecCubit,
   }) : super(key: key);
 
   @override
@@ -99,7 +100,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           height: 16.0.textScale(space: 8),
         ),
         ThemCanBoWidget(
-          listOfficerSelected: widget.listOfficerSelected,
+          chiTietLichLamViecCubit: widget.chiTietLichLamViecCubit,
           isEditCalendarWork: widget.isEditCalendarWord,
           cubit: _cubit,
           listCaNhanRemove: widget.scheduleCoperatives,
@@ -190,5 +191,11 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   Widget itemListThamGia(DonViModel donViModel) => PeopleThamGiaWidget(
         donVi: donViModel,
         cubit: _cubit,
+        onDelete: (DonViModel donViModel) {
+          if (widget.isEditCalendarWord) {
+            widget.chiTietLichLamViecCubit!.listOfficerSelected
+                .removeWhere((element) => element.userId == donViModel.userId);
+          }
+        },
       );
 }

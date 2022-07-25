@@ -426,7 +426,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     )
         .id;
         
-    final bool isCheck = await cuCanBo(
+    final bool isCheckCallApiCuCanBo = await cuCanBo(
       canBoDiThay: mergeCanBoDuocChonVaCuCanBo(
       cubitThanhPhanTG.listCanBoDuocChon,
       cubitThanhPhanTG.listCanBo,

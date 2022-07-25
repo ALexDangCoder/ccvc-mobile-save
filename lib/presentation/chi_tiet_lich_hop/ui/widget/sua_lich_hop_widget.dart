@@ -89,8 +89,8 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         },
                         validate: (value) {
                           return value.isEmpty
-                              ?'${S.current.vui_long_nhap} '
-                              '${S.current.tieu_de.toLowerCase()}'
+                              ? '${S.current.vui_long_nhap} '
+                                  '${S.current.tieu_de.toLowerCase()}'
                               : null;
                         },
                         maxLength: 200,
@@ -129,53 +129,62 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                           );
                         },
                       ),
-                      CupertinoMaterialPicker(
-                        key: _timerPickerKey,
-                        isEdit : true,
-                        initDateStart:
-                            widget.chiTietHop.ngayBatDau.convertStringToDate(
-                          formatPattern: DateFormatApp.monthDayFormat,
-                        ),
-                        initDateEnd:
-                            widget.chiTietHop.ngayKetThuc.convertStringToDate(
-                          formatPattern: DateFormatApp.monthDayFormat,
-                        ),
-                        initTimeEnd:
-                            widget.chiTietHop.timeTo.convertStringToDate(
-                          formatPattern: DateFormatApp.timeFormat,
-                        ),
-                        initTimeStart:
-                            widget.chiTietHop.timeStart.convertStringToDate(
-                          formatPattern: DateFormatApp.timeFormat,
-                        ),
-                        isAllDay: widget.chiTietHop.isAllDay,
-                        onDateTimeChanged: (
-                          String timeStart,
-                          String timeEnd,
-                          String dateStart,
-                          String dateEnd,
-                        ) {
-                          _cubitTaoLichHop.taoLichHopRequest.timeStart =
-                              timeStart;
-                          _cubitTaoLichHop.taoLichHopRequest.timeTo = timeEnd;
-                          _cubitTaoLichHop.taoLichHopRequest.ngayBatDau =
-                              dateStart
+                      StreamBuilder<Map<String, String>>(
+                          stream: _cubitTaoLichHop.timeConfigSubject,
+                          builder: (context, snapshot) {
+                            final timeConfig = snapshot.data ?? {};
+                            return CupertinoMaterialPicker(
+                              key: _timerPickerKey,
+                              isEdit: true,
+                              timeEndConfigSystem: timeConfig['timeEnd'],
+                              timeStartConfigSystem: timeConfig['timeStart'],
+                              initDateStart: widget.chiTietHop.ngayBatDau
                                   .convertStringToDate(
-                                    formatPattern: DateFormatApp.date,
-                                  )
-                                  .formatApi;
-                          _cubitTaoLichHop.taoLichHopRequest.ngayKetThuc =
-                              dateEnd
+                                formatPattern: DateFormatApp.monthDayFormat,
+                              ),
+                              initDateEnd: widget.chiTietHop.ngayKetThuc
                                   .convertStringToDate(
-                                    formatPattern: DateFormatApp.date,
-                                  )
-                                  .formatApi;
-                        },
-                        onSwitchPressed: (value) {
-                          _cubitTaoLichHop.taoLichHopRequest.isAllDay = value;
-                        },
-                        validateTime: (String value) {},
-                      ),
+                                formatPattern: DateFormatApp.monthDayFormat,
+                              ),
+                              initTimeEnd:
+                                  widget.chiTietHop.timeTo.convertStringToDate(
+                                formatPattern: DateFormatApp.timeFormat,
+                              ),
+                              initTimeStart: widget.chiTietHop.timeStart
+                                  .convertStringToDate(
+                                formatPattern: DateFormatApp.timeFormat,
+                              ),
+                              isAllDay: widget.chiTietHop.isAllDay,
+                              onDateTimeChanged: (
+                                String timeStart,
+                                String timeEnd,
+                                String dateStart,
+                                String dateEnd,
+                              ) {
+                                _cubitTaoLichHop.taoLichHopRequest.timeStart =
+                                    timeStart;
+                                _cubitTaoLichHop.taoLichHopRequest.timeTo =
+                                    timeEnd;
+                                _cubitTaoLichHop.taoLichHopRequest.ngayBatDau =
+                                    dateStart
+                                        .convertStringToDate(
+                                          formatPattern: DateFormatApp.date,
+                                        )
+                                        .formatApi;
+                                _cubitTaoLichHop.taoLichHopRequest.ngayKetThuc =
+                                    dateEnd
+                                        .convertStringToDate(
+                                          formatPattern: DateFormatApp.date,
+                                        )
+                                        .formatApi;
+                              },
+                              onSwitchPressed: (value) {
+                                _cubitTaoLichHop.taoLichHopRequest.isAllDay =
+                                    value;
+                              },
+                              validateTime: (String value) {},
+                            );
+                          }),
                       spaceH5,
                       SelectOnlyExpand(
                         urlIcon: ImageAssets.icNhacLai,
@@ -200,8 +209,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         title: S.current.cong_khai_lich,
                         initData: widget.chiTietHop.isCongKhai ?? false,
                         onChange: (value) {
-                          _cubitTaoLichHop.taoLichHopRequest.congKhai =
-                              value;
+                          _cubitTaoLichHop.taoLichHopRequest.congKhai = value;
                         },
                       ),
                       spaceH5,
@@ -228,9 +236,9 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         onDayPicked: (listId) {
                           _cubitTaoLichHop.taoLichHopRequest.days =
                               listId.join(',');
-                          if(listId.isEmpty) {
-                            _cubitTaoLichHop.taoLichHopRequest
-                                .typeRepeat = danhSachLichLap.first.id;
+                          if (listId.isEmpty) {
+                            _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
+                                danhSachLichLap.first.id;
                           }
                         },
                         onDateChange: (value) {
@@ -324,7 +332,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                       _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
                   needShowSelectedRoom: true,
                   idHop: _cubitTaoLichHop.taoLichHopRequest.id,
-                  onDelete: (){
+                  onDelete: () {
                     _cubitTaoLichHop.taoLichHopRequest.phongHop = null;
                     _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi = null;
                   },
@@ -348,14 +356,13 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
     );
   }
 
-
   void handleButtonEditPressed() {
     final bool validateTime =
         _timerPickerKey.currentState?.validator() ?? false;
     final bool validateTextField = _formKey.currentState?.validator() ?? false;
 
     if (validateTime && validateTextField) {
-      if(_cubitTaoLichHop.taoLichHopRequest.bitTrongDonVi == null){
+      if (_cubitTaoLichHop.taoLichHopRequest.bitTrongDonVi == null) {
         MessageConfig.show(
           messState: MessState.error,
           title: S.current.vui_long_chon_chu_tri,
@@ -369,10 +376,12 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
         );
         return;
       }
-      _cubitTaoLichHop.checkLichTrung(
+      _cubitTaoLichHop
+          .checkLichTrung(
         donViId: _cubitTaoLichHop.taoLichHopRequest.chuTri?.donViId ?? '',
         canBoId: _cubitTaoLichHop.taoLichHopRequest.chuTri?.canBoId ?? '',
-      ).then((value) {
+      )
+          .then((value) {
         if (value) {
           showDiaLog(
             context,
@@ -401,7 +410,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
         MessageConfig.show(
           title: S.current.sua_thanh_cong,
         );
-        Navigator.pop(context,true);
+        Navigator.pop(context, true);
       } else {
         MessageConfig.show(
           messState: MessState.error,

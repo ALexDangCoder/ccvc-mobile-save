@@ -202,30 +202,43 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                                 value;
                                           },
                                         ),
-                                        CupertinoMaterialPicker(
-                                          onSwitchPressed: (value) {
-                                            createCubit.isCheckAllDaySubject
-                                                .add(value);
-                                          },
-                                          onDateTimeChanged: (
-                                            String timeStart,
-                                            String timeEnd,
-                                            String dateStart,
-                                            String dateEnd,
-                                          ) {
-                                            sinkData(
-                                              dateEnd,
-                                              timeEnd,
-                                              dateStart,
-                                              timeEnd,
-                                            );
-                                          },
-                                          validateTime: (String value) {
-                                            pickTimeValidatorValue =
-                                                value.isNotEmpty;
-                                          },
-                                          cubit: cupertinoMaterialCubit,
-                                        ),
+                                        StreamBuilder<Map<String, String>>(
+                                            stream: createCubit
+                                                .timeConfigSubject.stream,
+                                            builder: (context, snapshot) {
+                                              final Map<String, String>
+                                                  timeConfig =
+                                                  snapshot.data ?? {};
+                                              return CupertinoMaterialPicker(
+                                                onSwitchPressed: (value) {
+                                                  createCubit
+                                                      .isCheckAllDaySubject
+                                                      .add(value);
+                                                },
+                                                timeEndConfigSystem:
+                                                    timeConfig['timeEnd'],
+                                                timeStartConfigSystem:
+                                                    timeConfig['timeStart'],
+                                                onDateTimeChanged: (
+                                                  String timeStart,
+                                                  String timeEnd,
+                                                  String dateStart,
+                                                  String dateEnd,
+                                                ) {
+                                                  sinkData(
+                                                    dateEnd,
+                                                    timeEnd,
+                                                    dateStart,
+                                                    timeEnd,
+                                                  );
+                                                },
+                                                validateTime: (String value) {
+                                                  pickTimeValidatorValue =
+                                                      value.isNotEmpty;
+                                                },
+                                                cubit: cupertinoMaterialCubit,
+                                              );
+                                            }),
                                         NhacLaiWidget(
                                           cubit: createCubit,
                                         ),
@@ -327,7 +340,8 @@ class _CreateCalendarWorkTabletState extends State<CreateCalendarWorkTablet> {
                                                       return ItemLapDenNgayWidget(
                                                         createCubit:
                                                             createCubit,
-                                                        createWorkCalendar: true,
+                                                        createWorkCalendar:
+                                                            true,
                                                         initDate: initDate,
                                                       );
                                                     },

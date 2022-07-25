@@ -15,18 +15,20 @@ enum TypePickerDateTime { DATE_START, DATE_END, TIME_START, TIME_END }
 
 class DateTimeCupertinoCustomCubit
     extends BaseCubit<DateTimeCupertinoCustomState> {
-  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial()) {
-    getTimeConfig();
-  }
+  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial());
 
   BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject.seeded(
     false,
   );
+
   bool get allDayValue => isSwitchBtnCheckedSubject.value;
-  String? get timeTo => timeBeginSubject.valueOrNull;
-  String? get timeFrom => timeEndSubject.valueOrNull;
+
+  String? get timeTo => timeEndSubject.valueOrNull;
+
+  String? get timeFrom => timeBeginSubject.valueOrNull;
 
   String? get dateToValue => dateEndSubject.valueOrNull;
+
   String? get dateFromValue => dateBeginSubject.valueOrNull;
   BehaviorSubject<String> timeBeginSubject = BehaviorSubject();
   BehaviorSubject<String> dateBeginSubject = BehaviorSubject();
@@ -47,31 +49,20 @@ class DateTimeCupertinoCustomCubit
   String dateFromTmp = INIT_DATE_PICK;
   String dateToTmp = INIT_DATE_PICK;
   String timeToTmp = INIT_TIME_PICK;
-  String timeStartConfigSystem = '00:00';
-  String timeEndConfigSystem = '00:00';
 
   CalendarWorkRepository get calendarRepo => Get.find();
+  late String timeStartConfigSystem;
+  late String timeEndConfigSystem;
 
-  Future<void> getTimeConfig() async {
-    final result = await calendarRepo.getConfigTime();
-    result.when(
-      success: (res) {
-        timeStartConfigSystem = res.timeStart ?? '00:00';
-        timeEndConfigSystem = res.timeEnd ?? '00:00';
-      },
-      error: (error) {},
-    );
-  }
-
-  void handleSwitchButtonPressed({required bool isChecked}) {
+  void handleSwitchButtonPressed({required bool isToggled}) {
     if (isShowBeginPickerSubject.value) {
       isShowBeginPickerSubject.sink.add(false);
     }
     if (isShowEndPickerSubject.value) {
       isShowEndPickerSubject.sink.add(false);
     }
-    isSwitchBtnCheckedSubject.sink.add(isChecked);
-    if (isChecked) {
+    isSwitchBtnCheckedSubject.sink.add(isToggled);
+    if (isToggled) {
       dateBeginSubject.sink
           .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       dateEndSubject.sink.add(

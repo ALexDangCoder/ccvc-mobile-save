@@ -159,48 +159,56 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                             chooseTypeCalendarValidatorValue = value;
                           },
                         ),
-                        CupertinoMaterialPicker(
-                          cubit: cupertinoCubit,
-                          onSwitchPressed: (value) {
-                            createCubit.isCheckAllDaySubject.add(value);
-                          },
-                          onDateTimeChanged: (
-                            String timeStart,
-                            String timeEnd,
-                            String dateStart,
-                            String dateEnd,
-                          ) {
-                            createCubit.checkValidateTime();
-                            if (timeEnd != INIT_TIME_PICK &&
-                                dateEnd != INIT_DATE_PICK) {
-                              createCubit.listeningEndDataTime(
-                                DateTime.parse(
-                                  timeFormat(
-                                    '$dateEnd $timeEnd',
-                                    DateTimeFormat.DATE_TIME_PICKER,
-                                    DateTimeFormat.DATE_TIME_PUT,
-                                  ),
-                                ),
-                              );
-                            }
+                        StreamBuilder<Map<String, String>>(
+                            stream: createCubit.timeConfigSubject.stream,
+                            builder: (context, snapshot) {
+                              final Map<String, String> timeConfig =
+                                  snapshot.data ?? {};
+                              return CupertinoMaterialPicker(
+                                cubit: cupertinoCubit,
+                                timeEndConfigSystem: timeConfig['timeEnd'],
+                                timeStartConfigSystem: timeConfig['timeStart'],
+                                onSwitchPressed: (value) {
+                                  createCubit.isCheckAllDaySubject.add(value);
+                                },
+                                onDateTimeChanged: (
+                                  String timeStart,
+                                  String timeEnd,
+                                  String dateStart,
+                                  String dateEnd,
+                                ) {
+                                  createCubit.checkValidateTime();
+                                  if (timeEnd != INIT_TIME_PICK &&
+                                      dateEnd != INIT_DATE_PICK) {
+                                    createCubit.listeningEndDataTime(
+                                      DateTime.parse(
+                                        timeFormat(
+                                          '$dateEnd $timeEnd',
+                                          DateTimeFormat.DATE_TIME_PICKER,
+                                          DateTimeFormat.DATE_TIME_PUT,
+                                        ),
+                                      ),
+                                    );
+                                  }
 
-                            if (timeStart != INIT_TIME_PICK &&
-                                dateStart != INIT_DATE_PICK) {
-                              createCubit.listeningStartDataTime(
-                                DateTime.parse(
-                                  timeFormat(
-                                    '$dateStart $timeStart',
-                                    DateTimeFormat.DATE_TIME_PICKER,
-                                    DateTimeFormat.DATE_TIME_PUT,
-                                  ),
-                                ),
+                                  if (timeStart != INIT_TIME_PICK &&
+                                      dateStart != INIT_DATE_PICK) {
+                                    createCubit.listeningStartDataTime(
+                                      DateTime.parse(
+                                        timeFormat(
+                                          '$dateStart $timeStart',
+                                          DateTimeFormat.DATE_TIME_PICKER,
+                                          DateTimeFormat.DATE_TIME_PUT,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                validateTime: (String value) {
+                                  pickTimeValidatorValue = value.isNotEmpty;
+                                },
                               );
-                            }
-                          },
-                          validateTime: (String value) {
-                            pickTimeValidatorValue = value.isNotEmpty;
-                          },
-                        ),
+                            }),
                         NhacLaiWidget(
                           cubit: createCubit,
                         ),

@@ -61,7 +61,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit
         .initDataChiTiet(needCheckPermission: true)
         .then((value) => setState(() {}));
-    cubit.getDanhSachCanBoHop(widget.id);
   }
 
   @override

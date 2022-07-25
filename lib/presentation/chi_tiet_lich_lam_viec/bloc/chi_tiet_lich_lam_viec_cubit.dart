@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_di_thay_lich_lam_viec_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -622,6 +624,32 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         }
       },
     );
+  }
+
+  //cu can bo di thay
+  Future<bool> cuCanBoDiThayLichLamViec({
+    required List<CuCanBoDiThayLichLamViecRequest> canBoDiThay,
+  }) async {
+    final DataCuCanBoDiThayLichLamViecRequest
+        dataCuCanBoDiThayLichLamViecRequest =
+        DataCuCanBoDiThayLichLamViecRequest(
+            scheduleId: "", scheduleOperativeId: '', canBoDiThay: canBoDiThay);
+    final result = await detailLichLamViec
+        .cuCanBoDiThayLichLamViec(dataCuCanBoDiThayLichLamViecRequest);
+    result.when(success: (res) {}, error: (error) {});
+    return true;
+  }
+
+  //cu can bo
+  Future<bool> cuCanBoLichLamViec({
+    required List<CuCanBoLichLamViecRequest> cuCanBo,
+  }) async {
+    final DataCuCanBoLichLamViecRequest dataCuCanBoLichLamViecRequest =
+        DataCuCanBoLichLamViecRequest(scheduleId: '', canBoDiThay: cuCanBo);
+    final result = await detailLichLamViec
+        .cuCanBoLichLamViec(dataCuCanBoLichLamViecRequest);
+    result.when(success: (res) {}, error: (error) {});
+    return true;
   }
 
   bool checkLenghtFile() {

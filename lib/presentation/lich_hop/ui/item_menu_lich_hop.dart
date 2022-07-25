@@ -1,19 +1,13 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
+
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/container_menu_widget.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/ui/widget/state_select_lich_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import 'mobile/lich_hop_extension.dart';
 
 class ItemThongBaoModelMyCalender {
   TypeCalendarMenu typeMenu;
@@ -146,59 +140,6 @@ extension GetDataMenu on TypeCalendarMenu {
     }
   }
 
-  Widget getHeaderLichHop({
-    required LichHopCubit cubit,
-    required Type_Choose_Option_Day type,
-  }) {
-    if (this == TypeCalendarMenu.LichDuocMoi ||
-        this == TypeCalendarMenu.ChoDuyet ||
-        this == TypeCalendarMenu.LichDuyetPhong ||
-        this == TypeCalendarMenu.LichDuyetThietBi ||
-        this == TypeCalendarMenu.LichDaCoBaoCao ||
-        this == TypeCalendarMenu.LichDuyetKyThuat ||
-        this == TypeCalendarMenu.LichYeuCauChuanBi) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: type.getTextLHWidget(
-                      cubit: cubit,
-                      textColor: textBodyTime,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  StateSelectLichHopWidget(cubit: cubit),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        child: type.getTextLHWidget(
-          cubit: cubit,
-          textColor: textBodyTime,
-        ),
-      );
-    }
-  }
 
   String getTitleLichHop() {
     switch (this) {
@@ -257,67 +198,4 @@ extension GetDataMenu on TypeCalendarMenu {
     }
   }
 
-  Widget getHeaderTabletLichHop({
-    required bool isHindText,
-    required LichHopCubit cubit,
-    required Type_Choose_Option_Day type,
-  }) {
-    switch (this) {
-      case TypeCalendarMenu.LichCuaToi:
-        return isHindText
-            ? Container()
-            : Container(
-                padding: const EdgeInsets.only(bottom: 28),
-                child: type.getTextLHWidget(
-                  cubit: cubit,
-                  textColor: textBodyTime,
-                ),
-              );
-
-      case TypeCalendarMenu.LichDuocMoi:
-        return isHindText
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(),
-                  StateSelectLichHopWidget(cubit: cubit),
-                ],
-              )
-            : Container(
-                padding: const EdgeInsets.only(bottom: 28),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    type.getTextLHWidget(
-                      cubit: cubit,
-                      textColor: textBodyTime,
-                    ),
-                    StateSelectLichHopWidget(cubit: cubit),
-                  ],
-                ),
-              );
-
-      case TypeCalendarMenu.LichTaoHo:
-        return isHindText
-            ? Container()
-            : Container(
-                padding: const EdgeInsets.only(bottom: 28),
-                child: type.getTextLHWidget(
-                  cubit: cubit,
-                  textColor: textBodyTime,
-                ),
-              );
-
-      default:
-        return isHindText
-            ? Container()
-            : Container(
-                padding: const EdgeInsets.only(bottom: 28),
-                child: type.getTextLHWidget(
-                  cubit: cubit,
-                  textColor: textBodyTime,
-                ),
-              );
-    }
-  }
 }

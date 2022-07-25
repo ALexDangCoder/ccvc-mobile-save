@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -12,6 +11,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
 
   ThanhPhanThamGiaCubit() : super(MainStateInitial());
   DonViModel donViModel = DonViModel();
+  DonViModel newCanBo = DonViModel();
 
   ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
@@ -21,6 +21,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       BehaviorSubject<List<DonViModel>>();
   final BehaviorSubject<List<DonViModel>> listCanBoThamGia =
       BehaviorSubject<List<DonViModel>>();
+  final BehaviorSubject<bool> isDuplicateCanBo = BehaviorSubject.seeded(false);
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
   final List<DonViModel> listCanBo = [];
@@ -30,8 +31,12 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
       BehaviorSubject<List<Node<DonViModel>>>();
+  final BehaviorSubject<List<Node<DonViModel>>> _getTreeCaNhan =
+      BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
+
+  Stream<List<Node<DonViModel>>> get getTreeCaNhan => _getTreeCaNhan.stream;
 
   String timeStart = '';
   String timeEnd = '';
@@ -68,12 +73,32 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     listCanBoThamGia.sink.add(donViModel);
   }
 
+  void addCanBoThamGiaCuCanBo() {
+    if (isDuplicateItem(listCanBo, newCanBo)) {
+      isDuplicateCanBo.add(true);
+    } else {
+      isDuplicateCanBo.add(false);
+      listCanBo.add(newCanBo);
+      listCanBoThamGia.sink.add(listCanBo);
+    }
+  }
+
+  bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
+    for(final DonViModel e in listRoot) {
+      if(e.id == newCanBo.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   void xoaCanBoThamGia(
     DonViModel donViModel,
   ) {
     listCanBo.remove(donViModel);
     listCanBoThamGia.sink.add(listCanBo);
   }
+
   void addDonViPhoiHopKhac(DonViModel model) {
     listPeople.add(model);
     _listPeopleThamGia.add(listPeople);
@@ -88,7 +113,12 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     hopRp.getTreeDonVi().then((value) {
       value.when(
         success: (res) {
+          final data = <Node<DonViModel>>[];
           _getTreeDonVi.sink.add(res);
+          for (final Node<DonViModel> element in res) {
+            data.add(element.coppyWith());
+          }
+          _getTreeCaNhan.sink.add(data);
         },
         error: (err) {},
       );
@@ -113,6 +143,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     _phuongThucNhan.close();
     _listPeopleThamGia.close();
     _getTreeDonVi.close();
+    _getTreeCaNhan.close();
     listCanBoThamGia.close();
   }
 }

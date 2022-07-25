@@ -135,10 +135,10 @@ class ApiConstants {
       '/vpdt/api/MeetingSchedule/cancel?';
   static const MENU_LICH_HOP =
       '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
-  static const STATISTIC_BY_MONTH = '/vpdt/api/Statistic/statistic-by-month';
-  static const DASHBOARD_THONG_KE = '/vpdt/api/Statistic/statistics';
+  static const STATISTIC_BY_MONTH = '/vpdt/api/Statistic/statistic-by-month-v2';
+  static const DASHBOARD_THONG_KE = '/vpdt/api/Statistic/statistics-v2';
   static const CO_CAU_LICH_HOP =
-      '/vpdt/api/Statistic/statistic-by-type-of-calendar';
+      '/vpdt/api/Statistic/statistic-by-type-of-calendar-v2';
   static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list';
   static const MENU_LICH_LV = '/vpdt/api/Schedules/count-lich-don-vi';
   static const TO_CHUC_BOI_DON_VI =
@@ -322,8 +322,10 @@ class ApiConstants {
   static const XOA_BIEU_QUYET = '/vpdt/api/BieuQuyet/xoa-bieu-quyet';
   static const DANH_SACH_CAN_BO_BIEU_QUYET =
       '/vpdt/api/BieuQuyet/get-danh-sach-canbo-bieuquyet';
+  static const BAO_CAO_THONG_KE_VAN_BAN_DON_VI = '/qlvb/api/ioc/thong-ke-van-ban-don-vi-duoc-chon';
   static const GET_LICH_HOP_THEO_LINH_VUC = '/vpdt/api/ViewDashboardSchedule/thong-ke-linh-vuc';
-
+  static const CU_CAN_BO_DI_THAY_LICH_LAM_VIEC =
+      '/vpdt/api/ScheduleCoperative/cu-can-bo-di-thay';
 }
 
 class ImageConstants {

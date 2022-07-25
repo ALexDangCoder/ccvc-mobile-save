@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/main_canlendar_mobile_refactor.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CalenderWorkDayMobile(
+            builder: (context) => const MainCanlendanMobileRefactor(
               isBack: true,
             ),
           ),

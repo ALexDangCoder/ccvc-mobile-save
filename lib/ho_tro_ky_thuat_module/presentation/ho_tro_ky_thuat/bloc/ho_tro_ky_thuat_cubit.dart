@@ -116,7 +116,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   List<List<ChartData>> listDataChart = [];
   List<ChartData> listStatusData = [];
-  List<String> listTitle = [];
+  Set<String> listTitle = {};
   String? codeUnit;
   String? createOn;
   String? finishDay;
@@ -158,7 +158,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => get_dart.Get.find();
-
 
   void checkFileRemove(int index) {
     if ((editTaskHTKTRequest.lstFileId ?? []).isNotEmpty) {
@@ -257,7 +256,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     }
     for (final defaultIssue in issueList) {
       editModelHTKT.value.danhSachSuCo?.forEach(
-            (e) {
+        (e) {
           if (e.suCoId == defaultIssue.id) {
             issuesEditHTKT.add(e);
           }
@@ -270,7 +269,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     nameBuilding = null;
     nameArea = null;
   }
-
 
   List<String> getListThanhVien(List<ThanhVien> listData) {
     return listData
@@ -449,13 +447,15 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         //clean data chart
         listDataChart = [];
         listStatusData = [];
-        listTitle = [];
+        listTitle = {};
         //get list title chart
         if (res.isNotEmpty) {
-          listTitle = res.first.danhSachSuCo
-                  ?.map((e) => e.tenSuCo.toString())
-                  .toList() ??
-              [];
+          for (final ChartSuCoModel chartSuCoModel in res) {
+            for (final DanhSachSuCo value
+                in chartSuCoModel.danhSachSuCo ?? []) {
+              listTitle.add(value.tenSuCo ?? '');
+            }
+          }
           //get list status chart
           listStatusData = res
               .map(
@@ -597,7 +597,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     return result;
   }
 
-
   List<String> getIdListLoaiSuCo(List<String> value) {
     final List<String> listIdSuCo = [];
     for (final e in value) {
@@ -682,4 +681,3 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorToaNha.close();
   }
 }
-

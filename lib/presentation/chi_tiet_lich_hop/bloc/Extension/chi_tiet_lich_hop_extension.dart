@@ -425,13 +425,12 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       orElse: () => DonViModel.empty(),
     )
         .id;
-    final a = mergeCanBoDuocChonVaCuCanBo(
+        
+    final bool isCheck = await cuCanBo(
+      canBoDiThay: mergeCanBoDuocChonVaCuCanBo(
       cubitThanhPhanTG.listCanBoDuocChon,
       cubitThanhPhanTG.listCanBo,
-    );
-
-    final bool isCheck = await cuCanBo(
-      canBoDiThay: a,
+    ),
       id: id,
     );
     return isCheck;

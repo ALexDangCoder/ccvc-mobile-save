@@ -5,9 +5,9 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
@@ -30,7 +30,6 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
-import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/bloc/date_time_cupertino_custom_cubit.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
@@ -402,26 +401,8 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       .map((e) => e.toUnitName())
                                       .toList(),
                                 ),
-                                SelectFileBtn(
-                                  onChange: (files) {
-                                    createCubit.filesTaoLich = files;
-                                  },
-                                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
-                                  initFileFromApi: createCubit.files
-                                          ?.map(
-                                            (e) => FileModel(
-                                              id: e.id ?? '',
-                                              fileLength: e.getSize(),
-                                              name: e.name,
-                                            ),
-                                          )
-                                          .toList() ??
-                                      [],
-                                  onDeletedFileApi: (fileDeleted) {
-                                    createCubit.filesDelete.add(
-                                      fileDeleted.id ?? '',
-                                    );
-                                  },
+                                TaiLieuWidget(
+                                  createCubit: createCubit,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(

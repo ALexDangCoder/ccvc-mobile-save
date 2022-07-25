@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/data/di/module.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/cap_nhat_bien_so_xe_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/dang_ky_thong_tin_xe_moi_request.dart';
@@ -10,7 +9,9 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart'
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -18,9 +19,10 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   Future<void> getDanhSachBienSoXe() async {
     showLoading();
     final result = await diemDanhRepo.danhSachBienSoXe(
-        HiveLocal.getDataUser()?.userId ?? '',
-        ApiConstants.PAGE_BEGIN,
-        ApiConstants.DEFAULT_PAGE_SIZE);
+      HiveLocal.getDataUser()?.userId ?? '',
+      ApiConstants.PAGE_BEGIN,
+      ApiConstants.DEFAULT_PAGE_SIZE,
+    );
     result.when(
       success: (res) {
         if (res.items?.isEmpty == true) {
@@ -29,6 +31,24 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
           nhanDienbienSoxeSubject.sink.add(true);
         }
         danhSachBienSoXeSubject.sink.add(res.items ?? []);
+      },
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
+    );
+    showContent();
+  }
+
+  Future<void> xoaBienSoXe(String id) async {
+    showLoading();
+    final result = await diemDanhRepo.deleteBienSoXe(id);
+    result.when(
+      success: (res) {
         showContent();
       },
       error: (error) {
@@ -41,22 +61,6 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         showContent();
       },
     );
-  }
-
-  Future xoaBienSoXe(String id) async {
-    showLoading();
-    final result = await diemDanhRepo.deleteBienSoXe(id);
-    result.when(success: (res) {
-      showContent();
-    }, error: (error) {
-      if (error is NoNetworkException || error is TimeoutException) {
-        MessageConfig.show(
-          title: S.current.no_internet,
-          messState: MessState.error,
-        );
-      }
-      showContent();
-    });
   }
 
   Future<void> dangKyThongTinXeMoi(
@@ -75,16 +79,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
-        showContent();
-        toast.showToast(
-          child: ShowToast(
-            color: colorE9F9F1,
-            icon: ImageAssets.ic_tick_showToast,
-            text: S.current.luu_du_lieu_thanh_cong,
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
-        Navigator.pop(context, true);
+        eventBus.fire(ApiSuccessAttendance(false));
       },
       error: (error) {
         if (error is NoNetworkException || error is TimeoutException) {
@@ -93,17 +88,19 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
             messState: MessState.error,
           );
         }
-        showContent();
       },
     );
+    showContent();
   }
 
   ///update number plate, driver license
-  Future<void> capNhatBienSoxe(
-      {required String bienKiemSoat,
-      required String id,
-      required String fileId,
-      required BuildContext context}) async {
+  Future<void> capNhatBienSoxe({
+    required String bienKiemSoat,
+    required String id,
+    required String fileId,
+    required BuildContext context,
+  }) async {
+    showLoading();
     final capNhatBienSoXeRequest = CapNhatBienSoXeRequest(
       id: id,
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
@@ -112,27 +109,29 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
       loaiXeMay: xeMay ?? DanhSachBienSoXeConst.XE_MAY,
       fileId: fileId,
     );
-    showLoading();
     final result = await diemDanhRepo.capNhatBienSoXe(capNhatBienSoXeRequest);
-    result.when(success: (res) {
-      showContent();
-      toast.showToast(
-        child: ShowToast(
-          color: colorE9F9F1,
-          icon: ImageAssets.ic_tick_showToast,
-          text: S.current.luu_du_lieu_thanh_cong,
-        ),
-        gravity: ToastGravity.BOTTOM,
-      );
-      Navigator.pop(context, true);
-    }, error: (error) {
-      if (error is NoNetworkException || error is TimeoutException) {
-        MessageConfig.show(
-          title: S.current.no_internet,
-          messState: MessState.error,
+    result.when(
+      success: (res) {
+        toast.showToast(
+          child: ShowToast(
+            color: colorE9F9F1,
+            icon: ImageAssets.ic_tick_showToast,
+            text: S.current.luu_du_lieu_thanh_cong,
+          ),
+          gravity: ToastGravity.BOTTOM,
         );
-      }
-    });
+        eventBus.fire(ApiSuccessAttendance(true));
+      },
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
+    );
+    showContent();
   }
 
   ///delete image
@@ -157,6 +156,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     String? fileId,
     required BuildContext context,
   }) async {
+    showLoading();
     final result = await diemDanhRepo.postFileModel(
       '',
       ApiConstants.BIEN_SO_XE_TYPE,

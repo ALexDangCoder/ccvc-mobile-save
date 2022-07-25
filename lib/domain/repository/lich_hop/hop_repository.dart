@@ -289,6 +289,7 @@ mixin HopRepository {
     String hoTen,
     bool isMultipe,
     List<File> file,
+    List<String> filesDelete,
   );
 
   Future<Result<ThemYKienModel>> xoaChuongTrinhHop(
@@ -458,7 +459,6 @@ mixin HopRepository {
   Future<Result<List<FileUploadModel>>> uploadMultiFile(
       {required List<File> path});
 
-
   Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(
     String luaChonId,
     String lichHopId,
@@ -466,7 +466,7 @@ mixin HopRepository {
   );
 
   Future<Result<List<ThongKeLinhVucModel>>> getLichHopTheoLinhVuc(
-      String dateFrom,
-      String dateTo,
+    String dateFrom,
+    String dateTo,
   );
 }

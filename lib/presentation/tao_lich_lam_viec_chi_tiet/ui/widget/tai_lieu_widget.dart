@@ -15,6 +15,7 @@ class TaiLieuWidget extends StatefulWidget {
   final Function(List<File>, bool) onChange;
   Function(String id) idRemove;
   final Function(int index)? getIndex;
+  final bool isHaveExpanded;
   String size;
 
   TaiLieuWidget({
@@ -23,6 +24,7 @@ class TaiLieuWidget extends StatefulWidget {
     required this.onChange,
     required this.idRemove,
     this.size = '',
+    this.isHaveExpanded = false,
     this.getIndex,
   }) : super(key: key);
 
@@ -39,40 +41,50 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: () {
-            isExpand = !isExpand;
-            setState(() {});
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.current.tai_lieu,
-                style: textNormalCustom(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16.0.textScale(),
-                  color: color667793,
+        if (widget.isHaveExpanded)
+          Text(
+            S.current.tai_lieu,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w500,
+              fontSize: 16.0.textScale(),
+              color: color667793,
+            ),
+          )
+        else
+          GestureDetector(
+            onTap: () {
+              isExpand = !isExpand;
+              setState(() {});
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  S.current.tai_lieu,
+                  style: textNormalCustom(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.0.textScale(),
+                    color: color667793,
+                  ),
                 ),
-              ),
-              if (isExpand)
-                const Icon(
-                  Icons.keyboard_arrow_up_rounded,
-                  color: AqiColor,
-                )
-              else
-                const Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  color: AqiColor,
-                )
-            ],
+                if (isExpand)
+                  const Icon(
+                    Icons.keyboard_arrow_up_rounded,
+                    color: AqiColor,
+                  )
+                else
+                  const Icon(
+                    Icons.keyboard_arrow_down_outlined,
+                    color: AqiColor,
+                  )
+              ],
+            ),
           ),
-        ),
         SizedBox(
           height: 16.5.textScale(),
         ),
         ExpandedSection(
-          expand: isExpand,
+          expand: (widget.isHaveExpanded) ? true : isExpand,
           child: ButtonSelectFileLichLamViec(
             hasMultipleFile: true,
             maxSize: maxSize20MB,
@@ -82,7 +94,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               widget.onChange(files, validate);
             },
             getIndexFunc: (index) {
-              widget.getIndex!(index);
+              (widget.getIndex != null) ? widget.getIndex!(index) : null;
             },
             allowedExtensions: const [
               FileExtensions.DOC,

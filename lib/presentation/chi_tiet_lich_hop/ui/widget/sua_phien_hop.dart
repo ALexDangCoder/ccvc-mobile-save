@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
@@ -76,6 +75,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
     thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
         .parse(widget.phienHopModel.thoiGianBatDau ?? '')
         .formatApi;
+    widget.cubit.clearDataChuongTrinhHop();
     handleButtonSaveClick();
   }
 
@@ -137,7 +137,6 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 noiDung: noiDung.text,
                 hoTen: widget.cubit.idPerson,
                 isMultipe: false,
-                file: widget.cubit.listFile ?? [],
               );
               nav.pop(true);
             } else {
@@ -261,20 +260,22 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
               spaceH20,
               SelectFileBtn(
                 onChange: (files) {
-                  //   widget.createCubit.filesTaoLich = files;
+                  widget.cubit.listFile = files;
                 },
                 maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                 initFileFromApi: widget.phienHopModel.files
-                    .map((file) => FileModel(
-                          id: file.id ?? '',
-                          fileLength: file.getSize(),
-                          name: file.name,
-                        ))
+                    .map(
+                      (file) => FileModel(
+                        id: file.id ?? '',
+                        fileLength: file.getSize(),
+                        name: file.name,
+                      ),
+                    )
                     .toList(),
                 onDeletedFileApi: (fileDeleted) {
-                  // widget.createCubit.filesDelete.add(
-                  //   fileDeleted.id ?? '',
-                  // );
+                  widget.cubit.filesDelete.add(
+                    fileDeleted.id ?? '',
+                  );
                 },
                 allowedExtensions: const [
                   FileExtensions.DOC,
@@ -287,15 +288,6 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   FileExtensions.PPTX,
                 ],
               ),
-              ButtonSelectFile(
-                removeFileApi: (int index) {},
-                title: S.current.tai_lieu_dinh_kem,
-                onChange: (
-                  value,
-                ) {
-                  widget.cubit.listFile = value;
-                },
-              )
             ],
           ),
         ),

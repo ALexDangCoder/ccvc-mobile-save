@@ -643,6 +643,7 @@ class HopRepositoryImpl implements HopRepository {
     String hoTen,
     bool isMultipe,
     List<File> file,
+    List<String> filesDelete,
   ) {
     return runCatchingAsync<SuaChuongTrinhHopResponse, ThemYKienModel>(
       () => _hopServices.suaChuongTrinhHop(
@@ -657,6 +658,7 @@ class HopRepositoryImpl implements HopRepository {
         hoTen,
         isMultipe,
         file,
+        filesDelete,
       ),
       (response) => response.toDomain(),
     );
@@ -1123,13 +1125,13 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-
   Future<Result<List<FileUploadModel>>> uploadMultiFile(
       {required List<File> path}) {
     return runCatchingAsync<FileUploadResponse, List<FileUploadModel>>(
-      () => _hopServices.uploadMultiFile(path),
-      (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
+        () => _hopServices.uploadMultiFile(path),
+        (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
   }
+
   Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(
     String luaChonId,
     String lichHopId,

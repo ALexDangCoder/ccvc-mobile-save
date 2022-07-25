@@ -14,8 +14,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SelectSearchDonViWidget extends StatefulWidget {
   final ThemDonViCubit themDonViCubit;
+  final List<Node<DonViModel>> data;
 
-  const SelectSearchDonViWidget({Key? key, required this.themDonViCubit})
+  const SelectSearchDonViWidget(
+      {Key? key, required this.themDonViCubit, this.data = const []})
       : super(key: key);
 
   @override
@@ -25,11 +27,17 @@ class SelectSearchDonViWidget extends StatefulWidget {
 
 class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
   final TextEditingController controller = TextEditingController();
+  @override
+  void initState() {
+    widget.themDonViCubit.selectNode.addAll(widget.data);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Node<DonViModel>>>(
       stream: widget.themDonViCubit.selectDonVi,
+      initialData: widget.data,
       builder: (context, snapshot) {
         final data = snapshot.data ?? <Node<DonViModel>>[];
         if (data.isNotEmpty) {
@@ -128,7 +136,7 @@ class SelectDonViCell extends StatelessWidget {
 
   Widget tag({required String title, required Function onDelete}) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         onDelete();
       },
       child: Container(

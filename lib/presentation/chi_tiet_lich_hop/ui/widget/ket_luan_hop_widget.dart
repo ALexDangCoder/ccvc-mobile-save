@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/ket_lu
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_item_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_moi_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
@@ -212,7 +211,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                   loaiNV: data[index].loaiNhiemVu,
                   ndTheoDoi: data[index].noiDungTheoDoi,
                   soNhiemVu: data[index].soNhiemVu,
-                  tinhHinhThucHien: data[index].tinhHinhThucHienNoiBo,
+                  tinhHinhThucHien: data[index].trangThaiThucHien,
                   trangThaiNhiemVu: data[index].trangThai,
                   ontap: () {
                     Navigator.push(

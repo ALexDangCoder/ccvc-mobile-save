@@ -32,6 +32,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   ThanhPhanThamGiaHopCubit thanhPhanThamGiaHopCubit =
       ThanhPhanThamGiaHopCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -71,29 +72,31 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   },
                 ),
               ),
-            IconWithTiltleWidget(
-              icon: ImageAssets.ic_diemDanh,
-              title: S.current.diem_danh,
-              onPress: () {
-                if (thanhPhanThamGiaHopCubit.diemDanhIds.isEmpty) {
-                  MessageConfig.show(
+            if (widget.cubit.isChuTri() || widget.cubit.isThuKy())
+              IconWithTiltleWidget(
+                icon: ImageAssets.ic_diemDanh,
+                title: S.current.diem_danh,
+                onPress: () {
+                  if (thanhPhanThamGiaHopCubit.diemDanhIds.isEmpty) {
+                    MessageConfig.show(
                       title: S.current.ban_chua_chon_nguoi_diem_danh,
-                      messState: MessState.error,);
-                  return;
-                }
-                showDiaLog(
-                  context,
-                  title: S.current.diem_danh,
-                  icon: SvgPicture.asset(ImageAssets.icDiemDanh),
-                  btnLeftTxt: S.current.khong,
-                  btnRightTxt: S.current.dong_y,
-                  textContent: S.current.conten_diem_danh,
-                  funcBtnRight: () {
-                    thanhPhanThamGiaHopCubit.postDiemDanh();
-                  },
-                );
-              },
-            ),
+                      messState: MessState.error,
+                    );
+                    return;
+                  }
+                  showDiaLog(
+                    context,
+                    title: S.current.diem_danh,
+                    icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+                    btnLeftTxt: S.current.khong,
+                    btnRightTxt: S.current.dong_y,
+                    textContent: S.current.conten_diem_danh,
+                    funcBtnRight: () {
+                      thanhPhanThamGiaHopCubit.postDiemDanh();
+                    },
+                  );
+                },
+              ),
             const SizedBox(
               height: 16,
             ),
@@ -109,6 +112,8 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                     itemBuilder: (context, index) {
                       return CellThanhPhanThamGia(
                         cubit: thanhPhanThamGiaHopCubit,
+                        diemDanh:
+                            widget.cubit.isChuTri() || widget.cubit.isThuKy(),
                         infoModel: list[index],
                         ontap: () {
                           showDiaLog(

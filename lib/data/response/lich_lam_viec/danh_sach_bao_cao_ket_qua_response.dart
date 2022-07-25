@@ -92,7 +92,8 @@ class Data {
         listFile: files?.map((e) => e.toDomain()).toList() ?? [],
         id: id ?? '',
         reportStatusCode: reportStatusCode ?? '',
-    reportStatusId: reportStatusId ?? '',
+        reportStatusId: reportStatusId ?? '',
+        canBoChuTriId: canBoChuTriId ?? '',
       );
 }
 

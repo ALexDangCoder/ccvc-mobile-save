@@ -78,28 +78,23 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                                   TreeDanhBaDienTu())
                               .tree
                               .isNotEmpty) {
-                        return Scrollbar(
-                          child: Container(
-                            constraints: const BoxConstraints(
-                              maxHeight: 300,
-                            ),
-                            color: Colors.white,
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: NodeWidget(
-                                    onChange: (vl) {
-                                      widget.onChange(vl);
-                                    },
-                                    key: UniqueKey(),
-                                    node: widget.cubit.getRoot(),
-                                    cubit: widget.cubit,
-                                  ),
-                                ),
-                              ],
-                            ),
+                        return Container(
+
+                          constraints: const BoxConstraints(
+                            maxHeight: 300,
+                          ),
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              NodeWidget(
+                                onChange: (vl) {
+                                  widget.onChange(vl);
+                                },
+                                key: UniqueKey(),
+                                node: widget.cubit.getRoot(),
+                                cubit: widget.cubit,
+                              ),
+                            ],
                           ),
                         );
                       }

@@ -85,9 +85,9 @@ class HanXuLyWidget extends StatelessWidget {
                       child: FittedBox(
                         child: Text(
                           '${result.title} (${result.value.toInt()})',
-                          style: textNormalCustom(
-                            color: infoColor,
-                            fontSize: 14.0.textScale(),
+                          style: textNormal(
+                            infoColor,
+                            14.0.textScale(),
                           ),
                         ),
                       ),

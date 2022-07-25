@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:core';
 import 'dart:io';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
@@ -24,7 +25,7 @@ import 'danh_sach_cong_viec_tien_ich_state.dart';
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
-  String dateChange = '';
+  String dateChange = DateTime.now().toString();
   String? noteChange;
   String? titleChange;
   int countLoadMore = 1;
@@ -417,10 +418,9 @@ class DanhSachCongViecTienIchCubit
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatApi,
-        performer: checkData(
-          changeData: nguoiThucHienSubject.value.id,
-          defaultData: todo.performer,
-        ),
+        performer: dataNguoiThucHienModel.id == ''
+            ? null
+            : nguoiThucHienSubject.value.id,
         filePath: (isDeleteFile ?? false)
             ? null
             : checkData(changeData: filePathTodo, defaultData: todo.filePath),
@@ -428,7 +428,9 @@ class DanhSachCongViecTienIchCubit
     );
     result.when(
       success: (res) {
+        showContent();
         final data = listDSCVStream.valueOrNull ?? [];
+        MessageConfig.show(title: S.current.thanh_cong);
         if (isTicked != null) {
           data.insert(0, res);
           data.remove(todo);
@@ -449,7 +451,10 @@ class DanhSachCongViecTienIchCubit
         }
       },
       error: (err) {
-        showError();
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
       },
     );
     showContent();
@@ -508,7 +513,7 @@ class DanhSachCongViecTienIchCubit
     } else {
       nguoiThucHienSubject.sink.add(
         NguoiThucHienModel(
-          id: '',
+          id: todo.performer ?? '',
           hoten: convertIdToPerson(vl: todo.performer ?? ''),
           donVi: [],
           chucVu: [],
@@ -667,7 +672,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   void disposs() {
-    dateChange = '';
+    dateChange = DateTime.now().toString();
     noteChange = '';
     titleChange = '';
     nguoiThucHienSubject.sink.add(

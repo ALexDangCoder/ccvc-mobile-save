@@ -10,12 +10,14 @@ import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/extension/report_statistical.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_row_chart.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -67,15 +69,30 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
   Stream<bool> get showSearchStream => showSearchSubject.stream;
 
-  List<String> monthsList = [];
-  List<String> yearsList = [];
-
   void setSelectSearch() {
     showSearchSubject.sink.add(!showSearchSubject.value);
   }
 
   ///Report Statistical variable
-  final BehaviorSubject<List<InfoItemModel>> infoItemStream = BehaviorSubject();
+  List<String> monthList = [];
+  List<String> yearList = [];
+  int selectedYear = DateTime.now().year;
+  int? selectedMonth;
+  final ValueNotifier<bool> listenableMonthValue = ValueNotifier(false);
+
+  final BehaviorSubject<List<InfoItemModel>> infoItemInStream =
+      BehaviorSubject();
+  final BehaviorSubject<List<InfoItemModel>> infoItemOutStream =
+      BehaviorSubject();
+  final BehaviorSubject<List<RowChartData>> rowChartDataInStream =
+      BehaviorSubject();
+  final BehaviorSubject<List<RowChartData>> rowChartDataOutStream =
+      BehaviorSubject();
+  final BehaviorSubject<List<ChartData>> pieChartDataInStream =
+      BehaviorSubject();
+  final BehaviorSubject<List<ChartData>> pieChartDataOutStream =
+      BehaviorSubject();
+
   ///End declare Report Statistical variable
 
   Future<void> callAPi({bool initTime = true}) async {
@@ -89,13 +106,13 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     showContent();
   }
 
-  final QLVBRepository _qLVBRepo = Get.find();
+  final QLVBRepository qLVBRepo = Get.find();
 
   Future<void> getDashBoardOutcomeDocument({
     String? startDate,
     String? endDate,
   }) async {
-    final result = await _qLVBRepo.getVBDi(
+    final result = await qLVBRepo.getVBDi(
         startDate ?? this.startDate, endDate ?? this.endDate);
     result.when(
       success: (res) {
@@ -153,7 +170,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     String? startDate,
     String? endDate,
   }) async {
-    final result = await _qLVBRepo.getVBDen(
+    final result = await qLVBRepo.getVBDen(
       startDate ?? this.startDate,
       endDate ?? this.endDate,
     );
@@ -203,7 +220,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     int? page,
   }) async {
     List<VanBanModel> listVbDen = [];
-    final result = await _qLVBRepo.getDanhSachVbDen(
+    final result = await qLVBRepo.getDanhSachVbDen(
       DanhSachVBRequest(
         maTrangThai: statusSearchDocumentInCode(documentInStatusCode),
         index: page ?? ApiConstants.PAGE_BEGIN,
@@ -254,7 +271,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     int? page,
   }) async {
     List<VanBanModel> listVbDi = [];
-    final result = await _qLVBRepo.getDanhSachVbDi(
+    final result = await qLVBRepo.getDanhSachVbDi(
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       index: page ?? ApiConstants.PAGE_BEGIN,

@@ -121,7 +121,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
                             : S.current.truc_tiep,
                         colorStatus: result.isHopTrucTuyen
                             ? itemWidgetUsing
-                            : choXuLyColor,
+                            : textDefault,
                         backGroundStatus: true,
                         backGroundStatus2: true,
                         title: result.title,

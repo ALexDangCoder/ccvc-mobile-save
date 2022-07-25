@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -191,7 +189,6 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     required String noiDung,
     required String? hoTen,
     required bool isMultipe,
-    required List<File>? file,
   }) async {
     showLoading();
 
@@ -206,7 +203,8 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
       noiDung,
       hoTen ?? '',
       isMultipe,
-      file ?? [],
+      listFile ?? [],
+      filesDelete,
     );
 
     result.when(
@@ -320,5 +318,10 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getListPhienHop(idCuocHop);
     showContent();
+  }
+
+  void clearDataChuongTrinhHop() {
+    listFile?.clear();
+    filesDelete.clear();
   }
 }

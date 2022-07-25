@@ -121,7 +121,7 @@ extension GetTypeByName on PickerType {
   }
 }
 
-const int BYTE_TO_MB = 1048576;
+const int BYTE_TO_MB = 1000000;
 const String HOAN_THANH = 'HOAN_THANH';
 const String DEN_HAN = 'DEN_HAN';
 const String QUA_HAN = 'QUA_HAN';

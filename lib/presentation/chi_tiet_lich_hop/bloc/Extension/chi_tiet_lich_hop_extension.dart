@@ -262,9 +262,9 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         .map(
           (canBo) =>
           CanBoDiThay(
-            id: e.id,
-            donViId: e.donViId,
-            canBoId: e.canBoId,
+            id: canBo.id,
+            donViId: canBo.donViId,
+            canBoId: canBo.canBoId,
             taskContent: '',
           ),
     )
@@ -360,9 +360,9 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
           .map(
             (canBo) =>
             CanBoDiThay(
-              id: canBo.id.isEmpty ? null : e.id,
-              donViId: canBo.donViId.isEmpty ? null : e.donViId,
-              canBoId: canBo.canBoId.isEmpty ? null : e.canBoId,
+              id: canBo.id.isEmpty ? null : canBo.id,
+              donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+              canBoId: canBo.canBoId.isEmpty ? null : canBo.canBoId,
               taskContent: canBo.noidung,
               isXoa: canBo.isXoa,
             ),
@@ -372,12 +372,12 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     data.addAll(
       cuCanBo
           .map(
-            (e) =>
+            (canBo) =>
             CanBoDiThay(
               id: null,
-              donViId: e.donViId.isEmpty ? null : e.donViId,
-              canBoId: e.canBoId.isEmpty ? null : e.canBoId,
-              taskContent: e.noidung,
+              donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+              canBoId: canBo.canBoId.isEmpty ? null : canBo.canBoId,
+              taskContent: canBo.noidung,
             ),
       )
           .toList(),
@@ -386,9 +386,9 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
   }
 
   DonViModel? get canBoThamGia {
-    for (final DonViModel e in listTPTG) {
-      if (e.canBoId == (dataUser?.userId ?? '')) {
-        return e;
+    for (final DonViModel canBo in listTPTG) {
+      if (canBo.canBoId == (dataUser?.userId ?? '')) {
+        return canBo;
       }
     }
   }
@@ -401,10 +401,10 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
             ?.donViTrucThuoc
             ?.id ?? '';
 
-    for (final DonViModel e in listTPTG) {
-      if (e.donViId.toUpperCase() == donViId.toUpperCase() &&
-          e.canBoId.isEmpty) {
-        return e;
+    for (final DonViModel canBo in listTPTG) {
+      if (canBo.donViId.toUpperCase() == donViId.toUpperCase() &&
+          canBo.canBoId.isEmpty) {
+        return canBo;
       }
     }
   }
@@ -419,7 +419,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
             ?.donViTrucThuoc
             ?.id ?? '';
 
-    final String id = listTPTG
+    final String idChuTri = listTPTG
         .firstWhere(
           (element) => element.donViId == donViId && element.canBoId.isEmpty,
       orElse: () => DonViModel.empty(),
@@ -431,7 +431,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       cubitThanhPhanTG.listCanBoDuocChon,
       cubitThanhPhanTG.listCanBo,
     ),
-      id: id,
+      id: idChuTri,
     );
     return isCheckCallApiCuCanBo;
   }

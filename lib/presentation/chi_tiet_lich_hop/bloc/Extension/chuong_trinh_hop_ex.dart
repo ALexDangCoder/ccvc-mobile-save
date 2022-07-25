@@ -42,13 +42,13 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         listTPTG = res
             .map(
               (canBo) => DonViModel(
-                id: e.id ?? '',
-                donViId: e.donViId ?? '',
-                tenDonVi: e.tenDonVi ?? '',
-                canBoId: e.canBoId ?? '',
-                noidung: e.ghiChu ?? '',
-                tenCanBo: e.tenCanBo ?? '',
-                tenCoQuan: e.tenCoQuan ?? '',
+                id: canBo.id ?? '',
+                donViId: canBo.donViId ?? '',
+                tenDonVi: canBo.tenDonVi ?? '',
+                canBoId: canBo.canBoId ?? '',
+                noidung: canBo.ghiChu ?? '',
+                tenCanBo: canBo.tenCanBo ?? '',
+                tenCoQuan: canBo.tenCoQuan ?? '',
               ),
             )
             .toList();
@@ -78,13 +78,13 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
           final List<DonViModel> listCanBo = data
               .map(
                 (canBo) => DonViModel(
-                  id: e.id ?? '',
-                  donViId: e.donViId ?? '',
-                  tenDonVi: e.tenDonVi ?? '',
-                  canBoId: e.canBoId ?? '',
-                  noidung: e.ghiChu ?? '',
-                  tenCanBo: e.tenCanBo ?? '',
-                  tenCoQuan: e.tenCoQuan ?? '',
+                  id: canBo.id ?? '',
+                  donViId: canBo.donViId ?? '',
+                  tenDonVi: canBo.tenDonVi ?? '',
+                  canBoId: canBo.canBoId ?? '',
+                  noidung: canBo.ghiChu ?? '',
+                  tenCanBo: canBo.tenCanBo ?? '',
+                  tenCoQuan: canBo.tenCoQuan ?? '',
                 ),
               )
               .toList();
@@ -146,13 +146,13 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         final listCanBoMoi = canBoDiThay
             .map(
               (canBo) => DonViModel(
-                id: e.id ?? '',
-                name: e.hoTen ?? '',
-                tenCanBo: e.tenCanBo ?? '',
-                chucVu: e.chucVu ?? '',
-                canBoId: e.canBoId ?? '',
-                donViId: e.donViId ?? '',
-                tenCoQuan: e.tenCoQuan ?? '',
+                id: canBo.id ?? '',
+                name: canBo.hoTen ?? '',
+                tenCanBo: canBo.tenCanBo ?? '',
+                chucVu: canBo.chucVu ?? '',
+                canBoId: canBo.canBoId ?? '',
+                donViId: canBo.donViId ?? '',
+                tenCoQuan: canBo.tenCoQuan ?? '',
               ),
             )
             .toList();

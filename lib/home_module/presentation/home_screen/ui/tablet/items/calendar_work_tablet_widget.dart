@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/main_canlendar_refactor_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CalenderWorkDayTablet(
+            builder: (context) => const MainCalendarRefactorTablet(
               isBack: true,
             ),
           ),

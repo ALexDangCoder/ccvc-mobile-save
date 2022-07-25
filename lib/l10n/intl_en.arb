@@ -305,7 +305,7 @@
   "nhap_ten_can_bo": "Nhập tên cán bộ",
   "ten_can_bo": "Tên cán bộ",
   "phuong_thuc_nhan_khac": "Phương thức nhận khác",
-  "nhap_noi_dung_cong_viec": "Nhập nội dung công viêc",
+  "nhap_noi_dung_cong_viec": "Nhập nội dung công việc",
   "dv_phoi_hop": "ĐV phối hợp",
   "nguoi_pho_hop": "Người phối hợp",
   "gui_email": "Gửi email",
@@ -1360,9 +1360,13 @@
   "lap_lai_hang_thang": "Lặp lại hàng tháng",
   "lap_lai_hang_nam": "Lặp lại hàng năm",
   "tuy_chinh": "Tùy chỉnh",
+  "can_bo_nay_da_ton_tai" : "Cán bộ này đã tồn tại",
+  "nam_nay" : "Năm nay",
+  "tinh_hinh_xu_ly_van_ban_den" : "Tình hình xử lý văn bản đến",
   "su_kien_trong_tuan": "Sự kiện trong tuần",
   "su_kien_trong_thang": "Sự kiện trong tháng",
   "su_kien_trong_nam": "Sự kiện trong năm",
   "ten_nguoi_tao" : "Tên người tạo",
-  "so_lich_hop_theo_linh_vuc": "Số lịch họp theo lĩnh vực"
+  "so_lich_hop_theo_linh_vuc": "Số lịch họp theo lĩnh vực",
+  "thong_ke_van_ban_den" : "Thống kê văn bản đến"
 }

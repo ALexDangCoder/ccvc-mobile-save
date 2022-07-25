@@ -191,11 +191,15 @@ class Data {
 
   ChiTietLichHopModel toDomain() {
     final List<FilesChiTietHop> listFileDinhKem = [];
-    if ((thuMoiFiles ?? '').isNotEmpty) {
-      final data = json.decode(thuMoiFiles ?? '') as List<dynamic>;
-      for (final element in data) {
-        listFileDinhKem.add(FilesChiTietHop.fromJson(element));
+    try{
+      if ((thuMoiFiles ?? '').isNotEmpty) {
+        final data = json.decode(thuMoiFiles ?? '') as List<dynamic>;
+        for (final element in data) {
+          listFileDinhKem.add(FilesChiTietHop.fromJson(element));
+        }
       }
+    }catch(e){
+      //
     }
     return ChiTietLichHopModel(
       id: id ?? '',

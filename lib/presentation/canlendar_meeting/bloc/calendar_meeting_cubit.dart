@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/dashboard_thong_ke_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/statistic_by_month_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/thong_ke_linh_vuc.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_gia.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
@@ -29,12 +28,12 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/calendar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   CalendarMeetingCubit() : super( CalendarViewState()) {
@@ -330,7 +329,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       error: (error) {},
     );
   }
-
 
   Future<void> getCountInDashboard() async {
     final queue = Queue(parallel: 2);
@@ -720,38 +718,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     return false;
   }
 
-  double getMax(List<ToChucBoiDonViModel> data) {
-    double value = 0;
-    data.forEach((element) {
-      if ((element.quantities?.toDouble() ?? 0.0) > value) {
-        value = element.quantities?.toDouble() ?? 0.0;
-      }
-    });
-    final double range = value % 10;
-
-    return (value + (10.0 - range)) / 5.0;
-  }
-
-  bool checkDataRateList(List<TiLeThamGiaModel> data) {
-    for (var i in data) {
-      if (i.rate != 0) return true;
-    }
-    return false;
-  }
-
-  double getMaxTiLe(List<TiLeThamGiaModel> data) {
-    double value = 0;
-    data.forEach((element) {
-      if ((element.rate?.toDouble() ?? 0.0) > value) {
-        value = element.rate?.toDouble() ?? 0.0;
-      }
-    });
-
-    final double range = value % 10;
-
-    return (value + (10.0 - range)) / 5.0;
-  }
-
   void changeCalendarDate(DateTime oldDate, DateTime newDate) {
     final currentDate = getOnlyDate(oldDate);
     final dateSelect = getOnlyDate(newDate);
@@ -792,10 +758,4 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     }
   }
 
-  void handleChartPicked({required String id, required String title}) {
-    emitListViewState(type: state.typeView);
-    idThongKe = id;
-    _titleSubject.add(title);
-    getDanhSachThongKe();
-  }
 }

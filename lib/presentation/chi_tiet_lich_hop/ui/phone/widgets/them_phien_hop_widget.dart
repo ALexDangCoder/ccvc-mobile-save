@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
@@ -7,7 +9,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
@@ -36,6 +38,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   final _key = GlobalKey<FormGroupState>();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   late TaoPhienHopRequest taoPhienHopRequest;
+  bool isOverFileLength = false;
 
   @override
   void initState() {
@@ -63,7 +66,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           child: DoubleButtonBottom(
             onClickRight: () {
               _keyBaseTime.currentState?.validator();
-              if (_key.currentState?.validator() ?? false) {
+              if ((_key.currentState?.validator() ?? false) &&
+                  !isOverFileLength) {
                 widget.cubit.themPhienHop(
                   id: widget.id,
                   taoPhienHopRequest: taoPhienHopRequest,
@@ -160,14 +164,26 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
 
                 /// thêm tài liệu
-                ButtonSelectFile(
+                ButtonSelectFileLichLamViec(
                   hasMultipleFile: true,
-                  maxSize: widget.cubit.maxSizeFile30 * 1.0,
+                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (value) {
-                    taoPhienHopRequest.files = value;
+                  initFileSystem: taoPhienHopRequest.files ?? [],
+                  allowedExtensions: const [
+                    FileExtensions.DOC,
+                    FileExtensions.DOCX,
+                    FileExtensions.JPEG,
+                    FileExtensions.JPG,
+                    FileExtensions.PDF,
+                    FileExtensions.PNG,
+                    FileExtensions.XLSX,
+                  ],
+                  onChange: (List<File> files, bool validate) {
+                    isOverFileLength = validate;
+                    if (!validate) {
+                      taoPhienHopRequest.files = files;
+                    }
                   },
-                  removeFileApi: (int index) {},
                 )
               ],
             ),

@@ -311,9 +311,9 @@ class ChiTietLichHopModel {
       data.add(
           ChiTietDataRow(urlIcon: ImageAssets.icMucDoHop, text: getMucDoHop()));
     }
-    if (phongHopMode.ten.isNotEmpty) {
+    if ((diaDiemHop ?? '').isNotEmpty) {
       data.add(
-        ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: phongHopMode.ten),
+        ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: diaDiemHop ?? ''),
       );
     }
 

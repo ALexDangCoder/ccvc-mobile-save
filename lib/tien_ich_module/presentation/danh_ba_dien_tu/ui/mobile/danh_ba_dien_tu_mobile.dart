@@ -27,6 +27,7 @@ class _DanhBaDienTuMobileState extends State<DanhBaDienTuMobile>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 1,
         title: Text(

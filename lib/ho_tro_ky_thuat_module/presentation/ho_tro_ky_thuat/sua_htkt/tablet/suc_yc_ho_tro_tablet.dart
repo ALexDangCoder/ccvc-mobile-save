@@ -1,3 +1,5 @@
+
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -109,8 +111,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                         },
                         child: SvgPicture.asset(
                           ImageAssets.icClose,
-                          color: AppTheme.getInstance()
-                              .unselectedLabelColor(),
+                          color: AppTheme.getInstance().unselectedLabelColor(),
                         ),
                       ),
                     ],
@@ -138,7 +139,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                 if (data.id != null) {
                                   return Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       textField(
                                         initValue: data.tenThietBi,
@@ -148,11 +150,13 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         isEnable: true,
                                         maxLength: 150,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.name = value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .name = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           }
                                         },
                                       ),
@@ -163,17 +167,19 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         title: S.current.sdt_lien_he,
                                         hintText: S.current.sdt_lien_he,
                                         inputFormatter: [
-                                          FilteringTextInputFormatter.digitsOnly,
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
                                         ],
                                         maxLength: 11,
                                         textInputType: TextInputType.number,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.phone =
-                                              value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .phone = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           } else {
                                             return null;
                                           }
@@ -184,15 +190,16 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         initValue: data.moTaSuCo,
                                         isHightLight: true,
                                         maxLine: 3,
-                                        title: S.current.nhap_mo_ta,
-                                        hintText: S.current.nhap_mo_ta,
+                                        title: S.current.mo_ta_su_co,
+                                        hintText: S.current.nhap_mo_ta_su_co,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.description =
-                                              value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .description = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           }
                                         },
                                       ),
@@ -213,11 +220,13 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         title: S.current.so_phong,
                                         hintText: S.current.so_phong,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.room = value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .room = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           }
                                         },
                                       ),
@@ -225,8 +234,9 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                       _multiSelect(),
                                       spaceH16,
                                       TaiLieuWidget(
-                                        files: widget
-                                            .cubit.editModelHTKT.value.filesDinhKem
+                                        isHaveExpanded: true,
+                                        files: widget.cubit.editModelHTKT.value
+                                            .filesDinhKem
                                             ?.map(
                                               (e) => Files(
                                                 id: e.id,
@@ -245,8 +255,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                           widget.cubit.checkFileRemove(index);
                                         },
                                         onChange: (files, value) {
-                                          widget.cubit.editTaskHTKTRequest.fileUpload =
-                                              files;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .fileUpload = files;
                                         },
                                         idRemove: (String id) {},
                                       ),

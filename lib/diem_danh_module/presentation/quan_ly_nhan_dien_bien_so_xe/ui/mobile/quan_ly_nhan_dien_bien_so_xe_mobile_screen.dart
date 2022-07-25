@@ -11,18 +11,23 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/widget_cap_nhat_thong_tin_dang_ky_xe.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class QuanLyNhanDienBienSoXeMobileScreen extends StatefulWidget {
   DiemDanhCubit cubit;
@@ -37,10 +42,29 @@ class QuanLyNhanDienBienSoXeMobileScreen extends StatefulWidget {
 
 class _QuanLyNhanDienBienSoXeMobileScreenState
     extends State<QuanLyNhanDienBienSoXeMobileScreen> {
+  late final toast;
   @override
   void initState() {
+    toast = FToast();
     widget.cubit.getDanhSachBienSoXe();
+    _handleEventBus();
     super.initState();
+  }
+
+  void _handleEventBus() {
+    eventBus.on<ApiSuccessAttendance>().listen((event) {
+      widget.cubit.getDanhSachBienSoXe();
+      if (!event.update) {
+        toast.showToast(
+          child: ShowToast(
+            color: colorE9F9F1,
+            icon: ImageAssets.ic_tick_showToast,
+            text: S.current.luu_du_lieu_thanh_cong,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
+    });
   }
 
   @override
@@ -56,6 +80,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
       child: ProviderWidget<DiemDanhCubit>(
         cubit: widget.cubit,
         child: StreamBuilder<List<ChiTietBienSoXeModel>>(
+            key: UniqueKey(),
             stream: widget.cubit.danhSachBienSoXeSubject.stream,
             builder: (context, snapshotChiTiet) {
               final dataChiTiet = snapshotChiTiet.data ?? [];
@@ -174,12 +199,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                                           dataChiTiet[index],
                                                     ),
                                                   ),
-                                                ).then((value) {
-                                                  if (value == true) {
-                                                    widget.cubit
-                                                        .getDanhSachBienSoXe();
-                                                  }
-                                                });
+                                                );
                                               },
                                               onClickRight: () {
                                                 showDiaLog(
@@ -226,11 +246,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                         cubit: widget.cubit,
                                       ),
                                     ),
-                                  ).then((value) {
-                                    if (value == true) {
-                                      widget.cubit.getDanhSachBienSoXe();
-                                    }
-                                  });
+                                  );
                                 },
                                 backgroundColor:
                                     AppTheme.getInstance().colorField(),
@@ -283,12 +299,7 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
                                                 cubit: widget.cubit,
                                               ),
                                             ),
-                                          ).then((value) {
-                                            if (value == true) {
-                                              widget.cubit
-                                                  .getDanhSachBienSoXe();
-                                            }
-                                          });
+                                          );
                                         },
                                       ),
                                     ),

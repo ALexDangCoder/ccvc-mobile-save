@@ -67,12 +67,14 @@ class _WidgetCapNhatThongTinDangKyXeState
               },
               onClickRight: () {
                 if (keyGroup.currentState!.validator()) {
+                  Navigator.pop(context);
                   widget.cubit.postImageResgiter(
-                      bienKiemSoat: bienKiemSoatController.value.text,
-                      isTao: false,
-                      id: widget.chiTietBienSoXeModel.id ?? '',
-                      fileId: widget.chiTietBienSoXeModel.fileId ?? '',
-                      context: widget.context);
+                    bienKiemSoat: bienKiemSoatController.value.text,
+                    isTao: false,
+                    id: widget.chiTietBienSoXeModel.id ?? '',
+                    fileId: widget.chiTietBienSoXeModel.fileId ?? '',
+                    context: widget.context,
+                  );
                 }
               },
             ),

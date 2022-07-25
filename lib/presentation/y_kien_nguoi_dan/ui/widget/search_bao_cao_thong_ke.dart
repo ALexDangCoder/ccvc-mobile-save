@@ -86,6 +86,7 @@ class TreeDonVi extends StatefulWidget {
     List<String> donViID,
   ) onSearch;
   final List<Node<DonViModel>> listNode;
+
   const TreeDonVi({
     Key? key,
     required this.themDonViCubit,
@@ -204,6 +205,8 @@ class _TreeDonViState extends State<TreeDonVi> {
             children: [
               Expanded(
                 child: SelectDate(
+                  maximumDate:
+                      DateFormat(DateFormatApp.date).parse(widget.endDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
@@ -226,6 +229,8 @@ class _TreeDonViState extends State<TreeDonVi> {
               ),
               Expanded(
                 child: SelectDate(
+                  minimumDate:
+                      DateFormat(DateFormatApp.date).parse(widget.startDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),

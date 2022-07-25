@@ -79,7 +79,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                   hintText: S.current.nhap_cong_viec,
                   validator: (value) {
                     if ((value ?? '').isEmpty) {
-                      return '${S.current.vui_long_nhap_cham_cham} ';
+                      return '${S.current.vui_long_nhap_cong_viec} ';
                     }
                     return null;
                   },

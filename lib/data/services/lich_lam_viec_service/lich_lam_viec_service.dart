@@ -4,6 +4,8 @@ import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_di_thay_lich_lam_viec_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
@@ -20,6 +22,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart'
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/check_trung_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/cu_can_bo_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_y_kien_response.dart';
@@ -214,4 +217,14 @@ abstract class WorkCalendarService {
 
   @GET(ApiConstants.CONFIG_SYSTEM)
   Future<DataConfigResponse> getConfigTime();
+
+  @POST(ApiConstants.CU_CAN_BO_DI_THAY_LICH_LAM_VIEC)
+  Future<CuCanBoLichLamViecResponse> cuCanBoDiThayLichLamViec(
+    @Body() DataCuCanBoDiThayLichLamViecRequest cuCanBoDiThayRequest,
+  );
+
+  @POST(ApiConstants.CU_CAN_BO_DI_THAY_LICH_LAM_VIEC)
+  Future<CuCanBoLichLamViecResponse> cuCanBoLichLamViec(
+    @Body() DataCuCanBoLichLamViecRequest cuCanBoDiThayRequest,
+  );
 }

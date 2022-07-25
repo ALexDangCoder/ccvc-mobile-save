@@ -118,6 +118,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         cubit: cubit,
         onChange: (value) {
           cubit.callApiDanhBaToChuc(
+            keyWork: keySearch,
             pageIndexApi: 1,
             id: value.id,
           );

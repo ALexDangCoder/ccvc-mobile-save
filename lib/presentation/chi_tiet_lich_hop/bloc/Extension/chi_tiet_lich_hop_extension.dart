@@ -92,7 +92,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         dataThuKyOrThuHoiDeFault =
-            res.where((element) => element.trangThai != 4).toList();
+            res.where((element) => element.trangThai != CoperativeStatus.Revoked).toList();
         listThuHoi.sink.add(dataThuKyOrThuHoiDeFault);
       },
       error: (error) {},

@@ -13,7 +13,6 @@ import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgr
 import '/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/utils/constants/image_asset.dart';
-import '/home_module/utils/enum_ext.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
 
@@ -124,13 +123,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
                         }
                       },
                       child: ContainerInfoWidget(
-                        status: result
-                                .trangThaiTheoUserEnum(_lamViecCubit.userId)
-                                ?.getText() ??
-                            '',
-                        colorStatus: result
-                            .trangThaiTheoUserEnum(_lamViecCubit.userId)
-                            ?.getColor(),
+                        nonStatus: true,
                         backGroundStatus: true,
                         title: result.title,
                         listData: [

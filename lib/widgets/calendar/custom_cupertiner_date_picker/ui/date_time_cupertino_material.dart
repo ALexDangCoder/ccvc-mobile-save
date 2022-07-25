@@ -512,6 +512,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
       keyExpandedEnd.currentState?.expandGesture();
+      if (keyExpandedBegin.currentState!.isExpandedGroup) {
+        keyExpandedBegin.currentState?.collapseGesture();
+      }
     }
     _cubit.setTypePickerEnd(type);
   }
@@ -522,6 +525,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
       keyExpandedBegin.currentState?.expandGesture();
+      if (keyExpandedEnd.currentState!.isExpandedGroup) {
+        keyExpandedEnd.currentState?.collapseGesture();
+      }
+
     }
     _cubit.setTypePickerStart(type);
   }
@@ -549,6 +556,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
       keyExpandedEnd.currentState?.expandGesture();
+      if (keyExpandedBegin.currentState!.isExpandedGroup) {
+        keyExpandedBegin.currentState?.collapseGesture();
+      }
     }
     _cubit.setTypePickerEnd(type);
   }
@@ -559,12 +569,15 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
       keyExpandedBegin.currentState?.expandGesture();
+      if (keyExpandedEnd.currentState!.isExpandedGroup) {
+        keyExpandedEnd.currentState?.collapseGesture();
+      }
     }
     _cubit.setTypePickerStart(type);
   }
 }
 
 String timeFormat(String time, String oldPattern, String newPattern) {
-  if(time == '') return '';
+  if (time == '') return '';
   return DateFormat(newPattern).format(DateFormat(oldPattern).parse(time));
 }

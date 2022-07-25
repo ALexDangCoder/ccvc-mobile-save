@@ -11,6 +11,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
 
   ThanhPhanThamGiaCubit() : super(MainStateInitial());
   DonViModel donViModel = DonViModel();
+  DonViModel newCanBo = DonViModel();
 
   ThanhPhanThamGiaReponsitory get hopRp => get_it.Get.find();
   bool phuongThucNhan = false;
@@ -20,6 +21,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       BehaviorSubject<List<DonViModel>>();
   final BehaviorSubject<List<DonViModel>> listCanBoThamGia =
       BehaviorSubject<List<DonViModel>>();
+  final BehaviorSubject<bool> isDuplicateCanBo = BehaviorSubject.seeded(false);
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
   final List<DonViModel> listCanBo = [];
@@ -69,6 +71,25 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     List<DonViModel> donViModel,
   ) {
     listCanBoThamGia.sink.add(donViModel);
+  }
+
+  void addCanBoThamGiaCuCanBo() {
+    if (isDuplicateItem(listCanBo, newCanBo)) {
+      isDuplicateCanBo.add(true);
+    } else {
+      isDuplicateCanBo.add(false);
+      listCanBo.add(newCanBo);
+      listCanBoThamGia.sink.add(listCanBo);
+    }
+  }
+
+  bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
+    for(final DonViModel e in listRoot) {
+      if(e.id == newCanBo.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void xoaCanBoThamGia(

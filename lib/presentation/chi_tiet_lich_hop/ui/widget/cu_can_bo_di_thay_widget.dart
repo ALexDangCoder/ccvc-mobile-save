@@ -45,9 +45,6 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
   void initState() {
     super.initState();
     widget.themCanBoCubit.titleCanBo.sink.add('');
-    widget.cubitThanhPhanTG.listCanBoThamGia.sink.add([]);
-    widget.cubitThanhPhanTG.addCanBoThamGia([]);
-    widget.cubitThanhPhanTG.listCanBo.clear();
     widget.themDonViCubit.validateDonVi.sink.add(false);
     widget.themDonViCubit.themDonViSubject.sink.add(true);
     widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
@@ -150,7 +147,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               ),
             ),
             StreamBuilder<List<DonViModel>>(
-              stream: widget.cubitThanhPhanTG.listCanBoThamGia,
+              stream: widget.cubitThanhPhanTG.listCanBoThamGia.stream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? <DonViModel>[];
                 return Column(

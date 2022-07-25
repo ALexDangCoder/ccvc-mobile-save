@@ -101,12 +101,6 @@ class _ThongKeLichHopTabletState extends State<ThongKeLichHopTablet> {
           return PieChart(
             chartData: data,
             useVerticalLegend: true,
-            onTap: (value) {
-              widget.cubit.handleChartPicked(
-                id: data[value].id ?? '',
-                title: data[value].title,
-              );
-            },
             isThongKeLichHop: false,
           );
         },

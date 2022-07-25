@@ -4,6 +4,8 @@ import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_di_thay_lich_lam_viec_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
@@ -254,4 +256,12 @@ mixin CalendarWorkRepository {
       DatNuocSelectRequest datNuocSelectRequest);
 
   Future<Result<TimeConfig>> getConfigTime();
+
+  Future<Result<bool>> cuCanBoDiThayLichLamViec(
+    DataCuCanBoDiThayLichLamViecRequest cuCanBoDiThayLichLamViecRequest,
+  );
+
+  Future<Result<bool>> cuCanBoLichLamViec(
+    DataCuCanBoLichLamViecRequest cuCanBoLichLamViecRequest,
+  );
 }

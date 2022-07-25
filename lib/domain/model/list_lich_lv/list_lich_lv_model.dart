@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/calendar.dart';
 
 class DataLichLvModel {
   List<ListLichLVModel>? listLichLVModel = [];

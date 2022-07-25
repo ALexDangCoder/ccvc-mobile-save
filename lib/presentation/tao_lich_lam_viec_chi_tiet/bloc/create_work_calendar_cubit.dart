@@ -370,12 +370,14 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
               title: title,
               content: content,
               location: location,
+              only: isOnly,
             );
           } else {
             editWorkCalendarAboard(
               title: title,
               content: content,
               location: location,
+              only: isOnly,
             );
           }
         }

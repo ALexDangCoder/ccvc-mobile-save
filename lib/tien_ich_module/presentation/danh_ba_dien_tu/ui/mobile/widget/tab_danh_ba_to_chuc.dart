@@ -30,6 +30,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: _content(),
       ),
       tabletScreen: Container(
@@ -117,6 +118,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         cubit: cubit,
         onChange: (value) {
           cubit.callApiDanhBaToChuc(
+            keyWork: keySearch,
             pageIndexApi: 1,
             id: value.id,
           );

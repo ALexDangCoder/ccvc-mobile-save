@@ -79,12 +79,6 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
           return PieChart(
             useVerticalLegend: true,
             chartData: data,
-            onTap: (value) {
-              widget.cubit.handleChartPicked(
-                id: data[value].id ?? '',
-                title: data[value].title,
-              );
-            },
             isThongKeLichHop: false,
           );
         },

@@ -67,21 +67,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
               },
               onClickRight: () async {
                 if (keyGroup.currentState!.validator()) {
-                  if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
-                    Navigator.pop(context);
-                    await widget.cubit.postImageResgiter(
-                      bienKiemSoat: bienKiemSoatController.value.text,
-                      context: context,
-                      isTao: true,
-                    );
-                  } else {
-                    widget.cubit.toast.showToast(
-                      child: ShowToast(
-                        text: S.current.vui_long_tai_anh_len,
-                      ),
-                      gravity: ToastGravity.TOP_RIGHT,
-                    );
-                  }
+                  await postDangKyXe();
                 }
               },
             ),
@@ -166,13 +152,15 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         ),
                       ),
                     ),
-                    CustomRadioLoaiSoHuu(onchange: (onchange) {
-                      onchange
-                          ? widget.cubit.loaiSoHuu =
-                              DanhSachBienSoXeConst.XE_LANH_DAO
-                          : widget.cubit.loaiSoHuu =
-                              DanhSachBienSoXeConst.XE_CAN_BO;
-                    }),
+                    CustomRadioLoaiSoHuu(
+                      onchange: (onchange) {
+                        onchange
+                            ? widget.cubit.loaiSoHuu =
+                                DanhSachBienSoXeConst.XE_LANH_DAO
+                            : widget.cubit.loaiSoHuu =
+                                DanhSachBienSoXeConst.XE_CAN_BO;
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -202,7 +190,6 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
               ),
               child: SingleChildScrollView(
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     FormGroup(
                       key: keyGroup,
@@ -265,7 +252,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             onChange: (value) {},
                             validator: (value) {
                               return (value ?? '').checkTruongNull(
-                                  '${S.current.bien_kiem_soat}!');
+                                '${S.current.bien_kiem_soat}!',
+                              );
                             },
                           ),
                           spaceH20,
@@ -303,25 +291,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           Navigator.pop(context);
                         },
                         onClickRight: () async {
-                          ShowLoadingScreen.show();
                           if (keyGroup.currentState!.validator()) {
-                            if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
-                              Navigator.pop(context);
-                              await widget.cubit.postImageResgiter(
-                                bienKiemSoat: bienKiemSoatController.value.text,
-                                context: context,
-                                isTao: true,
-                              );
-                            } else {
-                              widget.cubit.toast.showToast(
-                                child: ShowToast(
-                                  text: S.current.vui_long_tai_anh_len,
-                                ),
-                                gravity: ToastGravity.TOP_RIGHT,
-                              );
-                            }
+                            await postDangKyXe();
                           }
-                          ShowLoadingScreen.dismiss();
                         },
                       ),
                     ),
@@ -333,5 +305,22 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
         ),
       ),
     );
+  }
+
+  Future<void> postDangKyXe() async {
+    if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
+      await widget.cubit.postImageResgiter(
+        bienKiemSoat: bienKiemSoatController.value.text,
+        context: context,
+        isTao: true,
+      );
+    } else {
+      widget.cubit.toast.showToast(
+        child: ShowToast(
+          text: S.current.vui_long_tai_anh_len,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+    }
   }
 }

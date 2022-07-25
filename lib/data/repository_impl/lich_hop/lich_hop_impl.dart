@@ -1125,11 +1125,13 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<List<FileUploadModel>>> uploadMultiFile(
-      {required List<File> path}) {
+  Future<Result<List<FileUploadModel>>> uploadMultiFile({
+    required List<File> path,
+  }) {
     return runCatchingAsync<FileUploadResponse, List<FileUploadModel>>(
-        () => _hopServices.uploadMultiFile(path),
-        (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
+      () => _hopServices.uploadMultiFile(path),
+      (response) => response.data?.map((file) => file.toModel()).toList() ?? [],
+    );
   }
 
   Future<Result<DanhSachCanBoBieuQuyetModel>> danhSachCanBoBieuQuyet(

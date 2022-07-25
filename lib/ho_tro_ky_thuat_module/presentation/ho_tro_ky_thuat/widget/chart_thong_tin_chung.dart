@@ -10,7 +10,7 @@ import 'package:rxdart/rxdart.dart';
 class ChartThongTinChung extends StatefulWidget {
   final List<List<ChartData>> listData;
   final List<ChartData> listStatusData;
-  final List<String> listTitle;
+  final Set<String> listTitle;
   final HoTroKyThuatCubit cubit;
   final int titleFlex;
   final int chartFlex;
@@ -73,7 +73,7 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
                       margin:
                           const EdgeInsets.only(right: 8, top: 20, left: 16),
                       child: Text(
-                        widget.listTitle[index],
+                        widget.listTitle.elementAt(index),
                         textAlign: TextAlign.right,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

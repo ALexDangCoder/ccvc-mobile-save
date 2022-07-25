@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
+
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -307,6 +308,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
 
   Future<void> postDangKyXe() async {
     if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
+      Navigator.pop(context);
       await widget.cubit.postImageResgiter(
         bienKiemSoat: bienKiemSoatController.value.text,
         context: context,

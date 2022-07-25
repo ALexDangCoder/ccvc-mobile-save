@@ -59,7 +59,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
-    nameFileSelect = '';
+    nameFileSelect = widget.todo?.filePath ?? '';
   }
 
   @override

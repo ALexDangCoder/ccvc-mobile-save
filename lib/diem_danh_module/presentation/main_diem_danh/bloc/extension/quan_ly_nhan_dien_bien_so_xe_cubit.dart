@@ -61,8 +61,8 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
 
   Future<void> dangKyThongTinXeMoi(
       {required String bienKiemSoat,
-        required String fileId,
-        required BuildContext context}) async {
+      required String fileId,
+      required BuildContext context}) async {
     final dangKyThongTinXeMoiRequest = DangKyThongTinXeMoiRequest(
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
       userId: HiveLocal.getDataUser()?.userId ?? '',
@@ -72,7 +72,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     );
     showLoading();
     final result =
-    await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
+        await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
         showContent();
@@ -101,9 +101,9 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   ///update number plate, driver license
   Future<void> capNhatBienSoxe(
       {required String bienKiemSoat,
-        required String id,
-        required String fileId,
-        required BuildContext context}) async {
+      required String id,
+      required String fileId,
+      required BuildContext context}) async {
     final capNhatBienSoXeRequest = CapNhatBienSoXeRequest(
       id: id,
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
@@ -114,27 +114,25 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     );
     showLoading();
     final result = await diemDanhRepo.capNhatBienSoXe(capNhatBienSoXeRequest);
-    result.when(
-        success: (res) {
-          showContent();
-          toast.showToast(
-            child: ShowToast(
-              color: colorE9F9F1,
-              icon: ImageAssets.ic_tick_showToast,
-              text: S.current.luu_du_lieu_thanh_cong,
-            ),
-            gravity: ToastGravity.BOTTOM,
-          );
-          Navigator.pop(context, true);
-        },
-        error: (error) {
-          if (error is NoNetworkException || error is TimeoutException) {
-            MessageConfig.show(
-              title: S.current.no_internet,
-              messState: MessState.error,
-            );
-          }
-        });
+    result.when(success: (res) {
+      showContent();
+      toast.showToast(
+        child: ShowToast(
+          color: colorE9F9F1,
+          icon: ImageAssets.ic_tick_showToast,
+          text: S.current.luu_du_lieu_thanh_cong,
+        ),
+        gravity: ToastGravity.BOTTOM,
+      );
+      Navigator.pop(context, true);
+    }, error: (error) {
+      if (error is NoNetworkException || error is TimeoutException) {
+        MessageConfig.show(
+          title: S.current.no_internet,
+          messState: MessState.error,
+        );
+      }
+    });
   }
 
   ///delete image
@@ -152,12 +150,13 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
   }
 
   /// post image select
-  Future<String> postImageResgiter(
-      {required bool isTao,
-        required String bienKiemSoat,
-        String? id,
-        String? fileId,
-        required BuildContext context}) async {
+  Future<String> postImageResgiter({
+    required bool isTao,
+    required String bienKiemSoat,
+    String? id,
+    String? fileId,
+    required BuildContext context,
+  }) async {
     final result = await diemDanhRepo.postFileModel(
       '',
       ApiConstants.BIEN_SO_XE_TYPE,
@@ -169,17 +168,19 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
       success: (success) {
         if (isTao) {
           dangKyThongTinXeMoi(
-              bienKiemSoat: bienKiemSoat,
-              fileId: success.data?.first ?? '',
-              context: context);
+            bienKiemSoat: bienKiemSoat,
+            fileId: success.data?.first ?? '',
+            context: context,
+          );
         } else {
           capNhatBienSoxe(
-              bienKiemSoat: bienKiemSoat,
-              id: id ?? '',
-              fileId: success.data!.isEmpty
-                  ? (fileId ?? '')
-                  : success.data?.first ?? '',
-              context: context);
+            bienKiemSoat: bienKiemSoat,
+            id: id ?? '',
+            fileId: success.data!.isEmpty
+                ? (fileId ?? '')
+                : success.data?.first ?? '',
+            context: context,
+          );
         }
       },
       error: (error) {

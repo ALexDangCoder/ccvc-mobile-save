@@ -120,7 +120,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                         return CustomSwitch(
                           value: isChecked,
                           onToggle: (bool value) {
-                            cubit.handleSwitchButtonPressed(isChecked: value);
+                            cubit.handleSwitchButtonPressed(isToggled: value);
                             widget.onSwitchPressed?.call(value);
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,

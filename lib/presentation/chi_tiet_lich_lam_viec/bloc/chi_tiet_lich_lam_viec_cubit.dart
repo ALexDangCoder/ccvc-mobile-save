@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/confirm_officer_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_di_thay_lich_lam_viec_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -173,6 +175,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   final listOfficer = BehaviorSubject<List<Officer>>();
+  List<Officer> listOfficerSelected = [];
   final listRecall = BehaviorSubject<List<Officer>>();
 
   Future<void> getOfficer(String id) async {
@@ -180,6 +183,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     rs.when(
       success: (data) {
         listOfficer.sink.add(data);
+        getListStatusKhacThuHoi(data);
         listRecall.sink
             .add(data.where((element) => element.status == 0).toList());
         dataRecall = data.where((element) => element.status == 0).toList();
@@ -187,6 +191,16 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       },
       error: (error) {},
     );
+  }
+
+  void getListStatusKhacThuHoi(List<Officer> listOfficer) {
+    final List<Officer> list = [];
+    for (final value in listOfficer) {
+      if (value.status != StatusOfficersConst.STATUS_THU_HOI) {
+        list.add(value);
+      }
+    }
+    listOfficerSelected = list;
   }
 
   Future<void> loadApi(String id) async {
@@ -550,6 +564,24 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
   final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
 
+  bool checkFile( List<File> listFilePath){
+    bool isSelectFile = false;
+
+    final List<File> list =  files.toList();
+    for(final elementChose in list){
+      for( final elementCheck in listFilePath){
+        if(elementCheck.path.contains(elementChose.path)){
+          isSelectFile = true;
+          break;
+        }
+      }
+      if(isSelectFile){
+        break;
+      }
+    }
+    return isSelectFile;
+  }
+
   BaoCaoKetQuaCubit({
     this.content = '',
     this.tinhTrangBaoCaoModel,
@@ -622,6 +654,32 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         }
       },
     );
+  }
+
+  //cu can bo di thay
+  Future<bool> cuCanBoDiThayLichLamViec({
+    required List<CuCanBoDiThayLichLamViecRequest> canBoDiThay,
+  }) async {
+    final DataCuCanBoDiThayLichLamViecRequest
+        dataCuCanBoDiThayLichLamViecRequest =
+        DataCuCanBoDiThayLichLamViecRequest(
+            scheduleId: "", scheduleOperativeId: '', canBoDiThay: canBoDiThay);
+    final result = await detailLichLamViec
+        .cuCanBoDiThayLichLamViec(dataCuCanBoDiThayLichLamViecRequest);
+    result.when(success: (res) {}, error: (error) {});
+    return true;
+  }
+
+  //cu can bo
+  Future<bool> cuCanBoLichLamViec({
+    required List<CuCanBoLichLamViecRequest> cuCanBo,
+  }) async {
+    final DataCuCanBoLichLamViecRequest dataCuCanBoLichLamViecRequest =
+        DataCuCanBoLichLamViecRequest(scheduleId: '', canBoDiThay: cuCanBo);
+    final result = await detailLichLamViec
+        .cuCanBoLichLamViec(dataCuCanBoLichLamViecRequest);
+    result.when(success: (res) {}, error: (error) {});
+    return true;
   }
 
   bool checkLenghtFile() {

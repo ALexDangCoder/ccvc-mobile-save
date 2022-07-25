@@ -296,6 +296,14 @@ class Files {
     this.taskId,
     this.fileId,
   });
+
+  double getSize(){
+    try{
+      return double.parse(size ?? '');
+    }catch(e){
+      return 0;
+    }
+  }
 }
 
 class ScheduleCoperatives {

@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +12,6 @@ import '/home_module/presentation/home_screen/ui/widgets/select_key_row.dart';
 import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/utils/enum_ext.dart';
-import '/home_module/utils/extensions/date_time_extension.dart';
 
 class ContainerBackgroundTabletWidget extends StatefulWidget {
   final Widget child;
@@ -32,6 +32,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
   final Function()? onTapTitle;
+  final bool isShowCaNhan;
 
   const ContainerBackgroundTabletWidget({
     Key? key,
@@ -52,6 +53,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.listSelect,
     this.onChangeKey,
     this.isCustomDialog = false,
+    this.isShowCaNhan = false,
     this.onTapTitle,
   }) : super(key: key);
 
@@ -142,7 +144,9 @@ class _ContainerBackgroudWidgetState
                                         builder: (context, snapshot) {
                                           return widget.isShowSubtitle
                                               ? Text(
-                                                  subTitle(),
+                                                  subTitle(
+                                                      isShowCaNhan:
+                                                          widget.isShowCaNhan),
                                                   style: textNormal(
                                                       titleColumn, 16),
                                                 )
@@ -216,7 +220,7 @@ class _ContainerBackgroudWidgetState
     );
   }
 
-  String subTitle() {
+  String subTitle({bool isShowCaNhan = false}) {
     final data = widget.selectKeyDialog;
     if (widget.isUnit) {
       // if (data?.selectKeyTime == SelectKey.TUY_CHON) {
@@ -224,9 +228,8 @@ class _ContainerBackgroudWidgetState
       // }
       return '${data!.selectKeyDonVi.getText()}';
     }
-    if (data?.selectKeyTime == SelectKey.TUY_CHON) {
-      return '${data!.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
-    }
-    return data!.selectKeyTime.getText();
+    return isShowCaNhan
+        ? '${S.current.ca_nhan} - ${data!.selectKeyTime.getText()}'
+        : '${data!.selectKeyTime.getText()}';
   }
 }

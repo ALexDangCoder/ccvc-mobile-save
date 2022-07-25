@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
@@ -61,7 +61,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit
         .initDataChiTiet(needCheckPermission: true)
         .then((value) => setState(() {}));
-    cubit.getDanhSachCanBoHop(widget.id);
   }
 
   @override

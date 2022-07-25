@@ -402,37 +402,16 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                       .map((e) => e.toUnitName())
                                       .toList(),
                                 ),
-                                // TaiLieuWidget(
-                                //   files: createCubit.files ?? [],
-                                //   onChange: (files, value) {
-                                //     if (!value) {
-                                //       createCubit.filesTaoLich = files;
-                                //       chooseFileValidatorValue = !value;
-                                //     } else {
-                                //       chooseFileValidatorValue = !value;
-                                //     }
-                                //   },
-                                //   idRemove: (String id) {
-                                //     log('>>>>>>>>>>$id');
-                                //     createCubit.filesDelete.add(id);
-                                //   },
-                                // ),
                                 SelectFileBtn(
-                                  onChange: (files, value) {
-                                    if (!value) {
-                                      createCubit.filesTaoLich = files;
-                                      chooseFileValidatorValue = !value;
-                                    } else {
-                                      chooseFileValidatorValue = !value;
-                                    }
+                                  onChange: (files) {
+                                    createCubit.filesTaoLich = files;
                                   },
-                                  maxSize: 20000000,
+                                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
                                   initFileFromApi: createCubit.files
                                           ?.map(
                                             (e) => FileModel(
                                               id: e.id ?? '',
-                                              fileLength:
-                                                  double.parse(e.size ?? '0'),
+                                              fileLength: e.getSize(),
                                               name: e.name,
                                             ),
                                           )

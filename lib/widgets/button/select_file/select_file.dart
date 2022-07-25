@@ -2,17 +2,17 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart' show ButtonSelectFileLichLamViec;
 import 'package:ccvc_mobile/widgets/button/select_file/select_file_cubit.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 
 class SelectFileBtn extends StatefulWidget {
   const SelectFileBtn({
@@ -24,14 +24,21 @@ class SelectFileBtn extends StatefulWidget {
     this.initFileSystem,
     this.initFileFromApi,
     this.onDeletedFileApi,
+    this.errMultipleFileMessage,
+    this.textButton,
+    this.iconButton,
   }) : super(key: key);
+
   final bool hasMultiFile;
   final double? maxSize;
   final List<String>? allowedExtensions;
-  final Function(List<File> fileSelected, bool validate) onChange;
+  final String? textButton;
+  final Function(List<File> fileSelected) onChange;
   final List<FileModel>? initFileFromApi;
   final List<File>? initFileSystem;
   final Function(FileModel fileDeleted)? onDeletedFileApi;
+  final String? errMultipleFileMessage;
+  final String? iconButton;
 
   @override
   State<SelectFileBtn> createState() => _SelectFileBtnState();
@@ -43,8 +50,57 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
   @override
   void initState() {
     super.initState();
-    cubit.fileFromApi.add(widget.initFileFromApi ?? []);
+    cubit.fileFromApiSubject.add(widget.initFileFromApi ?? []);
     cubit.selectedFiles.addAll(widget.initFileSystem ?? []);
+  }
+
+  String get convertData {
+    final double value = (widget.maxSize ?? 0) / BYTE_TO_MB;
+    return value.toInt().toString();
+  }
+
+  Future<void> handleButtonFileClicked() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: widget.hasMultiFile,
+      allowedExtensions: widget.allowedExtensions,
+      type: (widget.allowedExtensions ?? []).isNotEmpty
+          ? FileType.custom
+          : FileType.any,
+    );
+
+    if (result == null) {
+      return;
+    }
+
+    if (!widget.hasMultiFile &&
+        (cubit.selectedFiles.isNotEmpty || cubit.filesFromApi.isNotEmpty)) {
+      cubit.errMessageSubject.add(
+        widget.errMultipleFileMessage ?? '',
+      );
+      return;
+    }
+
+    final newFiles = result.files
+        .map(
+          (file) => File(file.path ?? ''),
+        )
+        .toList();
+    final bool isOverMaxSize = cubit.checkOverMaxSize(
+      maxSize: widget.maxSize,
+      newFiles: newFiles,
+    );
+    if (isOverMaxSize) {
+      cubit.errMessageSubject.add(
+        '${S.current.tong_file_khong_vuot_qua} '
+        '$convertData MB',
+      );
+      return;
+    }
+
+    cubit.errMessageSubject.add('');
+    cubit.selectedFiles.addAll(newFiles);
+    cubit.needRebuildListFile.sink.add(true);
+    widget.onChange(cubit.selectedFiles);
   }
 
   @override
@@ -52,48 +108,88 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ButtonSelectFileLichLamViec(
-          isShowFile: false,
-          hasMultipleFile: widget.hasMultiFile,
-          maxSize: widget.maxSize,
-          title: S.current.tai_lieu_dinh_kem,
-          allowedExtensions: widget.allowedExtensions ??
-              const [
-                FileExtensions.DOC,
-                FileExtensions.DOCX,
-                FileExtensions.JPEG,
-                FileExtensions.JPG,
-                FileExtensions.PDF,
-                FileExtensions.PNG,
-                FileExtensions.PPTX,
-                FileExtensions.XLSX,
+        GestureDetector(
+          onTap: () {
+            handleButtonFileClicked();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.getInstance().colorField().withOpacity(0.1),
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: 6.0.textScale(),
+              horizontal: 16.0.textScale(),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  widget.iconButton ?? ImageAssets.icShareFile,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+                SizedBox(
+                  width: 11.25.textScale(),
+                ),
+                Text(
+                  widget.textButton ?? S.current.tai_lieu_dinh_kem,
+                  style: textNormalCustom(
+                    color: AppTheme.getInstance().colorField(),
+                    fontSize: 14.0.textScale(),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
-          onChange: (List<File> files, bool validate) {
-            if (validate) {
-              return;
-            }
-            cubit.selectedFiles.addAll(files);
-            cubit.needRebuildListFile.sink.add(true);
-            widget.onChange(cubit.selectedFiles, validate);
+            ),
+          ),
+        ),
+        StreamBuilder<String>(
+          stream: cubit.errMessageSubject,
+          builder: (context, snapshot) {
+            final errMessage = snapshot.data ?? '';
+            return errMessage.isEmpty
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Text(
+                      errMessage,
+                      style: textNormalCustom(
+                        color: Colors.red,
+                        fontSize: 12.0.textScale(),
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  );
           },
         ),
         StreamBuilder<List<FileModel>>(
-          stream: cubit.fileFromApi.stream,
+          stream: cubit.fileFromApiSubject.stream,
           builder: (context, snapshot) {
             final listFile = snapshot.data ?? [];
             return Column(
               children: listFile
                   .map(
-                    (e) => itemListFile(
-                  onDelete: () {
-                    cubit.fileFromApi.value.remove(e);
-                    cubit.fileFromApi.sink.add(cubit.fileFromApi.value);
-                    widget.onDeletedFileApi?.call(e);
-                  },
-                  fileTxt: e.name ?? '',
-                  lengthFile: e.fileLength?.toInt().getFileSize(2),
-                ),
-              )
+                    (file) => itemListFile(
+                      onDelete: () {
+                        cubit.fileFromApiSubject.value.remove(file);
+                        cubit.fileFromApiSubject.sink
+                            .add(cubit.fileFromApiSubject.value);
+                        widget.onDeletedFileApi?.call(file);
+                        final bool isOverMaxSize = cubit.checkOverMaxSize(
+                          maxSize: widget.maxSize,
+                        );
+                        if (!isOverMaxSize) {
+                          cubit.errMessageSubject.add(
+                            '',
+                          );
+                          return;
+                        }
+                      },
+                      fileTxt: file.name ?? '',
+                      lengthFile: file.fileLength?.toInt().getFileSize(2),
+                    ),
+                  )
                   .toList(),
             );
           },
@@ -104,16 +200,25 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
             return Column(
               children: cubit.selectedFiles
                   .map(
-                    (e) => itemListFile(
-                  onDelete: () {
-                    cubit.selectedFiles.remove(e);
+                    (file) => itemListFile(
+                      onDelete: () {
+                        cubit.selectedFiles.remove(file);
                         cubit.needRebuildListFile.add(true);
-                        widget.onChange(cubit.selectedFiles, false);
+                        widget.onChange(cubit.selectedFiles);
+                        final bool isOverMaxSize = cubit.checkOverMaxSize(
+                          maxSize: widget.maxSize,
+                        );
+                        if (!isOverMaxSize) {
+                          cubit.errMessageSubject.add(
+                            '',
+                          );
+                          return;
+                        }
                       },
-                  fileTxt: e.path.convertNameFile(),
-                  lengthFile: e.lengthSync().getFileSize(2),
-                ),
-              )
+                      fileTxt: file.path.convertNameFile(),
+                      lengthFile: file.lengthSync().getFileSize(2),
+                    ),
+                  )
                   .toList(),
             );
           },

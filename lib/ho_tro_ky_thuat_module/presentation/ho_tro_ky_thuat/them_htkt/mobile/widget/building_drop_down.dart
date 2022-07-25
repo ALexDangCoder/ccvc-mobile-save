@@ -48,8 +48,9 @@ class BuildingDropDown extends StatelessWidget {
         StreamBuilder<List<ChildCategories>>(
           stream: cubit.listToaNha,
           builder: (context, snapshot) {
-            final _buildingList =
-                (snapshot.data ?? []).map((e) => e.name ?? '').toList();
+            final _buildingList = (snapshot.data ?? [])
+                .map((building) => building.name ?? '')
+                .toList();
             return CustomDropDown(
               hint: RichText(
                 text: TextSpan(

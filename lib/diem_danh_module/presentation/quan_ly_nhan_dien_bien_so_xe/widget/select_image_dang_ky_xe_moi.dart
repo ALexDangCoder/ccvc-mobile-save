@@ -195,6 +195,18 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                         borderRadius: BorderRadius.circular(8.0),
                         color: color000000.withOpacity(0.5)),
                   ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: GestureDetector(
+                      onTap: () {
+                        removeImg();
+                      },
+                      child: SvgPicture.asset(
+                        ImageAssets.icRemoveImg,
+                      ),
+                    ),
+                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

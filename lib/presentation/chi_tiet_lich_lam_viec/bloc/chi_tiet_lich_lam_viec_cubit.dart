@@ -459,6 +459,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<void> getDanhSachCuCanBoDiThay(
     ThanhPhanThamGiaCubit cubitThanhPhanTG,
   ) async {
+    showLoading();
     final rs = await dataRepo.getOfficerJoin(idLichLamViec);
     rs.when(
       success: (data) {
@@ -507,10 +508,30 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             )
             .toList();
         listDataCanBo = listCanBoMoi;
-        cubitThanhPhanTG.listCanBoDuocChon = listDataCanBo;
+        cubitThanhPhanTG.listCanBoDuocChon = canBoDiThay
+            .map(
+              (element) => DonViModel(
+                id: element.id ?? '',
+                name: element.tenDonVi ?? '',
+                tenCanBo: element.hoTen ?? '',
+                canBoId: element.canBoId ?? '',
+                donViId: element.donViId ?? '',
+                tenDonVi: element.tenDonVi ?? '',
+                noidung: element.taskContent ?? '',
+              ),
+            )
+            .toList();
         cubitThanhPhanTG.listCanBoThamGia.add(listDataCanBo);
+        showContent();
       },
-      error: (error) {},
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
     );
   }
 
@@ -531,7 +552,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     List<DonViModel> cuCanBo,
   ) {
     final List<CuCanBoDiThayLichLamViec> data = [];
-    ///TODO:Có vấn đề isXoa
     data.addAll(
       canBoDuocChon
           .map(
@@ -564,6 +584,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<bool> cuCanBoDiThayLichLamViec({
     required List<CuCanBoDiThayLichLamViec> canBoDiThay,
   }) async {
+    showLoading();
     canBoDiThay.insert(
       0,
       CuCanBoDiThayLichLamViec(
@@ -593,7 +614,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       canBoDiThay: canBoDiThay,
     );
     bool isCheck = true;
-    showLoading();
+
     final result = await detailLichLamViec
         .cuCanBoDiThayLichLamViec(dataCuCanBoDiThayLichLamViecRequest);
     result.when(
@@ -771,18 +792,18 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
   final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
 
-  bool checkFile( List<File> listFilePath){
+  bool checkFile(List<File> listFilePath) {
     bool isSelectFile = false;
 
-    final List<File> list =  files.toList();
-    for(final elementChose in list){
-      for( final elementCheck in listFilePath){
-        if(elementCheck.path.contains(elementChose.path)){
+    final List<File> list = files.toList();
+    for (final elementChose in list) {
+      for (final elementCheck in listFilePath) {
+        if (elementCheck.path.contains(elementChose.path)) {
           isSelectFile = true;
           break;
         }
       }
-      if(isSelectFile){
+      if (isSelectFile) {
         break;
       }
     }

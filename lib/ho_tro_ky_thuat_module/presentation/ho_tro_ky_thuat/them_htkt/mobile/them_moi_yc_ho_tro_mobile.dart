@@ -8,8 +8,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
@@ -19,7 +17,6 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ThemMoiYCHoTroMobile extends StatefulWidget {
   final HoTroKyThuatCubit cubit;
@@ -40,6 +37,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   void initState() {
     widget.cubit.init();
     widget.cubit.getApiThemMoiYCHT();
+    widget.cubit.issueListStream.sink.add([]);
     super.initState();
   }
 
@@ -47,7 +45,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   void dispose() {
     widget.cubit.dispose();
     super.dispose();
-
   }
 
   @override
@@ -185,21 +182,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                         ),
                         spaceH16,
-                        StreamBuilder<List<String>>(
-                          stream: widget.cubit.issueListStream,
-                          builder: (context, snapshot) {
-                            final _issueList = snapshot.data ?? [];
-                            return MultiSelectList(
-                              title: S.current.loai_su_co,
-                              isRequire: true,
-                              items: _issueList,
-                              onChange: (selectIndexList) {
-                                widget.cubit
-                                    .addIssueListRequest(selectIndexList);
-                              },
-                            );
-                          },
-                        ),
+                        _multiSelect(),
                         // IssueDropDown(cubit: widget.cubit),
                         spaceH16,
                         TaiLieuWidget(
@@ -220,6 +203,48 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _multiSelect() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        StreamBuilder<List<String>>(
+          stream: widget.cubit.issueListStream,
+          builder: (context, snapshot) {
+            final _issueList = snapshot.data ?? [];
+            return MultiSelectList(
+              title: S.current.loai_su_co,
+              isRequire: true,
+              items: _issueList,
+              onChange: (selectIndexList) {
+                widget.cubit.addIssueListRequest(selectIndexList);
+                widget.cubit.checkAllThemMoiYCHoTro();
+              },
+            );
+          },
+        ),
+        StreamBuilder<bool>(
+          initialData: false,
+          stream: widget.cubit.showErrorLoaiSuCo.stream,
+          builder: (context, snapshot) {
+            return snapshot.data ?? false
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                    child: Text(
+                      S.current.khong_duoc_de_trong,
+                      style: textNormalCustom(
+                        color: redChart,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink();
+          },
+        )
+      ],
     );
   }
 
@@ -343,46 +368,15 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
         onClickLeft: () {
           Navigator.pop(context);
         },
-        onClickRight: () {
+        onClickRight: () async {
           widget.cubit.checkAllThemMoiYCHoTro();
           if ((_groupKey.currentState?.validator() ?? true) &&
               widget.cubit.validateAllDropDown) {
-            widget.cubit
-                .postDataThemMoiHTKT()
-                .then((value) {
-                  if(value){
-                    final FToast toast = FToast();
-                    toast.init(context);
-                    toast.showToast(
-                      child: ShowToast(
-                        text: S.current.luu_du_lieu_thanh_cong,
-                        icon: ImageAssets.icSucces,
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                    Navigator.pop(context);
-                  } else {
-                    final FToast toast = FToast();
-                    toast.init(context);
-                    toast.showToast(
-                      child: ShowToast(
-                        text: S.current.thay_doi_that_bai,
-                        icon: ImageAssets.icError,
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                  }
+            await widget.cubit.postDataThemMoiHTKT().then((value) {
+              if (value) {
+                Navigator.pop(context);
+              } else {}
             });
-          } else {
-            final toast = FToast();
-            toast.init(context);
-            toast.showToast(
-              child: ShowToast(
-                text: S.current.sai_dinh_dang_truong,
-                icon: ImageAssets.icError,
-              ),
-              gravity: ToastGravity.BOTTOM,
-            );
           }
         },
         title1: S.current.dong,

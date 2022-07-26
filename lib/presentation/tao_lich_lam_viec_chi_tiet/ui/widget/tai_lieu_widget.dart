@@ -96,6 +96,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             getIndexFunc: (index) {
               (widget.getIndex != null) ? widget.getIndex!(index) : null;
             },
+            message: S.current.dung_luong_toi_da_htkt,
             allowedExtensions: const [
               FileExtensions.DOC,
               FileExtensions.DOCX,

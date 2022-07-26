@@ -45,17 +45,18 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant DataViewCalendarWeek oldWidget) {
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .minTime20();
+    super.didUpdateWidget(oldWidget);
+  }
+
   void setFCalendarListenerWeek() {
     widget.fCalendarController
         .addPropertyChangedListener(widget.propertyChanged);
   }
 
-  @override
-  void didUpdateWidget(covariant DataViewCalendarWeek oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkMore(2);
-  }
 
   DateTime getOnlyDate(DateTime date) =>
       DateTime(date.year, date.month, date.day);
@@ -101,6 +102,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         ),
         headerDateFormat: 'MMMM,yyy',
         dataSource: widget.data,
+        maxDayItemShow: 2,
         viewHeaderStyle: ViewHeaderStyle(
           dayTextStyle: textNormalCustom(
             fontSize: 13,
@@ -124,30 +126,21 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           ),
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
         ),
+        onMoreDayClick: (date , _){
+          widget.onMore?.call(date);
+        },
         selectionDecoration: const BoxDecoration(color: Colors.transparent),
-
         appointmentBuilder: (_, appointmentDetail) {
           final AppointmentWithDuplicate appointment =
               appointmentDetail.appointments.first;
           if (appointmentDetail.isMoreAppointmentRegion) {
             return Center(
-              child: Text('+${appointmentDetail.more}', style: textNormalCustom(
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                color: colorA2AEBD,
-              ),),
-            );
-          }
-          if (appointment.isMore) {
-            return GestureDetector(
-              onTap: () {
-                widget.onMore?.call(appointmentDetail.date);
-              },
-              child: Container(
-                color: Colors.transparent,
-                child: const Icon(
-                  Icons.more_horiz,
-                  color: textBodyTime,
+              child: Text(
+                '+${appointmentDetail.more}',
+                style: textNormalCustom(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w400,
+                  color: colorA2AEBD,
                 ),
               ),
             );

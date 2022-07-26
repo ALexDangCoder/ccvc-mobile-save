@@ -115,16 +115,18 @@ extension ReportStatistical on QLVBCCubit {
     rowChartDataOutStream.sink.add(listRowChartData);
   }
 
-  void dropDownSelect(int index, {bool selectYear = true}) {
+  Future<void> dropDownSelect(int index, {bool selectYear = true}) async {
+    showLoading();
     if (selectYear) {
       selectedYear = int.parse(yearList[index]);
       selectedMonth = null;
       listenableMonthValue.value = !listenableMonthValue.value;
-      selectDateTime();
+      await selectDateTime();
     } else {
       selectedMonth = index + 1;
-      selectDateTime();
+      await selectDateTime();
     }
+    showContent();
   }
 
   void generateListTime() {

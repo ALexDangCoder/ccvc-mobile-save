@@ -39,30 +39,25 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     return false;
   }
 
-  TypeStateDiemDanh getStateDiemDanh(BangDiemDanhCaNhanModel model) {
+  List<TypeStateDiemDanh> getStateDiemDanh(BangDiemDanhCaNhanModel model) {
+    final List<TypeStateDiemDanh> dataState = [];
     if (model.leaveType == LeaveType.NL) {
-      return TypeStateDiemDanh.NGHI_LAM;
+      dataState.add(TypeStateDiemDanh.NGHI_LAM);
     }
 
     if ((model.isLate ?? false) && model.type == Type.WORKING) {
-      return TypeStateDiemDanh.MUON;
-    }
-
-    if ((model.timeIn ?? '').isNotEmpty &&
-        (model.timeOut ?? '').isNotEmpty &&
-        model.type == Type.WORKING) {
-      return TypeStateDiemDanh.DI_LAM;
+      dataState.add(TypeStateDiemDanh.MUON);
     }
 
     if ((model.isComeBackEarly ?? false) && model.type == Type.WORKING) {
-      return TypeStateDiemDanh.VE_SOM;
+      dataState.add(TypeStateDiemDanh.VE_SOM);
     }
 
     if ((model.leaveRequestReasonName ?? '').isNotEmpty) {
-      return TypeStateDiemDanh.NGHI_PHEP;
+      dataState.add(TypeStateDiemDanh.NGHI_PHEP);
     }
 
-    return TypeStateDiemDanh.NGHI_LAM;
+    return dataState;
   }
 
   Future<void> postDiemDanhThongKe(DateTime date) async {

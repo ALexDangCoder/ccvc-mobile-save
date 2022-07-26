@@ -48,7 +48,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
               ),
             ),
             monthViewSettings: MonthViewSettings(
-              agendaViewHeight: 100,
+              agendaViewHeight: 120,
               appointmentDisplayCount: 1,
               monthCellStyle: MonthCellStyle(
                 trailingDatesTextStyle: textNormalCustom(

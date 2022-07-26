@@ -6,8 +6,8 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ViewDayCalendarWidget extends StatelessWidget {
-  final TypeStateDiemDanh state;
+class ViewDayCalendarWidget extends StatefulWidget {
+  final List<TypeStateDiemDanh> state;
   final String timeIn;
   final String timeOut;
   final double dayWage;
@@ -20,21 +20,40 @@ class ViewDayCalendarWidget extends StatelessWidget {
     required this.timeOut,
   }) : super(key: key);
 
+  @override
+  State<ViewDayCalendarWidget> createState() => _ViewDayCalendarWidgetState();
+}
+
+class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
+  bool isShowDate = false;
+  final List<TypeStateDiemDanh> rowViewData = [];
+  late final TypeStateDiemDanh elementFirst;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.state.length > 2) {
+      elementFirst = widget.state[0];
+
+      rowViewData.addAll(widget.state.getRange(1, widget.state.length - 1));
+    }
+  }
+
   String get getStringDate {
-    if (timeIn.isEmpty && timeOut.isNotEmpty) {
-      return '??:??-${timeOut.getTime}';
+    if (widget.timeIn.isEmpty && widget.timeOut.isNotEmpty) {
+      return '??:??-${widget.timeOut.getTime}';
     }
 
-    if (timeOut.isEmpty && timeIn.isNotEmpty) {
-      return '${timeIn.getTime}-??:??';
+    if (widget.timeOut.isEmpty && widget.timeIn.isNotEmpty) {
+      return '${widget.timeIn.getTime}-??:??';
     }
 
-    if (timeIn.isEmpty && timeOut.isEmpty) {
+    if (widget.timeIn.isEmpty && widget.timeOut.isEmpty) {
       return '??:??-??:??';
     }
 
-    if (timeIn.isNotEmpty && timeOut.isNotEmpty) {
-      return '${timeIn.getTime}-${timeOut.getTime}';
+    if (widget.timeIn.isNotEmpty && widget.timeOut.isNotEmpty) {
+      return '${widget.timeIn.getTime}-${widget.timeOut.getTime}';
     }
 
     return '??:??-??:??';
@@ -45,72 +64,160 @@ class ViewDayCalendarWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        if (dayWage == 0.0)
-          SvgPicture.asset(
-            state.getIcon,
-            height: 12,
-            width: 12,
+        if (widget.dayWage == 0.0)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.state
+                .map(
+                  (dataState) => Row(
+                    children: [
+                      SvgPicture.asset(
+                        dataState.getIcon,
+                        height: 12,
+                        width: 12,
+                      ),
+                      spaceW3,
+                    ],
+                  ),
+                )
+                .toList(),
           )
         else
           dayWageWidget(),
         spaceH10,
-        Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 4,
-            horizontal: 5,
-          ),
-          decoration: BoxDecoration(
-            color:
-                timeIn.isEmpty || timeOut.isEmpty ? colorEA5455 : color20C997,
-            borderRadius: BorderRadius.circular(2),
-          ),
-          child: Text(
-            getStringDate,
-            style: textNormalCustom(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 9,
+        GestureDetector(
+          onTap: () {
+            isShowDate = !isShowDate;
+            setState(() {});
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 5,
             ),
+            decoration: BoxDecoration(
+              color: widget.timeIn.isEmpty || widget.timeOut.isEmpty
+                  ? colorEA5455
+                  : color20C997,
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: isShowDate
+                ? Text(
+                    getStringDate,
+                    style: textNormalCustom(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9,
+                    ),
+                  )
+                : Text(
+                    getStringDate,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textNormalCustom(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9,
+                    ),
+                  ),
           ),
         ),
-        spaceH6,
+        spaceH3,
       ],
     );
   }
 
   Widget dayWageWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
-          dayWage.toString(),
-          style: textNormalCustom(
-            color: color667793,
-            fontSize: 10,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        spaceW2,
-        SvgPicture.asset(
-          ImageAssets.icDiLam,
-          width: 10,
-          height: 10,
-        ),
-        if (state != TypeStateDiemDanh.DI_LAM)
+        if (widget.state.length > 2)
           Row(
-            children: [
-              spaceW6,
-
-              SvgPicture.asset(
-                state.getIcon,
-                height: 12,
-                width: 12,
-              ),
-            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: rowViewData
+                .map(
+                  (dataState) => Row(
+                    children: [
+                      SvgPicture.asset(
+                        dataState.getIcon,
+                        height: 12,
+                        width: 12,
+                      ),
+                      spaceW2,
+                    ],
+                  ),
+                )
+                .toList(),
           )
         else
           Container(),
+        spaceH3,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              widget.dayWage.toString(),
+              style: textNormalCustom(
+                color: color667793,
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            spaceW2,
+            SvgPicture.asset(
+              ImageAssets.icDiLam,
+              width: 10,
+              height: 10,
+            ),
+            spaceW6,
+            if (widget.state.length > 2)
+              SvgPicture.asset(
+                elementFirst.getIcon,
+                height: 12,
+                width: 12,
+              )
+            else
+              getViewState(),
+          ],
+        ),
       ],
     );
+  }
+
+  Widget getViewState() {
+    if (widget.state.isEmpty) {
+      return Container();
+    } else if (widget.state.length == 1) {
+      return Row(
+        children: [
+          spaceW6,
+          SvgPicture.asset(
+            widget.state[0].getIcon,
+            height: 12,
+            width: 12,
+          ),
+        ],
+      );
+    } else if (widget.state.length == 2) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          SvgPicture.asset(
+            widget.state[0].getIcon,
+            height: 12,
+            width: 12,
+          ),
+          spaceH6,
+          SvgPicture.asset(
+            widget.state[1].getIcon,
+            height: 12,
+            width: 12,
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 }

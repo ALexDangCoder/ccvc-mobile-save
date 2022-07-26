@@ -33,9 +33,7 @@ class _ReportStaticalState extends State<ReportStatical>
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
-    widget.cubit.generateListTime();
-    widget.cubit.getReportStatisticalData();
-    widget.cubit.selectDateTime();
+    widget.cubit.getAllDataReportStatistical();
     super.initState();
   }
 

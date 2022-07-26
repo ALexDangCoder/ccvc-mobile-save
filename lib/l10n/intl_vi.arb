@@ -1318,6 +1318,7 @@
   "vui_long_nhap_cong_viec": "Vui lòng nhập công việc",
   "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
   "thu_hoi_lich_hop" : "Thu hồi lịch họp",
+  "vui_long_nhap_cham_cham": "Vui lòng nhập .....",
   "khong_lap_lai": "Không lặp lại",
   "lap_lai_hang_ngay": "Lặp lại hàng ngày",
   "tu_thu_2_den_thu_6": "Từ thứ 2 đén thứ 6 hàng tuần",
@@ -1336,7 +1337,11 @@
   "khong_co_du_lieu_hien_thi": "Không có dữ liệu hiển thị!",
   "nhap_tag": "Nhập tag",
   "can_bo_nay_da_ton_tai": "Cán bộ này đã tồn tại",
-  "validata_phien_hop": "Thời gian phiên họp phải nằm trong khoảng thời gian họp"
+  "validata_phien_hop": "Thời gian phiên họp phải nằm trong khoảng thời gian họp",
+  "tinh_hinh_xu_ly_van_ban_di": "Tình hình xử lý văn bản đi",
+  "van_ban_cac_don_vi_soan_thao" : "Văn bản các đơn vị soạn thảo",
+  "thong_ke_van_ban_di" : "Thống kê văn bản đi",
+  "van_ban_den_theo_don_vi_xu_ly" : "Văn bản đến theo đơn vị xử lý"
 }
 
 

@@ -105,6 +105,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               FileExtensions.PNG,
               FileExtensions.XLSX,
             ],
+            errOverSizeMessage: S.current.dung_luong_toi_da_20,
           ),
         )
       ],

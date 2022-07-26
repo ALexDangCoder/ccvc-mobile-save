@@ -176,7 +176,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                       ),
                     ),
                     CustomRadioLoaiSoHuu(
-                      onChange: (onchange) {
+                      onchange: (onchange) {
                         onchange
                             ? widget.cubit.loaiSoHuu =
                                 DanhSachBienSoXeConst.XE_LANH_DAO

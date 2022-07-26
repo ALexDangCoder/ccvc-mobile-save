@@ -90,7 +90,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                 )
                     .then((value) {
                   if (value) {
-                    widget.cubit.initDataChiTiet();
+                    widget.cubit.initDataChiTiet(needCheckPermission: true);
+                    widget.themCanBoCubit.getCanbo.add([]);
                     Navigator.pop(context);
                   }
                 });

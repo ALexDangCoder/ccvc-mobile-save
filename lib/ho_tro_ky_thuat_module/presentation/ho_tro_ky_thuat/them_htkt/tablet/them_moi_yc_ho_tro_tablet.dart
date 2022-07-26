@@ -106,8 +106,7 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                         },
                         child: SvgPicture.asset(
                           ImageAssets.icClose,
-                          color: AppTheme.getInstance()
-                              .unselectedLabelColor(),
+                          color: AppTheme.getInstance().unselectedLabelColor(),
                         ),
                       ),
                     ],
@@ -139,11 +138,13 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                   isEnable: true,
                                   maxLength: 150,
                                   onChange: (value) {
-                                    widget.cubit.addTaskHTKTRequest.name = value;
+                                    widget.cubit.addTaskHTKTRequest.name =
+                                        value;
                                   },
                                   validate: (value) {
                                     if ((value ?? '').isEmpty) {
-                                      return S.current.khong_duoc_de_trong;
+                                      return S.current
+                                          .ban_phai_nhap_truong_ten_thiet_bi;
                                     }
                                   },
                                 ),
@@ -158,11 +159,13 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                   maxLength: 11,
                                   textInputType: TextInputType.number,
                                   onChange: (value) {
-                                    widget.cubit.addTaskHTKTRequest.phone = value;
+                                    widget.cubit.addTaskHTKTRequest.phone =
+                                        value;
                                   },
                                   validate: (value) {
                                     if ((value ?? '').isEmpty) {
-                                      return S.current.khong_duoc_de_trong;
+                                      return S.current
+                                          .ban_phai_nhap_truong_so_dien_thoai_lien_he;
                                     } else {
                                       return null;
                                     }
@@ -175,11 +178,13 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                   title: S.current.mo_ta_su_co,
                                   hintText: S.current.mo_ta_su_co,
                                   onChange: (value) {
-                                    widget.cubit.addTaskHTKTRequest.description = value;
+                                    widget.cubit.addTaskHTKTRequest
+                                        .description = value;
                                   },
                                   validate: (value) {
                                     if ((value ?? '').isEmpty) {
-                                      return S.current.khong_duoc_de_trong;
+                                      return S.current
+                                          .ban_phai_nhap_truong_mo_ta_su_co;
                                     }
                                   },
                                 ),
@@ -199,11 +204,13 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                   title: S.current.so_phong,
                                   hintText: S.current.so_phong,
                                   onChange: (value) {
-                                    widget.cubit.addTaskHTKTRequest.room = value;
+                                    widget.cubit.addTaskHTKTRequest.room =
+                                        value;
                                   },
                                   validate: (value) {
                                     if ((value ?? '').isEmpty) {
-                                      return S.current.khong_duoc_de_trong;
+                                      return S.current
+                                          .ban_phai_nhap_truong_so_phong;
                                     }
                                   },
                                 ),
@@ -217,19 +224,40 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                       isRequire: true,
                                       items: _issueList,
                                       onChange: (selectIndexList) {
-                                        widget.cubit
-                                            .addIssueListRequest(selectIndexList);
+                                        widget.cubit.addIssueListRequest(
+                                            selectIndexList);
                                       },
                                     );
                                   },
                                 ),
-                                // IssueDropDown(cubit: widget.cubit),
+                                StreamBuilder<bool>(
+                                  initialData: false,
+                                  stream: widget.cubit.showErrorLoaiSuCo.stream,
+                                  builder: (context, snapshot) {
+                                    return snapshot.data ?? false
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 8.0),
+                                            child: Text(
+                                              S.current
+                                                  .ban_phai_nhap_truong_loai_su_co,
+                                              style: textNormalCustom(
+                                                color: redChart,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink();
+                                  },
+                                ),
                                 spaceH16,
                                 TaiLieuWidget(
                                   isHaveExpanded: true,
                                   idRemove: (String id) {},
                                   onChange: (files, value) {
-                                    widget.cubit.addTaskHTKTRequest.fileUpload = files;
+                                    widget.cubit.addTaskHTKTRequest.fileUpload =
+                                        files;
                                   },
                                 ),
                                 spaceH20,
@@ -375,10 +403,8 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
           widget.cubit.checkAllThemMoiYCHoTro();
           if ((_groupKey.currentState?.validator() ?? true) &&
               widget.cubit.validateAllDropDown) {
-            widget.cubit
-                .postDataThemMoiHTKT()
-                .then((value) {
-              if(value){
+            widget.cubit.postDataThemMoiHTKT().then((value) {
+              if (value) {
                 final FToast toast = FToast();
                 toast.init(context);
                 toast.showToast(

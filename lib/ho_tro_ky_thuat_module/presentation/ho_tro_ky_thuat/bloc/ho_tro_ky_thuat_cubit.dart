@@ -366,6 +366,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (success) {
         showContent();
+        getListDanhBaCaNhan(
+          page: 1,
+        );
       },
       error: (error) {
         showContent();
@@ -568,8 +571,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
-          buildingListStream.sink
-              .add(buildingList.map((building) => building.name ?? '').toList());
+          buildingListStream.sink.add(
+              buildingList.map((building) => building.name ?? '').toList());
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;

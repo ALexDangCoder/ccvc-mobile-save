@@ -82,6 +82,7 @@ class ContainerInfoWidget extends StatelessWidget {
             height: 12,
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(listData.length, (index) {
               final data = listData[index];
               return Padding(
@@ -91,11 +92,15 @@ class ContainerInfoWidget extends StatelessWidget {
                     if (data.urlIcon.isEmpty)
                       const SizedBox()
                     else
-                      SvgPicture.asset(data.urlIcon),
+                      SvgPicture.asset(
+                        data.urlIcon,
+                        width: 16,
+                        height: 16,
+                      ),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Text(
-                        '${data.key}: ${data.value}',
+                        '${data.key}: ${data.value}'.trim(),
                         style: textNormal(infoColor, 14.0.textScale()),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -116,7 +121,9 @@ class ContainerInfoWidget extends StatelessWidget {
                     padding: !backGroundStatus
                         ? EdgeInsets.zero
                         : const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 5),
+                            horizontal: 15,
+                            vertical: 5,
+                          ),
                     decoration: BoxDecoration(
                       color:
                           backGroundStatus ? colorStatus : Colors.transparent,
@@ -141,7 +148,9 @@ class ContainerInfoWidget extends StatelessWidget {
                     padding: !backGroundStatus2
                         ? EdgeInsets.zero
                         : const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 5),
+                            horizontal: 15,
+                            vertical: 5,
+                          ),
                     decoration: BoxDecoration(
                       color:
                           backGroundStatus2 ? colorStatus2 : Colors.transparent,

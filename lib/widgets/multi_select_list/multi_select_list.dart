@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -101,8 +100,11 @@ class _MultiSelectListState extends State<MultiSelectList> {
                   Row(
                     children: logic.selectedValue
                         .map(
-                          (e) => Text(
-                            '$e, ',
+                          (element) => Text(
+                            getTextList(
+                              title: element,
+                              listTitle: logic.selectedValue,
+                            ),
                             style: textNormal(textTitle, 14.0.textScale()),
                           ),
                         )
@@ -124,6 +126,16 @@ class _MultiSelectListState extends State<MultiSelectList> {
       ],
     );
   }
+
+  String getTextList({
+    required String title,
+    required List<String> listTitle,
+  }) =>
+      title +
+      ((listTitle.length !=
+              listTitle.indexWhere((element) => element == title) + 1)
+          ? ', '
+          : '');
 
   void showSelect() {
     if (isMobile()) {

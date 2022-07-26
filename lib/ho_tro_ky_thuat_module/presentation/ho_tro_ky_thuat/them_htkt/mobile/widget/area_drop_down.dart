@@ -55,7 +55,7 @@ class AreaDropDown extends StatelessWidget {
           stream: cubit.listKhuVuc,
           builder: (context, snapshot) {
             final _areaList =
-                (snapshot.data ?? []).map((e) => e.name ?? '').toList();
+                (snapshot.data ?? []).map((area) => area.name ?? '').toList();
             return CustomDropDown(
               hint: RichText(
                 text: TextSpan(

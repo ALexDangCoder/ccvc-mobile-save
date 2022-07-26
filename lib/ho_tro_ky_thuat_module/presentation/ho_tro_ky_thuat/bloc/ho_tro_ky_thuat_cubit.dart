@@ -569,7 +569,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           areaList = res;
           buildingList = res.first.childCategories ?? [];
           buildingListStream.sink
-              .add(buildingList.map((e) => e.name ?? '').toList());
+              .add(buildingList.map((building) => building.name ?? '').toList());
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;

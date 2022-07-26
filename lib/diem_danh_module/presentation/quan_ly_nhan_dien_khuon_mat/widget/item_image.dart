@@ -129,6 +129,7 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                             entityName: widget.dataUI.entityName,
                             id: idImage,
                           ),
+                    imageLocal: imageRepo,
                     removeImage: () {
                       widget.cubit.deleteImageCallApi(widget.id ?? '');
 

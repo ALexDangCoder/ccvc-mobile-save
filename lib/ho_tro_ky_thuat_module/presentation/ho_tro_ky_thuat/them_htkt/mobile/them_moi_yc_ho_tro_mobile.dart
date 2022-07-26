@@ -44,8 +44,9 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
 
   @override
   void dispose() {
+    widget.cubit.dispose();
     super.dispose();
-    print('pose');
+
   }
 
   @override

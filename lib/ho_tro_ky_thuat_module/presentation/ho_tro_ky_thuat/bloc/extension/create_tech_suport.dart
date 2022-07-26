@@ -14,7 +14,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
 
   Future<void> getApiThemMoiYCHT() async {
     showLoading();
-    if (listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
+    if (listKhuVuc.hasValue || listToaNha.hasValue) {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
@@ -64,6 +64,9 @@ extension CreateTechSupport on HoTroKyThuatCubit {
   }
 
   void selectArea(int index) {
+    nameBuilding = null;
+    addTaskHTKTRequest.buildingName = null;
+    addTaskHTKTRequest.buildingId = null;
     addTaskHTKTRequest.districtName = areaList[index].name;
     addTaskHTKTRequest.districtId = areaList[index].id;
     showErrorKhuVuc.add(false);

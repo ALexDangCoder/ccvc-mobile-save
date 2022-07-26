@@ -459,7 +459,7 @@ extension TreeDanhBa on DanhBaDienTuCubit {
       success: (res) {
         showContent();
         final ans = TreeDanhBaDienTu();
-        listTreeDanhBa = res;
+        listTreeDanhBa = res.toSet().toList();
 
         for (final e in listTreeDanhBa) {
           _listId.add(e.id);
@@ -497,7 +497,7 @@ extension TreeDanhBa on DanhBaDienTuCubit {
 
     final List<TreeDonViDanhBA> matches = listTreeDanhBa
         .where(
-          (x) => x.tenDonVi
+          (data) => data.tenDonVi
               .toLowerCase()
               .vietNameseParse()
               .trim()
@@ -516,12 +516,12 @@ extension TreeDanhBa on DanhBaDienTuCubit {
       }
     }
 
-    for (final e in matches) {
-      result.add(e);
-      getParent(listTreeDanhBa, e);
+    for (final element in matches) {
+      result.add(element);
+      getParent(listTreeDanhBa, element);
     }
 
-    ans.initTree(listNode: result);
+    ans.initTree(listNode: result.toSet().toList());
     listTreeDanhBaSubject.add(ans);
   }
 

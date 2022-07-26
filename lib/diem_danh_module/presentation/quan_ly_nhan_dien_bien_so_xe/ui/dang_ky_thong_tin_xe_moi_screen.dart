@@ -78,13 +78,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                   Navigator.pop(context);
                 },
                 onClickRight: () async {
-                  final bool isFormValidated =
-                      keyGroup.currentState?.validator() ?? false;
-                  final bool isRadioValidated =
-                      _radioButtonKey.currentState?.validator() ?? false;
-                  if (isFormValidated && isRadioValidated) {
-                    await postDangKyXe();
-                  }
+                  await postDangKyXe();
                 },
               ),
             ),
@@ -351,13 +345,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             Navigator.pop(context);
                           },
                           onClickRight: () async {
-                            final bool isFormValidated =
-                                keyGroup.currentState?.validator() ?? false;
-                            final bool isRadioValidated =
-                                _radioButtonKey.currentState?.validator() ?? false;
-                            if (isFormValidated && isRadioValidated) {
-                              await postDangKyXe();
-                            }
+                            await postDangKyXe();
                           },
                         ),
                       ),
@@ -373,20 +361,22 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   }
 
   Future<void> postDangKyXe() async {
-    if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
+    if (keyGroup.currentState!.validator() &&
+        widget.cubit.fileItemBienSoXe.isNotEmpty &&
+        _radioButtonKey.currentState!.validator()) {
       Navigator.pop(context);
       await widget.cubit.postImageResgiter(
-        bienKiemSoat: bienKiemSoatController.value.text,
+        bienKiemSoat: bienKiemSoatController.value.text.removeSpace,
         context: context,
         isTao: true,
       );
-    } else {
-      widget.cubit.toast.showToast(
-        child: ShowToast(
-          text: S.current.vui_long_tai_anh_len,
-        ),
-        gravity: ToastGravity.TOP_RIGHT,
-      );
+      return;
     }
+    widget.cubit.toast.showToast(
+      child: ShowToast(
+        text: S.current.vui_long_tai_anh_len,
+      ),
+      gravity: ToastGravity.TOP_RIGHT,
+    );
   }
 }

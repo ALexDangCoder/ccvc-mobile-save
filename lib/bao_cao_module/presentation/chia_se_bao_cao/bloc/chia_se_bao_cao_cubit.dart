@@ -213,12 +213,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       unit: unit,
       description: description,
     );
-    final result = await _repo.addNewMember(mapData, appId);
     final rs = await chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
-    result.when(
-      success: (res) {},
-      error: (error) {},
-    );
     return rs;
   }
 

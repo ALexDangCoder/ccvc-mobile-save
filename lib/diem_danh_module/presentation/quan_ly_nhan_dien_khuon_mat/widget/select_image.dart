@@ -4,7 +4,9 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -40,7 +42,15 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
   Future<void> pickImage() async {
     final XFile? pickImg = await picker.pickImage(source: ImageSource.gallery);
     if (pickImg != null) {
-      widget.onTapImage(File(pickImg.path));
+      final File fileIamge = File(pickImg.path);
+      final int fileSize = await fileIamge.length();
+
+      if (fileSize < FileSize.MB5) {
+        widget.onTapImage(File(pickImg.path));
+      } else {
+        widget.onTapImage(null);
+        MessageConfig.show(title: S.current.dung_luong_toi_da_5mb);
+      }
     }
   }
 

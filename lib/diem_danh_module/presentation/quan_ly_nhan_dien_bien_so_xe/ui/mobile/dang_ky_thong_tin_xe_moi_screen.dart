@@ -14,7 +14,6 @@ import 'package:ccvc_mobile/diem_danh_module/widget/stream/stream_listener.dart'
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
@@ -22,7 +21,6 @@ import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
-
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,6 +38,7 @@ class DangKyThongTinXeMoi extends StatefulWidget {
 class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   TextEditingController bienKiemSoatController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
+  final _radioButtonKey = GlobalKey<CustomRadioLoaiSoHuuState>();
 
   @override
   void initState() {
@@ -79,7 +78,11 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                   Navigator.pop(context);
                 },
                 onClickRight: () async {
-                  if (keyGroup.currentState!.validator()) {
+                  final bool isFormValidated =
+                      keyGroup.currentState?.validator() ?? false;
+                  final bool isRadioValidated =
+                      _radioButtonKey.currentState?.validator() ?? false;
+                  if (isFormValidated && isRadioValidated) {
                     await postDangKyXe();
                   }
                 },
@@ -87,7 +90,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
             ),
             resizeToAvoidBottomInset: true,
             appBar: BaseAppBar(
-              title: S.current.quan_ly_nhan_dien_bien_so_xe,
+              title: S.current.dang_ky_thong_tin_xe_moi,
               leadingIcon: IconButton(
                 onPressed: () => {Navigator.pop(context)},
                 icon: SvgPicture.asset(
@@ -168,7 +171,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                       ItemTextNote(title: S.current.bien_kiem_soat),
                       TextFieldValidator(
                         controller: bienKiemSoatController,
-                        hintText: S.current.bien_kiem_soat,
+                        hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
                           return (value ?? '')
@@ -188,12 +191,11 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         ),
                       ),
                       CustomRadioLoaiSoHuu(
-                        onchange: (onchange) {
-                          onchange
-                              ? widget.cubit.loaiSoHuu =
-                                  DanhSachBienSoXeConst.XE_LANH_DAO
-                              : widget.cubit.loaiSoHuu =
-                                  DanhSachBienSoXeConst.XE_CAN_BO;
+                        key: _radioButtonKey,
+                        onChange: (isXeLanhDao) {
+                          widget.cubit.loaiSoHuu = isXeLanhDao
+                              ? DanhSachBienSoXeConst.XE_LANH_DAO
+                              : DanhSachBienSoXeConst.XE_CAN_BO;
                         },
                       ),
                     ],
@@ -214,8 +216,30 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
           child: Scaffold(
             backgroundColor: colorF9FAFF,
             resizeToAvoidBottomInset: true,
-            appBar: AppBarDefaultBack(
-              S.current.dang_ky_thong_tin_xe_moi,
+            appBar: BaseAppBar(
+              title: S.current.dang_ky_thong_tin_xe_moi,
+              leadingIcon: IconButton(
+                onPressed: () => {Navigator.pop(context)},
+                icon: SvgPicture.asset(
+                  ImageAssets.icBack,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    DrawerSlide.navigatorSlide(
+                      context: context,
+                      screen: DiemDanhMenuMobile(
+                        isThemBienSo: true,
+                        cubit: widget.cubit,
+                      ),
+                    );
+                  },
+                  icon: SvgPicture.asset(
+                    ImageAssets.icMenuCalender,
+                  ),
+                )
+              ],
             ),
             body: Padding(
               padding:
@@ -285,7 +309,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             TextFieldValidator(
                               fillColor: colorFFFFFF,
                               controller: bienKiemSoatController,
-                              hintText: S.current.bien_kiem_soat,
+                              hintText: S.current.nhap_bien_kiem_soat,
                               onChange: (value) {},
                               validator: (value) {
                                 return (value ?? '').checkTruongNull(
@@ -306,12 +330,11 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               ),
                             ),
                             CustomRadioLoaiSoHuu(
-                              onchange: (onchange) {
-                                onchange
-                                    ? widget.cubit.loaiSoHuu =
-                                        DanhSachBienSoXeConst.XE_LANH_DAO
-                                    : widget.cubit.loaiSoHuu =
-                                        DanhSachBienSoXeConst.XE_CAN_BO;
+                              key: _radioButtonKey,
+                              onChange: (isXeLanhDao) {
+                                widget.cubit.loaiSoHuu = isXeLanhDao
+                                    ? DanhSachBienSoXeConst.XE_LANH_DAO
+                                    : DanhSachBienSoXeConst.XE_CAN_BO;
                               },
                             ),
                           ],
@@ -328,7 +351,11 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             Navigator.pop(context);
                           },
                           onClickRight: () async {
-                            if (keyGroup.currentState!.validator()) {
+                            final bool isFormValidated =
+                                keyGroup.currentState?.validator() ?? false;
+                            final bool isRadioValidated =
+                                _radioButtonKey.currentState?.validator() ?? false;
+                            if (isFormValidated && isRadioValidated) {
                               await postDangKyXe();
                             }
                           },

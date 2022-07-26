@@ -1372,5 +1372,7 @@
   "khong_co_du_lieu_hien_thi": "Không có dữ liệu hiển thị!",
   "nhap_tag": "Nhập tag",
   "thong_ke_van_ban_den": "Thống kê văn bản đến",
-  "validata_phien_hop": "Thời gian phiên họp phải nằm trong khoảng thời gian họp"
+  "validata_phien_hop": "Thời gian phiên họp phải nằm trong khoảng thời gian họp",
+  "nhap_bien_kiem_soat": "Nhập biển kiểm soát",
+  "chon_loai_xe": "Chọn loại xe"
 }

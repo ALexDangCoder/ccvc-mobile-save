@@ -27,9 +27,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DangKyThongTinXeMoi extends StatefulWidget {
-  DiemDanhCubit cubit;
+  final DiemDanhCubit cubit;
 
-  DangKyThongTinXeMoi({Key? key, required this.cubit}) : super(key: key);
+  const DangKyThongTinXeMoi({Key? key, required this.cubit}) : super(key: key);
 
   @override
   State<DangKyThongTinXeMoi> createState() => _DangKyThongTinXeMoiState();

@@ -9,15 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DocumentByDivisionLineChart extends StatelessWidget {
+  final String title;
   final List<ChartData> chartData;
 
-  const DocumentByDivisionLineChart({Key? key, required this.chartData})
+  const DocumentByDivisionLineChart({Key? key, required this.chartData, required this.title})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return _LineChart(
-      title: 'Thống kê văn bản đến',
+      title: title,
       tittleStyle: textNormalCustom(
         color: textTitle,
         fontSize: 16,
@@ -116,6 +117,7 @@ class _LineChartViewState extends State<_LineChartView> {
   /// Get the cartesian chart with default line series
   SfCartesianChart _buildDefaultLineChart() {
     return SfCartesianChart(
+      onLegendTapped: (_){},
       plotAreaBorderWidth: 0,
       legend: Legend(
         isVisible: true,
@@ -148,7 +150,7 @@ class _LineChartViewState extends State<_LineChartView> {
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y,
         width: 2,
-        name: S.current.nam_truoc,
+        name: S.current.nam_nay,
         markerSettings: const MarkerSettings(
           isVisible: true,
           color: color5A8DEE,

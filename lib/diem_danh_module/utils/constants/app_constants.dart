@@ -303,3 +303,4 @@ class DanhSachBienSoXeConst {
   static const String XE_CAN_BO = 'XE_CAN_BO';
   static const String XE_LANH_DAO = 'XE_LANH_DAO';
 }
+const int BYTE_TO_MB = 1000000;

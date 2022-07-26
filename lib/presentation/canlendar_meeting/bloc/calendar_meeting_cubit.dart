@@ -618,6 +618,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       startDate: startDate,
       endDate: endDate,
     );
+    getCountInDashboard();
   }
 
   /// lấy số lịch họp trong thời gian

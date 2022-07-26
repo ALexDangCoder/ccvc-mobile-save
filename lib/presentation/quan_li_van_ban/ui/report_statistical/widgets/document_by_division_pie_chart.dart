@@ -1,21 +1,24 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/common_info.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DocumentByDivisionPieChart extends StatelessWidget {
   final List<ChartData> chartData;
+  final String title;
 
-  const DocumentByDivisionPieChart({Key? key, required this.chartData})
-      : super(key: key);
+  const DocumentByDivisionPieChart({
+    Key? key,
+    required this.chartData,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return _PieChart(
-      title: S.current.tinh_hinh_xu_ly_van_ban_den,
+      title: title,
       tittleStyle: textNormalCustom(
         color: textTitle,
         fontSize: 16,
@@ -75,60 +78,10 @@ class _PieChart extends StatelessWidget {
         if (chartData.indexWhere((element) => element.value != 0) == -1)
           const NodataWidget()
         else
-          SfCircularChart(
-            margin: EdgeInsets.zero,
-            onDataLabelTapped: (value) {},
-            series: [
-              DoughnutSeries<ChartData, String>(
-                innerRadius: '45',
-                dataSource: chartData,
-                pointColorMapper: (ChartData data, _) => data.color,
-                pointRadiusMapper: (ChartData data, _) => data.size,
-                xValueMapper: (ChartData data, _) => data.title,
-                yValueMapper: (ChartData data, _) => data.value,
-                dataLabelMapper: (ChartData data, _) =>
-                    '${data.title} ${percent(data.value)}',
-                onPointTap: (value) {},
-                dataLabelSettings: DataLabelSettings(
-                  builder: (
-                    data,
-                    point,
-                    series,
-                    pointIndex,
-                    seriesIndex,
-                  ) {
-                    return SizedBox(
-                      width: 50,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            data.title,
-                            style: textNormal(
-                              color3D5586,
-                              16,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            percent(data.value),
-                            style: textNormal(
-                              data.color,
-                              24,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  useSeriesColor: true,
-                  isVisible: true,
-                  showZeroValue: false,
-                  labelPosition: ChartDataLabelPosition.outside,
-                ),
-              )
-            ],
+          CommonInformationDocumentManagement(
+            chartData: chartData,
+            onPieTap: (value) {},
+            onStatusTap: (key) {},
           ),
       ],
     );

@@ -21,7 +21,7 @@ class DiemDanhKhuonMat extends DiemDanhState {
   List<Object?> get props => [];
 }
 
-class DiemDanhBienSoXe extends DiemDanhState {
+class ApiSuccess extends DiemDanhState {
   @override
   List<Object?> get props => [];
 }

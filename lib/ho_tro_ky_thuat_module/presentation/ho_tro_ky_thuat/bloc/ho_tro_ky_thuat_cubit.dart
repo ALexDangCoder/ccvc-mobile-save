@@ -272,7 +272,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   List<String> getListThanhVien(List<ThanhVien> listData) {
     return listData
-        .map((e) => '${e.tenThanhVien.toString()} (${e.userId.toString()})')
+        .map((e) => '${e.tenThanhVien.toString()} - ${e.userName.toString()}')
         .toList();
   }
 

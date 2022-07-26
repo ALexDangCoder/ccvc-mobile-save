@@ -47,7 +47,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   void dispose() {
     widget.cubit.dispose();
     super.dispose();
-
   }
 
   @override
@@ -208,7 +207,27 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                               );
                             },
                           ),
-                          // IssueDropDown(cubit: widget.cubit),
+                          StreamBuilder<bool>(
+                            initialData: false,
+                            stream: widget.cubit.showErrorLoaiSuCo.stream,
+                            builder: (context, snapshot) {
+                              return snapshot.data ?? false
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: Text(
+                                        S.current
+                                            .ban_phai_nhap_truong_loai_su_co,
+                                        style: textNormalCustom(
+                                          color: redChart,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink();
+                            },
+                          ),
                           spaceH16,
                           TaiLieuWidget(
                             isHaveExpanded: true,
@@ -357,31 +376,29 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           widget.cubit.checkAllThemMoiYCHoTro();
           if ((_groupKey.currentState?.validator() ?? true) &&
               widget.cubit.validateAllDropDown) {
-            widget.cubit
-                .postDataThemMoiHTKT()
-                .then((value) {
-                  if(value){
-                    final FToast toast = FToast();
-                    toast.init(context);
-                    toast.showToast(
-                      child: ShowToast(
-                        text: S.current.luu_du_lieu_thanh_cong,
-                        icon: ImageAssets.icSucces,
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                    Navigator.pop(context);
-                  } else {
-                    final FToast toast = FToast();
-                    toast.init(context);
-                    toast.showToast(
-                      child: ShowToast(
-                        text: S.current.thay_doi_that_bai,
-                        icon: ImageAssets.icError,
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                  }
+            widget.cubit.postDataThemMoiHTKT().then((value) {
+              if (value) {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.luu_du_lieu_thanh_cong,
+                    icon: ImageAssets.icSucces,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+                Navigator.pop(context);
+              } else {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.thay_doi_that_bai,
+                    icon: ImageAssets.icError,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+              }
             });
           } else {
             final toast = FToast();

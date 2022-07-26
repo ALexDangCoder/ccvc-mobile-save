@@ -130,7 +130,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_ten_thiet_bi;
                                   }
                                 },
                               ),
@@ -151,7 +151,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_so_dien_thoai_lien_he;
                                   } else {
                                     return null;
                                   }
@@ -170,7 +170,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_mo_ta_su_co;
                                   }
                                 },
                               ),
@@ -195,7 +195,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_so_phong;
                                   }
                                 },
                               ),
@@ -280,7 +280,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                 ? Padding(
                     padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                     child: Text(
-                      S.current.khong_duoc_de_trong,
+                      S.current.ban_phai_nhap_truong_loai_su_co,
                       style: textNormalCustom(
                         color: redChart,
                         fontWeight: FontWeight.w400,

@@ -336,6 +336,31 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                 );
                               },
                             ),
+                            StreamBuilder<bool>(
+                              stream: widget.cubit.isShowErrLoaiXe,
+                              builder: (context, snapshot) {
+                                final isShow = snapshot.data ?? false;
+                                return Visibility(
+                                  visible: isShow,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      '${S.current.vuiLongChon} '
+                                          '${S.current.loai_xe.toLowerCase()}',
+                                      style: textNormalCustom(
+                                        color: colord32f2f,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                             spaceH20,
                             ItemTextNote(title: S.current.bien_kiem_soat),
                             TextFieldValidator(

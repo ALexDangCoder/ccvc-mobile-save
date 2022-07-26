@@ -110,6 +110,8 @@ class _TreeDonViState extends State<TreeDonVi> {
     super.initState();
     selectStartDate = widget.startDate;
     selectEndDate = widget.endDate;
+    print('selectStartDate$selectStartDate');
+    print('selectEndDate$selectEndDate');
     widget.themDonViCubit.selectDonVi.listen((event) {
       donViID = event.map((e) => e.value.id).toList();
     });
@@ -206,7 +208,7 @@ class _TreeDonViState extends State<TreeDonVi> {
               Expanded(
                 child: SelectDate(
                   maximumDate:
-                      DateFormat(DateFormatApp.date).parse(widget.endDate),
+                      DateFormat(DateFormatApp.date).parse(selectEndDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
@@ -218,6 +220,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                         DateFormat(DateFormatApp.pickDateSearchFormat)
                             .parse(dateTime)
                             .toStringWithListFormat;
+                    print('selectStartDate$selectStartDate');
                   },
                 ),
               ),
@@ -230,7 +233,7 @@ class _TreeDonViState extends State<TreeDonVi> {
               Expanded(
                 child: SelectDate(
                   minimumDate:
-                      DateFormat(DateFormatApp.date).parse(widget.startDate),
+                      DateFormat(DateFormatApp.date).parse(selectStartDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
@@ -241,6 +244,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                     selectEndDate = DateFormat(
                       DateFormatApp.pickDateSearchFormat,
                     ).parse(dateTime).toStringWithListFormat;
+                    print('selectEndDate$selectEndDate');
                   },
                 ),
               )

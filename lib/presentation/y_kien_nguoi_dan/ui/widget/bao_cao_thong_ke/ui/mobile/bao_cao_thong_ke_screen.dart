@@ -77,7 +77,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        title: S.current.bao_cao_thong_ke,
+        title: 'nfdfnjdsgfdsgdsbg',
         leadingIcon: IconButton(
           onPressed: () {
             Navigator.pop(context);

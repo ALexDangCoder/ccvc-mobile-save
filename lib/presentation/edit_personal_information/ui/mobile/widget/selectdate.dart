@@ -64,11 +64,10 @@ class _CustomDropDownState extends State<SelectDate> {
                 height: 300,
                 child: FlutterRoundedCupertinoDatePickerWidget(
                   minimumDate: widget.minimumDate ??
-                      DateTime(timeNow.year - 50, timeNow.day - 1),
-                  maximumDate: DateTime.now(),
+                      DateTime(timeNow.year - 50),
+                  maximumDate: widget.maximumDate ?? DateTime.now(),
                   onDateTimeChanged: (value) {
                     dateSelect = value.toString();
-                    widget.onSelectDate(dateSelect);
                   },
                   textStyleDate: titleAppbar(),
                   initialDateTime:

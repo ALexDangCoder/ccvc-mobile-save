@@ -47,6 +47,7 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
 
   @override
   void dispose() {
+    widget.cubit.dispose();
     super.dispose();
   }
 

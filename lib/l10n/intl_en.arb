@@ -1378,5 +1378,6 @@
   "thong_ke_van_ban_di" : "Thống kê văn bản đi",
   "van_ban_den_theo_don_vi_xu_ly" : "Văn bản đến theo đơn vị xử lý",
   "nhap_bien_kiem_soat": "Nhập biển kiểm soát",
-  "chon_loai_xe": "Chọn loại xe"
+  "chon_loai_xe": "Chọn loại xe",
+  "vui_long_chon_hinh_thuc_hop" : "Vui lòng chọn hình thức họp"
 }

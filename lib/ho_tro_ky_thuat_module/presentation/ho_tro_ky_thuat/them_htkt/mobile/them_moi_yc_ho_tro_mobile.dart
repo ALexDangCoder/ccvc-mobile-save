@@ -37,7 +37,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   void initState() {
     widget.cubit.init();
     widget.cubit.getApiThemMoiYCHT();
-    widget.cubit.issueListStream.sink.add([]);
     super.initState();
   }
 

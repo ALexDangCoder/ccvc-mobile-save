@@ -465,21 +465,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(idLichLamViec);
     rs.when(
       success: (data) {
-        listOfficersDataCanBo=data.map((e) =>CuCanBoLichLamViec(
-          canBoId:e.canBoId,
-          confirmDate:e.confirmDate,
-          donViId:e.donViId,
-          hoTen:e.hoTen,
-          id:e.id,
-          isConfirm:e.isConfirm,
-          parentId:e.parentId,
-          scheduleId:e.scheduleId,
-          status:e.status,
-          taskContent:e.taskContent,
-          tenDonVi:e.tenDonVi,
-          userId:e.userId,
-          userName:e.userName,
-        )).toList();
         final donViId =
             HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
         final idCuCanBo = data
@@ -496,6 +481,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
                 userId: element.userId??'',
                 id: element.id ?? '',
                 name: element.tenDonVi ?? '',
+                tenCanBo: element.hoTen ?? '',
                 hoTen: element.hoTen ?? '',
                 canBoId: element.canBoId ?? '',
                 donViId: element.donViId ?? '',
@@ -513,6 +499,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
                 userId: element.userId??'',
                 id: element.id ?? '',
                 name: element.tenDonVi ?? '',
+                tenCanBo: element.hoTen ?? '',
                 hoTen: element.hoTen ?? '',
                 canBoId: element.canBoId ?? '',
                 donViId: element.donViId ?? '',
@@ -735,11 +722,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   List<CuCanBoLichLamViec> mergeCanBoDuocChonVaCuCanBo(
-    List<DonViModel> canBoDuocChon, //local
+    List<DonViModel> canBoDuocChon, 
     List<DonViModel> cuCanBo,
   ) {
     final List<CuCanBoLichLamViec> data = [];
-    //todo:cu can bo duoc chon
     data.addAll(
         canBoDuocChon.map((e) {
           if (e is CuCanBoTreeDonVi ){

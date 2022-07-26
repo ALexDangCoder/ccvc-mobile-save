@@ -58,6 +58,7 @@ class CuCanBoTreeDonVi extends DonViModel {
     String tenDonVi = '',
     String taskContent = '',
     String donViId = '',
+    String tenCanBo = '',
     bool isXoa = false,
     this.confirmDate,
     this.isConfirm,
@@ -75,6 +76,7 @@ class CuCanBoTreeDonVi extends DonViModel {
           noidung: taskContent,
           donViId: donViId,
           isXoa: isXoa,
+          tenCanBo: tenCanBo,
         );
 }
 

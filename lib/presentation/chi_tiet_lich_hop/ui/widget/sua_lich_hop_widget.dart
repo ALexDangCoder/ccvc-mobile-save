@@ -184,7 +184,8 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                               },
                               validateTime: (String value) {},
                             );
-                          }),
+                          },
+                      ),
                       spaceH5,
                       SelectOnlyExpand(
                         urlIcon: ImageAssets.icNhacLai,
@@ -369,10 +370,12 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
         );
         return;
       }
-      if (!_cubitTaoLichHop.checkThoiGianPhienHop()) {
+      if (_cubitTaoLichHop.taoLichHopRequest.bitHopTrucTuyen == null ||
+          (!_cubitTaoLichHop.isHopTrucTiep &&
+              _cubitTaoLichHop.taoLichHopRequest.bitHopTrucTuyen == false)) {
         MessageConfig.show(
           messState: MessState.error,
-          title: S.current.validate_thoi_gian_phien_hop,
+          title: S.current.vui_long_chon_hinh_thuc_hop,
         );
         return;
       }

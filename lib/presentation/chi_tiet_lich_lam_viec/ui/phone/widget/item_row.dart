@@ -90,12 +90,16 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           SizedBox(
             width: 16.0.textScale(),
           ),
-          Text(
-            value,
-            style: textNormalCustom(
-              color: textTitle,
-              fontWeight: FontWeight.w400,
-              fontSize: 16.0.textScale(),
+          Expanded(
+            child: Text(
+              value,
+              style: textNormalCustom(
+                color: textTitle,
+                fontWeight: FontWeight.w400,
+                fontSize: 16.0.textScale(),
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

@@ -179,6 +179,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                   bloc: cubit,
                   builder: (BuildContext context, Object? state) {
                     return SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           if (cubit.listReportFavorite?.isNotEmpty ?? false)

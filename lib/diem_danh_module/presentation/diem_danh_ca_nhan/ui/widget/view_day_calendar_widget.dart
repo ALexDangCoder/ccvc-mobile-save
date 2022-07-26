@@ -40,6 +40,18 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
     }
   }
 
+  @override
+  void didUpdateWidget(ViewDayCalendarWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    ///nếu nhiều hơn 1 trạng thái thì truyền các trạng thái (trừ cái đầu tiên) để hiển thị bên trên
+    if (widget.state.length > 1) {
+      for (int state = 1; state < widget.state.length; state++) {
+        rowViewData.add(widget.state[state]);
+      }
+    }
+  }
+
   String get getStringDate {
     if (widget.timeIn.isEmpty && widget.timeOut.isNotEmpty) {
       return '??:??-${widget.timeOut.getTime}';
@@ -85,7 +97,7 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
           )
         else
           dayWageWidget(),
-        spaceH10,
+        spaceH12,
         GestureDetector(
           onTap: () {
             isShowDate = !isShowDate;
@@ -123,7 +135,7 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
                   ),
           ),
         ),
-        spaceH3,
+        spaceH4,
       ],
     );
   }

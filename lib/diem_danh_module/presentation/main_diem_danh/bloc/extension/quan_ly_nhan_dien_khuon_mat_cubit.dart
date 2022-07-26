@@ -226,7 +226,8 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
             isImage(fileTypeUpload, ApiConstants.KHUON_MAT_DEO_KINH)) ||
         (entityName == ApiConstants.KHUON_MAT_KHONG_DEO_KINH &&
             isImage(fileTypeUpload, ApiConstants.KHUON_MAT_KHONG_DEO_KINH))) {
-      idImg = findId(fileTypeUpload: fileTypeUpload, entityName: entityName);
+      idImg =
+          findFileId(fileTypeUpload: fileTypeUpload, entityName: entityName);
     }
 
     if (idImg != null) {
@@ -275,6 +276,28 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
             orElse: () => GetAllFilesIdModel.empty(),
           )
           .id;
+    }
+  }
+
+  ///find fileId of image
+  String? findFileId(
+      {required String entityName, required String fileTypeUpload}) {
+    if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
+      return allFileDeokinhSubject.valueOrNull
+          ?.firstWhere(
+            (element) => element.loaiAnh == fileTypeUpload,
+            orElse: () => GetAllFilesIdModel.empty(),
+          )
+          .fileId;
+    }
+
+    if (entityName == ApiConstants.KHUON_MAT_KHONG_DEO_KINH) {
+      return allFileKhongDeokinhSubject.valueOrNull
+          ?.firstWhere(
+            (element) => element.loaiAnh == fileTypeUpload,
+            orElse: () => GetAllFilesIdModel.empty(),
+          )
+          .fileId;
     }
   }
 }

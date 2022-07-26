@@ -10,10 +10,11 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
@@ -421,13 +422,37 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
               widget.cubit.validateAllDropDown) {
             widget.cubit
                 .postEditHTKT()
-                .then((value) => value ? Navigator.pop(context) : null);
+                .then((value) {
+              if(value){
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.luu_du_lieu_thanh_cong,
+                    icon: ImageAssets.icSucces,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+                Navigator.pop(context);
+              } else {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.thay_doi_that_bai,
+                    icon: ImageAssets.icError,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+              }
+            });
           } else {
             final toast = FToast();
             toast.init(context);
             toast.showToast(
               child: ShowToast(
                 text: S.current.sai_dinh_dang_truong,
+                icon: ImageAssets.icError,
               ),
               gravity: ToastGravity.BOTTOM,
             );

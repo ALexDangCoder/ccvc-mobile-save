@@ -27,7 +27,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 600,
+      height: 700,
       child: StreamBuilder<List<BangDiemDanhCaNhanModel>>(
         stream: widget.cubit.listBangDiemDanh,
         builder: (context, snapshot) {
@@ -48,7 +48,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
               ),
             ),
             monthViewSettings: MonthViewSettings(
-              agendaViewHeight: 100,
+              agendaViewHeight: 120,
               appointmentDisplayCount: 1,
               monthCellStyle: MonthCellStyle(
                 trailingDatesTextStyle: textNormalCustom(

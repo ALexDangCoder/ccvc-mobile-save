@@ -180,7 +180,7 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
       () => _hoTroKyThuatService.updateTaskProcessing(
         task,
       ),
-      (res) => res.message ?? '',
+      (res) => res.statusCode.toString(),
     );
   }
 
@@ -191,7 +191,7 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
         idTask,
         comment,
       ),
-      (res) => res.message ?? '',
+      (res) => res.statusCode.toString(),
     );
   }
 

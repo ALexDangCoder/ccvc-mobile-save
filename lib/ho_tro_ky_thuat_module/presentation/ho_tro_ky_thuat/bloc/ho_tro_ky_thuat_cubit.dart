@@ -366,6 +366,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (success) {
         showContent();
+        getListDanhBaCaNhan(
+          page: 1,
+        );
       },
       error: (error) {
         showContent();

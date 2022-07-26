@@ -616,6 +616,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorLoaiSuCo.add(false);
     showErrorKhuVuc.add(false);
     showErrorToaNha.add(false);
+    addTaskHTKTRequest.danhSachSuCo?.clear();
   }
 
   bool validateAllDropDown = false;

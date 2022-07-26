@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_s
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/cu_can_bo_di_thay_lich_lam_viec_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/cu_can_bo_lich_lam_viec_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/document_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/edit_calendar_work_mobile.dart';
@@ -318,7 +319,21 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                 urlImage: ImageAssets.icCuCanBo,
                 text: S.current.cu_can_bo,
                 onTap: () {
-
+                  showBottomSheetCustom<List<DonViModel>>(
+                    context,
+                    title: S.current.cu_can_bo,
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                      ),
+                      child: CuCanBoLichLamViecWidget(
+                        themCanBoCubit: themCanBoCubit,
+                        cubit: chiTietLichLamViecCubit,
+                        cubitThanhPhanTG: cubitThanhPhan,
+                        themDonViCubit: themDonViCubit,
+                      ),
+                    ),
+                  );
                 },
               )
             ];

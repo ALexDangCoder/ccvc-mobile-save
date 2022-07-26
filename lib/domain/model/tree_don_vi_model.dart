@@ -41,6 +41,43 @@ extension TypeFileShowDonViEx on TypeFileShowDonVi {
   }
 }
 
+class CuCanBoTreeDonVi extends DonViModel {
+  String? confirmDate;
+  bool? isConfirm;
+  String? parentId;
+  String? scheduleId;
+  String? userName;
+  String? hoTen;
+
+  CuCanBoTreeDonVi({
+    String id = '',
+    String name = '',
+    String canBoId = '',
+    int status = 0,
+    String userId = '',
+    String tenDonVi = '',
+    String taskContent = '',
+    String donViId = '',
+    bool isXoa = false,
+    this.confirmDate,
+    this.isConfirm,
+    this.parentId,
+    this.scheduleId,
+    this.userName,
+    this.hoTen,
+  }) : super(
+          id: id,
+          name: name,
+          canBoId: canBoId,
+          status: status,
+          userId: userId,
+          tenDonVi: tenDonVi,
+          noidung: taskContent,
+          donViId: donViId,
+          isXoa: isXoa,
+        );
+}
+
 class DonViModel {
   String id = '';
   String name = '';
@@ -133,6 +170,7 @@ class DonViModel {
       tenDonVi: tenDonVi,
     );
   }
+
   DonViModel.empty();
 }
 

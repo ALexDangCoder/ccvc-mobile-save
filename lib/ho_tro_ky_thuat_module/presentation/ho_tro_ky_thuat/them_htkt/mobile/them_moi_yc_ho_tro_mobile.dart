@@ -204,7 +204,27 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                               );
                             },
                           ),
-                          // IssueDropDown(cubit: widget.cubit),
+                          StreamBuilder<bool>(
+                            initialData: false,
+                            stream: widget.cubit.showErrorLoaiSuCo.stream,
+                            builder: (context, snapshot) {
+                              return snapshot.data ?? false
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: Text(
+                                        S.current
+                                            .ban_phai_nhap_truong_loai_su_co,
+                                        style: textNormalCustom(
+                                          color: redChart,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink();
+                            },
+                          ),
                           spaceH16,
                           TaiLieuWidget(
                             isHaveExpanded: true,

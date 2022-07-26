@@ -1341,7 +1341,14 @@
   "tinh_hinh_xu_ly_van_ban_di": "Tình hình xử lý văn bản đi",
   "van_ban_cac_don_vi_soan_thao" : "Văn bản các đơn vị soạn thảo",
   "thong_ke_van_ban_di" : "Thống kê văn bản đi",
-  "van_ban_den_theo_don_vi_xu_ly" : "Văn bản đến theo đơn vị xử lý"
+  "van_ban_den_theo_don_vi_xu_ly" : "Văn bản đến theo đơn vị xử lý",
+  "ban_phai_nhap_truong_ten_thiet_bi": "Bạn phải nhập trường Tên thiêt bị",
+  "ban_phai_nhap_truong_so_dien_thoai_lien_he": "Bạn phải nhập trường Số điện thoại liên hệ",
+  "ban_phai_nhap_truong_mo_ta_su_co": "Bạn phải nhập trường Mô tả sự cố",
+  "ban_phai_nhap_truong_so_phong": "Bạn phải nhập trường Số phòng",
+  "ban_phai_nhap_truong_khu_vuc": "Bạn phải chọn trường Khu vực ",
+  "ban_phai_nhap_truong_toa_nha": "Bạn phải chọn trường Tòa nhà",
+  "ban_phai_nhap_truong_loai_su_co": "Bạn phải chọn trường Loại sự cố"
 }
 
 

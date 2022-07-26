@@ -181,7 +181,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          if (cubit.listReportFavorite?.isNotEmpty ?? false)
+                          if (cubit.listReportFavorite?.isNotEmpty ?? false )
                             Column(
                               children: [
                                 titleBaoCao(S.current.yeu_thich),

@@ -27,6 +27,7 @@ class SelectSearchDonViWidget extends StatefulWidget {
 
 class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
   final TextEditingController controller = TextEditingController();
+
   @override
   void initState() {
     widget.themDonViCubit.selectNode.addAll(widget.data);
@@ -49,6 +50,7 @@ class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
             },
             onDelete: (value) {
               widget.themDonViCubit.removeTag(value);
+              widget.data.remove(value);
             },
           );
         } else {

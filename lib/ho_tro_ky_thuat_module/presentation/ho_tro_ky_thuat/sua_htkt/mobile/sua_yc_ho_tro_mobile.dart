@@ -163,7 +163,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 isHightLight: true,
                                 maxLine: 3,
                                 title: S.current.mo_ta_su_co,
-                                hintText: S.current.nhap_mo_ta_su_co,
+                                hintText: S.current.mo_ta_su_co,
                                 onChange: (value) {
                                   widget.cubit.editTaskHTKTRequest.description =
                                       value;

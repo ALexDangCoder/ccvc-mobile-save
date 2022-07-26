@@ -25,7 +25,10 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
   final String? icon;
   final bool isIcon;
   final bool childDiffence;
-  final Function(List<File> files, bool validate,) onChange;
+  final Function(
+    List<File> files,
+    bool validate,
+  ) onChange;
   final Function(int index)? getIndexFunc;
   final Widget Function(BuildContext, File)? builder;
   List<Files>? files;
@@ -71,6 +74,7 @@ class _ButtonSelectFileLichLamViecState
   bool isShowErr = false;
   double total = 0;
   String errMessage = '';
+
   @override
   void initState() {
     super.initState();
@@ -104,13 +108,13 @@ class _ButtonSelectFileLichLamViecState
     return value.toInt().toString();
   }
 
-  void sumListFileSize(List<FileModel> files) {
+  void sumListFileSize(List<FileModel> files, String? message) {
     for (final element in files) {
       total += element.size;
     }
     setState(() {
       isShowErr = total > widget.maxSize!;
-      if(isShowErr){
+      if (isShowErr) {
         errMessage = widget.errOverSizeMessage ??
             '${S.current.tong_file_khong_vuot_qua} $convertData MB';
       }
@@ -127,7 +131,7 @@ class _ButtonSelectFileLichLamViecState
           onTap: () async {
             final FilePickerResult? result =
                 await FilePicker.platform.pickFiles(
-                  allowMultiple: widget.hasMultipleFile,
+              allowMultiple: widget.hasMultipleFile,
               allowedExtensions: widget.allowedExtensions,
               type: (widget.allowedExtensions ?? []).isNotEmpty
                   ? FileType.custom
@@ -141,12 +145,10 @@ class _ButtonSelectFileLichLamViecState
                 );
                 return;
               }
-              if(!widget.hasMultipleFile && selectFiles.isNotEmpty){
+              if (!widget.hasMultipleFile && selectFiles.isNotEmpty) {
                 errMessage = widget.errMultipleFileMessage;
                 isShowErr = true;
-                setState(() {
-
-                });
+                setState(() {});
                 return;
               }
               errMessage = '';
@@ -155,15 +157,15 @@ class _ButtonSelectFileLichLamViecState
                 result.files
                     .map(
                       (file) => FileModel(
-                    file: File(file.path ?? ''),
-                    size: file.size,
-                  ),
-                )
+                        file: File(file.path ?? ''),
+                        size: file.size,
+                      ),
+                    )
                     .toSet()
                     .toList(),
               );
               if (widget.maxSize != null) {
-                sumListFileSize(selectFiles);
+                sumListFileSize(selectFiles, widget.errOverSizeMessage);
               }
               setState(() {});
             }
@@ -237,11 +239,11 @@ class _ButtonSelectFileLichLamViecState
               return itemListFile(
                 file: item.file,
                 onTap: () {
-                  if(widget.getIndexFunc != null) {
+                  if (widget.getIndexFunc != null) {
                     widget.getIndexFunc!(selectFiles.indexOf(item));
                   }
                   selectFiles.remove(item);
-                  sumListFileSize(selectFiles);
+                  sumListFileSize(selectFiles, widget.errOverSizeMessage);
                   widget.onChange(
                     List.generate(
                       selectFiles.length,

@@ -366,6 +366,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (success) {
         showContent();
+        getListDanhBaCaNhan(
+          page: 1,
+        );
       },
       error: (error) {
         showContent();
@@ -569,7 +572,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           areaList = res;
           buildingList = res.first.childCategories ?? [];
           buildingListStream.sink
-              .add(buildingList.map((building) => building.name ?? '').toList());
+              .add([S.current.khong_co_du_lieu]);
+          addTaskHTKTRequest.buildingName =  S.current.khong_co_du_lieu;
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
@@ -615,12 +619,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorLoaiSuCo.add(false);
     showErrorKhuVuc.add(false);
     showErrorToaNha.add(false);
+    addTaskHTKTRequest.danhSachSuCo?.clear();
   }
 
   bool validateAllDropDown = false;
 
   void checkAllThemMoiYCHoTro() {
-    if (addTaskHTKTRequest.buildingName == null) {
+    if (addTaskHTKTRequest.buildingId == null) {
       validateAllDropDown = false;
       showErrorToaNha.sink.add(true);
     }
@@ -632,8 +637,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       validateAllDropDown = false;
       showErrorLoaiSuCo.sink.add(true);
     }
-    if (addTaskHTKTRequest.buildingName != null &&
-        addTaskHTKTRequest.districtName != null &&
+    if (addTaskHTKTRequest.buildingId != null &&
+        addTaskHTKTRequest.districtId != null &&
         (addTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
       validateAllDropDown = true;
       showErrorToaNha.sink.add(false);

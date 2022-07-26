@@ -43,26 +43,6 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
   }
 
 
-
-  void checkDuplicate(List<AppointmentWithDuplicate> list) {
-    for (final item in list) {
-      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
-      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
-      final listDuplicate = list.where((element) {
-        final startTime = element.startTime.millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isDuplicate = true;
-        }
-      }
-    }
-  }
-
   void setFCalendarListenerWeek() {
     widget.fCalendarController
         .addPropertyChangedListener(widget.propertyChanged);
@@ -73,7 +53,6 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
 
   @override
   Widget build(BuildContext context) {
-    return Container ();
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Container(

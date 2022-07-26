@@ -44,12 +44,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
   DateTime getOnlyDate(DateTime date) =>
       DateTime(date.year, date.month, date.day);
 
-  @override
-  void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-    //     .checkMore( 4);
-  }
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController
@@ -58,7 +52,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
 
   @override
   Widget build(BuildContext context) {
-    return Container ();
     return Container(
       margin: widget.isTablet
           ? const EdgeInsets.only(
@@ -92,9 +85,13 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
             todayHighlightColor: statusCalenderRed,
             appointmentTimeTextFormat: 'hh:mm:ss a',
             dataSource: widget.data,
+            onMoreDayClick: (date , _){
+              widget.onMore?.call(date);
+            },
             viewHeaderStyle: const ViewHeaderStyle(
               colorsIcon: colorA2AEBD,
             ),
+            maxDayItemShow: 4,
             appointmentBuilder: (_, appointmentDetail) {
               final AppointmentWithDuplicate appointment =
                   appointmentDetail.appointments.first;
@@ -105,20 +102,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
                     fontWeight: FontWeight.w400,
                     color: colorA2AEBD,
                   ),),
-                );
-              }
-              if (appointment.isMore) {
-                return GestureDetector(
-                  onTap: () {
-                    widget.onMore?.call(appointmentDetail.date);
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: const Icon(
-                      Icons.more_horiz,
-                      color: textBodyTime,
-                    ),
-                  ),
                 );
               }
               return widget.buildAppointment(appointment);

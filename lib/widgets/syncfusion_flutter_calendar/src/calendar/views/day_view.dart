@@ -124,32 +124,37 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
       for (int i = 0; i < count; i++) {
         final TimeRegionView view = _specialRegionViews[i];
         final Widget child = widget.timeRegionBuilder!(
-            context,
-            TimeRegionDetails(view.region.data,
-                widget.visibleDates[view.visibleIndex], view.bound));
+          context,
+          TimeRegionDetails(view.region.data,
+              widget.visibleDates[view.visibleIndex], view.bound),
+        );
 
         _children.add(RepaintBoundary(child: child));
       }
     }
 
-    return _TimeSlotRenderWidget(
-      widget.visibleDates,
-      widget.horizontalLinesCount,
-      widget.timeIntervalHeight,
-      widget.timeLabelWidth,
-      widget.cellBorderColor,
-      widget.calendarTheme,
-      widget.timeSlotViewSettings,
-      widget.isRTL,
-      widget.specialRegion,
-      widget.calendarCellNotifier,
-      widget.textScaleFactor,
-      widget.width,
-      widget.height,
-      _specialRegionViews,
-      widget.minDate,
-      widget.maxDate,
-      widgets: _children,
+    return Column(
+      children: [
+        _TimeSlotRenderWidget(
+          widget.visibleDates,
+          widget.horizontalLinesCount,
+          widget.timeIntervalHeight,
+          widget.timeLabelWidth,
+          widget.cellBorderColor,
+          widget.calendarTheme,
+          widget.timeSlotViewSettings,
+          widget.isRTL,
+          widget.specialRegion,
+          widget.calendarCellNotifier,
+          widget.textScaleFactor,
+          widget.width,
+          widget.height,
+          _specialRegionViews,
+          widget.minDate,
+          widget.maxDate,
+          widgets: _children,
+        ),
+      ],
     );
   }
 

@@ -50,12 +50,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         .addPropertyChangedListener(widget.propertyChanged);
   }
 
-  @override
-  void didUpdateWidget(covariant DataViewCalendarWeek oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-    //     .checkMore(2);
-  }
 
   DateTime getOnlyDate(DateTime date) =>
       DateTime(date.year, date.month, date.day);
@@ -101,69 +95,7 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         ),
         headerDateFormat: 'MMMM,yyy',
         dataSource: widget.data,
-        // dataSource: DataSourceFCalendar([
-        //   AppointmentWithDuplicate(
-        //     subject: '2',
-        //     endTime: DateTime(2022, 7, 18, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 18, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '1',
-        //     endTime: DateTime(2022, 7, 18, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 18, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '2',
-        //     endTime: DateTime(2022, 7, 19, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 19, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '1',
-        //     endTime: DateTime(2022, 7, 19, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 19, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '2',
-        //     endTime: DateTime(2022, 7, 20, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 20, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '1',
-        //     endTime: DateTime(2022, 7, 20, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 20, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '2',
-        //     endTime: DateTime(2022, 7, 21, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 21, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '1',
-        //     endTime: DateTime(2022, 7, 21, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 21, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '2',
-        //     endTime: DateTime(2022, 7, 22, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 22, 15),
-        //   ),
-        //   AppointmentWithDuplicate(
-        //     subject: '1',
-        //     endTime: DateTime(2022, 7, 22, 12),
-        //     id: '',
-        //     startTime: DateTime(2022, 7, 22, 15),
-        //   ),
-        // ]),
-
+        maxDayItemShow: 2,
         viewHeaderStyle: ViewHeaderStyle(
           dayTextStyle: textNormalCustom(
             fontSize: 13,
@@ -187,6 +119,9 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
           ),
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
         ),
+        onMoreDayClick: (date , _){
+          widget.onMore?.call(date);
+        },
         selectionDecoration: const BoxDecoration(color: Colors.transparent),
         appointmentBuilder: (_, appointmentDetail) {
           final AppointmentWithDuplicate appointment =
@@ -199,20 +134,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
                   fontSize: 11,
                   fontWeight: FontWeight.w400,
                   color: colorA2AEBD,
-                ),
-              ),
-            );
-          }
-          if (appointment.isMore) {
-            return GestureDetector(
-              onTap: () {
-                widget.onMore?.call(appointmentDetail.date);
-              },
-              child: Container(
-                color: Colors.transparent,
-                child: const Icon(
-                  Icons.more_horiz,
-                  color: textBodyTime,
                 ),
               ),
             );

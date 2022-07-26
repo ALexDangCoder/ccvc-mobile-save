@@ -1352,7 +1352,8 @@
   "ban_phai_nhap_truong_toa_nha": "Bạn phải chọn trường Tòa nhà",
   "ban_phai_nhap_truong_loai_su_co": "Bạn phải chọn trường Loại sự cố",
   "vui_long_chon_hinh_thuc_hop" : "Vui lòng chọn hình thức họp",
-  "dung_luong_toi_da_5mb" : "Dung lượng tối đa 5MB"
+  "dung_luong_toi_da_5mb" : "Dung lượng tối đa 5MB",
+  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB"
 }
 
 

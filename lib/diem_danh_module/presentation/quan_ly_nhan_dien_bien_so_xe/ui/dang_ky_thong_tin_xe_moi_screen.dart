@@ -78,13 +78,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                   Navigator.pop(context);
                 },
                 onClickRight: () async {
-                  final bool isFormValidated =
-                      keyGroup.currentState?.validator() ?? false;
-                  final bool isRadioValidated =
-                      _radioButtonKey.currentState?.validator() ?? false;
-                  if (isFormValidated && isRadioValidated) {
-                    await postDangKyXe();
-                  }
+                  await postDangKyXe();
                 },
               ),
             ),
@@ -351,13 +345,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             Navigator.pop(context);
                           },
                           onClickRight: () async {
-                            final bool isFormValidated =
-                                keyGroup.currentState?.validator() ?? false;
-                            final bool isRadioValidated =
-                                _radioButtonKey.currentState?.validator() ?? false;
-                            if (isFormValidated && isRadioValidated) {
-                              await postDangKyXe();
-                            }
+                            await postDangKyXe();
                           },
                         ),
                       ),
@@ -374,7 +362,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
 
   Future<void> postDangKyXe() async {
     if (keyGroup.currentState!.validator() &&
-        widget.cubit.fileItemBienSoXe.isNotEmpty) {
+        widget.cubit.fileItemBienSoXe.isNotEmpty &&
+        _radioButtonKey.currentState!.validator()) {
       Navigator.pop(context);
       await widget.cubit.postImageResgiter(
         bienKiemSoat: bienKiemSoatController.value.text.removeSpace,

@@ -152,7 +152,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           isHightLight: true,
                           maxLine: 3,
                           title: S.current.mo_ta_su_co,
-                          hintText: S.current.nhap_mo_ta_su_co,
+                          hintText: S.current.mo_ta_su_co,
                           onChange: (value) {
                             widget.cubit.addTaskHTKTRequest.description = value;
                           },
@@ -200,7 +200,25 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                             );
                           },
                         ),
-                        // IssueDropDown(cubit: widget.cubit),
+                        StreamBuilder<bool>(
+                          initialData: false,
+                          stream: widget.cubit.showErrorLoaiSuCo.stream,
+                          builder: (context, snapshot) {
+                            return snapshot.data ?? false
+                                ? Padding(
+                              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                              child: Text(
+                                S.current.khong_duoc_de_trong,
+                                style: textNormalCustom(
+                                  color: redChart,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            )
+                                : const SizedBox.shrink();
+                          },
+                        ),
                         spaceH16,
                         TaiLieuWidget(
                           isHaveExpanded: true,

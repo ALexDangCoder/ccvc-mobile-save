@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
@@ -12,8 +13,8 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -74,6 +75,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
     thoiGianHop = DateFormat(DateTimeFormat.DATE_TIME_RECEIVE)
         .parse(widget.phienHopModel.thoiGianBatDau ?? '')
         .formatApi;
+    widget.cubit.clearDataChuongTrinhHop();
     handleButtonSaveClick();
   }
 
@@ -135,7 +137,6 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 noiDung: noiDung.text,
                 hoTen: widget.cubit.idPerson,
                 isMultipe: false,
-                file: widget.cubit.listFile ?? [],
               );
               nav.pop(true);
             } else {
@@ -257,15 +258,36 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 ),
               ),
               spaceH20,
-              ButtonSelectFile(
-                removeFileApi: (int index) {},
-                title: S.current.tai_lieu_dinh_kem,
-                onChange: (
-                  value,
-                ) {
-                  widget.cubit.listFile = value;
+              SelectFileBtn(
+                onChange: (files) {
+                  widget.cubit.listFile = files;
                 },
-              )
+                maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
+                initFileFromApi: widget.phienHopModel.files
+                    .map(
+                      (file) => FileModel(
+                        id: file.id ?? '',
+                        fileLength: file.getSize(),
+                        name: file.name,
+                      ),
+                    )
+                    .toList(),
+                onDeletedFileApi: (fileDeleted) {
+                  widget.cubit.filesDelete.add(
+                    fileDeleted.id ?? '',
+                  );
+                },
+                allowedExtensions: const [
+                  FileExtensions.DOC,
+                  FileExtensions.DOCX,
+                  FileExtensions.JPEG,
+                  FileExtensions.JPG,
+                  FileExtensions.PDF,
+                  FileExtensions.PNG,
+                  FileExtensions.XLSX,
+                  FileExtensions.PPTX,
+                ],
+              ),
             ],
           ),
         ),

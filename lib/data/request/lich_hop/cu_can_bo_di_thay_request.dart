@@ -1,6 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
-@JsonSerializable()
 class CuCanBoDiThayRequest {
   String? id;
   String? lichHopId;
@@ -16,7 +13,7 @@ class CuCanBoDiThayRequest {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['lichHopId'] = lichHopId;
-    data['canBoDiThay'] = canBoDiThay;
+    data['canBoDiThay'] = canBoDiThay?.map((canBo) => canBo.toJson()).toList();
     return data;
   }
 }
@@ -41,10 +38,10 @@ class CanBoDiThay {
     data['id'] = id;
     data['donViId'] = donViId;
     data['canBoId'] = canBoId;
-    if(taskContent != null) {
+    if (taskContent != null) {
       data['taskContent'] = taskContent;
     }
-    if(isXoa != null) {
+    if (isXoa != null) {
       data['isXoa'] = isXoa;
     }
     return data;

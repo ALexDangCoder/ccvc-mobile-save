@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 
 // import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -40,7 +41,14 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
   @override
   void initState() {
     widget.cubit.getDanhSachBienSoXe();
+    _handleEventBus();
     super.initState();
+  }
+
+  void _handleEventBus() {
+    eventBus.on<ApiSuccessAttendance>().listen((event) {
+      widget.cubit.getDanhSachBienSoXe();
+    });
   }
 
   @override

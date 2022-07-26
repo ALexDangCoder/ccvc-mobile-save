@@ -110,8 +110,6 @@ class _TreeDonViState extends State<TreeDonVi> {
     super.initState();
     selectStartDate = widget.startDate;
     selectEndDate = widget.endDate;
-    print('selectStartDate$selectStartDate');
-    print('selectEndDate$selectEndDate');
     widget.themDonViCubit.selectDonVi.listen((event) {
       donViID = event.map((e) => e.value.id).toList();
     });

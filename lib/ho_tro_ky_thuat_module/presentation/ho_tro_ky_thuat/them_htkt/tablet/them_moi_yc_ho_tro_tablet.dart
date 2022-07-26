@@ -234,7 +234,6 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                     widget.cubit.addTaskHTKTRequest.fileUpload =
                                         files;
                                   },
-                                  message: S.current.dung_luong_toi_da_htkt,
                                 ),
                                 spaceH20,
                                 doubleBtn(),

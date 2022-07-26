@@ -17,7 +17,6 @@ class TaiLieuWidget extends StatefulWidget {
   final Function(int index)? getIndex;
   final bool isHaveExpanded;
   String size;
-  String? message;
 
   TaiLieuWidget({
     Key? key,
@@ -27,7 +26,6 @@ class TaiLieuWidget extends StatefulWidget {
     this.size = '',
     this.isHaveExpanded = false,
     this.getIndex,
-    this.message,
   }) : super(key: key);
 
   @override
@@ -98,7 +96,6 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             getIndexFunc: (index) {
               (widget.getIndex != null) ? widget.getIndex!(index) : null;
             },
-            message: widget.message,
             allowedExtensions: const [
               FileExtensions.DOC,
               FileExtensions.DOCX,

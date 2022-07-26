@@ -43,11 +43,12 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
   @override
   void didUpdateWidget(ViewDayCalendarWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    ///nếu nhiều hơn 1 trạng thái thì truyền các trạng thái (trừ cái đầu tiên) để hiển thị bên trên
-    if (widget.state.length > 1) {
-      for (int state = 1; state < widget.state.length; state++) {
-        rowViewData.add(widget.state[state]);
+    if (rowViewData.isEmpty) {
+      ///nếu nhiều hơn 1 trạng thái thì truyền các trạng thái (trừ cái đầu tiên) để hiển thị bên trên
+      if (widget.state.length > 1) {
+        for (int state = 1; state < widget.state.length; state++) {
+          rowViewData.add(widget.state[state]);
+        }
       }
     }
   }

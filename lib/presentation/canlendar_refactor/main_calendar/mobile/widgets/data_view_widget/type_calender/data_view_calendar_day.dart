@@ -131,9 +131,3 @@ class DataSourceFCalendar extends CalendarDataSource {
     appointments = <AppointmentWithDuplicate>[];
   }
 }
-
-extension CheckDuplicate on List<AppointmentWithDuplicate> {
-  DateTime getOnlyDate(DateTime date) =>
-      DateTime(date.year, date.month, date.day);
-
-}

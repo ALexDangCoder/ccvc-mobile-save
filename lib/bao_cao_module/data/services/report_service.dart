@@ -30,6 +30,7 @@ abstract class ReportService {
   @POST(ApiConstants.LIST_GROUP_BAO_CAO)
   Future<GroupImplResponse> getListGroup(
     @Field('appId') String appId,
+    @Field('groupName') String? groupName,
     @Field('pageIndex') String pageIndex,
     @Field('pageSize') String pageSize,
   );
@@ -87,8 +88,8 @@ abstract class ReportService {
   Future<UserNgoaiHeThongTruyCapTotalResponse> getUsersNgoaiHeThongDuocTruyCap(
     @Header('AppId') String appId,
     @Field('filders') List<UsersNgoaiHeThongTruyCapRequest> request,
-  @Field('pageIndex') int pageIndex,
-      @Field('pageSize') int pageSize,
+    @Field('pageIndex') int pageIndex,
+    @Field('pageSize') int pageSize,
   );
 
   @GET(ApiConstants.REPORT_DETAIL)

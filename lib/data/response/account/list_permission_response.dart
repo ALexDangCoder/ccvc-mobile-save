@@ -23,8 +23,17 @@ class Data {
   List<PermissionCellResponse>? pAKN;
   List<PermissionCellResponse>? vPDT;
   List<PermissionCellResponse>? qLNV;
+  List<PermissionCellResponse>? hTCS;
+  List<PermissionCellResponse>? hTKT;
 
-  Data({this.qLVB, this.pAKN, this.vPDT, this.qLNV});
+  Data({
+    this.qLVB,
+    this.pAKN,
+    this.vPDT,
+    this.qLNV,
+    this.hTCS,
+    this.hTKT,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['QLVB'] != null) {
@@ -51,6 +60,18 @@ class Data {
         qLNV!.add(PermissionCellResponse.fromJson(v));
       });
     }
+    if (json['HTCS'] != null) {
+      hTCS = <PermissionCellResponse>[];
+      json['HTCS'].forEach((v) {
+        hTCS!.add(PermissionCellResponse.fromJson(v));
+      });
+    }
+    if (json['HTKT'] != null) {
+      hTKT = <PermissionCellResponse>[];
+      json['HTKT'].forEach((v) {
+        hTKT!.add(PermissionCellResponse.fromJson(v));
+      });
+    }
   }
 
   PermissionApp toDomain() => PermissionApp(
@@ -58,6 +79,8 @@ class Data {
         pAKN: pAKN?.map((e) => e.toDomain()).toList() ?? [],
         vPDT: vPDT?.map((e) => e.toDomain()).toList() ?? [],
         qLNV: qLNV?.map((e) => e.toDomain()).toList() ?? [],
+        hTKT: hTKT?.map((e) => e.toDomain()).toList() ?? [],
+        hTCS: hTCS?.map((e) => e.toDomain()).toList() ?? [],
       );
 }
 

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -33,6 +34,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
   String? birthday;
   String? trangThai;
   String? nguoiXuLy;
+  bool isTruongPhong = false;
 
   @override
   void initState() {
@@ -40,6 +42,10 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
     if (widget.idTask?.isNotEmpty ?? false) {
       widget.cubit.getSupportDetail(widget.idTask ?? '');
     }
+    isTruongPhong = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
   }
 
   @override
@@ -97,6 +103,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                         dropDownField(
                           title: S.current.trang_thai_xu_ly,
                           listDropdown: widget.cubit.listTrangThai,
+                          maxLine: 2,
                         ),
                         spaceH16,
                         textField(
@@ -107,29 +114,32 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                           maxLine: 4,
                         ),
                         spaceH16,
-                        if (widget.idTask?.isNotEmpty ?? false) ...[
-                          StreamBuilder<List<String>>(
-                            stream: widget.cubit.getItSupport,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return dropDownField(
-                                  title: S.current.nguoi_xu_ly,
-                                  listDropdown: widget.cubit.listItSupport,
-                                );
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                    color: sideBtnUnselected,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ] else
-                          dropDownField(
-                            title: S.current.nguoi_xu_ly,
-                            listDropdown: widget.cubit.listItSupport,
-                          ),
+                        if (isTruongPhong)
+                          if (widget.idTask?.isNotEmpty ?? false) ...[
+                            StreamBuilder<List<String>>(
+                              stream: widget.cubit.getItSupport,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return dropDownField(
+                                    title: S.current.nguoi_xu_ly,
+                                    listDropdown: widget.cubit.listItSupport,
+                                    maxLine: 2,
+                                  );
+                                } else {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      color: sideBtnUnselected,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          ] else
+                            dropDownField(
+                              title: S.current.nguoi_xu_ly,
+                              listDropdown: widget.cubit.listItSupport,
+                              maxLine: 2,
+                            ),
                         spaceH16,
                         Text(
                           S.current.ngay_hoan_thanh,
@@ -244,7 +254,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                             )
                                 .then(
                               (value) {
-                                if (value == ChiTietHoTroCubit.successCode) {
+                                if (value == successCode) {
                                   final FToast toast = FToast();
                                   toast.init(context);
                                   toast.showToast(
@@ -361,6 +371,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
         ),
         spaceH8,
         CoolDropDown(
+          maxLines: maxLine,
           initData: '',
           placeHoder: S.current.chon,
           onChange: (value) {

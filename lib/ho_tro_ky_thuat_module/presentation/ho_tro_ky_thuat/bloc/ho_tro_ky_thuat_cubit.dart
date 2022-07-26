@@ -29,9 +29,16 @@ import 'package:get/get.dart' as get_dart;
 import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
-  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial()) {
+    isManager = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
+  }
+
   List<File>? filesThemMoiYCHTKT = [];
   static const String rightPath = 'attachments/upload/';
+  late bool isManager;
 
   //color
   List<Color> colorChart = [
@@ -306,6 +313,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       processingCode: processingCode,
       handlerId: handlerId,
       keyWord: keyWord,
+      isManager: isManager,
+      isSupporter: !isManager,
     );
     result.when(
       success: (res) {
@@ -568,8 +577,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
-          buildingListStream.sink
-              .add(buildingList.map((building) => building.name ?? '').toList());
+          buildingListStream.sink.add(
+              buildingList.map((building) => building.name ?? '').toList());
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;

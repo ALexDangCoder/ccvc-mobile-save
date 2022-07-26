@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart' as hive_lc;
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
@@ -18,7 +19,8 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   ChiTietHoTroCubit() : super(ChiTietHoTroInitial());
 
   String message = '';
-  static const String successCode = '200';
+
+
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
@@ -92,6 +94,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   }
 
   bool isItSupport = false;
+  bool isTruongPhong = false;
 
   final dataUser = hive_lc.HiveLocal.getDataUser();
 
@@ -99,6 +102,10 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     List<ThanhVien> list,
     SupportDetail? supportDetail,
   ) {
+    isTruongPhong = HiveLocal.checkPermissionApp(
+      permissionType: hive_lc.PermissionType.HTKT,
+      permissionTxt: 'quyen-truong-phong',
+    );
     for (final element in list) {
       if (element.userId == dataUser?.userId) {
         isItSupport = true;

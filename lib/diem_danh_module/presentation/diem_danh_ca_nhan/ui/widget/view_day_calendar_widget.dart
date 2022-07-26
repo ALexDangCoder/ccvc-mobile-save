@@ -27,15 +27,14 @@ class ViewDayCalendarWidget extends StatefulWidget {
 class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
   bool isShowDate = false;
   final List<TypeStateDiemDanh> rowViewData = [];
-  late final TypeStateDiemDanh elementFirst;
 
   @override
   void initState() {
     super.initState();
-    if (widget.state.length > 2) {
-      elementFirst = widget.state[0];
-
-      rowViewData.addAll(widget.state.getRange(1, widget.state.length - 1));
+    if (widget.state.length > 1) {
+      for (int state = 1; state < widget.state.length; state++) {
+        rowViewData.add(widget.state[state]);
+      }
     }
   }
 
@@ -131,9 +130,9 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        if (widget.state.length > 2)
+        if (widget.state.length > 1)
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: rowViewData
                 .map(
                   (dataState) => Row(
@@ -169,15 +168,7 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
               width: 10,
               height: 10,
             ),
-            spaceW6,
-            if (widget.state.length > 2)
-              SvgPicture.asset(
-                elementFirst.getIcon,
-                height: 12,
-                width: 12,
-              )
-            else
-              getViewState(),
+            getViewState(),
           ],
         ),
       ],
@@ -187,30 +178,12 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
   Widget getViewState() {
     if (widget.state.isEmpty) {
       return Container();
-    } else if (widget.state.length == 1) {
+    } else if (widget.state.isNotEmpty) {
       return Row(
         children: [
           spaceW6,
           SvgPicture.asset(
             widget.state[0].getIcon,
-            height: 12,
-            width: 12,
-          ),
-        ],
-      );
-    } else if (widget.state.length == 2) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SvgPicture.asset(
-            widget.state[0].getIcon,
-            height: 12,
-            width: 12,
-          ),
-          spaceH6,
-          SvgPicture.asset(
-            widget.state[1].getIcon,
             height: 12,
             width: 12,
           ),

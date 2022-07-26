@@ -165,7 +165,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                                     },
                                     validateTime: (String value) {},
                                   );
-                                }),
+                                },
+                            ),
                             spaceH5,
                             SelectOnlyExpand(
                               urlIcon: ImageAssets.icNhacLai,
@@ -354,6 +355,15 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
         MessageConfig.show(
           messState: MessState.error,
           title: S.current.vui_long_chon_chu_tri,
+        );
+        return;
+      }
+      if (_cubit.taoLichHopRequest.bitHopTrucTuyen == null ||
+          (!_cubit.isHopTrucTiep &&
+              _cubit.taoLichHopRequest.bitHopTrucTuyen == false)) {
+        MessageConfig.show(
+          messState: MessState.error,
+          title: S.current.vui_long_chon_hinh_thuc_hop,
         );
         return;
       }

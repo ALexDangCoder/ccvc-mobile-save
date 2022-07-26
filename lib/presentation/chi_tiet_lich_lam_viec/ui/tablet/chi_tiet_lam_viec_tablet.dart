@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/cu_can_bo_di_thay_lich_lam_viec_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
@@ -27,6 +28,9 @@ import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -45,11 +49,15 @@ class ChiTietLamViecTablet extends StatefulWidget {
 class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit =
       ChiTietLichLamViecCubit();
+  final ThanhPhanThamGiaCubit cubitThanhPhan = ThanhPhanThamGiaCubit();
+  final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
+  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
 
   @override
   void initState() {
     super.initState();
     chiTietLichLamViecCubit.loadApi(widget.id);
+    cubitThanhPhan.getTree();
   }
 
   @override
@@ -285,7 +293,34 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                       textContent: S.current.confirm_huy_tham_gia,
                     );
                   },
-                )
+                ),
+
+              /// Cu can bo di thay
+              CellPopPupMenu(
+                urlImage: ImageAssets.icCuCanBoDiThay,
+                text: S.current.cu_can_bo_di_thay,
+                onTap: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.cu_can_bo_di_thay,
+                    child: CuCanBoDiThayLichLamViecWidget(
+                      themCanBoCubit: themCanBoCubit,
+                      cubit: chiTietLichLamViecCubit,
+                      cubitThanhPhanTG: cubitThanhPhan,
+                      themDonViCubit: themDonViCubit,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+              CellPopPupMenu(
+                urlImage: ImageAssets.icCuCanBo,
+                text: S.current.cu_can_bo,
+                onTap: () {},
+              )
             ];
           }
           return snapshot.data != null

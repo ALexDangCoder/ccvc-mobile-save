@@ -77,17 +77,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                 onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onClickRight: () async {
-                  final bool isFormValidated =
-                      keyGroup.currentState?.validator() ?? false;
-                  if (widget.cubit.xeMay?.isEmpty ?? true) {
-                    widget.cubit.isShowErrLoaiXe.add(true);
-                    return;
-                  }
-                  widget.cubit.isShowErrLoaiXe.add(false);
-                  if (isFormValidated) {
-                    await postDangKyXe();
-                  }
+                onClickRight: () {
+                  postDangKyXe();
                 },
               ),
             ),
@@ -406,17 +397,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           onClickLeft: () {
                             Navigator.pop(context);
                           },
-                          onClickRight: () async {
-                            final bool isFormValidated =
-                                keyGroup.currentState?.validator() ?? false;
-                            if (widget.cubit.xeMay?.isEmpty ?? true) {
-                              widget.cubit.isShowErrLoaiXe.add(true);
-                              return;
-                            }
-                            widget.cubit.isShowErrLoaiXe.add(false);
-                            if (isFormValidated) {
-                              await postDangKyXe();
-                            }
+                          onClickRight: () {
+                            postDangKyXe();
                           },
                         ),
                       ),
@@ -432,9 +414,13 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   }
 
   Future<void> postDangKyXe() async {
-    if (keyGroup.currentState!.validator() &&
-        widget.cubit.fileItemBienSoXe.isNotEmpty &&
-        _radioButtonKey.currentState!.validator()) {
+    final bool isFormValidated = keyGroup.currentState?.validator() ?? false;
+    if (widget.cubit.xeMay?.isEmpty ?? true) {
+      widget.cubit.isShowErrLoaiXe.add(true);
+      return;
+    }
+    widget.cubit.isShowErrLoaiXe.add(false);
+    if (isFormValidated && widget.cubit.fileItemBienSoXe.isNotEmpty) {
       Navigator.pop(context);
       await widget.cubit.postImageResgiter(
         bienKiemSoat: bienKiemSoatController.value.text.removeSpace,

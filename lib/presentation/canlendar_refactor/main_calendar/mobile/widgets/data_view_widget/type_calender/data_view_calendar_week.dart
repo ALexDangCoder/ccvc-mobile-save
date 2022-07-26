@@ -45,6 +45,13 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant DataViewCalendarWeek oldWidget) {
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .minTime20();
+    super.didUpdateWidget(oldWidget);
+  }
+
   void setFCalendarListenerWeek() {
     widget.fCalendarController
         .addPropertyChangedListener(widget.propertyChanged);

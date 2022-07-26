@@ -41,6 +41,13 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .minTime20();
+    super.didUpdateWidget(oldWidget);
+  }
+
   DateTime getOnlyDate(DateTime date) =>
       DateTime(date.year, date.month, date.day);
 
@@ -129,5 +136,26 @@ class DataSourceFCalendar extends CalendarDataSource {
 
   DataSourceFCalendar.empty() {
     appointments = <AppointmentWithDuplicate>[];
+  }
+}
+
+extension CheckDuplicate on List<AppointmentWithDuplicate> {
+  DateTime getOnlyDate(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
+
+
+  void minTime20() {
+    for (final item in this) {
+      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
+      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
+      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
+        item.startTime = DateTime.fromMillisecondsSinceEpoch(
+          currentTimeFrom - 600000,
+        );
+        item.endTime = DateTime.fromMillisecondsSinceEpoch(
+          currentTimeTo + 600000,
+        );
+      }
+    }
   }
 }

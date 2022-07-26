@@ -151,9 +151,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                 onChange: (
                   files,
                 ) {
-                  if (widget.cubit.files
-                      .map((e) => e.path)
-                      .contains(files.first.path)) {
+                  if (widget.cubit.checkFile(files)) {
                     MessageConfig.show(
                       title: S.current.file_da_ton_tai,
                       messState: MessState.error,

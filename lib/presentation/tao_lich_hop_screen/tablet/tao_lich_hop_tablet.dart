@@ -83,8 +83,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               },
                               validate: (value) {
                                 return value.isEmpty
-                                    ?'${S.current.vui_long_nhap} '
-                                    '${S.current.tieu_de.toLowerCase()}'
+                                    ? '${S.current.vui_long_nhap} '
+                                        '${S.current.tieu_de.toLowerCase()}'
                                     : null;
                               },
                               maxLength: 200,
@@ -93,8 +93,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             StreamBuilder<List<LoaiSelectModel>>(
                               stream: _cubit.loaiLich,
                               builder: (context, snapshot) {
-                                final data = snapshot.data ??
-                                    <LoaiSelectModel>[];
+                                final data =
+                                    snapshot.data ?? <LoaiSelectModel>[];
                                 return SelectOnlyExpand(
                                   urlIcon: ImageAssets.icCalendar,
                                   title: S.current.loai_hop,
@@ -111,8 +111,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             StreamBuilder<List<LoaiSelectModel>>(
                               stream: _cubit.linhVuc,
                               builder: (context, snapshot) {
-                                final data = snapshot.data ??
-                                    <LoaiSelectModel>[];
+                                final data =
+                                    snapshot.data ?? <LoaiSelectModel>[];
                                 return SelectOnlyExpand(
                                   urlIcon: ImageAssets.icWork,
                                   title: S.current.linh_vuc,
@@ -125,34 +125,47 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                                 );
                               },
                             ),
-                            CupertinoMaterialPicker(
-                              key: _timerPickerKey,
-                              initTimeEnd:
-                                  DateTime.now().add(const Duration(hours: 1)),
-                              onDateTimeChanged: (
-                                String timeStart,
-                                String timeEnd,
-                                String dateStart,
-                                String dateEnd,
-                              ) {
-                                _cubit.taoLichHopRequest.timeStart = timeStart;
-                                _cubit.taoLichHopRequest.timeTo = timeEnd;
-                                _cubit.taoLichHopRequest.ngayBatDau = dateStart
-                                    .convertStringToDate(
-                                      formatPattern: DateFormatApp.date,
-                                    )
-                                    .formatApi;
-                                _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
-                                    .convertStringToDate(
-                                      formatPattern: DateFormatApp.date,
-                                    )
-                                    .formatApi;
-                              },
-                              onSwitchPressed: (value) {
-                                _cubit.taoLichHopRequest.isAllDay = value;
-                              },
-                              validateTime: (String value) {},
-                            ),
+                            StreamBuilder<Map<String, String>>(
+                                stream: _cubit.timeConfigSubject.stream,
+                                builder: (context, snapshot) {
+                                  final timeConfig = snapshot.data ?? {};
+                                  return CupertinoMaterialPicker(
+                                    key: _timerPickerKey,
+                                    timeEndConfigSystem: timeConfig['timeEnd'],
+                                    timeStartConfigSystem:
+                                        timeConfig['timeStart'],
+                                    initTimeEnd: DateTime.now()
+                                        .add(const Duration(hours: 1)),
+                                    onDateTimeChanged: (
+                                      String timeStart,
+                                      String timeEnd,
+                                      String dateStart,
+                                      String dateEnd,
+                                    ) {
+                                      _cubit.taoLichHopRequest.timeStart =
+                                          timeStart;
+                                      _cubit.taoLichHopRequest.timeTo = timeEnd;
+                                      _cubit.taoLichHopRequest.ngayBatDau =
+                                          dateStart
+                                              .convertStringToDate(
+                                                formatPattern:
+                                                    DateFormatApp.date,
+                                              )
+                                              .formatApi;
+                                      _cubit.taoLichHopRequest.ngayKetThuc =
+                                          dateEnd
+                                              .convertStringToDate(
+                                                formatPattern:
+                                                    DateFormatApp.date,
+                                              )
+                                              .formatApi;
+                                    },
+                                    onSwitchPressed: (value) {
+                                      _cubit.taoLichHopRequest.isAllDay = value;
+                                    },
+                                    validateTime: (String value) {},
+                                  );
+                                }),
                             spaceH5,
                             SelectOnlyExpand(
                               urlIcon: ImageAssets.icNhacLai,
@@ -174,8 +187,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             ContainerToggleWidget(
                               title: S.current.cong_khai_lich,
                               onChange: (value) {
-                                _cubit.taoLichHopRequest.congKhai =
-                                    value;
+                                _cubit.taoLichHopRequest.congKhai = value;
                               },
                             ),
                             spaceH5,
@@ -195,11 +207,11 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                                 }
                               },
                               onDayPicked: (listId) {
-                                _cubit.taoLichHopRequest.days
-                                              = listId.join(',');
-                                if(listId.isEmpty) {
-                                  _cubit.taoLichHopRequest
-                                      .typeRepeat = danhSachLichLap.first.id;
+                                _cubit.taoLichHopRequest.days =
+                                    listId.join(',');
+                                if (listId.isEmpty) {
+                                  _cubit.taoLichHopRequest.typeRepeat =
+                                      danhSachLichLap.first.id;
                                 }
                               },
                               onDateChange: (value) {
@@ -292,8 +304,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                 widgetRight: Column(
                   children: [
                     ExpandGroup(
-                        child: Column(
-                      children: [
+                      child: Column(
+                        children: [
                           ThanhPhanThamGiaExpandWidget(
                             cubit: _cubit,
                           ),
@@ -306,7 +318,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             cubit: _cubit,
                           )
                         ],
-                    ),)
+                      ),
+                    )
                   ],
                 ),
                 titleLeft: S.current.thong_tin_lich,
@@ -337,7 +350,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
     final bool validateTextField = _formKey.currentState?.validator() ?? false;
 
     if (validateTime && validateTextField) {
-      if(_cubit.taoLichHopRequest.bitTrongDonVi == null){
+      if (_cubit.taoLichHopRequest.bitTrongDonVi == null) {
         MessageConfig.show(
           messState: MessState.error,
           title: S.current.vui_long_chon_chu_tri,
@@ -351,10 +364,12 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
         );
         return;
       }
-      _cubit.checkLichTrung(
+      _cubit
+          .checkLichTrung(
         donViId: _cubit.taoLichHopRequest.chuTri?.donViId ?? '',
         canBoId: _cubit.taoLichHopRequest.chuTri?.canBoId ?? '',
-      ).then((value) {
+      )
+          .then((value) {
         if (value) {
           showDiaLog(
             context,

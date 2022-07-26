@@ -124,7 +124,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
                             : S.current.truc_tiep,
                         colorStatus: result.isHopTrucTuyen
                             ? sideBtnSelected.withOpacity(0.5)
-                            : choXuLyColor,
+                            : textDefault,
                         backGroundStatus: true,
                         status2: result
                                 .trangThaiTheoUserEnum(_lichHopCubit.userId)

@@ -18,6 +18,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   ChiTietHoTroCubit() : super(ChiTietHoTroInitial());
 
   String message = '';
+  static const String successCode = '200';
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
@@ -56,6 +57,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   BehaviorSubject<String> selectDate = BehaviorSubject.seeded('');
   BehaviorSubject<List<String>> getItSupport = BehaviorSubject();
+  BehaviorSubject<SupportDetail> ngayHoanThanhStream = BehaviorSubject();
 
   Future<void> getSupportDetail(String id) async {
     emit(ChiTietHoTroLoading());
@@ -111,7 +113,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     );
   }
 
-  Future<void> capNhatTHXL({
+  Future<String> capNhatTHXL({
     required String id,
     required String taskId,
     required String comment,
@@ -121,6 +123,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     required String handlerId,
     required String description,
   }) async {
+    String statusCode = '';
     final TaskProcessing model = TaskProcessing(
       id: id,
       taskId: taskId,
@@ -142,24 +145,28 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     );
     result.when(
       success: (res) {
+        statusCode = res;
         getSupportDetail(supportDetail.id ?? '');
       },
       error: (error) {},
     );
+    return statusCode;
   }
 
-  Future<void> commentTask(String comment, {String? id}) async {
+  Future<String> commentTask(String comment, {String? id}) async {
     showLoading();
+    String statusCode = '';
     final result = await _hoTroKyThuatRepository.commentTask(
       (supportDetail.id ?? id) ?? '',
       comment,
     );
     result.when(
       success: (success) {
-        getSupportDetail(supportDetail.id ?? '');
+        statusCode = success;
       },
       error: (error) {},
     );
+    return statusCode;
   }
 
   List<String> listItSupport = [];
@@ -189,6 +196,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
           listThanhVien.add(element);
         }
         getItSupport.add(listItSupport);
+        ngayHoanThanhStream.add(supportDetail ?? SupportDetail());
       },
       error: (error) {},
     );

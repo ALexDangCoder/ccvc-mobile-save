@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_core/core_internal.dart';
 import 'package:syncfusion_flutter_core/localizations.dart';
@@ -58,7 +60,7 @@ class CustomCalendarScrollView extends StatefulWidget {
       this.timelineMonthWeekNumberNotifier,
       this.updateCalendarState,
       this.getCalendarState,
-      {Key? key})
+      {Key? key , this.onMoreDayClick})
       : super(key: key);
 
   /// Holds the calendar instance used to get the calendar properties.
@@ -101,6 +103,8 @@ class CustomCalendarScrollView extends StatefulWidget {
   /// Notifier to update the weeknumber of timeline month view based on scroll
   /// changed.
   final ValueNotifier<DateTime?> timelineMonthWeekNumberNotifier;
+
+  final void Function(DateTime day , int count )? onMoreDayClick;
 
   /// Holds the special time region of calendar widget.
   final List<TimeRegion>? specialRegions;
@@ -2898,6 +2902,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           _getCalendarViewStateDetails(details);
         },
         key: _previousViewKey,
+        onMoreDayClick: widget.onMoreDayClick,
       );
       _currentView = _CalendarView(
         widget.calendar,
@@ -2930,6 +2935,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           _getCalendarViewStateDetails(details);
         },
         key: _currentViewKey,
+        onMoreDayClick: widget.onMoreDayClick,
       );
       _nextView = _CalendarView(
         widget.calendar,
@@ -2963,6 +2969,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           _getCalendarViewStateDetails(details);
         },
         key: _nextViewKey,
+        onMoreDayClick: widget.onMoreDayClick,
       );
 
       _children.add(_previousView);
@@ -3034,6 +3041,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           _getCalendarViewStateDetails(details);
         },
         key: viewKey,
+        onMoreDayClick: widget.onMoreDayClick,
       );
 
       _children[index] = view;
@@ -3074,6 +3082,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             _getCalendarViewStateDetails(details);
           },
           key: viewKey,
+          onMoreDayClick: widget.onMoreDayClick,
         );
         _children[index] = view;
       } else if (view.visibleDates == _currentViewVisibleDates) {
@@ -3137,6 +3146,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           _getCalendarViewStateDetails(details);
         },
         key: viewKey,
+        onMoreDayClick: widget.onMoreDayClick,
       );
 
       _children[index] = view;
@@ -5417,10 +5427,11 @@ class _CalendarView extends StatefulWidget {
       this.dragDetails,
       this.updateCalendarState,
       this.getCalendarState,
-      {Key? key})
+      {Key? key , this.onMoreDayClick})
       : super(key: key);
 
   final List<DateTime> visibleDates;
+  final void Function(DateTime day , int count )? onMoreDayClick;
   final List<CalendarTimeRegion>? regions;
   final List<DateTime>? blackoutDates;
   final SfCalendar calendar;
@@ -5511,11 +5522,15 @@ class _CalendarViewState extends State<_CalendarView>
   /// layout rather than update the existing appointment layout.
   final GlobalKey _appointmentLayoutKey = GlobalKey();
 
+  BehaviorSubject<Map<DateTime, int>> removeDayCount = BehaviorSubject.seeded({});
+
   Timer? _timer, _autoScrollTimer;
   late ValueNotifier<int> _currentTimeNotifier;
 
   late ValueNotifier<_ResizingPaintDetails> _resizingDetails;
   double? _maximumResizingPosition;
+
+  BehaviorSubject<int> totalAppRemove = BehaviorSubject.seeded(0);
 
   @override
   void initState() {
@@ -5718,6 +5733,8 @@ class _CalendarViewState extends State<_CalendarView>
 
   @override
   void dispose() {
+    removeDayCount.close();
+    totalAppRemove.close();
     _viewHeaderNotifier.removeListener(_timelineViewHoveringUpdate);
 
     _calendarCellNotifier.removeListener(_timelineViewHoveringUpdate);
@@ -6266,7 +6283,6 @@ class _CalendarViewState extends State<_CalendarView>
 
   Widget _addAllDayAppointmentPanel(
       SfCalendarThemeData calendarTheme, bool isCurrentView) {
-
     final double timeLabelWidth = CalendarViewHelper.getTimeLabelWidth(
         widget.calendar.timeSlotViewSettings.timeRulerSize, widget.view);
 
@@ -6364,6 +6380,15 @@ class _CalendarViewState extends State<_CalendarView>
             : null;
     _appointmentLayout = AppointmentLayout(
       widget.calendar,
+      (count) {
+        this.removeDayCount.sink.add(count);
+        int total = 0 ;
+        for (final element in widget.visibleDates) {
+          final key = getKey(element);
+          total += count[key] ?? 0;
+        }
+        totalAppRemove.sink.add(total);
+      },
       widget.view,
       widget.visibleDates,
       ValueNotifier<List<CalendarAppointment>?>(visibleAppointments),
@@ -8228,7 +8253,6 @@ class _CalendarViewState extends State<_CalendarView>
   // Returns the day view as a child for the calendar view.
   Widget _addDayView(double width, double height, bool isRTL, String locale,
       bool isCurrentView) {
-    double viewHeaderWidth = widget.width;
     final double actualViewHeaderHeight =
         CalendarViewHelper.getViewHeaderHeight(
             widget.calendar.viewHeaderHeight, widget.view);
@@ -8236,7 +8260,6 @@ class _CalendarViewState extends State<_CalendarView>
     final double timeLabelWidth = CalendarViewHelper.getTimeLabelWidth(
         widget.calendar.timeSlotViewSettings.timeRulerSize, widget.view);
     if (widget.view == CalendarView.day) {
-      viewHeaderWidth = timeLabelWidth < 50 ? 50 : timeLabelWidth;
       viewHeaderHeight =
           _allDayHeight > viewHeaderHeight ? _allDayHeight : viewHeaderHeight;
     }
@@ -8247,11 +8270,10 @@ class _CalendarViewState extends State<_CalendarView>
     if (panelHeight < 0) {
       panelHeight = 0;
     }
-    final Color borderColor =
-        widget.calendar.cellBorderColor ?? widget.calendarTheme.cellBorderColor!;
+    final Color borderColor = widget.calendar.cellBorderColor ??
+        widget.calendarTheme.cellBorderColor!;
 
-    final double allDayExpanderHeight =
-        panelHeight * _allDayExpanderAnimation!.value;
+
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -8302,13 +8324,13 @@ class _CalendarViewState extends State<_CalendarView>
             controller: _scrollController,
             isAlwaysShown: !widget.isMobilePlatform,
             child: ListView(
-                padding: EdgeInsets.zero,
-                controller: _scrollController,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: <Widget>[
-                  Stack(children: <Widget>[
+              padding: EdgeInsets.zero,
+              controller: _scrollController,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
                     RepaintBoundary(
                         child: _CalendarMultiChildContainer(
                             width: width,
@@ -8360,8 +8382,84 @@ class _CalendarViewState extends State<_CalendarView>
                     ),
                     _getCurrentTimeIndicator(
                         timeLabelWidth, width, height, false),
-                  ])
-                ]),
+                  ],
+                ),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: borderColor.withOpacity(borderColor.opacity * 0.5),
+                ),
+                StreamBuilder<int >(
+                    stream : totalAppRemove,
+                    builder : (_, snapshot ){
+                      final value = snapshot.data ?? 0;
+                      if(value > 0){
+                        return Column (
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: timeLabelWidth - 1),
+                              child: Row(
+                                children: List.generate(
+                                  widget.visibleDates.length,
+                                      (index) {
+                                    return StreamBuilder<Map<DateTime, int >>(
+                                      stream: removeDayCount,
+                                      builder: (_, snapshot ){
+                                        final mapValue = snapshot.data ?? {};
+                                        final key = getKey(widget.visibleDates[index]);
+                                        final count = mapValue[key] == null
+                                            ? ''
+                                            : '+${mapValue[key]}';
+                                        return GestureDetector(
+                                          onTap: (){
+                                            widget.onMoreDayClick?.call(key , mapValue[key] ?? 0);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                left: BorderSide(
+                                                  color: borderColor.withOpacity(
+                                                    borderColor.opacity * 0.5,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            width: (width - timeLabelWidth + 1) /
+                                                widget.visibleDates.length,
+                                            height: 30,
+                                            child: Center(
+                                              child: Text(
+                                                count,
+                                                style: textNormalCustom(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: colorA2AEBD,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: borderColor.withOpacity(borderColor.opacity * 0.5),
+                            ),
+                            spaceH70,
+                          ],
+                        );
+                      }
+                      return const  SizedBox.shrink();
+                    }
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -8395,6 +8493,12 @@ class _CalendarViewState extends State<_CalendarView>
       ),
     );
   }
+
+  DateTime getKey(DateTime date) => DateTime(
+        date.year,
+        date.month,
+        date.day,
+      );
 
   /// Updates the cell selection when the initial display date property of
   /// calendar has value, on this scenario the first resource cell must be
@@ -11573,7 +11677,8 @@ class _ViewHeaderViewPainter extends CustomPainter {
   void _drawTodayCircle(
       Canvas canvas, double x, double y, TextPainter dateTextPainter,
       {Color? hoveringColor}) {
-    _circlePainter.color = hoveringColor ?? viewHeaderStyle.daySelectColor ?? Colors.blue;
+    _circlePainter.color =
+        hoveringColor ?? viewHeaderStyle.daySelectColor ?? Colors.blue;
     const double circlePadding = 5;
     final double painterWidth = dateTextPainter.width / 2;
     final double painterHeight = dateTextPainter.height / 2;

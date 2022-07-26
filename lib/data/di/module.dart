@@ -1,7 +1,10 @@
+import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/htcs_impl.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/report_common_impl.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/repository_impl/report_impl.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/services/htcs_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/services/report_common_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/services/report_service.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/htcs_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_common_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
@@ -60,7 +63,7 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI, HEAD_ORIGIN }
+enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI, HEAD_ORIGIN,HTCS }
 
 void configureDependencies() {
   Get.put(
@@ -205,6 +208,14 @@ void configureDependencies() {
   );
   Get.put<ReportRepository>(ReportImpl(Get.find(),Get.find()));
 
+
+  Get.put(
+    HTCSService(
+      provideDio(baseOption: BaseURLOption.HTCS),
+    ),
+  );
+  Get.put<HTCSRepository>(HtcsImpl(Get.find()));
+
   Get.put(
     HoTroKyThuatService(
       provideDio(baseOption: BaseURLOption.GATE_WAY),
@@ -230,6 +241,9 @@ String getUrlDomain({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       return DO_MAIN_LICH_AM_DUONG;
     case BaseURLOption.HEAD_ORIGIN:
       return appConstants.headerOrigin;
+    case BaseURLOption.HTCS:
+      return appConstants.baseUrlHTCS;
+
   }
 }
 
@@ -254,6 +268,9 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       break;
     case BaseURLOption.HEAD_ORIGIN:
       baseUrl = appConstants.headerOrigin;
+      break;
+    case BaseURLOption.HTCS:
+      baseUrl = appConstants.baseUrlHTCS;
       break;
   }
   final options = BaseOptions(

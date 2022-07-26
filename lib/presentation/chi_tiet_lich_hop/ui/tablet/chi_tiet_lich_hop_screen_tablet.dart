@@ -89,9 +89,10 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                               Border.all(color: borderColor.withOpacity(0.5)),
                           boxShadow: [
                             BoxShadow(
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                                color: shadowContainerColor.withOpacity(0.05))
+                              offset: const Offset(0, 4),
+                              blurRadius: 10,
+                              color: shadowContainerColor.withOpacity(0.05),
+                            )
                           ],
                         ),
                         child: Row(
@@ -129,9 +130,10 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                     border: Border.all(color: borderColor.withOpacity(0.5)),
                     boxShadow: [
                       BoxShadow(
-                          offset: const Offset(0, 4),
-                          blurRadius: 10,
-                          color: shadowContainerColor.withOpacity(0.05))
+                        offset: const Offset(0, 4),
+                        blurRadius: 10,
+                        color: shadowContainerColor.withOpacity(0.05),
+                      )
                     ],
                   ),
                   child: StickyHeader(
@@ -139,12 +141,16 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                     header: TabBar(
                       controller: _controller,
                       unselectedLabelStyle: textNormalCustom(
-                          fontSize: 16, fontWeight: FontWeight.w700),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
                       indicatorColor: indicatorColor,
                       unselectedLabelColor: colorA2AEBD,
                       labelColor: indicatorColor,
                       labelStyle: textNormalCustom(
-                          fontSize: 16, fontWeight: FontWeight.w400),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
                       isScrollable: true,
                       tabs: List.generate(
                         listTextTab.length,

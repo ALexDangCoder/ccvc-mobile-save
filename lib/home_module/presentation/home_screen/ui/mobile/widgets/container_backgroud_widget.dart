@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,7 +11,6 @@ import '/home_module/presentation/home_screen/ui/widgets/select_key_row.dart';
 import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/utils/enum_ext.dart';
-import '/home_module/utils/extensions/date_time_extension.dart';
 
 class ContainerBackgroundWidget extends StatefulWidget {
   final Widget child;
@@ -30,6 +30,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
   final Function()? onTapTitle;
+  final bool isShowCaNhan;
 
   const ContainerBackgroundWidget({
     Key? key,
@@ -48,6 +49,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.minHeight = 465,
     this.listSelect,
     this.onChangeKey,
+    this.isShowCaNhan = false,
     this.isCustomDialog = false,
     this.onTapTitle,
   }) : super(key: key);
@@ -122,9 +124,14 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                                       builder: (context, snapshot) {
                                         return widget.isShowSubTitle
                                             ? Text(
-                                                subTitle(),
+                                                subTitle(
+                                                  isShowCaNhan:
+                                                      widget.isShowCaNhan,
+                                                ),
                                                 style: textNormal(
-                                                    textBodyTime, 12),
+                                                  textBodyTime,
+                                                  12,
+                                                ),
                                               )
                                             : const SizedBox();
                                       },
@@ -208,7 +215,7 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
     );
   }
 
-  String subTitle() {
+  String subTitle({bool isShowCaNhan = false}) {
     final data = widget.selectKeyDialog;
     if (widget.isUnit) {
       // if (data?.selectKeyTime == SelectKey.TUY_CHON) {
@@ -216,9 +223,8 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
       // }
       return '${data!.selectKeyDonVi.getText()}';
     }
-    if (data?.selectKeyTime == SelectKey.TUY_CHON) {
-      return '${data!.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
-    }
-    return data!.selectKeyTime.getText();
+    return isShowCaNhan
+        ? '${S.current.ca_nhan} - ${data!.selectKeyTime.getText()}'
+        : '${data!.selectKeyTime.getText()}';
   }
 }

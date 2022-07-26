@@ -3,7 +3,7 @@
   "base_url_gate_way": "https://apigw-mpi-test.chinhquyendientu.vn",
   "base_url_common": "https://api-mpi-common-test.chinhquyendientu.vn",
   "base_url_CCVC": "https://api-mpi-ccvc-test.chinhquyendientu.vn",
-  "base_url_NOTI": "http://mpi-noti-test.chinhquyendientu.vn",
+  "base_url_NOTI": "https://mpi-noti-test.chinhquyendientu.vn",
   "base_url_DOWNLOAD_QLNV": "https://api-mpi-qlvb-test.chinhquyendientu.vn",
   "base_url_DOWNLOAD_PANK": "https://api-mpi-pakn-test.chinhquyendientu.vn",
   "header_origin": "https://mpi-ccvc-test.chinhquyendientu.vn",

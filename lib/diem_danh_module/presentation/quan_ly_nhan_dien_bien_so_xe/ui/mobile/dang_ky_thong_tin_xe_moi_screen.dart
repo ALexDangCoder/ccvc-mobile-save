@@ -38,7 +38,6 @@ class DangKyThongTinXeMoi extends StatefulWidget {
 class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   TextEditingController bienKiemSoatController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
-  final _radioButtonKey = GlobalKey<CustomRadioLoaiSoHuuState>();
 
   @override
   void initState() {
@@ -80,9 +79,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                 onClickRight: () async {
                   final bool isFormValidated =
                       keyGroup.currentState?.validator() ?? false;
-                  final bool isRadioValidated =
-                      _radioButtonKey.currentState?.validator() ?? false;
-                  if (isFormValidated && isRadioValidated) {
+                  if (isFormValidated) {
                     await postDangKyXe();
                   }
                 },
@@ -191,8 +188,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         ),
                       ),
                       CustomRadioLoaiSoHuu(
-                        key: _radioButtonKey,
-                        onChange: (isXeLanhDao) {
+                        onchange: (isXeLanhDao) {
                           widget.cubit.loaiSoHuu = isXeLanhDao
                               ? DanhSachBienSoXeConst.XE_LANH_DAO
                               : DanhSachBienSoXeConst.XE_CAN_BO;
@@ -330,8 +326,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               ),
                             ),
                             CustomRadioLoaiSoHuu(
-                              key: _radioButtonKey,
-                              onChange: (isXeLanhDao) {
+                              onchange: (isXeLanhDao) {
                                 widget.cubit.loaiSoHuu = isXeLanhDao
                                     ? DanhSachBienSoXeConst.XE_LANH_DAO
                                     : DanhSachBienSoXeConst.XE_CAN_BO;
@@ -353,9 +348,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           onClickRight: () async {
                             final bool isFormValidated =
                                 keyGroup.currentState?.validator() ?? false;
-                            final bool isRadioValidated =
-                                _radioButtonKey.currentState?.validator() ?? false;
-                            if (isFormValidated && isRadioValidated) {
+                            if (isFormValidated) {
                               await postDangKyXe();
                             }
                           },

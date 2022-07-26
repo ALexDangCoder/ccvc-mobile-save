@@ -126,7 +126,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     isLichLap: false,
     isNhacLich: false,
     congKhai: false,
-    bitHopTrucTuyen: false,
     bitYeuCauDuyet: false,
     bitLinkTrongHeThong: false,
     isDuyetKyThuat: false,
@@ -139,6 +138,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   List<File> listThuMoi = [];
   List<File> listTaiLieu = [];
   List<File> listTaiLieuPhienHop = [];
+
+  bool isHopTrucTiep = false;
 
   Set<DonViModel> listThanhPhanThamGia = {};
   BehaviorSubject<bool> isSendEmail = BehaviorSubject.seeded(false);

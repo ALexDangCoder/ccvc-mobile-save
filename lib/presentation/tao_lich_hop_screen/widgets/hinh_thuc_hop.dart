@@ -80,6 +80,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
             title: S.current.hop_truc_tiep,
             onChange: (value) {
               isHopTrucTiep = value;
+              widget.cubit.isHopTrucTiep = value;
               if (value && isHopTrucTuyen) {
                 isHopTrucTuyen = false;
               }
@@ -121,6 +122,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               isHopTrucTuyen = value;
               if (value && isHopTrucTiep) {
                 isHopTrucTiep = false;
+                widget.cubit.isHopTrucTiep = false;
               }
               if(value && !isDuyetKyThuat){
                 isDuyetKyThuat = true;
@@ -274,10 +276,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                   diemCau.tenDiemCau = value;
                 },
                 validator: (value) {
-                  return value.isEmpty
-                      ? '${S.current.ten_don_vi} '
-                      '${S.current.khong_duoc_de_trong.toLowerCase()}'
-                      : null;
+                  return value.pleaseEnter(S.current.ten_don_vi);
                 },
                 isRequired: true,
                 title: S.current.ten_don_vi,

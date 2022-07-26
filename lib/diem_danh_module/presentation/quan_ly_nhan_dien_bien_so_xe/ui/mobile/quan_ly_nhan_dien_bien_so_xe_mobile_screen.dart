@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/d
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_bien_so_xe_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mobile.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/mobile/dang_ky_thong_tin_xe_moi_screen.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/dang_ky_thong_tin_xe_moi_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/item_loai_xe.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/widget_cap_nhat_thong_tin_dang_ky_xe.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';

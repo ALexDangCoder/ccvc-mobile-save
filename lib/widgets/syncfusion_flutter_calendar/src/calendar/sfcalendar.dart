@@ -171,6 +171,7 @@ class SfCalendar extends StatefulWidget {
     this.backgroundColor,
     this.dataSource,
     this.timeZone,
+    this.maxDayItemShow,
     this.selectionDecoration,
     this.onViewChanged,
     this.onTap,
@@ -189,6 +190,7 @@ class SfCalendar extends StatefulWidget {
     this.timeSlotViewSettings = const TimeSlotViewSettings(),
     this.resourceViewSettings = const ResourceViewSettings(),
     this.monthViewSettings = const MonthViewSettings(),
+    this.onMoreDayClick,
     DateTime? initialDisplayDate,
     this.initialSelectedDate,
     this.scheduleViewSettings = const ScheduleViewSettings(),
@@ -455,6 +457,8 @@ class SfCalendar extends StatefulWidget {
   ///
   ///  ```
   final DateTime minDate;
+
+  final void Function(DateTime day , int count )? onMoreDayClick;
 
   /// The maximum date as much as the [SfCalendar]  will navigate.
   ///
@@ -792,6 +796,8 @@ class SfCalendar extends StatefulWidget {
   ///
   ///  ```
   final int firstDayOfWeek;
+
+  final int? maxDayItemShow;
 
   /// Defines the time format for appointment view text in [SfCalendar]
   /// month agenda view and schedule view.
@@ -8410,6 +8416,7 @@ class _SfCalendarState extends State<SfCalendar>
             _updateCalendarState,
             _getCalendarStateDetails,
             key: _customScrollViewKey,
+            onMoreDayClick: widget.onMoreDayClick,
           )),
     );
   }

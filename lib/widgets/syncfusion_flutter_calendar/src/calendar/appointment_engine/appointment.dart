@@ -74,6 +74,8 @@ class Appointment with Diagnosticable {
     this.startTimeZone,
     this.endTimeZone,
     this.recurrenceRule,
+    this.position = -1,
+    this.maxPosition = -1,
     this.isAllDay = false,
     this.notes,
     this.location,
@@ -90,6 +92,10 @@ class Appointment with Diagnosticable {
     _appointmentType = _getAppointmentType();
     id = id ?? hashCode;
   }
+
+  int position;
+  int maxPosition;
+
 
   /// The start time for an [Appointment] in [SfCalendar].
   ///

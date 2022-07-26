@@ -349,122 +349,7 @@ class AppointmentHelper {
     return false;
   }
 
-  static String _timeZoneInfoToOlsonTimeZone(String windowsTimeZoneId) {
-    final Map<String, String> olsonWindowsTimes = <String, String>{};
-    olsonWindowsTimes['AUS Central Standard Time'] = 'Australia/Darwin';
-    olsonWindowsTimes['AUS Eastern Standard Time'] = 'Australia/Sydney';
-    olsonWindowsTimes['Afghanistan Standard Time'] = 'Asia/Kabul';
-    olsonWindowsTimes['Alaskan Standard Time'] = 'America/Anchorage';
-    olsonWindowsTimes['Arab Standard Time'] = 'Asia/Riyadh';
-    olsonWindowsTimes['Arabian Standard Time'] = 'Indian/Reunion';
-    olsonWindowsTimes['Arabic Standard Time'] = 'Asia/Baghdad';
-    olsonWindowsTimes['Argentina Standard Time'] =
-        'America/Argentina/Buenos_Aires';
-    olsonWindowsTimes['Atlantic Standard Time'] = 'America/Halifax';
-    olsonWindowsTimes['Azerbaijan Standard Time'] = 'Asia/Baku';
-    olsonWindowsTimes['Azores Standard Time'] = 'Atlantic/Azores';
-    olsonWindowsTimes['Bahia Standard Time'] = 'America/Bahia';
-    olsonWindowsTimes['Bangladesh Standard Time'] = 'Asia/Dhaka';
-    olsonWindowsTimes['Belarus Standard Time'] = 'Europe/Minsk';
-    olsonWindowsTimes['Canada Central Standard Time'] = 'America/Regina';
-    olsonWindowsTimes['Cape Verde Standard Time'] = 'Atlantic/Cape_Verde';
-    olsonWindowsTimes['Caucasus Standard Time'] = 'Asia/Yerevan';
-    olsonWindowsTimes['Cen. Australia Standard Time'] = 'Australia/Adelaide';
-    olsonWindowsTimes['Central America Standard Time'] = 'America/Guatemala';
-    olsonWindowsTimes['Central Asia Standard Time'] = 'Asia/Almaty';
-    olsonWindowsTimes['Central Brazilian Standard Time'] = 'America/Cuiaba';
-    olsonWindowsTimes['Central Europe Standard Time'] = 'Europe/Budapest';
-    olsonWindowsTimes['Central European Standard Time'] = 'Europe/Warsaw';
-    olsonWindowsTimes['Central Pacific Standard Time'] = 'Pacific/Guadalcanal';
-    olsonWindowsTimes['Central Standard Time'] = 'America/Chicago';
-    olsonWindowsTimes['China Standard Time'] = 'Asia/Shanghai';
-    olsonWindowsTimes['Dateline Standard Time'] = 'Etc/GMT+12';
-    olsonWindowsTimes['E. Africa Standard Time'] = 'Africa/Nairobi';
-    olsonWindowsTimes['E. Australia Standard Time'] = 'Australia/Brisbane';
-    olsonWindowsTimes['E. South America Standard Time'] = 'America/Sao_Paulo';
-    olsonWindowsTimes['Eastern Standard Time'] = 'America/New_York';
-    olsonWindowsTimes['Egypt Standard Time'] = 'Africa/Cairo';
-    olsonWindowsTimes['Ekaterinburg Standard Time'] = 'Asia/Yekaterinburg';
-    olsonWindowsTimes['FLE Standard Time'] = 'Europe/Kiev';
-    olsonWindowsTimes['Fiji Standard Time'] = 'Pacific/Fiji';
-    olsonWindowsTimes['GMT Standard Time'] = 'Europe/London';
-    olsonWindowsTimes['GTB Standard Time'] = 'Europe/Bucharest';
-    olsonWindowsTimes['Georgian Standard Time'] = 'Asia/Tbilisi';
-    olsonWindowsTimes['Greenland Standard Time'] = 'America/Godthab';
-    olsonWindowsTimes['Greenwich Standard Time'] = 'Atlantic/Reykjavik';
-    olsonWindowsTimes['Hawaiian Standard Time'] = 'Pacific/Honolulu';
-    olsonWindowsTimes['India Standard Time'] = 'Asia/Kolkata';
-    olsonWindowsTimes['Iran Standard Time'] = 'Asia/Tehran';
-    olsonWindowsTimes['Israel Standard Time'] = 'Asia/Jerusalem';
-    olsonWindowsTimes['Jordan Standard Time'] = 'Asia/Amman';
-    olsonWindowsTimes['Kaliningrad Standard Time'] = 'Europe/Kaliningrad';
-    olsonWindowsTimes['Korea Standard Time'] = 'Asia/Seoul';
-    olsonWindowsTimes['Libya Standard Time'] = 'Africa/Tripoli';
-    olsonWindowsTimes['Line Islands Standard Time'] = 'Pacific/Kiritimati';
-    olsonWindowsTimes['Magadan Standard Time'] = 'Asia/Magadan';
-    olsonWindowsTimes['Mauritius Standard Time'] = 'Indian/Mauritius';
-    olsonWindowsTimes['Middle East Standard Time'] = 'Asia/Beirut';
-    olsonWindowsTimes['Montevideo Standard Time'] = 'America/Montevideo';
-    olsonWindowsTimes['Morocco Standard Time'] = 'Africa/Casablanca';
-    olsonWindowsTimes['Mountain Standard Time'] = 'America/Denver';
-    olsonWindowsTimes['Mountain Standard Time (Mexico)'] = 'America/Chihuahua';
-    olsonWindowsTimes['Myanmar Standard Time'] = 'Asia/Rangoon';
-    olsonWindowsTimes['N. Central Asia Standard Time'] = 'Asia/Novosibirsk';
-    olsonWindowsTimes['Namibia Standard Time'] = 'Africa/Windhoek';
-    olsonWindowsTimes['Nepal Standard Time'] = 'Asia/Kathmandu';
-    olsonWindowsTimes['New Zealand Standard Time'] = 'Pacific/Auckland';
-    olsonWindowsTimes['Newfoundland Standard Time'] = 'America/St_Johns';
-    olsonWindowsTimes['North Asia East Standard Time'] = 'Asia/Irkutsk';
-    olsonWindowsTimes['North Asia Standard Time'] = 'Asia/Krasnoyarsk';
-    olsonWindowsTimes['Pacific SA Standard Time'] = 'America/Santiago';
-    olsonWindowsTimes['Pacific Standard Time'] = 'America/Los_Angeles';
-    olsonWindowsTimes['Pacific Standard Time (Mexico)'] =
-        'America/Santa_Isabel';
-    olsonWindowsTimes['Pakistan Standard Time'] = 'Asia/Karachi';
-    olsonWindowsTimes['Paraguay Standard Time'] = 'America/Asuncion';
-    olsonWindowsTimes['Romance Standard Time'] = 'Europe/Paris';
-    olsonWindowsTimes['Russia Time Zone 10'] = 'Asia/Srednekolymsk';
-    olsonWindowsTimes['Russia Time Zone 11'] = 'Asia/Kamchatka';
-    olsonWindowsTimes['Russia Time Zone 3'] = 'Europe/Samara';
-    olsonWindowsTimes['Russian Standard Time'] = 'Europe/Moscow';
-    olsonWindowsTimes['SA Eastern Standard Time'] = 'America/Cayenne';
-    olsonWindowsTimes['SA Pacific Standard Time'] = 'America/Bogota';
-    olsonWindowsTimes['SA Western Standard Time'] = 'America/La_Paz';
-    olsonWindowsTimes['SE Asia Standard Time'] = 'Asia/Bangkok';
-    olsonWindowsTimes['Samoa Standard Time'] = 'Pacific/Apia';
-    olsonWindowsTimes['Singapore Standard Time'] = 'Asia/Singapore';
-    olsonWindowsTimes['South Africa Standard Time'] = 'Africa/Johannesburg';
-    olsonWindowsTimes['Sri Lanka Standard Time'] = 'Asia/Colombo';
-    olsonWindowsTimes['Syria Standard Time'] = 'Asia/Damascus';
-    olsonWindowsTimes['Taipei Standard Time'] = 'Asia/Taipei';
-    olsonWindowsTimes['Tasmania Standard Time'] = 'Australia/Hobart';
-    olsonWindowsTimes['Tokyo Standard Time'] = 'Asia/Tokyo';
-    olsonWindowsTimes['Tonga Standard Time'] = 'Pacific/Tongatapu';
-    olsonWindowsTimes['Turkey Standard Time'] = 'Europe/Istanbul';
-    olsonWindowsTimes['US Eastern Standard Time'] =
-        'America/Indiana/Indianapolis';
-    olsonWindowsTimes['US Mountain Standard Time'] = 'America/Phoenix';
-    olsonWindowsTimes['UTC'] = 'America/Danmarkshavn';
-    olsonWindowsTimes['UTC+12'] = 'Pacific/Tarawa';
-    olsonWindowsTimes['UTC-02'] = 'America/Noronha';
-    olsonWindowsTimes['UTC-11'] = 'Pacific/Midway';
-    olsonWindowsTimes['Ulaanbaatar Standard Time'] = 'Asia/Ulaanbaatar';
-    olsonWindowsTimes['Venezuela Standard Time'] = 'America/Caracas';
-    olsonWindowsTimes['Vladivostok Standard Time'] = 'Asia/Vladivostok';
-    olsonWindowsTimes['W. Australia Standard Time'] = 'Australia/Perth';
-    olsonWindowsTimes['W. Central Africa Standard Time'] = 'Africa/Lagos';
-    olsonWindowsTimes['W. Europe Standard Time'] = 'Europe/Berlin';
-    olsonWindowsTimes['West Asia Standard Time'] = 'Asia/Tashkent';
-    olsonWindowsTimes['West Pacific Standard Time'] = 'Pacific/Port_Moresby';
-    olsonWindowsTimes['Yakutsk Standard Time'] = 'Asia/Yakutsk';
 
-    final String? timeZone = olsonWindowsTimes[windowsTimeZoneId];
-    if (timeZone != null) {
-      return '';
-    }
-
-    return '';
-  }
 
   /// Resets the appointment views used on appointment layout rendering.
   static void resetAppointmentView(
@@ -705,8 +590,15 @@ class AppointmentHelper {
 
     final int timeIntervalMinutes =
         CalendarViewHelper.getTimeInterval(calendar.timeSlotViewSettings);
-    for (int count = 0; count < normalAppointments.length; count++) {
-      final CalendarAppointment currentAppointment = normalAppointments[count];
+    for (int indexAppointment = 0;
+        indexAppointment < normalAppointments.length;
+        indexAppointment++) {
+      final CalendarAppointment currentAppointment =
+          normalAppointments[indexAppointment];
+      List<AppointmentView>? intersectingAppointments;
+      final AppointmentView currentAppointmentView = _getAppointmentView(
+          currentAppointment, appointmentCollection, resourceIndex);
+      // check appoinment được duyệt có nằm trong ngày làm việc không, nếu có thì sẽ thực hiện tiếp
       if ((view == CalendarView.workWeek ||
               view == CalendarView.timelineWorkWeek) &&
           calendar.timeSlotViewSettings.nonWorkingDays
@@ -716,15 +608,11 @@ class AppointmentHelper {
         continue;
       }
 
-      List<AppointmentView>? intersectingApps;
-      final AppointmentView currentAppView = _getAppointmentView(
-          currentAppointment, appointmentCollection, resourceIndex);
-
       for (int position = 0; position < maxColsCount; position++) {
         bool isIntersecting = false;
         for (int j = 0; j < processedViews.length; j++) {
-          final AppointmentView previousApp = processedViews[j];
-          if (previousApp.position != position) {
+          final AppointmentView previousAppointment = processedViews[j];
+          if (previousAppointment.position != position) {
             continue;
           }
 
@@ -732,24 +620,24 @@ class AppointmentHelper {
               calendar,
               view,
               currentAppointment,
-              previousApp,
-              previousApp.appointment!,
+              previousAppointment,
+              previousAppointment.appointment!,
               timeIntervalMinutes)) {
             isIntersecting = true;
 
-            if (intersectingApps == null) {
+            if (intersectingAppointments == null) {
               final List<int> keyList = dict.keys.toList();
               for (int keyCount = 0; keyCount < keyList.length; keyCount++) {
                 final int key = keyList[keyCount];
-                if (dict[key]!.contains(previousApp)) {
-                  intersectingApps = dict[key];
+                if (dict[key]!.contains(previousAppointment)) {
+                  intersectingAppointments = dict[key];
                   break;
                 }
               }
 
-              if (intersectingApps == null) {
-                intersectingApps = <AppointmentView>[];
-                dict[dict.keys.length] = intersectingApps;
+              if (intersectingAppointments == null) {
+                intersectingAppointments = <AppointmentView>[];
+                dict[dict.keys.length] = intersectingAppointments;
               }
 
               break;
@@ -757,19 +645,19 @@ class AppointmentHelper {
           }
         }
 
-        if (!isIntersecting && currentAppView.position == -1) {
-          currentAppView.position = position;
+        if (!isIntersecting && currentAppointmentView.position == -1) {
+          currentAppointmentView.position = position;
         }
       }
 
-      processedViews.add(currentAppView);
-      if (currentAppView.position == -1) {
+      processedViews.add(currentAppointmentView);
+      if (currentAppointmentView.position == -1) {
         int position = 0;
-        if (intersectingApps == null) {
-          intersectingApps = <AppointmentView>[];
-          dict[dict.keys.length] = intersectingApps;
-        } else if (intersectingApps.isNotEmpty) {
-          position = intersectingApps
+        if (intersectingAppointments == null) {
+          intersectingAppointments = <AppointmentView>[];
+          dict[dict.keys.length] = intersectingAppointments;
+        } else if (intersectingAppointments.isNotEmpty) {
+          position = intersectingAppointments
               .reduce((AppointmentView currentAppview,
                       AppointmentView nextAppview) =>
                   currentAppview.maxPositions > nextAppview.maxPositions
@@ -778,22 +666,22 @@ class AppointmentHelper {
               .maxPositions;
         }
 
-        intersectingApps.add(currentAppView);
-        for (int i = 0; i < intersectingApps.length; i++) {
-          intersectingApps[i].maxPositions = position + 1;
+        intersectingAppointments.add(currentAppointmentView);
+        for (int i = 0; i < intersectingAppointments.length; i++) {
+          intersectingAppointments[i].maxPositions = position + 1;
         }
 
-        currentAppView.position = position;
+        currentAppointmentView.position = position;
         if (maxColsCount <= position) {
           maxColsCount = position + 1;
         }
       } else {
         int maxPosition = 1;
-        if (intersectingApps == null) {
-          intersectingApps = <AppointmentView>[];
-          dict[dict.keys.length] = intersectingApps;
-        } else if (intersectingApps.isNotEmpty) {
-          maxPosition = intersectingApps
+        if (intersectingAppointments == null) {
+          intersectingAppointments = <AppointmentView>[];
+          dict[dict.keys.length] = intersectingAppointments;
+        } else if (intersectingAppointments.isNotEmpty) {
+          maxPosition = intersectingAppointments
               .reduce((AppointmentView currentAppview,
                       AppointmentView nextAppview) =>
                   currentAppview.maxPositions > nextAppview.maxPositions
@@ -801,14 +689,14 @@ class AppointmentHelper {
                       : nextAppview)
               .maxPositions;
 
-          if (currentAppView.position == maxPosition) {
+          if (currentAppointmentView.position == maxPosition) {
             maxPosition++;
           }
         }
 
-        intersectingApps.add(currentAppView);
-        for (int i = 0; i < intersectingApps.length; i++) {
-          intersectingApps[i].maxPositions = maxPosition;
+        intersectingAppointments.add(currentAppointmentView);
+        for (int i = 0; i < intersectingAppointments.length; i++) {
+          intersectingAppointments[i].maxPositions = maxPosition;
         }
 
         if (maxColsCount <= maxPosition) {
@@ -816,10 +704,11 @@ class AppointmentHelper {
         }
       }
 
-      intersectingApps = null;
+      intersectingAppointments = null;
     }
 
     dict.clear();
+
   }
 
   /// Convert the date time from appointment timezone value to calender timezone

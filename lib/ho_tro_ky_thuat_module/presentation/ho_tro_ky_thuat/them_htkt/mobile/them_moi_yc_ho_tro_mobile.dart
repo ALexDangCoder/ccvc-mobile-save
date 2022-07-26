@@ -57,194 +57,175 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           widget.cubit.getApiThemMoiYCHT();
         },
         error: AppException(S.current.something_went_wrong, ''),
-        child: Container(
-          height: 750,
-          clipBehavior: Clip.hardEdge,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32),
-              topRight: Radius.circular(32),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 700,
+            clipBehavior: Clip.hardEdge,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                spaceH20,
-                Center(
-                  child: Container(
-                    height: 6,
-                    width: 48,
-                    decoration: const BoxDecoration(
-                      color: colorECEEF7,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  spaceH20,
+                  Center(
+                    child: Container(
+                      height: 6,
+                      width: 48,
+                      decoration: const BoxDecoration(
+                        color: colorECEEF7,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 22.5,
-                    bottom: 16,
-                  ),
-                  child: FormGroup(
-                    key: _groupKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          S.current.them_moi_yc_ho_tro,
-                          style: p.textNormalCustom(
-                            color: textTitle,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        spaceH20,
-                        textField(
-                          isHightLight: true,
-                          title: S.current.ten_thiet_bi,
-                          hintText: S.current.ten_thiet_bi,
-                          isEnable: true,
-                          maxLength: 150,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.name = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        textField(
-                          isHightLight: true,
-                          title: S.current.sdt_lien_he,
-                          hintText: S.current.sdt_lien_he,
-                          inputFormatter: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          maxLength: 11,
-                          textInputType: TextInputType.number,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.phone = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        textField(
-                          isHightLight: true,
-                          maxLine: 3,
-                          title: S.current.mo_ta_su_co,
-                          hintText: S.current.nhap_mo_ta_su_co,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.description = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        AreaDropDown(
-                          cubit: widget.cubit,
-                          statusHTKT: StatusHTKT.CREATE,
-                        ),
-                        spaceH16,
-                        BuildingDropDown(
-                            statusHTKT: StatusHTKT.CREATE, cubit: widget.cubit),
-                        spaceH16,
-                        textField(
-                          isHightLight: true,
-                          title: S.current.so_phong,
-                          hintText: S.current.so_phong,
-                          onChange: (value) {
-                            widget.cubit.addTaskHTKTRequest.room = value;
-                          },
-                          validate: (value) {
-                            if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
-                            }
-                          },
-                        ),
-                        spaceH16,
-                        _multiSelect(),
-                        // IssueDropDown(cubit: widget.cubit),
-                        spaceH16,
-                        TaiLieuWidget(
-                          isHaveExpanded: true,
-                          idRemove: (String id) {},
-                          onChange: (files, value) {
-                            widget.cubit.addTaskHTKTRequest.fileUpload = files;
-                          },
-                          message: S.current.dung_luong_toi_da_htkt,
-                        ),
-                        spaceH20,
-                        doubleBtn(),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 22.5,
+                      bottom: 16,
                     ),
-                  ),
-                )
-              ],
+                    child: FormGroup(
+                      key: _groupKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            S.current.them_moi_yc_ho_tro,
+                            style: p.textNormalCustom(
+                              color: textTitle,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          spaceH20,
+                          textField(
+                            isHightLight: true,
+                            title: S.current.ten_thiet_bi,
+                            hintText: S.current.ten_thiet_bi,
+                            isEnable: true,
+                            maxLength: 150,
+                            onChange: (value) {
+                              widget.cubit.addTaskHTKTRequest.name = value;
+                            },
+                            validate: (value) {
+                              if ((value ?? '').isEmpty) {
+                                return S
+                                    .current.ban_phai_nhap_truong_ten_thiet_bi;
+                              }
+                            },
+                          ),
+                          spaceH16,
+                          textField(
+                            isHightLight: true,
+                            title: S.current.sdt_lien_he,
+                            hintText: S.current.sdt_lien_he,
+                            inputFormatter: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            maxLength: 11,
+                            textInputType: TextInputType.number,
+                            onChange: (value) {
+                              widget.cubit.addTaskHTKTRequest.phone = value;
+                            },
+                            validate: (value) {
+                              if ((value ?? '').isEmpty) {
+                                return S.current
+                                    .ban_phai_nhap_truong_so_dien_thoai_lien_he;
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          spaceH16,
+                          textField(
+                            isHightLight: true,
+                            maxLine: 3,
+                            title: S.current.mo_ta_su_co,
+                            hintText: S.current.nhap_mo_ta_su_co,
+                            onChange: (value) {
+                              widget.cubit.addTaskHTKTRequest.description =
+                                  value;
+                            },
+                            validate: (value) {
+                              if ((value ?? '').isEmpty) {
+                                return S
+                                    .current.ban_phai_nhap_truong_mo_ta_su_co;
+                              }
+                            },
+                          ),
+                          spaceH16,
+                          AreaDropDown(
+                            cubit: widget.cubit,
+                            statusHTKT: StatusHTKT.CREATE,
+                          ),
+                          spaceH16,
+                          BuildingDropDown(
+                            statusHTKT: StatusHTKT.CREATE,
+                            cubit: widget.cubit,
+                          ),
+                          spaceH16,
+                          textField(
+                            isHightLight: true,
+                            title: S.current.so_phong,
+                            hintText: S.current.so_phong,
+                            onChange: (value) {
+                              widget.cubit.addTaskHTKTRequest.room = value;
+                            },
+                            validate: (value) {
+                              if ((value ?? '').isEmpty) {
+                                return S.current.ban_phai_nhap_truong_so_phong;
+                              }
+                            },
+                          ),
+                          spaceH16,
+                          StreamBuilder<List<String>>(
+                            stream: widget.cubit.issueListStream,
+                            builder: (context, snapshot) {
+                              final _issueList = snapshot.data ?? [];
+                              return MultiSelectList(
+                                title: S.current.loai_su_co,
+                                isRequire: true,
+                                items: _issueList,
+                                onChange: (selectIndexList) {
+                                  widget.cubit
+                                      .addIssueListRequest(selectIndexList);
+                                },
+                              );
+                            },
+                          ),
+                          // IssueDropDown(cubit: widget.cubit),
+                          spaceH16,
+                          TaiLieuWidget(
+                            isHaveExpanded: true,
+                            idRemove: (String id) {},
+                            onChange: (files, value) {
+                              widget.cubit.addTaskHTKTRequest.fileUpload =
+                                  files;
+                            },
+                          ),
+                          spaceH20,
+                          doubleBtn(),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _multiSelect() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        StreamBuilder<List<String>>(
-          stream: widget.cubit.issueListStream,
-          builder: (context, snapshot) {
-            final _issueList = snapshot.data ?? [];
-            return MultiSelectList(
-              title: S.current.loai_su_co,
-              isRequire: true,
-              items: _issueList,
-              onChange: (selectIndexList) {
-                widget.cubit.addIssueListRequest(selectIndexList);
-                widget.cubit.checkAllThemMoiYCHoTro();
-              },
-            );
-          },
-        ),
-        StreamBuilder<bool>(
-          initialData: false,
-          stream: widget.cubit.showErrorLoaiSuCo.stream,
-          builder: (context, snapshot) {
-            return snapshot.data ?? false
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                    child: Text(
-                      S.current.khong_duoc_de_trong,
-                      style: textNormalCustom(
-                        color: redChart,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink();
-          },
-        )
-      ],
     );
   }
 
@@ -375,7 +356,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
             await widget.cubit.postDataThemMoiHTKT().then((value) {
               if (value) {
                 Navigator.pop(context);
-              } else {}
+              }
             });
           }
         },

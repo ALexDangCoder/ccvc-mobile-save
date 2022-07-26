@@ -17,10 +17,10 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   BehaviorSubject<String> titleCanBo = BehaviorSubject();
 
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
-  final BehaviorSubject<List<DonViModel>> _getCanbo =
+  final BehaviorSubject<List<DonViModel>> getCanbo =
       BehaviorSubject<List<DonViModel>>();
 
-  Stream<List<DonViModel>> get getCanbo => _getCanbo.stream;
+  Stream<List<DonViModel>> get getCanboStream => getCanbo.stream;
 
   ThemCanBoCubit() : super(MainStateInitial());
 
@@ -46,7 +46,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
             return a;
           },
         );
-        _getCanbo.sink.add(listCanBo);
+        getCanbo.sink.add(listCanBo);
       },
       error: (err) {},
     );
@@ -59,7 +59,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     }
     listCanBo[index].isCheck = true;
     titleCanBo.sink.add(listCanBo[index].tenCanBo);
-    _getCanbo.sink.add(listCanBo);
+    getCanbo.sink.add(listCanBo);
   }
 
   HopRepository get hopRepo => Get.find();
@@ -113,10 +113,10 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     }
 
     final vl = listCanBo.where((element) => isListCanBo(element)).toList();
-    _getCanbo.sink.add(vl);
+    getCanbo.sink.add(vl);
   }
 
   void dispose() {
-    _getCanbo.close();
+    getCanbo.close();
   }
 }

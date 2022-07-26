@@ -87,7 +87,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                 SizedBox(
                   height: 500.h,
                   child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -142,47 +142,47 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                         spaceH8,
                         if (widget.idTask?.isNotEmpty ?? false) ...[
                           StreamBuilder<SupportDetail>(
-                              stream: widget.cubit.ngayHoanThanhStream,
-                              builder: (context, snapshot) {
-                                if (snapshot.data?.id != '' &&
-                                    snapshot.hasData) {
-                                  return DateInput(
-                                    paddings: 10,
-                                    leadingIcon: SvgPicture.asset(
-                                      image_utils.ImageAssets.icCalenders,
-                                    ),
-                                    onSelectDate: (dateTime) {
-                                      birthday = dateTime;
-                                    },
-                                    minimumDate: (snapshot.data?.thoiGianYeuCau
-                                                ?.isNotEmpty ??
-                                            false)
-                                        ? DateFormat(
-                                            DateTimeFormat
-                                                .DATE_BE_RESPONSE_FORMAT,
-                                          ).parse(
-                                            snapshot.data!.thoiGianYeuCau!,
-                                          )
-                                        : null,
-                                    initDateTime: (snapshot.data?.ngayHoanThanh
-                                                ?.isNotEmpty ??
-                                            false)
-                                        ? DateFormat(
-                                            DateTimeFormat
-                                                .DATE_BE_RESPONSE_FORMAT,
-                                          ).parse(
-                                            snapshot.data!.ngayHoanThanh!,
-                                          )
-                                        : null,
-                                  );
-                                } else {
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      color: sideBtnUnselected,
-                                    ),
-                                  );
-                                }
-                              })
+                            stream: widget.cubit.ngayHoanThanhStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.data?.id != '' && snapshot.hasData) {
+                                return DateInput(
+                                  paddings: 10,
+                                  leadingIcon: SvgPicture.asset(
+                                    image_utils.ImageAssets.icCalenders,
+                                  ),
+                                  onSelectDate: (dateTime) {
+                                    birthday = dateTime;
+                                  },
+                                  minimumDate: (snapshot.data?.thoiGianYeuCau
+                                              ?.isNotEmpty ??
+                                          false)
+                                      ? DateFormat(
+                                          DateTimeFormat
+                                              .DATE_BE_RESPONSE_FORMAT,
+                                        ).parse(
+                                          snapshot.data!.thoiGianYeuCau!,
+                                        )
+                                      : null,
+                                  initDateTime: (snapshot.data?.ngayHoanThanh
+                                              ?.isNotEmpty ??
+                                          false)
+                                      ? DateFormat(
+                                          DateTimeFormat
+                                              .DATE_BE_RESPONSE_FORMAT,
+                                        ).parse(
+                                          snapshot.data!.ngayHoanThanh!,
+                                        )
+                                      : null,
+                                );
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: sideBtnUnselected,
+                                  ),
+                                );
+                              }
+                            },
+                          )
                         ] else
                           DateInput(
                             paddings: 10,

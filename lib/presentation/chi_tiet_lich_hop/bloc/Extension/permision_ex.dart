@@ -30,6 +30,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     if (jsonString.isEmpty) {
       return [];
     }
+
     final data = jsonDecode(jsonString);
     final List<CanBoThamGiaStr> list = [];
     for (final element in data as List<dynamic>) {
@@ -371,6 +372,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   int trangThaiPhong() {
     return getThongTinPhongHopForPermision.trangThai ?? 0;
   }
+
 
   ///==================== check quyen tab cong tac chuan bi ================
   ///1. check phong hop

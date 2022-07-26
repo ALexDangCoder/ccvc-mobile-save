@@ -9,8 +9,13 @@ import 'package:flutter_svg/svg.dart';
 
 class DiemDanhMenuMobile extends StatefulWidget {
   final DiemDanhCubit cubit;
+  final bool isThemBienSo;
 
-  const DiemDanhMenuMobile({Key? key, required this.cubit}) : super(key: key);
+  const DiemDanhMenuMobile({
+    Key? key,
+    required this.cubit,
+    this.isThemBienSo = false,
+  }) : super(key: key);
 
   @override
   _DiemDanhMenuMobileState createState() => _DiemDanhMenuMobileState();
@@ -45,14 +50,17 @@ class _DiemDanhMenuMobileState extends State<DiemDanhMenuMobile> {
                 return Column(
                   children: itemMenu
                       .map(
-                        (e) => e.getItemMenu(
-                          type: e,
+                        (menuType) => menuType.getItemMenu(
+                          type: menuType,
                           selectType: data,
                           onTap: () {
                             widget.cubit.typeDiemDanhSubject.add(
-                              e,
+                              menuType,
                             );
                             Navigator.pop(context);
+                            if(widget.isThemBienSo){
+                              widget.cubit.isMenuClickedSubject.add(true);
+                            }
                           },
                         ),
                       )

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
@@ -14,6 +15,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -124,7 +126,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     isLichLap: false,
     isNhacLich: false,
     congKhai: false,
-    bitHopTrucTuyen: false,
     bitYeuCauDuyet: false,
     bitLinkTrongHeThong: false,
     isDuyetKyThuat: false,
@@ -138,12 +139,15 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   List<File> listTaiLieu = [];
   List<File> listTaiLieuPhienHop = [];
 
+  bool isHopTrucTiep = false;
+
   Set<DonViModel> listThanhPhanThamGia = {};
   BehaviorSubject<bool> isSendEmail = BehaviorSubject.seeded(false);
   DonViModel? chuTri;
 
   void validateData() {
     taoLichHopRequest.dsDiemCau = dsDiemCauSubject.value;
+
     /// check hình thức họp
     if (taoLichHopRequest.bitHopTrucTuyen != null) {
       if (taoLichHopRequest.bitHopTrucTuyen!) {
@@ -152,6 +156,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         //
       }
     }
+
     /// check cơ quan chủ trì
     if (!(taoLichHopRequest.bitTrongDonVi ?? true)) {
       taoLichHopRequest.chuTri?.donViId = null;
@@ -160,6 +165,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     if (taoLichHopRequest.phongHop?.phongHopId?.isEmpty ?? true) {
       taoLichHopRequest.phongHop = null;
     }
+
     /// check tùy chỉnh lịch lặp
     if (taoLichHopRequest.typeRepeat != danhSachLichLap.last.id) {
       taoLichHopRequest.days = '';
@@ -171,12 +177,13 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
         );
       }
     }
+
     /// Format date time:
     taoLichHopRequest.timeStart = taoLichHopRequest.timeStart?.formatTime();
     taoLichHopRequest.timeTo = taoLichHopRequest.timeTo?.formatTime();
-    if(taoLichHopRequest.bitYeuCauDuyet ?? false){
+    if (taoLichHopRequest.bitYeuCauDuyet ?? false) {
       taoLichHopRequest.status = 1;
-    }else{
+    } else {
       taoLichHopRequest.status = 2;
     }
   }
@@ -191,13 +198,13 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     );
     bool isInvalid = true;
     final listHop = listPhienHop.value;
-    for(int i = 0; i < listHop.length; i++){
+    for (int i = 0; i < listHop.length; i++) {
       final timeStart = listHop[i].thoiGian_BatDau.convertStringToDate(
-        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-      );
+            formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+          );
       final timeEnd = listHop[i].thoiGian_KetThuc.convertStringToDate(
-        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-      );
+            formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+          );
       if (timeStart.isBefore(dateTimeStart) || timeEnd.isAfter(dateTimeEnd)) {
         isInvalid = false;
         break;
@@ -307,6 +314,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     _getLoaiLich();
     _getPhamVi();
     getCanBo();
+    getTimeConfig();
   }
 
   Future<void> _getLoaiLich() async {
@@ -329,7 +337,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     required String donViId,
     required String canBoId,
   }) async {
-    if(donViId.isEmpty){
+    if (donViId.isEmpty) {
       return false;
     }
     bool isTrung = false;
@@ -535,6 +543,26 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           ),
         )
         .toList();
+  }
+
+  CalendarWorkRepository get _workCal => Get.find();
+  final timeConfigSubject = BehaviorSubject<Map<String, String>>();
+
+  Future<void> getTimeConfig() async {
+    showLoading();
+    final result = await _workCal.getConfigTime();
+    result.when(
+      success: (res) {
+        final timeStartConfigSystem = res.timeStart ?? '00:00';
+        final timeEndConfigSystem = res.timeEnd ?? '00:00';
+        timeConfigSubject.sink.add({
+          'timeStart': timeStartConfigSystem,
+          'timeEnd': timeEndConfigSystem,
+        });
+      },
+      error: (error) {},
+    );
+    showContent();
   }
 
   void dispose() {

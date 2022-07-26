@@ -59,6 +59,7 @@ class DonViModel {
   String userId = '';
   String tenCoQuan = '';
   bool isCheck = false;
+  bool? isXoa;
 
   //param sử dụng tại tạo lịch làm việc
   int soLuong = 0;
@@ -84,6 +85,7 @@ class DonViModel {
     this.userId = '',
     this.tenCoQuan = '',
     this.soLuong = 0,
+    this.isXoa,
   });
 
   NguoiChutriModel convertToNguoiChuTriModel() {
@@ -131,6 +133,7 @@ class DonViModel {
       tenDonVi: tenDonVi,
     );
   }
+  DonViModel.empty();
 }
 
 class Node<T> {

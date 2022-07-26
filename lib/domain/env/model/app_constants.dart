@@ -31,6 +31,9 @@ class AppConstants {
   @JsonKey(name: 'base_url_image')
   String baseImageUrl;
 
+  @JsonKey(name: 'base_url_htcs')
+  String baseUrlHTCS;
+
   AppConstants(
     this.type,
     this.baseUrlGateWay,
@@ -42,6 +45,7 @@ class AppConstants {
     this.headerOrigin,
     this.baseImageUrl,
     this.urlHTCS,
+    this.baseUrlHTCS,
   );
 
   factory AppConstants.fromJson(Map<String, dynamic> json) =>

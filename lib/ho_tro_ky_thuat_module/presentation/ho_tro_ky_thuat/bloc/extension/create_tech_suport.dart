@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
@@ -13,7 +14,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
 
   Future<void> getApiThemMoiYCHT() async {
     showLoading();
-    if (listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
+    if (listKhuVuc.hasValue || listToaNha.hasValue) {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
@@ -63,6 +64,9 @@ extension CreateTechSupport on HoTroKyThuatCubit {
   }
 
   void selectArea(int index) {
+    nameBuilding = null;
+    addTaskHTKTRequest.buildingName = null;
+    addTaskHTKTRequest.buildingId = null;
     addTaskHTKTRequest.districtName = areaList[index].name;
     addTaskHTKTRequest.districtId = areaList[index].id;
     showErrorKhuVuc.add(false);
@@ -92,6 +96,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
   }
 
   void selectBuilding(int index) {
+    addTaskHTKTRequest.buildingName = null;
     addTaskHTKTRequest.buildingName = buildingList[index].name;
     addTaskHTKTRequest.buildingId = buildingList[index].id;
     showErrorToaNha.add(false);

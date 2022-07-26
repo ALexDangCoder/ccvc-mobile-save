@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/htcs_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
@@ -37,6 +38,9 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   int sourceType = 0;
 
   ReportRepository get _repo => get_dart.Get.find();
+
+  HTCSRepository get _repoHTCS => get_dart.Get.find();
+
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
   BehaviorSubject<bool> showTree = BehaviorSubject.seeded(false);
@@ -284,7 +288,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     required String idReport,
   }) async {
     String message = '';
-    final rs = await _repo.shareReport(mapData, idReport, appId);
+    final rs = await _repoHTCS.shareReport(mapData, idReport, appId);
     rs.when(
       success: (res) {
         message = res;

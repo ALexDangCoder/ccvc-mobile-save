@@ -67,12 +67,14 @@ class _WidgetCapNhatThongTinDangKyXeState
               },
               onClickRight: () {
                 if (keyGroup.currentState!.validator()) {
+                  Navigator.pop(context);
                   widget.cubit.postImageResgiter(
-                      bienKiemSoat: bienKiemSoatController.value.text,
-                      isTao: false,
-                      id: widget.chiTietBienSoXeModel.id ?? '',
-                      fileId: widget.chiTietBienSoXeModel.fileId ?? '',
-                      context: widget.context);
+                    bienKiemSoat: bienKiemSoatController.value.text,
+                    isTao: false,
+                    id: widget.chiTietBienSoXeModel.id ?? '',
+                    fileId: widget.chiTietBienSoXeModel.fileId ?? '',
+                    context: widget.context,
+                  );
                 }
               },
             ),
@@ -104,7 +106,9 @@ class _WidgetCapNhatThongTinDangKyXeState
                                   widget.cubit.fileItemBienSoXe.add(image);
                                 }
                               },
-                              removeImage: () {},
+                              removeImage: () {
+                                widget.cubit.fileItemBienSoXe.clear();
+                              },
                               isTao: false,
                             ),
                           ],
@@ -172,7 +176,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                       ),
                     ),
                     CustomRadioLoaiSoHuu(
-                      onchange: (onchange) {
+                      onChange: (onchange) {
                         onchange
                             ? widget.cubit.loaiSoHuu =
                                 DanhSachBienSoXeConst.XE_LANH_DAO

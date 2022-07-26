@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/main_canlendar_mobile_refactor.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,6 @@ import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgr
 import '/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/utils/constants/image_asset.dart';
-import '/home_module/utils/enum_ext.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
 
@@ -51,7 +50,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CalenderWorkDayMobile(
+            builder: (context) => const MainCanlendanMobileRefactor(
               isBack: true,
             ),
           ),
@@ -124,13 +123,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
                         }
                       },
                       child: ContainerInfoWidget(
-                        status: result
-                                .trangThaiTheoUserEnum(_lamViecCubit.userId)
-                                ?.getText() ??
-                            '',
-                        colorStatus: result
-                            .trangThaiTheoUserEnum(_lamViecCubit.userId)
-                            ?.getColor(),
+                        nonStatus: true,
                         backGroundStatus: true,
                         title: result.title,
                         listData: [

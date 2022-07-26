@@ -86,6 +86,7 @@ class _MultiSelectListState extends State<MultiSelectList> {
             showSelect();
           },
           child: Container(
+            height: 56,
             width: double.maxFinite,
             decoration: BoxDecoration(
               color: Colors.white,

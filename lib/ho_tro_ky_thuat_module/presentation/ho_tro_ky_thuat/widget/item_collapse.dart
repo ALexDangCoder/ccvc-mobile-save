@@ -82,7 +82,7 @@ class _ItemCollapseState extends State<ItemCollapse>
                       left: 10,
                     ),
                     child: SvgPicture.asset(
-                      isCollapse ? ImageAssets.ic_drop_down : ImageAssets.ic_up,
+                      isCollapse ? ImageAssets.ic_up : ImageAssets.ic_drop_down,
                       width: 20,
                       height: 20,
                     ),

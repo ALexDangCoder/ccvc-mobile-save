@@ -221,7 +221,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<String>> _getTag = BehaviorSubject<List<String>>();
   final BehaviorSubject<bool> showAddTagStream = BehaviorSubject.seeded(false);
   bool isShowTag = false;
-  String tagKey = 'Covid-19';
+  String tagKey = '';
   String nameUser = '';
 
   BaoChiMangXaHoiCubit() {
@@ -266,8 +266,8 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   void getPress() async {
     List<String> listTag = HiveLocalHome.getTag();
     if (listTag.isEmpty) {
-      final listDataDefault = ['Covid-19', 'Vaccine', nameUser];
-      await HiveLocalHome.addTagList(['Covid-19', 'Vaccine', nameUser]);
+      final listDataDefault = [nameUser];
+      await HiveLocalHome.addTagList([nameUser]);
       listTag = listDataDefault;
     }
     _getTag.sink.add(listTag);
@@ -1558,7 +1558,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
             break;
           }
         }
-        _getListLichLamViec.sink.add(listResult);
+        _getListLichLamViec.sink.add(listResult.reversed.toList());
       },
       error: (err) {},
     );

@@ -22,7 +22,6 @@ class _CustomRadioLoaiSoHuuState extends State<CustomRadioLoaiSoHuu> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     groupValue = widget.groupValueInit ?? S.current.xe_can_bo;
   }

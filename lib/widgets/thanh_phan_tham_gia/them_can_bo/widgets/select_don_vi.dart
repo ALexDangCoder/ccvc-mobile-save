@@ -19,6 +19,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SelectDonVi extends StatefulWidget {
   final Function(DonViModel) onChange;
   final String? title;
+  final bool  isDonVi;
   final String? hintText;
   final ThanhPhanThamGiaCubit cubit;
   final ThemDonViCubit themDonViCubit;
@@ -32,6 +33,7 @@ class SelectDonVi extends StatefulWidget {
     required this.cubit,
     required this.themDonViCubit,
     this.isRequire = false,
+    required this.isDonVi,
   }) : super(key: key);
 
   @override
@@ -39,14 +41,6 @@ class SelectDonVi extends StatefulWidget {
 }
 
 class _SelectDonViState extends State<SelectDonVi> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    widget.cubit.getTreeDonVi.listen((event) {
-      widget.themDonViCubit.getTreeDonVi(event);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

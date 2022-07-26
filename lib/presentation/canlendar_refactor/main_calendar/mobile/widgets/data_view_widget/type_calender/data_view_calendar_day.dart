@@ -1,8 +1,12 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/calendar.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/appointment_engine/calendar_datasource.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/calendar_controller.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/settings/time_slot_view_settings.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/sfcalendar.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DataViewCalendarDay extends StatefulWidget {
   const DataViewCalendarDay({
@@ -37,17 +41,16 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
+    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
+        .minTime20();
+    super.didUpdateWidget(oldWidget);
+  }
+
   DateTime getOnlyDate(DateTime date) =>
       DateTime(date.year, date.month, date.day);
 
-  @override
-  void didUpdateWidget(covariant DataViewCalendarDay oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkDuplicate();
-    (widget.data.appointments as List<AppointmentWithDuplicate>? ?? [])
-        .checkMore( 4);
-  }
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController
@@ -57,20 +60,24 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: widget.isTablet ?  const EdgeInsets.only(
-        left: 30,
-        right: 30,
-      ) : null ,
-      decoration: widget.isTablet ?  BoxDecoration(
-        color: backgroundColorApp,
-        border:  Border.all(
-          color: borderColor.withOpacity(0.5),
-        )  ,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
-      ) : null ,
+      margin: widget.isTablet
+          ? const EdgeInsets.only(
+              left: 30,
+              right: 30,
+            )
+          : null,
+      decoration: widget.isTablet
+          ? BoxDecoration(
+              color: backgroundColorApp,
+              border: Border.all(
+                color: borderColor.withOpacity(0.5),
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+            )
+          : null,
       child: Stack(
         children: [
           SfCalendar(
@@ -85,37 +92,38 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
             todayHighlightColor: statusCalenderRed,
             appointmentTimeTextFormat: 'hh:mm:ss a',
             dataSource: widget.data,
+            onMoreDayClick: (date , _){
+              widget.onMore?.call(date);
+            },
+            viewHeaderStyle: const ViewHeaderStyle(
+              colorsIcon: colorA2AEBD,
+            ),
+            maxDayItemShow: 4,
             appointmentBuilder: (_, appointmentDetail) {
               final AppointmentWithDuplicate appointment =
                   appointmentDetail.appointments.first;
               if (appointmentDetail.appointments.length > 1) {
-                return const SizedBox();
-              }
-              if (appointment.isMore) {
-                return GestureDetector(
-                  onTap: () {
-                    widget.onMore?.call(appointmentDetail.date);
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: const Icon(
-                      Icons.more_horiz,
-                      color: textBodyTime,
-                    ),
-                  ),
+                return Center(
+                  child: Text('+${appointmentDetail.more}', style: textNormalCustom(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w400,
+                    color: colorA2AEBD,
+                  ),),
                 );
               }
               return widget.buildAppointment(appointment);
             },
           ),
-          if(widget.isTablet) Container(
-            height: 1,
-            color: backgroundColorApp,
-          ),
+          if (widget.isTablet)
+            Container(
+              height: 1,
+              color: backgroundColorApp,
+            ),
         ],
       ),
     );
   }
+
   String expandText(int sum) {
     return '${sum - 3}+';
   }
@@ -135,7 +143,8 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
   DateTime getOnlyDate(DateTime date) =>
       DateTime(date.year, date.month, date.day);
 
-  void checkDuplicate() {
+
+  void minTime20() {
     for (final item in this) {
       final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
       final currentTimeTo = item.endTime.millisecondsSinceEpoch;
@@ -147,74 +156,6 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
           currentTimeTo + 600000,
         );
       }
-      final listDuplicate = where((element) {
-        final startTime = item.startTime.millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isDuplicate = true;
-        }
-      }
     }
-  }
-
-  void checkMore(int maxShow) {
-    final List<AppointmentWithDuplicate> rootListTmp = [];
-    final List<AppointmentWithDuplicate> resultList = [];
-    final List<List<AppointmentWithDuplicate>> checkDuplicate = [];
-    final List<DateTime> endTimeDataTmp = [];
-
-    // remove Appointment full day
-    for (final AppointmentWithDuplicate e in this) {
-      if (getOnlyDate(e.startTime) != getOnlyDate(e.endTime)) {
-        resultList.add(e);
-      } else {
-        rootListTmp.add(e);
-      }
-    }
-    // sort
-    rootListTmp.sort((item1, item2) {
-      return item1.startTime.compareTo(item2.startTime);
-    });
-
-    // group lists no duplicate
-    while (rootListTmp.isNotEmpty) {
-      int? indexAdd;
-      for (int i = 0; i < endTimeDataTmp.length; i++) {
-        if (endTimeDataTmp[i].millisecondsSinceEpoch <=
-            rootListTmp.first.startTime.millisecondsSinceEpoch) {
-          indexAdd = i;
-          break;
-        }
-      }
-      if (indexAdd == null) {
-        checkDuplicate.add([rootListTmp.first]);
-        endTimeDataTmp.add(rootListTmp.first.endTime);
-      } else {
-        endTimeDataTmp[indexAdd] = rootListTmp.first.endTime;
-        checkDuplicate[indexAdd].add(rootListTmp.first);
-      }
-      rootListTmp.remove(rootListTmp.first);
-    }
-
-    for (int i = 0; i < checkDuplicate.length && i < maxShow; i++) {
-      if (i == (maxShow - 1)) {
-        for (final e in checkDuplicate[i]) {
-          e.isMore = true;
-          e.endTime = DateTime.fromMillisecondsSinceEpoch(
-            e.startTime.millisecondsSinceEpoch + 1800000,
-          );
-          resultList.add(e);
-        }
-      } else {
-        resultList.addAll(checkDuplicate[i]);
-      }
-    }
-    clear();
-    addAll(resultList);
   }
 }

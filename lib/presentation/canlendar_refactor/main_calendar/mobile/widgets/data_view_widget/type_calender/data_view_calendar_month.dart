@@ -2,8 +2,12 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/calendar_controller.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/enums.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/settings/month_view_settings.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/settings/view_header_style.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/sfcalendar.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DataViewCalendarMonth extends StatefulWidget {
   const DataViewCalendarMonth({
@@ -38,32 +42,6 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
     super.initState();
   }
 
-  @override
-  void didUpdateWidget(covariant DataViewCalendarMonth oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    checkDuplicate(
-      widget.data.appointments as List<AppointmentWithDuplicate>? ?? [],
-    );
-  }
-
-  void checkDuplicate(List<AppointmentWithDuplicate> list) {
-    for (final item in list) {
-      final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
-      final currentTimeTo = item.endTime.millisecondsSinceEpoch;
-      final listDuplicate = list.where((element) {
-        final startTime = element.startTime.millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isDuplicate = true;
-        }
-      }
-    }
-  }
 
   void setFCalendarListenerWeek() {
     widget.fCalendarController

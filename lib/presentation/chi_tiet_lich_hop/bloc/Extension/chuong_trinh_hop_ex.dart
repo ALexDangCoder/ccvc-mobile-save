@@ -1,19 +1,15 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:intl/intl.dart';
-
-import '../chi_tiet_lich_hop_cubit.dart';
 
 ///Chương Trình họp
 extension ChuongTrinhHop on DetailMeetCalenderCubit {
@@ -27,13 +23,34 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> getDanhSachCuCanBoHop(
+  Future<void> initDanhSachCuCanBo(
     ThanhPhanThamGiaCubit cubitThanhPhanTG,
   ) async {
     showLoading();
+    await getDanhSachCuCanBoHop(cubitThanhPhanTG);
+    showContent();
+  }
+
+  Future<void> getDanhSachCuCanBoHop(
+    ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  ) async {
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
     result.when(
       success: (res) {
+        listTPTG = res
+            .map(
+              (canBo) => DonViModel(
+                id: canBo.id ?? '',
+                donViId: canBo.donViId ?? '',
+                tenDonVi: canBo.tenDonVi ?? '',
+                canBoId: canBo.canBoId ?? '',
+                noidung: canBo.ghiChu ?? '',
+                tenCanBo: canBo.tenCanBo ?? '',
+                tenCoQuan: canBo.tenCoQuan ?? '',
+              ),
+            )
+            .toList();
+
         final List<NguoiChutriModel> data = [];
 
         final donViId =
@@ -43,34 +60,50 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
           (element) => element.donViId == donViId && element.canBoId == null,
           orElse: () => NguoiChutriModel(),
         );
-        data.add(chuTri);
 
-        /// cu can bo
-        data.addAll(res.where((element) => element.parentId == chuTri.id));
+        if ((chuTri.id ?? '').isEmpty) {
+          cubitThanhPhanTG.listCanBoThamGia.add([]);
+        } else {
+          data.add(chuTri);
 
-        listCuCanBoSubject.add(data);
+          /// cu can bo
+          data.addAll(res.where((element) => element.parentId == chuTri.id));
 
-        cubitThanhPhanTG.listCanBo.clear();
-        cubitThanhPhanTG.listCanBo.addAll(
-          data
+          listCuCanBoSubject.add(data);
+
+          cubitThanhPhanTG.listCanBo.clear();
+
+          final List<DonViModel> listCanBo = data
               .map(
-                (e) => DonViModel(
-                  id: e.id ?? '',
-                  donViId: e.donViId ?? '',
-                  tenDonVi: e.tenDonVi ?? '',
-                  canBoId: e.canBoId ?? '',
-                  noidung: e.ghiChu ?? '',
-                  tenCanBo: e.tenCanBo ?? '',
-                  tenCoQuan: e.tenCoQuan ?? '',
+                (canBo) => DonViModel(
+                  id: canBo.id ?? '',
+                  donViId: canBo.donViId ?? '',
+                  tenDonVi: canBo.tenDonVi ?? '',
+                  canBoId: canBo.canBoId ?? '',
+                  noidung: canBo.ghiChu ?? '',
+                  tenCanBo: canBo.tenCanBo ?? '',
+                  tenCoQuan: canBo.tenCoQuan ?? '',
                 ),
               )
-              .toList(),
-        );
-        cubitThanhPhanTG.listCanBoThamGia.sink.add(cubitThanhPhanTG.listCanBo);
+              .toList();
+          cubitThanhPhanTG.listCanBoDuocChon = data
+              .map(
+                (canBo) => DonViModel(
+                  id: canBo.id ?? '',
+                  donViId: canBo.donViId ?? '',
+                  tenDonVi: canBo.tenDonVi ?? '',
+                  canBoId: canBo.canBoId ?? '',
+                  noidung: canBo.ghiChu ?? '',
+                  tenCanBo: canBo.tenCanBo ?? '',
+                  tenCoQuan: canBo.tenCoQuan ?? '',
+                ),
+              )
+              .toList();
+          cubitThanhPhanTG.listCanBoThamGia.add(listCanBo);
+        }
       },
       error: (error) {},
     );
-    showContent();
   }
 
   Future<void> getDanhSachCanBoHop(String id) async {
@@ -110,14 +143,14 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         );
         final listCanBoMoi = canBoDiThay
             .map(
-              (e) => DonViModel(
-                id: e.id ?? '',
-                name: e.hoTen ?? '',
-                tenCanBo: e.tenCanBo ?? '',
-                chucVu: e.chucVu ?? '',
-                canBoId: e.canBoId ?? '',
-                donViId: e.donViId ?? '',
-                tenCoQuan: e.tenCoQuan ?? '',
+              (canBo) => DonViModel(
+                id: canBo.id ?? '',
+                name: canBo.hoTen ?? '',
+                tenCanBo: canBo.tenCanBo ?? '',
+                chucVu: canBo.chucVu ?? '',
+                canBoId: canBo.canBoId ?? '',
+                donViId: canBo.donViId ?? '',
+                tenCoQuan: canBo.tenCoQuan ?? '',
               ),
             )
             .toList();
@@ -156,7 +189,6 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     required String noiDung,
     required String? hoTen,
     required bool isMultipe,
-    required List<File>? file,
   }) async {
     showLoading();
 
@@ -171,7 +203,8 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
       noiDung,
       hoTen ?? '',
       isMultipe,
-      file ?? [],
+      listFile ?? [],
+      filesDelete,
     );
 
     result.when(
@@ -285,5 +318,10 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     await getDanhSachNguoiChuTriPhienHop(idCuocHop);
     await getListPhienHop(idCuocHop);
     showContent();
+  }
+
+  void clearDataChuongTrinhHop() {
+    listFile?.clear();
+    filesDelete.clear();
   }
 }

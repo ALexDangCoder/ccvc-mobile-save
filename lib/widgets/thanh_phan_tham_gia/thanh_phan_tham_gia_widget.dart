@@ -1,20 +1,23 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/people_tham_gia_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/thanh_phan_tham_gia_tao_hop.dart';
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaWidget extends StatefulWidget {
+  final List<CanBoModel> scheduleCoperatives;
   final List<DonViModel>? listPeopleInit;
   final Function(List<DonViModel>) onChange;
   final Function(DonViModel)? onDelete;
@@ -23,17 +26,22 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
   final bool isTaoHop;
   final String noiDungCV;
   final TaoLichHopCubit? cubit;
+  final bool isEditCalendarWord;
+  final ChiTietLichLamViecCubit? chiTietLichLamViecCubit;
 
   const ThanhPhanThamGiaWidget({
     Key? key,
     required this.isPhuongThucNhan,
     required this.onChange,
     required this.phuongThucNhan,
+    this.scheduleCoperatives = const [],
     this.listPeopleInit,
     this.isTaoHop = false,
     this.noiDungCV = '',
     this.cubit,
     this.onDelete,
+    this.isEditCalendarWord = false,
+    this.chiTietLichLamViecCubit,
   }) : super(key: key);
 
   @override
@@ -42,8 +50,6 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   final ThanhPhanThamGiaCubit _cubit = ThanhPhanThamGiaCubit();
-  final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
-  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
 
   @override
   void initState() {
@@ -70,18 +76,19 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         StreamBuilder<List<DonViModel>>(
           stream: _cubit.listPeopleThamGia,
           builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
             return ThemDonViWidget(
               cubit: _cubit,
-              listSelectNode: snapshot.data ?? [],
+              listIdDonViRemove: widget.scheduleCoperatives,
+              listSelectNode: data,
               onChange: (value) {
-                value.forEach((element) {
+                for (final Node<DonViModel> element in value) {
                   element.value.vaiTroThamGia = 1;
                   element.value.type = 2;
                   if (element.value.donViId.isEmpty) {
                     element.value.donViId = element.value.id;
                   }
-                });
-
+                }
                 _cubit.addPeopleThamGiaDonVi(
                   value.map((e) => e.value).toList(),
                 );
@@ -93,7 +100,10 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           height: 16.0.textScale(space: 8),
         ),
         ThemCanBoWidget(
+          chiTietLichLamViecCubit: widget.chiTietLichLamViecCubit,
+          isEditCalendarWork: widget.isEditCalendarWord,
           cubit: _cubit,
+          listCaNhanRemove: widget.scheduleCoperatives,
           onChange: (value) {
             for (final element in value) {
               element.vaiTroThamGia = 2;
@@ -102,8 +112,6 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
             _cubit.addPeopleThamGia(value);
           },
           needCheckTrung: widget.isTaoHop,
-          themCanBoCubit: themCanBoCubit,
-          themDonViCubit: themDonViCubit,
         ),
         SizedBox(
           height: 20.0.textScale(space: -2),
@@ -145,7 +153,10 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 data.length,
                 (index) => Padding(
                   padding: EdgeInsets.symmetric(
-                    vertical: 16.0.textScale(space: -2),
+                    vertical:
+                        data[index].status != StatusOfficersConst.STATUS_THU_HOI
+                            ? 16.0.textScale(space: -2)
+                            : 0,
                   ),
                   child: widget.isTaoHop
                       ? StreamBuilder<bool>(
@@ -162,10 +173,12 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                             );
                           },
                         )
-                      : PeopleThamGiaWidget(
-                          donVi: data[index],
-                          cubit: _cubit,
-                        ),
+                      : !widget.isEditCalendarWord
+                          ? itemListThamGia(data[index])
+                          : data[index].status !=
+                                  StatusOfficersConst.STATUS_THU_HOI
+                              ? itemListThamGia(data[index])
+                              : const SizedBox.shrink(),
                 ),
               ),
             );
@@ -174,4 +187,15 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
       ],
     );
   }
+
+  Widget itemListThamGia(DonViModel donViModel) => PeopleThamGiaWidget(
+        donVi: donViModel,
+        cubit: _cubit,
+        onDelete: (DonViModel donViModel) {
+          if (widget.isEditCalendarWord) {
+            widget.chiTietLichLamViecCubit!.listOfficerSelected
+                .removeWhere((element) => element.userId == donViModel.userId);
+          }
+        },
+      );
 }

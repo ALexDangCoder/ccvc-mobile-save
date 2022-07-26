@@ -22,11 +22,11 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/calendar_controller.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
   CalendarWorkCubit() : super(const CalendarViewState());
@@ -122,7 +122,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       _titleSubject.sink.add(statusType.getTitleWork());
     }
     if (idDonViLanhDao != null) {
-      _statusWorkSubject.sink.add(null );
+      _statusWorkSubject.sink.add(null);
       this.idDonViLanhDao = idDonViLanhDao;
       this.statusType = null;
     }
@@ -201,21 +201,31 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   void checkDuplicate(List<ListLichLVModel> list) {
     for (final item in list) {
-      final currentTimeFrom =
-          getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
-      final currentTimeTo =
-          getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
-      final listDuplicate = list.where((element) {
-        final startTime =
-            getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isTrung = true;
+      if (item.isTrung) {
+        final currentTimeFrom =
+            getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
+        final currentTimeTo =
+            getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
+        final subTimeCurrent = currentTimeTo - currentTimeFrom;
+        for (final element in list) {
+          final startTimeCompare =
+              getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
+          final endTimeCompare =
+              getDate(element.dateTimeTo ?? '').millisecondsSinceEpoch;
+          final listStartEndTime = [
+            currentTimeFrom,
+            currentTimeTo,
+            startTimeCompare,
+            endTimeCompare
+          ];
+          listStartEndTime.sort();
+          final subTimeCompare = endTimeCompare - startTimeCompare;
+          if ((listStartEndTime[0] - listStartEndTime[3]).abs() <
+                  (subTimeCompare + subTimeCurrent) &&
+              item.id != element.id) {
+            element.isTrung = true;
+            item.isTrung = true;
+          }
         }
       }
     }
@@ -317,10 +327,10 @@ extension GetData on CalendarWorkCubit {
     final result = await calendarWorkRepo.getListLichLamViec(data);
     result.when(
       success: (res) {
+        checkDuplicate(res.listLichLVModel ?? []);
         _listCalendarWorkDaySubject.sink.add(res.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(res.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(res.toDataFCalenderSource());
-        checkDuplicate(res.listLichLVModel ?? []);
         _listWorkSubject.sink.add(res.listLichLVModel ?? []);
       },
       error: (error) {},

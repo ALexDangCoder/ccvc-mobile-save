@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
@@ -61,7 +61,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit
         .initDataChiTiet(needCheckPermission: true)
         .then((value) => setState(() {}));
-    cubit.getDanhSachCanBoHop(widget.id);
   }
 
   @override
@@ -352,33 +351,32 @@ PreferredSizeWidget appbarChiTietHop(
       ),
     ),
     actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: StreamBuilder<List<PERMISSION_DETAIL>>(
-            stream: cubit.listButtonSubject.stream,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
-              if(!cubit.trangThaiHuy() &&
-                  data.isNotEmpty) {
-                return MenuSelectWidget(
-                  listSelect: data
-                      .map(
-                        (e) => e.getMenuLichHop(
-                      context,
-                      cubit,
-                      thanhPhanThamGiaCubit,
-                      themCanBoCubit,
-                      themDonViCubit,
-                    ),
-                  )
-                      .toList(),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
-        )
+      Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: StreamBuilder<List<PERMISSION_DETAIL>>(
+          stream: cubit.listButtonSubject.stream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            if (!cubit.trangThaiHuy() && data.isNotEmpty) {
+              return MenuSelectWidget(
+                listSelect: data
+                    .map(
+                      (e) => e.getMenuLichHop(
+                        context,
+                        cubit,
+                        thanhPhanThamGiaCubit,
+                        themCanBoCubit,
+                        themDonViCubit,
+                      ),
+                    )
+                    .toList(),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
+      )
     ],
   );
 }
@@ -408,25 +406,29 @@ List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
           cubit: cubit,
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: PhatBieuWidget(
+      if (!cubit.isTaoHo())
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: PhatBieuWidget(
+            cubit: cubit,
+          ),
+        ),
+      if (!cubit.isTaoHo())
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: BieuQuyetWidget(
+            cubit: cubit,
+          ),
+        ),
+      if (!cubit.isTaoHo())
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: KetLuanHopWidget(
+            cubit: cubit,
+          ),
+        ),
+      if (!cubit.isTaoHo())
+        YKienCuocHopWidget(
           cubit: cubit,
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: BieuQuyetWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: KetLuanHopWidget(
-          cubit: cubit,
-        ),
-      ),
-      YKienCuocHopWidget(
-        cubit: cubit,
-      ),
     ];

@@ -59,6 +59,7 @@ class DonViModel {
   String userId = '';
   String tenCoQuan = '';
   bool isCheck = false;
+  bool? isXoa;
 
   //param sử dụng tại tạo lịch làm việc
   int soLuong = 0;
@@ -84,9 +85,10 @@ class DonViModel {
     this.userId = '',
     this.tenCoQuan = '',
     this.soLuong = 0,
+    this.isXoa,
   });
 
-  NguoiChutriModel convertToNguoiChuTriModel(){
+  NguoiChutriModel convertToNguoiChuTriModel() {
     return NguoiChutriModel(
       id: id,
       tenDonVi: tenDonVi,
@@ -131,6 +133,7 @@ class DonViModel {
       tenDonVi: tenDonVi,
     );
   }
+  DonViModel.empty();
 }
 
 class Node<T> {
@@ -261,6 +264,20 @@ class Node<T> {
       node.addChild(vl.coppyWith());
     }
     return node;
+  }
+
+  Node<T>? removeFirstWhere(bool Function(T element) compare) {
+    if (compare.call(value)) {
+      return null;
+    } else {
+      for (int i = 0; i < children.length; i++) {
+        if (children[i].removeFirstWhere(compare) == null) {
+          children.removeAt(i);
+          break;
+        }
+      }
+      return this;
+    }
   }
 }
 

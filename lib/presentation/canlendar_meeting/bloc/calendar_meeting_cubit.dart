@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/dashboard_thong_ke_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/statistic_by_month_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/thong_ke_linh_vuc.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_gia.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
@@ -29,12 +28,12 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/calendar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   CalendarMeetingCubit() : super( CalendarViewState()) {
@@ -331,7 +330,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
   }
 
-
   Future<void> getCountInDashboard() async {
     final queue = Queue(parallel: 2);
     unawaited(queue.add(() => getCountDashboard()));
@@ -493,10 +491,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     result.when(
       success: (value) {
         if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+          checkDuplicate(value.items ?? []);
           _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
           _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
           _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
-          checkDuplicate(value.items ?? []);
+
           _danhSachLichHopSubject.sink.add(value);
         }
         countLichCanKLCH = value.items?.length ?? 0;
@@ -513,21 +512,31 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   void checkDuplicate(List<ItemDanhSachLichHop> list) {
     for (final item in list) {
-      final currentTimeFrom =
-          getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
-      final currentTimeTo =
-          getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
-      final listDuplicate = list.where((element) {
-        final startTime =
-            getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isTrung = true;
+      if (item.isTrung ?? false) {
+        final currentTimeFrom =
+            getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
+        final currentTimeTo =
+            getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
+        final subTimeCurrent = currentTimeTo - currentTimeFrom;
+        for (final element in list) {
+          final startTimeCompare =
+              getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
+          final endTimeCompare =
+              getDate(element.dateTimeTo ?? '').millisecondsSinceEpoch;
+          final listStartEndTime = [
+            currentTimeFrom,
+            currentTimeTo,
+            startTimeCompare,
+            endTimeCompare
+          ];
+          listStartEndTime.sort();
+          final subTimeCompare = endTimeCompare - startTimeCompare;
+          if ((listStartEndTime[0] - listStartEndTime[3]).abs() <
+              (subTimeCompare + subTimeCurrent) &&
+              item.id != element.id) {
+            element.isTrung = true;
+            item.isTrung = true;
+          }
         }
       }
     }
@@ -620,6 +629,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       startDate: startDate,
       endDate: endDate,
     );
+    getCountInDashboard();
   }
 
   /// lấy số lịch họp trong thời gian
@@ -720,38 +730,6 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     return false;
   }
 
-  double getMax(List<ToChucBoiDonViModel> data) {
-    double value = 0;
-    data.forEach((element) {
-      if ((element.quantities?.toDouble() ?? 0.0) > value) {
-        value = element.quantities?.toDouble() ?? 0.0;
-      }
-    });
-    final double range = value % 10;
-
-    return (value + (10.0 - range)) / 5.0;
-  }
-
-  bool checkDataRateList(List<TiLeThamGiaModel> data) {
-    for (var i in data) {
-      if (i.rate != 0) return true;
-    }
-    return false;
-  }
-
-  double getMaxTiLe(List<TiLeThamGiaModel> data) {
-    double value = 0;
-    data.forEach((element) {
-      if ((element.rate?.toDouble() ?? 0.0) > value) {
-        value = element.rate?.toDouble() ?? 0.0;
-      }
-    });
-
-    final double range = value % 10;
-
-    return (value + (10.0 - range)) / 5.0;
-  }
-
   void changeCalendarDate(DateTime oldDate, DateTime newDate) {
     final currentDate = getOnlyDate(oldDate);
     final dateSelect = getOnlyDate(newDate);
@@ -792,10 +770,4 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     }
   }
 
-  void handleChartPicked({required String id, required String title}) {
-    emitListViewState(type: state.typeView);
-    idThongKe = id;
-    _titleSubject.add(title);
-    getDanhSachThongKe();
-  }
 }

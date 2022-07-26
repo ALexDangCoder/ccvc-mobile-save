@@ -56,7 +56,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
 
   Stream<GetAllFilesIdModel> get getOnlyFileDataStream =>
       getOnlyFileDataSubject.stream;
-
+  BehaviorSubject<bool> isMenuClickedSubject = BehaviorSubject();
   ///item dang ky bien so xe
   String? xeMay;
 
@@ -70,6 +70,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   Stream<GetAllFilesIdModel> get fileBienSoXeStream =>
       fileBienSoXeSubject.stream;
 
+  BehaviorSubject<bool> isShowErrLoaiXe = BehaviorSubject.seeded(false);
   ///dang ky bien so xe
   BehaviorSubject<List<LoaiXeModel>> loaiXeSubject = BehaviorSubject.seeded(
     [

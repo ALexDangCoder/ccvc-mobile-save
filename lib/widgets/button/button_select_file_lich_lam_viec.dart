@@ -36,6 +36,7 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
   final List<String>? allowedExtensions;
   List<File>? initFileSystem;
   final String errMultipleFileMessage;
+  final String? errOverSizeMessage;
 
   ButtonSelectFileLichLamViec({
     Key? key,
@@ -56,6 +57,7 @@ class ButtonSelectFileLichLamViec extends StatefulWidget {
     this.allowedExtensions,
     this.initFileSystem,
     this.errMultipleFileMessage = '',
+    this.errOverSizeMessage,
   }) : super(key: key);
 
   @override
@@ -109,7 +111,8 @@ class _ButtonSelectFileLichLamViecState
     setState(() {
       isShowErr = total > widget.maxSize!;
       if(isShowErr){
-        errMessage = '${S.current.tong_file_khong_vuot_qua} $convertData MB';
+        errMessage = widget.errOverSizeMessage ??
+            '${S.current.tong_file_khong_vuot_qua} $convertData MB';
       }
       total = 0;
     });

@@ -10,10 +10,11 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
@@ -63,7 +64,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Container(
-          height: 750,
+          height: 700,
           clipBehavior: Clip.hardEdge,
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -129,7 +130,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_ten_thiet_bi;
                                   }
                                 },
                               ),
@@ -150,7 +151,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_so_dien_thoai_lien_he;
                                   } else {
                                     return null;
                                   }
@@ -161,15 +162,15 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 initValue: data.moTaSuCo,
                                 isHightLight: true,
                                 maxLine: 3,
-                                title: S.current.nhap_mo_ta,
-                                hintText: S.current.nhap_mo_ta,
+                                title: S.current.mo_ta_su_co,
+                                hintText: S.current.nhap_mo_ta_su_co,
                                 onChange: (value) {
                                   widget.cubit.editTaskHTKTRequest.description =
                                       value;
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_mo_ta_su_co;
                                   }
                                 },
                               ),
@@ -194,7 +195,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 },
                                 validate: (value) {
                                   if ((value ?? '').isEmpty) {
-                                    return S.current.khong_duoc_de_trong;
+                                    return S.current.ban_phai_nhap_truong_so_phong;
                                   }
                                 },
                               ),
@@ -202,6 +203,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                               _multiSelect(),
                               spaceH16,
                               TaiLieuWidget(
+                                isHaveExpanded: true,
                                 files: widget
                                     .cubit.editModelHTKT.value.filesDinhKem
                                     ?.map(
@@ -278,7 +280,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                 ? Padding(
                     padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                     child: Text(
-                      S.current.khong_duoc_de_trong,
+                      S.current.ban_phai_nhap_truong_loai_su_co,
                       style: textNormalCustom(
                         color: redChart,
                         fontWeight: FontWeight.w400,
@@ -420,13 +422,37 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
               widget.cubit.validateAllDropDown) {
             widget.cubit
                 .postEditHTKT()
-                .then((value) => value ? Navigator.pop(context) : null);
+                .then((value) {
+              if(value){
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.luu_du_lieu_thanh_cong,
+                    icon: ImageAssets.icSucces,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+                Navigator.pop(context);
+              } else {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.thay_doi_that_bai,
+                    icon: ImageAssets.icError,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+              }
+            });
           } else {
             final toast = FToast();
             toast.init(context);
             toast.showToast(
               child: ShowToast(
                 text: S.current.sai_dinh_dang_truong,
+                icon: ImageAssets.icError,
               ),
               gravity: ToastGravity.BOTTOM,
             );

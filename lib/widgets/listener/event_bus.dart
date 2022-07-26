@@ -15,6 +15,11 @@ class FireTopic {
   FireTopic(this.topic);
 }
 
+class ApiSuccessAttendance {
+  final bool update;
+  ApiSuccessAttendance(this.update);
+}
+
 class RefreshCalendar {
   RefreshCalendar();
 }

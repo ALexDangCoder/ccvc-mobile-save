@@ -72,7 +72,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                 closeKey();
               },
               child: Container(
-                height: 750,
+                height: 700,
                 padding:
                     EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 clipBehavior: Clip.hardEdge,

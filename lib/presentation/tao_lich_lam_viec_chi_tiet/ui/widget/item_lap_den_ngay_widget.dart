@@ -6,19 +6,21 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ItemLapDenNgayWidget extends StatefulWidget {
-  final CreateWorkCalCubit taoLichLamViecCubit;
-  final bool isThem;
+  final CreateWorkCalCubit createCubit;
+  final bool createWorkCalendar;
   final DateTime? initDate;
 
   const ItemLapDenNgayWidget({
     Key? key,
-    required this.taoLichLamViecCubit,
-    required this.isThem,
+    required this.createCubit,
+    required this.createWorkCalendar,
     this.initDate,
   }) : super(key: key);
 
@@ -34,179 +36,72 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
   @override
   void initState() {
     super.initState();
-    widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-        widget.initDate ?? DateTime.now();
+    widget.createCubit.dateTimeLapDenNgay = widget.initDate ?? DateTime.now();
   }
 
   @override
   void didUpdateWidget(covariant ItemLapDenNgayWidget oldWidget) {
-    widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-        widget.initDate ?? DateTime.now();
+    widget.createCubit.dateTimeLapDenNgay = widget.initDate ?? DateTime.now();
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.isThem
-        ? Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 30),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      S.current.lap_den_ngay,
-                      style: textNormal(color3D5586, 16.0),
+    return ExpandGroup(
+      child: ExpandOnlyWidget(
+        paddingTop: 5,
+        header: Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.current.lap_den_ngay,
+                style: textNormal(color3D5586, 16.0),
+              ),
+              StreamBuilder<DateTime>(
+                stream: widget.createCubit.changeDateTimeSubject.stream,
+                builder: (context, snapshot) {
+                  return Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Text(
+                          widget.createCubit.dateTimeLapDenNgay
+                              .toStringWithListFormat,
+                          style: textNormal(color3D5586, 16.0),
+                        ),
+                        spaceW10,
+                      ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        isShowDatePicker = !isShowDatePicker;
-                        setState(() {});
-                      },
-                      child: StreamBuilder<DateTime>(
-                        stream: widget
-                            .taoLichLamViecCubit.changeDateTimeSubject.stream,
-                        builder: (context, snapshot) {
-                          return Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.taoLichLamViecCubit.dateTimeLapDenNgay
-                                      .toStringWithListFormat,
-                                  style: textNormal(color3D5586, 16.0),
-                                ),
-                                spaceW10,
-                                RotatedBox(
-                                  quarterTurns: isShowDatePicker ? 2 : 0,
-                                  child: SvgPicture.asset(
-                                    ImageAssets.icDropDown,
-                                    color: colorA2AEBD,
-                                  ),
-                                ),
-                                spaceW6,
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                spaceH10,
-                AnimatedContainer(
-                  duration: const Duration(
-                    milliseconds: 300,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        child: SizedBox(
+          height: 300,
+          child: FlutterRoundedCupertinoDatePickerWidget(
+            minimumDate: widget.createWorkCalendar
+                ? widget.initDate
+                : DateTime.parse(
+                    widget.createCubit.dateTimeFrom ??
+                        DateTime.now().toString(),
                   ),
-                  height: isShowDatePicker ? 300 : 1,
-                  child: isShowDatePicker
-                      ? FlutterRoundedCupertinoDatePickerWidget(
-                          minimumDate: widget.initDate,
-                          textStyleDate: textNormal(color3D5586, 16),
-                          initialDateTime: widget.initDate,
-                          onDateTimeChanged: (value) {
-                            deboucer.run(() {
-                              widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-                                  value;
-                              widget.taoLichLamViecCubit.changeDateTimeSubject
-                                  .add(value);
-                              //setState(() {});
-                            });
-                          },
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                Visibility(
-                  visible: !isShowDatePicker,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 11),
-                    height: 1,
-                    color: colorA2AEBD.withOpacity(0.1),
-                  ),
-                ),
-              ],
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 30),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      S.current.lap_den_ngay,
-                      style: textNormal(color3D5586, 16.0),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        isShowDatePicker = !isShowDatePicker;
-                        setState(() {});
-                      },
-                      child: StreamBuilder<DateTime>(
-                        stream: widget
-                            .taoLichLamViecCubit.changeDateTimeSubject.stream,
-                        builder: (context, snapshot) {
-                          return Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.taoLichLamViecCubit.dateTimeLapDenNgay
-                                      .toStringWithListFormat,
-                                  style: textNormal(color3D5586, 16.0),
-                                ),
-                                spaceW10,
-                                RotatedBox(
-                                  quarterTurns: isShowDatePicker ? 2 : 0,
-                                  child: SvgPicture.asset(
-                                    ImageAssets.icDropDown,
-                                    color: colorA2AEBD,
-                                  ),
-                                ),
-                                spaceW6,
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                AnimatedContainer(
-                  duration: const Duration(
-                    milliseconds: 300,
-                  ),
-                  height: isShowDatePicker ? 200 : 1,
-                  child: isShowDatePicker
-                      ? FlutterRoundedCupertinoDatePickerWidget(
-                          textStyleDate: textNormal(color3D5586, 16),
-                          minimumDate:
-                              widget.taoLichLamViecCubit.dateTimeLapDenNgay,
-                          initialDateTime:
-                              widget.taoLichLamViecCubit.dateTimeLapDenNgay,
-                          onDateTimeChanged: (value) {
-                            deboucer.run(() {
-                              widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-                                  value;
-                              widget.taoLichLamViecCubit.changeDateTimeSubject
-                                  .add(value);
-                            });
-                          },
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                Visibility(
-                  visible: !isShowDatePicker,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 11),
-                    height: 1,
-                    color: colorA2AEBD.withOpacity(0.1),
-                  ),
-                ),
-              ],
-            ),
-          );
+            textStyleDate: textNormal(color3D5586, 16),
+            initialDateTime: widget.createWorkCalendar
+                ? widget.initDate
+                : widget.createCubit.dateTimeLapDenNgay,
+            onDateTimeChanged: (value) {
+              deboucer.run(() {
+                widget.createCubit.dateTimeLapDenNgay = value;
+                widget.createCubit.changeDateTimeSubject.add(value);
+              });
+            },
+          ),
+        ),
+      ),
+    );
   }
 }

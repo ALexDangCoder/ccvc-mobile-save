@@ -69,10 +69,8 @@ class _SelectCanBoState extends State<SelectCanBo> {
             isMobile()
                 ? showBottomSheetCustom<List<DonViModel>>(
                     context,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.8,
-                      ),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
                       child: FollowKeyBoardWidget(
                         bottomWidget: Padding(
                           padding: const EdgeInsets.only(
@@ -97,86 +95,66 @@ class _SelectCanBoState extends State<SelectCanBo> {
                             },
                           ),
                         ),
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.8,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                spaceH16,
-                                BaseSearchBar(
-                                  hintText: S.current.tim_kiem_can_bo,
-                                  onChange: (value) {
-                                    widget.themCanBoCubit.search(value);
-                                  },
-                                ),
-                                spaceH16,
-                                BlocBuilder<ThemCanBoCubit, ThemCanBoState>(
-                                  bloc: widget.themCanBoCubit,
-                                  builder: (context, state) {
-                                    return ModalProgressHUD(
-                                      inAsyncCall: state is Loading,
-                                      color: Colors.transparent,
-                                      progressIndicator:
-                                          const CupertinoLoading(),
-                                      child: StreamBuilder<List<DonViModel>>(
-                                        stream: widget.themCanBoCubit.getCanbo,
-                                        builder: (context, snapshot) {
-                                          final data =
-                                              snapshot.data ?? <DonViModel>[];
-                                          if (data.isNotEmpty) {
-                                            return ListView(
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              keyboardDismissBehavior: isMobile()
-                                                  ? ScrollViewKeyboardDismissBehavior
-                                                      .onDrag
-                                                  : ScrollViewKeyboardDismissBehavior
-                                                      .manual,
-                                              children: List.generate(
-                                                data.length,
-                                                (index) {
-                                                  final result = data[index];
-                                                  return Padding(
-                                                    padding: EdgeInsets.only(
-                                                      top: index == 0 ? 0 : 16,
-                                                    ),
-                                                    child: itemCanBo(
-                                                      onCheckBox:
-                                                          (value) async {
-                                                        widget.themCanBoCubit
-                                                            .addDataList(index);
-                                                      },
-                                                      canBoModel: result,
-                                                      themCanBoCubit:
-                                                          widget.themCanBoCubit,
-                                                      onChange: (value) {
-                                                        widget.themCanBoCubit
-                                                            .donViModel = value;
-                                                      },
-                                                      isCheck:
-                                                          data[index].isCheck,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            );
-                                          }
-                                          return Column(
-                                            children: const [
-                                              SizedBox(
-                                                height: 30,
-                                              ),
-                                              NodataWidget(),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              spaceH16,
+                              BaseSearchBar(
+                                hintText: S.current.tim_kiem_can_bo,
+                                onChange: (value) {
+                                  widget.themCanBoCubit.search(value);
+                                },
+                              ),
+                              spaceH16,
+                              BlocBuilder<ThemCanBoCubit, ThemCanBoState>(
+                                bloc: widget.themCanBoCubit,
+                                builder: (context, state) {
+                                  return StreamBuilder<List<DonViModel>>(
+                                    stream:
+                                        widget.themCanBoCubit.getCanboStream,
+                                    builder: (context, snapshot) {
+                                      final data =
+                                          snapshot.data ?? <DonViModel>[];
+                                      if (data.isNotEmpty) {
+                                        return Column(
+                                          children: List.generate(
+                                            data.length,
+                                            (index) {
+                                              final result = data[index];
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: index == 0 ? 0 : 16,
+                                                ),
+                                                child: itemCanBo(
+                                                  onCheckBox: (value) async {
+                                                    widget.themCanBoCubit
+                                                        .addDataList(index);
+                                                  },
+                                                  canBoModel: result,
+                                                  themCanBoCubit:
+                                                      widget.themCanBoCubit,
+                                                  onChange: (value) {
+                                                    widget.themCanBoCubit
+                                                        .donViModel = value;
+                                                  },
+                                                  isCheck: data[index].isCheck,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.8,
+                                        child: const NodataWidget(),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -361,21 +339,28 @@ class _SelectCanBoState extends State<SelectCanBo> {
         children: [
           Row(
             children: [
-              CustomCheckBox(
-                key: UniqueKey(),
-                title: '',
-                onChange: (isCheck) {
-                  onCheckBox(!isCheck);
-                  onChange(canBoModel);
-                },
-                isCheck: isCheck,
+              Expanded(
+                child: CustomCheckBox(
+                  key: UniqueKey(),
+                  title: '',
+                  onChange: (isCheck) {
+                    onCheckBox(!isCheck);
+                    onChange(canBoModel);
+                  },
+                  isCheck: isCheck,
+                ),
               ),
               spaceW10,
-              Text(
-                canBoModel.name,
-                style: textNormalCustom(
-                  color: color3D5586,
-                  fontSize: 14.0.textScale(),
+              Expanded(
+                flex: 9,
+                child: Text(
+                  canBoModel.name,
+                  style: textNormalCustom(
+                    color: color3D5586,
+                    fontSize: 14.0.textScale(),
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               )
             ],

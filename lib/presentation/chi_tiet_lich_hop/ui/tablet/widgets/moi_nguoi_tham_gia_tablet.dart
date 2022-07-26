@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
@@ -32,7 +33,8 @@ class ThanhPhanThamGiaWidgetTablet extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetTabletState
     extends State<ThanhPhanThamGiaWidgetTablet> {
-  final thanhPhanThamGiaCubit =  ThanhPhanThamGiaHopCubit();
+  final thanhPhanThamGiaCubit = ThanhPhanThamGiaHopCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -43,6 +45,7 @@ class _ThanhPhanThamGiaWidgetTabletState
       thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
     }
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -89,7 +92,8 @@ class _ThanhPhanThamGiaWidgetTabletState
                     if (thanhPhanThamGiaCubit.diemDanhIds.isEmpty) {
                       MessageConfig.show(
                         title: S.current.ban_chua_chon_nguoi_diem_danh,
-                        messState: MessState.error,);
+                        messState: MessState.error,
+                      );
                       return;
                     }
                     thanhPhanThamGiaCubit.postDiemDanh();
@@ -161,8 +165,11 @@ class _ThanhPhanThamGiaWidgetTabletState
                     return CellThanhPhanThamGia(
                       cubit: thanhPhanThamGiaCubit,
                       infoModel: _list[index],
+                      diemDanh:
+                          widget.cubit.isChuTri() || widget.cubit.isThuKy(),
                       ontap: () {
-                        thanhPhanThamGiaCubit.postHuyDiemDanh(_list[index].id ?? '');
+                        thanhPhanThamGiaCubit
+                            .postHuyDiemDanh(_list[index].id ?? '');
                       },
                     );
                   },

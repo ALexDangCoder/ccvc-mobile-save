@@ -37,7 +37,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
+    widget.cubit.getDanhSachThuHoiLichHop(widget.cubit.idCuocHop);
   }
 
   @override

@@ -31,6 +31,8 @@ class CupertinoMaterialPicker extends StatefulWidget {
     required this.validateTime,
     this.isAllDay = false,
     this.cubit,
+    this.timeStartConfigSystem,
+    this.timeEndConfigSystem,
   }) : super(key: key);
 
   final bool isAddMargin;
@@ -43,6 +45,8 @@ class CupertinoMaterialPicker extends StatefulWidget {
   final DateTime? initTimeEnd;
   final DateTime? initDateStart;
   final DateTime? initDateEnd;
+  final String? timeStartConfigSystem;
+  final String? timeEndConfigSystem;
   final Function(
     String timeStart,
     String timeEnd,
@@ -67,6 +71,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   void initState() {
     super.initState();
     _cubit = widget.cubit ?? DateTimeCupertinoCustomCubit();
+    _cubit.timeStartConfigSystem = widget.timeStartConfigSystem ?? '00:00';
+    _cubit.timeEndConfigSystem = widget.timeEndConfigSystem ?? '00:00';
     debouncer = Debouncer();
     initData(widget.isEdit);
   }
@@ -97,6 +103,8 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
 
   @override
   void didUpdateWidget(covariant CupertinoMaterialPicker oldWidget) {
+    _cubit.timeStartConfigSystem = widget.timeStartConfigSystem ?? '00:00';
+    _cubit.timeEndConfigSystem = widget.timeEndConfigSystem ?? '00:00';
     super.didUpdateWidget(oldWidget);
   }
 
@@ -478,7 +486,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                       return CustomSwitch(
                         value: isChecked,
                         onToggle: (bool value) {
-                          _cubit.handleSwitchButtonPressed(isChecked: value);
+                          _cubit.handleSwitchButtonPressed(isToggled: value);
                           widget.onSwitchPressed?.call(value);
                           if (value) {
                             _cubit.setTypePickerStart(
@@ -512,6 +520,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
       keyExpandedEnd.currentState?.expandGesture();
+      if (keyExpandedBegin.currentState!.isExpandedGroup) {
+        keyExpandedBegin.currentState?.collapseGesture();
+      }
     }
     _cubit.setTypePickerEnd(type);
   }
@@ -522,6 +533,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
       keyExpandedBegin.currentState?.expandGesture();
+      if (keyExpandedEnd.currentState!.isExpandedGroup) {
+        keyExpandedEnd.currentState?.collapseGesture();
+      }
     }
     _cubit.setTypePickerStart(type);
   }
@@ -549,6 +563,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedEnd.currentState?.collapseGesture();
     } else {
       keyExpandedEnd.currentState?.expandGesture();
+      if (keyExpandedBegin.currentState!.isExpandedGroup) {
+        keyExpandedBegin.currentState?.collapseGesture();
+      }
     }
     _cubit.setTypePickerEnd(type);
   }
@@ -559,12 +576,15 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       keyExpandedBegin.currentState?.collapseGesture();
     } else {
       keyExpandedBegin.currentState?.expandGesture();
+      if (keyExpandedEnd.currentState!.isExpandedGroup) {
+        keyExpandedEnd.currentState?.collapseGesture();
+      }
     }
     _cubit.setTypePickerStart(type);
   }
 }
 
 String timeFormat(String time, String oldPattern, String newPattern) {
-  if(time == '') return '';
+  if (time == '') return '';
   return DateFormat(newPattern).format(DateFormat(oldPattern).parse(time));
 }

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -10,15 +11,16 @@ import 'package:rxdart/rxdart.dart';
 
 class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   List<DonViModel> listSelectCanBo = [];
+  final List<CanBoModel> listCaNhanRemove = [];
   DonViModel donViModel = DonViModel();
   List<DonViModel> listCanBo = [];
   BehaviorSubject<String> titleCanBo = BehaviorSubject();
 
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
-  final BehaviorSubject<List<DonViModel>> _getCanbo =
+  final BehaviorSubject<List<DonViModel>> getCanbo =
       BehaviorSubject<List<DonViModel>>();
 
-  Stream<List<DonViModel>> get getCanbo => _getCanbo.stream;
+  Stream<List<DonViModel>> get getCanboStream => getCanbo.stream;
 
   ThemCanBoCubit() : super(MainStateInitial());
 
@@ -32,7 +34,19 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     result.when(
       success: (res) {
         listCanBo = res;
-        _getCanbo.sink.add(listCanBo);
+        listCanBo.removeWhere(
+          (element) {
+            final a = listCaNhanRemove
+                .where(
+                  (e) =>
+              (e.canBoId ?? '').toLowerCase() ==
+                  element.userId.toLowerCase(),
+            )
+                .isNotEmpty;
+            return a;
+          },
+        );
+        getCanbo.sink.add(listCanBo);
       },
       error: (err) {},
     );
@@ -45,7 +59,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     }
     listCanBo[index].isCheck = true;
     titleCanBo.sink.add(listCanBo[index].tenCanBo);
-    _getCanbo.sink.add(listCanBo);
+    getCanbo.sink.add(listCanBo);
   }
 
   HopRepository get hopRepo => Get.find();
@@ -89,6 +103,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
       listSelectCanBo.remove(canBoModel);
     }
   }
+
   void search(String text) {
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(DonViModel canBo) {
@@ -98,10 +113,10 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     }
 
     final vl = listCanBo.where((element) => isListCanBo(element)).toList();
-    _getCanbo.sink.add(vl);
+    getCanbo.sink.add(vl);
   }
 
   void dispose() {
-    _getCanbo.close();
+    getCanbo.close();
   }
 }

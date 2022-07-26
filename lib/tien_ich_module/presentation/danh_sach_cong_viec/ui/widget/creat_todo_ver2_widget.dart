@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/button/button_select_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
@@ -23,15 +24,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class CreatTodoOrUpdateWidget extends StatefulWidget {
   final bool? isCreate;
   final TodoDSCVModel? todo;
   final DanhSachCongViecTienIchCubit cubit;
 
-  const CreatTodoOrUpdateWidget(
-      {Key? key, required this.cubit, this.todo, this.isCreate})
-      : super(key: key);
+  const CreatTodoOrUpdateWidget({
+    Key? key,
+    required this.cubit,
+    this.todo,
+    this.isCreate,
+  }) : super(key: key);
 
   @override
   _CreatTodoOrUpdateWidgetState createState() =>
@@ -47,11 +52,14 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   @override
   void initState() {
     // TODO: implement initState
+    widget.cubit.dateChange =
+        DateTime.parse(widget.todo?.finishDay ?? DateTime.now().toString())
+            .formatApi;
     widget.cubit.titleChange = widget.todo?.label ?? '';
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
-    nameFileSelect = '';
+    nameFileSelect = widget.todo?.filePath ?? '';
   }
 
   @override
@@ -88,6 +96,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
               );
             } else {
               widget.cubit.editWork(
+                isDeleteFile: nameFileSelect.isEmpty,
                 todo: widget.todo ?? TodoDSCVModel(),
                 filePathTodo: nameFileSelect,
               );
@@ -134,14 +143,16 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                 InputInfoUserWidget(
                   title: S.current.ngay_hoan_thanh,
                   child: SelectDateDSCV(
+                    initDateTime:
+                        (widget.todo?.finishDay ?? DateTime.now().toString())
+                            .convertStringToDate(
+                      formatPattern: DateFormatApp.dateTimeBackEnd,
+                    ),
                     leadingIcon: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: SvgPicture.asset(ImageAssets.icCalendar),
                     ),
-                    key: UniqueKey(),
-                    value: widget.cubit.dateChange.isEmpty
-                        ? widget.todo?.finishDay ?? DateTime.now().toString()
-                        : widget.cubit.dateChange,
+                    value: widget.cubit.dateChange,
                     onSelectDate: (value) {
                       widget.cubit.dateChange = value;
                     },
@@ -262,20 +273,8 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                       return FileFromAPIWidget(
                         data: data?.split('/').toList().last ?? '',
                         onTapDelete: () {
-                          if (widget.isCreate ?? true) {
-                            nameFileSelect = '';
-                            widget.cubit.nameFile.sink.add('');
-                            return;
-                          }
-                          widget.cubit
-                              .editWork(
-                                isDeleteFile: true,
-                                todo: widget.todo ?? TodoDSCVModel(),
-                                filePathTodo: '',
-                              )
-                              .then(
-                                (value) => widget.cubit.nameFile.sink.add(''),
-                              );
+                          nameFileSelect = '';
+                          widget.cubit.nameFile.sink.add('');
                         },
                       );
                     }

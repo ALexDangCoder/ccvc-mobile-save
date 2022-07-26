@@ -15,11 +15,21 @@ enum TypePickerDateTime { DATE_START, DATE_END, TIME_START, TIME_END }
 
 class DateTimeCupertinoCustomCubit
     extends BaseCubit<DateTimeCupertinoCustomState> {
-  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial()) {
-    getTimeConfig();
-  }
+  DateTimeCupertinoCustomCubit() : super(DateTimeCupertinoCustomInitial());
 
-  BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject();
+  BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject.seeded(
+    false,
+  );
+
+  bool get allDayValue => isSwitchBtnCheckedSubject.value;
+
+  String? get timeTo => timeEndSubject.valueOrNull;
+
+  String? get timeFrom => timeBeginSubject.valueOrNull;
+
+  String? get dateToValue => dateEndSubject.valueOrNull;
+
+  String? get dateFromValue => dateBeginSubject.valueOrNull;
   BehaviorSubject<String> timeBeginSubject = BehaviorSubject();
   BehaviorSubject<String> dateBeginSubject = BehaviorSubject();
   BehaviorSubject<String> timeEndSubject = BehaviorSubject();
@@ -39,31 +49,20 @@ class DateTimeCupertinoCustomCubit
   String dateFromTmp = INIT_DATE_PICK;
   String dateToTmp = INIT_DATE_PICK;
   String timeToTmp = INIT_TIME_PICK;
-  String timeStartConfigSystem = '00:00';
-  String timeEndConfigSystem = '00:00';
 
   CalendarWorkRepository get calendarRepo => Get.find();
+  late String timeStartConfigSystem;
+  late String timeEndConfigSystem;
 
-  Future<void> getTimeConfig() async {
-    final result = await calendarRepo.getConfigTime();
-    result.when(
-      success: (res) {
-        timeStartConfigSystem = res.timeStart ?? '00:00';
-        timeEndConfigSystem = res.timeEnd ?? '00:00';
-      },
-      error: (error) {},
-    );
-  }
-
-  void handleSwitchButtonPressed({required bool isChecked}) {
+  void handleSwitchButtonPressed({required bool isToggled}) {
     if (isShowBeginPickerSubject.value) {
       isShowBeginPickerSubject.sink.add(false);
     }
     if (isShowEndPickerSubject.value) {
       isShowEndPickerSubject.sink.add(false);
     }
-    isSwitchBtnCheckedSubject.sink.add(isChecked);
-    if (isChecked) {
+    isSwitchBtnCheckedSubject.sink.add(isToggled);
+    if (isToggled) {
       dateBeginSubject.sink
           .add(DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date));
       dateEndSubject.sink.add(
@@ -124,7 +123,7 @@ class DateTimeCupertinoCustomCubit
         dateFromTmp =
             timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
         dateBeginSubject.sink.add(dateFromTmp);
-        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
+        if (!allDayValue) {
           dateToTmp = dateFromTmp;
           dateEndSubject.sink.add(dateFromTmp);
         }
@@ -132,7 +131,7 @@ class DateTimeCupertinoCustomCubit
       case TypePickerDateTime.DATE_END:
         dateToTmp = timeSelected.dateTimeFormatter(pattern: DateFormatApp.date);
         dateEndSubject.sink.add(dateToTmp);
-        if (!(isSwitchBtnCheckedSubject.valueOrNull ?? true)) {
+        if (!allDayValue) {
           dateFromTmp = dateToTmp;
           dateBeginSubject.sink.add(dateToTmp);
         }
@@ -152,14 +151,14 @@ class DateTimeCupertinoCustomCubit
             timeEndSubject.value != INIT_TIME_PICK) {
           final begin = DateTime.parse(
             timeFormat(
-              '${dateBeginSubject.valueOrNull} ${timeBeginSubject.valueOrNull}',
+              '$dateFromValue $timeFrom',
               DateTimeFormat.DATE_TIME_PICKER,
               DateTimeFormat.DATE_TIME_PUT_EDIT,
             ),
           );
           final end = DateTime.parse(
             timeFormat(
-              '${dateEndSubject.valueOrNull} ${timeEndSubject.valueOrNull}',
+              '$dateToValue $timeTo',
               DateTimeFormat.DATE_TIME_PICKER,
               DateTimeFormat.DATE_TIME_PUT_EDIT,
             ),

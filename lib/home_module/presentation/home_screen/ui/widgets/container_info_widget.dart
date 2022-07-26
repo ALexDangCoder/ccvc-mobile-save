@@ -12,6 +12,7 @@ class ContainerInfoWidget extends StatelessWidget {
   final String status;
   final Color? colorStatus;
   final bool backGroundStatus;
+  final bool? nonStatus;
   final String status2;
   final Color? colorStatus2;
   final bool backGroundStatus2;
@@ -27,6 +28,7 @@ class ContainerInfoWidget extends StatelessWidget {
     this.backGroundStatus = false,
     this.status2 = '',
     this.colorStatus2,
+    this.nonStatus = false,
     this.backGroundStatus2 = false,
     this.choTrinhKy = false,
     this.trichYeu = '',
@@ -80,6 +82,7 @@ class ContainerInfoWidget extends StatelessWidget {
             height: 12,
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(listData.length, (index) {
               final data = listData[index];
               return Padding(
@@ -89,11 +92,15 @@ class ContainerInfoWidget extends StatelessWidget {
                     if (data.urlIcon.isEmpty)
                       const SizedBox()
                     else
-                      SvgPicture.asset(data.urlIcon),
+                      SvgPicture.asset(
+                        data.urlIcon,
+                        width: 16,
+                        height: 16,
+                      ),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Text(
-                        '${data.key}: ${data.value}',
+                        '${data.key}: ${data.value}'.trim(),
                         style: textNormal(infoColor, 14.0.textScale()),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -104,57 +111,66 @@ class ContainerInfoWidget extends StatelessWidget {
               );
             }),
           ),
-          Row(
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 28, top: backGroundStatus ? 4 : 0),
-                child: Container(
-                  padding: !backGroundStatus
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: backGroundStatus ? colorStatus : Colors.transparent,
-                    borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  ),
-                  child: Text(
-                    status,
-                    style: textNormalCustom(
+          if (!(nonStatus ?? false))
+            Row(
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: 28, top: backGroundStatus ? 4 : 0),
+                  child: Container(
+                    padding: !backGroundStatus
+                        ? EdgeInsets.zero
+                        : const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 5,
+                          ),
+                    decoration: BoxDecoration(
                       color:
-                          backGroundStatus ? backgroundColorApp : colorStatus,
-                      fontSize: backGroundStatus
-                          ? 12.0.textScale()
-                          : 14.0.textScale(),
+                          backGroundStatus ? colorStatus : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: Text(
+                      status,
+                      style: textNormalCustom(
+                        color:
+                            backGroundStatus ? backgroundColorApp : colorStatus,
+                        fontSize: backGroundStatus
+                            ? 12.0.textScale()
+                            : 14.0.textScale(),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 10, top: backGroundStatus2 ? 4 : 0),
-                child: Container(
-                  padding: !backGroundStatus2
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    color:
-                        backGroundStatus2 ? colorStatus2 : Colors.transparent,
-                    borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  ),
-                  child: Text(
-                    status2,
-                    style: textNormalCustom(
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: 10, top: backGroundStatus2 ? 4 : 0),
+                  child: Container(
+                    padding: !backGroundStatus2
+                        ? EdgeInsets.zero
+                        : const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 5,
+                          ),
+                    decoration: BoxDecoration(
                       color:
-                          backGroundStatus2 ? backgroundColorApp : colorStatus2,
-                      fontSize: backGroundStatus2
-                          ? 12.0.textScale()
-                          : 14.0.textScale(),
+                          backGroundStatus2 ? colorStatus2 : Colors.transparent,
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: Text(
+                      status2,
+                      style: textNormalCustom(
+                        color: backGroundStatus2
+                            ? backgroundColorApp
+                            : colorStatus2,
+                        fontSize: backGroundStatus2
+                            ? 12.0.textScale()
+                            : 14.0.textScale(),
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
-          )
+                )
+              ],
+            )
         ],
       ),
     );

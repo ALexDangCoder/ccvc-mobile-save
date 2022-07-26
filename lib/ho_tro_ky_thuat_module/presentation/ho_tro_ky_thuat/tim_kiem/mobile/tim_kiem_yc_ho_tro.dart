@@ -311,8 +311,6 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                             FormInputBase(
                                               hintText: S.current.so_phong,
                                               initText: cubit.room ?? '',
-                                              textInputType:
-                                                  TextInputType.number,
                                               isClose: true,
                                               onChange: (value) {
                                                 cubit.onChangeRoom(value);

@@ -44,7 +44,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
     super.initState();
     widget.cubit.toast.init(context);
     widget.cubit.loaiSoHuu = DanhSachBienSoXeConst.XE_CAN_BO;
-    widget.cubit.xeMay = DanhSachBienSoXeConst.XE_MAY;
+    widget.cubit.xeMay = '';
+    widget.cubit.isShowErrLoaiXe.add(false);
   }
 
   @override
@@ -79,6 +80,11 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                 onClickRight: () async {
                   final bool isFormValidated =
                       keyGroup.currentState?.validator() ?? false;
+                  if (widget.cubit.xeMay?.isEmpty ?? true) {
+                    widget.cubit.isShowErrLoaiXe.add(true);
+                    return;
+                  }
+                  widget.cubit.isShowErrLoaiXe.add(false);
                   if (isFormValidated) {
                     await postDangKyXe();
                   }
@@ -152,7 +158,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? [];
                           return CoolDropDown(
-                            initData: data.map((e) => e.ten ?? '').first,
+                            initData: '',
+                            placeHoder: S.current.chon_loai_xe,
+                            useCustomHintColors: true,
                             listData: data.map((e) => e.ten ?? '').toList(),
                             onChange: (vl) {
                               vl == 0
@@ -160,7 +168,33 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                       DanhSachBienSoXeConst.XE_MAY
                                   : widget.cubit.xeMay =
                                       DanhSachBienSoXeConst.O_TO;
+                              widget.cubit.isShowErrLoaiXe.add(false);
                             },
+                          );
+                        },
+                      ),
+                      StreamBuilder<bool>(
+                        stream: widget.cubit.isShowErrLoaiXe,
+                        builder: (context, snapshot) {
+                          final isShow = snapshot.data ?? false;
+                          return Visibility(
+                            visible: isShow,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '${S.current.vuiLongChon} '
+                                '${S.current.loai_xe.toLowerCase()}',
+                                style: textNormalCustom(
+                                  color: colord32f2f,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -171,8 +205,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
-                          return (value ?? '')
-                              .checkTruongNull('${S.current.bien_kiem_soat}!');
+                          return (value ?? '').pleaseEnter(
+                            S.current.bien_kiem_soat,
+                          );
                         },
                       ),
                       spaceH20,
@@ -295,6 +330,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                               DanhSachBienSoXeConst.XE_MAY
                                           : widget.cubit.xeMay =
                                               DanhSachBienSoXeConst.O_TO;
+                                      widget.cubit.isShowErrLoaiXe.add(false);
                                     },
                                   ),
                                 );
@@ -348,6 +384,11 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           onClickRight: () async {
                             final bool isFormValidated =
                                 keyGroup.currentState?.validator() ?? false;
+                            if (widget.cubit.xeMay?.isEmpty ?? true) {
+                              widget.cubit.isShowErrLoaiXe.add(true);
+                              return;
+                            }
+                            widget.cubit.isShowErrLoaiXe.add(false);
                             if (isFormValidated) {
                               await postDangKyXe();
                             }

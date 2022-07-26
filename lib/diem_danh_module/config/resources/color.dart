@@ -28,6 +28,8 @@ const colorF44336 = Color(0xFFF44336);
 const color000000 = Color(0xff000000);
 const colorE5E5E5 = Color(0xffE5E5E5);
 const colorE9F9F1 = Color(0xffE9F9F1);
+const colord32f2f = Color(0xFFd32f2f);
+
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

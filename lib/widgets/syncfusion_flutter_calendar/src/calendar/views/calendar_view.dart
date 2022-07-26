@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_core/core_internal.dart';
 import 'package:syncfusion_flutter_core/localizations.dart';
@@ -5521,7 +5522,7 @@ class _CalendarViewState extends State<_CalendarView>
   /// layout rather than update the existing appointment layout.
   final GlobalKey _appointmentLayoutKey = GlobalKey();
 
-  ValueNotifier<Map<DateTime, int>> removeDayCount = ValueNotifier({});
+  BehaviorSubject<Map<DateTime, int>> removeDayCount = BehaviorSubject.seeded({});
 
   Timer? _timer, _autoScrollTimer;
   late ValueNotifier<int> _currentTimeNotifier;
@@ -5529,7 +5530,7 @@ class _CalendarViewState extends State<_CalendarView>
   late ValueNotifier<_ResizingPaintDetails> _resizingDetails;
   double? _maximumResizingPosition;
 
-  ValueNotifier<int> totalAppRemove = ValueNotifier(0);
+  BehaviorSubject<int> totalAppRemove = BehaviorSubject.seeded(0);
 
   @override
   void initState() {
@@ -5732,8 +5733,8 @@ class _CalendarViewState extends State<_CalendarView>
 
   @override
   void dispose() {
-    removeDayCount.dispose();
-    totalAppRemove.dispose();
+    removeDayCount.close();
+    totalAppRemove.close();
     _viewHeaderNotifier.removeListener(_timelineViewHoveringUpdate);
 
     _calendarCellNotifier.removeListener(_timelineViewHoveringUpdate);
@@ -6380,12 +6381,13 @@ class _CalendarViewState extends State<_CalendarView>
     _appointmentLayout = AppointmentLayout(
       widget.calendar,
       (count) {
-        this.removeDayCount.value = count;
-        totalAppRemove.value = 0;
+        this.removeDayCount.sink.add(count);
+        int total = 0 ;
         for (final element in widget.visibleDates) {
           final key = getKey(element);
-          totalAppRemove.value += count[key] ?? 0;
+          total += count[key] ?? 0;
         }
+        totalAppRemove.sink.add(total);
       },
       widget.view,
       widget.visibleDates,
@@ -8387,9 +8389,10 @@ class _CalendarViewState extends State<_CalendarView>
                   thickness: 1,
                   color: borderColor.withOpacity(borderColor.opacity * 0.5),
                 ),
-                ValueListenableBuilder<int >(
-                    valueListenable : totalAppRemove,
-                    builder : (_, value , __){
+                StreamBuilder<int >(
+                    stream : totalAppRemove,
+                    builder : (_, snapshot ){
+                      final value = snapshot.data ?? 0;
                       if(value > 0){
                         return Column (
                           mainAxisSize: MainAxisSize.min,
@@ -8400,9 +8403,10 @@ class _CalendarViewState extends State<_CalendarView>
                                 children: List.generate(
                                   widget.visibleDates.length,
                                       (index) {
-                                    return ValueListenableBuilder<Map<DateTime, int >>(
-                                      valueListenable: removeDayCount,
-                                      builder: (_, mapValue , __){
+                                    return StreamBuilder<Map<DateTime, int >>(
+                                      stream: removeDayCount,
+                                      builder: (_, snapshot ){
+                                        final mapValue = snapshot.data ?? {};
                                         final key = getKey(widget.visibleDates[index]);
                                         final count = mapValue[key] == null
                                             ? ''

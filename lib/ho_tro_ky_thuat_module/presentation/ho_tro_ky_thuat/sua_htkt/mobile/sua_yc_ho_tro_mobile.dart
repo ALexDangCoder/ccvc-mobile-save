@@ -63,7 +63,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Container(
-          height: 750,
+          height: 700,
           clipBehavior: Clip.hardEdge,
           decoration: const BoxDecoration(
             color: Colors.white,

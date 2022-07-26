@@ -4,107 +4,79 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class CustomRadioLoaiSoHuu extends StatefulWidget {
-  final Function(bool) onChange;
+  final Function(bool) onchange;
   final String? groupValueInit;
-  final String? errText;
 
   const CustomRadioLoaiSoHuu({
     Key? key,
-    required this.onChange,
+    required this.onchange,
     this.groupValueInit,
-    this.errText,
   }) : super(key: key);
 
   @override
-  CustomRadioLoaiSoHuuState createState() => CustomRadioLoaiSoHuuState();
+  _CustomRadioLoaiSoHuuState createState() => _CustomRadioLoaiSoHuuState();
 }
 
-class CustomRadioLoaiSoHuuState extends State<CustomRadioLoaiSoHuu> {
+class _CustomRadioLoaiSoHuuState extends State<CustomRadioLoaiSoHuu> {
   String groupValue = S.current.xe_can_bo;
-  bool isShowError = false;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    groupValue = widget.groupValueInit ?? '';
-  }
-
-  /// return false if nothing select
-  bool validator() {
-    isShowError = groupValue.isEmpty;
-    setState(() {});
-    return groupValue.isNotEmpty;
+    groupValue = widget.groupValueInit ?? S.current.xe_can_bo;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Radio(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  fillColor: MaterialStateProperty.resolveWith(getColor),
-                  activeColor: textDefault,
-                  value: S.current.xe_can_bo,
-                  onChanged: (String? value) {
-                    isShowError = false;
-                    setState(() {});
-                    groupValue = value ?? S.current.xe_can_bo;
-                    widget.onChange(false);
-                  },
-                  groupValue: groupValue,
-                ),
-                Text(
-                  S.current.xe_can_bo,
-                  style: tokenDetailAmount(
-                    fontSize: 14,
-                    color: color3D5586,
-                  ),
-                )
-              ],
+            Radio(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              fillColor: MaterialStateProperty.resolveWith(getColor),
+              activeColor: textDefault,
+              value: S.current.xe_can_bo,
+              onChanged: (String? value) {
+                setState(() {});
+                groupValue = value ?? S.current.xe_can_bo;
+                widget.onchange(false);
+              },
+              groupValue: groupValue,
             ),
-            Row(
-              children: [
-                Radio(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  fillColor: MaterialStateProperty.resolveWith(getColor),
-                  activeColor: textDefault,
-                  value: S.current.xe_lanh_dao,
-                  onChanged: (String? value) {
-                    isShowError = false;
-                    setState(() {});
-                    groupValue = value ?? S.current.xe_lanh_dao;
-                    widget.onChange(true);
-                  },
-                  groupValue: groupValue,
-                ),
-                Text(
-                  S.current.xe_lanh_dao,
-                  style: tokenDetailAmount(
-                    fontSize: 14,
-                    color: color3D5586,
-                  ),
-                )
-              ],
+            Text(
+              S.current.xe_can_bo,
+              style: tokenDetailAmount(
+                fontSize: 14,
+                color: color3D5586,
+              ),
             )
           ],
         ),
-        Visibility(
-          visible: isShowError,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Text(
-              widget.errText ?? S.current.chon_loai_xe,
-              style: textNormal(colord32f2f, 12).copyWith(
-                fontWeight: FontWeight.w500,
-              ),
+        Row(
+          children: [
+            Radio(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              fillColor: MaterialStateProperty.resolveWith(getColor),
+              activeColor: textDefault,
+              value: S.current.xe_lanh_dao,
+              onChanged: (String? value) {
+                setState(() {});
+                groupValue = value ?? S.current.xe_lanh_dao;
+                widget.onchange(true);
+              },
+              groupValue: groupValue,
             ),
-          ),
+            Text(
+              S.current.xe_lanh_dao,
+              style: tokenDetailAmount(
+                fontSize: 14,
+                color: color3D5586,
+              ),
+            )
+          ],
         )
       ],
     );

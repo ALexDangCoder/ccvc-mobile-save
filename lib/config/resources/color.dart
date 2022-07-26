@@ -222,7 +222,6 @@ const colorEA5455 = Color(0xFFEA5455);
 const color20C997 = Color(0xFF20C997);
 const colorE2E8F0 = Color(0xFFE2E8F0);
 const colorFF4F50 = Color(0xFFFF4F50);
-const colord32f2f = Color(0xFFd32f2f);
 
 
 ///=========== Using to make change app theme ================================

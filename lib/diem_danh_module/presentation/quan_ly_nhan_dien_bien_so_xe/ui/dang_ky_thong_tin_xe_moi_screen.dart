@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
@@ -65,9 +67,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                 Navigator.pop(context);
               },
               onClickRight: () async {
-                if (keyGroup.currentState!.validator()) {
-                  await postDangKyXe();
-                }
+                await postDangKyXe();
               },
             ),
           ),
@@ -290,9 +290,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           Navigator.pop(context);
                         },
                         onClickRight: () async {
-                          if (keyGroup.currentState!.validator()) {
-                            await postDangKyXe();
-                          }
+                          await postDangKyXe();
                         },
                       ),
                     ),
@@ -307,20 +305,21 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   }
 
   Future<void> postDangKyXe() async {
-    if (widget.cubit.fileItemBienSoXe.isNotEmpty) {
+    if (keyGroup.currentState!.validator() &&
+        widget.cubit.fileItemBienSoXe.isNotEmpty) {
       Navigator.pop(context);
       await widget.cubit.postImageResgiter(
-        bienKiemSoat: bienKiemSoatController.value.text,
+        bienKiemSoat: bienKiemSoatController.value.text.removeSpace,
         context: context,
         isTao: true,
       );
-    } else {
-      widget.cubit.toast.showToast(
-        child: ShowToast(
-          text: S.current.vui_long_tai_anh_len,
-        ),
-        gravity: ToastGravity.TOP_RIGHT,
-      );
+      return;
     }
+    widget.cubit.toast.showToast(
+      child: ShowToast(
+        text: S.current.vui_long_tai_anh_len,
+      ),
+      gravity: ToastGravity.TOP_RIGHT,
+    );
   }
 }

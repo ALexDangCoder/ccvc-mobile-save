@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
@@ -92,6 +93,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
   }
 
   void selectBuilding(int index) {
+    addTaskHTKTRequest.buildingName = null;
     addTaskHTKTRequest.buildingName = buildingList[index].name;
     addTaskHTKTRequest.buildingId = buildingList[index].id;
     showErrorToaNha.add(false);

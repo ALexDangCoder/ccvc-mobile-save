@@ -676,6 +676,10 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   void dispose() {
+    addTaskHTKTRequest.districtName = null;
+    addTaskHTKTRequest.buildingName = null;
+    nameBuilding = null;
+    nameArea = null;
     showErrorLoaiSuCo.close();
     showErrorKhuVuc.close();
     showErrorToaNha.close();

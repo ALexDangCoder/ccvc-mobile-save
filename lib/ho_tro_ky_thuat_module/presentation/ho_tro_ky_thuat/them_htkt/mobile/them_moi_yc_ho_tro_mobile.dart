@@ -45,6 +45,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   @override
   void dispose() {
     super.dispose();
+    print('pose');
   }
 
   @override

@@ -184,7 +184,6 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                           final todo = data[index];
                           return CongViecCell(
                             nguoiGan: '',
-                            enabled: false,
                             todoModel: todo,
                             onCheckBox: (value) {
                               danhSachCVCubit.tickerListWord(todo: todo);

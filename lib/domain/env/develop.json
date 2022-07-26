@@ -8,5 +8,6 @@
   "base_url_DOWNLOAD_PANK": "https://api-mpi-pakn-dev.edsolabs.vn",
   "header_origin": "http://mpi-ccvc-dev.edsolabs.vn",
   "url_HTCS": "http://htcs.edsolabs.vn/folders/",
+  "base_url_htcs": "http://api-htcs.edsolabs.vn",
   "base_url_image": "https://file-common-dev.chinhquyendientu.vn/"
 }

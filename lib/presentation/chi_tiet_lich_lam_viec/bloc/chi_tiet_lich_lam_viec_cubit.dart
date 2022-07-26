@@ -13,8 +13,10 @@ import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -23,6 +25,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_li
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -46,6 +49,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       BehaviorSubject<List<BaoCaoModel>>();
   final BehaviorSubject<List<YKienModel>> _listYKien =
       BehaviorSubject<List<YKienModel>>();
+  BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
+  DonViModel donViModel = DonViModel();
+  List<DonViModel> listDataCanBo = [];
 
   ThanhPhanThamGiaReponsitory get dataRepo => Get.find();
 
@@ -61,6 +67,17 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   final showButtonApprove = BehaviorSubject.seeded(false);
   final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
   String createUserId = '';
+  String scheduleOperativeId = '';
+  String scheduleId = '';
+  String idDanhSachCanBo = '';
+  List<DonViModel> listTPTG = [];
+
+  void xoaKhachMoiThamGia(
+    DonViModel donViModel,
+  ) {
+    listDataCanBo.remove(donViModel);
+    listDonViModel.sink.add(listDataCanBo);
+  }
 
   Future<void> dataChiTietLichLamViec(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
@@ -72,6 +89,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         chiTietLichLamViecModel = data;
         chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
         createUserId = data.canBoChuTri?.id ?? '';
+        scheduleId = id;
+        scheduleOperativeId = getScheduleOperativeId(chiTietLichLamViecModel);
       },
       error: (error) {
         chiTietLichLamViecSubject.sink.add(ChiTietLichLamViecModel());
@@ -175,6 +194,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   final listOfficer = BehaviorSubject<List<Officer>>();
+  List<Officer> listOfficerSelected = [];
   final listRecall = BehaviorSubject<List<Officer>>();
 
   Future<void> getOfficer(String id) async {
@@ -182,6 +202,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     rs.when(
       success: (data) {
         listOfficer.sink.add(data);
+        getListStatusKhacThuHoi(data);
         listRecall.sink
             .add(data.where((element) => element.status == 0).toList());
         dataRecall = data.where((element) => element.status == 0).toList();
@@ -189,6 +210,16 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       },
       error: (error) {},
     );
+  }
+
+  void getListStatusKhacThuHoi(List<Officer> listOfficer) {
+    final List<Officer> list = [];
+    for (final value in listOfficer) {
+      if (value.status != StatusOfficersConst.STATUS_THU_HOI) {
+        list.add(value);
+      }
+    }
+    listOfficerSelected = list;
   }
 
   Future<void> loadApi(String id) async {
@@ -425,6 +456,215 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     ShowLoadingScreen.dismiss();
   }
 
+  Future<void> getDanhSachCuCanBoDiThay(
+    ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  ) async {
+    showLoading();
+    final rs = await dataRepo.getOfficerJoin(idLichLamViec);
+    rs.when(
+      success: (data) {
+        final donViId =
+            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
+        final idCuCanBo = data
+            .firstWhere(
+              (element) => element.donViId == donViId,
+              orElse: () => Officer(),
+            )
+            .id;
+        idDanhSachCanBo = idCuCanBo ?? '';
+
+        ///cu can bo di thay
+        final canBoId = HiveLocal.getDataUser()?.userId;
+        final idCanBo = data.firstWhere(
+          (element) => element.canBoId == canBoId,
+          orElse: () => Officer(),
+        );
+        final parentCanBo = DonViModel(
+          id: idCanBo.id ?? '',
+          name: idCanBo.hoTen ?? '',
+          tenCanBo: idCanBo.hoTen ?? '',
+          canBoId: idCanBo.canBoId ?? '',
+          donViId: idCanBo.donViId ?? '',
+          tenDonVi: idCanBo.tenDonVi ?? '',
+          noidung: idCanBo.taskContent ?? '',
+        );
+        donViModel = parentCanBo;
+
+        /// lay con cua can bo
+        final canBoDiThay = data.where(
+          (element) => element.parentId == idCanBo.id,
+        );
+        final listCanBoMoi = canBoDiThay
+            .map(
+              (element) => DonViModel(
+                id: element.id ?? '',
+                name: element.tenDonVi ?? '',
+                tenCanBo: element.hoTen ?? '',
+                canBoId: element.canBoId ?? '',
+                donViId: element.donViId ?? '',
+                tenDonVi: element.tenDonVi ?? '',
+                noidung: element.taskContent ?? '',
+              ),
+            )
+            .toList();
+        listDataCanBo = listCanBoMoi;
+        cubitThanhPhanTG.listCanBoDuocChon = canBoDiThay
+            .map(
+              (element) => DonViModel(
+                id: element.id ?? '',
+                name: element.tenDonVi ?? '',
+                tenCanBo: element.hoTen ?? '',
+                canBoId: element.canBoId ?? '',
+                donViId: element.donViId ?? '',
+                tenDonVi: element.tenDonVi ?? '',
+                noidung: element.taskContent ?? '',
+              ),
+            )
+            .toList();
+        cubitThanhPhanTG.listCanBoThamGia.add(listDataCanBo);
+        showContent();
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
+    );
+  }
+
+  Future<bool> luuCanBoDiThay({
+    required ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  }) async {
+    final bool isCheckCallApiCuCanBo = await cuCanBoDiThayLichLamViec(
+      canBoDiThay: mergeCanBoDuocChonVaCuCanBo(
+        cubitThanhPhanTG.listCanBoDuocChon,
+        cubitThanhPhanTG.listCanBo,
+      ),
+    );
+    return isCheckCallApiCuCanBo;
+  }
+
+  List<CuCanBoDiThayLichLamViec> mergeCanBoDuocChonVaCuCanBo(
+    List<DonViModel> canBoDuocChon,
+    List<DonViModel> cuCanBo,
+  ) {
+    final List<CuCanBoDiThayLichLamViec> data = [];
+    data.addAll(
+      canBoDuocChon
+          .map(
+            (canBo) => CuCanBoDiThayLichLamViec(
+              id: canBo.id.isEmpty ? null : canBo.id,
+              donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+              canBoId: canBo.userId.isEmpty ? null : canBo.userId,
+              taskContent: canBo.noidung,
+              isXoa: canBo.isXoa,
+            ),
+          )
+          .toList(),
+    );
+    data.addAll(
+      cuCanBo
+          .map(
+            (canBo) => CuCanBoDiThayLichLamViec(
+              id: null,
+              donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+              canBoId: canBo.userId.isEmpty ? null : canBo.userId,
+              taskContent: canBo.noidung,
+            ),
+          )
+          .toList(),
+    );
+    return data;
+  }
+
+  //cu can bo di thay
+  Future<bool> cuCanBoDiThayLichLamViec({
+    required List<CuCanBoDiThayLichLamViec> canBoDiThay,
+  }) async {
+    showLoading();
+    canBoDiThay.insert(
+      0,
+      CuCanBoDiThayLichLamViec(
+        id: donViModel.id,
+        donViId: donViModel.donViId,
+        canBoId: donViModel.canBoId,
+        taskContent: '',
+      ),
+    );
+    final listCanBo = listDataCanBo
+        .map(
+          (e) => CuCanBoDiThayLichLamViec(
+            id: e.id,
+            donViId: e.donViId,
+            canBoId: e.canBoId,
+            taskContent: e.noidung,
+          ),
+        )
+        .toSet();
+    canBoDiThay.addAll(listCanBo);
+
+    final DataCuCanBoDiThayLichLamViecRequest
+        dataCuCanBoDiThayLichLamViecRequest =
+        DataCuCanBoDiThayLichLamViecRequest(
+      scheduleId: scheduleId,
+      scheduleOperativeId: scheduleOperativeId,
+      canBoDiThay: canBoDiThay,
+    );
+    bool isCheck = true;
+
+    final result = await detailLichLamViec
+        .cuCanBoDiThayLichLamViec(dataCuCanBoDiThayLichLamViecRequest);
+    result.when(
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.cu_can_bo_thanh_cong,
+        );
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+          isCheck = false;
+        }
+      },
+    );
+    showContent();
+    return isCheck;
+  }
+
+  //cu can bo
+  Future<bool> cuCanBoLichLamViec({
+    required List<CuCanBoLichLamViecRequest> cuCanBo,
+  }) async {
+    final DataCuCanBoLichLamViecRequest dataCuCanBoLichLamViecRequest =
+        DataCuCanBoLichLamViecRequest(scheduleId: '', canBoDiThay: cuCanBo);
+    final result = await detailLichLamViec
+        .cuCanBoLichLamViec(dataCuCanBoLichLamViecRequest);
+    result.when(success: (res) {}, error: (error) {});
+    return true;
+  }
+
+  String getScheduleOperativeId(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives
+            ?.firstWhere(
+              (element) => element.canBoId == currentUserId,
+              orElse: () => ScheduleCoperatives(),
+            )
+            .id ??
+        '';
+  }
+
   // check hiển thị popup
   int checkXoa(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
@@ -552,6 +792,24 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
   final BehaviorSubject<bool> deleteFileInit = BehaviorSubject<bool>();
 
+  bool checkFile(List<File> listFilePath) {
+    bool isSelectFile = false;
+
+    final List<File> list = files.toList();
+    for (final elementChose in list) {
+      for (final elementCheck in listFilePath) {
+        if (elementCheck.path.contains(elementChose.path)) {
+          isSelectFile = true;
+          break;
+        }
+      }
+      if (isSelectFile) {
+        break;
+      }
+    }
+    return isSelectFile;
+  }
+
   BaoCaoKetQuaCubit({
     this.content = '',
     this.tinhTrangBaoCaoModel,
@@ -624,32 +882,6 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         }
       },
     );
-  }
-
-  //cu can bo di thay
-  Future<bool> cuCanBoDiThayLichLamViec({
-    required List<CuCanBoDiThayLichLamViecRequest> canBoDiThay,
-  }) async {
-    final DataCuCanBoDiThayLichLamViecRequest
-        dataCuCanBoDiThayLichLamViecRequest =
-        DataCuCanBoDiThayLichLamViecRequest(
-            scheduleId: "", scheduleOperativeId: '', canBoDiThay: canBoDiThay);
-    final result = await detailLichLamViec
-        .cuCanBoDiThayLichLamViec(dataCuCanBoDiThayLichLamViecRequest);
-    result.when(success: (res) {}, error: (error) {});
-    return true;
-  }
-
-  //cu can bo
-  Future<bool> cuCanBoLichLamViec({
-    required List<CuCanBoLichLamViecRequest> cuCanBo,
-  }) async {
-    final DataCuCanBoLichLamViecRequest dataCuCanBoLichLamViecRequest =
-        DataCuCanBoLichLamViecRequest(scheduleId: '', canBoDiThay: cuCanBo);
-    final result = await detailLichLamViec
-        .cuCanBoLichLamViec(dataCuCanBoLichLamViecRequest);
-    result.when(success: (res) {}, error: (error) {});
-    return true;
   }
 
   bool checkLenghtFile() {

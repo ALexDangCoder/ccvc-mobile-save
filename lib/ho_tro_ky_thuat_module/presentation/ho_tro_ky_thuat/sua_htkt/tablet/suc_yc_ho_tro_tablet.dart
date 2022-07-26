@@ -1,3 +1,5 @@
+
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -12,10 +14,10 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
@@ -109,8 +111,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                         },
                         child: SvgPicture.asset(
                           ImageAssets.icClose,
-                          color: AppTheme.getInstance()
-                              .unselectedLabelColor(),
+                          color: AppTheme.getInstance().unselectedLabelColor(),
                         ),
                       ),
                     ],
@@ -138,7 +139,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                 if (data.id != null) {
                                   return Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       textField(
                                         initValue: data.tenThietBi,
@@ -148,11 +150,13 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         isEnable: true,
                                         maxLength: 150,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.name = value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .name = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           }
                                         },
                                       ),
@@ -163,17 +167,19 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         title: S.current.sdt_lien_he,
                                         hintText: S.current.sdt_lien_he,
                                         inputFormatter: [
-                                          FilteringTextInputFormatter.digitsOnly,
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
                                         ],
                                         maxLength: 11,
                                         textInputType: TextInputType.number,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.phone =
-                                              value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .phone = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           } else {
                                             return null;
                                           }
@@ -184,15 +190,16 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         initValue: data.moTaSuCo,
                                         isHightLight: true,
                                         maxLine: 3,
-                                        title: S.current.nhap_mo_ta,
-                                        hintText: S.current.nhap_mo_ta,
+                                        title: S.current.mo_ta_su_co,
+                                        hintText: S.current.nhap_mo_ta_su_co,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.description =
-                                              value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .description = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           }
                                         },
                                       ),
@@ -213,11 +220,13 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         title: S.current.so_phong,
                                         hintText: S.current.so_phong,
                                         onChange: (value) {
-                                          widget.cubit.editTaskHTKTRequest.room = value;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .room = value;
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S.current.khong_duoc_de_trong;
+                                            return S
+                                                .current.khong_duoc_de_trong;
                                           }
                                         },
                                       ),
@@ -225,8 +234,9 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                       _multiSelect(),
                                       spaceH16,
                                       TaiLieuWidget(
-                                        files: widget
-                                            .cubit.editModelHTKT.value.filesDinhKem
+                                        isHaveExpanded: true,
+                                        files: widget.cubit.editModelHTKT.value
+                                            .filesDinhKem
                                             ?.map(
                                               (e) => Files(
                                                 id: e.id,
@@ -245,8 +255,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                           widget.cubit.checkFileRemove(index);
                                         },
                                         onChange: (files, value) {
-                                          widget.cubit.editTaskHTKTRequest.fileUpload =
-                                              files;
+                                          widget.cubit.editTaskHTKTRequest
+                                              .fileUpload = files;
                                         },
                                         idRemove: (String id) {},
                                       ),
@@ -448,13 +458,37 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
               widget.cubit.validateAllDropDown) {
             widget.cubit
                 .postEditHTKT()
-                .then((value) => value ? Navigator.pop(context) : null);
+                .then((value) {
+              if(value){
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.luu_du_lieu_thanh_cong,
+                    icon: ImageAssets.icSucces,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+                Navigator.pop(context);
+              } else {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.thay_doi_that_bai,
+                    icon: ImageAssets.icError,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+              }
+            });
           } else {
             final toast = FToast();
             toast.init(context);
             toast.showToast(
               child: ShowToast(
                 text: S.current.sai_dinh_dang_truong,
+                icon: ImageAssets.icError,
               ),
               gravity: ToastGravity.BOTTOM,
             );

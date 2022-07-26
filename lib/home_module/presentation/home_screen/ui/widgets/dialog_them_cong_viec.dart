@@ -14,15 +14,14 @@ import 'nguoi_gan_row_widget.dart';
 class DiaLogThemCongViec extends StatefulWidget {
   final DanhSachCongViecCubit danhSachCVCubit;
   final TextEditingController controllerCongViec;
-  final  GlobalKey<FormGroupState> keyGroup;
+  final GlobalKey<FormGroupState> keyGroup;
 
-  const DiaLogThemCongViec(
-      {Key? key,
-      required this.danhSachCVCubit,
-      required this.controllerCongViec,
-      required this.keyGroup,
-      })
-      : super(key: key);
+  const DiaLogThemCongViec({
+    Key? key,
+    required this.danhSachCVCubit,
+    required this.controllerCongViec,
+    required this.keyGroup,
+  }) : super(key: key);
 
   @override
   _DiaLogThemCongViecState createState() => _DiaLogThemCongViecState();
@@ -83,7 +82,7 @@ class _DiaLogThemCongViecState extends State<DiaLogThemCongViec> {
                   hintText: S.current.nhap_cong_viec,
                   validator: (value) {
                     if ((value ?? '').isEmpty) {
-                      return '${S.current.vui_long_nhap_cham_cham} ';
+                      return '${S.current.vui_long_nhap_cong_viec} ';
                     }
                     return null;
                   },

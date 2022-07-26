@@ -10,6 +10,7 @@ class ExpandOnlyWidget extends StatefulWidget {
   final BoxDecoration? headerDecoration;
   final bool? isPaddingIcon;
   final double? paddingSize;
+  final double? paddingTop;
   final double? paddingRightIcon;
   final AnimationController? initController;
   final Function(bool)? onchange;
@@ -26,6 +27,7 @@ class ExpandOnlyWidget extends StatefulWidget {
     this.isPaddingIcon,
     this.paddingSize,
     this.onchange,
+    this.paddingTop,
   }) : super(key: key);
 
   @override
@@ -143,6 +145,7 @@ class ExpandedSectionState extends State<ExpandOnlyWidget>
                 if (widget.isShowIcon)
                   Padding(
                     padding: EdgeInsets.only(
+                      top : widget.paddingTop ?? 0,
                       right: widget.isPaddingIcon == true
                           ? widget.paddingRightIcon ?? 16
                           : 0,

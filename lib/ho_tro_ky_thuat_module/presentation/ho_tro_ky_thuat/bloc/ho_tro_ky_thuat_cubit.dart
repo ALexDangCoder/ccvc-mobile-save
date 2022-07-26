@@ -571,8 +571,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
-          buildingListStream.sink.add(
-              buildingList.map((building) => building.name ?? '').toList());
+          buildingListStream.sink
+              .add([S.current.khong_co_du_lieu]);
+          addTaskHTKTRequest.buildingName =  S.current.khong_co_du_lieu;
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
@@ -624,7 +625,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   bool validateAllDropDown = false;
 
   void checkAllThemMoiYCHoTro() {
-    if (addTaskHTKTRequest.buildingName == null) {
+    if (addTaskHTKTRequest.buildingId == null) {
       validateAllDropDown = false;
       showErrorToaNha.sink.add(true);
     }
@@ -636,8 +637,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       validateAllDropDown = false;
       showErrorLoaiSuCo.sink.add(true);
     }
-    if (addTaskHTKTRequest.buildingName != null &&
-        addTaskHTKTRequest.districtName != null &&
+    if (addTaskHTKTRequest.buildingId != null &&
+        addTaskHTKTRequest.districtId != null &&
         (addTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
       validateAllDropDown = true;
       showErrorToaNha.sink.add(false);

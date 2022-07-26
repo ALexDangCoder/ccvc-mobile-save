@@ -43,7 +43,7 @@ class ImageAssets {
   static const String icDiLam = '$baseImg/ic_di_lam.svg';
   static const String icKhongLyDo = '$baseImg/ic_khong_ly_do.svg';
   static const String icNghiPhep = '$baseImg/ic_nghi_phep.svg';
-  static const String icVeSom = '$baseImg/icVeSom.svg';
+  static const String icVeSom = '$baseImg/ic_ve_som.svg';
   static const String ic_tick_showToast = '$baseImg/ic_tick_show_toast.svg';
 
   static SvgPicture svgAssets(

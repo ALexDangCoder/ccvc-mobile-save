@@ -182,9 +182,9 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: DoubleButtonBottom(
-                                  title1: S.current.tham_du,
-                                  title2: S.current.tu_choi,
-                                  onClickLeft: () {
+                                  title1: S.current.tu_choi,
+                                  title2: S.current.tham_du,
+                                  onClickRight: () {
                                     showDiaLog(
                                       context,
                                       btnLeftTxt: S.current.khong,
@@ -223,7 +223,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                       textContent: S.current.confirm_tham_gia,
                                     );
                                   },
-                                  onClickRight: () {
+                                  onClickLeft: () {
                                     showDiaLog(
                                       context,
                                       btnLeftTxt: S.current.khong,

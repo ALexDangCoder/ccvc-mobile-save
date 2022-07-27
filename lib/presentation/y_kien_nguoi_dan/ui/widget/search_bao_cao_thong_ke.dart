@@ -206,18 +206,19 @@ class _TreeDonViState extends State<TreeDonVi> {
               Expanded(
                 child: SelectDate(
                   maximumDate:
-                      DateFormat(DateFormatApp.date).parse(widget.endDate),
+                      DateFormat(DateFormatApp.date).parse(selectEndDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateFormat(DateFormatApp.date)
-                      .parse(widget.startDate)
+                      .parse(selectStartDate)
                       .toString(),
                   onSelectDate: (dateTime) {
                     selectStartDate =
                         DateFormat(DateFormatApp.pickDateSearchFormat)
                             .parse(dateTime)
                             .toStringWithListFormat;
+                    setState(() {});
                   },
                 ),
               ),
@@ -230,17 +231,18 @@ class _TreeDonViState extends State<TreeDonVi> {
               Expanded(
                 child: SelectDate(
                   minimumDate:
-                      DateFormat(DateFormatApp.date).parse(widget.startDate),
+                      DateFormat(DateFormatApp.date).parse(selectStartDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateFormat(DateFormatApp.date)
-                      .parse(widget.endDate)
+                      .parse(selectEndDate)
                       .toString(),
                   onSelectDate: (dateTime) {
                     selectEndDate = DateFormat(
                       DateFormatApp.pickDateSearchFormat,
                     ).parse(dateTime).toStringWithListFormat;
+                    setState(() {});
                   },
                 ),
               )

@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 class ChooseTimeCalendarTypeWidget extends StatefulWidget {
   final ChooseTimeController controller;
   final Function(CalendarType) onChange;
-
+  final bool isSelectYear;
   const ChooseTimeCalendarTypeWidget({
     Key? key,
     required this.controller,
     required this.onChange,
+    this.isSelectYear = false,
   }) : super(key: key);
 
   @override
@@ -36,7 +37,14 @@ class _ChooseTimeCalendarTypeWidgetState
 
   @override
   Widget build(BuildContext context) {
-    const data = CalendarType.values;
+    List<CalendarType> data = [];
+    if (!widget.isSelectYear) {
+      data = CalendarType.values
+          .where((element) => element != CalendarType.YEAR)
+          .toList();
+    } else {
+      data = CalendarType.values;
+    }
 
     return Container(
       height: 48,

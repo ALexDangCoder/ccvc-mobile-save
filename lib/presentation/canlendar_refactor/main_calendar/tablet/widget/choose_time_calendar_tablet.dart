@@ -19,7 +19,7 @@ class ChooseTimeCalendarTablet extends StatefulWidget {
   final ChooseTimeController? controller;
   final Function(DateTime, DateTime, String)? onChangeYear;
   final Function() onTapTao;
-
+  final bool isSelectYear;
   const ChooseTimeCalendarTablet({
     Key? key,
     this.calendarDays = const [],
@@ -27,6 +27,7 @@ class ChooseTimeCalendarTablet extends StatefulWidget {
     this.controller,
     this.onChangeYear,
     required this.onTapTao,
+    this.isSelectYear = false,
   }) : super(key: key);
 
   @override
@@ -85,6 +86,7 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
             height: 28,
           ),
           TableCalendarTabletWidget(
+            isSelectYear: widget.isSelectYear,
             controller: controller,
             onPageCalendar: (value) {
               final times =
@@ -152,7 +154,8 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
               ),
               child: TextField(
                 onSubmitted: (value) {
-                  final times = controller.dateTimeRange(controller.selectDate.value);
+                  final times =
+                      controller.dateTimeRange(controller.selectDate.value);
                   widget.onChange(
                     times[0],
                     times[1],

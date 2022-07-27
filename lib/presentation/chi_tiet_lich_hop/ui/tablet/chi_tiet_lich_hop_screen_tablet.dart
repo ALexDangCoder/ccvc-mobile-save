@@ -118,7 +118,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                       },
                       body: ProviderWidget<DetailMeetCalenderCubit>(
                         cubit: cubit,
-                        child : Container(
+                        child: Container(
                           decoration: BoxDecoration(
                             color: backgroundColorApp,
                             borderRadius: const BorderRadius.only(
@@ -126,7 +126,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                               bottomRight: Radius.circular(12),
                             ),
                             border:
-                            Border.all(color: borderColor.withOpacity(0.5)),
+                                Border.all(color: borderColor.withOpacity(0.5)),
                             boxShadow: [
                               BoxShadow(
                                 offset: const Offset(0, 4),
@@ -153,7 +153,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                               isScrollable: true,
                               tabs: List.generate(
                                 cubit.getListWidgetDetailSubject.length,
-                                    (index) => Tab(
+                                (index) => Tab(
                                   child: Text(
                                     cubit.getListWidgetDetailSubject[index]
                                         .getName(),
@@ -182,14 +182,12 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12),
                         ),
-                        border: Border.all(
-                            color: borderColor.withOpacity(0.5)),
+                        border: Border.all(color: borderColor.withOpacity(0.5)),
                         boxShadow: [
                           BoxShadow(
                             offset: const Offset(0, 4),
                             blurRadius: 10,
-                            color: shadowContainerColor
-                                .withOpacity(0.05),
+                            color: shadowContainerColor.withOpacity(0.05),
                           )
                         ],
                       ),

@@ -382,7 +382,7 @@ PreferredSizeWidget appbarChiTietHop(
 }
 
 List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) {
-  final isHuyOrThuHoi = cubit.trangThaiHuy()  || cubit.trangThaiHuy();
+  final isHuyOrThuHoi = cubit.trangThaiHuy()  || cubit.trangThaiThuHoi();
   return [
     if (!isHuyOrThuHoi)Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

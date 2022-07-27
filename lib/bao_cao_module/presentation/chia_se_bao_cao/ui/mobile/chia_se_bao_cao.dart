@@ -203,5 +203,4 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
       ),
     );
   }
-
 }

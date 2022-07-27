@@ -747,7 +747,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             status: e.status,
             taskContent: e.noidung,
             tenDonVi: e.tenDonVi,
-            userId: (e.userId??'').isEmpty?null:e.userId,
+            userId: e.userId.isEmpty?null:e.userId,
             userName: (e.userName??'').isEmpty?null:e.userName,
             isXoa: e.isXoa,
             isCheckThemCanCuCanBo: true,

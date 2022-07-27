@@ -113,6 +113,29 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
+  Future<List<String>> searchGroup(String value) async {
+    List<String> listSearchGroup = [];
+    if (value != '') {
+      final rs = await _repo.getListGroup(
+        appId,
+        groupName: value.trim(),
+      );
+      rs.when(
+        success: (res) {
+          for (int i = 0; i < res.length; i++) {
+            listSearchGroup.add(res[i].tenNhom ?? '');
+          }
+        },
+        error: (error) {
+          showError();
+        },
+      );
+    } else {
+      listSearchGroup = listDropDown;
+    }
+    return listSearchGroup;
+  }
+
   Future<void> getMemberInGroup(
     String idGroup,
     NhomCungHeThong nhomCungHeThong,

@@ -267,19 +267,23 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                                   .getItemsNguoiTiepNhanYeuCau(),
                                             ),
                                             spaceH16,
-                                            _textTitle(S.current.nguoi_xu_ly),
-                                            spaceH8,
-                                            CustomDropDown(
-                                              hint: _textTitle(
-                                                S.current.chon,
+                                            if (cubit.isManager) ...[
+                                              _textTitle(S.current.nguoi_xu_ly),
+                                              spaceH8,
+                                              CustomDropDown(
+                                                hint: _textTitle(
+                                                  S.current.chon,
+                                                ),
+                                                onSelectItem: (value) {
+                                                  cubit
+                                                      .onChangeNguoiXuLy(value);
+                                                },
+                                                value: cubit.handlerIdName,
+                                                items:
+                                                    cubit.getItemsThanhVien(),
                                               ),
-                                              onSelectItem: (value) {
-                                                cubit.onChangeNguoiXuLy(value);
-                                              },
-                                              value: cubit.handlerIdName,
-                                              items: cubit.getItemsThanhVien(),
-                                            ),
-                                            spaceH16,
+                                              spaceH16,
+                                            ],
                                             _textTitle(S.current.khu_vuc),
                                             spaceH8,
                                             CustomDropDown(

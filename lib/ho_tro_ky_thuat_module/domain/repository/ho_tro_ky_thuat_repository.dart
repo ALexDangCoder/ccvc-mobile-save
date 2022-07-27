@@ -13,6 +13,8 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.d
 
 mixin HoTroKyThuatRepository {
   Future<Result<List<SuCoModel>>> postDanhSachSuCo({
+    required bool isManager,
+    required bool isSupporter,
     required int pageIndex,
     required int pageSize,
     String? codeUnit,

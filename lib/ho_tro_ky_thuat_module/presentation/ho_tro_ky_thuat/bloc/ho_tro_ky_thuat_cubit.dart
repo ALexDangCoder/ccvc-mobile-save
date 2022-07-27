@@ -29,9 +29,21 @@ import 'package:get/get.dart' as get_dart;
 import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
-  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial()) {
+    isManager = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
+    isSupporter = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_HO_TRO,
+    );
+  }
+
   List<File>? filesThemMoiYCHTKT = [];
   static const String rightPath = 'attachments/upload/';
+  late bool isManager;
+  late bool isSupporter;
 
   //color
   List<Color> colorChart = [
@@ -306,6 +318,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       processingCode: processingCode,
       handlerId: handlerId,
       keyWord: keyWord,
+      isManager: isManager,
+      isSupporter: isSupporter,
     );
     result.when(
       success: (res) {

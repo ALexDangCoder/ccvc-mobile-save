@@ -25,6 +25,8 @@ abstract class HoTroKyThuatService {
 
   @POST(ApiConstants.DANH_SACH_SU_CO)
   Future<DanhSachSuCoResponse> postDanhSachSuCo(
+    @Field('isManager') bool isManager,
+    @Field('isSupporter') bool isSupporter,
     @Field('pageIndex') int pageIndex,
     @Field('pageSize') int pageSize,
     @Field('codeUnit') String? codeUnit,

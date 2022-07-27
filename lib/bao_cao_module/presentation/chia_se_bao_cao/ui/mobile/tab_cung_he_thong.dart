@@ -32,7 +32,6 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

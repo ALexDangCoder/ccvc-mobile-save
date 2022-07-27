@@ -732,23 +732,23 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     List<DonViModel> cuCanBo,
   ) {
     final List<CuCanBoLichLamViec> data = [];
-    data.addAll(canBoDuocChon.map((e) {
-      if (e is CuCanBoTreeDonVi) {
+    data.addAll(canBoDuocChon.map((element) {
+      if (element is CuCanBoTreeDonVi) {
         return CuCanBoLichLamViec(
-          canBoId: e.canBoId.isEmpty ? null : e.canBoId,
-          confirmDate: e.confirmDate,
-          donViId: e.donViId,
-          hoTen: (e.hoTen ?? '').isEmpty ? null : e.hoTen,
-          id: e.id,
-          isConfirm: e.isConfirm,
-          parentId: e.parentId,
-          scheduleId: e.scheduleId,
-          status: e.status,
-          taskContent: e.noidung,
-          tenDonVi: e.tenDonVi,
-          userId: e.userId.isEmpty ? null : e.userId,
-          userName: (e.userName ?? '').isEmpty ? null : e.userName,
-          isXoa: e.isXoa,
+          canBoId: element.canBoId.isEmpty ? null : element.canBoId,
+          confirmDate: element.confirmDate,
+          donViId: element.donViId,
+          hoTen: (element.hoTen ?? '').isEmpty ? null : element.hoTen,
+          id: element.id,
+          isConfirm: element.isConfirm,
+          parentId: element.parentId,
+          scheduleId: element.scheduleId,
+          status: element.status,
+          taskContent: element.noidung,
+          tenDonVi: element.tenDonVi,
+          userId: element.userId.isEmpty ? null : element.userId,
+          userName: (element.userName ?? '').isEmpty ? null : element.userName,
+          isXoa: element.isXoa,
           isCheckThemCanCuCanBo: true,
         );
       }

@@ -7,16 +7,9 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chuong_trinh_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
@@ -133,14 +126,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                       .valueData()
                                       .map(
                                         (e) => Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 16),
-                                          child: RowDataWidget(
-                                            urlIcon: e.urlIcon,
-                                            text: e.text,
-                                          ),
-                                        ),
-                                      )
+                                      margin:
+                                      const EdgeInsets.only(top: 16),
+                                      child: RowDataWidget(
+                                        urlIcon: e.urlIcon,
+                                        text: e.text,
+                                      ),
+                                    ),
+                                  )
                                       .toList(),
                                 ),
                                 spaceH16,
@@ -162,9 +155,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: listWidgetChiTietHop(cubit).length,
+                        itemCount: cubit.getListWidgetDetailSubject.length,
                         itemBuilder: (context, index) {
-                          return listWidgetChiTietHop(cubit)[index];
+                          return cubit.getListWidgetDetailSubject[index]
+                              .getWidget(cubit);
                         },
                       ),
                       Padding(
@@ -174,8 +168,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? [];
                             if (data.contains(
-                                  PERMISSION_DETAIL.XAC_NHAN_THAM_GIA,
-                                ) &&
+                              PERMISSION_DETAIL.XAC_NHAN_THAM_GIA,
+                            ) &&
                                 data.contains(
                                   PERMISSION_DETAIL.TU_CHOI_THAM_GIA,
                                 )) {
@@ -192,14 +186,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                         cubit
                                             .confirmThamGiaHop(
                                           lichHopId:
-                                              cubit.getChiTietLichHopModel.id,
+                                          cubit.getChiTietLichHopModel.id,
                                           isThamGia: true,
                                         )
                                             .then((value) {
                                           if (value) {
                                             MessageConfig.show(
                                               title:
-                                                  '${S.current.xac_nhan_tham_gia}'
+                                              '${S.current.xac_nhan_tham_gia}'
                                                   ' ${S.current.thanh_cong.toLowerCase()}',
                                             );
                                             cubit.initDataChiTiet(
@@ -209,7 +203,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                             MessageConfig.show(
                                               messState: MessState.error,
                                               title:
-                                                  '${S.current.xac_nhan_tham_gia}'
+                                              '${S.current.xac_nhan_tham_gia}'
                                                   ' ${S.current.that_bai.toLowerCase()}',
                                             );
                                           }
@@ -231,14 +225,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                         cubit
                                             .confirmThamGiaHop(
                                           lichHopId:
-                                              cubit.getChiTietLichHopModel.id,
+                                          cubit.getChiTietLichHopModel.id,
                                           isThamGia: false,
                                         )
                                             .then((value) {
                                           if (value) {
                                             MessageConfig.show(
                                               title:
-                                                  '${S.current.tu_choi_tham_gia} '
+                                              '${S.current.tu_choi_tham_gia} '
                                                   '${S.current.thanh_cong.toLowerCase()}',
                                             );
                                             cubit.initDataChiTiet(
@@ -248,7 +242,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                             MessageConfig.show(
                                               messState: MessState.error,
                                               title:
-                                                  '${S.current.tu_choi_tham_gia}'
+                                              '${S.current.tu_choi_tham_gia}'
                                                   ' ${S.current.that_bai.toLowerCase()}',
                                             );
                                           }
@@ -259,7 +253,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                       icon: SvgPicture.asset(
                                           ImageAssets.img_tu_choi_tham_gia),
                                       textContent:
-                                          S.current.confirm_tu_choi_tham_gia,
+                                      S.current.confirm_tu_choi_tham_gia,
                                     );
                                   },
                                 ),
@@ -334,12 +328,12 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
 
 ///for phone and tab
 PreferredSizeWidget appbarChiTietHop(
-  DetailMeetCalenderCubit cubit,
-  BuildContext context,
-  ThanhPhanThamGiaCubit thanhPhanThamGiaCubit,
-  ThemCanBoCubit themCanBoCubit,
-  ThemDonViCubit themDonViCubit,
-) {
+    DetailMeetCalenderCubit cubit,
+    BuildContext context,
+    ThanhPhanThamGiaCubit thanhPhanThamGiaCubit,
+    ThemCanBoCubit themCanBoCubit,
+    ThemDonViCubit themDonViCubit,
+    ) {
   return BaseAppBar(
     title: S.current.chi_tiet_lich_hop,
     leadingIcon: IconButton(
@@ -362,13 +356,13 @@ PreferredSizeWidget appbarChiTietHop(
                 listSelect: data
                     .map(
                       (e) => e.getMenuLichHop(
-                        context,
-                        cubit,
-                        thanhPhanThamGiaCubit,
-                        themCanBoCubit,
-                        themDonViCubit,
-                      ),
-                    )
+                    context,
+                    cubit,
+                    thanhPhanThamGiaCubit,
+                    themCanBoCubit,
+                    themDonViCubit,
+                  ),
+                )
                     .toList(),
               );
             } else {
@@ -380,55 +374,3 @@ PreferredSizeWidget appbarChiTietHop(
     ],
   );
 }
-
-List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: CongTacChuanBiWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ChuongTrinhHopWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ThanhPhanThamGiaWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: TaiLieuWidget(
-          cubit: cubit,
-        ),
-      ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: PhatBieuWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: BieuQuyetWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: KetLuanHopWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        YKienCuocHopWidget(
-          cubit: cubit,
-        ),
-    ];

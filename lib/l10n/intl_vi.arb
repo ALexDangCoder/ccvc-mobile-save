@@ -1353,7 +1353,11 @@
   "ban_phai_nhap_truong_loai_su_co": "Bạn phải chọn trường Loại sự cố",
   "vui_long_chon_hinh_thuc_hop" : "Vui lòng chọn hình thức họp",
   "dung_luong_toi_da_5mb" : "Dung lượng tối đa 5MB",
-  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB"
+  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB",
+  "them_phien_hop_thanh_cong": "Thêm phiên họp thành công",
+  "them_phien_hop_that_bai": "Thêm phiên họp thất bại",
+  "vui_long_nhap_ten_phien_hop": "Vui lòng nhập tên phiên họp!",
+  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!"
 }
 
 

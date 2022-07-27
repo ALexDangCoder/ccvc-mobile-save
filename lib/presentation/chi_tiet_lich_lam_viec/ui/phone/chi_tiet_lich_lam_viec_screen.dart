@@ -292,8 +292,10 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     );
                   },
                 ),
+
               /// Cu can bo di thay
-              CellPopPupMenu(
+              if (chiTietLichLamViecCubit.checkChoCuCanBoDiThay(dataModel))
+                CellPopPupMenu(
                 urlImage: ImageAssets.icCuCanBoDiThay,
                 text: S.current.cu_can_bo_di_thay,
                 onTap: () {
@@ -312,10 +314,10 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                       ),
                     ),
                   );
-
                 },
               ),
               //cu can bo
+              if (chiTietLichLamViecCubit.checkChoCuCanBo(dataModel))
               CellPopPupMenu(
                 urlImage: ImageAssets.icCuCanBo,
                 text: S.current.cu_can_bo,
@@ -404,7 +406,6 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   cubit: chiTietLichLamViecCubit,
                                 ),
                                 listScheduleCooperatives(),
-                                spaceH8,
                                 StreamBuilder<ChiTietLichLamViecModel>(
                                   stream: chiTietLichLamViecCubit
                                       .chiTietLichLamViecStream,
@@ -416,7 +417,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   },
                                 ),
                                 if (chiTietLichLamViecCubit
-                                    .checkChoBaoCaoKetQua(dataModel))
+                                    .isCreateOrThamGiaOrCongKhai(dataModel))
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,

@@ -7,9 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WidgetItemThongKe extends StatelessWidget {
-  ThongKeDiemDanhCaNhanModel thongKeDiemDanhCaNhanModel;
+  final ThongKeDiemDanhCaNhanModel thongKeDiemDanhCaNhanModel;
 
-  WidgetItemThongKe({
+  const WidgetItemThongKe({
     Key? key,
     required this.thongKeDiemDanhCaNhanModel,
   }) : super(key: key);
@@ -48,7 +48,7 @@ class WidgetItemThongKe extends StatelessWidget {
           ),
           itemthongKe(
             title: S.current.so_ngay_nghi,
-            number: thongKeDiemDanhCaNhanModel.soNgayNghiCoLyDo ?? 0,
+            number: thongKeDiemDanhCaNhanModel.soNgayNghi,
           ),
         ],
       ),

@@ -7,10 +7,10 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widg
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
 import 'package:flutter/material.dart';
 
-class ThongTinCuocHopWidget extends StatelessWidget {
+class ThongTinCuocHopTabletWidget extends StatelessWidget {
   final DetailMeetCalenderCubit cubit;
 
-  const ThongTinCuocHopWidget({Key? key, required this.cubit})
+  const ThongTinCuocHopTabletWidget({Key? key, required this.cubit})
       : super(key: key);
 
   @override
@@ -62,29 +62,33 @@ class ThongTinCuocHopWidget extends StatelessWidget {
                       .valueData()
                       .map(
                         (e) => Container(
-                          margin: const EdgeInsets.only(top: 24),
-                          child: RowDataWidget(
-                            urlIcon: e.urlIcon,
-                            text: e.text,
-                          ),
-                        ),
-                      )
+                      margin: const EdgeInsets.only(top: 24),
+                      child: RowDataWidget(
+                        urlIcon: e.urlIcon,
+                        text: e.text,
+                      ),
+                    ),
+                  )
                       .toList(),
                 ),
                 spaceH24,
-                StatusWidget(
-                  status: data.getStatus,
-                ),
                 spaceW16,
-                Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: ThongTinLienHeWidget(
-                    thongTinTxt: data.chuTriModel.dauMoiLienHe,
-                    sdtTxt: data.chuTriModel.soDienThoai,
-                    dsDiemCau: data.dsDiemCau ?? [],
-                    thuMoiFiles: data.fileDinhKemWithDecode ?? [],
-                  ),
-                )
+                Column(
+                  children: [
+                    StatusWidget(
+                      status: data.getStatus,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24, left: 16),
+                      child: ThongTinLienHeWidget(
+                        thongTinTxt: data.chuTriModel.dauMoiLienHe,
+                        sdtTxt: data.chuTriModel.soDienThoai,
+                        dsDiemCau: data.dsDiemCau ?? [],
+                        thuMoiFiles: data.fileDinhKemWithDecode ?? [],
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           ],

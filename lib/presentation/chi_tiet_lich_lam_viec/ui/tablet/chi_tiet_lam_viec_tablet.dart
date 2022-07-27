@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_la
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/cu_can_bo_di_thay_lich_lam_viec_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/cu_can_bo_lich_lam_viec_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
@@ -316,10 +317,26 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                   );
                 },
               ),
+              //cu can bo
               CellPopPupMenu(
                 urlImage: ImageAssets.icCuCanBo,
                 text: S.current.cu_can_bo,
-                onTap: () {},
+                onTap: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.cu_can_bo_di_thay,
+                    child: CuCanBoLichLamViecWidget(
+                      themCanBoCubit: themCanBoCubit,
+                      cubit: chiTietLichLamViecCubit,
+                      cubitThanhPhanTG: cubitThanhPhan,
+                      themDonViCubit: themDonViCubit,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
               )
             ];
           }

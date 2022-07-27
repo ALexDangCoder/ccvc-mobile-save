@@ -53,7 +53,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   DonViModel donViModel = DonViModel();
   List<DonViModel> listDataCanBo = [];
   List<CuCanBoLichLamViec> listOfficersDataCanBo = [];
-  // BehaviorSubject<List<CuCanBoLichLamViec>> listOfficersDataCanBoSubject = BehaviorSubject();
 
   ThanhPhanThamGiaReponsitory get dataRepo => Get.find();
 
@@ -471,17 +470,18 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             .firstWhere(
               (element) => element.donViId == donViId,
               orElse: () => Officer(),
-            ).id;
+            )
+            .id;
         idDanhSachCanBo = idCuCanBo ?? '';
         final listCanBoMoi = data
             .map(
               (element) => CuCanBoTreeDonVi(
-                scheduleId:element.scheduleId ,
+                scheduleId: element.scheduleId,
                 confirmDate: element.confirmDate,
                 parentId: element.parentId,
-                status: element.status??0,
+                status: element.status ?? 0,
                 isConfirm: element.isConfirm,
-                userId: element.userId??'',
+                userId: element.userId ?? '',
                 id: element.id ?? '',
                 name: element.tenDonVi ?? '',
                 tenCanBo: element.hoTen ?? '',
@@ -497,12 +497,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         cubitThanhPhanTG.listCanBoDuocChon = data
             .map(
               (element) => CuCanBoTreeDonVi(
-                scheduleId:element.scheduleId ,
+                scheduleId: element.scheduleId,
                 confirmDate: element.confirmDate,
                 parentId: element.parentId,
-                status: element.status??0,
+                status: element.status ?? 0,
                 isConfirm: element.isConfirm,
-                userId: element.userId??'',
+                userId: element.userId ?? '',
                 id: element.id ?? '',
                 name: element.hoTen ?? '',
                 hoTen: element.hoTen ?? '',
@@ -728,46 +728,43 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   List<CuCanBoLichLamViec> mergeCanBoDuocChonVaCuCanBo(
-    List<DonViModel> canBoDuocChon, 
+    List<DonViModel> canBoDuocChon,
     List<DonViModel> cuCanBo,
   ) {
     final List<CuCanBoLichLamViec> data = [];
-    data.addAll(
-        canBoDuocChon.map((e) {
-          if (e is CuCanBoTreeDonVi ){
-            return CuCanBoLichLamViec(
-            canBoId: e.canBoId.isEmpty?null:e.canBoId,
-            confirmDate: e.confirmDate,
-            donViId: e.donViId,
-            hoTen: (e.hoTen??'').isEmpty?null:e.hoTen,
-            id: e.id,
-            isConfirm: e.isConfirm,
-            parentId: e.parentId,
-            scheduleId: e.scheduleId,
-            status: e.status,
-            taskContent: e.noidung,
-            tenDonVi: e.tenDonVi,
-            userId: e.userId.isEmpty?null:e.userId,
-            userName: (e.userName??'').isEmpty?null:e.userName,
-            isXoa: e.isXoa,
-            isCheckThemCanCuCanBo: true,
-            );
-          }
-          return CuCanBoLichLamViec();
-        })
-    );
+    data.addAll(canBoDuocChon.map((e) {
+      if (e is CuCanBoTreeDonVi) {
+        return CuCanBoLichLamViec(
+          canBoId: e.canBoId.isEmpty ? null : e.canBoId,
+          confirmDate: e.confirmDate,
+          donViId: e.donViId,
+          hoTen: (e.hoTen ?? '').isEmpty ? null : e.hoTen,
+          id: e.id,
+          isConfirm: e.isConfirm,
+          parentId: e.parentId,
+          scheduleId: e.scheduleId,
+          status: e.status,
+          taskContent: e.noidung,
+          tenDonVi: e.tenDonVi,
+          userId: e.userId.isEmpty ? null : e.userId,
+          userName: (e.userName ?? '').isEmpty ? null : e.userName,
+          isXoa: e.isXoa,
+          isCheckThemCanCuCanBo: true,
+        );
+      }
+      return CuCanBoLichLamViec();
+    }));
 
     data.addAll(
       cuCanBo
           .map(
             (canBo) => CuCanBoLichLamViec(
-              id: null,
-              donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
-              canBoId: canBo.userId.isEmpty ? null : canBo.userId,
-              taskContent: canBo.noidung,
-              isXoa: false,
-              isCheckThemCanCuCanBo: false
-            ),
+                id: null,
+                donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+                canBoId: canBo.userId.isEmpty ? null : canBo.userId,
+                taskContent: canBo.noidung,
+                isXoa: false,
+                isCheckThemCanCuCanBo: false),
           )
           .toList(),
     );
@@ -779,13 +776,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<bool> cuCanBoLichLamViec({
     required List<CuCanBoLichLamViec> cuCanBo,
   }) async {
-
-
     showLoading();
     bool isCheck = true;
-    final DataCuCanBoLichLamViecRequest
-    dataCuCanBoLichLamViecRequest =
-    DataCuCanBoLichLamViecRequest(
+    final DataCuCanBoLichLamViecRequest dataCuCanBoLichLamViecRequest =
+        DataCuCanBoLichLamViecRequest(
       scheduleId: scheduleId,
       canBoDiThay: cuCanBo,
     );

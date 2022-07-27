@@ -36,7 +36,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     isSupporter = HiveLocal.checkPermissionApp(
       permissionType: PermissionType.HTKT,
-      permissionTxt: 'quyen-xu-ly-ho-tro',
+      permissionTxt: QUYEN_HO_TRO,
     );
   }
 

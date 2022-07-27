@@ -23,3 +23,4 @@ class DateTimeFormat {
 
 const String successCode = '200';
 const String QUYEN_TRUONG_PHONG = 'quyen-truong-phong';
+const String QUYEN_HO_TRO = 'quyen-xu-ly-ho-tro';

@@ -142,11 +142,11 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   ) {
     isTruongPhong = HiveLocal.checkPermissionApp(
       permissionType: hive_lc.PermissionType.HTKT,
-      permissionTxt: 'quyen-truong-phong',
+      permissionTxt: QUYEN_TRUONG_PHONG,
     );
     isItSupport = HiveLocal.checkPermissionApp(
       permissionType: hive_lc.PermissionType.HTKT,
-      permissionTxt: 'quyen-xu-ly-ho-tro',
+      permissionTxt: QUYEN_HO_TRO,
     );
 
     if (supportDetail?.idNguoiYeuCau == dataUser?.userInformation?.id) {

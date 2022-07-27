@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -19,13 +20,14 @@ class TableCalendarTabletWidget extends StatefulWidget {
   final Function(DateTime) onPageCalendar;
   final Function(DateTime) onSelect;
   final List<DateTime> calendarDays;
-
+ final bool isSelectYear;
   const TableCalendarTabletWidget({
     Key? key,
     required this.calendarDays,
     required this.controller,
     required this.onPageCalendar,
     required this.onSelect,
+    this.isSelectYear = false,
   }) : super(key: key);
 
   @override
@@ -203,19 +205,6 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
     if (dateTime.year == now.year && dateTime.month == now.month) {
       return S.current.thang_nay;
     }
-    switch (widget.controller.calendarType.value) {
-      case CalendarType.DAY:
-        return dateTime.formatDayCalendar;
-      case CalendarType.WEEK:
-        return dateTime.startEndWeek;
-      case CalendarType.MONTH:
-        final dateTimeFormRange =
-            dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-
-        final dataString =
-            // ignore: lines_longer_than_80_chars
-            '${dateTimeFormRange[0].day} - ${dateTimeFormRange[1].formatDayCalendar}';
-        return dataString;
-    }
+    return widget.controller.dateFormat(dateTime);
   }
 }

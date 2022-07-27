@@ -121,7 +121,14 @@ class AccountImpl implements AccountRepository {
       () => _accountServiceCommon.getPermission({"isGetAll": true}),
       (res) =>
           res.data?.toDomain() ??
-          PermissionApp(qLVB: [], pAKN: [], vPDT: [], qLNV: []),
+          PermissionApp(
+            qLVB: [],
+            pAKN: [],
+            vPDT: [],
+            qLNV: [],
+            hTCS: [],
+            hTKT: [],
+           ),
     );
   }
 
@@ -183,6 +190,7 @@ class AccountImpl implements AccountRepository {
         () => _accountServiceGateWay.refreshToken(
               accessToken,
               refreshToken,
-            ), (res) => res.toModel());
+            ),
+        (res) => res.toModel());
   }
 }

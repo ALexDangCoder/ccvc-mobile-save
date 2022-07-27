@@ -33,7 +33,7 @@ class ListPhienHopModel {
 
   String dateTimeView() {
     return '${DateTime.parse(thoiGianBatDau ?? '').formatApiListBieuQuyetMobile}'
-        ' - ${DateTime.parse(thoiGianKetThuc ?? '').formatApiDetailSSAM}';
+        ' - ${DateTime.parse(thoiGianKetThuc ?? '').formatApiHHMM}';
   }
 }
 

@@ -19,5 +19,8 @@ class DateTimeFormat {
   static const DATE_FORMAT_TEXT_FIELD = _dtFormat8;
   static const DATE_SELECT_TEXT_FIELD = _dtFormat9;
   static const DATE_ISO_86 = _dtFormat10;
-
 }
+
+const String successCode = '200';
+const String QUYEN_TRUONG_PHONG = 'quyen-truong-phong';
+const String QUYEN_HO_TRO = 'quyen-xu-ly-ho-tro';

@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_d
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/form_input_base.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -33,7 +32,6 @@ class TimKiemYcHoTro extends StatefulWidget {
 
 class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   late ScrollController _controller;
-  late ThemDonViCubit _themDonViCubit;
 
   void closeKey() {
     final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -43,7 +41,6 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   }
 
   void init() {
-    _themDonViCubit = ThemDonViCubit();
     _controller = ScrollController();
     _controller.addListener(() {
       widget.cubit.isShowDonVi.add(false);
@@ -293,16 +290,67 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                     cubit.getItemsToaNha(
                                                   snapshot.data ?? [],
                                                 );
-                                                return CustomDropDown(
-                                                  hint: _textTitle(
-                                                    S.current.chon,
-                                                  ),
-                                                  onSelectItem: (value) {
-                                                    cubit.onChangeToaNha(value);
-                                                  },
-                                                  value: cubit.buildingIdName,
-                                                  items: listResult,
-                                                );
+                                                return listResult.isNotEmpty
+                                                    ? CustomDropDown(
+                                                        hint: _textTitle(
+                                                          S.current.chon,
+                                                        ),
+                                                        onSelectItem: (value) {
+                                                          cubit.onChangeToaNha(
+                                                              value);
+                                                        },
+                                                        value: cubit
+                                                            .buildingIdName,
+                                                        items: listResult,
+                                                      )
+                                                    : Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              colorNumberCellQLVB,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            6,
+                                                          ),
+                                                          border: Border.all(
+                                                            color:
+                                                                borderItemCalender,
+                                                          ),
+                                                        ),
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 8,
+                                                          right: 4,
+                                                        ),
+                                                        height: 48,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              S.current
+                                                                  .khong_co_du_lieu,
+                                                              style:
+                                                                  tokenDetailAmount(
+                                                                fontSize: 14,
+                                                                color:
+                                                                    color3D5586,
+                                                              ),
+                                                            ),
+                                                            SvgPicture.asset(
+                                                              ImageAssets
+                                                                  .ic_drop_down,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
                                               },
                                             ),
                                             spaceH16,
@@ -401,7 +449,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                   itemBuilder: (context, index) {
                                     return TreeViewWidget(
                                       selectOnly: true,
-                                      themDonViCubit: _themDonViCubit,
+                                      themDonViCubit:
+                                          widget.cubit.themDonViCubit,
                                       node: data[index],
                                       onSelect: (value) {
                                         cubit.onChangeDonVi(value);

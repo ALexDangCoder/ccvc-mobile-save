@@ -47,7 +47,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
   void dispose() {
     widget.cubit.dispose();
     super.dispose();
-
   }
 
   @override
@@ -122,7 +121,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                           validate: (value) {
                             if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
+                              return S.current.ban_phai_nhap_truong_ten_thiet_bi;
                             }
                           },
                         ),
@@ -141,7 +140,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                           validate: (value) {
                             if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
+                              return S.current.ban_phai_nhap_truong_so_dien_thoai_lien_he;
                             } else {
                               return null;
                             }
@@ -158,7 +157,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                           validate: (value) {
                             if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
+                              return S.current.ban_phai_nhap_truong_mo_ta_su_co;
                             }
                           },
                         ),
@@ -180,7 +179,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                           validate: (value) {
                             if ((value ?? '').isEmpty) {
-                              return S.current.khong_duoc_de_trong;
+                              return S.current.ban_phai_nhap_truong_so_phong;
                             }
                           },
                         ),
@@ -206,16 +205,17 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           builder: (context, snapshot) {
                             return snapshot.data ?? false
                                 ? Padding(
-                              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                              child: Text(
-                                S.current.khong_duoc_de_trong,
-                                style: textNormalCustom(
-                                  color: redChart,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            )
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 8.0),
+                                    child: Text(
+                                      S.current.ban_phai_nhap_truong_loai_su_co,
+                                      style: textNormalCustom(
+                                        color: redChart,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  )
                                 : const SizedBox.shrink();
                           },
                         ),
@@ -252,6 +252,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
     bool isHightLight = false,
     int? maxLength,
     bool? isEnable,
+    TextEditingController? controller,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,6 +295,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           ),
         spaceH8,
         TextFieldValidator(
+          controller: controller,
           hintText: hintText,
           onChange: onChange,
           maxLine: maxLine,
@@ -365,42 +367,32 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
           widget.cubit.checkAllThemMoiYCHoTro();
           if ((_groupKey.currentState?.validator() ?? true) &&
               widget.cubit.validateAllDropDown) {
-            widget.cubit
-                .postDataThemMoiHTKT()
-                .then((value) {
-                  if(value){
-                    final FToast toast = FToast();
-                    toast.init(context);
-                    toast.showToast(
-                      child: ShowToast(
-                        text: S.current.luu_du_lieu_thanh_cong,
-                        icon: ImageAssets.icSucces,
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                    Navigator.pop(context);
-                  } else {
-                    final FToast toast = FToast();
-                    toast.init(context);
-                    toast.showToast(
-                      child: ShowToast(
-                        text: S.current.thay_doi_that_bai,
-                        icon: ImageAssets.icError,
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                  }
+            widget.cubit.postDataThemMoiHTKT().then((value) {
+              if (value) {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.luu_du_lieu_thanh_cong,
+                    icon: ImageAssets.icSucces,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+                Navigator.pop(context);
+              } else {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.thay_doi_that_bai,
+                    icon: ImageAssets.icError,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
+              }
             });
           } else {
-            final toast = FToast();
-            toast.init(context);
-            toast.showToast(
-              child: ShowToast(
-                text: S.current.sai_dinh_dang_truong,
-                icon: ImageAssets.icError,
-              ),
-              gravity: ToastGravity.BOTTOM,
-            );
+
           }
         },
         title1: S.current.dong,

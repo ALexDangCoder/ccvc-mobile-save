@@ -28,12 +28,15 @@ class TabCungHeThongMobile extends StatefulWidget {
 }
 
 class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
-  final TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    controller = TextEditingController();
+    if (widget.cubit.keySearchChonNguoi != '') {
+      controller.text = widget.cubit.keySearchChonNguoi;
+    }
   }
 
   @override
@@ -67,6 +70,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                             maxHeight: 250.h,
                             showSearchBox: true,
                             mode: Mode.MENU,
+                            searchDelay: const Duration(seconds: 1),
                             items: widget.cubit.listDropDown,
                             dropdownSearchDecoration: const InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -79,6 +83,8 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                             dropdownBuilder: (context, value) {
                               return const SizedBox();
                             },
+                            onFind: (value) =>
+                                widget.cubit.searchGroup(value ?? ''),
                             onChanged: (value) {
                               widget.cubit.themNhom(value ?? '');
                             },

@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MainCalendarMeetingTablet extends StatefulWidget {
@@ -108,55 +109,61 @@ class _MainCalendarMeetingTabletState extends State<MainCalendarMeetingTablet> {
                 stream: cubit.listNgayCoLichStream,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? <DateTime>[];
-                  return ChooseTimeCalendarTablet(
-                    calendarDays: data,
-                    onChange: (startDate, endDate, type, keySearch) {
-                      cubit.handleDatePicked(
-                        keySearch: keySearch,
-                        endDate: endDate,
-                        startDate: startDate,
+                  return BlocBuilder(
+                    bloc: cubit,
+                    builder: (context, CalendarMeetingState state){
+                      return ChooseTimeCalendarTablet(
+                        isSelectYear: state is ChartViewState,
+                        calendarDays: data,
+                        onChange: (startDate, endDate, type, keySearch) {
+                          cubit.handleDatePicked(
+                            keySearch: keySearch,
+                            endDate: endDate,
+                            startDate: startDate,
+                          );
+                          if (type != cubit.state.typeView) {
+                            if (cubit.state is CalendarViewState) {
+                              cubit.emitCalendarViewState(type: type);
+                              cubit.refreshDataDangLich();
+                            } else if (cubit.state is ListViewState) {
+                              cubit.emitListViewState(type: type);
+                              cubit.refreshDataDangLich();
+                            } else {
+                              cubit.emitChartViewState(type: type);
+                              cubit.getDataDangChart();
+                            }
+                          } else {
+                            if (cubit.state is CalendarViewState ||
+                                cubit.state is ListViewState) {
+                              cubit.refreshDataDangLich();
+                            } else {
+                              cubit.getDataDangChart();
+                            }
+                          }
+                        },
+                        controller: cubit.controller,
+                        onChangeYear: (startDate, endDate, keySearch) {
+                          cubit.getDaysHaveEvent(
+                            startDate: startDate,
+                            endDate: endDate,
+                          );
+                        },
+                        onTapTao: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => const TaoLichHopScreen(),
+                            ),
+                          ).then((value) async {
+                            if (value == null) {
+                              return;
+                            }
+                            if (value) {
+                              cubit.refreshDataDangLich();
+                            }
+                          });
+                        },
                       );
-                      if (type != cubit.state.typeView) {
-                        if (cubit.state is CalendarViewState) {
-                          cubit.emitCalendarViewState(type: type);
-                          cubit.refreshDataDangLich();
-                        } else if (cubit.state is ListViewState) {
-                          cubit.emitListViewState(type: type);
-                          cubit.refreshDataDangLich();
-                        } else {
-                          cubit.emitChartViewState(type: type);
-                          cubit.getDataDangChart();
-                        }
-                      } else {
-                        if (cubit.state is CalendarViewState ||
-                            cubit.state is ListViewState) {
-                          cubit.refreshDataDangLich();
-                        } else {
-                          cubit.getDataDangChart();
-                        }
-                      }
-                    },
-                    controller: cubit.controller,
-                    onChangeYear: (startDate, endDate, keySearch) {
-                      cubit.getDaysHaveEvent(
-                        startDate: startDate,
-                        endDate: endDate,
-                      );
-                    },
-                    onTapTao: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => const TaoLichHopScreen(),
-                        ),
-                      ).then((value) async {
-                        if (value == null) {
-                          return;
-                        }
-                        if (value) {
-                          cubit.refreshDataDangLich();
-                        }
-                      });
                     },
                   );
                 },

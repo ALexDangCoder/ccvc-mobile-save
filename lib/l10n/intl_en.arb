@@ -1101,7 +1101,7 @@
   "chinh_sua_htkt": "Chỉnh sửa yêu cầu hỗ trợ",
   "ban_can_mo_quyen_de_truy_cap_ung_dung": "Bạn cần mở quyền truy cập ứng dụng",
   "thay_doi_phong": "Thay đổi phòng",
-  "nguoi_tiep_nhan_yeu_cau": "Người tiếp nhận yêu cầu",
+  "nguoi_tiep_nhan_yeu_cau": "Người yêu cầu",
   "thong_ke": "Thống kê",
   "tai_anh_len": "Tải ảnh lên",
   "anh_mau": "Ảnh mẫu",
@@ -1388,5 +1388,7 @@
   "chon_loai_xe": "Chọn loại xe",
   "vui_long_chon_hinh_thuc_hop" : "Vui lòng chọn hình thức họp",
   "dung_luong_toi_da_5mb" : "Dung lượng tối đa 5MB",
-  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB"
+  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB",
+  "them_phien_hop_thanh_cong": "Thêm phiên họp thành công",
+  "them_phien_hop_that_bai": "Thêm phiên họp thất bại"
 }

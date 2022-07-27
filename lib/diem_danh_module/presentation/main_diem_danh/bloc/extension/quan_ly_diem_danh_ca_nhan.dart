@@ -122,7 +122,12 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
             DateTimeFormat.FORMAT_REQUEST,
           ),
         );
-        return dataTime.month == currentTime.month && !isEndWeek(element);
+
+        ///chỉ được hiển thị ngày trong tháng và không hiển thị ngày cuối tuần
+        ///( trừ khi đi làm ) và chỉ hiển thị đến ngày hiện tại
+        return dataTime.month == currentTime.month &&
+            !isEndWeek(element) &&
+            dataTime.day <= DateTime.now().day;
       });
       for (final BangDiemDanhCaNhanModel e in tmpList) {
         appointments.add(

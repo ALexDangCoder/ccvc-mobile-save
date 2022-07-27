@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
@@ -20,6 +21,7 @@ import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ThemMoiYCHoTroTablet extends StatefulWidget {
   final HoTroKyThuatCubit cubit;
@@ -404,6 +406,15 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
               widget.cubit.validateAllDropDown) {
             widget.cubit.postDataThemMoiHTKT().then((value) {
               if (value) {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.luu_du_lieu_thanh_cong,
+                    icon: ImageAssets.icSucces,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
                 Navigator.pop(context);
               }
             });

@@ -13,12 +13,13 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/form_group/form_group.dart';
+
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
-import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -316,6 +317,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
     int? maxLength,
     String? initValue,
     bool? isEnable,
+    TextEditingController? controller,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,6 +360,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
           ),
         spaceH8,
         TextFieldValidator(
+          controller: controller,
           initialValue: initValue,
           hintText: hintText,
           onChange: onChange,
@@ -427,12 +430,10 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
         },
         onClickRight: () {
           widget.cubit.checkAllEditYCHT();
-          if ((_groupKey.currentState?.validator() ?? true) &&
+          if ((_groupKey.currentState?.validator() ?? false) &&
               widget.cubit.validateAllDropDown) {
-            widget.cubit
-                .postEditHTKT()
-                .then((value) {
-              if(value){
+            widget.cubit.postEditHTKT().then((value) {
+              if (value) {
                 final FToast toast = FToast();
                 toast.init(context);
                 toast.showToast(
@@ -456,15 +457,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
               }
             });
           } else {
-            final toast = FToast();
-            toast.init(context);
-            toast.showToast(
-              child: ShowToast(
-                text: S.current.sai_dinh_dang_truong,
-                icon: ImageAssets.icError,
-              ),
-              gravity: ToastGravity.BOTTOM,
-            );
+
           }
         },
         title1: S.current.dong,

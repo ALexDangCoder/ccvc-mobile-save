@@ -218,7 +218,6 @@ class _TreeDonViState extends State<TreeDonVi> {
                         DateFormat(DateFormatApp.pickDateSearchFormat)
                             .parse(dateTime)
                             .toStringWithListFormat;
-                    print('selectStartDate$selectStartDate');
                     setState(() {});
                   },
                 ),
@@ -243,7 +242,6 @@ class _TreeDonViState extends State<TreeDonVi> {
                     selectEndDate = DateFormat(
                       DateFormatApp.pickDateSearchFormat,
                     ).parse(dateTime).toStringWithListFormat;
-                    print('selectEndDate$selectEndDate');
                     setState(() {});
                   },
                 ),

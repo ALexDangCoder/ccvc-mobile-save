@@ -58,6 +58,7 @@ class ChiTietLichHopModel {
   String? thuMoiFiles;
   String? linhVucId;
   List<FilesChiTietHop>? fileDinhKemWithDecode;
+  bool isCuCanBo;
 
   ChiTietLichHopModel({
     this.id = '',
@@ -107,6 +108,7 @@ class ChiTietLichHopModel {
     this.thuMoiFiles,
     this.linhVucId,
     this.fileDinhKemWithDecode,
+    this.isCuCanBo = false,
   });
 
   String getNgayBatDau() {

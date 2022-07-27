@@ -28,11 +28,15 @@ class TabCungHeThongMobile extends StatefulWidget {
 }
 
 class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
-  final TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController();
+    if (widget.cubit.keySearchChonNguoi != '') {
+      controller.text = widget.cubit.keySearchChonNguoi;
+    }
   }
 
   @override

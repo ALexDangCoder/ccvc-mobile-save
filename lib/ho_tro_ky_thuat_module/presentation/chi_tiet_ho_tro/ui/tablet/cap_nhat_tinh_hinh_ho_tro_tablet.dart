@@ -113,7 +113,8 @@ class _CapNhatTinhHinhHoTroTabLetState
                       maxLine: 4,
                     ),
                     spaceH16,
-                    if (isTruongPhong)
+                    if (isTruongPhong &&
+                        widget.cubit.supportDetail.nguoiXuLy == null)
                       if (widget.idTask?.isNotEmpty ?? false) ...[
                         StreamBuilder<List<String>>(
                           stream: widget.cubit.getItSupport,
@@ -132,11 +133,48 @@ class _CapNhatTinhHinhHoTroTabLetState
                             }
                           },
                         ),
-                      ] else
+                      ] else ...[
                         dropDownField(
                           title: S.current.nguoi_xu_ly,
                           listDropdown: widget.cubit.listItSupport,
+                        )
+                      ]
+                    else ...[
+                      Text(
+                        S.current.nguoi_xu_ly,
+                        style: tokenDetailAmount(
+                          fontSize: 14,
+                          color: color3D5586,
                         ),
+                      ),
+                      spaceH8,
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: 12.w,
+                          top: 12.h,
+                          bottom: 12.h,
+                        ),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: borderColor.withOpacity(0.2),
+                          border: Border.all(
+                            color: borderColor,
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              widget.cubit.supportDetail.nguoiXuLy ?? '',
+                              style: tokenDetailAmount(
+                                fontSize: 14,
+                                color: borderColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                     spaceH16,
                     Text(
                       S.current.ngay_hoan_thanh,
@@ -161,22 +199,24 @@ class _CapNhatTinhHinhHoTroTabLetState
                                   birthday = dateTime;
                                 },
                                 minimumDate: (widget.cubit.supportDetail
-                                    .thoiGianYeuCau?.isNotEmpty ??
-                                    false)
+                                            .thoiGianYeuCau?.isNotEmpty ??
+                                        false)
                                     ? DateFormat(
-                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                                ).parse(
-                                  widget.cubit.supportDetail.thoiGianYeuCau!,
-                                )
+                                        DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                      ).parse(
+                                        widget.cubit.supportDetail
+                                            .thoiGianYeuCau!,
+                                      )
                                     : null,
                                 initDateTime: (widget.cubit.supportDetail
-                                    .ngayHoanThanh?.isNotEmpty ??
-                                    false)
+                                            .ngayHoanThanh?.isNotEmpty ??
+                                        false)
                                     ? DateFormat(
-                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                                ).parse(
-                                  widget.cubit.supportDetail.ngayHoanThanh!,
-                                )
+                                        DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                      ).parse(
+                                        widget
+                                            .cubit.supportDetail.ngayHoanThanh!,
+                                      )
                                     : null,
                               );
                             } else {
@@ -197,22 +237,22 @@ class _CapNhatTinhHinhHoTroTabLetState
                           birthday = dateTime;
                         },
                         minimumDate: (widget.cubit.supportDetail.thoiGianYeuCau
-                            ?.isNotEmpty ??
-                            false)
+                                    ?.isNotEmpty ??
+                                false)
                             ? DateFormat(
-                          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                        ).parse(
-                          widget.cubit.supportDetail.thoiGianYeuCau!,
-                        )
+                                DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                              ).parse(
+                                widget.cubit.supportDetail.thoiGianYeuCau!,
+                              )
                             : null,
-                        initDateTime:
-                        (widget.cubit.supportDetail.ngayHoanThanh?.isNotEmpty ??
-                            false)
+                        initDateTime: (widget.cubit.supportDetail.ngayHoanThanh
+                                    ?.isNotEmpty ??
+                                false)
                             ? DateFormat(
-                          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                        ).parse(
-                          widget.cubit.supportDetail.ngayHoanThanh!,
-                        )
+                                DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                              ).parse(
+                                widget.cubit.supportDetail.ngayHoanThanh!,
+                              )
                             : null,
                       ),
                     spaceH10,
@@ -233,27 +273,27 @@ class _CapNhatTinhHinhHoTroTabLetState
                         onPressed2: () {
                           widget.cubit
                               .capNhatTHXL(
-                            taskId:
-                            (widget.cubit.supportDetail.id ?? widget.idTask) ??
+                            taskId: (widget.cubit.supportDetail.id ??
+                                    widget.idTask) ??
                                 '',
                             name: (trangThai ??
-                                widget.cubit.supportDetail.trangThaiXuLy) ??
+                                    widget.cubit.supportDetail.trangThaiXuLy) ??
                                 '',
                             description: note ?? '',
                             code: (trangThai ??
-                                widget.cubit.supportDetail.trangThaiXuLy) ??
+                                    widget.cubit.supportDetail.trangThaiXuLy) ??
                                 '',
                             finishDay: birthday ?? '',
                             handlerId: (nguoiXuLy ??
-                                widget.cubit.supportDetail.nguoiXuLy) ??
+                                    widget.cubit.supportDetail.nguoiXuLy) ??
                                 '',
                             id: (widget.cubit.supportDetail.id ??
-                                widget.idTask) ??
+                                    widget.idTask) ??
                                 '',
                             comment: '',
                           )
                               .then(
-                                (value) {
+                            (value) {
                               if (value == successCode) {
                                 Navigator.pop(context, true);
                                 final FToast toast = FToast();

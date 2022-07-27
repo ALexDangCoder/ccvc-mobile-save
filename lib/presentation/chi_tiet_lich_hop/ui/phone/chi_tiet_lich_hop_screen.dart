@@ -381,54 +381,57 @@ PreferredSizeWidget appbarChiTietHop(
   );
 }
 
-List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
+List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) {
+  final isHuyOrThuHoi = cubit.trangThaiHuy()  || cubit.trangThaiHuy();
+  return [
+    if (!isHuyOrThuHoi)Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: CongTacChuanBiWidget(
+        cubit: cubit,
+      ),
+    ),
+    if (!isHuyOrThuHoi)Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ChuongTrinhHopWidget(
+        cubit: cubit,
+      ),
+    ),
+    if (!isHuyOrThuHoi)Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ThanhPhanThamGiaWidget(
+        cubit: cubit,
+      ),
+    ),
+    if (!isHuyOrThuHoi)Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: TaiLieuWidget(
+        cubit: cubit,
+      ),
+    ),
+    if (!cubit.isTaoHo() && !isHuyOrThuHoi)
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: CongTacChuanBiWidget(
+        child: PhatBieuWidget(
           cubit: cubit,
         ),
       ),
+    if (!cubit.isTaoHo() && !isHuyOrThuHoi)
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ChuongTrinhHopWidget(
+        child: BieuQuyetWidget(
           cubit: cubit,
         ),
       ),
+    if (!cubit.isTaoHo() && !isHuyOrThuHoi)
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ThanhPhanThamGiaWidget(
+        child: KetLuanHopWidget(
           cubit: cubit,
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: TaiLieuWidget(
-          cubit: cubit,
-        ),
+    if (!cubit.isTaoHo() && !isHuyOrThuHoi)
+      YKienCuocHopWidget(
+        cubit: cubit,
       ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: PhatBieuWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: BieuQuyetWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: KetLuanHopWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        YKienCuocHopWidget(
-          cubit: cubit,
-        ),
-    ];
+  ];
+}

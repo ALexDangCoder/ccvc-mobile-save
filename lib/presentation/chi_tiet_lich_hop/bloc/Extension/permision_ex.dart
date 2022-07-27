@@ -227,6 +227,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool trangThaiHuy() => getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY;
+  bool trangThaiThuHoi() => getChiTietLichHopModel.status == STATUS_SCHEDULE.THU_HOI;
 
   bool thanhPhanThamGiaDaXacNhan() {
     final nguoiDaThamGia = thamGia().where((e) {

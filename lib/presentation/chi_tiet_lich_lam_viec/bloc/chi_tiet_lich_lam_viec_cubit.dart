@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -909,6 +908,19 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         nguoiDuocMoi(dataModel) == currentUserId ||
         dataModel.canBoChuTri?.id == currentUserId;
     return validTime && validPerson;
+  }
+
+  bool isCreateOrThamGiaOrCongKhai(ChiTietLichLamViecModel dataModel) {
+    final idUser = currentUserId.toLowerCase();
+    final isCreateUser = (dataModel.createBy?.id ?? '').toLowerCase() == idUser;
+    final isCongKhai = dataModel.publishSchedule ?? false;
+    final isThamGia = dataModel.scheduleCoperatives
+            ?.where(
+              (element) => (element.canBoId ?? '').toLowerCase() == idUser,
+            )
+            .isNotEmpty ??
+        false;
+    return isCreateUser || isCongKhai || isThamGia;
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {

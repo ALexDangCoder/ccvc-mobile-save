@@ -101,9 +101,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.tieuDe = value;
                     },
                     validator: (value) {
-                      return value?.checkNull(
-                        showText: S.current.vui_long_nhap_ten_phien_hop,
-                      );
+                      return value?.checkNull();
                     },
                   ),
                 ),
@@ -159,9 +157,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.noiDung = value;
                     },
                     validator: (value) {
-                      return value?.checkNull(
-                        showText: S.current.vui_long_nhap_noi_dung_phien_hop,
-                      );
+                      return value?.checkNull();
                     },
                   ),
                 ),

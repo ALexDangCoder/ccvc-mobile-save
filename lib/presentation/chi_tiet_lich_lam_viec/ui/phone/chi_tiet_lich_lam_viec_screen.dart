@@ -315,6 +315,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
 
                 },
               ),
+              //cu can bo
               CellPopPupMenu(
                 urlImage: ImageAssets.icCuCanBo,
                 text: S.current.cu_can_bo,

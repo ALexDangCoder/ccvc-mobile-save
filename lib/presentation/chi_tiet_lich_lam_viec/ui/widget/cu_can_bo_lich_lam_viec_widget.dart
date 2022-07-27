@@ -49,6 +49,7 @@ class _CuCanBoLichLamViecWidgetState
     super.initState();
     widget.cubitThanhPhanTG.isDuplicateCanBo.add(false);
     widget.themCanBoCubit.titleCanBo.sink.add('');
+    widget.cubitThanhPhanTG.listCanBoThamGia.add([]);
     widget.themDonViCubit.validateDonVi.sink.add(false);
     widget.cubit.getDanhSachCuCanBo(widget.cubitThanhPhanTG);
     widget.themDonViCubit.themDonViSubject.sink.add(true);

@@ -476,7 +476,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         final listCanBoMoi = data
             .map(
               (element) => CuCanBoTreeDonVi(
+                scheduleId:element.scheduleId ,
                 confirmDate: element.confirmDate,
+                parentId: element.parentId,
+                status: element.status??0,
                 isConfirm: element.isConfirm,
                 userId: element.userId??'',
                 id: element.id ?? '',
@@ -494,13 +497,16 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         cubitThanhPhanTG.listCanBoDuocChon = data
             .map(
               (element) => CuCanBoTreeDonVi(
+                scheduleId:element.scheduleId ,
                 confirmDate: element.confirmDate,
+                parentId: element.parentId,
+                status: element.status??0,
                 isConfirm: element.isConfirm,
                 userId: element.userId??'',
                 id: element.id ?? '',
-                name: element.tenDonVi ?? '',
-                tenCanBo: element.hoTen ?? '',
+                name: element.hoTen ?? '',
                 hoTen: element.hoTen ?? '',
+                tenCanBo: element.hoTen ?? '',
                 canBoId: element.canBoId ?? '',
                 donViId: element.donViId ?? '',
                 tenDonVi: element.tenDonVi ?? '',
@@ -730,10 +736,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         canBoDuocChon.map((e) {
           if (e is CuCanBoTreeDonVi ){
             return CuCanBoLichLamViec(
-            canBoId: e.canBoId,
+            canBoId: e.canBoId.isEmpty?null:e.canBoId,
             confirmDate: e.confirmDate,
             donViId: e.donViId,
-            hoTen: e.hoTen,
+            hoTen: (e.hoTen??'').isEmpty?null:e.hoTen,
             id: e.id,
             isConfirm: e.isConfirm,
             parentId: e.parentId,
@@ -741,8 +747,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             status: e.status,
             taskContent: e.noidung,
             tenDonVi: e.tenDonVi,
-            userId: e.userId,
-            userName: e.userName,
+            userId: (e.userId??'').isEmpty?null:e.userId,
+            userName: (e.userName??'').isEmpty?null:e.userName,
             isXoa: e.isXoa,
             isCheckThemCanCuCanBo: true,
             );

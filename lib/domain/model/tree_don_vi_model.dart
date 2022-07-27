@@ -49,6 +49,8 @@ class CuCanBoTreeDonVi extends DonViModel {
   String? userName;
   String? hoTen;
 
+  CuCanBoTreeDonVi.empty();
+
   CuCanBoTreeDonVi({
     String id = '',
     String name = '',
@@ -105,6 +107,18 @@ class DonViModel {
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
+
+  CuCanBoTreeDonVi get  toCuCanBoTreeDonVi => CuCanBoTreeDonVi(
+    id: id,
+    name: name,
+    canBoId: canBoId,
+    status: status,
+    userId: userId,
+    tenDonVi: tenDonVi,
+    taskContent: noidung,
+    donViId: donViId,
+    tenCanBo: tenCanBo,
+  );
 
   DonViModel({
     this.id = '',

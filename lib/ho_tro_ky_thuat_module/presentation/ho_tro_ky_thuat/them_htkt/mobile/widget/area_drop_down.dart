@@ -90,7 +90,7 @@ class AreaDropDown extends StatelessWidget {
                 ? Padding(
                     padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                     child: Text(
-                      S.current.khong_duoc_de_trong,
+                      S.current.ban_phai_nhap_truong_khu_vuc,
                       style: textNormalCustom(
                         color: redChart,
                         fontWeight: FontWeight.w400,

@@ -72,7 +72,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                 closeKey();
               },
               child: Container(
-                height: 750,
+                height: 700,
                 padding:
                     EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 clipBehavior: Clip.hardEdge,
@@ -293,16 +293,67 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                                     cubit.getItemsToaNha(
                                                   snapshot.data ?? [],
                                                 );
-                                                return CustomDropDown(
-                                                  hint: _textTitle(
-                                                    S.current.chon,
-                                                  ),
-                                                  onSelectItem: (value) {
-                                                    cubit.onChangeToaNha(value);
-                                                  },
-                                                  value: cubit.buildingIdName,
-                                                  items: listResult,
-                                                );
+                                                return listResult.isNotEmpty
+                                                    ? CustomDropDown(
+                                                        hint: _textTitle(
+                                                          S.current.chon,
+                                                        ),
+                                                        onSelectItem: (value) {
+                                                          cubit.onChangeToaNha(
+                                                              value);
+                                                        },
+                                                        value: cubit
+                                                            .buildingIdName,
+                                                        items: listResult,
+                                                      )
+                                                    : Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              colorNumberCellQLVB,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            6,
+                                                          ),
+                                                          border: Border.all(
+                                                            color:
+                                                                borderItemCalender,
+                                                          ),
+                                                        ),
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 8,
+                                                          right: 4,
+                                                        ),
+                                                        height: 48,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              S.current
+                                                                  .khong_co_du_lieu,
+                                                              style:
+                                                                  tokenDetailAmount(
+                                                                fontSize: 14,
+                                                                color:
+                                                                    color3D5586,
+                                                              ),
+                                                            ),
+                                                            SvgPicture.asset(
+                                                              ImageAssets
+                                                                  .ic_drop_down,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
                                               },
                                             ),
                                             spaceH16,
@@ -311,8 +362,6 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                             FormInputBase(
                                               hintText: S.current.so_phong,
                                               initText: cubit.room ?? '',
-                                              textInputType:
-                                                  TextInputType.number,
                                               isClose: true,
                                               onChange: (value) {
                                                 cubit.onChangeRoom(value);

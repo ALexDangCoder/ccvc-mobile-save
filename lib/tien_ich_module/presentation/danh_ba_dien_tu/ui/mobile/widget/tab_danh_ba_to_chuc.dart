@@ -22,11 +22,6 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
   String keySearch = '';
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: Scaffold(

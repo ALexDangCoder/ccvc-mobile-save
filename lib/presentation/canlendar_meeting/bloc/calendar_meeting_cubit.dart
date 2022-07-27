@@ -575,9 +575,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }) {
     stateType = StateType.CHO_DUYET;
     if (state is ListViewState) {
+      _initDefault();
       emitListViewState();
       _titleSubject.sink.add(oldTitle);
     } else if (state is CalendarViewState)  {
+      _initDefault();
       emitCalendarViewState();
       _titleSubject.sink.add(oldTitle);
     } else {
@@ -617,7 +619,13 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     }
 
   }
-
+void _initDefault(){
+  if(controller.calendarType.value == CalendarType.YEAR){
+    final now = controller.selectDate.value;
+    startDate = now;
+    endDate = now;
+  }
+}
   /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();

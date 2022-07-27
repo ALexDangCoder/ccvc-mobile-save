@@ -87,7 +87,9 @@ extension DateFormatString on DateTime {
   String get formatApiListBieuQuyetMobile {
     return DateFormat(DateTimeFormat.DATE_TIME_PICKER).format(this);
   }
-
+  String get formatApiHHMM {
+    return DateFormat(DateTimeFormat.DATE_TIME_24).format(this);
+  }
   String get formatPAKN {
     return DateFormat(DateTimeFormat.DATE_TIME_23).format(this);
   }

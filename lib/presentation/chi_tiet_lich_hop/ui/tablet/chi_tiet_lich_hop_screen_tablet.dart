@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/thong_tin_cuoc_hop_widget.dart';
@@ -28,30 +29,18 @@ class DetailMeetCalenderTablet extends StatefulWidget {
 
 class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
     with SingleTickerProviderStateMixin {
-  late DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
+  DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
   final ThanhPhanThamGiaCubit cubitThanhPhan = ThanhPhanThamGiaCubit();
   final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
   final ThemDonViCubit themDonViCubit = ThemDonViCubit();
   late TabController _controller;
-  List<String> listTextTab = [
-    S.current.cong_tac_chuan_bi,
-    S.current.chuong_trinh_hop,
-    S.current.thanh_phan_tham_gia,
-    S.current.tai_lieu,
-    S.current.phat_bieu,
-    S.current.bieu_quyet,
-    S.current.ket_luan_hop,
-    S.current.y_kien_cuop_hop
-  ];
 
   @override
   void initState() {
     cubit.idCuocHop = widget.id;
-    cubitThanhPhan.getTree();
     cubit.initDataChiTiet(needCheckPermission: true);
     cubit.getListPhienHop(cubit.idCuocHop);
-    cubit.getDanhSachCanBoHop(widget.id);
-    _controller = TabController(vsync: this, length: listTextTab.length);
+    cubitThanhPhan.getTree();
     super.initState();
   }
 
@@ -68,109 +57,126 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 16, right: 16.0, left: 16.0),
-        child: DefaultTabController(
-          length: listTextTab.length,
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverToBoxAdapter(
-                  child: ExpandGroup(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: backgroundColorApp,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          border:
-                              Border.all(color: borderColor.withOpacity(0.5)),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: const Offset(0, 4),
-                              blurRadius: 10,
-                              color: shadowContainerColor.withOpacity(0.05),
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: ThongTinCuocHopWidget(
-                                cubit: cubit,
+        child: StreamBuilder<List<TabWidgetDetailMeet>>(
+            stream: cubit.listWidgetDetailSubject.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              if (data.isNotEmpty) {
+                _controller = TabController(
+                    vsync: this,
+                    length: cubit.getListWidgetDetailSubject.length);
+                return DefaultTabController(
+                  length: cubit.getListWidgetDetailSubject.length,
+                  child: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        SliverToBoxAdapter(
+                          child: ExpandGroup(
+                            child: SingleChildScrollView(
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: backgroundColorApp,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    topRight: Radius.circular(12),
+                                  ),
+                                  border: Border.all(
+                                      color: borderColor.withOpacity(0.5)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 10,
+                                      color: shadowContainerColor
+                                          .withOpacity(0.05),
+                                    )
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ThongTinCuocHopTabletWidget(
+                                        cubit: cubit,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ],
+                          ),
+                        )
+                      ];
+                    },
+                    body: ProviderWidget<DetailMeetCalenderCubit>(
+                      cubit: cubit,
+                      child: StateStreamLayout(
+                        textEmpty: S.current.khong_co_du_lieu,
+                        retry: () {},
+                        error: AppException(
+                          S.current.error,
+                          S.current.error,
                         ),
-                      ),
-                    ),
-                  ),
-                )
-              ];
-            },
-            body: ProviderWidget<DetailMeetCalenderCubit>(
-              cubit: cubit,
-              child: StateStreamLayout(
-                textEmpty: S.current.khong_co_du_lieu,
-                retry: () {},
-                error: AppException(
-                  S.current.error,
-                  S.current.error,
-                ),
-                stream: cubit.stateStream,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: backgroundColorApp,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
-                    ),
-                    border: Border.all(color: borderColor.withOpacity(0.5)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(0, 4),
-                        blurRadius: 10,
-                        color: shadowContainerColor.withOpacity(0.05),
-                      )
-                    ],
-                  ),
-                  child: StickyHeader(
-                    overlapHeaders: true,
-                    header: TabBar(
-                      controller: _controller,
-                      unselectedLabelStyle: textNormalCustom(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      indicatorColor: indicatorColor,
-                      unselectedLabelColor: colorA2AEBD,
-                      labelColor: indicatorColor,
-                      labelStyle: textNormalCustom(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      isScrollable: true,
-                      tabs: List.generate(
-                        listTextTab.length,
-                        (index) => Tab(
-                          child: Text(
-                            listTextTab[index],
+                        stream: cubit.stateStream,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: backgroundColorApp,
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
+                            border:
+                            Border.all(color: borderColor.withOpacity(0.5)),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 4),
+                                blurRadius: 10,
+                                color: shadowContainerColor.withOpacity(0.05),
+                              )
+                            ],
+                          ),
+                          child: StickyHeader(
+                            overlapHeaders: true,
+                            header: TabBar(
+                              controller: _controller,
+                              unselectedLabelStyle: textNormalCustom(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              indicatorColor: indicatorColor,
+                              unselectedLabelColor: colorA2AEBD,
+                              labelColor: indicatorColor,
+                              labelStyle: textNormalCustom(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              isScrollable: true,
+                              tabs: List.generate(
+                                cubit.getListWidgetDetailSubject.length,
+                                    (index) => Tab(
+                                  child: Text(
+                                    cubit.getListWidgetDetailSubject[index]
+                                        .getName(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            content: TabBarView(
+                              controller: _controller,
+                              children: cubit.getListWidgetDetailSubject
+                                  .map((e) => e.getWidget(cubit))
+                                  .toList(),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    content: TabBarView(
-                      controller: _controller,
-                      children: listWidgetChiTietHop(cubit),
-                    ),
                   ),
-                ),
-              ),
-            ),
-          ),
-        ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            }),
       ),
     );
   }

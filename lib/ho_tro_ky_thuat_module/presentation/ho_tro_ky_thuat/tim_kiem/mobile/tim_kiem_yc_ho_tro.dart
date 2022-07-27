@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_d
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/form_input_base.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -33,7 +32,6 @@ class TimKiemYcHoTro extends StatefulWidget {
 
 class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   late ScrollController _controller;
-  late ThemDonViCubit _themDonViCubit;
 
   void closeKey() {
     final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -43,7 +41,6 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
   }
 
   void init() {
-    _themDonViCubit = ThemDonViCubit();
     _controller = ScrollController();
     _controller.addListener(() {
       widget.cubit.isShowDonVi.add(false);
@@ -401,7 +398,8 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                   itemBuilder: (context, index) {
                                     return TreeViewWidget(
                                       selectOnly: true,
-                                      themDonViCubit: _themDonViCubit,
+                                      themDonViCubit:
+                                          widget.cubit.themDonViCubit,
                                       node: data[index],
                                       onSelect: (value) {
                                         cubit.onChangeDonVi(value);

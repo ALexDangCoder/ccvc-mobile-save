@@ -24,12 +24,16 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as get_dart;
 import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
-  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial()) {
+    themDonViCubit = ThemDonViCubit();
+  }
+  late ThemDonViCubit themDonViCubit;
   List<File>? filesThemMoiYCHTKT = [];
   static const String rightPath = 'attachments/upload/';
 
@@ -571,9 +575,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
-          buildingListStream.sink
-              .add([S.current.khong_co_du_lieu]);
-          addTaskHTKTRequest.buildingName =  S.current.khong_co_du_lieu;
+          buildingListStream.sink.add([S.current.khong_co_du_lieu]);
+          addTaskHTKTRequest.buildingName = S.current.khong_co_du_lieu;
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;

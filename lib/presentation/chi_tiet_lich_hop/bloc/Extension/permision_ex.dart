@@ -304,14 +304,15 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     if (!trangThaiHuy() &&
         laLanhDaoDonVi.isNotEmpty &&
         coQuyenCuCanBo &&
-        dataXacNhanThamGia()[0].trangThai != 2) {
+        dataXacNhanThamGia()[0].trangThai !=
+            ThanhPhanThamGiaStatus.TU_CHOI_THAM_GIA) {
       listButton.add(PERMISSION_DETAIL.CU_CAN_BO);
     }
 
     ///check quyen button tu choi tham gia
     if (dataXacNhanThamGia().isNotEmpty &&
         showTextThamGia().isNotEmpty &&
-        thamDu == 0 &&
+        thamDu == ThanhPhanThamGiaStatus.CHO_XAC_NHAN &&
         !getChiTietLichHopModel.isCuCanBo) {
       listButton.add(PERMISSION_DETAIL.TU_CHOI_THAM_GIA);
     }
@@ -349,19 +350,23 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
     ///check quyen xac nhan tham gia
     if (dataXacNhanThamGia().isNotEmpty) {
-      if (dataXacNhanThamGia()[0].trangThai == 0 &&
+      if (dataXacNhanThamGia()[0].trangThai ==
+              ThanhPhanThamGiaStatus.CHO_XAC_NHAN &&
           isDaCuCanBo() &&
           !getChiTietLichHopModel.isCuCanBo) {
         listButton.add(PERMISSION_DETAIL.XAC_NHAN_THAM_GIA);
       }
 
       ///check quyen huy xac nhan
-      if (dataXacNhanThamGia()[0].trangThai == 1 && isDaCuCanBo()) {
+      if (dataXacNhanThamGia()[0].trangThai ==
+              ThanhPhanThamGiaStatus.THAM_GIA &&
+          isDaCuCanBo()) {
         listButton.add(PERMISSION_DETAIL.HUY_XAC_NHAN);
       }
 
       ///check quyen xac nhan lai
-      if (dataXacNhanThamGia()[0].trangThai == 2) {
+      if (dataXacNhanThamGia()[0].trangThai ==
+          ThanhPhanThamGiaStatus.TU_CHOI_THAM_GIA) {
         listButton.add(PERMISSION_DETAIL.XAC_NHAN_LAI);
       }
     }

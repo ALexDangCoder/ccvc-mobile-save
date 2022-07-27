@@ -429,8 +429,10 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
           widget.cubit.checkAllEditYCHT();
           if ((_groupKey.currentState?.validator() ?? true) &&
               widget.cubit.validateAllDropDown) {
-            widget.cubit.postEditHTKT().then((value) {
-              if (value) {
+            widget.cubit
+                .postEditHTKT()
+                .then((value) {
+              if(value){
                 final FToast toast = FToast();
                 toast.init(context);
                 toast.showToast(

@@ -295,20 +295,19 @@ class ReportListCubit extends BaseCubit<BaseState> {
     showLoading();
     emit(const CompletedLoadMore(CompleteType.ERROR));
     if (isTree) {
-      sort=A_Z_SORT;
       textSearch.add('');
       isCheckDataDetailScreen.add(false);
       listReportTree.add(null);
     } else if (isSearch) {
       listReportSearch = null;
     } else {
-      sortHome=sort;
+      sortHome = sort;
       listReport = null;
       await getListFavorite();
     }
     final Result<List<ReportItem>> result = await _reportService.getListReport(
       idFolder.isNotEmpty ? idFolder : folderId,
-      sort,
+      isTree ? A_Z_SORT : sort,
       textSearch.value,
       appId,
     );

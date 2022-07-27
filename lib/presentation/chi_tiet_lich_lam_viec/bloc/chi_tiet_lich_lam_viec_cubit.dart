@@ -910,13 +910,18 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return validTime && validPerson;
   }
 
-  bool isCreateOrThamGiaOrCongKhai (ChiTietLichLamViecModel dataModel){
+  bool isCreateOrThamGiaOrCongKhai(ChiTietLichLamViecModel dataModel) {
     final idUser = currentUserId.toLowerCase();
     final isCreateUser = (dataModel.createBy?.id ?? '').toLowerCase() == idUser;
     final isCongKhai = dataModel.publishSchedule ?? false;
-    final isThamGia = dataModel.scheduleCoperatives?.where((element) => (element.canBoId ?? '').toLowerCase() == idUser)
+    final isThamGia = dataModel.scheduleCoperatives
+            ?.where(
+              (element) => (element.canBoId ?? '').toLowerCase() == idUser,
+            )
+            .isNotEmpty ??
+        false;
+    return isCreateUser || isCongKhai || isThamGia;
   }
-
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
     return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) &&

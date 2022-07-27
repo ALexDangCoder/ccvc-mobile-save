@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart' as hive_lc;
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
@@ -18,7 +19,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   ChiTietHoTroCubit() : super(ChiTietHoTroInitial());
 
   String message = '';
-  static const String successCode = '200';
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
@@ -39,12 +39,23 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     }
   }
 
-  List<String> listTrangThai = [
-    CHUA_XU_LY_VALUE,
-    DANG_XU_LY_VALUE,
-    DA_HOAN_THANH_VALUE,
-    TU_CHOI_XU_LY_VALUE,
-  ];
+  List<String> listTrangThai = [];
+
+  void checkCodeTrangThai(String code) {
+    listTrangThai.clear();
+    if (code == '' || code == CHUA_XU_LY) {
+      listTrangThai = [
+        DANG_XU_LY_VALUE,
+      ];
+    }
+    if(code == DANG_XU_LY) {
+      listTrangThai = [
+        DA_HOAN_THANH_VALUE,
+        TU_CHOI_XU_LY_VALUE,
+      ];
+    }
+  }
+
   static const String DA_HOAN_THANH_VALUE = 'Đã hoàn thành';
   static const String DANG_XU_LY_VALUE = 'Đang xử lý';
   static const String CHUA_XU_LY_VALUE = 'Đang chờ xử lý';
@@ -64,6 +75,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     final result = await _hoTroKyThuatRepository.getSupportDetail(id);
     result.when(
       success: (res) {
+        checkCodeTrangThai(res.codeTrangThai ?? '');
         final DateFormat dateFormat =
             DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT);
         if (res.ngayHoanThanh != null) {
@@ -92,18 +104,53 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   }
 
   bool isItSupport = false;
+  bool isTruongPhong = false;
+  bool isNguoiYeuCau = false;
 
   final dataUser = hive_lc.HiveLocal.getDataUser();
+
+  bool disableRightButton() {
+    bool disableButton = false;
+
+    if (isTruongPhong && supportDetail.codeTrangThai == DANG_XU_LY) {
+      disableButton = true;
+    }
+    if (isNguoiYeuCau &&
+        supportDetail.codeTrangThai != DA_HOAN_THANH &&
+        !isTruongPhong) {
+      disableButton = true;
+    }
+    return disableButton;
+  }
+
+  bool checkOnlyButton() {
+    bool onlyButton = false;
+    if ((isTruongPhong || isItSupport) &&
+        supportDetail.codeTrangThai == DA_HOAN_THANH &&
+        !isNguoiYeuCau) {
+      onlyButton = true;
+    }
+    if (supportDetail.codeTrangThai == TU_CHOI_XU_LY) {
+      onlyButton = true;
+    }
+    return onlyButton;
+  }
 
   void checkUser(
     List<ThanhVien> list,
     SupportDetail? supportDetail,
   ) {
-    for (final element in list) {
-      if (element.userId == dataUser?.userId) {
-        isItSupport = true;
-        break;
-      }
+    isTruongPhong = HiveLocal.checkPermissionApp(
+      permissionType: hive_lc.PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
+    isItSupport = HiveLocal.checkPermissionApp(
+      permissionType: hive_lc.PermissionType.HTKT,
+      permissionTxt: QUYEN_HO_TRO,
+    );
+
+    if (supportDetail?.idNguoiYeuCau == dataUser?.userInformation?.id) {
+      isNguoiYeuCau = true;
     }
     emit(
       ChiTietHoTroSuccess(

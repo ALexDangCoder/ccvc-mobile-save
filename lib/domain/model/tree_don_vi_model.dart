@@ -41,6 +41,47 @@ extension TypeFileShowDonViEx on TypeFileShowDonVi {
   }
 }
 
+class CuCanBoTreeDonVi extends DonViModel {
+  String? confirmDate;
+  bool? isConfirm;
+  String? parentId;
+  String? scheduleId;
+  String? userName;
+  String? hoTen;
+
+  CuCanBoTreeDonVi.empty();
+
+  CuCanBoTreeDonVi({
+    String id = '',
+    String name = '',
+    String canBoId = '',
+    int status = 0,
+    String userId = '',
+    String tenDonVi = '',
+    String taskContent = '',
+    String donViId = '',
+    String tenCanBo = '',
+    bool isXoa = false,
+    this.confirmDate,
+    this.isConfirm,
+    this.parentId,
+    this.scheduleId,
+    this.userName,
+    this.hoTen,
+  }) : super(
+          id: id,
+          name: name,
+          canBoId: canBoId,
+          status: status,
+          userId: userId,
+          tenDonVi: tenDonVi,
+          noidung: taskContent,
+          donViId: donViId,
+          isXoa: isXoa,
+          tenCanBo: tenCanBo,
+        );
+}
+
 class DonViModel {
   String id = '';
   String name = '';
@@ -66,6 +107,18 @@ class DonViModel {
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
+
+  CuCanBoTreeDonVi get  toCuCanBoTreeDonVi => CuCanBoTreeDonVi(
+    id: id,
+    name: name,
+    canBoId: canBoId,
+    status: status,
+    userId: userId,
+    tenDonVi: tenDonVi,
+    taskContent: noidung,
+    donViId: donViId,
+    tenCanBo: tenCanBo,
+  );
 
   DonViModel({
     this.id = '',
@@ -133,6 +186,7 @@ class DonViModel {
       tenDonVi: tenDonVi,
     );
   }
+
   DonViModel.empty();
 }
 

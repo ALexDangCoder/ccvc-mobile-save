@@ -575,9 +575,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
-          buildingListStream.sink.add([S.current.khong_co_du_lieu]);
-          addTaskHTKTRequest.buildingName = S.current.khong_co_du_lieu;
-          listToaNha.sink.add(res.first.childCategories ?? []);
+          buildingListStream.sink
+              .add([S.current.khong_co_du_lieu]);
+          addTaskHTKTRequest.buildingName =  S.current.khong_co_du_lieu;
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
         } else if (title == LOAI_SU_CO) {

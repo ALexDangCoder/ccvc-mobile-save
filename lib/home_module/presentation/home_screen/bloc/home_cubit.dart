@@ -628,6 +628,7 @@ class DanhSachCongViecCubit extends HomeCubit {
       success: (res) async {
         danhSachNguoiGan.clear();
         danhSachNguoiGan.addAll(res.listTodoImportant);
+        danhSachNguoiGan.addAll(res.listTodoDone);
         await getListNameCanBo();
         _getTodoList.sink.add(res);
       },

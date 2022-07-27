@@ -201,7 +201,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   void checkDuplicate(List<ListLichLVModel> list) {
     for (final item in list) {
-      if (!item.isTrung) {
+      if (item.isTrung) {
         final currentTimeFrom =
             getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
         final currentTimeTo =

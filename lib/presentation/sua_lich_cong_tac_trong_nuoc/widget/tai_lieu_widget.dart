@@ -61,38 +61,39 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
           height: 16.5.textScale(),
         ),
         ExpandedSection(
-            expand: isExpand,
-            child: SelectFileBtn(
-              onChange: (files) {
-                widget.createCubit.filesTaoLich = files;
-              },
-              maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
-              initFileFromApi: widget.createCubit.files
-                  ?.map(
-                    (file) => FileModel(
+          expand: isExpand,
+          child: SelectFileBtn(
+            onChange: (files) {
+              widget.createCubit.filesTaoLich = files;
+            },
+            maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
+            initFileFromApi: widget.createCubit.files
+                    ?.map(
+                      (file) => FileModel(
                         id: file.id ?? '',
                         fileLength: file.getSize(),
                         name: file.name,
                       ),
-              )
-                  .toList() ??
-                  [],
-              onDeletedFileApi: (fileDeleted) {
-                widget.createCubit.filesDelete.add(
-                  fileDeleted.id ?? '',
-                );
-              },
-              allowedExtensions: const [
-                FileExtensions.DOC,
-                FileExtensions.DOCX,
-                FileExtensions.JPEG,
-                FileExtensions.JPG,
-                FileExtensions.PDF,
-                FileExtensions.PNG,
-                FileExtensions.XLSX,
-                FileExtensions.PPTX,
-              ],
-            ),
+                    )
+                    .toList() ??
+                [],
+            onDeletedFileApi: (fileDeleted) {
+              widget.createCubit.filesDelete.add(
+                fileDeleted.id ?? '',
+              );
+            },
+            allowedExtensions: const [
+              FileExtensions.DOC,
+              FileExtensions.DOCX,
+              FileExtensions.JPEG,
+              FileExtensions.JPG,
+              FileExtensions.PDF,
+              FileExtensions.PNG,
+              FileExtensions.XLSX,
+              FileExtensions.PPTX,
+            ],
+            overSizeTextMessage: S.current.dung_luong_toi_da_20,
+          ),
         )
       ],
     );

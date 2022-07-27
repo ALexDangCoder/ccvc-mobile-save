@@ -31,7 +31,7 @@ class DateInput extends StatefulWidget {
 
 class _DateInputState extends State<DateInput> {
   String? dateSelect;
-  String? cachedSelect;
+  String? cachedSelect = DateTime.now().toString();
 
   @override
   @override

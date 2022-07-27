@@ -94,6 +94,8 @@ class Data {
         reportStatusCode: reportStatusCode ?? '',
         reportStatusId: reportStatusId ?? '',
         canBoChuTriId: canBoChuTriId ?? '',
+        createBy: createBy ?? '',
+        nguoiTao: nguoiTao ?? '',
       );
 }
 

@@ -191,7 +191,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         isHightLight: true,
                                         maxLine: 3,
                                         title: S.current.mo_ta_su_co,
-                                        hintText: S.current.nhap_mo_ta_su_co,
+                                        hintText: S.current.mo_ta_su_co,
                                         onChange: (value) {
                                           widget.cubit.editTaskHTKTRequest
                                               .description = value;
@@ -315,7 +315,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                 ? Padding(
                     padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                     child: Text(
-                      S.current.khong_duoc_de_trong,
+                      S.current.ban_phai_nhap_truong_loai_su_co,
                       style: textNormalCustom(
                         color: redChart,
                         fontWeight: FontWeight.w400,

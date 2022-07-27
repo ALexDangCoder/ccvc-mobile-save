@@ -110,7 +110,8 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                 bloc: widget.themCanBoCubit,
                                 builder: (context, state) {
                                   return StreamBuilder<List<DonViModel>>(
-                                    stream: widget.themCanBoCubit.getCanbo,
+                                    stream:
+                                        widget.themCanBoCubit.getCanboStream,
                                     builder: (context, snapshot) {
                                       final data =
                                           snapshot.data ?? <DonViModel>[];

@@ -72,7 +72,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                 closeKey();
               },
               child: Container(
-                height: 750,
+                height: 700,
                 padding:
                     EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 clipBehavior: Clip.hardEdge,
@@ -311,8 +311,6 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                             FormInputBase(
                                               hintText: S.current.so_phong,
                                               initText: cubit.room ?? '',
-                                              textInputType:
-                                                  TextInputType.number,
                                               isClose: true,
                                               onChange: (value) {
                                                 cubit.onChangeRoom(value);

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/appointment_engine/appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:syncfusion_flutter_core/core.dart';
@@ -22,6 +23,7 @@ class AppointmentLayout extends StatefulWidget {
   /// views in calendar widget.
   const AppointmentLayout(
       this.calendar,
+      this.onAppointmentRemove,
       this.view,
       this.visibleDates,
       this.visibleAppointments,
@@ -76,6 +78,8 @@ class AppointmentLayout extends StatefulWidget {
 
   /// Defines the current platform is mobile platform or not.
   final bool isMobilePlatform;
+
+  final void  Function( Map<DateTime, int> appointmentsRemove) onAppointmentRemove;
 
   /// Defines the width of the appointment layout widget.
   final double width;
@@ -212,6 +216,13 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
             appointmentView.appointment!.actualStartTime.year,
             appointmentView.appointment!.actualStartTime.month,
             appointmentView.appointment!.actualStartTime.day);
+
+        final data = CalendarViewHelper.getAppointmentDetail(
+            appointmentView.appointment!, widget.calendar.dataSource);
+        if (data is Appointment) {
+          data.position = appointmentView.position;
+          data.maxPosition = appointmentView.maxPositions;
+        }
         final Widget child = widget.calendar.appointmentBuilder!(
             context,
             CalendarAppointmentDetails(
@@ -624,11 +635,40 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
         widget.calendar.timeSlotViewSettings.timeRulerSize, widget.view);
     final double width = widget.width - timeLabelWidth;
     AppointmentHelper.setAppointmentPositionAndMaxPosition(
-        _appointmentCollection,
-        widget.calendar,
-        widget.view,
-        visibleAppointments,
-        false);
+      _appointmentCollection,
+      widget.calendar,
+      widget.view,
+      visibleAppointments,
+      false,
+    );
+    if (widget.calendar.maxDayItemShow != null) {
+
+      final Map<DateTime, int> countDayAppNoShow  ={};
+
+      final maxShow = widget.calendar.maxDayItemShow ?? 1;
+      _appointmentCollection.removeWhere(
+        (element){
+          final res = element.position > maxShow -1;
+          final  startDate = element.appointment?.startTime ?? DateTime.now();
+          final key = DateTime (
+              startDate.year,
+              startDate.month,
+              startDate.day
+          );
+          if ( res){
+            countDayAppNoShow[key] = (countDayAppNoShow[key] ?? 0 ) + 1 ;
+          }
+          return res;
+        },
+      );
+      for (final element in _appointmentCollection) {
+        if (element.maxPositions > maxShow -1 ) {
+          element.maxPositions = maxShow;
+        }
+      }
+
+      widget.onAppointmentRemove.call(countDayAppNoShow);
+    }
     final int count = widget.visibleDates.length;
     final double cellWidth = width / count;
     final double cellHeight = widget.timeIntervalHeight;

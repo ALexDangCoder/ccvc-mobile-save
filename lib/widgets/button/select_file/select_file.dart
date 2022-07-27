@@ -27,6 +27,7 @@ class SelectFileBtn extends StatefulWidget {
     this.errMultipleFileMessage,
     this.textButton,
     this.iconButton,
+    this.overSizeTextMessage,
   }) : super(key: key);
 
   final bool hasMultiFile;
@@ -39,6 +40,7 @@ class SelectFileBtn extends StatefulWidget {
   final Function(FileModel fileDeleted)? onDeletedFileApi;
   final String? errMultipleFileMessage;
   final String? iconButton;
+  final String? overSizeTextMessage;
 
   @override
   State<SelectFileBtn> createState() => _SelectFileBtnState();
@@ -91,8 +93,9 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     );
     if (isOverMaxSize) {
       cubit.errMessageSubject.add(
-        '${S.current.tong_file_khong_vuot_qua} '
-        '$convertData MB',
+        widget.overSizeTextMessage ??
+            '${S.current.tong_file_khong_vuot_qua} '
+                '$convertData MB',
       );
       return;
     }

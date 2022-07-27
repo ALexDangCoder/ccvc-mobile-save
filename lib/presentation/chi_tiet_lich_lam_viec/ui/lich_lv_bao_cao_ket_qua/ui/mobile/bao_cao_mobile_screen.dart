@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
@@ -13,6 +15,7 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class BaoCaoScreen extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
@@ -24,6 +27,12 @@ class BaoCaoScreen extends StatefulWidget {
 }
 
 class _BaoCaoScreenState extends State<BaoCaoScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<BaoCaoModel>>(
@@ -82,7 +91,7 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
   }
 
   bool isEditOrDelete(BaoCaoModel data) {
-    return (HiveLocal.getDataUser()?.userId ?? '') == data.canBoChuTriId;
+    return (HiveLocal.getDataUser()?.userId ?? '') == data.createBy;
   }
 
   void onEditBaoCao(BuildContext context, BaoCaoModel data) {

@@ -5,21 +5,24 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/bao_cao_mobile_screen.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+
 import '../../widgets/bottom_sheet_bao_cao.dart';
 
 class BtnShowChinhSuaBaoCao extends StatelessWidget {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit;
   final ChiTietLichLamViecModel dataModel;
 
-  const BtnShowChinhSuaBaoCao({Key? key, required this.chiTietLichLamViecCubit, required this.dataModel})
+  const BtnShowChinhSuaBaoCao(
+      {Key? key,
+      required this.chiTietLichLamViecCubit,
+      required this.dataModel})
       : super(key: key);
 
   @override
@@ -43,14 +46,15 @@ class BtnShowChinhSuaBaoCao extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (dataModel.status != EnumScheduleStatus.Cancel &&
-              !chiTietLichLamViecCubit.checkMenuLichThuHoi(dataModel))
+              !chiTietLichLamViecCubit.checkMenuLichThuHoi(dataModel) &&
+              chiTietLichLamViecCubit.checkChoBaoCaoKetQua(dataModel))
             SolidButton(
-            onTap: () {
-              onBaoCaoKetQua(context);
-            },
-            text: S.current.bao_cao_ket_qua,
-            urlIcon: ImageAssets.ic_baocao,
-          ),
+              onTap: () {
+                onBaoCaoKetQua(context);
+              },
+              text: S.current.bao_cao_ket_qua,
+              urlIcon: ImageAssets.ic_baocao,
+            ),
           spaceH16,
           BaoCaoScreen(
             cubit: chiTietLichLamViecCubit,
@@ -88,9 +92,6 @@ class BtnShowChinhSuaBaoCao extends StatelessWidget {
         isBottomShow: false,
         funcBtnOk: () {
           Navigator.pop(context);
-
-
-
         },
       ).then((value) {
         if (value is bool && value) {

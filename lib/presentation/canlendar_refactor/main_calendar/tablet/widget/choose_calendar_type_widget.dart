@@ -34,6 +34,17 @@ class _ChooseTimeCalendarTypeWidgetState
       setState(() {});
     });
   }
+ @override
+  void didUpdateWidget(covariant ChooseTimeCalendarTypeWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if(!widget.isSelectYear){
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        widget.controller.calendarTypeDefault();
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +59,7 @@ class _ChooseTimeCalendarTypeWidgetState
 
     return Container(
       height: 48,
+      margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
@@ -57,6 +69,7 @@ class _ChooseTimeCalendarTypeWidgetState
       child: Row(
         children: List.generate(data.length, (index) {
           final result = data[index];
+
           return GestureDetector(
             onTap: () {
               type = data[index];

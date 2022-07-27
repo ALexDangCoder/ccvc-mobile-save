@@ -111,9 +111,9 @@ class _MainCalendarMeetingTabletState extends State<MainCalendarMeetingTablet> {
                   final data = snapshot.data ?? <DateTime>[];
                   return BlocBuilder(
                     bloc: cubit,
-                    buildWhen: (prev, state) => prev != state,
                     builder: (context, CalendarMeetingState state){
                       return ChooseTimeCalendarTablet(
+                        isSelectYear: state is ChartViewState,
                         calendarDays: data,
                         onChange: (startDate, endDate, type, keySearch) {
                           cubit.handleDatePicked(

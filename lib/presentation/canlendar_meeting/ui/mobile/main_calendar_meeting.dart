@@ -121,7 +121,6 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                     final data = snapshot.data ?? <DateTime>[];
                     return BlocBuilder(
                       bloc: cubit,
-                      buildWhen: (prev, state) => prev != state,
                       builder: (context, CalendarMeetingState state){
                         return ChooseTimeCalendarWidget(
                           calendarDays: data,

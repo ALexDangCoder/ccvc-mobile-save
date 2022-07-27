@@ -34,6 +34,16 @@ class _ChooseTypeCalendarWidgetState extends State<ChooseTypeCalendarWidget> {
       setState(() {});
     });
   }
+ @override
+  void didUpdateWidget(covariant ChooseTypeCalendarWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if(!widget.isSelectYear){
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        widget.controller.calendarTypeDefault();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

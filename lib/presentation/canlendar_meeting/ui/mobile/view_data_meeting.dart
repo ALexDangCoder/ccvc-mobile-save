@@ -204,7 +204,7 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
                 index: index,
                 children: [
                   IndexedStack(
-                    index: typeState.index,
+                    index: typeState == CalendarType.YEAR? 0: typeState.index,
                     children: _listCalendarScreen,
                   ),
                   DataViewTypeList(

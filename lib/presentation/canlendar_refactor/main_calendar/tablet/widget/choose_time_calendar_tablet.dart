@@ -122,6 +122,7 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
           ),
         ),
         ChooseTimeCalendarTypeWidget(
+          isSelectYear: widget.isSelectYear,
           controller: controller,
           onChange: (type) {
             controller.calendarType.value = type;

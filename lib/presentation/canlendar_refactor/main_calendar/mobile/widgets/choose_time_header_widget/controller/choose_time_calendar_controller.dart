@@ -26,6 +26,12 @@ class ChooseTimeController {
     }
   }
 
+  void calendarTypeDefault() {
+    if (calendarType.value == CalendarType.YEAR) {
+      calendarType.value = CalendarType.DAY;
+    }
+  }
+
   void nextTime() {
     try {
       switch (calendarType.value) {

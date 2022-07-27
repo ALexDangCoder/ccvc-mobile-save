@@ -266,7 +266,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                         ),
                         child: DoubleButtonBottom(
                           title1: S.current.dong,
-                          title2: S.current.cap_nhat_thxl,
+                          title2: S.current.luu,
                           disableRightButton: widget.cubit.isTruongPhong &&
                               widget.cubit.supportDetail.codeTrangThai ==
                                   ChiTietHoTroCubit.DANG_XU_LY,

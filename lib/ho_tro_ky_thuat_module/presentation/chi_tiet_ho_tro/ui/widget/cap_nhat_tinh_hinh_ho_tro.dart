@@ -279,7 +279,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                               DoubleButtonBottom(
                                 title1: S.current.dong,
                                 onlyOneButton: widget.cubit.checkOnlyButton(),
-                                title2: S.current.cap_nhat_thxl,
+                                title2: S.current.luu,
                                 disableRightButton: widget
                                         .cubit.isTruongPhong &&
                                     widget.cubit.supportDetail.codeTrangThai ==

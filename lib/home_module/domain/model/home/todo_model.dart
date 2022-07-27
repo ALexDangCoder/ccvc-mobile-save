@@ -52,7 +52,8 @@ class ItemRowData {
 
   ItemRowData({required this.infor, this.id});
 }
-class NguoiGanModel{
+
+class NguoiGanModel {
   final String id;
   final String name;
 

@@ -462,7 +462,7 @@ class DanhSachCongViecCubit extends HomeCubit {
           0,
           res,
         );
-        data.listTodoImportant=listSortImportant(data.listTodoImportant);
+        data.listTodoImportant = listSortImportant(data.listTodoImportant);
         danhSachTenNguoiGan.insert(0, nameInsert);
         if (res.id != null) {
           tempName[res.id!] = nameInsert;
@@ -484,7 +484,7 @@ class DanhSachCongViecCubit extends HomeCubit {
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
     data.listTodoImportant.insert(0, result..isTicked = false);
-    final listTodoImportant=listSortImportant(data.listTodoImportant);
+    final listTodoImportant = listSortImportant(data.listTodoImportant);
     _getTodoList.sink.add(
       TodoListModel(
         listTodoImportant: listTodoImportant,
@@ -502,7 +502,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     );
 
     data.listTodoDone.insert(0, result..isTicked = true);
-    data.listTodoDone=listSortImportant(data.listTodoDone);
+    data.listTodoDone = listSortImportant(data.listTodoDone);
     _getTodoList.sink.add(
       data,
     );
@@ -632,8 +632,8 @@ class DanhSachCongViecCubit extends HomeCubit {
         danhSachNguoiGan.clear();
         danhSachNguoiGan.addAll(res.listTodoImportant);
         danhSachNguoiGan.addAll(res.listTodoDone);
-        res.listTodoImportant=  listSortImportant(res.listTodoImportant);
-        res.listTodoDone=  listSortImportant(res.listTodoDone);
+        res.listTodoImportant = listSortImportant(res.listTodoImportant);
+        res.listTodoDone = listSortImportant(res.listTodoDone);
         await getListNameCanBo();
 
         _getTodoList.sink.add(res);

@@ -34,11 +34,16 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       permissionType: PermissionType.HTKT,
       permissionTxt: QUYEN_TRUONG_PHONG,
     );
+    isSupporter = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: 'quyen-xu-ly-ho-tro',
+    );
   }
 
   List<File>? filesThemMoiYCHTKT = [];
   static const String rightPath = 'attachments/upload/';
   late bool isManager;
+  late bool isSupporter;
 
   //color
   List<Color> colorChart = [
@@ -314,7 +319,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       handlerId: handlerId,
       keyWord: keyWord,
       isManager: isManager,
-      isSupporter: !isManager,
+      isSupporter: isSupporter,
     );
     result.when(
       success: (res) {

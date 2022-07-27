@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -179,7 +180,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
                 spaceH10,
                 textStatusRow(
                   textTitle: S.current.trang_thai_xu_ly,
-                  textContent: getTextStatus(objDSSC.codeTrangThai ?? ''),
+                  textContent: objDSSC.trangThaiXuLy ?? '',
                   statusColor: statusColor(objDSSC.codeTrangThai ?? ''),
                 ),
                 spaceH10,
@@ -297,7 +298,11 @@ class ItemDanhSachSuCo extends StatelessWidget {
                           ),
                         ],
                         if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.DA_HOAN_THANH) ...[
+                                HoTroKyThuatCubit.DA_HOAN_THANH &&
+                            (objDSSC.idNguoiYeuCau ==
+                                HiveLocal.getDataUser()
+                                    ?.userInformation
+                                    ?.id)) ...[
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
@@ -317,7 +322,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                     );
                                   },
                                 ).whenComplete(
-                                      () => cubit.getListDanhBaCaNhan(page: 1),
+                                  () => cubit.getListDanhBaCaNhan(page: 1),
                                 );
                               } else {
                                 showModalBottomSheet(
@@ -359,7 +364,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                     );
                                   },
                                 ).whenComplete(
-                                      () => cubit.getListDanhBaCaNhan(page: 1),
+                                  () => cubit.getListDanhBaCaNhan(page: 1),
                                 );
                               } else {
                                 showModalBottomSheet(
@@ -434,21 +439,6 @@ class ItemDanhSachSuCo extends StatelessWidget {
         return blueColor;
       default:
         return statusCalenderRed;
-    }
-  }
-
-  String getTextStatus(String status) {
-    switch (status) {
-      case HoTroKyThuatCubit.DA_HOAN_THANH:
-        return S.current.da_xu_ly;
-      case HoTroKyThuatCubit.CHUA_XU_LY:
-        return S.current.dang_cho_xu_ly;
-      case HoTroKyThuatCubit.TU_CHOI_XU_LY:
-        return S.current.tu_choi_xu_ly;
-      case HoTroKyThuatCubit.DANG_XU_LY:
-        return S.current.dang_xu_ly;
-      default:
-        return '';
     }
   }
 }

@@ -17,6 +17,7 @@ class SupportDetail {
   String? districId;
   String? ngayHoanThanh;
   String? room;
+  String? idNguoiYeuCau;
   List<SuCoHTKT>? danhSachSuCo;
   List<ListFileDinhKems>? filesDinhKem;
 
@@ -41,6 +42,7 @@ class SupportDetail {
     this.codeTrangThai,
     this.ngayHoanThanh,
     this.danhSachSuCo,
+    this.idNguoiYeuCau,
   });
 
   @override

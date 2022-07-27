@@ -7,16 +7,9 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chuong_trinh_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
@@ -162,9 +155,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: listWidgetChiTietHop(cubit).length,
+                        itemCount: cubit.getListWidgetDetailSubject.length,
                         itemBuilder: (context, index) {
-                          return listWidgetChiTietHop(cubit)[index];
+                          return cubit.getListWidgetDetailSubject[index]
+                              .getWidget(cubit);
                         },
                       ),
                       Padding(
@@ -380,55 +374,3 @@ PreferredSizeWidget appbarChiTietHop(
     ],
   );
 }
-
-List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: CongTacChuanBiWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ChuongTrinhHopWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ThanhPhanThamGiaWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: TaiLieuWidget(
-          cubit: cubit,
-        ),
-      ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: PhatBieuWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: BieuQuyetWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: KetLuanHopWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        YKienCuocHopWidget(
-          cubit: cubit,
-        ),
-    ];

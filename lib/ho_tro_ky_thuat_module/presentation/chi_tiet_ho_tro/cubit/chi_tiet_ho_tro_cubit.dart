@@ -48,7 +48,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         DANG_XU_LY_VALUE,
       ];
     }
-    if(code == DANG_XU_LY) {
+    if (code == DANG_XU_LY) {
       listTrangThai = [
         DA_HOAN_THANH_VALUE,
         TU_CHOI_XU_LY_VALUE,
@@ -171,18 +171,28 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     required String description,
   }) async {
     String statusCode = '';
+    final DateTime finishDayRequestParse = (finishDay != '')
+        ? DateFormat(DateTimeFormat.DATE_ISO_86).parse(finishDay)
+        : (supportDetail.ngayHoanThanh != '')
+            ? DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT)
+                .parse(supportDetail.ngayHoanThanh!)
+            : DateTime.now();
+    final DateTime date = DateTime.now();
+    final finishDayRequest = DateTime(
+      finishDayRequestParse.year,
+      finishDayRequestParse.month,
+      finishDayRequestParse.day,
+      date.hour,
+      date.minute,
+      date.second,
+    );
     final TaskProcessing model = TaskProcessing(
       id: id,
       taskId: taskId,
       comment: comment,
       code: getCode(code),
       name: name,
-      finishDay: (finishDay != '')
-          ? DateFormat(DateTimeFormat.DATE_ISO_86).parse(finishDay)
-          : (supportDetail.ngayHoanThanh != '')
-              ? DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT)
-                  .parse(supportDetail.ngayHoanThanh!)
-              : null,
+      finishDay: finishDayRequest,
       handlerId: getHandlerId(handlerId),
       description: description,
     );

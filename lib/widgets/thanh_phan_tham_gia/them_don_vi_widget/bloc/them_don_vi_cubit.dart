@@ -152,8 +152,11 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     _getTree.sink.add(listTree);
   }
 
+  String keySearchChonNguoi = '';
+
   void onSearch(String search) {
     final String textSearch = search.trim();
+    keySearchChonNguoi = textSearch;
     if (_debounce != null) {
       if (_debounce!.isActive) _debounce!.cancel();
     }

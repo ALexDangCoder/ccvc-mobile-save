@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/calendar_type_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/choose_time_item.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
+import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/header_table_calendar_widget.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/tablet_calendar_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -12,13 +13,14 @@ class ChooseTimeCalendarWidget extends StatefulWidget {
   final Function(DateTime, DateTime, CalendarType, String) onChange;
   final ChooseTimeController? controller;
   final Function(DateTime, DateTime, String)? onChangeYear;
-
+  final bool isSelectYear;
   const ChooseTimeCalendarWidget({
     Key? key,
     this.calendarDays = const [],
     required this.onChange,
     this.controller,
     this.onChangeYear,
+    this.isSelectYear = false,
   }) : super(key: key);
 
   @override
@@ -44,7 +46,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
     widget.onChangeYear
         ?.call(timePage.first, timePage.last, textEditingController.text);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      final times = dateTimeRange(controller.selectDate.value);
+      final times = controller.dateTimeRange(controller.selectDate.value);
       widget.onChange(
         times.first,
         times.last,
@@ -52,7 +54,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
         textEditingController.text.trim(),
       );
       controller.selectDate.addListener(() {
-        final times = dateTimeRange(controller.selectDate.value);
+        final times = controller.dateTimeRange(controller.selectDate.value);
         widget.onChange(
           times.first,
           times.last,
@@ -75,10 +77,11 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
               maintainState: true,
               visible: value,
               child: ChooseTypeCalendarWidget(
+                isSelectYear: widget.isSelectYear,
                 controller: controller,
                 onChange: (value) {
                   controller.calendarType.value = value;
-                  final times = dateTimeRange(controller.selectDate.value);
+                  final times = controller.dateTimeRange(controller.selectDate.value);
                   widget.onChange(
                     times.first,
                     times.last,
@@ -117,7 +120,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                       return HeaderTabletCalendarWidget(
                         onSearch: (value) {
                           final times =
-                              dateTimeRange(controller.selectDate.value);
+                          controller.dateTimeRange(controller.selectDate.value);
                           widget.onChange(
                             times.first,
                             times.last,
@@ -134,7 +137,7 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                             textEditingController.text.trim(),
                           );
                         },
-                        time: dateFormat(value),
+                        time: controller.dateFormat(value),
                         onTap: () {
                           controller.onExpandCalendar();
                         },
@@ -168,31 +171,4 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
     );
   }
 
-  String dateFormat(DateTime dateTime) {
-    switch (controller.calendarType.value) {
-      case CalendarType.DAY:
-        return dateTime.formatDayCalendar;
-      case CalendarType.WEEK:
-        return dateTime.startEndWeek;
-      case CalendarType.MONTH:
-        final dateTimeFormRange =
-            dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-
-        final dataString =
-            // ignore: lines_longer_than_80_chars
-            '${dateTimeFormRange.first.day} - ${dateTimeFormRange.last.formatDayCalendar}';
-        return dataString;
-    }
-  }
-
-  List<DateTime> dateTimeRange(DateTime dateTime) {
-    switch (controller.calendarType.value) {
-      case CalendarType.DAY:
-        return [dateTime, dateTime];
-      case CalendarType.WEEK:
-        return dateTime.dateTimeFormRange(timeRange: TimeRange.TUAN_NAY);
-      case CalendarType.MONTH:
-        return dateTime.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-    }
-  }
 }

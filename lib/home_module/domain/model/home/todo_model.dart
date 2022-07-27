@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TodoListModel {
-  final List<TodoModel> listTodoImportant;
-  final List<TodoModel> listTodoDone;
+  List<TodoModel> listTodoImportant;
+  List<TodoModel> listTodoDone;
 
   TodoListModel({required this.listTodoImportant, required this.listTodoDone});
 }

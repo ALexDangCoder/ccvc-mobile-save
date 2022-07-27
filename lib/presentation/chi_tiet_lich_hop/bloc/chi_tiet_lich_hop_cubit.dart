@@ -294,12 +294,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   /// init widget in detail meet
   void initWidgetDetail() {
+    final isHuyOrThuHoi = trangThaiHuy()  || trangThaiThuHoi();
     List<TabWidgetDetailMeet> listWidgetDetail = [];
-    listWidgetDetail.add(TabWidgetDetailMeet.CONG_TAC_CHUAN_BI);
-    listWidgetDetail.add(TabWidgetDetailMeet.CHUONG_TRINH_HOP);
-    listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
-    listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
-    if (!isTaoHo()) {
+    if (!isHuyOrThuHoi)listWidgetDetail.add(TabWidgetDetailMeet.CONG_TAC_CHUAN_BI);
+    if (!isHuyOrThuHoi)listWidgetDetail.add(TabWidgetDetailMeet.CHUONG_TRINH_HOP);
+    if (!isHuyOrThuHoi)listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
+    if (!isHuyOrThuHoi)listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
+    if (isTaoHo() && !isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.PHAT_BIEU);
       listWidgetDetail.add(TabWidgetDetailMeet.BIEU_QUYET);
       listWidgetDetail.add(TabWidgetDetailMeet.KET_LUAN_HOP);

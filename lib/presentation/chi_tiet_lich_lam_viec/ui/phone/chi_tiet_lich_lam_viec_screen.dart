@@ -293,7 +293,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   },
                 ),
               /// Cu can bo di thay
-              CellPopPupMenu(
+              if (chiTietLichLamViecCubit.checkChoCuCanBoDiThay(dataModel))
+                CellPopPupMenu(
                 urlImage: ImageAssets.icCuCanBoDiThay,
                 text: S.current.cu_can_bo_di_thay,
                 onTap: () {
@@ -316,6 +317,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                 },
               ),
               //cu can bo
+              if (chiTietLichLamViecCubit.checkChoCuCanBo(dataModel))
               CellPopPupMenu(
                 urlImage: ImageAssets.icCuCanBo,
                 text: S.current.cu_can_bo,

@@ -240,10 +240,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     bool isArea = true,
     required String id,
   }) {
+    String? result;
     if (isArea) {
       for (final area in areaList) {
         if (area.id == id) {
           nameArea = area.name;
+          result = nameArea;
           break;
         }
       }
@@ -252,12 +254,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         for (final building in area.childCategories ?? []) {
           if (id == building.id) {
             nameBuilding = building.name ?? '';
+            result = nameBuilding;
             break;
           }
         }
       }
     }
-    return isArea ? nameArea : nameBuilding;
+    return result;
   }
 
   final Set<SuCoHTKT> issuesEditHTKT = {};
@@ -576,6 +579,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   Future<void> getCategory({
     required String title,
+    bool isLoadCreate = true,
   }) async {
     final Result<List<CategoryModel>> result =
         await _hoTroKyThuatRepository.getCategory(title);
@@ -585,9 +589,14 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
-          buildingListStream.sink
-              .add([S.current.khong_co_du_lieu]);
-          addTaskHTKTRequest.buildingName =  S.current.khong_co_du_lieu;
+          // buildingListStream.sink.add(buildingList);
+          if (isLoadCreate) {
+            buildingListStream.sink.add([S.current.khong_co_du_lieu]);
+          } else {
+            buildingListStream.sink.add([]);
+          }
+          addTaskHTKTRequest.buildingName = S.current.khong_co_du_lieu;
+          listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
         } else if (title == LOAI_SU_CO) {

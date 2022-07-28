@@ -297,7 +297,7 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
         listStatusDataChart.add(
           ChartData(
             S.current.trong_han,
-            dashBroadItemYKNDModel.denHan?.toDouble() ?? 0,
+            dashBroadItemYKNDModel.trongHan?.toDouble() ?? 0,
             choTrinhKyColor,
           ),
         );

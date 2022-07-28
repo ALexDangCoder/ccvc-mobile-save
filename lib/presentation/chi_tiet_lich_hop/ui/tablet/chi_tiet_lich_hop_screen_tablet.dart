@@ -55,69 +55,69 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
         themCanBoCubit,
         themDonViCubit,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 16, right: 16.0, left: 16.0),
-        child: StreamBuilder<List<TabWidgetDetailMeet>>(
-            stream: cubit.listWidgetDetailSubject.stream,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
-              if (data.isNotEmpty) {
-                _controller = TabController(
-                    vsync: this,
-                    length: cubit.getListWidgetDetailSubject.length);
-                return DefaultTabController(
-                  length: cubit.getListWidgetDetailSubject.length,
-                  child: NestedScrollView(
-                    headerSliverBuilder:
-                        (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        SliverToBoxAdapter(
-                          child: ExpandGroup(
-                            child: SingleChildScrollView(
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: backgroundColorApp,
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                  ),
-                                  border: Border.all(
-                                      color: borderColor.withOpacity(0.5)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: const Offset(0, 4),
-                                      blurRadius: 10,
-                                      color: shadowContainerColor
-                                          .withOpacity(0.05),
-                                    )
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: ThongTinCuocHopTabletWidget(
-                                        cubit: cubit,
-                                      ),
+      body: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException(
+          S.current.error,
+          S.current.error,
+        ),
+        stream: cubit.stateStream,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16, right: 16.0, left: 16.0),
+          child: StreamBuilder<List<TabWidgetDetailMeet>>(
+              stream: cubit.listWidgetDetailSubject.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                if (data.isNotEmpty) {
+                  _controller = TabController(
+                      vsync: this,
+                      length: cubit.getListWidgetDetailSubject.length);
+                  return DefaultTabController(
+                    length: cubit.getListWidgetDetailSubject.length,
+                    child: NestedScrollView(
+                      headerSliverBuilder:
+                          (BuildContext context, bool innerBoxIsScrolled) {
+                        return <Widget>[
+                          SliverToBoxAdapter(
+                            child: ExpandGroup(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: backgroundColorApp,
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
                                     ),
-                                  ],
+                                    border: Border.all(
+                                        color: borderColor.withOpacity(0.5)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        offset: const Offset(0, 4),
+                                        blurRadius: 10,
+                                        color: shadowContainerColor
+                                            .withOpacity(0.05),
+                                      )
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: ThongTinCuocHopTabletWidget(
+                                          cubit: cubit,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      ];
-                    },
-                    body: ProviderWidget<DetailMeetCalenderCubit>(
-                      cubit: cubit,
-                      child: StateStreamLayout(
-                        textEmpty: S.current.khong_co_du_lieu,
-                        retry: () {},
-                        error: AppException(
-                          S.current.error,
-                          S.current.error,
-                        ),
-                        stream: cubit.stateStream,
+                          )
+                        ];
+                      },
+                      body: ProviderWidget<DetailMeetCalenderCubit>(
+                        cubit: cubit,
                         child: Container(
                           decoration: BoxDecoration(
                             color: backgroundColorApp,
@@ -126,7 +126,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                               bottomRight: Radius.circular(12),
                             ),
                             border:
-                            Border.all(color: borderColor.withOpacity(0.5)),
+                                Border.all(color: borderColor.withOpacity(0.5)),
                             boxShadow: [
                               BoxShadow(
                                 offset: const Offset(0, 4),
@@ -153,7 +153,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                               isScrollable: true,
                               tabs: List.generate(
                                 cubit.getListWidgetDetailSubject.length,
-                                    (index) => Tab(
+                                (index) => Tab(
                                   child: Text(
                                     cubit.getListWidgetDetailSubject[index]
                                         .getName(),
@@ -171,12 +171,40 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                         ),
                       ),
                     ),
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            }),
+                  );
+                } else {
+                  return SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: backgroundColorApp,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border.all(color: borderColor.withOpacity(0.5)),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 4),
+                            blurRadius: 10,
+                            color: shadowContainerColor.withOpacity(0.05),
+                          )
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ThongTinCuocHopTabletWidget(
+                              cubit: cubit,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }),
+        ),
       ),
     );
   }

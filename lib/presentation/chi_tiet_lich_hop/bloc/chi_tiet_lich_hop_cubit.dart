@@ -313,7 +313,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
     }
     if (!isHuyOrThuHoi) listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
-    if (isTaoHo() && !isHuyOrThuHoi) {
+    if (!isTaoHo() && !isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.PHAT_BIEU);
       listWidgetDetail.add(TabWidgetDetailMeet.BIEU_QUYET);
       listWidgetDetail.add(TabWidgetDetailMeet.KET_LUAN_HOP);

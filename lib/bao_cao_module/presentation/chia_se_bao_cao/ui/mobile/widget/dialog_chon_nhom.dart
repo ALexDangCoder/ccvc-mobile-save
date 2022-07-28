@@ -17,6 +17,12 @@ class ChonNhomDialog extends StatefulWidget {
 }
 
 class _ChonNhomDialogState extends State<ChonNhomDialog> {
+
+  @override
+  void initState() {
+    super.initState();
+    widget.cubit.searchGroup('');
+  }
   @override
   Widget build(BuildContext context) {
     return Container(

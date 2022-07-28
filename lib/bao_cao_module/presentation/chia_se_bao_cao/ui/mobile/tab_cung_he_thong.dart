@@ -95,7 +95,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              S.current.chon_nguoi,
+                              S.current.chon_nhom,
                               style: textNormalCustom(
                                 color: color3D5586,
                                 fontSize: 14.sp,

@@ -36,6 +36,7 @@ class DashBoardLichHopModel {
   int? soLichChoDuyetKyThuat = 0;
   int? soLichDaDuyetKyThuat = 0;
   int? soLichTuChoiDuyetKyThuat = 0;
+  int? soLichCanKLCH = 0;
 
   DashBoardLichHopModel.empty();
 
@@ -77,5 +78,6 @@ class DashBoardLichHopModel {
     required this.soLichChoDuyetKyThuat,
     required this.soLichDaDuyetKyThuat,
     required this.soLichTuChoiDuyetKyThuat,
+    this.soLichCanKLCH = 0,
   });
 }

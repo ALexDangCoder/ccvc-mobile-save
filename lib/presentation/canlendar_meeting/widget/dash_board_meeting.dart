@@ -67,7 +67,7 @@ class DashBroadMeeting extends StatelessWidget {
                       itemDashBroad(
                         name: S.current.lich_can_klch,
                         image: ImageAssets.lichCanKlch,
-                        countDashBroad: data.soLichChuaCoBaoCao ?? 0,
+                        countDashBroad: data.soLichCanKLCH ?? 0,
                       ),
                       itemDashBroad(
                         name: S.current.lich_sap_toi,

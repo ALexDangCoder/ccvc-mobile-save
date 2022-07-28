@@ -227,7 +227,32 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool trangThaiHuy() => getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY;
-  bool trangThaiThuHoi() => getChiTietLichHopModel.status == STATUS_SCHEDULE.THU_HOI;
+
+  bool trangThaiThuHoi() {
+    bool isCaNhan = false;
+    bool thuHoiCaNhan = false;
+    bool isDonVi = false;
+    bool thuHoiDonVi = false;
+    final listThamgia = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
+    for (final element in listThamgia) {
+      final idUser = (HiveLocal.getDataUser()?.userId ?? '').toLowerCase();
+      final isThuHoi = element.trangThai == ThanhPhanThamGiaStatus.THU_HOI;
+      if (!isCaNhan) {
+        isCaNhan = (element.CanBoId ?? '').toLowerCase() == idUser;
+        if (isCaNhan) thuHoiCaNhan = isThuHoi;
+      }
+      if (!isDonVi){
+        final donVi = (element.CanBoId ?? '').isEmpty;
+        final chungDonVi = (element.donViId ?? '').toLowerCase() ==
+            (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
+        isDonVi = donVi && chungDonVi;
+        if (isDonVi) thuHoiDonVi = isThuHoi;
+      }
+    }
+    final biThuHoiCaNhan =  isCaNhan && thuHoiCaNhan;
+    final biThuHoiDonVi =  isDonVi && thuHoiDonVi;
+    return  biThuHoiCaNhan && biThuHoiDonVi;
+  }
 
   bool thanhPhanThamGiaDaXacNhan() {
     final nguoiDaThamGia = thamGia().where((e) {
@@ -296,9 +321,10 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     );
     final laLanhDaoDonVi = scheduleCoperatives.where((e) {
       final isDonVi = (e.CanBoId ?? '').isEmpty;
+      final isNotThuHoi = e.trangThai != ThanhPhanThamGiaStatus.THU_HOI;
       final chungDonVi = (e.donViId ?? '').toLowerCase() ==
           (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
-      return isDonVi && chungDonVi;
+      return isDonVi && chungDonVi && isNotThuHoi;
     });
 
     ///check quyen button cu can bo
@@ -378,7 +404,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   int trangThaiPhong() {
     return getThongTinPhongHopForPermision.trangThai ?? 0;
   }
-
 
   ///==================== check quyen tab cong tac chuan bi ================
   ///1. check phong hop

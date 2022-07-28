@@ -67,7 +67,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (widget.cubit.canLoadMoreList &&

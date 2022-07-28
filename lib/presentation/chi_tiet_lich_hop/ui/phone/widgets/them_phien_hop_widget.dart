@@ -257,7 +257,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 /// thêm tài liệu
                 ButtonSelectFileLichLamViec(
                   hasMultipleFile: true,
-                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
+                  maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
                   title: S.current.tai_lieu_dinh_kem,
                   initFileSystem: taoPhienHopRequest.files ?? [],
                   allowedExtensions: const [

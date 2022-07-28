@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
@@ -13,8 +11,8 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
@@ -188,7 +186,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   }
 
   void handleButtonSaveClick() {
-    if(isOverFileLength){
+    if (isOverFileLength) {
       return;
     }
     // Thời gian bắt đầu phiên họp:
@@ -375,11 +373,13 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   ),
                 ),
                 spaceH20,
-                ButtonSelectFileLichLamViec(
-                  hasMultipleFile: true,
-                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
-                  title: S.current.tai_lieu_dinh_kem,
-                  initFileSystem : taoPhienHopRequest.files ?? [],
+                SelectFileBtn(
+                  onChange: (files) {
+                    taoPhienHopRequest.files = files;
+                  },
+                  overSizeTextMessage: S.current.dung_luong_toi_da_htkt,
+                  maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
+                  initFileSystem: taoPhienHopRequest.files,
                   allowedExtensions: const [
                     FileExtensions.DOC,
                     FileExtensions.DOCX,
@@ -388,14 +388,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     FileExtensions.PDF,
                     FileExtensions.PNG,
                     FileExtensions.XLSX,
+                    FileExtensions.PPTX,
                   ],
-                  onChange: (List<File> files, bool validate) {
-                    isOverFileLength = validate;
-                    if (!validate) {
-                      taoPhienHopRequest.files = files;
-                    }
-                  },
-                )
+                ),
               ],
             ),
           ),
@@ -445,7 +440,8 @@ class ItemPhienHop extends StatelessWidget {
               ),
               rowInfo(
                 value: '${phienHop.thoiGian_BatDau}'
-                    '${phienHop.timeEnd?.isNotEmpty ?? false ? ' - ${phienHop.timeEnd}' : ''}',
+                    '${phienHop.timeEnd?.isNotEmpty ?? false ? ''
+                    ' - ${phienHop.timeEnd}' : ''}',
                 key: S.current.thoi_gian,
               ),
               SizedBox(

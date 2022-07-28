@@ -366,6 +366,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   Future<bool> postDataThemMoiHTKT() async {
+    bool resultPost = false;
     showLoading();
     final result = await _hoTroKyThuatRepository.addTask(
       id: addTaskHTKTRequest.id,
@@ -384,19 +385,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (success) {
+        resultPost = true;
         showContent();
         getListDanhBaCaNhan(
           page: 1,
         );
       },
       error: (error) {
+        resultPost = false;
         showContent();
       },
     );
-    return true;
+    return resultPost;
   }
 
   Future<bool> postEditHTKT() async {
+    bool resultPost = false;
     showLoading();
     final result = await _hoTroKyThuatRepository.editTaskHTKT(
       id: editTaskHTKTRequest.id,
@@ -416,13 +420,15 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (success) {
+        resultPost = true;
         showContent();
       },
       error: (error) {
+        resultPost = false;
         showContent();
       },
     );
-    return true;
+    return resultPost;
   }
 
   Future<void> getNguoiXuLy({
@@ -597,7 +603,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           } else {
             buildingListStream.sink.add([]);
           }
-          addTaskHTKTRequest.buildingName = S.current.khong_co_du_lieu;
+          addTaskHTKTRequest.buildingName = null;
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;

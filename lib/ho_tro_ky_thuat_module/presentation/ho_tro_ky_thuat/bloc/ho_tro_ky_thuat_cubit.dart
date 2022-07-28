@@ -604,7 +604,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
             buildingListStream.sink.add([]);
           }
           addTaskHTKTRequest.buildingName = null;
-          listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
         } else if (title == LOAI_SU_CO) {

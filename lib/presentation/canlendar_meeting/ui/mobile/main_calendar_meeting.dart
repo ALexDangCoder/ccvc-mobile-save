@@ -17,7 +17,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
-import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,18 +36,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
   @override
   void initState() {
     cubit.initData();
-    _handleEventBus();
     super.initState();
-  }
-
-  void _handleEventBus() {
-    eventBus.on<RefreshCalendar>().listen((event) {
-      if (cubit.state is CalendarViewState || cubit.state is ListViewState) {
-        cubit.refreshDataDangLich();
-      } else {
-        cubit.getDataDangChart();
-      }
-    });
   }
 
   @override

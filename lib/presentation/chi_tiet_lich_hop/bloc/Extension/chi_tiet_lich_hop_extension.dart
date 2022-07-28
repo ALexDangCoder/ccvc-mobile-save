@@ -94,7 +94,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         dataThuKyOrThuHoiDeFault = res
-            .where((element) => element.trangThai != CoperativeStatus.Revoked)
+            .where((canBo) => canBo.trangThai != CoperativeStatus.Revoked)
             .toList();
         listThuHoi.sink.add(dataThuKyOrThuHoiDeFault);
       },

@@ -93,16 +93,22 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachThuHoi(id, true);
     result.when(
       success: (res) {
-        dataThuKyOrThuHoiDeFault =
-            res.where((element) => element.trangThai != CoperativeStatus.Revoked).toList();
+        dataThuKyOrThuHoiDeFault = res
+            .where((element) => element.trangThai != CoperativeStatus.Revoked)
+            .toList();
         listThuHoi.sink.add(dataThuKyOrThuHoiDeFault);
       },
       error: (error) {},
     );
   }
 
-  Future<void> getChiTietLichHop(String id) async {
-    showLoading();
+  Future<void> getChiTietLichHop(
+    String id, {
+    bool needShowLoading = true,
+  }) async {
+    if(needShowLoading){
+      showLoading();
+    }
     final loaiHop = await hopRp
         .getLoaiHop(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     loaiHop.when(
@@ -121,7 +127,9 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         showError();
       },
     );
-    showContent();
+    if(needShowLoading) {
+      showContent();
+    }
   }
 
   Future<void> postThuHoiHop(String scheduleId) async {

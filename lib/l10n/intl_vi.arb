@@ -1013,7 +1013,7 @@
   "bi_huy_bo": "Bị huỷ bỏ",
   "da_cho_y_kien": "Đã cho ý kiến",
   "ten_don_vi_cheo_phong_ban": "Tên đơn vị/phòng ban",
-  "file_dinh_kem_mb": "File đính kèm không được vượt quá 30mb",
+  "file_dinh_kem_mb": "File đính kèm không được vượt quá 20mb",
   "ban_chua_nhap_y_kien": "Bạn vui lòng nhập ý kiến",
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",

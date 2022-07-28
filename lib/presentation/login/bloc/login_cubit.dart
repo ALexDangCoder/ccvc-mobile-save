@@ -118,19 +118,23 @@ class LoginCubit extends BaseCubit<LoginState> {
   }
 
   String get getPlatform => Platform.isAndroid ? DEVICE_ANDROID : DEVICE_IOS;
+
   Future<String?> get getTokkenNoti => FirebaseMessaging.instance.getToken();
 
   Future<void> createDevice() async {
     String? deviceId;
     try {
       deviceId = await getTokkenNoti;
-      await _serviceNoti.createDevice(
+      final result = await _serviceNoti.createDevice(
         DeviceRequest(
-          id: '00000000-0000-0000-0000-000000000000',
           isActive: true,
           registationId: deviceId,
           deviceType: getPlatform,
         ),
+      );
+      result.when(
+        success: (success) {},
+        error: (error) {},
       );
     } catch (e) {
       deviceId = 'Failed to get deviceId.';

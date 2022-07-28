@@ -10,6 +10,7 @@ class SupportDetail {
   String? donVi;
   String? trangThaiXuLy;
   String? codeTrangThai;
+  String? idNguoiXuLy;
   String? ketQuaXuLy;
   String? nguoiXuLy;
   String? nhanXet;
@@ -42,6 +43,7 @@ class SupportDetail {
     this.codeTrangThai,
     this.ngayHoanThanh,
     this.danhSachSuCo,
+    this.idNguoiXuLy,
     this.idNguoiYeuCau,
   });
 

@@ -23,6 +23,7 @@ class TextFieldValidator extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final Color? fillColor;
   final bool? onlyTextField;
+  final FocusNode? focusNode;
 
   const TextFieldValidator({
     Key? key,
@@ -42,6 +43,7 @@ class TextFieldValidator extends StatefulWidget {
     this.obscureText,
     this.fillColor,
     this.onlyTextField,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -78,6 +80,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
     return Form(
       key: key,
       child: TextFormField(
+        focusNode: widget.focusNode,
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
         onChanged: (value) {

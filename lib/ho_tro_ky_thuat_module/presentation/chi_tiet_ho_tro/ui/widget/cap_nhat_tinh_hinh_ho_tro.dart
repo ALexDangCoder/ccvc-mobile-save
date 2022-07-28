@@ -30,18 +30,22 @@ class CapNhatTinhHinhHoTro extends StatefulWidget {
   _CapNhatTinhHinhHoTroState createState() => _CapNhatTinhHinhHoTroState();
 }
 
-class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
+class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
+    with SingleTickerProviderStateMixin {
   String? note;
   String? birthday;
   String? trangThai;
   String? nguoiXuLy;
   bool isTruongPhong = false;
-
+  
+  ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
   @override
   void initState() {
     super.initState();
     if (widget.idTask?.isNotEmpty ?? false) {
-      widget.cubit.getSupportDetail(widget.idTask ?? '');
+      _cubit.getSupportDetail(widget.idTask ?? '');
+    } else {
+      _cubit = widget.cubit;
     }
     isTruongPhong = HiveLocal.checkPermissionApp(
       permissionType: PermissionType.HTKT,
@@ -49,9 +53,11 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Align(
         alignment: Alignment.bottomCenter,
@@ -92,11 +98,11 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                   ),
                 ),
                 BlocBuilder<ChiTietHoTroCubit, ChiTietHoTroState>(
-                  bloc: widget.cubit,
+                  bloc: _cubit,
                   builder: (context, state) {
                     if (state is ChiTietHoTroSuccess) {
                       return SizedBox(
-                        height: widget.cubit.isTruongPhong ? 500.h : 440.h,
+                        height: _cubit.isTruongPhong ? 500.h : 440.h,
                         child: SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
                           child: Column(
@@ -107,7 +113,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                               spaceH16,
                               dropDownField(
                                 title: S.current.trang_thai_xu_ly,
-                                listDropdown: widget.cubit.listTrangThai,
+                                listDropdown: _cubit.listTrangThai,
                                 maxLine: 2,
                               ),
                               spaceH16,
@@ -119,17 +125,16 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                 maxLine: 4,
                               ),
                               spaceH16,
-                              if (isTruongPhong &&
-                                  widget.cubit.supportDetail.nguoiXuLy == null)
+                              if (isTruongPhong)
                                 if (widget.idTask?.isNotEmpty ?? false) ...[
                                   StreamBuilder<List<String>>(
-                                    stream: widget.cubit.getItSupport,
+                                    stream: _cubit.getItSupport,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
                                         return dropDownField(
                                           title: S.current.nguoi_xu_ly,
                                           listDropdown:
-                                              widget.cubit.listItSupport,
+                                              _cubit.listItSupport,
                                           maxLine: 2,
                                         );
                                       } else {
@@ -144,47 +149,10 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                 ] else ...[
                                   dropDownField(
                                     title: S.current.nguoi_xu_ly,
-                                    listDropdown: widget.cubit.listItSupport,
+                                    listDropdown: _cubit.listItSupport,
                                     maxLine: 2,
                                   ),
-                                ]
-                              else ...[
-                                Text(
-                                  S.current.nguoi_xu_ly,
-                                  style: tokenDetailAmount(
-                                    fontSize: 14,
-                                    color: color3D5586,
-                                  ),
-                                ),
-                                spaceH8,
-                                Container(
-                                  padding: EdgeInsets.only(
-                                    left: 12.w,
-                                    top: 12.h,
-                                    bottom: 12.h,
-                                  ),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: borderColor.withOpacity(0.2),
-                                    border: Border.all(
-                                      color: borderColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        widget.cubit.supportDetail.nguoiXuLy ??
-                                            '',
-                                        style: tokenDetailAmount(
-                                          fontSize: 14,
-                                          color: borderColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                ],
                               spaceH16,
                               Text(
                                 S.current.ngay_hoan_thanh,
@@ -197,7 +165,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                               spaceH8,
                               if (widget.idTask?.isNotEmpty ?? false) ...[
                                 StreamBuilder<SupportDetail>(
-                                  stream: widget.cubit.ngayHoanThanhStream,
+                                  stream: _cubit.ngayHoanThanhStream,
                                   builder: (context, snapshot) {
                                     if (snapshot.data?.id != '' &&
                                         snapshot.hasData) {
@@ -252,25 +220,25 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                   onSelectDate: (dateTime) {
                                     birthday = dateTime;
                                   },
-                                  minimumDate: (widget.cubit.supportDetail
+                                  minimumDate: (_cubit.supportDetail
                                               .thoiGianYeuCau?.isNotEmpty ??
                                           false)
                                       ? DateFormat(
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          widget.cubit.supportDetail
+                                          _cubit.supportDetail
                                               .thoiGianYeuCau!,
                                         )
                                       : null,
-                                  initDateTime: (widget.cubit.supportDetail
+                                  initDateTime: (_cubit.supportDetail
                                               .ngayHoanThanh?.isNotEmpty ??
                                           false)
                                       ? DateFormat(
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          widget.cubit.supportDetail
+                                          _cubit.supportDetail
                                               .ngayHoanThanh!,
                                         )
                                       : null,
@@ -278,36 +246,32 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                               spaceH30,
                               DoubleButtonBottom(
                                 title1: S.current.dong,
-                                onlyOneButton: widget.cubit.checkOnlyButton(),
+                                onlyOneButton: _cubit.checkOnlyButton(),
                                 title2: S.current.luu,
-                                disableRightButton: widget
-                                        .cubit.isTruongPhong &&
-                                    widget.cubit.supportDetail.codeTrangThai ==
-                                        ChiTietHoTroCubit.DANG_XU_LY,
                                 onPressed1: () {
                                   Navigator.pop(context);
                                 },
                                 onPressed2: () {
-                                  widget.cubit
+                                  _cubit
                                       .capNhatTHXL(
-                                    taskId: (widget.cubit.supportDetail.id ??
+                                    taskId: (_cubit.supportDetail.id ??
                                             widget.idTask) ??
                                         '',
                                     name: (trangThai ??
-                                            widget.cubit.supportDetail
+                                            _cubit.supportDetail
                                                 .trangThaiXuLy) ??
                                         '',
                                     description: note ?? '',
                                     code: (trangThai ??
-                                            widget.cubit.supportDetail
+                                            _cubit.supportDetail
                                                 .trangThaiXuLy) ??
                                         '',
                                     finishDay: birthday ?? '',
                                     handlerId: (nguoiXuLy ??
-                                            widget.cubit.supportDetail
+                                            _cubit.supportDetail
                                                 .nguoiXuLy) ??
                                         '',
-                                    id: (widget.cubit.supportDetail.id ??
+                                    id: (_cubit.supportDetail.id ??
                                             widget.idTask) ??
                                         '',
                                     comment: '',
@@ -327,8 +291,8 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                           gravity: ToastGravity.BOTTOM,
                                         );
                                         if (widget.idTask?.isEmpty ?? true) {
-                                          widget.cubit.getSupportDetail(
-                                            widget.cubit.supportDetail.id ?? '',
+                                          _cubit.getSupportDetail(
+                                            _cubit.supportDetail.id ?? '',
                                           );
                                         }
                                       } else {

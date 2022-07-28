@@ -61,7 +61,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Container(
-          height: 750,
+          height: 700,
           clipBehavior: Clip.hardEdge,
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -121,7 +121,8 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                           validate: (value) {
                             if ((value ?? '').isEmpty) {
-                              return S.current.ban_phai_nhap_truong_ten_thiet_bi;
+                              return S
+                                  .current.ban_phai_nhap_truong_ten_thiet_bi;
                             }
                           },
                         ),
@@ -140,7 +141,8 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           },
                           validate: (value) {
                             if ((value ?? '').isEmpty) {
-                              return S.current.ban_phai_nhap_truong_so_dien_thoai_lien_he;
+                              return S.current
+                                  .ban_phai_nhap_truong_so_dien_thoai_lien_he;
                             } else {
                               return null;
                             }
@@ -168,7 +170,9 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                         ),
                         spaceH16,
                         BuildingDropDown(
-                            statusHTKT: StatusHTKT.CREATE, cubit: widget.cubit),
+                          statusHTKT: StatusHTKT.CREATE,
+                          cubit: widget.cubit,
+                        ),
                         spaceH16,
                         textField(
                           isHightLight: true,
@@ -391,9 +395,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                 );
               }
             });
-          } else {
-
-          }
+          } else {}
         },
         title1: S.current.dong,
         title2: S.current.gui_yc,

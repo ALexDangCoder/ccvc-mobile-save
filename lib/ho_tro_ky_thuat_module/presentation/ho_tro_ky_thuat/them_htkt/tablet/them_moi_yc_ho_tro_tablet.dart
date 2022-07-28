@@ -416,6 +416,16 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                   gravity: ToastGravity.BOTTOM,
                 );
                 Navigator.pop(context);
+              } else {
+                final FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  child: ShowToast(
+                    text: S.current.thay_doi_that_bai,
+                    icon: ImageAssets.icError,
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                );
               }
             });
           }

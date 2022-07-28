@@ -208,7 +208,6 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     required bool isMultipe,
   }) async {
     showLoading();
-
     final result = await hopRp.suaChuongTrinhHop(
       id,
       lichHopId,
@@ -223,7 +222,6 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
       listFile ?? [],
       filesDelete,
     );
-
     result.when(
       success: (value) {
         MessageConfig.show(

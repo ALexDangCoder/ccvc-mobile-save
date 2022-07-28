@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -59,6 +58,7 @@ import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
+
 import 'Extension/tab_widget_extension.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
@@ -257,7 +257,14 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     final queue = Queue(parallel: 4);
     showLoading();
-    unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
+    unawaited(
+      queue.add(
+        () => getChiTietLichHop(
+          idCuocHop,
+          needShowLoading: false,
+        ),
+      ),
+    );
     unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
@@ -294,12 +301,16 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   /// init widget in detail meet
   void initWidgetDetail() {
+    final isHuyOrThuHoi = trangThaiHuy() || trangThaiThuHoi();
     List<TabWidgetDetailMeet> listWidgetDetail = [];
-    listWidgetDetail.add(TabWidgetDetailMeet.CONG_TAC_CHUAN_BI);
-    listWidgetDetail.add(TabWidgetDetailMeet.CHUONG_TRINH_HOP);
-    listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
-    listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
-    if (!isTaoHo()) {
+    if (!isHuyOrThuHoi)
+      listWidgetDetail.add(TabWidgetDetailMeet.CONG_TAC_CHUAN_BI);
+    if (!isHuyOrThuHoi)
+      listWidgetDetail.add(TabWidgetDetailMeet.CHUONG_TRINH_HOP);
+    if (!isHuyOrThuHoi)
+      listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
+    if (!isHuyOrThuHoi) listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
+    if (isTaoHo() && !isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.PHAT_BIEU);
       listWidgetDetail.add(TabWidgetDetailMeet.BIEU_QUYET);
       listWidgetDetail.add(TabWidgetDetailMeet.KET_LUAN_HOP);

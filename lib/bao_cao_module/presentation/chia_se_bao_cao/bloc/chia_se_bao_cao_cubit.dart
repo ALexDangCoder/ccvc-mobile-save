@@ -388,6 +388,12 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     }
   }
 
+  void refreshData() {
+    keySearch = '';
+    pageNumber = 0;
+    pageSize = 10;
+  }
+
   Future<void> getUsersNgoaiHeThongDuocTruyCap({
     bool isSearch = false,
   }) async {

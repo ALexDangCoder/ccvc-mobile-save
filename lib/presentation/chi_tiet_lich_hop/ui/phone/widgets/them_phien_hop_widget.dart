@@ -155,7 +155,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.tieuDe = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_ten_phien_hop,
+                      );
                     },
                   ),
                 ),
@@ -244,7 +246,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.noiDung = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_noi_dung_phien_hop,
+                      );
                     },
                   ),
                 ),
@@ -253,7 +257,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 /// thêm tài liệu
                 ButtonSelectFileLichLamViec(
                   hasMultipleFile: true,
-                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
+                  maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
                   title: S.current.tai_lieu_dinh_kem,
                   initFileSystem: taoPhienHopRequest.files ?? [],
                   allowedExtensions: const [

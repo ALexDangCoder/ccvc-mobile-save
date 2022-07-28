@@ -102,7 +102,7 @@ class _DateInputState extends State<DateInput> {
                         ),
                         child: dateSelect == null
                             ? Text(
-                                DateFormatApp.date,
+                                DateFormatApp.dateNormal,
                                 style: textNormal(
                                   titleItemEdit.withOpacity(0.5),
                                   14,

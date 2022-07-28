@@ -66,6 +66,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   final showButtonAddOpinion = BehaviorSubject.seeded(false);
   final showButtonApprove = BehaviorSubject.seeded(false);
   final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
+  final donViTrucThuocId =
+      HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
   String createUserId = '';
   String scheduleOperativeId = '';
   String scheduleId = '';
@@ -243,7 +245,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       } else {
         showButtonAddOpinion.sink.add(false);
       }
-      if (element.canBoId == currentUserId) {
+      if (element.canBoId == currentUserId ||
+          element.donViId == donViTrucThuocId) {
         isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
             element.isThamGia == true;
       }
@@ -832,6 +835,28 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         StatusOfficersConst.STATUS_DEFAULT;
   }
 
+  final coQuyenCuCanBo = HiveLocal.checkPermissionApp(
+    permissionType: PermissionType.VPDT,
+    permissionTxt: PermissionAppTxt.QUYEN_CU_CAN_BO,
+  );
+  final coQuyenCuCanBoDiThay = HiveLocal.checkPermissionApp(
+    permissionType: PermissionType.VPDT,
+    permissionTxt: PermissionAppTxt.QUYEN_CU_CAN_BO_DI_THAY,
+  );
+
+  bool isCuCanBo(ChiTietLichLamViecModel dataModel) {
+    final List<ScheduleCoperatives>? data = dataModel.scheduleCoperatives
+        ?.where(
+          (element) =>
+              element.donViId == donViTrucThuocId && element.canBoId == null,
+        )
+        .toList();
+    if ((data ?? []).isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
   String nguoiDuocMoi(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives
             ?.firstWhere(
@@ -936,6 +961,47 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   bool checkChoXacNhanLai(ChiTietLichLamViecModel dataModel) {
     return checkXacNhanLai(dataModel) >=
         StatusOfficersConst.STATUS_CHO_XAC_NHAN;
+  }
+
+  //checkChoCuCanBo
+  bool checkCuCanBoIsLichThuHoi(ChiTietLichLamViecModel dataModel) {
+    final List<ScheduleCoperatives>? data = dataModel.scheduleCoperatives
+        ?.where(
+            (element) => element.status == StatusOfficersConst.STATUS_TU_CHOI)
+        .toList();
+    if ((data ?? []).isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  bool checkCuCanBoIsLichHuy(ChiTietLichLamViecModel dataModel) {
+    final List<ScheduleCoperatives>? data = dataModel.scheduleCoperatives
+        ?.where((element) => element.status == EnumScheduleStatus.Cancel)
+        .toList();
+    if ((data ?? []).isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  bool checkChoCuCanBo(ChiTietLichLamViecModel dataModel) {
+    return !checkCuCanBoIsLichThuHoi(dataModel) &&
+        !checkCuCanBoIsLichHuy(dataModel) &&
+        dataModel.status != EnumScheduleStatus.Cancel &&
+        coQuyenCuCanBo &&
+        !checkMenuLichThuHoi(dataModel) &&
+        isCuCanBo(dataModel);
+  }
+
+  //checkChoCuCanBoDiThay
+  bool checkChoCuCanBoDiThay(ChiTietLichLamViecModel dataModel) {
+    return !checkCuCanBoIsLichThuHoi(dataModel) &&
+        !checkCuCanBoIsLichHuy(dataModel) &&
+        dataModel.status != EnumScheduleStatus.Cancel &&
+        coQuyenCuCanBoDiThay &&
+        nguoiDuocMoi(dataModel) == currentUserId &&
+        !(dataModel.canBoChuTri?.id == currentUserId);
   }
 
   void dispose() {

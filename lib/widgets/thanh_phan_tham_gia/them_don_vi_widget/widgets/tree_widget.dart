@@ -13,6 +13,7 @@ class TreeViewWidget extends StatefulWidget {
   final Node<DonViModel> node;
   final ThemDonViCubit themDonViCubit;
   final bool selectOnly;
+
   const TreeViewWidget({
     Key? key,
     required this.themDonViCubit,
@@ -59,11 +60,6 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                           widget.themDonViCubit.addSelectNode(
                             widget.node,
                             isCheck: widget.node.isCheck.isCheck,
-                          );
-                          eventBus.fire(
-                            ListSearchListNode(
-                              widget.themDonViCubit.selectNode,
-                            ),
                           );
                         },
                         isCheck: widget.node.isCheck.isCheck,

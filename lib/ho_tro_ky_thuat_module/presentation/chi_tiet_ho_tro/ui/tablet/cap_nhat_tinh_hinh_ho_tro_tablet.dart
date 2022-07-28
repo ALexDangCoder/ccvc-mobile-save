@@ -39,11 +39,15 @@ class _CapNhatTinhHinhHoTroTabLetState
   String? nguoiXuLy;
   bool isTruongPhong = false;
 
+    ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
+  
   @override
   void initState() {
     super.initState();
     if (widget.idTask?.isNotEmpty ?? false) {
-      widget.cubit.getSupportDetail(widget.idTask ?? '');
+      _cubit.getSupportDetail(widget.idTask ?? '');
+    } else {
+      _cubit = widget.cubit;
     }
     isTruongPhong = HiveLocal.checkPermissionApp(
       permissionType: PermissionType.HTKT,
@@ -90,7 +94,7 @@ class _CapNhatTinhHinhHoTroTabLetState
             ],
           ),
           BlocBuilder<ChiTietHoTroCubit, ChiTietHoTroState>(
-            bloc: widget.cubit,
+            bloc: _cubit,
             builder: (context, state) {
               if (state is ChiTietHoTroSuccess) {
                 return SizedBox(
@@ -103,7 +107,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                       spaceH16,
                       dropDownField(
                         title: S.current.trang_thai_xu_ly,
-                        listDropdown: widget.cubit.listTrangThai,
+                        listDropdown: _cubit.listTrangThai,
                       ),
                       spaceH16,
                       textField(
@@ -115,15 +119,15 @@ class _CapNhatTinhHinhHoTroTabLetState
                       ),
                       spaceH16,
                       if (isTruongPhong &&
-                          widget.cubit.supportDetail.nguoiXuLy == null)
+                          _cubit.supportDetail.nguoiXuLy == null)
                         if (widget.idTask?.isNotEmpty ?? false) ...[
                           StreamBuilder<List<String>>(
-                            stream: widget.cubit.getItSupport,
+                            stream: _cubit.getItSupport,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return dropDownField(
                                   title: S.current.nguoi_xu_ly,
-                                  listDropdown: widget.cubit.listItSupport,
+                                  listDropdown: _cubit.listItSupport,
                                 );
                               } else {
                                 return const Center(
@@ -137,7 +141,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                         ] else ...[
                           dropDownField(
                             title: S.current.nguoi_xu_ly,
-                            listDropdown: widget.cubit.listItSupport,
+                            listDropdown: _cubit.listItSupport,
                           )
                         ]
                       else ...[
@@ -166,7 +170,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                           child: Row(
                             children: [
                               Text(
-                                widget.cubit.supportDetail.nguoiXuLy ?? '',
+                                _cubit.supportDetail.nguoiXuLy ?? '',
                                 style: tokenDetailAmount(
                                   fontSize: 14,
                                   color: borderColor,
@@ -188,7 +192,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                       spaceH8,
                       if (widget.idTask?.isNotEmpty ?? false) ...[
                         StreamBuilder<SupportDetail>(
-                            stream: widget.cubit.ngayHoanThanhStream,
+                            stream: _cubit.ngayHoanThanhStream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData && snapshot.data?.id != '') {
                                 return DateInput(
@@ -199,25 +203,25 @@ class _CapNhatTinhHinhHoTroTabLetState
                                   onSelectDate: (dateTime) {
                                     birthday = dateTime;
                                   },
-                                  minimumDate: (widget.cubit.supportDetail
+                                  minimumDate: (_cubit.supportDetail
                                               .thoiGianYeuCau?.isNotEmpty ??
                                           false)
                                       ? DateFormat(
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          widget.cubit.supportDetail
+                                          _cubit.supportDetail
                                               .thoiGianYeuCau!,
                                         )
                                       : null,
-                                  initDateTime: (widget.cubit.supportDetail
+                                  initDateTime: (_cubit.supportDetail
                                               .ngayHoanThanh?.isNotEmpty ??
                                           false)
                                       ? DateFormat(
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          widget.cubit.supportDetail
+                                          _cubit.supportDetail
                                               .ngayHoanThanh!,
                                         )
                                       : null,
@@ -239,22 +243,22 @@ class _CapNhatTinhHinhHoTroTabLetState
                           onSelectDate: (dateTime) {
                             birthday = dateTime;
                           },
-                          minimumDate: (widget.cubit.supportDetail
+                          minimumDate: (_cubit.supportDetail
                                       .thoiGianYeuCau?.isNotEmpty ??
                                   false)
                               ? DateFormat(
                                   DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
                                 ).parse(
-                                  widget.cubit.supportDetail.thoiGianYeuCau!,
+                                  _cubit.supportDetail.thoiGianYeuCau!,
                                 )
                               : null,
-                          initDateTime: (widget.cubit.supportDetail
+                          initDateTime: (_cubit.supportDetail
                                       .ngayHoanThanh?.isNotEmpty ??
                                   false)
                               ? DateFormat(
                                   DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
                                 ).parse(
-                                  widget.cubit.supportDetail.ngayHoanThanh!,
+                                  _cubit.supportDetail.ngayHoanThanh!,
                                 )
                               : null,
                         ),
@@ -267,16 +271,13 @@ class _CapNhatTinhHinhHoTroTabLetState
                         child: DoubleButtonBottom(
                           title1: S.current.dong,
                           title2: S.current.luu,
-                          disableRightButton: widget.cubit.isTruongPhong &&
-                              widget.cubit.supportDetail.codeTrangThai ==
-                                  ChiTietHoTroCubit.DANG_XU_LY,
                           onPressed1: () {
                             Navigator.pop(context);
                           },
                           onPressed2: () {
-                            widget.cubit
+                            _cubit
                                 .capNhatTHXL(
-                              taskId: (widget.cubit.supportDetail.id ??
+                              taskId: (_cubit.supportDetail.id ??
                                       widget.idTask) ??
                                   '',
                               name: (trangThai ??
@@ -290,9 +291,9 @@ class _CapNhatTinhHinhHoTroTabLetState
                                   '',
                               finishDay: birthday ?? '',
                               handlerId: (nguoiXuLy ??
-                                      widget.cubit.supportDetail.nguoiXuLy) ??
+                                      _cubit.supportDetail.nguoiXuLy) ??
                                   '',
-                              id: (widget.cubit.supportDetail.id ??
+                              id: (_cubit.supportDetail.id ??
                                       widget.idTask) ??
                                   '',
                               comment: '',
@@ -311,8 +312,8 @@ class _CapNhatTinhHinhHoTroTabLetState
                                     gravity: ToastGravity.BOTTOM,
                                   );
                                   if (widget.idTask?.isEmpty ?? true) {
-                                    widget.cubit.getSupportDetail(
-                                      widget.cubit.supportDetail.id ?? '',
+                                    _cubit.getSupportDetail(
+                                      _cubit.supportDetail.id ?? '',
                                     );
                                   }
                                 } else {
@@ -427,8 +428,8 @@ class _CapNhatTinhHinhHoTroTabLetState
         spaceH8,
         CoolDropDown(
           initData: title == S.current.trang_thai_xu_ly
-              ? (widget.cubit.supportDetail.trangThaiXuLy ?? '')
-              : (widget.cubit.supportDetail.nguoiXuLy ?? ''),
+              ? (_cubit.supportDetail.trangThaiXuLy ?? '')
+              : (_cubit.supportDetail.nguoiXuLy ?? ''),
           placeHoder: S.current.chon,
           onChange: (value) {
             if (title == S.current.trang_thai_xu_ly) {

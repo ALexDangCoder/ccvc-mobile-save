@@ -10,6 +10,7 @@ class SuCoModel {
   String? room;
   String? donViId;
   String? idNguoiYeuCau;
+  String? idNguoiXuLy;
   String? nguoiYeuCau;
   String? donVi;
   String? chucVu;
@@ -39,5 +40,6 @@ class SuCoModel {
     this.ketQuaXuLy,
     this.nguoiXuLy,
     this.ngayHoanThanh,
+    this.idNguoiXuLy,
   });
 }

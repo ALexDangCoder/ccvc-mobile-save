@@ -293,13 +293,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         .toList();
   }
 
-  bool checkUser() {
-    for (final element in listCanCoHTKT.value) {
-      if (element.userId == dataUser?.userId) {
-        return true;
-      }
+  bool checkUser(String id) {
+    bool isNguoiYeuCau = false;
+    if (id == dataUser?.userInformation?.id) {
+      isNguoiYeuCau = true;
     }
-    return false;
+    return isNguoiYeuCau;
   }
 
   Future<void> getListDanhBaCaNhan({
@@ -438,7 +437,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         listCanCoHTKT.add(res);
-        isCheckUser = checkUser();
       },
       error: (error) {
         if (isCheck) {

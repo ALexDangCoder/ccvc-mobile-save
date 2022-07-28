@@ -207,7 +207,6 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                             ),
                             child: DoubleButtonBottom(
                               onlyOneButton: cubit.checkOnlyButton(),
-                              disableRightButton: cubit.disableRightButton(),
                               title1: S.current.dong,
                               title2:
                                   ((cubit.isItSupport || cubit.isTruongPhong) &&

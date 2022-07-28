@@ -415,12 +415,17 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
 
   Future<void> postDangKyXe() async {
     final bool isFormValidated = keyGroup.currentState?.validator() ?? false;
-    if (widget.cubit.xeMay?.isEmpty ?? true) {
-      widget.cubit.isShowErrLoaiXe.add(true);
+    widget.cubit.isShowErrLoaiXe.add(widget.cubit.xeMay?.isEmpty ?? true);
+    if(widget.cubit.fileItemBienSoXe.isEmpty){
+      widget.cubit.toast.showToast(
+        child: ShowToast(
+          text: S.current.vui_long_tai_anh_len,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
       return;
     }
-    widget.cubit.isShowErrLoaiXe.add(false);
-    if (isFormValidated && widget.cubit.fileItemBienSoXe.isNotEmpty) {
+    if (isFormValidated && !widget.cubit.isShowErrLoaiXe.value) {
       Navigator.pop(context);
       await widget.cubit.postImageResgiter(
         bienKiemSoat: bienKiemSoatController.value.text.removeSpace,
@@ -429,11 +434,6 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
       );
       return;
     }
-    widget.cubit.toast.showToast(
-      child: ShowToast(
-        text: S.current.vui_long_tai_anh_len,
-      ),
-      gravity: ToastGravity.TOP_RIGHT,
-    );
+
   }
 }

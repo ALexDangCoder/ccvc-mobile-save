@@ -166,16 +166,33 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     required String id,
     required TaoPhienHopRequest taoPhienHopRequest,
   }) async {
+    showLoading();
     final result = await hopRp.themPhienHop(
       id,
       [taoPhienHopRequest],
     );
     result.when(
       success: (res) {
+        MessageConfig.show(
+          title: S.current.them_phien_hop_thanh_cong,
+        );
         getListPhienHop(id);
       },
-      error: (error) {},
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.them_phien_hop_that_bai,
+            messState: MessState.error,
+          );
+        }
+      },
     );
+    showContent();
   }
 
   Future<void> suaChuongTrinhHop({

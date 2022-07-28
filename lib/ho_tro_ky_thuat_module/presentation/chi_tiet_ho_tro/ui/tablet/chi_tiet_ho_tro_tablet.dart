@@ -118,7 +118,7 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                                 rowItem(
                                   S.current.nguoi_yeu_cau,
                                   '${cubit.supportDetail.nguoiYeuCau ?? ''} - '
-                                      '${cubit.supportDetail.chucVu ?? ''}',
+                                  '${cubit.supportDetail.chucVu ?? ''}',
                                 ),
                                 spaceH10,
                                 rowItem(
@@ -210,10 +210,11 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                               disableRightButton: cubit.disableRightButton(),
                               title1: S.current.dong,
                               title2:
-                              ((cubit.isTruongPhong || cubit.isItSupport) &&
-                                  !cubit.isNguoiYeuCau)
-                                  ? S.current.cap_nhat_thxl
-                                  : S.current.danh_gia,
+                                  ((cubit.isItSupport || cubit.isTruongPhong) &&
+                                          cubit.supportDetail.codeTrangThai !=
+                                              ChiTietHoTroCubit.DA_HOAN_THANH)
+                                      ? S.current.cap_nhat_thxl
+                                      : S.current.danh_gia,
                               onPressed1: () {
                                 Navigator.pop(context);
                               },
@@ -238,26 +239,33 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
   void confirmUpdateTask() {
     if ((cubit.isItSupport || cubit.isTruongPhong) &&
         cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH) {
-      showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
+      showDialog(
         context: context,
         builder: (_) {
-          return CapNhatTinhHinhHoTroTabLet(
-            cubit: cubit,
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: CapNhatTinhHinhHoTroTabLet(
+                cubit: cubit,
+              ),
+            ),
           );
         },
       );
     } else {
       if (cubit.supportDetail.codeTrangThai ==
-          ChiTietHoTroCubit.DA_HOAN_THANH && cubit.isNguoiYeuCau) {
-        showModalBottomSheet(
-          backgroundColor: Colors.transparent,
-          isScrollControlled: true,
+              ChiTietHoTroCubit.DA_HOAN_THANH &&
+          cubit.isNguoiYeuCau) {
+        showDialog(
           context: context,
           builder: (_) {
-            return DanhGiaYeuCauHoTroTabLet(
-              cubit: cubit,
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: DanhGiaYeuCauHoTroTabLet(
+                  cubit: cubit,
+                ),
+              ),
             );
           },
         );

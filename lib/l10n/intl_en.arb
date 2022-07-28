@@ -1183,8 +1183,8 @@
   "chia_se_thu_muc": "Chia sẻ thư mục",
   "chia_se_thu_muc_chac_chua": "Bạn có chắc chắn chia sẻ thư mục này không?",
   "xac_nhan_dong_pop_up": "Bạn có chắc chắn đóng thêm mới chia sẻ hay không?",
-  "ban_co_chac_chan_yeu_thich": "Bạn có chắc chắn yêu thích thư mục, báo cáo này không?",
-  "ban_co_bo_chac_chan_yeu_thich": "Bạn có chắc chắn bỏ yêu thích thư mục, báo cáo này không?",
+  "ban_co_chac_chan_yeu_thich": "Bạn có chắc chắn yêu thích báo cáo này không?",
+  "ban_co_bo_chac_chan_yeu_thich": "Bạn có chắc chắn bỏ yêu thích báo cáo này không?",
   "yeu_thich_thu_muc": "Yêu thích thư mục, báo cáo",
   "yeu_thich_thanh_cong": "Yêu thích thành công",
   "yeu_thich_that_bai": "Yêu thích thất bại",
@@ -1352,7 +1352,7 @@
   "nam_truoc": "Năm trước",
   "ca_nha_hom_nay": "Cá nhân - Hôm nay",
   "vui_long_nhap_cong_viec": "Vui lòng nhập công việc",
-  "thu_hoi_chi_tiet_lich_hop": "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
+  "thu_hoi_chi_tiet_lich_hop": "Bạn có chắc muốn thu hồi kết luận họp này?",
   "thu_hoi_lich_hop": "Thu hồi lịch họp",
   "khong_lap_lai": "Không lặp lại",
   "lap_lai_hang_ngay": "Lặp lại hàng ngày",
@@ -1388,5 +1388,9 @@
   "chon_loai_xe": "Chọn loại xe",
   "vui_long_chon_hinh_thuc_hop" : "Vui lòng chọn hình thức họp",
   "dung_luong_toi_da_5mb" : "Dung lượng tối đa 5MB",
-  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB"
+  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB",
+  "them_phien_hop_thanh_cong": "Thêm phiên họp thành công",
+  "them_phien_hop_that_bai": "Thêm phiên họp thất bại",
+  "vui_long_nhap_ten_phien_hop": "Vui lòng nhập tên phiên họp!",
+  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!"
 }

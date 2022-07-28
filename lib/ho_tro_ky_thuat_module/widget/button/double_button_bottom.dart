@@ -44,7 +44,7 @@ class DoubleButtonBottom extends StatelessWidget {
                   title: title1,
                 ),
                 spaceW20,
-                if (onlyOneButton)
+                if (!onlyOneButton)
                   button(
                     onTap: () {
                       onPressed2();

@@ -1167,8 +1167,8 @@
   "chon_lich_lap": "Chọn lịch lặp",
   "validate_thoi_gian": "Thời gian kết thúc phải lớn hơn bắt đầu",
   "tao_hop_thanh_cong": "Bạn đã tạo lịch họp thành công",
-  "ban_co_chac_chan_yeu_thich": "Bạn có chắc chắn yêu thích thư mục, báo cáo này không?",
-  "ban_co_bo_chac_chan_yeu_thich": "Bạn có chắc chắn bỏ yêu thích thư mục, báo cáo này không?",
+  "ban_co_chac_chan_yeu_thich": "Bạn có chắc chắn yêu thích báo cáo này không?",
+  "ban_co_bo_chac_chan_yeu_thich": "Bạn có chắc chắn bỏ yêu thích báo cáo này không?",
   "yeu_thich_thu_muc": "Yêu thích thư mục, báo cáo",
   "yeu_thich_thanh_cong": "Yêu thích thành công",
   "yeu_thich_that_bai": "Yêu thích thất bại",
@@ -1316,7 +1316,7 @@
   "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp",
   "ca_nha_hom_nay": "Cá nhân - Hôm nay",
   "vui_long_nhap_cong_viec": "Vui lòng nhập công việc",
-  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi chi tiết lịch họp này ?",
+  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi kết luận họp này?",
   "thu_hoi_lich_hop" : "Thu hồi lịch họp",
   "vui_long_nhap_cham_cham": "Vui lòng nhập .....",
   "khong_lap_lai": "Không lặp lại",
@@ -1353,7 +1353,11 @@
   "ban_phai_nhap_truong_loai_su_co": "Bạn phải chọn trường Loại sự cố",
   "vui_long_chon_hinh_thuc_hop" : "Vui lòng chọn hình thức họp",
   "dung_luong_toi_da_5mb" : "Dung lượng tối đa 5MB",
-  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB"
+  "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB",
+  "them_phien_hop_thanh_cong": "Thêm phiên họp thành công",
+  "them_phien_hop_that_bai": "Thêm phiên họp thất bại",
+  "vui_long_nhap_ten_phien_hop": "Vui lòng nhập tên phiên họp!",
+  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!"
 }
 
 

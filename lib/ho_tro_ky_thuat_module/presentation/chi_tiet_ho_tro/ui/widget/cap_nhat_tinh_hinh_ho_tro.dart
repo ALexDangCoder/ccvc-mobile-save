@@ -119,7 +119,8 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                 maxLine: 4,
                               ),
                               spaceH16,
-                              if (isTruongPhong)
+                              if (isTruongPhong &&
+                                  widget.cubit.supportDetail.nguoiXuLy == null)
                                 if (widget.idTask?.isNotEmpty ?? false) ...[
                                   StreamBuilder<List<String>>(
                                     stream: widget.cubit.getItSupport,
@@ -140,12 +141,50 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                                       }
                                     },
                                   ),
-                                ] else
+                                ] else ...[
                                   dropDownField(
                                     title: S.current.nguoi_xu_ly,
                                     listDropdown: widget.cubit.listItSupport,
                                     maxLine: 2,
                                   ),
+                                ]
+                              else ...[
+                                Text(
+                                  S.current.nguoi_xu_ly,
+                                  style: tokenDetailAmount(
+                                    fontSize: 14,
+                                    color: color3D5586,
+                                  ),
+                                ),
+                                spaceH8,
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    left: 12.w,
+                                    top: 12.h,
+                                    bottom: 12.h,
+                                  ),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: borderColor.withOpacity(0.2),
+                                    border: Border.all(
+                                      color: borderColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        widget.cubit.supportDetail.nguoiXuLy ??
+                                            '',
+                                        style: tokenDetailAmount(
+                                          fontSize: 14,
+                                          color: borderColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                               spaceH16,
                               Text(
                                 S.current.ngay_hoan_thanh,
@@ -240,7 +279,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
                               DoubleButtonBottom(
                                 title1: S.current.dong,
                                 onlyOneButton: widget.cubit.checkOnlyButton(),
-                                title2: S.current.cap_nhat_thxl,
+                                title2: S.current.luu,
                                 disableRightButton: widget
                                         .cubit.isTruongPhong &&
                                     widget.cubit.supportDetail.codeTrangThai ==
@@ -382,6 +421,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
 
   Widget dropDownField({
     String? hintText,
+    String? initData,
     int maxLine = 1,
     required String title,
     required List<String> listDropdown,
@@ -406,7 +446,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro> {
         spaceH8,
         CoolDropDown(
           maxLines: maxLine,
-          initData: '',
+          initData: initData ?? '',
           placeHoder: S.current.chon,
           onChange: (value) {
             if (title == S.current.trang_thai_xu_ly) {

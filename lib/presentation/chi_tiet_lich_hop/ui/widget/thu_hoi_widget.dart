@@ -67,6 +67,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
               onClickRight: () {
                 showDiaLog(
                   context,
+                  icon:SvgPicture.asset(ImageAssets.icXacNhanThuHoi) ,
                   textContent: S.current.thu_hoi_chi_tiet_lich_hop,
                   btnLeftTxt: S.current.khong,
                   funcBtnRight: () {

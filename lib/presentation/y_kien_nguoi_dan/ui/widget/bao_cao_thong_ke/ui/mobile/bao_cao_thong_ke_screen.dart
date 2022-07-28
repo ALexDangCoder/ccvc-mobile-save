@@ -22,6 +22,7 @@ import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -37,6 +38,7 @@ class BaoCaoThongKeScreen extends StatefulWidget {
 class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+  ThemDonViCubit themDonViCubit=ThemDonViCubit();
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];
@@ -66,10 +68,6 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
         endDate,
         listDonVi: listDonViID,
       );
-    });
-
-    eventBus.on<ListSearchListNode>().listen((event) {
-      _listNode = event.listNode;
     });
   }
 
@@ -101,6 +99,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                             maxHeight: MediaQuery.of(context).size.height * 0.8,
                           ),
                           child: SearchBaoCaoThongKeWidget(
+                            themDonViCubit: themDonViCubit,
                             cubit: thamGiaCubit,
                             listSelectNode: snapshot.data ?? [],
                             onChange: (value) {

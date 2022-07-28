@@ -257,7 +257,14 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     final queue = Queue(parallel: 4);
     showLoading();
-    unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
+    unawaited(
+      queue.add(
+        () => getChiTietLichHop(
+          idCuocHop,
+          needShowLoading: false,
+        ),
+      ),
+    );
     unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
@@ -296,14 +303,17 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   void initWidgetDetail() {
     final isHuyOrThuHoi = trangThaiHuy() || trangThaiThuHoi();
     List<TabWidgetDetailMeet> listWidgetDetail = [];
-    if (!isHuyOrThuHoi)
+    if (!isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.CONG_TAC_CHUAN_BI);
-    if (!isHuyOrThuHoi)
+    }
+    if (!isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.CHUONG_TRINH_HOP);
-    if (!isHuyOrThuHoi)
+    }
+    if (!isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
+    }
     if (!isHuyOrThuHoi) listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
-    if (isTaoHo() && !isHuyOrThuHoi) {
+    if (!isTaoHo() && !isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.PHAT_BIEU);
       listWidgetDetail.add(TabWidgetDetailMeet.BIEU_QUYET);
       listWidgetDetail.add(TabWidgetDetailMeet.KET_LUAN_HOP);

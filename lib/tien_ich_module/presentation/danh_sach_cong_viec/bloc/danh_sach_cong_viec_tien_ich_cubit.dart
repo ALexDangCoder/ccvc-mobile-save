@@ -400,6 +400,18 @@ class DanhSachCongViecTienIchCubit
       }
     }
 
+    dynamic checkDataString(
+        {required String changeData, required String defaultData}) {
+      if (changeData == '') {
+        return null;
+      }
+      if (changeData == defaultData) {
+        return defaultData;
+      } else {
+        return changeData;
+      }
+    }
+
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,
@@ -414,7 +426,10 @@ class DanhSachCongViecTienIchCubit
         label: checkData(changeData: titleChange, defaultData: todo.label),
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
-        note: checkData(changeData: noteChange, defaultData: todo.note),
+        note: checkDataString(
+          changeData: noteChange ?? '',
+          defaultData: todo.note ?? '',
+        ),
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatApi,

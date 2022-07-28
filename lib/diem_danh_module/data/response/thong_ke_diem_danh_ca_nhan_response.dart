@@ -51,7 +51,11 @@ class ThongKeDiemDanhCaNhanModelResponse {
       _$ThongKeDiemDanhCaNhanModelResponseToJson(this);
 
   ThongKeDiemDanhCaNhanModel toModel() => ThongKeDiemDanhCaNhanModel(
-      soLanDiMuon: soLanDiMuon,
-      soLanVeSom: soLanVeSom,
-      soNgayNghiCoLyDo: soNgayNghiCoLyDo);
+        soLanDiMuon: soLanDiMuon,
+        soLanVeSom: soLanVeSom,
+        soNgayNghiCoLyDo: soNgayNghiCoLyDo,
+        soLanChamCongThuCong: soLanChamCongThuCong,
+        soNgayLamViec: soNgayLamViec,
+        soNgayVangMatKhongLyDo: soNgayVangMatKhongLyDo,
+      );
 }

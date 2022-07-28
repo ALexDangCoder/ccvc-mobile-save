@@ -7,7 +7,7 @@ import 'package:ccvc_mobile/domain/model/select_key/select_key_model.dart';
 import 'package:hive/hive.dart';
 import 'package:queue/queue.dart';
 
-enum PermissionType { QLVB, PAKN, VPDT, QLNV }
+enum PermissionType { QLVB, PAKN, VPDT, QLNV, HTKT,HTCS }
 
 class HiveLocal {
   static const USER_INFO = 'USER_INFO';
@@ -77,6 +77,14 @@ class HiveLocal {
         case PermissionType.QLNV:
           return result.qLNV
                   .indexWhere((element) => element.name == permissionTxt) !=
+              -1;
+        case PermissionType.HTCS:
+          return result.hTCS
+              .indexWhere((element) => element.name == permissionTxt) !=
+              -1;
+        case PermissionType.HTKT:
+          return result.hTKT
+              .indexWhere((element) => element.name == permissionTxt) !=
               -1;
       }
     } else {

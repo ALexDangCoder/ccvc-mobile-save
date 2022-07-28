@@ -72,6 +72,7 @@ class Data {
   List<dynamic>? phongHopThietBi;
   bool? bit_LinkTrongHeThong;
   String? thuMoiFiles;
+  bool? isCuCanBo;
 
   Data({
     this.nguoiTaoStr,
@@ -123,6 +124,7 @@ class Data {
     this.phongHopThietBi,
     this.thuMoiFiles,
     this.isDuyetKyThuat,
+    this.isCuCanBo,
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -187,6 +189,7 @@ class Data {
     bit_LinkTrongHeThong = json['bit_LinkTrongHeThong'];
     phongHopThietBi = json['phongHop_ThietBi'];
     thuMoiFiles = json['thuMoiFiles'];
+    isCuCanBo = json['isCuCanBo'];
   }
 
   ChiTietLichHopModel toDomain() {
@@ -248,6 +251,7 @@ class Data {
       thuMoiFiles: thuMoiFiles,
       linhVucId: linhVucId,
       fileDinhKemWithDecode: listFileDinhKem,
+      isCuCanBo: isCuCanBo ?? false,
     );
   }
 }

@@ -93,13 +93,13 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           Expanded(
             child: Text(
               value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
               style: textNormalCustom(
                 color: textTitle,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(),
               ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

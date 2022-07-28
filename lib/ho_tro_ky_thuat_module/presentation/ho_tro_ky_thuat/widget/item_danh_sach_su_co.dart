@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -18,7 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ItemDanhSachSuCo extends StatelessWidget {
+class ItemDanhSachSuCo extends StatefulWidget {
   final SuCoModel objDSSC;
   final HoTroKyThuatCubit cubit;
   final Function(SuCoModel, int) onClickMore;
@@ -40,6 +41,11 @@ class ItemDanhSachSuCo extends StatelessWidget {
     this.isTablet = false,
   }) : super(key: key);
 
+  @override
+  State<ItemDanhSachSuCo> createState() => _ItemDanhSachSuCoState();
+}
+
+class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
   Widget textRow({
     required String textTitle,
     required String textContent,
@@ -48,7 +54,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          flex: flexTitle,
+          flex: widget.flexTitle,
           child: Text(
             textTitle,
             style: textNormalCustom(
@@ -60,7 +66,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
         ),
         spaceW14,
         Expanded(
-          flex: flexBody,
+          flex: widget.flexBody,
           child: Text(
             textContent,
             style: textNormalCustom(
@@ -82,7 +88,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: flexTitle,
+          flex: widget.flexTitle,
           child: Text(
             textTitle,
             style: textNormalCustom(
@@ -95,7 +101,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
         ),
         spaceW14,
         Expanded(
-          flex: flexBody,
+          flex: widget.flexBody,
           child: textContent.isNotEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,17 +134,17 @@ class ItemDanhSachSuCo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onClose(),
+      onTap: () => widget.onClose(),
       child: Stack(
         children: [
           Container(
             margin: EdgeInsets.symmetric(
-              horizontal: isTablet ? 28 : 16,
-              vertical: isTablet ? 14 : 8,
+              horizontal: widget.isTablet ? 28 : 16,
+              vertical: widget.isTablet ? 14 : 8,
             ),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: isTablet ? bgTabletItem : colorNumberCellQLVB,
+              color: widget.isTablet ? bgTabletItem : colorNumberCellQLVB,
               borderRadius: BorderRadius.circular(6),
               border: Border.all(
                 color: containerColorTab,
@@ -149,53 +155,53 @@ class ItemDanhSachSuCo extends StatelessWidget {
               children: [
                 textRow(
                   textTitle: S.current.thoi_gian_yeu_cau,
-                  textContent: objDSSC.thoiGianYeuCau ?? '',
+                  textContent: widget.objDSSC.thoiGianYeuCau ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.mo_ta_su_co,
-                  textContent: (objDSSC.moTaSuCo ?? '').parseHtml(),
+                  textContent: (widget.objDSSC.moTaSuCo ?? '').parseHtml(),
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.nguoi_yeu_cau,
-                  textContent: objDSSC.nguoiYeuCau ?? '',
+                  textContent: widget.objDSSC.nguoiYeuCau ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.don_vi,
-                  textContent: objDSSC.donVi ?? '',
+                  textContent: widget.objDSSC.donVi ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.dia_chi,
-                  textContent: objDSSC.diaChi ?? '',
+                  textContent: widget.objDSSC.diaChi ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.dien_thoai,
-                  textContent: objDSSC.soDienThoai ?? '',
+                  textContent: widget.objDSSC.soDienThoai ?? '',
                 ),
                 spaceH10,
                 textStatusRow(
                   textTitle: S.current.trang_thai_xu_ly,
-                  textContent: getTextStatus(objDSSC.codeTrangThai ?? ''),
-                  statusColor: statusColor(objDSSC.codeTrangThai ?? ''),
+                  textContent: widget.objDSSC.trangThaiXuLy ?? '',
+                  statusColor: statusColor(widget.objDSSC.codeTrangThai ?? ''),
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.ket_qua_xu_ly,
-                  textContent: (objDSSC.ketQuaXuLy ?? '').parseHtml(),
+                  textContent: (widget.objDSSC.ketQuaXuLy ?? '').parseHtml(),
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.nguoi_xu_ly,
-                  textContent: objDSSC.nguoiXuLy ?? '',
+                  textContent: widget.objDSSC.nguoiXuLy ?? '',
                 ),
                 spaceH10,
                 textRow(
                   textTitle: S.current.ngay_hoan_thanh,
-                  textContent: objDSSC.ngayHoanThanh ?? '',
+                  textContent: widget.objDSSC.ngayHoanThanh ?? '',
                 ),
               ],
             ),
@@ -204,7 +210,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
             top: 30,
             right: 38,
             child: InkWell(
-              onTap: () => onClickMore(objDSSC, index),
+              onTap: () => widget.onClickMore(widget.objDSSC, widget.index),
               child: SvgPicture.asset(
                 ImageAssets.ic_more,
                 height: 20,
@@ -215,7 +221,7 @@ class ItemDanhSachSuCo extends StatelessWidget {
           Positioned(
             top: 47,
             right: 30,
-            child: cubit.listCheckPopupMenu[index]
+            child: widget.cubit.listCheckPopupMenu[widget.index]
                 ? Container(
                     width: 179,
                     padding: const EdgeInsets.symmetric(
@@ -242,18 +248,18 @@ class ItemDanhSachSuCo extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        if (objDSSC.codeTrangThai ==
+                        if (widget.objDSSC.codeTrangThai ==
                             HoTroKyThuatCubit.CHUA_XU_LY) ...[
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
                             function: (value) {
-                              if (isTablet) {
+                              if (widget.isTablet) {
                                 showDialog(
                                   context: context,
                                   builder: (_) => SuaDoiYcHoTroTablet(
-                                    cubit: cubit,
-                                    idHTKT: objDSSC.id ?? '',
+                                    cubit: widget.cubit,
+                                    idHTKT: widget.objDSSC.id ?? '',
                                   ),
                                 );
                               } else {
@@ -262,9 +268,14 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                   isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
                                   builder: (context) => SuaDoiYcHoTroMobile(
-                                    cubit: cubit,
-                                    idHTKT: objDSSC.id ?? '',
+                                    cubit: widget.cubit,
+                                    idHTKT: widget.objDSSC.id ?? '',
                                   ),
+                                ).whenComplete(
+                                  () => {
+                                    widget.cubit.onClosePopupMenu(),
+                                    setState(() {}),
+                                  },
                                 );
                               }
                             },
@@ -276,14 +287,14 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             title: S.current.xoa,
                             icon: ImageAssets.ic_delete,
                             function: (value) {
-                              cubit
-                                  .deleteTask(id: objDSSC.id ?? '')
+                              widget.cubit
+                                  .deleteTask(id: widget.objDSSC.id ?? '')
                                   .then((value) {
                                 if (value) {
                                   MessageConfig.show(
                                     title: S.current.xoa_thanh_cong,
                                   );
-                                  cubit.getListDanhBaCaNhan(page: 1);
+                                  widget.cubit.getListDanhBaCaNhan(page: 1);
                                 } else {
                                   MessageConfig.show(
                                     title: S.current.xoa_that_bai,
@@ -296,13 +307,17 @@ class ItemDanhSachSuCo extends StatelessWidget {
                             paddingLeft: 35,
                           ),
                         ],
-                        if (objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.DA_HOAN_THANH) ...[
+                        if (widget.objDSSC.codeTrangThai ==
+                                HoTroKyThuatCubit.DA_HOAN_THANH &&
+                            (widget.objDSSC.idNguoiYeuCau ==
+                                HiveLocal.getDataUser()
+                                    ?.userInformation
+                                    ?.id)) ...[
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
                             function: (value) {
-                              if (isTablet) {
+                              if (widget.isTablet) {
                                 showDialog(
                                   context: context,
                                   builder: (_) {
@@ -311,13 +326,14 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                       body: Center(
                                         child: DanhGiaYeuCauHoTroTabLet(
                                           cubit: ChiTietHoTroCubit(),
-                                          idTask: objDSSC.id,
+                                          idTask: widget.objDSSC.id,
                                         ),
                                       ),
                                     );
                                   },
                                 ).whenComplete(
-                                      () => cubit.getListDanhBaCaNhan(page: 1),
+                                  () =>
+                                      widget.cubit.getListDanhBaCaNhan(page: 1),
                                 );
                               } else {
                                 showModalBottomSheet(
@@ -327,24 +343,25 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                   builder: (_) {
                                     return DanhGiaYeuCauHoTro(
                                       cubit: ChiTietHoTroCubit(),
-                                      idTask: objDSSC.id,
+                                      idTask: widget.objDSSC.id,
                                     );
                                   },
                                 ).whenComplete(
-                                  () => cubit.getListDanhBaCaNhan(page: 1),
+                                  () =>
+                                      widget.cubit.getListDanhBaCaNhan(page: 1),
                                 );
                               }
                             },
                           ),
                         ],
-                        if ((cubit.isCheckUser ?? false) &&
-                            !(objDSSC.codeTrangThai ==
+                        if ((widget.cubit.isCheckUser ?? false) &&
+                            !(widget.objDSSC.codeTrangThai ==
                                 HoTroKyThuatCubit.DA_HOAN_THANH))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,
                             function: (value) {
-                              if (isTablet) {
+                              if (widget.isTablet) {
                                 showDialog(
                                   context: context,
                                   builder: (_) {
@@ -353,13 +370,14 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                       body: Center(
                                         child: CapNhatTinhHinhHoTroTabLet(
                                           cubit: ChiTietHoTroCubit(),
-                                          idTask: objDSSC.id,
+                                          idTask: widget.objDSSC.id,
                                         ),
                                       ),
                                     );
                                   },
                                 ).whenComplete(
-                                      () => cubit.getListDanhBaCaNhan(page: 1),
+                                  () =>
+                                      widget.cubit.getListDanhBaCaNhan(page: 1),
                                 );
                               } else {
                                 showModalBottomSheet(
@@ -369,11 +387,12 @@ class ItemDanhSachSuCo extends StatelessWidget {
                                   builder: (_) {
                                     return CapNhatTinhHinhHoTro(
                                       cubit: ChiTietHoTroCubit(),
-                                      idTask: objDSSC.id,
+                                      idTask: widget.objDSSC.id,
                                     );
                                   },
                                 ).whenComplete(
-                                  () => cubit.getListDanhBaCaNhan(page: 1),
+                                  () =>
+                                      widget.cubit.getListDanhBaCaNhan(page: 1),
                                 );
                               }
                             },
@@ -434,21 +453,6 @@ class ItemDanhSachSuCo extends StatelessWidget {
         return blueColor;
       default:
         return statusCalenderRed;
-    }
-  }
-
-  String getTextStatus(String status) {
-    switch (status) {
-      case HoTroKyThuatCubit.DA_HOAN_THANH:
-        return S.current.da_xu_ly;
-      case HoTroKyThuatCubit.CHUA_XU_LY:
-        return S.current.dang_cho_xu_ly;
-      case HoTroKyThuatCubit.TU_CHOI_XU_LY:
-        return S.current.tu_choi_xu_ly;
-      case HoTroKyThuatCubit.DANG_XU_LY:
-        return S.current.dang_xu_ly;
-      default:
-        return '';
     }
   }
 }

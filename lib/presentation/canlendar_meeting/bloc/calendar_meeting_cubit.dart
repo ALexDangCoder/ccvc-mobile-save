@@ -491,10 +491,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     result.when(
       success: (value) {
         if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
+          checkDuplicate(value.items ?? []);
           _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
           _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
           _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
-          checkDuplicate(value.items ?? []);
+
           _danhSachLichHopSubject.sink.add(value);
         }
         countLichCanKLCH = value.items?.length ?? 0;
@@ -511,21 +512,31 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   void checkDuplicate(List<ItemDanhSachLichHop> list) {
     for (final item in list) {
-      final currentTimeFrom =
-          getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
-      final currentTimeTo =
-          getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
-      final listDuplicate = list.where((element) {
-        final startTime =
-            getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
-        if (startTime >= currentTimeFrom && startTime < currentTimeTo) {
-          return true;
-        }
-        return false;
-      });
-      if (listDuplicate.length > 1) {
-        for (int i = 0; i < listDuplicate.length; i++) {
-          listDuplicate.elementAt(i).isTrung = true;
+      if (item.isTrung ?? false) {
+        final currentTimeFrom =
+            getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
+        final currentTimeTo =
+            getDate(item.dateTimeTo ?? '').millisecondsSinceEpoch;
+        final subTimeCurrent = currentTimeTo - currentTimeFrom;
+        for (final element in list) {
+          final startTimeCompare =
+              getDate(element.dateTimeFrom ?? '').millisecondsSinceEpoch;
+          final endTimeCompare =
+              getDate(element.dateTimeTo ?? '').millisecondsSinceEpoch;
+          final listStartEndTime = [
+            currentTimeFrom,
+            currentTimeTo,
+            startTimeCompare,
+            endTimeCompare
+          ];
+          listStartEndTime.sort();
+          final subTimeCompare = endTimeCompare - startTimeCompare;
+          if ((listStartEndTime[0] - listStartEndTime[3]).abs() <
+              (subTimeCompare + subTimeCurrent) &&
+              item.id != element.id) {
+            element.isTrung = true;
+            item.isTrung = true;
+          }
         }
       }
     }
@@ -564,9 +575,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }) {
     stateType = StateType.CHO_DUYET;
     if (state is ListViewState) {
+      _initDefault();
       emitListViewState();
       _titleSubject.sink.add(oldTitle);
     } else if (state is CalendarViewState)  {
+      _initDefault();
       emitCalendarViewState();
       _titleSubject.sink.add(oldTitle);
     } else {
@@ -606,7 +619,13 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     }
 
   }
-
+void _initDefault(){
+  if(controller.calendarType.value == CalendarType.YEAR){
+    final now = controller.selectDate.value;
+    startDate = now;
+    endDate = now;
+  }
+}
   /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();

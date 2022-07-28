@@ -2,12 +2,16 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DanhGiaYeuCauHoTroTabLet extends StatefulWidget {
   const DanhGiaYeuCauHoTroTabLet({Key? key, required this.cubit, this.idTask})
@@ -94,8 +98,37 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
                 widget.cubit.commentTask(
                   note ?? '',
                   id: widget.idTask,
+                ).then(
+                      (value) {
+                    if(value == successCode){
+                      final FToast toast = FToast();
+                      toast.init(context);
+                      toast.showToast(
+                        child: ShowToast(
+                          text: S.current.luu_du_lieu_thanh_cong,
+                          icon: ImageAssets.icSucces,
+                        ),
+                        gravity: ToastGravity.BOTTOM,
+                      );
+                      if(widget.idTask?.isEmpty ?? true){
+                        widget.cubit.getSupportDetail(
+                          widget.cubit.supportDetail.id ?? '',
+                        );
+                      }
+                      Navigator.pop(context);
+                    } else {
+                      final FToast toast = FToast();
+                      toast.init(context);
+                      toast.showToast(
+                        child: ShowToast(
+                          text: S.current.thay_doi_that_bai,
+                          icon: ImageAssets.icError,
+                        ),
+                        gravity: ToastGravity.BOTTOM,
+                      );
+                    }
+                  },
                 );
-                Navigator.pop(context);
               },
               noPadding: true,
               isTablet: true,

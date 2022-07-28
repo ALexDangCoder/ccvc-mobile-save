@@ -24,14 +24,28 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as get_dart;
 import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
-  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial()) {
+    isManager = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
+    isSupporter = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_HO_TRO,
+    );
+    themDonViCubit = ThemDonViCubit();
+  }
+  late ThemDonViCubit themDonViCubit;
   List<File>? filesThemMoiYCHTKT = [];
   static const String rightPath = 'attachments/upload/';
+  late bool isManager;
+  late bool isSupporter;
 
   //color
   List<Color> colorChart = [
@@ -228,10 +242,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     bool isArea = true,
     required String id,
   }) {
+    String? result;
     if (isArea) {
       for (final area in areaList) {
         if (area.id == id) {
           nameArea = area.name;
+          result = nameArea;
           break;
         }
       }
@@ -240,12 +256,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         for (final building in area.childCategories ?? []) {
           if (id == building.id) {
             nameBuilding = building.name ?? '';
+            result = nameBuilding;
             break;
           }
         }
       }
     }
-    return isArea ? nameArea : nameBuilding;
+    return result;
   }
 
   final Set<SuCoHTKT> issuesEditHTKT = {};
@@ -272,7 +289,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   List<String> getListThanhVien(List<ThanhVien> listData) {
     return listData
-        .map((e) => '${e.tenThanhVien.toString()} (${e.userId.toString()})')
+        .map((e) => '${e.tenThanhVien.toString()} - ${e.userName.toString()}')
         .toList();
   }
 
@@ -306,6 +323,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       processingCode: processingCode,
       handlerId: handlerId,
       keyWord: keyWord,
+      isManager: isManager,
+      isSupporter: isSupporter,
     );
     result.when(
       success: (res) {
@@ -366,6 +385,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (success) {
         showContent();
+        getListDanhBaCaNhan(
+          page: 1,
+        );
       },
       error: (error) {
         showContent();
@@ -559,6 +581,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   Future<void> getCategory({
     required String title,
+    bool isLoadCreate = true,
   }) async {
     final Result<List<CategoryModel>> result =
         await _hoTroKyThuatRepository.getCategory(title);
@@ -568,6 +591,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
+          // buildingListStream.sink.add(buildingList);
+          if (isLoadCreate) {
+            buildingListStream.sink.add([S.current.khong_co_du_lieu]);
+          } else {
+            buildingListStream.sink.add([]);
+          }
+          addTaskHTKTRequest.buildingName = S.current.khong_co_du_lieu;
           listToaNha.sink.add(res.first.childCategories ?? []);
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
@@ -613,12 +643,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     showErrorLoaiSuCo.add(false);
     showErrorKhuVuc.add(false);
     showErrorToaNha.add(false);
+    addTaskHTKTRequest.danhSachSuCo?.clear();
   }
 
   bool validateAllDropDown = false;
 
   void checkAllThemMoiYCHoTro() {
-    if (addTaskHTKTRequest.buildingName == null) {
+    if (addTaskHTKTRequest.buildingId == null) {
       validateAllDropDown = false;
       showErrorToaNha.sink.add(true);
     }
@@ -630,8 +661,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       validateAllDropDown = false;
       showErrorLoaiSuCo.sink.add(true);
     }
-    if (addTaskHTKTRequest.buildingName != null &&
-        addTaskHTKTRequest.districtName != null &&
+    if (addTaskHTKTRequest.buildingId != null &&
+        addTaskHTKTRequest.districtId != null &&
         (addTaskHTKTRequest.danhSachSuCo ?? []).isNotEmpty) {
       validateAllDropDown = true;
       showErrorToaNha.sink.add(false);
@@ -676,8 +707,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   void dispose() {
-    showErrorLoaiSuCo.close();
-    showErrorKhuVuc.close();
-    showErrorToaNha.close();
+    addTaskHTKTRequest.districtName = null;
+    addTaskHTKTRequest.buildingName = null;
+    nameBuilding = null;
+    nameArea = null;
   }
 }

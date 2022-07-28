@@ -90,7 +90,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                 )
                     .then((value) {
                   if (value) {
-                    widget.cubit.initDataChiTiet();
+                    widget.cubit.initDataChiTiet(needCheckPermission: true);
+                    widget.themCanBoCubit.getCanbo.add([]);
                     Navigator.pop(context);
                   }
                 });
@@ -218,6 +219,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                   top: 20.0.textScale(space: -2),
                                 ),
                                 child: itemListCanBo(
+                                  isVisible: index != 0,
                                   noiDungCV: data[index].noidung,
                                   cubit: widget.cubitThanhPhanTG,
                                   donVi: data[index],
@@ -260,6 +262,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
     required ThanhPhanThamGiaCubit cubit,
     required String noiDungCV,
     required Function() onDelete,
+    bool isVisible = true,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -293,7 +296,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
               ),
             ],
           ),
-          Positioned(
+          if (isVisible) Positioned(
             top: 0,
             right: 0,
             child: Row(
@@ -305,8 +308,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                   child: SvgPicture.asset(ImageAssets.icDeleteRed),
                 ),
               ],
-            ),
-          )
+            )
+          ) else Container(),
         ],
       ),
     );

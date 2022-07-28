@@ -73,7 +73,6 @@ dependencies:
   flutter_svg: ^0.22.0
   cupertino_icons: ^1.0.2
   dart_ipify: ^1.1.0
-  dropdown_search: 3.0.1
 
   # GET
   get: ^4.1.4
@@ -101,6 +100,7 @@ dependencies:
   grouped_list: ^5.1.2
   expandable_page_view: ^1.0.13
   analyzer: ^1.7.2
+  dropdown_search: 3.0.0
 
 dev_dependencies:
   flutter_test:

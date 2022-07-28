@@ -13,7 +13,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
 
   Future<void> getApiThemMoiYCHT() async {
     showLoading();
-    if (listKhuVuc.value.isNotEmpty || listToaNha.value.isNotEmpty) {
+    if (listKhuVuc.hasValue || listToaNha.hasValue) {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
@@ -38,7 +38,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
-    await getCategory(title: HoTroKyThuatCubit.KHU_VUC);
+    await getCategory(title: HoTroKyThuatCubit.KHU_VUC, isLoadCreate: false,);
     await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
@@ -63,6 +63,9 @@ extension CreateTechSupport on HoTroKyThuatCubit {
   }
 
   void selectArea(int index) {
+    nameBuilding = null;
+    addTaskHTKTRequest.buildingName = null;
+    addTaskHTKTRequest.buildingId = null;
     addTaskHTKTRequest.districtName = areaList[index].name;
     addTaskHTKTRequest.districtId = areaList[index].id;
     showErrorKhuVuc.add(false);
@@ -92,6 +95,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
   }
 
   void selectBuilding(int index) {
+    addTaskHTKTRequest.buildingName = null;
     addTaskHTKTRequest.buildingName = buildingList[index].name;
     addTaskHTKTRequest.buildingId = buildingList[index].id;
     showErrorToaNha.add(false);
@@ -114,6 +118,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     for (final e in indexList) {
       addTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
+    checkAllThemMoiYCHoTro();
   }
 
   void addIssuesEdit(List<int> index) {
@@ -125,5 +130,6 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     for (final e in index) {
       editTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
+    checkAllEditYCHT();
   }
 }

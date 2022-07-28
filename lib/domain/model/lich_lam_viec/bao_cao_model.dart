@@ -36,6 +36,8 @@ class BaoCaoModel {
   String id;
   String reportStatusId;
   String canBoChuTriId;
+  String createBy;
+  String nguoiTao;
 
   BaoCaoModel({
     this.status = BaoCaoStatus.TRUNG_BINH,
@@ -45,6 +47,8 @@ class BaoCaoModel {
     this.id = '',
     this.reportStatusId = '',
     this.canBoChuTriId = '',
+    this.createBy = '',
+    this.nguoiTao = '',
   }) {
     status = fromEnum();
   }

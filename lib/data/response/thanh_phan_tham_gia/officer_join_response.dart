@@ -82,6 +82,8 @@ class ItemOfficerResponse {
   String? userName;
   @JsonKey(name: 'isConfirm')
   bool? isConfirm;
+  @JsonKey(name: 'parentId')
+  String? parentId;
   @JsonKey(name: 'confirmDate')
   String? confirmDate;
   @JsonKey(name: 'taskContent')
@@ -105,6 +107,7 @@ class ItemOfficerResponse {
     this.tenDonVi,
     this.userName,
     this.isConfirm,
+    this.parentId,
     this.confirmDate,
     this.taskContent,
     this.status,
@@ -122,6 +125,7 @@ class ItemOfficerResponse {
         taskContent: taskContent,
         confirmDate: confirmDate,
         isConfirm: isConfirm,
+        parentId: parentId,
         status: status,
         scheduleId: scheduleId,
       );

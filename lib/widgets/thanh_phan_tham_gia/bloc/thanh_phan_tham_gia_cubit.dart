@@ -98,7 +98,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
         (listCanBoThamGia.valueOrNull ?? []).add(donVi);
         listCanBo.add(donVi);
       } else {
-        (listCanBoThamGia.valueOrNull ?? []).add(newCanBo);
+        (listCanBoThamGia.valueOrNull ?? []).add(newCanBo.toCuCanBoTreeDonVi);
         listCanBo.add(newCanBo);
       }
       listCanBoThamGia.sink.add(listCanBoThamGia.valueOrNull ?? []);

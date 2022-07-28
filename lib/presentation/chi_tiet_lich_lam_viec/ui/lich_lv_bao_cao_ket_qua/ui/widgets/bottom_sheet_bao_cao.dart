@@ -103,7 +103,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                   color: AppTheme.getInstance().colorField(),
                 ),
                 initData: widget.cubit.tinhTrangBaoCaoModel?.displayName ?? '',
-                placeHoder: S.current.chon_trang_thai,
+                placeHoder: S.current.chon_tinh_trang,
                 listData: widget.listTinhTrangBaoCao
                     .map((e) => e.displayName ?? '')
                     .toList(),

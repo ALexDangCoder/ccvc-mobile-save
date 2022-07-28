@@ -87,8 +87,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
 
   void onChangeNguoiTiepNhan(int index) {
     userRequestId = listNguoiTiepNhanYeuCau.value[index].userId;
-    userRequestIdName = '${listNguoiTiepNhanYeuCau.value[index].hoVaTen} '
-        '(${listNguoiTiepNhanYeuCau.value[index].userId})';
+    userRequestIdName = '${listNguoiTiepNhanYeuCau.value[index].hoVaTen}';
   }
 
   void onChangeKhuVuc(int index) {
@@ -102,9 +101,8 @@ extension onChangeSearch on HoTroKyThuatCubit {
   }
 
   void onChangeToaNha(int index) {
-    buildingId = listToaNha.value[index].id;
-    buildingIdName =
-        '${listToaNha.value[index].name} (${listToaNha.value[index].id})';
+    buildingId = listToaNha.value[index].parentId;
+    buildingIdName = listToaNha.value[index].name;
   }
 
   void onChangeTrangThaiXuLy(int index) {
@@ -113,7 +111,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
   }
 
   void onChangeNguoiXuLy(int index) {
-    handlerId = listCanCoHTKT.value[index].userId;
+    handlerId = listCanCoHTKT.value[index].idThanhVien;
     handlerIdName = getListThanhVien(
       listCanCoHTKT.value,
     )[index];
@@ -136,14 +134,14 @@ extension getItemsSearch on HoTroKyThuatCubit {
   List<String> getItemsNguoiTiepNhanYeuCau() {
     return listNguoiTiepNhanYeuCau.value
         .map(
-          (e) => '${e.hoVaTen} (${e.userId})',
+          (e) => '${e.hoVaTen}',
         )
         .toList();
   }
 
   List<String> getItemsThanhVien() {
     return listCanCoHTKT.value
-        .map((e) => '${e.tenThanhVien.toString()} (${e.userId.toString()})')
+        .map((e) => '${e.tenThanhVien.toString()} - ${e.userName.toString()}')
         .toList();
   }
 
@@ -152,7 +150,7 @@ extension getItemsSearch on HoTroKyThuatCubit {
   }
 
   List<String> getItemsToaNha(List<ChildCategories> listData) {
-    return listData.map((e) => '${e.name} (${e.id})').toList();
+    return listData.map((e) => '${e.name}').toList();
   }
 
   List<String> getItemsTrangThai() {

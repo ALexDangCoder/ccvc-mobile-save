@@ -250,10 +250,11 @@ extension GetDataPermission on PERMISSION_DETAIL {
             showDialog(
               context: context,
               builder: (context) => RadioOptionDialog(
-                title: S.current.huy_lich_hop,
+                title: S.current.xoa_lich_hop,
+                textConfirm: S.current.xoa_chi_tiet_lich_hop,
                 textRadioBelow: S.current.chi_lich_hien_tai,
                 textRadioAbove: S.current.tu_hien_tai_ve_sau,
-                imageUrl: ImageAssets.img_sua_lich,
+                imageUrl: ImageAssets.icXoaHopPoppup,
                 onChange: (value) {
                   cubit.deleteChiTietLichHop(isMulti: value);
                   Navigator.pop(context, true);

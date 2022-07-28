@@ -77,7 +77,7 @@ class NodeHSCV {
     if (isInSearching != null) {
       return isInSearching;
     }
-    if ((value.iDDonViCha ?? '').isEmpty || !value.hasDonViCon) {
+    if ((value.iDDonViCha).isEmpty || !value.hasDonViCon) {
       return true;
     }
     return false;

@@ -61,6 +61,8 @@ class GroupResponse {
   String? ngayHoanThanh;
   @JsonKey(name: 'room')
   String? room;
+  @JsonKey(name: 'idNguoiYeuCau')
+  String? idNguoiYeuCau;
   @JsonKey(name: 'danhSachSuCo')
   List<DSSuCoResponse>? danhSachSuCo;
   @JsonKey(name: 'listFileDinhKems')
@@ -105,6 +107,7 @@ class GroupResponse {
         thoiGianYeuCau: thoiGianYeuCau,
         nguoiYeuCau: nguoiYeuCau,
         chucVu: chucVu,
+        idNguoiYeuCau: idNguoiYeuCau,
         donVi: donVi,
         codeTrangThai: codeTrangThai,
         trangThaiXuLy: trangThaiXuLy,

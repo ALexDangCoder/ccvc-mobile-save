@@ -101,7 +101,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
   }
 
   void onChangeToaNha(int index) {
-    buildingId = listToaNha.value[index].id;
+    buildingId = listToaNha.value[index].parentId;
     buildingIdName = listToaNha.value[index].name;
   }
 
@@ -111,7 +111,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
   }
 
   void onChangeNguoiXuLy(int index) {
-    handlerId = listCanCoHTKT.value[index].userId;
+    handlerId = listCanCoHTKT.value[index].idThanhVien;
     handlerIdName = getListThanhVien(
       listCanCoHTKT.value,
     )[index];

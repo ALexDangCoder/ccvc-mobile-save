@@ -44,6 +44,7 @@ class _ItemListState extends State<ItemList> {
                           isCheck: selectedIndex.contains(widget.index),
                           title: '',
                         ),
+                        spaceW10,
                         Expanded(
                           child: InkWell(
                             onTap: () {

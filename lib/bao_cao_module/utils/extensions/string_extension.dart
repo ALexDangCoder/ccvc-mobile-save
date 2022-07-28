@@ -13,6 +13,20 @@ extension StringHandle on String {
   }
 }
 
+extension DiacriticsAwareString on String {
+  static const diacritics =
+      'àáạảãâầấậẩẫăằắặẳẵÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴèéẹẻẽêềếệểễÈÉẸẺẼÊỀẾỆỂỄòóọỏõôồốộổỗơờớợởỡÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠùúụủũưừứựửữÙÚỤỦŨƯỪỨỰỬỮìíịỉĩÌÍỊỈĨđĐỳýỵỷỹỲÝỴỶỸ';
+  static const nonDiacritics =
+      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeoooooooooooooooooooooooooooooooooouuuuuuuuuuuuuuuuuuuuuuiiiiiiiiiiddyyyyyyyyyy';
+
+  String get withoutDiacriticalMarks => splitMapJoin(
+        '',
+        onNonMatch: (char) => char.isNotEmpty && diacritics.contains(char)
+            ? nonDiacritics[diacritics.indexOf(char)]
+            : char,
+      );
+}
+
 extension StringMoneyFormat on String {
   String formatMoney(double money) {
     final String result = formatValue.format(money);

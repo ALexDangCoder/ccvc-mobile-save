@@ -1,25 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'cu_can_bo_lich_lam_viec_request.g.dart';
-
 @JsonSerializable()
 class DataCuCanBoLichLamViecRequest {
   String? scheduleId;
-  List<CuCanBoLichLamViecRequest>? canBoDiThay;
+  List<CuCanBoLichLamViec>? canBoDiThay;
 
   DataCuCanBoLichLamViecRequest({
     required this.scheduleId,
     required this.canBoDiThay,
   });
 
-  factory DataCuCanBoLichLamViecRequest.fromJson(Map<String, dynamic> json) =>
-      _$DataCuCanBoLichLamViecRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DataCuCanBoLichLamViecRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['scheduleId'] = scheduleId;
+    data['canBoDiThay'] = canBoDiThay;
+    return data;
+  }
 }
 
 @JsonSerializable()
-class CuCanBoLichLamViecRequest {
+class CuCanBoLichLamViec {
   //truong khoi tao model
   String? canBoId;
   String? confirmDate;
@@ -35,26 +35,44 @@ class CuCanBoLichLamViecRequest {
   String? userId;
   String? userName;
   bool? isXoa;
+  bool? isCheckThemCanCuCanBo;
 
-  CuCanBoLichLamViecRequest({
-    required this.canBoId,
-    required this.confirmDate,
-    required this.donViId,
-    required this.hoTen,
-    required this.id,
-    required this.isConfirm,
-    required this.parentId,
-    required this.scheduleId,
-    required this.status,
-    required this.taskContent,
-    required this.tenDonVi,
-    required this.userId,
-    required this.userName,
-    required this.isXoa,
+  CuCanBoLichLamViec({
+    this.canBoId,
+    this.confirmDate,
+    this.donViId,
+    this.hoTen,
+    this.id,
+    this.isConfirm,
+    this.parentId,
+    this.scheduleId,
+    this.status,
+    this.taskContent,
+    this.tenDonVi,
+    this.userId,
+    this.userName,
+    this.isXoa,
+    this.isCheckThemCanCuCanBo,
   }); //truong day len user tham gia,canBoId,donViId,hoTen,isXoa,taskContent,tenDonVi
 
-  factory CuCanBoLichLamViecRequest.fromJson(Map<String, dynamic> json) =>
-      _$CuCanBoLichLamViecRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CuCanBoLichLamViecRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['canBoId'] = canBoId;
+    if (isCheckThemCanCuCanBo ?? false) {
+      data['confirmDate'] = confirmDate;
+      data['id'] = id;
+      data['isConfirm'] = isConfirm;
+      data['parentId'] = parentId;
+      data['scheduleId'] = scheduleId;
+      data['status'] = status;
+      data['userId'] = userId;
+      data['userName'] = userName;
+    }
+    data['donViId'] = donViId;
+    data['hoTen'] = hoTen;
+    data['taskContent'] = taskContent;
+    data['tenDonVi'] = tenDonVi;
+    data['isXoa'] = isXoa;
+    return data;
+  }
 }

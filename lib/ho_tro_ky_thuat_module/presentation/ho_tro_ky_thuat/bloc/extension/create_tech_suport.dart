@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
@@ -39,7 +38,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
-    await getCategory(title: HoTroKyThuatCubit.KHU_VUC);
+    await getCategory(title: HoTroKyThuatCubit.KHU_VUC, isLoadCreate: false,);
     await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
@@ -119,6 +118,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     for (final e in indexList) {
       addTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
+    checkAllThemMoiYCHoTro();
   }
 
   void addIssuesEdit(List<int> index) {
@@ -130,5 +130,6 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     for (final e in index) {
       editTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
+    checkAllEditYCHT();
   }
 }

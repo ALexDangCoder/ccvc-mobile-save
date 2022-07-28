@@ -38,14 +38,14 @@ class DangKyThongTinXeMoi extends StatefulWidget {
 class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   TextEditingController bienKiemSoatController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
-  final _radioButtonKey = GlobalKey<CustomRadioLoaiSoHuuState>();
 
   @override
   void initState() {
     super.initState();
     widget.cubit.toast.init(context);
     widget.cubit.loaiSoHuu = DanhSachBienSoXeConst.XE_CAN_BO;
-    widget.cubit.xeMay = DanhSachBienSoXeConst.XE_MAY;
+    widget.cubit.xeMay = '';
+    widget.cubit.isShowErrLoaiXe.add(false);
   }
 
   @override
@@ -77,8 +77,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                 onClickLeft: () {
                   Navigator.pop(context);
                 },
-                onClickRight: () async {
-                  await postDangKyXe();
+                onClickRight: () {
+                  postDangKyXe();
                 },
               ),
             ),
@@ -149,7 +149,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? [];
                           return CoolDropDown(
-                            initData: data.map((e) => e.ten ?? '').first,
+                            initData: '',
+                            placeHoder: S.current.chon_loai_xe,
+                            useCustomHintColors: true,
                             listData: data.map((e) => e.ten ?? '').toList(),
                             onChange: (vl) {
                               vl == 0
@@ -157,7 +159,33 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                       DanhSachBienSoXeConst.XE_MAY
                                   : widget.cubit.xeMay =
                                       DanhSachBienSoXeConst.O_TO;
+                              widget.cubit.isShowErrLoaiXe.add(false);
                             },
+                          );
+                        },
+                      ),
+                      StreamBuilder<bool>(
+                        stream: widget.cubit.isShowErrLoaiXe,
+                        builder: (context, snapshot) {
+                          final isShow = snapshot.data ?? false;
+                          return Visibility(
+                            visible: isShow,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '${S.current.vuiLongChon} '
+                                '${S.current.loai_xe.toLowerCase()}',
+                                style: textNormalCustom(
+                                  color: colord32f2f,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -168,8 +196,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
-                          return (value ?? '')
-                              .checkTruongNull('${S.current.bien_kiem_soat}!');
+                          return (value ?? '').pleaseEnter(
+                            S.current.bien_kiem_soat,
+                          );
                         },
                       ),
                       spaceH20,
@@ -185,8 +214,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         ),
                       ),
                       CustomRadioLoaiSoHuu(
-                        key: _radioButtonKey,
-                        onChange: (isXeLanhDao) {
+                        onchange: (isXeLanhDao) {
                           widget.cubit.loaiSoHuu = isXeLanhDao
                               ? DanhSachBienSoXeConst.XE_LANH_DAO
                               : DanhSachBienSoXeConst.XE_CAN_BO;
@@ -293,7 +321,33 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                               DanhSachBienSoXeConst.XE_MAY
                                           : widget.cubit.xeMay =
                                               DanhSachBienSoXeConst.O_TO;
+                                      widget.cubit.isShowErrLoaiXe.add(false);
                                     },
+                                  ),
+                                );
+                              },
+                            ),
+                            StreamBuilder<bool>(
+                              stream: widget.cubit.isShowErrLoaiXe,
+                              builder: (context, snapshot) {
+                                final isShow = snapshot.data ?? false;
+                                return Visibility(
+                                  visible: isShow,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      '${S.current.vuiLongChon} '
+                                          '${S.current.loai_xe.toLowerCase()}',
+                                      style: textNormalCustom(
+                                        color: colord32f2f,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
                                   ),
                                 );
                               },
@@ -324,8 +378,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               ),
                             ),
                             CustomRadioLoaiSoHuu(
-                              key: _radioButtonKey,
-                              onChange: (isXeLanhDao) {
+                              onchange: (isXeLanhDao) {
                                 widget.cubit.loaiSoHuu = isXeLanhDao
                                     ? DanhSachBienSoXeConst.XE_LANH_DAO
                                     : DanhSachBienSoXeConst.XE_CAN_BO;
@@ -344,8 +397,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           onClickLeft: () {
                             Navigator.pop(context);
                           },
-                          onClickRight: () async {
-                            await postDangKyXe();
+                          onClickRight: () {
+                            postDangKyXe();
                           },
                         ),
                       ),
@@ -361,9 +414,18 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   }
 
   Future<void> postDangKyXe() async {
-    if (keyGroup.currentState!.validator() &&
-        widget.cubit.fileItemBienSoXe.isNotEmpty &&
-        _radioButtonKey.currentState!.validator()) {
+    final bool isFormValidated = keyGroup.currentState?.validator() ?? false;
+    widget.cubit.isShowErrLoaiXe.add(widget.cubit.xeMay?.isEmpty ?? true);
+    if(widget.cubit.fileItemBienSoXe.isEmpty){
+      widget.cubit.toast.showToast(
+        child: ShowToast(
+          text: S.current.vui_long_tai_anh_len,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+      return;
+    }
+    if (isFormValidated && !widget.cubit.isShowErrLoaiXe.value) {
       Navigator.pop(context);
       await widget.cubit.postImageResgiter(
         bienKiemSoat: bienKiemSoatController.value.text.removeSpace,
@@ -372,11 +434,6 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
       );
       return;
     }
-    widget.cubit.toast.showToast(
-      child: ShowToast(
-        text: S.current.vui_long_tai_anh_len,
-      ),
-      gravity: ToastGravity.TOP_RIGHT,
-    );
+
   }
 }

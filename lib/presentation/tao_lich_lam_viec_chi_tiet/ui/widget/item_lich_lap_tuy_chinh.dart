@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -103,6 +104,7 @@ class SuaLichLapTuyChinh extends StatefulWidget {
 
 class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
+  late List<DayOffWeek> listDayOffWeekEmpty;
   bool flag = true;
   final _now = DateTime.now().weekday == 7 ? 0 : DateTime.now().weekday;
 
@@ -111,32 +113,41 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
     // TODO: implement initState
     super.initState();
     listDayOffWeek = [
-      DayOffWeek(index: 0, name: 'CN', isChoose: _now == 0),
-      DayOffWeek(index: 1, name: 'T2', isChoose: _now == 1),
-      DayOffWeek(index: 2, name: 'T3', isChoose: _now == 2),
-      DayOffWeek(index: 3, name: 'T4', isChoose: _now == 3),
-      DayOffWeek(index: 4, name: 'T5', isChoose: _now == 4),
-      DayOffWeek(index: 5, name: 'T6', isChoose: _now == 5),
-      DayOffWeek(index: 6, name: 'T7', isChoose: _now == 6),
+      DayOffWeek(index: 0, name: ListDayOffWeek.CN, isChoose: _now == 0),
+      DayOffWeek(index: 1, name: ListDayOffWeek.T2, isChoose: _now == 1),
+      DayOffWeek(index: 2, name: ListDayOffWeek.T3, isChoose: _now == 2),
+      DayOffWeek(index: 3, name: ListDayOffWeek.T4, isChoose: _now == 3),
+      DayOffWeek(index: 4, name: ListDayOffWeek.T5, isChoose: _now == 4),
+      DayOffWeek(index: 5, name: ListDayOffWeek.T6, isChoose: _now == 5),
+      DayOffWeek(index: 6, name: ListDayOffWeek.T7, isChoose: _now == 6),
     ];
-    widget.taoLichLamViecCubit.lichLapItem1=widget.initDataTuyChinh;
-    if(widget.initDataTuyChinh.isEmpty){
+    listDayOffWeekEmpty = [
+      DayOffWeek(index: 0, name: ListDayOffWeek.CN, isChoose: false),
+      DayOffWeek(index: 1, name: ListDayOffWeek.T2, isChoose: false),
+      DayOffWeek(index: 2, name: ListDayOffWeek.T3, isChoose: false),
+      DayOffWeek(index: 3, name: ListDayOffWeek.T4, isChoose: false),
+      DayOffWeek(index: 4, name: ListDayOffWeek.T5, isChoose: false),
+      DayOffWeek(index: 5, name: ListDayOffWeek.T6, isChoose: false),
+      DayOffWeek(index: 6, name: ListDayOffWeek.T7, isChoose: false),
+    ];
+    widget.taoLichLamViecCubit.lichLapItem1 = widget.initDataTuyChinh;
+    if (widget.initDataTuyChinh.isEmpty) {
       widget.taoLichLamViecCubit.lichLapItem.add(
         listDayOffWeek.indexWhere(
-              (element) => element.isChoose == true,
+          (element) => element.isChoose == true,
         ),
       );
       widget.taoLichLamViecCubit.lichLapItem1.add(
         listDayOffWeek.indexWhere(
-              (element) => element.isChoose == true,
+          (element) => element.isChoose == true,
         ),
       );
     }
 
-    for (final e in widget.initDataTuyChinh) {
-      for (final d in listDayOffWeek) {
-        if (e == d.index) {
-          d.isChoose = true;
+    for (final initDataTuyChinh in widget.initDataTuyChinh) {
+      for (final listDay in listDayOffWeekEmpty) {
+        if (initDataTuyChinh == listDay.index) {
+          listDay.isChoose = true;
         }
       }
     }
@@ -149,22 +160,26 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: listDayOffWeek
+          children: listDayOffWeekEmpty
               .map(
-                (e) => GestureDetector(
+                (itemDayOffWeek) =>
+                GestureDetector(
                   onTap: () {
-                    e.isChoose = !(e.isChoose ?? false);
+                    itemDayOffWeek.isChoose =
+                    !(itemDayOffWeek.isChoose ?? false);
                     setState(() {});
-                    final a = widget.taoLichLamViecCubit.lichLapItem
-                        .add(e.index ?? 0);
-                    if (!a) {
+                    final lichLapItemFist = widget
+                        .taoLichLamViecCubit.lichLapItem
+                        .add(itemDayOffWeek.index ?? 0);
+                    if (!lichLapItemFist) {
                       widget.taoLichLamViecCubit.lichLapItem
-                          .remove(e.index ?? 0);
+                          .remove(itemDayOffWeek.index ?? 0);
                     }
-                    final b = widget.taoLichLamViecCubit.lichLapItem.toList();
-                    b.sort();
-                    widget.taoLichLamViecCubit.lichLapItem1 = b;
-                    listDayOffWeek.forEach((element) {
+                    final lichLapItemLast =
+                    widget.taoLichLamViecCubit.lichLapItem.toList();
+                    lichLapItemLast.sort();
+                    widget.taoLichLamViecCubit.lichLapItem1 = lichLapItemLast;
+                    listDayOffWeekEmpty.forEach((element) {
                       if (element.isChoose ?? false) {
                         flag = false;
                       }
@@ -175,9 +190,10 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
                       widget.taoLichLamViecCubit.lichLapItem1 = [];
                     }
                   },
-                  child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+                  child: itemLichLapTuyChinh(itemDayOffWeek.isChoose ?? false,
+                    itemDayOffWeek.name ?? '',),
                 ),
-              )
+          )
               .toList(),
         ),
       ),

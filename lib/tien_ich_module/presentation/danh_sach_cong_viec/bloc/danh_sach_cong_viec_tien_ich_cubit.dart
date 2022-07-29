@@ -416,19 +416,12 @@ class DanhSachCongViecTienIchCubit
     String? date,
     String? performer,
   }) async {
-    String notNullString(String? data) {
-      if (data == null) {
-        return '';
-      }
-      return data;
-    }
-
     bool checkNeedNullOrNot({
-      String? dfData,
+      String? defaultData,
       String? changeData,
     }) {
       return ((changeData ?? '').isEmpty) &&
-          ((dfData ?? '').isNotEmpty) &&
+          ((defaultData ?? '').isNotEmpty) &&
           changeData != null;
     }
 
@@ -455,14 +448,16 @@ class DanhSachCongViecTienIchCubit
         label: checkData(
           changeData: title,
           defaultData: todo.label,
-          isNeedNull: checkNeedNullOrNot(dfData: todo.label, changeData: title),
+          isNeedNull:
+              checkNeedNullOrNot(defaultData: todo.label, changeData: title),
         ),
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
         note: checkData(
           changeData: note,
           defaultData: todo.note,
-          isNeedNull: checkNeedNullOrNot(dfData: todo.note, changeData: note),
+          isNeedNull:
+              checkNeedNullOrNot(defaultData: todo.note, changeData: note),
         ),
         finishDay: checkData(
           defaultData: todo.finishDay,
@@ -472,7 +467,7 @@ class DanhSachCongViecTienIchCubit
           changeData: performer,
           defaultData: todo.performer,
           isNeedNull: checkNeedNullOrNot(
-            dfData: todo.performer,
+            defaultData: todo.performer,
             changeData: performer,
           ),
         ),
@@ -480,7 +475,7 @@ class DanhSachCongViecTienIchCubit
           changeData: filePathTodo,
           defaultData: todo.filePath,
           isNeedNull: checkNeedNullOrNot(
-            dfData: todo.filePath,
+            defaultData: todo.filePath,
             changeData: filePathTodo,
           ),
         ),

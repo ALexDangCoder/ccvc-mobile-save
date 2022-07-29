@@ -302,19 +302,13 @@ Widget buttonDuyet(
         ),
       );
     case StatePhatBieu.da_duyet:
-      return Padding(
-        padding: EdgeInsets.only(
-          right: isMobile() ? 250 : 350,
-          left: isMobile() ? 0 : 350,
-        ),
+      return SizedBox(
+        width: 120,
         child: buttomHuyPb(context: context, cubit: cubit, isTablet: isTablet),
       );
     case StatePhatBieu.huy_duyet:
-      return Padding(
-        padding: EdgeInsets.only(
-          right: isMobile() ? 250 : 350,
-          left: isMobile() ? 0 : 350,
-        ),
+      return SizedBox(
+        width: 120,
         child:
             buttomDuyetPb(context: context, cubit: cubit, isTablet: isTablet),
       );

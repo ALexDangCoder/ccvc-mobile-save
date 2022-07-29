@@ -445,7 +445,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                           children: [
                                             Expanded(
                                               child: bottomButtonWidget(
-                                                background: buttonColor
+                                                background: AppTheme.getInstance().colorField()
                                                     .withOpacity(0.1),
                                                 title: S.current.tu_choi,
                                                 onTap: () {
@@ -462,7 +462,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                                         .loadApi(widget.id);
                                                   });
                                                 },
-                                                textColor: buttonColor,
+                                                textColor: AppTheme.getInstance().colorField(),
                                               ),
                                             ),
                                             const SizedBox(
@@ -470,7 +470,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                             ),
                                             Expanded(
                                               child: bottomButtonWidget(
-                                                background: buttonColor,
+                                                background: AppTheme.getInstance().colorField(),
                                                 title: S.current.tham_du,
                                                 onTap: () {
                                                   chiTietLichLamViecCubit

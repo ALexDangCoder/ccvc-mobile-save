@@ -377,19 +377,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   onChange: (files) {
                     taoPhienHopRequest.files = files;
                   },
-                  overSizeTextMessage: S.current.dung_luong_toi_da_htkt,
-                  maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
                   initFileSystem: taoPhienHopRequest.files,
-                  allowedExtensions: const [
-                    FileExtensions.DOC,
-                    FileExtensions.DOCX,
-                    FileExtensions.JPEG,
-                    FileExtensions.JPG,
-                    FileExtensions.PDF,
-                    FileExtensions.PNG,
-                    FileExtensions.XLSX,
-                    FileExtensions.PPTX,
-                  ],
                 ),
               ],
             ),

@@ -436,10 +436,43 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
+  void selectTag(Node<DonViModel> node) {
+    final nodeSearch = searchNode(node);
+    if (nodeSearch.isCheck.isCheck == false) {
+      nodeSearch.isTickChildren.isTick = false;
+    }
+    final data = nodeSearch.setSelected(nodeSearch.isCheck.isCheck);
+    if (nodeSearch.parent?.value.id != '') {
+      checkUser(
+        nodeSearch.parent!,
+      );
+    }
+    nodeSearch.isCheckTickChildren();
+    addSelectDonVi(
+      isCheck: nodeSearch.isCheck.isCheck,
+      listDonVi: data,
+      node: nodeSearch.value,
+    );
+    addSelectParent(
+      nodeSearch,
+      isCheck: nodeSearch.isCheck.isCheck,
+    );
+  }
+
+  Node<DonViModel> searchNode(Node<DonViModel> node) {
+    for (final tree in listTree) {
+      final nodeSearch = tree.search(node);
+      if(nodeSearch != null) {
+        return nodeSearch;
+      }
+    }
+    return node;
+  }
+
   @override
   void removeTag(Node<DonViModel> node) {
     node.isCheck.isCheck = false;
-    node.isTickChildren = false;
+    node.isTickChildren.isTick = false;
     final data = node.setSelected(false);
     node.isCheckTickChildren();
 

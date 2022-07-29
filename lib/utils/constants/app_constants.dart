@@ -468,7 +468,7 @@ class EnumScheduleStatus {
 
 class MaxSizeFile {
   static const MAX_SIZE_30MB = 30000000;
-  static const MAX_SIZE_20MB = 20000000;
+  static const MAX_SIZE_20MB = 20000000.0;
 }
 
 class TypeTaskYKien {

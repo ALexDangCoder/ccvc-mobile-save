@@ -867,6 +867,18 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         '';
   }
 
+  bool coThamDu(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives
+            ?.where(
+              (element) =>
+                  element.canBoId?.toLowerCase() ==
+                      currentUserId.toLowerCase() &&
+                  element.status == StatusOfficersConst.STATUS_THAM_GIA,
+            )
+            .isNotEmpty ??
+        false;
+  }
+
   //checkMenuLichHuy,LichThuHoi
   int checkNguoiThamGiaLichThuHoi(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
@@ -930,7 +942,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       dataModel.dateTimeTo ?? DateTime.now().toString(),
     ).isBefore(DateTime.now());
     final validPerson = (dataModel.createBy?.id ?? '') == currentUserId ||
-        nguoiDuocMoi(dataModel) == currentUserId ||
+        coThamDu(dataModel) ||
         dataModel.canBoChuTri?.id == currentUserId;
     return validTime && validPerson;
   }

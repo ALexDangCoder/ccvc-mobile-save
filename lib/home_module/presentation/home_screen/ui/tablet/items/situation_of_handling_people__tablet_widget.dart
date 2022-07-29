@@ -104,39 +104,39 @@ class _SituationOfHandlingPeopleWidgetState
                               ),
                             ),
                           ),
-                          StatusColumnChart(listData: [
-                            ChartData(
-                              S.current.cho_tiep_nhan,
-                              data.soLuongChoTiepNhan.toDouble(),
-                              choTrinhKyColor,
-                              SelectKey.CHO_TRINH_KY,
-                            ),
-                            ChartData(
-                              S.current.phan_xu_ly,
-                              data.soLuongPhanXuLy.toDouble(),
-                              numberOfCalenders,
-                              SelectKey.CHO_XU_LY,
-                            ),
-                            ChartData(
-                              S.current.dang_xu_ly,
-                              data.soLuongDangXuLy.toDouble(),
-                              daXuLyColor,
-                              SelectKey.DA_XU_LY,
-                            ),
-                            ChartData(
-                              S.current.cho_duyet,
-                              data.soLuongChoDuyet.toDouble(),
-                              choCapSoColor,
-                              SelectKey.CHO_CAP_SO,
-                            ),
-                            ChartData(
-                              S.current.cho_bo_sung_thong_tin,
-                              data.soLuongChoBoSungThongTin.toDouble(),
-                              choBanHanhColor,
-                              SelectKey.CHO_BAN_HANH,
-                            )
-                          ],
-
+                          StatusColumnChart(
+                            listData: [
+                              ChartData(
+                                S.current.cho_tiep_nhan,
+                                data.soLuongChoTiepNhan.toDouble(),
+                                choTrinhKyColor,
+                                SelectKey.CHO_TRINH_KY,
+                              ),
+                              ChartData(
+                                S.current.phan_xu_ly,
+                                data.soLuongPhanXuLy.toDouble(),
+                                numberOfCalenders,
+                                SelectKey.CHO_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.dang_xu_ly,
+                                data.soLuongDangXuLy.toDouble(),
+                                daXuLyColor,
+                                SelectKey.DA_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.cho_duyet,
+                                data.soLuongChoDuyet.toDouble(),
+                                choCapSoColor,
+                                SelectKey.CHO_CAP_SO,
+                              ),
+                              ChartData(
+                                S.current.cho_bo_sung_thong_tin,
+                                data.soLuongChoBoSungThongTin.toDouble(),
+                                choBanHanhColor,
+                                SelectKey.CHO_BAN_HANH,
+                              )
+                            ],
                           ),
                           const SizedBox(
                             height: 24,
@@ -168,7 +168,7 @@ class _SituationOfHandlingPeopleWidgetState
                       ),
                     ),
                     const SizedBox(
-                      width: 168,
+                      width: 16,
                     ),
                     Expanded(
                       child: PieChart(

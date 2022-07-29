@@ -100,12 +100,18 @@ class _DocumentWidgetState extends State<DocumentTabletWidget> {
                       child: ContainerInfoWidget(
                         trichYeu: result.trichYeu,
                         title: result.title,
-                        status: result.status,
+                        status: result.documentStatus.getText(),
                         colorStatus: result.documentStatus.getColor(),
                         choTrinhKy:
                             _vanBanCubit.selectKey == SelectKey.CHO_TRINH_KY,
                         listData:
-                            _vanBanCubit.selectKey != SelectKey.CHO_TRINH_KY
+                            (_vanBanCubit.selectKey != SelectKey.CHO_TRINH_KY &&
+                                    _vanBanCubit.selectKey !=
+                                        SelectKey.CHO_CAP_SO &&
+                                    _vanBanCubit.selectKey !=
+                                        SelectKey.CHO_BAN_HANH &&
+                                    _vanBanCubit.selectKey !=
+                                        SelectKey.CHO_XU_LY_VB_DI)
                                 ? [
                                     InfoData(
                                       urlIcon: ImageAssets.icSoKyHieu,

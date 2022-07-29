@@ -31,6 +31,12 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungTabletScreen> {
   final controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final cubit = ChucSinhNhatCubit();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    cubit.getListThiepMoi();
+  }
 
   @override
   Widget build(BuildContext context) {

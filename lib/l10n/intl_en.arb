@@ -1392,5 +1392,7 @@
   "them_phien_hop_thanh_cong": "Thêm phiên họp thành công",
   "them_phien_hop_that_bai": "Thêm phiên họp thất bại",
   "vui_long_nhap_ten_phien_hop": "Vui lòng nhập tên phiên họp!",
-  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!"
+  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!",
+  "gui_loi_chuc_that_bai" : "Gửi lời chúc thất bại"
+
 }

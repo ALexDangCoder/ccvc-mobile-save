@@ -8,9 +8,11 @@ import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/weather_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
@@ -52,6 +54,11 @@ class HomeCubit extends BaseCubit<HomeState> {
   AccountRepository get accountRp => Get.find();
   DataUser? dataUser = HiveLc.HiveLocal.getDataUser();
   String id = '';
+
+  final String code = 'ha-noi';
+
+  final BehaviorSubject<WeatherModel> weatherSubject = BehaviorSubject();
+
   final BehaviorSubject<UserInformationModel> _getInforUser =
       BehaviorSubject<UserInformationModel>();
 
@@ -102,13 +109,14 @@ class HomeCubit extends BaseCubit<HomeState> {
     if (dataUser != null) {
       id = dataUser!.userInformation?.id ?? '';
     }
-    final queue = Queue(parallel: 4);
+    final queue = Queue(parallel: 5);
 
     showLoading();
     unawaited(queue.add(() => getUserInFor()));
     unawaited(queue.add(() => getDate()));
     unawaited(queue.add(() => _getTinhHuongKhanCap()));
     unawaited(queue.add(() => configWidget()));
+    unawaited(queue.add(() => getWeather()));
     await queue.onComplete.catchError((er) {});
     showContent();
     queue.dispose();
@@ -128,6 +136,19 @@ class HomeCubit extends BaseCubit<HomeState> {
 
   void orderWidget(List<WidgetModel> listWidgetConfig) {
     _getConfigWidget.sink.add(listWidgetConfig);
+  }
+
+  Future<void> getWeather() async {
+    final result = await homeRep.getWeather(code);
+
+    result.when(
+      success: (success) {
+        weatherSubject.add(success);
+      },
+      error: (error) {
+        MessageConfig.show(title: error.toString());
+      },
+    );
   }
 
   Future<void> getUserInFor() async {

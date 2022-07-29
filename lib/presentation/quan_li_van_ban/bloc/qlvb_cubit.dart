@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tinh_trang_xu_ly_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -78,6 +79,9 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   List<String> yearList = [];
   int selectedYear = DateTime.now().year;
   int? selectedMonth;
+  List<TinhTrangXuLyModel> currentYearData = [];
+  List<TinhTrangXuLyModel> lastYearData = [];
+
   final ValueNotifier<bool> listenableMonthValue = ValueNotifier(false);
 
   final BehaviorSubject<List<InfoItemModel>> infoItemInStream =
@@ -91,6 +95,10 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   final BehaviorSubject<List<ChartData>> pieChartDataInStream =
       BehaviorSubject();
   final BehaviorSubject<List<ChartData>> pieChartDataOutStream =
+      BehaviorSubject();
+  final BehaviorSubject<Map<String, List<TinhTrangXuLyModel>>>
+      lineChartDataInStream = BehaviorSubject();
+  final BehaviorSubject<List<TinhTrangXuLyModel>> lineChartDataOutStream =
       BehaviorSubject();
 
   ///End declare Report Statistical variable

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tinh_trang_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/extension/report_statistical.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
@@ -52,6 +53,7 @@ class _DocumentInStatisticalPageState extends State<DocumentInStatisticalPage>
                             right: index == (data.length - 1) ? 0 : 16,
                           ),
                           child: infoItem(
+                            lastYearData: widget.cubit.selectedMonth == null,
                             title: data[index].name,
                             quantity: data[index].quantity,
                             lastYearQuantity: data[index].lastYearQuantity,
@@ -111,15 +113,15 @@ class _DocumentInStatisticalPageState extends State<DocumentInStatisticalPage>
           appDivider,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: DocumentByDivisionLineChart(
-              title: S.current.thong_ke_van_ban_den,
-              chartData: [
-                ChartData(
-                  'Quá hạn',
-                  75,
-                  colorFF4F50,
-                ),
-              ],
+            child: StreamBuilder<Map<String, List<TinhTrangXuLyModel>>>(
+              stream: widget.cubit.lineChartDataInStream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? {};
+                return DocumentByDivisionLineChart(
+                  title: S.current.thong_ke_van_ban_den,
+                  data: data,
+                );
+              },
             ),
           ),
         ],

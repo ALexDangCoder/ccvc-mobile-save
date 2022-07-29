@@ -1386,11 +1386,12 @@
   "van_ban_den_theo_don_vi_xu_ly": "Văn bản đến theo đơn vị xử lý",
   "nhap_bien_kiem_soat": "Nhập biển kiểm soát",
   "chon_loai_xe": "Chọn loại xe",
-  "vui_long_chon_hinh_thuc_hop" : "Vui lòng chọn hình thức họp",
-  "dung_luong_toi_da_5mb" : "Dung lượng tối đa 5MB",
+  "vui_long_chon_hinh_thuc_hop": "Vui lòng chọn hình thức họp",
+  "dung_luong_toi_da_5mb": "Dung lượng tối đa 5MB",
   "dung_luong_toi_da_htkt": "Dung lượng tối đa 20MB",
   "them_phien_hop_thanh_cong": "Thêm phiên họp thành công",
   "them_phien_hop_that_bai": "Thêm phiên họp thất bại",
   "vui_long_nhap_ten_phien_hop": "Vui lòng nhập tên phiên họp!",
-  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!"
+  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!",
+  "thang_truoc": "Tháng trước"
 }

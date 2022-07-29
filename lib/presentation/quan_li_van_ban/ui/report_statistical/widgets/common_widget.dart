@@ -13,6 +13,7 @@ Widget infoItem({
   required int quantity,
   required int lastYearQuantity,
   required Color color,
+  required bool lastYearData,
 }) {
   final format = NumberFormat(NUMBER_FORMAT_POINT, EN_US_CODE);
   return Container(
@@ -49,7 +50,7 @@ Widget infoItem({
         ),
         Center(
           child: Text(
-            '${S.current.nam_truoc}: ${format.format(lastYearQuantity)} (${getPercent(quantity, lastYearQuantity)})',
+            '${lastYearData ? S.current.nam_truoc : S.current.thang_truoc}: ${format.format(lastYearQuantity)} (${getPercent(quantity, lastYearQuantity)})',
             style: tokenDetailAmount(
               fontSize: 12.0.textScale(),
               color: color667793,

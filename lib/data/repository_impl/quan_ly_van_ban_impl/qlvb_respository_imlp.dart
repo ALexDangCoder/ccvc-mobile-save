@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/bao_cao_thong_ke_qlvb_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
@@ -17,6 +18,8 @@ import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_respo
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_xin_y_kien_den_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/theo_doi_van_ban_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/thong_tin_gui_nhan_response.dart';
+import 'package:ccvc_mobile/data/response/quan_ly_van_ban/bao_cao_thong_ke/tinh_trang_xu_ly_response.dart';
+import 'package:ccvc_mobile/data/response/quan_ly_van_ban/bao_cao_thong_ke/tong_so_van_ban_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_vbden_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_vbdi_response.dart';
@@ -41,7 +44,9 @@ import 'package:ccvc_mobile/domain/model/document/luong_xu_ly_vb_di.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
-import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_don_vi_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tinh_trang_xu_ly_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tong_so_van_ban_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 
@@ -340,6 +345,26 @@ class QLVBImlp implements QLVBRepository {
   ) {
     return runCatchingAsync<VanBanDonViResponse, List<VanBanDonViModel>>(
       () => _quanLyVanBanClient.getDataVanBanDonVi(request),
+      (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<TinhTrangXuLyModel>>> getLineChartData(
+    BaoCaoThongKeQLVBRequest request,
+  ) {
+    return runCatchingAsync<TinhTrangXuLyResponse, List<TinhTrangXuLyModel>>(
+      () => _quanLyVanBanClient.getLineChartData(request),
+      (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<TongSoVanBanModel>>> getTongSoBanBan(
+    BaoCaoThongKeQLVBRequest request,
+  ) {
+    return runCatchingAsync<TongSoVanBanResponse, List<TongSoVanBanModel>>(
+      () => _quanLyVanBanClient.getTongSoVanBan(request),
       (res) => res.data?.map((e) => e.toModel()).toList() ?? [],
     );
   }

@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/bao_cao_thong_ke_qlvb_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_request.dart';
-import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_don_vi_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tinh_trang_xu_ly_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tong_so_van_ban_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_row_chart.dart';
@@ -10,13 +13,16 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:queue/queue.dart';
 
+const String CURRENT_YEAR_DATA = 'current_year_data';
+const String LAST_YEAR_DATA = 'last_year_data';
+
 extension ReportStatistical on QLVBCCubit {
   Future<void> getAllDataReportStatistical() async {
     final queue = Queue();
     showLoading();
     generateListTime();
-    getReportStatisticalData();
     unawaited(queue.add(() => selectDateTime()));
+    unawaited(queue.add(() => buildLineChart()));
     await queue.onComplete;
     showContent();
   }
@@ -25,7 +31,9 @@ extension ReportStatistical on QLVBCCubit {
     if (selectedMonth == null) {
       await getVanBanCacDonViSoanThao();
       await getVanBanDonVi(
-          VanBanDonViRequest('$selectedYear-01-01', '$selectedYear-12-31'));
+        VanBanDonViRequest('$selectedYear-01-01', '$selectedYear-12-31'),
+      );
+      await getReportStatisticalData();
     } else {
       final int lastDay =
           DateTime(selectedYear, (selectedMonth ?? 1) + 1, 0).day;
@@ -36,7 +44,19 @@ extension ReportStatistical on QLVBCCubit {
           '$selectedYear-${selectedMonth ?? 1}-$lastDay',
         ),
       );
+      await getReportStatisticalData();
     }
+  }
+
+  Future<void> buildLineChart() async {
+    final queue = Queue();
+    final Map<String, List<TinhTrangXuLyModel>> dataMap = {};
+    unawaited(queue.add(() => getLineChartData()));
+    unawaited(queue.add(() => getLineChartData(getLastYearData: true)));
+    await queue.onComplete;
+    dataMap.putIfAbsent(CURRENT_YEAR_DATA, () => currentYearData);
+    dataMap.putIfAbsent(LAST_YEAR_DATA, () => lastYearData);
+    lineChartDataInStream.sink.add(dataMap);
   }
 
   Future<void> getVanBanDonVi(VanBanDonViRequest request) async {
@@ -47,6 +67,44 @@ extension ReportStatistical on QLVBCCubit {
         rowChartDataInStream.sink.add(data);
       },
       error: (err) {},
+    );
+  }
+
+  Future<List<TongSoVanBanModel>> getTotalIncomeDocument(
+      BaoCaoThongKeQLVBRequest request) async {
+    List<TongSoVanBanModel> data = [];
+    final result = await qLVBRepo.getTongSoBanBan(request);
+    result.when(
+      success: (res) {
+        data = res;
+      },
+      error: (err) {},
+    );
+    return data;
+  }
+
+  Future<void> getLineChartData({bool getLastYearData = false}) async {
+    final BaoCaoThongKeQLVBRequest request = BaoCaoThongKeQLVBRequest(
+      '${DateTime.now().year - (getLastYearData ? 1 : 0)}-01-01',
+      '${DateTime.now().year - (getLastYearData ? 1 : 0)}-12-31',
+      [],
+    );
+    final result = await qLVBRepo.getLineChartData(request);
+    result.when(
+      success: (res) {
+        if (getLastYearData) {
+          lastYearData = res;
+        } else {
+          currentYearData = res;
+        }
+      },
+      error: (err) {
+        if (getLastYearData) {
+          lastYearData = [];
+        } else {
+          currentYearData = [];
+        }
+      },
     );
   }
 
@@ -150,36 +208,48 @@ extension ReportStatistical on QLVBCCubit {
     ];
   }
 
-  void getReportStatisticalData() {
+  Future<void> getReportStatisticalData() async {
+    List<TongSoVanBanModel> currentData = [];
+    List<TongSoVanBanModel> oldData = [];
+
+    if (selectedMonth == null) {
+      currentData = await getTotalIncomeDocument(
+        createRequest(
+          month: null,
+          year: selectedYear,
+        ),
+      );
+      oldData = await getTotalIncomeDocument(
+        createRequest(
+          month: null,
+          year: selectedYear - 1,
+        ),
+      );
+    } else {
+      currentData = await getTotalIncomeDocument(
+        createRequest(
+          month: selectedMonth,
+          year: selectedYear,
+        ),
+      );
+      late BaoCaoThongKeQLVBRequest request;
+      if (selectedMonth == 1) {
+        request = createRequest(
+          month: (selectedMonth ?? 2) - 1,
+          year: selectedYear,
+        );
+      } else {
+        request = createRequest(
+          month: 12,
+          year: selectedYear - 1,
+        );
+      }
+      oldData = await getTotalIncomeDocument(request);
+    }
+
     final List<InfoItemModel> listInfoItem = [];
-    listInfoItem.addAll(
-      [
-        InfoItemModel(
-          name: 'Tổng số văn bản đến',
-          quantity: 2434,
-          lastYearQuantity: 2404,
-          color: const Color(0xFF374FC7),
-        ),
-        InfoItemModel(
-          name: 'Văn bản hoàn thành trước hạn',
-          quantity: 683,
-          lastYearQuantity: 661,
-          color: const Color(0xFF20C997),
-        ),
-        InfoItemModel(
-          name: 'Văn bản chưa hoàn thành trong hạn',
-          quantity: 1474,
-          lastYearQuantity: 1498,
-          color: const Color(0xFFFF9F43),
-        ),
-        InfoItemModel(
-          name: 'Văn bản chưa hoàn thành quá hạn',
-          quantity: 253,
-          lastYearQuantity: 269,
-          color: const Color(0xFFFF4F50),
-        ),
-      ],
-    );
+
+
     infoItemInStream.sink.add(listInfoItem);
     infoItemOutStream.sink.add(listInfoItem);
   }
@@ -215,6 +285,26 @@ extension ReportStatistical on QLVBCCubit {
     ]);
     return listData;
   }
+
+  BaoCaoThongKeQLVBRequest createRequest({
+    required int? month,
+    required int year,
+  }) {
+    if (month == null) {
+      return BaoCaoThongKeQLVBRequest(
+        '$year-01-01',
+        '$year-12-31',
+        [],
+      );
+    } else {
+      final int lastDay = DateTime(year, month + 1, 0).day;
+      return BaoCaoThongKeQLVBRequest(
+        '$year-$month-01',
+        '$year-$month-$lastDay',
+        [],
+      );
+    }
+  }
 }
 
 class InfoItemModel {
@@ -241,4 +331,14 @@ class DocumentByDivisionModel {
     required this.inDueDateQuantity,
     required this.outDateQuantity,
   });
+}
+
+extension GetList on Map<String, dynamic> {
+  List<TinhTrangXuLyModel> getListValue(String key) {
+    List<TinhTrangXuLyModel> vl = [];
+    try {
+      vl = this[key];
+    } catch (_) {}
+    return vl;
+  }
 }

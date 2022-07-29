@@ -322,10 +322,14 @@ class ApiConstants {
   static const XOA_BIEU_QUYET = '/vpdt/api/BieuQuyet/xoa-bieu-quyet';
   static const DANH_SACH_CAN_BO_BIEU_QUYET =
       '/vpdt/api/BieuQuyet/get-danh-sach-canbo-bieuquyet';
-  static const BAO_CAO_THONG_KE_VAN_BAN_DON_VI = '/qlvb/api/ioc/thong-ke-van-ban-don-vi-duoc-chon';
+  static const BCTK_QLVB_VAN_BAN_DON_VI = '/qlvb/api/ioc/thong-ke-van-ban-don-vi-duoc-chon';
   static const GET_LICH_HOP_THEO_LINH_VUC = '/vpdt/api/ViewDashboardSchedule/thong-ke-linh-vuc';
   static const CU_CAN_BO_DI_THAY_LICH_LAM_VIEC =
       '/vpdt/api/ScheduleCoperative/cu-can-bo-di-thay';
+  static const BCTK_QLVB_TONG_SO_VAN_BAN_DEN =
+      '/qlvb/api/ioc/tong-so-van-ban-den';
+  static const BCTK_QLVB_TINH_TRANG_XU_LY_QUA_CAC_THANG =
+      '/qlvb/api/ioc/tinh-trang-xu-ly-van-ban-qua-cac-thang';
 }
 
 class ImageConstants {

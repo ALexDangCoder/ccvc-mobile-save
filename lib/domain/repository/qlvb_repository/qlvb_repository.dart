@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/bao_cao_thong_ke_qlvb_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
@@ -21,7 +22,9 @@ import 'package:ccvc_mobile/domain/model/document/luong_xu_ly_vb_di.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
-import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_don_vi_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tinh_trang_xu_ly_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/tong_so_van_ban_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/bao_cao_thong_ke/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 
 mixin QLVBRepository {
@@ -128,4 +131,12 @@ mixin QLVBRepository {
   Future<Result<List<VanBanDonViModel>?>> getDataVanBanDonVi(
     VanBanDonViRequest request,
   );
+
+  Future<Result<List<TinhTrangXuLyModel>>> getLineChartData(
+    BaoCaoThongKeQLVBRequest request,
+  );
+
+  Future<Result<List<TongSoVanBanModel>>> getTongSoBanBan(
+      BaoCaoThongKeQLVBRequest request,
+      );
 }

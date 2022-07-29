@@ -153,12 +153,23 @@ Widget buttonThemCongViec({
       child: FloatingActionButton(
         elevation: 0.0,
         onPressed: () {
-          showBottomSheetCustom(
+          if (isMobile()) {
+            showBottomSheetCustom(
+              context,
+              title: S.current.them_cong_viec,
+              child: CreatTodoOrUpdateWidget(
+                cubit: cubit,
+              ),
+            );
+            return;
+          }
+          showDiaLogTablet(
             context,
             title: S.current.them_cong_viec,
             child: CreatTodoOrUpdateWidget(
               cubit: cubit,
             ),
+            isBottomShow: false,
           );
         },
         backgroundColor: AppTheme.getInstance().colorField(),

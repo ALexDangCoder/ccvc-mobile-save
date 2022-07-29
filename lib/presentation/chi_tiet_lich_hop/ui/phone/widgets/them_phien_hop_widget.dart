@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
@@ -14,8 +13,8 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -256,11 +255,18 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
 
                 /// thêm tài liệu
-                ButtonSelectFileLichLamViec(
-                  hasMultipleFile: true,
+
+                SelectFileBtn(
+                  onChange: (files) {
+                      taoPhienHopRequest.files = files;
+                  },
                   maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
-                  title: S.current.tai_lieu_dinh_kem,
                   initFileSystem: taoPhienHopRequest.files ?? [],
+                  onDeletedFileApi: (fileDeleted) {
+                    widget.cubit.filesDelete.add(
+                      fileDeleted.id ?? '',
+                    );
+                  },
                   allowedExtensions: const [
                     FileExtensions.DOC,
                     FileExtensions.DOCX,
@@ -269,15 +275,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     FileExtensions.PDF,
                     FileExtensions.PNG,
                     FileExtensions.XLSX,
+                    FileExtensions.PPTX,
                   ],
-                  onChange: (List<File> files, bool validate) {
-                    isOverFileLength = validate;
-                    if (!validate) {
-                      taoPhienHopRequest.files = files;
-                      isOverFileLength = true;
-                    }
-                  },
-                )
+                ),
               ],
             ),
           ),

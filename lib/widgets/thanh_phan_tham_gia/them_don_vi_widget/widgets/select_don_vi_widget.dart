@@ -30,7 +30,6 @@ class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
 
   @override
   void initState() {
-    widget.themDonViCubit.selectNode.addAll(widget.data);
     super.initState();
   }
 

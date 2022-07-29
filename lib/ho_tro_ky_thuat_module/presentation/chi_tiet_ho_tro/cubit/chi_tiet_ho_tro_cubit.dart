@@ -41,15 +41,19 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   List<String> listTrangThai = [];
 
-  void checkCodeTrangThai(String code) {
+  void checkCodeTrangThai() {
     listTrangThai.clear();
-    if (code == '' || code == CHUA_XU_LY) {
+    if (isTruongPhong) {
       listTrangThai = [
+        CHUA_XU_LY_VALUE,
         DANG_XU_LY_VALUE,
+        DA_HOAN_THANH_VALUE,
+        TU_CHOI_XU_LY_VALUE,
       ];
     }
-    if (code == DANG_XU_LY) {
+    if (isItSupport && !isTruongPhong) {
       listTrangThai = [
+        DANG_XU_LY_VALUE,
         DA_HOAN_THANH_VALUE,
         TU_CHOI_XU_LY_VALUE,
       ];
@@ -75,7 +79,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     final result = await _hoTroKyThuatRepository.getSupportDetail(id);
     result.when(
       success: (res) {
-        checkCodeTrangThai(res.codeTrangThai ?? '');
         final DateFormat dateFormat =
             DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT);
         if (res.ngayHoanThanh != null) {
@@ -113,7 +116,11 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     bool disableButton = false;
 
     if (isTruongPhong && supportDetail.codeTrangThai == DANG_XU_LY) {
-      disableButton = true;
+      if (supportDetail.idNguoiXuLy == dataUser?.userInformation?.id) {
+        disableButton = false;
+      } else {
+        disableButton = true;
+      }
     }
     if (isNguoiYeuCau &&
         supportDetail.codeTrangThai != DA_HOAN_THANH &&
@@ -130,7 +137,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         !isNguoiYeuCau) {
       onlyButton = true;
     }
-    if (supportDetail.codeTrangThai == TU_CHOI_XU_LY) {
+    if (supportDetail.codeTrangThai == TU_CHOI_XU_LY && !isNguoiYeuCau) {
       onlyButton = true;
     }
     return onlyButton;
@@ -152,6 +159,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     if (supportDetail?.idNguoiYeuCau == dataUser?.userInformation?.id) {
       isNguoiYeuCau = true;
     }
+    checkCodeTrangThai();
     emit(
       ChiTietHoTroSuccess(
         completeType: CompleteType.SUCCESS,
@@ -173,7 +181,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     String statusCode = '';
     final DateTime finishDayRequestParse = (finishDay != '')
         ? DateFormat(DateTimeFormat.DATE_ISO_86).parse(finishDay)
-        : (supportDetail.ngayHoanThanh != '')
+        : (supportDetail.ngayHoanThanh != null)
             ? DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT)
                 .parse(supportDetail.ngayHoanThanh!)
             : DateTime.now();
@@ -203,7 +211,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     result.when(
       success: (res) {
         statusCode = res;
-        getSupportDetail(supportDetail.id ?? '');
       },
       error: (error) {},
     );
@@ -230,10 +237,13 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   List<ThanhVien> listThanhVien = [];
 
   String getHandlerId(String name) {
-    return listThanhVien[
-                listItSupport.indexWhere((element) => element.contains(name))]
-            .idThanhVien ??
-        '';
+    if(name == ''){
+      return dataUser?.userInformation?.id ?? '';
+    } else {
+      return listThanhVien[
+      listItSupport.indexWhere((element) => element.contains(name))]
+          .idThanhVien ?? '';
+    }
   }
 
   Future<void> getNguoiXuLy(SupportDetail? supportDetail) async {

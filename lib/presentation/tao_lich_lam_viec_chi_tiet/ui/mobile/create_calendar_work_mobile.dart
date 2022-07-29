@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/custom_switch_widget.dart';
@@ -18,7 +19,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/li
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/loai_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nguoi_chu_tri_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nhac_lai_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/text_form_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -51,7 +51,6 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
   final _formKey = GlobalKey<FormGroupState>();
   bool pickTimeValidatorValue = true;
   bool chooseTypeCalendarValidatorValue = true;
-  bool chooseFileValidatorValue = true;
   late DateTimeCupertinoCustomCubit cupertinoCubit;
   final ScrollController scrollController = ScrollController();
 
@@ -324,15 +323,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                           taoLichLamViecCubit: createCubit,
                         ),
                         TaiLieuWidget(
-                          onChange: (files, value) {
-                            if (!value) {
-                              createCubit.filesTaoLich = files;
-                              chooseFileValidatorValue = !value;
-                            } else {
-                              chooseFileValidatorValue = !value;
-                            }
-                          },
-                          idRemove: (String id) {},
+                          createCubit: createCubit,
                         ),
                         Row(
                           children: [
@@ -379,8 +370,7 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
     _formKey.currentState!.validator();
     if (_formKey.currentState!.validator() &&
         !pickTimeValidatorValue &&
-        !chooseTypeCalendarValidatorValue &&
-        chooseFileValidatorValue) {
+        !chooseTypeCalendarValidatorValue) {
       await createCubit.checkDuplicate(
         context: context,
         title: titleController.value.text.removeSpace,

@@ -293,13 +293,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         .toList();
   }
 
-  bool checkUser() {
-    for (final element in listCanCoHTKT.value) {
-      if (element.userId == dataUser?.userId) {
-        return true;
-      }
+  bool checkUser(String id) {
+    bool isNguoiYeuCau = false;
+    if (id == dataUser?.userInformation?.id) {
+      isNguoiYeuCau = true;
     }
-    return false;
+    return isNguoiYeuCau;
   }
 
   Future<void> getListDanhBaCaNhan({
@@ -366,6 +365,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   Future<bool> postDataThemMoiHTKT() async {
+    bool resultPost = false;
     showLoading();
     final result = await _hoTroKyThuatRepository.addTask(
       id: addTaskHTKTRequest.id,
@@ -384,19 +384,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (success) {
+        resultPost = true;
         showContent();
         getListDanhBaCaNhan(
           page: 1,
         );
       },
       error: (error) {
+        resultPost = false;
         showContent();
       },
     );
-    return true;
+    return resultPost;
   }
 
   Future<bool> postEditHTKT() async {
+    bool resultPost = false;
     showLoading();
     final result = await _hoTroKyThuatRepository.editTaskHTKT(
       id: editTaskHTKTRequest.id,
@@ -416,13 +419,15 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (success) {
+        resultPost = true;
         showContent();
       },
       error: (error) {
+        resultPost = false;
         showContent();
       },
     );
-    return true;
+    return resultPost;
   }
 
   Future<void> getNguoiXuLy({
@@ -432,7 +437,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         listCanCoHTKT.add(res);
-        isCheckUser = checkUser();
       },
       error: (error) {
         if (isCheck) {
@@ -597,8 +601,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           } else {
             buildingListStream.sink.add([]);
           }
-          addTaskHTKTRequest.buildingName = S.current.khong_co_du_lieu;
-          listToaNha.sink.add(res.first.childCategories ?? []);
+          addTaskHTKTRequest.buildingName = null;
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
         } else if (title == LOAI_SU_CO) {

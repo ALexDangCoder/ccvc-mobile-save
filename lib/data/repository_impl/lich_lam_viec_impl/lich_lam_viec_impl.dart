@@ -323,6 +323,12 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
       _data.fields.add(
         MapEntry(
+          'ScheduleCoperativeRequest[$i].id',
+          scheduleCoperativeRequest[i].id,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
           'ScheduleCoperativeRequest[$i].donViId',
           scheduleCoperativeRequest[i].donViId,
         ),
@@ -661,6 +667,12 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
     for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
       _data.fields.add(
         MapEntry(
+          'ScheduleCoperativeRequest[$i].id',
+          scheduleCoperativeRequest[i].id,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
           'ScheduleCoperativeRequest[$i].donViId',
           scheduleCoperativeRequest[i].donViId,
         ),
@@ -732,10 +744,9 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
   Future<Result<bool>> cuCanBoDiThayLichLamViec(
       DataCuCanBoDiThayLichLamViecRequest dataCuCanBoDiThayLichLamViecRequest) {
     return runCatchingAsync<CuCanBoLichLamViecResponse, bool>(
-          () =>
-          workCalendarService
-              .cuCanBoDiThayLichLamViec(dataCuCanBoDiThayLichLamViecRequest),
-          (response) => response.isSuccess,
+      () => workCalendarService
+          .cuCanBoDiThayLichLamViec(dataCuCanBoDiThayLichLamViecRequest),
+      (response) => response.isSuccess,
     );
   }
 
@@ -743,9 +754,9 @@ class CreateWorkCalendarRepositoryImpl implements CalendarWorkRepository {
   Future<Result<bool>> cuCanBoLichLamViec(
       DataCuCanBoLichLamViecRequest dataCuCanBoLichLamViecRequest) {
     return runCatchingAsync<CuCanBoLichLamViecResponse, bool>(
-          () =>
+      () =>
           workCalendarService.cuCanBoLichLamViec(dataCuCanBoLichLamViecRequest),
-          (response) => response.isSuccess,
+      (response) => response.isSuccess,
     );
   }
 }

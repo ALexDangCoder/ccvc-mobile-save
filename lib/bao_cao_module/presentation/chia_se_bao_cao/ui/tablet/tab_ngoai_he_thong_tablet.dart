@@ -43,7 +43,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   Timer? debounce;
 
   String? name;
-  String? birthday;
+  DateTime? birthday;
   String? email;
   String? phoneNumber;
   String? position;
@@ -67,7 +67,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (widget.cubit.canLoadMoreList &&
@@ -81,71 +81,77 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
           onTap: (){
             FocusScope.of(context).unfocus();
           },
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    spaceH20,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 21),
-                      child: StreamBuilder<bool>(
-                        initialData: false,
-                        stream: widget.cubit.isDuocTruyCapStream,
-                        builder: (context, snapshot) {
-                          final isDuocTruyCap = snapshot.data ?? false;
-                          return CustomGroupRadio<bool>(
-                            listData: [
-                              ItemCustomGroupRadio(
-                                title: S.current.doi_tuong_da_duoc_truy_cap,
-                                value: true,
-                              ),
-                              ItemCustomGroupRadio(
-                                title: S.current.them_moi_doi_tuong,
-                                value: false,
-                              ),
-                            ],
-                            groupValue: isDuocTruyCap,
-                            isRow: true,
-                            onchange: (value) {
-                              widget.cubit.isDuocTruyCapSink.add(value ?? false);
-                            },
-                          );
-                        },
+          child: RefreshIndicator(
+            onRefresh: () async {
+              widget.cubit.refreshData();
+              widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+            },
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      spaceH20,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 21),
+                        child: StreamBuilder<bool>(
+                          initialData: false,
+                          stream: widget.cubit.isDuocTruyCapStream,
+                          builder: (context, snapshot) {
+                            final isDuocTruyCap = snapshot.data ?? false;
+                            return CustomGroupRadio<bool>(
+                              listData: [
+                                ItemCustomGroupRadio(
+                                  title: S.current.doi_tuong_da_duoc_truy_cap,
+                                  value: true,
+                                ),
+                                ItemCustomGroupRadio(
+                                  title: S.current.them_moi_doi_tuong,
+                                  value: false,
+                                ),
+                              ],
+                              groupValue: isDuocTruyCap,
+                              isRow: true,
+                              onchange: (value) {
+                                widget.cubit.isDuocTruyCapSink.add(value ?? false);
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 21),
-                      child: StreamBuilder<bool>(
-                        initialData: true,
-                        stream: widget.cubit.isDuocTruyCapStream,
-                        builder: (context, snapshot) {
-                          final isDuocTruyCap = snapshot.data ?? false;
-                          if (isDuocTruyCap) {
-                            return objectAccessed;
-                          } else {
-                            return newObject;
-                          }
-                        },
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 21),
+                        child: StreamBuilder<bool>(
+                          initialData: true,
+                          stream: widget.cubit.isDuocTruyCapStream,
+                          builder: (context, snapshot) {
+                            final isDuocTruyCap = snapshot.data ?? false;
+                            if (isDuocTruyCap) {
+                              return objectAccessed;
+                            } else {
+                              return newObject;
+                            }
+                          },
+                        ),
                       ),
-                    ),
-                    spaceH70,
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  padding: EdgeInsets.only(
-                    left: 144.w,
-                    right: 144.w,
+                      spaceH70,
+                    ],
                   ),
-                  height: 70.h,
-                  color: Colors.white,
-                  child: buttonBottom,
                 ),
-              ),
-            ],
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 144.w,
+                      right: 144.w,
+                    ),
+                    height: 70.h,
+                    color: Colors.white,
+                    child: buttonBottom,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -188,7 +194,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               onSelectDate: (dateTime) {
                 birthday = dateTime;
               },
-              initDateTime: DateTime.tryParse(birthday ?? ''),
+              initDateTime: birthday,
             ),
             spaceH16,
             textField(

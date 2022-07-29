@@ -497,7 +497,7 @@ void xemOrTaoOrSuaKetLuanHop({
   } else {
     showDiaLogTablet(
       context,
-      maxHeight: 500,
+      maxHeight: MediaQuery.of(context).size.height * 0.8,
       title: title,
       child: CreateOrUpdateKetLuanHopWidget(
         cubit: cubit,

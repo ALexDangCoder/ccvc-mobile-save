@@ -1,5 +1,3 @@
-
-
 class TienTrinhXuLyModel {
   String id;
   String paknId;
@@ -11,6 +9,7 @@ class TienTrinhXuLyModel {
   String ngayKetThuc;
   String taiKhoanThaoTac;
   String donViThaoTac;
+  String nguoiThaoTac;
   List<TaiLieuTienTrinhXuLyModel> taiLieus;
 
   TienTrinhXuLyModel({
@@ -24,6 +23,7 @@ class TienTrinhXuLyModel {
     required this.ngayKetThuc,
     required this.taiKhoanThaoTac,
     required this.donViThaoTac,
+    required this.nguoiThaoTac,
     required this.taiLieus,
   });
 }

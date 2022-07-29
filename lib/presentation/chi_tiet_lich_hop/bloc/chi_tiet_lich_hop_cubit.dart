@@ -52,6 +52,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_lu
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
@@ -257,7 +258,14 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     final queue = Queue(parallel: 4);
     showLoading();
-    unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
+    unawaited(
+      queue.add(
+        () => getChiTietLichHop(
+          idCuocHop,
+          needShowLoading: false,
+        ),
+      ),
+    );
     unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
@@ -296,14 +304,17 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   void initWidgetDetail() {
     final isHuyOrThuHoi = trangThaiHuy() || trangThaiThuHoi();
     List<TabWidgetDetailMeet> listWidgetDetail = [];
-    if (!isHuyOrThuHoi)
+    if (!isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.CONG_TAC_CHUAN_BI);
-    if (!isHuyOrThuHoi)
+    }
+    if (!isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.CHUONG_TRINH_HOP);
-    if (!isHuyOrThuHoi)
+    }
+    if (!isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
+    }
     if (!isHuyOrThuHoi) listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
-    if (isTaoHo() && !isHuyOrThuHoi) {
+    if (!isTaoHo() && !isHuyOrThuHoi) {
       listWidgetDetail.add(TabWidgetDetailMeet.PHAT_BIEU);
       listWidgetDetail.add(TabWidgetDetailMeet.BIEU_QUYET);
       listWidgetDetail.add(TabWidgetDetailMeet.KET_LUAN_HOP);
@@ -422,6 +433,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
+        eventBus.fire(RefreshThanhPhanThamGia());
+        print('------------------- chyavao ben trong cubi');
         await getDanhSachNguoiChuTriPhienHop(idCuocHop);
         moiHopRequest.clear();
       },

@@ -187,13 +187,14 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                           child: DoubleButtonBottom(
                             title1: S.current.dong,
                             onlyOneButton: cubit.checkOnlyButton(),
-                            disableRightButton: cubit.disableRightButton(),
-                            title2:
-                                ((cubit.isItSupport || cubit.isTruongPhong) &&
+                            title2: ((cubit.isItSupport ||
+                                        cubit.isTruongPhong) &&
+                                    (cubit.supportDetail.codeTrangThai !=
+                                            ChiTietHoTroCubit.DA_HOAN_THANH &&
                                         cubit.supportDetail.codeTrangThai !=
-                                            ChiTietHoTroCubit.DA_HOAN_THANH)
-                                    ? S.current.cap_nhat_thxl
-                                    : S.current.danh_gia,
+                                            ChiTietHoTroCubit.TU_CHOI_XU_LY))
+                                ? S.current.cap_nhat_thxl
+                                : S.current.danh_gia,
                             onPressed1: () {
                               Navigator.pop(context);
                             },
@@ -215,7 +216,8 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
 
   void confirmUpdateTask() {
     if ((cubit.isItSupport || cubit.isTruongPhong) &&
-        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH) {
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH &&
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.TU_CHOI_XU_LY) {
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
@@ -227,8 +229,10 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
         },
       );
     } else {
-      if (cubit.supportDetail.codeTrangThai ==
-              ChiTietHoTroCubit.DA_HOAN_THANH &&
+      if ((cubit.supportDetail.codeTrangThai ==
+                  ChiTietHoTroCubit.DA_HOAN_THANH ||
+              cubit.supportDetail.codeTrangThai ==
+                  ChiTietHoTroCubit.TU_CHOI_XU_LY) &&
           cubit.isNguoiYeuCau) {
         showModalBottomSheet(
           backgroundColor: Colors.transparent,

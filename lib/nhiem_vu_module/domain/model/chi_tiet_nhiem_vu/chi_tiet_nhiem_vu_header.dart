@@ -49,7 +49,7 @@ class ChiTietNhiemVuHeader {
         isNote: false,
       ),
       ChiTietHeaderRow(
-        key: S.current.noi_dung,
+        key: S.current.just_noi_dung,
         value: noiDung,
         isNote: false,
       ),

@@ -29,6 +29,7 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
@@ -719,6 +720,11 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
       stream: chiTietLichLamViecCubit.listOfficer.stream,
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
+        if(data.isEmpty) {
+          return const  NodataWidget(
+            height: 200,
+          );
+        }
         return ListView.builder(
           padding: const EdgeInsets.only(
             left: 24,

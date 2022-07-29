@@ -105,7 +105,8 @@ class _DocumentWidgetState extends State<DocumentWidget> {
                       colorStatus: result.documentStatus.getColor(),
                       listData: (_vanBanCubit.selectKey !=
                                   SelectKey.CHO_TRINH_KY &&
-                              _vanBanCubit.selectKey != SelectKey.CHO_CAP_SO)
+                              _vanBanCubit.selectKey != SelectKey.CHO_CAP_SO &&
+                              _vanBanCubit.selectKey != SelectKey.CHO_BAN_HANH)
                           ? [
                               InfoData(
                                 urlIcon: ImageAssets.icSoKyHieu,

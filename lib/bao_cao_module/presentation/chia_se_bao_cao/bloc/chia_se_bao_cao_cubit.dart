@@ -212,7 +212,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   Future<String> themMoiDoiTuong({
     String? email,
     String? fullName,
-    String? birthday,
+    DateTime? birthday,
     String? phone,
     String? position,
     String? unit,
@@ -221,7 +221,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     final NewUserRequest mapData = NewUserRequest(
       email: email,
       fullName: fullName,
-      birthday: birthday,
+      birthday: birthday?.toIso8601String(),
       phone: phone,
       position: position,
       unit: unit,
@@ -297,6 +297,10 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     required String idReport,
   }) async {
     String message = '';
+    if(mapData.isEmpty){
+      showContent();
+      return S.current.danh_sach_chia_se_rong;
+    }
     final rs = await _repoHTCS.shareReport(mapData, idReport, appId);
     rs.when(
       success: (res) {
@@ -305,6 +309,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       },
       error: (error) {
         message = S.current.error;
+        showContent();
       },
     );
     return message;

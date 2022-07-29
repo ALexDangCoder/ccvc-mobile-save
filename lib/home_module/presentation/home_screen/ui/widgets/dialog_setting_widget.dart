@@ -260,6 +260,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                                     child: SelectCell(
                                       data: data,
                                       onSelect: (value) {
+                                        widget.onDismis();
                                         selectCell(context, value, data);
                                       },
                                     ),

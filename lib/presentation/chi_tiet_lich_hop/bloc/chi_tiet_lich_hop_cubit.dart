@@ -52,6 +52,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_lu
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
@@ -432,6 +433,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
+        eventBus.fire(RefreshThanhPhanThamGia());
+        print('------------------- chyavao ben trong cubi');
         await getDanhSachNguoiChuTriPhienHop(idCuocHop);
         moiHopRequest.clear();
       },

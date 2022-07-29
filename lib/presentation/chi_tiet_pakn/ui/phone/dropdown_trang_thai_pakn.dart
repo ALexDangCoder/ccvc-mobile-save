@@ -680,32 +680,27 @@ Widget item({
 }) {
   return InkWell(
     onTap: () => callBack(TextTrangThai(title, textDefault), index),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(30),
-            ),
-            color: isChoosing ? textDefault : Colors.transparent,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: textNormalCustom(
-                color: textTitle,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+    child: Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(30),
+        ),
+        color: isChoosing ? textDefault : Colors.transparent,
+      ),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: textNormalCustom(
+            color: textTitle,
+            fontWeight: FontWeight.w500,
           ),
         ),
-      ],
+      ),
     ),
   );
 }

@@ -165,7 +165,10 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }) async {
     ShowLoadingScreen.show();
     final rs = await detailLichLamViec.cancelCalenderWork(
-        id, statusId, isMulti ?? false);
+      id,
+      statusId,
+      isMulti ?? false,
+    );
     rs.when(
       success: (data) {
         if (data.succeeded ?? false) {
@@ -734,39 +737,42 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     List<DonViModel> cuCanBo,
   ) {
     final List<CuCanBoLichLamViec> data = [];
-    data.addAll(canBoDuocChon.map((element) {
-      if (element is CuCanBoTreeDonVi) {
-        return CuCanBoLichLamViec(
-          canBoId: element.canBoId.isEmpty ? null : element.canBoId,
-          confirmDate: element.confirmDate,
-          donViId: element.donViId,
-          hoTen: (element.hoTen ?? '').isEmpty ? null : element.hoTen,
-          id: element.id,
-          isConfirm: element.isConfirm,
-          parentId: element.parentId,
-          scheduleId: element.scheduleId,
-          status: element.status,
-          taskContent: element.noidung,
-          tenDonVi: element.tenDonVi,
-          userId: element.userId.isEmpty ? null : element.userId,
-          userName: (element.userName ?? '').isEmpty ? null : element.userName,
-          isXoa: element.isXoa,
-          isCheckThemCanCuCanBo: true,
-        );
-      }
-      return CuCanBoLichLamViec();
-    }));
+    data.addAll(
+      canBoDuocChon.map((element) {
+        if (element is CuCanBoTreeDonVi) {
+          return CuCanBoLichLamViec(
+            canBoId: element.canBoId.isEmpty ? null : element.canBoId,
+            confirmDate: element.confirmDate,
+            donViId: element.donViId,
+            hoTen: (element.hoTen ?? '').isEmpty ? null : element.hoTen,
+            id: element.id,
+            isConfirm: element.isConfirm,
+            parentId: element.parentId,
+            scheduleId: element.scheduleId,
+            status: element.status,
+            taskContent: element.noidung,
+            tenDonVi: element.tenDonVi,
+            userId: element.userId.isEmpty ? null : element.userId,
+            userName:
+                (element.userName ?? '').isEmpty ? null : element.userName,
+            isXoa: element.isXoa,
+            isCheckThemCanCuCanBo: true,
+          );
+        }
+        return CuCanBoLichLamViec();
+      }),
+    );
 
     data.addAll(
       cuCanBo
           .map(
             (canBo) => CuCanBoLichLamViec(
-                id: null,
-                donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
-                canBoId: canBo.userId.isEmpty ? null : canBo.userId,
-                taskContent: canBo.noidung,
-                isXoa: false,
-                isCheckThemCanCuCanBo: false),
+              donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+              canBoId: canBo.userId.isEmpty ? null : canBo.userId,
+              taskContent: canBo.noidung,
+              isXoa: false,
+              isCheckThemCanCuCanBo: false,
+            ),
           )
           .toList(),
     );
@@ -787,25 +793,28 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     );
     final result = await detailLichLamViec
         .cuCanBoLichLamViec(dataCuCanBoLichLamViecRequest);
-    result.when(success: (res) {
-      MessageConfig.show(
-        title: S.current.cu_can_bo_thanh_cong,
-      );
-      isCheck = true;
-    }, error: (error) {
-      if (error is TimeoutException || error is NoNetworkException) {
+    result.when(
+      success: (res) {
         MessageConfig.show(
-          title: S.current.no_internet,
-          messState: MessState.error,
+          title: S.current.cu_can_bo_thanh_cong,
         );
-      } else {
-        MessageConfig.show(
-          title: S.current.cu_can_bo_khong_thanh_cong,
-          messState: MessState.error,
-        );
-        isCheck = false;
-      }
-    });
+        isCheck = true;
+      },
+      error: (error) {
+        if (error is TimeoutException || error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.cu_can_bo_khong_thanh_cong,
+            messState: MessState.error,
+          );
+          isCheck = false;
+        }
+      },
+    );
     return isCheck;
   }
 
@@ -980,7 +989,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   bool checkCuCanBoIsLichThuHoi(ChiTietLichLamViecModel dataModel) {
     final List<ScheduleCoperatives>? data = dataModel.scheduleCoperatives
         ?.where(
-            (element) => element.status == StatusOfficersConst.STATUS_TU_CHOI)
+          (element) => element.status == StatusOfficersConst.STATUS_TU_CHOI,
+        )
         .toList();
     if ((data ?? []).isNotEmpty) {
       return true;

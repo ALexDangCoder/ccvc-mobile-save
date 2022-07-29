@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_animation_widget.dart';
@@ -66,7 +65,6 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             onChange: (files) {
               widget.createCubit.filesTaoLich = files;
             },
-            maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
             initFileFromApi: widget.createCubit.files
                     ?.map(
                       (file) => FileModel(
@@ -82,17 +80,6 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                 fileDeleted.id ?? '',
               );
             },
-            allowedExtensions: const [
-              FileExtensions.DOC,
-              FileExtensions.DOCX,
-              FileExtensions.JPEG,
-              FileExtensions.JPG,
-              FileExtensions.PDF,
-              FileExtensions.PNG,
-              FileExtensions.XLSX,
-              FileExtensions.PPTX,
-            ],
-            overSizeTextMessage: S.current.dung_luong_toi_da_20,
           ),
         )
       ],

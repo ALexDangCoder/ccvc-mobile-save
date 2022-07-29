@@ -39,7 +39,7 @@ class BaoCaoThongKeTablet extends StatefulWidget {
 class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
-  ThemDonViCubit themDonViCubit=ThemDonViCubit();
+  ThemDonViCubit themDonViCubit = ThemDonViCubit();
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];
@@ -48,7 +48,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   @override
   void initState() {
     super.initState();
-    thamGiaCubit.getTree();
+    thamGiaCubit.getTree(getAll: false);
     final DateTime now = DateTime.now();
     final DateTime preOneMonth = DateTime(now.year, now.month, now.day - 30);
     startDate = preOneMonth.toStringWithListFormat;

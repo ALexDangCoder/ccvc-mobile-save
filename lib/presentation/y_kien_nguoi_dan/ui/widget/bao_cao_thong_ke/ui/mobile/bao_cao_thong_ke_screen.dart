@@ -38,7 +38,7 @@ class BaoCaoThongKeScreen extends StatefulWidget {
 class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
-  ThemDonViCubit themDonViCubit=ThemDonViCubit();
+  ThemDonViCubit themDonViCubit = ThemDonViCubit();
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];
@@ -47,7 +47,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   @override
   void initState() {
     super.initState();
-    thamGiaCubit.getTree();
+    thamGiaCubit.getTree(getAll: false);
     final DateTime now = DateTime.now();
     final DateTime preOneMonth = DateTime(now.year, now.month, now.day - 30);
     startDate = preOneMonth.toStringWithListFormat;

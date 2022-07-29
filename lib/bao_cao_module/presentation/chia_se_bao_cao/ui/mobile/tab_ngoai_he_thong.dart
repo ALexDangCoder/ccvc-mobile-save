@@ -43,7 +43,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   late TextEditingController controller;
 
   String? name;
-  String? birthday;
+  DateTime? birthday;
   String? email;
   String? phoneNumber;
   String? position;
@@ -187,7 +187,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               onSelectDate: (dateTime) {
                 birthday = dateTime;
               },
-              initDateTime: DateTime.tryParse(birthday ?? ''),
+              initDateTime: birthday,
             ),
             spaceH16,
             textField(

@@ -67,7 +67,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (widget.cubit.canLoadMoreList &&
@@ -81,70 +81,76 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           onTap: (){
             FocusScope.of(context).unfocus();
           },
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      spaceH20,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 21),
-                        child: StreamBuilder<bool>(
-                          initialData: false,
-                          stream: widget.cubit.isDuocTruyCapStream,
-                          builder: (context, snapshot) {
-                            final isDuocTruyCap = snapshot.data ?? false;
-                            return CustomGroupRadio<bool>(
-                              listData: [
-                                ItemCustomGroupRadio(
-                                  title: S.current.doi_tuong_da_duoc_truy_cap,
-                                  value: true,
-                                ),
-                                ItemCustomGroupRadio(
-                                  title: S.current.them_moi_doi_tuong,
-                                  value: false,
-                                ),
-                              ],
-                              groupValue: isDuocTruyCap,
-                              onchange: (value) {
-                                widget.cubit.isDuocTruyCapSink
-                                    .add(value ?? false);
-                              },
-                            );
-                          },
+          child: RefreshIndicator(
+            onRefresh: () async {
+              widget.cubit.refreshData();
+              widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        spaceH20,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 21),
+                          child: StreamBuilder<bool>(
+                            initialData: false,
+                            stream: widget.cubit.isDuocTruyCapStream,
+                            builder: (context, snapshot) {
+                              final isDuocTruyCap = snapshot.data ?? false;
+                              return CustomGroupRadio<bool>(
+                                listData: [
+                                  ItemCustomGroupRadio(
+                                    title: S.current.doi_tuong_da_duoc_truy_cap,
+                                    value: true,
+                                  ),
+                                  ItemCustomGroupRadio(
+                                    title: S.current.them_moi_doi_tuong,
+                                    value: false,
+                                  ),
+                                ],
+                                groupValue: isDuocTruyCap,
+                                onchange: (value) {
+                                  widget.cubit.isDuocTruyCapSink
+                                      .add(value ?? false);
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 21),
-                        child: StreamBuilder<bool>(
-                          initialData: false,
-                          stream: widget.cubit.isDuocTruyCapStream,
-                          builder: (context, snapshot) {
-                            final isDuocTruyCap = snapshot.data ?? false;
-                            if (isDuocTruyCap) {
-                              return objectAccessed;
-                            } else {
-                              return newObject;
-                            }
-                          },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 21),
+                          child: StreamBuilder<bool>(
+                            initialData: false,
+                            stream: widget.cubit.isDuocTruyCapStream,
+                            builder: (context, snapshot) {
+                              final isDuocTruyCap = snapshot.data ?? false;
+                              if (isDuocTruyCap) {
+                                return objectAccessed;
+                              } else {
+                                return newObject;
+                              }
+                            },
+                          ),
                         ),
-                      ),
-                      spaceH10,
-                    ],
+                        spaceH10,
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                  left: 16.w,
-                  right: 16.w,
+                Container(
+                  padding: EdgeInsets.only(
+                    left: 16.w,
+                    right: 16.w,
+                  ),
+                  height: 63.h,
+                  color: Colors.white,
+                  child: buttonBottom,
                 ),
-                height: 63.h,
-                color: Colors.white,
-                child: buttonBottom,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

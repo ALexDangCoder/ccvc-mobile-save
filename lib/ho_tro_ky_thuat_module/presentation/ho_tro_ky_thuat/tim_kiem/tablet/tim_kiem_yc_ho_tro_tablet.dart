@@ -304,67 +304,16 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                                     cubit.getItemsToaNha(
                                                   snapshot.data ?? [],
                                                 );
-                                                return listResult.isNotEmpty
-                                                    ? CustomDropDown(
-                                                        hint: _textTitle(
-                                                          S.current.chon,
-                                                        ),
-                                                        onSelectItem: (value) {
-                                                          cubit.onChangeToaNha(
-                                                              value);
-                                                        },
-                                                        value: cubit
-                                                            .buildingIdName,
-                                                        items: listResult,
-                                                      )
-                                                    : Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              colorNumberCellQLVB,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            6,
-                                                          ),
-                                                          border: Border.all(
-                                                            color:
-                                                                borderItemCalender,
-                                                          ),
-                                                        ),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          left: 8,
-                                                          right: 4,
-                                                        ),
-                                                        height: 48,
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              S.current
-                                                                  .khong_co_du_lieu,
-                                                              style:
-                                                                  tokenDetailAmount(
-                                                                fontSize: 14,
-                                                                color:
-                                                                    color3D5586,
-                                                              ),
-                                                            ),
-                                                            SvgPicture.asset(
-                                                              ImageAssets
-                                                                  .ic_drop_down,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      );
+                                                return CustomDropDown(
+                                                  hint: _textTitle(
+                                                    S.current.chon,
+                                                  ),
+                                                  onSelectItem: (value) {
+                                                    cubit.onChangeToaNha(value);
+                                                  },
+                                                  value: cubit.buildingIdName,
+                                                  items: listResult,
+                                                );
                                               },
                                             ),
                                             spaceH16,
@@ -463,7 +412,8 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                   itemBuilder: (context, index) {
                                     return TreeViewWidget(
                                       selectOnly: true,
-                                      themDonViCubit:widget.cubit.themDonViCubit,
+                                      themDonViCubit:
+                                          widget.cubit.themDonViCubit,
                                       node: data[index],
                                       onSelect: (value) {
                                         cubit.onChangeDonVi(value);

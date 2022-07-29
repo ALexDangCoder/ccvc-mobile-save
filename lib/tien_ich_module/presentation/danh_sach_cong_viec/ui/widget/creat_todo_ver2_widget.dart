@@ -60,6 +60,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
     super.initState();
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
     nameFileSelect = widget.todo?.filePath ?? '';
+    widget.cubit.noteChange = widget.todo?.note ?? '';
   }
 
   @override

@@ -42,6 +42,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
         handlerId = null;
         handlerIdName = null;
         keyWord = null;
+        listToaNha.add([]);
         donViSearch.add(S.current.chon);
         break;
       case HoTroKyThuatCubit.CLOSE_SEARCH:
@@ -150,7 +151,9 @@ extension getItemsSearch on HoTroKyThuatCubit {
   }
 
   List<String> getItemsToaNha(List<ChildCategories> listData) {
-    return listData.map((e) => '${e.name}').toList();
+    return listData.isNotEmpty
+        ? listData.map((e) => '${e.name}').toList()
+        : [S.current.khong_co_du_lieu];
   }
 
   List<String> getItemsTrangThai() {

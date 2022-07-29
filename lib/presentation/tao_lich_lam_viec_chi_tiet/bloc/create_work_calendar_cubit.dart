@@ -21,6 +21,7 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -498,7 +499,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       isSendMail: true,
       files: filesTaoLich,
       filesDelete: filesDelete,
-      scheduleCoperativeRequest: donviModel ?? [],
+      scheduleCoperativeRequest: getListDonVi(donviModel ?? []),
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
       dateRepeat: dateFrom ?? DateTime.now().formatApi,
@@ -556,7 +557,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       isSendMail: true,
       files: filesTaoLich,
       filesDelete: filesDelete,
-      scheduleCoperativeRequest: donviModel ?? [],
+      scheduleCoperativeRequest: getListDonVi(donviModel ?? []),
       typeRemider: selectNhacLai.value ?? 1,
       typeRepeat: selectLichLap.id ?? 0,
       dateRepeat: dateFrom ?? DateTime.now().formatApi,
@@ -574,6 +575,16 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       },
     );
     showContent();
+  }
+
+  List<DonViModel> getListDonVi(List<DonViModel> list) {
+    final List<DonViModel> listResult = [];
+    for (final DonViModel value in list) {
+      if (value.status != StatusOfficersConst.STATUS_THU_HOI) {
+        listResult.add(value);
+      }
+    }
+    return listResult;
   }
 
   Future<void> getDataProvince() async {

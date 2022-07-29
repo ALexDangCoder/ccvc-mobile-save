@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/request/thong_bao/device_request.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
+import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
@@ -57,7 +58,7 @@ abstract class ThongBaoService {
   );
 
   @POST(ApiConstants.CREATE_DEVICE)
-  Future<TaoBaoCaoKetQuaResponse> createDevice(@Body() DeviceRequest body);
+  Future<MessageResponse> createDevice(@Body() DeviceRequest body);
 
   @POST(ApiConstants.UPDATE_DEVICE)
   Future<TaoBaoCaoKetQuaResponse> updateDevice(@Body() DeviceRequest body);

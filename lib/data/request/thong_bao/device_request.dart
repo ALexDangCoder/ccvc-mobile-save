@@ -4,8 +4,6 @@ part 'device_request.g.dart';
 
 @JsonSerializable()
 class DeviceRequest {
-  @JsonKey(name: 'id')
-  String? id;
   @JsonKey(name: 'registationId')
   String? registationId;
   @JsonKey(name: 'deviceType')
@@ -14,7 +12,6 @@ class DeviceRequest {
   bool? isActive;
 
   DeviceRequest({
-    this.id,
     required this.registationId,
     this.deviceType,
     required this.isActive,

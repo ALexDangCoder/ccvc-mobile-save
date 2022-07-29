@@ -72,8 +72,11 @@ class ItemDanhSachHoTro extends StatelessWidget {
               ],
             ),
             GestureDetector(
-              onTap: () =>
-                  _makePhoneCall("tel://${objThanhVien.soDienThoai ?? ''}"),
+              onTap: () {
+                if (objThanhVien.soDienThoai?.isNotEmpty ?? false) {
+                  _makePhoneCall("tel://${objThanhVien.soDienThoai ?? ''}");
+                }
+              },
               child: SvgPicture.asset(
                 ImageAssets.ic_call,
                 width: 32,

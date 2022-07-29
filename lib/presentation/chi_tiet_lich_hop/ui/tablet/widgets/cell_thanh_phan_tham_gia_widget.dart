@@ -19,9 +19,13 @@ class CellThanhPhanThamGia extends StatefulWidget {
   final Function()? ontap;
   final bool diemDanh;
 
-  const CellThanhPhanThamGia(
-      {Key? key, required this.infoModel, required this.cubit, this.ontap, this.diemDanh = true,})
-      : super(key: key);
+  const CellThanhPhanThamGia({
+    Key? key,
+    required this.infoModel,
+    required this.cubit,
+    this.ontap,
+    this.diemDanh = true,
+  }) : super(key: key);
 
   @override
   State<CellThanhPhanThamGia> createState() => _CellThanhPhanThamGiaState();
@@ -52,33 +56,33 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                     Expanded(
                       child: textCell(widget.infoModel.tenCoQuan.toString()),
                     ),
-                    if(widget.diemDanh)
+                    if (widget.diemDanh)
                       Container(
                         child: widget.infoModel.showCheckBox()
                             ? CustomCheckBox(
-                          isOnlyCheckbox: true,
-                          isCheck: widget.cubit.diemDanhIds
-                              .contains(widget.infoModel.id ?? ''),
-                          onChange: (isCheck) {
-                            widget.cubit.addOrRemoveId(
-                              isSelected: !isCheck,
-                              id: widget.infoModel.id ?? '',
-                            );
-                            setState(() {});
-                          },
-                        )
+                                isOnlyCheckbox: true,
+                                isCheck: widget.cubit.diemDanhIds
+                                    .contains(widget.infoModel.id ?? ''),
+                                onChange: (isCheck) {
+                                  widget.cubit.addOrRemoveId(
+                                    isSelected: !isCheck,
+                                    id: widget.infoModel.id ?? '',
+                                  );
+                                  setState(() {});
+                                },
+                              )
                             : GestureDetector(
-                          onTap: widget.ontap,
-                          child:
-                          SvgPicture.asset(ImageAssets.ic_huyDiemDanh),
-                        ),
+                                onTap: widget.ontap,
+                                child: SvgPicture.asset(
+                                    ImageAssets.ic_huyDiemDanh),
+                              ),
                       ),
                   ],
                 ),
               ),
               widgetRow(
                 name: S.current.ten_can_bo,
-                child: textCell(widget.infoModel.tenCanBo.toString()),
+                child: textCell(widget.infoModel.titleCanBo().toString()),
               ),
               widgetRow(
                 name: S.current.vai_tro,
@@ -219,8 +223,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
     );
   }
 
-  Widget textCell(String text) =>
-      Text(
+  Widget textCell(String text) => Text(
         text,
         style: textNormalCustom(
           fontSize: 14,

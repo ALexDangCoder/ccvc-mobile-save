@@ -78,13 +78,14 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           return true;
         },
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             FocusScope.of(context).unfocus();
           },
           child: RefreshIndicator(
             onRefresh: () async {
               widget.cubit.refreshData();
-              widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+              await widget.cubit
+                  .getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
             },
             child: Column(
               children: [
@@ -140,14 +141,18 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(
-                    left: 16.w,
-                    right: 16.w,
+                Visibility(
+                  visible:
+                      WidgetsBinding.instance!.window.viewInsets.bottom == 0.0,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 16.w,
+                      right: 16.w,
+                    ),
+                    height: 63.h,
+                    color: Colors.white,
+                    child: buttonBottom,
                   ),
-                  height: 63.h,
-                  color: Colors.white,
-                  child: buttonBottom,
                 ),
               ],
             ),
@@ -277,7 +282,6 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                 }
               },
             ),
-            spaceH70,
           ],
         ),
       );

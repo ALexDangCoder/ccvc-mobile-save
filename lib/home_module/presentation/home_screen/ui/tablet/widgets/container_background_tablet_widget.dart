@@ -107,6 +107,7 @@ class _ContainerBackgroudWidgetState
                       children: [
                         Expanded(
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (widget.leadingIcon == null)
                                 const SizedBox()

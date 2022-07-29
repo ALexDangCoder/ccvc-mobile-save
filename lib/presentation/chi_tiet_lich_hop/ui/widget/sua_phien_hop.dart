@@ -272,7 +272,6 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   onChange: (files) {
                     widget.cubit.listFile = files;
                   },
-                  overSizeTextMessage: S.current.dung_luong_toi_da_htkt,
                   maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
                   initFileFromApi: widget.phienHopModel.files
                       .map(

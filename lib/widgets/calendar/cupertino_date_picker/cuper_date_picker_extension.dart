@@ -37,6 +37,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     }
     days = dataDay;
     return BuildPicker(
+      looping: dataDay.length > 4,
       offAxisFraction: offAxisFraction,
       controller: dayController,
       backgroundColor: widget.background,
@@ -93,7 +94,9 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       }
       dataMonth.add(month);
     }
+    months = dataMonth;
     return BuildPicker(
+      looping: months.length > 5,
       offAxisFraction: offAxisFraction,
       controller: monthController,
       backgroundColor: widget.background,

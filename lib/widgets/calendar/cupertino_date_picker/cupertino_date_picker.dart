@@ -190,6 +190,7 @@ class CupertinoDatePickerDateState
   late int textDirectionFactor;
   late CupertinoLocalizations localizations;
   List<int> days = <int>[];
+  List<int> months = <int>[];
   Alignment? alignCenterLeft;
   Alignment? alignCenterRight;
 
@@ -382,7 +383,12 @@ class CupertinoDatePickerDateState
 
   void initDateTimeDayMinDate() {
     if (widget.minimumDate != null) {
-      dayController.jumpToItem(days.indexOf(selectedDay - 1));
+
+      dayController.jumpToItem(days.indexOf(selectedDay));
+      monthController.jumpToItem(months.indexOf(selectedMonth));
+      setState(() {
+
+      });
     }
   }
 

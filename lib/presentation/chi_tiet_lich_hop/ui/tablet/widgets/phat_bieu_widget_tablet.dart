@@ -307,7 +307,10 @@ Widget buttonDuyet(
           right: isMobile() ? 250 : 350,
           left: isMobile() ? 0 : 350,
         ),
-        child: buttomHuyPb(context: context, cubit: cubit, isTablet: isTablet),
+        child: SizedBox(
+          child:
+              buttomHuyPb(context: context, cubit: cubit, isTablet: isTablet),
+        ),
       );
     case StatePhatBieu.huy_duyet:
       return Padding(
@@ -315,8 +318,10 @@ Widget buttonDuyet(
           right: isMobile() ? 250 : 350,
           left: isMobile() ? 0 : 350,
         ),
-        child:
-            buttomDuyetPb(context: context, cubit: cubit, isTablet: isTablet),
+        child: SizedBox(
+          child:
+              buttomDuyetPb(context: context, cubit: cubit, isTablet: isTablet),
+        ),
       );
   }
   return const SizedBox();

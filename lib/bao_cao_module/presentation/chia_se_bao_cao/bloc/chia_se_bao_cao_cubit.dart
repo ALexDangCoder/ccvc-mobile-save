@@ -212,7 +212,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   Future<String> themMoiDoiTuong({
     String? email,
     String? fullName,
-    String? birthday,
+    DateTime? birthday,
     String? phone,
     String? position,
     String? unit,
@@ -221,7 +221,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     final NewUserRequest mapData = NewUserRequest(
       email: email,
       fullName: fullName,
-      birthday: birthday,
+      birthday: birthday?.toIso8601String(),
       phone: phone,
       position: position,
       unit: unit,
@@ -297,6 +297,10 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     required String idReport,
   }) async {
     String message = '';
+    if(mapData.isEmpty){
+      showContent();
+      return S.current.danh_sach_chia_se_rong;
+    }
     final rs = await _repoHTCS.shareReport(mapData, idReport, appId);
     rs.when(
       success: (res) {
@@ -305,6 +309,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       },
       error: (error) {
         message = S.current.error;
+        showContent();
       },
     );
     return message;
@@ -431,10 +436,43 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
+  void selectTag(Node<DonViModel> node) {
+    final nodeSearch = searchNode(node);
+    if (nodeSearch.isCheck.isCheck == false) {
+      nodeSearch.isTickChildren.isTick = false;
+    }
+    final data = nodeSearch.setSelected(nodeSearch.isCheck.isCheck);
+    if (nodeSearch.parent?.value.id != '') {
+      checkUser(
+        nodeSearch.parent!,
+      );
+    }
+    nodeSearch.isCheckTickChildren();
+    addSelectDonVi(
+      isCheck: nodeSearch.isCheck.isCheck,
+      listDonVi: data,
+      node: nodeSearch.value,
+    );
+    addSelectParent(
+      nodeSearch,
+      isCheck: nodeSearch.isCheck.isCheck,
+    );
+  }
+
+  Node<DonViModel> searchNode(Node<DonViModel> node) {
+    for (final tree in listTree) {
+      final nodeSearch = tree.search(node);
+      if(nodeSearch != null) {
+        return nodeSearch;
+      }
+    }
+    return node;
+  }
+
   @override
   void removeTag(Node<DonViModel> node) {
     node.isCheck.isCheck = false;
-    node.isTickChildren = false;
+    node.isTickChildren.isTick = false;
     final data = node.setSelected(false);
     node.isCheckTickChildren();
 

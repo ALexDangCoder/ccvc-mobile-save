@@ -156,7 +156,7 @@ class HomeImpl extends HomeRepository {
   ) {
     return runCatchingAsync<NhiemVuResponse, List<CalendarMeetingModel>>(
       () => _homeServiceGateWay.getNhiemVu(nhiemVuRequest),
-      (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? [],
+      (res) => res.data?.pageData?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
 

@@ -6,6 +6,7 @@ class YkienCuocHopModel {
   String? nguoiTao;
   String? ngayTao;
   String? scheduleId;
+  String? avatar;
   List<YkienCuocHopModel>? traLoiYKien;
 
   YkienCuocHopModel({
@@ -17,5 +18,6 @@ class YkienCuocHopModel {
     this.ngayTao,
     this.traLoiYKien,
     this.scheduleId,
+    this.avatar,
   });
 }

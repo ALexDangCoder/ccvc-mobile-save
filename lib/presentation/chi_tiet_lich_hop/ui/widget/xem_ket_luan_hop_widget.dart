@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_lu
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
@@ -442,7 +443,9 @@ class _CreateOrUpdateKetLuanHopWidgetState
     }
     if (widget.isCreate) {
       showDiaLog(
+
         context,
+        showTablet : !isMobile(),
         textContent: S.current.ban_co_chac_chan_muon_gui_mai_nay,
         btnLeftTxt: S.current.khong,
         funcBtnRight: () {

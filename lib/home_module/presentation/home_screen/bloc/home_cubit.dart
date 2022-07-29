@@ -1841,14 +1841,14 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
 
   Stream<List<CalendarMeetingModel>> get getNhiemVu => _getNhiemVu.stream;
   SelectKey selectTrangThai = SelectKey.CHO_PHAN_XU_LY;
-  List<String> mangTrangThai = ['CHUA_THUC_HIEN', 'CHO_PHAN_XU_LY'];
+  List<String> mangTrangThai = ['CHO_PHAN_XU_LY'];
   bool isCongViec = false;
 
   void selectTrangThaiNhiemVu(SelectKey selectKey) {
     selectTrangThai = selectKey;
     switch (selectKey) {
       case SelectKey.CHO_PHAN_XU_LY:
-        mangTrangThai = ['CHUA_THUC_HIEN', 'CHO_PHAN_XU_LY'];
+        mangTrangThai = ['CHO_PHAN_XU_LY'];
         isCongViec = false;
         callApi();
         break;
@@ -1919,7 +1919,7 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
         DanhSachCongViecRequest(
           isSortByHanXuLy: true,
           isCaNhan: isCaNhan,
-          size: 10,
+          size: 20,
           index: 1,
           mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
           trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
@@ -1928,7 +1928,7 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
     }
     return homeRep.getNhiemVu(
       NhiemVuRequest(
-        size: 10,
+        size: 20,
         index: 1,
         isNhiemVuCaNhan: isCaNhan,
         mangTrangThai: mangTrangThai,

@@ -36,6 +36,7 @@ class Data {
   String? nguoiTao;
   String? ngayTao;
   String? nguoiTaoId;
+  String? avatar;
 
   Data({
     this.id,
@@ -44,6 +45,7 @@ class Data {
     this.nguoiTao,
     this.ngayTao,
     this.nguoiTaoId,
+    this.avatar,
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -53,12 +55,13 @@ class Data {
     nguoiTao = json['nguoiTao'];
     ngayTao = json['ngayTao'];
     nguoiTaoId = json['nguoiTaoId'];
+    avatar = json['avatar'];
   }
 
   YKienModel toDomain() => YKienModel(
         time: ngayTao ?? DateTime.now().toString(),
         fileName: '',
-        imgAvatar: '',
+        imgAvatar: avatar ?? '',
         name: nguoiTao ?? '',
         content: content ?? '',
       );

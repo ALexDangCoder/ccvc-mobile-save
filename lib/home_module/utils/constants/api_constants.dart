@@ -17,7 +17,7 @@ class ApiConstants {
       '/qlvb/api/van-ban-di/search';
   static const String TONG_HOP_NHIEM_VU =
       '/qlvb/api/qlnv/ccvc/tong-hop-nhiem-vu';
-  static const String NHIEM_VU_GET_ALL = '/qlvb/api/qlnv/nhiem-vu/get-all';
+  static const String NHIEM_VU_GET_ALL = '/qlvb/api/qlnv/ccvc/ds-nhiem-vu';
   static const TINH_HINH_XU_LY_TRANG_CHU =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-trang-chu?';
   static const DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn?';

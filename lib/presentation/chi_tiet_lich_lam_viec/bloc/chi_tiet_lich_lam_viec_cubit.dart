@@ -938,6 +938,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   bool isCreateOrThamGiaOrCongKhai(ChiTietLichLamViecModel dataModel) {
     final idUser = currentUserId.toLowerCase();
     final isCreateUser = (dataModel.createBy?.id ?? '').toLowerCase() == idUser;
+    final isChuTri = (dataModel.canBoChuTri?.id ?? '').toLowerCase() == idUser;
     final isCongKhai = dataModel.publishSchedule ?? false;
     final isThamGia = dataModel.scheduleCoperatives
             ?.where(
@@ -945,7 +946,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             )
             .isNotEmpty ??
         false;
-    return isCreateUser || isCongKhai || isThamGia;
+    return isCreateUser || isCongKhai || isThamGia || isChuTri;
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {

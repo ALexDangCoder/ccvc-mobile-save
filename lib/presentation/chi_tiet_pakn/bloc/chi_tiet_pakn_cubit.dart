@@ -95,7 +95,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.thoi_gian_thao_tac,
-              content: [(DateTime.parse(value.ngayBatDau).formatPAKN)],
+              content: [(DateTime.parse(value.ngayBatDau).formatApiListBieuQuyetMobile)],
             ),
           );
 

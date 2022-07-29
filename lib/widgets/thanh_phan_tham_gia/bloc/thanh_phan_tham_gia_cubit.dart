@@ -145,7 +145,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     _listPeopleThamGia.add(listPeople);
   }
 
-  void getTree({bool getAll=true}) {
+  void getTree({bool getAll = true}) {
     hopRp.getTreeDonVi(getAll: getAll).then((value) {
       value.when(
         success: (res) {

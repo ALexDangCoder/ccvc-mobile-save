@@ -39,7 +39,7 @@ class BaoCaoThongKeTablet extends StatefulWidget {
 class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
-  ThemDonViCubit themDonViCubit=ThemDonViCubit();
+  ThemDonViCubit themDonViCubit = ThemDonViCubit();
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];

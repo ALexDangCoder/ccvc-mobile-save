@@ -38,7 +38,7 @@ class BaoCaoThongKeScreen extends StatefulWidget {
 class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
-  ThemDonViCubit themDonViCubit=ThemDonViCubit();
+  ThemDonViCubit themDonViCubit = ThemDonViCubit();
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];

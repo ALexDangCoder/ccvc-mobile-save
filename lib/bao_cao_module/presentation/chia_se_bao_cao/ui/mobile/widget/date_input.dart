@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class DateInput extends StatefulWidget {
-  final Function(String?) onSelectDate;
+  final Function(DateTime?) onSelectDate;
   final String? hintText;
   final Widget? leadingIcon;
   final double? paddings;
@@ -34,7 +34,7 @@ class _DateInputState extends State<DateInput> {
   String cachedSelect = DateTime(
     DateTime.now().year - 18,
     DateTime.now().month,
-    DateTime.now().day,
+    DateTime.now().day - 1,
   ).toString();
   final initDateTime = DateTime.now();
 
@@ -80,7 +80,7 @@ class _DateInputState extends State<DateInput> {
                     setState(() {
                       dateSelect = cachedSelect;
                     });
-                    widget.onSelectDate(dateSelect);
+                    widget.onSelectDate(DateTime.tryParse(dateSelect ?? ''));
                     Navigator.pop(context);
                   },
                   onClickLeft: () {

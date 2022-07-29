@@ -497,3 +497,12 @@ class PermissionAppTxt{
   static const YEU_CAU_CHUAN_BI = 'yeu-cau-chuan-bi';
   static const QUYEN_DUYET_KET_LUAN_HOP = 'quyen-duyet-ket-luan-hop';
 }
+class ListDayOffWeek{
+  static const CN = 'CN';
+  static const T2 = 'T2';
+  static const T3 = 'T3';
+  static const T4 = 'T4';
+  static const T5 = 'T5';
+  static const T6 = 'T6';
+  static const T7 = 'T7';
+}

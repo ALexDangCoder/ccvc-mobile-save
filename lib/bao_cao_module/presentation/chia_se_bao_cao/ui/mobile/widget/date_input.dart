@@ -31,7 +31,12 @@ class DateInput extends StatefulWidget {
 
 class _DateInputState extends State<DateInput> {
   String? dateSelect;
-  String? cachedSelect = DateTime.now().toString();
+  String cachedSelect = DateTime(
+    DateTime.now().year - 18,
+    DateTime.now().month,
+    DateTime.now().day,
+  ).toString();
+  final initDateTime = DateTime.now();
 
   @override
   @override
@@ -46,12 +51,21 @@ class _DateInputState extends State<DateInput> {
               SizedBox(
                 height: 300,
                 child: FlutterRoundedCupertinoDatePickerWidget(
-                  maximumDate: DateTime.now(),
+                  maximumDate: DateTime(
+                    initDateTime.year - 18,
+                    initDateTime.month,
+                    initDateTime.day - 1,
+                  ),
                   onDateTimeChanged: (value) {
                     cachedSelect = value.toString();
                   },
                   textStyleDate: titleAppbar(),
-                  initialDateTime: DateTime.tryParse(dateSelect ?? ''),
+                  initialDateTime: DateTime.tryParse(dateSelect ?? '') ??
+                      DateTime(
+                        initDateTime.year - 18,
+                        initDateTime.month,
+                        initDateTime.day - 1,
+                      ),
                 ),
               ),
               Container(
@@ -102,7 +116,7 @@ class _DateInputState extends State<DateInput> {
                         ),
                         child: dateSelect == null
                             ? Text(
-                                DateFormatApp.date,
+                                DateFormatApp.dateNormal,
                                 style: textNormal(
                                   titleItemEdit.withOpacity(0.5),
                                   14,

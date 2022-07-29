@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -184,8 +185,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                 spaceH10,
                 textStatusRow(
                   textTitle: S.current.trang_thai_xu_ly,
-                  textContent:
-                      getTextStatus(widget.objDSSC.codeTrangThai ?? ''),
+                  textContent: widget.objDSSC.trangThaiXuLy ?? '',
                   statusColor: statusColor(widget.objDSSC.codeTrangThai ?? ''),
                 ),
                 spaceH10,
@@ -209,14 +209,22 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
           Positioned(
             top: 30,
             right: 38,
-            child: InkWell(
-              onTap: () => widget.onClickMore(widget.objDSSC, widget.index),
-              child: SvgPicture.asset(
-                ImageAssets.ic_more,
-                height: 20,
-                width: 20,
-              ),
-            ),
+            child: ((widget.cubit.isManager || widget.cubit.isSupporter) &&
+                    !(widget.objDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.DA_HOAN_THANH ||
+                        widget.objDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.TU_CHOI_XU_LY) ||
+                    widget.cubit.checkUser(widget.objDSSC.idNguoiYeuCau ?? ''))
+                ? InkWell(
+                    onTap: () =>
+                        widget.onClickMore(widget.objDSSC, widget.index),
+                    child: SvgPicture.asset(
+                      ImageAssets.ic_more,
+                      height: 20,
+                      width: 20,
+                    ),
+                  )
+                : const SizedBox(),
           ),
           Positioned(
             top: 47,
@@ -307,8 +315,14 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                             paddingLeft: 35,
                           ),
                         ],
-                        if (widget.objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.DA_HOAN_THANH) ...[
+                        if ((widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.DA_HOAN_THANH ||
+                                widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.TU_CHOI_XU_LY) &&
+                            (widget.objDSSC.idNguoiYeuCau ==
+                                HiveLocal.getDataUser()
+                                    ?.userInformation
+                                    ?.id)) ...[
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
@@ -350,9 +364,12 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                             },
                           ),
                         ],
-                        if ((widget.cubit.isCheckUser ?? false) &&
-                            !(widget.objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.DA_HOAN_THANH))
+                        if ((widget.cubit.isSupporter ||
+                                widget.cubit.isManager) &&
+                            (!(widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.DA_HOAN_THANH) &&
+                                !(widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.TU_CHOI_XU_LY)))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,
@@ -449,21 +466,6 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
         return blueColor;
       default:
         return statusCalenderRed;
-    }
-  }
-
-  String getTextStatus(String status) {
-    switch (status) {
-      case HoTroKyThuatCubit.DA_HOAN_THANH:
-        return S.current.da_xu_ly;
-      case HoTroKyThuatCubit.CHUA_XU_LY:
-        return S.current.dang_cho_xu_ly;
-      case HoTroKyThuatCubit.TU_CHOI_XU_LY:
-        return S.current.tu_choi_xu_ly;
-      case HoTroKyThuatCubit.DANG_XU_LY:
-        return S.current.dang_xu_ly;
-      default:
-        return '';
     }
   }
 }

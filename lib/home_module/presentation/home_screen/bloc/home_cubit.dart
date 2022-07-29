@@ -462,6 +462,7 @@ class DanhSachCongViecCubit extends HomeCubit {
           0,
           res,
         );
+        data.listTodoImportant = listSortImportant(data.listTodoImportant);
         danhSachTenNguoiGan.insert(0, nameInsert);
         if (res.id != null) {
           tempName[res.id!] = nameInsert;
@@ -483,9 +484,10 @@ class DanhSachCongViecCubit extends HomeCubit {
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
     data.listTodoImportant.insert(0, result..isTicked = false);
+    final listTodoImportant = listSortImportant(data.listTodoImportant);
     _getTodoList.sink.add(
       TodoListModel(
-        listTodoImportant: data.listTodoImportant,
+        listTodoImportant: listTodoImportant,
         listTodoDone: data.listTodoDone,
       ),
     );
@@ -500,6 +502,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     );
 
     data.listTodoDone.insert(0, result..isTicked = true);
+    data.listTodoDone = listSortImportant(data.listTodoDone);
     _getTodoList.sink.add(
       data,
     );
@@ -628,11 +631,29 @@ class DanhSachCongViecCubit extends HomeCubit {
       success: (res) async {
         danhSachNguoiGan.clear();
         danhSachNguoiGan.addAll(res.listTodoImportant);
+        danhSachNguoiGan.addAll(res.listTodoDone);
+        res.listTodoImportant = listSortImportant(res.listTodoImportant);
+        res.listTodoDone = listSortImportant(res.listTodoDone);
         await getListNameCanBo();
+
         _getTodoList.sink.add(res);
       },
       error: (err) {},
     );
+  }
+
+  List<TodoModel> listSortImportant(List<TodoModel> list) {
+    final List<TodoModel> listHasStar = [];
+    final List<TodoModel> listNoStar = [];
+    for (final element in list) {
+      if (element.important ?? false) {
+        listHasStar.add(element);
+      } else {
+        listNoStar.add(element);
+      }
+    }
+    listHasStar.addAll(listNoStar);
+    return listHasStar;
   }
 
   IconModdel getIconListCanBo(
@@ -1716,7 +1737,8 @@ class SinhNhatCubit extends HomeCubit with SelectKeyDialog {
 class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<SuKienModel>> _getSuKien =
       BehaviorSubject<List<SuKienModel>>();
-  final BehaviorSubject<SelectKey> _getSelectkey = BehaviorSubject.seeded(SelectKey.HOM_NAY);
+  final BehaviorSubject<SelectKey> _getSelectkey =
+      BehaviorSubject.seeded(SelectKey.HOM_NAY);
 
   Stream<List<SuKienModel>> get getSuKien => _getSuKien.stream;
 
@@ -1735,12 +1757,12 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
     );
   }
 
-  void changeSelectKey( SelectKey key){
+  void changeSelectKey(SelectKey key) {
     _getSelectkey.sink.add(key);
   }
 
-  String changeTitle(SelectKey key){
-    switch(key){
+  String changeTitle(SelectKey key) {
+    switch (key) {
       case SelectKey.NAM_NAY:
         return S.current.su_kien_trong_nam;
       case SelectKey.THANG_NAY:
@@ -1749,7 +1771,7 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
         return S.current.su_kien_trong_tuan;
       case SelectKey.HOM_NAY:
         return S.current.su_kien_trong_ngay;
-      default :
+      default:
         return S.current.su_kien_trong_ngay;
     }
   }

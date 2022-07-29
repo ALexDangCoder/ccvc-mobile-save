@@ -13,6 +13,8 @@ class DoubleButtonBottom extends StatelessWidget {
   final bool isTablet;
   final bool noPadding;
   final double? height;
+  final bool disableRightButton;
+  final bool onlyOneButton;
 
   const DoubleButtonBottom({
     Key? key,
@@ -23,100 +25,117 @@ class DoubleButtonBottom extends StatelessWidget {
     this.isTablet = false,
     this.noPadding = false,
     this.height,
+    this.disableRightButton = false,
+    this.onlyOneButton = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return isTablet
         ? Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          button(
-            onTap: () {
-              onPressed1();
-            },
-            title: title1,
-          ),
-          spaceW20,
-          button(
-            onTap: () {
-              onPressed2();
-            },
-            title: title2,
-            isLeft: false,
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                button(
+                  onTap: () {
+                    onPressed1();
+                  },
+                  title: title1,
+                ),
+                spaceW20,
+                if (!onlyOneButton)
+                  button(
+                    onTap: () {
+                      onPressed2();
+                    },
+                    disable: disableRightButton,
+                    title: title2,
+                    isLeft: false,
+                  )
+              ],
+            ),
           )
-        ],
-      ),
-    )
         : Row(
-      crossAxisAlignment: noPadding
-          ? CrossAxisAlignment.start
-          : CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              onPressed1();
-            },
-            child: Container(
-              height: height ?? 40.0.textScale(space: 16.0),
-              decoration: BoxDecoration(
-                borderRadius:
-                BorderRadius.circular(4.0.textScale(space: 4.0)),
-                color:
-                AppTheme.getInstance().colorField().withOpacity(0.1),
-              ),
-              child: Center(
-                child: Text(
-                  title1,
-                  style: textNormalCustom(
-                    fontSize: 14.0.textScale(space: 4.0),
-                    color: AppTheme.getInstance().colorField(),
+            crossAxisAlignment: noPadding
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    onPressed1();
+                  },
+                  child: Container(
+                    height: height ?? 40.0.textScale(space: 16.0),
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(4.0.textScale(space: 4.0)),
+                      color:
+                          AppTheme.getInstance().colorField().withOpacity(0.1),
+                    ),
+                    child: Center(
+                      child: Text(
+                        title1,
+                        style: textNormalCustom(
+                          fontSize: 14.0.textScale(space: 4.0),
+                          color: AppTheme.getInstance().colorField(),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ),
-        SizedBox(width: 16.0.textScale(space: 8.0)),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              onPressed2();
-            },
-            child: Container(
-              height: height ?? 40.0.textScale(space: 16.0),
-              decoration: BoxDecoration(
-                borderRadius:
-                BorderRadius.circular(4.0.textScale(space: 4.0)),
-                color: AppTheme.getInstance().colorField(),
-              ),
-              child: Center(
-                child: Text(
-                  title2,
-                  style: textNormalCustom(
-                    fontSize: 14.0.textScale(space: 4.0),
-                    color: backgroundColorApp,
+              if (!onlyOneButton) ...[
+                SizedBox(width: 16.0.textScale(space: 8.0)),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!disableRightButton) {
+                        onPressed2();
+                      }
+                    },
+                    child: Container(
+                      height: height ?? 40.0.textScale(space: 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(4.0.textScale(space: 4.0)),
+                        color: (!disableRightButton)
+                            ? AppTheme.getInstance().colorField()
+                            : AppTheme.getInstance()
+                                .unselectColor()
+                                .withOpacity(0.1),
+                      ),
+                      child: Center(
+                        child: Text(
+                          title2,
+                          style: textNormalCustom(
+                            fontSize: 14.0.textScale(space: 4.0),
+                            color: (!disableRightButton)
+                                ? backgroundColorApp
+                                : coloriCon,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+              ],
+            ],
+          );
   }
 
   Widget button({
     required Function onTap,
     required String title,
     bool isLeft = true,
+    bool disable = false,
   }) {
     return GestureDetector(
       onTap: () {
-        onTap();
+        if (!disable) {
+          onTap();
+        }
       },
       child: Container(
         height: 44,
@@ -125,7 +144,9 @@ class DoubleButtonBottom extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: isLeft
               ? AppTheme.getInstance().colorField().withOpacity(0.1)
-              : AppTheme.getInstance().colorField(),
+              : (!disable)
+                  ? AppTheme.getInstance().colorField()
+                  : AppTheme.getInstance().unselectColor().withOpacity(0.1),
         ),
         child: Center(
           child: Text(
@@ -134,7 +155,9 @@ class DoubleButtonBottom extends StatelessWidget {
               fontSize: 16,
               color: isLeft
                   ? AppTheme.getInstance().colorField()
-                  : backgroundColorApp,
+                  : (!disable)
+                      ? backgroundColorApp
+                      : coloriCon,
             ),
           ),
         ),

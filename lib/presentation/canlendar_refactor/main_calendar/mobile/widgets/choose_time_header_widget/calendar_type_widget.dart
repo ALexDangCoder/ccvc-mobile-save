@@ -9,12 +9,13 @@ import 'package:flutter_svg/svg.dart';
 class ChooseTypeCalendarWidget extends StatefulWidget {
   final Function(CalendarType) onChange;
   final ChooseTimeController controller;
-
-  const ChooseTypeCalendarWidget({
-    Key? key,
-    required this.onChange,
-    required this.controller,
-  }) : super(key: key);
+  final bool isSelectYear;
+  const ChooseTypeCalendarWidget(
+      {Key? key,
+      required this.onChange,
+      required this.controller,
+      this.isSelectYear = false})
+      : super(key: key);
 
   @override
   _ChooseTypeCalendarWidgetState createState() =>
@@ -33,10 +34,28 @@ class _ChooseTypeCalendarWidgetState extends State<ChooseTypeCalendarWidget> {
       setState(() {});
     });
   }
+ @override
+  void didUpdateWidget(covariant ChooseTypeCalendarWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if(!widget.isSelectYear){
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        widget.controller.calendarTypeDefault();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    const data = CalendarType.values;
+    List<CalendarType> data = [];
+    if (!widget.isSelectYear) {
+      data = CalendarType.values
+          .where((element) => element != CalendarType.YEAR)
+          .toList();
+    } else {
+      data = CalendarType.values;
+    }
+
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.symmetric(vertical: 13),

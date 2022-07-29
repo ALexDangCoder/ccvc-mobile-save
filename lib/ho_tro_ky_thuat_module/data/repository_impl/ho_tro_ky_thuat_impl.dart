@@ -33,6 +33,8 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
 
   @override
   Future<Result<List<SuCoModel>>> postDanhSachSuCo({
+    required bool isManager,
+    required bool isSupporter,
     required int pageIndex,
     required int pageSize,
     String? codeUnit,
@@ -48,6 +50,8 @@ class HoTroKyThuatImpl implements HoTroKyThuatRepository {
   }) {
     return runCatchingAsync<DanhSachSuCoResponse, List<SuCoModel>>(
       () => _hoTroKyThuatService.postDanhSachSuCo(
+        isManager,
+        isSupporter,
         pageIndex,
         pageSize,
         codeUnit,

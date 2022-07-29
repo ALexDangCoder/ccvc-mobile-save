@@ -42,6 +42,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
         handlerId = null;
         handlerIdName = null;
         keyWord = null;
+        listToaNha.add([]);
         donViSearch.add(S.current.chon);
         break;
       case HoTroKyThuatCubit.CLOSE_SEARCH:
@@ -101,7 +102,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
   }
 
   void onChangeToaNha(int index) {
-    buildingId = listToaNha.value[index].id;
+    buildingId = listToaNha.value[index].parentId;
     buildingIdName = listToaNha.value[index].name;
   }
 
@@ -111,7 +112,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
   }
 
   void onChangeNguoiXuLy(int index) {
-    handlerId = listCanCoHTKT.value[index].userId;
+    handlerId = listCanCoHTKT.value[index].idThanhVien;
     handlerIdName = getListThanhVien(
       listCanCoHTKT.value,
     )[index];
@@ -150,7 +151,9 @@ extension getItemsSearch on HoTroKyThuatCubit {
   }
 
   List<String> getItemsToaNha(List<ChildCategories> listData) {
-    return listData.map((e) => '${e.name}').toList();
+    return listData.isNotEmpty
+        ? listData.map((e) => '${e.name}').toList()
+        : [S.current.khong_co_du_lieu];
   }
 
   List<String> getItemsTrangThai() {

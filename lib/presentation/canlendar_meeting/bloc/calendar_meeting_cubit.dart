@@ -32,7 +32,6 @@ import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/com
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
@@ -156,9 +155,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }
 
   void refreshDataDangLich() {
-    getCountInDashboard();
+    getCountDashboard();
     if (typeCalender != StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
       getDanhSachLichHop();
+    }else{
+      getDanhSachLichCanKLCH();
     }
     getMenuLichLanhDao();
     getDaysHaveEvent(
@@ -294,7 +295,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         value: StatusDataItem(
           StatusWorkCalendar.LICH_HOP_CAN_KLCH,
         ),
-        count: countData.soLichCanBaoCao ?? 0,
+        count: countData.soLichCanKLCH ?? 0,
       ),
       ChildMenu(
         title: StatusWorkCalendar.LICH_DA_KLCH.getTitleMeeting(),
@@ -310,35 +311,18 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     return listMenuTheoTrangThai;
   }
 
-  DashBoardLichHopModel dashBoardModel  = DashBoardLichHopModel.empty();
-  int countLichCanKLCH = 0;
-
   /// Lấy số lượng các loại lịch
   Future<void> getCountDashboard() async {
-    if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
-      showLoading();
-    }
     final result = await hopRepo.getDashBoardLichHop(
       startDate.formatApi,
       endDate.formatApi,
     );
     result.when(
       success: (value) {
-        dashBoardModel = value;
+        _totalWorkSubject.add(value);
       },
       error: (error) {},
     );
-  }
-
-  Future<void> getCountInDashboard() async {
-    final queue = Queue(parallel: 2);
-    unawaited(queue.add(() => getCountDashboard()));
-    unawaited(queue.add(() => getDanhSachLichCanKLCH()));
-    await queue.onComplete;
-    dashBoardModel.soLichCanBaoCao = countLichCanKLCH;
-    dashBoardModel.soLichChuaCoBaoCao = countLichCanKLCH;
-    _totalWorkSubject.add(dashBoardModel);
-    queue.dispose();
   }
 
   /// lấy data cho dashboard
@@ -408,6 +392,10 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
     result.when(
       success: (value) {
+        if(state is ChartViewState){
+          _listNgayCoLich.sink.add([]);
+          return;
+        }
         final data = value.map((e) => DateTime.parse(e)).toList();
         _listNgayCoLich.sink.add(data);
       },
@@ -477,6 +465,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   /// lấy danh sách lịch họp cần KLCH
   Future<void> getDanhSachLichCanKLCH() async {
+    showLoading();
     final result = await hopRepo.getLichCanKLCH(
       DanhSachLichHopRequest(
         Title: keySearch,
@@ -490,21 +479,15 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
     result.when(
       success: (value) {
-        if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
           checkDuplicate(value.items ?? []);
           _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
           _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
           _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
-
           _danhSachLichHopSubject.sink.add(value);
-        }
-        countLichCanKLCH = value.items?.length ?? 0;
       },
       error: (error) {},
     );
-    if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
-      showContent();
-    }
+    showContent();
   }
 
   DateTime getDate(String time) =>
@@ -575,9 +558,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
   }) {
     stateType = StateType.CHO_DUYET;
     if (state is ListViewState) {
+      _initDefault();
       emitListViewState();
       _titleSubject.sink.add(oldTitle);
     } else if (state is CalendarViewState)  {
+      _initDefault();
       emitCalendarViewState();
       _titleSubject.sink.add(oldTitle);
     } else {
@@ -615,9 +600,15 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     if(state is! ChartViewState){
       oldTitle = _titleSubject.valueOrNull ?? S.current.lich_cua_toi;
     }
-
   }
 
+void _initDefault(){
+  if(controller.calendarType.value == CalendarType.YEAR){
+    final now = controller.selectDate.value;
+    startDate = now;
+    endDate = now;
+  }
+}
   /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();
@@ -625,11 +616,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     getToChucBoiDonVi();
     getThongKeTheoLinhVuc();
     getCoCauLichHop();
-    getDaysHaveEvent(
-      startDate: startDate,
-      endDate: endDate,
-    );
-    getCountInDashboard();
+    getCountDashboard();
   }
 
   /// lấy số lịch họp trong thời gian

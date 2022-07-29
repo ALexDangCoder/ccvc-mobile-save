@@ -2,23 +2,29 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/selecdate_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
+import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ThemPhienHopScreen extends StatefulWidget {
   final String id;
@@ -37,19 +43,68 @@ class ThemPhienHopScreen extends StatefulWidget {
 class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   final _key = GlobalKey<FormGroupState>();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
-  late TaoPhienHopRequest taoPhienHopRequest;
   bool isOverFileLength = false;
+  late String timeStart;
+  late String timeEnd;
+  String thoiGianHop = '';
+  bool isShowValidate = false;
+  late final TaoPhienHopRequest taoPhienHopRequest;
 
   @override
   void initState() {
     super.initState();
     taoPhienHopRequest = TaoPhienHopRequest(
-      thoiGian_BatDau: '${DateTime.parse(DateTime.now().toString()).formatApi} '
-          '${widget.cubit.startTime}',
-      thoiGian_KetThuc:
-          '${DateTime.parse(DateTime.now().toString()).formatApi} '
-          '${widget.cubit.startTime}',
+      thoiGian_BatDau: widget.cubit.getTime(),
+      thoiGian_KetThuc: widget.cubit.getTime(isGetDateStart: false),
     );
+    timeStart = widget.cubit.getChiTietLichHopModel.timeStart;
+    timeEnd = widget.cubit.getChiTietLichHopModel.timeTo;
+    thoiGianHop =
+        coverDateTimeApi(widget.cubit.getChiTietLichHopModel.ngayBatDau)
+            .split(' ')
+            .first;
+    handleButtonSaveClick();
+  }
+
+  String getTime({bool isGetDateStart = true}) {
+    return isGetDateStart
+        ? '${widget.cubit.getChiTietLichHopModel.ngayBatDau.split(' ').first} '
+            '${widget.cubit.getChiTietLichHopModel.timeStart}'
+        : '${widget.cubit.getChiTietLichHopModel.ngayKetThuc.split(' ').first} '
+            '${widget.cubit.getChiTietLichHopModel.timeTo}';
+  }
+
+  void handleButtonSaveClick() {
+    // Thời gian bắt đầu phiên họp:
+    final dateTimeStart = '$thoiGianHop $timeStart'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian kết thúc phiên họp:
+    final dateTimeEnd = '$thoiGianHop $timeEnd'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+
+    //Thời gian bắt đầu cuộc họp:
+    final limitTimeStart = getTime().convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_HM,
+    );
+
+    //Thời gian kết thúc cuộc họp:
+    final limitTimeEnd = getTime(isGetDateStart: false).convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_HM,
+    );
+
+    final bool isOverMeetingTime = dateTimeStart.isBefore(limitTimeStart) ||
+        dateTimeEnd.isAfter(limitTimeEnd);
+    final bool validateTime = _keyBaseTime.currentState?.validator() ?? false;
+
+    if (validateTime) {
+      widget.cubit.isValidateTimer.sink.add(isOverMeetingTime);
+      isShowValidate = isOverMeetingTime;
+    } else {
+      return;
+    }
   }
 
   @override
@@ -65,15 +120,15 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           /// hai button
           child: DoubleButtonBottom(
             onClickRight: () {
-              _keyBaseTime.currentState?.validator();
               if ((_key.currentState?.validator() ?? false) &&
                   !isOverFileLength) {
+                taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
+                taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
+                taoPhienHopRequest.timeEnd = timeEnd;
                 widget.cubit.themPhienHop(
                   id: widget.id,
                   taoPhienHopRequest: taoPhienHopRequest,
                 );
-                widget.cubit.startTime = INIT_TIME;
-                widget.cubit.endTime = INIT_TIME;
                 Navigator.pop(context);
               }
             },
@@ -101,7 +156,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.tieuDe = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_ten_phien_hop,
+                      );
                     },
                   ),
                 ),
@@ -110,22 +167,55 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 InputInfoUserWidget(
                   title: S.current.thoi_gian_hop,
                   isObligatory: true,
-                  child: CustomSelectDate(
-                    value: DateTime.now(),
-                    onSelectDate: (value) {
-                      taoPhienHopRequest.thoiGian_BatDau =
-                          DateTime.parse(value.toString()).formatApi;
-                      taoPhienHopRequest.thoiGian_KetThuc =
-                          DateTime.parse(value.toString()).formatApi;
+                  child: SelectDateWidget(
+                    paddings: 10,
+                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
+                    value: thoiGianHop,
+                    onSelectDate: (dateTime) {
+                      if (mounted) setState(() {});
+                      thoiGianHop = dateTime.changeToNewPatternDate(
+                        DateTimeFormat.DEFAULT_FORMAT,
+                        DateTimeFormat.DOB_FORMAT,
+                      );
+                      handleButtonSaveClick();
                     },
                   ),
                 ),
                 spaceH20,
-                BaseChooseTimerWidget(
-                  key: _keyBaseTime,
-                  onChange: (timeSt, timeEnd) {
-                    widget.cubit.getTimeHour(startT: timeSt, endT: timeEnd);
-                  },
+                SizedBox(
+                  child: StreamBuilder<bool>(
+                    stream: widget.cubit.isValidateTimer.stream,
+                    builder: (context, snapshot) {
+                      return ShowRequied(
+                        isShow: snapshot.data ?? true,
+                        textShow: S.current.validata_phien_hop,
+                        child: BaseChooseTimerWidget(
+                          key: _keyBaseTime,
+                          timeBatDau: timeStart.getTimeData(
+                            timeReturnParseFail: TimerData(
+                              hour: DateTime.now().hour,
+                              minutes: DateTime.now().minute,
+                            ),
+                          ),
+                          isCheckRemoveDidUpdate: true,
+                          timeKetThuc: timeEnd.getTimeData(
+                            timeReturnParseFail: TimerData(
+                              hour: DateTime.now().hour,
+                              minutes: DateTime.now().minute,
+                            ),
+                          ),
+                          onChange: (start, end) {
+                            timeStart = start.timerToString;
+                            timeEnd = end.timerToString;
+                            handleButtonSaveClick();
+                          },
+                          validator: (timeBegin, timerEn) {
+                            return timeBegin.equalTime(timerEn);
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
 
                 /// chon nguoi chu tri
@@ -157,7 +247,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       taoPhienHopRequest.noiDung = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_noi_dung_phien_hop,
+                      );
                     },
                   ),
                 ),
@@ -166,7 +258,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 /// thêm tài liệu
                 ButtonSelectFileLichLamViec(
                   hasMultipleFile: true,
-                  maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
+                  maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
                   title: S.current.tai_lieu_dinh_kem,
                   initFileSystem: taoPhienHopRequest.files ?? [],
                   allowedExtensions: const [
@@ -182,6 +274,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     isOverFileLength = validate;
                     if (!validate) {
                       taoPhienHopRequest.files = files;
+                      isOverFileLength = true;
                     }
                   },
                 )

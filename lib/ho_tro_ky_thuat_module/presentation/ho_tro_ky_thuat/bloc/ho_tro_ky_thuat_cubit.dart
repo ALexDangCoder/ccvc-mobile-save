@@ -24,14 +24,28 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as get_dart;
 import 'package:rxdart/rxdart.dart';
 
 class HoTroKyThuatCubit extends BaseCubit<BaseState> {
-  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial());
+  HoTroKyThuatCubit() : super(HotroKyThuatStateInitial()) {
+    isManager = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
+    isSupporter = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_HO_TRO,
+    );
+    themDonViCubit = ThemDonViCubit();
+  }
+  late ThemDonViCubit themDonViCubit;
   List<File>? filesThemMoiYCHTKT = [];
   static const String rightPath = 'attachments/upload/';
+  late bool isManager;
+  late bool isSupporter;
 
   //color
   List<Color> colorChart = [
@@ -228,10 +242,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     bool isArea = true,
     required String id,
   }) {
+    String? result;
     if (isArea) {
       for (final area in areaList) {
         if (area.id == id) {
           nameArea = area.name;
+          result = nameArea;
           break;
         }
       }
@@ -240,12 +256,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         for (final building in area.childCategories ?? []) {
           if (id == building.id) {
             nameBuilding = building.name ?? '';
+            result = nameBuilding;
             break;
           }
         }
       }
     }
-    return isArea ? nameArea : nameBuilding;
+    return result;
   }
 
   final Set<SuCoHTKT> issuesEditHTKT = {};
@@ -276,13 +293,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         .toList();
   }
 
-  bool checkUser() {
-    for (final element in listCanCoHTKT.value) {
-      if (element.userId == dataUser?.userId) {
-        return true;
-      }
+  bool checkUser(String id) {
+    bool isNguoiYeuCau = false;
+    if (id == dataUser?.userInformation?.id) {
+      isNguoiYeuCau = true;
     }
-    return false;
+    return isNguoiYeuCau;
   }
 
   Future<void> getListDanhBaCaNhan({
@@ -306,6 +322,8 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       processingCode: processingCode,
       handlerId: handlerId,
       keyWord: keyWord,
+      isManager: isManager,
+      isSupporter: isSupporter,
     );
     result.when(
       success: (res) {
@@ -347,6 +365,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }
 
   Future<bool> postDataThemMoiHTKT() async {
+    bool resultPost = false;
     showLoading();
     final result = await _hoTroKyThuatRepository.addTask(
       id: addTaskHTKTRequest.id,
@@ -365,19 +384,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (success) {
+        resultPost = true;
         showContent();
         getListDanhBaCaNhan(
           page: 1,
         );
       },
       error: (error) {
+        resultPost = false;
         showContent();
       },
     );
-    return true;
+    return resultPost;
   }
 
   Future<bool> postEditHTKT() async {
+    bool resultPost = false;
     showLoading();
     final result = await _hoTroKyThuatRepository.editTaskHTKT(
       id: editTaskHTKTRequest.id,
@@ -397,13 +419,15 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (success) {
+        resultPost = true;
         showContent();
       },
       error: (error) {
+        resultPost = false;
         showContent();
       },
     );
-    return true;
+    return resultPost;
   }
 
   Future<void> getNguoiXuLy({
@@ -413,7 +437,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         listCanCoHTKT.add(res);
-        isCheckUser = checkUser();
       },
       error: (error) {
         if (isCheck) {
@@ -562,6 +585,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   Future<void> getCategory({
     required String title,
+    bool isLoadCreate = true,
   }) async {
     final Result<List<CategoryModel>> result =
         await _hoTroKyThuatRepository.getCategory(title);
@@ -571,10 +595,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
           listKhuVuc.sink.add(res);
           areaList = res;
           buildingList = res.first.childCategories ?? [];
-          buildingListStream.sink
-              .add([S.current.khong_co_du_lieu]);
-          addTaskHTKTRequest.buildingName =  S.current.khong_co_du_lieu;
-          listToaNha.sink.add(res.first.childCategories ?? []);
+          // buildingListStream.sink.add(buildingList);
+          if (isLoadCreate) {
+            buildingListStream.sink.add([S.current.khong_co_du_lieu]);
+          } else {
+            buildingListStream.sink.add([]);
+          }
+          addTaskHTKTRequest.buildingName = null;
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;
         } else if (title == LOAI_SU_CO) {

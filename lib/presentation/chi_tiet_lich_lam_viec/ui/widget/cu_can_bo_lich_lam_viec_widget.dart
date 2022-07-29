@@ -20,13 +20,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CuCanBoDiThayLichLamViecWidget extends StatefulWidget {
+class CuCanBoLichLamViecWidget extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubitThanhPhanTG;
   final ThemCanBoCubit themCanBoCubit;
   final ChiTietLichLamViecCubit cubit;
   final ThemDonViCubit themDonViCubit;
 
-  const CuCanBoDiThayLichLamViecWidget({
+  const CuCanBoLichLamViecWidget({
     Key? key,
     required this.themCanBoCubit,
     required this.cubitThanhPhanTG,
@@ -35,12 +35,12 @@ class CuCanBoDiThayLichLamViecWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CuCanBoDiThayLichLamViecWidgetState createState() =>
-      _CuCanBoDiThayLichLamViecWidgetState();
+  _CuCanBoLichLamViecWidgetState createState() =>
+      _CuCanBoLichLamViecWidgetState();
 }
 
-class _CuCanBoDiThayLichLamViecWidgetState
-    extends State<CuCanBoDiThayLichLamViecWidget> {
+class _CuCanBoLichLamViecWidgetState
+    extends State<CuCanBoLichLamViecWidget> {
   GlobalKey<FormState> formKeyNoiDung = GlobalKey<FormState>();
   TextEditingController noiDungController = TextEditingController();
 
@@ -49,8 +49,9 @@ class _CuCanBoDiThayLichLamViecWidgetState
     super.initState();
     widget.cubitThanhPhanTG.isDuplicateCanBo.add(false);
     widget.themCanBoCubit.titleCanBo.sink.add('');
+    widget.cubitThanhPhanTG.listCanBoThamGia.add([]);
     widget.themDonViCubit.validateDonVi.sink.add(false);
-    widget.cubit.getDanhSachCuCanBoDiThay(widget.cubitThanhPhanTG);
+    widget.cubit.getDanhSachCuCanBo(widget.cubitThanhPhanTG);
     widget.themDonViCubit.themDonViSubject.sink.add(true);
     widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
@@ -78,7 +79,7 @@ class _CuCanBoDiThayLichLamViecWidgetState
             },
             onClickRight: () {
               widget.cubit
-                  .luuCanBoDiThay(
+                  .luuCanBo(
                 cubitThanhPhanTG: widget.cubitThanhPhanTG,
               )
                   .then((value) {
@@ -163,12 +164,12 @@ class _CuCanBoDiThayLichLamViecWidgetState
                   final data = snapshot.data ?? false;
                   return data
                       ? Text(
-                          S.current.can_bo_nay_da_ton_tai,
-                          style: textNormalCustom(
-                            color: Colors.red,
-                            fontSize: 12.0.textScale(),
-                          ),
-                        )
+                    S.current.can_bo_nay_da_ton_tai,
+                    style: textNormalCustom(
+                      color: Colors.red,
+                      fontSize: 12.0.textScale(),
+                    ),
+                  )
                       : Container();
                 },
               ),
@@ -185,16 +186,9 @@ class _CuCanBoDiThayLichLamViecWidgetState
                           final datas = snap.data ?? <DonViModel>[];
                           return Column(
                             children: [
-                              itemListCanBoFirst(
-                                isXoa: true,
-                                noiDungCV: widget.cubit.donViModel.noidung,
-                                onDelete: () {},
-                                tenCanBo: widget.cubit.donViModel.name,
-                                tenDonvi: widget.cubit.donViModel.tenDonVi,
-                              ),
                               ...List.generate(
                                 datas.length,
-                                (index) => Padding(
+                                    (index) => Padding(
                                   padding: EdgeInsets.only(
                                     top: 20.0.textScale(space: -2),
                                   ),
@@ -216,9 +210,9 @@ class _CuCanBoDiThayLichLamViecWidgetState
                       ),
                       ...List.generate(
                         data.length,
-                        (index) => Padding(
+                            (index) => Padding(
                           padding:
-                              EdgeInsets.only(top: 20.0.textScale(space: -2)),
+                          EdgeInsets.only(top: 20.0.textScale(space: -2)),
                           child: itemListCanBo(
                             noiDungCV: data[index].noidung,
                             cubit: widget.cubitThanhPhanTG,

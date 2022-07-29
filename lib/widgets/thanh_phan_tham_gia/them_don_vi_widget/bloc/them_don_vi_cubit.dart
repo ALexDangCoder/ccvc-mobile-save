@@ -11,6 +11,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   ThemDonViCubit() : super(MainStateInitial()) {
     _selectDonVi.sink.add(selectNode);
   }
+
   List<Node<DonViModel>> listTree = [];
   Timer? _debounce;
   final List<Node<DonViModel>> selectNode = [];
@@ -30,7 +31,9 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get selectDonVi => _selectDonVi.stream;
+
   List<Node<DonViModel>> get selectDonViValue => _selectDonVi.valueOrNull ?? [];
+
   Sink<List<Node<DonViModel>>> get selectDonViSink => _selectDonVi.sink;
 
   final BehaviorSubject<Node<DonViModel>?> _selectOnlyDonVi =
@@ -69,9 +72,10 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     if (isCheck) {
       selectNode.add(node);
     } else {
-      selectNode.remove(node);
+      selectNode.removeWhere((element) =>element.value.id == node.value.id);
     }
-    _selectDonVi.sink.add(selectNode);
+    final listSelectNode = selectNode;
+    _selectDonVi.sink.add(listSelectNode);
   }
 
   void addSelectParent(Node<DonViModel> node, {required bool isCheck}) {
@@ -152,8 +156,11 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     _getTree.sink.add(listTree);
   }
 
+  String keySearchChonNguoi = '';
+
   void onSearch(String search) {
     final String textSearch = search.trim();
+    keySearchChonNguoi = textSearch;
     if (_debounce != null) {
       if (_debounce!.isActive) _debounce!.cancel();
     }

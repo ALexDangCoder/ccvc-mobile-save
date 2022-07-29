@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
@@ -100,7 +101,7 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
                         id: widget.idTask,
                       ).then(
                             (value) {
-                          if(value == ChiTietHoTroCubit.successCode){
+                          if(value == successCode){
                             final FToast toast = FToast();
                             toast.init(context);
                             toast.showToast(

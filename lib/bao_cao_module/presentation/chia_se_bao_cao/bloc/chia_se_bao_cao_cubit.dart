@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_t
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/htcs_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -45,6 +46,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       BehaviorSubject.seeded([]);
   BehaviorSubject<bool> showTree = BehaviorSubject.seeded(false);
   BehaviorSubject<String> callAPI = BehaviorSubject.seeded('');
+  BehaviorSubject<List<String>> searchGroupStream = BehaviorSubject();
   final BehaviorSubject<bool> _isDuocTruyCapSubject =
       BehaviorSubject.seeded(true);
 
@@ -75,6 +77,17 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         },
       );
     });
+  }
+
+  bool checkSelectGroup(String name) {
+    bool isSelectGroup = false;
+    for (final element in listCheck) {
+      if (name == element.tenNhom) {
+        isSelectGroup = true;
+        break;
+      }
+    }
+    return isSelectGroup;
   }
 
   Future<void> searchCanBoPaging(
@@ -133,6 +146,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           callAPI.add(SUCCESS);
           getUsersNgoaiHeThongDuocTruyCap();
           showContent();
+          searchGroupStream.add(listDropDown);
         }
       },
       error: (error) {
@@ -312,6 +326,26 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     themNhomStream.add(listCheck);
   }
 
+  void searchGroup(String value) {
+    final String keyword =
+        value.trim().toLowerCase().withoutDiacriticalMarks.removeAllWhitespace;
+    List<String> cachedSearch = [];
+    if (keyword != '') {
+      cachedSearch = listDropDown
+          .where(
+            (element) => element
+                .toLowerCase()
+                .withoutDiacriticalMarks
+                .removeAllWhitespace
+                .contains(keyword),
+          )
+          .toList();
+      searchGroupStream.add(cachedSearch);
+    } else {
+      searchGroupStream.add(listDropDown);
+    }
+  }
+
   List<NhomCungHeThong> listResponse = [];
   List<String> listDropDown = [];
 
@@ -352,6 +386,12 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     } else {
       //nothing
     }
+  }
+
+  void refreshData() {
+    keySearch = '';
+    pageNumber = 0;
+    pageSize = 10;
   }
 
   Future<void> getUsersNgoaiHeThongDuocTruyCap({

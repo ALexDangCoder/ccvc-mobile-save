@@ -79,19 +79,14 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (widget.dayWage == 0.0)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: widget.state
                 .map(
-                  (dataState) => Row(
-                    children: [
-                      SvgPicture.asset(
-                        dataState.getIcon,
-                        height: 12,
-                        width: 12,
-                      ),
-                      spaceW3,
-                    ],
+                  (dataState) => SvgPicture.asset(
+                    dataState.getIcon,
+                    height: 12,
+                    width: 12,
                   ),
                 )
                 .toList(),
@@ -146,19 +141,14 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (widget.state.length > 1)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: rowViewData
                 .map(
-                  (dataState) => Row(
-                    children: [
-                      SvgPicture.asset(
-                        dataState.getIcon,
-                        height: 12,
-                        width: 12,
-                      ),
-                      spaceW2,
-                    ],
+                  (dataState) => SvgPicture.asset(
+                    dataState.getIcon,
+                    height: 12,
+                    width: 12,
                   ),
                 )
                 .toList(),

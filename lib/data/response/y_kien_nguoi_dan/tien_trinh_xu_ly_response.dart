@@ -40,6 +40,8 @@ class TienTrinhXuLyData {
   String? taiKhoanThaoTac;
   @JsonKey(name: 'DonViThaoTac')
   String? donViThaoTac;
+  @JsonKey(name: 'NguoiThaoTac')
+  String? nguoiThaoTac;
   @JsonKey(name: 'TaiLieus')
   List<TaiLieuData>? taiLieus;
 
@@ -54,6 +56,7 @@ class TienTrinhXuLyData {
     this.ngayKetThuc,
     this.taiKhoanThaoTac,
     this.donViThaoTac,
+    this.nguoiThaoTac,
     this.taiLieus,
   );
 
@@ -74,6 +77,7 @@ class TienTrinhXuLyData {
         taiKhoanThaoTac: taiKhoanThaoTac ?? '',
         donViThaoTac: donViThaoTac ?? '',
         taiLieus: taiLieus?.map((e) => e.toDomain()).toList() ?? [],
+        nguoiThaoTac: nguoiThaoTac ?? '',
       );
 }
 

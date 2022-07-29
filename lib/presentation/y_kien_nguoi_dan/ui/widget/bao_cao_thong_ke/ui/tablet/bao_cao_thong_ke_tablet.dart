@@ -23,6 +23,7 @@ import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -38,6 +39,7 @@ class BaoCaoThongKeTablet extends StatefulWidget {
 class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+  ThemDonViCubit themDonViCubit=ThemDonViCubit();
   String startDate = '';
   String endDate = '';
   List<String> listDonViID = [];
@@ -67,9 +69,6 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
         endDate,
         listDonVi: listDonViID,
       );
-    });
-    eventBus.on<ListSearchListNode>().listen((event) {
-      _listNode = event.listNode;
     });
   }
 
@@ -102,6 +101,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                             maxHeight: MediaQuery.of(context).size.height * 0.8,
                           ),
                           child: SearchBaoCaoThongKeWidget(
+                            themDonViCubit: themDonViCubit,
                             cubit: thamGiaCubit,
                             listSelectNode: snapshot.data ?? [],
                             onChange: (value) {

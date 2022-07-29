@@ -12,12 +12,19 @@ class PermissionApp {
   List<PermissionModel> vPDT;
   @HiveField(3)
   List<PermissionModel> qLNV;
+  @HiveField(4)
+  List<PermissionModel> hTCS;
+  @HiveField(5)
+  List<PermissionModel> hTKT;
 
-  PermissionApp(
-      {required this.qLVB,
-      required this.pAKN,
-      required this.vPDT,
-      required this.qLNV});
+  PermissionApp({
+    required this.qLVB,
+    required this.pAKN,
+    required this.vPDT,
+    required this.qLNV,
+    required this.hTCS,
+    required this.hTKT,
+  });
 }
 
 @HiveType(typeId: 6)

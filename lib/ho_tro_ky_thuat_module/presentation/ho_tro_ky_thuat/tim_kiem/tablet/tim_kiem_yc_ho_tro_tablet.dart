@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_d
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/form_input_base.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -33,7 +32,6 @@ class TimKiemYcHoTroTablet extends StatefulWidget {
 
 class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
   late ScrollController _controller;
-  late ThemDonViCubit _themDonViCubit;
 
   void closeKey() {
     final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -43,7 +41,6 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
   }
 
   void init() {
-    _themDonViCubit = ThemDonViCubit();
     _controller = ScrollController();
     _controller.addListener(() {
       widget.cubit.isShowDonVi.add(false);
@@ -267,19 +264,23 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                                   .getItemsNguoiTiepNhanYeuCau(),
                                             ),
                                             spaceH16,
-                                            _textTitle(S.current.nguoi_xu_ly),
-                                            spaceH8,
-                                            CustomDropDown(
-                                              hint: _textTitle(
-                                                S.current.chon,
+                                            if (cubit.isManager) ...[
+                                              _textTitle(S.current.nguoi_xu_ly),
+                                              spaceH8,
+                                              CustomDropDown(
+                                                hint: _textTitle(
+                                                  S.current.chon,
+                                                ),
+                                                onSelectItem: (value) {
+                                                  cubit
+                                                      .onChangeNguoiXuLy(value);
+                                                },
+                                                value: cubit.handlerIdName,
+                                                items:
+                                                    cubit.getItemsThanhVien(),
                                               ),
-                                              onSelectItem: (value) {
-                                                cubit.onChangeNguoiXuLy(value);
-                                              },
-                                              value: cubit.handlerIdName,
-                                              items: cubit.getItemsThanhVien(),
-                                            ),
-                                            spaceH16,
+                                              spaceH16,
+                                            ],
                                             _textTitle(S.current.khu_vuc),
                                             spaceH8,
                                             CustomDropDown(
@@ -411,7 +412,8 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                   itemBuilder: (context, index) {
                                     return TreeViewWidget(
                                       selectOnly: true,
-                                      themDonViCubit: _themDonViCubit,
+                                      themDonViCubit:
+                                          widget.cubit.themDonViCubit,
                                       node: data[index],
                                       onSelect: (value) {
                                         cubit.onChangeDonVi(value);

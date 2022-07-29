@@ -94,7 +94,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             rowItem(
                               S.current.nguoi_yeu_cau,
                               '${cubit.supportDetail.nguoiYeuCau ?? ''} '
-                                  '- ${cubit.supportDetail.chucVu ?? ''}',
+                              '- ${cubit.supportDetail.chucVu ?? ''}',
                             ),
                             spaceH10,
                             rowItem(
@@ -186,9 +186,13 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                           color: Colors.white,
                           child: DoubleButtonBottom(
                             title1: S.current.dong,
-                            title2: (cubit.isItSupport &&
-                                    cubit.supportDetail.codeTrangThai !=
-                                        ChiTietHoTroCubit.DA_HOAN_THANH)
+                            onlyOneButton: cubit.checkOnlyButton(),
+                            title2: ((cubit.isItSupport ||
+                                        cubit.isTruongPhong) &&
+                                    (cubit.supportDetail.codeTrangThai !=
+                                            ChiTietHoTroCubit.DA_HOAN_THANH &&
+                                        cubit.supportDetail.codeTrangThai !=
+                                            ChiTietHoTroCubit.TU_CHOI_XU_LY))
                                 ? S.current.cap_nhat_thxl
                                 : S.current.danh_gia,
                             onPressed1: () {
@@ -209,10 +213,11 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
       ),
     );
   }
-  void confirmUpdateTask(){
-    if (cubit.isItSupport &&
-        cubit.supportDetail.codeTrangThai !=
-            ChiTietHoTroCubit.DA_HOAN_THANH) {
+
+  void confirmUpdateTask() {
+    if ((cubit.isItSupport || cubit.isTruongPhong) &&
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH &&
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.TU_CHOI_XU_LY) {
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
@@ -224,8 +229,11 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
         },
       );
     } else {
-      if (cubit.supportDetail.codeTrangThai ==
-          ChiTietHoTroCubit.DA_HOAN_THANH) {
+      if ((cubit.supportDetail.codeTrangThai ==
+                  ChiTietHoTroCubit.DA_HOAN_THANH ||
+              cubit.supportDetail.codeTrangThai ==
+                  ChiTietHoTroCubit.TU_CHOI_XU_LY) &&
+          cubit.isNguoiYeuCau) {
         showModalBottomSheet(
           backgroundColor: Colors.transparent,
           isScrollControlled: true,
@@ -387,7 +395,7 @@ extension StatusChiTietNV on StatusHoTro {
         );
       case StatusHoTro.DA_HOAN_THANH:
         return statusTrangThaiXuLy(
-          name: S.current.da_xu_ly,
+          name: S.current.da_hoan_thanh,
           background: daXuLyColor,
         );
       case StatusHoTro.TU_CHOI_XU_LY:

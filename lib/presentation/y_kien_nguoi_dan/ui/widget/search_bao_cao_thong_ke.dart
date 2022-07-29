@@ -26,6 +26,7 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
   final Function(List<Node<DonViModel>>) onChange;
   final List<DonViModel> listSelectNode;
   final ThanhPhanThamGiaCubit cubit;
+  final ThemDonViCubit themDonViCubit;
   final List<Node<DonViModel>> listNode;
   final Function(
     List<String> donViID,
@@ -38,6 +39,7 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
     required this.onSearch,
     required this.cubit,
     required this.startDate,
+    required this.themDonViCubit,
     required this.endDate,
     this.listNode = const [],
   }) : super(key: key);
@@ -48,22 +50,14 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
 }
 
 class _SearchBaoCaoThongKeWidgetState extends State<SearchBaoCaoThongKeWidget> {
-  final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     widget.cubit.getTreeDonVi.listen((event) {
-      _themDonViCubit.getTreeDonVi(event);
+      widget.themDonViCubit.getTreeDonVi(event);
     });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _themDonViCubit.dispose();
   }
 
   @override
@@ -71,7 +65,7 @@ class _SearchBaoCaoThongKeWidgetState extends State<SearchBaoCaoThongKeWidget> {
     return TreeDonVi(
       startDate: widget.startDate,
       endDate: widget.endDate,
-      themDonViCubit: _themDonViCubit,
+      themDonViCubit: widget.themDonViCubit,
       onSearch: widget.onSearch,
       listNode: widget.listNode,
     );
@@ -206,18 +200,19 @@ class _TreeDonViState extends State<TreeDonVi> {
               Expanded(
                 child: SelectDate(
                   maximumDate:
-                      DateFormat(DateFormatApp.date).parse(widget.endDate),
+                      DateFormat(DateFormatApp.date).parse(selectEndDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateFormat(DateFormatApp.date)
-                      .parse(widget.startDate)
+                      .parse(selectStartDate)
                       .toString(),
                   onSelectDate: (dateTime) {
                     selectStartDate =
                         DateFormat(DateFormatApp.pickDateSearchFormat)
                             .parse(dateTime)
                             .toStringWithListFormat;
+                    setState(() {});
                   },
                 ),
               ),
@@ -230,17 +225,18 @@ class _TreeDonViState extends State<TreeDonVi> {
               Expanded(
                 child: SelectDate(
                   minimumDate:
-                      DateFormat(DateFormatApp.date).parse(widget.startDate),
+                      DateFormat(DateFormatApp.date).parse(selectStartDate),
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateFormat(DateFormatApp.date)
-                      .parse(widget.endDate)
+                      .parse(selectEndDate)
                       .toString(),
                   onSelectDate: (dateTime) {
                     selectEndDate = DateFormat(
                       DateFormatApp.pickDateSearchFormat,
                     ).parse(dateTime).toStringWithListFormat;
+                    setState(() {});
                   },
                 ),
               )

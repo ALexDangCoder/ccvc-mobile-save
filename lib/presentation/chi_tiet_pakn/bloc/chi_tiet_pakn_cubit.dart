@@ -48,7 +48,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
       BehaviorSubject<ChiTietYKNDModel>();
 
 //tab y kien xu ly
-  static const int MAX_MB = 30;
+  static const int MAX_MB = 20;
   List<int> sizeFileList = [];
   int sizeFile = 0;
   final List<PickImageFileModel> listPickFileMain = [];
@@ -102,7 +102,7 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.nguoi_thao_tac,
-              content: [value.taiKhoanThaoTac],
+              content: ['${value.nguoiThaoTac} - ${value.donViThaoTac}'],
             ),
           );
 

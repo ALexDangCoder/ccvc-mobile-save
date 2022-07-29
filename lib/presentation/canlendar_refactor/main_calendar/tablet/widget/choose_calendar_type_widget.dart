@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 class ChooseTimeCalendarTypeWidget extends StatefulWidget {
   final ChooseTimeController controller;
   final Function(CalendarType) onChange;
-
+  final bool isSelectYear;
   const ChooseTimeCalendarTypeWidget({
     Key? key,
     required this.controller,
     required this.onChange,
+    this.isSelectYear = false,
   }) : super(key: key);
 
   @override
@@ -33,12 +34,32 @@ class _ChooseTimeCalendarTypeWidgetState
       setState(() {});
     });
   }
+ @override
+  void didUpdateWidget(covariant ChooseTimeCalendarTypeWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if(!widget.isSelectYear){
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        widget.controller.calendarTypeDefault();
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    const data = CalendarType.values;
+    List<CalendarType> data = [];
+    if (!widget.isSelectYear) {
+      data = CalendarType.values
+          .where((element) => element != CalendarType.YEAR)
+          .toList();
+    } else {
+      data = CalendarType.values;
+    }
+
     return Container(
       height: 48,
+      margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
@@ -48,6 +69,7 @@ class _ChooseTimeCalendarTypeWidgetState
       child: Row(
         children: List.generate(data.length, (index) {
           final result = data[index];
+
           return GestureDetector(
             onTap: () {
               type = data[index];

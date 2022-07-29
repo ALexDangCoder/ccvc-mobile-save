@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/dialog_chon_nhom.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_chon_nhom.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/widget/item_nguoi_dung.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/widgets/tree_bao_cao_chia_se.dart';
@@ -14,7 +15,6 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,12 +28,15 @@ class TabCungHeThongMobile extends StatefulWidget {
 }
 
 class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
-  final TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    controller = TextEditingController();
+    if (widget.cubit.keySearchChonNguoi != '') {
+      controller.text = widget.cubit.keySearchChonNguoi;
+    }
   }
 
   @override
@@ -53,60 +56,64 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                 StreamBuilder<String>(
                   stream: widget.cubit.callAPI,
                   builder: (context, snapshot) {
-                    return Container(
-                      height: 45.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(4.r)),
-                        border: Border.all(color: containerColorTab),
-                      ),
-                      child: Stack(
-                        children: [
-                          DropdownSearch<String>(
-                            maxHeight: 250.h,
-                            showSearchBox: true,
-                            mode: Mode.MENU,
-                            items: widget.cubit.listDropDown,
-                            dropdownSearchDecoration: const InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: containerColorTab,
-                                  width: 0.0,
+                    return InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) {
+                            return Scaffold(
+                              backgroundColor: Colors.transparent,
+                              body: InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Center(
+                                  child: ChonNhomDialog(
+                                    cubit: widget.cubit,
+                                  ),
                                 ),
                               ),
-                            ),
-                            dropdownBuilder: (context, value) {
-                              return const SizedBox();
-                            },
-                            onChanged: (value) {
-                              widget.cubit.themNhom(value ?? '');
-                            },
-                            emptyBuilder: (context, value) {
-                              return Center(
-                                child: Text(S.current.no_data),
-                              );
-                            },
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                        ),
+                        height: 45.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(4.r),
                           ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 16.w),
-                              child: Text(
-                                S.current.chon_nhom,
-                                style: textNormalCustom(
-                                  color: color3D5586,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                          border: Border.all(color: containerColorTab),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.current.chon_nhom,
+                              style: textNormalCustom(
+                                color: color3D5586,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                          ),
-                        ],
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              size: 24,
+                              color: color3D5586,
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
                 ),
+                spaceH10,
                 StreamBuilder<List<NhomCungHeThong>>(
                   stream: widget.cubit.themNhomStream,
                   builder: (context, snapshot) {

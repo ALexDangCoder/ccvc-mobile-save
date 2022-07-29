@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart' as hive_lc;
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/request/task_processing.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
@@ -18,7 +19,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   ChiTietHoTroCubit() : super(ChiTietHoTroInitial());
 
   String message = '';
-  static const String successCode = '200';
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
 
@@ -39,12 +39,27 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     }
   }
 
-  List<String> listTrangThai = [
-    CHUA_XU_LY_VALUE,
-    DANG_XU_LY_VALUE,
-    DA_HOAN_THANH_VALUE,
-    TU_CHOI_XU_LY_VALUE,
-  ];
+  List<String> listTrangThai = [];
+
+  void checkCodeTrangThai() {
+    listTrangThai.clear();
+    if (isTruongPhong) {
+      listTrangThai = [
+        CHUA_XU_LY_VALUE,
+        DANG_XU_LY_VALUE,
+        DA_HOAN_THANH_VALUE,
+        TU_CHOI_XU_LY_VALUE,
+      ];
+    }
+    if (isItSupport && !isTruongPhong) {
+      listTrangThai = [
+        DANG_XU_LY_VALUE,
+        DA_HOAN_THANH_VALUE,
+        TU_CHOI_XU_LY_VALUE,
+      ];
+    }
+  }
+
   static const String DA_HOAN_THANH_VALUE = 'Đã hoàn thành';
   static const String DANG_XU_LY_VALUE = 'Đang xử lý';
   static const String CHUA_XU_LY_VALUE = 'Đang chờ xử lý';
@@ -92,19 +107,59 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   }
 
   bool isItSupport = false;
+  bool isTruongPhong = false;
+  bool isNguoiYeuCau = false;
 
   final dataUser = hive_lc.HiveLocal.getDataUser();
+
+  bool disableRightButton() {
+    bool disableButton = false;
+
+    if (isTruongPhong && supportDetail.codeTrangThai == DANG_XU_LY) {
+      if (supportDetail.idNguoiXuLy == dataUser?.userInformation?.id) {
+        disableButton = false;
+      } else {
+        disableButton = true;
+      }
+    }
+    if (isNguoiYeuCau &&
+        supportDetail.codeTrangThai != DA_HOAN_THANH &&
+        !isTruongPhong) {
+      disableButton = true;
+    }
+    return disableButton;
+  }
+
+  bool checkOnlyButton() {
+    bool onlyButton = false;
+    if ((isTruongPhong || isItSupport) &&
+        supportDetail.codeTrangThai == DA_HOAN_THANH &&
+        !isNguoiYeuCau) {
+      onlyButton = true;
+    }
+    if (supportDetail.codeTrangThai == TU_CHOI_XU_LY && !isNguoiYeuCau) {
+      onlyButton = true;
+    }
+    return onlyButton;
+  }
 
   void checkUser(
     List<ThanhVien> list,
     SupportDetail? supportDetail,
   ) {
-    for (final element in list) {
-      if (element.userId == dataUser?.userId) {
-        isItSupport = true;
-        break;
-      }
+    isTruongPhong = HiveLocal.checkPermissionApp(
+      permissionType: hive_lc.PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
+    isItSupport = HiveLocal.checkPermissionApp(
+      permissionType: hive_lc.PermissionType.HTKT,
+      permissionTxt: QUYEN_HO_TRO,
+    );
+
+    if (supportDetail?.idNguoiYeuCau == dataUser?.userInformation?.id) {
+      isNguoiYeuCau = true;
     }
+    checkCodeTrangThai();
     emit(
       ChiTietHoTroSuccess(
         completeType: CompleteType.SUCCESS,
@@ -124,18 +179,28 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     required String description,
   }) async {
     String statusCode = '';
+    final DateTime finishDayRequestParse = (finishDay != '')
+        ? DateFormat(DateTimeFormat.DATE_ISO_86).parse(finishDay)
+        : (supportDetail.ngayHoanThanh != null)
+            ? DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT)
+                .parse(supportDetail.ngayHoanThanh!)
+            : DateTime.now();
+    final DateTime date = DateTime.now();
+    final finishDayRequest = DateTime(
+      finishDayRequestParse.year,
+      finishDayRequestParse.month,
+      finishDayRequestParse.day,
+      date.hour,
+      date.minute,
+      date.second,
+    );
     final TaskProcessing model = TaskProcessing(
       id: id,
       taskId: taskId,
       comment: comment,
       code: getCode(code),
       name: name,
-      finishDay: (finishDay != '')
-          ? DateFormat(DateTimeFormat.DATE_ISO_86).parse(finishDay)
-          : (supportDetail.ngayHoanThanh != '')
-              ? DateFormat(DateTimeFormat.DATE_BE_RESPONSE_FORMAT)
-                  .parse(supportDetail.ngayHoanThanh!)
-              : null,
+      finishDay: finishDayRequest,
       handlerId: getHandlerId(handlerId),
       description: description,
     );
@@ -146,7 +211,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     result.when(
       success: (res) {
         statusCode = res;
-        getSupportDetail(supportDetail.id ?? '');
       },
       error: (error) {},
     );
@@ -173,10 +237,13 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   List<ThanhVien> listThanhVien = [];
 
   String getHandlerId(String name) {
-    return listThanhVien[
-                listItSupport.indexWhere((element) => element.contains(name))]
-            .idThanhVien ??
-        '';
+    if(name == ''){
+      return dataUser?.userInformation?.id ?? '';
+    } else {
+      return listThanhVien[
+      listItSupport.indexWhere((element) => element.contains(name))]
+          .idThanhVien ?? '';
+    }
   }
 
   Future<void> getNguoiXuLy(SupportDetail? supportDetail) async {

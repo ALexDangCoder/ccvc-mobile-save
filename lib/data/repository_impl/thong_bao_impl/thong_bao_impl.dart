@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/request/thong_bao/device_request.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
+import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
@@ -109,9 +110,9 @@ class ThongBaoImpl implements ThongBaoRepository {
 
   @override
   Future<Result<MessageModel>> createDevice(DeviceRequest body) {
-    return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
+    return runCatchingAsync<MessageResponse, MessageModel>(
       () => service.createDevice(body),
-      (res) => res.toDomain(),
+      (res) => res.toModel(),
     );
   }
 }

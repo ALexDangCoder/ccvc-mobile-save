@@ -65,6 +65,8 @@ class PageDataResponse {
   String? donViId;
   @JsonKey(name: 'idNguoiYeuCau')
   String? idNguoiYeuCau;
+  @JsonKey(name: 'idNguoiXuLy')
+  String? idNguoiXuLy;
   @JsonKey(name: 'nguoiYeuCau')
   String? nguoiYeuCau;
   @JsonKey(name: 'donVi')
@@ -98,6 +100,7 @@ class PageDataResponse {
     this.donVi,
     this.chucVu,
     this.trangThaiXuLy,
+    this.idNguoiXuLy,
     this.codeTrangThai,
     this.ketQuaXuLy,
     this.nguoiXuLy,
@@ -128,6 +131,7 @@ class PageDataResponse {
         trangThaiXuLy: trangThaiXuLy,
         ketQuaXuLy: ketQuaXuLy,
         nguoiXuLy: nguoiXuLy,
+        idNguoiXuLy: idNguoiXuLy,
         ngayHoanThanh: ngayHoanThanh?.isNotEmpty ?? false
             ? DateTime.parse(ngayHoanThanh ?? '').formatApiLichSu
             : '',

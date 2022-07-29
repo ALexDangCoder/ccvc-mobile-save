@@ -120,7 +120,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           /// hai button
           child: DoubleButtonBottom(
             onClickRight: () {
-              if (_key.currentState?.validator() ?? false) {
+              if ((_key.currentState?.validator() ?? false) &&
+                  !isOverFileLength) {
                 taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
                 taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
                 taoPhienHopRequest.timeEnd = timeEnd;
@@ -273,6 +274,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     isOverFileLength = validate;
                     if (!validate) {
                       taoPhienHopRequest.files = files;
+                      isOverFileLength = true;
                     }
                   },
                 )

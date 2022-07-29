@@ -209,14 +209,22 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
           Positioned(
             top: 30,
             right: 38,
-            child: InkWell(
-              onTap: () => widget.onClickMore(widget.objDSSC, widget.index),
-              child: SvgPicture.asset(
-                ImageAssets.ic_more,
-                height: 20,
-                width: 20,
-              ),
-            ),
+            child: ((widget.cubit.isManager || widget.cubit.isSupporter) &&
+                    !(widget.objDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.DA_HOAN_THANH ||
+                        widget.objDSSC.codeTrangThai ==
+                            HoTroKyThuatCubit.TU_CHOI_XU_LY) ||
+                    widget.cubit.checkUser(widget.objDSSC.idNguoiYeuCau ?? ''))
+                ? InkWell(
+                    onTap: () =>
+                        widget.onClickMore(widget.objDSSC, widget.index),
+                    child: SvgPicture.asset(
+                      ImageAssets.ic_more,
+                      height: 20,
+                      width: 20,
+                    ),
+                  )
+                : const SizedBox(),
           ),
           Positioned(
             top: 47,
@@ -307,8 +315,10 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                             paddingLeft: 35,
                           ),
                         ],
-                        if (widget.objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.DA_HOAN_THANH &&
+                        if ((widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.DA_HOAN_THANH ||
+                                widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.TU_CHOI_XU_LY) &&
                             (widget.objDSSC.idNguoiYeuCau ==
                                 HiveLocal.getDataUser()
                                     ?.userInformation
@@ -354,9 +364,12 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                             },
                           ),
                         ],
-                        if ((widget.cubit.isCheckUser ?? false) &&
-                            !(widget.objDSSC.codeTrangThai ==
-                                HoTroKyThuatCubit.DA_HOAN_THANH))
+                        if ((widget.cubit.isSupporter ||
+                                widget.cubit.isManager) &&
+                            (!(widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.DA_HOAN_THANH) &&
+                                !(widget.objDSSC.codeTrangThai ==
+                                    HoTroKyThuatCubit.TU_CHOI_XU_LY)))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,

@@ -476,7 +476,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   const SizedBox(
                     width: 92,
                   ),
-                  Container(
+                  if ((dsKetQuaPakn.trangThaiText ?? '').isNotEmpty) Container(
                     padding: const EdgeInsets.symmetric(
                       vertical: 3,
                       horizontal: 15,
@@ -487,7 +487,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                     ),
                     child: Center(
                       child: Text(
-                        dsKetQuaPakn.trangThaiText ?? 'trống',
+                        dsKetQuaPakn.trangThaiText ?? '',
                         style: textNormalCustom(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -495,7 +495,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  )
+                  ) else const SizedBox.shrink()
                 ],
               ),
             )
@@ -508,7 +508,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
   TextTrangThai statusTrangThai(int soNgayToiHan) {
     if (soNgayToiHan < 0) {
       return TextTrangThai(S.current.qua_han, statusCalenderRed);
-    } else if (soNgayToiHan >= 3) {
+    } else if (soNgayToiHan > 3) {
       return TextTrangThai(S.current.trong_han, choTrinhKyColor);
     } else {
       return TextTrangThai(S.current.den_han, choVaoSoColor);

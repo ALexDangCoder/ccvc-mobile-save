@@ -600,25 +600,28 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                           fontSize: 14,
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 3,
-                          horizontal: 15,
-                        ),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          color: color5A8DEE,
-                        ),
-                        child: Center(
-                          child: Text(
-                            dsKetQuaPakn.trangThaiText ?? '',
-                            style: textNormalCustom(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
+                      if ((dsKetQuaPakn.trangThaiText ?? '').isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 3,
+                            horizontal: 15,
+                          ),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            color: color5A8DEE,
+                          ),
+                          child: Center(
+                            child: Text(
+                              dsKetQuaPakn.trangThaiText ?? '',
+                              style: textNormalCustom(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                        ),
-                      )
+                        )
+                      else
+                        const SizedBox.shrink()
                     ],
                   ),
                 ),

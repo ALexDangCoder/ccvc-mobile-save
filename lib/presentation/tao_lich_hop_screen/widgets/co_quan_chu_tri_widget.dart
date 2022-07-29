@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -8,9 +6,9 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expand_model.dart';
@@ -237,8 +235,9 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     },
                     validate: (value) {
                       if (isNgoaiDonVi && value.isEmpty) {
-                        return '${S.current.ten_co_quan}'
-                            ' ${S.current.khong_duoc_de_trong.toLowerCase()}';
+                        return value.pleaseEnter(
+                          S.current.ten_co_quan.toLowerCase(),
+                        );
                       }
                     },
                   ),
@@ -252,30 +251,18 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     },
                   ),
                   spaceH20,
-                  Text(S.current.upload_thu_moi_hop,
+                  Text(
+                    S.current.upload_thu_moi_hop,
                     style: textNormal(titleItemEdit, 16),
                   ),
                   spaceH24,
-                  ButtonSelectFileLichLamViec(
-                    maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
-                    title: S.current.files_dinh_kem,
-                    icon: ImageAssets.ic_file_meeting,
-                    errMultipleFileMessage: S.current.validate_thu_hop,
-                    allowedExtensions: const [
-                      FileExtensions.DOC,
-                      FileExtensions.DOCX,
-                      FileExtensions.JPEG,
-                      FileExtensions.JPG,
-                      FileExtensions.PDF,
-                      FileExtensions.PNG,
-                      FileExtensions.XLSX,
-                    ],
-                    onChange: (List<File> files, bool validate) {
-                      if(!validate) {
-                        widget.cubit.listThuMoi = files;
-                      }
+                  SelectFileBtn(
+                    onChange: (files) {
+                      widget.cubit.listThuMoi = files;
                     },
-                  )
+                    hasMultiFile: false,
+                    errMultipleFileMessage: S.current.validate_thu_hop,
+                  ),
                 ],
               ),
             ),

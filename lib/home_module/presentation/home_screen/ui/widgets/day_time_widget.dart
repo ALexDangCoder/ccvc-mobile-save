@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/home_module/domain/model/home/weather_model.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -82,10 +84,16 @@ class DayTimeWidget extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              Text(
-                '32°C',
-                style: textNormalCustom(fontSize: 16, color: titleColor),
-              )
+              StreamBuilder<WeatherModel>(
+                  stream:
+                      HomeProvider.of(context).homeCubit.weatherSubject.stream,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data;
+                    return Text(
+                      '${data?.resultObj?.current?.temp?.day ?? 32}°C',
+                      style: textNormalCustom(fontSize: 16, color: titleColor),
+                    );
+                  })
             ],
           ),
         )

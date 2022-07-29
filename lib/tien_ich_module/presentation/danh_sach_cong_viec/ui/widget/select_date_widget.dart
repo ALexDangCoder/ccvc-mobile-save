@@ -1,6 +1,8 @@
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -52,44 +54,20 @@ class _CustomDropDownState extends State<SelectDateDSCV> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showBottomSheetCustom(
+        if (isMobile()) {
+          showBottomSheetCustom(
+            context,
+            title: S.current.chon_ngay,
+            child: showSelectWidget(),
+          );
+          return;
+        }
+        showDiaLogTablet(
           context,
           title: S.current.chon_ngay,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 300,
-                child: FlutterRoundedCupertinoDatePickerWidget(
-                  onDateTimeChanged: (value) {
-                    dateSelect = value.toString();
-                    widget.onSelectDate(dateSelect);
-                  },
-                  textStyleDate: titleAppbar(),
-                  initialDateTime:
-                      widget.initDateTime ?? DateTime.parse(dateSelect),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 24,
-                  bottom: 32,
-                ),
-                child: DoubleButtonBottom(
-                  title2: S.current.chon,
-                  title1: S.current.dong,
-                  onClickRight: () {
-                    setState(() {
-                      widget.onSelectDate(dateSelect);
-                    });
-                    Navigator.pop(context);
-                  },
-                  onClickLeft: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              )
-            ],
-          ),
+          child: showSelectWidget(),
+          isBottomShow: false,
+          maxHeight: 500,
         );
       },
       child: Row(
@@ -152,4 +130,41 @@ class _CustomDropDownState extends State<SelectDateDSCV> {
       ),
     );
   }
+
+  Widget showSelectWidget() => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 300,
+            child: FlutterRoundedCupertinoDatePickerWidget(
+              onDateTimeChanged: (value) {
+                dateSelect = value.toString();
+                widget.onSelectDate(dateSelect);
+              },
+              textStyleDate: titleAppbar(),
+              initialDateTime:
+                  widget.initDateTime ?? DateTime.parse(dateSelect),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(
+              top: 24,
+              bottom: 32,
+            ),
+            child: DoubleButtonBottom(
+              title2: S.current.chon,
+              title1: S.current.dong,
+              onClickRight: () {
+                setState(() {
+                  widget.onSelectDate(dateSelect);
+                });
+                Navigator.pop(context);
+              },
+              onClickLeft: () {
+                Navigator.pop(context);
+              },
+            ),
+          )
+        ],
+      );
 }

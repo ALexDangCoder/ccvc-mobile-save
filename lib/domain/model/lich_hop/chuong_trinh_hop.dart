@@ -73,7 +73,12 @@ class CanBoModel {
         return S.current.cho_xac_nhan;
     }
   }
-
+String titleCanBo(){
+    if(dauMoiLienHe?.isNotEmpty ?? false){
+      return dauMoiLienHe ?? '';
+    }
+    return tenCanBo ?? '';
+}
   Color trangThaiColor() {
     switch (trangThai) {
       case 1:

@@ -33,14 +33,16 @@ class ApiConstants {
   static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay';
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat';
   static const GUI_LOI_CHUC = '/api/CmsCard/tao-loichuc-thiep';
-  static const GET_LIST_THONG_TIN_THIEP  = '/api/CmsCard/lay-danhsach-thongtin-thiep';
-  static const DOASHBOARD_TINH_HINH_XU_LY_PAKN = '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
-  static const DOASHBOARD_TINH_HINH_XU_LY_PAKN_CA_NHAN = '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
-  static const TINH_HINH_XU_LY_VAN_BAN = '/qlvb/api/ccvc/tinh-hinh-xu-ly-van-ban';
+  static const GET_LIST_THONG_TIN_THIEP =
+      '/api/CmsCard/lay-danhsach-thongtin-thiep';
+  static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
+      '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
+  static const DOASHBOARD_TINH_HINH_XU_LY_PAKN_CA_NHAN =
+      '/pakn/api/dashboard-mpi/tinh-hinh-xu-ly';
+  static const TINH_HINH_XU_LY_VAN_BAN =
+      '/qlvb/api/ccvc/tinh-hinh-xu-ly-van-ban';
   static const GET_LIST_CAN_BO = '/api/CanBo/search';
-
-
-
+  static const GET_WEATHER = '/appdieuhanh/api/AreaWeather/getweatherbycode';
 }
 
 class ImageConstants {

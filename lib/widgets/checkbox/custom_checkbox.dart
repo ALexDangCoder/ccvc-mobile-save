@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
               height: 20,
               child: Checkbox(
                   checkColor: Colors.white, // color of tick Mark
-                  activeColor: const Color(0xff7966FF),
+                  activeColor: AppTheme.getInstance().colorField(),
                   value: widget.isCheck,
                   onChanged: (value) {
                     if (widget.onChange != null) {

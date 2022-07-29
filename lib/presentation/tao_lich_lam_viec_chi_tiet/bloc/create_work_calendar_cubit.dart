@@ -215,6 +215,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
   Future<void> loadData() async {
+    showLoading();
     final queue = Queue(parallel: 6);
     unawaited(queue.add(() => _getLinhVuc()));
     unawaited(queue.add(() => _dataTypeCalendar()));
